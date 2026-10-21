@@ -130,23 +130,23 @@
  *   DWCi_R_SCR                       0x021DAA7C  data
  *   DWCi_TPlCheckATrigger            0x021D6B04  arm
  *   DWCi_TPlCheckTrigger             0x021D696C  arm
- *   Focus                            0x021DE5EC  data
- *   RetScene                         0x021DE5ED  data
- *   FocusClm                         0x021DE5EE  data
- *   Pos                              0x021DE5F0  data
- *   MemSsl                           0x021DE5F4  data
- *   PALETTE_NUM                      0x021DA61C  data
- *   MSG_IDX                          0x021DA61F  data
- *   A_EDIT                           0x021DA626  data
- *   A_NO                             0x021DA62E  data
- *   A_YES                            0x021DA636  data
- *   CLM2FCS_TBL                      0x021DA63E  data
- *   OFS_BACK                         0x021DA647  data
- *   FCS2CLM_TBL                      0x021DA650  data
- *   CELL_IDX                         0x021DA65B  data
- *   BACK_POS                         0x021DA66A  data
- *   R_BUTTON                         0x021DA67C  data
- *   R_FOCUS                          0x021DA694  data
+ *   sScenesetlistFocus                            0x021DE5EC  data
+ *   sScenesetlistRetScene                         0x021DE5ED  data
+ *   sScenesetlistFocusClm                         0x021DE5EE  data
+ *   sScenesetlistPos                              0x021DE5F0  data
+ *   sScenesetlistMemSsl                           0x021DE5F4  data
+ *   sScenesetlistPaletteNum                      0x021DA61C  data
+ *   sScenesetlistMsgIdx                          0x021DA61F  data
+ *   sScenesetlistAEdit                           0x021DA626  data
+ *   sScenesetlistANo                             0x021DA62E  data
+ *   sScenesetlistAYes                            0x021DA636  data
+ *   sScenesetlistClm2fcsTbl                      0x021DA63E  data
+ *   sScenesetlistOfsBack                         0x021DA647  data
+ *   sScenesetlistFcs2clmTbl                      0x021DA650  data
+ *   sScenesetlistCellIdx                         0x021DA65B  data
+ *   sScenesetlistBackPos                         0x021DA66A  data
+ *   sScenesetlistRButton                         0x021DA67C  data
+ *   sScenesetlistRFocus                          0x021DA694  data
  *   DWCi_SBlEnable                   0x021CE9B8  arm
  *   DWCi_SBlDisp                      0x021CE9AC  arm
  *   DWCi_TSKlDelete                  0x021D7724  arm
@@ -1203,55 +1203,55 @@ static void setOffset(void)
 }
 
 
-static unsigned char  FocusClm = 0;
+static unsigned char  sScenesetlistFocusClm = 0;
 
 
-static unsigned char  RetScene = 0;
+static unsigned char  sScenesetlistRetScene = 0;
 
 
-static unsigned char  Focus = 0;
+static unsigned char  sScenesetlistFocus = 0;
 
 
-static unsigned short Pos = 0;
+static unsigned short sScenesetlistPos = 0;
 
 
-static MEMSSL        *MemSsl = 0;
+static MEMSSL        *sScenesetlistMemSsl = 0;
 
 
-static const unsigned char PALETTE_NUM[3] = { 6, 8, 7 };
+static const unsigned char sScenesetlistPaletteNum[3] = { 6, 8, 7 };
 
 
-static const signed char   MSG_IDX[7] = { -1, 0x23, 0x27, -1, 0x23, 0x2f, -1 };
+static const signed char   sScenesetlistMsgIdx[7] = { -1, 0x23, 0x27, -1, 0x23, 0x2f, -1 };
 
 
-static const AREA A_EDIT = { 0xcc, 0x34, 0x1c, 0x18 };
+static const AREA sScenesetlistAEdit = { 0xcc, 0x34, 0x1c, 0x18 };
 
 
-static const AREA A_NO = { 0x8f, 0x34, 0x2c, 0x18 };
+static const AREA sScenesetlistANo = { 0x8f, 0x34, 0x2c, 0x18 };
 
 
-static const AREA A_YES = { 0xc0, 0x34, 0x2c, 0x18 };
+static const AREA sScenesetlistAYes = { 0xc0, 0x34, 0x2c, 0x18 };
 
 
-static const unsigned char CLM2FCS_TBL[9] = { 0, 1, 0xe, 4, 5, 6, 0xe, 9, 0xa };
+static const unsigned char sScenesetlistClm2fcsTbl[9] = { 0, 1, 0xe, 4, 5, 6, 0xe, 9, 0xa };
 
 
-static const unsigned char OFS_BACK[9] = { 0, 5, 2, 7, 4, 1, 6, 3, 0 };
+static const unsigned char sScenesetlistOfsBack[9] = { 0, 5, 2, 7, 4, 1, 6, 3, 0 };
 
 
-static const unsigned char FCS2CLM_TBL[11] = { 0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8 };
+static const unsigned char sScenesetlistFcs2clmTbl[11] = { 0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8 };
 
 
-static const unsigned char CELL_IDX[5][3] = { {0,0x29,0x2c},{0x52,0x53,0x30},{0,0x2a,0x30},{0x54,0x55,0},{0,0x2b,0} };
+static const unsigned char sScenesetlistCellIdx[5][3] = { {0,0x29,0x2c},{0x52,0x53,0x30},{0,0x2a,0x30},{0x54,0x55,0},{0,0x2b,0} };
 
 
-static const unsigned short BACK_POS[9] = { 0, 0x60, 0xe0, 0x140, 0x1c0, 0x240, 0x2a0, 0x320, 0x3a0 };
+static const unsigned short sScenesetlistBackPos[9] = { 0, 0x60, 0xe0, 0x140, 0x1c0, 0x240, 0x2a0, 0x320, 0x3a0 };
 
 
-static const RECT R_BUTTON[3] = { {0x84,0x1b,0xfc,0x2c},{0x84,0xac,0xfc,0xbd},{4,0xac,0x7c,0xbd} };
+static const RECT sScenesetlistRButton[3] = { {0x84,0x1b,0xfc,0x2c},{0x84,0xac,0xfc,0xbd},{4,0xac,0x7c,0xbd} };
 
 
-static const RECT R_FOCUS[6] = { {0xc8,0x31,0xe0,0x4d},{0xbc,0x31,0xe0,0x4d},{0x8b,0x31,0xaf,0x4d},{0x82,0x18,0xee,0x2c},{0x82,0xa9,0xee,0xbd},{2,0xa9,0x6e,0xbd} };
+static const RECT sScenesetlistRFocus[6] = { {0xc8,0x31,0xe0,0x4d},{0xbc,0x31,0xe0,0x4d},{0x8b,0x31,0xaf,0x4d},{0x82,0x18,0xee,0x2c},{0x82,0xa9,0xee,0xbd},{2,0xa9,0x6e,0xbd} };
 
 
 int isPush(void)
@@ -1262,37 +1262,37 @@ int isPush(void)
 
     if (!DWCi_TPlCheckTrigger((unsigned short *)(&DWCi_R_SCR)))
         return 14;
-    cell = FX_DivS32(Pos, 29);
-    a = A_EDIT;
+    cell = FX_DivS32(sScenesetlistPos, 29);
+    a = sScenesetlistAEdit;
     for (i = 0; i < 4; i++, cell++) {
         if (cell != 2 && cell != 6) {
             if (DWCi_TPlCheckATrigger((AREA *)&a))
-                return CLM2FCS_TBL[cell];
+                return sScenesetlistClm2fcsTbl[cell];
         }
         a.y += 29;
     }
-    cell = FX_DivS32(Pos, 29);
+    cell = FX_DivS32(sScenesetlistPos, 29);
     for (i = 0; i < 4; i++, cell++) {
         if (cell == 2) {
-            a = A_YES;
+            a = sScenesetlistAYes;
             a.y += (unsigned short)(i * 29);
             if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 2;
-            a = A_NO;
+            a = sScenesetlistANo;
             a.y += (unsigned short)(i * 29);
             if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 3;
             break;
         }
     }
-    cell = FX_DivS32(Pos, 29);
+    cell = FX_DivS32(sScenesetlistPos, 29);
     for (i = 0; i < 4; i++, cell++) {
         if (cell == 6) {
-            a = A_YES;
+            a = sScenesetlistAYes;
             a.y += (unsigned short)(i * 29);
             if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 7;
-            a = A_NO;
+            a = sScenesetlistANo;
             a.y += (unsigned short)(i * 29);
             if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 8;
@@ -1300,7 +1300,7 @@ int isPush(void)
         }
     }
     for (i = 0; i < 3; i++) {
-        if (DWCi_TPlCheckTrigger((unsigned short *)&R_BUTTON[i]))
+        if (DWCi_TPlCheckTrigger((unsigned short *)&sScenesetlistRButton[i]))
             return i + 11;
     }
     return 14;

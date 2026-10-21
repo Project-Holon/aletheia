@@ -346,7 +346,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/arc_tool.h"
 extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
+extern void BMP_WIN_Init(u32);
 #include "../arm9/palanm.h"
 #include "../arm9/gf_font.h"
 #include "../arm9/g2.h"

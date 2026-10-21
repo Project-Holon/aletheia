@@ -73,10 +73,6 @@
  *   gPlateDoorsEffectPos 0x021F465C data a4
  */
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_plate_doors_types.h"
 
@@ -135,12 +131,6 @@ extern const u8 gPlateDoorsPlateDoor[];
 typedef enum { SCRIPT_EVENT_ID_ZERO } ScriptEventId;
 #include "../ov010/script_sys.h"
 #include "../arm9/game_event.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(struct GameSystem *gameSystem, void *source, int fieldObjectId, char *animName);
 extern const VecFx32 gPlateDoorsEffectPos[];
 

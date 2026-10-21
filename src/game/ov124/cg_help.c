@@ -239,7 +239,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
+extern void BMP_WIN_Init(u32);
 #include "../arm9/g2.h"
 struct DispVramCfg;
 struct SysInit;

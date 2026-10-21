@@ -294,14 +294,7 @@ typedef struct {BrPair first,second,third;} Table;
 #include "../sdk_fx.h"
 
 /* The DS code was built against a prototype that returns the destination and takes a word fill value. The host build uses the header. */
-#ifdef __MWERKS__
-#define MI_CpuFill8 MI_CpuFill8_header
-#endif
 #include "../arm9/mi_memory.h"
-#ifdef __MWERKS__
-#undef MI_CpuFill8
-extern void *MI_CpuFill8(void *dest, u32 data, u32 size);
-#endif
 
 
 struct BmpWin;

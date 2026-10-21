@@ -56,10 +56,6 @@
  *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
  */
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "../ov021/fld_exp_obj_types.h"
 #include "sp_poke_gimmick_types.h"
 #include "../ov021/fld_exp_obj.h"
@@ -106,12 +102,6 @@ struct EventDataSystem;
 #include "../arm9/game_event.h"
 #include "../arm9/gamesystem.h"
 #include "../ov021/fieldmap.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 struct MmdlHeader;
 
 /* First two-model variant: add the unit, hide both models and stop all their animations. */

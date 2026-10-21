@@ -14,7 +14,7 @@
  *
  * symbols:
  *   bcode2            0x021C88F0  data
- *   yblock            0x021C88F4  data
+ *   sJpegdecYblock            0x021C88F4  data
  *   SSPiInputDataSize 0x021C88F8  data
  *   chit              0x021C88FC  data
  *   bitlen            0x021C8900  data
@@ -26,7 +26,7 @@
  *   ystep             0x021C8918  data
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   SSP_ExifDecode    0x021C0BB4  arm  ov172
- *   mtx               0x021C8B1C  data ov172
+ *   sJpegdecMtx               0x021C8B1C  data ov172
  *   gJpegHuffmanWork                0x021C959C  data ov172
  *   gJpegQuantTables                0x021C8A1C  data
  *   asl               0x021C72AC  data
@@ -37,7 +37,7 @@
  *   gJpegIdctBlock        0x021C8B9C  data
  *   gJpegDecodeClampTable        0x021C80AC  data
  *   ntbl              0x021C725C  data
- *   limits            0x021C7F2C  data
+ *   sJpegdecLimits            0x021C7F2C  data
  *   Crrtab            0x021C752C  data
  *   Crgtab            0x021C7B2C  data
  *   Cbbtab            0x021C732C  data
@@ -54,7 +54,7 @@
 
 /*
  * jpegdec.o .bss block; declaration order gives the vendor offsets.
- * bcode2 +0x00 (the bit buffer), yblock +0x04, SSPiInputDataSize +0x08,
+ * bcode2 +0x00 (the bit buffer), sJpegdecYblock +0x04, SSPiInputDataSize +0x08,
  * chit +0x0c (set after an 0xff byte), bitlen +0x10, xblock +0x14, sJpegHuffShortTable +0x18,
  * SSPiErrorFlag +0x1c, sJpegHuffIntTable +0x20, xstep +0x24, ystep +0x28.
  */
@@ -66,7 +66,7 @@ static int xblock = 0;
 static int bitlen = 0;
 static int chit = 0;
 static unsigned long SSPiInputDataSize = 0;
-static int yblock = 0;
+static int sJpegdecYblock = 0;
 static int bcode2 = 0;
 static int ystep = 0;
 
@@ -76,7 +76,7 @@ static int ystep = 0;
 #include "../twl/aes_core.h"
 #include "../twl/aes_util.h"
 extern int SSPiDecodeSignCheckMode;
-extern short mtx[5][64];
+extern short sJpegdecMtx[5][64];
 extern u8 gJpegHuffmanWork[6144];
 extern short gJpegQuantTables[128];
 extern short asl[64];
@@ -87,7 +87,7 @@ extern short dcb[64];
 extern short gJpegIdctBlock[64];
 extern unsigned char gJpegDecodeClampTable[];
 extern int ntbl[4];
-extern u8 limits[];
+extern u8 sJpegdecLimits[];
 extern s16 Crrtab[256];
 extern s32 Crgtab[256];
 extern s16 Cbbtab[256];
@@ -174,7 +174,7 @@ int Mel_JPEGDecodeExif(u8 *a, unsigned long length, int option)
 
     chit = 0;
     bitlen = 0;
-    mtx[0][0] = mtx[3][0] = mtx[4][0] = 0;
+    sJpegdecMtx[0][0] = sJpegdecMtx[3][0] = sJpegdecMtx[4][0] = 0;
     MIi_CpuClearFast(0, gJpegHuffmanWork, 0x1000);
     SSPiInputDataSize = length;
     if (length <= 2) return 0;
@@ -201,7 +201,7 @@ int Mel_JPEGDecodeExif(u8 *a, unsigned long length, int option)
 /*
  * closed (lane05, 2026-10-01): full rewrite from the listing and DWARF.
  *   (1) the "bcode2 struct" is eleven separate 4-byte .bss objects of
- *   jpegdec.o (bcode2, yblock, SSPiInputDataSize, chit, bitlen, xblock, sJpegHuffShortTable,
+ *   jpegdec.o (bcode2, sJpegdecYblock, SSPiInputDataSize, chit, bitlen, xblock, sJpegHuffShortTable,
  *   SSPiErrorFlag, sJpegHuffIntTable, xstep, ystep at +0..+0x28) addressed off one anchor.
  *   Defined here as zero-initialised file statics, declared in the order that
  *   reproduces the vendor offsets (1.1p1 puts the last declared at the end
@@ -245,11 +245,11 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
     dx = 0;
     chit = 0;
     bitlen = 0;
-    mtx[4][0] = dx;
-    mtx[3][0] = dx;
+    sJpegdecMtx[4][0] = dx;
+    sJpegdecMtx[3][0] = dx;
     dy = dx;
     RSTn_work = dx;
-    mtx[0][0] = dx;
+    sJpegdecMtx[0][0] = dx;
     RSTn_intr = dx;
     MIi_CpuClearFast(0, gJpegHuffmanWork, 0x1000);
     SSPiInputDataSize = length;
@@ -282,7 +282,7 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
             if (m != 0x11 && m != 0x21 && m != 0x12 && m != 0x22)
                 return 0;
             xblock = m >> 4;
-            yblock = m & 0xf;
+            sJpegdecYblock = m & 0xf;
             xstep = (m >> 4) << 3;
             ystep = (m & 0xf) << 3;
             if (dx > maxWidth || dy > maxHeight)
@@ -394,15 +394,15 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                             p = p - chit - 1;
                         p += 2;
                         bitlen = 0;
-                        mtx[0][0] = mtx[3][0] = mtx[4][0] = 0;
+                        sJpegdecMtx[0][0] = sJpegdecMtx[3][0] = sJpegdecMtx[4][0] = 0;
                     }
-                    for (i = 0; i < xblock * yblock; i++) {
-                        getmatrix(a, mtx[0], &p, 0);
+                    for (i = 0; i < xblock * sJpegdecYblock; i++) {
+                        getmatrix(a, sJpegdecMtx[0], &p, 0);
                         decode_block(&draw_block[i * 64], 0);
                     }
-                    getmatrix(a, mtx[3], &p, 2);
+                    getmatrix(a, sJpegdecMtx[3], &p, 2);
                     decode_block(dcr, 3);
-                    getmatrix(a, mtx[4], &p, 2);
+                    getmatrix(a, sJpegdecMtx[4], &p, 2);
                     decode_block(dcb, 4);
                     writeblock(d, x, y, dx, dy);
                 }
@@ -524,7 +524,7 @@ void decode_block(short *d, short n)
     int q;
 
     for (q = 0, p = 0, i = 0; i < 64; i++, p++, q++) {
-        mtx[1][zig[q]] = mtx[n][p];
+        sJpegdecMtx[1][zig[q]] = sJpegdecMtx[n][p];
     }
     if (n == 0) {
         decode_block_sub(gJpegIdctBlock, d, 0);
@@ -551,10 +551,10 @@ void decode_block_sub(short *s, short *d, int n)
     for (i = 0; i < 8; i++) {
         if ((s[8 * 1 + i] | s[8 * 2 + i] | s[8 * 3 + i] | s[8 * 4 + i] |
              s[8 * 5 + i] | s[8 * 6 + i] | s[8 * 7 + i]) == 0) {
-            mtx[2][8 * 0 + i] = mtx[2][8 * 1 + i] =
-            mtx[2][8 * 2 + i] = mtx[2][8 * 3 + i] =
-            mtx[2][8 * 4 + i] = mtx[2][8 * 5 + i] =
-            mtx[2][8 * 6 + i] = mtx[2][8 * 7 + i] =
+            sJpegdecMtx[2][8 * 0 + i] = sJpegdecMtx[2][8 * 1 + i] =
+            sJpegdecMtx[2][8 * 2 + i] = sJpegdecMtx[2][8 * 3 + i] =
+            sJpegdecMtx[2][8 * 4 + i] = sJpegdecMtx[2][8 * 5 + i] =
+            sJpegdecMtx[2][8 * 6 + i] = sJpegdecMtx[2][8 * 7 + i] =
                 s[8 * 0 + i] * gJpegQuantTables[n + 8 * 0 + i];
             continue;
         }
@@ -596,39 +596,39 @@ void decode_block_sub(short *s, short *d, int n)
         tmp5 = tmp11 - tmp6;
         tmp4 = tmp5 + tmp10;
 
-        mtx[2][8 * 0 + i] = tmp0 + tmp7;
-        mtx[2][8 * 7 + i] = tmp0 - tmp7;
-        mtx[2][8 * 1 + i] = tmp1 + tmp6;
-        mtx[2][8 * 6 + i] = tmp1 - tmp6;
-        mtx[2][8 * 2 + i] = tmp2 + tmp5;
-        mtx[2][8 * 5 + i] = tmp2 - tmp5;
-        mtx[2][8 * 4 + i] = tmp3 + tmp4;
-        mtx[2][8 * 3 + i] = tmp3 - tmp4;
+        sJpegdecMtx[2][8 * 0 + i] = tmp0 + tmp7;
+        sJpegdecMtx[2][8 * 7 + i] = tmp0 - tmp7;
+        sJpegdecMtx[2][8 * 1 + i] = tmp1 + tmp6;
+        sJpegdecMtx[2][8 * 6 + i] = tmp1 - tmp6;
+        sJpegdecMtx[2][8 * 2 + i] = tmp2 + tmp5;
+        sJpegdecMtx[2][8 * 5 + i] = tmp2 - tmp5;
+        sJpegdecMtx[2][8 * 4 + i] = tmp3 + tmp4;
+        sJpegdecMtx[2][8 * 3 + i] = tmp3 - tmp4;
     }
 
     for (i = 0; i < 8; i++) {
-        if ((mtx[2][i * 8 + 1] | mtx[2][i * 8 + 2] | mtx[2][i * 8 + 3] | mtx[2][i * 8 + 4] | mtx[2][i * 8 + 5] | mtx[2][i * 8 + 6] | mtx[2][i * 8 + 7]) == 0) {
+        if ((sJpegdecMtx[2][i * 8 + 1] | sJpegdecMtx[2][i * 8 + 2] | sJpegdecMtx[2][i * 8 + 3] | sJpegdecMtx[2][i * 8 + 4] | sJpegdecMtx[2][i * 8 + 5] | sJpegdecMtx[2][i * 8 + 6] | sJpegdecMtx[2][i * 8 + 7]) == 0) {
             d[i * 8 + 0] = d[i * 8 + 1] = d[i * 8 + 2] = d[i * 8 + 3] =
             d[i * 8 + 4] = d[i * 8 + 5] = d[i * 8 + 6] = d[i * 8 + 7] =
-                limtbl[(mtx[2][i * 8 + 0] >> 5) & 0x3ff];
+                limtbl[(sJpegdecMtx[2][i * 8 + 0] >> 5) & 0x3ff];
             continue;
         }
 
-        tmp10 = mtx[2][i * 8 + 0] + mtx[2][i * 8 + 4];
-        tmp11 = mtx[2][i * 8 + 0] - mtx[2][i * 8 + 4];
+        tmp10 = sJpegdecMtx[2][i * 8 + 0] + sJpegdecMtx[2][i * 8 + 4];
+        tmp11 = sJpegdecMtx[2][i * 8 + 0] - sJpegdecMtx[2][i * 8 + 4];
 
-        tmp13 = mtx[2][i * 8 + 2] + mtx[2][i * 8 + 6];
-        tmp12 = (((mtx[2][i * 8 + 2] - mtx[2][i * 8 + 6]) * 362) >> 8) - tmp13;
+        tmp13 = sJpegdecMtx[2][i * 8 + 2] + sJpegdecMtx[2][i * 8 + 6];
+        tmp12 = (((sJpegdecMtx[2][i * 8 + 2] - sJpegdecMtx[2][i * 8 + 6]) * 362) >> 8) - tmp13;
 
         tmp0 = tmp10 + tmp13;
         tmp3 = tmp10 - tmp13;
         tmp1 = tmp11 + tmp12;
         tmp2 = tmp11 - tmp12;
 
-        z13 = mtx[2][i * 8 + 5] + mtx[2][i * 8 + 3];
-        z10 = mtx[2][i * 8 + 5] - mtx[2][i * 8 + 3];
-        z11 = mtx[2][i * 8 + 1] + mtx[2][i * 8 + 7];
-        z12 = mtx[2][i * 8 + 1] - mtx[2][i * 8 + 7];
+        z13 = sJpegdecMtx[2][i * 8 + 5] + sJpegdecMtx[2][i * 8 + 3];
+        z10 = sJpegdecMtx[2][i * 8 + 5] - sJpegdecMtx[2][i * 8 + 3];
+        z11 = sJpegdecMtx[2][i * 8 + 1] + sJpegdecMtx[2][i * 8 + 7];
+        z12 = sJpegdecMtx[2][i * 8 + 1] - sJpegdecMtx[2][i * 8 + 7];
 
         tmp7 = z11 + z13;
         tmp11 = ((z11 - z13) * 362) >> 8;
@@ -903,7 +903,7 @@ int hloadbit(u8 *b, int *p, int n)
  *   in jpegdec.o with the f04/f14 words as neighbouring 4-byte globals laid out
  *   at +4/+0x14), `limits[X + base]` index order, switch operand order.
  *
- * 2026-10-01 (w3 lane19): still 113 B. Vendor .o symtab: bcode2+4 is yblock,
+ * 2026-10-01 (w3 lane19): still 113 B. Vendor .o symtab: bcode2+4 is sJpegdecYblock,
  *   bcode2+0x14 is xblock (4-byte .bss group), and the limits pool word is
  *   limits+0x100 (source biases the index by 256); 1.1p1 never folds that
  *   bias into the pool (`limits[256 + i]`, `(limits + 256)[i]`, `&limits[256]`,
@@ -1002,7 +1002,7 @@ int hloadbit(u8 *b, int *p, int n)
  *   in jpegdec.o with the f04/f14 words as neighbouring 4-byte globals laid out
  *   at +4/+0x14), `limits[X + base]` index order, switch operand order.
  *
- * 2026-10-01 (w3 lane19): still 113 B. Vendor .o symtab: bcode2+4 is yblock,
+ * 2026-10-01 (w3 lane19): still 113 B. Vendor .o symtab: bcode2+4 is sJpegdecYblock,
  *   bcode2+0x14 is xblock (4-byte .bss group), and the limits pool word is
  *   limits+0x100 (source biases the index by 256); 1.1p1 never folds that
  *   bias into the pool (`limits[256 + i]`, `(limits + 256)[i]`, `&limits[256]`,
@@ -1028,9 +1028,9 @@ void writeblock(u8 *d, int x, int y, int dx, int dy)
 {
     int e, m, n, s, t, z, rr;
     int g, b, cb, cr;
-    u8 *lim = limits + 256;
+    u8 *lim = sJpegdecLimits + 256;
 
-    switch (yblock * 2 + xblock) {
+    switch (sJpegdecYblock * 2 + xblock) {
     case 3:
         for (n = z = 0; n < 8; n++) {
             if (y + n >= dy)
@@ -1075,7 +1075,7 @@ void writeblock(u8 *d, int x, int y, int dx, int dy)
         break;
 
     case 5:
-        for (t = z = 0; t < yblock; t++) {
+        for (t = z = 0; t < sJpegdecYblock; t++) {
             for (n = 0; n < 8; n++) {
                 if (n + (y + t * 8) >= dy)
                     break;
@@ -1098,7 +1098,7 @@ void writeblock(u8 *d, int x, int y, int dx, int dy)
         break;
 
     case 6:
-        for (t = z = 0; t < yblock; t++) {
+        for (t = z = 0; t < sJpegdecYblock; t++) {
             for (s = 0; s < xblock; s++) {
                 for (n = 0; n < 8; n++) {
                     if (n + (y + t * 8) >= dy)

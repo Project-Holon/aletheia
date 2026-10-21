@@ -11,7 +11,7 @@ struct MsgBankLoad;
 
 #include "../types.h"
 
-struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 u32 MSGDATA_Delete(struct MsgBank *bank);
 struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);

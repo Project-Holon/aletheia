@@ -35,8 +35,8 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   config 0x021BA280 data a4
- *   records 0x021BA2FC data a4
+ *   sZenkokuZukanAwardGraphicConfig 0x021BA280 data a4
+ *   sZenkokuZukanAwardGraphicRecords 0x021BA2FC data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -53,10 +53,10 @@
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   ZENKOKU_ZUKAN_AWARD_Callback 0x021B9E6C thumb ov222
- *   dims 0x020A1EB8 data
- *   vec1 0x021BA268 data a4
- *   vec2 0x021BA25C data a4
- *   vec3 0x021BA274 data ov222
+ *   gCameraParams 0x020A1EB8 data
+ *   sZenkokuZukanAwardGraphicVec1 0x021BA268 data a4
+ *   sZenkokuZukanAwardGraphicVec2 0x021BA25C data a4
+ *   sZenkokuZukanAwardGraphicVec3 0x021BA274 data ov222
  */
 struct Node;
 struct Bank;
@@ -134,10 +134,10 @@ u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue(const u32 *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap);
 extern char d_021BA390[];
 extern u32 d_021BA2CC[];
-extern u32 config[];
-extern const struct ZenkokuZukanAwardGraphicBgRow records[];
-extern const char dims[];
-extern struct ZenkokuZukanAwardGraphicVec3 vec1,vec2,vec3;
+extern u32 sZenkokuZukanAwardGraphicConfig[];
+extern const struct ZenkokuZukanAwardGraphicBgRow sZenkokuZukanAwardGraphicRecords[];
+extern const char gCameraParams[];
+extern struct ZenkokuZukanAwardGraphicVec3 sZenkokuZukanAwardGraphicVec1,sZenkokuZukanAwardGraphicVec2,sZenkokuZukanAwardGraphicVec3;
 
 void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
 {
@@ -203,9 +203,9 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)sZenkokuZukanAwardGraphicConfig);
     for(i=0;i<2;i++) {
-        const struct ZenkokuZukanAwardGraphicBgRow *r=&records[i];
+        const struct ZenkokuZukanAwardGraphicBgRow *r=&sZenkokuZukanAwardGraphicRecords[i];
         u32 id=r->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->cfg,(u8)r->type);
         BG_SYS_FreeSlot(id);
@@ -213,7 +213,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap)
     }
 }
 
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p) { u32 i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p) { u32 i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf((u8)sZenkokuZukanAwardGraphicRecords[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p) { }
 
@@ -248,7 +248,7 @@ u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue(const u32 *p) { return *p; }
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,ZENKOKU_ZUKAN_AWARD_Callback);
-    *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&vec1),(struct VecFx32 *)(&vec2),(struct VecFx32 *)(&vec3),heap);
+    *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(gCameraParams+12),*(s16 *)(gCameraParams+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec1),(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec2),(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec3),heap);
 }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p)

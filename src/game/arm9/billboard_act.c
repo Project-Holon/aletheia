@@ -151,13 +151,7 @@ extern struct AreaMan *AREAMAN_Create(u32 size, u32 heapId);
 #endif
 
 #ifdef __MWERKS__
-extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
-extern void BILLBOARD_Delete(void *p);
-extern u32 AREAMAN_Delete(void *areaman);
-extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
 extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
-extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
-extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
 #endif
 struct G3dResource;
 
@@ -167,21 +161,12 @@ struct G3dResource;
 extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count); /* original prototype; the definition differs in return type */
 extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const VecFx32 *pos, u8 layer, u32 color, u32 mode); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
 extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
-extern void BILLBOARD_SetElemCell(struct BbBoard *board, s32 elemIndex, u16 *cell);
-extern void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemId, u32 *flipX);
-extern void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemId, u32 *flipY);
-extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, s32 index, s32 *outTexVramOffset);
-extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, s32 frame, s32 *outOffset, s32 *outFrameSize, u8 useFrameIndex);
 extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
 #endif
 struct LightSlot;
 struct Camera;
 struct G3dCamera;
 
-#ifdef __MWERKS__
-extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
-extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, s32 elemIndex);
-#endif
 
 struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId);
 

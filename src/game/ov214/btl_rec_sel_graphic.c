@@ -25,9 +25,9 @@
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   site 0x021BB668 data ov214
- *   config 0x021BB588 data ov214
- *   config2 0x021BB53C data ov214
+ *   sBtlRecSelGraphicSite 0x021BB668 data ov214
+ *   sBtlRecSelGraphicConfig 0x021BB588 data ov214
+ *   sBtlRecSelGraphicConfig2 0x021BB53C data ov214
  *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -37,7 +37,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   records 0x021BB5B8 data a4
+ *   sBtlRecSelGraphicRecords 0x021BB5B8 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -54,10 +54,10 @@
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   BTL_REC_SEL_InitG3dDisplay 0x021BB0D4 thumb ov214
- *   dims 0x020A1EB8 data
- *   vec1 0x021BB524 data a4
- *   vec2 0x021BB518 data ov214
- *   vec3 0x021BB530 data ov214
+ *   gCameraParams 0x020A1EB8 data
+ *   sBtlRecSelGraphicVec1 0x021BB524 data a4
+ *   sBtlRecSelGraphicVec2 0x021BB518 data ov214
+ *   sBtlRecSelGraphicVec3 0x021BB530 data ov214
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm  arm9
@@ -151,33 +151,33 @@ void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap);
 void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p);
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p);
 void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *work);
-extern const char site[];
-extern const u32 config[];
-extern const u32 config2[];
-extern const struct BtlRecSelGraphicRecord records[];
-extern const char dims[];
-extern struct BtlRecSelGraphicVec3 vec1,vec2,vec3;
+extern const char sBtlRecSelGraphicSite[];
+extern const u32 sBtlRecSelGraphicConfig[];
+extern const u32 sBtlRecSelGraphicConfig2[];
+extern const struct BtlRecSelGraphicRecord sBtlRecSelGraphicRecords[];
+extern const char gCameraParams[];
+extern struct BtlRecSelGraphicVec3 sBtlRecSelGraphicVec1,sBtlRecSelGraphicVec2,sBtlRecSelGraphicVec3;
 
 /*
  * volatile: MMIO accesses 021BB19E..021BB1B2
  */
 char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 {
-    char *p=GFL_HEAP_Alloc(heap,16,0,site,458);
+    char *p=GFL_HEAP_Alloc(heap,16,0,sBtlRecSelGraphicSite,458);
     MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)config);
+    BG_SYS_SetVramBanks((const struct DispVram *)sBtlRecSelGraphicConfig);
     BG_SYS_SetLcdSwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
-    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(sptr)config,heap);
+    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(sptr)sBtlRecSelGraphicConfig,heap);
     BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
     ((struct BtlRecSelGraphic *)p)->vblankHandle=(uptr)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
     return p;
@@ -218,9 +218,9 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap)
     MI_CpuFill8(p,0,4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    BG_SYS_SetGraphicsMode((struct DispConfig *)config2);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)sBtlRecSelGraphicConfig2);
     for(i=0;i<3;i++) {
-        const struct BtlRecSelGraphicRecord *r=&records[i];
+        const struct BtlRecSelGraphicRecord *r=&sBtlRecSelGraphicRecords[i];
         u32 id=r->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->template_data,(u8)r->type);
         BG_SYS_FreeSlot(id);
@@ -228,7 +228,7 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap)
     }
 }
 
-void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p) { u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
+void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p) { u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)sBtlRecSelGraphicRecords[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
 
 void BTL_REC_SEL_GRAPHIC_Noop(void *p) { }
 
@@ -258,7 +258,7 @@ u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return *p; }
 void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,BTL_REC_SEL_InitG3dDisplay);
-    *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&vec1),(struct VecFx32 *)(&vec2),(struct VecFx32 *)(&vec3),heap);
+    *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(gCameraParams+12),*(s16 *)(gCameraParams+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&sBtlRecSelGraphicVec1),(struct VecFx32 *)(&sBtlRecSelGraphicVec2),(struct VecFx32 *)(&sBtlRecSelGraphicVec3),heap);
 }
 
 void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)

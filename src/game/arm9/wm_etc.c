@@ -19,8 +19,7 @@
  *   WMi_SendCommand                  0x0208e3a0 arm
  *   WMi_CheckStateEx                 0x0208e52c arm
  *   MIi_CpuCopy16                    0x02082a60 arm
- *   tmpUserGameInfoBuf               0x02153b00 data
- *   g_02153B00                       0x02153b00 data
+ *   sWmEtcTmpUserGameInfoBuf               0x02153b00 data
  *   WMi_GetSystemWork                0x0208e4bc arm
  *   WMi_SendCommandDirect            0x0208e44c arm
  *   WMi_CheckInitialized  0x0208E4CC  arm
@@ -49,7 +48,7 @@ WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag);
 WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
 WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
 u32 WMi_CheckInitializedAfterMeasure(void);
-extern u32 g_02153B00[32];
+extern u32 sWmEtcTmpUserGameInfoBuf[32];
 
 /*
  * sdk:      WM_SetWEPKey (libwm.TWL.HYB.a(wm_etc.o))
@@ -113,12 +112,10 @@ WMErrCode WM_SetWEPKeyEx(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, con
     return WM_ERRCODE_OPERATING;
 }
 
-#define tmpUserGameInfoBuf g_02153B00
-
 /*
  * sdk:      WM_SetGameInfo (libwm.TWL.HYB.a(wm_etc.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
- *           g_02153B00 is wm_etc.o's static tmpUserGameInfoBuf (u32[32])
+ *           the buffer is wm_etc.o's static (u32[32])
  */
 WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr)
 {
@@ -136,11 +133,11 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
         return WM_ERRCODE_INVALID_PARAM;
     }
 
-    MIi_CpuCopy16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);
-    DC_StoreRange(tmpUserGameInfoBuf, userGameInfoSize);
+    MIi_CpuCopy16(userGameInfo, sWmEtcTmpUserGameInfoBuf, userGameInfoSize);
+    DC_StoreRange(sWmEtcTmpUserGameInfoBuf, userGameInfoSize);
 
     WMi_SetCallbackTable(24, callback);
-    result = WMi_SendCommand(24, 5, (uptr)tmpUserGameInfoBuf, (u32)userGameInfoSize, ggid, (u32)tgid, (u32)attr);
+    result = WMi_SendCommand(24, 5, (uptr)sWmEtcTmpUserGameInfoBuf, (u32)userGameInfoSize, ggid, (u32)tgid, (u32)attr);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }

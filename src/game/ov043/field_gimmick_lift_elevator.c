@@ -87,10 +87,6 @@
 #define HEIGHT_EX_SetArea HEIGHT_EX_SetArea_header
 #endif
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "field_gimmick_lift_elevator_types.h"
 
 struct GameData;
@@ -124,12 +120,6 @@ struct VecFx32;
 #include "../arm9/game_event.h"
 #include "../ov010/fldmmdl.h"
 #include "../ov021/field_zonefog.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 #ifdef __MWERKS__
 #undef HEIGHT_EX_SetArea
 void HEIGHT_EX_SetArea(u8 index, int x, int z, int width, int depth, int height, int attr, HeightExTable *table);

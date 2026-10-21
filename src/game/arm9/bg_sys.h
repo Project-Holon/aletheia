@@ -52,7 +52,7 @@ void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode
 void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 void BG_SYS_FreeSlot(u8 idx);
 void BG_SYS_InitSlot(u8 idx);
-void BG_SYS_ClearSlot(u32 i);
+void BG_SYS_ClearSlot(u8 i);
 void BG_SYS_ClearLayer(int channel, u16 val);
 void BG_SYS_ClearLayerEx(int channel, u16 val);
 u32 BG_SYS_GetGraphics(u32 channel);

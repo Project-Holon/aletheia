@@ -213,7 +213,7 @@ struct TcbTask;
 struct BattleSetupParam;
 struct BtlInstRecord;
 #include "fld_btl_inst_tool.h"
-struct EncEff;
+struct EncEffWork;
 #include "../ov230/sealed_call_stubs_a.h"
 struct EncEffWork;
 #include "../arm9/tpoke_data.h"

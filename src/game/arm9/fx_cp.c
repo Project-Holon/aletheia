@@ -39,7 +39,7 @@
 
 #include "../sdk_fx.h"
 
-extern u32 FX_GetDivResult(void);
+extern s32 FX_GetDivResult(void);
 extern void FX_InvAsync(fx32 denom);
 extern fx32 FX_GetSqrtResult(void);
 extern void FX_SqrtAsync(fx32 x);
@@ -49,7 +49,7 @@ fx64 FX_InvFx64c(fx32 denom);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 u64 FX_GetDivResultFx64c(void);
-u32 FX_GetDivResult(void);
+s32 FX_GetDivResult(void);
 void FX_DivAsync(s32 numer, s32 denom);
 s32 FX_DivS32(s32 numer, s32 denom);
 fx32 FX_ModS32(fx32 a, fx32 b);
@@ -166,7 +166,7 @@ u64 FX_GetDivResultFx64c(void)
  * bit 15 until the unit is idle, then take the 64-bit DIV_RESULT, add
  * 0x80000 for rounding and shift right 20, keeping the low 32 bits.
  */
-u32 FX_GetDivResult(void)
+s32 FX_GetDivResult(void)
 {
     u64 v;
 

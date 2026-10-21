@@ -18,14 +18,14 @@
  *
  * symbols:
  *   MI_CpuCopy8 0x02082D44 arm
- *   Wifi        0x02146A94 data
+ *   sDwcBackupWifi        0x02146A94 data
  *   NCFG_ReadBackupMemory 0x0205F72C arm
  *   DWCi_BACKUPlConvWifiInfo 0x02058904 arm
  *   MATHi_CRC16InitTableRev  0x020819FC arm
  *   ReadSlotInfo             0x020585DC arm
  *   OS_Terminate             0x02088234 arm
  *   MATH_CalcCRC16           0x02081B64 arm
- *   Address     0x02146A90 data a4
+ *   sDwcBackupAddress     0x02146A90 data a4
  *   g_02146A94  0x02146A94  data
  */
 #define GAME_TYPES_U32_LONG
@@ -47,7 +47,7 @@ typedef struct tagMEMSWI {
 #include "dwc_backup.h"
 
 /* dwc_backup.o's statics from Address on, in their laid-out order: the object writes
- * Wifi[5], Wifi[10] and Wifi[11] off the .bss+0 literal while the copies take Wifi's own */
+ * sDwcBackupWifi[5], sDwcBackupWifi[10] and sDwcBackupWifi[11] off the .bss+0 literal while the copies take sDwcBackupWifi's own */
 typedef struct {
     u32 Address;
     u8  Wifi[14];
@@ -75,8 +75,8 @@ int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask);
 int DWC_BACKUPlCheckAddress(unsigned char *address);
 int writeDisable(void);
 void *DWCi_BACKUPlGetWifi(void);
-static u8 Wifi[14];
-extern DWCBackupStatics Address;
+static u8 sDwcBackupWifi[14];
+extern DWCBackupStatics sDwcBackupAddress;
 extern char g_02146A94[];
 
 int DWCi_BM_GetApInfo(void *buf)
@@ -96,15 +96,15 @@ int DWCi_BM_GetApInfoEx(void *buf)
  */
 void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf)
 {
-    MI_CpuCopy8(&Wifi[0], &buf->attestedUserId, 6);
+    MI_CpuCopy8(&sDwcBackupWifi[0], &buf->attestedUserId, 6);
     buf->attestedUserId &= 0x7FFFFFFFFFFULL;
-    MI_CpuCopy8(&Wifi[5], &buf->notAttestedId, 6);
+    MI_CpuCopy8(&sDwcBackupWifi[5], &buf->notAttestedId, 6);
     buf->notAttestedId >>= 3;
     buf->notAttestedId &= 0x7FFFFFFFFFFULL;
-    MI_CpuCopy8(&Wifi[10], &buf->pass, 2);
+    MI_CpuCopy8(&sDwcBackupWifi[10], &buf->pass, 2);
     buf->pass = buf->pass >> 6;
     buf->pass &= 0x3FF;
-    MI_CpuCopy8(&Wifi[12], &buf->randomHistory, 2);
+    MI_CpuCopy8(&sDwcBackupWifi[12], &buf->randomHistory, 2);
 }
 
 /*
@@ -156,7 +156,7 @@ int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work)
             OS_Terminate();
             return 0;
         }
-        MI_CpuCopy8(Wifi, wk->mem.wifi, sizeof(Wifi));
+        MI_CpuCopy8(sDwcBackupWifi, wk->mem.wifi, sizeof(sDwcBackupWifi));
         wk->mem.crc = MATH_CalcCRC16(&wk->tbl, &wk->mem, 0xFE);
         while (!WriteSlotInfo(&wk->mem, i, wk->work))
             ;
@@ -185,11 +185,11 @@ int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work)
     return writeDisable() ? 1 : 0;
 }
 
-static unsigned char Wifi[14];
+static unsigned char sDwcBackupWifi[14];
 
 void DWCi_BACKUPlSetWiFi(unsigned char *wifi)
 {
-    MI_CpuCopy8(wifi, Wifi, 14);
+    MI_CpuCopy8(wifi, sDwcBackupWifi, 14);
 }
 
 /*
@@ -257,14 +257,14 @@ u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info)
     u64 tmp;
 
     tmp = info->notAttestedId;
-    MI_CpuCopy8(&info->attestedUserId, &Wifi[0], 5);
-    Address.Wifi[5] = (u8)(((info->attestedUserId >> 40) & 7) | ((tmp & 0x1F) << 3));
+    MI_CpuCopy8(&info->attestedUserId, &sDwcBackupWifi[0], 5);
+    sDwcBackupAddress.Wifi[5] = (u8)(((info->attestedUserId >> 40) & 7) | ((tmp & 0x1F) << 3));
     tmp >>= 5;
-    MI_CpuCopy8(&tmp, &Wifi[6], 4);
-    Address.Wifi[10] = (u8)(((tmp >> 32) & 0x3F) | ((info->pass & 3) << 6));
-    Address.Wifi[11] = (u8)(info->pass >> 2);
-    MI_CpuCopy8(&info->randomHistory, &Wifi[12], 2);
-    return Wifi;
+    MI_CpuCopy8(&tmp, &sDwcBackupWifi[6], 4);
+    sDwcBackupAddress.Wifi[10] = (u8)(((tmp >> 32) & 0x3F) | ((info->pass & 3) << 6));
+    sDwcBackupAddress.Wifi[11] = (u8)(info->pass >> 2);
+    MI_CpuCopy8(&info->randomHistory, &sDwcBackupWifi[12], 2);
+    return sDwcBackupWifi;
 }
 
 void *DWCi_BACKUPlGetWifi(void)

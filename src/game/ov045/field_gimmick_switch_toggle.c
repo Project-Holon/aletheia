@@ -51,10 +51,6 @@
  *   GAME_EVENT_Create  0x020122C0  thumb  arm9
  */
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "field_gimmick_switch_toggle_types.h"
 
 struct FieldMap;
@@ -102,12 +98,6 @@ extern u16 sSwitchToggleRequirementState[];
 #include "../arm9/gamesystem.h"
 #include "field_gimmick_switch_toggle.h"
 #include "../arm9/game_event.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
 {

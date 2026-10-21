@@ -233,9 +233,6 @@
  *   PRINTSYS_InitCallerSuppliedArray  0x0201D33C  thumb  arm9
  */
 /* The original callers declare these with other argument or return widths than the headers do. */
-#ifdef __MWERKS__
-#define PRINTSYS_Print PRINTSYS_PrintHeader
-#endif
 /* The original callers declare these with other argument or return widths than the headers do. */
 #ifdef __MWERKS__
 #define BTL_MSG_FormatArgs BTL_MSG_FormatArgsHeader
@@ -350,10 +347,6 @@ extern struct Strbuf * STRBUF_Create(int capacity, int heapId);
 #ifdef __MWERKS__
 #undef BTL_MSG_FormatArgs
 extern void BTL_MSG_FormatArgs(struct Strbuf *dest, u32 msgId, u32 argCount, ...);
-#endif
-#ifdef __MWERKS__
-#undef PRINTSYS_Print
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 #endif
 struct BtlSideSlot;
 void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a);

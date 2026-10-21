@@ -415,7 +415,7 @@ extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
 
-extern void *BMP_MENUWORK_Create(int, int);
+extern void *BMP_MENUWORK_Create(u32, u32);
 
 extern u32 FILE_UTIL_GetItemParam(unsigned int item, unsigned int sel, unsigned int heap);
 

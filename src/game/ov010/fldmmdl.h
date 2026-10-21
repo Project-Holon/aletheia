@@ -24,7 +24,7 @@ void FLDMMDL_SysWaitBlActResLoad(MmdlSys *sys);
 void FLDMMDL_SetAreaIdRef(MmdlSys *sys, const unsigned short *areaIdRef);
 Mmdl *FLDMMDL_AddMmdlCore(MmdlSys *sys, const MmdlHeader *src, int zoneId, void *evWork);
 Mmdl *FLDMMDL_AddMmdl(MmdlSys *sys, const MmdlHeader *header, int zoneId);
-Mmdl *FLDMMDL_AddMmdlParam(MmdlSys *sys, u16 gridX, u16 gridZ, u16 dir, u16 objId, u16 objCode, u16 moveCode, int zoneId);
+Mmdl *FLDMMDL_AddMmdlParam(MmdlSys *sys, s16 gridX, s16 gridZ, u16 dir, u16 objId, u16 objCode, u16 moveCode, u32 zoneId);
 void FLDMMDL_AddMmdlHeaderList(MmdlSys *sys, const MmdlHeader *header, int zoneId, u32 count, void *evWork);
 Mmdl *FLDMMDL_AddMmdlHeaderById(MmdlSys *sys, const MmdlHeader *header, int zoneId, int count, void *evWork, u32 objId);
 void FLDMMDL_DeleteMmdl(Mmdl *mmdl);

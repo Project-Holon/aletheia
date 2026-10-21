@@ -442,7 +442,7 @@ struct GFont;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
 #include "../arm9/bmp_win.h"
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 struct DispVramCfg;
 #include "../arm9/touchpanel.h"
 #include "../arm9/key.h"

@@ -100,11 +100,6 @@ extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr); /* original prototype; the 
 
 struct PrintQueue;
 
-#ifdef __MWERKS__
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-#endif
 
 
 

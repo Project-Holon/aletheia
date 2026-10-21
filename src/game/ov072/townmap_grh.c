@@ -147,7 +147,7 @@ struct GfFont;
 #include "../arm9/bg_sys.h"
 #include "../arm9/fx_vec.h"
 #include "../arm9/gf_font.h"
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, int dest, int size, u16 flags);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, u32 dest, int size, u16 flags);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
@@ -161,7 +161,7 @@ extern u32 CLACT_DeleteUnit(struct Unit *unit);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(int arg);
 extern void CLACT_VBlankSystem(void);
-extern TownMapInfoRow *ARC_UTIL_LoadMember(int, int, int, int);
+extern void *ARC_UTIL_LoadMember(int, int, int, int);
 
 /* Siblings in townmap.c. */
 #include "townmap.h"

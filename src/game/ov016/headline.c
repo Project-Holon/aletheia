@@ -28,7 +28,7 @@
  *   DWCi_ARClRelease 0x021D4C68  arm
  *   DWCi_TSKlForm    0x021D7680  arm
  *   FILE_NAME        0x021DAE04  data  a4
- *   Buffer           0x021DE554  data  a4
+ *   sHeadlineBuffer           0x021DE554  data  a4
  *   taskLoad         0x021BD704  arm
  *   DWCi_SETTIGNlGet             0x021CF404  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -57,7 +57,7 @@ extern unsigned short *gHeadlineWork;
 extern char sHeadlinePathJbBgHlChar[];
 extern char *sHeadlineTable[];
 extern char *FILE_NAME[20];
-extern unsigned short *Buffer;
+extern unsigned short *sHeadlineBuffer;
 
 
 /*
@@ -94,7 +94,7 @@ void DWCi_HLlLoad(int idx)
 {
     char *n = (char *)DWCi_Char((unsigned char *)FILE_NAME[idx]);
     void *file = DWCi_ARClReadEx(n, 0, 4);
-    MIi_CpuCopyFast(file, Buffer, 0xc0);
+    MIi_CpuCopyFast(file, sHeadlineBuffer, 0xc0);
     DWCi_ARClRelease(file);
     DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, 0, 0x78);
 }

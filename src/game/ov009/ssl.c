@@ -37,7 +37,7 @@
  *   memcmp         0x020923F0  arm
  *   make_dn        0x021601CC  arm  ov009
  *   parse_time     0x02160238  arm  ov009
- *   object         0x021A1D48  data
+ *   sSslObject         0x021A1D48  data
  *   CPSi_big_from_char  0x02164CC4  arm  ov009
  *   CPSi_big_power  0x0216469C  arm  ov009
  *   exit_computebound  0x021600E4  arm  ov009
@@ -95,7 +95,7 @@
  *   CPSi_sha1_result_prng  0x02163E10  arm  ov009
  *   pool_initialized  0x021AA648  data
  *   gCpsSslRandCtx  0x021A82E4  data
- *   pool  0x021AA650  data
+ *   sSslPool  0x021AA650  data
  *   update_digest  0x02161C54  arm  ov009
  *   make_ciphertext  0x021619CC  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
@@ -203,14 +203,14 @@ void CPS_SetSsl(int mode);
 void CPSi_SslPeriodical(unsigned long now);
 void CPSi_SslCleanup(void);
 extern struct CPSSslSession gCpsSslSessionCache[4];
-extern unsigned char *object[];
+extern unsigned char *sSslObject[];
 extern char gCpsSslSaltA[];
 extern char gCpsSslSaltB[];
 extern char gCpsSslSaltC[];
 extern int gCpsSslServerId;
 extern int gCpsSslClientId;
 extern Rand32Ctx gCpsSslRandCtx;
-extern unsigned char pool[20];
+extern unsigned char sSslPool[20];
 extern unsigned char pool_initialized;
 extern unsigned char alert_nocert[7];
 extern char id_string[];
@@ -578,7 +578,7 @@ static int cert_item(CPSSslConnection *con, unsigned char **ps,
         break;
     case 6:
         for (i = 0; i < 6; i++) {
-            if (memcmp(s, object[i], strlen((char *)object[i])) == 0) {
+            if (memcmp(s, sSslObject[i], strlen((char *)sSslObject[i])) == 0) {
                 switch (i) {
                 case 1:
                 case 2:
@@ -1632,12 +1632,12 @@ static void set_random(unsigned char *d, int len)
         if (r == 20) {
             CPSi_sha1_init(&ctx);
             enabled = OS_DisableInterrupts();
-            CPSi_sha1_calc(&ctx, pool, 20);
+            CPSi_sha1_calc(&ctx, sSslPool, 20);
             CPSi_sha1_result_prng(&ctx, x);
             carry = 1;
             for (j = 19; j >= 0; j--) {
-                tmp = pool[j] + x[j] + carry;
-                pool[j] = (unsigned char)tmp;
+                tmp = sSslPool[j] + x[j] + carry;
+                sSslPool[j] = (unsigned char)tmp;
                 carry = tmp >> 8;
             }
             OS_RestoreInterrupts(enabled);
@@ -1659,9 +1659,9 @@ void CPS_SslAddRandomSeed(void *random_seed, unsigned long len)
 
     CPSi_sha1_init(&ctx);
     enabled = OS_DisableInterrupts();
-    CPSi_sha1_calc(&ctx, pool, 0x14);
+    CPSi_sha1_calc(&ctx, sSslPool, 0x14);
     CPSi_sha1_calc(&ctx, random_seed, len);
-    CPSi_sha1_result(&ctx, pool);
+    CPSi_sha1_result(&ctx, sSslPool);
     OS_RestoreInterrupts(enabled);
     pool_initialized = 1;
 }

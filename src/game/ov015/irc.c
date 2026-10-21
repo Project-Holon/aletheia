@@ -42,7 +42,7 @@
  *   OS_GetTick     0x020870D0  arm
  *   myUnitNumber   0x0217AAB0  data
  *   unit_number    0x0217AAB1  data
- *   retry_count    0x0217ABA8  data
+ *   sIrcRetryCount    0x0217ABA8  data
  *   sIrcBuf        0x0217ABD8  data
  *   gIrcBuffer     0x0217ABD8  data
  *   gIrcBufferPayload     0x0217ABDC  data
@@ -90,7 +90,7 @@ unsigned int IRC_GetUnitNumber(void);
 
 static u8 unit_number = 0xFF;
 static u8 myUnitNumber = 0xFF;
-static u8 retry_count = 0;
+static u8 sIrcRetryCount = 0;
 static BOOL isSender = 0;
 static IRCConnectCallback sConnectCallback = 0;
 static BOOL flg_restore = 0;
@@ -140,7 +140,7 @@ void IRCi_Restore(void)
 
 void IRCi_ResetState(void)
 {
-    retry_count = 0;
+    sIrcRetryCount = 0;
     sStatus.status = 0;
     sStatus.flg_connect = 0;
     flg_restore = 0;
@@ -396,7 +396,7 @@ int IRCi_CheckPacket(unsigned long n)
     pk[3] = sum >> 8;
     pk[2] = sum;
     if (calc == sum) {
-        retry_count = 0;
+        sIrcRetryCount = 0;
         return 1;
     }
     if (sStatus.flg_connect) {

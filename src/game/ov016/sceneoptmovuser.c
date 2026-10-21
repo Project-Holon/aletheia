@@ -32,7 +32,7 @@
  *   DWCi_WINlGet                     0x021D1568  arm
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
- *   Error                            0x021DE5C4  data
+ *   sSceneoptmovuserError                            0x021DE5C4  data
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   DWCi_MOVlAdmitChild              0x021C11EC  arm
  *   DWCi_MOVlEnd                     0x021C115C  arm
@@ -78,7 +78,7 @@ void DWCi_SceneOptMovUser(void);
 void DWCi_SceneOptMovUser_input(void);
 void DWCi_SceneOptMovUser_draw(void);
 extern unsigned char gSceneOptMovUserWork[];
-extern unsigned char Error[];
+extern unsigned char sSceneoptmovuserError[];
 extern unsigned char isUnloaded;
 
 /*
@@ -152,11 +152,11 @@ static void procScene(void)
     DWCi_SceneOptMovUser_draw();
     switch (DWCi_WINlGet()) {
     case 0:
-        Error[1] = 0;
+        sSceneoptmovuserError[1] = 0;
         DWCi_SNDlPlay(7);
         break;
     case 1:
-        Error[1] = 1;
+        sSceneoptmovuserError[1] = 1;
         DWCi_SNDlPlay(0xe);
         break;
     default:
@@ -195,7 +195,7 @@ static void endScene(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    if (Error[1] == 0)
+    if (sSceneoptmovuserError[1] == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene((uptr)endScene1);
@@ -207,7 +207,7 @@ static void endScene1(void)
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    if (Error[0] == 0 && Error[1] == 1)
+    if (sSceneoptmovuserError[0] == 0 && sSceneoptmovuserError[1] == 1)
         DWCi_MOVlAdmitChild();
     else
         DWCi_MOVlEnd();
@@ -216,22 +216,22 @@ static void endScene1(void)
 
 static void endScene2(void)
 {
-    if (Error[0] || !Error[1]) {
+    if (sSceneoptmovuserError[0] || !sSceneoptmovuserError[1]) {
         if (!DWCi_MOVlIsEnd())
             return;
     }
     DWCi_FNTlDeleteBgLcd(0);
     DWCi_GXlInvisible(0, 0x15);
-    if (!Error[1]) {
+    if (!sSceneoptmovuserError[1]) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_SetParam_(0, 1);
-    if (Error[0]) {
+    if (sSceneoptmovuserError[0]) {
         DWCi_ChangeScene((uptr)DWCi_SceneOptMovFailure);
         return;
     }
-    if (Error[1] == 0) {
+    if (sSceneoptmovuserError[1] == 0) {
         DWCi_GXlInvisible(1, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
         return;

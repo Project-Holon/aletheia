@@ -16,7 +16,7 @@
  *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   MTX_Identity33_ 0x0207ADC4 arm
- *   site 0x021BCB00 data a4
+ *   sPselSite 0x021BCB00 data a4
  *   GFL_HEAP_Free 0x020307B0 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -28,7 +28,7 @@
  *   UI_SetInputMode 0x020355D8 arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   callbacks 0x021BC84C data a4
+ *   sPselCallbacks 0x021BC84C data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   PSEL_GRAPHIC_Draw 0x021BC4F4 thumb ov223
  *   PSEL_GRAPHIC_ApplyLight 0x021BC508 thumb ov223
@@ -50,9 +50,9 @@
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   ICA_ANIME_IncFrameLoop 0x02011590 thumb
- *   setup 0x021BC7BC data a4
- *   positions 0x021BC7CC data a4
- *   table 0x021BC78C data a4
+ *   sPselSetup 0x021BC7BC data a4
+ *   sPselPositions 0x021BC7CC data a4
+ *   sPselTable 0x021BC78C data a4
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -62,10 +62,10 @@
  *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
  *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
- *   ids 0x021BC710 data a2
- *   banks 0x021BC6FC data a1
- *   motion 0x021BC7F0 data a1
- *   files 0x021BC73C data a1
+ *   sPselIds 0x021BC710 data a2
+ *   sPselBanks 0x021BC6FC data a1
+ *   sPselMotion 0x021BC7F0 data a1
+ *   sPselFiles 0x021BC73C data a1
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
@@ -99,7 +99,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021BC716 0x021BC716 data a2
- *   file 0x021BCB00 data
+ *   sPselFile 0x021BCB00 data
  *   BG_SYS_LoadPltt 0x02040E78 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_FillRect 0x02043AF4 arm
@@ -114,7 +114,7 @@
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   entry_table 0x021BC770 data a1
+ *   sPselEntryTable 0x021BC770 data a1
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
@@ -274,7 +274,7 @@ extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 #include "../arm9/clact.h"
 extern void *POKEGRA_OpenHandle(u32 heapId);
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern u32 POKEGRA_RegisterPalette(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern s32 POKEGRA_RegisterPalette(u32,s32,s32,s32,u32,s32,s32,s32,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 #include "../arm9/arc_tool.h"
 struct Pair32;
@@ -386,22 +386,22 @@ void PSEL_DeleteTaskRes(char *p);
 void PSEL_UpdateTaskResWin(char *p);
 void PSEL_SetTaskResActive(char *p);
 u32 PSEL_IsTaskResFinished(char *p);
-extern const char site[];
+extern const char sPselSite[];
 extern const u8 d_021BC7AC[];
-extern const struct Setup setup;
-extern const PselVec positions[];
-extern u16 table[][5];
+extern const struct Setup sPselSetup;
+extern const PselVec sPselPositions[];
+extern u16 sPselTable[][5];
 extern const struct TableRow d_021BC790[];
 extern const u16 d_021BC792[];
-extern const u16 ids[];
-extern const u8 banks[];
-extern const Motion motion[];
-extern const Files files[];
+extern const u16 sPselIds[];
+extern const u8 sPselBanks[];
+extern const Motion sPselMotion[];
+extern const Files sPselFiles[];
 extern const u8 d_021BC7F0[3][14];
 extern const u8 d_021BC8C0[3];
 extern const BytePair d_021BC716[];
-extern const char file[];
-extern const PselTableEntry entry_table[];
+extern const char sPselFile[];
+extern const PselTableEntry sPselEntryTable[];
 extern const u32 d_021BC730[];
 extern const u16 d_021BC710[];
 
@@ -414,7 +414,7 @@ struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count)
 {
     struct PselRecord *p;
     u16 i;
-    p=GFL_HEAP_Alloc(heap,count*sizeof(struct PselRecord),1,site,654);
+    p=GFL_HEAP_Alloc(heap,count*sizeof(struct PselRecord),1,sPselSite,654);
     for(i=0;i<count;i++) {
         p[i].translation.x=0;
         p[i].translation.y=0;
@@ -476,12 +476,12 @@ int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
     return 1;
 }
 
-extern int (*callbacks[])(char *,int *);
+extern int (*sPselCallbacks[])(char *,int *);
 
 int PSEL_Main(void *a,int *state,void *b,char *p)
 {
     int old=*state;
-    *state=callbacks[*state](p,(int *)(p+12));
+    *state=sPselCallbacks[*state](p,(int *)(p+12));
     if(*state!=13) {
         if(*state!=old) ((struct PselWork *)p)->subState=0;
     } else return 1;
@@ -570,7 +570,7 @@ void PSEL_SetupSelectAnime(char *p)
     u32 base,count;
     int *obj;
     struct PselRecord *r;
-    ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct Util * *)&((struct PselWork *)p)->g3dUtil,&setup);
+    ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct Util * *)&((struct PselWork *)p)->g3dUtil,&sPselSetup);
     ((struct PselWork *)p)->recordCount=4;
     *(struct PselRecord * *)&((struct PselWork *)p)->records=PSEL_CreateRecords(((struct PselWork *)p)->heapId,((struct PselWork *)p)->recordCount);
     n=0;
@@ -580,7 +580,7 @@ void PSEL_SetupSelectAnime(char *p)
         r=*(struct PselRecord * *)&((struct PselWork *)p)->records+n;
         r->id=base+i;
         r->flag=1;
-        if(i+1>=2&&i+1<=4)r->translation=*(positions+i-1);
+        if(i+1>=2&&i+1<=4)r->translation=*(sPselPositions+i-1);
         n++;
     }
     obj=(int *)G3D_UTIL_GetObject(*(u8 * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
@@ -610,7 +610,7 @@ void PSEL_SetAnimTarget(char *p,int type,int flag)
 {
     u16 v;
     float f;
-    v=table[type][flag?1:0];
+    v=sPselTable[type][flag?1:0];
     if(v!=0) f=0.5f+(float)(v<<12);
     else f=(float)(v<<12)-0.5f;
     PSEL_SetAnimFrame(*(int *)&((struct PselWork *)p)->animStream,(int)f);
@@ -624,7 +624,7 @@ int PSEL_IsAnimTargetReached(char *p)
 {
     int select=0;
     if(((struct PselWork *)p)->animReverse==0) select=1;
-    if(((struct PselWork *)p)->animTarget==table[((struct PselWork *)p)->animTableIndex][select]) return 1;
+    if(((struct PselWork *)p)->animTarget==sPselTable[((struct PselWork *)p)->animTableIndex][select]) return 1;
     return 0;
 }
 
@@ -632,7 +632,7 @@ void PSEL_StepAnim(char *p)
 {
     unsigned i=0;
     if(((struct PselWork *)p)->animReverse==0) i=1;
-    i=table[*(unsigned *)(p+68)][i];
+    i=sPselTable[*(unsigned *)(p+68)][i];
     if(((struct PselWork *)p)->animTarget!=i) {
         int step;
         if(((struct PselWork *)p)->animReverse!=0) step=-2048; else step=2048;
@@ -711,22 +711,22 @@ void PSEL_CreateUnits(char *p)
     u8 i,j;
     arc=(uptr)POKEGRA_OpenHandle(((struct PselWork *)p)->heapId);
     for(i=0;i<3;i++) {
-        id=ids[i];r=p+i*148;
+        id=sPselIds[i];r=p+i*148;
         ((struct PselUnit *)r)->cgr=POKEGRA_RegisterCgr(arc,id,0,0,0,0,0,0,1,((struct PselWork *)p)->heapId);
-        ((struct PselUnit *)r)->palette=POKEGRA_RegisterPalette(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct PselWork *)p)->heapId);
+        ((struct PselUnit *)r)->palette=POKEGRA_RegisterPalette(arc,id,0,0,0,0,0,1,(u16)(sPselBanks[i]<<5),((struct PselWork *)p)->heapId);
         ((struct PselUnit *)r)->cellAnim=POKEGRA_RegisterCellAnim(id,0,0,0,0,0,0,1,((struct PselWork *)p)->heapId);
     }
     ARC_TOOL_DeleteHandle((void *)arc);
     for(j=0;j<3;j++) {
         MI_CpuFill8(&request,0,8);
-        request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
+        request.x=sPselMotion[j].b[0];request.y=sPselMotion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
         ((struct PselUnit *)r)->actor=(uptr)CLACT_CreateActor((struct Unit *)((void *)PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->cgr,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->cellAnim,(const struct ActorInitParam *)&request,1,((struct PselWork *)p)->heapId);
         CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)((struct PselUnit *)r)->actor),0);
     }
     other=(uptr)ARC_TOOL_CreateHandle(205,((struct PselWork *)p)->heapId);
     for(i=0;i<3;i++) {
-        f=files+i;
+        f=sPselFiles+i;
         r=p+i*148;
         ((struct PselUnit *)r)->charHandle=CLACT_RegisterCharacter((void *)other,f->b[0],0,1,((struct PselWork *)p)->heapId);
         ((struct PselUnit *)r)->affineCellAnim=CLACT_RegisterCellAnim((void *)other,f->b[2],f->b[3],((struct PselWork *)p)->heapId);
@@ -734,8 +734,8 @@ void PSEL_CreateUnits(char *p)
     ARC_TOOL_DeleteHandle((void *)other);
     for(j=0;j<3;j++) {
         MI_CpuFill8(&desc,0,24);
-        desc.x=motion[j].b[0];desc.y=motion[j].b[1];desc.z=0;desc.a=2;desc.b=3;desc.c=0;desc.d=0;
-        desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
+        desc.x=sPselMotion[j].b[0];desc.y=sPselMotion[j].b[1];desc.z=0;desc.a=2;desc.b=3;desc.c=0;desc.d=0;
+        desc.sx=FIX((float)sPselMotion[j].b[6]/16.0f);desc.sy=FIX((float)sPselMotion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
         ((struct PselUnit *)r)->affineActor=(uptr)CLACT_CreateAffineActor((struct Unit *)(PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->charHandle,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->affineCellAnim,(const struct ActorInit *)((uptr)(&desc)),1,((struct PselWork *)p)->heapId);
@@ -1058,7 +1058,7 @@ void PSEL_CreateBmpWindows(u16 *p)
     u16 *buffer;
     void *bmp,*data;
     unsigned size;
-    buffer=GFL_HEAP_Alloc(*p,32,1,file,0x92B);
+    buffer=GFL_HEAP_Alloc(*p,32,1,sPselFile,0x92B);
     buffer[0]=0;buffer[1]=0;buffer[2]=0x7FFF;
     BG_SYS_LoadPltt(2,buffer,32,0x1A0);
     BG_SYS_LoadPltt(6,buffer,32,0);
@@ -1082,7 +1082,7 @@ void PSEL_InitBgLayers(u16 *p)
 {
     u8 col,row;
     u16 *buffer,index;
-    buffer=GFL_HEAP_Alloc(*p,1536,1,file,0x951);
+    buffer=GFL_HEAP_Alloc(*p,1536,1,sPselFile,0x951);
     index=0;
     for(row=0;row<24;row++) {
         for(col=0;col<32;col++) {
@@ -1125,7 +1125,7 @@ void PSEL_SetBgSys(const u16 *p)
     u16 v;
     u8 y;
     u16 n;
-    buffer=GFL_HEAP_Alloc(*p,1536,1,site,2463);
+    buffer=GFL_HEAP_Alloc(*p,1536,1,sPselSite,2463);
     n=0;
     for(y=0;y<24;y++)for(x=0;x<32;x++) {
         v=(y>=17&&y<23)?1:0;
@@ -1134,7 +1134,7 @@ void PSEL_SetBgSys(const u16 *p)
     }
     BG_SYS_DrawTile(2,(void *)buffer,0,0,32,24);
     BG_SYS_MarkTileDirty(2);GFL_HEAP_Free(buffer);
-    buffer=GFL_HEAP_Alloc(*p,1536,1,site,2488);
+    buffer=GFL_HEAP_Alloc(*p,1536,1,sPselSite,2488);
     n=0;
     for(x=0;x<24;x++)for(y=0;y<32;y++) {
         v=(x>=17&&x<23)?1:0;
@@ -1178,7 +1178,7 @@ void PSEL_CreateWin(char *p)
     *(struct Tcbl * *)&((struct PselWork *)p)->tcbl=(struct Tcbl *)TCBL_Create(((struct PselWork *)p)->heapId,((struct PselWork *)p)->heapId,1,0);
     GF_FONT_SetTextColor(15,2,0);
     for(;i<3;i++) {
-        *(u32 *)(p+i*4+568)=(uptr)BMP_WIN_Create(entry_table[i].a,entry_table[i].b,entry_table[i].c,entry_table[i].d,entry_table[i].e,entry_table[i].f,entry_table[i].g);
+        *(u32 *)(p+i*4+568)=(uptr)BMP_WIN_Create(sPselEntryTable[i].a,sPselEntryTable[i].b,sPselEntryTable[i].c,sPselEntryTable[i].d,sPselEntryTable[i].e,sPselEntryTable[i].f,sPselEntryTable[i].g);
         BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(p+i*4+568)))),0);
         BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor **)(p+i*4+568)));
         *(u32 *)(p+i*4+580)=1;

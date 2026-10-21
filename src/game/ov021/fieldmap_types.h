@@ -43,7 +43,7 @@ struct Fld3dCi;
 struct SodateyaWork;
 struct FieldG3dObjCtrl;
 struct FieldTaskManager;
-struct EncEff;
+struct EncEffWork;
 struct FldVReq;
 struct FieldMap;
 
@@ -177,7 +177,7 @@ typedef struct FieldMap {
     struct FieldG3dObjCtrl *g3dObjCtrl;     /* 0x130 FIELD_G3DOBJ_Create */
     struct FieldTaskManager *taskManager;   /* 0x134 FIELD_TASK_MANAGER_Create */
     int scriptEffectBusy;                   /* 0x138 */
-    struct EncEff *encEff;                  /* 0x13C ENCEFF_Create */
+    struct EncEffWork *encEff;                  /* 0x13C ENCEFF_Create */
     int updateStopped;                      /* 0x140 */
     int subscreenBusy;                      /* 0x144 */
     void *faceUpWork;                       /* 0x148 fld_faceup.c */

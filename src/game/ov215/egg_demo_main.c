@@ -98,7 +98,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   EGG_DEMO_GRAPHIC_GetClactBank2 0x021F64FC thumb ov215
- *   table 0x021F7124 data ov215
+ *   sEggDemoMainTable 0x021F7124 data ov215
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -217,7 +217,7 @@ int EGG_DEMO_MAIN_IsBgm2Loading(void *unused, char *p);
 void EGG_DEMO_MAIN_StopBgm(void *unused, char *p);
 int EGG_DEMO_MAIN_IsBgmStopped(void *unused, char *p);
 extern char gNameInProcData,abs_id_C2;
-extern const unsigned int table[][2];
+extern const unsigned int sEggDemoMainTable[][2];
 
 /*
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
@@ -408,7 +408,7 @@ void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
         slotBase = (char *)work;
         slotBase = slotBase + (i * 4);
         out = (struct EggDemoWork *)slotBase;
-        actorTemplate = (uptr)table[i];
+        actorTemplate = (uptr)sEggDemoMainTable[i];
         o = (uptr)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->graphic), work->charId, work->paletteId, work->cellAnimId, (const void *)actorTemplate, 0, work->heapId);
         out->actors[0] = (void *)o;
         CLACT_SetActorAutoAnim((struct ClactActor *)o, 0);

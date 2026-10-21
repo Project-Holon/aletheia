@@ -18,11 +18,11 @@
  *   current_time     0x0217F264  arm  ov009
  *   Util_RandSeed     0x0217F790  arm  ov009
  *   Util_RandInt     0x0217F7AC  arm  ov009
- *   negotiateList     0x021AE698  data
+ *   sNatnegNegotiateList     0x021AE698  data
  *   Matchup3Hostname  0x021AE69C  data
- *   natMappingScheme  0x021AE6A0  data
- *   natifyCallback    0x021AE6A4  data
- *   natifyStartTime   0x021AE6A8  data
+ *   sNatnegNatMappingScheme  0x021AE6A0  data
+ *   sNatnegNatifyCallback    0x021AE6A4  data
+ *   sNatnegNatifyStartTime   0x021AE6A8  data
  *   ClientUniqueID    0x021AE6AC  data
  *   Matchup2Hostname  0x021AE6B0  data
  *   Matchup1Hostname  0x021AE6B4  data
@@ -283,7 +283,7 @@ void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
 void ProcessPreinitAckPacket(NATNegotiator *neg, NatNegPacket *p);
 void ProcessInitPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
 void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
-extern struct DArrayImplementation * negotiateList;
+extern struct DArrayImplementation * sNatnegNegotiateList;
 extern char gNatNegFreeFmt[];
 extern NatNegMagic gNatNegMagic;
 extern char gGsAvailabilityGameName[];
@@ -359,15 +359,15 @@ char *Matchup2Hostname = 0;
 
 int ClientUniqueID = 0;
 
-static unsigned int natifyStartTime = 0;
+static unsigned int sNatnegNatifyStartTime = 0;
 
 void (*natifyCallback)(int, NAT) = 0;
 
-static NatMappingScheme natMappingScheme = 0;
+static NatMappingScheme sNatnegNatMappingScheme = 0;
 
 char *Matchup3Hostname = 0;
 
-DArray negotiateList = 0;
+DArray sNatnegNegotiateList = 0;
 
 unsigned int matchup1ip = 0;
 
@@ -386,10 +386,10 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
     int i;
     NATNegotiator *neg;
 
-    if (!negotiateList)
+    if (!sNatnegNegotiateList)
         return 0;
-    for (i = 0; i < ArrayLength((struct DArrayImplementation *)negotiateList); i++) {
-        neg = (NATNegotiator *)ArrayNth(negotiateList, i);
+    for (i = 0; i < ArrayLength((struct DArrayImplementation *)sNatnegNegotiateList); i++) {
+        neg = (NATNegotiator *)ArrayNth(sNatnegNegotiateList, i);
         if (neg->cookie == cookie)
             return neg;
     }
@@ -403,10 +403,10 @@ NATNegotiator *AddNegotiator(void)
 {
     NATNegotiator _neg = {0};
 
-    if (!negotiateList)
-        negotiateList = ArrayNew(sizeof(NATNegotiator), 4, 0);
-    ArrayAppend(negotiateList, &_neg);
-    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength((struct DArrayImplementation *)negotiateList) - 1);
+    if (!sNatnegNegotiateList)
+        sNatnegNegotiateList = ArrayNew(sizeof(NATNegotiator), 4, 0);
+    ArrayAppend(sNatnegNegotiateList, &_neg);
+    return (NATNegotiator *)ArrayNth(sNatnegNegotiateList, ArrayLength((struct DArrayImplementation *)sNatnegNegotiateList) - 1);
 }
 
 /*
@@ -416,9 +416,9 @@ void RemoveNegotiator(NATNegotiator *neg)
 {
     int i;
 
-    for (i = 0; i < ArrayLength((struct DArrayImplementation *)negotiateList); i++) {
-        if (neg == ArrayNth(negotiateList, i)) {
-            ArrayRemoveAt(negotiateList, i);
+    for (i = 0; i < ArrayLength((struct DArrayImplementation *)sNatnegNegotiateList); i++) {
+        if (neg == ArrayNth(sNatnegNegotiateList, i)) {
+            ArrayRemoveAt(sNatnegNegotiateList, i);
             return;
         }
     }
@@ -426,11 +426,11 @@ void RemoveNegotiator(NATNegotiator *neg)
 
 void NNFreeNegotiateList(void)
 {
-    if (negotiateList == 0)
+    if (sNatnegNegotiateList == 0)
         return;
-    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength((struct DArrayImplementation *)negotiateList));
-    ArrayFree(negotiateList);
-    negotiateList = 0;
+    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength((struct DArrayImplementation *)sNatnegNegotiateList));
+    ArrayFree(sNatnegNegotiateList);
+    sNatnegNegotiateList = 0;
 }
 
 /*

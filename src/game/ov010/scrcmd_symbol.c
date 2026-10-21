@@ -201,7 +201,7 @@ struct ScriptWork;
 struct FieldSituation;
 
 #include "../ov021/field_encount.h"
-struct EncEff;
+struct EncEffWork;
 
 struct EncEffWork;
 

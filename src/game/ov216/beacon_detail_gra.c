@@ -74,8 +74,8 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   configA 0x021BDB28 data a2
- *   configB 0x021BDB34 data a2
+ *   sBeaconDetailGraConfigA 0x021BDB28 data a2
+ *   sBeaconDetailGraConfigB 0x021BDB34 data a2
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   NNS_G2dGetUnpackedCharacterData 0x02062A00 arm
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
@@ -299,7 +299,7 @@ struct GameBeaconRecord;       /* one GAME_BEACON_ACCESSOR record */
 struct BeaconDetailGraTransfer; /* CLACT_TransferCharacter arg (0x0204A9D0) */
 struct BeaconDetailGraPmsDraw;  /* PMS_DRAW instance (0x0202DCC4) */
 
-/* CLACT palette/character/cellanim descriptor (configA/configB). */
+/* CLACT palette/character/cellanim descriptor (sBeaconDetailGraConfigA/sBeaconDetailGraConfigB). */
 struct ClactResConfig { u8 a,b,c,pad; u16 first,second,third; };
 
 /* A BMP window plus its back buffer and blit source. 16 bytes. */
@@ -458,7 +458,7 @@ extern void GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern struct PrintQueue *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsigned);
+extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,u16,unsigned);
 struct Strbuf;
 extern struct Strbuf *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
@@ -510,7 +510,7 @@ extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *,void *), void *work, 
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_Create(int);
-extern void BMP_WIN_Init(int);
+extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
@@ -671,7 +671,7 @@ void BEACON_DETAIL_GRA_AddPrintWaitTask(u8 *p,int arg,int *counter);
 extern unsigned char ov067_id[],ov072_id[];
 extern unsigned char ov072_id[],ov067_id[];
 extern const unsigned char d_021BDB4C[];
-extern const struct ClactResConfig configA,configB;
+extern const struct ClactResConfig sBeaconDetailGraConfigA,sBeaconDetailGraConfigB;
 extern char d_021BDDC0[];
 extern unsigned d_021BDBD8[];
 extern const unsigned d_021BDBAC[];
@@ -927,9 +927,9 @@ void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle)
     struct ArcFile *arc;
     int i;
     ((struct BeaconDetailGraWork *)p)->trainer.handle=(uptr)POKEGRA_OpenTrainerHandle((unsigned int)(((struct BeaconDetailGraWork *)p)->heapId));
-    a=configA;
+    a=sBeaconDetailGraConfigA;
     BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+92), (const struct ClactResConfig *)&a, (void *)handle);
-    b=configB;
+    b=sBeaconDetailGraConfigB;
     arc=ARC_TOOL_CreateHandle(32,((struct BeaconDetailGraWork *)p)->gfxHeapId);
     BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+128), (const struct ClactResConfig *)&b, (void *)((uptr)arc));
     ((struct BeaconDetailGraWork *)p)->paletteHandle=ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc,0,((struct BeaconDetailGraWork *)p)->heapId);

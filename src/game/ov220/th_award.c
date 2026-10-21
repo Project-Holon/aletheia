@@ -37,8 +37,8 @@
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   bgtable 0x021BA370 data a4
- *   resources 0x021BA4E0 data a4
+ *   sThAwardBgtable 0x021BA370 data a4
+ *   sThAwardResources 0x021BA4E0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -65,7 +65,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   TH_AWARD_GRAPHIC_Update 0x021BA1CC thumb ov220
- *   sounds 0x021BA3B0 data a4
+ *   sThAwardSounds 0x021BA3B0 data a4
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -79,15 +79,15 @@
  *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
  *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
- *   coords3 0x021BA318 data a2
- *   coords4 0x021BA328 data a2
+ *   sThAwardCoords3 0x021BA318 data a2
+ *   sThAwardCoords4 0x021BA328 data a2
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
- *   table 0x021BA3AC data ov220 a1
- *   coords 0x021BA338 data ov220 a2
+ *   sThAwardTable 0x021BA3AC data ov220 a1
+ *   sThAwardCoords 0x021BA338 data ov220 a2
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -255,13 +255,13 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p);
 void TH_AWARD_DeleteWindows(struct ThAwardWork *p);
 void TH_AWARD_UploadWindows(struct ThAwardWork *o);
 unsigned char TH_AWARD_GetLevelIndex(unsigned value);
-extern const struct Row bgtable[];
-extern struct Resources resources[];
+extern const struct Row sThAwardBgtable[];
+extern struct Resources sThAwardResources[];
 extern const ThAwardEntry d_021BA370[];
-extern const u32 sounds[];
-extern const u8 coords3[];
-extern const u8 coords4[];
-extern const u8 table[],coords[];
+extern const u32 sThAwardSounds[];
+extern const u8 sThAwardCoords3[];
+extern const u8 sThAwardCoords4[];
+extern const u8 sThAwardTable[],sThAwardCoords[];
 extern const u8 d_021BA354[];
 extern u8 d_021BA314[];
 extern const struct ThAwardRec d_021BA3A8[];
@@ -295,7 +295,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     BG_SYS_ClearSubPlanes();GXS_SetGraphicsMode(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
-        const struct Row *r=(const struct Row *)((uptr)bgtable+i*44);
+        const struct Row *r=(const struct Row *)((uptr)sThAwardBgtable+i*44);
         u32 layer=r->id;
         BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate*)r->body,(u8)r->kind);
         BG_SYS_FreeSlot(layer);BG_SYS_SetPlaneVisible(layer,r->on);
@@ -305,9 +305,9 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     variant=1;
     if (p->args->kind!=1) variant=0;
     owner=ARC_TOOL_CreateHandle(30,heap);
-    ARC_UTIL_UploadPaletteFromHandleWhole(owner,resources[variant].a,4,0,0,heap);
-    ARC_UTIL_UploadBgCharFromHandle(owner,resources[variant].b,4,0,0,0,heap);
-    ARC_UTIL_UploadBgPaletteFromHandle(owner,resources[variant].c,4,0,0,0,heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole(owner,sThAwardResources[variant].a,4,0,0,heap);
+    ARC_UTIL_UploadBgCharFromHandle(owner,sThAwardResources[variant].b,4,0,0,0,heap);
+    ARC_UTIL_UploadBgPaletteFromHandle(owner,sThAwardResources[variant].c,4,0,0,0,heap);
     ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,p->heap);
     if (p->args->flag0C && p->bgmIndex!=7) GFL_USE_FadeOutBgm(6);
     return 1;
@@ -349,7 +349,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
             else {
                 GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
-                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((uptr)sounds+((struct ThAwardWork *)p)->bgmIndex*12),0xFFFF);
+                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((uptr)sThAwardSounds+((struct ThAwardWork *)p)->bgmIndex*12),0xFFFF);
             }
         }
         if (flag) {FADE_Start(3,16,0,0);*state=1;}
@@ -429,12 +429,12 @@ void TH_AWARD_CreateSpeciesActors(char *p)
     if (desc[1] == 0)
     {
       *((u8 *) (p + 0x18)) = 3;
-      coords = coords3;
+      coords = sThAwardCoords3;
     }
     else
     {
       *((u8 *) (p + 0x18)) = 4;
-      coords = coords4;
+      coords = sThAwardCoords4;
     }
     owner = ARC_TOOL_CreateHandle(7, *((u16 *) p));
     for (i = 0; i < (*((u8 *) (p + 0x18))); i++)
@@ -479,7 +479,7 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
     u8 i=0;
     p->bgSlotCount=0;
     if(p->bgmIndex!=7){
-        p->bgSlotCount=*(const u8*)((uptr)table+p->bgmIndex*12);
+        p->bgSlotCount=*(const u8*)((uptr)sThAwardTable+p->bgmIndex*12);
         if(*(volatile u8 *)&p->bgSlotCount){
             owner=ARC_TOOL_CreateHandle(201,p->heap);
             p->paletteId=CLACT_RegisterPaletteEx(owner,1,0,0,0,1,p->heap);
@@ -488,8 +488,8 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
             ARC_TOOL_DeleteHandle(owner);
             MI_CpuFill8(&param,0,8);
             for(;i<p->bgSlotCount;i++){
-                param.x=*(const s16*)((uptr)coords+(u32)i*4);
-                param.y=*(const s16*)((uptr)coords+(u32)i*4+2);
+                param.x=*(const s16*)((uptr)sThAwardCoords+(u32)i*4);
+                param.y=*(const s16*)((uptr)sThAwardCoords+(u32)i*4+2);
                 p->bgActors[i]=CLACT_CreateActor((struct Unit *)TH_AWARD_GRAPHIC_GetActor(p->graphic),p->charId,p->paletteId,p->cellAnimId,(const struct ActorInitParam *)&param,0,p->heap);
                 CLACT_SetActorAnimSeq(p->bgActors[i],0);
                 CLACT_SetActorAutoAnim(p->bgActors[i],1);

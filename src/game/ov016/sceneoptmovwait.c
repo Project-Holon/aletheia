@@ -38,7 +38,7 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   DWCi_SceneOptMovWaitCbMov                            0x021C4890  arm
- *   Choose                           0x021DE5C8  data
+ *   sSceneoptmovwaitChoose                           0x021DE5C8  data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
@@ -92,7 +92,7 @@ static int DWCi_IsFold(void);
 void DWCi_SceneOptMovWait(void);
 void DWCi_SceneOptMovWait_procScene(void);
 void DWCi_SceneOptMovWait_draw(void);
-extern unsigned char Choose;
+extern unsigned char sSceneoptmovwaitChoose;
 extern u8   gSceneOptMovWaitWork;
 
 /*
@@ -122,7 +122,7 @@ static int DWCi_IsFold(void)
 void DWCi_SceneOptMovWait(void)
 {
     DWCi_MOVlInit(DWCi_SceneOptMovWaitCbMov);
-    Choose = 0;
+    sSceneoptmovwaitChoose = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(0x1c);
     DWCi_ANIMElInitEx(0);

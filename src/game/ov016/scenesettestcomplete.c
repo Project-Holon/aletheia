@@ -24,7 +24,7 @@
  *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   procInit  0x021CD61C  arm  ov016
- *   Count                            0x021DE5BC  data
+ *   sScenesettestcompleteCount                            0x021DE5BC  data
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm
  *   DWCi_COMMENTlDelete              0x021BD138  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
@@ -77,7 +77,7 @@ void DWCi_SceneSetTestCompletet_draw(void);
 void DWCi_SceneSetTestCompletet_endScene1(void);
 extern unsigned char gSceneSetTestCompleteWaitCount;
 /* sceneoptmovdisco .bss */
-extern unsigned char Count;
+extern unsigned char sScenesettestcompleteCount;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 

@@ -23,7 +23,7 @@
  *   MCSS_Exit 0x02014BA8 thumb
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
- *   defaultPos 0x021C08F0 data ov204
+ *   sIntroMcssDefaultPos 0x021C08F0 data ov204
  *   INTRO_G3D_OnAnimEnd 0x021BF7F0 thumb ov204
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_Init  0x02014B08  thumb  arm9
@@ -69,7 +69,7 @@ void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c,
 
 extern const char gIntroMcssSite[];
 
-extern const IntroVec defaultPos;
+extern const IntroVec sIntroMcssDefaultPos;
 
 void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
@@ -105,7 +105,7 @@ void INTRO_MCSS_Main(u8 *p)
 void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i)
 {
     IntroMcssWork *work = (IntroMcssWork *)p;
-    IntroVec pos = defaultPos;
+    IntroVec pos = sIntroMcssDefaultPos;
     enum { Zero } zero;
     work->slots[i].object = MCSS_Add(work->sys, a, b, c, d);
     MCSS_SetScale(work->slots[i].object, (u32 *)(&pos));

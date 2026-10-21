@@ -350,7 +350,7 @@ extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_ChangeScroll(u32 layer, u32 type, u32 value);
 #include "../arm9/app_icon.h"
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void BG_SYS_ClearSlot(u32 layer);
+extern void BG_SYS_ClearSlot(u8 layer);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void ARC_UTIL_UploadBgCharFromHandle(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);

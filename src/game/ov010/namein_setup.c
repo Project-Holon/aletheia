@@ -378,7 +378,7 @@ typedef int Bool;
 #include "../arm9/field_sound_system.h"
 struct FieldEncount;
 #include "../ov021/effect_encount.h"
-struct EncEff;
+struct EncEffWork;
 struct EncEffWork;
 #include "../ov021/enceff.h"
 extern int SCRCMD_MSGWIN_GetBalloonSide(struct Mmdl *playerMmdl, VecFx32 *targetPos);

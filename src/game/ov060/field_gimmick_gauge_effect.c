@@ -48,9 +48,6 @@
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "field_gimmick_gauge_effect_types.h"
 #include "../ov011/intrude_comm_types.h"
 
@@ -69,10 +66,6 @@ struct FldExpObjCnt;
 #include "../arm9/game_data.h"
 #include "field_gimmick_gauge_effect.h"
 #include "../arm9/game_comm.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 struct FldExpObjAnime;
 struct FldExpObjAnime;
 void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap);

@@ -211,14 +211,7 @@ struct MyStatus;
 #include "../arm9/net_err.h"
 #include "../arm9/net_state.h"
 struct BmpWin;
-#ifdef __MWERKS__
-#define BMP_WIN_Init BMP_WIN_Init_hdr
-#endif
 #include "../arm9/bmp_win.h"
-#ifdef __MWERKS__
-#undef BMP_WIN_Init
-void BMP_WIN_Init(unsigned);
-#endif
 #ifdef __MWERKS__
 #define BMP_MENUWORK_LoadFrameGfx BMP_MENUWORK_LoadFrameGfx_hdr
 #endif

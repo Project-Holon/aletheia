@@ -9,7 +9,7 @@ struct Bmp;
 
 #include "../types.h"
 
-void BMP_WIN_Init(u16 heapId);
+void BMP_WIN_Init(u32 heapId);
 void BMP_WIN_Exit(void);
 struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);

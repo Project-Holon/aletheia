@@ -40,7 +40,7 @@
  *   OS_Terminate                     0x02088234  arm
  *   dwc_mov_wh_str_14204             0x021DBED8  data
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
- *   wh_trace                         0x021DE660  data
+ *   sDwcMovWhWhTrace                         0x021DE660  data
  *   WM_SetIndCallback                0x0208EAC8  arm
  *   WM_GetDispersionBeaconPeriod     0x0208EF30  arm
  *   DWCi_MOV_WH_StateInSetParentParam 0x021D2A64  arm
@@ -64,7 +64,7 @@
 #include "../../matched/include/G_DWC_MOV_WH_BSS.h"
 
 /*
- * dwc_mov_wh.o's .bss (wh_trace, wh) at 0x021DE660, one object in the vendor order.
+ * dwc_mov_wh.o's .bss (sDwcMovWhWhTrace, wh) at 0x021DE660, one object in the vendor order.
  * The work area wh points at has no DWARF layout in the object; members are named by offset.
  */
 typedef struct WHWork {
@@ -798,7 +798,7 @@ static short SelectChannel(unsigned short bitmap)
     return 0;
 }
 
-static void *wh_trace = 0;
+static void *sDwcMovWhWhTrace = 0;
 
 static Wh *wh = 0;
 
@@ -868,8 +868,8 @@ static Wh *wh = 0;
  * 5-B coalesced form as the committed shape, and `r = call ? 1 : r;` (r == 0
  * false arm) flipped the constants to r4=0/r5=1 for 15 B.  No new lever.
  *
- * 2026-10-01 (ov SDK wave 2): wh_trace/wh are now the object's two .bss statics
- *   (wh_trace +0, wh +4) instead of one extern struct: inert, still 5 B. Also inert:
+ * 2026-10-01 (ov SDK wave 2): sDwcMovWhWhTrace/wh are now the object's two .bss statics
+ *   (sDwcMovWhWhTrace +0, wh +4) instead of one extern struct: inert, still 5 B. Also inert:
  *   the callee as a TU static with a body (IPA-visible); ternary and if-return
  *   tails re-measured with the statics (15 B).
  *

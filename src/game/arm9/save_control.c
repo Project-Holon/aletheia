@@ -607,7 +607,7 @@ void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
 }
 
 /* Like SAVE_CONTROL_LoadExtraSave, but the area works in the caller's buffer (initMode 1) and is loaded. */
-u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
+u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u16 heapId, void *work, u32 workSize)
 {
     saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId, work, workSize, 1);
     if (SYSTEM_DATA_IsMarked(saveControl, slot) == 0) {

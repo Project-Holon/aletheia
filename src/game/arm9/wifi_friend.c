@@ -64,11 +64,6 @@ extern int GFL_NET_GetGameKind(void); /* original prototype; the definition diff
 #include "dwc_account.h"
 
 
-#ifdef __MWERKS__
-extern u32 GFL_NET_GetWifiUserData(void);
-extern u32 GFL_NET_GetFriendList(void);
-extern u32 GFL_NET_GetFriendListNum(void);
-#endif
 struct WifiList;
 
 #include "wifilist.h"

@@ -59,9 +59,6 @@ extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *
 #include "nns_fnd_expheap.h"
 #endif
 #include "mi_memory.h"
-#ifdef __MWERKS__
-extern void NNSi_FndFinalizeHeap(void *heap);
-#endif
 NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapEnd, u32 optFlag);
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);

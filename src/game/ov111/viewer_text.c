@@ -211,14 +211,11 @@ void BG_SYS_InitBgLayer(u8, const struct BgTemplate *, int);
 #include "../arm9/arc_util.h"
 struct PrintQueue;
 #ifdef __MWERKS__
-#define PRINTSYS_Print PRINTSYS_Print_hdr
 #define PRINTSYS_PrintColor PRINTSYS_PrintColor_hdr
 #endif
 #include "../arm9/printsys.h"
 #ifdef __MWERKS__
-#undef PRINTSYS_Print
 #undef PRINTSYS_PrintColor
-void PRINTSYS_Print(struct Bmp *, short, short, struct Strbuf *, struct GfFont *);
 void PRINTSYS_PrintColor(struct Bmp *, short, short, struct Strbuf *, struct GfFont *, unsigned short);
 #endif
 struct GfFont;

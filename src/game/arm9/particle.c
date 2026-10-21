@@ -184,9 +184,6 @@ extern void NNS_GfdLoadVramManager(u32 *table);
 #include "g3d_system.h"
 
 
-#ifdef __MWERKS__
-extern void NNS_GfdSaveVramManager(u32 *table);
-#endif
 struct Arena02146B74;
 
 struct VramHeapHeader;
@@ -209,10 +206,6 @@ int PARTICLE_AllocVramOffset(int a, int b);
 
 u32 PARTICLE_AllocPlttVramTracked(u32 a, u32 b);
 
-#ifdef __MWERKS__
-extern void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);
-extern void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
-#endif
 struct RigObject;
 
 extern int  SPL_EMITTER_AllocPlttVramList(struct RigObject *o, ParticleLoadFn fn);
@@ -232,9 +225,6 @@ struct G3dCamera;
 
 struct VramHeapHead;
 
-#ifdef __MWERKS__
-extern void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, unsigned int a);
-#endif
 
 #include "nns_g3d_glb.h"
 
@@ -246,10 +236,6 @@ extern void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, unsigned int a);
 
 #ifdef __MWERKS__
 extern int SPL_EMITTER_FreeTexNode(struct ParticleEngine *engine); /* original prototype; the definition differs in pointer type, return type */
-extern int SPL_EMITTER_AllocResource(char *p, int b, int c);
-extern int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*callback)(void *));
-extern void SPL_EMITTER_FreeResourceList(void *p);
-extern void SPL_EMITTER_FreeResource(char *p, char *q);
 #endif
 
 #include "g3d_camera.h"

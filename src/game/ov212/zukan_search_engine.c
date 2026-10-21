@@ -23,7 +23,7 @@
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
- *   site 0x021C99A8 data ov212 a1
+ *   sZukanSearchEngineSite 0x021C99A8 data ov212 a1
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
@@ -83,7 +83,7 @@ void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *t
 
 u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *table, const u16 *nextLink, u32 species, u32 steps);
 
-extern const char site[];
+extern const char sZukanSearchEngineSite[];
 
 extern const char g_021C99A8[];
 
@@ -142,7 +142,7 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
     break;
   case 1:
     p->count = ZUKAN_SEARCH_ENGINE_LoadFormIds((sptr)p->arc, p->query->mode, p->query->rule, heap, &p->ids);
-    p->reject = GFL_HEAP_Alloc(heap, p->count, 1, site, 551);
+    p->reject = GFL_HEAP_Alloc(heap, p->count, 1, sZukanSearchEngineSite, 551);
     p->state = 2;
     break;
   case 2:
@@ -199,7 +199,7 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
       if (p->reject[j] == 0) count++;
     if (count) {
       used = 0;
-      result = GFL_HEAP_Alloc(heap, count * 2, 0, site, 742);
+      result = GFL_HEAP_Alloc(heap, count * 2, 0, sZukanSearchEngineSite, 742);
       for (j = 0; j < p->count; j++)
         if (p->reject[j] == 0) { result[used] = p->ids[j] & 1023; used++; }
     } else result = 0;
@@ -235,7 +235,7 @@ u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out)
     u16 n;
     if (mode == 0) {
         used = 0;
-        result = GFL_HEAP_Alloc(heap,1298,0,site,825);
+        result = GFL_HEAP_Alloc(heap,1298,0,sZukanSearchEngineSite,825);
         do {
             result[used] = used + 1;
             used = used + 1;
@@ -247,7 +247,7 @@ u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out)
     used = 0;
     ids = ARC_UTIL_LoadMemberWithSize(98,4,0,heap,&bytes);
     n = (u16)(bytes / 2);
-    result = GFL_HEAP_Alloc(heap,count * 2,0,site,862);
+    result = GFL_HEAP_Alloc(heap,count * 2,0,sZukanSearchEngineSite,862);
     for (i = 0; i < n; i++) {
         u16 id;
         id = ids[i];

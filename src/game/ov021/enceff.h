@@ -16,7 +16,7 @@ int ENCEFF_Delete(EncEffWork *eff);
 void ENCEFF_Start(EncEffWork *eff, struct GameEvent *parentEvent, int kind);
 struct GameEvent *ENCEFF_GetEffect(EncEffWork *eff);
 void ENCEFF_RunUpdate(EncEffWork *eff);
-void ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId);
+void *ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId);
 void ENCEFF_FreeWork(EncEffWork *eff);
 void *ENCEFF_GetWork(EncEffWork *eff);
 void ENCEFF_LoadOverlay(EncEffWork *eff, u32 overlayId);

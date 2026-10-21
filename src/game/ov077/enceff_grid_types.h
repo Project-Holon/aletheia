@@ -60,7 +60,8 @@ typedef struct EncEffGridParam {
     int (*cellCallback)(EncEffGridCell *cell);          /* 0x10 */
 } EncEffGridParam;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern EncEffGridWork *ENCEFF_GetWork(struct EncEffWork *eff);

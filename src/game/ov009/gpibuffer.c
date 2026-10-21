@@ -44,7 +44,6 @@
  *   g_021A4568     0x021A4568  data ov009
  *   g_021A458C     0x021A458C  data ov009
  *   g_021A45A0     0x021A45A0  data ov009
- *   sendCount      0x021ADFC8  data ov009
  *   _ZZ14gpiRecvToBufferPiiP9GPIBufferS_S_PcE9recvCount 0x021ADFCC data
  *   memmove  0x02092364  arm
  *   gsUdpEngineGetPeerOutBufferFreeSpace  0x021818ec  arm   ov009

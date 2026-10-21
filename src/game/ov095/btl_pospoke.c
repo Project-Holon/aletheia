@@ -36,13 +36,10 @@
 #ifdef __MWERKS__
 /* The original caller passes the rotate kind as a plain int; the header declares u8. */
 #define BTL_SLOT_GetRotateSrcIndex BTL_SLOT_GetRotateSrcIndexHeader
-#define BTL_SLOT_GetRotateDstIndex BTL_SLOT_GetRotateDstIndexHeader
 #endif
 #include "../ov093/btl_main.h"
 #ifdef __MWERKS__
 #undef BTL_SLOT_GetRotateSrcIndex
-#undef BTL_SLOT_GetRotateDstIndex
-extern int BTL_SLOT_GetRotateDstIndex(int);
 #endif
 #include "../ov093/btl_pokeparam.h"
 #include "btl_pospoke.h"

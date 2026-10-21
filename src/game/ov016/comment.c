@@ -19,7 +19,7 @@
  *   DWCi_CMNlFontFlag     0x021BD3CC  arm
  *   DWCi_FNTlDrawRect     0x021D5E5C  arm
  *   DWCi_FNTlRenewBg      0x021D5FC4  arm
- *   Flag                  0x021DE50C  data  a1
+ *   sCommentFlag                  0x021DE50C  data  a1
  *   sCommentPathJtNullScr            0x021DAC20  data  a1
  *   GXS_LoadBG0Scr        0x0207E944  arm
  *   gCommentWork            0x021DE598  data  a4
@@ -33,7 +33,7 @@ typedef int bool_0;
 void DWCi_COMMENTlInit(void);
 int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 int DWCi_COMMENTlDelete(void);
-extern unsigned char Flag;
+extern unsigned char sCommentFlag;
 extern char sCommentPathJtNullScr[];
 extern void *gCommentWork;
 
@@ -49,22 +49,22 @@ int DWCi_COMMENTlDispEx(int messageId, int n, int num)
     unsigned short *msg;
     void *canvas;
 
-    if (Flag != 0) return 0;
+    if (sCommentFlag != 0) return 0;
     DWCi_CMNlLoadResource(sCommentPathJtNullScr, GXS_LoadBG0Scr);
     *(volatile unsigned int *)0x04001010 = 0x01920000;
     canvas = DWCi_FNTlFormBgEx(1, 0);
     msg = DWCi_MSGlGetEx(gCommentWork, messageId, n, num);
     DWCi_FNTlDrawRect(canvas, 0x14, 0, 0xd8, 0x40, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlRenewBg((sptr)canvas);
-    Flag = 1;
+    sCommentFlag = 1;
     return 1;
 }
 
 
 int DWCi_COMMENTlDelete(void)
 {
-    if (Flag == 0) return 0;
+    if (sCommentFlag == 0) return 0;
     DWCi_FNTlDeleteBgLcd(1);
-    Flag = 0;
+    sCommentFlag = 0;
     return 1;
 }

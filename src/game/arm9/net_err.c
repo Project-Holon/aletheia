@@ -316,10 +316,6 @@ extern NetErrInfo *GFL_NET_STATE_GetError(void); /* original prototype; the defi
 
 
 
-#ifdef __MWERKS__
-extern u32 GFL_HEAP_Free(void *block);
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
-#endif
 
 
 

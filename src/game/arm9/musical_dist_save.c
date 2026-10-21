@@ -81,9 +81,6 @@ extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u3
 
 #include "mi_memory.h"
 
-#ifdef __MWERKS__
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
-#endif
 
 
 

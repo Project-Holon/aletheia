@@ -373,7 +373,7 @@ struct Strbuf;
 #include "../arm9/msgdata.h"
 struct MsgBank;
 #ifdef __MWERKS__
-extern u8 *ARC_UTIL_LoadMember(int arcId, int memberIdx, int decompress, int heapId); /* original prototype; the definition differs in return type, argument width */
+extern void *ARC_UTIL_LoadMember(int arcId, int memberIdx, int decompress, int heapId); /* original prototype; the definition differs in return type, argument width */
 #else
 #include "../arm9/arc_util.h"
 #endif

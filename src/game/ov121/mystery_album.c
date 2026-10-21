@@ -537,7 +537,7 @@ void MYSTERY_ALBUM_RequestSetup(MysteryAlbum *album,u32 mode);
 
 void MYSTERY_ALBUM_Delete(MysteryAlbum *album);
 
-extern void BG_SYS_ClearSlot(unsigned bgLayer);
+extern void BG_SYS_ClearSlot(u8 bgLayer);
 
 void MYSTERY_ALBUM_ResetIntro(MysteryAlbum *album);
 
@@ -614,7 +614,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
 
 
-extern int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
+extern int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
 
 
 

@@ -235,14 +235,7 @@ struct GfFont;
 #include "pms_input_view.h"
 
 
-#ifdef __MWERKS__
-#define PRINTSYS_Print PRINTSYS_Print_hdr
-#endif
 #include "../arm9/printsys.h"
-#ifdef __MWERKS__
-#undef PRINTSYS_Print
-void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-#endif
 
 
 

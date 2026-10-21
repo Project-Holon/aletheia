@@ -29,6 +29,7 @@ struct VecFx32;
 
 struct GameSystem;
 struct FieldMap;
+struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void ENCEFF_LoadOverlays4B4D(struct EncEffWork *eff);
 extern struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, const struct VecFx32 *cameraPos, void *build, void *draw);

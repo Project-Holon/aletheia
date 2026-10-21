@@ -147,7 +147,7 @@ void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, u32 profile_id)
     }
 }
 
-void MYSTATUS_SetSex(struct MyStatus *mystatus, u8 sex)
+void MYSTATUS_SetSex(struct MyStatus *mystatus, u32 sex)
 {
     mystatus->sex = sex;
 }

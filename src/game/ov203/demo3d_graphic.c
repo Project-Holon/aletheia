@@ -136,7 +136,7 @@ extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555
 
 extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(u16 heapId);
+extern void BMP_WIN_Init(u32 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 

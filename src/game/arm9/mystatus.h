@@ -24,7 +24,7 @@ u32 MYSTATUS_GetId(const struct MyStatus *mystatus);
 u16 MYSTATUS_GetIdLow16(const struct MyStatus *mystatus);
 u32 MYSTATUS_GetProfileId(const struct MyStatus *mystatus);
 void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, u32 profile_id);
-void MYSTATUS_SetSex(struct MyStatus *mystatus, u8 sex);
+void MYSTATUS_SetSex(struct MyStatus *mystatus, u32 sex);
 u32 MYSTATUS_GetSex(const struct MyStatus *mystatus);
 u8 MYSTATUS_GetTrainerView(const struct MyStatus *mystatus);
 void MYSTATUS_SetTrainerView(struct MyStatus *mystatus, u8 trainer_view);

@@ -56,10 +56,6 @@
 #include "vct_types.h"
 
 /* Memory, time and error helpers. */
-#ifdef __MWERKS__
-/* A second name for MIi_CpuClearFast (no source records it): see VCT_MIXER_MixVoices. */
-extern void MIi_CpuClearFastAlias(int value, void *dst, u32 size);
-#endif
 
 #include "../arm9/mi_memory.h"
 

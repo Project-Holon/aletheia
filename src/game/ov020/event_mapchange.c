@@ -451,7 +451,7 @@ struct GimmickWork;
 #include "../arm9/arc_tool.h"
 struct ArcHandle;
 #include "../arm9/gfl_use.h"
-struct EncEff;
+struct EncEffWork;
 struct EncEffWork;
 #include "../ov021/enceff.h"
 #include "../ov021/scrcmd_misc.h"

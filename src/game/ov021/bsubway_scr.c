@@ -386,7 +386,7 @@ struct FieldMenuFunc;
 #include "field_msgbg.h"
 struct HistoryEntry;
 extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
-extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
+extern struct Mmdl *FLDMMDL_AddMmdlParam(struct MmdlSys *o, s16 x, s16 y, u16 d, u16 a, u16 b, u16 c, u32 e);
 extern void FLDMMDL_SetParam(struct Mmdl *mmdl, s32 param, s32 no);
 extern void FLDMMDL_SetEventId(struct Mmdl *mmdl, u16 eventId);
 struct BtlInstTrainer;

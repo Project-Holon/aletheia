@@ -389,7 +389,7 @@ struct Bmp;
 #include "../arm9/printsys.h"
 struct WifiList;
 #include "../arm9/wordset.h"
-extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
+
 struct TcbTask;
 struct PrintQueue;
 struct GFont;

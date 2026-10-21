@@ -248,7 +248,7 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 #include "../arm9/gf_font.h"
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 #include "../arm9/wipe.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/net_err.h"
@@ -340,7 +340,7 @@ typedef struct MenuItemInit {
     u32 result;
 } MenuItemInit;
 
-extern void BMP_WIN_Init(u16 heapId);
+extern void BMP_WIN_Init(u32 heapId);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void BMP_WIN_Exit(void);

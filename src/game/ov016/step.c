@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   CELL_IDX                         0x021DA914  data
+ *   sStepCellIdx                         0x021DA914  data
  *   C_POS                            0x021DA932  data
  *   DC_FlushRange                    0x020862F0  arm
  *   DWCi_ARClReadEx                  0x021D4B68  arm
@@ -36,7 +36,7 @@
  *   DWCi_TSKlDelete                  0x021D7724  arm
  *   DWCi_TSKlForm                    0x021D7680  arm
  *   .bss                             0x021DE64C  data
- *   File                             0x021DE64C  data
+ *   sStepFile                             0x021DE64C  data
  *   FILE_NAME                        0x021DB950  data
  *   GXS_LoadBG1Scr                   0x0207EABC  arm
  *   MemStep                          0x021DE650  data
@@ -81,10 +81,10 @@ void DWCi_STEPlBegin(int step);
 void DWCi_STEPlEnd(void);
 void DWCi_STEPlChange(int step);
 /* step.o .bss at 0x021DE64C: File first, then MemStep (the initializers register them in this order) */
-static void *File = 0;
+static void *sStepFile = 0;
 static MEMSTEP *MemStep = 0;
 /* step.o .rodata (the dump prints DWARF dimensions reversed: rows are five bytes) */
-extern const unsigned char CELL_IDX[3][5];
+extern const unsigned char sStepCellIdx[3][5];
 extern const unsigned char PL_CELL[3][5];
 extern const COORD C_POS[5];
 /* step.o .data */
@@ -110,7 +110,7 @@ void DWCi_STEPlBegin(int step)
 
     MemStep = DWCi_HEAPlAllocEx(sizeof(MEMSTEP), 4);
     for (i = 0; i < 5; i++) {
-        MemStep->cell[i] = DWCi_CEINlSetExCell(1, CELL_IDX[step][i], 1);
+        MemStep->cell[i] = DWCi_CEINlSetExCell(1, sStepCellIdx[step][i], 1);
         DWCi_CELLlSetPriority(MemStep->cell[i], -1, 0);
         DWCi_CELLlSetPosition(MemStep->cell[i], -1, -42, C_POS[i].y);
         DWCi_CELLlSetPalette(MemStep->cell[i], -1, 0, PL_CELL[step][i]);
@@ -237,7 +237,7 @@ void DWCi_STEPlChange(int step)
     int i;
 
     for (i = 0; i < 5; i += 2) {
-        DWCi_CEINlSet(1, CELL_IDX[step][i], DWCi_CELLlGetObj(MemStep->cell[i], 0));
+        DWCi_CEINlSet(1, sStepCellIdx[step][i], DWCi_CELLlGetObj(MemStep->cell[i], 0));
         DWCi_CELLlSetPriority(MemStep->cell[i], -1, 0);
         DWCi_CELLlSetPosition(MemStep->cell[i], -1, C_POS[i].x, C_POS[i].y);
         DWCi_CELLlSetPalette(MemStep->cell[i], -1, 0, PL_CELL[step][i]);
@@ -369,15 +369,15 @@ void DWCi_STEPlChangeScr(int step)
 {
     char *n = (char *)DWCi_Char((unsigned char *)FILE_NAME[step]);
 
-    File = DWCi_ARClReadEx(n, 0, 4);
+    sStepFile = DWCi_ARClReadEx(n, 0, 4);
     DWCi_TSKlForm(1, (void (*)(void *, void *))taskChange, 0, 0x78);
 }
 
 
 static void taskChange(void *task)
 {
-    DC_FlushRange(File, 0x600);
-    GXS_LoadBG1Scr(File, 0, 0x600);
-    DWCi_ARClRelease(File);
+    DC_FlushRange(sStepFile, 0x600);
+    GXS_LoadBG1Scr(sStepFile, 0, 0x600);
+    DWCi_ARClRelease(sStepFile);
     DWCi_TSKlDelete(1, task);
 }

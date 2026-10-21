@@ -30,7 +30,7 @@
 
 struct GameSystem;
 struct GameEvent;
-struct EncEff;
+struct EncEffWork;
 #include "../types.h"
 
 /*
@@ -51,9 +51,10 @@ typedef struct EncEffNameCutInWork {
 typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state);
 
 #include "../arm9/game_event.h"
-extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+struct FieldMap;
+extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
-extern void *ENCEFF_AllocWork(struct EncEff *eff, u32 size, u32 heapId);
+extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 struct EncEffWork;
 extern void *ENCEFF_GetWork(struct EncEffWork *eff);
 #include "../ov021/fld3d_ci.h"

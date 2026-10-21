@@ -75,17 +75,10 @@ extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap)
 struct ArcHandle;
 
 #ifdef __MWERKS__
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32 *out);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_SeekHandle(struct ArcFile *arc, u32 offset); /* original prototype; the definition differs in pointer type, return type */
 #endif
 struct ArcHandleRaw;
 
-#ifdef __MWERKS__
-extern void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
-#endif
 
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 

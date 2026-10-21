@@ -165,7 +165,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(u16 heapId);
+extern void BMP_WIN_Init(u32 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 

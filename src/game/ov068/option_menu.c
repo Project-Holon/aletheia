@@ -244,7 +244,7 @@ extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 struct GFont;
 struct TaskMenuRes;
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 struct TcblSystem;
 extern struct TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
@@ -275,7 +275,7 @@ extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void BG_SYS_Create(u16 heapId);
-extern void BMP_WIN_Init(u16 heapId);
+extern void BMP_WIN_Init(u32 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *layout, u32 type);
 extern void BG_SYS_FreeSlot(u8 id);
@@ -354,7 +354,7 @@ extern void BG_SYS_PushTile(u32 index);
 struct TextPrinter;
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+extern void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, u32 x, s16 y, void *str, struct GfFont *font);
 extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, struct Strbuf *buffer,
                                          struct GfFont *font, u32 wait, struct Tcbl *taskList,
                                          u32 zero, u16 heapId, u16 fillColor);

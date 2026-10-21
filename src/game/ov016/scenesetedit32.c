@@ -74,7 +74,7 @@
  *   DWCi_WINlInitEx                  0x021D1208  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   GX_LoadOBJPltt                   0x0207E51C  arm
- *   MemSse                           0x021DE5E0  data
+ *   sScenesetedit32MemSse                           0x021DE5E0  data
  *   X_IPT                            0x021DA5B2  data
  *   Y_IPT                            0x021DA5AC  data
  *   initGraphics                     0x021C66A8  arm
@@ -153,10 +153,10 @@ extern bool DWCi_EFFlWait(int lcd);
 void DWCi_SceneSetEdit32(void);
 void DWCi_SceneSetEdit32_procScene(void);
 void DWCi_SceneSetEdit32_draw(void);
-/* scenesetedit32.o .bss at 0x021DE5E0, its only member the file static MemSse. The object
-   reaches a static through the section symbol, and takes &MemSse through the variable's own
-   symbol (a second pool word): endScene3 reads through the section and frees &MemSse. */
-extern MEMSSE *MemSse;
+/* scenesetedit32.o .bss at 0x021DE5E0, its only member the file static sScenesetedit32MemSse. The object
+   reaches a static through the section symbol, and takes &sScenesetedit32MemSse through the variable's own
+   symbol (a second pool word): endScene3 reads through the section and frees &sScenesetedit32MemSse. */
+extern MEMSSE *sScenesetedit32MemSse;
 extern SCENESETEDIT32_BSS scenesetedit32_bss;
 /* scenesetedit32.o .rodata */
 extern const unsigned char Y_IPT[2];
@@ -210,11 +210,11 @@ void DWCi_SceneSetEdit32(void)
     int sce;
     SSE_MSG2 MSG = scenesetedit32_init_20570;
 
-    MemSse = DWCi_HEAPlAllocEx(sizeof(MEMSSE), 4);
+    sScenesetedit32MemSse = DWCi_HEAPlAllocEx(sizeof(MEMSSE), 4);
     DWCi_GetParam2_((u32 *)&prm, (u32 *)&sce);
     if (prm == 0) {
-        DWCi_SETTINGlGetSsid(MemSse->ssid);
-        MemSse->pos = DWCi_STRlNLen(MemSse->ssid, 32);
+        DWCi_SETTINGlGetSsid(sScenesetedit32MemSse->ssid);
+        sScenesetedit32MemSse->pos = DWCi_STRlNLen(sScenesetedit32MemSse->ssid, 32);
     }
     initGraphics();
     DWCi_HLlLoad(prm + 9);
@@ -223,9 +223,9 @@ void DWCi_SceneSetEdit32(void)
     else
         DWCi_COMMENTlDispEx(MSG.v[prm], -1, 0);
     DWCi_CMNlStep(2);
-    MemSse->canv = DWCi_FNTlFormBgEx(0, 0);
-    MemSse->caret = DWCi_CEINlSetExObj(0, 0x3E);
-    G2_SetOBJPriority(MemSse->caret, 3);
+    sScenesetedit32MemSse->canv = DWCi_FNTlFormBgEx(0, 0);
+    sScenesetedit32MemSse->caret = DWCi_CEINlSetExObj(0, 0x3E);
+    G2_SetOBJPriority(sScenesetedit32MemSse->caret, 3);
     dispCaret();
     drawSsid();
     DWCi_ChangeScene((uptr)procInit);
@@ -298,39 +298,39 @@ static void input(void)
     case 0:
         break;
     case 0x80:
-        if (MemSse->pos > 0) {
+        if (sScenesetedit32MemSse->pos > 0) {
             DWCi_SNDlPlay(3);
-            MemSse->pos--;
-            MemSse->ssid[MemSse->pos] = 0;
-            if (MemSse->pos == 0)
+            sScenesetedit32MemSse->pos--;
+            sScenesetedit32MemSse->ssid[sScenesetedit32MemSse->pos] = 0;
+            if (sScenesetedit32MemSse->pos == 0)
                 DWCi_KBlSetErase(0);
             DWCi_KBlSetInput(1);
         }
         break;
     case 0x82:
         DWCi_SNDlPlay(7);
-        MemSse->choose = 0;
+        sScenesetedit32MemSse->choose = 0;
         DWCi_ChangeScene((uptr)endScene);
         return;
     case 0x83:
         if (isCorrect()) {
             DWCi_SNDlPlay(6);
-            MemSse->choose = 1;
+            sScenesetedit32MemSse->choose = 1;
         } else {
-            MemSse->choose = 2;
+            sScenesetedit32MemSse->choose = 2;
             DWCi_SNDlPlay(9);
         }
-        G2_SetOBJEffect(MemSse->caret, 0x200, 0);
+        G2_SetOBJEffect(sScenesetedit32MemSse->caret, 0x200, 0);
         DWCi_ChangeScene((uptr)endScene);
         return;
     case 0xFF:
     default:
-        if (MemSse->pos != 32) {
+        if (sScenesetedit32MemSse->pos != 32) {
             DWCi_SNDlPlay(1);
-            MemSse->ssid[MemSse->pos] = c;
-            MemSse->pos++;
+            sScenesetedit32MemSse->ssid[sScenesetedit32MemSse->pos] = c;
+            sScenesetedit32MemSse->pos++;
             DWCi_KBlSetErase(1);
-            if (MemSse->pos == 32)
+            if (sScenesetedit32MemSse->pos == 32)
                 DWCi_KBlSetInput(0);
         }
         break;
@@ -365,11 +365,11 @@ static void endScene2(void)
 
     if (DWCi_KBlIsInit())
         return;
-    if (MemSse->choose == 0) {
+    if (sScenesetedit32MemSse->choose == 0) {
         DWCi_ChangeScene((uptr)endScene3);
         return;
     }
-    if (MemSse->choose == 2) {
+    if (sScenesetedit32MemSse->choose == 2) {
         DWCi_WINlInitEx(6, 3, 1, -1, 0);
         DWCi_ChangeScene((uptr)procError);
         return;
@@ -404,7 +404,7 @@ static void endScene3(void)
         DWCi_SetParam2_(0, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetTestConfirm);
     }
-    DWCi_HEAPlFree_((void **)&MemSse);
+    DWCi_HEAPlFree_((void **)&sScenesetedit32MemSse);
 }
 
 static void drawSsid(void)
@@ -417,21 +417,21 @@ static void drawSsid(void)
     a.y = 32;
     a.w = 14;
     a.h = 16;
-    DWCi_FNTlClear(MemSse->canv, 0);
+    DWCi_FNTlClear(sScenesetedit32MemSse->canv, 0);
     buf[1] = 0;
     for (i = 0, x = 0; i < 32; i++, x++) {
         if (i == 16) {
             x = 0;
             a.y = 49;
         }
-        if (MemSse->ssid[i] == ' ')
+        if (sScenesetedit32MemSse->ssid[i] == ' ')
             buf[0] = 0xE01D;
         else
-            buf[0] = MemSse->ssid[i];
+            buf[0] = sScenesetedit32MemSse->ssid[i];
         a.x = X_IPT[x];
-        DWCi_FNTlDrawRect(MemSse->canv, a.x, a.y, a.w, a.h, 2, 0x480, buf);
+        DWCi_FNTlDrawRect(sScenesetedit32MemSse->canv, a.x, a.y, a.w, a.h, 2, 0x480, buf);
     }
-    DWCi_FNTlRenewBg((sptr)MemSse->canv);
+    DWCi_FNTlRenewBg((sptr)sScenesetedit32MemSse->canv);
 }
 
 static void dispCaret(void)
@@ -439,19 +439,19 @@ static void dispCaret(void)
     int y;
     int x;
 
-    x = MemSse->pos & 15;
-    y = MemSse->pos >> 4;
-    if (MemSse->pos >= 32) {
+    x = sScenesetedit32MemSse->pos & 15;
+    y = sScenesetedit32MemSse->pos >> 4;
+    if (sScenesetedit32MemSse->pos >= 32) {
         y = 1;
         x = 15;
     }
-    G2_SetOBJPosition(MemSse->caret, X_IPT[x], Y_IPT[y]);
+    G2_SetOBJPosition(sScenesetedit32MemSse->caret, X_IPT[x], Y_IPT[y]);
 }
 
 static void procWin(void)
 {
-    MemSse->choose = DWCi_WINlGet();
-    switch (MemSse->choose) {
+    sScenesetedit32MemSse->choose = DWCi_WINlGet();
+    switch (sScenesetedit32MemSse->choose) {
     case 0:
         DWCi_SNDlPlay(7);
         break;
@@ -472,13 +472,13 @@ static void procWin1(void)
 
     if (DWCi_WINlIsInit())
         return;
-    if (MemSse->choose == 0) {
-        G2_SetOBJEffect(MemSse->caret, 0, 0);
+    if (sScenesetedit32MemSse->choose == 0) {
+        G2_SetOBJEffect(sScenesetedit32MemSse->caret, 0, 0);
         DWCi_ChangeScene((uptr)procInit1);
         return;
     }
     DWCi_GetParam2_((u32 *)&prm, 0);
-    FUNC.v[prm](MemSse->ssid);
+    FUNC.v[prm](sScenesetedit32MemSse->ssid);
     DWCi_ChangeScene((uptr)endScene3);
 }
 
@@ -495,10 +495,10 @@ static bool isCorrect(void)
         DWCi_COMMENTlDispEx(0x35, -1, 0);
     DWCi_GetParam2_((u32 *)&prm, (u32 *)&sce);
     if (prm == 0)
-        return MemSse->ssid[0] != 0;
-    if (sce == 1 && MemSse->ssid[0] == 0)
+        return sScenesetedit32MemSse->ssid[0] != 0;
+    if (sce == 1 && sScenesetedit32MemSse->ssid[0] == 0)
         return 0;
-    len = DWCi_STRlNLen(MemSse->ssid, 32);
+    len = DWCi_STRlNLen(sScenesetedit32MemSse->ssid, 32);
     switch (len) {
     case 0:
     case 5:
@@ -509,7 +509,7 @@ static bool isCorrect(void)
     case 26:
     case 32:
         for (i = 0; i < len; i++) {
-            c = MemSse->ssid[i];
+            c = sScenesetedit32MemSse->ssid[i];
             if (c >= '0' && c <= '9')
                 continue;
             if (c >= 'A' && c <= 'F')
@@ -536,6 +536,6 @@ static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    G2_SetOBJEffect(MemSse->caret, 0, 0);
+    G2_SetOBJEffect(sScenesetedit32MemSse->caret, 0, 0);
     DWCi_ChangeScene((uptr)procInit1);
 }

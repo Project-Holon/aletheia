@@ -22,7 +22,6 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
- *   ov067_id 0x00000043 data
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
  *   PROCSYS_FreeProcWork 0x020315D4 arm
@@ -50,7 +49,7 @@
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   overlay_id 0x00000043 data a1
+ *   ov067_id 0x00000043 data a1
  *   PMS_WORD_GetSaveData 0x02024988 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   PROCSYS_Create 0x02031324 arm
@@ -193,7 +192,6 @@ struct Proc;
 #include "../arm9/procsys.h"
 #include "../arm9/key.h"
 extern char ov067_id[];
-extern const u8 overlay_id[];
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/gx.h"
 #include "../arm9/mi_memory.h"
@@ -336,7 +334,7 @@ void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *unit);
 int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelectGraphicArgs *args)
 {
     struct PmsSelectGraphic *p;
-    GF_OVERLAY_Load((uptr)overlay_id);
+    GF_OVERLAY_Load((uptr)ov067_id);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_A_ADDR, -16);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_B_ADDR, -16);
     GFL_HEAP_CreateChildHeap(1, PMS_SELECT_GRAPHIC_HEAP_ID, 0x1c000);

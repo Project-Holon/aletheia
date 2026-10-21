@@ -87,7 +87,7 @@ void ZONEDATA_InitLocation(struct Location *loc);
 void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
 void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, int exitId, u16 dir, u16 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid);
 void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset);
-void ZONEDATA_SetDirectLocation(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z);
+void ZONEDATA_SetDirectLocation(struct Location *loc, s32 zoneId, s16 dir, u32 x, u32 y, u32 z);
 void ZONEDATA_SetDirectRailLocation(struct Location *loc, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid);
 int ZONEDATA_GetLocationPosType(const struct Location *loc);
 void ZONEDATA_GetLocationVec(const struct Location *loc, VecFx32 *out);

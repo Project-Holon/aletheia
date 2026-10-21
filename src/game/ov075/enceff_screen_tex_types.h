@@ -7,7 +7,7 @@
 
 struct GameSystem;
 struct GameEvent;
-struct EncEff;
+struct EncEffWork;
 
 /*
  * Overlay 75 is the common part of the encounter effects that capture the

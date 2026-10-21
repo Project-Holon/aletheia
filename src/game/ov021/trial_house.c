@@ -203,7 +203,7 @@ struct PokemonParam;
 #include "../arm9/pokeparty.h"
 #include "../arm9/poke_tool.h"
 extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
-extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, u32 blockId, u16 heapId, void *buf, u32 size);
 extern TrialHouseDelivery *SAVE_CONTROL_GetExtraSaveRecord(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(SaveControl *saveControl, unsigned int blockId);
 extern int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery);

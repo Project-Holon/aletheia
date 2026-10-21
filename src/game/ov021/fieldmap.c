@@ -756,7 +756,7 @@ void FIELDMAP_Draw3dEncEff(FieldMap *fieldMap);
 int FIELDMAP_GetDrawMode(FieldMap *fieldMap);
 void FIELDMAP_SetDrawMode(FieldMap *fieldMap, int drawMode);
 struct Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
-struct EncEff *FIELDMAP_GetEncEff(FieldMap *fieldMap);
+struct EncEffWork *FIELDMAP_GetEncEff(FieldMap *fieldMap);
 struct FieldSkillMapEff *FIELDMAP_GetMapEff(FieldMap *fieldMap);
 struct FldSceneArea *FIELDMAP_GetSceneArea(FieldMap *fieldMap);
 void FIELDMAP_SetScriptEffectBusy(FieldMap *fieldMap, int busy);
@@ -1016,7 +1016,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         fieldMap->mapFunc = (struct FieldmapFunc *)FIELD_SUBPROC_MGR_Create(fieldMap, fieldMap->heapId, 0x20);
         fieldMap->particle = FLD_PARTICLE_Create(0x50);
         fieldMap->fld3dCi = FLD3D_CI_Create(0x50, fieldMap->particle);
-        fieldMap->encEff = (struct EncEff *)ENCEFF_Create(fieldMap->heapId, fieldMap);
+        fieldMap->encEff = (struct EncEffWork *)ENCEFF_Create(fieldMap->heapId, fieldMap);
         fieldMap->sodateya = (struct SodateyaWork *)SODATEYA_Create(fieldMap->heapId, fieldMap, DAYCARE_GetFromSave(GAME_DATA_GetSaveControl(fieldMap->gameData)));
         FIELDMAP_SetupSceneArea(fieldMap, fieldMap->zoneId);
         busy = 0;
@@ -2034,7 +2034,7 @@ struct Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap)
     return fieldMap->fld3dCi;
 }
 
-struct EncEff *FIELDMAP_GetEncEff(FieldMap *fieldMap)
+struct EncEffWork *FIELDMAP_GetEncEff(FieldMap *fieldMap)
 {
     return fieldMap->encEff;
 }

@@ -64,10 +64,6 @@
  *   sRotatingRoomPoseLines  0x021F4430  data  ov046  a4
  */
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS callers pass the anime index of FLD_EXP_OBJ_GetAnime and FLD_EXP_OBJ_SetAnimeEnabled as u16 */
-#ifdef __MWERKS__
-#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
-#endif
 #include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_rotating_room_types.h"
 
@@ -103,12 +99,6 @@ struct FieldNogridMapper;
 #include "../ov021/field_player.h"
 #include "../arm9/fx_mtx33.h"
 #include "../arm9/game_event.h"
-#ifdef __MWERKS__
-#undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
-FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
-#endif
 
 void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObjCnt *expObj, int modelIndex, VecFx32 *pos, u16 *angle, int animCount, int cullDraw);

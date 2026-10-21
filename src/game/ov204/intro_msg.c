@@ -250,7 +250,7 @@ extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
 #include "../arm9/mi_memory.h"
 
-extern BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
+extern void *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
 extern void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
 struct MenuTemplate;

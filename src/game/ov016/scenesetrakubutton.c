@@ -40,7 +40,7 @@
  *   DWCi_CMNlMsgDraw  0x021BD29C arm
  *   DWCi_ANIMElInitEx 0x021BC820 arm
  *   DWCi_ChangeScene  0x021C0E40 arm
- *   Choose            0x021DE5F8 data
+ *   sScenesetrakubuttonChoose            0x021DE5F8 data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
@@ -114,7 +114,7 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_SceneSetRakuButton(void);
 void DWCi_SceneSetListSave_button(void);
 static void procError(void);
-extern unsigned char Choose;
+extern unsigned char sScenesetrakubuttonChoose;
 extern unsigned char gSceneSetRakuButtonWork;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
@@ -142,7 +142,7 @@ static int DWCi_IsFold(void)
 
 void DWCi_SceneSetRakuButton(void)
 {
-    Choose = 0;
+    sScenesetrakubuttonChoose = 0;
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x25);
@@ -235,9 +235,9 @@ static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
-    if (Choose == 0)
+    if (sScenesetrakubuttonChoose == 0)
         DWCi_BTNlEnd();
-    if (Choose == 0)
+    if (sScenesetrakubuttonChoose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene((uptr)endScene2);
@@ -248,7 +248,7 @@ static void endScene2(void)
     if (DWCi_EFFlCheck(0)) {
         return;
     }
-    if (Choose == 0) {
+    if (sScenesetrakubuttonChoose == 0) {
         if (DWCi_EFFlCheck(1)) {
             return;
         }
@@ -258,12 +258,12 @@ static void endScene2(void)
     }
     DWCi_ANIMElEnd();
     DWCi_FNTlDeleteBgLcd(0);
-    if (Choose == 0) {
+    if (sScenesetrakubuttonChoose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (Choose == 0) {
+    if (sScenesetrakubuttonChoose == 0) {
         DWCi_RAKUlEnd();
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);

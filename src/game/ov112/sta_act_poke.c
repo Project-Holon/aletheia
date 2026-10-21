@@ -33,7 +33,7 @@
  *   MUSICAL_MCSS_SetRenderScale 0x021F535C thumb ov112
  *   MUSICAL_MCSS_SetRenderDrawOffset 0x021F5424 thumb ov112
  *   GFL_USE_GetRandom 0x020056EC thumb
- *   table 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
  *   MUSICAL_MCSS_ElemKeepsFlippedHeight 0x021F4B30 thumb ov112
  *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
@@ -268,7 +268,7 @@ void STA_ACT_LIGHT_SetActorVisible(int a,u8 *p,int b);
 
 extern char d_021F8464[];
 
-extern s16 table[];
+extern s16 FX_SinCosTable_[];
 
 extern void *d_021F832C[];
 
@@ -344,7 +344,7 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *elem)
     angle=((StaActPokeElem *)elem)->angle;
     delta.x=0;
     delta.y=b->y;
-    MTX_RotZ33_((MtxFx33 *)&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
+    MTX_RotZ33_((MtxFx33 *)&matrix,-FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
     MTX_MultVec33((const VecFx32 *)&delta, (const MtxFx33 *)&matrix, (VecFx32 *)((StaActLightVec3 *)(elem+60)));
     VEC_Subtract((const VecFx32 *)&delta, (const VecFx32 *)((const StaActLightVec3 *)((StaActLightVec3 *)(elem+60))), (VecFx32 *)((StaActLightVec3 *)(elem+60)));
     pos.x=(pos.x-a->x-((StaActPokeElem *)elem)->pivotShiftX)/16;
@@ -409,7 +409,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
                     ang2 = (u16)((0x10000 + t->angleB + *(s16 *)(EA + 2)) % 0x10000);
                     MUSICAL_MCSS_GetRenderFlags((u8 *)(*(u8 **)(q + 0x58)));
                     z = t->height;
-                    MTX_RotZ33_((MtxFx33 *)&mtx, -table[(ang0 >> 4) * 2], table[(ang0 >> 4) * 2 + 1]);
+                    MTX_RotZ33_((MtxFx33 *)&mtx, -FX_SinCosTable_[(ang0 >> 4) * 2], FX_SinCosTable_[(ang0 >> 4) * 2 + 1]);
                     MTX_MultVec33((const VecFx32 *)&t->offsetX, (const MtxFx33 *)&mtx, (VecFx32 *)&rotatedOffset);
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);
@@ -725,7 +725,7 @@ void STA_ACT_LIGHT_AnimD(u8 *p,u8 *elem)
     unsigned long offset;
     u16 time=t->count;
     int angle=(time<<9)%65536;
-    long s=table[(angle>>4)*2];
+    long s=FX_SinCosTable_[(angle>>4)*2];
     MUSICAL_MCSS_SetElemScale(*(u32 *)(p+0x10),*(u32 *)(elem+0x84+t->index*4),(uptr)&v);
     offset=205;
     v.x+=fxmul((time/3)*offset,s);
@@ -800,8 +800,8 @@ void STA_ACT_LIGHT_AnimH(char *image, char *elem) {
         return;
     }
     MUSICAL_MCSS_SetElemRotZ(((StaActBillboardImage *)image)->actorPool, (u8 *)(*(int *)(elem + 0x84 + t->index * 4)),
-                  table[(angle >> 4) * 2] / 8 + 1024,
-                  table[(angle >> 4) * 2 + 1] / 8 + 1024);
+                  FX_SinCosTable_[(angle >> 4) * 2] / 8 + 1024,
+                  FX_SinCosTable_[(angle >> 4) * 2 + 1] / 8 + 1024);
 }
 
 void STA_ACT_LIGHT_CopyActorPos(void *unused,u32 *p,u32 *q) { q[0]=p[6]; q[1]=p[7]; q[2]=p[8]; }

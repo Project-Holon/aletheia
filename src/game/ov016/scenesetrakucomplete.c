@@ -35,7 +35,7 @@
  *   DWCi_CMNlMsgDraw                 0x021bd29c arm
  *   DWCi_SNDlPlay                    0x021cffac arm
  *   DWCi_ChangeScene                 0x021c0e40 arm
- *   Count                            0x021de600 data
+ *   sScenesetrakucompleteCount                            0x021de600 data
  *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_EFFlFade                    0x021d55a4 arm
  *   DWCi_GXlVisible                  0x021d603c arm
@@ -83,7 +83,7 @@ typedef int bool_0;
 void DWCi_SceneSetRakuComplete(void);
 void DWCi_SceneSetRakuComplete_procScene(void);
 void DWCi_SceneSetRakuComplete_draw(void);
-extern unsigned char Count;
+extern unsigned char sScenesetrakucompleteCount;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 
@@ -96,7 +96,7 @@ static void wait(void);
 
 void DWCi_SceneSetRakuComplete(void)
 {
-    Count = 0;
+    sScenesetrakucompleteCount = 0;
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x26);
@@ -170,6 +170,6 @@ static void endScene1(void)
 
 static void wait(void)
 {
-    if (++Count >= 120)
+    if (++sScenesetrakucompleteCount >= 120)
         DWCi_ChangeScene((uptr)endScene);
 }

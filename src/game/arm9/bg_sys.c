@@ -358,7 +358,7 @@ void BG_SYS_FreeSlot(u8 idx);
 
 void BG_SYS_InitSlot(u8 idx);
 
-void BG_SYS_ClearSlot(u32 i);
+void BG_SYS_ClearSlot(u8 i);
 
 void BG_SYS_ClearLayer(int channel, u16 val);
 
@@ -1917,7 +1917,7 @@ void BG_SYS_InitSlot(u8 idx)
  *   python tools/match.py one --src src/matched/BG_SYS_ClearSlot.c \
  *       --func BG_SYS_ClearSlot --addr 0x020414EC --cc 1.1p1 --arm
  */
-void BG_SYS_ClearSlot(u32 i)
+void BG_SYS_ClearSlot(u8 i)
 {
     if (g_02146A44->bgs[i].buf == 0) {
         return;

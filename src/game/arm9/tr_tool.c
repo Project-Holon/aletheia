@@ -109,20 +109,13 @@ extern void  TR_TOOL_AdjustPersonality(u32 species, u32 form, int ability, u32 *
 extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 ability);
 #ifdef __MWERKS__
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
-extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 #endif
 struct Personal;
 struct PersonalData;
 #include "poke_personal.h"
-#ifdef __MWERKS__
-extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-#endif
 struct BoxPokemon;
 #ifdef __MWERKS__
-extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField); /* original prototype; the definition differs in argument width */
-extern void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
 #endif
 
 struct MsgBank;

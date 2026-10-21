@@ -165,7 +165,7 @@
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   rects 0x021BB568 data a4
+ *   sBtlRecSelRects 0x021BB568 data a4
  */
 
 #define REG3D (*(volatile u16 *)REG_DISP3DCNT_ADDR)
@@ -316,7 +316,7 @@ struct MyItem;
 extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void(*)(void*),void*,u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 struct TcbTask;
@@ -386,7 +386,7 @@ extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
+extern void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, unsigned int x, short y, void *str, struct GfFont *font);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
@@ -503,7 +503,7 @@ extern const Table d_021BB480;
 extern const BtlRecSelPair d_021BB4C4[];
 extern const u32 d_021BB498[][11];
 extern u32 d_021BB640[][3];
-extern const struct Rect rects[];
+extern const struct Rect sBtlRecSelRects[];
 
 int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
 {
@@ -1440,6 +1440,6 @@ void BTL_REC_SEL_InitG3dDisplay(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,32767,63,0);
     *(volatile u32 *)0x04000580=0xBFFF0000;
-    for(light=0;light<4;light++) G3D_SYSTEM_SetLight((u8)light,(struct G3dLight *)(&rects[light]));
+    for(light=0;light<4;light++) G3D_SYSTEM_SetLight((u8)light,(struct G3dLight *)(&sBtlRecSelRects[light]));
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

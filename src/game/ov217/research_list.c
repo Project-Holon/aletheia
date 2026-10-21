@@ -413,7 +413,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 
 extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
@@ -423,13 +423,13 @@ extern void RingQueue_Destroy(struct RingQueue *queue);
 
 extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
-extern void BMP_WIN_Init(u16);
+extern void BMP_WIN_Init(u32);
 
 extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BG_SYS_ClearSlot(u32);
+extern void BG_SYS_ClearSlot(u8);
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
 struct BgTextLabelConfig;

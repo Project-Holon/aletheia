@@ -67,8 +67,8 @@
  *   DWCi_BTNlSet                     0x021bcb28 arm
  *   DWCi_IPTlCheckTrigger            0x021d6824 arm
  *   DWCi_IPTlCheckRepeat             0x021d6864 arm
- *   R_TOUCH                          0x021da744 data
- *   FocusPos                         0x021de60c data
+ *   sScenesetselectapRTouch                          0x021da744 data
+ *   sScenesetselectapFocusPos                         0x021de60c data
  *   DWCi_Entry                       0x021C0ED8  arm
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
@@ -100,7 +100,7 @@
  *   sSceneSetSelectApFocusPos  0x021DE610  data
  *   DWCi_FOCUSlDisp4                 0x021bd4c8 arm
  *   DWCi_FOCUSlDisp                  0x021bd41c arm
- *   R_FOCUS                          0x021da77c data
+ *   sScenesetselectapRFocus                          0x021da77c data
  *   dispFocus  0x021CC46C  arm  ov016
  *   DWCi_CELLlGetObj                 0x021d4fe0 arm
  *   DWCi_CEINlSet                    0x021d52d4 arm
@@ -199,10 +199,10 @@ extern unsigned char sSceneSetSelectApPathJb2ApScr[];
 extern const COORD C_CELL[6];
 extern unsigned char sSceneSetSelectApCellTypes[4];
 /* scenesetselectap.o .rodata at 0x021DA744 */
-extern const Rect R_TOUCH[7];
+extern const Rect sScenesetselectapRTouch[7];
 extern const s8 sSceneSetSelectApMessageByLanguage[7];
 /* scenesetselectap.o .rodata at 0x021DA77C */
-extern const Rect R_FOCUS[7];
+extern const Rect sScenesetselectapRFocus[7];
 extern const PLT4 sSceneSetSelectApBgPalette;
 extern const PLT4 sSceneSetSelectApObjPalette;
 
@@ -352,7 +352,7 @@ static void input(void)
     int i;
 
     for (i = 0; (unsigned int)i < 7; i++) {
-        if (DWCi_TPlCheckTrigger((unsigned short *)&R_TOUCH[i])) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)&sScenesetselectapRTouch[i])) {
             DWCi_BTNlSet(1);
             scenesetselectap_bss.FocusPos = i;
             dispFocus();
@@ -510,9 +510,9 @@ static void endScene2(void)
 static void dispFocus(void)
 {
     if (scenesetselectap_bss.FocusPos < 4) {
-        DWCi_FOCUSlDisp4(R_FOCUS[scenesetselectap_bss.FocusPos].left, R_FOCUS[scenesetselectap_bss.FocusPos].right, R_FOCUS[scenesetselectap_bss.FocusPos].top, R_FOCUS[scenesetselectap_bss.FocusPos].bottom);
+        DWCi_FOCUSlDisp4(sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].left, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].right, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].top, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].bottom);
     } else {
-        DWCi_FOCUSlDisp(0, R_FOCUS[scenesetselectap_bss.FocusPos].left, R_FOCUS[scenesetselectap_bss.FocusPos].right, R_FOCUS[scenesetselectap_bss.FocusPos].top);
+        DWCi_FOCUSlDisp(0, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].left, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].right, sScenesetselectapRFocus[scenesetselectap_bss.FocusPos].top);
     }
 }
 

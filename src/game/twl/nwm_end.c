@@ -29,9 +29,6 @@ extern u32 NWMi_CheckState(u32, ...);
 #endif
 typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
-#ifdef __MWERKS__
-extern void NWMi_ClearFifoRecvFlag(void);
-#endif
 #include "../arm9/pxi_fifo.h"
 extern u32 DAT_027341a4[];
 extern u8 DAT_027341a0[];

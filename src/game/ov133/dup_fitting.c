@@ -503,7 +503,7 @@ struct G3dCamera;
 #include "../arm9/g3x.h"
 
 extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
+extern void BMP_WIN_Init(u32);
 
 
 

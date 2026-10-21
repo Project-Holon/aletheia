@@ -230,9 +230,6 @@ extern void CLACT_TransferCharacter(s32 charIndex, struct NNSG2dCharacterData *d
 
 
 
-#ifdef __MWERKS__
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-#endif
 
 
 
@@ -242,9 +239,6 @@ struct ArcHandle;
 
 struct PaletteData;
 
-#ifdef __MWERKS__
-extern void  CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
-#endif
 
 #include "nns_g2d_anim_bank.h"
 
@@ -278,7 +272,7 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u3
 
 void *POKEGRA_OpenHandle(u32 heapId);
 
-int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
+int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
 
 u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
 
@@ -721,7 +715,7 @@ void *POKEGRA_OpenHandle(u32 heapId)
     return ARC_TOOL_CreateHandle(POKEGRA_GetArcID(), heapId);
 }
 
-int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType,
+int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType,
                    unsigned short palOffset, unsigned short heapId)
 {
     int arcId = POKEGRA_GetArcID();

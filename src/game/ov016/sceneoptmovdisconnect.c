@@ -14,7 +14,7 @@
  *
  * symbols:
  *   DWCi_CMNlMsgDraw               0x021BD29C  arm  ov016
- *   Count                            0x021DE5BC  data
+ *   sSceneoptmovdisconnectCount                            0x021DE5BC  data
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm
  *   DWCi_COMMENTlDelete              0x021BD138  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
@@ -51,7 +51,7 @@ void DWCi_SceneOptMovDisconnect(void);
 void DWCi_SceneOptMovDisconnect_procScene(void);
 void DWCi_SceneOptMovDisconnect_draw(void);
 /* sceneoptmovdisco .bss */
-extern unsigned char Count;
+extern unsigned char sSceneoptmovdisconnectCount;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 
@@ -155,6 +155,6 @@ static void endScene1(void)
 
 static void wait(void)
 {
-    if (++Count >= 120)
+    if (++sSceneoptmovdisconnectCount >= 120)
         DWCi_ChangeScene((uptr)endScene);
 }

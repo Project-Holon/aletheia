@@ -239,7 +239,7 @@ extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
 
 
-extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
+
 
 
 #include "../arm9/mi_memory.h"

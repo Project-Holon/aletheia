@@ -19,7 +19,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   CPSi_md5_block 0x02162FF0  arm
  *   char_from_long  0x02162FC0  arm
- *   padding         0x021A1DE8  data
+ *   sMd5Padding         0x021A1DE8  data
  */
 #include "cps_ssl_types.h"
 
@@ -41,7 +41,7 @@ void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
 void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest);
 extern unsigned long gMd5TTable[64];
 extern unsigned char gMd5Permutation[64];
-extern unsigned char padding[64];
+extern unsigned char sMd5Padding[64];
 
 
 
@@ -159,7 +159,7 @@ void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest)
 
     char_from_long(digest, (unsigned long *)((char *)ctx + 0x10), 8);
     index = (ctx->count[0] >> 3) & 0x3f;
-    CPSi_md5_calc(ctx, padding, index < 0x38 ? 0x38 - index : 0x78 - index);
+    CPSi_md5_calc(ctx, sMd5Padding, index < 0x38 ? 0x38 - index : 0x78 - index);
     CPSi_md5_calc(ctx, digest, 8);
     char_from_long(digest, (unsigned long *)ctx, 0x10);
 }

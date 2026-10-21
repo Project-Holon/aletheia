@@ -63,14 +63,11 @@
 #include "weather_snow_blizzard_downpour_diamond_dust_types.h"
 /* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes slope and heapId as full ints */
 #ifdef __MWERKS__
-#define WEATHER_TASK_ChangeFog WEATHER_TASK_ChangeFog_header
 #define WEATHER_TASK_PrewarmParticles WEATHER_TASK_PrewarmParticles_header
 #endif
 #include "../ov021/weather_task.h"
 #ifdef __MWERKS__
-#undef WEATHER_TASK_ChangeFog
 #undef WEATHER_TASK_PrewarmParticles
-void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
 void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
 #endif
 #include "../arm9/clact.h"

@@ -35,7 +35,7 @@
  *   NVRAMi_SyncCallback            0x02084260  arm
  *   OSi_ThreadInfo                 0x02150FEC  data
  *   nvramBss                 0x02150EA0  data
- *   nvramTemp                  0x02150EC0  data
+ *   sNvramNvramTemp                  0x02150EC0  data
  *   OS_GetTick                 0x020870D0  arm
  *   OS_SetAlarm                0x0208738C  arm
  *   DC_InvalidateRange         0x020862B8  arm
@@ -75,9 +75,9 @@ typedef struct NVRAMWork {
     OSThreadQueue queue;
 } NVRAMWork;
 
-/* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, nvramTemp (32-byte
-   aligned) at +0x20.  A direct read or write of nvramTemp goes through this
-   section base; taking its address uses the nvramTemp symbol. */
+/* nvram.o .bss from 0x02150EA0: nvramInitialized at +0, sNvramNvramTemp (32-byte
+   aligned) at +0x20.  A direct read or write of sNvramNvramTemp goes through this
+   section base; taking its address uses the sNvramNvramTemp symbol. */
 typedef struct NvramBss {
     u32 nvramInitialized;
     u8 pad04[0x1C];
@@ -118,7 +118,7 @@ BOOL NVRAMi_SoftwareReset(void);
 extern NVRAMWork nvramw;
 extern OSThreadInfo OSi_ThreadInfo;
 extern NvramBss nvramBss;
-extern u8 nvramTemp[32];
+extern u8 sNvramNvramTemp[32];
 
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
@@ -418,14 +418,14 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
         break;
 
     case 5:
-        DC_InvalidateRange(nvramTemp, 32);
-        if (NVRAMi_ReadStatusRegister(nvramTemp) == 1) {
+        DC_InvalidateRange(sNvramNvramTemp, 32);
+        if (NVRAMi_ReadStatusRegister(sNvramNvramTemp) == 1) {
             nvramw.seq = 2;
             return;
         }
         nvramw.seq = 2;
         nvramBss.nvramTemp[0] = 1;
-        DC_StoreRange(nvramTemp, 32);
+        DC_StoreRange(sNvramNvramTemp, 32);
         OS_SetAlarm(&nvramw.alarm, NVRAM_RETRY_SPAN, NVRAMi_AlarmHandler, 0);
         return;
     }
@@ -504,9 +504,9 @@ NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback
     nvramw.arg[2] = (uptr)pData;
     nvramw.seq = 0;
 
-    DC_InvalidateRange(nvramTemp, 32);
+    DC_InvalidateRange(sNvramNvramTemp, 32);
     e = OS_DisableInterrupts();
-    if (NVRAMi_ReadDataBytes(address, (size > 32) ? 32 : size, nvramTemp) == 1) {
+    if (NVRAMi_ReadDataBytes(address, (size > 32) ? 32 : size, sNvramNvramTemp) == 1) {
         (void)OS_RestoreInterrupts(e);
         return NVRAM_RESULT_SUCCESS;
     }
@@ -528,7 +528,7 @@ void NVRAMi_VerifyCallback(u32 data, BOOL err)
     tempSize = (u16)((remain > NVRAM_TEMP_SIZE) ? NVRAM_TEMP_SIZE : remain);
 
     if (!err && pxiResult == 0) {
-        if (!NVRAMi_VerifyDataArray(nvramTemp, (u8 *)nvramw.arg[2], tempSize)) {
+        if (!NVRAMi_VerifyDataArray(sNvramNvramTemp, (u8 *)nvramw.arg[2], tempSize)) {
             result = NVRAM_RESULT_FATAL_ERROR;
         } else {
             nvramw.arg[0] += tempSize;
@@ -536,11 +536,11 @@ void NVRAMi_VerifyCallback(u32 data, BOOL err)
             nvramw.arg[1] = remain;
             nvramw.arg[2] += tempSize;
             if (remain != 0) {
-                DC_InvalidateRange(nvramTemp, NVRAM_TEMP_SIZE);
+                DC_InvalidateRange(sNvramNvramTemp, NVRAM_TEMP_SIZE);
                 remain = nvramw.arg[1];
                 if (NVRAMi_ReadDataBytes(nvramw.arg[0],
                                          (remain > NVRAM_TEMP_SIZE) ? NVRAM_TEMP_SIZE : remain,
-                                         nvramTemp) == 1) {
+                                         sNvramNvramTemp) == 1) {
                     return;
                 }
                 result = NVRAM_RESULT_SEND_ERROR;
@@ -559,8 +559,8 @@ void NVRAMi_VerifyCallback(u32 data, BOOL err)
             result = NVRAM_RESULT_INVALID_COMMAND;
             break;
         case 4:
-            DC_InvalidateRange(nvramTemp, NVRAM_TEMP_SIZE);
-            if (NVRAMi_ReadDataBytes(nvramw.arg[0], tempSize, nvramTemp) == 1) {
+            DC_InvalidateRange(sNvramNvramTemp, NVRAM_TEMP_SIZE);
+            if (NVRAMi_ReadDataBytes(nvramw.arg[0], tempSize, sNvramNvramTemp) == 1) {
                 return;
             }
             result = NVRAM_RESULT_SEND_ERROR;

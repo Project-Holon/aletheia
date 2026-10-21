@@ -28,7 +28,7 @@
  *   OS_GetMacAddress               0x02087C6C  arm  arm9
  *   GetMacEncKey                   0x021BA2F8  thumb  ov016
  *   atermset_bss           0x021DCFD0  data
- *   apci_user_callback     0x021DD050  data
+ *   sAtermsetApciUserCallback     0x021DD050  data
  *   WCM_SearchAsync        0x02165144  arm
  *   WCM_ConnectAsync       0x021652A4  arm
  *   WCM_CleanupAsync       0x02165088  arm
@@ -65,8 +65,8 @@
  *   memcmp                 0x020923F0  arm
  *   sAtermsetTable1             0x021DABC4  data
  *   strcpy                 0x02094798  arm
- *   btAutoResult           0x021DCFD0  data
- *   lpElementData          0x021DAB58  data
+ *   sAtermsetBtAutoResult           0x021DCFD0  data
+ *   sAtermsetLpElementData          0x021DAB58  data
  *   gAPSSID                0x021DD4E0  data
  *   gAPMac                 0x021DD480  data
  *   SOC_SendTo             0x0215F5B4  arm
@@ -126,8 +126,8 @@
 extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define APCI_CALLBACK(event)                                  \
-    if (apci_user_callback != 0)                      \
-        apci_user_callback((event), 0)
+    if (sAtermsetApciUserCallback != 0)                      \
+        sAtermsetApciUserCallback((event), 0)
 #define APC_WORK_SIZE(n) ((n) * 0xd0 + 0x2490)
 #define ROUNDUP32(x) (((x) + 31LL) & ~31LL)
 #define WMBSSDESC_SIZE 0xC0
@@ -188,16 +188,16 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 #include "../types.h"
 
 /*
- * atermset.o's .bss scalars from 0x021DCFD0 (btAutoResult): the vendor object addresses
- * every word here through btAutoResult's pool word plus an offset, so they are declared as
+ * atermset.o's .bss scalars from 0x021DCFD0 (sAtermsetBtAutoResult): the vendor object addresses
+ * every word here through sAtermsetBtAutoResult's pool word plus an offset, so they are declared as
  * one object in the object's own order; member names are the vendor symbols. The arrays
  * and aggregates of the same section (event_buf, AllocLock, gAtermThread,
  * gAtermApConfigParam, AutoProfile) are pooled by their own symbols and declared apart.
  */
 typedef struct ATERMSET_BSS ATERMSET_BSS;
 /*
- * atermset.o's .data words from 0x021DAB58 (lpElementData), addressed through
- * lpElementData's pool word plus an offset; member names are the vendor symbols.
+ * atermset.o's .data words from 0x021DAB58 (sAtermsetLpElementData), addressed through
+ * sAtermsetLpElementData's pool word plus an offset; member names are the vendor symbols.
  */
 typedef struct ATERMSET_DATA ATERMSET_DATA;
 
@@ -306,8 +306,8 @@ int ATERMi_ApConfigGetState(ATERMApConfigState *state);
 int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
 
 extern ATERMSET_BSS atermset_bss;
-extern unsigned char btAutoResult;
-extern void (*apci_user_callback)(int event, void *arg);
+extern unsigned char sAtermsetBtAutoResult;
+extern void (*sAtermsetApciUserCallback)(int event, void *arg);
 extern unsigned char apci_bssid_buf[6];
 extern unsigned char apci_essid_buf[32];
 extern unsigned char WCM_Bssid_Any[];
@@ -711,7 +711,7 @@ static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int wo
     atermset_bss.apci_IWConfig->nbdbuffer = ((uptr)workbuffer + work_size) - (uptr)atermset_bss.apci_IWConfig->pbdbuffer;
     atermset_bss.apci_IWConfig->nbdmode = 0;
     atermset_bss.apci_IWConfig->dmano = 3;
-    apci_user_callback = user_callback;
+    sAtermsetApciUserCallback = user_callback;
     if (atermset_bss.apci_state == 0) {
         if (WCM_Init(atermset_bss.apci_IWBuffer, 0x2300) != 0) {
             OS_RestoreInterrupts(enabled);
@@ -1787,7 +1787,7 @@ static int AutoConfigThreadEx(void)
             atermset_bss.AutoPhase = 7;
             break;
         case 9:
-            atermset_bss.cbElementData = SetSingleElement(ElementData, 769, &btAutoResult, 1);
+            atermset_bss.cbElementData = SetSingleElement(ElementData, 769, &sAtermsetBtAutoResult, 1);
             atermset_bss.cbFrameData = SetFrameData(gAtermsetBlock10, 6, ElementData, atermset_bss.cbElementData, gAtermsetBlock8);
             state = APC_GetState();
             if (state != 7) {

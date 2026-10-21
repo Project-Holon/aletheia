@@ -16,7 +16,7 @@
  * closed it: one while(1) loop with the DWARF locals in reverse DWARF order
  * (the -2..-5 and 40000>>1 stack slots are the compiler's hoisted loop
  * constants, not locals); every error exit written out in full and left to
- * the compiler's cross-jumping; switch on DWChttp->error per request (case 2
+ * the compiler's cross-jumping; switch on sDwcNetcheckDWChttp->error per request (case 2
  * falls into default; in the blacklist request the case 8 arm comes after
  * default); switch on the conntest HTTP code (200, 302, default); the two
  * Add_PostBase64Item calls joined by ||; strlen taken from the house
@@ -50,7 +50,7 @@
  *   DWC_Http_GetBase64DecodedResult  0x0217a77c arm
  *   DWC_Http_Add_Body                0x0217a044 arm
  *   OS_Sleep                         0x02085a38 arm
- *   DWChttp                          0x021ace5c data
+ *   sDwcNetcheckDWChttp                          0x021ace5c data
  *   _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0 0x021a26d4 data
  *   DWCnetcheckhttpparam             0x021ace8c data
  *   OSi_ThreadInfo                   0x02150fec data
@@ -103,7 +103,7 @@ typedef struct {
 } DWCNetcheck;
 
 typedef struct {
-    DWCHttp *http;              /* +0x00 DWChttp */
+    DWCHttp *http;              /* +0x00 sDwcNetcheckDWChttp */
     DWCNetcheck *nc;            /* +0x04 DWCnetcheck */
     int reserved08;
     unsigned long conntestip;   /* +0x0c */
@@ -118,7 +118,7 @@ typedef struct {
     char *url;
 } NetcheckData;
 
-extern NetcheckBss DWChttp;
+extern NetcheckBss sDwcNetcheckDWChttp;
 extern NetcheckData _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0;
 extern DWCHttpParam DWCnetcheckhttpparam;
 extern DWCAuthParam DWCnetcheckauthparam;
@@ -158,25 +158,25 @@ int DWC_Netcheck_Create(DWCNetcheckParam *param)
 {
     DWCAuthAlloc alloc = param->alloc;
 
-    if (DWChttp.nc != 0) {
+    if (sDwcNetcheckDWChttp.nc != 0) {
         return 4;
     }
-    DWChttp.nc = alloc(0, sizeof(DWCNetcheck));
-    if (DWChttp.nc == 0) {
+    sDwcNetcheckDWChttp.nc = alloc(0, sizeof(DWCNetcheck));
+    if (sDwcNetcheckDWChttp.nc == 0) {
         return 4;
     }
-    MI_CpuFill8(DWChttp.nc, 0, sizeof(DWCNetcheck));
-    DWChttp.nc->returncode = -99999;
-    DWChttp.nc->param = *param;
-    if (DWChttp.http != 0) {
+    MI_CpuFill8(sDwcNetcheckDWChttp.nc, 0, sizeof(DWCNetcheck));
+    sDwcNetcheckDWChttp.nc->returncode = -99999;
+    sDwcNetcheckDWChttp.nc->param = *param;
+    if (sDwcNetcheckDWChttp.http != 0) {
         return 4;
     }
-    DWChttp.http = alloc(0, sizeof(DWCHttp));
-    if (DWChttp.http == 0) {
+    sDwcNetcheckDWChttp.http = alloc(0, sizeof(DWCHttp));
+    if (sDwcNetcheckDWChttp.http == 0) {
         return 4;
     }
-    DWChttp.ishotspot = 0;
-    OS_InitMutex((struct OSMutex *)DWChttp.nc->mutex);
+    sDwcNetcheckDWChttp.ishotspot = 0;
+    OS_InitMutex((struct OSMutex *)sDwcNetcheckDWChttp.nc->mutex);
     DWCi_Netcheck_StartThread();
     return 0;
 }
@@ -186,27 +186,27 @@ int DWC_Netcheck_Create(DWCNetcheckParam *param)
  */
 void DWC_Netcheck_Destroy(void)
 {
-    DWCAuthFree free = DWChttp.nc->param.free;
+    DWCAuthFree free = sDwcNetcheckDWChttp.nc->param.free;
 
-    if (DWChttp.http != 0) {
-        DWC_Http_Destroy((char *)DWChttp.http);
-        free(0, DWChttp.http, 0);
-        DWChttp.http = 0;
+    if (sDwcNetcheckDWChttp.http != 0) {
+        DWC_Http_Destroy((char *)sDwcNetcheckDWChttp.http);
+        free(0, sDwcNetcheckDWChttp.http, 0);
+        sDwcNetcheckDWChttp.http = 0;
     }
     DWC_Auth_Destroy();
-    if (DWChttp.nc == 0) {
+    if (sDwcNetcheckDWChttp.nc == 0) {
         return;
     }
-    if (DWChttp.nc->url != 0) {
-        free(0, DWChttp.nc->url, 0);
-        DWChttp.nc->url = 0;
+    if (sDwcNetcheckDWChttp.nc->url != 0) {
+        free(0, sDwcNetcheckDWChttp.nc->url, 0);
+        sDwcNetcheckDWChttp.nc->url = 0;
     }
-    if (DWChttp.nc->blurl != 0) {
-        free(0, DWChttp.nc->blurl, 0);
-        DWChttp.nc->blurl = 0;
+    if (sDwcNetcheckDWChttp.nc->blurl != 0) {
+        free(0, sDwcNetcheckDWChttp.nc->blurl, 0);
+        sDwcNetcheckDWChttp.nc->blurl = 0;
     }
-    free(0, DWChttp.nc, 0);
-    DWChttp.nc = 0;
+    free(0, sDwcNetcheckDWChttp.nc, 0);
+    sDwcNetcheckDWChttp.nc = 0;
 }
 
 /*
@@ -214,18 +214,18 @@ void DWC_Netcheck_Destroy(void)
  */
 void DWC_Netcheck_Abort(void)
 {
-    if (DWChttp.nc == 0) {
+    if (sDwcNetcheckDWChttp.nc == 0) {
         return;
     }
-    if (DWChttp.http != 0) {
-        DWC_Http_Abort((char *)DWChttp.http);
+    if (sDwcNetcheckDWChttp.http != 0) {
+        DWC_Http_Abort((char *)sDwcNetcheckDWChttp.http);
     }
     DWC_Auth_Abort();
-    if (DWChttp.nc->thread.id != 0 &&
-        !OS_IsThreadTerminated(&DWChttp.nc->thread)) {
-        OS_JoinThread(&DWChttp.nc->thread);
+    if (sDwcNetcheckDWChttp.nc->thread.id != 0 &&
+        !OS_IsThreadTerminated(&sDwcNetcheckDWChttp.nc->thread)) {
+        OS_JoinThread(&sDwcNetcheckDWChttp.nc->thread);
     }
-    DWChttp.nc->returncode = -7;
+    sDwcNetcheckDWChttp.nc->returncode = -7;
 }
 
 /*
@@ -235,15 +235,15 @@ int DWC_Netcheck_GetError(void)
 {
     int error;
 
-    OS_LockMutex((struct OSMutex *)DWChttp.nc->mutex);
-    error = DWChttp.nc->error;
-    OS_UnlockMutex((struct OSMutex *)DWChttp.nc->mutex);
+    OS_LockMutex((struct OSMutex *)sDwcNetcheckDWChttp.nc->mutex);
+    error = sDwcNetcheckDWChttp.nc->error;
+    OS_UnlockMutex((struct OSMutex *)sDwcNetcheckDWChttp.nc->mutex);
     return error;
 }
 
 int DWC_Netcheck_GetReturnCode(void)
 {
-    return DWChttp.nc->returncode;
+    return sDwcNetcheckDWChttp.nc->returncode;
 }
 
 /*
@@ -251,13 +251,13 @@ int DWC_Netcheck_GetReturnCode(void)
  */
 void DWCi_Netcheck_StartThread(void)
 {
-    if (DWChttp.nc->thread.id != 0 &&
-        !OS_IsThreadTerminated(&DWChttp.nc->thread)) {
+    if (sDwcNetcheckDWChttp.nc->thread.id != 0 &&
+        !OS_IsThreadTerminated(&sDwcNetcheckDWChttp.nc->thread)) {
         return;
     }
-    OS_CreateThread(&DWChttp.nc->thread, DWCi_Netcheck_Thread, DWChttp.nc,
-                    DWChttp.nc->stack + sizeof(DWChttp.nc->stack), 0x1000, 16);
-    OS_WakeupThreadDirect(&DWChttp.nc->thread);
+    OS_CreateThread(&sDwcNetcheckDWChttp.nc->thread, DWCi_Netcheck_Thread, sDwcNetcheckDWChttp.nc,
+                    sDwcNetcheckDWChttp.nc->stack + sizeof(sDwcNetcheckDWChttp.nc->stack), 0x1000, 16);
+    OS_WakeupThreadDirect(&sDwcNetcheckDWChttp.nc->thread);
 }
 
 static inline void *OS_GetCurrentThread(void)
@@ -265,8 +265,8 @@ static inline void *OS_GetCurrentThread(void)
     return OSi_ThreadInfo.current;
 }
 
-#define DWChttp_     (DWChttp.http)
-#define DWCnetcheck_ (DWChttp.nc)
+#define DWChttp_     (sDwcNetcheckDWChttp.http)
+#define DWCnetcheck_ (sDwcNetcheckDWChttp.nc)
 
 static void DWCi_Netcheck_Thread(void *arg)
 {
@@ -289,12 +289,12 @@ static void DWCi_Netcheck_Thread(void *arg)
     DWCCalInfo calinfo;
 
     while (1) {
-        DWChttp.httpparam.url = _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0.url;
-        DWChttp.httpparam.action = 1;
-        DWChttp.httpparam.len_recvbuf = 0x1000;
-        DWChttp.httpparam.alloc = alloc;
-        DWChttp.httpparam.free = free;
-        DWChttp.httpparam.timeout = 20000;
+        sDwcNetcheckDWChttp.httpparam.url = _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0.url;
+        sDwcNetcheckDWChttp.httpparam.action = 1;
+        sDwcNetcheckDWChttp.httpparam.len_recvbuf = 0x1000;
+        sDwcNetcheckDWChttp.httpparam.alloc = alloc;
+        sDwcNetcheckDWChttp.httpparam.free = free;
+        sDwcNetcheckDWChttp.httpparam.timeout = 20000;
         DWCnetcheck_->returncode = -2;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy((char *)DWChttp_);
@@ -332,21 +332,21 @@ static void DWCi_Netcheck_Thread(void *arg)
         }
         switch (httpretcodei) {
         case 200:
-            DWChttp.conntestip = DWChttp_->hostip;
+            sDwcNetcheckDWChttp.conntestip = DWChttp_->hostip;
             break;
         case 302:
-            DWChttp.ishotspot = 1;
+            sDwcNetcheckDWChttp.ishotspot = 1;
             if (DWCnetcheck_->blurl != 0) {
                 DWCnetcheck_->returncode = -6;
                 DWC_Http_Destroy((char *)DWChttp_);
-                DWChttp.httpparam.url = DWCauthhttpparam.url;
-                DWChttp.httpparam.action = 0;
-                DWChttp.httpparam.len_recvbuf = 0x200;
-                DWChttp.httpparam.alloc = alloc;
-                DWChttp.httpparam.free = free;
-                DWChttp.httpparam.timeout = 20000;
-                if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
-                    DWChttp.httpparam.ignoreca = 1;
+                sDwcNetcheckDWChttp.httpparam.url = DWCauthhttpparam.url;
+                sDwcNetcheckDWChttp.httpparam.action = 0;
+                sDwcNetcheckDWChttp.httpparam.len_recvbuf = 0x200;
+                sDwcNetcheckDWChttp.httpparam.alloc = alloc;
+                sDwcNetcheckDWChttp.httpparam.free = free;
+                sDwcNetcheckDWChttp.httpparam.timeout = 20000;
+                if (strcmp(sDwcNetcheckDWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
+                    sDwcNetcheckDWChttp.httpparam.ignoreca = 1;
                 if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
                     DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(1);
@@ -424,7 +424,7 @@ static void DWCi_Netcheck_Thread(void *arg)
                     DWCnetcheck_->returncode = -1;
                 } else {
                     DWC_Auth_GetResult((int *)(&authresult));
-                    if (DWChttp.allow302 == 1 && (authresult.returncode == -23302 || DWC_Auth_GetError() == 11)) {
+                    if (sDwcNetcheckDWChttp.allow302 == 1 && (authresult.returncode == -23302 || DWC_Auth_GetError() == 11)) {
                         DWCnetcheck_->returncode = 0;
                         DWC_Auth_Destroy();
                         DWCi_Netcheck_SetError(11);
@@ -445,14 +445,14 @@ static void DWCi_Netcheck_Thread(void *arg)
         }
 
         DWCnetcheck_->returncode = -4;
-        DWChttp.httpparam.url = DWCauthhttpparam.url;
-        DWChttp.httpparam.action = 0;
-        DWChttp.httpparam.len_recvbuf = 0x1000;
-        DWChttp.httpparam.alloc = alloc;
-        DWChttp.httpparam.free = free;
-        DWChttp.httpparam.timeout = 40000;
-        if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
-            DWChttp.httpparam.ignoreca = 1;
+        sDwcNetcheckDWChttp.httpparam.url = DWCauthhttpparam.url;
+        sDwcNetcheckDWChttp.httpparam.action = 0;
+        sDwcNetcheckDWChttp.httpparam.len_recvbuf = 0x1000;
+        sDwcNetcheckDWChttp.httpparam.alloc = alloc;
+        sDwcNetcheckDWChttp.httpparam.free = free;
+        sDwcNetcheckDWChttp.httpparam.timeout = 40000;
+        if (strcmp(sDwcNetcheckDWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
+            sDwcNetcheckDWChttp.httpparam.ignoreca = 1;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
@@ -484,7 +484,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             break;
         case 3:
             DWC_Http_Destroy((char *)DWChttp_);
-            if (DWChttp.allow302 == 1) {
+            if (sDwcNetcheckDWChttp.allow302 == 1) {
                 DWCnetcheck_->returncode = 0;
                 DWCi_Netcheck_SetError(11);
                 goto exit;
@@ -512,7 +512,7 @@ static void DWCi_Netcheck_Thread(void *arg)
         }
         if (httpretcodei != 200) {
             DWC_Http_Destroy((char *)DWChttp_);
-            if (DWChttp.allow302 == 1 && httpretcodei == 302) {
+            if (sDwcNetcheckDWChttp.allow302 == 1 && httpretcodei == 302) {
                 DWCnetcheck_->returncode = 0;
                 DWCi_Netcheck_SetError(11);
                 goto exit;
@@ -531,7 +531,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        if (DWChttp.allow302 == 1 && httpretcodei == 114) {
+        if (sDwcNetcheckDWChttp.allow302 == 1 && httpretcodei == 114) {
             DWCnetcheck_->returncode = 0;
             DWCi_Netcheck_SetError(11);
             goto exit;
@@ -610,12 +610,12 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWC_Http_Destroy((char *)DWChttp_);
 
         DWCnetcheck_->returncode = -5;
-        DWChttp.httpparam.url = url;
-        DWChttp.httpparam.action = 0;
-        DWChttp.httpparam.len_recvbuf = 0x1000;
-        DWChttp.httpparam.alloc = alloc;
-        DWChttp.httpparam.free = free;
-        DWChttp.httpparam.timeout = 120000;
+        sDwcNetcheckDWChttp.httpparam.url = url;
+        sDwcNetcheckDWChttp.httpparam.action = 0;
+        sDwcNetcheckDWChttp.httpparam.len_recvbuf = 0x1000;
+        sDwcNetcheckDWChttp.httpparam.alloc = alloc;
+        sDwcNetcheckDWChttp.httpparam.free = free;
+        sDwcNetcheckDWChttp.httpparam.timeout = 120000;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
@@ -679,7 +679,7 @@ exit:
  */
 void DWCi_Netcheck_SetError(int error)
 {
-    OS_LockMutex((struct OSMutex *)DWChttp.nc->mutex);
-    DWChttp.nc->error = error;
-    OS_UnlockMutex((struct OSMutex *)DWChttp.nc->mutex);
+    OS_LockMutex((struct OSMutex *)sDwcNetcheckDWChttp.nc->mutex);
+    sDwcNetcheckDWChttp.nc->error = error;
+    OS_UnlockMutex((struct OSMutex *)sDwcNetcheckDWChttp.nc->mutex);
 }

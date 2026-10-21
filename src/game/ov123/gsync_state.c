@@ -303,14 +303,7 @@ struct _NHTTPConnection;
 
 
 
-#ifdef __MWERKS__
-#define SAVE_CONTROL_LoadExtraSaveWithBuffer SAVE_CONTROL_LoadExtraSaveWithBuffer_hdr
-#endif
 #include "../arm9/save_control.h"
-#ifdef __MWERKS__
-#undef SAVE_CONTROL_LoadExtraSaveWithBuffer
-int SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *, int, u16, void *, int);
-#endif
 
 struct CGearSave;
 

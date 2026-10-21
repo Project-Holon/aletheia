@@ -31,7 +31,7 @@
  *   OS_WakeupThreadDirect            0x02085868 arm
  *   OS_CreateAlarm                   0x02087254 arm
  *   id_string                        0x020050ac data
- *   wfailed                          0x021a826c data
+ *   sCpsNetworkWfailed                          0x021a826c data
  *   empty_func                       0x021573b8 arm ov009
  *   CPSi_SslCleanup          0x02162FA4  arm  ov009
  *   OS_YieldThread           0x020858d8  arm
@@ -82,10 +82,10 @@
  *   get_targetip  0x021578C8  arm  ov009
  *   OS_DisableInterrupts     0x02087988  arm
  *   OS_RestoreInterrupts     0x0208799C  arm
- *   ip_conflict  0x021A826D  data
- *   ipid  0x021A826E  data
- *   mymss  0x021A8270  data
- *   eport  0x021A8272  data
+ *   sCpsNetworkIpConflict  0x021A826D  data
+ *   sCpsNetworkIpid  0x021A826E  data
+ *   sCpsNetworkMymss  0x021A8270  data
+ *   sCpsNetworkEport  0x021A8272  data
  *   _ZZ13func_02158524PhmP7_CPSSocE7pingseq  0x021A8274  data
  *   _ZZ13func_0215C350PmiE10sleep_save       0x021A82AC  data
  *   gCpsSendHeader     0x021A8328  data
@@ -430,11 +430,11 @@ u32 CPSMyIp = 0;
 u32 CPSNoIpReason = 0;
 static int (*link_is_on)(void) = 0;
 void (*CPSiFree)(void *) = 0;
-static u16 eport = 0;
-static u8 wfailed = 0;
-static u16 ipid = 0;
-static u8 ip_conflict = 0;
-static u16 mymss = 0;
+static u16 sCpsNetworkEport = 0;
+static u8 sCpsNetworkWfailed = 0;
+static u16 sCpsNetworkIpid = 0;
+static u8 sCpsNetworkIpConflict = 0;
+static u16 sCpsNetworkMymss = 0;
 static void *scavenger_callback = 0;
 static u32 offered_myip = 0;
 static u32 yield_wait = 0;
@@ -557,9 +557,9 @@ static inline unsigned long rand32(RandCtx *context, unsigned long max)
 static unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, struct CPSSoc *soc);
 /*
  * closed (2026-10-01, ov SDK wave 3 lane30): the rand context is network.o's
- *   global CPSiRand32ctx (.bss+0x78, reached through the wfailed anchor), not a
+ *   global CPSiRand32ctx (.bss+0x78, reached through the sCpsNetworkWfailed anchor), not a
  *   field of an extern struct. Modelled as the network.o .bss statics (list from
- *   02157290; ip_conflict before wfailed so the 1-byte group keeps wfailed at
+ *   02157290; sCpsNetworkIpConflict before sCpsNetworkWfailed so the 1-byte group keeps sCpsNetworkWfailed at
  *   +0); as a distinct object the compiler proves the x stores do not alias and
  *   schedules them as the image. CPSDnsIp is a global (vendor STB_GLOBAL) with
  *   a prior extern declaration (public header), so 1.1p1 addresses it by name
@@ -600,9 +600,9 @@ static unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, s
 
 /*
  * closed (2026-10-01, ov SDK wave 3 lane30): the rand context is network.o's
- *   global CPSiRand32ctx (.bss+0x78, reached through the wfailed anchor), not a
+ *   global CPSiRand32ctx (.bss+0x78, reached through the sCpsNetworkWfailed anchor), not a
  *   field of an extern struct. Modelled as the network.o .bss statics (list from
- *   02157290; ip_conflict before wfailed so the 1-byte group keeps wfailed at
+ *   02157290; sCpsNetworkIpConflict before sCpsNetworkWfailed so the 1-byte group keeps sCpsNetworkWfailed at
  *   +0); as a distinct object the compiler proves the x stores do not alias and
  *   schedules them as the image. CPSDnsIp is a global (vendor STB_GLOBAL) with
  *   a prior extern declaration (public header), so 1.1p1 addresses it by name
@@ -1029,7 +1029,7 @@ int dhcp_discover_server(void)
  *           as zero-initialised file statics laid out at the vendor offsets
  *           (mwcc sorts .bss by size; definition order below gives the vendor
  *           order), stores grouped in one struct `cps` after CPSDhcpMode. All
- *           anchor on .bss+0 = wfailed, as in the vendor. Only DWARF locals
+ *           anchor on .bss+0 = sCpsNetworkWfailed, as in the vendor. Only DWARF locals
  *           remain: the bump reads s[0xef] into `c` before `s += 0xf0`.
  *
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
@@ -1318,7 +1318,7 @@ void dacktimer_reschedule(void)
 /*
  * sdk:      scavenger (libcps.TWL.HYB.a network.o, static)
  *
- * gCpsNetVars is network.o's block of file statics (first symbol wfailed);
+ * gCpsNetVars is network.o's block of file statics (first symbol sCpsNetworkWfailed);
  * the fields below are named by the offsets this function touches.
  *
  * Case 0 spells the callback test out with a flag; cases 1 and 2 use the
@@ -3827,7 +3827,7 @@ void reply_arp(unsigned char *buf)
  * sdk:      _send_tcp (libcps.TWL.HYB.a network.o, static)
  *
  * gCpsSendHeader is tmpbuf (90 bytes); the object addresses tmpbuf + 0x22.
- * gCpsNetVars is network.o's block of file statics (first symbol wfailed).
+ * gCpsNetVars is network.o's block of file statics (first symbol sCpsNetworkWfailed).
  *
  * The checksum goes through a u16 local: HTONS names its operand twice, and
  * with the calls inline the checksum is computed twice and len takes the
@@ -3974,7 +3974,7 @@ void send_udp(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 /*
  * u21: the defining object network.o is .comment 4.0.0.1024 -> dsi/1.1p1 and the size is already
  *      exact (180 B). The 46 concrete bytes are instruction ORDER in the prologue: the image loads
- *      both pool bases (wfailed, OSi_ThreadInfo) and the second OSi_ThreadInfo word before the
+ *      both pool bases (sCpsNetworkWfailed, OSi_ThreadInfo) and the second OSi_ThreadInfo word before the
  *      first strh, 1.1p1 schedules the store first. First divergence +0018
  *      image `ldr r2, [pc, #0x90]` | ours `strh r4, [r5, #0x22]`.
  * u1: re-measured, unchanged (180 B, 46 concrete B).
@@ -3984,9 +3984,9 @@ void send_udp(unsigned char *data, unsigned long len, struct CPSSoc *soc)
  * w8: recovered the vendor object's own DWARF via tools/sdkobj.py send_ping --region ov009
  *     (sdk/TwlWiFi/lib/ARM9-TS/Rom/libcps.TWL.HYB.a(network.o)). Its .debug_line gives the
  *     original statement order: 1229 icmp=soc->sndbuf.data, 1230 icmp+0x22=8, 1231 icmp+0x26=
- *     OSi_ThreadInfo[1], 1232 icmp+0x24=0, 1233 soc->local_port=seq=wfailed.ping_seq, 1234
+ *     OSi_ThreadInfo[1], 1232 icmp+0x24=0, 1233 soc->local_port=seq=sCpsNetworkWfailed.ping_seq, 1234
  *     icmp+0x28/ping_seq++, 1235 checksum store, 1236 send_ip. Its .debug_info lists exactly ONE
- *     local (unsigned char *icmp) and declares wfailed as `unsigned char`, OSi_ThreadInfo as `int`.
+ *     local (unsigned char *icmp) and declares sCpsNetworkWfailed as `unsigned char`, OSi_ThreadInfo as `int`.
  *     Ordering to the vendor line order flips the literal-pool emission (OSi_ThreadInfo first)
  *     because 1.1p1 materialises the first-referenced constant; the image keeps netvars first.
  *     `const` on OSi_ThreadInfo hoists its base above the first strh but also flips the pair.
@@ -4009,7 +4009,7 @@ void send_udp(unsigned char *data, unsigned long len, struct CPSSoc *soc)
  *
  * lane03 (2026-10-01): network.o's symbol table has
  *     `_ZZ9send_pingPhmP7_CPSSocE7pingseq`, a FUNCTION-LOCAL `static u16 pingseq`
- *     at .bss+8 (the "wfailed" relocation is the .bss section base). As a
+ *     at .bss+8 (the "sCpsNetworkWfailed" relocation is the .bss section base). As a
  *     local static whose address is never taken it cannot alias the icmp
  *     stores, so 1.1p1 hoists its load and increment above them exactly as the
  *     image does; no `seq`/`ck` stand-ins remain (DWARF: icmp only; the byte
@@ -4017,13 +4017,13 @@ void send_udp(unsigned char *data, unsigned long len, struct CPSSoc *soc)
  *     46 B -> 2 B. Residue: our .bss holds only pingseq, so it sits at +0 and
  *     the two halfword accesses use #0 where the image uses #8; the .bss
  *     relocation stays wildcarded (the vendor `.bss` route is ARM9-only).
- *     File-scope copies of the five leading statics (wfailed, ip_conflict,
- *     ipid, mymss, eport) are always laid out after a function static, and
+ *     File-scope copies of the five leading statics (sCpsNetworkWfailed, sCpsNetworkIpConflict,
+ *     sCpsNetworkIpid, sCpsNetworkMymss, sCpsNetworkEport) are always laid out after a function static, and
  *     file-scope or struct-member pingseq loses the no-alias hoist (184 B).
  *
  * lane17 (2026-10-01): EXACT. network.o's leading .bss statics written as
- *     zero-initialised file statics (wfailed, ip_conflict, ipid, mymss,
- *     eport, declared in the order 1.1p1's size-group reshuffle lays out as
+ *     zero-initialised file statics (sCpsNetworkWfailed, sCpsNetworkIpConflict, sCpsNetworkIpid, sCpsNetworkMymss,
+ *     sCpsNetworkEport, declared in the order 1.1p1's size-group reshuffle lays out as
  *     +0..+6), so pingseq lands at .bss+8 as in the vendor symtab; each
  *     static named in symbols: so the .bss reloc resolves (6 agree on base).
  *
@@ -4530,7 +4530,7 @@ static unsigned long is_broadcast(unsigned long ip)
 	unsigned long result = 0;
 
 	if (ip_islocal(ip)) {
-		unsigned long mask = *(unsigned long *)((char *)&wfailed + 0x10);
+		unsigned long mask = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x10);
 
 		if ((~mask & ip) == ~mask)
 			result = 1;
@@ -4546,7 +4546,7 @@ static unsigned long is_broadcast(unsigned long ip)
 static unsigned long get_targetip(unsigned long ip)
 {
 	if (ip_islocal(ip) == 0)
-		ip = *(unsigned long *)((char *)&wfailed + 0x2c);
+		ip = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x2c);
 	return ip;
 }
 
@@ -4560,8 +4560,8 @@ static unsigned long ip_islocal(unsigned long ip)
 	unsigned long result = 1;
 
 	if (ip != 0xffffffff && ip != 0x7f000001) {
-		unsigned long mask = *(unsigned long *)((char *)&wfailed + 0x10);
-		unsigned long myip = *(unsigned long *)((char *)&wfailed + 0x50);
+		unsigned long mask = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x10);
+		unsigned long myip = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x50);
 
 		if ((ip & mask) != (myip & mask))
 			result = 0;
@@ -4936,12 +4936,12 @@ int CPS_CalmDown(void)
  *   - .debug_line of network.o (CPS_Startup at line 400): the OS_GetTick call
  *     and the merged context stores sit on line 406, the second arm of a
  *     403-406 if/else, so the seed test is `if (config->random_seed != 0)`
- *     with the OS_GetTick arm in the else.  Same shape for mymss (419-422),
+ *     with the OS_GetTick arm in the else.  Same shape for sCpsNetworkMymss (419-422),
  *     dhcp_callback (425-428), link_is_on (429-432): if/else, not ternaries
  *     (ternary callbacks cost 161 B).  `wlan_getpnt = 0;` (435) and
  *     `wlan_putpnt = 0;` (436) are separate statements; this is what keeps
  *     the late zero web born at +0xD0 instead of hoisted with the early one.
- *   - CPSVars was separate network.o .bss statics anchored at `wfailed`
+ *   - CPSVars was separate network.o .bss statics anchored at `sCpsNetworkWfailed`
  *     (vendor symtab); declarations below reproduce the vendor offsets under
  *     1.1p1's per-size-group reshuffle (checked with readelf on a --keep tu.o).
  *   - Stacks/threads are extern: the vendor keeps them in their own .bss
@@ -4965,9 +4965,9 @@ void CPS_Startup(CPSConfig *config)
     }
     CPSDhcpMode = config->mode;
     if (config->mymss != 0)
-        mymss = (u16)config->mymss;
+        sCpsNetworkMymss = (u16)config->mymss;
     else
-        mymss = 1460;
+        sCpsNetworkMymss = 1460;
     offered_myip = config->requested_ip;
     yield_wait = config->yield_wait;
     if (config->dhcp_callback != 0)
@@ -4982,9 +4982,9 @@ void CPS_Startup(CPSConfig *config)
     wlan_buflen = config->lan_buflen;
     wlan_getpnt = 0;
     wlan_putpnt = 0;
-    eport = (u16)(MATH_Rand32(&CPSiRand32ctx, 0xf88) + 0x400);
+    sCpsNetworkEport = (u16)(MATH_Rand32(&CPSiRand32ctx, 0xf88) + 0x400);
     WCM_GetMacAddress(CPSMyMac);
-    ip_conflict = 0;
+    sCpsNetworkIpConflict = 0;
     OS_CreateThread(&tcpip_thread, (void (*)(void *))tcpip, 0, tcpip_stack + sizeof(tcpip_stack), sizeof(tcpip_stack), helper_threads_priority);
     OS_CreateThread(&scavenger_thread, (void (*)(void *))scavenger, 0, scavenger_stack + sizeof(scavenger_stack), sizeof(scavenger_stack), helper_threads_priority);
     OS_WakeupThreadDirect(&tcpip_thread);

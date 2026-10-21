@@ -156,14 +156,7 @@ struct Strbuf;
 #include "../arm9/strbuf.h"
 struct Bmp;
 struct PrintQueue;
-#ifdef __MWERKS__
-#define PRINTSYS_Print PRINTSYS_Print_hdr
-#endif
 #include "../arm9/printsys.h"
-#ifdef __MWERKS__
-#undef PRINTSYS_Print
-void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-#endif
 struct ClactActor;
 #include "../arm9/clact.h"
 struct BmpWin;

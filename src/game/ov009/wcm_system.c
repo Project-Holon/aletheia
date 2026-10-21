@@ -49,7 +49,7 @@
  *   OS_SetAlarm          0x0208738C arm
  *   WcmKeepAliveAlarm    0x02165B5C arm ov009
  *   WCMi_OverridedDeviceId 0x021AA7D4 data
- *   wcmw                 0x021AA7D8 data
+ *   sWcmSystemWcmw                 0x021AA7D8 data
  *   WCMi_ResetKeepAliveAlarm  0x02165AF4  arm  ov009
  */
 #ifdef __MWERKS__
@@ -124,12 +124,12 @@ long WCM_Init(void *buf, long len)
 
 static unsigned char WCMi_OverridedDeviceId = 0;
 
-static WCMWork *wcmw = 0;
+static WCMWork *sWcmSystemWcmw = 0;
 
 /*
  * sdk:      WCM_InitEx (libwcm.TWL.HYB.a system.o)
  *
- * lane04 (2026-10-01): EXACT. WCMi_OverridedDeviceId and wcmw are two
+ * lane04 (2026-10-01): EXACT. WCMi_OverridedDeviceId and sWcmSystemWcmw are two
  * separate statics in system.o's .bss (0x021AA7D4 / +4), not one struct:
  * defined here as zero-initialised file statics (layout matches the vendor,
  * .bss anchored on WCMi_OverridedDeviceId), the `p` stand-in local is gone,
@@ -140,7 +140,7 @@ static WCMWork *wcmw = 0;
  * confirms the object is Metrowerks 4.0.0.1024 -> dsi/1.1p1, so this residue is
  * a shape this front end has not been given (the DWARF locals are exactly
  * expectLen [fb+0], e r5, matching the source); wave7 re-measured declaration
- * swap, `if (wcmw)` and the guard-before-init forms, all still 18.
+ * swap, `if (sWcmSystemWcmw)` and the guard-before-init forms, all still 18.
  *
  * lane T5 (2026-09-30).  HEADER REPAIR: the `symbols:` block used bare hex
  * addresses (`OS_DisableInterrupts 02087988 arm`), which SYMBOL_RE rejects, so the
@@ -153,14 +153,14 @@ static WCMWork *wcmw = 0;
  *   +0018  image `ldr sb, [pc, #0x148]`  | ours `mov r1, #0`
  *   +0028  image `str r1, [sp]`          | ours `mov r5, r0`
  *   i.e. the image loads the 0x021AA7D4 pool word first and sinks the spill of
- *   expectLen below the wcmw load, this build materialises the zero and spills it
+ *   expectLen below the sWcmSystemWcmw load, this build materialises the zero and spills it
  *   immediately.  Measured worse: `long expectLen = 0;` as a declaration
  *   initialiser (396/345), `expectLen` before the OS_DisableInterrupts call (396),
  *   both as declaration initialisers (400).  lane U22 adds nine more shapes, all
  *   at exactly 18: `expectLen = 0;` sunk to just before MI_CpuFill8 (70), after
- *   the first wcmw guard (28), a comma expression `e = ..., expectLen = 0;`,
- *   swapped local declaration order, `if (wcmw)` without `!= 0`,
- *   both locals as declaration initialisers, a volatile-cast read of `wcmw`,
+ *   the first sWcmSystemWcmw guard (28), a comma expression `e = ..., expectLen = 0;`,
+ *   swapped local declaration order, `if (sWcmSystemWcmw)` without `!= 0`,
+ *   both locals as declaration initialisers, a volatile-cast read of `sWcmSystemWcmw`,
  *   `expectLen` zeroed as `unsigned long`, and `expectLen = 0;` moved after the
  *   two pointer guards.  The pool load and the spill are one independent
  *   instruction pair and this front end will not rotate them into the image's
@@ -172,9 +172,9 @@ static WCMWork *wcmw = 0;
  * inline `((const WCMSysState *)&g_021AA7D4)->wcmw` cast at the guard); both
  * still 18 bytes, schedule unchanged.  The lever needs a pointer parameter;
  * it does not reach a load through a global object.  Also tried: caching the
- * read in a `WCMWork *wcmw` local before and after `expectLen = 0`, and a
+ * read in a `WCMWork *sWcmSystemWcmw` local before and after `expectLen = 0`, and a
  * non-const named `WCMSysState *p = &g_021AA7D4` with the guard written
- * `wcmw`; all three still emit exactly `mov r1,#0; ldr sb; str r1,[sp];
+ * `sWcmSystemWcmw`; all three still emit exactly `mov r1,#0; ldr sb; str r1,[sp];
  * ldr r2,[sb,#4]; mov r5,r0` (18 concrete bytes), i.e. the front end never
  * hoists the address load above the zero materialisation.  blocker: the
  * `ldr sb` address load and the `str r1,[sp]` expectLen spill will not swap.
@@ -186,7 +186,7 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
 
     e = OS_DisableInterrupts();
     expectLen = 0;
-    if (wcmw != 0) {
+    if (sWcmSystemWcmw != 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
@@ -213,13 +213,13 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
         OS_RestoreInterrupts(e);
         return 6;
     }
-    wcmw = buf;
+    sWcmSystemWcmw = buf;
     ((WCMWork *)buf)->phase = 1;
-    wcmw->notifyId = 0;
-    wcmw->maxScanTime = 0;
-    wcmw->apListLock = 0;
-    wcmw->resetting = 0;
-    wcmw->deviceId = deviceId;
+    sWcmSystemWcmw->notifyId = 0;
+    sWcmSystemWcmw->maxScanTime = 0;
+    sWcmSystemWcmw->apListLock = 0;
+    sWcmSystemWcmw->resetting = 0;
+    sWcmSystemWcmw->deviceId = deviceId;
     WcmInitOption();
     WCMi_InitCpsif();
     if (OS_IsTickAvailable() == 0) {
@@ -228,7 +228,7 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     if (OS_IsAlarmAvailable() == 0) {
         OS_InitAlarm();
     }
-    OS_CreateAlarm((struct OSiAlarm *)wcmw->alarm);
+    OS_CreateAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
     OS_RestoreInterrupts(e);
     return 0;
 }
@@ -237,15 +237,15 @@ long WCM_Finish(void)
 {
     unsigned long e = OS_DisableInterrupts();
 
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    if (wcmw->phase != 1) {
+    if (sWcmSystemWcmw->phase != 1) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    wcmw = 0;
+    sWcmSystemWcmw = 0;
     OS_RestoreInterrupts(e);
     return 0;
 }
@@ -281,11 +281,11 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
     long wcmResult;
 
     e = OS_DisableInterrupts();
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->phase) {
+    switch (sWcmSystemWcmw->phase) {
     case 1:
         WcmConfigure(config, notify);
         break;
@@ -302,7 +302,7 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
     if (WM_GetAllowedChannel() == 0) {
         return 5;
     }
-    switch (wcmw->deviceId) {
+    switch (sWcmSystemWcmw->deviceId) {
     case 1:
         wcmResult = WCMi_WmifStartupAsync();
         break;
@@ -330,11 +330,11 @@ long WCM_CleanupAsync(void)
     long wcmResult;
 
     e = OS_DisableInterrupts();
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->phase) {
+    switch (sWcmSystemWcmw->phase) {
     case 4:
         OS_RestoreInterrupts(e);
         return 2;
@@ -347,7 +347,7 @@ long WCM_CleanupAsync(void)
     case 3:
         break;
     }
-    switch (wcmw->deviceId) {
+    switch (sWcmSystemWcmw->deviceId) {
     case 1:
         wcmResult = WCMi_WmifCleanupAsync();
         break;
@@ -382,11 +382,11 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->deviceId) {
+    switch (sWcmSystemWcmw->deviceId) {
     case 1:
         wcmResult = WCMi_WmifBeginSearchAsync(bssid, essid, option);
         break;
@@ -413,14 +413,14 @@ long WCM_EndSearchAsync(void)
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->phase) {
+    switch (sWcmSystemWcmw->phase) {
     case 6:
         WCMi_SetPhase(7);
-        wcmw->notifyId = 4;
+        sWcmSystemWcmw->notifyId = 4;
         break;
     case 7:
         OS_RestoreInterrupts(e);
@@ -525,11 +525,11 @@ long WCM_DisconnectAsync(void)
 
     e = OS_DisableInterrupts();
     wcmResult = 0;
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->phase) {
+    switch (sWcmSystemWcmw->phase) {
     case 10:
         OS_RestoreInterrupts(e);
         return 2;
@@ -542,11 +542,11 @@ long WCM_DisconnectAsync(void)
     case 9:
         break;
     }
-    if (wcmw->resetting == 1) {
+    if (sWcmSystemWcmw->resetting == 1) {
         WCMi_SetPhase(10);
-        wcmw->notifyId = 6;
+        sWcmSystemWcmw->notifyId = 6;
     } else {
-        switch (wcmw->deviceId) {
+        switch (sWcmSystemWcmw->deviceId) {
         case 1:
             wcmResult = WCMi_WmifDisconnectAsync();
             break;
@@ -576,11 +576,11 @@ long WCM_TerminateAsync(void)
 
     e = OS_DisableInterrupts();
     wcmResult = 0;
-    if (wcmw == 0) {
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
-    switch (wcmw->phase) {
+    switch (sWcmSystemWcmw->phase) {
     case 13:
         OS_RestoreInterrupts(e);
         return 2;
@@ -589,7 +589,7 @@ long WCM_TerminateAsync(void)
         return wcmResult;
     case 6:
         WCMi_SetPhase(13);
-        wcmw->notifyId = 9;
+        sWcmSystemWcmw->notifyId = 9;
         OS_RestoreInterrupts(e);
         return 3;
     default:
@@ -598,11 +598,11 @@ long WCM_TerminateAsync(void)
     case 3:
     case 9:
     case 12:
-        if (wcmw->resetting == 1) {
+        if (sWcmSystemWcmw->resetting == 1) {
             WCMi_SetPhase(13);
-            wcmw->notifyId = 9;
+            sWcmSystemWcmw->notifyId = 9;
         } else {
-            switch (wcmw->deviceId) {
+            switch (sWcmSystemWcmw->deviceId) {
             case 1:
                 wcmResult = WCMi_WmifTerminateAsync();
                 break;
@@ -626,7 +626,7 @@ long WCM_GetPhase(void)
 {
     unsigned long e = OS_DisableInterrupts();
     long phase = 0;
-    WCMWork *w = wcmw;
+    WCMWork *w = sWcmSystemWcmw;
 
     if (w != 0)
         phase = w->phase;
@@ -642,8 +642,8 @@ unsigned long WCM_UpdateOption(unsigned long option)
 
     e = OS_DisableInterrupts();
     filter = 0;
-    oldOption = wcmw->option;
-    if (wcmw == 0) {
+    oldOption = sWcmSystemWcmw->option;
+    if (sWcmSystemWcmw == 0) {
         OS_RestoreInterrupts(e);
         return 0;
     }
@@ -665,7 +665,7 @@ unsigned long WCM_UpdateOption(unsigned long option)
     if ((option & 0x800000) != 0) {
         filter |= 0x400000;
     }
-    wcmw->option = option | (oldOption & ~filter);
+    sWcmSystemWcmw->option = option | (oldOption & ~filter);
     OS_RestoreInterrupts(e);
     return oldOption;
 }
@@ -692,29 +692,29 @@ unsigned short WCM_GetAllowedChannel(void)
  */
 WCMWork *WCMi_GetSystemWork(void)
 {
-    return wcmw;
+    return sWcmSystemWcmw;
 }
 
 void WcmConfigure(WCMConfig *config, void (*notify)(void *))
 {
     if (config == 0) {
-        wcmw->config.dmano = 3;
-        wcmw->config.pbdbuffer = 0;
-        wcmw->config.nbdbuffer = 0;
-        wcmw->config.nbdmode = 0;
+        sWcmSystemWcmw->config.dmano = 3;
+        sWcmSystemWcmw->config.pbdbuffer = 0;
+        sWcmSystemWcmw->config.nbdbuffer = 0;
+        sWcmSystemWcmw->config.nbdmode = 0;
     } else {
-        wcmw->config.dmano = config->dmano & 3;
+        sWcmSystemWcmw->config.dmano = config->dmano & 3;
         if (((4 - ((uptr)config->pbdbuffer & 3)) & 3) + 12 > (unsigned long)config->nbdbuffer) {
-            wcmw->config.pbdbuffer = 0;
-            wcmw->config.nbdbuffer = 0;
+            sWcmSystemWcmw->config.pbdbuffer = 0;
+            sWcmSystemWcmw->config.nbdbuffer = 0;
         } else {
-            wcmw->config.pbdbuffer = (void *)(((uptr)config->pbdbuffer + 3) & ~3UL);
-            wcmw->config.nbdbuffer = config->nbdbuffer - ((4 - ((uptr)config->pbdbuffer & 3)) & 3);
-            MI_CpuFill8(wcmw->config.pbdbuffer, 0, wcmw->config.nbdbuffer);
+            sWcmSystemWcmw->config.pbdbuffer = (void *)(((uptr)config->pbdbuffer + 3) & ~3UL);
+            sWcmSystemWcmw->config.nbdbuffer = config->nbdbuffer - ((4 - ((uptr)config->pbdbuffer & 3)) & 3);
+            MI_CpuFill8(sWcmSystemWcmw->config.pbdbuffer, 0, sWcmSystemWcmw->config.nbdbuffer);
         }
-        wcmw->config.nbdmode = config->nbdmode;
+        sWcmSystemWcmw->config.nbdmode = config->nbdmode;
     }
-    wcmw->notify = notify;
+    sWcmSystemWcmw->notify = notify;
 }
 
 /*
@@ -722,7 +722,7 @@ void WcmConfigure(WCMConfig *config, void (*notify)(void *))
  */
 void WcmInitOption(void)
 {
-    WCMWork *p = wcmw;
+    WCMWork *p = sWcmSystemWcmw;
 
     p->option = 0xaaa082;
 }
@@ -737,7 +737,7 @@ unsigned short WCMi_GetNextScanChannel(unsigned short channel)
     long i;
 
     for (i = 0; i < 13; i++) {
-        if ((wcmw->option & (1 << ((channel + i) % 13 + 1))) != 0) {
+        if ((sWcmSystemWcmw->option & (1 << ((channel + i) % 13 + 1))) != 0) {
             if ((WCM_GetAllowedChannel() & (1 << ((channel + i) % 13))) != 0) {
                 break;
             }
@@ -748,15 +748,15 @@ unsigned short WCMi_GetNextScanChannel(unsigned short channel)
 
 void WCMi_Notify(short result, void *para0, void *para1, long para2)
 {
-    short notifyId = wcmw->notifyId;
+    short notifyId = sWcmSystemWcmw->notifyId;
 
-    wcmw->notifyId = 0;
+    sWcmSystemWcmw->notifyId = 0;
     WCMi_NotifyEx(notifyId, result, para0, para1, para2);
 }
 
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2)
 {
-    WCMWork *w = wcmw;
+    WCMWork *w = sWcmSystemWcmw;
     WCMNotice notice;
 
     if (w->notify == 0)
@@ -779,15 +779,15 @@ void WCMi_SetPhase(unsigned char phase)
     unsigned long e;
 
     e = OS_DisableInterrupts();
-    if (wcmw->phase == 9 && phase != 9) {
-        OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
+    if (sWcmSystemWcmw->phase == 9 && phase != 9) {
+        OS_CancelAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
     }
-    if (wcmw->phase != 0xB) {
-        wcmw->phase = phase;
+    if (sWcmSystemWcmw->phase != 0xB) {
+        sWcmSystemWcmw->phase = phase;
     }
     if (phase == 9) {
-        OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
-        OS_SetAlarm((struct OSiAlarm *)wcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
+        OS_CancelAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
+        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
     }
     OS_RestoreInterrupts(e);
 }
@@ -799,9 +799,9 @@ void WCMi_ResetKeepAliveAlarm(void)
 {
     unsigned long e = OS_DisableInterrupts();
 
-    OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
-    if (wcmw->phase == 9)
-        OS_SetAlarm((struct OSiAlarm *)wcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
+    OS_CancelAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
+    if (sWcmSystemWcmw->phase == 9)
+        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
     OS_RestoreInterrupts(e);
 }
 

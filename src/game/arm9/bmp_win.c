@@ -73,7 +73,7 @@ typedef short s16_p07;
 
 
 
-void BMP_WIN_Init(u16 heapId);
+void BMP_WIN_Init(u32 heapId);
 
 void BMP_WIN_Exit(void);
 
@@ -141,7 +141,7 @@ extern const char bmpWin_File[];    /* "bmp_win.c" */
  *   python tools/match.py one --src src/matched/BMP_WIN_Init.c \
  *       --func BMP_WIN_Init --addr 0x02045088 --cc 1.1p1 --arm
  */
-void BMP_WIN_Init(u16 heapId)
+void BMP_WIN_Init(u32 heapId)
 {
     u16 *heapRecord = GFL_HEAP_Alloc(heapId, 4, 0, bmpWin_File, 0x4f);
 

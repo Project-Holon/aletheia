@@ -32,7 +32,7 @@ void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u3
 int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, void *dest, u32 size);
 u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
-u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize);
+u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u16 heapId, void *work, u32 workSize);
 void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize);
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot);
 void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *saveControl, u32 slot);

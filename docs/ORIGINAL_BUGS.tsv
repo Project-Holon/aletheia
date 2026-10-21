@@ -24,7 +24,6 @@ B	src/game/ov099/wifi_club.c	WIFICLUB_StartBgmFade	PM_VOICE_SetMasterVolume gets
 B	src/game/ov099/wifi_club.c	WIFICLUB_CreateTrainerActor	POKEGRA_RegisterTrainerCgr gets the heap id as u16 at the call; the definition takes u32	header prototype, same value	yes
 B	src/game/ov099/wifi_club.c	WIFICLUB_StartVoiceChat	passes the result of DWC_RAP_EnableLocalVchat (void definition) to DWC_RAP_StartVchatDefaultHeap; r0 is a leftover	calls the second routine with 0; it ignores its argument	no
 B	src/game/ov099/wifi_club.c	WIFICLUB_CopyZeroToDeviceAddr	returns what MI_CpuCopy8 (hand-written assembly, no result) leaves in r0	returns 0	no
-B	src/game/ov099/wifi_club_actor.c	WIFICLUBACTOR_SpawnEntity	stores the slot pointer that WF2DMAP_OBJ_Create leaves in r0 (definition is void)	stores 0 (ov127 should return the slot pointer)	no
 B	src/game/ov101/irc_appbar.c	IRC_APPBAR_LoadResources	CLACT_RegisterPaletteEx and CLACT_RegisterCharacter get the heap id as a word and the palette offset as u16; the definitions take u16 heap id and a word offset	header prototypes, same values	yes
 B	src/game/ov102/irc_compatible_menu.c	IRC_COMPATIBLE_MENU_InitFloater	CLACT_SetActorAnimSeq gets the sequence as a word; the definition takes u16	header prototype, same value	yes
 B	src/game/ov103/irc_compatible_touch_test.c	IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock	BG_SYS_PushTile takes the layer as a byte at the call; the definition takes a word	header prototype, same value	yes

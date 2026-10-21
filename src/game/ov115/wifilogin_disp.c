@@ -317,14 +317,7 @@ struct TcbTask;
 #include "../arm9/arc_tool.h"
 
 
-#ifdef __MWERKS__
-#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_hdr
-#endif
 #include "../arm9/arc_util.h"
-#ifdef __MWERKS__
-#undef ARC_UTIL_UploadPaletteFromHandleWhole
-void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
-#endif
 
 
 

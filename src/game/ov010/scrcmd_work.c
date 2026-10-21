@@ -271,7 +271,7 @@ extern void *GAME_DATA_GetEventData(struct GameData *gameData);
 extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gameData);
 extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
 #ifdef __MWERKS__
-extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, int direction, int x, int y, int z); /* original prototype; the definition differs in argument sign, argument width */
+extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, s16 direction, u32 x, u32 y, u32 z); /* original prototype; the definition differs in argument sign, argument width */
 #else
 extern void ZONEDATA_SetDirectLocation(struct Location*, u16, s16, u32, u32, u32);
 #endif

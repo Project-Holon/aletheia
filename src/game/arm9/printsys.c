@@ -235,13 +235,13 @@ u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, u32 x, s16 y, void *str, struct GfFont *font);
 
 void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 
-void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 
 void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
@@ -578,7 +578,7 @@ void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
  *   python tools/match.py tu --src src/pending/unit_0201C6FC.c \
  *       --addr 0x0201C6FC --thumb
  */
-void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
+void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, u32 x, s16 y, void *str, struct GfFont *font)
 {
     PRINTSYS_SetupJob(&_PrintJobWork, font, bmp, x, y);
     PRINTSYS_SubmitJob(queue, &_PrintJobWork, str);
@@ -619,7 +619,7 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
  */
-void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
     uptr jobAddr;
 

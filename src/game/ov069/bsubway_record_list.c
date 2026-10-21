@@ -201,7 +201,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 #include "../arm9/arc_tool.h"
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 struct Strbuf;
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct Strbuf *vec);
@@ -325,7 +325,7 @@ typedef struct CursorPos {
 
 typedef int (*InputStateFunc)(BsubwayRecordListWork *work);
 
-extern void BMP_WIN_Init(u16 heapId);
+extern void BMP_WIN_Init(u32 heapId);
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;

@@ -61,7 +61,6 @@
 #ifdef __MWERKS__
 /* The original callers pass the owner id as a full word and the key as a halfword; the header declares narrower types. */
 #define BTL_EVENT_AddFactor BTL_EVENT_AddFactorHeader
-#define MI_CpuFill8 MI_CpuFill8Header
 #define WAZA_TOOL_GetParam WAZA_TOOL_GetParamHeader
 #define BTL_SICKCONT_MakeKind1Index15 BTL_SICKCONT_MakeKind1Index15Header
 #define BTL_SICKCONT_MakeKind1Empty BTL_SICKCONT_MakeKind1EmptyHeader
@@ -77,14 +76,12 @@ typedef struct {
 #include "../arm9/mi_memory.h"
 #ifdef __MWERKS__
 #undef BTL_EVENT_AddFactor
-#undef MI_CpuFill8
 #undef WAZA_TOOL_GetParam
 #undef BTL_SICKCONT_MakeKind1Index15
 #undef BTL_SICKCONT_MakeKind1Empty
 extern u32 BTL_SICKCONT_MakeKind1Empty(void);
 extern u32 BTL_SICKCONT_MakeKind1Index15(void);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
-extern void MI_CpuFill8(void *dst, int value, int size);
 extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
 #endif
 #include "../ov093/btl_event.h"

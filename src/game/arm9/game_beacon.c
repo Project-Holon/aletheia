@@ -153,9 +153,7 @@ extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId); /* original prototype; t
 
 #ifdef __MWERKS__
 extern u32   SYMBOL_SAVE_ReadBitField(const u8 *answers, u8 questionId); /* original prototype; the definition differs in argument width */
-extern u32 MISC_SAVEDATA_IsTallyFull(u8 *tally, u32 fieldId, u32 index);
 extern void MISC_SAVEDATA_AddHalfwordClamped(s8 *tally, s32 index, s32 delta); /* original prototype; the definition differs in pointer or integer, pointer type */
-extern void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
 #endif
 struct SymbolBitSave;
 
@@ -177,7 +175,6 @@ struct QuadRecord;
 
 #ifdef __MWERKS__
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 #endif
 
 #ifdef __MWERKS__

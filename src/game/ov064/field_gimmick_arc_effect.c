@@ -57,10 +57,10 @@ struct FldExpObjCnt;
 extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
 extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *expObj, int unit, int model, int hidden);
 struct FldExpObjAnime;
-extern struct FldExpObjAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u32 modelIdx, s32 animeIdx);
+extern void *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u16 modelIdx, u16 animeIdx);
 extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
 extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *expObj, int unit, int model, u16 animeIdx, int enabled);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *expObj, int unit, u16 model, u16 animeIdx, int enabled);
 extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
 extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 #include "../arm9/gamesystem.h"

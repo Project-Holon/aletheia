@@ -67,7 +67,7 @@ struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int
 void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt);
 void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *cnt);
 void FLD_EXP_OBJ_InitAnimeSet(FldExpObjAnimeSet *animeSet, int count, int heapId);
-FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx);
+void *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx);
 void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
 u8 FLD_EXP_OBJ_IsAnimePaused(FldExpObjAnime *anime);
 void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
@@ -302,7 +302,7 @@ void FLD_EXP_OBJ_InitAnimeSet(FldExpObjAnimeSet *animeSet, int count, int heapId
     }
 }
 
-FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx)
+void *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx)
 {
     FldExpObjAnime *animeTbl;
 

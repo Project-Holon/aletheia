@@ -43,7 +43,7 @@
  *   gotADDRESS2    0x021AE45C  data
  *   gotADDRESS3    0x021AE460  data
  *   gotADDRESS1a   0x021AE464  data
- *   nIndex         0x021AE468  data
+ *   sNatifyNIndex         0x021AE468  data
  *   strAddressArray 0x021AE46C data
  *   g_021AE498     0x021AE498  data
  *   g_021A59B4     0x021A59B4  data
@@ -110,7 +110,7 @@ extern char g_021A59F0[];
 extern char g_021A5A20[];
 extern char g_021A5A50[];
 
-static int nIndex = 0;
+static int sNatifyNIndex = 0;
 
 
 static int gotADDRESS1a = 0;
@@ -150,8 +150,8 @@ char *AddressToString(unsigned int ip, unsigned short port, char *string)
     char *strAddress;
 
     if (!string) {
-        nIndex ^= 1;
-        string = strAddressArray[nIndex];
+        sNatifyNIndex ^= 1;
+        string = strAddressArray[sNatifyNIndex];
     }
     if (ip) {
         inAddr.addr = ip;
@@ -287,7 +287,7 @@ void OutputMapping(AddressMapping *theMap)
  *
  * lane04 (2026-10-01): EXACT. The flags are seven separate globals in
  *           natify.o's .bss (gotADDRESS1b first), not one struct: modelled as
- *           zero-initialised file statics (plus AddressToString's nIndex and
+ *           zero-initialised file statics (plus AddressToString's sNatifyNIndex and
  *           strAddressArray, which share the section) in the definition order
  *           that gives the vendor layout, all anchored on .bss+0 like the
  *           vendor. Distinct objects free the allocator (105 -> 19). The rest

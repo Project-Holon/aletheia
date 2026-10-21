@@ -64,14 +64,14 @@
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   file 0x021B9D58 data ov224 a1
- *   vram 0x021B9CA0 data
+ *   sSubwayMapGraphicFile 0x021B9D58 data ov224 a1
+ *   sSubwayMapGraphicVram 0x021B9CA0 data
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   config 0x021B9C54 data
+ *   sSubwayMapGraphicConfig 0x021B9C54 data
  *   gSubwayMapGraphicMainBgLayerTable 0x021B9CD0 data ov224
  *   d_021B9CD0 0x021B9CD0 data a4
  *   CLACT_InitSystem 0x0204A48C arm
@@ -84,7 +84,7 @@
  *   vecA 0x021B9C3C data
  *   vecB 0x021B9C30 data
  *   vecC 0x021B9C48 data
- *   cfg 0x020A1EB8 data
+ *   gCameraParams 0x020A1EB8 data
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
@@ -214,10 +214,10 @@ void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p);
 extern const struct SubwayMapGraphicEntry gSubwayMapGraphicSubBgLayerTable[];
 extern struct Assets gSubwayMapGraphicChoiceAssets[];
 extern u16 gSubwayMapGraphicLightParams[][4];
-extern char file[], vram[];
-extern u32 config[];
+extern char sSubwayMapGraphicFile[], sSubwayMapGraphicVram[];
+extern u32 sSubwayMapGraphicConfig[];
 extern struct SubwayMapGraphicRecord gSubwayMapGraphicMainBgLayerTable[];
-extern const s16 cfg[];
+extern const s16 gCameraParams[];
 extern u32 vecA[],vecB[],vecC[];
 
 static inline void GXS_SetMode(SubDisplayMode mode) {
@@ -383,21 +383,21 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *p = GFL_HEAP_Alloc(heap, 16, 0, file, 460);
+    char *p = GFL_HEAP_Alloc(heap, 16, 0, sSubwayMapGraphicFile, 460);
     MI_CpuFill8(p, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)vram);
+    BG_SYS_SetVramBanks((const struct DispVram *)sSubwayMapGraphicVram);
     BG_SYS_SetLcdSwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
-    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (sptr)vram, heap);
+    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (sptr)sSubwayMapGraphicVram, heap);
     SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
     ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_VBlankScreen, p, 0);
     return p;
@@ -441,7 +441,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)sSubwayMapGraphicConfig);
     for (; i < 2; i++) {
         struct SubwayMapGraphicRecord *r = &gSubwayMapGraphicMainBgLayerTable[i];
         u32 id = r->id;
@@ -487,7 +487,7 @@ void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work) { CLACT_VBlankSystem(); }
 void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,SUBWAY_MAP_GRAPHIC_Setup3d);
-    *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
+    *p = G3D_CAMERA_Create(0,gCameraParams[6],gCameraParams[7],0x1555,0,0x1000,0x400000,0,
         (struct VecFx32 *)vecA,(struct VecFx32 *)vecB,(struct VecFx32 *)vecC,heap);
 }
 

@@ -63,7 +63,7 @@
  *   g_021A7674     0x021A7674  data
  *   g_021A7688     0x021A7688  data
  *   g_021A768C     0x021A768C  data
- *   num_local_ips  0x021AE9A0  data
+ *   sQr2NumLocalIps  0x021AE9A0  data
  *   local_ip_list  0x021AE9A4  data
  *   g_021AE9B8     0x021AE9B8  data
  *   g_021AE9F8     0x021AE9F8  data
@@ -212,7 +212,7 @@ extern char g_021A7644[];
 extern char g_021A7674[];
 extern char g_021A7688[];
 extern char g_021A768C[];
-extern int num_local_ips;
+extern int sQr2NumLocalIps;
 extern SOCInAddr local_ip_list[5];
 extern char g_021AE9B8[64];
 extern char g_021AE9F8[];
@@ -547,12 +547,12 @@ static void enum_local_ips(void)
     phost = getlocalhost();
     if (phost == 0)
         return;
-    num_local_ips = 0;
+    sQr2NumLocalIps = 0;
     for (i = 0; i < 5; i++) {
         if (phost->addrList[i] == 0)
             return;
         memcpy(&local_ip_list[i], phost->addrList[i], sizeof(SOCInAddr));
-        num_local_ips = i + 1;
+        sQr2NumLocalIps = i + 1;
     }
 }
 
@@ -1296,7 +1296,7 @@ void send_heartbeat(qr2_implementation_s *qrec, int statechanged)
 
     buf.len = 0;
     qr_add_packet_header(&buf, 3, qrec->instance_key);
-    for (i = 0; i < num_local_ips; i++) {
+    for (i = 0; i < sQr2NumLocalIps; i++) {
         OS_SPrintf(ipkey, g_021A7AB8, i);
         qr2_buffer_addA(&buf, ipkey);
         qr2_buffer_addA(&buf, SOC_InetNtoA(local_ip_list[i]));

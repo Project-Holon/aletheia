@@ -128,7 +128,7 @@ extern const GimmickD06ZoneTable gGimmickD06PanelTable[GIMMICK_D06_ZONE_COUNT];
 #undef FLDMMDL_SetAcmd
 #undef FLDMMDL_MOVE_HitCheckMoveCurrent
 struct Mmdl *FLDMMDL_AddMmdlParam(struct MmdlSys *mmdlSys, short gridX, short gridZ, u16 dir, u16 objId,
-                                  u16 objCode, u16 moveCode, int zoneId);
+                                  u16 objCode, u16 moveCode, u32 zoneId);
 void FLDMMDL_SetAcmd(struct Mmdl *mmdl, int acmd);
 int FLDMMDL_MOVE_HitCheckMoveCurrent(struct Mmdl *mmdl, int x, int y, int z, u32 dir);
 #endif

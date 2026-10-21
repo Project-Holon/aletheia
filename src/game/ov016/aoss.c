@@ -32,7 +32,7 @@
  *   _s32_div_f            0x0209C0A4  arm
  *   aoss_rodata           0x021D77C4  data
  *   gSeqID       0x021DCDA0  data
- *   SecurityInfo    0x021DC700  data
+ *   sAossSecurityInfo    0x021DC700  data
  *   AOSS_Memcpy     0x021B8230  thumb
  *   AOSS_Strlen     0x021B8364  thumb
  *   aoss_str_10367  0x021DAB14  data
@@ -393,7 +393,7 @@ extern AOSS_BSS aoss_bss;
 extern AOSS_DATA_SECTION aoss_data;
 extern unsigned char gSeqID[8];
 extern const struct _retry aoss_rodata;   /* aoss.o .rodata: the compiler's @8259, retry1's initialiser { -1, -1 } */
-extern ASTS_DATA_INFO SecurityInfo[2];
+extern ASTS_DATA_INFO sAossSecurityInfo[2];
 extern char aoss_str_10367[];
 extern char aoss_str_10375[];
 extern unsigned char AttrNo[];
@@ -869,10 +869,10 @@ int AOSS_seq_data_copy(struct aoss_info *aossInfo)
     ASTS_DATA_TKIP *aes;
 
     ptr = &aossInfo->secureInfo;
-    wep40 = &SecurityInfo[0].WepData_40;
-    wep104 = &SecurityInfo[0].WepData_104;
-    tkip = &SecurityInfo[0].TkipData;
-    aes = &SecurityInfo[0].AesData;
+    wep40 = &sAossSecurityInfo[0].WepData_40;
+    wep104 = &sAossSecurityInfo[0].WepData_104;
+    tkip = &sAossSecurityInfo[0].TkipData;
+    aes = &sAossSecurityInfo[0].AesData;
     if (ptr == 0)
         return -1;
     aossInfo->supportSecurity = aoss_bss.gData.sLevel & aoss_bss.gData.aLevel;

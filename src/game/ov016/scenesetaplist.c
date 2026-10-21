@@ -42,7 +42,7 @@
  *   gSceneSetApListWork   0x021DE5D8  data
  *   DWCi_SBlInit                     0x021CE874  arm
  *   FX_DivS32                        0x0207C958  arm
- *   CELL_LV                          0x021DA51F  data
+ *   sScenesetaplistCellLv                          0x021DA51F  data
  *   DWCi_CEINlSet                    0x021D52D4  arm
  *   DWCi_CEINlSetExObj               0x021D5368  arm
  *   scenesetaplist_rodata            0x021DA51C  data
@@ -246,9 +246,9 @@ extern T22 sSceneSetApListPathYbBgStep31Pltt;
 extern unsigned char sSceneSetApListPathJb4ApListScr[];
 extern unsigned char gSceneSetApListWorkBytes[];
 extern struct SCENESETAPLIST_BSS gSceneSetApListWork;
-/* CELL_LV is named on its own: the loop reaches it through its own pool word
+/* sScenesetaplistCellLv is named on its own: the loop reaches it through its own pool word
    (the vendor symbol at scenesetaplist_rodata + 3), not through the section base. */
-extern const unsigned char CELL_LV[4];
+extern const unsigned char sScenesetaplistCellLv[4];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
@@ -393,7 +393,7 @@ static void getCharName(void)
         scenesetaplist_bss.MemSsal->nameWep[i] = scenesetaplist_bss.MemSsal->objWep[0]->attr2 & 0x3ff;
     }
     for (i = 0; i < sizeof(scenesetaplist_rodata.CELL_LV); i++) {
-        DWCi_CEINlSet(0, CELL_LV[i], scenesetaplist_bss.MemSsal->objLevel[0]);
+        DWCi_CEINlSet(0, sScenesetaplistCellLv[i], scenesetaplist_bss.MemSsal->objLevel[0]);
         scenesetaplist_bss.MemSsal->nameLv[i] = scenesetaplist_bss.MemSsal->objLevel[0]->attr2 & 0x3ff;
     }
     for (i = 0; i < num; i++) {

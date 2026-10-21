@@ -16,10 +16,10 @@
  *   NVRAMi_Init         0x02083644 arm
  *   DC_InvalidateRange  0x020862B8 arm
  *   ReadNVRAM           0x0205F970 arm
- *   BaseAddress         0x020A813C data a4
- *   FormatVersionNumber 0x02146B00 data a1
- *   nvramBuf            0x02146B20 data a16
- *   nvramBuf2           0x02146B40 data a16
+ *   sNcfgBackupBaseAddress         0x020A813C data a4
+ *   sNcfgBackupFormatVersionNumber 0x02146B00 data a1
+ *   sNcfgBackupNvramBuf            0x02146B20 data a16
+ *   sNcfgBackupNvramBuf2           0x02146B40 data a16
  *   NCFGi_InitBackupMemory           0x0205f648 arm
  *   getSlotInfo            0x0205F8A0 arm
  *   DC_StoreRange          0x020862D4 arm
@@ -35,8 +35,8 @@
  */
 #include "../types.h"
 
-/* backup.o's .bss statics from FormatVersionNumber on, in their laid-out order: the object
- * reads nvramBuf[0] and nvramBuf2[0] off the .bss base (FormatVersionNumber) while the
+/* backup.o's .bss statics from sNcfgBackupFormatVersionNumber on, in their laid-out order: the object
+ * reads sNcfgBackupNvramBuf[0] and sNcfgBackupNvramBuf2[0] off the .bss base (sNcfgBackupFormatVersionNumber) while the
  * calls take each buffer's own literal */
 typedef struct {
     u8  FormatVersionNumber;
@@ -60,10 +60,10 @@ typedef unsigned long long OSTick;
 #include "os_thread.h"
 s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
-extern u32 BaseAddress;
-extern NCFGBackupBss FormatVersionNumber;
-extern u8 nvramBuf[32];
-extern u8 nvramBuf2[32];
+extern u32 sNcfgBackupBaseAddress;
+extern NCFGBackupBss sNcfgBackupFormatVersionNumber;
+extern u8 sNcfgBackupNvramBuf[32];
+extern u8 sNcfgBackupNvramBuf2[32];
 
 /*
  * sdk:      NCFGi_InitBackupMemory (libncfg.TWL.HYB.a backup.o)
@@ -72,20 +72,20 @@ s32 NCFGi_InitBackupMemory(void)
 {
     s32 result;
 
-    if (BaseAddress != (u32)-1)
+    if (sNcfgBackupBaseAddress != (u32)-1)
         return 0;
     NVRAMi_Init();
     result = 0;
-    DC_InvalidateRange(nvramBuf, sizeof(nvramBuf));
-    if (ReadNVRAM(0x1FE, sizeof(nvramBuf), nvramBuf) == 0) {
-        FormatVersionNumber.FormatVersionNumber = FormatVersionNumber.nvramBuf[0];
+    DC_InvalidateRange(sNcfgBackupNvramBuf, sizeof(sNcfgBackupNvramBuf));
+    if (ReadNVRAM(0x1FE, sizeof(sNcfgBackupNvramBuf), sNcfgBackupNvramBuf) == 0) {
+        sNcfgBackupFormatVersionNumber.FormatVersionNumber = sNcfgBackupFormatVersionNumber.nvramBuf[0];
     } else {
         result = -1;
         goto end;
     }
-    DC_InvalidateRange(nvramBuf2, sizeof(nvramBuf2));
-    if (ReadNVRAM(0x20, sizeof(nvramBuf2), nvramBuf2) == 0)
-        BaseAddress = (FormatVersionNumber.nvramBuf2[0] << 3) - 0x400;
+    DC_InvalidateRange(sNcfgBackupNvramBuf2, sizeof(sNcfgBackupNvramBuf2));
+    if (ReadNVRAM(0x20, sizeof(sNcfgBackupNvramBuf2), sNcfgBackupNvramBuf2) == 0)
+        sNcfgBackupBaseAddress = (sNcfgBackupFormatVersionNumber.nvramBuf2[0] << 3) - 0x400;
     else
         result = -1;
 end:
@@ -104,7 +104,7 @@ unsigned char NCFG_GetFormatVersion(void)
     if (result != 0) {
         return 0;
     }
-    version = FormatVersionNumber.FormatVersionNumber;
+    version = sNcfgBackupFormatVersionNumber.FormatVersionNumber;
     if (version == 0xFF) {
         version = 0x10;
     }
@@ -188,7 +188,7 @@ int getSlotInfo(s32 index, u32 *address, u32 *size)
     case 1:
     case 2:
     case 3:
-        *address = BaseAddress + index * 0x100;
+        *address = sNcfgBackupBaseAddress + index * 0x100;
         *size = 0x100;
         return 1;
     case 0x11:
@@ -199,7 +199,7 @@ int getSlotInfo(s32 index, u32 *address, u32 *size)
             *size = 0;
             return 0;
         }
-        *address = BaseAddress - 0x600 + (index - 0x11) * 0x200;
+        *address = sNcfgBackupBaseAddress - 0x600 + (index - 0x11) * 0x200;
         *size = 0x200;
         return 1;
     default:

@@ -46,7 +46,7 @@
  * symbols:
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
- *   Choose                           0x021DE628  data
+ *   sScenesetusbreadyChoose                           0x021DE628  data
  *   DWCi_ANIMElEnd                   0x021BC8EC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
@@ -128,7 +128,7 @@ void DWCi_SceneSetUsbReady(void);
 void DWCi_SceneSetUsbReadyUpdate(void);
 void DWCi_SceneSetUsbReadyUpdateNop(void);
 /* scenesetusbready .bss at 0x021DE628 */
-extern unsigned char Choose;
+extern unsigned char sScenesetusbreadyChoose;
 extern unsigned short sSceneSetUsbReadyPathJbBgStep2Char[];
 extern unsigned short sSceneSetUsbReadyPathYbBgStep2Pltt[];
 extern unsigned short sSceneSetUsbReadyPathXb3MultiScr[];
@@ -147,7 +147,7 @@ static void endScene2(void);
 
 void DWCi_SceneSetUsbReady(void)
 {
-    Choose = 0;
+    sScenesetusbreadyChoose = 0;
     initGraphics();
     DWCi_HLlLoad(8);
     DWCi_COMMENTlDispEx(0x38, -1, 0);
@@ -236,7 +236,7 @@ static void button(void)
         break;
     case 1:
         DWCi_SNDlPlay(6);
-        Choose = 1;
+        sScenesetusbreadyChoose = 1;
         break;
     default:
         return;
@@ -270,17 +270,17 @@ static void endScene2(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    if (Choose == 0 && DWCi_EFFlCheck(1))
+    if (sScenesetusbreadyChoose == 0 && DWCi_EFFlCheck(1))
         return;
     if (!DWCi_BTNlIsEnd())
         return;
     DWCi_FNTlDeleteBgLcd(0);
-    if (Choose == 0) {
+    if (sScenesetusbreadyChoose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (Choose == 0) {
+    if (sScenesetusbreadyChoose == 0) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
     } else {

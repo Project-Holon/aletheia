@@ -23,7 +23,7 @@
  *   _ll_ufrom_d  0x0209C554  arm
  *   copysign  0x0209A368  arm
  *   pow  0x0209AB80  arm
- *   pow_10  0x020A8A7C  data
+ *   sMslAnsiFpPow10  0x020A8A7C  data
  *   s_020A8ABC     0x020A8ABC  data  a1
  *   s_020A8AEC     0x020A8AEC  data  a1
  *   s_020A8B14     0x020A8B14  data  a1
@@ -166,7 +166,7 @@ extern const char s_020A8B88[];
 
 extern const char s_020A8B8C[];
 
-extern const double pow_10[8];
+extern const double sMslAnsiFpPow10[8];
 
 extern const char s_020A8B90[];     /* "179769313486231580793728714053034151" */
 
@@ -884,7 +884,7 @@ double __dec2num(const decimal2 *d)
                 ndig = 8;
             for (j = 0; j < ndig; ++j, ++i)
                 ival = ival * 10 + *i;
-            temp1 = first_guess * pow_10[ndig - 1];
+            temp1 = first_guess * sMslAnsiFpPow10[ndig - 1];
             temp2 = temp1 + ival;
             if (ival != 0 && temp1 == temp2)
                 break;

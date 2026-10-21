@@ -46,14 +46,7 @@ typedef struct McssActorData {
 } McssActorData;
 
 
-#ifdef __MWERKS__
-#define ARC_UTIL_LoadMember ARC_UTIL_LoadMember_hdr
-#endif
 #include "../arm9/arc_util.h"
-#ifdef __MWERKS__
-#undef ARC_UTIL_LoadMember
-void * ARC_UTIL_LoadMember(int, int, int, int);
-#endif
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap);
 

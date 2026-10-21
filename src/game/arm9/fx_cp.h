@@ -12,7 +12,7 @@ fx64 FX_InvFx64c(fx32 denom);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 u64 FX_GetDivResultFx64c(void);
-u32 FX_GetDivResult(void);
+s32 FX_GetDivResult(void);
 void FX_InvAsync(fx32 denom);
 void FX_SqrtAsync(fx32 x);
 fx32 FX_GetSqrtResult(void);

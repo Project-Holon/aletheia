@@ -328,7 +328,7 @@ struct PrintQueue;
 #include "../arm9/mcss.h"
 #include "../arm9/bg_sys.h"
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
+
 #include "../arm9/g2.h"
 struct DispVramCfg;
 struct SysInit;

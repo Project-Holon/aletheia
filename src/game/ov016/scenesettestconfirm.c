@@ -38,7 +38,7 @@
  *   DWCi_SETTINGlSet  0x021CF8D8  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   procInit  0x021CD8DC  arm  ov016
- *   Count                            0x021DE5BC  data
+ *   sScenesettestconfirmCount                            0x021DE5BC  data
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm
  *   DWCi_COMMENTlDelete              0x021BD138  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
@@ -135,7 +135,7 @@ void DWCi_SceneSetTestConfirm(void);
 void DWCi_SceneSetTestConfNopA(void);
 void DWCi_SceneSetTestConfNopB(void);
 /* sceneoptmovdisco .bss */
-extern unsigned char Count;
+extern unsigned char sScenesettestconfirmCount;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 extern struct SCENEMENU_BSS scenemenu_bss;

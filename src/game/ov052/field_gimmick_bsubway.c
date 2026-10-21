@@ -38,14 +38,7 @@
 #include "../arm9/game_data.h"
 #include "../arm9/gimmick.h"
 /* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller reads r0 of FLDEFF_BTRAIN_Start (the effect object that FIELD_EFFECT_AddObject returned) */
-#ifdef __MWERKS__
-#define FLDEFF_BTRAIN_Start FLDEFF_BTRAIN_Start_header
-#endif
 #include "../ov021/fldeff_btrain.h"
-#ifdef __MWERKS__
-#undef FLDEFF_BTRAIN_Start
-struct FieldEffectObj *FLDEFF_BTRAIN_Start(FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
-#endif
 #include "../ov021/field_effect.h"
 #include "../ov021/field_g3d_mapper.h"
 #include "../arm9/gfl_heap_wrap.h"

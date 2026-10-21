@@ -34,7 +34,7 @@
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   DWCi_TSKlAct                   0x021D75D0  arm  ov016
- *   Choose                           0x021DE5CC  data
+ *   sScenesetaossbuttonChoose                           0x021DE5CC  data
  *   initGraphics                     0x021C4964  arm
  *   DWCi_HLlLoadSet                  0x021BD6D4  arm
  *   DWCi_COMMENTlDispEx              0x021BD060  arm
@@ -137,7 +137,7 @@ typedef int bool_0;
 #include "scenesetaosscomplete.h"
 void DWCi_SceneSetAossButton(void);
 void DWCi_SceneSetAossButton_draw(void);
-extern SCENESETAOSSBUTT_BSS Choose;
+extern SCENESETAOSSBUTT_BSS sScenesetaossbuttonChoose;
 extern unsigned short sSceneSetAossButtonPathJbBgStep3Char[];
 extern unsigned short sSceneSetAossButtonPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetAossButtonPathXb4MultiScr[];
@@ -171,7 +171,7 @@ static int DWCi_IsFold(void)
 
 void DWCi_SceneSetAossButton(void)
 {
-    Choose.Count = 0;
+    sScenesetaossbuttonChoose.Count = 0;
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_COMMENTlDispEx(0x36, -1, 0);
@@ -229,7 +229,7 @@ static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
-    Choose.Task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x78);
+    sScenesetaossbuttonChoose.Task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x78);
     DWCi_ChangeScene((uptr)procScene);
 }
 
@@ -242,22 +242,22 @@ static void procScene(void)
     case 0:
         return;
     case 1:
-        if (Choose.Task == 0)
+        if (sScenesetaossbuttonChoose.Task == 0)
             return;
-        Choose.Choose = 1;
-        DWCi_TSKlDeleteEx(1, Choose.Task);
-        Choose.Task = 0;
+        sScenesetaossbuttonChoose.Choose = 1;
+        DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
+        sScenesetaossbuttonChoose.Task = 0;
         DWCi_ChangeScene((uptr)procWait);
         return;
     case 2:
-        if (Choose.Task == 0)
+        if (sScenesetaossbuttonChoose.Task == 0)
             return;
         DWCi_SNDlStop();
         DWCi_WINlInitEx(0xC, 1, 1, -1, 0);
         DWCi_SNDlPlay(9);
         DWCi_BTNlDisable();
-        DWCi_TSKlDeleteEx(1, Choose.Task);
-        Choose.Task = 0;
+        DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
+        sScenesetaossbuttonChoose.Task = 0;
         DWCi_ChangeScene((uptr)procError);
         return;
     }
@@ -282,10 +282,10 @@ static void button(void)
 {
     if (DWCi_BTNlGet())
         return;
-    if (Choose.Task == 0)
+    if (sScenesetaossbuttonChoose.Task == 0)
         return;
-    DWCi_TSKlDelete(1, Choose.Task);
-    Choose.Task = 0;
+    DWCi_TSKlDelete(1, sScenesetaossbuttonChoose.Task);
+    sScenesetaossbuttonChoose.Task = 0;
     DWCi_BTNlDisable();
     DWCi_ChangeScene((uptr)procCancel);
 }
@@ -293,8 +293,8 @@ static void button(void)
 static void endScene(void)
 {
     DWCi_BTNlDisable();
-    if (Choose.Task != 0)
-        DWCi_TSKlDeleteEx(1, Choose.Task);
+    if (sScenesetaossbuttonChoose.Task != 0)
+        DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
     DWCi_EFFlWait(8);
     DWCi_ChangeScene((uptr)endScene1);
 }
@@ -374,8 +374,8 @@ static void procWait(void)
     input();
     DWCi_SceneSetAossButton_draw();
     button();
-    Choose.Count = Choose.Count + 1;
-    if (Choose.Count < 1080)
+    sScenesetaossbuttonChoose.Count = sScenesetaossbuttonChoose.Count + 1;
+    if (sScenesetaossbuttonChoose.Count < 1080)
         return;
     DWCi_SNDlStop();
     DWCi_ChangeScene((uptr)endScene);

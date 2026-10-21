@@ -481,10 +481,10 @@ extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u3
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *p);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, s32 c, u32 d, s32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void BMP_WIN_Init(u16);
+extern void BMP_WIN_Init(u32);
 extern void GF_FONT_InitTextColor(void);
 struct DispVramCfg;
 struct SysInit;
@@ -500,7 +500,7 @@ extern u32 APP_ICON_GetMoveKindCellFileId(u32 a);
 extern u32 APP_ICON_GetTypeCellFileId(u32 a);
 extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
-extern int WAZA_TOOL_GetDamageType(int);
+extern int WAZA_TOOL_GetDamageType(u16);
 extern u8 WAZA_TOOL_GetType(u16 move);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
@@ -554,7 +554,7 @@ extern void MYITEM_SAVEDATA_CompactAllPockets();
 #include "../arm9/myitem_savedata.h"
 #endif
 extern void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *p, int i, s16 *a, s16 *b);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
 extern struct GfFont *GF_FONT_Create(s32 archiveId, s32 fileId, s32 format, s32 isFixedWidth, u32 heapId);

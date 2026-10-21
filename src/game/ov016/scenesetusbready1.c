@@ -50,7 +50,7 @@
  *   GX_LoadBG2Char    0x0207F0B8  data
  *   GX_LoadBGPltt    0x0207E3D0  data
  *   GX_LoadBG2Scr    0x0207EB78  data
- *   Choose                           0x021DE62C  data
+ *   sScenesetusbready1Choose                           0x021DE62C  data
  *   DWCi_ANIMElEnd                   0x021BC8EC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
@@ -140,7 +140,7 @@ extern unsigned short gSceneSetUsbReady1PathChar[];
 extern unsigned short gSceneSetUsbReady1PathPltt[];
 extern unsigned short gSceneSetUsbReady1PathScr[];
 /* this member's .bss at 0x021DE62C: the choice that picks the next scene */
-extern unsigned char Choose;
+extern unsigned char sScenesetusbready1Choose;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 static void initGraphics(void);
@@ -251,11 +251,11 @@ void DWCi_SceneSetUsbReady1UpdateNop(void)
 
 static void button(void)
 {
-    if (Choose != 0)
+    if (sScenesetusbready1Choose != 0)
         return;
     if (DWCi_BTNlGet() != 0)
         return;
-    Choose = 2;
+    sScenesetusbready1Choose = 2;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
     DWCi_ChangeScene((uptr)endScene);
@@ -273,7 +273,7 @@ static void endScene1(void)
     if (DWCi_EFFlCheck(1))
         return;
     DWCi_BTNlEnd();
-    if (Choose == 2 || Choose == 3)
+    if (sScenesetusbready1Choose == 2 || sScenesetusbready1Choose == 3)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene((uptr)endScene2);
@@ -283,22 +283,22 @@ static void endScene2(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    if (Choose == 2 && DWCi_EFFlCheck(1))
+    if (sScenesetusbready1Choose == 2 && DWCi_EFFlCheck(1))
         return;
     if (!DWCi_BTNlIsEnd())
         return;
     DWCi_USBAPlEnd();
     DWCi_ANIMElEnd();
     DWCi_FNTlDeleteBgLcd(0);
-    if (Choose == 2 || Choose == 3) {
+    if (sScenesetusbready1Choose == 2 || sScenesetusbready1Choose == 3) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (Choose == 2) {
+    if (sScenesetusbready1Choose == 2) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
-    } else if (Choose == 3) {
+    } else if (sScenesetusbready1Choose == 3) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetUsbReady);
     } else {
@@ -366,11 +366,11 @@ static void procBoth(void)
 {
     switch (DWCi_WINlGet()) {
     case 1:
-        Choose = 3;
+        sScenesetusbready1Choose = 3;
         DWCi_SNDlPlay(6);
         break;
     case 0:
-        Choose = 1;
+        sScenesetusbready1Choose = 1;
         DWCi_SNDlPlay(7);
         break;
     default:
@@ -384,13 +384,13 @@ static void procBoth1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    if (Choose == 1) {
+    if (sScenesetusbready1Choose == 1) {
         DWCi_ChangeScene((uptr)endScene);
         return;
     }
     DWCi_SNDlPlay(11);
     DWCi_BTNlEnable();
-    Choose = 0;
+    sScenesetusbready1Choose = 0;
     DWCi_USBAPlSetCallback((uptr)cbUsb);
     DWCi_ChangeScene((uptr)DWCi_SceneSetUsbReady1Update);
 }

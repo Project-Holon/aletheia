@@ -56,7 +56,7 @@
  *   DWCi_ANIMElInitEx                0x021bc820 arm
  *   DWCi_SNDlPlay                    0x021cffac arm
  *   DWCi_ChangeScene                 0x021c0e40 arm
- *   Choose                           0x021de604 data
+ *   sScenesetrakureadyChoose                           0x021de604 data
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetRakuReadyPathJbBgStep3Char    0x021DB680  data
  *   sSceneSetRakuReadyPathYbBgStep3Pltt    0x021DB698  data
@@ -127,7 +127,7 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "window.h"
 void DWCi_SceneSetRakuReady(void);
 void DWCi_SceneSetRakuReady_draw(void);
-extern unsigned char Choose;
+extern unsigned char sScenesetrakureadyChoose;
 extern unsigned short sSceneSetRakuReadyPathJbBgStep3Char[];
 extern unsigned short sSceneSetRakuReadyPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetRakuReadyPathXb4MultiScr[];
@@ -158,7 +158,7 @@ static int DWCi_IsFold(void)
 
 void DWCi_SceneSetRakuReady(void)
 {
-    Choose = 0;
+    sScenesetrakureadyChoose = 0;
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_COMMENTlDispEx(0x37, -1, 0);
@@ -264,9 +264,9 @@ static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
-    if (Choose == 0)
+    if (sScenesetrakureadyChoose == 0)
         DWCi_BTNlEnd();
-    if (Choose == 0)
+    if (sScenesetrakureadyChoose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
     DWCi_ChangeScene((uptr)endScene2);
@@ -277,7 +277,7 @@ static void endScene2(void)
     if (DWCi_EFFlCheck(0)) {
         return;
     }
-    if (Choose == 0) {
+    if (sScenesetrakureadyChoose == 0) {
         if (DWCi_EFFlCheck(1)) {
             return;
         }
@@ -287,12 +287,12 @@ static void endScene2(void)
     }
     DWCi_ANIMElEnd();
     DWCi_FNTlDeleteBgLcd(0);
-    if (Choose == 0) {
+    if (sScenesetrakureadyChoose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_GXlInvisible(0, 0x15);
-    if (Choose == 0) {
+    if (sScenesetrakureadyChoose == 0) {
         DWCi_RAKUlEnd();
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
@@ -306,11 +306,11 @@ static void checkRaku(void)
 {
     switch (DWCi_RAKUlGetState()) {
     case 1:
-        Choose = 1;
+        sScenesetrakureadyChoose = 1;
         DWCi_ChangeScene((uptr)endScene);
         break;
     case 4:
-        Choose = 0;
+        sScenesetrakureadyChoose = 0;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(9);
         DWCi_WINlInitEx(0xd, 1, 1, -1, 0);

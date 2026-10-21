@@ -20,7 +20,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_WouldOverwriteSave 0x020071F0 thumb
- *   init 0x021B9E50 data a2
+ *   sSaveScreenInit 0x021B9E50 data a2
  *   KEY_GetTrg 0x020362DC arm
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   GXS_LoadBGPltt 0x0207E468 arm
@@ -255,7 +255,7 @@ int SAVE_SCREEN_NoticeExit(void *p);
 void SAVE_SCREEN_SetupNoticeBackground(u16 heap);
 void SAVE_SCREEN_DeleteNoticeBackground(void);
 void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y);
-extern const SaveScreenInit init;
+extern const SaveScreenInit sSaveScreenInit;
 extern const unsigned d_021B9E90[],d_021B9E60[],d_021B9E70[];
 extern const unsigned d_021B9EFC[],d_021B9ECC[],d_021B9EDC[];
 
@@ -281,7 +281,7 @@ int SAVE_SCREEN_Main(void *unused,SaveScreenState *state,SaveScreenContext *cont
     SaveScreenInit local;
     void *obj;
     enum { M3=3,M12=12 } mode;
-    local=init;
+    local=sSaveScreenInit;
     KEY_GetTrg();
     switch(*state){
     case 0:SAVE_SCREEN_Setup(p,context);(*state)++;break;

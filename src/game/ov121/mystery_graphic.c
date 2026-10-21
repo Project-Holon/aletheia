@@ -127,14 +127,7 @@ struct TcbTask;
 
 
 
-#ifdef __MWERKS__
-#define BMP_WIN_Init BMP_WIN_Init_hdr
-#endif
 #include "../arm9/bmp_win.h"
-#ifdef __MWERKS__
-#undef BMP_WIN_Init
-void BMP_WIN_Init(u32);
-#endif
 
 
 

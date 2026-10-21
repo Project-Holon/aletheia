@@ -55,8 +55,8 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   file 0x021BBFE0 data ov225 a1
- *   vram 0x021BBE1C data ov225
+ *   sManualGraphicFile 0x021BBFE0 data ov225 a1
+ *   sManualGraphicVram 0x021BBE1C data ov225
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BG_SYS_Create 0x0203F8F4 arm
@@ -65,7 +65,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   config 0x021BBDF0 data ov225
+ *   sManualGraphicConfig 0x021BBDF0 data ov225
  *   gManualGraphicMainBgLayerTable 0x021BBE4C data ov225
  *   d_021BBE4C 0x021BBE4C data a4
  *   CLACT_InitSystem 0x0204A48C arm
@@ -218,8 +218,8 @@ void MANUAL_GRAPHIC_DeleteClactUnit(char *p);
 void MANUAL_GRAPHIC_DrawClactUnit(void *unused);
 void MANUAL_GRAPHIC_VBlankClactUnit(void *unused);
 u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *p);
-extern char file[], vram[];
-extern u32 config[];
+extern char sManualGraphicFile[], sManualGraphicVram[];
+extern u32 sManualGraphicConfig[];
 extern struct ManualGraphicRecord gManualGraphicMainBgLayerTable[];
 
 int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct ManualGraphicArgs *args)
@@ -383,21 +383,21 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *screen = GFL_HEAP_Alloc(heap, 16, 0, file, 454);
+    char *screen = GFL_HEAP_Alloc(heap, 16, 0, sManualGraphicFile, 454);
     MI_CpuFill8(screen, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)vram);
+    BG_SYS_SetVramBanks((const struct DispVram *)sManualGraphicVram);
     BG_SYS_SetLcdSwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     MANUAL_GRAPHIC_CreateBg(screen, heap);
-    MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)screen + 4, (sptr)vram, heap);
+    MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)screen + 4, (sptr)sManualGraphicVram, heap);
     ((struct ManualScreen *)screen)->task = GFL_USE_AddMainTask(MANUAL_GRAPHIC_VBlankScreen, screen, 0);
     return screen;
 }
@@ -436,7 +436,7 @@ void MANUAL_GRAPHIC_CreateBg(void *screen, u32 heap)
     MI_CpuFill8(screen, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    BG_SYS_SetGraphicsMode((struct DispConfig *)config);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)sManualGraphicConfig);
     for (; index < 4; index++) {
         struct ManualGraphicRecord *row = &gManualGraphicMainBgLayerTable[index];
         u32 id = row->id;

@@ -35,8 +35,8 @@
  * Addresses are Black-image addresses.
  *
  * symbols:
- *   dateTimeData  0x021CAE14  data  ov172
- *   dateTimeDataFlag  0x021CADF0  data  ov172
+ *   sExifencDateTimeData  0x021CAE14  data  ov172
+ *   sExifencDateTimeDataFlag  0x021CADF0  data  ov172
  *   RTC_GetDateTime  0x020889C0  arm
  *   gExifDateTimeFormat  0x021C8874  data
  *   SSPiSoftware  0x021CAE28  data
@@ -54,7 +54,7 @@
  *   SSPiEncodeSignCheckMode 0x021CADF8 data ov172
  *   SSPiSoftwareSize 0x021CADFC data ov172
  *   SSPiMakerNoteUserBufferSize 0x021CAE00 data ov172
- *   dst 0x021CAE04 data ov172
+ *   sExifencDst 0x021CAE04 data ov172
  *   SSPiMakerNoteBufferSize 0x021CAE08 data ov172
  *   SSPiMakerNoteBuffer 0x021CAE0C data ov172
  *   SSPiMakerNoteUserBuffer 0x021CAE10 data ov172
@@ -77,7 +77,7 @@
  */
 #include "../../matched/include/G_Ae90.h"
 
-#define PUT(v)  (dst[encode_file_size++] = (unsigned char)(v))
+#define PUT(v)  (sExifencDst[encode_file_size++] = (unsigned char)(v))
 #include "../sdk_rtc.h"
 
 #include "../types.h"
@@ -172,7 +172,7 @@ struct Adf0 {
     u32 makerNoteBufferSize;
     u32 makerNoteBuffer;
     u32 makerNoteUserBuffer;
-    u8  dateTime[20];   /* dateTimeData: "YYYY:MM:DD HH:MM:SS" plus NUL (EXIF DateTime, 20 bytes) */
+    u8  dateTime[20];   /* sExifencDateTimeData: "YYYY:MM:DD HH:MM:SS" plus NUL (EXIF DateTime, 20 bytes) */
 };
 
 void MI_CpuCopy(const void *src, void *dst, u32 n);
@@ -213,7 +213,7 @@ extern const char gExifInteropIndex[];
 extern const char gExifRelatedImageFormat[];
 extern struct Adf0 g_021CADF0;
 
-static int dateTimeDataFlag = 0;
+static int sExifencDateTimeDataFlag = 0;
 
 static u8 *SSPiMakerNoteUserBuffer = 0;
 
@@ -221,7 +221,7 @@ static u8 *SSPiMakerNoteBuffer = 0;
 
 static u32 SSPiMakerNoteBufferSize = 0;
 
-static u8 *dst = 0;
+static u8 *sExifencDst = 0;
 
 static u32 SSPiMakerNoteUserBufferSize = 0;
 
@@ -231,7 +231,7 @@ int SSPiEncodeSignCheckMode = 0;
 
 static u32 encode_file_size = 0;
 
-static char dateTimeData[20] = {0};
+static char sExifencDateTimeData[20] = {0};
 
 static char SSPiSoftware[30] = {0};
 
@@ -240,16 +240,16 @@ static char SSPiSoftware[30] = {0};
  * exifenc.o), ov172.
  *
  * Small leaf: copies 0x13 bytes (reversed-copy helper MI_CpuCopy) from the
- * bss/string object dateTimeData into the caller's buffer, then raises the
- * dateTimeDataFlag at +0 and clears the byte at +0x37.
+ * bss/string object sExifencDateTimeData into the caller's buffer, then raises the
+ * sExifencDateTimeDataFlag at +0 and clears the byte at +0x37.
  *
  * Addresses are Black-image addresses.
  */
 void SSP_SetJpegEncoderDateTime(u8 *buf)
 {
-    MI_CpuCopy(buf, dateTimeData, 0x13);
-    dateTimeData[19] = 0;
-    dateTimeDataFlag = 1;
+    MI_CpuCopy(buf, sExifencDateTimeData, 0x13);
+    sExifencDateTimeData[19] = 0;
+    sExifencDateTimeDataFlag = 1;
 }
 
 /*
@@ -273,7 +273,7 @@ int SSP_GetDateTime(void *a, void *b)
  * pointers to RTC_GetDateTime, which fills the DateTime struct d (memory order
  * hour,min,sec,year,month,day); the "year" field is stored as year-2000, so the
  * formatting call adds 2000 (0x7d0).  The rendered string in the local buffer is
- * then handed to SSP_SetJpegEncoderDateTime, which copies it out to dateTimeData.
+ * then handed to SSP_SetJpegEncoderDateTime, which copies it out to sExifencDateTimeData.
  *
  * Addresses are Black-image addresses.
  */
@@ -450,7 +450,7 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
 /*
  * sdk:      jpeg_encode_ifd (libssp.TWL.HYB.a exifenc.o)
  *
- * exifenc.o's file statics sit in one block based at dateTimeDataFlag
+ * exifenc.o's file statics sit in one block based at sExifencDateTimeDataFlag
  * (0x021CADF0); every use goes through that one pool word, so the block
  * is written as a struct overlay named by offset (+0x04 write position,
  * +0x14 output buffer).
@@ -618,7 +618,7 @@ short jpeg_encode_exif(jpeg_exif_data_structure *jexif, short option,
 
     if (option == 0) {
         jpeg_encode_ifd(jexif, &jexif->ifd[4], 1);
-        MI_CpuCopy(thumb_src, dst + encode_file_size, thumb_size);
+        MI_CpuCopy(thumb_src, sExifencDst + encode_file_size, thumb_size);
         encode_file_size += thumb_size;
     }
     return 1;
@@ -628,11 +628,11 @@ short jpeg_encode_exif(jpeg_exif_data_structure *jexif, short option,
  * sdk:      jpeg_encode_main (libssp.TWL.HYB.a(exifenc.o))
  *
  * notes: EXACT 2026-10-01 (lane29), was 22 B. The old `g_021CADF0` struct is
- *   the object's separate .bss statics anchored at dateTimeDataFlag
+ *   the object's separate .bss statics anchored at sExifencDateTimeDataFlag
  *   (encode_file_size +4, SSPiEncodeSignCheckMode +8 (global),
  *   SSPiSoftwareSize +0xc, SSPiMakerNoteUserBufferSize +0x10, dst +0x14,
  *   SSPiMakerNoteBufferSize +0x18, SSPiMakerNoteBuffer +0x1c,
- *   SSPiMakerNoteUserBuffer +0x20, dateTimeData +0x24, SSPiSoftware +0x38).
+ *   SSPiMakerNoteUserBuffer +0x20, sExifencDateTimeData +0x24, SSPiSoftware +0x38).
  *   Defining them as file statics fixed the count0++ / SSPiSoftwareSize test
  *   order at +0x204. 1.1p1 .bss layout for the 4-byte group: the first
  *   declared stays at offset 0, the rest are laid out in reverse declaration
@@ -756,7 +756,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->longData = 0;
   s->rationalNumerator = 0;
   s->rationalDenominator = 0;
-  STD_CopyLString(s->str, dateTimeData, 20);
+  STD_CopyLString(s->str, sExifencDateTimeData, 20);
   s->offset = 0;
   sb->count0++;
   s = &sb->ptr0[sb->count0];
@@ -792,7 +792,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->longData = 0;
   s->rationalNumerator = 0;
   s->rationalDenominator = 0;
-  STD_CopyLString(s->str, dateTimeData, 20);
+  STD_CopyLString(s->str, sExifencDateTimeData, 20);
   s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -804,7 +804,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->longData = 0;
   s->rationalNumerator = 0;
   s->rationalDenominator = 0;
-  STD_CopyLString(s->str, dateTimeData, 20);
+  STD_CopyLString(s->str, sExifencDateTimeData, 20);
   s->offset = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -1114,8 +1114,8 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     sb->thumbLength = 0;
     sb->count4++;
   }
-  dst[encode_file_size++] = 0xFF;
-  dst[encode_file_size++] = 0xD8;
+  sExifencDst[encode_file_size++] = 0xFF;
+  sExifencDst[encode_file_size++] = 0xD8;
   if (cfg_encode_exif_)
   {
     if (jpeg_encode_exif((jpeg_exif_data_structure *)sb, 0, thumb_src, thumb_size) == 0)
@@ -1132,7 +1132,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   }
   if ((encode_file_size & 1) == 1)
   {
-    dst[encode_file_size++] = 0;
+    sExifencDst[encode_file_size++] = 0;
   }
   return 1;
 }

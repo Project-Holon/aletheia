@@ -417,7 +417,7 @@ struct BattleSetupParam;
 #include "../arm9/net_command.h"
 extern int GFL_NET_GetRunState(void);
 #include "../arm9/field_sound_system.h"
-struct EncEff;
+struct EncEffWork;
 struct EncEffWork;
 #include "../ov021/enceff.h"
 #include "../arm9/game_event.h"

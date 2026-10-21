@@ -136,7 +136,7 @@ struct GameEvent *ENCEFF_GetEffect(EncEffWork *eff);
 
 void ENCEFF_RunUpdate(EncEffWork *eff);
 
-void ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId);
+void *ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId);
 
 void ENCEFF_FreeWork(EncEffWork *eff);
 
@@ -206,7 +206,7 @@ void ENCEFF_RunUpdate(EncEffWork *eff)
     }
 }
 
-void ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId)
+void *ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId)
 {
     eff->effectWork = GFL_HEAP_Alloc(heapId, size, 1, d_021DE5FC, 0xe3);
 }

@@ -75,9 +75,7 @@ extern u32 FX_Div(u32 numer, u32 denom); /* original prototype; the definition d
 #include "nns_g3d_anm_texpat.h"
 #include "nns_g3d_ge.h"
 #ifdef __MWERKS__
-extern void FX_DivAsync(s32 num, s32 den);
 extern s32  FX_GetDivResult(void); /* original prototype; the definition differs in argument sign, return type */
-extern void FX_DivAsync(fx32 numer, fx32 denom);
 extern fx32 FX_GetDivResult(void); /* original prototype; the definition differs in argument sign, return type */
 #endif
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, const NNSG3dResJntAnm *pJntAnm, const NNSG3dResMdl *pMdl);

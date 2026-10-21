@@ -137,9 +137,6 @@ extern NetWork *WCMi_GetSystemWork(void); /* original prototype; the definition 
 #include "nwm_startscan.h"
 struct CamBuf;
 #include "nwm_init.h"
-#ifdef __MWERKS__
-extern void WCMi_SetPhase(unsigned char phase);
-#endif
 #include "nwm_loaddev.h"
 #include "nwm_close.h"
 #ifdef __MWERKS__
@@ -156,11 +153,6 @@ extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, const u8 *d, u32 e); /* original
 #include "../ov009/wcm_cpsif.h"
 #include "nwm_sendframe.h"
 #include "../arm9/os_thread.h"
-#ifdef __MWERKS__
-extern u32 NWM_GetAllowedChannel(void);
-extern void WCMi_Notify(short result, void *para0, void *para1, int para2);
-extern void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, int para2);
-#endif
 #include "../ov009/wcm_aplist.h"
 #ifdef __MWERKS__
 extern u16 WCMi_GetNextScanChannel(u16 a);
@@ -174,11 +166,6 @@ extern u16 WCMi_GetNextScanChannel(u16 a);
 extern int NWM_Connect(void *cb, u8 flag, void *buf); /* original prototype; the definition takes u32 and returns u32 */
 #else
 #include "nwm_connect.h"
-#endif
-#ifdef __MWERKS__
-extern unsigned long WCM_UpdateOption(unsigned long option);
-extern u16 NWM_GetDispersionScanPeriod(u32 a);
-extern void WCMi_ResetKeepAliveAlarm(void);
 #endif
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);

@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8     0x02082D44  arm
  *   CPSi_sha1_block 0x02163628  arm
- *   padding         0x021A1F28  data
+ *   sSha1Padding         0x021A1F28  data
  *   CPSi_sha1_calc  0x02163CF0  arm  ov009
  *   gSha1Pad  0x021A1F28  data
  */
@@ -42,7 +42,7 @@ void CPSi_sha1_init(CPSSha1Ctx *ctx);
 void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
 void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest);
 void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
-extern unsigned char padding[64];
+extern unsigned char sSha1Padding[64];
 extern unsigned char gSha1Pad[64];
 
 
@@ -211,7 +211,7 @@ void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest)
 
     char_from_long(digest, (unsigned long *)((char *)ctx + 0x14), 8);
     index = (ctx->count[1] >> 3) & 0x3f;
-    CPSi_sha1_calc(ctx, padding, index < 0x38 ? 0x38 - index : 0x78 - index);
+    CPSi_sha1_calc(ctx, sSha1Padding, index < 0x38 ? 0x38 - index : 0x78 - index);
     CPSi_sha1_calc(ctx, digest, 8);
     char_from_long(digest, (unsigned long *)ctx, 0x14);
 }

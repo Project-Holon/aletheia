@@ -81,7 +81,7 @@
  *   DWCi_SETTINGlSetSetting          0x021cf80c arm
  *   DWCi_SetParam_                   0x021c0e50 arm
  *   DWCi_SetParam2_                  0x021c0e8c arm
- *   Choose                           0x021de608 data
+ *   sScenesetsearchChoose                           0x021de608 data
  *   DWCi_SceneSetSelectWay           0x021cc998 arm
  *   DWCi_SceneSetApList              0x021c50d4 arm
  *   DWCi_WINlGet                     0x021d1568 arm
@@ -142,7 +142,7 @@ extern unsigned short sSceneSetSearchPathJbBgStep3Char[];
 extern unsigned short sSceneSetSearchPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetSearchPathXb4MultiScr[];
 extern struct SearchBss gSceneSetSearchWork;
-extern unsigned char Choose;
+extern unsigned char sScenesetsearchChoose;
 extern int DWCi_SceneSetSelectWay;
 extern int DWCi_SceneSetApList;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
@@ -334,7 +334,7 @@ static void endScene2(void)
     DWCi_COMMENTlDelete();
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
-    if (Choose != 1) {
+    if (sScenesetsearchChoose != 1) {
         DWCi_SEARCHlEnd();
         DWCi_SETTINGlSetSetting(((SETTINGINFO *)DWCi_SETTIGNlGet())->setting);
         DWCi_SetParam_(2, 1);

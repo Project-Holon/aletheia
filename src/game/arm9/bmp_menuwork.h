@@ -22,7 +22,7 @@ void BMP_MENUWORK_DrawFrame(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palet
 void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
 void BMP_MENUWORK_DrawWindowEx(struct BmpWin *desc, u32 commitMode, u32 tileBase, u32 palette);
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
-BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
+void *BMP_MENUWORK_Create(u32 count, u32 heapId);
 u32 BMP_MENUWORK_Delete(void *items);
 void BMP_MENUWORK_AddMsgItem(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
 void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);

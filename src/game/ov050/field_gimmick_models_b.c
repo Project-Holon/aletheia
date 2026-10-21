@@ -33,7 +33,6 @@
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
 #ifdef __MWERKS__
 #define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
-#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
 #endif
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_models_b_types.h"
@@ -42,9 +41,8 @@
 #include "field_gimmick_models_b.h"
 #ifdef __MWERKS__
 #undef FLD_EXP_OBJ_GetAnime
-#undef FLD_EXP_OBJ_SetAnimeEnabled
 void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
+struct FldExpObjCnt;
 #endif
 
 void FIELD_GIMMICK_MODELS_B_Init(struct FieldMap *fieldMap);

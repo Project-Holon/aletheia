@@ -729,7 +729,6 @@
 #define BTL_WAZAREC_Add BTL_WAZAREC_AddHeader
 #define BTL_POSPOKE_GetFieldPos BTL_POSPOKE_GetFieldPosHeader
 #define BTL_POKEPARAM_GetMovePPChecked BTL_POKEPARAM_GetMovePPCheckedHeader
-#define WAZA_TOOL_GetDamageType WAZA_TOOL_GetDamageTypeHeader
 #define BTL_POKEPARAM_ChangeForm BTL_POKEPARAM_ChangeFormHeader
 #define BTL_SICKCONT_GetPosition BTL_SICKCONT_GetPositionHeader
 #define BTL_ID_IsAbilitySkillSwapBlocked BTL_ID_IsAbilitySkillSwapBlockedHeader
@@ -1456,7 +1455,6 @@ void BTL_SERVER_FLOW_FreeLastHandExRecord(QueueA *pack,QueueB *record);
 #undef BTL_WAZAREC_Add
 #undef BTL_POSPOKE_GetFieldPos
 #undef BTL_POKEPARAM_GetMovePPChecked
-#undef WAZA_TOOL_GetDamageType
 #undef BTL_POKEPARAM_ChangeForm
 #undef BTL_SICKCONT_GetPosition
 #undef BTL_ID_IsAbilitySkillSwapBlocked
@@ -1479,7 +1477,6 @@ extern u8 BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokePa
 extern void BTL_POKESET_SetEmptyMarked(BtlPokeSet *p, int v);
 extern void BTL_WAZAREC_Add(BtlWazaRec *p, u16 wazaId, u32 turn, u32 pokeId);
 extern int BTL_POSPOKE_GetFieldPos(BtlPosPoke *p, struct BtlMain *main, u32 pokeId);
-extern int WAZA_TOOL_GetDamageType(int move);
 extern void BTL_POKEPARAM_ChangeForm(struct BtlPokeParam *poke, u8 form);
 extern int BTL_ID_IsAbilitySkillSwapBlocked(u16 abilityId);
 /* likely original mismatch: the definition returns u8; the DS caller keeps the int return that gives the bytes */

@@ -34,7 +34,6 @@
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GF_OVERLAY_Unload 0x02034A5C arm
- *   overlay_id 0x00000043 data a1
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_021BABD0 0x021BABD0 data a4
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
@@ -379,7 +378,6 @@ int STAFF_ROLL_CmdHidePlane(void);
 int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q);
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec);
 extern u8 ov067_id[];
-extern char overlay_id[];
 extern const Command d_021BABD0[];
 extern int  d_021BABFC[];
 extern const Small d_021BAC74;
@@ -446,7 +444,7 @@ if(GFL_USE_IsBgmPlaying()==1)GFL_USE_CancelChangeAndStopBgm();
 STAFF_ROLL_RemoveVblankTask(p);STAFF_ROLL_FreeRows(p);STAFF_ROLL_Exit3d(p);STAFF_ROLL_DeleteWindows(p);STAFF_ROLL_DeleteText(p);STAFF_ROLL_TeardownBackgrounds();
 GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR,FADE_LEVEL);GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR,FADE_LEVEL);
 *(volatile u16 *)0x04000050=0;*(volatile u16 *)0x04001050=0;
-BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((sptr)overlay_id);return 5;
+BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((sptr)ov067_id);return 5;
 }
 
 #define COUNT(p) (*(unsigned *)((p) + 0x2E4))

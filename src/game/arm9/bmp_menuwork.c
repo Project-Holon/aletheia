@@ -56,10 +56,6 @@ extern void BG_SYS_SetTileEntry(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 hei
 
 
 
-#ifdef __MWERKS__
-extern void BG_SYS_PushTile(u32 index);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-#endif
 
 #include "gfl_heap_wrap.h"
 
@@ -93,7 +89,7 @@ void BMP_MENUWORK_DrawWindowEx(struct BmpWin *desc, u32 commitMode, u32 tileBase
 
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
+void *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
 u32 BMP_MENUWORK_Delete(void *items);
 
@@ -404,7 +400,7 @@ void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode)
  *   python tools/match.py one --src src/matched/BMP_MENUWORK_Create.c \
  *       --func BMP_MENUWORK_Create --addr 0x0201F81C --thumb
  */
-BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId)
+void *BMP_MENUWORK_Create(u32 count, u32 heapId)
 {
     BmpMenuWork *items;
     u32 idx;

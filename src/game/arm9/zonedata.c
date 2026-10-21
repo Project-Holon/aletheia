@@ -296,7 +296,7 @@ void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, int exitId, 
 
 void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset);
 
-void ZONEDATA_SetDirectLocation(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z);
+void ZONEDATA_SetDirectLocation(struct Location *loc, s32 zoneId, s16 dir, u32 x, u32 y, u32 z);
 
 void ZONEDATA_SetDirectRailLocation(struct Location *loc, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid);
 
@@ -1483,7 +1483,7 @@ void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, u16 zoneId, u16 exitId
  * from the live flag's 1 (`subs r1, r4, #2`); a u16 field loads 0xFFFF from
  * the pool.
  */
-void ZONEDATA_SetDirectLocation(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z)
+void ZONEDATA_SetDirectLocation(struct Location *loc, s32 zoneId, s16 dir, u32 x, u32 y, u32 z)
 {
     loc->type = 1;
     loc->zoneId = zoneId;

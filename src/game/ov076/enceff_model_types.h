@@ -36,7 +36,8 @@ typedef struct EncEffModelScene {
     int soundId;               /* 0x40 sound played with the model, or -1 */
 } EncEffModelScene;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern EncEffModelScene *ENCEFF_GetWork(struct EncEffWork *eff);

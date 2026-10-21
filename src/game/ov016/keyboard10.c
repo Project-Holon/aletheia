@@ -48,11 +48,11 @@
  *   DWCi_TPlCheckTrigger             0x021D696C  arm
  *   DWCi_TSKlChangeFunc              0x021D771C  arm
  *   DWCi_TSKlDelete                  0x021D7724  arm
- *   CN_BTN                           0x021DA360  data
- *   CN_SKEY                          0x021DA35E  data
- *   KEY_CHR                          0x021DA396  data
+ *   sKeyboard10CnBtn                           0x021DA360  data
+ *   sKeyboard10CnSkey                          0x021DA35E  data
+ *   sKeyboard10KeyChr                          0x021DA396  data
  *   DWCi_TSKlForm                    0x021D7680  arm
- *   MemKb10                          0x021DE560  data
+ *   sKeyboard10MemKb10                          0x021DE560  data
  *   dispFocus                        0x021C03F0  arm
  *   DWCi_Keyboard10ExchangeBack                     0x021BFED0  arm
  *   keyboard10_rodata                0x021DA35C  data
@@ -63,9 +63,9 @@
  *   taskMain                         0x021BF970  arm
  *   DWCi_TSKlChangeFunc  0x021D771C  arm
  *   changeColor   0x021C0328  arm
- *   C_KEY  0x021DA3B0  data
- *   C_SKEY  0x021DA37A  data
- *   C_BTN  0x021DA382  data
+ *   sKeyboard10CKey  0x021DA3B0  data
+ *   sKeyboard10CSkey  0x021DA37A  data
+ *   sKeyboard10CBtn  0x021DA382  data
  *   gKeyboard10Work     0x021DE560  data
  *   sKeyboard10CellPosX     0x021DA3D8  data
  *   sKeyboard10CellPosY     0x021DA3DA  data
@@ -137,7 +137,7 @@ struct Keyboard10Work {
     s8  focusIndex;
 };
 
-/* the object reads the file static through its .bss section symbol and takes &MemKb10 through the
+/* the object reads the file static through its .bss section symbol and takes &sKeyboard10MemKb10 through the
    variable's own symbol, so the free gets a second pool word (see
    docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md) */
 typedef struct { MEMKB10 *MemKb10; } KEYBOARD10_BSS;
@@ -164,19 +164,19 @@ void DWCi_KB10lSetInput(unsigned char v);
 void DWCi_KB10lSetShift(unsigned char v);
 int DWCi_KB10lIsInit(void);
 /* keyboard10.o .bss at 0x021DE560 */
-extern MEMKB10 *MemKb10;
+extern MEMKB10 *sKeyboard10MemKb10;
 extern const KEYBOARD10_RODATA keyboard10_rodata;
 extern const KB10_N5 keyboard10_str_20862;
 extern const KB10_N5 keyboard10_str_20864;
 extern const KB10_N5 keyboard10_str_20866;
 extern const AREA keyboard10_str_20601;
 extern RECT DWCi_R_SCR;
-extern const unsigned char CN_SKEY[2];
-extern const unsigned char CN_BTN[2];
-extern const unsigned short KEY_CHR[13];
-extern const COORD C_KEY[10];
-extern const COORD C_SKEY[2];
-extern const COORD C_BTN[2];
+extern const unsigned char sKeyboard10CnSkey[2];
+extern const unsigned char sKeyboard10CnBtn[2];
+extern const unsigned short sKeyboard10KeyChr[13];
+extern const COORD sKeyboard10CKey[10];
+extern const COORD sKeyboard10CSkey[2];
+extern const COORD sKeyboard10CBtn[2];
 extern struct Keyboard10Work *gKeyboard10Work;
 extern u16   sKeyboard10CellPosX[][2];
 extern u16   sKeyboard10CellPosY[][2];
@@ -242,43 +242,43 @@ void DWCi_KB10lInit(void)
 
     a.w = 28;
     a.h = 20;
-    MemKb10 = DWCi_HEAPlAllocEx(sizeof(MEMKB10), 4);
-    MemKb10->input = 0x1f;
-    MemKb10->focus = 0;
-    MemKb10->eraseFlag = 1;
-    MemKb10->inputFlag = 1;
-    MemKb10->shiftFlag = 1;
+    sKeyboard10MemKb10 = DWCi_HEAPlAllocEx(sizeof(MEMKB10), 4);
+    sKeyboard10MemKb10->input = 0x1f;
+    sKeyboard10MemKb10->focus = 0;
+    sKeyboard10MemKb10->eraseFlag = 1;
+    sKeyboard10MemKb10->inputFlag = 1;
+    sKeyboard10MemKb10->shiftFlag = 1;
     for (i = 0; i < 10; i++) {
-        MemKb10->key[i] = DWCi_CEINlSetExObj(0, 0x36);
-        G2_SetOBJEffect(MemKb10->key[i], 0x200, 0);
-        G2_SetOBJPriority(MemKb10->key[i], 3);
+        sKeyboard10MemKb10->key[i] = DWCi_CEINlSetExObj(0, 0x36);
+        G2_SetOBJEffect(sKeyboard10MemKb10->key[i], 0x200, 0);
+        G2_SetOBJPriority(sKeyboard10MemKb10->key[i], 3);
     }
     for (i = 0; i < 2; i++) {
-        MemKb10->skey[i] = DWCi_CEINlSetExObj(0, CN_SKEY[i]);
-        G2_SetOBJEffect(MemKb10->skey[i], 0x200, 0);
-        G2_SetOBJPriority(MemKb10->skey[i], 3);
+        sKeyboard10MemKb10->skey[i] = DWCi_CEINlSetExObj(0, sKeyboard10CnSkey[i]);
+        G2_SetOBJEffect(sKeyboard10MemKb10->skey[i], 0x200, 0);
+        G2_SetOBJPriority(sKeyboard10MemKb10->skey[i], 3);
     }
     for (i = 0; i < 2; i++) {
-        MemKb10->button[i] = DWCi_CEINlSetExCell(0, CN_BTN[i], 1);
-        DWCi_CELLlSetEffect(MemKb10->button[i], -1, 0x200, 0);
-        DWCi_CELLlSetPriority(MemKb10->button[i], -1, 3);
+        sKeyboard10MemKb10->button[i] = DWCi_CEINlSetExCell(0, sKeyboard10CnBtn[i], 1);
+        DWCi_CELLlSetEffect(sKeyboard10MemKb10->button[i], -1, 0x200, 0);
+        DWCi_CELLlSetPriority(sKeyboard10MemKb10->button[i], -1, 3);
     }
     buf[1] = 0;
     for (i = 0; i < 4; i++) {
-        MemKb10->canv[i] = DWCi_FNTlFormEx(0, 12, 4, 0, &num, 0);
+        sKeyboard10MemKb10->canv[i] = DWCi_FNTlFormEx(0, 12, 4, 0, &num, 0);
         a.x = 0;
         ix = i * 3;
         for (j = 0; j < 3; j++, ix++) {
-            buf[0] = KEY_CHR[ix];
-            DWCi_FNTlDrawRect(MemKb10->canv[i], a.x, a.y, a.w, a.h, 2, 0x480, buf);
+            buf[0] = sKeyboard10KeyChr[ix];
+            DWCi_FNTlDrawRect(sKeyboard10MemKb10->canv[i], a.x, a.y, a.w, a.h, 2, 0x480, buf);
             a.x += 32;
         }
-        MemKb10->cellCanv[i] = DWCi_CELLlForm(0, num, 0);
+        sKeyboard10MemKb10->cellCanv[i] = DWCi_CELLlForm(0, num, 0);
     }
-    MemKb10->cellFocus = DWCi_CEINlSetExCell(0, 0x44, 1);
-    DWCi_CELLlSetEffect(MemKb10->cellFocus, -1, 0x200, 0);
-    DWCi_CELLlSetPriority(MemKb10->cellFocus, -1, 2);
-    MemKb10->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskStart0, 0, 0x78);
+    sKeyboard10MemKb10->cellFocus = DWCi_CEINlSetExCell(0, 0x44, 1);
+    DWCi_CELLlSetEffect(sKeyboard10MemKb10->cellFocus, -1, 0x200, 0);
+    DWCi_CELLlSetPriority(sKeyboard10MemKb10->cellFocus, -1, 2);
+    sKeyboard10MemKb10->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskStart0, 0, 0x78);
     disp(0, 0xc0);
 }
 
@@ -337,7 +337,7 @@ static void taskStart0(void *task)
 {
     int x, y;
 
-    G2_GetOBJPosition(MemKb10->key[0], (unsigned long *)&x, (unsigned long *)&y);
+    G2_GetOBJPosition(sKeyboard10MemKb10->key[0], (unsigned long *)&x, (unsigned long *)&y);
     y -= 12;
     if (y > 76) {
         disp(0, y);
@@ -352,7 +352,7 @@ static void taskStart1(void *task)
 {
     int x, y;
 
-    G2_GetOBJPosition(MemKb10->key[3], (unsigned long *)&x, (unsigned long *)&y);
+    G2_GetOBJPosition(sKeyboard10MemKb10->key[3], (unsigned long *)&x, (unsigned long *)&y);
     y -= 12;
     if (y > 99) {
         disp(1, y);
@@ -367,7 +367,7 @@ static void taskStart2(void *task)
 {
     int x, y;
 
-    G2_GetOBJPosition(MemKb10->key[6], (unsigned long *)&x, (unsigned long *)&y);
+    G2_GetOBJPosition(sKeyboard10MemKb10->key[6], (unsigned long *)&x, (unsigned long *)&y);
     y -= 12;
     if (y > 122) {
         disp(2, y);
@@ -382,7 +382,7 @@ static void taskStart3(void *task)
 {
     int x, y;
 
-    G2_GetOBJPosition(MemKb10->key[9], (unsigned long *)&x, (unsigned long *)&y);
+    G2_GetOBJPosition(sKeyboard10MemKb10->key[9], (unsigned long *)&x, (unsigned long *)&y);
     y -= 12;
     if (y > 145) {
         disp(3, y);
@@ -397,7 +397,7 @@ static void taskStart4(void *task)
 {
     int x, y;
 
-    DWCi_CELLlGetPosition(MemKb10->button[0], 0, &x, &y);
+    DWCi_CELLlGetPosition(sKeyboard10MemKb10->button[0], 0, &x, &y);
     y -= 12;
     if (y > 170) {
         disp(4, y);
@@ -423,28 +423,28 @@ static void touchTriger(void)
 
     if (!DWCi_TPlCheckTrigger((unsigned short *)(&DWCi_R_SCR)))
         return;
-    MemKb10->push = -1;
+    sKeyboard10MemKb10->push = -1;
     for (i = 0; i < 10; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_KEY[i], (COORD *)&keyboard10_rodata.S_KEY, &r);
         if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
-            if (!MemKb10->inputFlag) {
+            if (!sKeyboard10MemKb10->inputFlag) {
                 DWCi_SNDlPlay(9);
                 return;
             }
             DWCi_SNDlPlay(0);
-            MemKb10->push = i;
+            sKeyboard10MemKb10->push = i;
             return;
         }
     }
     for (i = 0; i < 2; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_SKEY[i], (COORD *)&keyboard10_rodata.S_SKEY, &r);
         if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
-            if ((i == 0 && !MemKb10->eraseFlag) || (i == 1 && !MemKb10->shiftFlag)) {
+            if ((i == 0 && !sKeyboard10MemKb10->eraseFlag) || (i == 1 && !sKeyboard10MemKb10->shiftFlag)) {
                 DWCi_SNDlPlay(9);
                 return;
             }
             DWCi_SNDlPlay(0);
-            MemKb10->push = i + 10;
+            sKeyboard10MemKb10->push = i + 10;
             return;
         }
     }
@@ -452,7 +452,7 @@ static void touchTriger(void)
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_BTN[i], (COORD *)&keyboard10_rodata.S_BTN, &r);
         if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
             DWCi_SNDlPlay(0);
-            MemKb10->push = i + 12;
+            sKeyboard10MemKb10->push = i + 12;
             return;
         }
     }
@@ -463,16 +463,16 @@ static void touchRelease(void)
     int i;
     RECT r;
 
-    MemKb10->input = 0;
+    sKeyboard10MemKb10->input = 0;
     if (!DWCi_TPlCheckRelease((unsigned short *)(&DWCi_R_SCR)))
         return;
     for (i = 0; i < 10; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_KEY[i], (COORD *)&keyboard10_rodata.S_KEY, &r);
         if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
-            if (MemKb10->push != i)
+            if (sKeyboard10MemKb10->push != i)
                 return;
-            MemKb10->input = keyboard10_rodata.KEY_OUT[i];
-            MemKb10->focus = i;
+            sKeyboard10MemKb10->input = keyboard10_rodata.KEY_OUT[i];
+            sKeyboard10MemKb10->focus = i;
             dispFocus();
             return;
         }
@@ -480,10 +480,10 @@ static void touchRelease(void)
     for (i = 0; i < 2; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_SKEY[i], (COORD *)&keyboard10_rodata.S_SKEY, &r);
         if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
-            if (MemKb10->push != i + 10)
+            if (sKeyboard10MemKb10->push != i + 10)
                 return;
-            MemKb10->input = keyboard10_rodata.SKEY_OUT[i];
-            MemKb10->focus = i + 10;
+            sKeyboard10MemKb10->input = keyboard10_rodata.SKEY_OUT[i];
+            sKeyboard10MemKb10->focus = i + 10;
             dispFocus();
             return;
         }
@@ -491,10 +491,10 @@ static void touchRelease(void)
     for (i = 0; i < 2; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_BTN[i], (COORD *)&keyboard10_rodata.S_BTN, &r);
         if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
-            if (MemKb10->push != i + 12)
+            if (sKeyboard10MemKb10->push != i + 12)
                 return;
-            MemKb10->input = keyboard10_rodata.BTN_OUT[i];
-            MemKb10->focus = i + 12;
+            sKeyboard10MemKb10->input = keyboard10_rodata.BTN_OUT[i];
+            sKeyboard10MemKb10->focus = i + 12;
             dispFocus();
             return;
         }
@@ -510,7 +510,7 @@ static void touch(void)
         for (i = 0; i < 10; i++) {
             DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_KEY[i], (COORD *)&keyboard10_rodata.S_KEY, &r);
             if (DWCi_TPlCheck((unsigned short *)(&r))) {
-                if (MemKb10->push != i)
+                if (sKeyboard10MemKb10->push != i)
                     goto out;
                 DWCi_Keyboard10ExchangeBack(i);
                 goto end;
@@ -519,18 +519,18 @@ static void touch(void)
         for (i = 0; i < 2; i++) {
             DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_SKEY[i], (COORD *)&keyboard10_rodata.S_SKEY, &r);
             if (DWCi_TPlCheck((unsigned short *)(&r))) {
-                if (MemKb10->push != i + 10)
+                if (sKeyboard10MemKb10->push != i + 10)
                     goto out;
                 DWCi_Keyboard10ExchangeBack(i + 10);
                 if (i == 0) {
-                    MemKb10->repeat++;
-                    if (MemKb10->repeat >= 40) {
-                        if (!MemKb10->eraseFlag) {
+                    sKeyboard10MemKb10->repeat++;
+                    if (sKeyboard10MemKb10->repeat >= 40) {
+                        if (!sKeyboard10MemKb10->eraseFlag) {
                             DWCi_SNDlPlay(9);
-                            MemKb10->push = -1;
+                            sKeyboard10MemKb10->push = -1;
                         } else {
-                            MemKb10->input = 0x10;
-                            MemKb10->repeat -= 7;
+                            sKeyboard10MemKb10->input = 0x10;
+                            sKeyboard10MemKb10->repeat -= 7;
                         }
                     }
                     return;
@@ -541,7 +541,7 @@ static void touch(void)
         for (i = 0; i < 2; i++) {
             DWCi_Coord2Rect((COORD *)&keyboard10_rodata.C_BTN[i], (COORD *)&keyboard10_rodata.S_BTN, &r);
             if (DWCi_TPlCheck((unsigned short *)(&r))) {
-                if (MemKb10->push != i + 12)
+                if (sKeyboard10MemKb10->push != i + 12)
                     goto out;
                 DWCi_Keyboard10ExchangeBack(i + 12);
                 goto end;
@@ -551,7 +551,7 @@ static void touch(void)
 out:
     DWCi_Keyboard10ExchangeBack(-1);
 end:
-    MemKb10->repeat = 0;
+    sKeyboard10MemKb10->repeat = 0;
 }
 
 static void DWCi_Keyboard10ExchangeBack(int a)
@@ -579,36 +579,36 @@ static void key(void)
     if (DWCi_IPTlCheckRepeat(0x80))
         moveFocus(3);
     if (DWCi_IPTlCheckTrigger(0x01)) {
-        ix = MemKb10->focus;
+        ix = sKeyboard10MemKb10->focus;
         if (ix < 10) {
-            if (!MemKb10->inputFlag) {
+            if (!sKeyboard10MemKb10->inputFlag) {
                 DWCi_SNDlPlay(9);
                 return;
             }
-            MemKb10->input = keyboard10_rodata.KEY_OUT[ix];
+            sKeyboard10MemKb10->input = keyboard10_rodata.KEY_OUT[ix];
             return;
         } else if (ix - 10 < 2) {
-            if ((ix - 10 == 0 && !MemKb10->eraseFlag) || (ix - 10 == 1 && !MemKb10->shiftFlag)) {
+            if ((ix - 10 == 0 && !sKeyboard10MemKb10->eraseFlag) || (ix - 10 == 1 && !sKeyboard10MemKb10->shiftFlag)) {
                 DWCi_SNDlPlay(9);
                 return;
             }
-            MemKb10->input = keyboard10_rodata.SKEY_OUT[ix - 10];
+            sKeyboard10MemKb10->input = keyboard10_rodata.SKEY_OUT[ix - 10];
             return;
         } else {
-            MemKb10->input = keyboard10_rodata.BTN_OUT[ix - 12];
+            sKeyboard10MemKb10->input = keyboard10_rodata.BTN_OUT[ix - 12];
         }
     }
     if (DWCi_IPTlCheckRepeat(0x02)) {
-        if (!MemKb10->eraseFlag) {
-            if (!MemKb10->sound) {
+        if (!sKeyboard10MemKb10->eraseFlag) {
+            if (!sKeyboard10MemKb10->sound) {
                 DWCi_SNDlPlay(9);
-                MemKb10->sound = 1;
+                sKeyboard10MemKb10->sound = 1;
             }
             return;
         }
-        MemKb10->input = 0x10;
+        sKeyboard10MemKb10->input = 0x10;
     } else if (DWCi_IPTlCheckRelease(0x02)) {
-        MemKb10->sound = 0;
+        sKeyboard10MemKb10->sound = 0;
     }
 }
 
@@ -622,18 +622,18 @@ static void disp(int line, int y)
 
     ix = line * 3;
     for (i = 0; i < N_KEY.v[line]; i++, ix++) {
-        G2_SetOBJEffect(MemKb10->key[ix], 0, 0);
-        G2_SetOBJPosition(MemKb10->key[ix], C_KEY[ix].x, y);
+        G2_SetOBJEffect(sKeyboard10MemKb10->key[ix], 0, 0);
+        G2_SetOBJPosition(sKeyboard10MemKb10->key[ix], sKeyboard10CKey[ix].x, y);
     }
     if (line < 4)
-        DWCi_FNTlDisp(MemKb10->canv[line], C_KEY[line * 3].x, y, MemKb10->cellCanv[line], 2);
+        DWCi_FNTlDisp(sKeyboard10MemKb10->canv[line], sKeyboard10CKey[line * 3].x, y, sKeyboard10MemKb10->cellCanv[line], 2);
     for (i = 0; i < N_SKEY.v[line]; i++) {
-        G2_SetOBJEffect(MemKb10->skey[i], 0, 0);
-        G2_SetOBJPosition(MemKb10->skey[i], C_SKEY[i].x, y);
+        G2_SetOBJEffect(sKeyboard10MemKb10->skey[i], 0, 0);
+        G2_SetOBJPosition(sKeyboard10MemKb10->skey[i], sKeyboard10CSkey[i].x, y);
     }
     for (i = 0; i < N_BTN.v[line]; i++) {
-        DWCi_CELLlSetEffect(MemKb10->button[i], -1, 0, 0);
-        DWCi_CELLlSetPosition(MemKb10->button[i], -1, C_BTN[i].x, y);
+        DWCi_CELLlSetEffect(sKeyboard10MemKb10->button[i], -1, 0, 0);
+        DWCi_CELLlSetPosition(sKeyboard10MemKb10->button[i], -1, sKeyboard10CBtn[i].x, y);
     }
 }
 
@@ -642,11 +642,11 @@ static void changeColor(int idx, bool push)
     if (idx < 0)
         return;
     if (idx < 10) {
-        G2_SetOBJMode(MemKb10->key[idx], 0, keyboard10_rodata.CL_KEY[push]);
+        G2_SetOBJMode(sKeyboard10MemKb10->key[idx], 0, keyboard10_rodata.CL_KEY[push]);
     } else if (idx - 10 < 2) {
-        G2_SetOBJMode(MemKb10->skey[idx - 10], 0, keyboard10_rodata.CL_KEY[push]);
+        G2_SetOBJMode(sKeyboard10MemKb10->skey[idx - 10], 0, keyboard10_rodata.CL_KEY[push]);
     } else {
-        DWCi_CELLlSetPalette(MemKb10->button[idx - 12], -1, 0, keyboard10_rodata.CL_BTN[push]);
+        DWCi_CELLlSetPalette(sKeyboard10MemKb10->button[idx - 12], -1, 0, keyboard10_rodata.CL_BTN[push]);
     }
 }
 
@@ -671,20 +671,20 @@ static void moveFocus(int dir)
 {
     signed char focus;
 
-    focus = MemKb10->focus;
-    MemKb10->focus = keyboard10_rodata.MOVE_TBL[focus][dir];
-    if (MemKb10->focus == 13 && (dir == 1 || dir == 3)) {
-        MemKb10->focusLast = focus;
-    } else if (MemKb10->focus == -1) {
-        if (MemKb10->focusLast == 1 || MemKb10->focusLast == 10)
-            MemKb10->focus = 10;
+    focus = sKeyboard10MemKb10->focus;
+    sKeyboard10MemKb10->focus = keyboard10_rodata.MOVE_TBL[focus][dir];
+    if (sKeyboard10MemKb10->focus == 13 && (dir == 1 || dir == 3)) {
+        sKeyboard10MemKb10->focusLast = focus;
+    } else if (sKeyboard10MemKb10->focus == -1) {
+        if (sKeyboard10MemKb10->focusLast == 1 || sKeyboard10MemKb10->focusLast == 10)
+            sKeyboard10MemKb10->focus = 10;
         else
-            MemKb10->focus = 11;
-    } else if (MemKb10->focus == -2) {
-        if (MemKb10->focusLast == 1 || MemKb10->focusLast == 10)
-            MemKb10->focus = 1;
+            sKeyboard10MemKb10->focus = 11;
+    } else if (sKeyboard10MemKb10->focus == -2) {
+        if (sKeyboard10MemKb10->focusLast == 1 || sKeyboard10MemKb10->focusLast == 10)
+            sKeyboard10MemKb10->focus = 1;
         else
-            MemKb10->focus = 2;
+            sKeyboard10MemKb10->focus = 2;
     }
     dispFocus();
     DWCi_SNDlPlay(8);
@@ -695,7 +695,7 @@ static void taskEnd0(void *task)
     GXOamAttr *obj;
     int x, y;
 
-    obj = DWCi_CELLlGetObj(MemKb10->button[0], 0);
+    obj = DWCi_CELLlGetObj(sKeyboard10MemKb10->button[0], 0);
     G2_GetOBJPosition(obj, (unsigned long *)&x, (unsigned long *)&y);
     y += 12;
     disp(4, y);
@@ -708,7 +708,7 @@ static void taskEnd1(void *task)
     GXOamAttr *obj;
     int x, y;
 
-    obj = MemKb10->key[9];
+    obj = sKeyboard10MemKb10->key[9];
     G2_GetOBJPosition(obj, (unsigned long *)&x, (unsigned long *)&y);
     y += 12;
     disp(3, y);
@@ -721,7 +721,7 @@ static void taskEnd2(void *task)
     GXOamAttr *obj;
     int x, y;
 
-    obj = MemKb10->key[6];
+    obj = sKeyboard10MemKb10->key[6];
     G2_GetOBJPosition(obj, (unsigned long *)&x, (unsigned long *)&y);
     y += 12;
     disp(2, y);
@@ -734,7 +734,7 @@ static void taskEnd3(void *task)
     GXOamAttr *obj;
     int x, y;
 
-    obj = MemKb10->key[3];
+    obj = sKeyboard10MemKb10->key[3];
     G2_GetOBJPosition(obj, (unsigned long *)&x, (unsigned long *)&y);
     y += 12;
     disp(1, y);
@@ -747,7 +747,7 @@ static void taskEnd4(void *task)
     GXOamAttr *obj;
     int x, y;
 
-    obj = MemKb10->key[0];
+    obj = sKeyboard10MemKb10->key[0];
     G2_GetOBJPosition(obj, (unsigned long *)&x, (unsigned long *)&y);
     y += 12;
     disp(0, y);
@@ -770,5 +770,5 @@ static void taskEnd5(void *task)
         DWCi_OBJlDelete((unsigned int *)keyboard10_bss.MemKb10->skey[i]);
     for (i = 0; i < 10; i++)
         DWCi_OBJlDelete((unsigned int *)keyboard10_bss.MemKb10->key[i]);
-    DWCi_HEAPlFree_((void **)&MemKb10);
+    DWCi_HEAPlFree_((void **)&sKeyboard10MemKb10);
 }

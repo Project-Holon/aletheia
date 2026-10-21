@@ -79,7 +79,7 @@
  *   gSceneSetRakuButton1Work  0x021DE5FC  data  a1
  *   DWCi_RAKUlGetState               0x021c1518 arm
  *   DWCi_RAKUlSetResult              0x021c15d0 arm
- *   Choose                           0x021de5fc data
+ *   sScenesetrakubutton1Choose                           0x021de5fc data
  */
 
 #include "../types.h"
@@ -120,7 +120,7 @@ typedef int bool_0;
 void DWCi_SceneSetRakuButton1(void);
 void DWCi_SceneSetRakuButton_draw(void);
 extern SCENEOPTERASE_BSS sceneopterase_bss;
-extern unsigned char Choose;
+extern unsigned char sScenesetrakubutton1Choose;
 
 static void initGraphics(void);
 static void procInit(void);
@@ -250,7 +250,7 @@ static void endScene2(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;
-    if (Choose == 0) {
+    if (sScenesetrakubutton1Choose == 0) {
         if (DWCi_EFFlCheck(1) != 0)
             return;
     }
@@ -258,12 +258,12 @@ static void endScene2(void)
         return;
     DWCi_ANIMElEnd();
     DWCi_FNTlDeleteBgLcd(0);
-    if (Choose == 0) {
+    if (sScenesetrakubutton1Choose == 0) {
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
     DWCi_RAKUlEnd();
-    if (Choose == 0) {
+    if (sScenesetrakubutton1Choose == 0) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
     } else {
@@ -276,13 +276,13 @@ static void checkRaku(void)
 {
     switch (DWCi_RAKUlGetState()) {
     case 3:
-        Choose = 1;
+        sScenesetrakubutton1Choose = 1;
         DWCi_SNDlStop();
         DWCi_RAKUlSetResult();
         DWCi_ChangeScene((uptr)endScene);
         break;
     case 4:
-        Choose = 0;
+        sScenesetrakubutton1Choose = 0;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(9);
         DWCi_WINlInitEx(0xd, 1, 1, -1, 0);
@@ -290,7 +290,7 @@ static void checkRaku(void)
         DWCi_ChangeScene((uptr)procError);
         break;
     case 5:
-        Choose = 0;
+        sScenesetrakubutton1Choose = 0;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(0x12);
         DWCi_WINlInitEx(0xe, 1, 1, -1, 0);

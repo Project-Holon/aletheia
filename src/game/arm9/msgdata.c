@@ -118,7 +118,7 @@ struct ArcHandleRaw;
 #include "strbuf.h"
 #include "mi_memory.h"
 extern void g_02146A54(void);
-struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 u32 MSGDATA_Delete(struct MsgBank *bank);
 struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
@@ -168,7 +168,7 @@ extern u8 g_Byte_02146A54;
  *   python tools/match.py one --src src/matched/MSGDATA_CreateFromArchive.c \
  *       --func MSGDATA_CreateFromArchive --addr 0x02045B38 --cc 1.1p1 --arm
  */
-struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId)
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId)
 {
     struct MsgBank *bank;
     u32 origin;
