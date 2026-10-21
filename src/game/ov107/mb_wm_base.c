@@ -93,7 +93,6 @@ extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 #include "../arm9/wm_etc.h"
 #include "../arm9/wm_standard.h"
 #include "../arm9/wm_mp.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_terminate_processor.h"
 

@@ -407,8 +407,6 @@ struct Quad { fx16 y0, y1, x0, x1; };
 
 
 
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "g3x.h"
 
 #include "g3_util.h"

@@ -412,7 +412,8 @@ struct LightSet;
 struct BbActSys;
 #include "../types.h"
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+#include "../bool_types.h"
+enum { B_FALSE, B_TRUE };
 
 #include "../sdk_fx.h"
 

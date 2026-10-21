@@ -72,7 +72,6 @@
 #include "ghttpcallbacks.h"
 #include "../ov009/gsmemory.h"
 #include "ghttpbuffer.h"
-typedef int GHIPostingResult;
 #include "ghttppost.h"
 extern int ghiProcessConnection(GHIConnection *connection);
 #include "ghttpEncryption.h"

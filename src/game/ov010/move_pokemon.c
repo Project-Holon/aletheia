@@ -139,7 +139,7 @@ extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct MovePokemonEntry *entry,
 #include "../arm9/move_pokemon_save.h"
 #endif
 
-typedef enum { FALSE, TRUE } Bool;
+#include "../bool_types.h"
 
 #include "../sdk_fx.h"
 

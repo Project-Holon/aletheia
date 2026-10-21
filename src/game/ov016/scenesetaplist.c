@@ -210,7 +210,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 struct Canvas;
-typedef int bool_0;
 #include "font.h"
 #include "focus.h"
 #include "graphics.h"

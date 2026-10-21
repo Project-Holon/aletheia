@@ -92,7 +92,6 @@ typedef struct PmBss {
     PMiWork work;
 } PmBss;
 
-typedef u32 OSIrqMask;
 
 #include "os_system.h"
 #include "pxi_fifo.h"

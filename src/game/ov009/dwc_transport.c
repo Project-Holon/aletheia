@@ -129,7 +129,6 @@ extern int DWCi_IsValidAID(unsigned char aid);
 #include "../arm9/mi_memory.h"
 #include "../arm9/msl_string_mem.h"
 extern int DWCi_NodeInfoList_GetCount(void);
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 extern void DWCi_InitReliableQueue(void);
 extern int DWC_GetAIDList(unsigned char **aidList);

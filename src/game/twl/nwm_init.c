@@ -50,7 +50,6 @@ typedef struct CamBuf {
     u16 dmaNo;
 } CamBuf;
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/wm_etc.h"
 #include "../arm9/pxi_fifo.h"

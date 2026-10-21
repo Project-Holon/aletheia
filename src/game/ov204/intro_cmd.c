@@ -108,7 +108,8 @@ struct Actor;
 
 #include "../types.h"
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+#include "../bool_types.h"
+enum { B_FALSE, B_TRUE };
 
 typedef struct {u16 v[12];} IntroActorPos;
 

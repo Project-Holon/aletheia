@@ -116,7 +116,6 @@ typedef struct AddressLimit {
 #include "../arm9/mi_memory.h"
 #include "headline.h"
 #include "comment.h"
-typedef int bool_0;
 #include "font.h"
 #include "cellinfo.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);

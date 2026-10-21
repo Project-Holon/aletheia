@@ -1,6 +1,8 @@
 #ifndef POKELIST_TYPES_H
 #define POKELIST_TYPES_H
 
+#include "../types.h"
+
 /* Party Pokemon list screen: the work area allocated in POKELIST_Init (0x284 bytes)
    and the argument block it points to. The including file defines u8, u16, u32 first.
    Handles are kept as int/u32 (the original code passed them to both int and pointer

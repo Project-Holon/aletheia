@@ -25,7 +25,6 @@ struct Slot {
     u32 arg;
 };
 
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern struct Slot data_02150F68[];
 

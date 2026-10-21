@@ -9,6 +9,10 @@
 #ifndef UNION_CHARA_TYPES_H
 #define UNION_CHARA_TYPES_H
 
+
+
+#include "../ov012/union_comm_types.h"
+#include "../types.h"
 /* Phases of one action of an avatar or of the player (start, main, end). */
 #define UNION_ACTION_PHASE_MAX 3
 

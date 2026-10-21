@@ -190,7 +190,6 @@ int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind)
     return result;
 }
 
-typedef struct GameData GameData;
 
 #include "../ov010/scrcmd_work.h"
 

@@ -191,7 +191,7 @@ struct MiscSave;
 #undef POKE_TOOL_Create
 #endif
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+enum { B_FALSE, B_TRUE };
 
 /* Creation request shared by the party and box helpers (offsets as read). */
 typedef struct PokemonSpec {

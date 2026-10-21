@@ -68,7 +68,6 @@ extern void *__memcpy(void *dest, const void *src, unsigned long n);
 #include "gpi.h"
 #include "gpiutility.h"
 #include "gpiconnect.h"
-typedef int _GPResult;
 #include "gpiinfo.h"
 #include "gpibuddy.h"
 #include "gpibuffer.h"

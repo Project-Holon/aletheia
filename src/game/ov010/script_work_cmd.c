@@ -98,7 +98,7 @@ struct ScrcmdWork;
 #include "../arm9/script_vm_types.h"
 #include "script_work_types.h"
 
-typedef struct ScrcmdWork ScrcmdWork;
+#include "../ov021/scrcmd_fldmmdl.h"
 
 /* Arm9 script VM primitives. */
 extern u16 VM_ReadU16(ScriptVm *vm);
@@ -129,7 +129,6 @@ struct FieldSubscreen;
 #include "../ov021/field_subscreen.h"
 struct FieldSaveAnime;
 #include "../ov021/field_saveanime.h"
-#include "../ov021/scrcmd_fldmmdl.h"
 
 /* Script system and script work. */
 #ifdef __MWERKS__

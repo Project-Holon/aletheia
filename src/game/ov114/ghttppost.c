@@ -98,7 +98,7 @@ typedef struct UrlEscape {
     char c[4];
 } UrlEscape;
 
-typedef enum { GHIPostingError, GHIPostingDone, GHIPostingWaitForContinue } GHIPostingResult;
+#include "ghttppost.h"
 
 typedef enum { GHITrySendError, GHITrySendSent, GHITrySendBuffered } GHITrySendResult;
 

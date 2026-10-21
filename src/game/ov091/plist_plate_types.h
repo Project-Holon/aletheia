@@ -1,6 +1,8 @@
 #ifndef PLIST_PLATE_TYPES_H
 #define PLIST_PLATE_TYPES_H
 
+#include "../types.h"
+
 /* Party list screen: the plate drawn for one party slot (allocated by
    PLIST_PLATE_Create, 0x44 bytes) and the small structs only plist_plate.c uses.
    The including file defines u8, u16, u32, s8, s16 and includes pokelist_types.h first. */

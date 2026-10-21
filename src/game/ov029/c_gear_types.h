@@ -1,6 +1,8 @@
 #ifndef C_GEAR_TYPES_H
 #define C_GEAR_TYPES_H
 
+#include "../types.h"
+
 /*
  * Work of the C-Gear panel (ov029, c_gear.c and its tail unit_021F2C10.c).
  * The panel draws a hex tile board of 9 columns by 4 rows; odd columns have

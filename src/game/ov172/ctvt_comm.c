@@ -222,7 +222,6 @@ struct CtvtMic;
 
 
 
-typedef int MICResult;
 #include "ctvt_mic.h"
 struct DrawCanvas;
 

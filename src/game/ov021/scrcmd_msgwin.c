@@ -155,25 +155,17 @@
 #include "../ov010/script_work_types.h"
 #include "../arm9/btl_setup_types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameData GameData;
-typedef struct FieldMap FieldMap;
-typedef struct FieldCamera FieldCamera;
-typedef struct FieldPlayer FieldPlayer;
+#include "field_player.h"
 typedef struct G3dCamera G3dCamera;
-typedef struct GameEvent GameEvent;
 typedef struct ScrcmdWork ScrcmdWork;
 typedef struct WordSet WordSet;
 typedef struct Strbuf Strbuf;
 typedef struct TimeIcon TimeIcon;
 typedef struct MsgBank MsgBank;
-typedef struct Mmdl Mmdl;
-typedef struct MmdlSys MmdlSys;
 typedef struct MoneyData MoneyData;
 typedef struct MainTaskList MainTaskList;
 typedef struct GfFont GfFont;
 typedef struct BmpWin BmpWin;
-typedef struct PlayerWork PlayerWork;
 typedef struct MyStatus MyStatus;
 
 #include "../sdk_fx.h"
@@ -232,7 +224,6 @@ typedef struct BalloonWinWork {
     VecFx32 offset;                 /* 0x1C, offset from the object to the balloon */
 } BalloonWinWork;
 
-#include "field_player.h"
 #include "../ov010/fldmmdl.h"
 #include "../arm9/gamesystem.h"
 #ifdef __MWERKS__

@@ -313,7 +313,6 @@ extern void EVENTDATA_SYSTEM_SetNpcGridPos(struct EventDataSystem*, u32, u16, u1
 #endif
 #include "event_battle.h"
 struct GameEvent;
-typedef int Bool;
 #include "scrcmd_network.h"
 
 /* system */

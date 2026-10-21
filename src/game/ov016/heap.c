@@ -29,7 +29,6 @@ struct ExpHeap;
 #include "../arm9/mi_memory.h"
 #include "../arm9/nns_fnd_expheap.h"
 #include "../arm9/os_terminate_processor.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 void DWCi_HEAPlInit(void *address);
 void DWCi_HEAPlEnd(void);

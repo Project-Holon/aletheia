@@ -371,7 +371,12 @@ def classify_def(idx, d, owner_inc):
                     if th[0] not in headers:
                         headers.append(th[0])        # the shared base types header, not a local typedef
                 else:
-                    bases.append(name)
+                    oh = pick_header(ti.typedef_in.get(name, ()), d.file, owner_inc) if ti.typedef_in.get(name) else None
+                    if oh is not None:
+                        if oh not in headers:
+                            headers.append(oh)       # an SDK typedef such as OSIntrMode: include its owner, no local copy
+                    else:
+                        bases.append(name)
                 continue
             if name not in ti.types.alias:
                 return False, "unknown type %s" % name, [], [], [], []

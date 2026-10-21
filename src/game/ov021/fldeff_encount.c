@@ -65,10 +65,8 @@
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
-typedef struct FieldMap FieldMap;                       /* field map (fieldmap.c) */
-typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
-typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
-typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: work size, init, exit, update, draw */
+#include "fieldmap.h"
+#include "field_effect.h"
 typedef struct SoundSys SoundSys;
 
 /* Partial view of the encounter system (effect_encount.c): only the field the sound call reads. */
@@ -133,9 +131,7 @@ typedef struct EncountWork {
 } EncountWork;
 
 #include "../arm9/gfl_heap_wrap.h"
-#include "field_effect.h"
 #include "../arm9/g3d_system.h"
-#include "fieldmap.h"
 struct MmdlSys;
 #include "../arm9/mi_memory.h"
 struct FieldEncount;

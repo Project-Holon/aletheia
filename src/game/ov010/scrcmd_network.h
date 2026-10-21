@@ -13,6 +13,7 @@ typedef struct NpcTableRow NpcTableRow;
 
 #include "../arm9/script_vm_types.h"
 #include "../types.h"
+#include "../bool_types.h"
 
 int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, void *scriptWork);
 int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScrcmdWork *scriptWork);

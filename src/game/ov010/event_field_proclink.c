@@ -116,12 +116,10 @@
 #include "../arm9/field_sound_system.h"
 #include "../arm9/zonedata.h"
 
-typedef enum { FALSE, TRUE } Bool;
+#include "../bool_types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameData GameData;
-typedef struct GameEvent GameEvent;
-typedef struct GameComm GameComm;
+#include "../ov021/fieldmap.h"
+#include "../arm9/game_comm.h"
 
 #include "../ov131/p_status_types.h"
 
@@ -270,7 +268,6 @@ typedef struct HopWork {
 
 #include "../arm9/gfl_heap_wrap.h"
 
-#include "../arm9/game_comm.h"
 
 struct MyStatus;
 #include "../arm9/game_data.h"
@@ -286,7 +283,6 @@ struct SaveControl;
 
 struct FieldMap;
 struct MmdlSys;
-#include "../ov021/fieldmap.h"
 
 #include "fldmmdl.h"
 

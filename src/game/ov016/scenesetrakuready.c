@@ -119,7 +119,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 #include "../arm9/os_thread.h"
 #include "input.h"
 extern bool DWCi_EFFlWait(int frame);
-typedef int bool_0;
 #include "font.h"
 #include "scenesetselectway.h"
 #include "scenesetrakubutton.h"

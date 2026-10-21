@@ -1,6 +1,8 @@
 #ifndef GAME_OV205_SAVE_SCREEN_H
 #define GAME_OV205_SAVE_SCREEN_H
 
+typedef enum { ST0=0,ST13=13 } SaveScreenState;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of save_screen.c, prototypes copied from their definitions. */
 

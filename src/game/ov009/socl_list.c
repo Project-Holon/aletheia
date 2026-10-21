@@ -28,7 +28,6 @@ typedef struct Sock {
 	struct Sock *next;
 } Sock;
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 void SOCLi_SocketRegister(void *a);
 void SOCLi_SocketRegisterList(void **next, char *socket);

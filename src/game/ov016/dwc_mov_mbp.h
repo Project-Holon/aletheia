@@ -1,6 +1,16 @@
 #ifndef GAME_OV016_DWC_MOV_MBP_H
 #define GAME_OV016_DWC_MOV_MBP_H
 
+typedef enum {
+    CS_NONE,
+    CS_CONNECT,
+    CS_REQUEST,
+    CS_ENTRY,
+    CS_DOWNLOAD,
+    CS_BOOTABLE,
+    CS_REBOOT
+} ChildState;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_mov_mbp.c, prototypes copied from their definitions. */
 

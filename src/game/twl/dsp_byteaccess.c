@@ -23,7 +23,6 @@
 
 #define DSP_CTRL (*(volatile u16 *)REG_AES_WRFIFO_ADDR)
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_emulator.h"
 #include "dsp_if.h"

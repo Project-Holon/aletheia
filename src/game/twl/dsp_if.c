@@ -19,7 +19,6 @@
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 void DSP_PowerOnCore(void);
 void DSP_PowerOffCore(void);

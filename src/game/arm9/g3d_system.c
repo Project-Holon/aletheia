@@ -151,8 +151,6 @@ typedef struct {
 #include "nns_g3d_mdl.h"
 #include "nns_g3d_res.h"
 #include "fx_mtx44.h"
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "g3x.h"
 #include "fx_mtx43.h"
 #include "mi_memory.h"

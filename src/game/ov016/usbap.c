@@ -111,7 +111,6 @@ typedef struct {
 } OwnerT;
 
 #include "heap.h"
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../arm9/wm_standard.h"
 #include "../arm9/wm_sync.h"

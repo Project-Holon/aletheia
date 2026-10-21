@@ -79,8 +79,7 @@
 
 #include "../types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
+#include "fieldmap.h"
 struct FieldPlayer;
 struct FieldMsgBg;
 
@@ -162,10 +161,8 @@ enum {
 
 #include "../arm9/fade.h"
 #include "../arm9/gx_vramcnt.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../ov010/symbol_map.h"
-#include "fieldmap.h"
 #include "../arm9/g2.h"
 #include "../arm9/mi_memory.h"
 #include "field_msgbg.h"

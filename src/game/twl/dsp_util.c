@@ -55,7 +55,6 @@ struct DspProc;
 #include "sndex.h"
 extern void DSP_SetPipeCallback(int i, DspCb a, void *b);
 #include "dsp_pipe.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_thread.h"
 

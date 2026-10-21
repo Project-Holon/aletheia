@@ -1,6 +1,8 @@
 #ifndef GAME_OV210_ZKNSEARCH_MAIN_H
 #define GAME_OV210_ZKNSEARCH_MAIN_H
 
+typedef enum { YCoordMin = -2147483647, YCoordMax = 2147483647 } YCoord;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zknsearch_main.c, prototypes copied from their definitions. */
 

@@ -1,6 +1,8 @@
 #ifndef PLIST_MENU_TYPES_H
 #define PLIST_MENU_TYPES_H
 
+#include "../types.h"
+
 /* Party list context menu (the command list that opens after a Pokemon is chosen).
    Needs pokelist_types.h and the u8/u16/u32 typedefs before it. */
 

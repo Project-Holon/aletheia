@@ -9,6 +9,13 @@
  * sdk_ioreg_reg.h). A DB_ prefix is the sub engine.
  */
 
+/* CPU speed selector of SCFG_CLK. */
+typedef enum
+{
+    SCFG_CPU_SPEED_1X = 0,
+    SCFG_CPU_SPEED_2X = 1
+} SCFGCpuSpeed;
+
 /* Memory regions. */
 #define HW_BG_PLTT         0x05000000
 #define HW_DB_BG_PLTT      0x05000400

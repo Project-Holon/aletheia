@@ -50,7 +50,6 @@ extern u8 data_0272EB9C[];
 #include "../arm9/os_systemwork.h"
 #include "../arm9/card_pullout.h"
 #include "../arm9/os_terminate_processor.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 
 u32 CARD_CalcRomHashBufferLength(const void *p);

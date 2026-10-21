@@ -1,6 +1,8 @@
 #ifndef GAME_OV221_CHIHOU_ZUKAN_AWARD_H
 #define GAME_OV221_CHIHOU_ZUKAN_AWARD_H
 
+#include "../types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of chihou_zukan_award.c, prototypes copied from their definitions. */
 
@@ -21,7 +23,7 @@ void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p);
 void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p);
-Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p);
+BOOL CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_Setup3d(void);
 /* END mkheaders: generated region */
 

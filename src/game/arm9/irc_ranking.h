@@ -1,9 +1,7 @@
 #ifndef GAME_ARM9_IRC_RANKING_H
 #define GAME_ARM9_IRC_RANKING_H
 
-struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
-struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
-struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list, int count, int trainerId);
+#include "../types.h"
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of irc_ranking.c, prototypes copied from their definitions. */

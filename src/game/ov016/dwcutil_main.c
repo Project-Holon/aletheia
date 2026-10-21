@@ -114,18 +114,15 @@ struct Ov016Bits8 {
 #include "input.h"
 #include "task.h"
 #include "sub.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "sceneinit.h"
 #include "../arm9/gx.h"
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../arm9/os_terminate_processor.h"
 #include "../arm9/os_alarm.h"
 #include "../arm9/fx.h"
 #include "../arm9/fs_api.h"
 #include "../arm9/tp.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "heap.h"
 #include "interrupt.h"
@@ -134,7 +131,6 @@ typedef int RTCResult;
 #include "../arm9/dwc_bm_init.h"
 #include "../arm9/gx_vramcnt.h"
 #include "../arm9/g2.h"
-typedef int bool_0;
 #include "font.h"
 #include "obj.h"
 #include "objvram.h"

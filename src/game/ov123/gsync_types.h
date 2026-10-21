@@ -5,6 +5,10 @@
 #ifndef GSYNC_TYPES_H
 #define GSYNC_TYPES_H
 
+
+
+#include "gsync_download_types.h"
+#include "../types.h"
 /*
  * Work area of the Game Sync state proc (gsync_state.c), 0xB0 bytes.
  * GFL_HEAP_CreateChildHeap/PROCSYS_AllocProcWork allocate it in GSYNC_STATE_ProcInit.

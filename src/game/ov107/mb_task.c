@@ -55,7 +55,6 @@ typedef struct MBiTaskWork {
     } last;
 } MBiTaskWork;
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_thread.h"
 extern void MBi_InitTaskInfo(void *pt);

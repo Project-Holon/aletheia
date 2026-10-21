@@ -77,7 +77,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 #include "button.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 #include "dwcutil_main.h"
-typedef int bool_0;
 #include "font.h"
 #include "graphics.h"
 #include "common.h"

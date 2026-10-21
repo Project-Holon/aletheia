@@ -74,7 +74,6 @@ struct FieldMap;
 
 #include "../ov019/union_oneself.h"
 
-typedef int Bool;
 #include "../ov019/union_chara.h"
 
 

@@ -250,7 +250,7 @@ typedef enum { INDEX_ZERO=0 } Index;
 
 typedef enum { PLANE_NONE=0,PLANE_OUT=31,PLANE_IN=19 } Plane;
 
-typedef enum { FALSE=0,TRUE=1 } Bool;
+#include "../bool_types.h"
 
 typedef enum { ZERO = 0 } Origin;
 

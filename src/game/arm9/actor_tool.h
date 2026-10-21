@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_ACTOR_TOOL_H
 #define GAME_ARM9_ACTOR_TOOL_H
 
+#include "../types.h"
+
 struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

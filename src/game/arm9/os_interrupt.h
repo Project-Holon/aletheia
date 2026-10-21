@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_OS_INTERRUPT_H
 #define GAME_ARM9_OS_INTERRUPT_H
 
+#include "../sdk_os.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_interrupt.c, prototypes copied from their definitions. */
 

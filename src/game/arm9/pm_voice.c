@@ -43,7 +43,6 @@
  *   _ll_udiv                     0x0209C00C  arm
  */
 #include "pm_voice_shared_types.h"
-typedef struct SNDInstPos SNDInstPos;
 #include "gfl_use.h"
 
 #include "../types.h"

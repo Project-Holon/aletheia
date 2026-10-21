@@ -85,7 +85,6 @@ struct DWCstAccUserData;
 
 
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 
 

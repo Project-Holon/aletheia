@@ -53,9 +53,7 @@
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
-typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
-typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
-typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: unused, init, exit, update, draw */
+#include "field_effect.h"
 
 /* Id of the Cut resources in the field effect system. */
 #define FLDEFF_ID_IAIGIRI 0xc
@@ -101,7 +99,6 @@ typedef struct IaigiriTaskWork {
 
 #include "../ov010/fldmmdl.h"
 #include "../arm9/gfl_heap_wrap.h"
-#include "field_effect.h"
 #include "../arm9/g3d_system.h"
 struct VecFx32;
 struct Mmdl;

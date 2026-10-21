@@ -1,6 +1,12 @@
 #ifndef PMS_SELECT_GRAPHIC_TYPES_H
 #define PMS_SELECT_GRAPHIC_TYPES_H
 
+
+
+
+#include "../ov067/touchbar_types.h"
+#include "../ov067/ui_scene_types.h"
+#include "../types.h"
 /* The graphic selection screen of the easy chat (PMS) system, overlay 110:
  * a list of the saved sentences with a scroll bar on the touch screen. The
  * player picks one, edits it in the input screen or discards it.

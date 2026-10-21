@@ -56,7 +56,6 @@ typedef struct {
 extern int ReadSlotInfo(NCFGSlotInfo *buf, int offset, unsigned long num);
 extern int ReadSlotInfoEx(NCFGSlotInfoEx *buf, int offset, unsigned long num);
 #include "mi_memory.h"
-typedef int NVRAMResult;
 #include "ncfg_backup.h"
 extern u8  *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
 #include "crc.h"

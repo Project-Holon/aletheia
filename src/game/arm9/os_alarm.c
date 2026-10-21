@@ -31,7 +31,6 @@
 
 #include "../sdk_os.h"
 
-typedef u32 OSIrqMask;
 
 typedef struct OSAlarmQueue {
     OSAlarm *head;

@@ -425,7 +425,6 @@ struct Location;
 struct FieldWfbc;
 struct MmdlSys;
 struct FieldEffectObj;
-typedef int Bool;
 #include "../ov083/gpower_event.h"
 #include "../arm9/gamesystem.h"
 #include "../arm9/mi_memory.h"

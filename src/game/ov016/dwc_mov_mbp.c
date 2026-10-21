@@ -85,15 +85,7 @@ typedef struct {
     u8 mac[6];
 } ParentCbArg;
 
-typedef enum {
-    CS_NONE,
-    CS_CONNECT,
-    CS_REQUEST,
-    CS_ENTRY,
-    CS_DOWNLOAD,
-    CS_BOOTABLE,
-    CS_REBOOT
-} ChildState;
+#include "dwc_mov_mbp.h"
 
 #include "dwc_mov_wh.h"
 #include "../ov107/mb_wm_base.h"

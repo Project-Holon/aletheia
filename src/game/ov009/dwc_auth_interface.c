@@ -49,7 +49,6 @@
 
 #include "dwc_auth.h"
 #include "../arm9/mi_memory.h"
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 struct DWCHttp;
 #include "../arm9/msl_string_str.h"

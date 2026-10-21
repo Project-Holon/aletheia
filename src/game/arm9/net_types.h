@@ -5,6 +5,8 @@
 #ifndef NET_TYPES_H
 #define NET_TYPES_H
 
+#include "../types.h"
+
 struct GFLNetSession;
 
 /* Callback that gets the session's user argument (the caller's work pointer). */

@@ -107,12 +107,10 @@
 #include "../types.h"
 
 /* Opaque objects owned by other files. */
-typedef struct GameSystem GameSystem;
-typedef struct GameData GameData;
+#include "../ov021/fieldmap.h"
 typedef struct SaveControl SaveControl;
 typedef struct MyStatus MyStatus;
 typedef struct TrainerRecord TrainerRecord;
-typedef struct FieldMap FieldMap;
 typedef struct FieldCommLink FieldCommLink;
 typedef struct FieldAvatar FieldAvatar;
 typedef struct FieldMmdl FieldMmdl;
@@ -120,7 +118,7 @@ typedef struct FieldMmdl FieldMmdl;
 typedef struct FieldSaveAnime SaveEffect;
 
 typedef struct MsgBank MsgData;
-typedef struct Strbuf Strbuf;
+#include "../arm9/printsys.h"
 typedef struct WordSet WordSet;
 typedef struct BmpWin BmpWin;
 typedef struct Bmp Bmp;
@@ -208,7 +206,6 @@ enum {
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/gamesystem.h"
 struct FieldPlayer;
-#include "../ov021/fieldmap.h"
 struct Mmdl;
 #include "../ov021/field_player.h"
 #include "../arm9/game_data.h"
@@ -222,7 +219,6 @@ struct FieldSubscreen;
 struct KeyCursor;
 #include "../arm9/app_keycursor.h"
 struct PrintQueue;
-#include "../arm9/printsys.h"
 #include "../arm9/save_control.h"
 #include "../arm9/bmp_menuwork.h"
 #include "../arm9/record.h"

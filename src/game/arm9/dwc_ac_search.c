@@ -124,7 +124,6 @@ extern u8 SearchEndCheck(ACWORK *wk, u8 phase);
 extern u8 SearchAround(ACWORK *wk);
 extern u8 SearchDifferChannel(ACWORK *wk);
 extern u8 SearchStealth(ACWORK *wk);
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 extern s8 GetStartChannel(int lap);
 #include "dwc_ac_makelist.h"

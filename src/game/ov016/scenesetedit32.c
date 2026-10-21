@@ -133,7 +133,6 @@ typedef struct { void (*v[2])(unsigned char *); } SSE_FUNC;
 #include "comment.h"
 #include "common.h"
 #include "../arm9/gx_load2d.h"
-typedef int bool_0;
 #include "font.h"
 struct Canvas;
 #include "cellinfo.h"

@@ -99,11 +99,9 @@
 #include "../arm9/g3d_system_types.h"
 #include "fld_wipe_3dobj_shared_types.h"
 
-typedef struct MmdlSys MmdlSys;
 
 typedef struct ScriptSystem ScriptSystem;
 
-typedef struct Fld3dCi Fld3dCi;
 
 typedef struct MyStatus MyStatus;
 

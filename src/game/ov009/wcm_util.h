@@ -1,6 +1,8 @@
 #ifndef GAME_OV009_WCM_UTIL_H
 #define GAME_OV009_WCM_UTIL_H
 
+#include "../sdk_wm.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wcm_util.c, prototypes copied from their definitions. */
 

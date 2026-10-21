@@ -79,8 +79,6 @@ typedef struct TexImageParamCmd {
 #include "mi_memory.h"
 #include "fx_vec.h"
 #include "g3imm.h"
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "g3x.h"
 #include "nns_g3d_ge.h"
 void NNSi_G3dSbcRun(NNSG3dRS *pRS);

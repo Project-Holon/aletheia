@@ -90,7 +90,6 @@ extern int wsLoginCertReadXML(GSLoginCertificate *cert, void *reader);
 #include "../ov009/gsdebug.h"
 #include "../ov009/gsxml.h"
 #include "../ov009/md5c.h"
-typedef int gsi_bool;
 #include "../ov009/gslargeint.h"
 #include "../ov009/gsmemory.h"
 #include "../ov009/gssoap.h"

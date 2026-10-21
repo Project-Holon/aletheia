@@ -52,7 +52,6 @@
 #include "gsmemory.h"
 struct DArrayImplementation;
 #include "darray.h"
-typedef int _GPResult;
 #include "gpiinfo.h"
 struct HashImplementation;
 #include "hashtable.h"

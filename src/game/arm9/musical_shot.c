@@ -37,7 +37,6 @@ struct MusicalShot {
 #include "save_control.h"
 struct ProcLinkReturnList;
 
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 
 #include "../ov010/event_field_proclink_return.h"

@@ -28,7 +28,6 @@
 
 #include "mi_memory.h"
 
-typedef int RTCResult;
 #include "external.h"
 
 

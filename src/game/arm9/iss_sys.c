@@ -85,9 +85,9 @@ typedef struct BgmInfoTable BgmInfoTable;
 
 typedef struct IssCitySys IssCitySys;
 
-typedef struct IssRoadSys IssRoadSys;
+#include "iss_road_sys.h"
 
-typedef struct IssDungeonSys IssDungeonSys;
+#include "iss_dungeon_sys.h"
 
 typedef struct IssZoneSys IssZoneSys;
 
@@ -123,12 +123,10 @@ enum {
 #include "gfl_heap_wrap.h"
 
 
-#include "iss_road_sys.h"
 struct PlayerWork;
 
 #include "iss_city_sys.h"
 
-#include "iss_dungeon_sys.h"
 struct IssZone;
 
 #include "iss_zone_sys.h"

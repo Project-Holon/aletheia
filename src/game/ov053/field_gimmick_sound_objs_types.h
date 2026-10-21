@@ -12,14 +12,10 @@
  * one frame when the wait of the objects 0 and 2 ends. The frame of each
  * animation is kept in the gimmick work (slot 1) while the map is left.
  *
- * The expansion object and model types come from ov021/fld_exp_obj_types.h,
- * which the source file includes first (the compiler resolves includes
- * against the source file directory, so this header cannot include it).
+ * The expansion object and model types come from ov021/fld_exp_obj_types.h.
  */
 
-#ifndef ALETHEIA_OV021_FLD_EXP_OBJ_TYPES_H
-#error "include ../ov021/fld_exp_obj_types.h before this header"
-#endif
+#include "../ov021/fld_exp_obj_types.h"
 
 struct FieldMap;
 struct GameSystem;

@@ -46,7 +46,6 @@
 #include "field_place_name_types.h"
 
 typedef struct GfFont GfFont;
-typedef struct Strbuf Strbuf;
 typedef struct Bmp Bmp;
 typedef struct BmpOamSys BmpOamSys;
 typedef struct BmpOam BmpOam;

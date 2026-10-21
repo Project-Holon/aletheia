@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV075_ENCEFF_SCREEN_TEX_TYPES_H
 #define ALETHEIA_OV075_ENCEFF_SCREEN_TEX_TYPES_H
 
+#include "../sdk_fx.h"
+
 /* Include ../ov021/fieldmap_types.h before this header (VecFx32). */
 
 #include "../types.h"

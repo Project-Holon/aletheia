@@ -135,7 +135,6 @@ extern void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, struct SOCConfig *sc);
 #include "../ov009/soc.h"
 #include "os_emulator.h"
 extern void CheckSetDNS(ACWORK *wk);
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 #include "../ov009/socl_cleanup.h"
 #include "mi_memory.h"

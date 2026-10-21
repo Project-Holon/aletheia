@@ -132,13 +132,11 @@ extern DspGlobals DAT_027344AC;
 extern DspProc *DSPi_ProcList;
 #include "../arm9/std_string.h"
 #include "../arm9/mi_memory.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_cache.h"
 #include "../arm9/os_emulator.h"
 #include "../arm9/fs_api.h"
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 #include "../arm9/pm.h"
 #include "pm.h"

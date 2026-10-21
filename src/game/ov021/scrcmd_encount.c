@@ -97,7 +97,8 @@ typedef struct CustomEventParam {
     u32 reserved14;         /* 0x14 */
 } CustomEventParam;
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+#include "../bool_types.h"
+enum { B_FALSE, B_TRUE };
 struct ScrcmdWork;
 struct ScriptWork;
 

@@ -1,6 +1,8 @@
 #ifndef PLIST_DEMO_TYPES_H
 #define PLIST_DEMO_TYPES_H
 
+#include "../types.h"
+
 /* Types of plist_demo.c. The including file defines u8, u16, u32, s16 first and
    includes plist_battle_types.h before this header. */
 

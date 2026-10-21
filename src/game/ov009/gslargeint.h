@@ -7,6 +7,7 @@
 struct GSMD5_CTX;
 
 #include "../types.h"
+#include "../ov009/gs_types.h"
 #include "../ov175/auth_types.h"
 #include "../ov175/auth_types.h"
 #include "../ov175/auth_types.h"

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_GAME_COMM_H
 #define GAME_ARM9_GAME_COMM_H
 
+#include "../types.h"
+
 typedef struct GameComm GameComm;
 typedef struct GameCommSeq GameCommSeq;
 typedef struct GameCommInfoMessage GameCommInfoMessage;

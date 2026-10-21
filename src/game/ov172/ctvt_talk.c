@@ -176,7 +176,6 @@ typedef short s16_p07;
 
 struct CtvtMic;
 
-typedef int MICResult;
 #include "ctvt_mic.h"
 struct TaskMenuWork;
 

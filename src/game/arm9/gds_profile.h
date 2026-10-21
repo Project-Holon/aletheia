@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_GDS_PROFILE_H
 #define GAME_ARM9_GDS_PROFILE_H
 
+#include "../types.h"
+
 struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

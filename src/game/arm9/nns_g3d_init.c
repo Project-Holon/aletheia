@@ -21,8 +21,6 @@
 
 #include "../types.h"
 
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "g3x.h"
 #include "nns_g3d_glb.h"
 

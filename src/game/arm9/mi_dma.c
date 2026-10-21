@@ -33,7 +33,6 @@ typedef void (*MIDmaCallback)(void *arg);
 #include "../arm9_autoload0_ITCM/mi_dma.h"
 void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
 void MI_WaitDma(u32 dmaNo);
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 void MI_StopDma(u32 dmaNo);
 #include "os_terminate_processor.h"

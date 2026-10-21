@@ -1,6 +1,8 @@
 #ifndef GAME_OV114_CRYPTO_BOBJ2_H
 #define GAME_OV114_CRYPTO_BOBJ2_H
 
+#include "crypto_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of crypto_bobj2.c, prototypes copied from their definitions. */
 

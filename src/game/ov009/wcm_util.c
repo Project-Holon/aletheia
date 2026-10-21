@@ -24,7 +24,6 @@
 
 #include "../sdk_wm.h"
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "wcm_system.h"
 int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);

@@ -70,7 +70,6 @@ typedef struct tagMEMCELL {
 #include "list.h"
 #include "obj.h"
 struct tagLISTCB;
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 #include "../arm9/os_terminate_processor.h"
 void DWCi_CELLlInit(void);

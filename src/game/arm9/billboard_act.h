@@ -1,8 +1,6 @@
 #ifndef GAME_ARM9_BILLBOARD_ACT_H
 #define GAME_ARM9_BILLBOARD_ACT_H
 
-struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of billboard_act.c, prototypes copied from their definitions. */
 

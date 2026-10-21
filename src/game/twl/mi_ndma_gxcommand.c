@@ -47,10 +47,8 @@ typedef struct {
 
 extern GxState data_02732F3C;
 extern NdmaConfig data_02732EFC[];
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "mi_ndma.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern IrqHandler OS_GetIrqFunction(u32);
 extern void OS_SetIrqFunction(u32, IrqHandler);

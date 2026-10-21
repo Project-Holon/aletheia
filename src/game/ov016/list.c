@@ -38,7 +38,6 @@ typedef struct ListCB {
 } ListCB;
 
 #include "heap.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 ListCB *DWCi_LSTlForm(void);
 void DWCi_LSTlDelete(struct tagLISTCB *list);

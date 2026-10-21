@@ -23,7 +23,6 @@
 #include "../sdk_mb.h"
 
 #include "../arm9/mi_memory.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_terminate_processor.h"
 void MBi_InitCache(void *pl);

@@ -7,6 +7,8 @@
 #ifndef INTRUDE_SUBDISP_TYPES_H
 #define INTRUDE_SUBDISP_TYPES_H
 
+#include "../types.h"
+
 struct GameSystem;
 struct GfFont;
 struct Tcbl;

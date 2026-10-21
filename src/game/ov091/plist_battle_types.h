@@ -1,6 +1,8 @@
 #ifndef PLIST_BATTLE_TYPES_H
 #define PLIST_BATTLE_TYPES_H
 
+#include "../types.h"
+
 /* Types of plist_battle.c and plist_demo.c (party list screen): the team panel and
    mini-icon cell records, and the party member parameter ids the code passes to the
    parameter getters. The including file defines u8, u16, u32 and includes

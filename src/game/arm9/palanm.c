@@ -69,7 +69,6 @@ struct PalAnmRes {
     u16 *data;
 };
 
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 struct GameData;
 #include "game_data.h"

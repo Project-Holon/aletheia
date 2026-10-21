@@ -163,7 +163,6 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 #include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
 #include "../arm9/dwc_backup.h"
-typedef int bool_0;
 #include "font.h"
 #include "sceneseterror.h"
 #include "scenesettestcomplete.h"

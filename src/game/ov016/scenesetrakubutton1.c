@@ -112,7 +112,6 @@ extern bool DWCi_EFFlWait(int frame);
 #include "comment.h"
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "window.h"
-typedef int bool_0;
 #include "font.h"
 #include "rakuraku.h"
 #include "scenesetselectway.h"

@@ -183,7 +183,7 @@ struct Sub020072A4Ctrl;
 
 typedef struct {u16 value;} SaveScreenInit;
 
-typedef enum { ST0=0,ST13=13 } SaveScreenState;
+#include "save_screen.h"
 
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
@@ -227,7 +227,6 @@ extern signed char MSG_SPEED_GetWait(void);
 #include "../arm9/strbuf_types.h"
 #include "../ov099/wifi_club_work.h"
 extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/dendou_savedata.h"
 #include "../arm9/playtime.h"

@@ -255,10 +255,7 @@
 #include "fldmmdl_rail_types.h"
 #include "scrcmd_misc_types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameData GameData;
 typedef struct PokemonParam PokemonParam;
-typedef struct Strbuf Strbuf;
 typedef struct WordSet WordSet;
 typedef struct BmpWin BmpWin;
 typedef struct Unit Unit;
@@ -266,29 +263,18 @@ typedef struct ClactActor Actor;
 typedef struct IcaAnime IcaAnime;
 typedef struct TimeIcon TimeIcon;
 typedef struct PerapVoice PerapVoice;
-typedef struct FieldCamera FieldCamera;
-typedef struct FieldFog FieldFog;
 typedef struct FieldSubscreen FieldSubscreen;
-typedef struct FieldMsgBg FieldMsgBg;
-typedef struct FieldSysWin FieldSysWin;
-typedef struct FieldMenuFunc FieldMenuFunc;
-typedef struct FieldTaskManager FieldTaskManager;
 typedef struct FieldmapFunc FieldmapFunc;
-typedef struct FieldSubproc FieldSubproc;
 
 #include "../types.h"
 
-typedef struct GameEvent GameEvent;
 
-typedef struct ScrcmdWork ScrcmdWork;
 
-typedef struct SaveControl SaveControl;
 
 typedef struct MyStatus MyStatus;
 
 typedef struct BoxPokemon BoxPokemon;
 
-typedef struct Party Party;
 
 typedef struct MsgBank MsgBank;
 
@@ -298,13 +284,9 @@ typedef struct Bmp Bmp;
 
 typedef struct TcbList TcbList;
 
-typedef struct FieldTask FieldTask;
 
-typedef struct FieldSubprocTemplate FieldSubprocTemplate;
 
-typedef struct EventDataSystem EventDataSystem;
 
-typedef struct WfbcNpcData WfbcNpcData;
 
 typedef struct OccupyInfo OccupyInfo;
 

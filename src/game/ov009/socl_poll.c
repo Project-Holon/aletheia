@@ -29,7 +29,6 @@ typedef struct {
 struct SOCLSocket;
 
 #include "socl_list.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "socl_write.h"
 int SOCL_GetStatus(int s);

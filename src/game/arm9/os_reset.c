@@ -41,7 +41,6 @@
 #include "../twl/pm.h"
 #include "os_spinlock.h"
 #include "card_api.h"
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 #include "mi_dma.h"
 #include "../twl/mi_ndma.h"

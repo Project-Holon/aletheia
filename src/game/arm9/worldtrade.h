@@ -1,8 +1,6 @@
 #ifndef GAME_ARM9_WORLDTRADE_H
 #define GAME_ARM9_WORLDTRADE_H
 
-struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save);
-
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of worldtrade.c, prototypes copied from their definitions. */
 

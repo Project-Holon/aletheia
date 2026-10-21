@@ -178,7 +178,7 @@ struct ChihouZukanAwardWork {
     struct Obj *actor;           /* +0x54 CLACT actor */
 };
 
-typedef enum Bool { BOOL_FALSE=0,BOOL_TRUE=1 } Bool;
+enum { BOOL_FALSE = 0, BOOL_TRUE = 1 };
 
 #include "../sdk_gx.h"
 
@@ -236,7 +236,7 @@ void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p);
 void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p);
-Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p);
+BOOL CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_Setup3d(void);
 extern const Row tbl_021BA148[];
 extern Assets tbl_021BA2C0[];
@@ -519,7 +519,7 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
     p->countdown--;
 }
 
-Bool CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p){int flag;Bool result;if(p->args->bgmActive)return BOOL_TRUE;flag=1;if(BG_SYS_GetScrollY(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
+BOOL CHIHOU_ZUKAN_AWARD_IsActorIdle(struct ChihouZukanAwardWork *p){int flag;BOOL result;if(p->args->bgmActive)return BOOL_TRUE;flag=1;if(BG_SYS_GetScrollY(1))flag=0;result=BOOL_FALSE;if(flag)result=BOOL_TRUE;return result;}
 
 static inline void Shading(GXShading mode) { REG3D=(unsigned short)((REG3D & ~0x3002)|(mode<<1)); }
 

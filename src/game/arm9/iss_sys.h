@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_ISS_SYS_H
 #define GAME_ARM9_ISS_SYS_H
 
+#include "../types.h"
+
 struct GameData;
 struct Iss3dsSys;
 

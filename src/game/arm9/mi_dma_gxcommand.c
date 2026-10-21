@@ -58,7 +58,6 @@ typedef struct MIiGXDmaParams {
 #include "mi_dma.h"
 #include "os_system.h"
 void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 void MIi_FIFOCallback(void);
 #include "../arm9_autoload0_ITCM/mi_dma.h"

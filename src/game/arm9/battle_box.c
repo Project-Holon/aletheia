@@ -40,10 +40,6 @@ struct PokeParam {
     u32 data[0x37];
 };
 
-struct BoxMon {
-    u32 data[0x22];
-};
-
 #include "battle_box_types.h"
 
 #include "pokeparty.h"

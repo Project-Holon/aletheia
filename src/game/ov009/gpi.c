@@ -84,7 +84,6 @@ struct HashImplementation;
 #include "hashtable.h"
 #include "gpioperation.h"
 extern int gpiProfileMap(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
-typedef int _GPResult;
 #include "gpiinfo.h"
 #include "gpibuffer.h"
 #include "gpiutility.h"

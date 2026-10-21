@@ -1,6 +1,8 @@
 #ifndef BEACON_VIEW_TYPES_H
 #define BEACON_VIEW_TYPES_H
 
+#include "../types.h"
+
 struct TcblTask;
 
 struct PaletteFade;

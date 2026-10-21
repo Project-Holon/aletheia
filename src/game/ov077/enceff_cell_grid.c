@@ -55,8 +55,6 @@ struct GameSystem;
 struct Desc;
 #include "../arm9/fade.h"
 #include "../ov021/enceff.h"
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 struct EncEffScreenTexWork;
 #include "../ov075/enceff_screen_tex.h"

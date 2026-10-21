@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_G3X_H
 #define GAME_ARM9_G3X_H
 
+#include "../sdk_gx.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of g3x.c, prototypes copied from their definitions. */
 

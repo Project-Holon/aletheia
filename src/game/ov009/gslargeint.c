@@ -52,8 +52,7 @@ typedef unsigned int l_word;
 #include "../ov175/auth_types.h"
 
 #include "../types.h"
-
-typedef int gsi_bool;
+#include "gs_types.h"
 
 typedef unsigned int gsi_u32;
 

@@ -268,7 +268,7 @@ typedef enum { kMsgWindowOffset = 0x1c4 } WindowOffset;
 typedef struct { u32 words[7]; } ClactConfig;
 
 
-typedef enum { YCoordMin = -2147483647, YCoordMax = 2147483647 } YCoord;
+#include "zknsearch_main.h"
 
 #include "../arm9/arc_tool.h"
 #include "../arm9/arc_util.h"

@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV078_ENCEFF_RIPPLE_TYPES_H
 #define ALETHEIA_OV078_ENCEFF_RIPPLE_TYPES_H
 
+#include "../types.h"
+
 /*
  * Encounter effect of overlay 0x4E: a water surface of 33 x 25 vertices on
  * which drops make ripples (a spring model: each vertex is pulled to the

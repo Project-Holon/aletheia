@@ -1,6 +1,8 @@
 #ifndef GAME_OV067_TOUCHBAR_TYPES_H
 #define GAME_OV067_TOUCHBAR_TYPES_H
 
+#include "../types.h"
+
 /*
  * Types of the touch bar (touchbar.c): a row of touch-screen buttons, each
  * one an actor that plays an animation while it is pressed. The includer

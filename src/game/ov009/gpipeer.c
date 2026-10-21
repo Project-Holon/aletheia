@@ -153,7 +153,6 @@ static int gpiProcessPeer(void **connection, GPIPeer *peer);
 #include "../arm9/msl_string_mem.h"
 extern struct DArrayImplementation *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
 #include "gpioperation.h"
-typedef int _GPResult;
 #include "gpiinfo.h"
 extern int gsUdpEngineStartTalkingToPeer(unsigned int ip, unsigned short port, char *msg, int timeOut);
 extern int  gpiSendOrBufferString(void **connection, GPIPeer *peer,
@@ -993,7 +992,7 @@ int gpiPeerStartTransferMessage(void **connection, GPIPeer *peer,
  * (ov009 window, the only two candidate windows holding them are ov009 and
  * ov021 and only ov009's bytes are read, the function under test living there).
  *
- * The DWARF carries three separate `enum _GPResult __result__` locals, all in
+ * The DWARF carries three separate `enum GPResult __result__` locals, all in
  * r0, one per if-chain, so the original almost certainly declared a result in
  * each of three sibling blocks rather than reusing one.  The single `result`
  * below colours identically -- r0 in all three, r4 never live across a call --

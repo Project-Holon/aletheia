@@ -61,13 +61,10 @@
 #define NOGRID_MAPPER_RES_NONE 0xFFFF
 #define RAIL_WORK_MAX 0x30
 
-typedef struct RailManager RailManager;          /* field_rail.c */
-typedef struct FieldRailLoader FieldRailLoader;  /* field_rail_loader.c */
-typedef struct FieldRailSetting FieldRailSetting;
-typedef struct RailAttr RailAttr;                /* rail_attr.c */
-typedef struct RailWork RailWork;
-typedef struct FldSceneArea FldSceneArea;        /* fld_scenearea.c */
-typedef struct FldSceneAreaLoader FldSceneAreaLoader;
+#include "field_rail.h"
+#include "field_rail_loader.h"
+#include "rail_attr.h"
+#include "fld_scenearea.h"
 
 /* Rail (no-grid) map handler of the field map (0x18 bytes, line 0x47
  * allocation): the rail manager, its loader, the rail attributes and the
@@ -89,10 +86,6 @@ typedef struct FieldNogridMapperRes {
 
 #include "../arm9/gfl_heap_wrap.h"
 struct FieldCamera;
-#include "field_rail.h"
-#include "field_rail_loader.h"
-#include "rail_attr.h"
-#include "fld_scenearea.h"
 #include "../arm9/arc_tool.h"
 #include "fld_scenearea_loader.h"
 #include "../arm9/zonedata.h"

@@ -26,7 +26,6 @@
 extern void DC_InvalidateRange(u32, u32);
 #include "nwm_cmd.h"
 #include "pm.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/pxi_fifo.h"
 static void NWMi_ForceUnloadDeviceCallback(void);

@@ -28,7 +28,6 @@ typedef struct TwlWork {
 } TwlWork;
 
 #include "nwm_system.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_cache.h"
 #include "nwm_cmd.h"

@@ -157,9 +157,7 @@ typedef struct Strbuf Strbuf;
  */
 #include "namein_args.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct FieldMap FieldMap;
+#include "../ov021/field_camera_anime.h"
 /* Eight words of camera target data, copied from the table at d_02172528. */
 typedef struct CameraTarget {
     int words[8];
@@ -204,8 +202,7 @@ typedef struct LandEventWork {
     void *camera;               /* 0x0C */
     struct IcaAnime *anim;      /* 0x10 */
 } LandEventWork;
-typedef struct GameData GameData;
-typedef struct Mmdl Mmdl;
+#include "../ov021/field_task_manager.h"
 typedef struct MsgBank MsgBank;
 /* Transition request record behind EncounterContext.transitionInfo; only the scene id is read here. */
 typedef struct TransitionInfo {
@@ -319,11 +316,9 @@ struct SaveControl;
 struct PokemonParam;
 #include "../arm9/poke_tool.h"
 struct FieldCameraAnime;
-#include "../ov021/field_camera_anime.h"
 struct FieldCameraParam;
 struct FieldCamera;
 struct FieldTaskManager;
-#include "../ov021/field_task_manager.h"
 #include "../ov021/fieldmap.h"
 #include "../arm9/ica_anime.h"
 #include "../arm9/gfl_use.h"
@@ -373,7 +368,6 @@ struct GFLNetHandle;
 #include "../arm9/net_handle.h"
 #include "../arm9/net.h"
 #include "../arm9/net_err.h"
-typedef int Bool;
 #include "event_field_proclink.h"
 #include "../arm9/field_sound_system.h"
 struct FieldEncount;

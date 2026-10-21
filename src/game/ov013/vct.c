@@ -37,7 +37,6 @@
  */
 #include "vct_types.h"
 
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 
 #include "../arm9/crt0.h"

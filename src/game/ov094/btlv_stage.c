@@ -55,8 +55,6 @@
 
 #include "../arm9/nns_g3d_res.h"
 
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 
 

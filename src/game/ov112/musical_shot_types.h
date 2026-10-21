@@ -1,6 +1,8 @@
 #ifndef MUSICAL_SHOT_TYPES_H
 #define MUSICAL_SHOT_TYPES_H
 
+#include "../types.h"
+
 /*
  * Shared musical shot records for ov112. Used by musical_shot_sys.c (owner)
  * and musical_mcss.c (MUSICAL_MCSS_DrawLabel). Requires u8, u16, u32 and s16

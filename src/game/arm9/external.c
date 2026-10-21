@@ -50,17 +50,6 @@
 
 #include "../sdk_os.h"
 
-typedef enum RTCResult {
-    RTC_RESULT_SUCCESS = 0,
-    RTC_RESULT_BUSY,
-    RTC_RESULT_ILLEGAL_PARAMETER,
-    RTC_RESULT_SEND_ERROR,
-    RTC_RESULT_INVALID_COMMAND,
-    RTC_RESULT_ILLEGAL_STATUS,
-    RTC_RESULT_FATAL_ERROR,
-    RTC_RESULT_MAX
-} RTCResult;
-
 #include "../sdk_rtc.h"
 
 typedef void (*RTCCallback)(RTCResult result, void *arg);

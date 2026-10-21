@@ -1,6 +1,8 @@
 #ifndef OV020_EL_SCOREBOARD_TYPES_H
 #define OV020_EL_SCOREBOARD_TYPES_H
 
+#include "../types.h"
+
 /*
  * Types of the season scoreboard (el_scoreboard.c, ov020).
  *

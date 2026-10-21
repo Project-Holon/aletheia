@@ -183,7 +183,6 @@ struct FieldMap;
 #include "../arm9/game_data.h"
 struct CommPlayerSupport;
 #include "../arm9/comm_player_support.h"
-typedef int Bool;
 #include "scrcmd_network.h"
 #include "../ov021/event_fieldmap_control.h"
 #include "../ov018/event_comm_common.h"

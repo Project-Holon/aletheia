@@ -55,7 +55,6 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 #include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
 #include "move.h"
-typedef int bool_0;
 #include "font.h"
 #include "sceneoptmovfailure.h"
 #include "sceneoptmovdisconnect.h"

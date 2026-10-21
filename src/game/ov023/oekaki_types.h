@@ -12,6 +12,9 @@
 #ifndef OEKAKI_TYPES_H
 #define OEKAKI_TYPES_H
 
+
+#include "../ov022/union_app_types.h"
+
 #define OEKAKI_MEMBER_MAX      5      /* members of the drawing room */
 #define OEKAKI_QUEUE_SIZE      100    /* stroke groups in the ring buffer */
 #define OEKAKI_STROKE_COUNT_MAX 2     /* points a stroke record holds */
@@ -127,22 +130,22 @@ typedef struct OekakiWork {
     void *font;                      /* 0x00C GfFont */
     struct WordSet *wordSet;         /* 0x010 */
     struct MsgBank *msgBank;         /* 0x014 */
-    StrBuf *playerName[OEKAKI_MEMBER_MAX]; /* 0x018 name of each member */
-    StrBuf *labelText;               /* 0x02C message 7, 10 characters */
-    StrBuf *messageText;             /* 0x030 expanded message */
+    struct Strbuf *playerName[OEKAKI_MEMBER_MAX]; /* 0x018 name of each member */
+    struct Strbuf *labelText;               /* 0x02C message 7, 10 characters */
+    struct Strbuf *messageText;             /* 0x030 expanded message */
     u8  pad34[4];
     void *clactSys;                  /* 0x038 */
     SpriteResSet cursorRes;          /* 0x03C */
     SpriteResSet buttonRes;          /* 0x048 */
     SpriteResSet nameTagRes;         /* 0x054 */
-    ClActor *cursorActor[OEKAKI_MEMBER_MAX];  /* 0x060 pen cursor of each member */
+    struct ClactActor *cursorActor[OEKAKI_MEMBER_MAX];  /* 0x060 pen cursor of each member */
     u8  pad74[0x98 - 0x74];
-    ClActor *nameTagActor[OEKAKI_MEMBER_MAX]; /* 0x098 shown while the member is present */
+    struct ClactActor *nameTagActor[OEKAKI_MEMBER_MAX]; /* 0x098 shown while the member is present */
     u8  padAC[0xD0 - 0xAC];
-    ClActor *colorButton[8];         /* 0x0D0 */
-    ClActor *clearButton;            /* 0x0F0 */
-    ClActor *sizeButton[3];          /* 0x0F4 */
-    ClActor *quitButton;             /* 0x100 */
+    struct ClactActor *colorButton[8];         /* 0x0D0 */
+    struct ClactActor *clearButton;            /* 0x0F0 */
+    struct ClactActor *sizeButton[3];          /* 0x0F4 */
+    struct ClactActor *quitButton;             /* 0x100 */
     struct BmpWin *nameWindow[OEKAKI_MEMBER_MAX]; /* 0x104 */
     struct BmpWin *canvasWindow;     /* 0x118 */
     struct BmpWin *messageWindow;    /* 0x11C */
@@ -153,7 +156,7 @@ typedef struct OekakiWork {
     void *messageStream;             /* 0x16C running message print, 0 if none */
     struct TcblSystem *taskList;               /* 0x170 */
     TaskMenuRes *menuRes;            /* 0x174 */
-    TaskMenu *menu;                  /* 0x178 yes/no menu, 0 if closed */
+    struct TaskMenuWork *menu;                  /* 0x178 yes/no menu, 0 if closed */
     TaskMenuItem menuItem[2];            /* 0x17C */
     int state;                       /* 0x194 state of the main step */
     int scene;                       /* 0x198 current step (index of the step table) */

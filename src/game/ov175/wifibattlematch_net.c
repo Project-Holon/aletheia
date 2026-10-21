@@ -562,7 +562,6 @@ typedef void (*RecordsFn)(int count, SAKEField **recs, u32 a, int nfields);
 
 struct WifibattlematchNetRecord {u32 words[21];};
 
-typedef struct DWCstAccUserData DWCstAccUserData;
 
 typedef struct {u32 a,b;} WifibattlematchNetPair;
 

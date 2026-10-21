@@ -81,10 +81,6 @@
 #include "field_encount_types.h"
 
 /* Opaque types of other files. */
-typedef struct FieldMap FieldMap;
-typedef struct FieldPlayer FieldPlayer;
-typedef struct GameEvent GameEvent;
-typedef struct GameSystem GameSystem;
 
 /* Position of a model on the map grid. */
 typedef struct GridPos {

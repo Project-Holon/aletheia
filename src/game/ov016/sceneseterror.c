@@ -97,7 +97,6 @@ typedef _Bool bool;
 
 #include "dwcutil_main.h"
 #include "common.h"
-typedef int bool_0;
 #include "font.h"
 #include "message.h"
 #include "../arm9/os_printf.h"

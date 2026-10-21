@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV021_SCRCMD_MISC_TYPES_H
 #define ALETHEIA_OV021_SCRCMD_MISC_TYPES_H
 
+#include "../sdk_fx.h"
+
 /*
  * Work blocks of the script command handlers and field events in
  * scrcmd_misc.c. Offsets come from every access in that file.

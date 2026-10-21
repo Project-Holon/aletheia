@@ -78,7 +78,7 @@ struct S0201235C;
 
 #include "../types.h"
 
-typedef struct FieldMap FieldMap;
+#include "fieldmap.h"
 #include "../sdk_fx.h"
 
 #include "../arm9/g3d_system_types.h"
@@ -94,7 +94,6 @@ typedef struct SoundObj {
 } SoundObj;
 
 #include "../arm9/gfl_heap_wrap.h"
-#include "fieldmap.h"
 struct GameSystem;
 #include "../arm9/gamesystem.h"
 #include "../arm9/iss_sys.h"

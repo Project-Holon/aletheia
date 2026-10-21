@@ -74,7 +74,6 @@ typedef struct WCMWepDesc {
 
 #include "../sdk_wm.h"
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/mi_memory.h"
 extern unsigned char WCMi_GetDefaultDeviceId(void);

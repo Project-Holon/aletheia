@@ -100,7 +100,6 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "window.h"
 #include "move.h"
 #include "input.h"
-typedef int bool_0;
 #include "font.h"
 #include "sceneoptmenu.h"
 #include "sceneoptmovwait.h"

@@ -34,7 +34,6 @@ typedef struct NasTimeDiff_ {
 } NasTimeDiff;
 
 #include "../arm9/msl_string_str.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/convert.h"
 #include "../arm9/msl_strtod.h"

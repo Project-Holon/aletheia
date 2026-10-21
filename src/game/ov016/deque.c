@@ -31,7 +31,6 @@ typedef struct tagQCB {
 } QCB;
 
 #include "heap.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 #include "../arm9/fx_cp.h"
 #include "../arm9/os_terminate_processor.h"

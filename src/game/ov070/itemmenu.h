@@ -1,6 +1,8 @@
 #ifndef GAME_OV070_ITEMMENU_H
 #define GAME_OV070_ITEMMENU_H
 
+typedef signed short TextCoord;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of itemmenu.c, prototypes copied from their definitions. */
 

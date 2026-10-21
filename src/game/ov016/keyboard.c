@@ -136,7 +136,6 @@ extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
 struct CellInfo;
 union GXOamAttr;
 #include "foundation.h"
-typedef int bool_0;
 #include "font.h"
 struct Canvas;
 #include "heap.h"

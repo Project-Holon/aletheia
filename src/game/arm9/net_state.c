@@ -134,7 +134,6 @@ struct NetStateWork {
 
 #include "os_ownerinfo.h"
 
-typedef int RTCResult;
 #include "external.h"
 
 #include "gf_standard.h"

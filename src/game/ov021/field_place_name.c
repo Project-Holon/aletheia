@@ -118,7 +118,6 @@ typedef struct GfFont GfFont;
 typedef struct Strbuf Strbuf;
 typedef struct BmpWin BmpWin;
 typedef struct Bmp Bmp;
-typedef struct BmpOamSys BmpOamSys;
 typedef struct ClactRenderer ClactRenderer;
 typedef struct NitroFileHeader NitroFileHeader;
 struct BgTemplate;

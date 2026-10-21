@@ -271,8 +271,6 @@ struct McssSys;
 #include "../arm9/g3_util.h"
 
 
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 
 

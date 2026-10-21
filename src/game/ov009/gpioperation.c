@@ -53,7 +53,6 @@ typedef struct GPRegisterCdKeyResponseArg {
 #include "gsplatformsocket.h"
 #include "gpiconnect.h"
 #include "gpiprofile.h"
-typedef int _GPResult;
 #include "gpiinfo.h"
 #include "gpiunique.h"
 #include "gsdebug.h"

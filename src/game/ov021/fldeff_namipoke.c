@@ -72,9 +72,7 @@
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
 typedef struct FieldG3dObjCtrl FieldG3dObjSys;           /* field 3D object system (arm9/ov021 field_g3dobj) */
-typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
-typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
-typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: work size, init, exit, update, draw */
+#include "field_effect.h"
 
 /* Ids of the resources in the field effect system. */
 #define FLDEFF_ID_NAMIPOKE        3
@@ -201,7 +199,6 @@ struct VecFx32;
 #include "../arm9/fx_vec.h"
 #include "../arm9/button_man.h"
 #include "../arm9/gfl_heap_wrap.h"
-#include "field_effect.h"
 struct FieldG3dObjResDesc;
 /* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
 #ifdef __MWERKS__

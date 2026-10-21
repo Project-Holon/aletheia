@@ -86,7 +86,6 @@ typedef struct TCB {
 #include "deque.h"
 #include "list.h"
 struct tagLISTCB;
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 void DWCi_TSKlInit(void);
 void DWCi_TSKlEnd(void);

@@ -366,7 +366,6 @@ struct MyStatus;
 struct WfbcData;
 #include "field_wfbc_data_local.h"
 struct ZoneFlagSetting;
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 struct ProcLinkRequest;
 #include "../ov010/event_field_proclink_return.h"

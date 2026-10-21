@@ -407,7 +407,7 @@ typedef struct { u32 index; u8 f4[8]; char *owner; u8 f10[8]; u32 base; } Input;
 
 typedef struct { u8 a,b,c,d; void *value; } BrCodeinRec;
 
-typedef enum { STATE_ZERO=0, STATE_TWELVE=12 } CodeinSoclState;
+#include "br_codein.h"
 
 typedef struct {u32 fields[7];Point request;} BrCodeinArg;
 

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_NET_SAVE_H
 #define GAME_ARM9_NET_SAVE_H
 
+#include "../types.h"
+
 struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData);
 struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg);
 

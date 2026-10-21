@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_BTL_SETUP_H
 #define GAME_ARM9_BTL_SETUP_H
 
+#include "../types.h"
+
 struct BattleSetupParam *BTL_SETUP_Create(u32 heap);
 struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap);
 

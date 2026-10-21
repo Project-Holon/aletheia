@@ -31,10 +31,8 @@ struct ItrState {
 
 typedef struct ItrState ItrState;
 
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern void OS_SetIrqFunction(unsigned long intrBit, void (*function)(void));
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "task.h"
 void DWCi_ITRlIntr(void);

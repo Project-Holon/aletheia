@@ -110,18 +110,8 @@
 
 #include "../types.h"
 
-typedef struct ScrcmdWork ScrcmdWork;
-typedef struct GameData GameData;
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct EventDataSystem EventDataSystem;
 typedef struct EventWork EventWork;
 typedef struct EventRec EventRec;
-typedef struct PlayerWork PlayerWork;
-typedef struct FieldPlayer FieldPlayer;
-typedef struct FieldTask FieldTask;
-typedef struct FieldTaskManager FieldTaskManager;
-typedef struct RailWork RailWork;
 typedef struct TcbTask AnimeTask;
 
 /* Bits of the pause flags: models released from the script pause that the wait function pauses again. */
@@ -163,7 +153,6 @@ struct Mmdl;
 struct VecFx32;
 #include "../ov010/fldmmdl_move.h"
 #include "../ov010/eventdata_system.h"
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 #include "fieldmap.h"
 #include "fldmmdl_acmd.h"

@@ -22,7 +22,6 @@
 
 #include "../types.h"
 
-typedef int RTCResult;
 #include "../arm9/external.h"
 
 typedef struct {

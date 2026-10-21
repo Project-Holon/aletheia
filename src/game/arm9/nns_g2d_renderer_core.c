@@ -131,7 +131,6 @@ typedef struct NNSG2dImageProxy {
     NNSG2dImageAttr attr;       /* +0x0C */
 } NNSG2dImageProxy;
 
-typedef struct NNSG2dPaletteProxy NNSG2dPaletteProxy;
 
 typedef struct SpriteParams {
     fx32 u0;

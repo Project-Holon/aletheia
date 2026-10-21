@@ -1,6 +1,8 @@
 #ifndef OV081_ENCEFF_GRID_SPREAD_TYPES_H
 #define OV081_ENCEFF_GRID_SPREAD_TYPES_H
 
+#include "../types.h"
+
 /* The includer must include ../ov077/enceff_base_types.h and ../ov077/enceff_grid_types.h first. */
 
 /*

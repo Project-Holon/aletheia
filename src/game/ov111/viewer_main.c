@@ -395,7 +395,6 @@ struct Strbuf;
 #include "../arm9/fx_cp.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/key.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/gx_load2d.h"
 int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args);

@@ -124,7 +124,6 @@ extern void CARDi_StartRomPageTransfer(u32 offset);
 #include "mi_memory.h"
 extern u32 CARDi_ReadRomIDCore(void);
 #include "card_pullout.h"
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 #include "os_system.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));

@@ -33,7 +33,6 @@ typedef struct {
     u32 fullArg;
 } MicexState;
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../sdk_os.h"
 

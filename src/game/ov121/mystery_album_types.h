@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV121_MYSTERY_ALBUM_TYPES_H
 #define ALETHEIA_OV121_MYSTERY_ALBUM_TYPES_H
 
+#include "../types.h"
+
 /* Mystery Gift album screen work (types shared with mystery_util.c, which allocates it). */
 
 typedef struct MysteryAlbumPathPoint {

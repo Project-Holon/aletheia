@@ -51,7 +51,6 @@ typedef struct OsVAlarmBss {
 
 #include "os_system.h"
 extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 extern void OSi_AppendVAlarm(OSVAlarm *alarm);
 #include "os_terminate_processor.h"

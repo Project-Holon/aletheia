@@ -8,6 +8,8 @@
 #ifndef UNION_SUBDISP_TYPES_H
 #define UNION_SUBDISP_TYPES_H
 
+#include "../types.h"
+
 struct GameSystem;
 struct GfFont;
 struct MsgBank;

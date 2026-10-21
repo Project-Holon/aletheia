@@ -51,7 +51,6 @@
 #include "../ov011/intrude_comm_types.h"
 
 /* Opaque here: only the accessors in arm9 game_beacon.c and game_data.c read these. */
-typedef struct GameComm GameComm;
 
 struct EventWork;
 

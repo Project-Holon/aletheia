@@ -37,7 +37,6 @@ typedef struct SCFGFuseInfo {
 } SCFGFuseInfo;
 
 #include "os_system.h"
-typedef int SCFGCpuSpeed;
 #include "../arm9_autoload0_ITCM/scfg_proc.h"
 #include "os_terminate_processor.h"
 #include "pxi_fifo.h"

@@ -44,7 +44,6 @@ struct GroundAnimeArgs;
 #include "field_ground_anime.h"
 struct GameSystem;
 struct GameEvent;
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 struct FieldMap;
 #include "event_appear.h"

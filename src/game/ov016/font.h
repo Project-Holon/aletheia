@@ -1,6 +1,8 @@
 #ifndef GAME_OV016_FONT_H
 #define GAME_OV016_FONT_H
 
+typedef int bool_0;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of font.c, prototypes copied from their definitions. */
 

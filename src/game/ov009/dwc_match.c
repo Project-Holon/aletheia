@@ -337,7 +337,6 @@ typedef struct {
 
 #include "gpi_types.h"
 
-typedef struct GTI2Socket GTI2Socket;
 
 enum E { E_OK, E_A, E_B, E_C, E_D, E_E, E_NET };
 

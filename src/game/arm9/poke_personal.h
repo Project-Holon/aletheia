@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_POKE_PERSONAL_H
 #define GAME_ARM9_POKE_PERSONAL_H
 
+#include "../types.h"
+
 struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heap);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

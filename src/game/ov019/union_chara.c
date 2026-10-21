@@ -65,7 +65,7 @@
  */
 #include "../types.h"
 
-typedef enum { FALSE, TRUE } Bool;
+#include "../bool_types.h"
 #include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"

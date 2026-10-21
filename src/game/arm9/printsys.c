@@ -181,7 +181,6 @@ struct TextPrinter {
 
 
 
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 
 struct PrintCtx *PRINTSYS_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job);

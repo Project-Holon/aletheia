@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_BGWINFRM_H
 #define GAME_ARM9_BGWINFRM_H
 
+#include "../types.h"
+
 struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

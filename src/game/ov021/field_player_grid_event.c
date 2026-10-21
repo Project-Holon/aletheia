@@ -97,23 +97,17 @@
 
 #include "../types.h"
 
-typedef struct FieldPlayer FieldPlayer;
 
-typedef struct FieldPlayerCore FieldPlayerCore;
 
 typedef struct FieldPlayerAnim FieldPlayerAnim;
 
-typedef struct FieldMap FieldMap;
 
 typedef struct FieldG3dMapper G3dMapper;
 
-typedef struct FieldEffectSys FieldEffectSys;
 
 typedef struct EncountSys EncountSys;
 
-typedef struct GameSystem GameSystem;
 
-typedef struct GameEvent GameEvent;
 
 typedef struct TcbSystem TcblSys;
 

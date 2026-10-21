@@ -48,7 +48,6 @@ typedef struct FsRoot {
 
 #include "../arm9/os_cache.h"
 #include "../arm9/pxi_fifo.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../sdk_os.h"
 

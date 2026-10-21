@@ -81,7 +81,6 @@ struct MATHSHA1Context;
 
 #include "mi_memory.h"
 
-typedef int RTCResult;
 #include "external.h"
 
 

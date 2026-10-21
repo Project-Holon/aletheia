@@ -103,7 +103,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 #include "input.h"
 #include "sound.h"
 extern bool DWCi_EFFlWait(int frame);
-typedef int bool_0;
 #include "font.h"
 #include "comment.h"
 #include "rakuraku.h"

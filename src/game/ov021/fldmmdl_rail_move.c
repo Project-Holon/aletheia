@@ -80,7 +80,6 @@
 #include "../sdk_fx.h"
 
 /* A field model (opaque here; fldmmdl.c owns the layout). */
-typedef struct Mmdl Mmdl;
 
 /* Anime command work of the stay walk commands (walk in place). */
 typedef struct {

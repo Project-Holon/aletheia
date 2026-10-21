@@ -57,7 +57,6 @@ struct BgmInfo;
 #include "../arm9/gfl_use.h"
 struct GroundAnimeArgs;
 #include "field_ground_anime.h"
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 struct FieldMap;
 struct GameSystem;

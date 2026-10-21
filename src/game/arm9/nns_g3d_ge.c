@@ -46,8 +46,6 @@ typedef void (*MIDmaCallback)(void *arg);
 #include "../twl/mi_ndma_gxcommand.h"
 extern void MI_SendGXCommandAsyncFast(u32 dma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
 extern void MI_SendGXCommandAsync(u32 dma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "g3x.h"
 #include "fx_mtx44.h"
 int NNS_G3dGeIsBufferExist(void);

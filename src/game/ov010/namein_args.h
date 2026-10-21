@@ -1,5 +1,7 @@
 #ifndef GAME_OV010_NAMEIN_ARGS_H
 #define GAME_OV010_NAMEIN_ARGS_H
+
+#include "../types.h"
 /*
  * NameInArgs: argument block of the name entry setup (NAMEIN_SETUP_*).
  *

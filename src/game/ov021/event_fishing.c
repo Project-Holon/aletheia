@@ -78,7 +78,6 @@ struct S0201235C;
 
 #include "../types.h"
 
-typedef struct FieldMap FieldMap;
 
 #include "../arm9/mi_memory.h"
 #include "../arm9/gfl_use.h"

@@ -53,9 +53,7 @@ typedef struct {
 #define NDMA ((volatile NdmaCh *)REG_MI_NDMA_SRC_ADDR)
 
 extern NdmaConfig data_02732EFC[];
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern void MIi_CpuCopy32(void *dst, const void *src, u32 n);
 

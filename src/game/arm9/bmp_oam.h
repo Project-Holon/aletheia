@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_BMP_OAM_H
 #define GAME_ARM9_BMP_OAM_H
 
+#include "../types.h"
+
 /* Init data of a bitmap OAM (BMP_OAM_Create). */
 struct BmpOamParam {
     const struct Bmp *bmp;

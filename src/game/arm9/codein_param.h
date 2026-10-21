@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_CODEIN_PARAM_H
 #define GAME_ARM9_CODEIN_PARAM_H
 
+#include "../types.h"
+
 struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

@@ -103,7 +103,6 @@ typedef struct Camera {
 
 #include "../arm9/os_terminate_processor.h"
 
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 
 

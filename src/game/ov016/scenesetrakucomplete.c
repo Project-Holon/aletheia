@@ -75,7 +75,6 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlCheck(int lcd);
 #include "../arm9/gx_load2d.h"
 #include "move.h"
-typedef int bool_0;
 #include "font.h"
 #include "comment.h"
 #include "sceneoptmenu.h"

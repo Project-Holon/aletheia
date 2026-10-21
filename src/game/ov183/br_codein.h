@@ -1,6 +1,8 @@
 #ifndef GAME_OV183_BR_CODEIN_H
 #define GAME_OV183_BR_CODEIN_H
 
+typedef enum { STATE_ZERO=0, STATE_TWELVE=12 } CodeinSoclState;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of br_codein.c, prototypes copied from their definitions. */
 

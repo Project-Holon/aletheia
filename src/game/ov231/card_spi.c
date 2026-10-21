@@ -45,7 +45,6 @@ typedef struct {
     u8 *rxCursor;
 } CardSpiTransfer;
 
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../arm9/card_api.h"
 #include "../arm9/os_spinlock.h"

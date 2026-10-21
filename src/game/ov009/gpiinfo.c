@@ -134,7 +134,6 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 
 #include "gpi_types.h"
 
-typedef int _GPResult;
 
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 #include "../arm9/msl_strtod.h"
@@ -145,8 +144,6 @@ extern void *memset(void *dst, int c, unsigned long n);
 #include "gpioperation.h"
 #include "gpibuffer.h"
 #include "../arm9/os_printf.h"
-extern _GPResult gpiSendLocalInfo(void **connection, char *info, char *value);
-extern _GPResult gpiSendUserInfo(void **connection, char *info, char *value);
 #include "../arm9/msl_string_str.h"
 #include "gsstringutil.h"
 extern int gpiSendGetInfo(void **connection, int profileid, int operationid);
@@ -159,8 +156,8 @@ int gpiProcessGetInfo(void **connection, GPIOperation *operation, char *input);
 int gpiAddLocalInfo(void **connection, void *buffer);
 int gpiSendLocalInfo(void **connection, char *info, char *value);
 int gpiSendUserInfo(void **connection, char *info, char *value);
-_GPResult gpiSetInfoi(void **connection, int info, int value);
-_GPResult gpiSetInfos(void **connection, int info, char *value);
+GPResult gpiSetInfoi(void **connection, int info, int value);
+GPResult gpiSetInfos(void **connection, int info, char *value);
 int gpiSendGetInfo(void **connection, int profileid, int operationid);
 int gpiGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 int gpiSetInfoCache(void **connection, GPIProfile *profile, GPIInfoCache *cache);
@@ -631,10 +628,10 @@ int gpiSendUserInfo(void **connection, char *info, char *value)
     return 0;
 }
 
-_GPResult gpiSetInfoi(void **connection, int info, int value)
+GPResult gpiSetInfoi(void **connection, int info, int value)
 {
     char intValue[16];
-    _GPResult __result__;
+    GPResult __result__;
 
     switch (info) {
     case 0x708:
@@ -775,13 +772,13 @@ _GPResult gpiSetInfoi(void **connection, int info, int value)
     return 0;
 }
 
-_GPResult gpiSetInfos(void **connection, int info, char *value)
+GPResult gpiSetInfos(void **connection, int info, char *value)
 {
     char *iconnection;
     char passwordenc[45];
     char buffer[256];
     char sex;
-    _GPResult __result__;
+    GPResult __result__;
 
     iconnection = (char *)*connection;
     if (value == 0) {

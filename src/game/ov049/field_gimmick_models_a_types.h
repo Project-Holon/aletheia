@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV049_FIELD_GIMMICK_MODELS_A_TYPES_H
 #define ALETHEIA_OV049_FIELD_GIMMICK_MODELS_A_TYPES_H
 
+#include "../types.h"
+
 /*
  * Field gimmick 49 (overlay 49): one expansion unit of six models. Models 0
  * and 1 start their animation once all four event flags are set; models 2 to

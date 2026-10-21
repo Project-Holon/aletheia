@@ -87,7 +87,6 @@ extern void  TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, struct 
 #include "foundation.h"
 #include "../arm9/fx_cp.h"
 #include "../arm9/pm.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/gx.h"
 void DWCi_IPTlInit(void);

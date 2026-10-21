@@ -1,6 +1,8 @@
 #ifndef OV024_WEATHER_CLEAR_TYPES_H
 #define OV024_WEATHER_CLEAR_TYPES_H
 
+#include "../ov021/weather_task_types.h"
+
 /* Clear weather kind (overlay 24, weather id 0): only the zone fog, no particles (WeatherKindDef of the weather task, ov021 weather_task.c).
  * Needs WeatherTaskSys from the including file: the main file includes
  * ../ov021/weather_task_types.h, a file at another depth declares the typedef. */

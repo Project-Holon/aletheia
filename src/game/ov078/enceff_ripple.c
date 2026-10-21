@@ -54,8 +54,6 @@ extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern void *ENCEFF_GetWork(struct EncEffWork *eff);
 #include "../arm9/fade.h"
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 struct EncEffScreenTexWork;
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);

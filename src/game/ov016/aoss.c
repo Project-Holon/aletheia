@@ -324,7 +324,6 @@ int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen);
 #include "../arm9/mi_memory.h"
 struct PollFD;
 extern int SOC_Poll(struct PollFD *fds, unsigned int nfds, long long timeout);
-typedef int RTCResult;
 #include "../arm9/external.h"
 int AOSSi_Init(struct aoss_info *aossInfo);
 int AOSS_Init_old(struct aoss_info *aossInfo);

@@ -1,11 +1,10 @@
 #ifndef DOWSING_TYPES_H
 #define DOWSING_TYPES_H
 
-/* The includer must include ov021/field_subscreen_types.h first (FieldSubscreen). */
-
 /* Types of the dowsing machine sub-screen (field sub-screen mode 6). */
 
 #include "../types.h"
+#include "../ov021/field_subscreen_types.h"
 
 /* Dowsing level of the grid cell the player stands on: 0 .. 7 are the
  * distance steps, 8 is "on top of the target", 9 is "nothing near". */

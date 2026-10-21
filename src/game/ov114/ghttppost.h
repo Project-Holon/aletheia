@@ -1,6 +1,8 @@
 #ifndef GAME_OV114_GHTTPPOST_H
 #define GAME_OV114_GHTTPPOST_H
 
+typedef enum { GHIPostingError, GHIPostingDone, GHIPostingWaitForContinue } GHIPostingResult;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of ghttppost.c, prototypes copied from their definitions. */
 

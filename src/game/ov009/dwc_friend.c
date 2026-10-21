@@ -172,7 +172,6 @@ extern int gpGetInfo(void **connection, int profile, int checkCache, int blockin
 extern int gpIsBuddy(void **connection, int profile);
 extern int gpDeleteBuddy(void **connection, int profile);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
 extern int gpProcess(void **connection);

@@ -31,7 +31,6 @@
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
-typedef u32 OSIrqMask;
 
 typedef void (*OSIrqFunction)(void);
 

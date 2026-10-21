@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_DENDOU_SAVEDATA_H
 #define GAME_ARM9_DENDOU_SAVEDATA_H
 
+#include "../types.h"
+
 /* An exported party record: two string buffers and the copied fields. */
 struct RecordTarget {
     void *nicknameStr;  /* +0x00 */

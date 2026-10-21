@@ -83,7 +83,6 @@ struct WfbcNpcRecord;
 struct WfbcNpcData;
 #include "../arm9/net_system.h"
 struct ProcLinkReturnList;
-typedef int Bool;
 #include "event_field_proclink.h"
 struct WfbcPerson;
 struct MyStatus;

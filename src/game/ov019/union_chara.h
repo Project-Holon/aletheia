@@ -8,6 +8,7 @@ struct GameData;
 
 #include "../ov012/union_comm_types.h"
 #include "../types.h"
+#include "../bool_types.h"
 
 void UNION_CHARA_ClearTable(UnionRoomWork *work);
 int UNION_CHARA_SetNextAction(UnionCharaSlot *slot, char nextAction);

@@ -52,10 +52,8 @@
 
 #include "../sdk_fx.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct FieldMap FieldMap;
-typedef struct FieldPlayer FieldPlayer;
+#include "fieldmap.h"
+#include "field_player.h"
 typedef struct FieldEffectSys FieldEffectCtrl;
 
 /* Update function of a game event: (event, state, work), returns 1 when finished. */
@@ -110,8 +108,6 @@ typedef struct TileSlideWork {
 #include "../ov010/fldmmdl.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/game_event.h"
-#include "fieldmap.h"
-#include "field_player.h"
 struct FieldG3dMapper;
 #include "map_attr.h"
 #include "../ov010/fldmmdl_move.h"

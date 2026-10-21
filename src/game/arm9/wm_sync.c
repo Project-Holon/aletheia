@@ -62,7 +62,6 @@ typedef struct WMMpRecvHeader {
 #include "os_ownerinfo.h"
 #include "os_cache.h"
 #include "os_emulator.h"
-typedef int RTCResult;
 #include "external.h"
 WMErrCode WM_SetIndCallback(WMCallbackFunc callback);
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);

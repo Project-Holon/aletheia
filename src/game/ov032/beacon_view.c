@@ -291,7 +291,6 @@ typedef struct { int x, y; } Vec2;
 
 typedef struct { short x,y; } BeaconDelta;
 
-typedef struct BeaconTrainerInfo BeaconTrainerInfo;
 
 typedef struct BeaconRecord BeaconRecord;
 
@@ -304,7 +303,6 @@ typedef struct {
 } Args;
 
 /* Event descriptor handle created by GAME_EVENT_Create; only its pointer is used. */
-typedef struct Desc Desc;
 
 
 typedef struct {

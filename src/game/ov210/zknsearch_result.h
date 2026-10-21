@@ -1,6 +1,8 @@
 #ifndef GAME_OV210_ZKNSEARCH_RESULT_H
 #define GAME_OV210_ZKNSEARCH_RESULT_H
 
+#include "zknsearch_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zknsearch_result.c, prototypes copied from their definitions. */
 

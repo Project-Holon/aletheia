@@ -23,7 +23,6 @@
 
 #include "../sdk_os.h"
 
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 void OSi_IrqCallback(int dmaNo);
 void OSi_IrqDma0(void);

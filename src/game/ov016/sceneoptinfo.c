@@ -76,7 +76,6 @@ typedef struct {
 #include "comment.h"
 #include "dwcutil_main.h"
 #include "common.h"
-typedef int bool_0;
 #include "font.h"
 #include "../arm9/os_ownerinfo.h"
 #include "../arm9/os_printf.h"

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_MUSICAL_DIST_SAVE_H
 #define GAME_ARM9_MUSICAL_DIST_SAVE_H
 
+#include "../types.h"
+
 struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id);
 struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *game_sys, const void *data, u32 size, u32 heap_id);
 

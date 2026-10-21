@@ -213,14 +213,13 @@ struct TcbTask;
 typedef struct Strbuf StrBuf;
 typedef struct ClactActor ClActor;
 struct Tcbl;
-typedef struct TaskMenuRes TaskMenuRes;
+#include "oekaki_types.h"
 typedef struct TaskMenuWork TaskMenu;
 typedef struct GFLNetHandle NetHandle;
 typedef struct MetTrainersSave MetList;
 struct BmpWin;
 struct WordSet;
 struct MsgBank;
-#include "oekaki_types.h"
 
 #define OEKAKI_HEAP_ID          0x28
 #define REG_MASTER_BRIGHT_A     REG_MASTER_BRIGHT_ADDR

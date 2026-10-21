@@ -1,6 +1,8 @@
 #ifndef GAME_OV172_CTVT_MIC_H
 #define GAME_OV172_CTVT_MIC_H
 
+#include "../arm9/mic.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of ctvt_mic.c, prototypes copied from their definitions. */
 

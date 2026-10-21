@@ -1,6 +1,8 @@
 #ifndef OV021_PLEASURE_BOAT_TYPES_H
 #define OV021_PLEASURE_BOAT_TYPES_H
 
+#include "../types.h"
+
 /* One passenger record of the pleasure boat (0x1C bytes). */
 typedef struct BoatPassenger {
     u32 id;           /* 0x00, not read by the accessors */

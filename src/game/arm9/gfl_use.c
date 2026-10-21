@@ -297,7 +297,6 @@ struct SndWaveSetHeader {
 };
 
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 #include "gx.h"
 #include "os_system.h"
@@ -330,7 +329,6 @@ extern void GFL_USE_SetStereoOutput(u32 stereo);
 #include "os_init.h"
 #include "os_tick.h"
 #include "os_alarm.h"
-typedef int RTCResult;
 #include "external.h"
 #include "fx.h"
 #include "os_emulator.h"

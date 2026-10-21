@@ -40,7 +40,6 @@ typedef struct IRCParam {
     unsigned char *recv;
 } IRCParam;
 
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../arm9/os_spinlock.h"
 #include "../arm9/card_api.h"

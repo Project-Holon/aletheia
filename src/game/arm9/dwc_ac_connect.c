@@ -99,7 +99,6 @@ typedef struct {
 #include "dwc_ac.h"
 #include "mi_memory.h"
 #include "../ov009/wcm_system.h"
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 #include "dwc_ac_makelist.h"
 #include "dwc_ac_beacon.h"

@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV050_FIELD_GIMMICK_MODELS_B_TYPES_H
 #define ALETHEIA_OV050_FIELD_GIMMICK_MODELS_B_TYPES_H
 
+#include "../types.h"
+
 /*
  * Field gimmick 50 (overlay 50): one expansion unit of two models. Model 0
  * has one animation, model 1 has two. Script commands start, stop and poll

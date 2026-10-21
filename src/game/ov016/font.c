@@ -114,7 +114,7 @@ typedef struct {
     unsigned char renew[2];
 } MemFont;
 
-typedef int bool_0;
+#include "font.h"
 
 #include "../arm9/nns_g2d_font_types.h"
 

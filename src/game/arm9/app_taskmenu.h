@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_APP_TASKMENU_H
 #define GAME_ARM9_APP_TASKMENU_H
 
+#include "../types.h"
+
 struct Strbuf;
 typedef struct TaskMenuWork TaskMenuWork;
 typedef struct TaskMenuRes TaskMenuRes;

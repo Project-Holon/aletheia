@@ -148,8 +148,6 @@ typedef struct FieldLight {
 #include "../arm9/mi_memory.h"
 #include "../arm9/g3d_light.h"
 #include "../arm9/nns_g3d_glb.h"
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/fx_vec.h"

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_NCFG_BACKUP_H
 #define GAME_ARM9_NCFG_BACKUP_H
 
+#include "nvram.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of ncfg_backup.c, prototypes copied from their definitions. */
 

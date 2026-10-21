@@ -26,7 +26,6 @@
  *   DWCi_FNTlDeleteBgLcd 0x021D5CA8  arm
  */
 #include "common.h"
-typedef int bool_0;
 #include "font.h"
 #include "message.h"
 #include "../arm9/gx_load2d.h"

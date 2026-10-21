@@ -171,7 +171,6 @@ extern int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned sho
 #include "../arm9/msl_printf.h"
 #include "gsstringutil.h"
 #include "../arm9/msl_strtod.h"
-typedef int gsi_bool;
 #include "gslargeint.h"
 void *gsXmlCreateStreamWriter(const char **namespaces, int count);
 void *gsXmlCreateStreamReader(void);

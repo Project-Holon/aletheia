@@ -16,6 +16,17 @@ typedef enum RTCWeek {
     RTC_WEEK_MAX
 } RTCWeek;
 
+typedef enum RTCResult {
+    RTC_RESULT_SUCCESS = 0,
+    RTC_RESULT_BUSY,
+    RTC_RESULT_ILLEGAL_PARAMETER,
+    RTC_RESULT_SEND_ERROR,
+    RTC_RESULT_INVALID_COMMAND,
+    RTC_RESULT_ILLEGAL_STATUS,
+    RTC_RESULT_FATAL_ERROR,
+    RTC_RESULT_MAX
+} RTCResult;
+
 typedef struct RTCDate {
     u32 year;
     u32 month;

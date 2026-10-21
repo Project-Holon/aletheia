@@ -1,6 +1,8 @@
 #ifndef GAME_OV063_RAIL_SLIPDOWN_TYPES_H
 #define GAME_OV063_RAIL_SLIPDOWN_TYPES_H
 
+#include "../arm9/zonedata_types.h"
+
 /* ov063: the slip down effect on a rail map. A field model (or the player)
  * at a rail edge slides along its facing direction and down onto the rail
  * below while the camera follows. Needs fldmmdl_rail_types.h of ov021

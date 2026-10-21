@@ -86,11 +86,6 @@
  */
 #include "weather_task_types.h"
 
-typedef struct FieldCamera FieldCamera;
-typedef struct FieldFog FieldFog;
-typedef struct FieldLight FieldLight;
-typedef struct FieldSoundSystem FieldSoundSystem;
-typedef struct FieldZoneFog FieldZoneFog;
 typedef struct ClactActor Actor;
 
 #include "../arm9/gfl_heap_wrap.h"

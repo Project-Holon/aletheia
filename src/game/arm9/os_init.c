@@ -52,7 +52,6 @@
 #include "pxi_fifo.h"
 #include "os_arena.h"
 #include "os_spinlock.h"
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 #include "os_exception.h"
 #include "mi_init.h"

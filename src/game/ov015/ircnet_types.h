@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV015_IRCNET_TYPES_H
 #define ALETHEIA_OV015_IRCNET_TYPES_H
 
+#include "../types.h"
+
 /* Packet of the game's infrared link layer, sent through IRC_Send with the
  * packet type as the libirc command byte. */
 typedef struct IRCNetPacket {

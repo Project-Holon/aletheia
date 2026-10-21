@@ -63,7 +63,6 @@ typedef struct {
 extern int ghiFreeConnection(GHIConnection *connection);
 #include "../ov009/gsplatformutil.h"
 #include "../ov009/gsplatformsocket.h"
-typedef int GHIPostingResult;
 #include "ghttppost.h"
 #include "../ov009/gsdebug.h"
 #include "../arm9/msl_string_str.h"

@@ -242,7 +242,6 @@ struct IrcBattleMatchWork;
 /* Message id of the text printed in the main message window. */
 typedef struct MessageRef { int msgId; } MessageRef;
 
-typedef struct BgTemplate BgTemplate;
 
 /* Session request block handed to GFL_NET_StartSession (112 bytes, copied from ROM data). */
 typedef struct NetSessionReq {

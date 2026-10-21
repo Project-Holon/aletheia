@@ -59,7 +59,6 @@ typedef struct {
 typedef _Bool bool;
 
 #include "move.h"
-typedef int bool_0;
 #include "font.h"
 #include "../arm9/mi_memory.h"
 extern void DWCi_WINlInitEx(s32 msg, s32 type, bool dark, s32 n, s32 num);

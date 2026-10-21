@@ -12,6 +12,7 @@
 
 typedef u32 OSIntrMode;
 typedef u64 OSTick;
+typedef u32 OSIrqMask;
 
 typedef struct CPContext {
     u8 opaque[0x1C];

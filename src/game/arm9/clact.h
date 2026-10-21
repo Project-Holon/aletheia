@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_CLACT_H
 #define GAME_ARM9_CLACT_H
 
+#include "../types.h"
+
 struct AnimCtrl;
 
 /* Setup record of CLACT_InitSystem (0x1C bytes). */

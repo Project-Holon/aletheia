@@ -90,11 +90,9 @@
 #include "../sdk_fx.h"
 
 /* Opaque types owned by other files. */
-typedef struct Mmdl Mmdl;             /* a field model (fldmmdl.c) */
-typedef struct MmdlSys MmdlSys;       /* the field model system */
+#include "../ov010/fldmmdl.h"
 typedef struct FieldNogridMapper FieldSys;
-typedef struct RailManager RailManager;
-typedef struct RailWork RailWork;     /* the rail walker of one field model */
+#include "field_nogrid_mapper.h"
 
 /* Move work of every rail move type: the rail walker and the last location
  * read from it. Each move type appends its own fields at 0xC. */
@@ -157,11 +155,9 @@ typedef struct {
 #define _SHUTTLE_CHECK     1
 #define _SHUTTLE_STEP_ANIM 2
 
-#include "../ov010/fldmmdl.h"
 #include "../arm9/fx_mtx33.h"
 #include "../arm9/mi_memory.h"
 struct FieldNogridMapper;
-#include "field_nogrid_mapper.h"
 #include "field_rail.h"
 #include "map_attr.h"
 struct VecFx32;

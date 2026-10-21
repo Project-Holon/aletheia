@@ -65,9 +65,7 @@ typedef struct {
     u8 data[0x42];
 } GShareData;
 
-typedef int ChildState;
 #include "dwc_mov_mbp.h"
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../arm9/dwc_backup.h"
 #include "setting.h"

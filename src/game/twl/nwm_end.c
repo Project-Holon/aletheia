@@ -27,7 +27,6 @@ extern u32 NWMi_CheckState(u32, ...);
 #else
 #include "nwm_system.h"
 #endif
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/pxi_fifo.h"
 extern u32 DAT_027341a4[];

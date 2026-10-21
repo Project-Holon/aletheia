@@ -131,7 +131,6 @@ extern const u8 gPlateDoorsPlateDoor[];
 typedef enum { SCRIPT_EVENT_ID_ZERO } ScriptEventId;
 #include "../ov010/script_sys.h"
 #include "../arm9/game_event.h"
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 extern const VecFx32 gPlateDoorsEffectPos[];
 

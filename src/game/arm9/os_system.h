@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_OS_SYSTEM_H
 #define GAME_ARM9_OS_SYSTEM_H
 
+#include "../sdk_os.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_system.c, prototypes copied from their definitions. */
 

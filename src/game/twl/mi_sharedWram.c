@@ -43,7 +43,6 @@ extern void (*const MIi_SetWramBankEnableFuncs[])(u32, u32);
 extern u32 (*const MIi_GetWramBankMasterFuncs[])(u32);
 extern u32 (*const MIi_GetWramMapStartFuncs[])(void);
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #ifdef __MWERKS__
 extern u32 OS_GetLockID(void);

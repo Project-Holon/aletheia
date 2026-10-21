@@ -51,7 +51,6 @@ typedef struct MEMCHECKEX {
 } MEMCHECKEX;
 
 #include "mi_memory.h"
-typedef int NVRAMResult;
 #include "ncfg_backup.h"
 #include "crc.h"
 extern int  readAllSlots(NCFGConfig *config);

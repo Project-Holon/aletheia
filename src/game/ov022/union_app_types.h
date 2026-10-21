@@ -7,6 +7,8 @@
 #ifndef UNION_APP_TYPES_H
 #define UNION_APP_TYPES_H
 
+#include "../types.h"
+
 #define UNION_APP_WORK_SIZE        0x100
 #define UNION_APP_MEMBER_MAX       5
 #define UNION_APP_NO_MEMBER        0xFF

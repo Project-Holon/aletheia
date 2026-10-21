@@ -112,7 +112,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 #include "graphics.h"
-typedef int bool_0;
 #include "font.h"
 #include "dwcutil_main.h"
 #include "sound.h"

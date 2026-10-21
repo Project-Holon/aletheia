@@ -129,7 +129,6 @@ typedef enum {
 #include "../arm9/g2.h"
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
 #include "cell.h"
-typedef int bool_0;
 #include "font.h"
 #include "common.h"
 #include "graphics.h"

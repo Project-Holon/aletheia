@@ -57,10 +57,8 @@ typedef struct {
 
 #include "crt0.h"
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free);
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 #include "os_alarm.h"
-typedef int RTCResult;
 #include "external.h"
 #include "dwc_bm_init.h"
 #include "util_wifiidtool.h"

@@ -136,7 +136,6 @@ struct TCB;
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "window.h"
-typedef int bool_0;
 #include "font.h"
 #include "scenesetselectway.h"
 #include "scenesetaosscomplete.h"

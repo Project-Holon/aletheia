@@ -30,12 +30,6 @@
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
-typedef enum
-{
-    SCFG_CPU_SPEED_1X = 0,
-    SCFG_CPU_SPEED_2X = 1
-} SCFGCpuSpeed;
-
 #define REG_CLK_ADDR                 REG_SCFG_CLK_ADDR
 #define REG_SCFG_CLK_CPUSPD_MASK     1
 

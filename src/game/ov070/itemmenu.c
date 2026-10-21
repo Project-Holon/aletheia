@@ -359,7 +359,7 @@ typedef struct ActorTemplate {
     u8 softPriority, bgPriority;
 } ActorTemplate;
 
-typedef signed short TextCoord;
+#include "itemmenu.h"
 
 typedef struct ItemmenuSurfacePos {
     unsigned short x, y;

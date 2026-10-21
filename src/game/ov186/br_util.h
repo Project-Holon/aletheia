@@ -1,6 +1,8 @@
 #ifndef GAME_OV186_BR_UTIL_H
 #define GAME_OV186_BR_UTIL_H
 
+#include "../types.h"
+
 /* Not in the generated region: its definition takes a file-local typedef. */
 struct BrListMenu *BR_UTIL_CreateListMenu(const struct BrListMenuConfig *cfg, u16 heap);
 

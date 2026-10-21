@@ -305,7 +305,6 @@ typedef struct {
 #include "comment.h"
 #include "headline.h"
 #include "scrollbar.h"
-typedef int bool_0;
 #include "font.h"
 #include "cellinfo.h"
 struct TCB;

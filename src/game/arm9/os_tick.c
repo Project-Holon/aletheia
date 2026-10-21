@@ -36,7 +36,6 @@ typedef struct OsTickBss {
 
 #include "os_timer.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 extern void OSi_CountUpTick(void);
 void OS_InitTick(void);

@@ -73,7 +73,6 @@ struct GSSoapTask;
 extern struct GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap,
                                   GSSoapCallback theCallbackFunc, GSSoapRequestFunc theRequestFunc,
                                   void *theUserData);
-typedef int GHIPostingResult;
 #include "../ov114/ghttppost.h"
 #include "authservice.h"
 

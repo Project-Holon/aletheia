@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_AUTOLOAD0_ITCM_SCFG_PROC_H
 #define GAME_ARM9_AUTOLOAD0_ITCM_SCFG_PROC_H
 
+#include "../sdk_ioreg.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of scfg_proc.c, prototypes copied from their definitions. */
 

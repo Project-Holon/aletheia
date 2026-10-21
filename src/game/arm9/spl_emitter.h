@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_SPL_EMITTER_H
 #define GAME_ARM9_SPL_EMITTER_H
 
+#include "../types.h"
+
 typedef struct SPLList SPLList;
 typedef struct SPLNode SPLNode;
 typedef struct SPLParticle SPLParticle;

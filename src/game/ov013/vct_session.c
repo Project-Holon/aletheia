@@ -39,7 +39,6 @@
  */
 #include "vct_types.h"
 
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 
 #include "../ov009/dwc_transport.h"

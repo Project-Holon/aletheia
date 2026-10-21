@@ -32,7 +32,6 @@
 struct ProcLinkReturnList;
 #include "event_field_proclink_types.h"
 
-typedef int Bool;
 #include "event_field_proclink.h"
 
 /*

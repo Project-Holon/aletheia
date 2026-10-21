@@ -58,7 +58,6 @@ extern bool DWCi_EFFlWait(int frame);
 #include "button.h"
 #include "sound.h"
 #include "input.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/pm.h"
 void DWCi_SceneOptMovComplete(void);

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_PARTICLE_H
 #define GAME_ARM9_PARTICLE_H
 
+#include "../types.h"
+
 struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
 struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
 

@@ -85,22 +85,13 @@
 
 #include "../types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameData GameData;
-typedef struct GameEvent GameEvent;
-typedef struct ScrcmdWork ScrcmdWork;
 typedef struct WordSet WordSet;
-typedef struct SaveControl SaveControl;
 typedef struct MiscSave MiscSave;
 typedef struct MyStatus MyStatus;
-typedef struct Party Party;
 typedef struct PokemonParam PokemonParam;
 typedef struct Sodateya Sodateya;
-typedef struct EventDataSystem EventDataSystem;
 typedef struct EventRec EventRec;
-typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldEffectCont FieldEffectCont;
-typedef struct FieldNogridMapper FieldNogridMapper;
 
 typedef void (*WordSetRegisterFn)(WordSet *wordSet, u32 slot, u32 value);
 

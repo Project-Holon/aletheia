@@ -50,8 +50,6 @@ typedef struct FieldFog {
 } FieldFog;
 
 #include "../arm9/gfl_heap_wrap.h"
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 void FIELD_FOG_InitFogTable(FieldFog *fog);
 int FIELD_FOG_FadeIsRunning(FieldFogFade *fade);

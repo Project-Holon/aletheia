@@ -154,7 +154,6 @@ struct PlayTime;
 
 #include "../arm9/field_status.h"
 
-typedef int Bool;
 #include "event_field_proclink.h"
 
 #include "move_pokemon.h"

@@ -25,7 +25,6 @@
 #include "../arm9/mi_memory.h"
 #include "../arm9/os_printf.h"
 extern void PrintChar(char c);
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../sdk_stdarg.h"
 void ScrollTopScreen(void);

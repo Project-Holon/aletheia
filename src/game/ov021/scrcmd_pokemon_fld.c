@@ -229,7 +229,6 @@ typedef struct WarpEntry {
     u16 gridZ;        /* 0x08 */
 } WarpEntry;
 
-typedef struct ScrcmdWork ScrcmdWork;
 
 /* One row (8 bytes) of a key to value table loaded from an archive. */
 typedef struct ScrcmdKeyValueEntry {

@@ -78,7 +78,6 @@ typedef struct NalCnt {
     AuthResult result;
 } NalCnt;
 
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/convert.h"
 extern int DWC_Svl_Init(void *(*alloc)(int, unsigned long), void (*free)(int, void *, unsigned long));

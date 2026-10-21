@@ -62,7 +62,6 @@ typedef struct NSpotState {
 
 #include "dwc_memfunc.h"
 #include "mi_memory.h"
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 extern void WDS_Initialize_CB(void);
 extern void WDS_StartScan_CB(void);

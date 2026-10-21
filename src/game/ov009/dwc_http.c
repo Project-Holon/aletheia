@@ -109,7 +109,6 @@ typedef struct {
 
 #include "../sdk_os.h"
 
-typedef struct SOCLCaInfo SOCLCaInfo;
 
 typedef struct DWCHttpParseResult {
     DWCHttpLabelValue *entry;

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_WM_DS_H
 #define GAME_ARM9_WM_DS_H
 
+#include "../sdk_wm.h"
+
 typedef struct WMDataSharingInfo WMDataSharingInfo;
 typedef struct WMDataSet WMDataSet;
 

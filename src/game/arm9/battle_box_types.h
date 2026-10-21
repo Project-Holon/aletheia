@@ -3,6 +3,12 @@
 
 #include "../types.h"
 
+/* A boxed Pokemon (0x88 bytes), declared as words: the copies of it are
+ * eight-byte stepped ldm/stm loops. */
+struct BoxMon {
+    u32 data[0x22];
+};
+
 /* Save block 0x31: the Battle Box, six boxed Pokemon and the box name.
  * BATTLE_BOX_GetMon indexes the group array with a 0x330 stride. */
 struct BoxMonGroup {

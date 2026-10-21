@@ -59,7 +59,6 @@
 
 #include "../arm9/mi_memory.h"
 
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 
 

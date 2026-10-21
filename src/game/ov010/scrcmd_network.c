@@ -76,7 +76,7 @@ struct EventWork;
 
 #include "../types.h"
 
-typedef enum { FALSE, TRUE } Bool;
+#include "../bool_types.h"
 
 /* Wait callback of a script command: receives the script work as user data. */
 typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScrcmdWork *scriptWork);

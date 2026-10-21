@@ -20,7 +20,6 @@
  *   OS_LockMutex  0x02086028  arm  arm9
  *   OS_UnlockMutex  0x02086078  arm  arm9
  */
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../sdk_os.h"
 

@@ -320,7 +320,7 @@ typedef enum { SLOT_FIRST, SLOT_COUNT = 2 } MonolithToolSlot;
 
 typedef enum { IDX_FIRST, IDX_COUNT = 6 } Idx;
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+typedef enum { B_FALSE, B_TRUE } MonolithBool;
 
 struct MonolithToolPair {
     int x, y;
@@ -2639,7 +2639,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
 {
     int busy;
     struct PrintSys *printSys;
-    Bool finished;
+    MonolithBool finished;
 
     switch (*state) {
     case 0:
@@ -3472,7 +3472,7 @@ int MONOLITH_TOOL_InitInfoScreen(struct Proc *proc, int *state, MonolithToolProc
     int busy;
     int i;
     struct PrintSys *printSys;
-    Bool finished;
+    MonolithBool finished;
 
     switch (*state) {
     case 0:

@@ -40,7 +40,6 @@ typedef struct NWMInfoElements {
     unsigned short element[1];
 } NWMInfoElements;
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "wcm_system.h"
 #include "../arm9/mi_memory.h"

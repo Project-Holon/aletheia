@@ -39,7 +39,6 @@ struct FrameListParams;
 #include "../ov067/frame_list.h"
 struct Strbuf;
 #include "../arm9/msgdata.h"
-typedef int YCoord;
 #include "zknsearch_main.h"
 void ZKNSEARCH_LIST_InitFrameList(char *ctx);
 void ZKNSEARCH_LIST_InitFrameList2(char *ctx);

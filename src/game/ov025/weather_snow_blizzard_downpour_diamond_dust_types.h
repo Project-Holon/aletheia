@@ -1,6 +1,8 @@
 #ifndef OV025_WEATHER_SNOW_BLIZZARD_DOWNPOUR_DIAMOND_DUST_TYPES_H
 #define OV025_WEATHER_SNOW_BLIZZARD_DOWNPOUR_DIAMOND_DUST_TYPES_H
 
+#include "../ov021/weather_task_types.h"
+
 /* Weather kinds loaded as overlay 25: snow, blizzard, downpour and diamond
  * dust. Each kind fills one WeatherKindDef (ov021 weather_task_types.h) with
  * seven stage callbacks, a particle update and a spawner callback. A kind

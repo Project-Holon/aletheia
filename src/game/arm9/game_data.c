@@ -191,7 +191,6 @@ struct IntrudeSave;
 #include "intrude.h"
 struct ProcLinkReturnList;
 
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 
 

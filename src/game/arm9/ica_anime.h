@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_ICA_ANIME_H
 #define GAME_ARM9_ICA_ANIME_H
 
+#include "../types.h"
+
 struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
 struct IcaAnime *ICA_ANIME_CreateWithStreamBuffer(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize);
 struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId);

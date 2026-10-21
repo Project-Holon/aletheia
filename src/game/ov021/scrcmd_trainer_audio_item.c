@@ -94,16 +94,13 @@
 #include "../ov010/script_work_types.h"
 #include "event_trainer_eye_types.h"
 
-typedef struct ScrcmdWork ScrcmdWork;
-typedef struct GameSystem GameSystem;
-typedef struct FieldMap FieldMap;
-typedef struct GameData GameData;
-typedef struct GameEvent GameEvent;
-typedef struct FieldSoundSystem FieldSoundSystem;
+#include "../ov010/scrcmd_work.h"
+#include "event_trainer_eye.h"
+#include "../arm9/field_sound_system.h"
 typedef struct RecordBlock TrainerRecord;
 typedef struct MyItem MyItem;
 typedef struct IssSystem IssSystem;
-typedef struct IssSwitchSys IssSwitchSys;
+#include "../arm9/iss_sys.h"
 
 /* One trainer record of a script work (0x1C bytes): the trainer that saw the player, plus the eye event made for it. */
 typedef struct ScriptTrainerSlot {
@@ -132,19 +129,15 @@ typedef struct PokeVoiceWork {
 
 #include "../ov010/event_trainer.h"
 #include "../arm9/gamesystem.h"
-#include "../ov010/scrcmd_work.h"
-#include "../arm9/iss_sys.h"
 #include "../ov010/script_work_cmd.h"
 #include "../ov010/script_work.h"
 struct ScriptWork;
 struct ScriptTrainerEntry;
 #include "../ov010/script_sys.h"
-#include "event_trainer_eye.h"
 struct TrainerEyeWork;
 #include "../ov010/fldmmdl.h"
 #include "../ov010/event_battle.h"
 #include "../arm9/tpoke_data.h"
-#include "../arm9/field_sound_system.h"
 #include "event_fieldmap_control.h"
 #include "../arm9/game_data.h"
 #include "fieldmap.h"

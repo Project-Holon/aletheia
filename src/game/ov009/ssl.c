@@ -126,7 +126,6 @@
 #include "../arm9/os_system.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/os_tick.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/convert.h"
 #include "../arm9/os_thread.h"

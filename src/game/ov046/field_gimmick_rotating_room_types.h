@@ -1,6 +1,8 @@
 #ifndef OV046_GIMMICK_TYPES_H
 #define OV046_GIMMICK_TYPES_H
 
+#include "../ov037/gimmick_save_types.h"
+
 /* Types of the ov046 field gimmick: three units, each drawn by five
  * expansion-object models (see FIELD_GIMMICK_ROTATING_ROOM_MODEL_*). A unit has a pose that the
  * player changes with two levers; a button on each side plays a press

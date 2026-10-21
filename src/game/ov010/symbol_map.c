@@ -245,7 +245,6 @@ struct GameEvent;
 
 struct CommProcParam;
 
-typedef int Bool;
 #include "event_field_proclink.h"
 
 

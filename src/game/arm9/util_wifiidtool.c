@@ -42,10 +42,8 @@ typedef union tagUNI64 {
 
 #include "mi_memory.h"
 #include "dwc_backup.h"
-typedef int RTCResult;
 #include "external.h"
 #include "convert.h"
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 #include "os_ownerinfo.h"
 extern u64  DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit);

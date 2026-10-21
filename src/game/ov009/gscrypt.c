@@ -35,7 +35,6 @@
 
 #include "../ov175/auth_types.h"
 
-typedef int gsi_bool;
 #include "gslargeint.h"
 #include "../arm9/msl_string_mem.h"
 

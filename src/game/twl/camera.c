@@ -20,7 +20,6 @@
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 void CAMERA_ResetCore(void);
 s32 CAMERA_IsBusyCore(void);

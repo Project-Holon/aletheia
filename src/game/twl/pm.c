@@ -58,7 +58,6 @@ extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern u32 PMi_ResetLocked;
 #include "../arm9/os_spinlock.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/gx.h"
 #include "../arm9/mi_dma.h"

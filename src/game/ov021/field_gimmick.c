@@ -33,7 +33,6 @@ struct FieldMap;
 struct GameSystem;
 struct GameData;
 struct GimmickWork;
-typedef struct FieldMap FieldMap;
 
 #include "fieldmap.h"
 #include "../arm9/gamesystem.h"

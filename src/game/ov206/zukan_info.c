@@ -146,7 +146,8 @@ typedef enum { ZERO } Zero;
 
 typedef struct { short x,y,z,w; } ActorCreatePos;
 
-typedef enum { B_FALSE, B_TRUE } Bool;
+#include "../bool_types.h"
+enum { B_FALSE, B_TRUE };
 
 typedef struct {
     unsigned short a, b, c;

@@ -1,6 +1,8 @@
 #ifndef GAME_OV067_MSGSEARCH_TYPES_H
 #define GAME_OV067_MSGSEARCH_TYPES_H
 
+#include "../types.h"
+
 /*
  * Object types of the message prefix search (msgsearch.c).
  * Needs u32 to be defined before it is included.

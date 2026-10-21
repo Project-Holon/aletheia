@@ -78,10 +78,8 @@
 
 #include "../types.h"
 
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct FieldTask FieldTask;
-typedef struct FieldTaskManager FieldTaskManager;
+#include "fieldmap.h"
+#include "field_task_manager.h"
 
 struct FieldCamera;
 struct FieldCameraAnime;
@@ -188,14 +186,12 @@ enum {
 };
 
 #include "../arm9/game_event.h"
-#include "fieldmap.h"
 struct FieldMap;
 struct FieldEffectSys;
 #include "field_player.h"
 #include "field_camera.h"
 #include "../ov010/fldmmdl.h"
 #include "event_fieldmap_control.h"
-#include "field_task_manager.h"
 struct Mmdl;
 #include "field_camera_anime.h"
 struct BuildModelMan;

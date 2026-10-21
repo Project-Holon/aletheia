@@ -73,7 +73,6 @@ typedef struct {
 
 #include "../sdk_wm.h"
 
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/mi_memory.h"
 int APC_GetAPList(struct WMBssDesc *WMBssdescBuf, int list_max);

@@ -46,7 +46,6 @@ typedef union PXIFifoMessage {
 typedef enum PXIFifoTag { PXI_FIFO_TAG_EX = 0, PXI_MAX_FIFO_TAG = 32 } PXIFifoTag;
 
 #include "os_system.h"
-typedef unsigned int OSIrqMask;
 #include "os_interrupt.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
 void PXIi_HandlerRecvFifoNotEmpty(void);

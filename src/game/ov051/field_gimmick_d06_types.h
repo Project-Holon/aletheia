@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV051_FIELD_GIMMICK_D06_TYPES_H
 #define ALETHEIA_OV051_FIELD_GIMMICK_D06_TYPES_H
 
+#include "../types.h"
+
 /*
  * Field gimmick D06 (overlay 51): the floating electric stones. The player
  * pushes a stone; it slides over the floor until something blocks it. A stone

@@ -54,7 +54,6 @@ extern int  getSlotInfo(s32 index, u32 *address, u32 *size);
 extern NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData);
 extern NVRAMResult VerifyNVRAM(u32 address, u32 size, void *pData);
 extern u8  NCFG_GetFormatVersion(void);
-typedef unsigned long long OSTick;
 #include "os_tick.h"
 #include "os_alarm.h"
 #include "os_thread.h"

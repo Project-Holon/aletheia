@@ -82,7 +82,6 @@ extern bool DWCi_EFFlCheck(int lcd);
 #include "button.h"
 #include "input.h"
 extern bool DWCi_EFFlWait(int);
-typedef int bool_0;
 #include "font.h"
 #include "comment.h"
 #include "sceneoptmenu.h"

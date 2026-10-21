@@ -1,6 +1,8 @@
 #ifndef GAME_OV067_UI_SCENE_TYPES_H
 #define GAME_OV067_UI_SCENE_TYPES_H
 
+#include "../types.h"
+
 /*
  * Base types of overlay 67 (ui_scene.c): the scene runner and the actor
  * graphics set that touchbar.c and yesno_menu.c also use.

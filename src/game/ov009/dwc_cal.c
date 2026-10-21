@@ -67,7 +67,6 @@ typedef struct {
 
 #include "../sdk_os.h"
 
-typedef struct DWCHttp DWCHttp;
 
 #include "../types.h"
 
@@ -77,7 +76,6 @@ typedef struct DWCHttp DWCHttp;
 #include "../arm9/os_printf.h"
 #include "../arm9/os_terminate_processor.h"
 #include "../arm9/os_ownerinfo.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/os_system.h"
 #include "wcm_cpsif.h"

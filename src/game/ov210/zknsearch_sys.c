@@ -46,7 +46,6 @@
 struct Proc;
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
-typedef int YCoord;
 #include "zknsearch_main.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;

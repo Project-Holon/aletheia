@@ -299,7 +299,6 @@ extern void UNION_COMM_ReleaseWorks(UnionRoomWork *work);
 
 extern void UNION_COMM_RequestStart(struct UnionRoomWork *work);
 
-typedef int Bool;
 #include "union_chara.h"
 
 

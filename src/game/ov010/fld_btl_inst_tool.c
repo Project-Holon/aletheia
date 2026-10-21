@@ -113,13 +113,10 @@
 #include "../sdk_fx.h"
 
 /* Opaque types owned by other files. */
-typedef struct GameSystem GameSystem;
+#include "../ov021/event_fieldmap_control.h"
 
-typedef struct FieldMap FieldMap;
 
-typedef struct GameEvent GameEvent;
 
-typedef struct GameComm GameComm;
 
 typedef struct MyStatus MyStatus;
 
@@ -307,7 +304,6 @@ struct GFLNetHandle;
 
 
 
-#include "../ov021/event_fieldmap_control.h"
 
 
 #include "../arm9/field_status.h"

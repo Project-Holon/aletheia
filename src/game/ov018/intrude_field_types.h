@@ -6,6 +6,8 @@
 #ifndef INTRUDE_FIELD_TYPES_H
 #define INTRUDE_FIELD_TYPES_H
 
+#include "../types.h"
+
 struct GameSystem;
 struct FieldMap;
 

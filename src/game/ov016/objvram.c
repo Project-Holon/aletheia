@@ -52,7 +52,6 @@ typedef struct {
 #include "heap.h"
 #include "deque.h"
 #include "list.h"
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 #include "../arm9/os_terminate_processor.h"
 void DWCi_OVRlInit(void);

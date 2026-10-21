@@ -237,7 +237,6 @@ struct GameData;
 #include "../arm9/game_data.h"
 #include "../arm9/zonedata.h"
 #include "field_gimmick_gate_news.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 #include "../arm9/wordset.h"
 struct MsgBank;

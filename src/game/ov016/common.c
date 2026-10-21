@@ -50,7 +50,6 @@ extern char *strncpy(char *dest, const char *src, unsigned int n);
 #include "../arm9/os_cache.h"
 #include "step.h"
 #include "button.h"
-typedef int bool_0;
 #include "font.h"
 #include "message.h"
 int DWCi_CMNlFontFlag(void);

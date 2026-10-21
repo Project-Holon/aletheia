@@ -303,7 +303,6 @@ struct FieldCamera;
 struct FieldTaskManager;
 #include "../arm9/field_sound_system.h"
 struct GameSystem;
-typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 struct EntranceCamera;
 struct FieldSoundSystem;

@@ -47,7 +47,6 @@ struct TrialHouseWork;
 
 struct RecordBlock;
 
-typedef struct TrialHouseWork TrialHouseWork;
 
 /* ScriptWork, ScrcmdWork and game structure accessors. */
 #include "scrcmd_work.h"

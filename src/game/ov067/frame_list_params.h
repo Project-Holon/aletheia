@@ -1,5 +1,7 @@
 #ifndef GAME_OV067_FRAME_LIST_PARAMS_H
 #define GAME_OV067_FRAME_LIST_PARAMS_H
+
+#include "../types.h"
 /*
  * FrameListParams and the records a caller fills in to build a frame list.
  * Split from frame_list_types.h so a file with its own base typedefs (ov209

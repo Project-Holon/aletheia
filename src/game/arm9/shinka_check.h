@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_SHINKA_CHECK_H
 #define GAME_ARM9_SHINKA_CHECK_H
 
+#include "../types.h"
+
 struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */

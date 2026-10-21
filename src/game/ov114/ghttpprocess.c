@@ -144,7 +144,6 @@ struct SOCSockAddr;
 #include "ghttpbuffer.h"
 #include "ghttpcommon.h"
 #include "../arm9/os_printf.h"
-typedef int GHIPostingResult;
 #include "ghttppost.h"
 #include "../arm9/std_string.h"
 #include "../arm9/msl_string_mem.h"

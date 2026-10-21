@@ -1,6 +1,8 @@
 #ifndef STARTMENU_TYPES_H
 #define STARTMENU_TYPES_H
 
+#include "../types.h"
+
 /* Title screen and start menu. The including file defines u8, u16 and u32 first. */
 
 /* ---- Title demo (work area allocated in STARTMENU_TitleDemoInit, 0x98 bytes) ---- */

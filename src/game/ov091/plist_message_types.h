@@ -1,6 +1,8 @@
 #ifndef PLIST_MESSAGE_TYPES_H
 #define PLIST_MESSAGE_TYPES_H
 
+#include "../types.h"
+
 /* Party list message box: one 0x38 byte object per list screen, created by
    PLIST_MESSAGE_Create and stored in PokelistWork.messageWindow (see
    pokelist_types.h). It owns the bottom text window, the text stream printer

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_APP_KEYCURSOR_H
 #define GAME_ARM9_APP_KEYCURSOR_H
 
+#include "../types.h"
+
 typedef struct PrintStreamCtrl PrintStreamCtrl;
 
 struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);

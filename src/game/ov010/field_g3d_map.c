@@ -92,8 +92,6 @@ extern void MTX_RotY33_(void *m, short sinv, short cosv);
 #include "../arm9/nns_g3d_res.h"
 struct NNSG3dResTex;
 struct NNSG3dResMdl;
-typedef int GXFogBlend;
-typedef int GXFogSlope;
 #include "../arm9/g3x.h"
 #include "../arm9/nns_g3d_tex.h"
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);

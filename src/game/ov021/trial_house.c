@@ -71,11 +71,9 @@
 #include "bsubway_scr_types.h"
 
 /* Opaque types of other files. */
-typedef struct GameEvent GameEvent;
-typedef struct Party Party;
-typedef struct FieldMap FieldMap;
-typedef struct FieldSaveAnime FieldSaveAnime;         /* save icon animation (field_saveanime.c) */
-typedef struct DeliveryBeacon DeliveryBeacon;         /* wireless delivery session (ov010 delivery_beacon.c) */
+#include "../ov010/fld_btl_inst_tool.h"
+#include "field_saveanime.h"
+#include "../ov010/delivery_beacon.h"
 typedef struct RecordBlock RecordBlock;               /* player record block of the save */
 
 /* Id of the heap the trial house work and its party live in. */
@@ -207,11 +205,8 @@ struct PokemonParam;
 #include "../arm9/trial_house_savedata.h"
 #include "../arm9/record.h"
 #include "../arm9/gfl_use.h"
-#include "../ov010/fld_btl_inst_tool.h"
 struct DeliveryBeaconParam;
-#include "../ov010/delivery_beacon.h"
 #include "../arm9/net.h"
-#include "field_saveanime.h"
 
 TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem);
 void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work);

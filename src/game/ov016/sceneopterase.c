@@ -96,7 +96,6 @@ extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "window.h"
 #include "input.h"
-typedef int bool_0;
 #include "font.h"
 #include "sceneoptmenu.h"
 #include "sceneopterase1.h"

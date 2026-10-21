@@ -7,6 +7,10 @@
 #ifndef UNIT_021828B8_TYPES_H
 #define UNIT_021828B8_TYPES_H
 
+
+
+#include "../ov011/intrude_comm_types.h"
+#include "../types.h"
 struct GameEvent;
 struct FieldMap;
 struct FldMmdl;

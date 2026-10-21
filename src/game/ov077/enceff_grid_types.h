@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV077_ENCEFF_GRID_TYPES_H
 #define ALETHEIA_OV077_ENCEFF_GRID_TYPES_H
 
+#include "../sdk_fx.h"
+
 /*
  * Encounter effect library of overlay 0x4D: the screen is cut into a grid of
  * cells (a cell is cellWidth x cellHeight tiles of 8 pixels). Each cell is a

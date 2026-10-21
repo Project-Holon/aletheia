@@ -39,6 +39,7 @@ typedef struct ProcLinkReturnList ProcLinkReturnList;
 #include "../ov020/event_mapchange_types.h"
 #include "../ov010/evolution_request_types.h"
 #include "../types.h"
+#include "../bool_types.h"
 #include "../sdk_fx.h"
 #include "../sdk_fx.h"
 #include "../ov010/event_field_proclink_types.h"

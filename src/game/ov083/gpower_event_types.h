@@ -7,6 +7,8 @@
 #ifndef GPOWER_EVENT_TYPES_H
 #define GPOWER_EVENT_TYPES_H
 
+#include "../types.h"
+
 struct GameSystem;
 struct GameData;
 struct FieldMap;

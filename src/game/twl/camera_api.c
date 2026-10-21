@@ -136,7 +136,6 @@ extern u8 data_027340EC[];
 extern u16 data_04000208;
 
 #include "../arm9/os_emulator.h"
-typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"
 #include "../sdk_os.h"
 
@@ -147,7 +146,6 @@ struct PMiGenCallbackInfo;
 #include "../arm9/pm.h"
 extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
 extern void OS_SetIrqFunction(u32, TwlFn);
-typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
 

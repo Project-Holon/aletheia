@@ -190,7 +190,6 @@ typedef short s16_p07;
 #include "../arm9/strbuf.h"
 struct MyStatus;
 #include "../arm9/wordset.h"
-typedef int RTCResult;
 #include "../arm9/external.h"
 struct PlayerWork;
 #include "../arm9/zonedata.h"

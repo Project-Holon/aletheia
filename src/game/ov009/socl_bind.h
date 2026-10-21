@@ -1,6 +1,8 @@
 #ifndef GAME_OV009_SOCL_BIND_H
 #define GAME_OV009_SOCL_BIND_H
 
+#include "../types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of socl_bind.c, prototypes copied from their definitions. */
 

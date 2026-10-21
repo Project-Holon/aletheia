@@ -223,7 +223,6 @@ typedef struct WihWork {
 #include "../arm9/net_handle.h"
 #include "../arm9/wih_dwc.h"
 #include "../arm9/gf_panic.h"
-typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "../arm9/os_ownerinfo.h"
 
