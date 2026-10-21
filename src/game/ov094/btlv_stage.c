@@ -147,7 +147,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->object[0] = G3D_SYSTEM_CreateObject(stage->render[0], 0, (u16)0);
         stage->object[1] = G3D_SYSTEM_CreateObject(stage->render[1], 0, (u16)0);
     }
-    bytes = ((NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(stage->resource)))->plttInfo.sizePltt * 8;
+    bytes = ((NNSG3dResTex *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(stage->resource)))->plttInfo.sizePltt * 8;
     stage->palFade.resources = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd6);
     stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd7);
     *stage->palFade.resources = stage->resource;

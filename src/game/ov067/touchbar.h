@@ -5,7 +5,8 @@
 /* Public functions of touchbar.c, prototypes copied from their definitions. */
 
 struct Unit;
-struct StrObj;
+struct Strbuf;
+struct GfFont;
 
 #include "../ov067/touchbar_types.h"
 #include "../ov067/touchbar_types.h"
@@ -52,9 +53,9 @@ void TOUCHBAR_OnPressPlain(TouchBarButton *button);
 void TOUCHBAR_OnPressToggle(TouchBarButton *button);
 void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled);
 void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled);
-void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode);
-void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId);
-u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode);
+void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, struct Strbuf *str, struct GfFont *fontId, u16 color, u32 alignMode);
+void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, struct GfFont *fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId);
+u16 TOUCHBAR_GetStringAlignOffset(struct Strbuf *str, struct GfFont *fontId, u32 alignMode);
 /* END mkheaders: generated region */
 
 #endif

@@ -10,6 +10,7 @@ struct UnionInfo;
 struct WifiList;
 struct Location;
 struct MyStatus;
+struct FieldSoundSystem;
 struct PlayerPosition;
 struct RailLocation;
 struct SaveControl;

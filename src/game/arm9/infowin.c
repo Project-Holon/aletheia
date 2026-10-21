@@ -135,7 +135,6 @@ struct GameData;
 #include "net.h"
 #include "wih_dwc.h"
 #include "game_beacon.h"
-extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 /* Original DS prototype: the caller passes the tile arguments as words; the host build uses the header. */
 #ifdef __MWERKS__
 #define BG_SYS_SetTileEntry BG_SYS_SetTileEntry_header
@@ -147,9 +146,7 @@ extern void BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 #endif
 #include "arc_tool.h"
 #include "arc_util.h"
-extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 #include "gf_standard.h"
-extern void BG_SYS_PushTile(u32 index);
 #include "os_emulator.h"
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
 void INFOWIN_Update(void);

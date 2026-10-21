@@ -8,6 +8,7 @@ struct ArcHandle;
 
 #include "../arm9/g3d_util_types.h"
 #include "../types.h"
+#include "../arm9/g3d_system_types.h"
 
 G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
 void G3D_UTIL_Delete(G3dUtil *util);
@@ -24,7 +25,7 @@ void G3D_UTIL_FreeUnitObjects(G3dUtil *util, u32 unitIdx);
 u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int unitIdx);
 u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx);
 u32 G3D_UTIL_GetResource(G3dUtil *util, int resIdx);
-u32 G3D_UTIL_GetObject(G3dUtil *util, int objIdx);
+G3dObject *G3D_UTIL_GetObject(G3dUtil *util, int objIdx);
 /* END mkheaders: generated region */
 
 #endif

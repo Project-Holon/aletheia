@@ -117,8 +117,7 @@ typedef struct ScriptCmdPermit {
     u8 allowInMode2 : 1;
 } ScriptCmdPermit;
 
-extern int GFL_NET_GetRunState(void);
-extern int GFL_NET_Exit(void (*exitCallback)(void *userArg));
+#include "../arm9/net.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
 struct GameData;
@@ -127,7 +126,6 @@ struct GameData;
 #ifdef __MWERKS__
 int GFL_NET_IsSessionNull();    /* the original has no parameter list and is called with the Main result */
 #else
-int GFL_NET_IsSessionNull(void);
 #endif
 #include "../arm9/game_event.h"
 #include "../arm9/vm.h"
@@ -154,11 +152,8 @@ extern void *ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, s
 #else
 #include "../arm9/arc_util.h"
 #endif
-extern void GFL_NET_ClearExitFlag();
-extern void GFL_NET_IRC_WIRELESS_Exit();
-extern u32 GFL_NET_Main(void);
 #include "../arm9/gfl_use.h"
-GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
+struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
 void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int reserved);
 int SCRIPT_SYS_HasVm(void *scriptWork, int index);
@@ -173,11 +168,11 @@ void SCRIPT_SYS_CallEndCallback(ScriptSys *sys, void *event);
 int SCRIPT_SYS_HasEndCallback(ScriptSys *sys);
 u16 SCRIPT_SYS_GetZoneId(void *fieldSys);
 int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *work);
-GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork);
+struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork);
 void SCRIPT_SYS_CallEvent(void *vm, void *task);
 void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
 int SCRIPT_SYS_AddScript(void *scriptWork, u16 zoneId, u16 scriptId);
-void *SCRIPT_SYS_GetEventScriptWork(GameEvent *event);
+void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 ScriptSys *SCRIPT_SYS_GetFromWork(void *scriptWork);
 void SCRIPT_SYS_ClearLocalWork(void *eventFlags);
 void SCRIPT_SYS_RunInitScript(void *fieldSys, int reserved);
@@ -210,7 +205,7 @@ extern char d_02172898[];
 extern ScriptCmdPermit d_02170374[];
 
 
-GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved)
+struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved)
 {
     return SCRIPT_SYS_CreateScriptEvent(fieldSys, reserved, scriptId, target, 0);
 }
@@ -218,7 +213,7 @@ GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void
 
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved)
 {
-    GameEvent *scriptEvent = SCRIPT_SYS_CreateScriptEvent(GAME_EVENT_GetGameSystem(parentEvent), reserved, scriptId, target, parentWork);
+    struct GameEvent *scriptEvent = SCRIPT_SYS_CreateScriptEvent(GAME_EVENT_GetGameSystem(parentEvent), reserved, scriptId, target, parentWork);
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(scriptEvent);
     GAME_EVENT_CallEvent(parentEvent, scriptEvent);
     return eventWork->scriptWork;
@@ -229,7 +224,7 @@ void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int 
 {
     void *fieldSys;
     void *eventWork;
-    GameEvent *scriptEvent;
+    struct GameEvent *scriptEvent;
     fieldSys = GAME_EVENT_GetGameSystem(event);
     scriptEvent = SCRIPT_SYS_CreateScriptEvent(fieldSys, reserved, scriptId, target, 0);
     eventWork = GAME_EVENT_GetWork(scriptEvent);
@@ -384,9 +379,9 @@ int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
 }
 
 
-GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
+struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
 {
-    GameEvent *event = GAME_EVENT_Create(fieldSys, 0, (GameEventFunc)SCRIPT_SYS_EventMain, 8);
+    struct GameEvent *event = GAME_EVENT_Create(fieldSys, 0, (GameEventFunc)SCRIPT_SYS_EventMain, 8);
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
     eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (sptr)parentWork, 0);
@@ -424,7 +419,7 @@ int SCRIPT_SYS_AddScript(void *scriptWork, u16 zoneId, u16 scriptId) {
 }
 
 
-void *SCRIPT_SYS_GetEventScriptWork(GameEvent *event)
+void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event)
 {
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     return eventWork->scriptWork;
@@ -463,7 +458,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
     void *tempWork = 0;
     ScriptVm *vm;
     if (scriptWork == 0) {
-        tempWork = SCRIPT_WORK_Create(4, fieldSys, (GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)mode);
+        tempWork = SCRIPT_WORK_Create(4, fieldSys, (struct GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)mode);
         scriptWork = tempWork;
     }
     vm = SCRIPT_SYS_CreateVm(4, scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId, mode);

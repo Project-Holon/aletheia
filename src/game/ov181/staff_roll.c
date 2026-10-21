@@ -698,8 +698,8 @@ void STAFF_ROLL_Init3d(char *p) {
     G3D_SYSTEM_Init(0,2,0,2,4096,142,0);
     *(struct G3dUtil **)(p+8)=G3D_UTIL_Create(3,1,142);
     *(u16 *)(p+0x18)=G3D_UTIL_AddUnit((G3dUtil *)(*(struct G3dUtil **)(p+8)),(const G3dUtilSetup *)&d_021BAB50);
-    *(u32 *)(p+0x20)=G3D_UTIL_GetObject((G3dUtil *)(*(u8 **)(p+8)),*(u16 *)(p+0x18));
-    *(u32 *)(p+0x24)=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)(*(int **)(p+0x20)));
+    *(G3dObject **)(p+0x20)=G3D_UTIL_GetObject((G3dUtil *)(*(u8 **)(p+8)),*(u16 *)(p+0x18));
+    *(u32 *)(p+0x24)=G3D_SYSTEM_GetObjectAnimeCount(*(G3dObject **)(p+0x20));
     for(i=0;i<*(u32 *)(p+0x24);i++) G3D_SYSTEM_EnableObjectAnime(*(struct G3dObject **)(p+0x20),(u16)i);
     *(struct LightSlot **)(p+0x10)=(struct LightSlot *)G3D_LIGHT_CreateSlots((struct LightSetDesc *)(&d_021BAB38),142);
     G3D_LIGHT_ApplySlots(*(struct LightSlot **)(p+0x10));

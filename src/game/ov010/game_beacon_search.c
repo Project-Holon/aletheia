@@ -180,16 +180,12 @@ struct WihContext;
 #include "../ov014/net_whpipe.h"
 
 
-extern void GFL_NET_EndDeviceWrapper(int mode);
-
-extern void *GFL_NET_GetScanResultMac(u32 index);
 
 
 
-extern u32 GFL_NET_GetScanResult(u32 index);
 
 
-extern int GFL_NET_GetNegotiationNum(void);
+
 
 #include "../arm9/net_system.h"
 
@@ -201,7 +197,6 @@ extern int GFL_NET_GetNegotiationNum(void);
 #include "../arm9/mystatus.h"
 
 
-extern int GFL_NET_GetRunState(void);
 
 
 

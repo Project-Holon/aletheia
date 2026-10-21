@@ -7,6 +7,7 @@
 #include "../ov010/field_g3d_map_types.h"
 #include "../ov010/field_g3d_map_types.h"
 #include "../types.h"
+#include "../sdk_fx.h"
 
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
 void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);

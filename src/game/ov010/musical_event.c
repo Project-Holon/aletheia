@@ -363,10 +363,9 @@ struct MsgBank;
 #ifdef __MWERKS__
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int messageId, int c, int d); /* original prototype; the definition differs in pointer as integer, argument width */
 #else
-extern struct GameEvent*SCRIPT_SYS_CreateScriptEventSimple(void*, u16, void*, s32);
+#include "script_sys.h"
 #endif
 
-extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 
 
 struct WordSet;

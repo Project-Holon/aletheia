@@ -33,7 +33,7 @@ struct EventWork;
 
 struct GameEvent;
 
-extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
+#include "script_sys.h"
 struct ScriptWork;
 struct ScriptTrainerEntry;
 

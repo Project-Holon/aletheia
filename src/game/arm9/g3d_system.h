@@ -25,6 +25,7 @@ void G3D_SYSTEM_SetGlbFlushMode(u32 mode);
 void G3D_SYSTEM_FlushGlbDefault(void);
 u32 G3D_SYSTEM_GetResourceSize(void);
 void G3D_SYSTEM_InitResourceByKind(G3dResource *res, u32 kind, void *file);
+void G3D_SYSTEM_InitResourceByFile(G3dResource *res, NNSG3dResFileHeader *file);
 G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 G3dResource *G3D_SYSTEM_CreateResourcePath(const char *path, u32 dataId);

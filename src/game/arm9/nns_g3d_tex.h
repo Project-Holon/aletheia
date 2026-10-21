@@ -4,11 +4,13 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g3d_tex.c, prototypes copied from their definitions. */
 
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../arm9/nns_g3d_anm_calc_types.h"
 #include "../arm9/nns_g3d_anm_calc_types.h"
 #include "../types.h"
-#include "../arm9/nns_g3d_anm_types.h"
-#include "../arm9/nns_g3d_anm_types.h"
 
+void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, const NNSG3dResMdl *resMdl, NNSG3dResTex *resTex);
 void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
 void NNSi_G3dAnmObjInsertByPriority(NNSG3dAnmObj **head, NNSG3dAnmObj *item);
 void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, NNSG3dAnmObj *anmObj);

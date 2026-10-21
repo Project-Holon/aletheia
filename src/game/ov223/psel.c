@@ -256,21 +256,15 @@ extern void ICA_ANIME_SetFrame(struct IcaAnime *, s32);
 struct PrintQueue;
 #include "../arm9/printsys.h"
 #include "../arm9/g3d_system.h"
+#include "../arm9/g3d_util.h"
 #include "psel_graphic.h"
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct G3dUtil;
-extern u32 G3D_UTIL_GetObject(struct G3dUtil *util, s32 objIdx);
 struct G3dObjectStatus;
 struct G3dObject;
                                
-extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
-extern void G3D_UTIL_Delete(struct G3dUtil *util);
-struct G3dUtilSetup;
-extern u16 G3D_UTIL_AddUnit(struct G3dUtil *util, struct G3dUtilSetup *setup);
-extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, s32 unitIdx);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 b, u32 c, u32 d);
 extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
-extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
 extern void PSEL_DeleteRecords(void *),ICA_ANIME_Delete(struct IcaAnime *);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, signed int v);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
@@ -500,7 +494,7 @@ void PSEL_Task(void *unused,char *p)
     ((struct PselWork *)p)->flags=0;
 }
 
-void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject((G3dObject *)(uptr)G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),((struct PselWork *)q)->heapId),(struct G3dObjectStatus *)(q+4));} }
+void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),((struct PselWork *)q)->heapId),(struct G3dObjectStatus *)(q+4));} }
 
 void PSEL_CreateG3dUtil(char *p)
 {
@@ -527,7 +521,7 @@ void PSEL_SetupListAnime(u8 *p)
     *(u16 *)rec = r;
     *(u32 *)(rec + 0x40) = 1;
     for (i = 0; i < *(u16 *)(p + 0x3A); i++) {
-        h = (void *)G3D_UTIL_GetObject(*(void **)(p + 0x28), *(u16 *)(*(u8 **)(p + 0x3C) + i * 0x44));
+        h = G3D_UTIL_GetObject(*(void **)(p + 0x28), *(u16 *)(*(u8 **)(p + 0x3C) + i * 0x44));
         n = G3D_SYSTEM_GetObjectAnimeCount(h);
         for (j = 0; j < n; j++) {
             G3D_SYSTEM_EnableObjectAnime(h, j);
@@ -542,11 +536,11 @@ void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct G3dUtil * *)&(
 
 void PSEL_UpdateListAnime(char *p)
 {
-    int *obj;
+    G3dObject *obj;
     u32 n;
     u16 i,j;
     for(i=0;i<((struct PselWork *)p)->recordCount;i++) {
-        obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+i*68));
+        obj=G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+i*68));
         n=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
         for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)obj,j,2048);
     }
@@ -559,7 +553,7 @@ void PSEL_SetupSelectAnime(char *p)
 {
     u16 i,n,j;
     u32 base,count;
-    int *obj;
+    G3dObject *obj;
     struct PselRecord *r;
     ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct G3dUtil * *)&((struct PselWork *)p)->g3dUtil,(struct G3dUtilSetup *)(&sPselSetup));
     ((struct PselWork *)p)->recordCount=4;
@@ -574,7 +568,7 @@ void PSEL_SetupSelectAnime(char *p)
         if(i+1>=2&&i+1<=4)r->translation=*(sPselPositions+i-1);
         n++;
     }
-    obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
+    obj=G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
     for(j=0;j<count;j++)G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)obj,j);
     ((struct PselWork *)p)->animStream=ICA_ANIME_CreateStream(((struct PselWork *)p)->heapId,205,36,10);
@@ -586,10 +580,10 @@ void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct G3dUtil * *)&
 
 void PSEL_UpdateSelectAnime(char *p)
 {
-    int *obj;
+    G3dObject *obj;
     u32 n;
     u16 j;
-    obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
+    obj=G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     n=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
     for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)obj,j,2048);
     ICA_ANIME_IncFrameLoop(((struct PselWork *)p)->animStream,2048);
@@ -660,12 +654,12 @@ void PSEL_SelectUnit(char *p,unsigned next)
     u16 i;
     int frame;
     if(((struct PselWork *)p)->fade.state.currentIndex!=4 && ((struct PselWork *)p)->fade.state.currentIndex!=next) {
-        object=(void *)G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
+        object=G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         for(i=0;i<count;i++) G3D_SYSTEM_DisableObjectAnime(object,i);
     }
     if(next!=4 && ((struct PselWork *)p)->fade.state.currentIndex!=next) {
-        object=(void *)G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(next+2)))));
+        object=G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(next+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         frame=0;
         for(i=0;i<count;i++) {
@@ -683,7 +677,7 @@ void PSEL_UpdateUnitAnime(char *p)
     unsigned count;
     u16 i;
     if(((struct PselWork *)p)->fade.state.currentIndex!=4) {
-        object=(void *)G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
+        object=G3D_UTIL_GetObject(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         for(i=0;i<count;i++) G3D_SYSTEM_LoopObjectAnimeFrame(object,i,2048);
     }

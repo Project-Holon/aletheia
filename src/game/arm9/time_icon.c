@@ -88,17 +88,11 @@ struct TcblTask;
 typedef short s16_p07;
 #include "bmp.h"
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 
 /* Original DS prototype: the caller passes the arguments at the wider width; the host build uses the header. */
 #ifdef __MWERKS__
@@ -110,17 +104,13 @@ extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u32 height, u32 palette, u32 allocDir);
 #endif
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 #include "bg_sys.h"
 
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct TcbTask;
 
 #include "tcb_list.h"

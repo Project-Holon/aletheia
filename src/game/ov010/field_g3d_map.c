@@ -741,7 +741,7 @@ void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes
     model = G3D_SYSTEM_GetResourceFile(modelRes);
     textureFile = G3D_SYSTEM_GetResourceFile(textureRes);
     texture = 0;
-    modelFile = (u8 *)NNS_G3dGetMdlSet((sptr)model);
+    modelFile = (u8 *)NNS_G3dGetMdlSet((NNSG3dResFileHeader *)model);
     if (modelFile != 0 && (entry = FIELD_G3D_MAP_GetDictData((FieldG3dMapDictBlock *)modelFile, 0)) != 0)
         model = modelFile + *entry;
     else

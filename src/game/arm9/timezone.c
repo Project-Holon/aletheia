@@ -22,7 +22,7 @@
 /* RTC time as GF_STANDARD_GetCachedTime fills it. */
 #include "gf_standard_types.h"
 
-extern void GF_STANDARD_GetCachedTime(RTCTime *time);
+#include "gf_standard.h"
 
 u32 TIMEZONE_GetNowTimeZone(u32 season);
 

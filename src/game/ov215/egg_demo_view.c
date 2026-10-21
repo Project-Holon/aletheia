@@ -670,7 +670,7 @@ void EGG_DEMO_VIEW_DrawModels(char *work)
     for(i=0;i<((struct EggDemoView *)work)->recordCount;i++) {
         char *entry=*(char * *)&((struct EggDemoView *)work)->records+i*0x44;
         if(((EggDemoViewRecord *)entry)->tail)
-            G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),((EggDemoViewRecord *)entry)->tag),(struct G3dObjectStatus *)(entry+4));
+            G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),((EggDemoViewRecord *)entry)->tag),(struct G3dObjectStatus *)(entry+4));
     }
 }
 
@@ -693,9 +693,9 @@ void EGG_DEMO_VIEW_AddModel(char *work)
     ((EggDemoViewRecord *)entry)->z=0;
     ((EggDemoViewRecord *)entry)->tail=1;
     for(i=0;i<((struct EggDemoView *)work)->recordCount;i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+i*68)),0);
+        G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+i*68)),0);
     ((struct EggDemoView *)work)->animFrame=0;
-    q=(void *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+((struct EggDemoView *)work)->animIndex*68));
+    q=G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+((struct EggDemoView *)work)->animIndex*68));
     frame=0;
     ((struct EggDemoView *)work)->modelAnimState=0;
     G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)q,1);
@@ -713,10 +713,10 @@ void EGG_DEMO_VIEW_UpdateModel(char *work)
     int a, b;
 
     for (i = 0; i < ((struct EggDemoView *)work)->recordCount; i++) {
-        G3D_SYSTEM_LoopObjectAnimeFrame((void *)G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + i * 0x44)), 0, 0x1000);
+        G3D_SYSTEM_LoopObjectAnimeFrame(G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + i * 0x44)), 0, 0x1000);
     }
     ((struct EggDemoView *)work)->animFrame = ((struct EggDemoView *)work)->animFrame + 1;
-    q = (void *)G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + ((struct EggDemoView *)work)->animIndex * 0x44));
+    q = G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + ((struct EggDemoView *)work)->animIndex * 0x44));
     if (((struct EggDemoView *)work)->modelAnimState == 1) {
         a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, 0x5000);
         b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, 0x5000);

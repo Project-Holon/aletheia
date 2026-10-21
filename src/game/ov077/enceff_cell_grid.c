@@ -47,15 +47,14 @@
  */
 struct GameEvent;
 struct GameSystem;
+#include "../arm9/game_event.h"
 #include "enceff_base_types.h"
 #include "enceff_grid_types.h"
 #include "enceff_g3_inline.h"
 
 struct Desc;
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *owner, struct GameEvent *a, void *b, u32 size);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 #include "../arm9/fade.h"
-extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
+#include "../ov021/enceff.h"
 typedef int GXFogBlend;
 typedef int GXFogSlope;
 #include "../arm9/g3x.h"
@@ -65,7 +64,7 @@ extern void MTX_RotY33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
 extern void MTX_RotZ33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
 #include "../arm9/g3imm.h"
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
+int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
 void ENCEFF_UpdateCellGrid(struct EncEffWork *eff);
 void ENCEFF_DrawCellGrid(EncEffGridWork *work);
@@ -135,7 +134,7 @@ void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int u
 /*
  * Addresses are Black-image addresses.
  */
-int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state)
+int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork)
 {
     EncEffGridWork *work;
 

@@ -122,7 +122,7 @@ void ZKNSEARCH_RESULT_DeleteFrameList(u8 *work)
 
 void ZKNSEARCH_RESULT_SetRow1(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[1] == row)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }
@@ -153,7 +153,7 @@ void ZKNSEARCH_RESULT_Noop2(void)
 
 void ZKNSEARCH_RESULT_SetRow2(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[2] == row)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }
@@ -190,7 +190,7 @@ void ZKNSEARCH_RESULT_MoveRow1(int work, int delta)
  */
 void ZKNSEARCH_RESULT_SetRowMulti(char *work,int index,void *data,int value,int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow(work,data,(*(unsigned *)(work+484+index*4)));
+    ZKNSEARCH_MAIN_PrintListRow(work,data,(*(struct Strbuf **)(work+484+index*4)));
     if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
     if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
 }
@@ -220,7 +220,7 @@ void ZKNSEARCH_RESULT_MoveRow2(int work, int delta)
 
 void ZKNSEARCH_RESULT_SetRow3(int work, unsigned row, int window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(int *)(work + row * 4 + 0x1e4));
+    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
     if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[5] == row)
         ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
 }

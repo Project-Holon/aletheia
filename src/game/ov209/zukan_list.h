@@ -7,6 +7,7 @@
 struct ProcSystem;
 struct ZukanList;
 struct TcbTask;
+struct Strbuf;
 
 #include "../types.h"
 
@@ -68,7 +69,7 @@ void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex);
 void ZUKAN_LIST_DrawHeaderRegional(struct ZukanList *p);
 void ZUKAN_LIST_DrawHeaderCounts(struct ZukanList *p);
 void ZUKAN_LIST_DrawHeaderNational(struct ZukanList *p);
-void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned text0, unsigned index);
+void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, struct Strbuf *text0, unsigned index);
 void ZUKAN_LIST_InitActors(struct ZukanList *p);
 void ZUKAN_LIST_ExitActors(struct ZukanList *list);
 void ZUKAN_LIST_UpdateActors(struct ZukanList *p);

@@ -18,7 +18,7 @@ void *ENCEFF_BuildModelSceneKind31(void *gameSystem, struct FieldMap *fieldMap, 
 void *ENCEFF_BuildModelSceneKind35(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
 void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 modelIndex, u32 animeIndex, int useSubScreen);
 void ENCEFF_UpdateModelScene(struct EncEffWork *eff);
-int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state);
+int ENCEFF_ModelSceneEventMain(struct GameEvent *event, u32 *state, void *eventWork);
 /* END mkheaders: generated region */
 
 #endif

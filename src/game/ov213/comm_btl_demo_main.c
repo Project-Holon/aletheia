@@ -320,7 +320,6 @@ extern int UI_SCENE_Step(struct UiScene *s);
 #include "../arm9/arc_tool.h"
 #include "../arm9/arc_util.h"
 extern void UI_SCENE_SetNextScene(struct UiScene *scene, int nextSceneIndex);
-extern u32 G3D_UTIL_GetObject(struct G3dUtil *, int);
 extern u32 UI_SCENE_GetPhaseFrame(const struct UiScene *scene);
 extern void UI_SCENE_AdvancePhaseFrame(struct UiScene *scene);
 #include "../arm9/gfl_use.h"
@@ -350,29 +349,23 @@ void COMM_BTL_DEMO_MAIN_UpdateRowContext();
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int),PARTICLE_InitManager(unsigned);
 /* The DS code was built against other parameter widths for G3D_UTIL_Create (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
-extern struct G3dUtil *G3D_UTIL_Create(unsigned,unsigned,unsigned);
-#else
+#define G3D_UTIL_Create G3D_UTIL_CreateHeader
+#endif
 #include "../arm9/g3d_util.h"
+#ifdef __MWERKS__
+#undef G3D_UTIL_Create
+extern struct G3dUtil *G3D_UTIL_Create(unsigned,unsigned,unsigned);
 #endif
 extern void G3D_UTIL_Delete(struct G3dUtil *p);
 #include "../arm9/particle.h"
 #include "../arm9/fx_mtx33.h"
+#include "../arm9/g3d_system.h"
 struct G3dObjectStatus;
 struct G3dObject;
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 struct ParticleSys;
 struct TcbList;
-extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G3D_SYSTEM_GetRenderObj(int *);
-extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *);
-extern u16 G3D_UTIL_AddUnit(struct G3dUtil *util, const struct G3dUtilSetup *setup);
-extern unsigned short G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
-extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
-extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 #include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *args);
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p);
 int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p);
@@ -426,7 +419,7 @@ void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object);
 void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p);
 int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c);
 void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v);
-int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c);
+int COMM_BTL_DEMO_MAIN_BindModelPalette(G3dObject *p,u32 b,u32 c);
 void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index);
 void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);
 void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a);
@@ -527,7 +520,7 @@ void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p) {
     int i;
     struct CommBtlDemoGfx *sub;
     sub = &p->gfx;
-    object = (void *)G3D_UTIL_GetObject((struct G3dUtil *)sub->util, sub->unitIndex);
+    object = G3D_UTIL_GetObject((struct G3dUtil *)sub->util, sub->unitIndex);
     for(i=0;i<2;i++) {
         int state = 1;
         if (p->rows[i].paletteKind) state = 2;
@@ -535,7 +528,7 @@ void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p) {
     }
 }
 
-void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p) {int *object;int i;struct CommBtlDemoGfx *sub;sub=&p->gfx;object=(int *)G3D_UTIL_GetObject((struct G3dUtil *)sub->util,sub->unitIndex);for(i=0;i<4;i++){int value=1;if(p->rows[i].paletteKind)value=3;COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,value);}}
+void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p) {G3dObject *object;int i;struct CommBtlDemoGfx *sub;sub=&p->gfx;object=G3D_UTIL_GetObject((struct G3dUtil *)sub->util,sub->unitIndex);for(i=0;i<4;i++){int value=1;if(p->rows[i].paletteKind)value=3;COMM_BTL_DEMO_MAIN_BindModelPalette(object,i+1,value);}}
 
 int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b)
 {
@@ -970,7 +963,7 @@ void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
         arg.pos.x=0; arg.pos.y=0; arg.pos.z=0;
         arg.scale.x=0x1000; arg.scale.y=0x1000; arg.scale.z=0x1000;
         MTX_Identity33_(&arg.rot);
-        object=(void *)G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util),((struct CommBtlDemoGfx *)p)->unitIndex);
+        object=G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util),((struct CommBtlDemoGfx *)p)->unitIndex);
         G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&arg));
     }
     COMM_BTL_DEMO_GRAPHIC_DrawEnd(((struct CommBtlDemoGfx *)p)->state);
@@ -1013,19 +1006,19 @@ void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v) { int i; for(i=0;i<((struct 
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)G3D_SYSTEM_GetResourceTex((struct G3dResource *)a); NNS_G3dReleaseMdlPltt((struct NNSG3dResMdl *)h); return NNS_G3dBindMdlPlttEx((struct NNSG3dResMdl *)h,(struct NNSG3dResTex *)r,b,c)&1; }
+int COMM_BTL_DEMO_MAIN_BindModelPalette(G3dObject *p,u32 b,u32 c) { G3dRender *q; char *a,*h,*r; q=G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)G3D_SYSTEM_GetResourceTex((struct G3dResource *)a); NNS_G3dReleaseMdlPltt((struct NNSG3dResMdl *)h); return NNS_G3dBindMdlPlttEx((struct NNSG3dResMdl *)h,(struct NNSG3dResTex *)r,b,c)&1; }
 
 /*
  * width: 477A4 index u16: original narrows at 021BA994-021BA998.
  */
 void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index)
 {
-    int *object;
+    G3dObject *object;
     int i, count;
     if (((struct CommBtlDemoGfx *)p)->loaded) COMM_BTL_DEMO_MAIN_UnloadObject((char *)p);
     ((struct CommBtlDemoGfx *)p)->unitIndex=G3D_UTIL_AddUnit((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), (struct G3dUtilSetup *)(&d_021BB0F8[index]));
     ((struct CommBtlDemoGfx *)p)->loaded=1;
-    object=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
+    object=G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
     count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)object);
     for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)object,(u16)i);
 }
@@ -1041,10 +1034,10 @@ void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a)
 int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p)
 {
     int result=1;
-    int *object;
+    G3dObject *object;
     int count,i;
     if(((struct CommBtlDemoGfx *)p)->animeDone) return 0;
-    object=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
+    object=G3D_UTIL_GetObject((struct G3dUtil *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
     count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)object);
     for(i=0;i<count;i++) {
         result=G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)object,(u16)i,d_021BB320<<12);

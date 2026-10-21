@@ -12,6 +12,7 @@ struct CommBtlDemoActorRow;
 struct CommBtlDemoRow;
 struct CommBtlDemoBattleContext;
 
+#include "../arm9/g3d_system_types.h"
 #include "../types.h"
 
 int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *args);
@@ -67,7 +68,7 @@ void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object);
 void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p);
 int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c);
 void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v);
-int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c);
+int COMM_BTL_DEMO_MAIN_BindModelPalette(G3dObject *p,u32 b,u32 c);
 void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index);
 void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);
 void COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(void *a);

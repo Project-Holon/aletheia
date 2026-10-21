@@ -17,14 +17,6 @@
 
 #include "nns_g3d_anm_calc_types.h"
 
-/* NNSG3dResFileHeader: the part these functions read. */
-typedef struct {
-    u32 signature;
-    u8  unused04[8];
-    u16 headerSize;
-    u16 numDataBlocks;
-} NNSG3dResFileHeader;
-
 /* Offsets of the data blocks, right after the file header. */
 typedef struct {
     u32 ofsBlock0;
@@ -46,8 +38,8 @@ typedef struct {
 
 void *NNS_G3dGetResDataByName(const NNSG3dResDict *dict, const NNSG3dResName *name);
 s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *name);
-int NNS_G3dGetMdlSet(int pFile);
-unsigned char *NNS_G3dGetTex(unsigned char *pFile);
+NNSG3dResMdlSet *NNS_G3dGetMdlSet(NNSG3dResFileHeader *pFile);
+NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *pFile);
 u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
 
 static inline const NNSG3dResName *NNSi_G3dGetResNameByIdx(const NNSG3dResDict *dict, u32 idx)
@@ -176,7 +168,7 @@ s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *n
 }
 
 /* NNS_G3dGetMdlSet: the file header plus the offset of its first block. */
-int NNS_G3dGetMdlSet(int pFile){ return (pFile + *(int *)((pFile + (((NNSG3dResFileHeader *)pFile)->headerSize << 0)))); }
+NNSG3dResMdlSet *NNS_G3dGetMdlSet(NNSG3dResFileHeader *pFile){ return (NNSG3dResMdlSet *)((uptr)pFile + *(int *)(((uptr)pFile + (pFile->headerSize << 0)))); }
 
 /*
  * NNS_G3dGetTex: the texture block of a model file (BMD0) or texture file
@@ -184,16 +176,16 @@ int NNS_G3dGetMdlSet(int pFile){ return (pFile + *(int *)((pFile + (((NNSG3dResF
  * the halfword at +14 is the block count (1 = a file that holds one block:
  * the BTX0 form, when the magic matches).
  */
-unsigned char *NNS_G3dGetTex(unsigned char *pFile)
+NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *pFile)
 {
-    unsigned char *pBlockOffsets = pFile + ((NNSG3dResFileHeader *)pFile)->headerSize;
+    u8 *pBlockOffsets = (u8 *)pFile + pFile->headerSize;
 
-    if (((NNSG3dResFileHeader *)pFile)->numDataBlocks == 1) {
-        if (((NNSG3dResFileHeader *)pFile)->signature == BTX0_SIGNATURE)
-            return pFile + ((NNSG3dResBlockOffsets *)pBlockOffsets)->ofsBlock0;
+    if (pFile->dataBlocks == 1) {
+        if (pFile->signature == BTX0_SIGNATURE)
+            return (NNSG3dResTex *)((u8 *)pFile + ((NNSG3dResBlockOffsets *)pBlockOffsets)->ofsBlock0);
         return 0;
     }
-    return pFile + ((NNSG3dResBlockOffsets *)pBlockOffsets)->ofsBlock1;
+    return (NNSG3dResTex *)((u8 *)pFile + ((NNSG3dResBlockOffsets *)pBlockOffsets)->ofsBlock1);
 }
 
 /*

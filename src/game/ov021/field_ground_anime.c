@@ -111,13 +111,14 @@ typedef struct GroundAnimeDesc {
     u16 reserved;
 } GroundAnimeDesc;
 
-/* The part of the NNS animation resource header that this file reads. */
-typedef struct NNSG3dAnmFmtHeader {
-    u32 header;
-    u16 numFrame;
-} NNSG3dAnmFmtHeader;
-
 #include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+
+/* The part of an NNS animation resource that this file reads: the format header and the frame count. */
+typedef struct GroundAnmRes {
+    NNSG3dAnmFmtHeader header;
+    u16                numFrame;
+} GroundAnmRes;
 
 typedef union GroundAnmFlags {
     u32 word;
@@ -289,9 +290,6 @@ typedef struct GroundAnimeWork {
 #include "../arm9/nns_g3d_res.h"
 struct G3dResource;
 #include "../arm9/g3d_system.h"
-struct NNSG3dResFileHeader;
-extern void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
-extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *pResAnm, u32 pResMdl, u32 pResTex);
 #include "../ov010/fldmmdl.h"
 #include "fieldmap.h"
 #include "field_player.h"
@@ -538,13 +536,13 @@ static inline u32 *ModelSetGetOffsetSlot(ModelSetRes *set, u32 idx)
     return 0;
 }
 
-static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
+static inline NNSG3dResMdl *ModelSetGetFirstModel(ModelSetRes *set)
 {
     u32 *slot;
     if (set != 0) {
         slot = ModelSetGetOffsetSlot(set, 0);
         if (slot != 0)
-            return (uptr)set + *slot;
+            return (NNSG3dResMdl *)((uptr)set + *slot);
     }
     return 0;
 }
@@ -552,14 +550,14 @@ static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
 /* Binds the entry's animation to a render object: init the animation object from model and texture, add it. */
 u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
 {
-    u32 pResMdl;
-    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet((sptr)G3D_SYSTEM_GetResourceFile((void *)fileRes)));
+    NNSG3dResMdl *pResMdl;
+    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
         texRes = (uptr)G3D_SYSTEM_GetResourceTex((void *)texRes);
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
-    NNS_G3dAnmObjInit(entry->anmObj, entry->pResAnm, pResMdl, texRes);
+    NNS_G3dAnmObjInit(entry->anmObj, entry->pResAnm, pResMdl, (NNSG3dResTex *)texRes);
     NNS_G3dRenderObjAddAnmObj((void *)renderObj, entry->anmObj);
     entry->flags.word = (entry->flags.word & ~1) | 1;
     return entry->flags.word;
@@ -581,7 +579,7 @@ int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame)
     NNSG3dAnmObj *anmObj;
     if (entry->flags.bits.bound) {
         anmObj = entry->anmObj;
-        frame = frame % (((NNSG3dAnmFmtHeader *)anmObj->resAnm)->numFrame << 12);
+        frame = frame % (((GroundAnmRes *)anmObj->resAnm)->numFrame << 12);
         anmObj->frame = frame;
     }
     return frame;

@@ -263,7 +263,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     int left;
     int cnt;
     void *e;
-    uptr h;
+    G3dObject *h;
 
     ctx = GFL_HEAP_Alloc(heap, 0x88, 1, d_021C3CE0, 0x79);
     ctx->graphic = owner;
@@ -327,15 +327,15 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     DEMO3D_DATA_Delete(e);
     for (j = 0; j < ctx->count; j++) {
         h = G3D_UTIL_GetObject((struct G3dUtil *)ctx->table, (u16)ctx->indices[j]);
-        cnt = G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)h);
+        cnt = G3D_SYSTEM_GetObjectAnimeCount(h);
         for (k = 0; k < cnt; k++) {
             if (ctx->data.frame)
                 r = (0.5f + (float)(ctx->data.frame << 12));
             else
                 r = ((float)(ctx->data.frame << 12) - 0.5f);
             ang = (int)r;
-            G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)h, (u16)k);
-            G3D_SYSTEM_SetObjectAnimeFrame((struct G3dObject *)h, k, &ang);
+            G3D_SYSTEM_EnableObjectAnime(h, (u16)k);
+            G3D_SYSTEM_SetObjectAnimeFrame(h, k, &ang);
         }
     }
     ctx->cmdSys = (uptr)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
@@ -392,7 +392,7 @@ int DEMO3D_ENGINE_Update(const struct Demo3dEngineCtx *ctx, u32 frames)
     done = ICA_ANIME_IncFrameNoLoop(ctx->anime,advance);
     ICA_ANIME_SetCameraStatus(ctx->light,ctx->anime);
     for(i=0;i<ctx->count;i++) {
-        void *obj=(void *)G3D_UTIL_GetObject((struct G3dUtil *)ctx->table,ctx->indices[i]);
+        void *obj=G3D_UTIL_GetObject((struct G3dUtil *)ctx->table,ctx->indices[i]);
         int j, count=G3D_SYSTEM_GetObjectAnimeCount(obj);
         for(j=0;j<count;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,(u16)j,advance);
     }
@@ -400,7 +400,7 @@ int DEMO3D_ENGINE_Update(const struct Demo3dEngineCtx *ctx, u32 frames)
     G3D_CAMERA_Reset(ctx->light);
     DEMO3D_GRAPHIC_UpdateLookAt((Demo3dGraphic *)ctx->graphic);
     for(i=0;i<ctx->count;i++) {
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((struct G3dUtil *)ctx->table,ctx->indices[i]),(struct G3dObjectStatus *)ctx->scale);
+        G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject((struct G3dUtil *)ctx->table,ctx->indices[i]),(struct G3dObjectStatus *)ctx->scale);
     }
     DEMO3D_GRAPHIC_EndDraw((Demo3dGraphic *)ctx->graphic);
     if(ctx->animeOn != 0) DOUBLE3DDISP_SetDrawDone();

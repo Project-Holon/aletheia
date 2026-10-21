@@ -126,26 +126,7 @@ struct ArcHandle;
 /* NitroSystem types, only the parts this file reads */
 #include "../sdk_nnsfnd.h"
 
-typedef struct {
-    u32 signature;
-    u16 byteOrder;
-    u16 version;
-    u32 fileSize;
-    u16 headerSize;
-    u16 dataBlocks;
-} NNSG3dResFileHeader;
-
-typedef struct {
-    u32 kind;
-    u32 size;
-} NNSG3dResDataBlockHeader;
-
 #include "nns_g3d_anm_calc_types.h"
-
-typedef struct {
-    NNSG3dResDataBlockHeader header;
-    NNSG3dResDict            dict;
-} NNSG3dResMdlSet;
 
 typedef struct {
     fx16 x;
@@ -162,17 +143,13 @@ typedef struct {
 #include "arc_tool.h"
 #include "nns_gfd_vram_manager.h"
 #include "nns_gfd_lnk_vram_man.h"
-extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, const NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
 #include "nns_g3d_tex.h"
 #include "nns_g3d_glb.h"
 #include "nns_g3d_sbc.h"
 #include "nns_g3d_ge.h"
 #include "nns_g3d_init.h"
 #include "nns_g3d_mdl.h"
-extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, const NNSG3dResMdl *resMdl);
-extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
-extern NNSG3dResTex *NNS_G3dGetTex(void *file);
-extern u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
+#include "nns_g3d_res.h"
 #include "fx_mtx44.h"
 typedef int GXFogBlend;
 typedef int GXFogSlope;

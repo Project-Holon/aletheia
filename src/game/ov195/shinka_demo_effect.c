@@ -471,7 +471,7 @@ void SHINKA_DEMO_EFFECT_InitUnit(char *model)
 
 void SHINKA_DEMO_EFFECT_DeleteUnit(char *model) { G3D_UTIL_Delete((G3dUtil *)(*(struct Util * *)&((EffectModel *)model)->res)); }
 
-void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *model) { u16 i; EffectNode *n; for(i=0;i<model->count;i++) { n=model->nodes+i; if(n->visible) G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(model->res,n->id),(struct G3dObjectStatus *)((struct Transform *)&n->tx)); } }
+void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *model) { u16 i; EffectNode *n; for(i=0;i<model->count;i++) { n=model->nodes+i; if(n->visible) G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(model->res,n->id),(struct G3dObjectStatus *)((struct Transform *)&n->tx)); } }
 
 /*
  * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
@@ -499,9 +499,9 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *model)
     n->tz = 0;
     n->visible = 1;
     for (i = 0; i < model->count; i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject(model->res, model->nodes[i].id), 0);
+        G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject(model->res, model->nodes[i].id), 0);
     model->updateCount = 0;
-    q = (void *)G3D_UTIL_GetObject(model->res, model->nodes[model->mainNode].id);
+    q = G3D_UTIL_GetObject(model->res, model->nodes[model->mainNode].id);
     x = 0;
     model->animeState = 0;
     G3D_SYSTEM_EnableObjectAnime(q, 1);
@@ -528,27 +528,27 @@ void SHINKA_DEMO_EFFECT_UpdateAnime(char *model)
 {
     unsigned short i;
     int j = 0;
-    sptr object;
+    G3dObject *object;
 
     for (i = 0; i < ((EffectModel *)model)->count; i++) {
         unsigned short v = *(unsigned short *)((u8 *)((EffectModel *)model)->nodes + i * 0x44);
-        int x = G3D_UTIL_GetObject((G3dUtil *)((u8 *)(((EffectModel *)model)->res)), v);
+        G3dObject *x = G3D_UTIL_GetObject((G3dUtil *)((u8 *)(((EffectModel *)model)->res)), v);
 
-        G3D_SYSTEM_LoopObjectAnimeFrame((void *)x, j, 0x1000);
+        G3D_SYSTEM_LoopObjectAnimeFrame(x, j, 0x1000);
     }
     ((EffectModel *)model)->updateCount = ((EffectModel *)model)->updateCount + 1;
     object = G3D_UTIL_GetObject((G3dUtil *)((u8 *)(((EffectModel *)model)->res)),
                        *(unsigned short *)((u8 *)((EffectModel *)model)->nodes +
                                            ((EffectModel *)model)->mainNode * 0x44));
     if (((EffectModel *)model)->animeState == 1) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 1, 0x5000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 2, 0x5000);
+        int a = G3D_SYSTEM_IncObjectAnimeFrame(object, 1, 0x5000);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame(object, 2, 0x5000);
 
         if (a == 0 && b == 0)
             ((EffectModel *)model)->animeState = 2;
     } else if (((EffectModel *)model)->animeState == 3) {
-        int a = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 1, -0x2000);
-        int b = G3D_SYSTEM_IncObjectAnimeFrame((void *)object, 2, -0x2000);
+        int a = G3D_SYSTEM_IncObjectAnimeFrame(object, 1, -0x2000);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame(object, 2, -0x2000);
 
         if (a == 0 && b == 0)
             ((EffectModel *)model)->animeState = 0;

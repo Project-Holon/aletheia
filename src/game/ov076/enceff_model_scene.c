@@ -63,6 +63,7 @@
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  */
 struct GameSystem;
+#include "../arm9/game_event.h"
 #include "enceff_model_types.h"
 
 struct Desc;
@@ -73,9 +74,7 @@ struct G3dRec;
 struct G3dSys;
 struct Rec;
 struct Tagged;
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *owner, struct GameEvent *a, void *b, u32 size);
 #include "../arm9/screentex.h"
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 #include "../arm9/fade.h"
 #include "../sdk_gx.h"
 #include "../arm9/gx_vramcnt_types.h"
@@ -95,7 +94,7 @@ void *ENCEFF_BuildModelSceneKind31(void *gameSystem, struct FieldMap *fieldMap, 
 void *ENCEFF_BuildModelSceneKind35(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
 void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 modelIndex, u32 animeIndex, int useSubScreen);
 void ENCEFF_UpdateModelScene(struct EncEffWork *eff);
-int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state);
+int ENCEFF_ModelSceneEventMain(struct GameEvent *event, u32 *state, void *eventWork);
 
 
 void *ENCEFF_BuildModelSceneKind00(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen) { return ENCEFF_StartModelScene(gameSystem, fieldMap, 7, 6, useSubScreen); }
@@ -148,7 +147,7 @@ void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 mo
 void ENCEFF_UpdateModelScene(struct EncEffWork *eff) { SCREENTEX_SetupCamera((((EncEffModelScene *)ENCEFF_GetWork(eff))->object)); }
 
 
-int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
+int ENCEFF_ModelSceneEventMain(struct GameEvent *event, u32 *state, void *eventWork)
 {
     EncEffModelScene *scene;
     s32 frameMax;

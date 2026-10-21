@@ -693,16 +693,16 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
  unsigned long long cd;
 
 {
-    u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
+    struct GfFont *c = (struct GfFont *)(u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;
     u32 t = 0x83 - d;
     MSGDATA_ReadString(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
     WORDSET_SetSlotNumber(*(void **)(p + 0x14), 2, t, 3, 0, 1);
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
-    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, *(struct Strbuf **)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
     if (PRINTSYS_CountLine((struct Strbuf *)(*(u32 *)(p + d * 4))) > 1) r = 4;
-    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, *(struct Strbuf **)(p + d * 4), c, 0x39E0, 0);
 }
 
 void UN_SELECT_DrawMessage(char *p, u32 id)

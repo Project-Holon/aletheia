@@ -129,7 +129,7 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->status.scale.y = 0x1000;
     field->status.scale.z = 0x1000;
     MTX_Identity33_(&field->status.rotate);
-    bytes = ((NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(field->resource)))->plttInfo.sizePltt * 8;
+    bytes = ((NNSG3dResTex *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource)))->plttInfo.sizePltt * 8;
     field->palFade.resources = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
     field->palFade.palettes = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
     *field->palFade.resources = field->resource;

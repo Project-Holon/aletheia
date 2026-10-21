@@ -633,7 +633,7 @@ extern u32 BMP_WIN_Delete(struct BmpWin *win);
 #undef G3D_UTIL_Create
 extern struct G3dUtil *G3D_UTIL_Create(u32 a, u32 b, u32 heap);
 #undef G3D_UTIL_GetObject
-extern u32   G3D_UTIL_GetObject(struct G3dUtil *a, u16 b);
+extern struct G3dObject *G3D_UTIL_GetObject(struct G3dUtil *a, u16 b);
 #endif
 struct G3dObject;
 extern fx32  FX_Div(fx32 numer, fx32 denom);
@@ -1363,10 +1363,10 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     demo3d->renderer = (uptr)G3D_UTIL_Create(7, 3, heap);
     demo3d->modelId = G3D_UTIL_AddUnit((struct G3dUtil *)demo3d->renderer, (struct G3dUtilSetup *)d_021BD410);
     base = G3D_UTIL_GetUnitObjIdx((struct G3dUtil *)demo3d->renderer, demo3d->modelId);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base), 0);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base), 1);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base + 1), 0);
-    G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base + 2), 0);
+    G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base), 0);
+    G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base), 1);
+    G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base + 1), 0);
+    G3D_SYSTEM_EnableObjectAnime(G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base + 2), 0);
 
     cosValue = FX_SinCosTable_[0x2AB];
     sinValue = FX_SinCosTable_[0x2AA];
@@ -1399,12 +1399,12 @@ void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused)
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_DrawObject(modelHandle, (struct G3dObjectStatus *)d_021BD538);
     }
     G3D_SYSTEM_DrawEnd();
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_LoopObjectAnimeFrame(modelHandle, 0, 0x1000);
         if (modelIndex == 0)
             G3D_SYSTEM_LoopObjectAnimeFrame(modelHandle, 1, 0x1000);
@@ -1434,7 +1434,7 @@ void STARTMENU_Demo3dSetFrame(TitleDemo3d *demo3d, int frame)
     ICA_ANIME_SetFrame((void *)demo3d->anime, frameValue);
     base = G3D_UTIL_GetUnitObjIdx((void *)demo3d->renderer, demo3d->modelId);
     for (modelIndex = 0; modelIndex < 3; modelIndex++) {
-        modelHandle = (void *)G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
+        modelHandle = G3D_UTIL_GetObject(((void *)demo3d->renderer), (unsigned short)(base + modelIndex));
         G3D_SYSTEM_SetObjectAnimeFrame(modelHandle, 0, &frameValue);
         if (modelIndex == 0)
             G3D_SYSTEM_SetObjectAnimeFrame(modelHandle, 1, &frameValue);

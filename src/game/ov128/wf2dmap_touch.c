@@ -397,23 +397,23 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
     u8 *w1;
     void *buf2;
     uptr gfx;
-    u32 pal;
+    struct GfFont *pal;
     u32 n;
-    uptr text;
+    struct Strbuf *text;
     u64 key;
     Wf2dmapTouchTbl t;
     int x;
     int i;
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)p, 3, 2, 10, 0x1e, 8, 10, 1, 0);
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
-    text = (uptr)STRBUF_Create(0xc0, heap);
+    text = STRBUF_Create(0xc0, heap);
     buf2 = STRBUF_Create(0x80, heap);
     key = DWC_CreateFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork((void *)GAME_DATA_GetWifiList(*(void **)(q + 4))));
     if (key != 0) {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x35, (void *)text);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(struct GfFont **)(ctx + 0x17c), 0x440, 0);
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
-        pal = *(u32 *)(ctx + 0x17c);
+        pal = *(struct GfFont **)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
         t = gWf2dmapCursorTileTable;
         x = 0;
@@ -430,7 +430,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
         WF2DMAP_TOUCH_TransferScreen(*(char **)(p + 8));
     } else {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x36, (void *)text);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(struct GfFont **)(ctx + 0x17c), 0x440, 0);
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
     }
     STRBUF_Delete((void *)text);
@@ -690,7 +690,7 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
     for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=BMP_WIN_GetDispWidth(*(void **)(p+offset));
-    TOUCHBAR_PrintYesNoCancelLabels((void *)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),*(u32 *)&((Wf2dmapTouchGfx *)ctx)->palWin,
+    TOUCHBAR_PrintYesNoCancelLabels((void *)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),((Wf2dmapTouchGfx *)ctx)->palWin,
         (int)((u32)pos*8)/2,0,0x3C40,
         *(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+0x38)+1,((Wf2dmapTouchFriendData *)q)->nextColor,heap);
     WF2DMAP_TOUCH_PrintItem(p+(offset+8),q,ctx,19,0,0,0x3C40);
@@ -879,7 +879,7 @@ void WF2DMAP_TOUCH_PrintItem(u8 *p,void *unused,u8 *q,u32 item,int x,int y,int c
 {
     MSGDATA_ReadString(((Wf2dmapTouchGfx *)q)->msgBank,item,((Wf2dmapTouchGfx *)q)->formatArg);
     WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)q)->wordSet,(void *)((Wf2dmapTouchGfx *)q)->textHandle,((Wf2dmapTouchGfx *)q)->formatArg);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)p,(void *)(*(u32 *)&((Wf2dmapTouchGfx *)q)->printWin),x,y,((Wf2dmapTouchGfx *)q)->textHandle,*(u32 *)&((Wf2dmapTouchGfx *)q)->palWin,color,0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)p,(void *)(*(u32 *)&((Wf2dmapTouchGfx *)q)->printWin),x,y,((Wf2dmapTouchGfx *)q)->textHandleStrbuf,((Wf2dmapTouchGfx *)q)->palWin,color,0);
 }
 
 /*

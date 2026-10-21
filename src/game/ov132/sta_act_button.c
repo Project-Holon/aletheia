@@ -325,7 +325,7 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     u8 col;
     blob=(sptr)ARC_UTIL_LoadMember(45,resource,0,*(u16 *)p);
     y=0;
-    tex=NNS_G3dGetTex((unsigned char *)blob);
+    tex=(u8 *)NNS_G3dGetTex((NNSG3dResFileHeader *)blob);
     src=tex+*(u32 *)(tex+20);
     charSize=*(u16 *)(tex+12)*8;
     palOffset=*(u32 *)(tex+0x38);

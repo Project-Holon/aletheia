@@ -187,23 +187,6 @@ struct ClactVec2;
 struct Pt16;
 struct Unit;
 #include "clact.h"
-void CLACT_ReleaseCharacter(u32 idx);
-void CLACT_ReleasePalette(u32 idx);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void CLACT_ReleaseCellAnim(u32 idx);
-struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
-void CLACT_DeleteActor(struct ClactActor *actor);
-void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
-void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space);
-void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos);
-void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out);
-void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
-void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
-void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
-u16 CLACT_GetActorAnimSeq(struct ClactActor *actor);
-void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);
 
 
 #include "arc_tool.h"

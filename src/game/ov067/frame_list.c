@@ -78,7 +78,6 @@ struct Bitmap;
 #undef BG_SYS_DrawTileEx
 extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, void *, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 #endif
-extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
 #include "../arm9/ui.h"
 #include "../arm9/key.h"
 #include "../arm9/gfl_use.h"
@@ -87,19 +86,16 @@ struct Bmp;
 #include "../arm9/bmp_win.h"
 struct PrintQueue;
 #include "../arm9/printsys.h"
-extern void BG_SYS_MarkTileDirty(u32 layer);
 #include "../arm9/blink_palanm.h"
 struct BgWinFrmWork;
 #include "../arm9/bgwinfrm.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/arc_util.h"
 #include "../arm9/touchpanel.h"
-extern void BG_SYS_ChangeScroll(u32 layer, u32 axis, u32 offset);
 #include "../arm9/comm_history.h"
 #include "../arm9/particle.h"
 typedef short s16_p07;
 #include "../arm9/bmp.h"
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
 void FRAME_LIST_Delete(FrameList *list);
 void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value);

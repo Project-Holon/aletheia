@@ -213,7 +213,6 @@ struct ScriptVm;
 #ifdef __MWERKS__
 extern unsigned short SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *scriptWork); /* original prototype; the definition differs in return type */
 #else
-extern unsigned short SCRIPT_WORK_ReadWorkValue(struct ScriptVm*, struct ScrcmdWork*);
 #endif
 struct ScriptVm;
 
@@ -362,7 +361,6 @@ struct CgearSaveBlock;
 #ifndef __MWERKS__
 #include "script_sys.h"
 #endif
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 
 
@@ -443,6 +441,7 @@ extern const char MUSICAL_DRESSUP_SYS_ProcTable[];
  * SCRIPT_WORK_ResetFieldParam returns a+0x18 (result ignored); GAME_DATA_GetSaveBlock2A is void in its
  * own file, but this caller uses its result as the musical save pointer.
  */
+#include "script_work_cmd.h"
 int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct ScriptWork *scriptCtl;

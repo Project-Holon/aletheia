@@ -62,7 +62,7 @@ typedef struct CalenderWork {
 #ifdef __MWERKS__
 extern u8 ZONEDATA_GetWeatherId(u32 zoneId); /* original prototype; the definition differs in return type */
 #else
-extern u32 ZONEDATA_GetWeatherId(u32);
+#include "../arm9/zonedata.h"
 #endif
 struct ArcHandle;
 

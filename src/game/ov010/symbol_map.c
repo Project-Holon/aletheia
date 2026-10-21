@@ -290,7 +290,7 @@ struct MyStatus;
 
 
 #include "../arm9/fx_mtx22.h"
-extern void MTX_Identity22_(MtxFx22 *matrix);
+#include "../arm9/fs_api.h"
 
 struct PokemonParam;
 

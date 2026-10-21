@@ -302,14 +302,6 @@ typedef short s16_p07;
 #undef BMP_Create
 extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
 #endif
-extern u16   BMP_GetWidth(const struct Bmp *bmp);
-extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
-extern void  BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
-extern u8    BMP_GetTileBytes(struct Bmp *bmp);
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
 void PRINTSYS_Init(u32 heap)
 {
     STRBUF_SetEosChar(0xFFFF);

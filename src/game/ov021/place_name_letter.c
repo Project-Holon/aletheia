@@ -481,8 +481,12 @@ void PLACE_NAME_LETTER_UpdateOamPos(PlaceNameLetter *letter)
     PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
     int x = (int)motion->x;
     int y = (int)motion->y;
-    /* The definition takes s16 coordinates; the original caller passed ints (likely original mismatch). */
+#ifdef __MWERKS__
+    /* The original prototype took int coordinates; the definition takes s16. */
     ((void (*)(BmpOam *, int, int))BMP_OAM_SetPos)(letter->bmpOam, x, y);
+#else
+    BMP_OAM_SetPos(letter->bmpOam, x, y);
+#endif
 }
 
 void PLACE_NAME_LETTER_SetVisibleRaw(PlaceNameLetter *letter, unsigned int visible)

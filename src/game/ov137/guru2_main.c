@@ -2091,7 +2091,7 @@ void GURU2_MAIN_DrawCenterUnit(struct Guru2Game *p)
     struct Guru2Spinner *s;
     void *object;
     s=&p->spinner;
-    object=(void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(s->g3dUnit));
+    object=G3D_UTIL_GetObject(p->g3dUtil,(u16)(s->g3dUnit));
     VecSet(&t.pos,s->pos.x,s->pos.y,s->pos.z);
     VecSet(&t.scale,s->scale.x,s->scale.y,s->scale.z);
     BUTTON_MAN_MakeRotMtxXYZ(s->rotX,(u16)(s->rotY*182),s->rotZ,(MtxFx33 *)&t.rot);
@@ -2114,7 +2114,7 @@ void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p)
 {
     Transform t;
     void *object;
-    object = (void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->skyUnit));
+    object = G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->skyUnit));
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
     BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(MtxFx33 *)&t.rot);
@@ -2167,7 +2167,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
     for(;i<count;i=i+1) {
         if(((struct Guru2Player *)first)->visible) {
             Transform t;
-            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->shadowUnit));
+            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->shadowUnit));
             VecSet(&t.pos,((struct Guru2Player *)first)->pos.x,((struct Guru2Player *)first)->pos.y,((struct Guru2Player *)first)->pos.z);
             VecSet(&t.scale,((struct Guru2Player *)first)->scale.x,((struct Guru2Player *)first)->scale.y,((struct Guru2Player *)first)->scale.z);
             BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Player *)first)->rotX,((struct Guru2Player *)first)->rotY,((struct Guru2Player *)first)->rotZ,(MtxFx33 *)&t.rot);
@@ -2175,7 +2175,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
         }
         if(((struct Guru2Shadow *)second)->active) {
             Transform t;
-            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->markerUnit));
+            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->markerUnit));
             VecSet(&t.pos,((struct Guru2Shadow *)second)->pos.x,((struct Guru2Shadow *)second)->pos.y,((struct Guru2Shadow *)second)->pos.z);
             VecSet(&t.scale,((struct Guru2Shadow *)second)->scale.x,((struct Guru2Shadow *)second)->scale.y,((struct Guru2Shadow *)second)->scale.z);
             BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Shadow *)second)->rotX,((struct Guru2Shadow *)second)->rotY,((struct Guru2Shadow *)second)->rotZ,(MtxFx33 *)&t.rot);
@@ -2183,7 +2183,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
         }
         if(((struct Guru2Marker *)third)->active) {
             Transform t;
-            void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->playerUnit[i]));
+            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->playerUnit[i]));
             VecSet(&t.pos,((struct Guru2Marker *)third)->pos.x,((struct Guru2Marker *)third)->pos.y,((struct Guru2Marker *)third)->pos.z);
             VecSet(&t.scale,4096,4096,4096);
             MTX_Identity33_((MtxFx33 *)&t.rot);
@@ -2297,7 +2297,7 @@ void GURU2_MAIN_ActivateCardUnit(struct Guru2Game *p, struct Guru2Player *player
 
 void GURU2_MAIN_UpdateCardUnitAnim(struct Guru2Game *p,struct Guru2Marker *marker,int index)
 {
-    void *object = (void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->playerUnit[index]));
+    void *object = G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->playerUnit[index]));
     marker->pos = marker->owner->pos;
     marker->pos.y += 0x14000;
     G3D_SYSTEM_LoopObjectAnimeFrame(object,0,0x1000);

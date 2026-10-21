@@ -212,8 +212,7 @@ struct PlayerWork;
 #include "../arm9/bg_sys.h"
 struct FieldMsgBg;
 #include "../ov021/field_msgbg.h"
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
-extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
+#include "script_sys.h"
 struct Party;
 #include "../arm9/pokeparty.h"
 struct PokemonParam;

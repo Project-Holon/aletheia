@@ -575,7 +575,7 @@ void POKETRADE_3D_AddUnit(char *p,int n) {
     if(gG3dUnitTable[n].objCount) ((TradeWork *)p)->g3dUnitHandle=G3D_UTIL_AddUnit(((TradeWork *)p)->g3dUtil,&gG3dUnitTable[n]);
     else ((TradeWork *)p)->g3dUnitHandle=0xffff;
     if(((TradeWork *)p)->g3dUnitHandle!=0xffff) {
-        q=(void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil,((TradeWork *)p)->g3dUnitHandle);
+        q=G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil,((TradeWork *)p)->g3dUnitHandle);
         count=G3D_SYSTEM_GetObjectAnimeCount(q);
         for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime(q,(u16)i);
     }
@@ -606,7 +606,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
     if (g3dSceneHandlers[idx].fn != 0)
         g3dSceneHandlers[idx].fn(p, buf);
     if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF) {
-        q = (void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle);
+        q = G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle);
         n = G3D_SYSTEM_GetObjectAnimeCount(q);
         for (i = 0; i < n; i++)
             G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
@@ -619,7 +619,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
         PARTICLE_UpdateAllSystems();
     }
     if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF)
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct G3dObjectStatus *)buf);
+        G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct G3dObjectStatus *)buf);
     if (((TradeWork *)p)->particleManager != 0) {
         if (((TradeWork *)p)->particleManager->icaStream[0] != 0) {
             if (((TradeWork *)p)->particleManager->streamFrame[0] == 0)

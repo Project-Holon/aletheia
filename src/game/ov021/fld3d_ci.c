@@ -576,7 +576,7 @@ void FLD3D_CI_DrawEffect(Fld3dCi *ci)
 {
     int first;
     int count;
-    sptr object;
+    G3dObject *object;
     u8 i;
 
     if (ci->cameraSelect == 0)
@@ -587,8 +587,8 @@ void FLD3D_CI_DrawEffect(Fld3dCi *ci)
         first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
         count = (int)G3D_UTIL_GetUnitObjCount(ci->gfxUnits, (u16)ci->effectUnit);
         for (i = 0; i < count; i++) {
-            object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + i));
-            G3D_SYSTEM_DrawObject((void *)object, &ci->status);
+            object = G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + i));
+            G3D_SYSTEM_DrawObject(object, &ci->status);
         }
     }
 }
@@ -870,7 +870,7 @@ int FLD3D_CI_UpdateStartDelays(Fld3dCi *ci)
 /* Steps the first animation track after its wait delay; 1 when unused or finished. */
 int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
 {
-    sptr object;
+    G3dObject *object;
     u8 i;
     int result;
     int count;
@@ -881,9 +881,9 @@ int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
         (ci->waitDelay[0])--;
     } else {
         object = G3D_UTIL_GetObject(ci->gfxUnits, (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)));
-        count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
+        count = G3D_SYSTEM_GetObjectAnimeCount(object);
         for (i = 0; i < count; i++)
-            result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
+            result = G3D_SYSTEM_IncObjectAnimeFrame(object, i, 0x1000);
         if (result == 0)
             return 1;
     }
@@ -893,7 +893,7 @@ int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
 /* Same as above for the second animation track. */
 int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
 {
-    sptr object;
+    G3dObject *object;
     u8 i;
     int result;
     int count;
@@ -903,10 +903,10 @@ int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
     if (ci->waitDelay[1] != 0) {
         (ci->waitDelay[1])--;
     } else {
-        object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)((int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
-        count = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
+        object = G3D_UTIL_GetObject(ci->gfxUnits, (u16)((int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)(ci->effectUnit)) + 1));
+        count = G3D_SYSTEM_GetObjectAnimeCount(object);
         for (i = 0; i < count; i++)
-            result = G3D_SYSTEM_IncObjectAnimeFrame((G3dObject *)object, i, 0x1000);
+            result = G3D_SYSTEM_IncObjectAnimeFrame(object, i, 0x1000);
         if (result == 0)
             return 1;
     }
@@ -921,7 +921,8 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     int first;
     int unitCount;
     u8 j;
-    sptr object;
+    G3dObject *object;
+    sptr gameSystem;
     int animCount;
     int trackKind;
 
@@ -937,10 +938,10 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     first = (int)G3D_UTIL_GetUnitObjIdx(ci->gfxUnits, (u16)ci->effectUnit);
     unitCount = (int)G3D_UTIL_GetUnitObjCount(ci->gfxUnits, (u16)ci->effectUnit);
     for (unit = 0; unit < unitCount; unit++) {
-        object = (int)G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + unit));
-        animCount = G3D_SYSTEM_GetObjectAnimeCount((G3dObject *)object);
+        object = G3D_UTIL_GetObject(ci->gfxUnits, (u16)(first + unit));
+        animCount = G3D_SYSTEM_GetObjectAnimeCount(object);
         for (j = 0; j < animCount; j++)
-            G3D_SYSTEM_EnableObjectAnime((G3dObject *)object, (u8)j);
+            G3D_SYSTEM_EnableObjectAnime(object, (u8)j);
     }
     ci->startDelay[0] = seq->startDelay[0];
     ci->startDelay[1] = seq->startDelay[1];
@@ -967,8 +968,8 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     if (seq->trackCCount != 0)
         ci->trackWatched[1] = 1;
     if (ci->extraTask != 0) {
-        object = (sptr)GAME_EVENT_GetGameSystem(event);
-        GAME_EVENT_CallEvent(event, GAME_EVENT_Create((void *)object, event, (void *)(ci->extraTask), (int)0));
+        gameSystem = (sptr)GAME_EVENT_GetGameSystem(event);
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create((void *)gameSystem, event, (void *)(ci->extraTask), (int)0));
     }
 }
 

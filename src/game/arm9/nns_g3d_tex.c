@@ -46,13 +46,6 @@
 
 #include "../types.h"
 
-/* Header of an animation resource: the two category codes select the init handler. */
-typedef struct {
-    u8  category0;
-    u8  dummy_;
-    u16 category1;
-} NNSG3dAnmFmtHeader;
-
 /* One row of the animation init handler table (the handler pointer sits in the
  * parallel array sHandlerFns, 8 bytes per row). */
 typedef struct {
@@ -82,7 +75,7 @@ typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResPlttToMatIdx;
 #include "gx_load3d.h"
 #include "fx_cp.h"
 #include "nns_g3d_res.h"
-void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, u32 resMdl, u32 resTex);
+void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, const NNSG3dResMdl *resMdl, NNSG3dResTex *resTex);
 void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
 void NNSi_G3dAnmObjInsertByPriority(NNSG3dAnmObj **head, NNSG3dAnmObj *item);
 void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, NNSG3dAnmObj *anmObj);
@@ -117,7 +110,7 @@ extern u32 gNNSiG3dFuncBlendMatDefault;
  * (anmObj, resAnm, resMdl). The entry test must be spelled
  * `i = 0; if (i >= n) return;` for the image's `popls`.
  */
-void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, u32 resMdl, u32 resTex)
+void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, const NNSG3dResMdl *resMdl, NNSG3dResTex *resTex)
 {
     u8 category0;
     u32 i;
@@ -128,7 +121,7 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, u32 res
     anmObj->next = 0;
     anmObj->priority = 0x7f;
     anmObj->ratio = 0x1000;
-    anmObj->resTex = (const void *)resTex;
+    anmObj->resTex = resTex;
     anmObj->numMapData = 0;
     anmObj->funcAnm = 0;
 
@@ -139,8 +132,8 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, u32 res
     do {
         if (category0 != sHandlerKeys[i].category0) goto next;
         if (resAnm->category1 != sHandlerKeys[i].category1) goto next;
-        if (*(void (**)(NNSG3dAnmObj *, NNSG3dAnmFmtHeader *, u32))(sHandlerFns + (i << 3)) == 0) return;
-        (*(void (**)(NNSG3dAnmObj *, NNSG3dAnmFmtHeader *, u32))(sHandlerFns + (i << 3)))(anmObj, resAnm, resMdl);
+        if (*(void (**)(NNSG3dAnmObj *, NNSG3dAnmFmtHeader *, const NNSG3dResMdl *))(sHandlerFns + (i << 3)) == 0) return;
+        (*(void (**)(NNSG3dAnmObj *, NNSG3dAnmFmtHeader *, const NNSG3dResMdl *))(sHandlerFns + (i << 3)))(anmObj, resAnm, resMdl);
         return;
 next:
         i++;

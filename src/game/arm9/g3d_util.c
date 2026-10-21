@@ -112,14 +112,6 @@ extern u32 GFL_HEAP_Free(void *p);
 #include "../sdk_nnsfnd.h"
 #include "g3d_system.h"
 
-#ifdef __MWERKS__
-void G3D_SYSTEM_InitResourceByFile(struct G3dNodeInit *out, u32 *tag); /* original prototype; the definition differs in pointer type */
-#else
-struct G3dResource;
-struct NNSG3dResFileHeader;
-void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
-#define G3D_SYSTEM_InitResourceByFile(out, file) (G3D_SYSTEM_InitResourceByFile)((struct G3dResource *)(out), (struct NNSG3dResFileHeader *)(file))
-#endif
 struct G3dResource;
 
 struct ArcHandle;
@@ -175,7 +167,7 @@ u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int i);
 
 u32 G3D_UTIL_GetResource(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetObject(G3dUtil *util, int i);
+G3dObject *G3D_UTIL_GetObject(G3dUtil *util, int i);
 
 #include "arc_tool.h"
 
@@ -450,17 +442,17 @@ void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *
         case 2:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 342);
-            G3D_SYSTEM_InitResourceByFile(node,
-                          (u32 *)((uptr)ARC_TOOL_LoadMember(rec->arc, rec->dat,
-                                             util->heapID)));
+            G3D_SYSTEM_InitResourceByFile((G3dResource *)node,
+                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMember(rec->arc, rec->dat,
+                                             util->heapID));
             out[slotno] = (uptr)node;
             break;
         case 3:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 355);
-            G3D_SYSTEM_InitResourceByFile(node,
-                          (u32 *)((uptr)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
-                                             util->heapID)));
+            G3D_SYSTEM_InitResourceByFile((G3dResource *)node,
+                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
+                                             util->heapID));
             out[slotno] = (uptr)node;
             break;
         }
@@ -794,7 +786,7 @@ u32 G3D_UTIL_GetResource(G3dUtil *util, int resIdx)
     return *(u32 *)((u8 *)util->res + resIdx * 4);
 }
 
-u32 G3D_UTIL_GetObject(G3dUtil *util, int objIdx)
+G3dObject *G3D_UTIL_GetObject(G3dUtil *util, int objIdx)
 {
-    return *(u32 *)((u8 *)util->obj + objIdx * 4);
+    return *(G3dObject **)((u8 *)util->obj + objIdx * 4);
 }

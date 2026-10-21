@@ -4,8 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of scrcmd_proc.c, prototypes copied from their definitions. */
 
-struct ScriptVm;
 struct PokemonSpec;
+struct ScriptVm;
 struct BagCloseData;
 struct GtsCallbackData;
 typedef struct PokemonSpec PokemonSpec;

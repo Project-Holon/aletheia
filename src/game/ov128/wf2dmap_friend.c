@@ -793,7 +793,7 @@ void Wf2dmapFriend_DrawText(u8 *p,u8 *q,unsigned v)
     BMP_WIN_TransferChars(((Wf2dmapTouchSlot *)q)->window);
     MSGDATA_ReadString(((Wf2dmapTouchGfx *)p)->msgBank,v,((Wf2dmapTouchGfx *)p)->textBufB);
     WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)p)->wordSet,((Wf2dmapTouchGfx *)p)->textBufA,((Wf2dmapTouchGfx *)p)->textBufB);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)q,(void *)(((Wf2dmapTouchGfx *)p)->printWin),0,4,(uptr)(((Wf2dmapTouchGfx *)p)->textBufA),(uptr)(((Wf2dmapTouchGfx *)p)->palWin),0x3c40,0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)q,(void *)(((Wf2dmapTouchGfx *)p)->printWin),0,4,(((Wf2dmapTouchGfx *)p)->textBufA),(((Wf2dmapTouchGfx *)p)->palWin),0x3c40,0);
     WF2DMAP_TOUCH_TransferScreen(((Wf2dmapTouchSlot *)q)->window);
 }
 
@@ -1056,7 +1056,7 @@ void Wf2dmapFriend_InitListScreen(Wf2dmapFriendListScreen *p, u8 *a, u8 *ctx, u1
         MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank,i+1,text);
         WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)ctx)->wordSet,buf,text);
         width=PRINTSYS_MeasureWidestLine((struct Strbuf *)((uptr)buf),(struct GfFont *)(((Wf2dmapTouchGfx *)ctx)->palWinU32),0);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)p+12),(void *)(((Wf2dmapTouchGfx *)ctx)->printWin),(192-width)/2,i*40+8,(uptr)buf,((Wf2dmapTouchGfx *)ctx)->palWinU32,0x440,0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)p+12),(void *)(((Wf2dmapTouchGfx *)ctx)->printWin),(192-width)/2,i*40+8,buf,((Wf2dmapTouchGfx *)ctx)->palWin,0x440,0);
     }
     WF2DMAP_TOUCH_TransferScreen(((Wf2dmapFriendListScreen *)p)->windowA);
     STRBUF_Delete(buf);
@@ -1921,7 +1921,7 @@ void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void 
     str = STRBUF_Create(128, heap);
     STRBUF_SetString(str, (const u16 *)WIFILIST_GetFriendInfo(base, idx));
     TOUCHBAR_PrintAligned(*(TouchBarWindow * *)&((Wf2dmapFriendEntryPage *)p)->window, (void *)(((Wf2dmapTouchGfx *)b)->printWin), gWf2dmapEntrySlotPos[i].x * 8,
-                 gWf2dmapEntrySlotPos[i].y * 8 - 24, (uptr)str, ((Wf2dmapTouchGfx *)b)->palWinU32, *(u16 *)((u8 *)&local + result9 * 2), 0);
+                 gWf2dmapEntrySlotPos[i].y * 8 - 24, str, ((Wf2dmapTouchGfx *)b)->palWin, *(u16 *)((u8 *)&local + result9 * 2), 0);
     STRBUF_Delete(str);
 }
 

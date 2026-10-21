@@ -5,6 +5,7 @@
 /* Public functions of event_battle.c, prototypes copied from their definitions. */
 
 struct ScriptedBattleArgs;
+struct GameEvent;
 struct BattleTask;
 struct BattleEndCtx;
 typedef struct ScriptedBattleArgs ScriptedBattleArgs;

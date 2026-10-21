@@ -8,9 +8,10 @@ struct GameEvent;
 struct EncEffWork;
 
 #include "../ov077/enceff_grid_types.h"
+#include "../types.h"
 
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
+int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
 void ENCEFF_UpdateCellGrid(struct EncEffWork *eff);
 void ENCEFF_DrawCellGrid(EncEffGridWork *work);

@@ -99,14 +99,8 @@ extern s32 CLACT_RegisterPaletteEx(void *arc, u32 fileId, u32 screen, u32 offset
 #undef CLACT_RegisterCharacter
 extern s32 CLACT_RegisterCharacter(void *arc, u32 fileId, u32 flags, u32 screen, u32 heapId);
 #endif
-extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellFile, u32 animFile, u32 heapId);
 struct ClactActor;
 #include "../arm9/strbuf_types.h"
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, unsigned int plttIdx, unsigned int cellIdx, const struct ActorInitParam *init, u16 space, u16 heapId);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
 #include "../arm9/app_icon.h"
 #ifdef __MWERKS__
 #define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWholeHeader
@@ -120,11 +114,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 fileId, u32 bgL
 #undef ARC_UTIL_RegisterObjCharFromHandle
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
 #endif
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 #include "../arm9/nns_g2d_load.h"
-extern u8 BG_SYS_GetColorMode(int bgLayer);
-extern u32 BG_SYS_GetBuf(int bgLayer);
 #ifdef __MWERKS__
 #define BG_SYS_DrawTileEx BG_SYS_DrawTileExHeader
 #define BG_SYS_PushTile BG_SYS_PushTileHeader
@@ -137,14 +127,9 @@ extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 d
 #undef BG_SYS_PushTile
 extern void BG_SYS_PushTile(u8 bgLayer);
 #endif
-extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
 #include "../arm9/touchpanel.h"
 #include "../arm9/ui.h"
 #include "../arm9/key.h"
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 #include "../arm9/gfl_use.h"
 struct BmpWin;
 struct Bmp;
@@ -153,9 +138,6 @@ struct GfFont;
 struct Strbuf;
 struct PrintQueue;
 #include "../arm9/printsys.h"
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
-extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 #include "../arm9/msgdata.h"
 #include "../arm9/gf_font.h"
 #ifdef __MWERKS__
@@ -168,7 +150,6 @@ extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int prio
 extern struct Strbuf *STRBUF_Create(u32 size, u16 heapId);
 #endif
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 #include "../arm9/wordset.h"
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
@@ -211,9 +192,9 @@ void TOUCHBAR_OnPressPlain(TouchBarButton *button);
 void TOUCHBAR_OnPressToggle(TouchBarButton *button);
 void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled);
 void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled);
-void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode);
-void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId);
-u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode);
+void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, struct Strbuf *str, struct GfFont *fontId, u16 color, u32 alignMode);
+void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, struct GfFont *fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId);
+u16 TOUCHBAR_GetStringAlignOffset(struct Strbuf *str, struct GfFont *fontId, u32 alignMode);
 extern const char gTouchBarSourceName[];
 extern TouchBarButtonLook gTouchBarButtonLooks[];
 
@@ -699,10 +680,10 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
  *           between r4/r5, and `x -= f()` truncates the call result first
  *           (worse).
  */
-void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode)
+void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, struct Strbuf *str, struct GfFont *fontId, u16 color, u32 alignMode)
 {
-    x = x - TOUCHBAR_GetStringAlignOffset((struct StrObj *)str, fontId, alignMode);
-    PRINTSYS_PrintQueColor(textCtx, BMP_WIN_GetBmp((struct BmpWin *)window->bitmap), (short)x, (short)y, (struct Strbuf *)str, (struct GfFont *)fontId, color);
+    x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, alignMode);
+    PRINTSYS_PrintQueColor(textCtx, BMP_WIN_GetBmp((struct BmpWin *)window->bitmap), (short)x, (short)y, str, fontId, color);
     window->redraw = 1;
 }
 
@@ -712,7 +693,7 @@ void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, 
  *           u32 callee parameters they stay in registers: 300 bytes);
  *           `x = x - f()` (`-=` truncates the call result first).
  */
-void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId)
+void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, struct GfFont *fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heapId)
 {
     void *msgBank;
     void *wordSet;
@@ -724,28 +705,28 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     wordSet = WORDSET_CreateDefault(heapId);
     buf = STRBUF_Create(0xa, heapId);
     str = MSGDATA_AllocString(msgBank, 0);
-    strWidth = PRINTSYS_MeasureWidestLine(str, (struct GfFont *)fontId, 0);
-    TOUCHBAR_PrintAligned(window, textCtx, x, y, (uptr)str, fontId, color, 2);
+    strWidth = PRINTSYS_MeasureWidestLine(str, fontId, 0);
+    TOUCHBAR_PrintAligned(window, textCtx, x, y, str, fontId, color, 2);
     x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, 2);
     STRBUF_Delete(str);
     str = MSGDATA_AllocString(msgBank, 1);
     WORDSET_SetSlotNumber(wordSet, 0, firstNumber, 8, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, str);
-    TOUCHBAR_PrintAligned(window, textCtx, x, y, (uptr)buf, fontId, color, 1);
+    TOUCHBAR_PrintAligned(window, textCtx, x, y, buf, fontId, color, 1);
     STRBUF_Delete(str);
     str = MSGDATA_AllocString(msgBank, 2);
     WORDSET_SetSlotNumber(wordSet, 0, secondNumber, 8, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, str);
-    TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, (uptr)buf, fontId, color, 0);
+    TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, buf, fontId, color, 0);
     STRBUF_Delete(str);
     STRBUF_Delete(buf);
     WORDSET_Delete(wordSet);
     MSGDATA_Delete(msgBank);
 }
 
-u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
+u16 TOUCHBAR_GetStringAlignOffset(struct Strbuf *str, struct GfFont *fontId, u32 alignMode)
 {
-    if (alignMode == 1) return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)fontId, 0);
-    if (alignMode == 2) return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)fontId, 0) >> 1;
+    if (alignMode == 1) return PRINTSYS_MeasureWidestLine(str, fontId, 0);
+    if (alignMode == 2) return PRINTSYS_MeasureWidestLine(str, fontId, 0) >> 1;
     return 0;
 }

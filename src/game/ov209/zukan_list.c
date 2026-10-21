@@ -269,6 +269,7 @@ struct TouchBarWindow;
  * ../ov067/frame_list_params.h.
  */
 #include "../ov067/frame_list_params.h"
+#include "../ov067/touchbar.h"
 
 /* Arguments the ov209 zukan list screen receives from its creator. */
 struct ZukanListArgs {
@@ -302,10 +303,10 @@ struct ZukanList {
     int returnState;                     /* 0x018 state to run after a button anim */
     int fadeReturnState;                 /* 0x01C state to run after a fade */
     struct ZukanListWindow windows[3];   /* 0x020 */
-    void *font;                          /* 0x038 */
+    struct GfFont *font;                 /* 0x038 */
     struct MsgBank *msgBank;             /* 0x03C */
     struct WordSet *wordSet;             /* 0x040 */
-    struct U16Vec *textBuf;              /* 0x044 */
+    struct Strbuf *textBuf;              /* 0x044 */
     void *printer;                       /* 0x048 */
     struct U16Vec *speciesText[649];     /* 0x04C one string per species row */
     struct Bank *clactUnit;              /* 0xA70 */
@@ -430,16 +431,13 @@ struct Strbuf;
 
 struct ZukanSave;
 
-extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
 #include "../ov067/frame_list.h"
 
 
 
 
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
 
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
 
 
 
@@ -479,9 +477,7 @@ extern int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p);
 
 
 
-extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, u32 value);
 
 
 
@@ -504,7 +500,6 @@ struct BmpWin;
 
 
 
-extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 
 
 
@@ -519,13 +514,9 @@ typedef short s16_p07;
 
 
 
-extern u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *pZukan);
 
-extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan);
 
-extern u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, u32 heap);
 
-extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, u32 heap);
 
 
 
@@ -569,18 +560,14 @@ struct ZknSearchActorTemplate;
 extern struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
 
-extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
-
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
 
 
 
-extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, u16 species, u32 *outGender, u32 *outShiny, u32 *outForm, u16 language);
+
 
 #include "../arm9/pokegra.h"
 
-extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, u32 which);
 
 
 
@@ -713,7 +700,7 @@ void ZUKAN_LIST_DrawHeaderCounts(struct ZukanList *p);
 
 void ZUKAN_LIST_DrawHeaderNational(struct ZukanList *p);
 
-void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned text0, unsigned index);
+void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, struct Strbuf *text0, unsigned index);
 
 void ZUKAN_LIST_InitActors(struct ZukanList *p);
 
@@ -985,7 +972,7 @@ void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);
     p->wordSet = WORDSET_CreateDefault(0x6B);
     p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)0x6B);
-    p->textBuf = (struct U16Vec *)STRBUF_Create(0x80, 0x6B);
+    p->textBuf = STRBUF_Create(0x80, 0x6B);
 }
 
 void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct Strbuf *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintQueue *)p->printer);WORDSET_Delete((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct MsgBank *)p->msgBank);}
@@ -1087,7 +1074,7 @@ void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, int dest, 
     u32 speciesId;
     itemValue = FRAME_LIST_GetItemValue(p->frameList, index);
     speciesId = itemValue & 0x0FFFFFFF;
-    ZUKAN_LIST_PrintListRow(p, (unsigned char *)dest, (uptr)p->speciesText[index], speciesId);
+    ZUKAN_LIST_PrintListRow(p, (unsigned char *)dest, (struct Strbuf *)p->speciesText[index], speciesId);
     if ((itemValue & 0xF0000000) >> 28) ZUKAN_LIST_ShowSpeciesActor(p, speciesId, position, mode);
 }
 
@@ -1401,7 +1388,7 @@ void ZUKAN_LIST_PrintTouchbarLabel(struct ZukanList *p, unsigned index, unsigned
 {
     void *text;
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, msg);
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, (uptr)text, *(unsigned *)&p->font, color, mode);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, text, p->font, color, mode);
     STRBUF_Delete(text);
 }
 
@@ -1413,7 +1400,7 @@ void ZUKAN_LIST_PrintTouchbarLabelClone(struct ZukanList *p, unsigned index, uns
     void *text;
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, msg);
     WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, *(unsigned *)&p->textBuf, *(unsigned *)&p->font, color, mode);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, p->textBuf, p->font, color, mode);
     STRBUF_Delete(text);
 }
 
@@ -1505,7 +1492,7 @@ void ZUKAN_LIST_DrawHeaderNational(struct ZukanList *p)
     ZUKAN_LIST_MakeWindowScreens((void **)&p->windows[2].bmp);
 }
 
-void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned text0, unsigned index)
+void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, struct Strbuf *text0, unsigned index)
 {
     uptr printer;
     void *text;
@@ -1516,8 +1503,8 @@ void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned 
     WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, index, 3, 2, 1);
     WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
     STRBUF_Delete(text);
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)dest, (void *)printer, 0, 4, *(unsigned *)&p->textBuf, (uptr)p->font, 0x39e0, 0);
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)dest, (void *)printer, 28, 4, text0, (uptr)p->font, 0x39e0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)dest, (void *)printer, 0, 4, p->textBuf, p->font, 0x39e0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)dest, (void *)printer, 28, 4, text0, p->font, 0x39e0, 0);
 }
 
 void ZUKAN_LIST_InitActors(struct ZukanList *p) {ZUKAN_LIST_InitActorSystem(p);ZUKAN_LIST_LoadActorResources(p);ZUKAN_LIST_CreateActors(p);ZUKAN_LIST_UpdateSpeciesActors(p);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}

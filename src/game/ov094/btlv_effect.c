@@ -2153,7 +2153,7 @@ void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)
         if (fade->wait == 0) {
             fade->wait = fade->interval;
             for (i = 0; i < fade->count; i++) {
-                tex = (NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(fade->resources[i]));
+                tex = (NNSG3dResTex *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(fade->resources[i]));
                 size = tex->plttInfo.sizePltt << 3;
                 vramOffset = (u16)tex->plttInfo.vramKey << 3;
                 PALANM_BlendColors((u16 *)((char *)tex + tex->plttInfo.ofsPlttData), fade->palettes[i], (u16)(size >> 1), fade->current, fade->color);

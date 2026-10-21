@@ -514,6 +514,28 @@ typedef struct NNSG3dResTex {
     NNSG3dResDict       dictTex;
 } NNSG3dResTex;
 
+/* Header of a model or texture file (BMD0, BTX0). */
+typedef struct NNSG3dResFileHeader {
+    u32 signature;
+    u16 byteOrder;
+    u16 version;
+    u32 fileSize;
+    u16 headerSize;
+    u16 dataBlocks;
+} NNSG3dResFileHeader;
+
+/* Signature and size that start every data block of such a file. */
+typedef struct NNSG3dResDataBlockHeader {
+    u32 kind;
+    u32 size;
+} NNSG3dResDataBlockHeader;
+
+/* The model block: the header and the dictionary of models. */
+typedef struct NNSG3dResMdlSet {
+    NNSG3dResDataBlockHeader header;
+    NNSG3dResDict            dict;
+} NNSG3dResMdlSet;
+
 /* Texture dictionary entry: TEXIMAGE_PARAM and the packed original size. */
 typedef struct NNSG3dResDictTexData {
     u32 texImageParam;

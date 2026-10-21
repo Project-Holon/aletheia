@@ -10,6 +10,8 @@
 
 #include "../types.h"
 
+struct GfFont;
+
 /* The zukan save record block the work points at (work->save). Only the
  * fields ov210 touches are named. */
 typedef struct ZknSearchSave {
@@ -44,7 +46,7 @@ typedef struct ZknSearchWork {
     u32   palRes[6];              /* 0x124 CLACT palette registrations */
     u32   cellRes[4];             /* 0x13C CLACT cell anim registrations */
     ZknSearchBmpWin bmpWin[16];   /* 0x14C BMP window slots */
-    u32   font;                   /* 0x1CC GF_FONT object handle */
+    struct GfFont *font;          /* 0x1CC GF_FONT object handle */
     void *msgBank;                /* 0x1D0 MSG bank */
     void *wordSet;                /* 0x1D4 word set */
     void *strBuf;                 /* 0x1D8 STRBUF scratch buffer */

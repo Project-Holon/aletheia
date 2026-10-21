@@ -371,7 +371,7 @@ void VIEWER_ACTOR_CreateModel(ViewerTextWork *p)
 
     p->g3dUtil = G3D_UTIL_Create(10, 10, 0x27);
     p->g3dUnit = G3D_UTIL_AddUnit(p->g3dUtil, (const G3dUtilSetup *)d_021C8834);
-    mdl = (void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
+    mdl = G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     for (i = 0; i < n; i++) {
         G3D_SYSTEM_EnableObjectAnime(mdl, (u16)i);
@@ -417,7 +417,7 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     t.trans.z = 0;
     MTX_Identity33_(&t.rot);
     G3D_CAMERA_Reset(p->camera);
-    mdl = (void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
+    mdl = G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     G3D_SYSTEM_GetObjectAnimeFrame(mdl, 0, &out);
     for (; i < n; i++) {
@@ -425,7 +425,7 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     }
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
-    G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct G3dObjectStatus *)(&t));
+    G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct G3dObjectStatus *)(&t));
     G3D_SYSTEM_DrawEnd();
     d_021C8E80.value += d_021C8E80.step;
 }

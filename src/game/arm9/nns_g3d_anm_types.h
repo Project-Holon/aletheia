@@ -33,6 +33,13 @@ struct NNSG3dAnmObj;
 /* Per-node sampling callback: result type depends on the animation kind. */
 typedef void (*NNSG3dAnmObjFunc)(void *result, const struct NNSG3dAnmObj *anmObj, u32 dataIdx);
 
+/* Header of an animation resource: the two category codes select the init handler. */
+typedef struct NNSG3dAnmFmtHeader {
+    u8  category0;
+    u8  dummy_;
+    u16 category1;
+} NNSG3dAnmFmtHeader;
+
 /* One animation in a blend chain (0x1a bytes of header, then mapData). */
 typedef struct NNSG3dAnmObj {
     fx32 frame;

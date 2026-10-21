@@ -478,9 +478,7 @@ struct CompHeader {
 #include "mi_memory.h"
 #include "nns_g2d_cell_transfer.h"
 struct VmanHandle;
-extern int VMAN_IsHandleInvalid(struct VmanHandle *handle);
 struct VmanBank;
-extern void NNS_G2dEndRendering(void);
 /* Kept local: clact.c passes the heap id as a full word (vman.h takes u16). */
 /* Original DS prototype: the caller passes the arguments at the wider width; the host build uses the header. */
 #ifdef __MWERKS__
@@ -491,20 +489,13 @@ extern void NNS_G2dEndRendering(void);
 #undef VMAN_Create
 extern struct VmanBank *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 #endif
-extern void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
-extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
-extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 #include "os_cache.h"
 #include "gx_load2d.h"
 #include "arc_tool.h"
-extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
-extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 struct Node;
 struct NNSG2dOamManagerInstance;
 struct NNSG2dRendererInstance;
-extern void NNS_G2dInitRenderer(struct NNSG2dRendererInstance *pRend);
 struct NNSG2dRenderSurface;
-extern void NNS_G2dSetRendererTargetSurface(struct NNSG2dRendererInstance *pRend, struct NNSG2dRenderSurface *pNew);
 #include "gf_panic.h"
 /* Original DS prototypes: the caller takes the affine entry as returning nothing and passes the first OAM index as an int; the host build uses the header. */
 #ifdef __MWERKS__
@@ -518,20 +509,10 @@ extern void NNS_G2dSetRendererTargetSurface(struct NNSG2dRendererInstance *pRend
 extern u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, int first, int count, int which);
 extern void NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 #endif
-extern void NNSi_G2dInitVramHandle(u32 *p);
-extern void NNSi_G2dInitVramHandleEx(u32 *p);
-extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
-extern void NNS_G2dBeginRendering(struct NNSG2dRendererInstance *obj);
 
 struct NNSG2dRndCoreInstance;
 #include "nns_g2d_renderer_core.h"
-extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
-extern void NNS_G2dScale(s32 x, s32 y, s32 z);
-extern void NNS_G2dRotZ(s32 a, s32 b);
-extern void NNSi_G2dRendererDrawCellZOffset(void *pCell);
-extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 struct MultiCellDrawCmd;
-extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c);
 struct AnimBank;
 struct AnimSequenceData;
 struct CellDataBank;
@@ -539,27 +520,15 @@ struct CellDataBank;
 struct MCInstance;
 #include "nns_g2d_cell_animation.h"
 #include "nns_g2d_anim_bank.h"
-extern void VMAN_Delete(struct VmanBank *bank);
 #include "mi_uncompress.h"
-extern void  VMAN_InvalidateHandle(struct VmanHandle *handle);
-extern int VMAN_Alloc(struct VmanBank *bank, unsigned int size, struct VmanHandle *out);
-extern u32 VMAN_GetOffset(struct VmanBank *bank, unsigned int *units_ptr);
 struct VramHandle;
 struct VramResource;
-extern void NNSi_G2dLoadVramResourceMain(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
-extern void NNSi_G2dLoadVramResourceSub(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
-extern void NNSi_G2dSetupVramResource(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 struct VramHandleSel;
 struct VramResourceSel;
-extern void NNSi_G2dLoadVramResourceBySel(struct VramResourceSel *self, unsigned int offset, int sel, struct VramHandleSel *out);
 #include "gx_vramcnt.h"
 struct VramHandleList;
 struct VramResourceIndices;
 struct VramResourceList;
-extern void NNSi_G2dLoadVramResourceList(struct VramResourceList *self, struct VramResourceIndices *list, unsigned int base, int sel, struct VramHandleList *out);
-extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 #include "systemfont.h"
 void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 void CLACT_ExitSystem(void);

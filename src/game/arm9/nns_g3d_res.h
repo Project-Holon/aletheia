@@ -10,8 +10,8 @@
 
 void *NNS_G3dGetResDataByName(const NNSG3dResDict *dict, const NNSG3dResName *name);
 s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *name);
-int NNS_G3dGetMdlSet(int pFile);
-unsigned char *NNS_G3dGetTex(unsigned char *pFile);
+NNSG3dResMdlSet *NNS_G3dGetMdlSet(NNSG3dResFileHeader *pFile);
+NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *pFile);
 u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
 /* END mkheaders: generated region */
 

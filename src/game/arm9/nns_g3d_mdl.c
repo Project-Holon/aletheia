@@ -20,6 +20,8 @@
 #include "../types.h"
 
 #include "../sdk_nnsfnd.h"
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
 
 /* NNSG3dResMat: two list offsets, then the material dictionary. */
 typedef struct {
@@ -68,7 +70,7 @@ struct NNSiFndObject;
 #include "nns_g2d_font.h"
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
-void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
+NNSG3dAnmObj *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const NNSG3dAnmFmtHeader *pAnm, const NNSG3dResMdl *pMdl);
 void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj);
 void NNS_G3dMdlSetMdlLightEnableFlag(ResMdl *pMdl, u32 matIdx, u32 lightMask);
 void NNS_G3dMdlSetMdlPolygonMode(ResMdl *pMdl, u32 matIdx, u32 polygonMode);
@@ -92,9 +94,9 @@ void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){
  *   python tools/match.py one --src src/matched/NNS_G3dAllocAnmObj.c \
  *       --func NNS_G3dAllocAnmObj --addr 0x0206E364 --cc 1.1p1 --arm
  */
-void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
+NNSG3dAnmObj *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const NNSG3dAnmFmtHeader *pAnm, const NNSG3dResMdl *pMdl)
 {
-    return NNS_FndAllocFromAllocator((NNSiFndObject *)pAllocator, GetTaggedPayloadSize(pAnm, (const TaggedNode *)pMdl));
+    return (NNSG3dAnmObj *)NNS_FndAllocFromAllocator((NNSiFndObject *)pAllocator, GetTaggedPayloadSize((const u8 *)pAnm, (const TaggedNode *)pMdl));
 }
 
 /* NNS_G3dFreeAnmObj */

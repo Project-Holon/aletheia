@@ -86,7 +86,6 @@ extern u32 POKEPARTY_GetCapacity(struct Party *party); /* original prototypes; t
 #include "pokeparty.h"
 #endif
 
-extern u32 REGULATION_GetRuleValue(const struct Regulation *reg, u32 id);
 
 #include "regulation.h"
 

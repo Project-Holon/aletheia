@@ -141,7 +141,7 @@ void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16
     /* likely original mismatch: the original passes a u16 heap id; the arm9 prototype takes unsigned int */
     void *archive=ARC_TOOL_CreateHandle(arc,heap);
     u8 *raw=ARC_TOOL_LoadHandleMember(archive,member,heap);
-    u8 *tex=NNS_G3dGetTex(raw);
+    u8 *tex=(u8 *)NNS_G3dGetTex((NNSG3dResFileHeader *)raw);
     u8 *pixels;
     u32 offset;
     offset=(*(u32 *)entry(tex,index)&0xffff)*8;

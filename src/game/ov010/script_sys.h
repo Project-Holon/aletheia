@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of script_sys.c, prototypes copied from their definitions. */
 
+struct GameEvent;
 struct ScriptSys;
 struct ScriptEventWork;
 typedef struct ScriptSys ScriptSys;
@@ -12,6 +13,7 @@ typedef struct ScriptEventWork ScriptEventWork;
 #include "../types.h"
 #include "../arm9/script_vm_types.h"
 
+struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
 void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int reserved);
 int SCRIPT_SYS_HasVm(void *scriptWork, int index);
@@ -26,9 +28,11 @@ void SCRIPT_SYS_CallEndCallback(ScriptSys *sys, void *event);
 int SCRIPT_SYS_HasEndCallback(ScriptSys *sys);
 u16 SCRIPT_SYS_GetZoneId(void *fieldSys);
 int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork);
+struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork);
 void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
 int SCRIPT_SYS_AddScript(void *scriptWork, u16 zoneId, u16 scriptId);
+void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 ScriptSys *SCRIPT_SYS_GetFromWork(void *scriptWork);
 void SCRIPT_SYS_ClearLocalWork(void *eventFlags);
 void SCRIPT_SYS_RunInitScript(void *fieldSys, int reserved);

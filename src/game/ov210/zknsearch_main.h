@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zknsearch_main.c, prototypes copied from their definitions. */
 
+struct Strbuf;
+
 #include "../types.h"
 #include "../ov210/zknsearch_types.h"
 
@@ -104,7 +106,7 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *work);
 void ZKNSEARCH_MAIN_InitListTexts4(u8 *work);
 void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *work);
 void ZKNSEARCH_MAIN_InitListTexts5(u8 *work);
-void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, u32 text);
+void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, struct Strbuf *text);
 void ZKNSEARCH_MAIN_TransferRowChars(int work, unsigned *window);
 void ZKNSEARCH_MAIN_PrintMessageText(u8 *work, unsigned message);
 void ZKNSEARCH_MAIN_PrintMessage11(void *work);

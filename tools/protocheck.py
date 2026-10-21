@@ -49,25 +49,7 @@ import protonames as pn  # noqa: E402
 import placeholdernames as ph  # noqa: E402
 
 # (declaring file, name): a declaration that stays different, with the reason.
-EXCEPTIONS = [
-    # ov094 btlv_effect.c: the original file-local prototype takes the move as a word; the definition takes u16.
-    # g3d_system.c: the nns_g3d_res.c, nns_g3d_tex.c and nns_g3d_mdl.c definitions take int and u8 * stand-ins, and
-    # overlay callers (ov010, ov021, ov094, ov132, ov194) read the results through their own views.
-    # Open until the ov010 and ov021 callers move to the typed results.
-    ("src/game/arm9/g3d_system.c", "NNS_G3dAnmObjInit"),
-    ("src/game/arm9/g3d_system.c", "NNS_G3dAllocAnmObj"),
-    ("src/game/arm9/g3d_system.c", "NNS_G3dGetMdlSet"),
-    ("src/game/arm9/g3d_system.c", "NNS_G3dGetTex"),
-    # ov009 GameSpy callers declare int rand(void) and divide the result as signed; the ARM9 rand
-    # returns an unsigned value (gpiconnect.c divides it as unsigned, umull). Both forms are in the
-    # original bytes, so the callers keep their own declaration.
-    # L5MENUS (2026-10-21): overlay callers (ov067-ov231) that keep the original prototype. protocheck --fix and the
-    # struct/width retype were tried per declaration: the definition's type changes the DS bytes (width, sign, argument
-    # count, return of a void callee) or needs a record-layout change in the defining overlay (pointee, stand-in return).
-    # Width, sign and count rows: host same (the caller truncates or ignores on both ABIs). Per file below.
-    ("src/game/ov076/enceff_model_scene.c", "GAME_EVENT_Create"),  # other
-    ("src/game/ov077/enceff_cell_grid.c", "GAME_EVENT_Create"),  # other
-]
+EXCEPTIONS = []
 
 KW = {"asm", "const", "volatile", "register", "extern", "static", "inline", "__inline", "auto"}
 SCALARS = {"char", "short", "int", "long", "signed", "unsigned", "float", "double", "void"}

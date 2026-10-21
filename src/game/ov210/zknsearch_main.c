@@ -200,6 +200,7 @@ struct TouchBarWindow;
 #include "../sdk_ioreg.h"
 #include "../ov212/zukan_types.h"
 #include "zknsearch_types.h"
+#include "../ov067/touchbar.h"
 
 struct PaletteFade;
 struct PalAnmObj;
@@ -297,9 +298,7 @@ struct ZukanSave;
 #include "../arm9/zukan_save.h"
 #include "../arm9/net.h"
 #include "zknsearch_sys.h"
-extern struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *, struct Query *, int);
-extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
-extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
+#include "../ov212/zukan_search_engine.h"
 #include "../arm9/ui.h"
 struct Cursor;
 #include "../arm9/cursor_move.h"
@@ -311,7 +310,6 @@ struct Cursor;
 #include "../arm9/bmp_win.h"
 struct BmpWin;
 struct Bmp;
-extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/clact.h"
@@ -418,7 +416,7 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *p);
 void ZKNSEARCH_MAIN_InitListTexts4(u8 *p);
 void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *p);
 void ZKNSEARCH_MAIN_InitListTexts5(u8 *p);
-void ZKNSEARCH_MAIN_PrintListRow(char *p, int *a, u32 b);
+void ZKNSEARCH_MAIN_PrintListRow(char *p, int *a, struct Strbuf *b);
 void ZKNSEARCH_MAIN_TransferRowChars(int a, unsigned *p);
 void ZKNSEARCH_MAIN_PrintMessageText(u8 *p, unsigned message);
 void ZKNSEARCH_MAIN_PrintMessage11(void *a);
@@ -765,7 +763,7 @@ void ZKNSEARCH_MAIN_ResetWindow(u32 work)
 void ZKNSEARCH_MAIN_InitTextSystem(char *work)
 {
     *(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank = MSGDATA_CreateFromArchive(0, 2, 277, 123);
-    *(struct GfFont * *)&((ZknSearchWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, 123);
+    ((ZknSearchWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, 123);
     *(struct WordSet * *)&((ZknSearchWork *)work)->wordSet = WORDSET_CreateDefault(123);
     ((ZknSearchWork *)work)->printSys = (uptr)PRINTSYS_QUE_Create((unsigned int)123);
     *(struct U16Vec * *)&((ZknSearchWork *)work)->strBuf = (struct U16Vec *)STRBUF_Create(128, 123);
@@ -781,7 +779,7 @@ u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *work)
     STRBUF_Delete((struct Strbuf *)(((ZknSearchWork *)work)->strBuf));
     PRINTSYS_QUE_Delete((struct PrintQueue *)(((ZknSearchWork *)work)->printSys));
     WORDSET_Delete((struct WordSet *)(((ZknSearchWork *)work)->wordSet));
-    GF_FONT_Delete((void *)(((ZknSearchWork *)work)->font));
+    GF_FONT_Delete(((ZknSearchWork *)work)->font);
     return MSGDATA_Delete((struct MsgBank *)(((ZknSearchWork *)work)->msgBank));
 }
 
@@ -2506,9 +2504,9 @@ void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *work)
 
 void ZKNSEARCH_MAIN_PrintWindowText(u8 *work, int slot, u32 message, int x, int y, u16 color, u32 mode)
 {
-    struct U16Vec *text = (struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank, message);
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x14c + slot * 8), (void *)(((ZknSearchWork *)work)->printSys), x, y, (uptr)text, ((ZknSearchWork *)work)->font, color, mode);
-    STRBUF_Delete((struct Strbuf *)text);
+    struct Strbuf *text = MSGDATA_AllocString(*(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank, message);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x14c + slot * 8), (void *)(((ZknSearchWork *)work)->printSys), x, y, text, ((ZknSearchWork *)work)->font, color, mode);
+    STRBUF_Delete(text);
 }
 
 
@@ -2559,9 +2557,9 @@ static inline u8 *Bytes021BE564(u8 *work)
 void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
 {
     u32 v;
-    uptr s1;
-    uptr s2;
-    uptr s3;
+    struct Strbuf *s1;
+    struct Strbuf *s2;
+    struct Strbuf *s3;
     u8 w;
     u8 x;
 
@@ -2592,18 +2590,18 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
     } else if (Bytes021BE564(work)[4] == 0xFF) {
         ZKNSEARCH_MAIN_PrintWindowText(work, 9, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]), 0x40, 4, 0x3C40, 2);
     } else {
-        s1 = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
-        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
-        w = PRINTSYS_MeasureWidestLine((struct Strbuf *)s1, (struct GfFont *)(((ZknSearchWork *)work)->font), 0);
-        STRBUF_Delete((struct Strbuf *)s1);
+        s1 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
+        w = PRINTSYS_MeasureWidestLine(s1, ((ZknSearchWork *)work)->font, 0);
+        STRBUF_Delete(s1);
         x = 0x40 - (u8)(w / 2);
-        s2 = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]));
-        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
-        STRBUF_Delete((struct Strbuf *)s2);
+        s2 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]));
+        TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
+        STRBUF_Delete(s2);
         x += w;
-        s3 = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[4]));
-        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
-        STRBUF_Delete((struct Strbuf *)s3);
+        s3 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[4]));
+        TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
+        STRBUF_Delete(s3);
     }
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x194);
 
@@ -2802,11 +2800,11 @@ void ZKNSEARCH_MAIN_InitListTexts5(u8 *work)
 
 
 
-void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, u32 text)
+void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, struct Strbuf *text)
 {
     u32 x = (uptr)FRAME_LIST_GetPrinter((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
 
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct BmpWin *)(*window)) * 8 / 2), 4, text,
+    TOUCHBAR_PrintAligned((TouchBarWindow *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct BmpWin *)(*window)) * 8 / 2), 4, text,
                   ((ZknSearchWork *)work)->font, 0x39e0, 2);
 }
 

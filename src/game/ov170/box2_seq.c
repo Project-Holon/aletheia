@@ -8985,8 +8985,8 @@ void BOX2_SEQ_DrawWindowFrame(BoxTask *task, int idx, unsigned msg, unsigned sho
     }
 
     str = MSGDATA_AllocString((struct MsgBank *)(*(void **)(((char *)((BoxTask *)(task))->work) + 0x80)), msg);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)(((char *)((BoxTask *)(task))->work) + 0x94 + idx * 8)), (void *)(*(void **)(((char *)((BoxTask *)(task))->work) + 0x8C)), w * 8 / 2, 4, (uptr)str,
-                  *(unsigned *)(((char *)((BoxTask *)(task))->work) + 0x78), col, 2);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)(((char *)((BoxTask *)(task))->work) + 0x94 + idx * 8)), (void *)(*(void **)(((char *)((BoxTask *)(task))->work) + 0x8C)), w * 8 / 2, 4, str,
+                  *(struct GfFont **)(((char *)((BoxTask *)(task))->work) + 0x78), col, 2);
     STRBUF_Delete(str);
 }
 

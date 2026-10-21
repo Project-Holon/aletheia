@@ -211,7 +211,7 @@ struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int
         return 0;
     }
     firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
-    return (struct G3dObject *)G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
+    return G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
 }
 
 /*
@@ -231,7 +231,7 @@ void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt)
             modelCount = G3D_UTIL_GetUnitObjCount(cnt->util, cnt->units[unitIdx].unitId);
             for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
                 if (cnt->units[unitIdx].models[modelIdx].hidden == 0) {
-                    struct G3dObject *obj = (struct G3dObject *)G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
+                    struct G3dObject *obj = G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
                     model = &cnt->units[unitIdx].models[modelIdx];
                     if (model->cullDraw != 0) {
                         G3D_SYSTEM_DrawObjectCulling(obj, &model->status);

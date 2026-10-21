@@ -425,12 +425,19 @@ struct Location;
 struct FieldWfbc;
 struct MmdlSys;
 struct FieldEffectObj;
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(int fieldSys, int scriptId, int target, int reserved);
 typedef int Bool;
 #include "../ov083/gpower_event.h"
 #include "../arm9/gamesystem.h"
 #include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+#define SCRIPT_SYS_CreateScriptEventSimple SCRIPT_SYS_CreateScriptEventSimple_hdr
+#endif
 #include "../ov010/script_sys.h"
+#ifdef __MWERKS__
+#undef SCRIPT_SYS_CreateScriptEventSimple
+/* original prototype; the definition takes u16 and void * */
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int scriptId, int target, int reserved);
+#endif
 #include "fieldmap.h"
 #include "../arm9/game_data.h"
 #include "pleasure_boat.h"
@@ -720,10 +727,10 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         }
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), &frontPos, facing);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, scriptId, 0, input.heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         scriptId = FIELD_EVENT_CHECK_GetFrontTileMessage(&input, fieldMap);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, scriptId, 0, input.heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         gridX = frontPos.x >> 12;
         gridY = frontPos.y >> 12;
         gridZ = frontPos.z >> 12;
@@ -732,11 +739,11 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         if (scriptId != 0xFF)
             return (sptr)INTRUDE_StartOfferEvent(gameSystem, input.heapId, (s32)scriptId);
         if (FIELD_GetPlayerAreaZoneId(fieldMap, &areaZoneId) == 1)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, 0x271B, 0, input.heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x271B, 0, input.heapId);
         if (ZONEDATA_IsZoneInTableDFB8(input.zoneId)) {
             scriptId = EVENTDATA_SYSTEM_GetAutoPosEventScriptId(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), &frontPos);
             if (scriptId != 0xFFFF)
-                return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, scriptId, 0, input.heapId);
+                return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         }
     }
 
@@ -908,7 +915,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         FLDMMDL_RAIL_GetNextLocation(playerMmdlNow, &nextLocation);
         scriptId = EVENTDATA_SYSTEM_GetRailPosEventScriptId(input.eventData, eventWork, &nextLocation);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, scriptId, 0, input.heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         result = FIELD_EVENT_CHECK_CheckRailConnect(&input, gameSystem, fieldMap);
         if (result != 0)
             return result;
@@ -939,7 +946,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         locationCopy = frontLocation;
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(input.eventData, eventWork, &locationCopy, dirDisp);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, scriptId, 0, input.heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
     }
     if (input.pushingFacing && FIELD_EVENT_CHECK_IsRailFrontFree(FIELDMAP_GetFieldPlayer(fieldMap), &input) == 0) {
         result = FIELD_EVENT_CHECK_CheckRailConnectFront(&input, gameSystem, fieldMap, &frontLocation);
@@ -1086,7 +1093,7 @@ int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
 
     if (input->pendingScriptId != 0) {
         FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(input->gameData), 0);
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)input->gameSystem, input->pendingScriptId, 0, input->heapId);
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, input->pendingScriptId, 0, input->heapId);
     }
     r = (sptr)SCRIPT_SYS_CreateSceneChangeEvent(input->gameSystem, input->heapId);
     if (r == 0)
@@ -1123,7 +1130,7 @@ int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
         return 0;
     scriptId = EVENTDATA_SYSTEM_GetPosEventScriptId(input->eventData, eventWork, &playerPos, dir);
     if (scriptId != 0xFFFF)
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)input->gameSystem, scriptId, 0, input->heapId);
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, scriptId, 0, input->heapId);
     return 0;
 }
 
@@ -1226,13 +1233,13 @@ int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
     centerZ = area[1] + ((u32)area[3] >> 1);
     centerX = posEvent->area.x + ((u32)area[2] >> 1);
     if (centerX == (playerPos.x >> 12) / 16 && centerZ == (playerPos.z >> 12) / 16)
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)input->gameSystem, posEvent->scriptId, 0, input->heapId);
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
     canTrigger = FIELD_PLAYER_GetFormCode(player);
     tileBehavior = FLDMMDL_GetAcmdCode(FIELD_PLAYER_GetMmdl(player));
     if (canTrigger != 0 || tileBehavior == 0x58 || tileBehavior == 0x59 || tileBehavior == 0x5A || tileBehavior == 0x5B || (u16)(tileBehavior + 0xFF5D) <= 3)   /*
 tileBehavior - 0xA3
  */
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)input->gameSystem, posEvent->scriptId, 0, input->heapId);
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
     return 0;
 }
 
@@ -1362,7 +1369,7 @@ int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, 
     SODATEYA_AddStep((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
     FIELD_EVENT_CHECK_UpdateEggStepCounter(gameData, party);
     if (FIELD_EVENT_CHECK_IsEggReadyToHatch(party))
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, 0x8CA, 0, heapId);
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x8CA, 0, heapId);
     return 0;
 }
 
@@ -1417,7 +1424,7 @@ int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap,
 int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     if ((u8)MOVE_POKEMON_SAVE_TickCooldown(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData))))
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
+        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
     return 0;
 }
 
@@ -1616,7 +1623,7 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
         playerMmdl = FIELD_PLAYER_GetMmdl(input->player);
         FLDMMDL_MOVE_AddDirVector(input->facingDir, &aheadPos, 0x10000);
         if (FLDMMDL_MOVE_GetMapHeight(playerMmdl, &aheadPos, &aheadHeight) == 1 && frontPos.y > aheadHeight)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple((sptr)input->gameSystem, 0x271F, 0, input->heapId);
+            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, 0x271F, 0, input->heapId);
     }
     if (FIELD_EVENT_CHECK_FindGridConnectId(input, &frontPos) == 0xFFFF) {
         if (FIELD_GIMMICK_IsGimmickId(fieldMap, 2))

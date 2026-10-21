@@ -51,9 +51,8 @@ typedef int YCoord;
 #include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;
 struct TcbTask;
-extern struct TcbTask *GFL_USE_AddMainTask(void (*callback)(struct TcbTask *, void *), void *work, u32 priority);
-extern struct TcbTask *GFL_USE_AddHBlankTask(void (*callback)(struct TcbTask *, void *), void *work, u32 priority);
-extern u32 TCB_DeleteTask(struct TcbTask *a);
+#include "../arm9/gfl_use.h"
+#include "../arm9/tcb_list.h"
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
 

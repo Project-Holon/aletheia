@@ -141,9 +141,12 @@ struct McssWork;
 
 /* The DS code was built against other parameter widths for G3D_UTIL_Create (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
-extern struct G3dUtil *G3D_UTIL_Create(u16,u16,u32);
-#else
+#define G3D_UTIL_Create G3D_UTIL_CreateHeader
+#endif
 #include "../arm9/g3d_util.h"
+#ifdef __MWERKS__
+#undef G3D_UTIL_Create
+extern struct G3dUtil *G3D_UTIL_Create(u16,u16,u32);
 #endif
 
 /* The DS code was built against other parameter widths for G3D_CAMERA_Create (the original prototypes); the header differs. The host build uses the header. */
@@ -155,7 +158,6 @@ extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struc
 
 extern u16 G3D_UTIL_AddUnit(struct G3dUtil *,const struct G3dUtilSetup *);
 
-extern u32 G3D_UTIL_GetObject(struct G3dUtil *util, int i);
 struct G3dObject;
 
 #include "../arm9/g3d_system.h"
@@ -366,7 +368,7 @@ char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
     p->camera=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,(struct VecFx32 *)(&a),(struct VecFx32 *)(&b),(struct VecFx32 *)(&c),heap);
     if(kind!=7){
         p->unitId=G3D_UTIL_AddUnit(p->util,(struct G3dUtilSetup *)gIntroG3dUnitSetup);
-        obj=(void *)G3D_UTIL_GetObject(p->util,p->unitId);
+        obj=G3D_UTIL_GetObject(p->util,p->unitId);
         G3D_SYSTEM_EnableObjectAnime(obj,3);G3D_SYSTEM_EnableObjectAnime(obj,4);
         G3D_SYSTEM_DisableObjectAnime(obj,0);G3D_SYSTEM_DisableObjectAnime(obj,1);G3D_SYSTEM_DisableObjectAnime(obj,2);
     }else p->unitId=0xffff;
@@ -399,7 +401,7 @@ void INTRO_G3D_Draw(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         MTX_Identity33_((MtxFx33 *)t.matrix);
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(work->util, work->unitId), (struct G3dObjectStatus *)(&t));
+        G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(work->util, work->unitId), (struct G3dObjectStatus *)(&t));
     }
 }
 
@@ -414,7 +416,7 @@ int INTRO_G3D_UpdateIntro(char *p)
         ++work->introState;
     case 1:
     {
-        void *obj = (void *)G3D_UTIL_GetObject(work->util, work->unitId);
+        void *obj = G3D_UTIL_GetObject(work->util, work->unitId);
         int a = G3D_SYSTEM_IncObjectAnimeFrame(obj, 3, 4096);
         int b = G3D_SYSTEM_IncObjectAnimeFrame(obj, 4, 4096);
         if (a == 0 && b == 0)
@@ -508,7 +510,7 @@ void INTRO_G3D_SetAnimFrame(char *p,unsigned value)
     void *ctl;
     int frame;
     float f;
-    ctl=(void *)G3D_UTIL_GetObject(work->util,work->unitId);
+    ctl=G3D_UTIL_GetObject(work->util,work->unitId);
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;

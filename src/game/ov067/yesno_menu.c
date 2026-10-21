@@ -105,8 +105,6 @@ struct ClactActor;
 struct Strbuf;
 struct GfFont;
 #include "../arm9/strbuf_types.h"
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
 #include "../arm9/touchpanel.h"
 #include "../arm9/ui.h"
 #include "../arm9/key.h"
@@ -123,11 +121,8 @@ struct Bmp;
 #undef PRINTSYS_PrintQueColor
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
 #endif
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 struct GfFont;
 struct Strbuf;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 struct ArcHandle;
 struct NitroFileHeader;
 #include "../arm9/nns_g2d_anim_bank.h"
@@ -145,7 +140,6 @@ extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, struct ClactVec2 
 #endif
 struct Bmp;
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 #include "../arm9/nns_gfd_vram_transfer.h"
 #include "ui_scene.h"
 YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, struct GfFont *font, struct PrintQueue *printer);

@@ -4,7 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of yesno_menu.c, prototypes copied from their definitions. */
 
-struct PrintSys;
+struct GfFont;
+struct PrintQueue;
 struct Strbuf;
 
 #include "../ov067/yesno_menu_types.h"

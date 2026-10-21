@@ -351,12 +351,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=WORDSET_CreateDefault(wk->heapId);
-#ifdef __MWERKS__
-        /* The original prototype took the third argument as a pointer. */
-        tmpValue=((u32 (*)(void *, int, void *))POKE_TOOL_GetBoxValue)(mon,0x9a,otName);
-#else
         tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,(uptr)otName);
-#endif
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
 #ifdef __MWERKS__
