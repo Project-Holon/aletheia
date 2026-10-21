@@ -879,7 +879,7 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
     work->defenderPos = defenderPos;
     work->layoutMode = 1;
     work->effectId = effectId;
-    if (work->effectId >= BTLV_EFFECT_MOVE_END && (u16)(work->effectId + 0xFD9F) <= 1
+    if (work->effectId >= BTLV_EFFECT_MOVE_END && (u16)(work->effectId + (u16)-(BTLV_EFFECT_MOVE_END + 0x30)) <= 1
         && work->lastEffectId == work->effectId && work->lastSlot == attackerPos)
         return;
     work->lastEffectId = work->effectId;
@@ -898,7 +898,7 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
     } else {
         work->scriptBuf = ARC_TOOL_LoadMember(0x43, effectId - BTLV_EFFECT_MOVE_END, (u16)((work->heapId & 0x7fff) | 0x8000));
         work->flags.bit.fallbackScript = 1;
-        if (effectId >= 0x256 && (*(volatile u16 *)REG_BLDALPHA_ADDR & 0x1f) == 0)
+        if (effectId >= BTLV_EFFECT_MOVE_END + 0x25 && (*(volatile u16 *)REG_BLDALPHA_ADDR & 0x1f) == 0)
             BG_SYS_SetPlaneVisible(1, 0);
     }
     entryOffset = 4;
