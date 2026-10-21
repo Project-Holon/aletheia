@@ -1280,7 +1280,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             input->moveIds[j] = a->h[j];
         if (input->infoWinEnabled == 1 && (input->battleType == 1 || input->battleType == 2)) {
             BTLV_EFFECT_ResetIntroState(2);
-            BTLV_EFFECT_StartEffect(0x244);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 19);
         }
         if (input->screen == 3) {
             BTLV_INPUT_RegisterTask((void *)input, TCB_AddTask(input->taskMgr, BTLV_INPUT_WazaScreenCloseTask, t2, 1), BTLV_INPUT_TaskEndClearBusyBit);

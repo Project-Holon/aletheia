@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "../sdk_fx.h"
+#include "../port_limits.h"
 
 /*
  * Field model (MMDL) system and field model layouts, built by offset from
@@ -27,6 +28,9 @@ typedef struct MmdlGridVec {
     s16 y;
     s16 z;
 } MmdlGridVec;
+
+/* Number of object code parameter records (table indexes 0 to 798) that FLDMMDL_ObjCodeToTableIndex can reach. */
+#define FLDMMDL_OBJCODE_TABLE_COUNT BW_LIMIT(FLDMMDL_OBJCODE_TABLE_COUNT, 799)
 
 /* Object code parameter record (0x1C bytes), one per object code. */
 typedef struct MmdlObjCodeParam {

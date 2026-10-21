@@ -835,7 +835,7 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
-            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, 0x231);
+            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, BTLV_EFFECT_MOVE_END);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
@@ -856,8 +856,8 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
         break;
     case 4:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            if (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context) == 4) BTLV_EFFECT_StartEffect(0x23c);
-            else BTLV_EFFECT_StartEffect(0x232);
+            if (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context) == 4) BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 11);
+            else BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
             (*state)++;
         }
         break;
@@ -868,7 +868,7 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
             intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
             intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, 11, 1, intro->single.monId);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -937,7 +937,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, 0x237);
+            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, BTLV_EFFECT_MOVE_END + 6);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
@@ -953,7 +953,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
         break;
     case 3:
         if (BTLV_SCU_UpdateMessage(scu)) {
-            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, 0x238);
+            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, BTLV_EFFECT_MOVE_END + 7);
             BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
             (*state)++;
         }
@@ -968,7 +968,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
     case 5:
         if (BTLV_SCU_UpdateMessage(scu)) {
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
-            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, 0x239);
+            BTLV_EFFECT_StartEffectOnPoke(intro->single.side, BTLV_EFFECT_MOVE_END + 8);
             BTLV_EFFECT_DeletePartyBallBar(1);
             BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
             (*state)++;
@@ -983,7 +983,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
         break;
     case 7:
         BTLV_SCU_ShowMonSlot(&scu->monSlots[intro->single.monIdx]);
-        BTLV_EFFECT_StartEffect(0x232);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
         (*state)++;
         break;
     case 8:
@@ -993,7 +993,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
             intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
             intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, 11, 1, intro->single.monId);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1074,7 +1074,7 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
         if (!BTLV_EFFECT_IsBusy()) {
             side = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, intro->dbl.monIdx[1]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[1]), side);
-            BTLV_EFFECT_StartEffectOnPoke(side, 0x231);
+            BTLV_EFFECT_StartEffectOnPoke(side, BTLV_EFFECT_MOVE_END);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
@@ -1096,7 +1096,7 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
         break;
     case 5:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            BTLV_EFFECT_StartEffect(0x232);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
             (*state)++;
         }
         break;
@@ -1112,7 +1112,7 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
             }
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[0]), intro->dbl.side[0]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[1]), intro->dbl.side[1]);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, 12, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1289,7 +1289,7 @@ int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[1], 0x237);
+            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[1], BTLV_EFFECT_MOVE_END + 6);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
@@ -1307,7 +1307,7 @@ int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
         break;
     case 3:
         if (BTLV_SCU_UpdateMessage(scu)) {
-            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[1], 0x238);
+            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[1], BTLV_EFFECT_MOVE_END + 7);
             BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
             (*state)++;
         }
@@ -1337,7 +1337,7 @@ int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u1
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[0], 0x237);
+            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[0], BTLV_EFFECT_MOVE_END + 6);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
@@ -1355,7 +1355,7 @@ int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u1
         break;
     case 3:
         if (BTLV_SCU_UpdateMessage(scu)) {
-            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[0], 0x238);
+            BTLV_EFFECT_StartEffectOnPoke(st->trainers.side[0], BTLV_EFFECT_MOVE_END + 7);
             BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
             (*state)++;
         }
@@ -1392,7 +1392,7 @@ int BTLV_SCU_PhaseOpponentSendOutSingle(BtlvScu *scu, int *state)
         break;
     case 2:
         BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->single.mon), st->single.side);
-        BTLV_EFFECT_StartEffectOnPoke(st->single.side, 0x239);
+        BTLV_EFFECT_StartEffectOnPoke(st->single.side, BTLV_EFFECT_MOVE_END + 8);
         BTLV_EFFECT_DeletePartyBallBar(1);
         (*state)++;
         break;
@@ -1451,7 +1451,7 @@ int BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(BtlvScu *scu, int *state, u8 tra
     case 2:
         BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[0]), st->pair.side[0]);
         if (st->pair.aliveCount == 2) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[1]), st->pair.side[1]);
-        BTLV_EFFECT_StartEffectOnPoke(st->pair.side[0], 0x239);
+        BTLV_EFFECT_StartEffectOnPoke(st->pair.side[0], BTLV_EFFECT_MOVE_END + 8);
         BTLV_EFFECT_DeletePartyBallBar(1);
         (*state)++;
         break;
@@ -1507,7 +1507,7 @@ int BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers(BtlvScu *scu, int *state, u16 c
         if (BTLV_SCU_UpdateMessage(scu)) {
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[0]), st->pair.side[0]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[1]), st->pair.side[1]);
-            BTLV_EFFECT_StartEffectOnPoke(st->pair.side[0], 0x239);
+            BTLV_EFFECT_StartEffectOnPoke(st->pair.side[0], BTLV_EFFECT_MOVE_END + 8);
             BTLV_EFFECT_DeletePartyBallBar(1);
             BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
             (*state)++;
@@ -1560,7 +1560,7 @@ int BTLV_SCU_PhaseOpponentSendOutTriple(BtlvScu *scu, int *state)
         BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[0]), st->triple.side[0]);
         if (st->triple.aliveCount > 1) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[1]), st->triple.side[1]);
         if (st->triple.aliveCount > 2) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[2]), st->triple.side[2]);
-        BTLV_EFFECT_StartEffectOnPoke(st->triple.side[0], 0x239);
+        BTLV_EFFECT_StartEffectOnPoke(st->triple.side[0], BTLV_EFFECT_MOVE_END + 8);
         BTLV_EFFECT_DeletePartyBallBar(1);
         (*state)++;
         break;
@@ -1594,7 +1594,7 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
         break;
     case 1:
         if (!BTLV_EFFECT_IsBusy()) {
-            BTLV_EFFECT_StartEffect(0x232);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
             (*state)++;
         }
         break;
@@ -1606,7 +1606,7 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
             st->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->single.monIdx);
             st->single.monId = BTL_POKEPARAM_GetPokeId(st->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->single.mon), st->single.side);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, 11, 1, st->single.monId);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1663,7 +1663,7 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient)
         break;
     case 1:
         if (!BTLV_EFFECT_IsBusy()) {
-            BTLV_EFFECT_StartEffect(0x232);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
             (*state)++;
         }
         break;
@@ -1683,7 +1683,7 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient)
             }
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[0]), st->pair.side[0]);
             if (st->pair.aliveCount > 1) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[1]), st->pair.side[1]);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, (u16)(st->pair.aliveCount == 2 ? 12 : 11), 2, st->pair.monId[0], st->pair.monId[1]);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1728,7 +1728,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
         break;
     case 1:
         if (!BTLV_EFFECT_IsBusy()) {
-            BTLV_EFFECT_StartEffect(0x233);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 2);
             (*state)++;
         }
         break;
@@ -1761,7 +1761,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
             ownMonIdx = BTL_MAIN_IsOwnClientSecondTeam((struct BtlMain *)scu->context);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[0]), st->pair.side[0]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[1]), st->pair.side[1]);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             BTL_MSG_FormatArgs(scu->textBuf, 11, 1, st->pair.monId[ownMonIdx]);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1802,7 +1802,7 @@ int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
         break;
     case 1:
         if (!BTLV_EFFECT_IsBusy()) {
-            BTLV_EFFECT_StartEffect(0x232);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 1);
             (*state)++;
         }
         break;
@@ -1822,7 +1822,7 @@ int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[0]), st->triple.side[0]);
             if (st->triple.aliveCount > 1) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[1]), st->triple.side[1]);
             if (st->triple.aliveCount > 2) BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->triple.mon[2]), st->triple.side[2]);
-            BTLV_EFFECT_StartEffect(0x234);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 3);
             if (st->triple.aliveCount == 3) msgId = 13;
             else msgId = st->triple.aliveCount == 2 ? 12 : 11;
             BTL_MSG_FormatArgs(scu->textBuf, (u16)msgId, 3, st->triple.monId[0], st->triple.monId[1], st->triple.monId[2]);

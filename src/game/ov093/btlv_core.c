@@ -2176,12 +2176,12 @@ int BTLV_CORE_UpdatePortraitMosaic(struct BtlvCore *core, u32 slot) { return BTL
 
 void BTLV_CORE_StartViewEffect262(struct BtlvCore *core, int viewPos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(viewPos, 0x262);
+    BTLV_EFFECT_StartEffectOnPoke(viewPos, BTLV_EFFECT_MOVE_END + 49);
 }
 
 void BTLV_CORE_StartViewEffect261(struct BtlvCore *core, int viewPos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(viewPos, 0x261);
+    BTLV_EFFECT_StartEffectOnPoke(viewPos, BTLV_EFFECT_MOVE_END + 48);
 }
 
 int BTLV_CORE_WaitViewEffectDone(struct BtlvCore *core, int viewPos)

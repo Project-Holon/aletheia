@@ -2059,7 +2059,7 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
         opponentClientId = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
         trainerId = BTL_MAIN_GetTrainerId(client->main, opponentClientId);
         BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, opponentClientId), 9, 0, 0, zero);
-        BTLV_EFFECT_StartEffect(0x270);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 63);
         BTLV_CORE_PrintTrainerMessage(client->view, trainerId, client->receivedCode);
         if ((u16)(client->receivedCode + 0xffed) <= 1 &&
             BTL_CALC_IsGymLeaderTrainer(BTL_MAIN_GetTrainerType(client->main, opponentClientId)) && !client->flags.bit.resultPending) {
@@ -2081,7 +2081,7 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
         break;
     case 2:
         if (!BTLV_EFFECT_IsBusy() && BTLV_CORE_WaitMessage(client->view)) {
-            BTLV_EFFECT_StartEffect(0x271);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 64);
             ++*state;
         }
         break;
@@ -4017,7 +4017,7 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view)) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
-            BTLV_EFFECT_StartEffect(0x270);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 63);
             *state = 2;
         }
         break;
@@ -4032,7 +4032,7 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view)) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             if (firstTrainerIndex != BTL_MAIN_GetOwnOpponentClient(client->main, 1)) {
-                BTLV_EFFECT_StartEffect(0x271);
+                BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 64);
                 *state = 4;
             } else {
                 *state = 7;
@@ -4043,7 +4043,7 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
         if (BTLV_EFFECT_IsBusy() == 0) {
             firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
             BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
-            BTLV_EFFECT_StartEffect(0x270);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 63);
             *state = 5;
         }
         break;
@@ -4143,7 +4143,7 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
         if (outcome <= 1) {
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
-            BTLV_EFFECT_StartEffect(0x270);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 63);
             BTL_CLIENT_ShowEndSpeech(client, outcome, 0);
             *state = 1;
         } else return 1;
@@ -4158,7 +4158,7 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
         if (BTLV_CORE_WaitMessage(client->view) != 0) {
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
             if (trainerIndex == BTL_MAIN_GetOwnOpponentClient(client->main, 1)) return 1;
-            BTLV_EFFECT_StartEffect(0x271);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 64);
             *state = 3;
         }
         break;
@@ -4167,7 +4167,7 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
             outcome = BTL_CLIENT_GetOutcomeForClient(client);
             trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
             BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
-            BTLV_EFFECT_StartEffect(0x270);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 63);
             BTL_CLIENT_ShowEndSpeech(client, outcome, 1);
             *state = 4;
         }
@@ -5020,7 +5020,7 @@ int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args
 {
     switch (*state) {
     case 0:
-        BTLV_EFFECT_StartEffect(0x281);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 80);
         (*state)++;
         break;
     case 1:

@@ -879,14 +879,14 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
     work->defenderPos = defenderPos;
     work->layoutMode = 1;
     work->effectId = effectId;
-    if (work->effectId >= 0x231 && (u16)(work->effectId + 0xFD9F) <= 1
+    if (work->effectId >= BTLV_EFFECT_MOVE_END && (u16)(work->effectId + 0xFD9F) <= 1
         && work->lastEffectId == work->effectId && work->lastSlot == attackerPos)
         return;
     work->lastEffectId = work->effectId;
     work->lastSlot = attackerPos;
     if (BTLV_EFFVM_IsMultiSideResourceId(work->effectId) == 0)
         BTLV_EFFECT_SetAllPokeSpriteAnim(0);
-    if (work->effectId < 0x231) {
+    if (work->effectId < BTLV_EFFECT_MOVE_END) {
         work->scriptBuf = ARC_TOOL_LoadMember(0x42, effectId, (u16)((work->heapId & 0x7fff) | 0x8000));
         if (work->effectId != 0x90 && work->effectId != 0x77 && work->effectId != 0x10b)
             BTLV_EFFECT_GaugeSetSideVisible(0, 2);
@@ -896,7 +896,7 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
         work->flags.bit.fallbackScript = 0;
         BTLV_EFFVM_StartSeVolumeTweenTask(work, 0x7F000, 0x6B000, 0x14);
     } else {
-        work->scriptBuf = ARC_TOOL_LoadMember(0x43, effectId - 0x231, (u16)((work->heapId & 0x7fff) | 0x8000));
+        work->scriptBuf = ARC_TOOL_LoadMember(0x43, effectId - BTLV_EFFECT_MOVE_END, (u16)((work->heapId & 0x7fff) | 0x8000));
         work->flags.bit.fallbackScript = 1;
         if (effectId >= 0x256 && (*(volatile u16 *)REG_BLDALPHA_ADDR & 0x1f) == 0)
             BG_SYS_SetPlaneVisible(1, 0);
@@ -2946,7 +2946,7 @@ int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work)
     if (newAttackerPos != 14) work->attackerPos = newAttackerPos;
     if (newDefenderPos != 16) work->defenderPos = newDefenderPos;
     work->scriptVar = 0;
-    file = ARC_TOOL_LoadMember(0x43, scriptId - 0x231, (u16)((work->heapId & 0x7fff) | 0x8000));
+    file = ARC_TOOL_LoadMember(0x43, scriptId - BTLV_EFFECT_MOVE_END, (u16)((work->heapId & 0x7fff) | 0x8000));
     work->scriptBuf = file;
     VM_Call(vm, (u8 *)file + file->variant[0].entryOffset);
     work->callDepth++;
@@ -2990,7 +2990,7 @@ int BTLV_EFFVM_CmdWaitForTask(struct ScriptVm *vm, BtlvEffVmWork *work)
 }
 
 /*
- * Script command: loads script id (archive 0x42 below 0x231, else 0x43) into scriptBuf and jumps into it.
+ * Script command: loads script id (archive 0x42 below BTLV_EFFECT_MOVE_END, else 0x43) into scriptBuf and jumps into it.
  */
 int BTLV_EFFVM_CmdJumpToArchiveScript(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
@@ -2998,10 +2998,10 @@ int BTLV_EFFVM_CmdJumpToArchiveScript(struct ScriptVm *vm, BtlvEffVmWork *work)
     BtlvEffVmScriptFile *file;
 
     GFL_HEAP_Free(work->scriptBuf);
-    if (id < 0x231)
+    if (id < BTLV_EFFECT_MOVE_END)
         work->scriptBuf = ARC_TOOL_LoadMember((int)0x42, (int)id, (u16)((work->heapId & 0x7fff) | 0x8000));
     else
-        work->scriptBuf = ARC_TOOL_LoadMember((int)0x43, (int)(id - 0x231), (u16)((work->heapId & 0x7fff) | 0x8000));
+        work->scriptBuf = ARC_TOOL_LoadMember((int)0x43, (int)(id - BTLV_EFFECT_MOVE_END), (u16)((work->heapId & 0x7fff) | 0x8000));
     file = work->scriptBuf;
     work->scriptVar = 0;
     VM_Jump(vm, (u8 *)file + file->variant[0].entryOffset);

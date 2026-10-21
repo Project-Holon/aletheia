@@ -274,7 +274,7 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
     case 1:
         if (PDC_MSG_UpdateFade(sys->msg) != 0) {
             BTLV_EFFECT_SetPokeSpriteKey(sys->mon, 1);
-            BTLV_EFFECT_StartEffect(0x231);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END);
             PDC_MAIN_StartFadeIn(2);
             sys->state++;
         }
@@ -295,7 +295,7 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
         break;
     case 4:
         if (PDC_MSG_UpdateFade(sys->msg) != 0) {
-            BTLV_EFFECT_StartEffect(0x23e);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 13);
             sys->state++;
         }
         break;

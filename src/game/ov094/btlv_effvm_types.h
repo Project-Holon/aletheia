@@ -2,8 +2,12 @@
 #define BTLV_EFFVM_TYPES_H
 
 #include "../types.h"
+#include "../port_limits.h"
 #include "../arm9/particle.h"
 #include "../sdk_fx.h"
+
+/* First effect id that is not a move: ids below it load from archive 0x42, ids from it from archive 0x43. */
+#define BTLV_EFFECT_MOVE_END BW_LIMIT(BTLV_EFFECT_MOVE_END, 0x231)
 
 /*
  * Work area of the battle effect script VM.

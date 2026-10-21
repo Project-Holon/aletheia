@@ -971,7 +971,7 @@ void BTLV_EFFECT_StartDamageTintTask(int pos, int moveId)
  */
 void BTLV_EFFECT_StartPokeAppearEffect(int pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(pos, 0x23b);
+    BTLV_EFFECT_StartEffectOnPoke(pos, BTLV_EFFECT_MOVE_END + 10);
     BTLV_EFFECT_SetPokeEffectValue(pos, 0);
 }
 
@@ -984,7 +984,7 @@ void BTLV_EFFECT_StartEffectWithColor(u32 defenderPos, u16 typeCode, u8 side, in
     l.argB = argB;
     l.argA = argA;
     l.typeCode = typeCode;
-    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, 0x23a, &l);
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, BTLV_EFFECT_MOVE_END + 9, &l);
     gBtlvEff->effvmActive = 1;
 }
 
@@ -997,7 +997,7 @@ void BTLV_EFFECT_StartEffectWithValue(int defenderPos, unsigned short typeCode)
 
     BTLV_EFFVM_InitParams(&req);
     req.typeCode = typeCode;
-    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, 0x23d, (BtlvEffVmParams *)&req);
+    BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, BTLV_EFFECT_MOVE_END + 12, (BtlvEffVmParams *)&req);
     gBtlvEff->effvmActive = 1;
 }
 
@@ -1025,7 +1025,7 @@ void BTLV_EFFECT_ResetPokeSprite(void *poke, int pos)
 
 void BTLV_EFFECT_StartPokeEffectId285(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(pos, 0x285);
+    BTLV_EFFECT_StartEffectOnPoke(pos, BTLV_EFFECT_MOVE_END + 84);
 }
 
 /*
@@ -1033,7 +1033,7 @@ void BTLV_EFFECT_StartPokeEffectId285(u32 pos)
  */
 void BTLV_EFFECT_StartPokeEffectId286(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(pos, 0x286);
+    BTLV_EFFECT_StartEffectOnPoke(pos, BTLV_EFFECT_MOVE_END + 85);
 }
 
 /*
@@ -1041,7 +1041,7 @@ void BTLV_EFFECT_StartPokeEffectId286(u32 pos)
  */
 void BTLV_EFFECT_StartPokeEffectId26E(int pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(pos, 0x26E);
+    BTLV_EFFECT_StartEffectOnPoke(pos, BTLV_EFFECT_MOVE_END + 61);
 }
 
 /*
@@ -1049,7 +1049,7 @@ void BTLV_EFFECT_StartPokeEffectId26E(int pos)
  */
 void BTLV_EFFECT_StartPokeEffectId26F(u32 pos)
 {
-    BTLV_EFFECT_StartEffectOnPoke(pos, 0x26F);
+    BTLV_EFFECT_StartEffectOnPoke(pos, BTLV_EFFECT_MOVE_END + 62);
 }
 
 int BTLV_EFFECT_IsBusy(void)
@@ -1391,26 +1391,26 @@ void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int frames, int delay, int
     }
     switch (gBtlvEff->setup.mode) {
     case 0:
-        BTLV_EFFECT_StartEffect(0x23F);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 14);
         break;
     case 1:
         if (flags == 2) {
-            BTLV_EFFECT_StartEffect(0x240);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 15);
         } else {
-            BTLV_EFFECT_StartEffect(0x241);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 16);
         }
         break;
     case 2:
         if (flags == 2) {
-            BTLV_EFFECT_StartEffect(0x242);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 17);
         } else if (flags == 4) {
-            BTLV_EFFECT_StartEffect(0x23F);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 14);
         } else {
-            BTLV_EFFECT_StartEffect(0x243);
+            BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 18);
         }
         break;
     case 3:
-        BTLV_EFFECT_StartEffect(0x245);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 20);
         break;
     }
 }
@@ -1713,9 +1713,9 @@ void BTLV_EFFECT_StartIntroEffect(void)
 {
     BTLV_EFFECT_PauseVm();
     if (gBtlvEff->introState == 3 && BTL_MAIN_CheckSetupStatusFlag(gBtlvEff->setup.battle, 0x400))
-        BTLV_EFFECT_StartEffect(0x251);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 32);
     else
-        BTLV_EFFECT_StartEffect(0x236);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 5);
     gBtlvEff->introState = 0;
 }
 
@@ -1840,14 +1840,14 @@ void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *task, void *arg)
 
     switch (p->step) {
     case 0:
-        BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x253, 0);
+        BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, BTLV_EFFECT_MOVE_END + 34, 0);
         gBtlvEff->effvmActive = 1;
         p->step++;
         break;
     case 1:
         if (gBtlvEff->effvmActive == 0) {
             if (BTLV_MCSS_GetSpriteAttrFlags(gBtlvEff->mcss, p->pos) & 1) {
-                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x264, 0);
+                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, BTLV_EFFECT_MOVE_END + 51, 0);
                 gBtlvEff->effvmActive = 1;
             }
             p->step++;
@@ -1877,7 +1877,7 @@ void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *task, void *arg)
             BTLV_EFFVM_StartSePlayTask(gBtlvEff->effvm, 0x560, 1, 14, 0, 0, 0, 0, 0);
             BTLV_MCSS_StartAlphaTween(gBtlvEff->mcss, p->pos, 0, 31, 0, 0, 0);
             if (BTLV_MCSS_GetSpriteAttrFlags(gBtlvEff->mcss, p->pos) & 1) {
-                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x265, 0);
+                BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, BTLV_EFFECT_MOVE_END + 52, 0);
                 gBtlvEff->effvmActive = 1;
             }
             p->step++;
@@ -1885,7 +1885,7 @@ void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *task, void *arg)
         break;
     case 6:
         if (gBtlvEff->effvmActive == 0) {
-            BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, 0x254, 0);
+            BTLV_EFFVM_StartScript(gBtlvEff->effvm, p->pos, 0xff, BTLV_EFFECT_MOVE_END + 35, 0);
             gBtlvEff->effvmActive = 1;
             p->step++;
         }
@@ -1978,7 +1978,7 @@ void BTLV_EFFECT_UpdateIntroInput(void)
         return;
     if (gBtlvEff->introState != 2 && gBtlvEff->introState != 3 && (a != 0 || b != 0)) {
         BTLV_EFFECT_PauseVm();
-        BTLV_EFFECT_StartEffect(0x252);
+        BTLV_EFFECT_StartEffect(BTLV_EFFECT_MOVE_END + 33);
         gBtlvEff->introPhase = 0;
         gBtlvEff->introTimer = 0;
     }
