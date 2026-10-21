@@ -37,6 +37,8 @@ Decompiled C source code is located in `src/game/` across 1,367 files.
 - [ ] **Milestone 5**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
   - [ ] 64-bit ready source (real pointer types)
   - [ ] Recovered structs for code that still reads fields by offset
+  - [ ] Repository cleanup (tool data out of the source, leftover casts and includes)
+  - [ ] Fixes for issues the port finds
 
 ## Requirements
 
