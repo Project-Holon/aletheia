@@ -2438,7 +2438,7 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
             desc.total=desc.a+desc.b;
         }
         desc.name=MYSTATUS_GetTrainerView((const struct MyStatus *)sys);
-        task[6]=(uptr)WIFIBATTLEMATCH_VIEW_CreateMainWindow((const WifiBattleMatchViewMainInfo *)&desc,flag,(void *)sys,(void *)base,(void *)task[1],task[2],(void *)task[3],(void *)task[4],(void *)task[5],87);
+        task[6]=(uptr)WIFIBATTLEMATCH_VIEW_CreateMainWindow((const WifiBattleMatchViewMainInfo *)&desc,flag,(void *)sys,(void *)base,(void *)task[1],(struct GfFont *)task[2],(void *)task[3],(void *)task[4],(void *)task[5],87);
     }
 }
 
@@ -4289,7 +4289,7 @@ void WIFIBATTLEMATCH_NET_SetupCompStatusWindow(struct WifiBattleMatchCompWork *o
         prof.hAA = REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)card), 11);
         if (prof.uA4 == 0 && prof.hA0 == 0)
             prof.hA0 = 1500;
-        obj->tradeIcon = (uptr)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&prof), 0, (void *)sys, (void *)id, (void *)obj->anim, obj->font, (void *)obj->printQue, (void *)obj->msgBank, (void *)obj->wordSet, (void *)kind, 0, 0x57);
+        obj->tradeIcon = (uptr)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&prof), 0, (void *)sys, (void *)id, (void *)obj->anim, (struct GfFont *)obj->font, (void *)obj->printQue, (void *)obj->msgBank, (void *)obj->wordSet, (void *)kind, 0, 0x57);
     }
 }
 
@@ -4343,7 +4343,7 @@ void WIFIBATTLEMATCH_NET_DrawCompStatusWindow(char *obj, u32 arg)
 {
     if (((struct WifiBattleMatchCompWork *)obj)->tradeIcon != 0)
         WIFIBATTLEMATCH_VIEW_DrawStatusWindow((char *)((struct WifiBattleMatchCompWork *)obj)->tradeIcon, arg, (void *)((struct WifiBattleMatchCompWork *)obj)->msgBank,(void *)
-                      ((struct WifiBattleMatchCompWork *)obj)->printQue, ((struct WifiBattleMatchCompWork *)obj)->font, 0x57);
+                      ((struct WifiBattleMatchCompWork *)obj)->printQue, (struct GfFont *)((struct WifiBattleMatchCompWork *)obj)->font, 0x57);
 }
 
 /*
@@ -4388,7 +4388,7 @@ void WIFIBATTLEMATCH_NET_SetupCompPartyWindow(char *ctx)
     sptr window;
     if (((struct WifiBattleMatchCompWork *)ctx)->window == 0) {
         window = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct WifiBattleMatchCompWork *)ctx)->sprite);
-        ((struct WifiBattleMatchCompWork *)ctx)->window = WIFIBATTLEMATCH_VIEW_CreatePartyWindow((void *)(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)ctx)->ctx))->save))), (void *)window, (void *)((struct WifiBattleMatchCompWork *)ctx)->anim, ((struct WifiBattleMatchCompWork *)ctx)->fontAlt, (void *)(*(int *)&((struct WifiBattleMatchCompWork *)ctx)->printQue), (void *)(*(int *)&((struct WifiBattleMatchCompWork *)ctx)->msgBank), 87);
+        ((struct WifiBattleMatchCompWork *)ctx)->window = WIFIBATTLEMATCH_VIEW_CreatePartyWindow((void *)(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)ctx)->ctx))->save))), (void *)window, (void *)((struct WifiBattleMatchCompWork *)ctx)->anim, (struct GfFont *)((struct WifiBattleMatchCompWork *)ctx)->fontAlt, (void *)(*(int *)&((struct WifiBattleMatchCompWork *)ctx)->printQue), (void *)(*(int *)&((struct WifiBattleMatchCompWork *)ctx)->msgBank), 87);
     }
 }
 
@@ -4419,7 +4419,7 @@ void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *comp, int mode) {
     WifibattlematchMenuDesc d;
     if (comp[12] == 0) {
         MI_CpuFill8(&d, 0, 48);
-        d.msgBank=comp[5]; d.font=comp[2]; d.printQue=comp[4];
+        d.msgBank=(struct MsgBank *)comp[5]; d.font=comp[2]; d.printQue=comp[4];
         d.a=0; d.b=15; d.c=13; d.d=1;
         switch (mode) {
         case 5: d.row=1;

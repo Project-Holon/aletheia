@@ -138,7 +138,7 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
 void UN_SELECT_GRAPHIC_CleanupBg(void *p);
 void UN_SELECT_GRAPHIC_Noop(void *work);
 void UN_SELECT_GRAPHIC_DrawObjects(void *work);
-void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void UN_SELECT_GRAPHIC_DeleteClact(char *p);
 void UN_SELECT_GRAPHIC_Draw(void *p);
 void UN_SELECT_GRAPHIC_VBlank(void *p);
@@ -168,7 +168,7 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     UN_SELECT_GRAPHIC_SetupBg(p, heap);
-    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (sptr)&d_021BAEF8, heap);
+    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (struct DispVramCfg *)&d_021BAEF8, heap);
     UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
     ((struct UnSelectGraphic *)p)->proc = GFL_USE_AddMainTask(UN_SELECT_GRAPHIC_Task, p, 0);
     return p;
@@ -241,7 +241,7 @@ void UN_SELECT_GRAPHIC_Noop(void *work) {}
 
 void UN_SELECT_GRAPHIC_DrawObjects(void *work) {BG_SYS_Update();}
 
-void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021BAEBC, (struct DispVramCfg *)a, b);
@@ -265,7 +265,7 @@ void UN_SELECT_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}
 
 void UN_SELECT_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
 
-u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return *p;}
+u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return (u32)(*(void **)p);}
 
 void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
 {

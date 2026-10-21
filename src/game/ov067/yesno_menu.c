@@ -513,5 +513,5 @@ void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)
     default:
         return;
     }
-    (void *)NNS_GfdRegisterNewVramTransferTask((void *)region, (u32)(slot << 5), (uptr)colors, 0x20);
+    (void *)NNS_GfdRegisterNewVramTransferTask((u32)((void *)region), (u32)(slot << 5), colors, 0x20);
 }

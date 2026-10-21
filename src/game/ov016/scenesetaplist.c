@@ -120,7 +120,7 @@ struct SCENESETAPLIST_BSS {
     unsigned char Focus;
     unsigned char pad_1[0x1];
     unsigned short Pos;
-    void *MemSsal;
+    struct tagMEMSSAL *MemSsal;
 };
 
 typedef _Bool bool;
@@ -338,10 +338,10 @@ static void initGraphics(void)
     buf = sSceneSetApListPathYbBgStep31Pltt;
     DWCi_CMNlLoadResource((char *)sSceneSetApListPathJb4ApListScr, GX_LoadBG3Scr);
 
-    (*(int **)(gSceneSetApListWorkBytes + 4))[1] = (sptr)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf2)), 0, (int)4);
-    DWCi_SCREENlInit((void *)((*(int **)(gSceneSetApListWorkBytes + 4))[1]));
+    gSceneSetApListWork.MemSsal->back = DWCi_ARClReadEx((char *)DWCi_Char( (unsigned char *)&buf2), 0, (int)4);
+    DWCi_SCREENlInit(gSceneSetApListWork.MemSsal->back);
     DWCi_SCREENlRenew();
-    (*(int **)(gSceneSetApListWorkBytes + 4))[2] = (sptr)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf)), 0, (int)4);
+    gSceneSetApListWork.MemSsal->pltt = DWCi_ARClReadEx((char *)DWCi_Char( (unsigned char *)&buf), 0, (int)4);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -743,23 +743,19 @@ static void drawAp(int ap, int column)
 
 static void drapApObj(int entryIndex, int objIndex)
 {
-    u8 *g = (u8 *)0x021DE5D8;
-    u8 *p = *(u8 **)(g + 4);
-    int i;
+    MEMSSAL *p = gSceneSetApListWork.MemSsal;
     int mask = -0x400;
-    u16 *d;
+    GXOamAttr *d;
 
-    if (entryIndex >= p[0x51])
+    if (entryIndex >= p->apNum)
         return;
 
-    i = entryIndex * 0x2a;
+    d = p->objWep[objIndex];
+    d->attr2 = (d->attr2 & mask) | p->nameWep[p->info[entryIndex].wep];
 
-    d = *(u16 **)(p + objIndex * 4 + 0x10);
-    d[2] = (d[2] & mask) | *(u16 *)(p + (*(u8 *)(*(int *)p + i + 0x28) << 1) + 0x42);
-
-    p = *(u8 **)(g + 4);
-    d = *(u16 **)(p + objIndex * 4 + 0x24);
-    d[2] = (d[2] & mask) | *(u16 *)(p + (*(u16 *)(*(int *)p + i + 0x26) << 1) + 0x48);
+    p = gSceneSetApListWork.MemSsal;
+    d = p->objLevel[objIndex];
+    d->attr2 = (d->attr2 & mask) | p->nameLv[p->info[entryIndex].level];
 }
 
 static void setOffset(void)
@@ -927,17 +923,17 @@ static void scrollUp(void)
 
 static void scrollDown(void)
 {
-    u8 *p = gSceneSetApListWork.MemSsal;
+    MEMSSAL *p = gSceneSetApListWork.MemSsal;
 
-    if (gSceneSetApListWork.Pos == *(u16 *)(p + 0x40) || p[0x51] <= 4) {
-        if (p[0x59] == 0) {
+    if (gSceneSetApListWork.Pos == p->distScroll || p->apNum <= 4) {
+        if (p->sound[1] == 0) {
             DWCi_SNDlPlay(9);
-            ((u8 *)gSceneSetApListWork.MemSsal)[0x59] = 1;
+            gSceneSetApListWork.MemSsal->sound[1] = 1;
         }
         return;
     }
     DWCi_SNDlPlay(0x13);
-    *(void **)(((u8 *)gSceneSetApListWork.MemSsal) + 0x38) = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+    gSceneSetApListWork.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
 }
 
 static void dispPushButton(void)

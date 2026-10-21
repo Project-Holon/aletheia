@@ -163,7 +163,7 @@ struct PaletteData {
     u32 format;        /* 0x00 */
     u32 extended;      /* 0x04 */
     u32 size;          /* 0x08 */
-    u32 raw;           /* 0x0c */
+    void *raw;         /* 0x0c */
 };
 
 /* Transfer info whose word at +0x0c points at the VRAM size to reserve. */
@@ -224,7 +224,7 @@ struct AnimCtl {
     struct CellDataBank *cell_bank;    /* 0x04 */
     struct AnimBank *anim_bank;    /* 0x08 */
     u8                  anim[0x30];   /* 0x0c */
-    u32                 cur_cell;     /* 0x3c */
+    void               *cur_cell;     /* 0x3c */
     u8                  xfer_state[0x24]; /* 0x40 */
     u32                 xfer_handle;  /* 0x64 */
     u8                  pad_68[8];
@@ -620,7 +620,7 @@ void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct ClactAni
 void CLACT_ResetActorAnimCommand(struct ClactActor *actor);
 void CLACT_SetActorVisible(struct ClactActor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
-void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
+void CLACT_SetPaletteBaseOffsets(char *pltt_proxy, u16 base_offset, u32 pltt_op);
 void CLACT_SetSystemActive(u32 active);
 u32 CLACT_IsSystemActive(void);
 void CLACT_SetOamPending(u32 pending);
@@ -734,13 +734,13 @@ void CLACT_SetupCharacterVram(struct ClactRes *res, u32 idx, NNSG2dCharacterData
 void CLACT_FreeCharacterTable(void *chars);
 void CLACT_UpdateObjMapping(NNSG2dCharacterData *char_data, int screen);
 void *CLACT_AllocPaletteTable(u32 heapId, u32 count);
-void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
-void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset);
+void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
+void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, u32 vram_mode, u32 vram_offset);
 void CLACT_FreePaletteTable(void *pltts);
 struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count);
 s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void *anim_file);
 void CLACT_FreeCellAnimTable(void *cells);
-void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
+void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, void *handle, u32 vram_mode, struct CharXferInfo *xfer_info);
 extern struct Sys *g_ClactSystem;
 extern const char s_clact_c[];
 extern const NNSG2dCharacterData g_ClactEmptyCharTemplate;
@@ -951,7 +951,7 @@ s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vra
     struct ClactRes *res;
     struct CharSlot  *slot;
     u32 i;
-    uptr file;
+    void *file;
 
     sys   = g_ClactSystem;
     res = &sys->res;
@@ -966,10 +966,10 @@ s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vra
 found:
     if (i != (u32)-1) {
         slot   = &sys->res.chars[i];
-        file = (uptr)CLACT_LoadArchiveData(archive, file_idx, compressed, (u16)((heap_id & 0x7fff) | 0x8000));
+        file = CLACT_LoadArchiveData(archive, file_idx, compressed, (u16)((heap_id & 0x7fff) | 0x8000));
 
         CLACT_SetupCharacter(&g_ClactSystem->res, i, file, vram_mode, 0);
-        GFL_HEAP_Free((void *)file);
+        GFL_HEAP_Free(file);
 
         slot->data = 0;
         slot->data_shared = 0;
@@ -1098,16 +1098,16 @@ void CLACT_ReleaseCharacter(u32 idx)
 void CLACT_TransferCharacter(int idx, NNSG2dCharacterData *char_data)
 {
     if (NNSi_G2dIsVramHandleSet((const u32 *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
-        void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1);
+        uptr vram_addr = NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1);
         DC_FlushRange((void *)char_data->pRawData, char_data->szByte);
-        GX_LoadOBJ((void *)char_data->pRawData, (uptr)vram_addr, char_data->szByte);
+        GX_LoadOBJ((void *)char_data->pRawData, vram_addr, char_data->szByte);
     }
     if (NNSi_G2dIsVramHandleSet((const u32 *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
-        void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2);
+        uptr vram_addr = NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2);
         DC_FlushRange((void *)char_data->pRawData, char_data->szByte);
-        GXS_LoadOBJ((void *)char_data->pRawData, (uptr)vram_addr, char_data->szByte);
+        GXS_LoadOBJ((void *)char_data->pRawData, vram_addr, char_data->szByte);
     }
 }
 
@@ -1115,18 +1115,18 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
 {
     if (target == 0 || target == 2) {
         if (NNSi_G2dIsVramHandleSet((const u32 *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
-            void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1);
+            uptr vram_addr = NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 1);
             DC_FlushRange(src, size);
-            GX_LoadOBJ(src, (uptr)vram_addr + offset, size);
+            GX_LoadOBJ(src, vram_addr + offset, size);
         }
     }
     if (target == 1 || target == 2) {
         if (NNSi_G2dIsVramHandleSet((const u32 *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
             return;
         {
-            void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2);
+            uptr vram_addr = NNSi_G2dGetVramHandleValue((int *)((uptr)g_ClactSystem->res.chars + (idx << 6)), 2);
             DC_FlushRange(src, size);
-            GXS_LoadOBJ(src, (uptr)vram_addr + offset, size);
+            GXS_LoadOBJ(src, vram_addr + offset, size);
         }
     }
 }
@@ -1190,7 +1190,7 @@ s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram
 {
     struct ClactRes *res;
     u32 i;
-    uptr file;
+    void *file;
 
     res = &g_ClactSystem->res;
 
@@ -1206,10 +1206,10 @@ found:
         return i;
     }
 
-    file = (uptr)ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
+    file = ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
 
-    CLACT_TransferPaletteData((struct ClactRes *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
-    GFL_HEAP_Free((void *)file);
+    CLACT_TransferPaletteData((struct ClactRes *)(&g_ClactSystem->res), i, file, vram_mode, vram_offset, first_color, color_count);
+    GFL_HEAP_Free(file);
 
     return i;
 }
@@ -1264,7 +1264,7 @@ found:
     if (i == (u32)-1)
         return (int)i;
     file = ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
-    CLACT_TransferPaletteDataEx((struct ClactRes *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
+    CLACT_TransferPaletteDataEx((struct ClactRes *)(&g_ClactSystem->res), i, file, vram_mode, vram_offset);
     GFL_HEAP_Free(file);
     return (int)i;
 }
@@ -1331,17 +1331,17 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count)
     off = idx * sizeof(struct PlttSlot);
 
     if (NNSi_G2dIsVramHandleSetEx((char *)((uptr)g_ClactSystem->res.pltts + off), 1) != 0) {
-        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)((uptr)g_ClactSystem->res.pltts + off), 1);
+        uptr src = NNSi_G2dGetVramHandleEx((char *)((uptr)g_ClactSystem->res.pltts + off), 1);
 
-        DC_FlushRange((void *)dest->raw, size);
-        GX_LoadOBJPltt((void *)dest->raw, (uptr)src, size);
+        DC_FlushRange(dest->raw, size);
+        GX_LoadOBJPltt(dest->raw, src, size);
     }
 
     if (NNSi_G2dIsVramHandleSetEx((char *)((uptr)g_ClactSystem->res.pltts + off), 2) != 0) {
-        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)((uptr)g_ClactSystem->res.pltts + off), 2);
+        uptr src = NNSi_G2dGetVramHandleEx((char *)((uptr)g_ClactSystem->res.pltts + off), 2);
 
-        DC_FlushRange((void *)dest->raw, size);
-        GXS_LoadOBJPltt((void *)dest->raw, (uptr)src, size);
+        DC_FlushRange(dest->raw, size);
+        GXS_LoadOBJPltt(dest->raw, src, size);
     }
 }
 
@@ -2755,10 +2755,10 @@ void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 he
  *   python tools/match.py one --src src/matched/CLACT_SetPaletteBaseOffsets.c \
  *       --func CLACT_SetPaletteBaseOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
  */
-void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
+void CLACT_SetPaletteBaseOffsets(char *pltt_proxy, u16 base_offset, u32 pltt_op)
 {
-    g_ClactSystem->pltt_base[0] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)1) >> 5;
-    g_ClactSystem->pltt_base[1] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)2) >> 5;
+    g_ClactSystem->pltt_base[0] = (u32)NNSi_G2dGetVramHandleEx(pltt_proxy, (u32)1) >> 5;
+    g_ClactSystem->pltt_base[1] = (u32)NNSi_G2dGetVramHandleEx(pltt_proxy, (u32)2) >> 5;
 
     g_ClactSystem->pltt_base[0] += base_offset;
     g_ClactSystem->pltt_base[1] += base_offset;
@@ -4159,7 +4159,7 @@ void CLACT_DrawActor(struct ClactActor *actor, struct Renderer *renderer)
     NNSi_G2dSetRndCoreImageProxyVeneer((int *)renderer, (sptr)&actor->image, (sptr)&actor->palette);
     NNS_G2dBeginRendering((struct NNSG2dRendererInstance *)renderer);
     CLACT_SetupActorDraw(actor, renderer);
-    CLACT_SetPaletteBaseOffsets((uptr)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
+    CLACT_SetPaletteBaseOffsets((char *)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
     CLACT_ApplyActorTransform(actor);
     NNS_G2dEndRendering();
 }
@@ -4273,7 +4273,7 @@ void CLACT_ApplyActorTransform(struct ClactActor *actor)
     switch (actor->ctl.kind) {
     case 0:
         if (actor->hidden == 1) {
-            NNSi_G2dRendererDrawCellZOffset((void *)actor->ctl.cur_cell);
+            NNSi_G2dRendererDrawCellZOffset(actor->ctl.cur_cell);
         } else {
             NNSi_G2dRendererDrawCellTransformedZOffset(actor->ctl.anim);
         }
@@ -5643,7 +5643,7 @@ void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
  *    local before the OR (`u32 free_bit = slot->bits & 0x80000000;`), which is what
  *    loads +0x14 before pltt_data->size.
  */
-void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *vram_mode,
+void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, u32 vram_mode,
                   u32 vram_offset, u16 first_color, u16 color_count)
 {
     struct PaletteData *pltt_data;
@@ -5677,7 +5677,7 @@ void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *
     if (first_color != 0) {
         unsigned long long skip_bytes = first_color * 32;
         if (pltt_data->size > first_color * 32) {
-            pltt_data->raw += skip_bytes;
+            pltt_data->raw = (u8 *)pltt_data->raw + skip_bytes;
             pltt_data->size -= skip_bytes;
         }
     }
@@ -5728,7 +5728,7 @@ void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *
  * bytes out.  `off = idx * sizeof(struct PlttSlot)` as a byte-offset local and
  * the entry re-derived from res->pltts at the end are CLACT_TransferPaletteData's pins.
  */
-void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset)
+void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, u32 vram_mode, u32 vram_offset)
 {
     void *pltt_data;
     void *pltt_hdr;
@@ -5871,13 +5871,13 @@ void CLACT_FreeCellAnimTable(void *cells)
  *   python tools/match.py one --src src/matched/CLACT_SetupCharacter.c \
  *       --func CLACT_SetupCharacter --addr 0x0204E0D0 --cc 1.1p1 --arm
  */
-void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info)
+void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, void *handle, u32 vram_mode, struct CharXferInfo *xfer_info)
 {
-    uptr char_data_addr;
+    NNSG2dCharacterData *char_data_addr;
     struct CharSlot *slot;
 
-    if (NNS_G2dGetUnpackedCharacterData((struct NitroFileHeader *)handle, (void **)(&char_data_addr)) != 0) {
-        CLACT_SetupCharacterVram((struct ClactRes *)res, idx, (NNSG2dCharacterData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
+    if (NNS_G2dGetUnpackedCharacterData(handle, (void **)(&char_data_addr)) != 0) {
+        CLACT_SetupCharacterVram(res, idx, char_data_addr, xfer_info, vram_mode);
         slot = &res->chars[idx];
         slot->free = 0;
     }

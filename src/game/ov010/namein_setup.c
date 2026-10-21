@@ -223,7 +223,7 @@ typedef struct SummaryArgs {
     u8 reserved0F;
     u8 startPage;       /* 0x10 */
     u8 reserved11[7];
-    void *statusData;   /* 0x18 */
+    int nationalDexEnabled; /* 0x18 */
     u8 reserved1C[0xC];
 } SummaryArgs;
 /* Party screen argument block, embedded in PartyTaskWork (0x98 bytes). */
@@ -261,7 +261,7 @@ typedef struct EncounterContext {
     u16 pickResultSub;          /* 0x084 */
     u8 reserved86[0x7C8 - 0x86];
     void *party;                /* 0x7C8 */
-    int transitionInfo;         /* 0x7CC */
+    struct BattleSetupParam *transitionInfo; /* 0x7CC */
 } EncounterContext;
 /* Work of the name balloon tasks: C6E8 allocates 0xD8 bytes, CB48 only 0x1C. */
 typedef struct NameBalloonWork {
@@ -431,7 +431,7 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
 GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem);
 int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk);
 int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk);
-int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **mywk);
+int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, void **pwk, struct ProcSys **mywk);
 int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *work);
 GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInfo *transitionInfo, void *extra);
 int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *work);
@@ -867,7 +867,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     summary->startSlot = 0;
     summary->startPage = 0;
     summary->gameData = gameData;
-    summary->statusData = (void *)ZUKAN_SAVE_IsNationalDexEnabled(statusData);
+    summary->nationalDexEnabled = ZUKAN_SAVE_IsNationalDexEnabled(statusData);
     return event;
 }
 
@@ -879,14 +879,14 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
  */
 GameEvent *NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    int transitionInfo;
+    struct BattleSetupParam *transitionInfo;
     BATTLE_REC_AllocWork(4);
     transitionInfo = BSUBWAY_SCR_CreateBtlSetup((struct BsubwayScrWork *)ctx, gameSystem);
     ctx->transitionInfo = transitionInfo;
     if (ctx->kind == 3 || ctx->kind == 8) {
         return NAMEIN_SETUP_StartEncounterTransition(ctx, gameSystem, fieldMap);
     }
-    return EVENT_BATTLE_CreateResultOnlyTask((sptr)gameSystem, (sptr)fieldMap, transitionInfo);
+    return EVENT_BATTLE_CreateResultOnlyTask(gameSystem, fieldMap, transitionInfo);
 }
 
 int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWork *work, u32 extra)
@@ -1090,7 +1090,7 @@ int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk)
  *
  * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
  */
-int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **mywk)
+int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, void **pwk, struct ProcSys **mywk)
 {
     int status = PROCSYS_Main(mywk[0]);
     switch (*seq) {
@@ -1110,7 +1110,7 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **m
         *seq = 2;
         break;
     case 2:
-        PROCSYS_Push(mywk[0], ~0, &d_021EFDAC, (void *)pwk[1]);
+        PROCSYS_Push(mywk[0], ~0, &d_021EFDAC, pwk[1]);
         *seq = 3;
         break;
     case 3:

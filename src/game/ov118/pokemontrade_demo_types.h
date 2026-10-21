@@ -60,7 +60,7 @@ typedef struct PokeTradeDemoWork {
     unsigned char       pad_8AC[0x8BC - 0x8AC];
     unsigned int        cellAnimHandle;  /* 0x8BC */
     unsigned char       pad_8C0[0x9C4 - 0x8C0];
-    int                 clactSystem;     /* 0x9C4 */
+    struct Unit *clactSystem;     /* 0x9C4 */
     unsigned char       pad_9C8[0xF2C - 0x9C8];
     int                 frame;           /* 0xF2C */
     unsigned char       pad_F30[0x1094 - 0xF30];

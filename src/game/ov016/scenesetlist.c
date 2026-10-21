@@ -1623,7 +1623,7 @@ static void dispPushButton(void)
     int i = *g - 0xb;
     int y = gSceneSetListPushPaletteTable[i];
 
-    DWCi_SCREENlCopyPalette((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
+    DWCi_SCREENlCopyPalette(((SCENESETLIST_BSS *)g)->MemSsl->pltt[1], y, y);
 }
 
 
@@ -1691,7 +1691,7 @@ static void procError(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_SCREENlSetPalette(*(int *)(*(int *)(g + 8) + 0xc));
+    DWCi_SCREENlSetPalette(scenesetlist_bss.MemSsl->pltt[0]);
     DWCi_ChangeScene((uptr)procError1);
 }
 

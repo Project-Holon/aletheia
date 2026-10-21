@@ -67,7 +67,7 @@ void DWCi_CleanupReliableQueue(char *p)
 
     while ((it = gDwcReliableQueue.head) != 0) {
         gDwcReliableQueue.head = it->next;
-        DWC_Free(4, it->data, it->size);
+        DWC_Free(4, it->data, (long unsigned int)it->size);
         DWC_Free(4, it, 0);
     }
     gDwcReliableQueue.head = 0;
@@ -106,10 +106,10 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
     for (it = gDwcReliableQueue.head; it != 0; it = it->next) {
         retrycount = 0;
         do {
-            res = func(it->connection, it->data, it->size, 1);
+            res = func(it->connection, it->data, (int)it->size, 1);
             if (res == 0) {
                 gDwcReliableQueue.total -= it->size;
-                DWC_Free(4, it->data, it->size);
+                DWC_Free(4, it->data, (long unsigned int)it->size);
                 it->data = 0;
                 it->size = 0;
                 it->connection = 0;
@@ -165,7 +165,7 @@ int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
     *target = DWC_Alloc(4, sizeof(SendQueue));
     if (*target == 0)
         return 0;
-    (*target)->data = DWC_Alloc(4, size);
+    (*target)->data = DWC_Alloc(4, (long unsigned int)size);
     if ((*target)->data == 0) {
         DWC_Free(4, *target, sizeof(SendQueue));
         *target = 0;
@@ -174,7 +174,7 @@ int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
     (*target)->connection = connection;
     (*target)->size = size;
     (*target)->next = 0;
-    MIi_CpuCopy32(buffer, (*target)->data, size);
+    MIi_CpuCopy32(buffer, (*target)->data, (u32)size);
     gDwcReliableQueue.total += size;
     return 1;
 }

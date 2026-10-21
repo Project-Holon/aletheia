@@ -811,7 +811,7 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
     STA_ACTING_CreateActObj((char *)p);
     STA_ACTING_CreateActorSys((char *)p);
     *(void **)(p+0x90)=STA_ACT_LIGHT_CreateUnit(*(u16 *)p,p);
-    *(void **)(p+0xb8)=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,*(unsigned int *)(p+0x30));
+    *(void **)(p+0xb8)=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,(unsigned int)(*(char **)(p+0x30)));
     *(void **)(p+0xa4)=STA_ACT_BUTTON_Create(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=STA_ACT_SCRIPT_Create(*(u16 *)p,p);
     STA_ACTING_CreateAnimHandle((char *)p);
@@ -1008,7 +1008,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
-    board=BILLBOARD_Create((u8 *)(&big),(void *)(unsigned int)*(u16 *)p);
+    board=BILLBOARD_Create( (unsigned char *)&big,(u32)((void *)(unsigned int)*(u16 *)p));
     *(void **)(p+0xAC)=board;
     BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam,(const struct DispVramCfg *)d_021FDBA0,*(u16 *)p);
@@ -1208,7 +1208,7 @@ void STA_ACTING_FadePalette(StaActingFade *p)
         int G = g + (s8)((p->dg[i] * factor) >> 12);
         p->out[i] = (B << 10) | (R | (G << 5));
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 0, (uptr)p->out, 32);
+    NNS_GfdRegisterNewVramTransferTask(31, 0, p->out, 32);
 }
 
 void STA_ACTING_CreateText(u8 *p)
@@ -1268,7 +1268,7 @@ void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed)
             ((struct ActingScene *)p)->textTcbl.p, 2, ((struct ActingScene *)p)->heapId, zero);
     } else {
         PRINTSYS_PrintQue(((struct ActingScene *)p)->printQueue.p, (struct Bmp *)(uptr)BMP_WIN_GetBmp(((struct ActingScene *)p)->bmpWin.p),
-            zero, zero, ((struct ActingScene *)p)->strBuf.p, (struct GfFont *)(*(u32 *)&((struct ActingScene *)p)->font));
+            zero, zero, ((struct ActingScene *)p)->strBuf.p, *(struct GfFont **)&((struct ActingScene *)p)->font);
         ((struct ActingScene *)p)->queuePending.s = 1;
         STRBUF_Delete(((struct ActingScene *)p)->strBuf.p);
         ((struct ActingScene *)p)->strBuf.p = (void *)zero;
@@ -1521,7 +1521,7 @@ void STA_ACTING_TickActionTimers(char *p)
         if (*(u16 *)(p + i * 2 + 0x124) != 0) {
             *(u16 *)(p + i * 2 + 0x124) -= 1;
             if (*(u16 *)(p + i * 2 + 0x124) == 0) {
-                if (**(void ** *)&((struct ActingScene *)p)->input == 0) STA_ACTING_ApplyAction(p, i, *(int *)(p + i * 4 + 0x12c));
+                if (**(void ** *)&((struct ActingScene *)p)->input == 0) STA_ACTING_ApplyAction(p, (u32)((struct ScriptOwner *)i), *(int *)(p + i * 4 + 0x12c));
                 else STA_SLOT_SetValueByKey(**(void ** *)&((struct ActingScene *)p)->input, i, *(int *)(p + i * 4 + 0x12c));
             }
         }

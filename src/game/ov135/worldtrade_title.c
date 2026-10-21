@@ -372,7 +372,7 @@ int WORLDTRADE_TITLE_Exit(WorldtradeWork *p)
     WORLDTRADE_TITLE_ExitBgPlanesSub();
     if (p->nextScreenId == 4 || p->nextScreenId == 5) p->keepBgLayers = 1;
     WORLDTRADE_TITLE_ExitBgPlanes(p);
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->scrollBarObj), 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct Actor **)(void * *)&p->scrollBarObj), 0);
     WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }
@@ -558,8 +558,8 @@ void WORLDTRADE_TITLE_CreateStrings(WorldtradeWork *p)
  */
 void WORLDTRADE_TITLE_DeleteStrings(WorldtradeWork *p)
 {
-    STRBUF_Delete((struct Strbuf *)((*(unsigned int *)&p->str)));
-    STRBUF_Delete((struct Strbuf *)((*(unsigned int *)&p->titleStr)));
+    STRBUF_Delete(*(struct Strbuf **)&p->str);
+    STRBUF_Delete(*(struct Strbuf **)&p->titleStr);
 }
 
 /*
@@ -665,7 +665,7 @@ int WORLDTRADE_TITLE_StateMainInput(WorldtradeWork *p)
     if (r != -1) {
         p->sel = r;
         GFL_USE_PlaySeDefaultVolume(0x548);
-        WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+        WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 1);
         p->state_i = 0xE;
@@ -685,7 +685,7 @@ int WORLDTRADE_TITLE_StateMainInput(WorldtradeWork *p)
     }
     if (KEY_GetTrg() & 2) {
         p->sel = 2;
-        WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+        WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 1);
         p->state_i = 0xE;
@@ -701,7 +701,7 @@ int WORLDTRADE_TITLE_StateMainInput(WorldtradeWork *p)
             GFL_USE_PlaySeDefaultVolume(0x548);
             CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
             CLACT_RestartActorAnim((struct ClactActor *)p->cursor);
-            WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+            WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     } else if (KEY_GetTrg() & 0x80) {
         if (p->sel < 2) {
@@ -709,7 +709,7 @@ int WORLDTRADE_TITLE_StateMainInput(WorldtradeWork *p)
             GFL_USE_PlaySeDefaultVolume(0x548);
             CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
             CLACT_RestartActorAnim((struct ClactActor *)p->cursor);
-            WORLDTRADE_SetActorPos(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
+            WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     }
     return 2;
@@ -768,7 +768,7 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(WorldtradeWork *p)
     state = WORLDTRADE_UpdateTaskMenuYesNo((WorldtradeWork *)p);
     if (state == 1) {
         WORLDTRADE_CloseTaskMenu((WorldtradeWork *)p);
-        BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&p->dd0), 2);
+        BMP_MENUWORK_DrawWindowBorder(*(void **)&p->dd0, 2);
         w = *(u32 *)&p->dd0;
         BMP_WIN_ClearScreen((struct BmpWin *)w);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));
@@ -781,7 +781,7 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(WorldtradeWork *p)
         p->state = 7;
     } else if (state == 2) {
         WORLDTRADE_CloseTaskMenu((WorldtradeWork *)p);
-        BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&p->dd0), 2);
+        BMP_MENUWORK_DrawWindowBorder(*(void **)&p->dd0, 2);
         w = *(u32 *)&p->dd0;
         BMP_WIN_ClearScreen((struct BmpWin *)w);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));
@@ -864,10 +864,10 @@ void WORLDTRADE_TITLE_PrintMessageSub(u8 *p, int msgId, int unused1, int unused2
 {
     uptr v;
 
-    MSGDATA_ReadString((struct MsgBank *)(((WorldtradeWork *)p)->bank_u), msgId, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    MSGDATA_ReadString((struct MsgBank *)(((WorldtradeWork *)p)->bank_u), msgId, *(void **)(p + 0xb6c + 0x1c));
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((WorldtradeWork *)p)->dd0_u)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((WorldtradeWork *)p)->dd0_u), 0, 1, 0xe);
-    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((WorldtradeWork *)p)->dd0_u), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((WorldtradeWork *)p)->dd0_u), 0, *(void **)(p + 0xb6c + 0x1c), 0, 0, p + 0xfa0);
     v = ((WorldtradeWork *)p)->dd0_u;
     BMP_WIN_TransferChars((struct BmpWin *)v);
     BMP_WIN_MakeScreen((struct BmpWin *)v);
@@ -908,8 +908,8 @@ void WORLDTRADE_TITLE_CreateMenuWindow(WorldtradeWork *p, u32 labelIdx)
     uptr v;
 
     (*(unsigned int *)&p->msgWin) = (uptr)BMP_WIN_Create((unsigned int)4, (unsigned int)0xc, (unsigned int)0x13, 0x12, 4, 1, 1);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)(*(unsigned int *)&p->msgWin))), 0);
-    WORLDTRADE_INPUT_PrintCentered((void *)((*(unsigned int *)&p->msgWin)), (void *)(p->bank_u), labelIdx, (u8 *)p + 0xfa0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&p->msgWin)), 0);
+    WORLDTRADE_INPUT_PrintCentered(*(void **)&p->msgWin, (void *)(p->bank_u), labelIdx, (u8 *)p + 0xfa0);
     v = (*(unsigned int *)&p->msgWin);
     BMP_WIN_TransferChars((struct BmpWin *)v);
     BMP_WIN_MakeScreen((struct BmpWin *)v);

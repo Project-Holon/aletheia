@@ -24,7 +24,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
 void SUBWAY_MAP_GRAPHIC_DrawBg(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work);
-void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, struct DispVramCfg *a, int b);
 void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p);
 void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work);

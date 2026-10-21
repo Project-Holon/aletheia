@@ -164,7 +164,7 @@ struct FieldEffectCont;
 struct FieldEncount;
 #include "effect_encount.h"
 
-int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
+struct GameEvent *EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
 int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u16 dir, int range, FieldEncount *encount);
 int EVENT_TRAINER_EYE_FindTrainer(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out);
 int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir);
@@ -201,7 +201,7 @@ int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
 int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl);
 void EVENT_TRAINER_EYE_FillHit(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction);
 Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId);
-int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer);
+struct GameEvent *EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer);
 
 extern TrainerEyeSightFunc sTrainerEyeSightFuncs[4];              /* sight check per direction */
 extern TrainerEyeStepFunc sTrainerEyeStepFuncs[];                /* step table of the event */
@@ -212,14 +212,14 @@ extern char sEventTrainerEyeFileName[];                              /* source f
  * of a script command work. Returns that work, or 0 when no trainer sees
  * the player.
  */
-int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
+struct GameEvent *EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
 {
     TrainerEyeHit hit;
     TrainerEyeHit partner;
     u32 battleType;
     u32 partyCount;
     int zero = 0;
-    int scriptWork = 0;
+    struct GameEvent *scriptWork = 0;
 
     if (EVENT_TRAINER_EYE_FindTrainer(fieldMap, 0, &hit) == 1) {
         battleType = (u32)EVENT_TRAINER_GetBattleType((u16)hit.trainerId);
@@ -717,7 +717,7 @@ Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId)
 }
 
 /* Creates the script work of the trainer battle for a trainer model. */
-int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer)
+struct GameEvent *EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer)
 {
-    return (sptr)SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
+    return SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
 }

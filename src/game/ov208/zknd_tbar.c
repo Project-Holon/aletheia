@@ -123,7 +123,6 @@ struct Ov208Pos {
 
 extern u8 BG_SYS_GetColorMode(int channel);
 
-extern u32 BG_SYS_GetBuf(int channel);
 
 
 /* The DS code was built against other parameter widths for BG_SYS_PushTile (the original prototypes); the header differs. The host build uses the header. */
@@ -468,7 +467,7 @@ void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 
         for (i = 0; i < srcW * srcH; i++)
             d[i] += (u16)add;
     }
-    if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
+    if (BG_SYS_GetBuf((u8)channel) != 0) {
         BG_SYS_DrawTileEx((u8)channel, x, y, w, h, scr->tiles, srcX, srcY, srcW, srcH);
         BG_SYS_FillTileMap(channel, x, y, w, h, pal);
         BG_SYS_PushTile(channel);

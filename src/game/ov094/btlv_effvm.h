@@ -96,7 +96,7 @@ int BTLV_EFFVM_CmdStartPokeCry(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdSetTypeSource(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work);
-int BTLV_EFFVM_CmdReturnScript(int vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdReturnScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdJumpScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdWaitForTask(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdJumpToArchiveScript(struct ScriptVm *vm, BtlvEffVmWork *work);

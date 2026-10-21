@@ -154,7 +154,7 @@ void FLDEFF_IWAKUDAKI_Delete(FieldEffectSys *fieldEffect, IwakudakiRes *res)
 
 void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res)
 {
-    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     int i;
 
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IWAKUDAKI_MODEL_FILE);

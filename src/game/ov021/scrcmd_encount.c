@@ -497,22 +497,22 @@ int SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot(struct ScriptVm *vm, struct S
 
 int SCRCMD_PROC_FLD_StartFkDemoSubProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int regionTable = (sptr)FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    void *regionTable = FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
     switch (SCRIPT_WORK_ReadWorkValue(vm, cmdWork)) {
     case 0:
         break;
     case 1:
-        FIELD_SUBPROC_Start((sptr)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F4344);
+        FIELD_SUBPROC_Start((sptr)ov56_id, regionTable, (struct FieldSubprocTemplate *)g_021F4344);
         break;
     case 2:
-        FIELD_SUBPROC_Start((sptr)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F4374);
+        FIELD_SUBPROC_Start((sptr)ov56_id, regionTable, (struct FieldSubprocTemplate *)g_021F4374);
         break;
     case 3:
-        FIELD_SUBPROC_Start((sptr)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F438C);
+        FIELD_SUBPROC_Start((sptr)ov56_id, regionTable, (struct FieldSubprocTemplate *)g_021F438C);
         break;
     case 4:
-        FIELD_SUBPROC_Start((sptr)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F435C);
+        FIELD_SUBPROC_Start((sptr)ov56_id, regionTable, (struct FieldSubprocTemplate *)g_021F435C);
         break;
     }
     return 0;

@@ -39,7 +39,7 @@ struct BagParam {
     void *gameData;
     void *myStatus;
     void *myItem;
-    u32   saveWork;
+    struct BagCursor *saveWork;
     void *config;
     u8    itemCheck[0x18];
     int   mode;
@@ -87,11 +87,11 @@ extern char BagParamFileName[];
  */
 void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId)
 {
-    int   saveControl = (sptr)GAME_DATA_GetSaveControl((struct GameData *)gameData);
+    struct SaveControl *saveControl = GAME_DATA_GetSaveControl((struct GameData *)gameData);
     struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;
-    param->myStatus = SYSTEM_DATA_GetConfig((void *)saveControl);
+    param->myStatus = SYSTEM_DATA_GetConfig(saveControl);
     param->myItem = GAME_DATA_GetMyStatus((void *)gameData);
     param->saveWork = GAME_DATA_GetMapMatrix((struct GameData *)gameData);
     param->config = GAME_DATA_GetMyItem((struct GameData *)gameData);

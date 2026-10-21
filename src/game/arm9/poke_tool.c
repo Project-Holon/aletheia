@@ -232,9 +232,9 @@ int POKE_TOOL_ChangeBoxForm(struct BoxPokemon *box, int newForm);
 
 u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
 
-void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 arg);
+void POKE_TOOL_HatchEgg(struct PokemonParam *pp, PokeToolArg trainer, u32 location, u32 arg);
 
-u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32 arg);
+u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, PokeToolArg trainer, u32 location, u32 arg);
 
 void POKE_TOOL_DeleteMoveSlot(struct PokemonParam *pp, u32 slot);
 
@@ -250,13 +250,13 @@ u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 
 u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode);
 
-u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg arg);
 
-void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg value);
 
-void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value);
+void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg value);
 
-u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
+u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg arg);
 
 u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
@@ -374,13 +374,13 @@ void POKE_TOOL_EncodeCalcBlock(struct PokemonParam *pp);
 
 void POKE_TOOL_EncodeBoxBlock(struct BoxPokemon *box);
 
-u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 arg);
+u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg arg);
 
-u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg);
+u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg arg);
 
-void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 value);
+void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg value);
 
-void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value);
+void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg value);
 
 void POKE_TOOL_InitSystem(u32 heapId)
 {
@@ -901,7 +901,7 @@ u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallb
  *   python tools/match.py one --src src/pending/POKE_TOOL_HatchEgg.c \
  *       --func POKE_TOOL_HatchEgg --addr 0x02017B24 --cc 1.1p1 --thumb
  */
-void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 arg)
+void POKE_TOOL_HatchEgg(struct PokemonParam *pp, PokeToolArg trainer, u32 location, u32 arg)
 {
     u8 didDecode = (u8)POKE_TOOL_DecodePartyParam(pp);
 
@@ -962,7 +962,7 @@ void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 
  *   python tools/match.py one --src src/matched/POKE_TOOL_HatchBoxEgg.c \
  *       --func POKE_TOOL_HatchBoxEgg --addr 0x02017B4C --cc 1.1p1 --thumb
  */
-u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32 arg)
+u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, PokeToolArg trainer, u32 location, u32 arg)
 {
     u8  didDecode = (u8)POKE_TOOL_DecodeBoxParam(box);
     u16 species = (u16)POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_SPECIES, 0);
@@ -1151,7 +1151,7 @@ u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode)
  *   python tools/match.py tu --src src/matched/unit_02017E1C.c \
  *       --addr 0x02017E1C --thumb
  */
-u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg)
+u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg arg)
 {
     u32 value;
 
@@ -1180,7 +1180,7 @@ u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg)
  *   python tools/match.py tu --src src/matched/unit_02017E40.c \
  *       --addr 0x02017E40 --thumb
  */
-void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value)
+void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg value)
 {
     if (POKE_TOOL_DecodeCalcBlock(pp) == 1) {
         POKE_TOOL_SetPartyValueRaw(pp, paramId, value);
@@ -1213,7 +1213,7 @@ void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value)
  * wider than `u8`, so POKE_PERSONAL_GetParam returns a word and the source assigns it to
  * a byte local.
  */
-void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value)
+void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg value)
 {
     if (POKE_TOOL_DecodeBoxBlock(box) == 1) {
         POKE_TOOL_SetBoxValueRaw(box, paramId, value);
@@ -1221,7 +1221,7 @@ void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value)
     POKE_TOOL_EncodeBoxBlock(box);
 }
 
-u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg)
+u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg arg)
 {
     u32 value;
 
@@ -2681,7 +2681,7 @@ void POKE_TOOL_EncodeBoxBlock(struct BoxPokemon *box)
  *   python tools/match.py one --src src/matched/POKE_TOOL_GetPartyValueRaw.c \
  *       --func POKE_TOOL_GetPartyValueRaw --addr 0x02018DB4 --cc 1.1p1
  */
-u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 arg)
+u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg arg)
 {
     switch (paramId) {
     case POKE_TOOL_PARAM_STATUS_CONDITION: return pp->statusCondition;
@@ -2850,7 +2850,7 @@ u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 arg)
  *   python tools/match.py one --src src/pending/POKE_TOOL_GetBoxValueRaw.c \
  *       --func POKE_TOOL_GetBoxValueRaw --addr 0x02018E34 --cc 1.1p1
  */
-u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
+u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg arg)
 {
     u32 result = 0;
     struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)POKE_TOOL_GetBoxSubstruct(box, box->personality, POKE_TOOL_BLOCK_A);
@@ -3110,7 +3110,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
  *   python tools/match.py one --src src/matched/POKE_TOOL_SetPartyValueRaw.c \
  *       --func POKE_TOOL_SetPartyValueRaw --addr 0x02019308 --cc 1.1p1
  */
-void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 value)
+void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg value)
 {
     switch (paramId) {
     case POKE_TOOL_PARAM_STATUS_CONDITION: pp->statusCondition = value; return;
@@ -3226,7 +3226,7 @@ void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 value)
  *   python tools/match.py one --src src/matched/POKE_TOOL_SetBoxValueRaw.c \
  *       --func POKE_TOOL_SetBoxValueRaw --addr 0x02019388 --cc 1.1p1
  */
-void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value)
+void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg value)
 {
     struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)POKE_TOOL_GetBoxSubstruct(box, box->personality, POKE_TOOL_BLOCK_A);
     struct BoxPokemonBlockB *blockB = (struct BoxPokemonBlockB *)POKE_TOOL_GetBoxSubstruct(box, box->personality, POKE_TOOL_BLOCK_B);

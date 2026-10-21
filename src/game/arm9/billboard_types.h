@@ -12,7 +12,7 @@
 
 /* One texture image slot (0x28 bytes). */
 struct BbImage {
-    u32 handle;       /* 0x00 payload handle, 0 = empty */
+    struct G3dResource *handle; /* 0x00 payload handle, 0 = empty */
     u16 texWidth;     /* 0x04 */
     u16 texHeight;    /* 0x06 */
     u8  cellWidth;    /* 0x08 */

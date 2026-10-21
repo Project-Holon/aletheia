@@ -4,12 +4,13 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_trainer.c, prototypes copied from their definitions. */
 
+struct GameEvent;
 struct RecordHead24;
 typedef struct RecordHead24 RecordHead24;
 
 #include "../types.h"
 
-void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src);
+void EVENT_TRAINER_SetScriptTrainerEntry(struct GameEvent *scrcmdWork, int index, RecordHead24 *src);
 u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 ticks);
 u16 EVENT_TRAINER_GetPrimaryScriptId(unsigned id);
 u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned id);

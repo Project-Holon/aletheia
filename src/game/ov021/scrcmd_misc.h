@@ -37,7 +37,7 @@ int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_SUBSCREEN_ChangeModeTask(GameEvent *event, int *seq, SubscreenModeWork *work);
 int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_SUBSCREEN_ResetModeTask(u32 *eventWords, int *seq);
+int SCRCMD_SUBSCREEN_ResetModeTask(void **eventWords, int *seq);
 GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap, u32 partySlot);
 int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work);
 void EVENT_PERAP_RECORD_OnRecorded(MICResult result, void *arg);

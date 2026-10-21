@@ -8,7 +8,7 @@ struct Fader;
 
 #include "../types.h"
 
-struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
+struct Fader *PLAYER_VOLUME_FADER_Create(u32 heapId, int v);
 void PLAYER_VOLUME_FADER_Delete(void *ptr);
 void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);

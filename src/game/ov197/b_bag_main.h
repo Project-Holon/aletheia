@@ -53,7 +53,7 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p);
 struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices);
 void B_BAG_MAIN_CreateItemActors(char *p);
 void B_BAG_MAIN_DeleteItemGraphics(char *p);
-void B_BAG_MAIN_PlaceActor(int a, int b);
+void B_BAG_MAIN_PlaceActor(struct ClactActor *a, struct ClactVec2 *b);
 void B_BAG_MAIN_SetDisplayMode(char *p, int mode);
 void B_BAG_MAIN_DisplaySingle(char *p);
 void B_BAG_MAIN_DisplayList(char *p);

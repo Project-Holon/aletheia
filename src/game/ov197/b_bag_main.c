@@ -401,7 +401,7 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p);
 struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices);
 void B_BAG_MAIN_CreateItemActors(char *p);
 void B_BAG_MAIN_DeleteItemGraphics(char *p);
-void B_BAG_MAIN_PlaceActor(int a, int b);
+void B_BAG_MAIN_PlaceActor(struct ClactActor *a, struct ClactVec2 *b);
 void B_BAG_MAIN_SetDisplayMode(char *p, int mode);
 void B_BAG_MAIN_DisplaySingle(char *p);
 void B_BAG_MAIN_DisplayList(char *p);
@@ -490,7 +490,7 @@ void B_BAG_MAIN_DeleteWindows(char *a)
     unsigned int i;
 
     for (i = 0; i < 0x23; i++)
-        BMP_WIN_Delete((struct BmpWin *)(*(int *)(a + i * 8 + 0x28)));
+        BMP_WIN_Delete(*(struct BmpWin **)(a + i * 8 + 0x28));
 }
 
 void B_BAG_MAIN_ExitWindows(char *a)
@@ -517,12 +517,12 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
 
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
-    int handle=*(int *)(p+0x28+i*8);
-    int text=(sptr)MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
+    struct BmpWin *handle = *(struct BmpWin **)(p+0x28+i*8);
+    struct Strbuf *text = MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
     int width=PRINTSYS_MeasureWidestLine((struct Strbuf *)text,(struct GfFont *)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth),0);
     int x=(BMP_WIN_GetWidth((struct BmpWin *)handle)*8-width)>>1;
     int font=(sptr)((struct BagWork *)p)->printSys;
-    int surface=(sptr)BMP_WIN_GetBmp((struct BmpWin *)*(int *)(p+0x28+i*8));
+    struct Bmp *surface = BMP_WIN_GetBmp(*(struct BmpWin **)(p+0x28+i*8));
     PRINTSYS_PrintQueColor((void *)font,(struct Bmp *)surface,(s16)x,(s16)y,(struct Strbuf *)text,(struct GfFont *)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth)),colour);
     (p+i*8)[0x2c]=1;
     STRBUF_Delete((struct Strbuf *)text);
@@ -719,7 +719,7 @@ void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
     BMP_Clear(BMP_WIN_GetBmp(win), 0);
     w = *(void **)(p + 0x18);
     PRINTSYS_PrintQueColor(w, BMP_WIN_GetBmp(*(void **)(p + 0x120)), 0, 0,
-                  (struct Strbuf *)(*(u32 *)(p + 0x14)), (struct GfFont *)(*(u32 *)(*(u8 **)p + 4)), 0x3C40);
+                  *(struct Strbuf **)(p + 0x14), *(struct GfFont **)(*(u8 **)p + 4), 0x3C40);
     *(u8 *)(p + 0x124) = 1;
     STRBUF_Delete(msg);
 }
@@ -788,7 +788,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     void *d;
     GF_FONT_SetTextColor(1, 2, 0);
     *(void **)(p + 0x1c) = PRINTSYS_PrintStream((struct BmpWin *)(*(void **)(p + 0x24)), 0, 0, (struct Strbuf *)(*(void **)(p + 0x14)),
-        (struct GfFont *)(*(u32 *)(*(char **)p + 4)), MSG_SPEED_GetWait(), (struct Tcbl *)(*(void **)(p + 4)), 10,
+        *(struct GfFont **)(*(char **)p + 4), MSG_SPEED_GetWait(), (struct Tcbl *)(*(void **)(p + 4)), 10,
         *(u16 *)(*(char **)p + 0xc), 15);
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
@@ -1167,7 +1167,7 @@ struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
 {
     BBagMainConfig c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;
-    return CLACT_CreateActor((struct Unit *)((void *)*(unsigned *)&((struct BagWork *)p)->itemUnit),*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),(const struct ActorInitParam *)&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    return CLACT_CreateActor((struct Unit *)(*(void **)&((struct BagWork *)p)->itemUnit),*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),(const struct ActorInitParam *)&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
 }
 
 /*
@@ -1188,7 +1188,7 @@ void B_BAG_MAIN_DeleteItemGraphics(char *p)
     CLACT_DeleteUnit(*(struct Unit * *)&((struct BagWork *)p)->itemUnit);
 }
 
-void B_BAG_MAIN_PlaceActor(int a, int b)
+void B_BAG_MAIN_PlaceActor(struct ClactActor *a, struct ClactVec2 *b)
 {
     CLACT_SetActorDrawEnable((struct ClactActor *)a, 1);
     CLACT_AddActorSurfacePos((struct ClactActor *)a, (struct ClactVec2 *)b, 1);
@@ -1197,7 +1197,7 @@ void B_BAG_MAIN_PlaceActor(int a, int b)
 void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
 {
     unsigned int i;
-    for (i = 0; i < 63; i++) CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p + i * 4 + 0x424), 0);
+    for (i = 0; i < 63; i++) CLACT_SetActorDrawEnable(*(struct ClactActor **)(p + i * 4 + 0x424), 0);
     B_BAG_MAIN_DeleteFingerCursorActor(p);
     switch (mode) {
     case 0: B_BAG_MAIN_DisplaySingle(p); break;
@@ -1206,7 +1206,7 @@ void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
     }
 }
 
-void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor((sptr)((struct BagWork *)p)->itemActors[6],(sptr)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
+void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor(((struct BagWork *)p)->itemActors[6],(struct ClactVec2 *)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
 
 void B_BAG_MAIN_DisplayList(char *p)
 {
@@ -1216,7 +1216,7 @@ void B_BAG_MAIN_DisplayList(char *p)
         if (item) {
             B_BAG_MAIN_LoadItemGraphic(p, item, i, i);
             B_BAG_MAIN_LoadItemPalette(p, item, i);
-            B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (sptr)&d_0220DB88[i]);
+            B_BAG_MAIN_PlaceActor(*(struct ClactActor **)(p + i * 4 + 0x424), (struct ClactVec2 *)&d_0220DB88[i]);
             if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
                 B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB88[i + 6]));
         }
@@ -1233,13 +1233,13 @@ void B_BAG_MAIN_DisplaySelected(char *p)
 {
     u16 item = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30));
     B_BAG_MAIN_LoadItemGraphic(p, item, 6, 6);
-    B_BAG_MAIN_PlaceActor((sptr)((struct BagWork *)p)->itemActors[6], (sptr)&d_0220DB80[0]);
+    B_BAG_MAIN_PlaceActor(((struct BagWork *)p)->itemActors[6], (struct ClactVec2 *)&d_0220DB80[0]);
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
         B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB80[1]));
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
 }
 
-void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct BagWork *)p)->toolActors,*(int *)&((struct BagWork *)p)->itemUnit,*(int *)(p + 0x564),*(int *)(p + 0x588),*(int *)(p + 0x594));B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,0);}
+void B_BAG_MAIN_CreateToolActors(char *p){B_APP_TOOL_CreateActors(*(char * *)&((struct BagWork *)p)->toolActors,*(struct Unit **)&((struct BagWork *)p)->itemUnit,*(int *)(p + 0x564),*(int *)(p + 0x588),*(int *)(p + 0x594));B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,0);}
 
 void B_BAG_MAIN_DeleteToolActors(char *a)
 {
@@ -1248,7 +1248,7 @@ void B_BAG_MAIN_DeleteToolActors(char *a)
 
 void B_BAG_MAIN_CreateFingerCursor(char *a)
 {
-    ((struct BagWork *)a)->fingerCursor = (void *)BTLV_FINGER_CURSOR_Create((void *)(*(int *)&((struct BagWork *)a)->palAnm), 9,
+    ((struct BagWork *)a)->fingerCursor = (void *)BTLV_FINGER_CURSOR_Create(*(void **)&((struct BagWork *)a)->palAnm, 9,
                                          *(unsigned short *)(*(int *)&((struct BagWork *)a)->itemData + 0xc));
 }
 
@@ -1277,7 +1277,7 @@ void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair
     u16 i;
     s8 left,right;
     void **objects=(void **)(p+0x424);
-    B_BAG_MAIN_PlaceActor((sptr)objects[slot],(sptr)src);
+    B_BAG_MAIN_PlaceActor(objects[slot],(struct ClactVec2 *)src);
     CLACT_SetActorAnimSeq(objects[slot],a);
     slot++;
     left=a;
@@ -1294,7 +1294,7 @@ void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair
             else if(right>0) {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),18);right--;}
             left--;
         } else {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),17);left-=2;}
-        B_BAG_MAIN_PlaceActor(*(int *)(p+slot*4+0x424),(sptr)&v);
+        B_BAG_MAIN_PlaceActor(*(struct ClactActor **)(p+slot*4+0x424),(struct ClactVec2 *)&v);
         v.x+=8;
         slot++;
     }
@@ -1333,10 +1333,10 @@ void B_BAG_MAIN_Create(u8 *arg)
     }
     if (*(int *)(*(u8 **)p + 8) != 1) {
         for (i = 0; i < 4; i++) {
-            MYITEM_SAVEDATA_GetBattlePocketCursor((struct BagCursor *)(*(u32 *)(*(u8 **)p + 0x1c)), (u16)i, (s16 *)(*(u8 **)p + 0x30 + i * 2), (s16 *)(*(u8 **)p + 0x38 + i * 2));
+            MYITEM_SAVEDATA_GetBattlePocketCursor(*(struct BagCursor **)(*(u8 **)p + 0x1c), (u16)i, (s16 *)(*(u8 **)p + 0x30 + i * 2), (s16 *)(*(u8 **)p + 0x38 + i * 2));
         }
-        *(u16 *)(p + 0x540) = MYITEM_SAVEDATA_GetLastBattleItem((struct BagCursor *)(*(u32 *)(*(u8 **)p + 0x1c)));
-        p[0x542] = MYITEM_SAVEDATA_GetLastBattleItemPocket((struct BagCursor *)(*(u32 *)(*(u8 **)p + 0x1c)));
+        *(u16 *)(p + 0x540) = MYITEM_SAVEDATA_GetLastBattleItem(*(struct BagCursor **)(*(u8 **)p + 0x1c));
+        p[0x542] = MYITEM_SAVEDATA_GetLastBattleItemPocket(*(struct BagCursor **)(*(u8 **)p + 0x1c));
         B_BAG_MAIN_CheckKeyItem((char *)p);
     } else {
         for (i = 0; i < 4; i++) {
@@ -2028,7 +2028,7 @@ void B_BAG_MAIN_RecreateCursor(u8 *p, int state, int value)
 void B_BAG_MAIN_SetCursorVisible(char *a, int b)
 {
     *(void * *)(a + 0x598) = (void *)b;
-    B_APP_TOOL_SetActorsVisible((char *)(*(int *)&((struct BagWork *)a)->toolActors), (void *)b);
+    B_APP_TOOL_SetActorsVisible(*(char **)&((struct BagWork *)a)->toolActors, (void *)b);
 }
 
 void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
@@ -2049,7 +2049,7 @@ void B_BAG_MAIN_LayoutCursorOnly(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);}
 void B_BAG_MAIN_HandleSelection(char *p, int b)
 {
     if ((unsigned int)(b - 7) <= 1) {
-        CURSOR_MOVE_SetCurrent((struct Cursor *)(*(int *)&((struct BagWork *)p)->cursor), 0);
+        CURSOR_MOVE_SetCurrent(*(struct Cursor **)&((struct BagWork *)p)->cursor, 0);
         b = 0;
     }
     B_BAG_MAIN_LayoutCursor((u8 *)p, b);

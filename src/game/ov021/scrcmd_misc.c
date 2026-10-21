@@ -555,7 +555,6 @@ struct PlayerLocationData;
 #include "../arm9/player_location.h"
 
 
-extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 
 
 #include "field_task_manager.h"
@@ -706,7 +705,7 @@ int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
 
 int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-int SCRCMD_SUBSCREEN_ResetModeTask(u32 *eventWords, int *seq);
+int SCRCMD_SUBSCREEN_ResetModeTask(void **eventWords, int *seq);
 
 GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap, u32 partySlot);
 
@@ -1038,7 +1037,7 @@ int SCRCMD_CreateMmdlIcaProc(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem), &pos);
     icaWork = SCRCMD_MMDL_ICA_CreateProc(fieldParam->fieldSystem, mmdlId, &pos, heapId);
-    SCRIPT_WORK_SetReturnParam(scriptWork, (uptr)icaWork);
+    SCRIPT_WORK_SetReturnParam(scriptWork, icaWork);
     return 0;
 }
 
@@ -1145,7 +1144,7 @@ int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 1;
 }
 
-int SCRCMD_SUBSCREEN_ResetModeTask(u32 *eventWords, int *seq)
+int SCRCMD_SUBSCREEN_ResetModeTask(void **eventWords, int *seq)
 {
     FieldSubscreen *subscreen;
 

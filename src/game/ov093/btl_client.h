@@ -21,14 +21,14 @@ struct BtlClient;
 #include "../ov095/btl_pick_list_types.h"
 #include "../ov095/btl_pick_list_types.h"
 
-BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId);
+BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, struct GFLNetHandle *netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
 u8 *BTL_CLIENT_ReadRecorderEntry(BtlClient *client, u32 *out);
 void BTL_CLIENT_AttachRemoteLink(BtlClient *client, BtlRecReader *a);
 void BTL_CLIENT_SetView(BtlClient *client, struct BtlvCore *v);
 void BTL_CLIENT_SetRequestParam(BtlClient *client, struct BtlServer *v);
-u32 BTL_CLIENT_GetNetChannel(BtlClient *client);
+void *BTL_CLIENT_GetNetChannel(BtlClient *client);
 int BTL_CLIENT_RunTick(BtlClient *client);
 void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n);
 void BTL_CLIENT_StartMainStep(BtlClient *client);
@@ -45,7 +45,7 @@ void BTL_CLIENT_GetCursor(BtlClient *client, struct BtlClientSet *outCursor);
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
 int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state);
-int BTL_CLIENT_PollWindowStep(BtlClient *client, int state);
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int *state);
 void BTL_CLIENT_StoreMonParam(BtlClient *client);
 u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client);
 void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client);

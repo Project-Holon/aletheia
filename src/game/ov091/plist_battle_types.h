@@ -27,8 +27,8 @@ struct PlistMiniCell {
     struct BmpWin *sexWindow;         /* 0x04: sex mark */
     struct BmpWin *levelWindow;       /* 0x08 */
     u32 iconRes;                      /* 0x0C */
-    u32 iconActor;                    /* 0x10 */
-    u32 itemMarkActor;                /* 0x14 */
+    struct ClactActor *iconActor;                    /* 0x10 */
+    struct ClactActor *itemMarkActor;                /* 0x14 */
 };
 
 typedef struct PlistActorParam {

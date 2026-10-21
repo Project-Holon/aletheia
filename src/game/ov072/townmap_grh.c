@@ -190,7 +190,7 @@ void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites);
 void TOWNMAP_GRH_DrawClactSystem(int arg);
 void TOWNMAP_GRH_VBlankSprites(TownMapSprites *sprites);
 struct ClactActor *TOWNMAP_GRH_GetSpriteActor(TownMapSprites *sprites, int n);
-unsigned int TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n);
+struct Unit *TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n);
 int TOWNMAP_GRH_GetSpriteResourceId(TownMapSprites *sprites, int i);
 
 /* Text box. */
@@ -373,13 +373,13 @@ TownMapGfx *TOWNMAP_GRH_Create(u16 heapId)
     TOWNMAP_GRH_ResetDisplay();
     TOWNMAP_GRH_InitBgLayers(gfx, heapId);
     TOWNMAP_GRH_InitSprites(&gfx->sprites, &sTownMapGrhVramBanks, heapId);
-    gfx->task = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
+    gfx->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
     return gfx;
 }
 
 void TOWNMAP_GRH_Delete(TownMapGfx *gfx)
 {
-    TCB_DeleteTask((struct TcbTask *)gfx->task);
+    TCB_DeleteTask(gfx->task);
     TOWNMAP_GRH_ExitSprites(&gfx->sprites);
     TOWNMAP_GRH_ExitBgLayers(gfx);
     GFL_HEAP_Free(gfx);
@@ -395,7 +395,7 @@ u8 TOWNMAP_GRH_GetBgId(TownMapGfx *gfx, u32 i)
     return sTownMapGrhBgTable[i].bgId;
 }
 
-unsigned int TOWNMAP_GRH_GetHandle(TownMapGfx *gfx, int n)
+struct Unit *TOWNMAP_GRH_GetHandle(TownMapGfx *gfx, int n)
 {
     return TOWNMAP_GRH_GetSpriteHandle(&gfx->sprites, n);
 }
@@ -558,9 +558,9 @@ struct ClactActor *TOWNMAP_GRH_GetSpriteActor(TownMapSprites *sprites, int n)
     return sprites->actor[n];
 }
 
-unsigned int TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n)
+struct Unit *TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n)
 {
-    return sprites->handle[n];
+    return (struct Unit *)sprites->handle[n];
 }
 
 int TOWNMAP_GRH_GetSpriteResourceId(TownMapSprites *sprites, int i)

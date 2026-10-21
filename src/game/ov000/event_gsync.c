@@ -160,7 +160,7 @@ extern char d_021EF78C[];
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    u32 fieldMap = (uptr)GAMESYSTEM_GetFieldMap(gameSystem);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     int wifiFlag;
 
     switch (*seq) {

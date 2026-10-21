@@ -438,7 +438,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       if (battleStyle != 0)
         flagBit = 1;
       main->isSetStyle = flagBit;
-      BTL_NET_Init((void *)setup->netHandle, setup->levelCap, 0x14);
+      BTL_NET_Init(setup->netHandle, setup->levelCap, 0x14);
       BTL_CALC_SetHeapId(0x12);
       (*step)++;
       break;
@@ -816,8 +816,8 @@ int BTL_MAIN_TaskSetupSingle(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 1);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -875,8 +875,8 @@ int BTL_MAIN_TaskSetupDouble(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 2, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 2);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 2);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 2);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 2);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -961,7 +961,7 @@ int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg)
     for (client = 0; client < 4; client++) {
         if (BTL_MAIN_IsClientUsed(main, client)) {
             slotCount = BTL_MAIN_CountClientTrainers(main, (u8)client);
-            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[client])), client, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[client]), client, slotCount);
         }
     }
     BTL_SERVER_Restart(main->server);
@@ -998,8 +998,8 @@ int BTL_MAIN_TaskSetupTriple(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 3, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 3);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 3);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 3);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 3);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1033,8 +1033,8 @@ int BTL_MAIN_TaskSetupRotation(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 1);
-    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1419,7 +1419,7 @@ int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
         if (BTL_NET_IsPerapVoiceReceived()) {
             for (i = 0; i < 4; ++i) {
                 if (BTL_MAIN_IsClientUsed(main, i) && !BTL_MAIN_IsTrainerSlotNpc(main, (u8)i)) {
-                    src = (void *)BTL_NET_GetPerapVoice((u8)i);
+                    src = BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
                         main->voices[i] = PERAPVOICE_Create(main->heapId);
                         MI_CpuCopy8(src, main->voices[i], PERAPVOICE_GetSize());
@@ -1453,7 +1453,7 @@ int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 1);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
         flag = 1;
         if (clientId != 0) flag = 0;
         BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 1);
@@ -1495,13 +1495,13 @@ int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, slotCount);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, slotCount);
         if (setup->multiMode == 2) {
             x = BTL_MAIN_GetPartnerClient(main, clientId);
             main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 1, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, slotCount);
             main->clients[3] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 3, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[3])), 3, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[3]), 3, slotCount);
             BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)x, slotCount);
         } else {
             for (i = 0; i < main->clientCount; i++) {
@@ -1537,7 +1537,7 @@ int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 3);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 3);
         flag = 0;
         if (clientId == 0) flag = 1;
         BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 3);
@@ -1569,7 +1569,7 @@ int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 1);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
         for (i = 0; i < main->clientCount; i++) {
             if (i != clientId)
                 BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)i, 1);
@@ -2300,13 +2300,13 @@ int BTL_MAIN_IsCommMulti(struct BtlMain *main)
     return 0;
 }
 
-int BTL_MAIN_SyncSideParty(struct BtlMain *main, int clientId)
+struct Party *BTL_MAIN_SyncSideParty(struct BtlMain *main, int clientId)
 {
     BTL_SIDE_WriteBackParty(&main->sides[0], main, clientId, 0);
     return BTL_SIDE_GetParty(&main->sides[0], clientId);
 }
 
-int BTL_MAIN_SyncPartnerSideParty(struct BtlMain *main, u32 clientId)
+struct Party *BTL_MAIN_SyncPartnerSideParty(struct BtlMain *main, u32 clientId)
 {
     u8 partner;
     if (BTL_MAIN_IsMultiMode(main)) {
@@ -2386,17 +2386,17 @@ void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId)
 /*
  * double deref: *(u32*)(*p + 0x60)
  */
-u32 BTL_MAIN_GetMyItem(struct BtlMain *main)
+void *BTL_MAIN_GetMyItem(struct BtlMain *main)
 {
-    return (uptr)main->setup->myItem;
+    return main->setup->myItem;
 }
 
 /*
  * double deref: *(u32*)(*p + 0x64)
  */
-u32 BTL_MAIN_GetMapMatrix(struct BtlMain *main)
+struct BagCursor *BTL_MAIN_GetMapMatrix(struct BtlMain *main)
 {
-    return (u32)main->setup->mapMatrix;
+    return main->setup->mapMatrix;
 }
 
 int BTL_MAIN_IsRecordingActive(struct BtlMain *main)
@@ -2714,7 +2714,7 @@ void BTL_SIDE_WriteBackParty(struct BtlSide *side, struct BtlMain *main, int cli
     void *mon;
     void *displayMon;
     u8 illusionLinks[6];
-    party = (struct Party *)BTL_SIDE_GetParty(side, clientId);
+    party = BTL_SIDE_GetParty(side, clientId);
     slot = BTL_SIDE_GetSlotOfClient(side, clientId);
     count = POKEPARTY_GetCount(party);
     POKEPARTY_Init(main->tempParty);
@@ -2753,7 +2753,7 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
     u32 j;
     struct BtlPokeParam *poke;
 
-    party = (struct Party *)BTL_SIDE_GetParty(side, clientId);
+    party = BTL_SIDE_GetParty(side, clientId);
     slot = BTL_SIDE_GetSlotOfClient(side, clientId);
     count = POKEPARTY_GetCount(party);
     POKEPARTY_Init(main->tempParty);
@@ -2773,9 +2773,9 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
     POKEPARTY_Copy(main->tempParty, party);
 }
 
-int BTL_SIDE_GetParty(struct BtlSide *side, int clientId)
+struct Party *BTL_SIDE_GetParty(struct BtlSide *side, int clientId)
 {
-    return (sptr)side->parties[clientId];
+    return side->parties[clientId];
 }
 
 int BTL_SIDE_FindPokeIndexInClient(struct BtlSide *side, int clientId, int pokeId)
@@ -3258,10 +3258,10 @@ u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index)
     return 0;
 }
 
-u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, int slot, u32 *outTrainerType)
+void *BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, int slot, u32 *outTrainerType)
 {
     *outTrainerType = main->trainers[slot].trainerType;
-    return (uptr)main->trainers[slot].name;
+    return main->trainers[slot].name;
 }
 
 int BTL_MAIN_GetTrainerAiFlags(struct BtlMain *main, int slot)
@@ -3302,10 +3302,10 @@ struct PmsData *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int 
     return 0;
 }
 
-int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
+void *BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
 {
     if (BTL_MAIN_IsTrainerSlotNpc(main, slot)) return 0;
-    return (sptr)main->trainers[slot].handle;
+    return main->trainers[slot].handle;
 }
 
 /*
@@ -3460,7 +3460,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     if (main->setup->ownsSlots != 0) return;
     if (main->setup->competitor <= 1) {
         BTL_SIDE_WriteBackPartyOrdered(&main->sides[1], main, (u8)main->ownClientId);
-        party = (struct Party *)BTL_SIDE_GetParty(&main->sides[1], (u8)main->ownClientId);
+        party = BTL_SIDE_GetParty(&main->sides[1], (u8)main->ownClientId);
         if (main->setup->competitor == 1 && BTL_CALC_IsBossTrainer((u16)(u32)BTL_MAIN_GetTrainerType(main, 1)))
             NATSUKI_CalcParty(party, BTL_MAIN_GetFieldSituation(main)->zoneId, (u16)((main->heapId & 0x7fff) | 0x8000));
         if (main->setup->competitor == 1) {
@@ -3481,7 +3481,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     if (main->setup->competitor == 0) {
         ownPartnerClient = (u8)BTL_MAIN_GetOpponentClient(main, (u8)main->ownClientId, 0);
         BTL_SIDE_WriteBackParty(&main->sides[1], main, ownPartnerClient, 1);
-        POKEPARTY_Copy((void *)BTL_SIDE_GetParty(&main->sides[1], ownPartnerClient), main->setup->party[1]);
+        POKEPARTY_Copy(BTL_SIDE_GetParty(&main->sides[1], ownPartnerClient), main->setup->party[1]);
     }
     if (main->setup->competitor == 4) return;
     for (k = 0; k < 4; k++) {
@@ -3658,9 +3658,9 @@ void BTL_MAIN_StartClientMainSteps(struct BtlMain *main)
     }
 }
 
-u32 BTL_MAIN_GetServerFlow(struct BtlMain *main)
+struct BtlServerFlow *BTL_MAIN_GetServerFlow(struct BtlMain *main)
 {
-    return (uptr)BTL_SERVER_GetFlow(main->server);
+    return BTL_SERVER_GetFlow(main->server);
 }
 
 void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup)

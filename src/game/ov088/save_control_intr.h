@@ -9,7 +9,7 @@ typedef struct SaveControlIntr SaveControlIntr;
 
 #include "../types.h"
 
-void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl);
+void *SAVE_CONTROL_INTR_Create(int heapId, struct SaveControl *saveControl);
 void SAVE_CONTROL_INTR_Delete(void *p);
 void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr);
 u32 SAVE_CONTROL_INTR_Update(SaveControlIntr *intr);

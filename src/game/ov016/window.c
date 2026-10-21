@@ -336,9 +336,8 @@ static void taskMain(void *task, void *work)
     int i;
 
     for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
-        DWCi_Coord2Rect((const struct tagCOORD *)(&sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][i]]),
-                      (const struct tagCOORD *)(&sWindowTable8[gWindowWork->type]), (struct tagRECT *)(&r));
-        if (DWCi_TPlCheckTrigger((u16 *)(&r))) {
+        DWCi_Coord2Rect( (const struct tagCOORD *)&sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][i]], (const struct tagCOORD *)&sWindowTable8[gWindowWork->type], (struct tagRECT *)&r);
+        if (DWCi_TPlCheckTrigger( (unsigned short *)&r)) {
             gWindowWork->input = i;
             break;
         }

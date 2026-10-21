@@ -20,6 +20,13 @@
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  */
+#ifdef __MWERKS__
+#define POKE_TOOL_ChangeForm POKE_TOOL_ChangeForm_header
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_ChangeForm
+#endif
 #include "script_work_types.h"
 #include "formchange_shaymin_shared_types.h"
 
@@ -31,12 +38,10 @@ struct ZukanSave;
 #include "../arm9/pokeparty.h"
 
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 #ifdef __MWERKS__
 extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form); /* original prototype; the definition differs in return type, argument width */
 #else
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam*, u32);
 #endif
 
 void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party, int season);

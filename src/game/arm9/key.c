@@ -122,7 +122,7 @@ static inline u16 KEY_PadRead(void)
  */
 void KEY_MainSys(UiCtx *ui)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
     u16 pad;
 
     if (KEY_PadDetectFold()) {
@@ -230,7 +230,7 @@ void KEY_ApplyControlMode(KeyWork *key)
 
 void KEY_SetRepeatSpeedSys(UiCtx *ui, int speed, int wait)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->repeatSpeed = speed;
     key->repeatWait = wait;
@@ -243,7 +243,7 @@ void KEY_SetRepeatSpeed(int speed, int wait)
 
 void KEY_SetControlModeTableSys(UiCtx *ui, const KeyConvEntry *table)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->controlModeTable = table;
 }
@@ -255,7 +255,7 @@ void KEY_SetControlModeTable(const KeyConvEntry *table)
 
 u32 KEY_GetTrgSys(UiCtx *ui)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->trg30;
@@ -270,7 +270,7 @@ u32 KEY_GetTrg(void)
 
 u32 KEY_GetContSys(UiCtx *ui)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->cont30;
@@ -285,7 +285,7 @@ u32 KEY_GetCont(void)
 
 u32 KEY_GetRepeatSys(UiCtx *ui)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     if (ui->frameRate == UI_FRAMERATE_30) {
         return key->repeat30;
@@ -300,7 +300,7 @@ u32 KEY_GetRepeat(void)
 
 void KEY_GetRepeatSpeedSys(UiCtx *ui, u32 *speed, u32 *wait)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     *speed = key->repeatSpeed;
     *wait = key->repeatWait;
@@ -313,7 +313,7 @@ void KEY_GetRepeatSpeed(u32 *speed, u32 *wait)
 
 void KEY_ClearFrameRateWork(UiCtx *ui)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->cont30 = 0;
     key->trg30 = 0;
@@ -325,7 +325,7 @@ void KEY_ClearFrameRateWork(UiCtx *ui)
 
 void KEY_SetTrg(UiCtx *ui, int trg, int trg30)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->trg30 = trg30;
     key->trg = trg;
@@ -333,7 +333,7 @@ void KEY_SetTrg(UiCtx *ui, int trg, int trg30)
 
 void KEY_SetCont(UiCtx *ui, int cont, int cont30)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->cont30 = cont30;
     key->cont = cont;
@@ -341,7 +341,7 @@ void KEY_SetCont(UiCtx *ui, int cont, int cont30)
 
 void KEY_SetRepeat(UiCtx *ui, int repeat, int repeat30)
 {
-    KeyWork *key = (KeyWork *)UI_GetPointerValue((u32 *)ui);
+    KeyWork *key = (KeyWork *)UI_GetPointerValue((void **)ui);
 
     key->repeat30 = repeat30;
     key->repeat = repeat;

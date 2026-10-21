@@ -11,7 +11,7 @@ typedef struct MenuProcEventWork MenuProcEventWork;
 #include "../types.h"
 
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
-void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
+void *EVENT_MENUPROC_Create(void *gameSystem, struct FieldMap *fieldMap, int procKind);
 /* END mkheaders: generated region */
 
 #endif

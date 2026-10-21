@@ -160,11 +160,11 @@ int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 
 int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *buffer, unsigned int size);
 
-int VCT_SESSION_SendGroupCommand(int peer, int type);
+int VCT_SESSION_SendGroupCommand(VctPeer *peer, int type);
 
 int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *buffer, unsigned int size);
 
-int VCT_SESSION_SendPeerReply(int peer, int type);
+int VCT_SESSION_SendPeerReply(VctPeer *peer, int type);
 
 int VCT_SESSION_AddPeer(unsigned char aid);
 
@@ -1041,7 +1041,7 @@ int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *
     return 0;
 }
 
-int VCT_SESSION_SendGroupCommand(int peer, int type)
+int VCT_SESSION_SendGroupCommand(VctPeer *peer, int type)
 {
     if (gVctSession.mode == 2)
         return -3;
@@ -1072,7 +1072,7 @@ int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *
     return 0;
 }
 
-int VCT_SESSION_SendPeerReply(int peer, int type)
+int VCT_SESSION_SendPeerReply(VctPeer *peer, int type)
 {
     if (gVctSession.mode == 2)
         return -3;

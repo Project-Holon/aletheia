@@ -186,7 +186,7 @@ void THE_END_GRAPHIC_InitWindows(void *p, u16 heap);
 void THE_END_GRAPHIC_ExitWindows(void *p);
 void THE_END_GRAPHIC_Dummy2(void *p);
 void THE_END_GRAPHIC_RefreshDisplay(void *unused);
-void THE_END_GRAPHIC_InitActors(int *p, int b, int c);
+void THE_END_GRAPHIC_InitActors(int *p, struct DispVramCfg *b, int c);
 void THE_END_GRAPHIC_DeleteActors(void *p);
 void THE_END_GRAPHIC_DrawActors(void *unused);
 void THE_END_GRAPHIC_VBlankActors(void *unused);
@@ -360,7 +360,7 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     THE_END_GRAPHIC_InitWindows(p, heap);
-    THE_END_GRAPHIC_InitActors((int *)(p + 4), (sptr)d_021B9C48, heap);
+    THE_END_GRAPHIC_InitActors((int *)(p + 4), (struct DispVramCfg *)d_021B9C48, heap);
     THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
     ((struct TheEndGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
@@ -421,7 +421,7 @@ void THE_END_GRAPHIC_Dummy2(void *p){}
 
 void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 
-void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
+void THE_END_GRAPHIC_InitActors(int *p, struct DispVramCfg *b, int c)
 {
     MI_CpuFill8((void *)((sptr)p), 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);

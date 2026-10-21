@@ -17,7 +17,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p);
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *work);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p);

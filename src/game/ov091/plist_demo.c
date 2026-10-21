@@ -87,7 +87,7 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon);
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon);
-int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused);
+int PLIST_DEMO_CanUseGracidea(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon);
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId);
 int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
@@ -143,11 +143,11 @@ void PLIST_DEMO_DeleteParticles(PokelistWork *work)
 int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
 {
     int result = 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_GIRATINA)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_GIRATINA)
         return 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_HELD_ITEM, result) != PLIST_ITEM_GRISEOUS_ORB)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_HELD_ITEM, result) != PLIST_ITEM_GRISEOUS_ORB)
         return 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) == 0)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_FORM, result) == 0)
         result = 1;
     return result;
 }
@@ -164,11 +164,11 @@ void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon)
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
 {
     int result = 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_HELD_ITEM, 0) == PLIST_ITEM_GRISEOUS_ORB)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_HELD_ITEM, 0) == PLIST_ITEM_GRISEOUS_ORB)
         return 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, result) != PLIST_SPECIES_GIRATINA)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_SPECIES, result) != PLIST_SPECIES_GIRATINA)
         return 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) == 1)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_FORM, result) == 1)
         result = 1;
     return result;
 }
@@ -182,18 +182,18 @@ void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon)
     ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
 
-int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
+int PLIST_DEMO_CanUseGracidea(PokelistWork *work, void *unused)
 {
     u32 now[3];
     u32 dayStart, dayEnd;
     int result = 0;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHAYMIN)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHAYMIN)
         return result;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) != 0)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_FORM, result) != 0)
         return result;
-    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIAL_FLAG, result) != 1)
+    if (POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_SPECIAL_FLAG, result) != 1)
         return result;
-    if (POKE_TOOL_GetStatusCondition((void *)work->selectedMon) & 0x20)
+    if (POKE_TOOL_GetStatusCondition(work->selectedMon) & 0x20)
         return result;
     dayStart = TIMEZONE_GetLight(work->arg->season, result);
     dayEnd = TIMEZONE_GetLight(work->arg->season, 3);

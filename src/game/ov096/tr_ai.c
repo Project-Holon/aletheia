@@ -153,7 +153,7 @@ struct BtlSideSlot;
 struct ArcFile;
 struct ItemRecord;
 struct ArcHandle;
-ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
+ScriptVm *TR_AI_Create(struct BtlMain *battleMain, struct BtlServerFlow *serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
 void TR_AI_Delete(ScriptVm *vm);
 void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos);
@@ -318,7 +318,7 @@ extern const ScriptVmParams gTrAiVmParams;
 extern TrAiScriptCache *gTrAiScriptCache;
 
 
-ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId)
+ScriptVm *TR_AI_Create(struct BtlMain *battleMain, struct BtlServerFlow *serverFlow, void *sideTable, u32 scriptMask, u16 heapId)
 {
     TrAiWork *ai;
     ScriptVm *vm;
@@ -329,10 +329,10 @@ ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTab
     ai->scriptArchive = ARC_TOOL_CreateHandle(0xAB, heapId);
     ai->itemArchive = FILE_UTIL_CreateItemArcHandle(heapId);
     ai->battleMain = battleMain;
-    ai->serverFlow = (void *)serverFlow;
+    ai->serverFlow = serverFlow;
     ai->sideTable = (void *)sideTable;
     ai->rule = BTL_MAIN_GetRule(battleMain);
-    ai->competitor = (void *)BTL_MAIN_GetCompetitor(battleMain);
+    ai->competitor = BTL_MAIN_GetCompetitor(battleMain);
     vm = VM_Create(heapId, &gTrAiVmParams);
     VM_Init(vm, ai);
     if (WAZA_TOOL_IsCacheCreated() == 0)
@@ -701,15 +701,15 @@ int TR_AI_CmdIfRandomNotEqual(ScriptVm *vm, TrAiWork *ai) {
  *   implied.
  */
 int TR_AI_CompareRandom(ScriptVm *vm, TrAiWork *ai, int op) {
-    u8 *threshold;
+    u32 threshold;
     u32 random;
     int jumpOffset;
     E zero;
-    threshold = (u8 *)VM_GetU32(vm);
+    threshold = VM_GetU32(vm);
     jumpOffset = (int)VM_GetU32(vm);
     random = GF_STANDARD_Rand();
     zero = Z0;
-    return TR_AI_Compare(vm, op, ((random >> 24) | (zero << 8)), (sptr)threshold, jumpOffset);
+    return TR_AI_Compare(vm, op, ((random >> 24) | (zero << 8)), threshold, jumpOffset);
 }
 
 int TR_AI_CmdAddScore(ScriptVm *vm, TrAiWork *ai) {
@@ -1451,7 +1451,7 @@ int TR_AI_CmdLoadRule(ScriptVm *vm, TrAiWork *ai) {
 }
 
 int TR_AI_CmdLoadCompetitor(ScriptVm *vm, TrAiWork *ai) {
-    ai->workValue = (sptr)ai->competitor;
+    ai->workValue = ai->competitor;
     return ai->cmdReturn;
 }
 
@@ -2244,7 +2244,7 @@ int TR_AI_GetItemField(TrAiWork *ai, int itemId, int field) {
 
 void TR_AI_InitScriptCache(u32 heapId) { int i; if(gTrAiScriptCache==0) { gTrAiScriptCache=GFL_HEAP_Alloc(heapId,24,1,gTrAiAllocSite,3999); for(i=0;i<4;i++) gTrAiScriptCache->id[i]=255; } }
 
-void TR_AI_FreeScriptCache(void) { int i; int zero; if(gTrAiScriptCache!=0) { zero=0; for(i=0;i<4;i++) { if(gTrAiScriptCache->obj[i]!=0) { GFL_HEAP_Free(gTrAiScriptCache->obj[i]); gTrAiScriptCache->obj[i]=(void *)zero; } } GFL_HEAP_Free(gTrAiScriptCache); gTrAiScriptCache=0; } }
+void TR_AI_FreeScriptCache(void) { int i; void *zero; if(gTrAiScriptCache!=0) { zero=0; for(i=0;i<4;i++) { if(gTrAiScriptCache->obj[i]!=0) { GFL_HEAP_Free(gTrAiScriptCache->obj[i]); gTrAiScriptCache->obj[i]=zero; } } GFL_HEAP_Free(gTrAiScriptCache); gTrAiScriptCache=0; } }
 
 void *TR_AI_LoadScript(TrAiWork *ai) {
     int i;

@@ -1038,14 +1038,14 @@ struct BtlServer;
 #include "../arm9/wordset.h"
 struct GFLNetHandle;
 #include "../arm9/net_handle.h"
-BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId);
+BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, struct GFLNetHandle *netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
 u8 *BTL_CLIENT_ReadRecorderEntry(BtlClient *client, u32 *out);
 void BTL_CLIENT_AttachRemoteLink(BtlClient *client, BtlRecReader *a);
 void BTL_CLIENT_SetView(BtlClient *client, struct BtlvCore *v);
 void BTL_CLIENT_SetRequestParam(BtlClient *client, struct BtlServer *v);
-u32 BTL_CLIENT_GetNetChannel(BtlClient *client);
+void *BTL_CLIENT_GetNetChannel(BtlClient *client);
 int BTL_CLIENT_RunTick(BtlClient *client);
 void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n);
 void BTL_CLIENT_StartMainStep(BtlClient *client);
@@ -1062,7 +1062,7 @@ void BTL_CLIENT_GetCursor(BtlClient *client, struct BtlClientSet *outCursor);
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
 int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state);
-int BTL_CLIENT_PollWindowStep(BtlClient *client, int b);
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int *b);
 void BTL_CLIENT_StoreMonParam(BtlClient *client);
 u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client);
 void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client);
@@ -1300,7 +1300,7 @@ extern const char gBtlNetSourceName[];
 extern const char gBtlPokeparamFileName[];
 extern const u32 gSemiInvulnerableContFlags[4];
 
-BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId)
+BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, struct GFLNetHandle *netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId)
 {
     BtlClient *client;
     u32 slot;
@@ -1389,7 +1389,7 @@ void BTL_CLIENT_SetRequestParam(BtlClient *client, struct BtlServer *v) {
 /*
  * Reads the u32 field at #0x50 of the argument and returns it.
  */
-u32 BTL_CLIENT_GetNetChannel(BtlClient *client) { return (uptr)client->netChannel; }
+void *BTL_CLIENT_GetNetChannel(BtlClient *client) { return client->netChannel; }
 
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: push {r3, lr}; ldr r1, [r0, #0x28]; blx r1; pop {r3, pc}.
@@ -1645,11 +1645,11 @@ int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
     return 0;
 }
 
-int BTL_CLIENT_PollWindowStep(BtlClient *client, int state)
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int *state)
 {
     int r4;
     if (client->view != 0) {
-        r4 = BTL_CLIENT_StepOpenBattleWindow(client, (int *)state);
+        r4 = BTL_CLIENT_StepOpenBattleWindow(client, state);
         if (r4 != 0) {
             if (BTL_REC_ReadSkipFlag(client->recReader, client->clientId) != 0)
                 BTL_CLIENT_RequestCounterAdvance(&client->counter);
@@ -2207,7 +2207,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
         *state = 3;
         break;
     case 2:
-        BTLV_CORE_StartMoveMenuForEntry(client->view, (u32 *)client->recvEntry, (u8 *)client->actionCursor);
+        BTLV_CORE_StartMoveMenuForEntry(client->view, (struct BtlPokeParam **)client->recvEntry, (u8 *)client->actionCursor);
         *state = 3;
         break;
     case 3:
@@ -5264,7 +5264,7 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
         if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || gExpGainWork.s.counter > 80) {
             gExpGainWork.s.counter = 0;
             BTL_MAIN_NotifyLevelUp(client->main, pokeParam);
-            BTLV_CORE_StartBallWindowOpen(client->view, (sptr)pokeParam, (struct BtlExpResult *)gExpGainWork.s.result);
+            BTLV_CORE_StartBallWindowOpen(client->view, (void **)pokeParam, (struct BtlExpResult *)gExpGainWork.s.result);
             *state = 9;
         }
         break;

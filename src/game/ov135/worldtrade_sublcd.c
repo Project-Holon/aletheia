@@ -106,7 +106,7 @@ void WORLDTRADE_SUBLCD_StartAnimTaskB(WorldtradeWork *p);
 
 void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *a);
 
-void WORLDTRADE_SUBLCD_SetActorSurfacePos(u32 a, int b, int c);
+void WORLDTRADE_SUBLCD_SetActorSurfacePos(struct ClactActor *a, int b, int c);
 
 int WORLDTRADE_SUBLCD_CheckButtonTouch(int n);
 
@@ -157,26 +157,26 @@ void WORLDTRADE_SUBLCD_CreateActors(WorldtradeWork *p)
     s.c = 0;
     s.d = 0;
     s.e = 0;
-    p->spr[0] = (uptr)CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.primaryChar, p->res_res.primaryPlt, p->res_res.primaryCell, (const struct ActorInitParam *)&s, 1, 0x48);
+    p->spr[0] = (u32)CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.primaryChar, p->res_res.primaryPlt, p->res_res.primaryCell, (const struct ActorInitParam *)&s, 1, 0x48);
     CLACT_SetActorAutoAnim((struct ClactActor *)p->spr[0], 1);
     CLACT_SetActorBgPriority((struct ClactActor *)p->spr[0], 2);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->spr[0], 3);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->spr[0], 1);
     for (i = 0; i < 7; i++) {
-        p->spr[i + 1] = (uptr)CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, (const struct ActorInitParam *)&s, 1, 0x48);
+        p->spr[i + 1] = (u32)CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, (const struct ActorInitParam *)&s, 1, 0x48);
         CLACT_SetActorAutoAnim((struct ClactActor *)p->spr[i + 1], 1);
         CLACT_SetActorAnimSeq((struct ClactActor *)p->spr[i + 1], i * 4 + 0xE);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->spr[i + 1], 0);
-        WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[i + 1], tbl_022038A2[i].x, tbl_022038A2[i].y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos((struct ClactActor *)p->spr[i + 1], tbl_022038A2[i].x, tbl_022038A2[i].y);
         CLACT_SetActorBgPriority((struct ClactActor *)p->spr[i + 1], 2);
         CLACT_SetActorPaletteOffset((struct ClactActor *)p->spr[i + 1], (u8)(i + 2), 1);
     }
-    p->arrow = (uptr)CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, (const struct ActorInitParam *)&s, 1, 0x48);
-    CLACT_SetActorAutoAnim((struct ClactActor *)p->arrow, 1);
-    CLACT_SetActorAnimSeq((struct ClactActor *)p->arrow, 0x2b);
-    CLACT_SetActorDrawEnable((struct ClactActor *)p->arrow, 0);
+    p->arrow = CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, (const struct ActorInitParam *)&s, 1, 0x48);
+    CLACT_SetActorAutoAnim(p->arrow, 1);
+    CLACT_SetActorAnimSeq(p->arrow, 0x2b);
+    CLACT_SetActorDrawEnable(p->arrow, 0);
     WORLDTRADE_SUBLCD_SetActorSurfacePos(p->arrow, 0x80, 0x56);
-    CLACT_SetActorBgPriority((struct ClactActor *)p->arrow, 1);
+    CLACT_SetActorBgPriority(p->arrow, 1);
     p->scrollBarObj = CLACT_CreateActor((struct Unit *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, (const struct ActorInitParam *)&s, 1, 0x48);
     CLACT_SetActorAutoAnim((struct ClactActor *)p->scrollBarObj, 1);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->scrollBarObj, 0x2a);
@@ -209,7 +209,7 @@ void WORLDTRADE_SUBLCD_StartAnimTaskA(WorldtradeWork *p)
  */
 void WORLDTRADE_SUBLCD_SetActorAnim(u32 *p, u32 animSeq)
 {
-    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)(p[2] + 0xd0c))), (u16)animSeq);
+    CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Actor **)(p[2] + 0xd0c)), (u16)animSeq);
 }
 
 void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *anim)
@@ -224,7 +224,7 @@ void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *anim)
             WORLDTRADE_SUBLCD_SetActorAnim((u32 *)anim, 1);
         }
         anim->y += 2;
-        WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[0], 128, anim->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos((struct ClactActor *)p->spr[0], 128, anim->y);
         break;
     case 1:
         if (CLACT_IsActorAnimActive((struct ClactActor *)p->spr[0]) == 0) {
@@ -240,7 +240,7 @@ void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *anim)
         } else {
             anim->y--;
         }
-        WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[0], 128, anim->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos((struct ClactActor *)p->spr[0], 128, anim->y);
         break;
     case 3:
         GFL_USE_PlaySeDefaultVolume(0x55C);
@@ -276,7 +276,7 @@ void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *anim)
             WORLDTRADE_SUBLCD_SetActorAnim((u32 *)anim, 6);
         }
         anim->y++;
-        WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[0], 128, anim->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos((struct ClactActor *)p->spr[0], 128, anim->y);
         break;
     case 1:
         if (CLACT_IsActorAnimActive((struct ClactActor *)p->spr[0]) == 0) {
@@ -291,7 +291,7 @@ void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *anim)
             WORLDTRADE_SUBLCD_SetActorAnim((u32 *)anim, 3);
         }
         anim->y -= 2;
-        WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[0], 128, anim->y);
+        WORLDTRADE_SUBLCD_SetActorSurfacePos((struct ClactActor *)p->spr[0], 128, anim->y);
         break;
     case 3:
         p->active = 1;
@@ -306,7 +306,7 @@ void WORLDTRADE_SUBLCD_AnimTaskB(void *task, Anim *anim)
 /*
  * Send a one-entry u16 table {(u16)(b - 8), c} to CLACT_AddActorSurfacePos.
  */
-void WORLDTRADE_SUBLCD_SetActorSurfacePos(u32 obj, int x, int y)
+void WORLDTRADE_SUBLCD_SetActorSurfacePos(struct ClactActor *obj, int x, int y)
 {
     u16 t[2];
 
@@ -337,11 +337,11 @@ void WORLDTRADE_SUBLCD_UpdateSlotPalettes(WorldtradeWork *p, int count, int flag
     for (i = 0; i < 7; i++) {
         if (i < count) {
             WORLDTRADE_SUBLCD_LoadSlotPalette((NNSG2dCharacterData **)((u8 *)p + 0xE5C), (McssPlttData *)(*(void **)((u8 *)p + a)), i, *(u8 *)((u8 *)p + i * 0x128 + b), *(u8 *)((u8 *)p + i * 0x128 + 0x302));
-            if (flag != 0) CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))), i * 4 + 14);
-            else CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))), i * 4 + 17);
-            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)((u8 *)p + i * 4 + 0xD10)), 1);
+            if (flag != 0) CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)), i * 4 + 14);
+            else CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)), i * 4 + 17);
+            CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)), 1);
         } else {
-            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)((u8 *)p + i * 4 + 0xD10)), 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)), 0);
         }
     }
 }
@@ -363,10 +363,10 @@ void WORLDTRADE_SUBLCD_UpdateSlotAnims(WorldtradeWork *p)
     for (i = 0; i < 7; i++) {
         if (*(u32 *)((u8 *)p + i * 4 + 0xD10) != 0) {
             int a;
-            a = CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))));
+            a = CLACT_GetActorAnimSeq((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)));
             if (a != WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1) {
-                if (CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)))) != 0) {
-                    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))), WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1);
+                if (CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10))) != 0) {
+                    CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Actor **)((u8 *)p + i * 4 + 0xD10)), WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1);
                 }
             }
         }

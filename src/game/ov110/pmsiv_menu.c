@@ -627,7 +627,7 @@ void PMSIV_MENU_UpdateBlend(struct PmsivMenu *menu)
     for (i = 0; i < PMSIV_MENU_BLEND_COLORS; i++) {
         lerp(&menu->blendColors[i], t, menu->baseColors[i], menu->targetColors[i]);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, (unsigned int)0x56, (uptr)menu->blendColors, 10);
+    NNS_GfdRegisterNewVramTransferTask(14, (unsigned int)0x56, menu->blendColors, 10);
 }
 
 void PMSIV_MENU_StartItemBlend(struct PmsivMenu *menu,int i)

@@ -18,7 +18,8 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex);
 void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p);
 void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos);
 void STA_ACT_EFFECT_KillEffect(char *p, int index);
-void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, int position);
+struct VecFx32;
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, struct VecFx32 *position);
 /* END mkheaders: generated region */
 
 #endif

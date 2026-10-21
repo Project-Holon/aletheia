@@ -87,7 +87,8 @@ typedef short s16_p07;
 #include "../arm9/bmp.h"
 
 
-int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 text, u16 xPos, u16 yPos, u16 color, u16 heapId, TexKey *out);
+struct Strbuf;
+int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, struct Strbuf *text, u16 xPos, u16 yPos, u16 color, u16 heapId, TexKey *out);
 
 int TEXT_TEXTURE_GetTexFormatCount(void);
 
@@ -111,11 +112,11 @@ struct Strbuf;
 
 
 
-void TEXT_TEXTURE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font);
+void TEXT_TEXTURE_PrintToClearedBitmap(struct Strbuf *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font);
 
 void TEXT_TEXTURE_ConvertToTileOrder(void *srcBmp, void *dstBmp);
 
-void TEXT_TEXTURE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16 color, u16 heapId);
+void TEXT_TEXTURE_UploadTextTexture(TexReq *req, struct Strbuf *text, u16 xPos, u16 yPos, u16 color, u16 heapId);
 
 void TEXT_TEXTURE_UploadPalette(TexReq *req, void *dest);
 
@@ -127,7 +128,7 @@ extern const TexFormat d_021726A0[];
  * through TEXT_TEXTURE_UploadTextTexture (optionally TEXT_TEXTURE_UploadPalette). One lever: the four
  * stack aggregates declared in reverse of their frame order.
  */
-int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 text, u16 xPos, u16 yPos, u16 color, u16 heap, TexKey *out)
+int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, struct Strbuf *text, u16 xPos, u16 yPos, u16 color, u16 heap, TexKey *out)
 {
     TexKey key;
     char tn[16];
@@ -226,7 +227,7 @@ void TEXT_TEXTURE_ClearBitmap(void *bmp)
     }
 }
 
-void TEXT_TEXTURE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font)
+void TEXT_TEXTURE_PrintToClearedBitmap(struct Strbuf *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font)
 {
     TEXT_TEXTURE_ClearBitmap(bmp);
     PRINTSYS_PrintColor(bmp, (s16)xPos, yPos, text, font, color);
@@ -346,7 +347,7 @@ void TEXT_TEXTURE_ConvertToTileOrder(void *srcBmp, void *dstBmp)
  * pidHigh; a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md for the (u32) widen).
  * The earlier u16 h try (154 B) used h >> 3, which promotes to int and gives asrs.
  */
-void TEXT_TEXTURE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16 color, u16 heapId)
+void TEXT_TEXTURE_UploadTextTexture(TexReq *req, struct Strbuf *text, u16 xPos, u16 yPos, u16 color, u16 heapId)
 {
     u16 h;
     u32 hi;
@@ -363,7 +364,7 @@ void TEXT_TEXTURE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u
     wi = (u32)d_021726A0[req->texFmt].formatId >> 3;
     tmp = BMP_Create(wi, hi, 0x20, heapId);
     buf = BMP_Create(wi, hi, 0x20, heapId);
-    TEXT_TEXTURE_PrintToClearedBitmap((void *)text, xPos, yPos, color, buf, req->font);
+    TEXT_TEXTURE_PrintToClearedBitmap(text, xPos, yPos, color, buf, req->font);
     TEXT_TEXTURE_ConvertToTileOrder(buf, tmp);
     vram = BMP_GetPixels(tmp);
     base = req->texOfs;

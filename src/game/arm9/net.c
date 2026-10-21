@@ -111,11 +111,7 @@
 
 #include "net_lower_data.h"
 
-#ifdef __MWERKS__
-extern u32  FLASH_ACCESS_GetBusyFlag(void); /* original prototype; the definition differs in return type */
-#else
 #include "flash_access.h"
-#endif
 
 
 #include "wm_icon.h"
@@ -340,7 +336,7 @@ extern const char file_020A7D2C[];
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId)
 {
-    GFLNetModeOps *ops = (struct GFLNetModeOps *)NET_DEVICE_TABLE_Select(1);
+    GFLNetModeOps *ops = NET_DEVICE_TABLE_Select(1);
 
     if (ops != 0)
         ops->initLibrary(parentHeapId, zero);
@@ -382,7 +378,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, 
     session = (GFLNetSession *)GFL_HEAP_Alloc(req->heapId, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.session = session;
     session->errorCheckEnabled = 1;
-    session->ops = (struct GFLNetModeOps *)NET_DEVICE_TABLE_Select(req->bNetType);
+    session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
     if (session->ops == 0)
         GF_PANIC_Fail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)

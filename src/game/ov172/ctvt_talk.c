@@ -625,11 +625,11 @@ u32 CTVT_TALK_Main(void *p, CtvtTalk *s)
         s->flashCounter++;
         if (s->flashCounter > 6) {
             s->flashActive = 0;
-            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (uptr)s->savedPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1F, 0x20, s->savedPalette, 0x20);
         } else if (s->flashCounter % 12 < 6) {
-            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (uptr)s->flashPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1F, 0x20, s->flashPalette, 0x20);
         } else {
-            NNS_GfdRegisterNewVramTransferTask((void *)0x1F, 0x20, (uptr)s->savedPalette, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1F, 0x20, s->savedPalette, 0x20);
         }
     }
     if (s->voiceActive == 0 && s->state != 8 && s->state < 11 && CTVT_MIC_GetPlayState(s->mic) == 1) {
@@ -691,7 +691,7 @@ void CTVT_TALK_HandleInput(u8 *c, u8 *q)
     if (CTVT_TALK_CheckEnd(c, (int *)q) == 1)
         return;
     if (((CtvtTalk *)q)->state <= 8 && COMM_TVT_SYS_GetViewSwapped((CtvtWork *)c) == 0) {
-        u32 s = (uptr)COMM_TVT_SYS_GetCamView((CtvtWork *)c);
+        struct CtvtCamView *s = COMM_TVT_SYS_GetCamView((CtvtWork *)c);
         if (KEY_GetTrg() & 0x40) CTVT_CAMVIEW_SetCameraEffect((struct CtvtWork *)(sptr)c, (struct CtvtCamView *)s, 0);
         if (KEY_GetTrg() & 0x10) CTVT_CAMVIEW_SetCameraEffect((struct CtvtWork *)(sptr)c, (struct CtvtCamView *)s, 5);
         if (KEY_GetTrg() & 0x80) CTVT_CAMVIEW_SetCameraEffect((struct CtvtWork *)(sptr)c, (struct CtvtCamView *)s, 1);
@@ -996,9 +996,9 @@ void CTVT_TALK_PlotPixel(u8 *p, u8 x, u8 y, u8 value)
 
 void CTVT_TALK_ShowMessage(void *p, char *q, int id)
 {
-    u32 font = COMM_TVT_SYS_GetFont(p);
-    u32 msgs = (uptr)COMM_TVT_SYS_GetMsgData(p);
-    u32 sys = (uptr)COMM_TVT_SYS_GetPrintQue(p);
+    struct GfFont *font = COMM_TVT_SYS_GetFont(p);
+    struct MsgBank *msgs = COMM_TVT_SYS_GetMsgData(p);
+    struct PrintQueue *sys = COMM_TVT_SYS_GetPrintQue(p);
     uptr text;
     PRINTSYS_QUE_Clear((struct PrintQueue *)sys);
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((CtvtTalk *)q)->messageWin)), 15);

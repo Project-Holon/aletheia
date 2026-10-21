@@ -512,7 +512,7 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *model)
 
 void SHINKA_DEMO_EFFECT_RemoveUnit(char *model)
 {
-    G3D_UTIL_RemoveUnit((G3dUtil *)((struct Util *)(*(int *)&((EffectModel *)model)->res)), ((EffectModel *)model)->unitIdx);
+    G3D_UTIL_RemoveUnit((G3dUtil *)(*(struct Util **)&((EffectModel *)model)->res), ((EffectModel *)model)->unitIdx);
     SHINKA_DEMO_EFFECT_FreeNode((void *)(((EffectModel *)model)->nodes));
     ((EffectModel *)model)->count = 0;
 }

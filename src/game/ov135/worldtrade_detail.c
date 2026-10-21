@@ -319,7 +319,7 @@ extern struct BgTemplate g_022034FC;
 extern const WorldtradeWinDef tbl_0220351C[];
 
 /*
- * note: 2026-10-05 recoup: WIPE_SYS_Start declared with an int return (first-check lever). With void the
+ * note: 2026-10-05 recoup: WIPE_SYS_Start declared with an int return (first-check lever). With struct the
  *   literal 1 stayed in r4 for the stack store, r1, r2 and the return (4 B differ); with int the
  *   constants are rematerialised as in the original. The other callees stay void as in their matched files.
  */
@@ -337,7 +337,7 @@ int WORLDTRADE_DETAIL_Init(WorldtradeWork *p)
     WORLDTRADE_DETAIL_PrintMonInfo(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(void **)((u8 *)p+0xB68),(void **)((u8 *)p+0xD90),POKE_TOOL_CastToBoxParam(mon),(WorldtradeRec *)((u8 *)p+0x1D0),(u8 *)p+0xFA0);
     WORLDTRADE_DETAIL_PrintMonName(*(void **)((u8 *)p+0xB6C),(Pane2 *)((u8 *)p+0xDAC),MYSTATUS_GetName(*(void **)(*(u8 **)(u8 *)p+0x1C)),mon,(Pane2 *)((u8 *)p+0xDC0),(u8 *)p+0xFA0);
     index=WORLDTRADE_DEPOSIT_FindLevelBracketIndex(*(s8 *)((u8 *)p+0x1D7),*(s8 *)((u8 *)p+0x1D8),0);
-    WORLDTRADE_DEPOSIT_DrawRequestWindowAlt((void *)(*(void **)((u8 *)p+0xB6C)),(void *)(*(void **)((u8 *)p+0xB70)),(void *)(*(int *)((u8 *)p+0xB68)),(void **)((u8 *)p+0xDB4),*(s16 *)((u8 *)p+0x1D4),*(s8 *)((u8 *)p+0x1D6),index,(void *)((u8 *)p+0xFA0));
+    WORLDTRADE_DEPOSIT_DrawRequestWindowAlt((void *)(*(void **)((u8 *)p+0xB6C)),(void *)(*(void **)((u8 *)p+0xB70)),*(void **)((u8 *)p+0xB68),(void **)((u8 *)p+0xDB4),*(s16 *)((u8 *)p+0x1D4),*(s8 *)((u8 *)p+0x1D6),index,(void *)((u8 *)p+0xFA0));
     WORLDTRADE_DETAIL_LoadMonGraphics(mon);
 #ifdef __MWERKS__
     /* The original prototype returned int. */
@@ -438,7 +438,7 @@ void WORLDTRADE_DETAIL_CreateActors(WorldtradeWork *p)
  */
 void WORLDTRADE_DETAIL_DeleteActors(WorldtradeWork *p)
 {
-    CLACT_DeleteActor((struct ClactActor *)((struct Actor *)((*(unsigned int *)&p->obj))));
+    CLACT_DeleteActor((struct ClactActor *)(*(struct Actor **)&p->obj));
 }
 
 void WORLDTRADE_DETAIL_CreateWindows(WorldtradeWork *p)
@@ -573,7 +573,7 @@ int WORLDTRADE_DETAIL_StateMenuInput(WorldtradeWork *p)
         WORLDTRADE_CloseTaskMenuList((WorldtradeWork *)p);
         BMP_MENUWORK_Delete(p->de8);
         q = WORLDTRADE_NoOp(**(void ** *)(void **)&p->ctx);
-        if (WORLDTRADE_BOX_IsHoldingMail((uptr)q) && POKEPARTY_GetCount(p->ctx->party) == 6) {
+        if (WORLDTRADE_BOX_IsHoldingMail((u32)q) && POKEPARTY_GetCount(p->ctx->party) == 6) {
             WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
             WORLDTRADE_SetNextState(p, 3, 1);
             return 2;
@@ -624,8 +624,8 @@ void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, 
     struct BmpWin *h;
 
     WORDSET_SetSlotMonSpeciesName(((WorldtradeWork *)p)->words, 0, (void *)mon);
-    v = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((WorldtradeWork *)p)->bank_u), msgId);
-    WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((WorldtradeWork *)p)->words), (void *)(((WorldtradeWork *)p)->str), (void *)v);
+    v = (uptr)MSGDATA_AllocString(*(struct MsgBank **)&((WorldtradeWork *)p)->bank_u, msgId);
+    WORDSET_CopyTaggedText(*(struct WordSet **)&((WorldtradeWork *)p)->words, (void *)(((WorldtradeWork *)p)->str), (void *)v);
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((WorldtradeWork *)p)->frame)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((WorldtradeWork *)p)->frame), 0, 1, 0xe);
     h = ((WorldtradeWork *)p)->frame;
@@ -682,7 +682,7 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     smode = MSGDATA_AllocString(bank, tbl_02202EB0[mode]);
     s70 = MSGDATA_AllocString(bank, 0x70);
     WORDSET_SetSlotNumber(words, 3, key, 3, 0, 1);
-    s71 = (void *)WORLDTRADE_ADAPTER_CreateString((uptr)words, (uptr)bank, 0x71, 0x48);
+    s71 = (void *)WORLDTRADE_ADAPTER_CreateString(words, bank, 0x71, 0x48);
     sname = MSGDATA_AllocString(names, name);
     FILE_UTIL_ReadString(ot, (u16)lv, 0x48);
     s41 = MSGDATA_AllocString(bank, 0x41);

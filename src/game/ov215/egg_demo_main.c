@@ -157,7 +157,7 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 #include "../arm9/zonedata.h"
 struct PokemonParam;
-extern void POKE_TOOL_HatchEgg(struct PokemonParam *pp, unsigned int trainer, unsigned int location, unsigned int arg);
+#include "../arm9/poke_tool.h"
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *,void *),ZUKAN_SAVE_RegisterCaught(struct Blk37 *,void *);
 extern int EGG_DEMO_VIEW_IsFadeDone(char *),EGG_DEMO_VIEW_IsFinished(char *);
@@ -170,7 +170,7 @@ struct NameInArgs;
 extern struct NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, struct Strbuf *initialName, void *pokedex);
 extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
 extern struct Strbuf *STRBUF_Create(u32,u32);
-extern void NAMEIN_SETUP_CopyName(int *,int),POKE_TOOL_SetPartyValue(void *,u32,u32),STRBUF_Delete(struct U16Vec *);
+extern void NAMEIN_SETUP_CopyName(int *,int),STRBUF_Delete(struct U16Vec *);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 #include "../arm9/record.h"
 extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
@@ -237,12 +237,12 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
     EGG_DEMO_MAIN_Init(args,work);
     EGG_DEMO_MAIN_StartFadeOutBgm(args,work);
     FADE_Start(3,16,16,0);
-    ((struct EggDemoWork *)work)->proc=(uptr)PROCSYS_Create(((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->proc=PROCSYS_Create(((struct EggDemoWork *)work)->heapId);
     GFL_NET_RefreshWmIconAtTopRight(0,((struct EggDemoWork *)work)->heapId);
     return 1;
 }
 
-int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct ProcSys * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
+int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct ProcSys * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources((u32)((void *)args),work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
 
 /*
  * prototypes: owning ARM9 units and ov215 sources; live r3 from C028 is
@@ -293,9 +293,9 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     case 14:
         if(!FADE_IsActive()){
             block=MISC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));
-            EGG_DEMO_MAIN_DeleteResources((uptr)args,(char *)work);((struct EggDemoWork *)work)->state=15;
+            EGG_DEMO_MAIN_DeleteResources((u32)args,(char *)work);((struct EggDemoWork *)work)->state=15;
             child=(int *)NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,(void *)args[1],10,0,block);((struct EggDemoWork *)work)->nameChild=child;
-            PROCSYS_Push((struct ProcSys *)((struct EggDemoWork *)work)->proc,(uptr)&abs_id_C2,(const struct ProcData *)&gNameInProcData,(void *)child);
+            PROCSYS_Push(((struct EggDemoWork *)work)->proc,(uptr)&abs_id_C2,(const struct ProcData *)&gNameInProcData,(void *)child);
         }break;
     case 15:
         if(active!=1){
@@ -314,7 +314,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     EGG_DEMO_MAIN_UpdateBgm((u8 *)args,(u8 *)work);
     if(((struct EggDemoWork *)work)->state!=15&&((struct EggDemoWork *)work)->state!=16&&((struct EggDemoWork *)work)->state!=17&&((struct EggDemoWork *)work)->state!=20){
         EGG_DEMO_MENU_Main(args,(char *)work);EGG_DEMO_MENU_ProcessDialog(args,(char *)work);EGG_DEMO_VIEW_Update((char *)((struct EggDemoWork *)work)->view);
-        PRINTSYS_QUE_Main((struct PrintQueue *)((struct EggDemoWork *)work)->printQue);EGG_DEMO_GRAPHIC_Draw((char *)((struct EggDemoWork *)work)->graphic);EGG_DEMO_GRAPHIC_Draw3d((char *)((struct EggDemoWork *)work)->graphic);
+        PRINTSYS_QUE_Main(((struct EggDemoWork *)work)->printQue);EGG_DEMO_GRAPHIC_Draw((char *)((struct EggDemoWork *)work)->graphic);EGG_DEMO_GRAPHIC_Draw3d((char *)((struct EggDemoWork *)work)->graphic);
         EGG_DEMO_VIEW_Draw((char *)((struct EggDemoWork *)work)->view);EGG_DEMO_GRAPHIC_DrawEnd((char *)((struct EggDemoWork *)work)->graphic);
     }
     return 0;
@@ -334,7 +334,7 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     for (i=0;i<=7;i++) BG_SYS_SetPlaneVisible(i,0);
     ((struct EggDemoWork *)work)->graphic=EGG_DEMO_GRAPHIC_Create(1,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->font=GF_FONT_Create(23,0,0,0,((struct EggDemoWork *)work)->heapId);
-    ((struct EggDemoWork *)work)->printQue=(uptr)PRINTSYS_QUE_Create((unsigned int)(u32)((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->printQue=PRINTSYS_QUE_Create((unsigned int)(u32)((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->vblankTask=GFL_USE_AddMainTask(EGG_DEMO_MAIN_OnVBlank, work,1);
     EGG_DEMO_MAIN_LoadGraphics(args,work);
     EGG_DEMO_MAIN_InitActors(args,(struct EggDemoWork *)work);

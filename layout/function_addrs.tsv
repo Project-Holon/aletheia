@@ -32630,6 +32630,9 @@ ov198	0x022119F8	B_PLIST_MAIN_RecreateCursor	thumb	24	src/game/ov198/b_plist_mai
 ov198	0x02211A10	B_PLIST_MAIN_SetActorsVisible	thumb	20	src/game/ov198/b_plist_main.c	no
 ov198	0x02211A24	B_PLIST_MAIN_LayoutCursorActors	thumb	28	src/game/ov198/b_plist_main.c	no
 ov198	0x02211A40	B_PLIST_MAIN_ShowCursor	thumb	18	src/game/ov198/b_plist_main.c	no
+ov198	0x02211A54	B_PLIST_MAIN_HideCursor	thumb	12	src/game/ov198/b_plist_main.c	no
+ov198	0x02211A60	B_PLIST_MAIN_HideCursorOnTouch	thumb	12	src/game/ov198/b_plist_main.c	no
+ov198	0x02211A6C	B_PLIST_MAIN_MoveCursor	thumb	8	src/game/ov198/b_plist_main.c	no
 ov199	0x02212560	WIFIBATTLEMATCH_SYS_CreateWork	thumb	300	src/game/ov199/wifibattlematch_sys.c	no
 ov199	0x0221268C	WIFIBATTLEMATCH_SYS_DestroyWork	thumb	104	src/game/ov199/wifibattlematch_sys.c	no
 ov199	0x022126F4	WIFIBATTLEMATCH_SYS_WaitTask	thumb	76	src/game/ov199/wifibattlematch_sys.c	no

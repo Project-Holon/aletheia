@@ -20,7 +20,7 @@ void ZKNSEARCH_RESULT_MoveRow2(int work, int delta);
 void ZKNSEARCH_RESULT_SetRow3(int work, unsigned row, int window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop5(void);
 void ZKNSEARCH_RESULT_MoveRow3(int work, int delta);
-void ZKNSEARCH_RESULT_SetRow4(int work, unsigned row, unsigned *window, int y, int flag);
+void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *work, unsigned row, unsigned *window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop6(void);
 void ZKNSEARCH_RESULT_MoveRow4(int work, int delta);
 /* END mkheaders: generated region */

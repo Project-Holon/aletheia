@@ -83,7 +83,7 @@ int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table);
 
 int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
 
-void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList);
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfoTable *table);
 
 int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
 
@@ -146,14 +146,14 @@ int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *in
 }
 
 /* Hands every used entry back to the beacon log as new. */
-void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList)
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfoTable *table)
 {
     int i;
 
     for (i = 0; i < 30; i++) {
-        if (infoList[i].versionBit == 0)
+        if (table->info[i].versionBit == 0)
             break;
-        GAME_BEACON_SetNewFlagByTrainerId(&infoList[i]);
+        GAME_BEACON_SetNewFlagByTrainerId(&table->info[i]);
     }
 }
 

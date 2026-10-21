@@ -851,7 +851,7 @@ void GSYNC_STATE_StateSaveFinishMessage(char *state)
         GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),6,7);
         GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,1);
         animCallback.value=0; animCallback.object=state; animCallback.callback=GSYNC_STATE_ResetSlotActors;
-        GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(sptr)&animCallback);
+        GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(struct ClactAnimCommand *)&animCallback);
         GSYNC_DISP_SetFadeDirection((struct GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
         GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)POKE_TOOL_CastToBoxParam(((GsyncStateWork *)state)->receivedMon),0);
         GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork));

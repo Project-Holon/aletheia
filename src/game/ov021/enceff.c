@@ -159,7 +159,7 @@ void ENCEFF_UnloadOverlays(EncEffWork *eff);
 
 void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId);
 
-void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
+void ENCEFF_SelectEffectAndBgmForTrainer(int trainerId, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
 
 EncEffWork *ENCEFF_Create(u32 heapId, struct FieldMap *fieldMap)
 {
@@ -374,10 +374,10 @@ void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, s
  * trainer's two class groups when the first is below 11, otherwise from the
  * tile and the area the player stands in.
  */
-void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
+void ENCEFF_SelectEffectAndBgmForTrainer(int trainerId, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
 {
     int areaIsInner = 1;
-    u32 trainerClass = TPOKE_DATA_GetRecordField(trainerData, 1);
+    u32 trainerClass = TPOKE_DATA_GetRecordField((void *)(uptr)trainerId, 1);
     u32 bgmGroup = TPOKE_DATA_GetTrainerKind(trainerClass);
     u32 effectGroup = TPOKE_DATA_FindTrainerType(trainerClass);
     int effectKind;

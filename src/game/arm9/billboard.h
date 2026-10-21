@@ -14,7 +14,7 @@ struct LightSlot;
 #include "../types.h"
 #include "../sdk_fx.h"
 
-void *BILLBOARD_Create(u8 *src, void *heap);
+void *BILLBOARD_Create(u8 *src, u32 heap);
 void BILLBOARD_Delete(void *p);
 void BILLBOARD_SetFixedNormal(u8 *board, short *normal);
 void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);

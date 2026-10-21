@@ -256,10 +256,10 @@ u32 FIELD_ENCOUNT_PickFishingSlot(u8 slotCount);
 u32 FIELD_ENCOUNT_PickRandomSlot(u32 slotCount);
 FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap);
 void FIELD_ENCOUNT_Delete(FieldEncount *encount);
-int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
-int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags);
+struct GameEvent *FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
+struct GameEvent *FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags);
 struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount, int triggerMode);
-int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc);
+struct GameEvent *FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc);
 void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
 int FIELD_ENCOUNT_GetEncountType(FieldEncount *encount, int triggerMode, u8 *rateBonus);
 int FIELD_ENCOUNT_GetEncountRate(FieldEncount *encount, int encountType, int rateBonus);
@@ -880,7 +880,7 @@ FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
     encount->gameSystem = gameSystem;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     encount->gameData = gameData;
-    encount->encountData = (struct EncountData *)EVENTDATA_SYSTEM_GetEncountData((uptr)GAME_DATA_GetEventData(gameData));
+    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(GAME_DATA_GetEventData(gameData));
     effectEncount = EFFECT_ENCOUNT_Create(heapId);
     encount->effectEncount = effectEncount;
     EFFECT_ENCOUNT_Init(encount, effectEncount);
@@ -894,7 +894,7 @@ void FIELD_ENCOUNT_Delete(FieldEncount *encount)
     GFL_HEAP_Free(encount);
 }
 
-int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
+struct GameEvent *FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -940,7 +940,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
         MI_CpuFill8(mons, 0, 0x28);
         monCount = FIELD_ENCOUNT_CreateZoneWildMons(encount->encountData, &param, FIELDMAP_GetZoneId(encount->fieldMap), mons);
         if (monCount == 0)
-            return (sptr)roamer;
+            return 0;
         if (param.isDoubleBattle && monCount == 1) {
             param.isDoubleBattle = 0;
             param.monCount = monCount;
@@ -949,7 +949,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
         FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     }
     FIELD_ENCOUNT_ResetStepWork(stepWork, player);
-    return EVENT_BATTLE_CreateScriptedBattle((sptr)encount->gameSystem, (sptr)encount->fieldMap, (sptr)btlSetup, 0, triggerMode);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, triggerMode);
 }
 
 /*
@@ -957,7 +957,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
  * shiny mode, 4 no held item, 8 hidden ability, 0x20 or 0x40 gender,
  * 0x100 status flag 0x200.
  */
-int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags)
+struct GameEvent *FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -998,7 +998,7 @@ int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level
     if (flags & 0x100) {
         BTL_SETUP_SetStatusFlag(btlSetup, 0x200);
     }
-    return EVENT_BATTLE_CreateScriptedBattle((sptr)encount->gameSystem, (sptr)encount->fieldMap, (sptr)btlSetup, 1, 0);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 1, 0);
 }
 
 struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount, int triggerMode)
@@ -1035,7 +1035,7 @@ struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount
     return btlSetup;
 }
 
-int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc)
+struct GameEvent *FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -1064,7 +1064,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc
     btlSetup = BTL_SETUP_Create(4);
     FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     FIELD_ENCOUNT_ResetStepWork(stepWork, player);
-    return EVENT_BATTLE_CreateScriptedBattle((sptr)encount->gameSystem, (sptr)encount->fieldMap, (sptr)btlSetup, 0, 3);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, 3);
 }
 
 void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap)

@@ -205,14 +205,14 @@ void FLDEFF_SPLASH_DeleteBoardRes(u32 unused, SplashBoardRes *res)
 void FLDEFF_SPLASH_LoadBoardImage(SplashBoardRes *res)
 {
     BbActRec rec;
-    u32 arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
+    struct ArcHandle *arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
 
     rec.format = 2;
     rec.sizeS = 0x13;
     rec.sizeT = 0x10;
     rec.paletteId = 0x10;
     rec.kind = 1;
-    rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, 0x2d);
+    rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle(arcHandle, 0x2d);
     FIELD_EFFECT_ApplyPaletteTable((struct FieldEffectSys *)res->sys, (void *)rec.resource);
     res->imageIdx = BILLBOARD_ACT_CreateSlots(res->actSys, &rec, 1);
 }
@@ -238,14 +238,14 @@ void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
 {
     SplashBoardParam *param = (SplashBoardParam *)FIELD_EFFECT_GetObjectParam(obj);
     FldEffBbRes *bbRes;
-    uptr actSys; u32 entryId;
+    struct BbActSys *actSys; u32 entryId;
     VecFx32 pos;
     BbActDesc desc;
 
     work->param = *param;
     FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     bbRes = (FldEffBbRes *)work->param.res;
-    actSys = (uptr)bbRes->actSys;
+    actSys = bbRes->actSys;
     pos.y -= 0xE000;
     pos.z -= 0xA000;
     desc.slot = bbRes->imageIdx;
@@ -257,24 +257,24 @@ void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
     desc.pos = pos;
     desc.hook = 0;
     desc.hookArg = (uptr)work;
-    work->entryId = BILLBOARD_ACT_CreateEntries((struct BbActSys *)actSys, 0, &desc, 1, 3);
+    work->entryId = BILLBOARD_ACT_CreateEntries(actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    BILLBOARD_ACT_SetEntryCommands((void *)actSys, work->entryId, (struct BbActCmd **)gSplashBoardCommands, 1);
+    BILLBOARD_ACT_SetEntryCommands(actSys, work->entryId, (struct BbActCmd **)gSplashBoardCommands, 1);
     entryId = work->entryId;
-    BILLBOARD_ACT_SetEntryList((void *)actSys, entryId, 0);
-    BILLBOARD_ACT_SetEntryEnabled((void *)actSys, entryId, 1);
+    BILLBOARD_ACT_SetEntryList(actSys, entryId, 0);
+    BILLBOARD_ACT_SetEntryEnabled(actSys, entryId, 1);
 }
 
 /* Exit: deletes the billboard entry unless the creation failed. */
 void FLDEFF_SPLASH_ExitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
 {
-    u32 actSys = (uptr)work->param.res->actSys;
+    struct BbActSys *actSys = work->param.res->actSys;
 
     if (work->entryId != 0xFFFF)
-        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)actSys, work->entryId, 1);
+        BILLBOARD_ACT_DeleteEntries(actSys, work->entryId, 1);
 }
 
 /* Update: ends the effect when the entry has run its last command. */
@@ -311,7 +311,7 @@ void FLDEFF_SPLASH_LoadModel(SplashModelRes *res)
 {
     u32 resDesc[9];
     struct FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)res->sys);
-    u32 arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
+    struct ArcHandle *arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
 
     FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)resDesc);
     FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, arcHandle, 0x5f);

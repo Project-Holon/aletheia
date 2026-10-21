@@ -7,8 +7,8 @@
 
 /* Display capture blend setup and the vblank task that writes REG_DISP_CAPCNT. */
 typedef struct TitleDemoCapture {
-    u32 taskList; /* 0x00 */
-    u32 vblankTask; /* 0x04 */
+    struct TcblSystem *taskList; /* 0x00 */
+    struct TcbTask *vblankTask; /* 0x04 */
     u16 captureEva; /* 0x08 */
     u16 captureEvb; /* 0x0A */
 } TitleDemoCapture;
@@ -16,36 +16,36 @@ typedef char TitleDemoCapture_SizeCheck[(sizeof(TitleDemoCapture) == 0xC) ? 1 : 
 
 /* Logo text window on bg layer 5 and the bg scroll counter. */
 typedef struct TitleDemoLogo {
-    u32 textWindow; /* 0x00 */
-    u32 textBitmap; /* 0x04 */
-    u32 textWindowCopy; /* 0x08 */
+    struct BmpWin *textWindow; /* 0x00 */
+    struct Bmp *textBitmap; /* 0x04 */
+    struct BmpWin *textWindowCopy; /* 0x08 */
     u8 windowDirty; /* 0x0C */
     u8 pad0D[3];
     u32 ready; /* 0x10 */
-    u32 font; /* 0x14 */
-    u32 printer; /* 0x18 */
+    struct GfFont *font; /* 0x14 */
+    struct PrintQueue *printer; /* 0x18 */
     u8 pad1C[4];
-    u32 msgBank; /* 0x20 */
-    u32 titleText; /* 0x24 */
+    struct MsgBank *msgBank; /* 0x20 */
+    struct Strbuf *titleText; /* 0x24 */
     int bgScroll; /* 0x28 */
 } TitleDemoLogo;
 typedef char TitleDemoLogo_SizeCheck[(sizeof(TitleDemoLogo) == 0x2C) ? 1 : -1];
 
 /* 3D logo model: renderer, light set, ica animation and camera. */
 typedef struct TitleDemo3d {
-    u32 renderer; /* 0x00 */
+    struct G3dUtil *renderer; /* 0x00 */
     u16 modelId; /* 0x04 */
     u16 pad06;
-    u32 lightSet; /* 0x08 */
-    u32 anime; /* 0x0C */
+    void *lightSet; /* 0x08 */
+    struct IcaAnime *anime; /* 0x0C */
     void *camera; /* 0x10 */
 } TitleDemo3d;
 typedef char TitleDemo3d_SizeCheck[(sizeof(TitleDemo3d) == 0x14) ? 1 : -1];
 
 /* Cell actor unit with one actor and its three resources. */
 typedef struct TitleDemoSprites {
-    int unit; /* 0x00 */
-    int actor; /* 0x04 */
+    struct Unit *unit; /* 0x00 */
+    struct ClactActor *actor; /* 0x04 */
     u8 pad08[0x24];
     int paletteRes; /* 0x2C */
     int charRes; /* 0x30 */
@@ -62,7 +62,7 @@ typedef struct TitleDemoWork {
     TitleDemo3d demo3d; /* 0x40 */
     TitleDemoSprites sprites; /* 0x54 */
     u32 frameCount; /* 0x8C */
-    void *fanfareHandle; /* 0x90 */
+    u32 fanfareHandle; /* 0x90 */
     u32 phase; /* 0x94 */
 } TitleDemoWork;
 typedef char TitleDemoWork_SizeCheck[(sizeof(TitleDemoWork) == 0x98) ? 1 : -1];
@@ -94,19 +94,19 @@ typedef struct StartMenuWork {
     void *unlockData; /* 0x08 */
     void *connectData; /* 0x0C */
     void *eventWork; /* 0x10 */
-    int vblankTask; /* 0x14 */
+    struct TcbTask *vblankTask; /* 0x14 */
     void *clactUnit; /* 0x18 */
     void *rowActors[6]; /* 0x1C */
     int actorCharRes[3]; /* 0x34 */
     int actorPaletteRes[3]; /* 0x40 */
     int actorCellRes[3]; /* 0x4C */
-    u32 font; /* 0x58 */
+    struct GfFont *font; /* 0x58 */
     void *msgBank; /* 0x5C */
     void *wordSet; /* 0x60 */
     void *stringBuf; /* 0x64 */
     void *printSys; /* 0x68 */
     void *printJob; /* 0x6C */
-    u32 taskList; /* 0x70 */
+    struct TcblSystem *taskList; /* 0x70 */
     void *msgBoxFrame; /* 0x74 */
     u32 printAdvanceLatched; /* 0x78 */
     void *yesNoMenu; /* 0x7C */

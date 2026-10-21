@@ -411,7 +411,7 @@ int SYMBOL_MAP_GetSyncBlockItem(SaveSyncBlock *block, unsigned index);
 
 int SYMBOL_MAP_GetSyncBlockHeader(SaveSyncBlock *block, int sel);
 
-void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked);
+void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 *outValue, u16 *outPicked);
 
 int SYMBOL_MAP_PickerTaskMain(void *task, int *state);
 
@@ -905,7 +905,7 @@ int SYMBOL_MAP_GetSyncBlockHeader(SaveSyncBlock *block, int sel)
  * pointers, then fills a 232-entry owned-flag table (+0x30) and a 20-entry
  * halfword table (+0x08) from the save object, zero padding the halfwords.
  */
-void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked)
+void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 *outValue, u16 *outPicked)
 {
     struct GameEvent *task;
     SymbolMapPickerWork *work;
@@ -1025,7 +1025,7 @@ int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work)
     outKind = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outPicked = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    task = (sptr)SYMBOL_MAP_CreatePickerTask(gameSystem, mode, (uptr)outKind, (uptr)outValue, (uptr)outPicked);
+    task = (sptr)SYMBOL_MAP_CreatePickerTask(gameSystem, mode, outKind, outValue, outPicked);
     if (task == 0)
         return 1;
     SCRIPT_SYS_CallEvent(scriptSystem, (void *)task);

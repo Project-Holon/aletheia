@@ -458,7 +458,6 @@ struct BmpOam;
 
 extern void BG_SYS_MarkTileDirty(u32 layer);
 
-extern u32 BG_SYS_GetBuf(int channel);
 
 extern u32 BG_SYS_GetChannelScrollX(u8 channel);
 

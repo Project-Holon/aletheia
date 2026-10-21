@@ -137,7 +137,7 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
     void *bank;
 
     t = GFL_HEAP_Alloc(heap, 0x14, 0, g_020A76DC, 0x159);
-    TPOKE_DATA_ReadRecord((void *)id, t);
+    TPOKE_DATA_ReadRecord(id, t);
 
     out->trainerId = id;
     out->genderClass = t->genderClass;
@@ -194,8 +194,8 @@ void TR_TOOL_BuildParty(u32 trid, void *party, u16 heap)
     td = GFL_HEAP_Alloc(h, 0x14, 0, g_020A76DC, 387);
     tp = GFL_HEAP_Alloc(h, 0x6C, 0, g_020A76DC, 388);
     mon = GFL_HEAP_Alloc(h, POKE_TOOL_GetPartyParamSize(), 0, g_020A76DC, 389);
-    TPOKE_DATA_ReadRecord((void *)trid, td);
-    TPOKE_DATA_ReadParty((void *)trid, tp);
+    TPOKE_DATA_ReadRecord(trid, td);
+    TPOKE_DATA_ReadParty(trid, tp);
     if (TPOKE_DATA_GetGenderValue(td->genderClass) == 1) {
         gender = 0x78;
     } else {

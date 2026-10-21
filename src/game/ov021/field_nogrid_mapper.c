@@ -97,7 +97,7 @@ struct FieldCamera;
 #include "fld_scenearea_loader.h"
 #include "../arm9/zonedata.h"
 
-FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
+FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, struct FieldCamera *fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
 int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper);
 void FIELD_NOGRID_MAPPER_SetActive(FieldNogridMapper *mapper, int active);
 void FIELD_NOGRID_MAPPER_LoadData(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId);
@@ -117,11 +117,11 @@ RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldNogridMapper *mapper);
 
 extern int d_021DE2D0;
 
-FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader)
+FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, struct FieldCamera *fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader)
 {
     FieldNogridMapper *mapper = GFL_HEAP_Alloc((u16)heapId, sizeof(FieldNogridMapper), 1, (const char *)&d_021DE2D0, 0x47);
 
-    mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, (struct FieldCamera *)fieldCamera);
+    mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, fieldCamera);
     mapper->railLoader = FIELD_RAIL_LOADER_Create(heapId);
     mapper->sceneArea = sceneArea;
     mapper->sceneAreaLoader = sceneAreaLoader;

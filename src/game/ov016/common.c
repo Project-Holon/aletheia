@@ -62,8 +62,8 @@ void DWCi_CMNlMsgDraw(int msgId);
 void DWCi_CMNlMsgNameDraw(unsigned short *name, int msgId);
 extern unsigned char gCommonWork[];
 extern const unsigned char sCommonLanguageCodes[];
-extern void *DWCiMsgCmn;
-extern int gCommentWork;
+extern struct MsgPrm *DWCiMsgCmn;
+extern struct MsgPrm *gCommentWork;
 extern const COORD sCommonNamePosByLanguage[7];
 extern int gDwcLanguageTable[];
 
@@ -122,7 +122,7 @@ void DWCi_CMNlButton(int kind)
 void DWCi_CMNlMsgDraw(int msgId)
 {
     void *canvas = DWCi_FNTlFormBgEx(0, 0);
-    unsigned short *msg = (unsigned short *)DWCi_MSGlGet(DWCiMsgCmn, msgId);
+    unsigned short *msg = DWCi_MSGlGet(DWCiMsgCmn, msgId);
     unsigned long flag = DWCi_CMNlFontFlag();
 
     DWCi_FNTlDrawRect(canvas, 0xd, 0x28, 0xe6, 0x70, 2, flag, msg);
@@ -139,7 +139,7 @@ void DWCi_CMNlMsgNameDraw(unsigned short *name, int msgId)
     void *canvas;
 
     canvas = DWCi_FNTlFormBgEx(0, 0);
-    msg = (short unsigned int *)DWCi_MSGlGet((void *)gCommentWork, msgId);
+    msg = DWCi_MSGlGet(gCommentWork, msgId);
     DWCi_FNTlDrawRect(canvas, 13, 60, 230, 94, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlDraw(canvas, sCommonNamePosByLanguage[DWCi_Language()].x, sCommonNamePosByLanguage[DWCi_Language()].y, 2, 13 + 508, name);
     DWCi_FNTlRenewBg((sptr)canvas);

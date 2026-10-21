@@ -22,7 +22,7 @@ void BEACON_DETAIL_LoadRecords(char *p);
 u32 BEACON_DETAIL_GetRecordIndex(u32 key);
 void BEACON_DETAIL_ReadTouchInput(char *p);
 void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdistance,int *yflag,int *ydistance);
-u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag);
+struct Descriptor *BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag);
 void BEACON_DETAIL_InitMainScreen(char *p,void *arc);
 void BEACON_DETAIL_CreateTaskMenu(char *p);
 void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i);

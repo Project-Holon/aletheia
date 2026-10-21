@@ -22,7 +22,7 @@ void POKETRADE_PROC_UpdateDragState(void *p);
 void POKETRADE_PROC_UpdateDragIcon(void *p);
 void POKETRADE_PROC_ClearDragIcon(void *p);
 void POKETRADE_PROC_ShowDragIcon(void *p);
-void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int mon);
+void POKETRADE_PROC_BeginDrag(void *p, struct ClactActor *x, int y, int z, int mon);
 void *POKETRADE_PROC_LoadSlotMon(void **a, int b, int c, char *p);
 void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
 char *POKETRADE_PROC_GetSlotMonPtr(int a, int b, char *p);

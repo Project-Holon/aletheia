@@ -189,7 +189,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, u32 *state, void *eventW
         scene->screenTex = SCREENTEX_Create(FIELDMAP_GetHeapId(scene->fieldMap), 3);
         scene->renderObj = G3D_SYSTEM_CreateRender(scene->modelResource, 0, scene->screenTex);
         scene->animeObj = G3D_SYSTEM_CreateAnime(scene->renderObj, scene->animeResource, 0);
-        scene->object = G3D_SYSTEM_CreateObject(scene->renderObj, (struct G3dAnime **)(&scene->animeObj), 1);
+        scene->object = G3D_SYSTEM_CreateObject(scene->renderObj, (struct G3dAnime **)&scene->animeObj, 1);
         G3D_SYSTEM_EnableObjectAnime(scene->object, 0);
         SCREENTEX_CaptureDisplay(3, 3);
         scene->savedDrawMode = FIELDMAP_GetDrawMode(scene->fieldMap);

@@ -118,7 +118,7 @@ typedef struct {
 typedef struct {
     u16 heap;                /* 0x00 */
     u8 pad2[2];
-    u32 unit;                /* 0x04 CLACT unit */
+    struct Unit *unit;                /* 0x04 CLACT unit */
     u8 pad8[0x90];
     void *obj[8];            /* 0x98 CLACT actors */
     ViewerRes res[2];        /* 0xB8 registered resource sets */

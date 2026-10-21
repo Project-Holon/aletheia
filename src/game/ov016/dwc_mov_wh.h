@@ -20,7 +20,7 @@ unsigned short DWCi_MOV_WH_GetMeasureChannel(void);
 int DWCi_MOV_WH_Initialize(void);
 int DWCi_MOV_WH_StateInInitialize(void);
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel);
-void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
+void DWCi_MOV_WH_SetJudgeAcceptFunc(int (*v)(void *cb));
 u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 a);
 int DWCi_MOV_WH_StepDS(void *data);
 void DWCi_MOV_WH_Reset(void);

@@ -362,7 +362,7 @@ int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(ScriptVm *vm, struct ScrcmdW
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int doorId = VM_ReadU16(vm);
     int doorState = VM_ReadU16(vm);
-    struct GameEvent *event = (struct GameEvent *)FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent((sptr)gameSystem, doorId, doorState);
+    struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(gameSystem, doorId, doorState);
 
     if (event == 0) {
         return 1;

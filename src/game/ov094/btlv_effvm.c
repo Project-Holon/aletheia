@@ -611,7 +611,7 @@ int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdReturnScript(int vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdReturnScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdJumpScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 
@@ -2941,7 +2941,7 @@ int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work)
 
     work->savedAttackerPos[work->callDepth] = work->attackerPos;
     work->savedDefenderPos[work->callDepth] = work->defenderPos;
-    work->savedScriptBuf[work->callDepth] = (sptr)work->scriptBuf;
+    work->savedScriptBuf[work->callDepth] = work->scriptBuf;
     work->savedScriptVar[work->callDepth] = work->scriptVar;
     if (newAttackerPos != 14) work->attackerPos = newAttackerPos;
     if (newDefenderPos != 16) work->defenderPos = newDefenderPos;
@@ -2953,7 +2953,7 @@ int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work)
     return work->result;
 }
 
-int BTLV_EFFVM_CmdReturnScript(int vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdReturnScript(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     int depth;
 
@@ -2962,9 +2962,9 @@ int BTLV_EFFVM_CmdReturnScript(int vm, BtlvEffVmWork *work)
     depth = work->callDepth;
     work->attackerPos = work->savedAttackerPos[depth];
     work->defenderPos = work->savedDefenderPos[depth];
-    work->scriptBuf = (void *)work->savedScriptBuf[depth];
+    work->scriptBuf = work->savedScriptBuf[depth];
     work->scriptVar = work->savedScriptVar[depth];
-    VM_Return((struct ScriptVm *)vm);
+    VM_Return(vm);
     return work->result;
 }
 
@@ -3069,7 +3069,7 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
     VM_End(vm);
     work->result = 1;
     if (work->flags.bit.gfxReloadPending) {
-        scu = (void *)BTLV_EFFECT_GetSceneUnit();
+        scu = BTLV_EFFECT_GetSceneUnit();
         if (scu != 0)
             BTLV_SCU_ReloadGraphics(scu);
         BG_SYS_SetPriority(3, 0);
@@ -3841,7 +3841,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         work = VM_GetContext((void *)req->vm);
         work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         motion = (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount];
-        PARTICLE_EMITTER_SetUserData(emitter, (sptr)motion);
+        PARTICLE_EMITTER_SetUserData(emitter, motion);
         PARTICLE_EMITTER_SetCallback(emitter, (sptr)BTLV_EFFVM_ParticleMotionStep);
         work->allocBufferCount += 1;
         motion->phaseA = 0;
@@ -4025,7 +4025,7 @@ void BTLV_EFFVM_EmitterInitCallback(void *emitter)
 
     if (motion->projectToScreen != 0 && motion->center.z < 0)
         PARTICLE_EMITTER_SetAngle(emitter, 0x800);
-    PARTICLE_EMITTER_SetUserData(emitter, (sptr)motion);
+    PARTICLE_EMITTER_SetUserData(emitter, motion);
     PARTICLE_EMITTER_SetCallback(emitter, (sptr)BTLV_EFFVM_EmitterMoveCallbackB);
 }
 

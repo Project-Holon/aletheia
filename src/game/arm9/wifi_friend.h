@@ -13,8 +13,8 @@ int WIFILIST_SearchFriendSlot(void *friendData, int *outSlot);
 int WIFILIST_FindFriendByKey(void *saveBlock, u64 friendKey, int *outSlot);
 int WIFILIST_UpdateFriendRecord(void *friendData);
 void WIFILIST_StoreFriendProfile(void *saveBlock, void *profile, int slot, int heapId, int copyName);
-void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode);
-int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
+void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, int heapId, int mode);
+int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, u32 heapId);
 /* END mkheaders: generated region */
 
 #endif

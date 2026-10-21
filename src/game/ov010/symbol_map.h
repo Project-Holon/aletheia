@@ -35,7 +35,7 @@ int SYMBOL_MAP_ScrCmdGetEventStateValue(void *vm, void *work);
 int SYMBOL_MAP_ScrCmdStartRecordTask(void *vm, void *work);
 int SYMBOL_MAP_GetSyncBlockItem(SaveSyncBlock *block, unsigned index);
 int SYMBOL_MAP_GetSyncBlockHeader(SaveSyncBlock *block, int sel);
-void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked);
+void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 *outValue, u16 *outPicked);
 int SYMBOL_MAP_PickerTaskMain(void *task, int *state);
 int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work);
 int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work);

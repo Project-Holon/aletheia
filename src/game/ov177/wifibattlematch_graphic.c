@@ -69,7 +69,7 @@ struct WifibattlematchGraphic {
     u8 bgData[4];
     struct Unit *clactUnit;
     u8 pad8[4];
-    u32 vblankHandle;
+    struct TcbTask *vblankHandle;
 };
 
 /* offset-0 view of the clact slot: the clact helpers receive work + 4 */
@@ -140,7 +140,7 @@ void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused);
 
-void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c);
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, struct DispVramCfg *b, int c);
 
 void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p);
 
@@ -176,8 +176,8 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
-    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (sptr)d_021E8B2C, heap);
-    ((struct WifibattlematchGraphic *)p)->vblankHandle = (uptr)GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
+    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (struct DispVramCfg *)d_021E8B2C, heap);
+    ((struct WifibattlematchGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
     return p;
 }
 
@@ -186,7 +186,7 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
  */
 void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
 {
-    TCB_DeleteTask((struct TcbTask *)((struct WifibattlematchGraphic *)p)->vblankHandle);
+    TCB_DeleteTask(((struct WifibattlematchGraphic *)p)->vblankHandle);
     WIFIBATTLEMATCH_GRAPHIC_DeleteClact((int *)(p + 4));
     WIFIBATTLEMATCH_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -259,7 +259,7 @@ void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
  * Bring up the graphics object: clear four words, submit the table and
  *   latch the 0x80-byte handle.
  */
-void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, struct DispVramCfg *b, int c)
 {
     MI_CpuFill8((void *)((sptr)p), 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
@@ -292,5 +292,5 @@ void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused)
  */
 int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p)
 {
-    return *p;
+    return (int)(*(void **)p);
 }

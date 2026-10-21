@@ -38,7 +38,7 @@ extern struct ArcTableInfo ARC_TOOL_gArchiveTable;
 
 void ARC_TOOL_SetTable(void **entries, u32 count)
 {
-    ARC_TOOL_gArchiveTable.entries = (u32 *)entries;
+    ARC_TOOL_gArchiveTable.entries = (const char **)entries;
     ARC_TOOL_gArchiveTable.count = count;
     ARC_TOOL_gArchiveTable.useRecords = 0;
 }
@@ -310,7 +310,7 @@ void ARC_TOOL_OpenArchive(FSFile *arc, u32 archiveID)
 {
     FS_InitFile(arc);
     if (ARC_TOOL_gArchiveTable.useRecords == 0) {
-        FS_OpenFile(arc, (const char *)(ARC_TOOL_gArchiveTable.entries[archiveID]));
+        FS_OpenFile(arc, ARC_TOOL_gArchiveTable.entries[archiveID]);
     } else {
         u32 *tbl = (u32 *)ARC_TOOL_gArchiveTable.entries;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + archiveID;

@@ -75,20 +75,14 @@ struct UnpackedPalette {
     u8  data[1];
 };
 
-struct PaletteBlock {
-    u32 fmt;
-    u8  pad04[4];
-    u32 size;
-    u32 data;
-};
-
-typedef void (*GfxLoadFn)(u32 data, u32 dest, u32 size);
+typedef void (*GfxLoadFn)(const void *data, u32 dest, u32 size);
 
 #include "gfl_heap_wrap.h"
 
 #include "os_cache.h"
 
 #include "nns_g2d_anim_bank.h"
+#include "nns_g2d_res_types.h"
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
@@ -104,7 +98,7 @@ extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add
 
 extern u8 BG_SYS_GetColorMode(int channel);
 
-extern u32 BG_SYS_GetBuf(int channel);
+extern void *BG_SYS_GetBuf(int channel);
 
 extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
@@ -524,14 +518,14 @@ u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 archiveID, u32 memberIdx, u32 cha
 
 u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
-    u32 res = (uptr)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
-    return ARC_UTIL_UploadBgPalette((void *)res, channel, offset, add, size, 0);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
+    return ARC_UTIL_UploadBgPalette(res, channel, offset, add, size, 0);
 }
 
 u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
-    u32 res = (uptr)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
-    return ARC_UTIL_UploadBgPalette((void *)res, channel, offset, add, size, 1);
+    void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
+    return ARC_UTIL_UploadBgPalette(res, channel, offset, add, size, 1);
 }
 
 /*
@@ -572,7 +566,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 s
                     p[i] += (u8)add;
             }
         }
-        if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
+        if (BG_SYS_GetBuf((u8)channel) != 0) {
             BG_SYS_DecodeTileSource((u8)channel, pal->data, size, offset);
             if (flag != 0)
                 BG_SYS_MarkTileDirty(channel);
@@ -655,8 +649,8 @@ void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u
  */
 void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags)
 {
-    u32 buf = (uptr)ARC_UTIL_LoadHandleMember(arc, memberIdx, 0, (u16)((flags & 0x7fff) | 0x8000));
-    ARC_UTIL_UploadPalette((void *)buf, kind, offset, dest, size);
+    void *buf = ARC_UTIL_LoadHandleMember(arc, memberIdx, 0, (u16)((flags & 0x7fff) | 0x8000));
+    ARC_UTIL_UploadPalette(buf, kind, offset, dest, size);
 }
 
 /*
@@ -684,7 +678,7 @@ void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 of
  */
 void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size)
 {
-    struct PaletteBlock *pltt;
+    NNSG2dPaletteData *pltt;
     u16 *pmcp;
     int cmp;
 
@@ -692,34 +686,34 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
         return;
     cmp = NNS_G2dGetUnpackedPaletteCompressInfo(file, (void **)(&pmcp));
     if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&pltt)) != 0) {
-        pltt->data += offset;
+        pltt->pRawData = (u8 *)pltt->pRawData + offset;
         if (size == 0) {
             if (cmp == 0)
-                size = pltt->size;
+                size = pltt->szByte;
             else
                 size = *pmcp * (pltt->fmt == 3 ? 0x20 : 0x200);
             size -= offset;
         }
-        DC_FlushRange((void *)pltt->data, size);
+        DC_FlushRange(pltt->pRawData, size);
         switch (kind) {
         case 2:
             GX_BeginLoadBGExtPltt();
-            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->pRawData, dest, size);
             GX_EndLoadBGExtPltt();
             break;
         case 6:
             GXS_BeginLoadBGExtPltt();
-            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->pRawData, dest, size);
             GXS_EndLoadBGExtPltt();
             break;
         case 3:
             GX_BeginLoadOBJExtPltt();
-            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->pRawData, dest, size);
             GX_EndLoadOBJExtPltt();
             break;
         case 7:
             GXS_BeginLoadOBJExtPltt();
-            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->pRawData, dest, size);
             GXS_EndLoadOBJExtPltt();
             break;
         case 0:
@@ -727,7 +721,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
         case 4:
         case 5:
         default:
-            ARC_UTIL_gPaletteLoadFns[kind](pltt->data, dest, size);
+            ARC_UTIL_gPaletteLoadFns[kind](pltt->pRawData, dest, size);
             break;
         }
     }

@@ -685,7 +685,7 @@ void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value)
         situation->connect.connectPc = (UnionBeaconPc *)value;
         return;
     case 4:
-        situation->status = value;
+        situation->status = (u8)value;
     }
 }
 

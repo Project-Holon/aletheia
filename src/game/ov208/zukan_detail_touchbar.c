@@ -855,7 +855,7 @@ s32 ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable(struct Ov208Scene *m)
         u8 b = b1 + ((b2 - b1) * t >> 12);
         m->palOut[i] = r | g << 5 | b << 10;
     }
-    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (uptr)m->palOut, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask(14, 0x1a0, m->palOut, 0x20);
 }
 
 /*

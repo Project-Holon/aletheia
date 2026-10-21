@@ -16,7 +16,7 @@ void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId);
 void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, void *mon);
 int GSYNC_MESSAGE_UpdateStream(GsyncMessageWork *work);
 void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work);
-int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout);
+struct TaskMenuWork *GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout);
 int GSYNC_MESSAGE_PrintId(GsyncMessageWork *work, int msgId);
 void GSYNC_MESSAGE_PrintInWindow(GsyncMessageWork *work, int top, int height);
 void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work);

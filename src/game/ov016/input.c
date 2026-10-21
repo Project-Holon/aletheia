@@ -222,12 +222,11 @@ static void readTouch(void)
 
 int DWCi_IPTlCheckTrigger(unsigned int f)
 {
-    int *g = (int *)0x021DE688;
     unsigned short v = *(unsigned short *)0x02FFFFA8;
 
     if ((v & 0x8000) >> 0xf)
         return 0;
-    return (f & *(unsigned short *)(g[1] + 0x32)) == f;
+    return (f & gInputStatics.work->trg) == f;
 }
 
 /*
@@ -236,12 +235,11 @@ int DWCi_IPTlCheckTrigger(unsigned int f)
  */
 int DWCi_IPTlCheckRepeat(unsigned int f)
 {
-    int *g = (int *)0x021DE688;
     unsigned short v = *(unsigned short *)0x02FFFFA8;
 
     if ((v & 0x8000) >> 0xf)
         return 0;
-    return (f & *(unsigned short *)(g[1] + 0x34)) == f;
+    return (f & gInputStatics.work->repeat) == f;
 }
 
 /*
@@ -250,12 +248,11 @@ int DWCi_IPTlCheckRepeat(unsigned int f)
  */
 int DWCi_IPTlCheckRelease(unsigned int f)
 {
-    int *g = (int *)0x021DE688;
     unsigned short v = *(unsigned short *)0x02FFFFA8;
 
     if ((v & 0x8000) >> 0xf)
         return 0;
-    return (f & *(unsigned short *)(g[1] + 0x36)) == f;
+    return (f & gInputStatics.work->release) == f;
 }
 
 /*

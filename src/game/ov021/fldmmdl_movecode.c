@@ -304,11 +304,11 @@ void FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalk();
 void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl);
-int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3);
-int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
 int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work);
-int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
-int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
 void FLDMMDL_MOVE_InitWallWalkMode0Hand0(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode1Hand1(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode2Hand0(Mmdl *mmdl);
@@ -355,11 +355,11 @@ void FLDMMDL_MOVE_InitHideKind0Alt(Mmdl *mmdl);
 void FLDMMDL_MOVE_Hide(Mmdl *mmdl);
 void FLDMMDL_MOVE_DeleteHide(Mmdl *mmdl);
 void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl);
-int FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind);
+FieldEffectObj *FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind);
 int FLDMMDL_MOVE_HideCreateEffect(Mmdl *mmdl, MmdlHideWork *work);
 int FLDMMDL_MOVE_HideKeepEffect(Mmdl *mmdl, MmdlHideWork *work, u32 regR2, u32 regR3);
-void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect);
-int FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
+void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, FieldEffectObj *effect);
+FieldEffectObj *FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
 void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl);
 void FLDMMDL_MOVE_WallWalk(Mmdl *mmdl);
 int FLDMMDL_MOVE_WallWalkStop(Mmdl *mmdl, MmdlWallWalkWork *work);
@@ -1993,22 +1993,22 @@ int FLDMMDL_MOVE_UpdatePlayerTracking(Mmdl *mmdl, MmdlLookWork *work)
 /* Start tracking the player: remember his grid position. */
 void FLDMMDL_MOVE_StartPlayerTracking(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    Mmdl *player = FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     work->tracking = 1;
-    work->targetX = FLDMMDL_GetGridNowX((void *)player);
-    work->targetZ = FLDMMDL_GetGridNowZ((void *)player);
+    work->targetX = FLDMMDL_GetGridNowX(player);
+    work->targetZ = FLDMMDL_GetGridNowZ(player);
     work->lastDir = 0xFF;
 }
 
 /* Has the player left the remembered grid position. */
 int FLDMMDL_MOVE_HasPlayerMoved(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    Mmdl *player = FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     int x;
     int z;
     if (player != 0) {
-        x = FLDMMDL_GetGridNowX((void *)player);
-        z = FLDMMDL_GetGridNowZ((void *)player);
+        x = FLDMMDL_GetGridNowX(player);
+        z = FLDMMDL_GetGridNowZ(player);
         if (x != work->targetX || z != work->targetZ) {
             return 1;
         }
@@ -2019,9 +2019,9 @@ int FLDMMDL_MOVE_HasPlayerMoved(Mmdl *mmdl, MmdlLookWork *work)
 /* Remember the player's current grid position. */
 void FLDMMDL_MOVE_SavePlayerGridPos(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
-    work->targetX = FLDMMDL_GetGridNowX((void *)player);
-    work->targetZ = FLDMMDL_GetGridNowZ((void *)player);
+    Mmdl *player = FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    work->targetX = FLDMMDL_GetGridNowX(player);
+    work->targetZ = FLDMMDL_GetGridNowZ(player);
 }
 
 /* Acmd code base of the turn: the four 0x58..0x5B codes map to 0x10..0x13. */
@@ -2046,17 +2046,17 @@ int FLDMMDL_MOVE_GetTurnAcmdBase(Mmdl *mmdl)
 /* Turn towards the player when he is on another grid cell. */
 int FLDMMDL_MOVE_TurnToPlayer(Mmdl *mmdl)
 {
-    sptr player;
+    Mmdl *player;
     int x;
     int z;
     int playerX;
     int playerZ;
     int turnBase;
-    player = (sptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    player = FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     x = FLDMMDL_GetGridNowX((void *)mmdl);
     z = FLDMMDL_GetGridNowZ((void *)mmdl);
-    playerX = FLDMMDL_GetGridOldX((void *)player);
-    playerZ = FLDMMDL_GetGridOldZ((void *)player);
+    playerX = FLDMMDL_GetGridOldX(player);
+    playerZ = FLDMMDL_GetGridOldZ(player);
     if (x != playerX || z != playerZ) {
         turnBase = FLDMMDL_MOVE_GetTurnAcmdBase(mmdl);
         FLDMMDL_SetLocalAcmd(mmdl, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)((int)FLDMMDL_MOVE_GetDirFromPoints(x, z, playerX, playerZ)), (u16)turnBase)));
@@ -2264,9 +2264,9 @@ void FLDMMDL_MOVE_Hide(Mmdl *mmdl)
 /* Hide (delete): remove the field effect. */
 void FLDMMDL_MOVE_DeleteHide(Mmdl *mmdl)
 {
-    u32 effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
+    FieldEffectObj *effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
     if (effect != 0) {
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)effect);
+        FIELD_EFFECT_DeleteObject(effect);
     }
 }
 
@@ -2285,9 +2285,9 @@ void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl)
 }
 
 /* Create the hide field effect of the given kind. */
-int FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind)
+FieldEffectObj *FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind)
 {
-    return (sptr)FLDEFF_HIDE_Start((struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
+    return FLDEFF_HIDE_Start((struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
 }
 
 /* Hide, step 0: create the effect and pause the model's movement. */
@@ -2317,13 +2317,13 @@ int FLDMMDL_MOVE_HideKeepEffect(Mmdl *mmdl, MmdlHideWork *work, u32 regR2, u32 r
 }
 
 /* Store the hide field effect in the move proc work. */
-void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect)
+void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, FieldEffectObj *effect)
 {
     ((MmdlHideWork *)GET_MOVE_PROC_WORK(mmdl))->effect = effect;
 }
 
 /* Get the hide field effect of the move proc work. */
-int FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl)
+FieldEffectObj *FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl)
 {
     return ((MmdlHideWork *)FLDMMDL_GetMoveProcWork((void *)mmdl))->effect;
 }
@@ -2367,7 +2367,7 @@ void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl)
 }
 
 /* Face a direction, step 0: turn to the model's display direction. */
-int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
+int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3)
 {
     FLDMMDL_SetLocalAcmd(mmdl, (u16)FLDMMDL_ACMD_ConvertCodeByDir((((u32)FLDMMDL_GetDirDisp(mmdl) << 16) >> 16), 0));
     FLDMMDL_OffMoveBitMove(mmdl);
@@ -2377,7 +2377,7 @@ int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
 }
 
 /* Face a direction, step 1: wait for the turn to end. */
-int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
+int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3)
 {
     if (FLDMMDL_ACMD_Update(mmdl) == 1) {
         ((MmdlFaceDirWork *)work)->step = 2;
@@ -2389,11 +2389,11 @@ int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
 /* Face a direction, step 2: take the player's direction when none is set. */
 int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work)
 {
-    uptr player;
+    Mmdl *player;
     if (work[1] == 9) {
-        player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+        player = FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
         if (player != 0) {
-            work[1] = FLDMMDL_GetDirMove((void *)player);
+            work[1] = FLDMMDL_GetDirMove(player);
         }
     }
     FLDMMDL_OffMoveBitMove(mmdl);
@@ -2403,7 +2403,7 @@ int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work)
 }
 
 /* Face a direction, step 3: turn to the player's direction. */
-int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
+int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3)
 {
     FLDMMDL_SetLocalAcmd(mmdl, (u16)FLDMMDL_ACMD_ConvertCodeByDir(FLDMMDL_GetDirMove(FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys(mmdl))), 0));
     ((MmdlFaceDirWork *)work)->step = 4;
@@ -2411,7 +2411,7 @@ int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3
 }
 
 /* Face a direction, step 4: wait for the turn to end. */
-int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
+int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3)
 {
     if (FLDMMDL_ACMD_Update(mmdl) == 0) {
         return 0;

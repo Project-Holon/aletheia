@@ -21,7 +21,7 @@ void PMS_SELECT_GRAPHIC_SetResult(int *state, struct PmsSelectGraphic *p, int ne
 int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct PmsSelectGraphic *p);
 void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p);
 void PMS_SELECT_GRAPHIC_Teardown(struct PmsSelectGraphic *p);
-void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 font, void *print, void *bank);
+void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, struct GfFont *font, void *print, void *bank);
 void PMS_SELECT_GRAPHIC_DeleteBg(struct PmsSelectGraphicBg *bg);
 void PMS_SELECT_GRAPHIC_ColorRowBg(struct PmsSelectGraphicBg *bg, u8 row, u32 pal, int flag);
 void PMS_SELECT_GRAPHIC_BlendBlinkColors(u16 *angle, u16 *out, const struct PmsSelectGraphicColorRec *recs, u8 count);
@@ -67,7 +67,7 @@ void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 he
 void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateSceneNothing(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_TransferSceneBgs(struct PmsSelectGraphicScene *scene);
-void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, unsigned vram, unsigned heap);
+void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, struct DispVramCfg *vram, unsigned heap);
 void PMS_SELECT_GRAPHIC_ExitSceneActors(void **unit);
 void PMS_SELECT_GRAPHIC_DrawSceneActors(void *unit);
 void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *unit);

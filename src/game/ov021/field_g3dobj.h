@@ -5,6 +5,7 @@
 /* Public functions of field_g3dobj.c, prototypes copied from their definitions. */
 
 struct G3dObjectStatus;
+struct ArcHandle;
 
 #include "../ov021/field_g3dobj_types.h"
 #include "../types.h"
@@ -37,8 +38,8 @@ void FIELD_G3DOBJ_FreeResource(FieldG3dObjRes *res);
 void FIELD_G3DOBJ_CreateObject(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx, u16 modelIdx, u32 heapId, VecFx32 *pos, int initDefaults);
 void FIELD_G3DOBJ_DestroyObject(FieldG3dObj *obj, FieldG3dObjRes *res);
 void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
-void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
-void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
+void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, struct ArcHandle *arc, u32 file);
+void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, struct ArcHandle *arc);
 void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
 /* END mkheaders: generated region */
 

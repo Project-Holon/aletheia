@@ -35,7 +35,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
 int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work);
 void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work);
-void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, int fieldObjectAddr);
+void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, struct FieldMap *fieldObjectAddr);
 void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work);
 void INTRUDE_COMM_OnSessionStarted(void *userArg);
 void INTRUDE_COMM_OnSessionExit(void *userArg);
@@ -171,8 +171,8 @@ void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, 
 void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int seq);
 int INTRUDE_COMM_TakeRequestResult(IntrudeCommSys *work);
 void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *work);
-void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *sex);
-u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus);
+void INTRUDE_COMM_PickDefaultObjCode(struct MyStatus *myStatus, u16 *objCode, u8 *form, u8 *sex);
+u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, struct MyStatus *myStatus);
 int INTRUDE_COMM_HasConnectedPeers(void);
 void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile);
 u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *work);

@@ -2063,7 +2063,7 @@ void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u
     GFL_HEAP_Free(allocation);
 }
 
-void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d) {MYSTERY_UTIL_BlendPaletteRange((void *)b,(u16 *)p,d,c,(const u16 *)(p+32),(const u16 *)(p+64));}
+void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d) {MYSTERY_UTIL_BlendPaletteRange(b,(u16 *)p,d,c,(const u16 *)(p+32),(const u16 *)(p+64));}
 
 /*
  * lever: const descriptor input places its loads before the outgoing heap store.
@@ -2455,7 +2455,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
         album->introPhase=2;
         break;
     case 2:
-        MYSTERY_UTIL_BlendPaletteRange((void *)fadeLayer,ui->palFade,(album->introTick*0x7fff)/60,(u8)(ui->paletteBank),ui->palImage,ui->palBlack);
+        MYSTERY_UTIL_BlendPaletteRange(fadeLayer,ui->palFade,(album->introTick*0x7fff)/60,(u8)(ui->paletteBank),ui->palImage,ui->palBlack);
         tick=album->introTick;
         blendEva=tick*14/60;
         blendEvb=tick*-12/60;
@@ -2487,7 +2487,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
         if(done) album->introPhase=6;
         break;
     case 6:
-        MYSTERY_UTIL_BlendPaletteRange((void *)fadeLayer,ui->palFade,0x7fff-(album->introTick*0x7fff)/60,(u8)(ui->paletteBank),ui->palImage,ui->palBlack);
+        MYSTERY_UTIL_BlendPaletteRange(fadeLayer,ui->palFade,0x7fff-(album->introTick*0x7fff)/60,(u8)(ui->paletteBank),ui->palImage,ui->palBlack);
         tick=album->introTick;
         blendEva=tick*-14/60;
         blendEvb=tick*12/60;

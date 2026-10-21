@@ -13,18 +13,20 @@ struct FieldMap;
 struct FieldEffectSys;
 struct FieldEffectObj;
 struct FieldEffectObjMgr;
+struct ArcHandle;
+struct TcbSystem;
 
 /* One loaded resource of the system; id 0x18 marks a free slot. */
 typedef struct FieldEffectResource {
     int id;
-    int handle;
+    void *handle;
 } FieldEffectResource;
 
 /* Table entry that loads and unloads the resource of one id. */
 typedef struct FieldEffectResourceDef {
     int id;
-    int (*load)(struct FieldEffectSys *sys, u16 heapId);
-    void (*unload)(struct FieldEffectSys *sys, int handle);
+    void *(*load)(struct FieldEffectSys *sys, u16 heapId);
+    void (*unload)(struct FieldEffectSys *sys, void *handle);
 } FieldEffectResourceDef;
 
 typedef struct FieldEffectSys {
@@ -32,15 +34,15 @@ typedef struct FieldEffectSys {
     u16 heapId;                           /* 0x04 */
     u8 pad06[2];
     struct FieldMap *fieldmap;            /* 0x08 */
-    int arcHandle;                        /* 0x0C */
+    struct ArcHandle *arcHandle;          /* 0x0C */
     FieldEffectResource *resources;       /* 0x10 */
     u16 objectCount;                      /* 0x14 */
     u8 modelBaseOffset;                   /* 0x16 */
     u8 modelBaseOffsetAlt;                /* 0x17 */
     void *taskBuffer;                     /* 0x18 */
-    int taskSys;                          /* 0x1C */
+    struct TcbSystem *taskSys;            /* 0x1C */
     struct FieldEffectObjMgr *objMgr;     /* 0x20 */
-    u32 paletteTable;                     /* 0x24 */
+    const u8 *paletteTable;               /* 0x24 */
 } FieldEffectSys;
 
 typedef void (*FieldEffectObjFunc)(struct FieldEffectObj *obj, void *work);
@@ -70,7 +72,7 @@ typedef struct FieldEffectObjMgr {
     u16 heapId;                           /* 0x04 */
     u8 pad06[2];
     FieldEffectObj *objs;                 /* 0x08 */
-    int taskSys;                          /* 0x0C */
+    struct TcbSystem *taskSys;            /* 0x0C */
 } FieldEffectObjMgr;
 
 #endif

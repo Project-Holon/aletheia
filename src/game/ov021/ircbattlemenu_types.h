@@ -6,6 +6,8 @@
 #ifndef IRCBATTLEMENU_TYPES_H
 #define IRCBATTLEMENU_TYPES_H
 
+struct TcbTask;
+
 struct IrcBattleMenuWork;
 struct IrcBattleEntryWork;
 struct GameData;
@@ -57,7 +59,7 @@ typedef struct IrcBattleMenuWork {
     unsigned short menuPltt[8][16];     /* 0x048: palette rows of the menu screen */
     unsigned short menuPlttBright[8][16]; /* 0x148: copy of menuPltt with the row offsets added */
     unsigned char padding248[0x20];
-    unsigned int vblankTask;            /* 0x268: GFL_USE_AddMainTask handle */
+    struct TcbTask *vblankTask;         /* 0x268: GFL_USE_AddMainTask handle */
     struct Unit *clactUnit;        /* 0x26C */
     unsigned int res[6];                /* 0x270: 0..1 palettes, 2..3 characters, 4..5 cell animations */
     unsigned int resSpare;              /* 0x288: never read here */

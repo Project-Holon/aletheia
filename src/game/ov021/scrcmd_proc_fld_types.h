@@ -6,6 +6,21 @@
  * machine, its item rows, window templates and list menu template.
  */
 
+struct BmpMenu;
+struct BmpMenuList;
+struct BmpMenuWork;
+struct BmpWin;
+struct BsubwayScoreData;
+struct ClactActor;
+struct GfFont;
+struct MiscSave;
+struct MyItem;
+struct PrintQueue;
+struct RecordBlock;
+struct Strbuf;
+struct TcblSystem;
+struct WordSet;
+
 #include "../types.h"
 
 /* Indexes into ShopWork.windows. */
@@ -62,7 +77,7 @@ typedef struct ShopListTemplate {
     void *items;
     void *cursorMoveFunc;
     void *printFunc;
-    u32 window;
+    struct BmpWin *window;
     u16 count;
     u16 visibleRows;
     u8 headerX;
@@ -83,8 +98,8 @@ typedef struct ShopListTemplate {
     u16 cursorSpriteY;
     u32 reserved24;
     void *activeWindowRef;
-    void *printSys;
-    u32 fontInfo;
+    struct PrintQueue *printSys;
+    struct GfFont *fontInfo;
 } ShopListTemplate;
 
 /*
@@ -97,32 +112,32 @@ typedef struct ShopWork {
     u8 pad02[2];
     u16 heapId;                     /* 0x004 */
     u8 pad06[2];
-    u32 fontInfo;                   /* 0x008: print parameter block */
-    u32 moneyData;                  /* 0x00C */
-    u32 bagData;                    /* 0x010 */
+    struct GfFont *fontInfo;        /* 0x008: print parameter block */
+    struct MiscSave *moneyData;     /* 0x00C */
+    struct MyItem *bagData;         /* 0x010 */
     struct RecordBlock *recordData; /* 0x014 */
-    u32 battlePointData;            /* 0x018 */
+    struct BsubwayScoreData *battlePointData; /* 0x018 */
     void *shopTable;                /* 0x01C */
     ShopItem items[40];             /* 0x020 */
     u16 itemCount;                  /* 0x160 */
     u8 isTmShop;                    /* 0x162 */
     u8 usesBattlePoints;            /* 0x163 */
-    u32 windows[SHOP_WIN_COUNT];    /* 0x164 */
+    struct BmpWin *windows[SHOP_WIN_COUNT]; /* 0x164 */
     struct BmpMenuWork *itemSlots;  /* 0x180: list menu entries */
     struct BmpMenu *yesNoMenu;      /* 0x184 */
     void *shopMsgBank;              /* 0x188 */
     void *itemMsgBank;              /* 0x18C */
-    void *wordSet;                  /* 0x190 */
+    struct WordSet *wordSet;        /* 0x190 */
     void *priceFormat;               /* 0x194 */
-    void *textBuffer;               /* 0x198 */
+    struct Strbuf *textBuffer;      /* 0x198 */
     void *cancelText;               /* 0x19C */
-    void *soldOutText;               /* 0x1A0 */
+    struct Strbuf *soldOutText;     /* 0x1A0 */
     struct BmpMenuList *listMenu;   /* 0x1A4 */
-    u32 listWindow;                 /* 0x1A8 */
+    struct BmpWin *listWindow;      /* 0x1A8 */
     u8 printerBusy;                 /* 0x1AC */
     u8 pad1AD[3];
-    void *printSys;                 /* 0x1B0 */
-    void *tcbList;                  /* 0x1B4 */
+    struct PrintQueue *printSys;    /* 0x1B0 */
+    struct TcblSystem *tcbList;     /* 0x1B4 */
     void *messagePrinter;            /* 0x1B8 */
     void *cellSystem;                /* 0x1BC */
     struct ClactActor *cursorActor;                /* 0x1C0 */

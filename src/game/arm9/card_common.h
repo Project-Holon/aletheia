@@ -12,8 +12,8 @@ typedef struct CARDiCommandArg
     int result;
     CARDBackupType type;
     u32 id;
-    u32 src;
-    u32 dst;
+    uptr src;
+    uptr dst;
     u32 len;
     CARDBackupTypeInfo spec;
 } CARDiCommandArg;
@@ -44,8 +44,8 @@ typedef struct CARDiCommon
     void (*callback)(void *);
     void *callback_arg;
     OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
+    uptr src;
+    uptr dst;
     u32 len;
     u32 dma;
     const CARDDmaInterface *DmaCall;

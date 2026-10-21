@@ -177,11 +177,11 @@ int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command)
 	if (command->blockFlag == 1) {
 		OS_InitMessageQueue((struct OSMessageQueue *)(&response_queue), &response, 1);
 		command->response_queue = &response_queue;
-		SOCLi_SendCommandPacket((sptr)pipe, command);
+		SOCLi_SendCommandPacket((int)pipe, command);
 		OS_ReceiveMessage((struct OSMessageQueue *)&response_queue, (void **)&result, 1);
 	} else {
 		command->response_queue = 0;
-		result = SOCLi_SendCommandPacket((sptr)pipe, command);
+		result = SOCLi_SendCommandPacket((int)pipe, command);
 	}
 	return result;
 }

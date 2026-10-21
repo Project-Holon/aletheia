@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV021_FLDMMDL_MOVECODE_TYPES_H
 #define ALETHEIA_OV021_FLDMMDL_MOVECODE_TYPES_H
 
+struct FieldEffectObj;
+
 #include "../ov010/fldmmdl_types.h"
 
 /*
@@ -151,7 +153,7 @@ typedef struct MmdlHideWork {
     unsigned char kind;
     unsigned char noEffect;
     unsigned char pad3;
-    unsigned int effect;
+    struct FieldEffectObj *effect;
 } MmdlHideWork;
 
 /* Move proc work (4 bytes): face a fixed direction or the player's. */

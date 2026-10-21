@@ -174,7 +174,7 @@ static int userProc(int unused, unsigned long cmd)
 
 static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size)
 {
-	unsigned long base = (uptr)FS_GetArchiveBase(arc);
+	uptr base = (uptr)FS_GetArchiveBase(arc);
 	CARDi_ReadRom(-1, (void *)(pos + base), dst, size, cbReadRom, arc, 1);
 	return 0x100;
 }

@@ -577,13 +577,14 @@ FieldTask *FIELD_TASK_CreateCameraPitchTween(FieldMap *fieldMap, u32 frames, u32
 void FIELD_TASK_InitCameraAngleTween(CameraAngleTween *tween)
 {
     u32 axis = tween->axis;
-    u32 from = (uptr)tween->camera;
+    FieldCamera *camera = tween->camera;
+    u32 from;
     u32 to = tween->to;
     u32 diff;
     if (axis == 0 || axis != 1)
-        from = FIELD_CAMERA_GetYaw((FieldCamera *)from);
+        from = FIELD_CAMERA_GetYaw(camera);
     else
-        from = FIELD_CAMERA_GetPitch((FieldCamera *)from);
+        from = FIELD_CAMERA_GetPitch(camera);
     if (from < to) {
         diff = to - from;
         if (diff > 0x8000)

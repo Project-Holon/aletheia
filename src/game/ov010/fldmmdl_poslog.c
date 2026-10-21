@@ -43,7 +43,7 @@ typedef VecFx32 MovedPos;
 typedef struct
 {
     char pad00[44];
-    unsigned int movedPosTable;
+    MovedPos *movedPosTable;
 } ObjContext;
 
 
@@ -66,7 +66,7 @@ u32 FLDMMDL_GetMovedPosSaveSize(void);
 void FLDMMDL_InitMovedPosSave(void *block);
 int FLDMMDL_IsMovedPosSet(const MovedPos *pos);
 int FLDMMDL_FindMovedPosSlot(int a, int b);
-int FLDMMDL_GetMovedPosSlot(int mmdl);
+int FLDMMDL_GetMovedPosSlot(Mmdl *mmdl);
 extern const u16 d_02172A70[][4];
 extern u16 d_02172554[][2];
 extern u16 d_02172556[][2];
@@ -120,12 +120,12 @@ int FLDMMDL_FindMovedPosSlot(int gridX, int gridZ)
     return 30;
 }
 
-int FLDMMDL_GetMovedPosSlot(int mmdl)
+int FLDMMDL_GetMovedPosSlot(Mmdl *mmdl)
 {
     int slot = 30;
 
-    if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode((void *)mmdl)) == 1)
-        slot = FLDMMDL_FindMovedPosSlot(FLDMMDL_GetZoneId((void *)mmdl), FLDMMDL_GetObjId((void *)mmdl));
+    if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode(mmdl)) == 1)
+        slot = FLDMMDL_FindMovedPosSlot(FLDMMDL_GetZoneId(mmdl), FLDMMDL_GetObjId(mmdl));
     return slot;
 }
 
@@ -136,10 +136,10 @@ int unused;
     int slot;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot(mmdl);
     if (slot != 30) {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
-        return FLDMMDL_IsMovedPosSet((const MovedPos *)(ctx->movedPosTable + slot * 12));
+        return FLDMMDL_IsMovedPosSet(ctx->movedPosTable + slot);
     }
     return 0;
 }
@@ -150,10 +150,10 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
     MovedPos *entry;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot(mmdl);
     if (slot != 30) {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
-        entry = (MovedPos *)(ctx->movedPosTable + slot * 12);
+        entry = ctx->movedPosTable + slot;
         if (FLDMMDL_IsMovedPosSet(entry)) {
             *out = *entry;
             return 1;
@@ -176,11 +176,11 @@ void FLDMMDL_StoreMovedPos(void *mmdl)
     MovedPos *entry;
     MovedPos curPos;
     ObjContext *ctx;
-    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot(mmdl);
     if (slot != 30)
     {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
-        entry = (MovedPos *) (ctx->movedPosTable + (slot * 12));
+        entry = ctx->movedPosTable + slot;
         FLDMMDL_GetPos(mmdl, (struct VecFx32 *)&curPos);
         *entry = curPos;
     }

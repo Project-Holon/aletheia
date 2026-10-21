@@ -7,7 +7,7 @@
 void DWCi_MOVlInit(void (*callback)(int));
 void DWCi_MOVlEnd(void);
 int DWCi_MOVlIsEnd(void);
-void DWCi_MOVlChangeCallback(unsigned int v);
+void DWCi_MOVlChangeCallback(void (*callback)(int));
 void DWCi_MOVlAdmitChild(void);
 char *DWCi_MOVlGetChild(void);
 void taskFramework(void *task);

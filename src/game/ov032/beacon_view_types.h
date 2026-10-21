@@ -1,7 +1,34 @@
 #ifndef BEACON_VIEW_TYPES_H
 #define BEACON_VIEW_TYPES_H
 
+struct TcblTask;
+
 struct PaletteFade;
+struct GameData;
+struct GameSystem;
+struct FieldMap;
+struct FldVReq;
+struct MiscSave;
+struct MyItem;
+struct GameComm;
+struct GPowerData;
+struct BeaconStatus;
+struct GameBeaconInfoTable;
+struct GameBeaconInfo;
+struct GfFont;
+struct PrintQueue;
+struct TaskMenuRes;
+struct TaskMenuWin;
+struct KeyCursor;
+struct WordSet;
+struct MsgBank;
+struct Strbuf;
+struct ClactActor;
+struct NNSG2dCharacterData;
+struct BmpOam;
+struct Bmp;
+struct BmpWin;
+struct GameEvent;
 struct TcbTask;
 struct TcblSystem;
 
@@ -9,14 +36,14 @@ struct TcblSystem;
    The including file defines u8, u16 and u32 first. */
 
 typedef struct BeaconViewResEntry {
-    void *data; /* 0x00 */
+    struct NNSG2dCharacterData *data; /* 0x00 */
     void *file; /* 0x04 */
 } BeaconViewResEntry;
 typedef char BeaconViewResEntry_SizeCheck[(sizeof(BeaconViewResEntry) == 0x8) ? 1 : -1];
 
 typedef struct BeaconViewSlot {
-    u32 taskMenu; /* 0x00 */
-    u32 label; /* 0x04 */
+    struct TaskMenuWin *taskMenu; /* 0x00 */
+    struct Strbuf *label; /* 0x04 */
     u16 textColor; /* 0x08 */
     u8 pad0A[0x2];
     int labelId; /* 0x0C */
@@ -42,16 +69,16 @@ typedef struct BeaconViewEntry {
     u16 trainerId; /* 0x06 */
     short x; /* 0x08 */
     short y; /* 0x0A */
-    void *panelActor; /* 0x0C */
-    void *iconActor; /* 0x10 */
-    void *statusActor; /* 0x14 */
-    void *textWindow; /* 0x18 */
-    void *textBitmap; /* 0x1C */
-    void *nameString; /* 0x20 */
-    void *messageString; /* 0x24 */
-    u32 sharedValue; /* 0x28 */
-    int busy; /* 0x2C */
-    int activeTask; /* 0x30 */
+    struct ClactActor *panelActor; /* 0x0C */
+    struct ClactActor *iconActor; /* 0x10 */
+    struct ClactActor *statusActor; /* 0x14 */
+    struct BmpOam *textWindow; /* 0x18 */
+    struct Bmp *textBitmap; /* 0x1C */
+    struct Strbuf *nameString; /* 0x20 */
+    struct Strbuf *messageString; /* 0x24 */
+    struct PrintQueue *sharedValue; /* 0x28 */
+    struct TcblTask *busy; /* 0x2C */
+    struct TcblTask *activeTask; /* 0x30 */
 } BeaconViewEntry;
 typedef char BeaconViewEntry_SizeCheck[(sizeof(BeaconViewEntry) == 0x34) ? 1 : -1];
 
@@ -76,30 +103,30 @@ typedef struct BeaconViewPaletteFile {
 typedef char BeaconViewPaletteFile_SizeCheck[(sizeof(BeaconViewPaletteFile) == 0xC) ? 1 : -1];
 
 typedef struct BeaconViewWork {
-    void *fieldSystem; /* 0x00 */
-    u32 saveInfo; /* 0x04 */
-    void *sessionInfo; /* 0x08 */
-    u32 initArg; /* 0x0C */
-    u32 bgConfig; /* 0x10 */
-    int playerBlock; /* 0x14 */
-    u32 messageArchive; /* 0x18 */
-    int playerProfile; /* 0x1C */
-    int optionData; /* 0x20 */
-    u32 powerRecord; /* 0x24 */
+    struct GameSystem *fieldSystem; /* 0x00 */
+    struct GameData *saveInfo; /* 0x04 */
+    struct FieldMap *sessionInfo; /* 0x08 */
+    void *initArg; /* 0x0C */
+    struct FldVReq *bgConfig; /* 0x10 */
+    struct MiscSave *playerBlock; /* 0x14 */
+    struct MyItem *myItem; /* 0x18 */
+    struct GameComm *playerProfile; /* 0x1C */
+    void *optionData; /* 0x20 */
+    struct GPowerData *powerRecord; /* 0x24 */
     int powerId; /* 0x28 */
     u32 profileId; /* 0x2C */
     u8 gender; /* 0x30 */
     u8 languageId; /* 0x31 */
     u8 styleId; /* 0x32 */
     u8 pad33;
-    int beaconStatus; /* 0x34 */
-    int receiveQueue; /* 0x38 */
-    int recordLog; /* 0x3C */
-    int recordBuffer; /* 0x40 */
-    u32 ownRecord; /* 0x44 */
+    struct BeaconStatus *beaconStatus; /* 0x34 */
+    struct GameBeaconInfoTable *receiveQueue; /* 0x38 */
+    struct GameBeaconInfoTable *recordLog; /* 0x3C */
+    struct GameBeaconInfo *recordBuffer; /* 0x40 */
+    struct GameBeaconInfo *ownRecord; /* 0x44 */
     u16 tagBuffer; /* 0x48 */
     u16 currentTag; /* 0x4A */
-    int currentRecord; /* 0x4C */
+    struct GameBeaconInfo *currentRecord; /* 0x4C */
     BeaconViewEntry *currentEntry; /* 0x50 */
     u8 currentIndex; /* 0x54 */
     u8 currentId; /* 0x55 */
@@ -141,16 +168,16 @@ typedef struct BeaconViewWork {
     struct TcbTask *updateTask; /* 0xA4 */
     int busyCount; /* 0xA8 */
     struct PaletteFade *paletteAnim; /* 0xAC */
-    u32 font; /* 0xB0 */
-    u32 printQueue; /* 0xB4 */
-    u32 taskMenuState; /* 0xB8 */
-    u32 taskMenuCursor; /* 0xBC */
+    struct GfFont *font; /* 0xB0 */
+    struct PrintQueue *printQueue; /* 0xB4 */
+    struct TaskMenuRes *taskMenuState; /* 0xB8 */
+    struct KeyCursor *taskMenuCursor; /* 0xBC */
     BeaconViewSlot slots[5]; /* 0xC0 */
-    u32 wordSet; /* 0x110 */
-    void *messageBank; /* 0x114 */
-    void *messageBuffer; /* 0x118 */
-    u32 formatBuffer; /* 0x11C */
-    u32 stringList; /* 0x120 */
+    struct WordSet *wordSet; /* 0x110 */
+    struct MsgBank *messageBank; /* 0x114 */
+    struct Strbuf *messageBuffer; /* 0x118 */
+    struct Strbuf *formatBuffer; /* 0x11C */
+    struct Strbuf *stringList; /* 0x120 */
     void *actorSystem; /* 0x124 */
     void *actorBank; /* 0x128 */
     void *actorResource; /* 0x12C */
@@ -160,7 +187,7 @@ typedef struct BeaconViewWork {
     BeaconViewResSet statusLists; /* 0x164 */
     BeaconViewWindow windows[3]; /* 0x17C */
     BeaconViewEntry icons[5]; /* 0x1B8 */
-    void *actors[6]; /* 0x2BC */
+    struct ClactActor *actors[6]; /* 0x2BC */
     u32 playTime; /* 0x2D4 */
     BeaconViewResEntry statusRes[12]; /* 0x2D8 */
     BeaconViewResEntry iconRes[16]; /* 0x338 */
@@ -273,10 +300,23 @@ typedef char BeaconViewWindowBTask_SizeCheck[(sizeof(BeaconViewWindowBTask) == 0
 
 typedef struct BeaconViewWindowCTask {
     BeaconViewEntry *entry; /* 0x00 */
-    u32 *windowRef; /* 0x04 */
+    void **windowRef; /* 0x04 */
     BeaconViewWork *work; /* 0x08 */
     int *busyCounter; /* 0x0C */
 } BeaconViewWindowCTask;
 typedef char BeaconViewWindowCTask_SizeCheck[(sizeof(BeaconViewWindowCTask) == 0x10) ? 1 : -1];
+
+/* Work of the event task created by BEACON_VIEW_CreateTaskProc (0x1C bytes). The param is an
+   arrow index in mode 0 and a task menu window in mode 2. */
+typedef struct BeaconTaskWork {
+    int state; /* 0x00 */
+    struct GameSystem *fieldSystem; /* 0x04 */
+    struct FieldMap *sessionInfo; /* 0x08 */
+    BeaconViewWork *owner; /* 0x0C */
+    struct GameEvent *eventDesc; /* 0x10 */
+    unsigned mode; /* 0x14 */
+    uptr param; /* 0x18 */
+} BeaconTaskWork;
+typedef char BeaconTaskWork_SizeCheck[(sizeof(BeaconTaskWork) == 0x1C) ? 1 : -1];
 
 #endif

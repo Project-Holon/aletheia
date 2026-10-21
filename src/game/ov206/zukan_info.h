@@ -6,11 +6,13 @@
 
 struct ZukanInfo;
 struct MsgBank;
+struct PrintQueue;
+struct Unit;
 
 #include "../types.h"
 
-void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,unsigned clactUnit,unsigned font,unsigned unused,unsigned objOverrideA,unsigned objOverrideB,unsigned objOverrideC);
-void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 bgLayerBase, u32 clactUnit, u32 font, u32 unused, u32 objOverrideA, u32 objOverrideB, u32 objOverrideC);
+void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,struct Unit *clactUnit,unsigned font,struct PrintQueue *unused,unsigned objOverrideA,unsigned objOverrideB,unsigned objOverrideC);
+void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 bgLayerBase, struct Unit *clactUnit, u32 font, struct PrintQueue *unused, u32 objOverrideA, u32 objOverrideB, u32 objOverrideC);
 void ZUKAN_INFO_Delete(char *p);
 void ZUKAN_INFO_Update(char *p);
 void ZUKAN_INFO_ClearDisplay(char *p);
@@ -28,8 +30,8 @@ void ZUKAN_INFO_Hide(struct ZukanInfo *p);
 void ZUKAN_INFO_Task(int unused, char *p);
 void ZUKAN_INFO_CreateWindows(char *p);
 void ZUKAN_INFO_DeleteWindows(char *p);
-void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion);
-void ZUKAN_INFO_DrawMessage(int heap,int window,struct MsgBank *bank,void *printer,int font,int message,unsigned short x,unsigned short y,unsigned short color,int alignment,int expansion);
+void ZUKAN_INFO_DrawText(int heap,struct BmpWin *window,void *printer,struct GfFont *font,struct Strbuf *input,unsigned short right,unsigned short y,unsigned short color,int alignment,struct WordSet *expansion);
+void ZUKAN_INFO_DrawMessage(int heap,struct BmpWin *window,struct MsgBank *bank,void *printer,struct GfFont *font,int message,unsigned short x,unsigned short y,unsigned short color,int alignment,struct WordSet *expansion);
 void ZUKAN_INFO_DrawMainPage(char *p);
 void ZUKAN_INFO_DrawPage(char *p, int idx);
 void ZUKAN_INFO_ClearSlotWindows(char *p);

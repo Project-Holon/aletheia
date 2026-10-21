@@ -1843,7 +1843,7 @@ unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct CPSSoc 
 
 void CPS_SocConsume(unsigned long len)
 {
-	struct CPSSoc *soc = *(struct CPSSoc **)((char *)*(unsigned long *)((char *)&OSi_ThreadInfo + 4) + 0xa4);
+	struct CPSSoc *soc = *(struct CPSSoc **)(*(char **)((char *)&OSi_ThreadInfo + 4) + 0xa4);
 
 	if (soc == 0)
 		return;
@@ -2044,7 +2044,7 @@ void CPS_TcpClose(void)
 
 void CPS_TcpShutdown(void)
 {
-	struct CPSSoc *soc = *(struct CPSSoc **)((char *)*(unsigned long *)((char *)&OSi_ThreadInfo + 4) + 0xa4);
+	struct CPSSoc *soc = *(struct CPSSoc **)(*(char **)((char *)&OSi_ThreadInfo + 4) + 0xa4);
 
 	if (soc == 0)
 		return;
@@ -2075,7 +2075,7 @@ void CPSi_TcpShutdownRaw(struct CPSSoc *soc)
 	if ((unsigned char)(state + 0xfd) <= 1) {
 		soc->state = 7;
 		OS_RestoreInterrupts(enable);
-		_tcp_send_finack((sptr)soc);
+		_tcp_send_finack((int)((char *)soc));
 	} else if (state != 0) {
 		OS_RestoreInterrupts(enable);
 		_tcp_send_ack(soc, 2);
@@ -2794,7 +2794,7 @@ void dt_fin(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
 		soc->ackno++;
 		soc->state = 6;
 		OS_RestoreInterrupts(enabled);
-		_tcp_send_finack((sptr)((struct CPSSoc *)((sptr)soc)));
+		_tcp_send_finack(((int)((char *)(struct CPSSoc *)((sptr)soc))));
 		break;
 	default:
 		OS_RestoreInterrupts(enabled);
@@ -3006,7 +3006,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
             soc->ackno++;
             soc->state = 6;
             OS_RestoreInterrupts(enabled);
-            _tcp_send_finack((sptr)((struct CPSSoc *)((sptr)soc)));
+            _tcp_send_finack(((int)((char *)(struct CPSSoc *)((sptr)soc))));
             if (len == 0 && soc->block_type == 2)
             {
                 soc->block_type = 0;

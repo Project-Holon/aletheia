@@ -30,7 +30,7 @@ void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *ms
 void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
 void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n);
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg);
-void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused);
+void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, struct PlistMessage *unused);
 void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DrawKeyCursorMark(struct PokelistWork *unused, PlistMessage *msg);
 /* END mkheaders: generated region */

@@ -91,7 +91,7 @@ typedef struct ClubBattleStartParam {
 typedef struct WifiClubEventWork {
     struct GameEvent *event;
     struct GameSystem *gameSystem;
-    int fieldMap;
+    struct FieldMap *fieldMap;
     struct WifiClubEventWork *self;
     u32 reserved10;
     u32 hideFieldObjects;

@@ -43,7 +43,7 @@ void BTL_REC_SEL_StartTimer(void *mgr, char *work, u32 v);
 void BTL_REC_SEL_ResetTimer(void*mgr,char*work);
 void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsigned int v);
 void BTL_REC_SEL_InitCells(void *unused,struct BtlRecSel *work);
-void BTL_REC_SEL_DeleteCellActors(int unused, int workAddr);
+void BTL_REC_SEL_DeleteCellActors(int unused, struct BtlRecSel *workAddr);
 int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u32 gfxId1,u32 gfxId2,u32 gfxId3,void*sceneWork,u8 x,u8 y,u8 flag,u8 bgPriority,u8 drawPriority);
 void BTL_REC_SEL_DeleteActor(void*scene,void*actor);
 void BTL_REC_SEL_SetMode(int unused,char*work);

@@ -355,7 +355,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->specialLocation = PLAYER_LOCATION_GetLocationA(gameData->situation);
     gameData->escapeLocation = PLAYER_LOCATION_GetLocationB(gameData->situation);
 
-    gameData->bagCursor = (uptr)BGM_INFO_Create(heapId);
+    gameData->bagCursor = BGM_INFO_Create(heapId);
 
     for (i = 0; i < 5; i++) {
         GAME_DATA_InitPlayerWork(&gameData->playerWork[i]);
@@ -368,16 +368,16 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->eventData = eventData = (void *)EVENTDATA_SYSTEM_Create(heapId);
     EVENTDATA_SYSTEM_Clear(eventData);
     gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
-    gameData->fieldWork = (uptr)MAP_MATRIX_Create(heapId);
+    gameData->fieldWork = MAP_MATRIX_Create(heapId);
     gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
     gameData->bgmInfo = FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
-    gameData->mapMatrix = (uptr)MYITEM_SAVEDATA_CreateBagCursor(heapId);
+    gameData->mapMatrix = MYITEM_SAVEDATA_CreateBagCursor(heapId);
     gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
     gameData->myParty = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x1A);
     gameData->config = SYSTEM_DATA_GetConfig(gameData->saveControl);
-    gameData->boxManager = (uptr)BOX_SAVEDATA_CreateWordHolder(heapId, (uptr)gameData->saveControl);
-    gameData->wifiList = (uptr)WIFILIST_Create(heapId);
+    gameData->boxManager = BOX_SAVEDATA_CreateWordHolder(heapId, (uptr)gameData->saveControl);
+    gameData->wifiList = WIFILIST_Create(heapId);
 
     for (i = 0; i < 4; i++) {
         INTRUDE_InitOccupy((struct IntrudeSave *)gameData->battleRecSlot[i]);
@@ -397,8 +397,8 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->eventState = 0;
     gameData->currentEvent = 0;
     gameData->pmsWork = COMM_PLAYER_SUPPORT_Create(heapId);
-    gameData->itemUseWork = (uptr)BEACON_STATUS_Create(heapId, 0x8001);
-    gameData->musicalWork = (uptr)CALENDER_Create(gameData, heapId);
+    gameData->itemUseWork = BEACON_STATUS_Create(heapId, 0x8001);
+    gameData->musicalWork = CALENDER_Create(gameData, heapId);
     gameData->listCursor = 0;
     gameData->externalWork = 0;
 
@@ -428,16 +428,16 @@ struct GameData *GAME_DATA_Create(u16 heapId)
 void GAME_DATA_Delete(struct GameData *gameData)
 {
     GFL_HEAP_Free(gameData->playTime);
-    CALENDER_Delete((struct CalenderWork *)gameData->musicalWork);
-    BEACON_STATUS_Delete((struct BeaconStatus *)gameData->itemUseWork);
+    CALENDER_Delete(gameData->musicalWork);
+    BEACON_STATUS_Delete(gameData->itemUseWork);
     COMM_PLAYER_SUPPORT_Delete(gameData->pmsWork);
     FIELD_ENCOUNT_ST_Delete(gameData->fieldGimmick);
-    BGM_INFO_Free((struct BgmInfoTable *)gameData->bagCursor);
-    GFL_HEAP_Free((void *)gameData->wifiList);
-    BOX_SAVEDATA_Delete((void *)gameData->boxManager);
-    GFL_HEAP_Free((void *)gameData->mapMatrix);
+    BGM_INFO_Free(gameData->bagCursor);
+    GFL_HEAP_Free(gameData->wifiList);
+    BOX_SAVEDATA_Delete(gameData->boxManager);
+    GFL_HEAP_Free(gameData->mapMatrix);
     FLDMMDL_DeleteSys((struct MmdlSys *)gameData->occupyInfo);
-    MAP_MATRIX_Delete((void *)gameData->fieldWork);
+    MAP_MATRIX_Delete(gameData->fieldWork);
     EVENTDATA_SYSTEM_Delete((struct EventDataSystem *)gameData->eventData);
     FIELD_STATUS_Delete((struct FieldStatus *)gameData->moveModelSys);
     FIELD_SOUND_SYSTEM_Delete(gameData->bgmInfo);
@@ -595,7 +595,7 @@ void GAME_DATA_ClearUnionInfo(struct GameData *gameData)
  */
 struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData)
 {
-    return (struct WifiList *)gameData->wifiList;
+    return gameData->wifiList;
 }
 
 void *GAME_DATA_GetEventData(const struct GameData *gameData)
@@ -746,7 +746,7 @@ extern const u16 sPlayerDirectionAngles[];
 
 u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd);
 
-u32 GAME_DATA_GetMapMatrix(const struct GameData *gd);
+struct BagCursor *GAME_DATA_GetMapMatrix(const struct GameData *gd);
 
 void *GAME_DATA_GetMyItem(const struct GameData *gd);
 
@@ -993,7 +993,7 @@ u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
  *   python tools/match.py tu --src src/matched/unit_02012924.c \
  *       --addr 0x02012924 --thumb
  */
-u32 GAME_DATA_GetMapMatrix(const struct GameData *gd)
+struct BagCursor *GAME_DATA_GetMapMatrix(const struct GameData *gd)
 {
     return gd->mapMatrix;
 }
@@ -1010,7 +1010,7 @@ void *GAME_DATA_GetMyParty(const struct GameData *gd)
 
 u32 GAME_DATA_GetBoxManager(const struct GameData *gd)
 {
-    return gd->boxManager;
+    return (uptr)gd->boxManager;
 }
 
 struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd)
@@ -1025,7 +1025,7 @@ struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId)
 
 u32 GAME_DATA_GetBagCursor(const struct GameData *gd)
 {
-    return gd->bagCursor;
+    return (uptr)gd->bagCursor;
 }
 
 void *GAME_DATA_GetOccupyInfo(const struct GameData *gd)
@@ -1040,12 +1040,12 @@ void *GAME_DATA_GetEventWork(const struct GameData *gd)
 
 u32 GAME_DATA_GetFieldWork(const struct GameData *gd)
 {
-    return gd->fieldWork;
+    return (uptr)gd->fieldWork;
 }
 
 u32 GAME_DATA_GetMusicalWork(const struct GameData *gd)
 {
-    return gd->musicalWork;
+    return (uptr)gd->musicalWork;
 }
 
 u8 GAME_DATA_GetSeason(const struct GameData *gd)
@@ -1136,7 +1136,7 @@ void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value)
 
 u32 GAME_DATA_GetItemUseWork(const struct GameData *gd)
 {
-    return gd->itemUseWork;
+    return (uptr)gd->itemUseWork;
 }
 
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player)

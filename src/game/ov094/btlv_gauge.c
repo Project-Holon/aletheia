@@ -391,7 +391,7 @@ void BTLV_GAUGE_Delete(BtlvGaugeWork *work)
     CLACT_DeleteUnit(work->unit);
     GFL_HEAP_Free(work->screenData);
     ARC_TOOL_DeleteHandle(work->arcHandle);
-    GFL_HEAP_Free((void *)TCBL_GetOwnedWork(work->flashTask));
+    GFL_HEAP_Free(TCBL_GetOwnedWork(work->flashTask));
     TCB_DeleteTask(work->flashTask);
     GFL_HEAP_Free(work);
 }

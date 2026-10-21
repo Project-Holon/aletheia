@@ -781,7 +781,7 @@ void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x)
 
     h = ARC_TOOL_CreateHandle(0x28, a->heap);
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVramCfg *)x, a->heap);
-    a->unit = (uptr)CLACT_CreateUnit(0x23, 0, a->heap);
+    a->unit = CLACT_CreateUnit(0x23, 0, a->heap);
     a->res[0].palette = CLACT_RegisterPaletteEx(h, 0xC, 1, 0, 0, 5, a->heap);
     a->res[0].chr = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
     a->res[0].cellAnim = CLACT_RegisterCellAnim(h, 0x2E, 0x30, a->heap);
@@ -811,7 +811,7 @@ void VIEWER_TEXT_CreateActor(ViewerAnim *a)
         pos.y = tbl.t[i].y;
         pos.z = tbl.t[i].z;
         pos.pri = tbl.t[i].pri;
-        a->obj[i] = CLACT_CreateActor((struct Unit *)a->unit, a->res[tbl.t[i].cell].palette, a->res[tbl.t[i].chr].chr, a->res[tbl.t[i].anm].cellAnim, (const struct ActorInitParam *)&pos, 1, a->heap);
+        a->obj[i] = CLACT_CreateActor(a->unit, a->res[tbl.t[i].cell].palette, a->res[tbl.t[i].chr].chr, a->res[tbl.t[i].anm].cellAnim, (const struct ActorInitParam *)&pos, 1, a->heap);
         CLACT_SetActorDrawEnable(a->obj[i], 1);
         CLACT_SetActorAutoAnimSpeed(a->obj[i], 0x1000);
         CLACT_SetActorAutoAnim(a->obj[i], 1);
@@ -836,7 +836,7 @@ void VIEWER_TEXT_DeleteActors(ViewerAnim *a)
         CLACT_ReleaseCharacter(a->res[i].chr);
         CLACT_ReleaseCellAnim(a->res[i].cellAnim);
     }
-    CLACT_DeleteUnit((struct Unit *)a->unit);
+    CLACT_DeleteUnit(a->unit);
     CLACT_ExitSystem();
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x300010) | 0x10;
 }

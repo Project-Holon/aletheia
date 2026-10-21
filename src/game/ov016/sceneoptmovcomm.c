@@ -111,7 +111,7 @@ static void procInit1(void)
 {
 	if (DWCi_EFFlCheck(0))
 		return;
-	DWCi_MOVlChangeCallback((uptr)DWCi_SceneOptMovCommCbMov);
+	DWCi_MOVlChangeCallback(DWCi_SceneOptMovCommCbMov);
 	DWCi_ChangeScene((uptr)DWCi_SceneOptMovComm_procScene);
 }
 

@@ -258,7 +258,7 @@ void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u16 heapId, int c
     void *fileBuf;
     int i;
 
-    scrn = (BarScreen *)BG_SYS_GetBuf(bgFrame);
+    scrn = BG_SYS_GetBuf(bgFrame);
     fileBuf = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x1d, 0, &file, heapId);
     MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
     GFL_HEAP_Free(fileBuf);

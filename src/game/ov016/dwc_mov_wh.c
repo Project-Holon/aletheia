@@ -60,9 +60,10 @@
  *   WM_GetSharedDataAddress  0x02090B18  arm  arm9
  *   WM_EndKeySharing  0x02090BB8  arm  arm9
  */
+struct WHWork;
 struct DWC_MOV_WH_BSS {
     void (*wh_trace)();
-    void *wh;
+    struct WHWork *wh;
 };
 
 /*
@@ -172,7 +173,7 @@ int DWCi_MOV_WH_StartMeasureChannel(void);
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void);
 int DWCi_MOV_WH_Initialize(void);
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel);
-void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
+void DWCi_MOV_WH_SetJudgeAcceptFunc(int (*v)(void *cb));
 u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 a);
 int DWCi_MOV_WH_StepDS(void *data);
 void DWCi_MOV_WH_Reset(void);
@@ -226,19 +227,19 @@ static void DWCi_MOV_WH_StateOutInitialize(void *arg);
 void DWCi_MOV_WH_MemInit(void *mw)
 {
     dwc_mov_wh_bss.wh = (WHWork *)mw;
-    ((WHWork *)dwc_mov_wh_bss.wh)->sysState = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_13A8 = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->parentWEPKeyGenerator = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_13B0 = 0;
+    dwc_mov_wh_bss.wh->sysState = 0;
+    dwc_mov_wh_bss.wh->f_13A8 = 0;
+    dwc_mov_wh_bss.wh->parentWEPKeyGenerator = 0;
+    dwc_mov_wh_bss.wh->f_13B0 = 0;
 }
 
 static void DWCi_MOV_WH_ChangeSysState(int state)
 {
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13637, wh_statenames[((WHWork *)dwc_mov_wh_bss.wh)->sysState]);
-    ((WHWork *)dwc_mov_wh_bss.wh)->sysState = state;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13637, wh_statenames[dwc_mov_wh_bss.wh->sysState]);
+    dwc_mov_wh_bss.wh->sysState = state;
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13638, wh_statenames[((WHWork *)dwc_mov_wh_bss.wh)->sysState]);
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13638, wh_statenames[dwc_mov_wh_bss.wh->sysState]);
 }
 
 /*
@@ -251,10 +252,9 @@ static void DWCi_MOV_WH_ChangeSysState(int state)
  */
 void DWCi_MOV_WH_SetError(unsigned int v)
 {
-    char **p = (char **)0x021DE660;
-    char *q = p[1];
-    if (*(unsigned int *)(q + 0x40) - 9 > 1)
-        *(unsigned int *)(q + 0x54) = v;
+    WHWork *q = dwc_mov_wh_bss.wh;
+    if ((unsigned int)q->sysState - 9 > 1)
+        q->f_54 = v;
 }
 
 /*
@@ -263,11 +263,10 @@ void DWCi_MOV_WH_SetError(unsigned int v)
  */
 int DWCi_MOV_WH_StateInSetParentParam(void)
 {
-    int *g = (int *)0x021DE660;
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_SetParentParameter((WMCallbackFunc)0x021D2AA8, (struct WMParentParam *)g[1]);
+    rs = WM_SetParentParameter((WMCallbackFunc)0x021D2AA8, (struct WMParentParam *)dwc_mov_wh_bss.wh);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -284,7 +283,7 @@ static void DWCi_MOV_WH_StateOutSetParentParam(void *arg)
         DWCi_MOV_WH_ChangeSysState(9);
         return;
     }
-    if (((WHWork *)dwc_mov_wh_bss.wh)->parentWEPKeyGenerator != 0) {
+    if (dwc_mov_wh_bss.wh->parentWEPKeyGenerator != 0) {
         if (!DWCi_MOV_WH_StateInSetParentWEPKey())
             DWCi_MOV_WH_ChangeSysState(9);
     } else {
@@ -299,8 +298,8 @@ static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
     int result;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    wepmode = ((WHWork *)dwc_mov_wh_bss.wh)->parentWEPKeyGenerator(((WHWork *)dwc_mov_wh_bss.wh)->wepkey, dwc_mov_wh_bss.wh);
-    result = WM_SetWEPKey(DWCi_MOV_WH_StateOutSetParentWEPKey, wepmode, ((WHWork *)dwc_mov_wh_bss.wh)->wepkey);
+    wepmode = dwc_mov_wh_bss.wh->parentWEPKeyGenerator(dwc_mov_wh_bss.wh->wepkey, dwc_mov_wh_bss.wh);
+    result = WM_SetWEPKey(DWCi_MOV_WH_StateOutSetParentWEPKey, wepmode, dwc_mov_wh_bss.wh->wepkey);
     if (result == 2)
         return 1;
     DWCi_MOV_WH_SetError(result);
@@ -325,15 +324,15 @@ static int DWCi_MOV_WH_StateInStartParent(void)
 {
     int result;
 
-    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState == 6 || ((WHWork *)dwc_mov_wh_bss.wh)->sysState == 5 || ((WHWork *)dwc_mov_wh_bss.wh)->sysState == 4)
+    if (dwc_mov_wh_bss.wh->sysState == 6 || dwc_mov_wh_bss.wh->sysState == 5 || dwc_mov_wh_bss.wh->sysState == 4)
         return 1;
     result = WM_StartParent(DWCi_MOV_WH_StateOutStartParent);
     if (result != 2) {
         DWCi_MOV_WH_SetError(result);
         return 0;
     }
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_50 = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->bitmap = 1;
+    dwc_mov_wh_bss.wh->f_50 = 0;
+    dwc_mov_wh_bss.wh->bitmap = 1;
     return 1;
 }
 
@@ -352,7 +351,7 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
     case 7:
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13726, cb->aid);
-        if (((WHWork *)dwc_mov_wh_bss.wh)->judgeAcceptFunc != 0 && !((WHWork *)dwc_mov_wh_bss.wh)->judgeAcceptFunc(cb)) {
+        if (dwc_mov_wh_bss.wh->judgeAcceptFunc != 0 && !dwc_mov_wh_bss.wh->judgeAcceptFunc(cb)) {
             result = WM_Disconnect(0, cb->aid);
             if (result == 2)
                 return;
@@ -360,12 +359,12 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
             DWCi_MOV_WH_ChangeSysState(9);
             return;
         }
-        ((WHWork *)dwc_mov_wh_bss.wh)->bitmap |= target_bitmap;
+        dwc_mov_wh_bss.wh->bitmap |= target_bitmap;
         break;
     case 9:
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13728, cb->aid);
-        ((WHWork *)dwc_mov_wh_bss.wh)->bitmap &= ~target_bitmap;
+        dwc_mov_wh_bss.wh->bitmap &= ~target_bitmap;
         break;
     case 0:
         if (!DWCi_MOV_WH_StateInStartParentMP())
@@ -384,12 +383,12 @@ static int DWCi_MOV_WH_StateInStartParentMP(void)
 {
     int result;
 
-    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState == 6 || ((WHWork *)dwc_mov_wh_bss.wh)->sysState == 5 || ((WHWork *)dwc_mov_wh_bss.wh)->sysState == 4)
+    if (dwc_mov_wh_bss.wh->sysState == 6 || dwc_mov_wh_bss.wh->sysState == 5 || dwc_mov_wh_bss.wh->sysState == 4)
         return 1;
     DWCi_MOV_WH_ChangeSysState(4);
     result = WM_StartMP(DWCi_MOV_WH_StateOutStartParentMP,
-                        ((WHWork *)dwc_mov_wh_bss.wh)->recvBuf, (unsigned short)((WHWork *)dwc_mov_wh_bss.wh)->recvBufSize,
-                        ((WHWork *)dwc_mov_wh_bss.wh)->sendBuf, (unsigned short)((WHWork *)dwc_mov_wh_bss.wh)->sendBufSize, 1);
+                        dwc_mov_wh_bss.wh->recvBuf, (unsigned short)dwc_mov_wh_bss.wh->recvBufSize,
+                        dwc_mov_wh_bss.wh->sendBuf, (unsigned short)dwc_mov_wh_bss.wh->sendBufSize, 1);
     if (result == 2)
         return 1;
     DWCi_MOV_WH_SetError(result);
@@ -408,19 +407,19 @@ static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
     }
     switch (cb->state) {
     case 10:
-        if (((WHWork *)dwc_mov_wh_bss.wh)->connectMode == 2) {
-            if (((WHWork *)dwc_mov_wh_bss.wh)->sysState == 4) {
+        if (dwc_mov_wh_bss.wh->connectMode == 2) {
+            if (dwc_mov_wh_bss.wh->sysState == 4) {
                 if (DWCi_MOV_WH_StateInStartParentKeyShare())
                     return;
                 if (dwc_mov_wh_bss.wh_trace)
                     dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13783);
                 DWCi_MOV_WH_ChangeSysState(9);
                 return;
-            } else if (((WHWork *)dwc_mov_wh_bss.wh)->sysState == 6) {
+            } else if (dwc_mov_wh_bss.wh->sysState == 6) {
                 return;
             }
-        } else if (((WHWork *)dwc_mov_wh_bss.wh)->connectMode == 4) {
-            result = WM_StartDataSharing((struct WMDataSharingInfo *)(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo), 13, 7, 0x44, 1);
+        } else if (dwc_mov_wh_bss.wh->connectMode == 4) {
+            result = WM_StartDataSharing((struct WMDataSharingInfo *)(dwc_mov_wh_bss.wh->dsInfo), 13, 7, 0x44, 1);
             if (result != 0) {
                 DWCi_MOV_WH_SetError(result);
                 DWCi_MOV_WH_ChangeSysState(9);
@@ -448,11 +447,10 @@ static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
  */
 int DWCi_MOV_WH_StateInStartParentKeyShare(void)
 {
-    int *g = (int *)0x021DE660;
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(6);
-    rs = WM_StartKeySharing((void *)(g[1] + 0x1e00), 0xd);
+    rs = WM_StartKeySharing((char *)dwc_mov_wh_bss.wh + 0x1e00, 0xd);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -465,10 +463,9 @@ int DWCi_MOV_WH_StateInStartParentKeyShare(void)
  */
 int DWCi_MOV_WH_StateInEndParentKeyShare(void)
 {
-    int *g = (int *)0x021DE660;
     int rs;
 
-    rs = WM_EndKeySharing((void *)(g[1] + 0x1e00));
+    rs = WM_EndKeySharing((char *)dwc_mov_wh_bss.wh + 0x1e00);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -531,13 +528,12 @@ static void DWCi_MOV_WH_StateOutEndParent(void *arg)
  */
 int DWCi_MOV_WH_StateInEndChildKeyShare(void)
 {
-    int *g = (int *)0x021DE660;
     int rs;
 
-    if (*(int *)(g[1] + 0x40) != 6)
+    if (dwc_mov_wh_bss.wh->sysState != 6)
         return 0;
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_EndKeySharing((void *)(g[1] + 0x1e00));
+    rs = WM_EndKeySharing((char *)dwc_mov_wh_bss.wh + 0x1e00);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -639,9 +635,8 @@ static void DWCi_MOV_WH_StateOutEnd(void *arg)
  */
 void DWCi_MOV_WH_SetGgid(unsigned int v)
 {
-    char **p = (char **)0x021DE660;
-    unsigned int *q = (unsigned int *)(p[1] + 4);
-    q[1] = v;
+    WHWork *q = dwc_mov_wh_bss.wh;
+    ((unsigned int *)((char *)q + 4))[1] = v;
 }
 
 /*
@@ -654,9 +649,7 @@ void DWCi_MOV_WH_SetGgid(unsigned int v)
  */
 unsigned short DWCi_MOV_WH_GetBitmap(void)
 {
-    char **p = (char **)0x021DE660;
-    unsigned short *q = (unsigned short *)(p[1] + 0x52);
-    return *q;
+    return dwc_mov_wh_bss.wh->bitmap;
 }
 
 /*
@@ -669,9 +662,7 @@ unsigned short DWCi_MOV_WH_GetBitmap(void)
  */
 unsigned int DWCi_MOV_WH_GetSystemState(void)
 {
-    char **p = (char **)0x021DE660;
-    unsigned int *q = (unsigned int *)(p[1] + 0x40);
-    return *q;
+    return dwc_mov_wh_bss.wh->sysState;
 }
 
 static inline unsigned long OS_GetVBlankCount(void)
@@ -685,10 +676,10 @@ int DWCi_MOV_WH_StartMeasureChannel(void)
     unsigned short result;
 
     OS_GetMacAddress(macAddr);
-    ((WHWork *)dwc_mov_wh_bss.wh)->randSeed = (unsigned long)(OS_GetVBlankCount() + *(unsigned short *)&macAddr[0] + *(unsigned short *)&macAddr[2] + *(unsigned short *)&macAddr[4]);
-    ((WHWork *)dwc_mov_wh_bss.wh)->randSeed = ((WHWork *)dwc_mov_wh_bss.wh)->randSeed * 69069 + 12345;
-    ((WHWork *)dwc_mov_wh_bss.wh)->channel = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->minBusyRatio = 101;
+    dwc_mov_wh_bss.wh->randSeed = (unsigned long)(OS_GetVBlankCount() + *(unsigned short *)&macAddr[0] + *(unsigned short *)&macAddr[2] + *(unsigned short *)&macAddr[4]);
+    dwc_mov_wh_bss.wh->randSeed = dwc_mov_wh_bss.wh->randSeed * 69069 + 12345;
+    dwc_mov_wh_bss.wh->channel = 0;
+    dwc_mov_wh_bss.wh->minBusyRatio = 101;
     DWCi_MOV_WH_ChangeSysState(3);
     result = DWCi_MOV_WH_StateInMeasureChannel(1);
     if (result == 24) {
@@ -741,11 +732,11 @@ static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg)
     if (dwc_mov_wh_bss.wh_trace)
         dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14186, cb->channel, cb->ccaBusyRatio);
     channel = cb->channel;
-    if (((WHWork *)dwc_mov_wh_bss.wh)->minBusyRatio > cb->ccaBusyRatio) {
-        ((WHWork *)dwc_mov_wh_bss.wh)->minBusyRatio = cb->ccaBusyRatio;
-        ((WHWork *)dwc_mov_wh_bss.wh)->busyChannelBitmap = 1 << (channel - 1);
-    } else if (((WHWork *)dwc_mov_wh_bss.wh)->minBusyRatio == cb->ccaBusyRatio) {
-        ((WHWork *)dwc_mov_wh_bss.wh)->busyChannelBitmap |= 1 << (channel - 1);
+    if (dwc_mov_wh_bss.wh->minBusyRatio > cb->ccaBusyRatio) {
+        dwc_mov_wh_bss.wh->minBusyRatio = cb->ccaBusyRatio;
+        dwc_mov_wh_bss.wh->busyChannelBitmap = 1 << (channel - 1);
+    } else if (dwc_mov_wh_bss.wh->minBusyRatio == cb->ccaBusyRatio) {
+        dwc_mov_wh_bss.wh->busyChannelBitmap |= 1 << (channel - 1);
     }
     result = DWCi_MOV_WH_StateInMeasureChannel(++channel);
     if (result == 24) {
@@ -763,13 +754,13 @@ static int WHi_MeasureChannel(void (*func)(void *), unsigned short channel)
 
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
 {
-    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState != 7)
+    if (dwc_mov_wh_bss.wh->sysState != 7)
         OS_Terminate();
     DWCi_MOV_WH_ChangeSysState(1);
-    ((WHWork *)dwc_mov_wh_bss.wh)->channel = SelectChannel(((WHWork *)dwc_mov_wh_bss.wh)->busyChannelBitmap);
+    dwc_mov_wh_bss.wh->channel = SelectChannel(dwc_mov_wh_bss.wh->busyChannelBitmap);
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, ((WHWork *)dwc_mov_wh_bss.wh)->channel);
-    return ((WHWork *)dwc_mov_wh_bss.wh)->channel;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, dwc_mov_wh_bss.wh->channel);
+    return dwc_mov_wh_bss.wh->channel;
 }
 
 static short SelectChannel(unsigned short bitmap)
@@ -787,8 +778,8 @@ static short SelectChannel(unsigned short bitmap)
     }
     if (num <= 1)
         return channel;
-    ((WHWork *)dwc_mov_wh_bss.wh)->randSeed = ((WHWork *)dwc_mov_wh_bss.wh)->randSeed * 69069 + 12345;
-    select = (unsigned short)((num * (((WHWork *)dwc_mov_wh_bss.wh)->randSeed & 0xFF)) >> 8);
+    dwc_mov_wh_bss.wh->randSeed = dwc_mov_wh_bss.wh->randSeed * 69069 + 12345;
+    select = (unsigned short)((num * (dwc_mov_wh_bss.wh->randSeed & 0xFF)) >> 8);
     for (i = 0; i < 16; i++) {
         if (bitmap & 1) {
             if (select == 0)
@@ -915,11 +906,10 @@ static void DWCi_MOV_WH_IndicateHandler(void *arg)
  */
 int DWCi_MOV_WH_StateInInitialize(void)
 {
-    int *g = (int *)0x021DE660;
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_Initialize((void *)(g[1] + 0x80), (WMCallbackFunc)0x021D371C, 2);
+    rs = WM_Initialize((char *)dwc_mov_wh_bss.wh + 0x80, (WMCallbackFunc)0x021D371C, 2);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -948,26 +938,26 @@ static void DWCi_MOV_WH_StateOutInitialize(void *arg)
 
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel)
 {
-    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState != 1)
+    if (dwc_mov_wh_bss.wh->sysState != 1)
         OS_Terminate();
-    ((WHWork *)dwc_mov_wh_bss.wh)->recvBufSize = 0x180;
-    ((WHWork *)dwc_mov_wh_bss.wh)->sendBufSize = 0xE0;
+    dwc_mov_wh_bss.wh->recvBufSize = 0x180;
+    dwc_mov_wh_bss.wh->sendBufSize = 0xE0;
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13820, ((WHWork *)dwc_mov_wh_bss.wh)->recvBufSize);
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13820, dwc_mov_wh_bss.wh->recvBufSize);
     if (dwc_mov_wh_bss.wh_trace)
-        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13821, ((WHWork *)dwc_mov_wh_bss.wh)->sendBufSize);
-    ((WHWork *)dwc_mov_wh_bss.wh)->connectMode = mode;
+        dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_13821, dwc_mov_wh_bss.wh->sendBufSize);
+    dwc_mov_wh_bss.wh->connectMode = mode;
     DWCi_MOV_WH_ChangeSysState(3);
-    ((WHWork *)dwc_mov_wh_bss.wh)->tgid = tgid;
-    ((WHWork *)dwc_mov_wh_bss.wh)->pchannel = channel;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_18 = WM_GetDispersionBeaconPeriod();
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_34 = 0xD0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_36 = 0x44;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_10 = 2;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_16 = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_12 = 0;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_0E = 1;
-    ((WHWork *)dwc_mov_wh_bss.wh)->f_14 = (mode == 2) ? 1 : 0;
+    dwc_mov_wh_bss.wh->tgid = tgid;
+    dwc_mov_wh_bss.wh->pchannel = channel;
+    dwc_mov_wh_bss.wh->f_18 = WM_GetDispersionBeaconPeriod();
+    dwc_mov_wh_bss.wh->f_34 = 0xD0;
+    dwc_mov_wh_bss.wh->f_36 = 0x44;
+    dwc_mov_wh_bss.wh->f_10 = 2;
+    dwc_mov_wh_bss.wh->f_16 = 0;
+    dwc_mov_wh_bss.wh->f_12 = 0;
+    dwc_mov_wh_bss.wh->f_0E = 1;
+    dwc_mov_wh_bss.wh->f_14 = (mode == 2) ? 1 : 0;
     switch (mode) {
     case 0:
     case 2:
@@ -988,11 +978,9 @@ int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short chan
  *   python tools/match.py one --src src/matched/DWCi_MOV_WH_SetJudgeAcceptFunc.c \
  *       --func DWCi_MOV_WH_SetJudgeAcceptFunc --addr 0x021D38C8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v)
+void DWCi_MOV_WH_SetJudgeAcceptFunc(int (*v)(void *cb))
 {
-    char **p = (char **)0x021DE660;
-    unsigned int *q = (unsigned int *)(p[1] + 0x4c);
-    *q = v;
+    dwc_mov_wh_bss.wh->judgeAcceptFunc = v;
 }
 
 /*
@@ -1001,17 +989,16 @@ void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v)
  */
 u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 a)
 {
-    int *g = (int *)0x021DE660;
-    char *p = (char *)g[1];
+    WHWork *p = dwc_mov_wh_bss.wh;
 
-    return WM_GetSharedDataAddress((struct WMDataSharingInfo *)(p + 0x13e0), (struct WMDataSet *)(p + 0x1c00), a);
+    return WM_GetSharedDataAddress((struct WMDataSharingInfo *)p->dsInfo, (struct WMDataSet *)p->receiveData, a);
 }
 
 int DWCi_MOV_WH_StepDS(void *data)
 {
     int result;
 
-    result = WM_StepDataSharing((struct WMDataSharingInfo *)(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo), (unsigned short *)data, (struct WMDataSet *)(((WHWork *)dwc_mov_wh_bss.wh)->receiveData));
+    result = WM_StepDataSharing((struct WMDataSharingInfo *)(dwc_mov_wh_bss.wh->dsInfo), (unsigned short *)data, (struct WMDataSet *)(dwc_mov_wh_bss.wh->receiveData));
     if (result == 7) {
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14361);
@@ -1039,19 +1026,19 @@ void DWCi_MOV_WH_Reset(void)
 
 void DWCi_MOV_WH_Finalize(void)
 {
-    if (((WHWork *)dwc_mov_wh_bss.wh)->sysState == 1) {
+    if (dwc_mov_wh_bss.wh->sysState == 1) {
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14400);
     } else {
         if (dwc_mov_wh_bss.wh_trace)
-            dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14401, ((WHWork *)dwc_mov_wh_bss.wh)->sysState);
-        if (((WHWork *)dwc_mov_wh_bss.wh)->sysState != 6 && ((WHWork *)dwc_mov_wh_bss.wh)->sysState != 5 && ((WHWork *)dwc_mov_wh_bss.wh)->sysState != 4) {
+            dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14401, dwc_mov_wh_bss.wh->sysState);
+        if (dwc_mov_wh_bss.wh->sysState != 6 && dwc_mov_wh_bss.wh->sysState != 5 && dwc_mov_wh_bss.wh->sysState != 4) {
             DWCi_MOV_WH_ChangeSysState(3);
             DWCi_MOV_WH_Reset();
             return;
         }
         DWCi_MOV_WH_ChangeSysState(3);
-        switch (((WHWork *)dwc_mov_wh_bss.wh)->connectMode) {
+        switch (dwc_mov_wh_bss.wh->connectMode) {
         case 3:
             if (!DWCi_MOV_WH_StateInEndChildKeyShare())
                 DWCi_MOV_WH_Reset();
@@ -1080,9 +1067,7 @@ void DWCi_MOV_WH_Finalize(void)
  */
 int DWCi_MOV_WH_End(void)
 {
-    int *g = (int *)0x021DE660;
-
-    if (*(int *)(g[1] + 0x40) != 1)
+    if (dwc_mov_wh_bss.wh->sysState != 1)
         OS_Terminate();
     DWCi_MOV_WH_ChangeSysState(3);
     if (WM_End((WMCallbackFunc)0x021D3200) == 2)

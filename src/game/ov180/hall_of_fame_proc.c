@@ -56,7 +56,7 @@ extern const struct DispVram gHallOfFameVramBanksMain;
 extern const struct DispVram gHallOfFameVramBanksSub;
 extern const struct DispConfig gHallOfFameDisplayConfig;
 
-int HALL_OF_FAME_ProcInit(struct Proc *proc, void *unused, u32 args)
+int HALL_OF_FAME_ProcInit(struct Proc *proc, void *unused, HallOfFameArgs *args)
 {
     HallOfFameWork *work;
     GFL_HEAP_CreateChildHeap(1, HOF_HEAP_ID, 0x60000);
@@ -124,11 +124,11 @@ void HALL_OF_FAME_SetVramBanks(int subScreen)
         BG_SYS_SetVramBanks(&gHallOfFameVramBanksSub);
 }
 
-int HALL_OF_FAME_GetVramBanksAddr(int subScreen)
+struct DispVramCfg *HALL_OF_FAME_GetVramBanksAddr(int subScreen)
 {
     if (subScreen == 0)
-        return 0x021B8060;
-    return 0x021B8090;
+        return (struct DispVramCfg *)0x021B8060;
+    return (struct DispVramCfg *)0x021B8090;
 }
 
 void HALL_OF_FAME_InitGraphicsSystem(void)

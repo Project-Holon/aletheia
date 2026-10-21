@@ -109,7 +109,7 @@ void DWCi_SceneOptMovUser(void)
     MIi_CpuCopy16(info->name, buf, info->nameLength * 2);
     DWCi_FNTlDrawRect(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
     DWCi_FNTlRenewBg((sptr)bg);
-    DWCi_MOVlChangeCallback((uptr)cbMov);
+    DWCi_MOVlChangeCallback(cbMov);
     DWCi_WINlInitEx(0x1D, 4, 0, -1, 0);
     DWCi_ChangeScene((uptr)procInit);
 }

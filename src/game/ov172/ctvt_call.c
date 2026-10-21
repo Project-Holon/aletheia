@@ -1519,7 +1519,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
     u8 *p;
     unsigned long heap;
     unsigned long fmt;
-    uptr font;
+    struct GfFont *font;
     char *e;
     unsigned long ws;
 
@@ -1737,7 +1737,7 @@ int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long na
 
 void CTVT_CALL_PrintMessage(void *ctx, char *st, int msgId)
 {
-    unsigned int x = COMM_TVT_SYS_GetFont(ctx);
+    struct GfFont *x = COMM_TVT_SYS_GetFont(ctx);
     unsigned int y = (uptr)COMM_TVT_SYS_GetMsgData(ctx);
     unsigned int z = (uptr)COMM_TVT_SYS_GetPrintQue(ctx);
     uptr w;
@@ -1752,7 +1752,7 @@ void CTVT_CALL_PrintMessage(void *ctx, char *st, int msgId)
 
 void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, unsigned long msgId)
 {
-    unsigned long font = COMM_TVT_SYS_GetFont(ctx);
+    struct GfFont *font = COMM_TVT_SYS_GetFont(ctx);
     unsigned long msgs = (uptr)COMM_TVT_SYS_GetMsgData(ctx);
     unsigned long sys = (uptr)COMM_TVT_SYS_GetPrintQue(ctx);
     unsigned long str;
@@ -1931,7 +1931,7 @@ int CTVT_CALL_WorkMain(char *ctx)
     }
     if (pal != H(0x3a)) {
         H(0x3a) = pal;
-        NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (uptr)(ctx + 0x3c + pal * 32), 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, 0x40, (ctx + 0x3c + pal * 32), 0x20);
     }
     TCBL_Main((struct TcblSystem *)F(0x1d8));
     BG_SYS_ChangeScrollImmediate(1, 0, GFL_USE_GetRandomBelow(0x100));
@@ -2143,7 +2143,7 @@ void CTVT_CALL_ReleaseGraphics(u8 *p)
  */
 void CTVT_CALL_InitText(u8 *p)
 {
-    ((CtvtWork *)p)->font=(uptr)GF_FONT_Create(23,0,0,0,((CtvtWork *)p)->heapId);
+    ((CtvtWork *)p)->font=GF_FONT_Create(23,0,0,0,((CtvtWork *)p)->heapId);
     ((CtvtWork *)p)->msgData=(struct MsgBank *)MSGDATA_CreateFromArchive(0,2,27,((CtvtWork *)p)->heapId);
     ((CtvtWork *)p)->printQue=(struct PrintQueue *)PRINTSYS_QUE_CreateEx(0x800,((CtvtWork *)p)->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,0x140,32,((CtvtWork *)p)->heapId);

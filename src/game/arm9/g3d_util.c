@@ -422,38 +422,38 @@ void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *
     int count = util->unit[unitIdx].resCount;
     u32 base = util->unit[unitIdx].resIdx;
     u32 slotno;
-    u32 *out;
+    void **out;
     int i;
     const G3dUtilResSetup *rec;
     void *node;
 
     for (i = 0; i < count; i++) {
-        out = (u32 *)util->res;
+        out = (void **)util->res;
         slotno = base + i;
         rec = &setup->resTbl[i];
 
         switch (rec->type) {
         case 0:
-            out[slotno] = (uptr)G3D_SYSTEM_CreateResourceArc(rec->arc, rec->dat);
+            out[slotno] = G3D_SYSTEM_CreateResourceArc(rec->arc, rec->dat);
             break;
         case 1:
-            out[slotno] = (uptr)G3D_SYSTEM_CreateResourcePath((char *)rec->arc, rec->dat);
+            out[slotno] = G3D_SYSTEM_CreateResourcePath((char *)rec->arc, rec->dat);
             break;
         case 2:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 342);
-            G3D_SYSTEM_InitResourceByFile((G3dResource *)node,
+            G3D_SYSTEM_InitResourceByFile(node,
                           (NNSG3dResFileHeader *)ARC_TOOL_LoadMember(rec->arc, rec->dat,
                                              util->heapID));
-            out[slotno] = (uptr)node;
+            out[slotno] = node;
             break;
         case 3:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 355);
-            G3D_SYSTEM_InitResourceByFile((G3dResource *)node,
+            G3D_SYSTEM_InitResourceByFile(node,
                           (NNSG3dResFileHeader *)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
                                              util->heapID));
-            out[slotno] = (uptr)node;
+            out[slotno] = node;
             break;
         }
     }
@@ -509,15 +509,15 @@ void G3D_UTIL_FreeUnitResources(G3dUtil *util, u32 unitIdx)
     int i;
 
     for (i = 0; i < count; i++) {
-        u32 res = ((u32 *)util->res)[base + i];
+        void *res = ((void **)util->res)[base + i];
 
         if (res != 0) {
             util->resStat[base + i] = 0;
 
-            if (G3D_SYSTEM_CheckResourceType((struct G3dResource *)res, 2) == 1)
-                G3D_SYSTEM_FreeVramTexture((struct G3dResource *)res);
+            if (G3D_SYSTEM_CheckResourceType(res, 2) == 1)
+                G3D_SYSTEM_FreeVramTexture(res);
 
-            G3D_SYSTEM_DeleteResource((struct G3dResource *)res);
+            G3D_SYSTEM_DeleteResource(res);
         }
     }
 }

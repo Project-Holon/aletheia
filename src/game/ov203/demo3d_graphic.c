@@ -199,7 +199,7 @@ void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colo
 
 void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p, unsigned i, unsigned short val);
 
-void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b);
+void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, VecFx16 *b);
 
 void DEMO3D_GRAPHIC_VBlank(u32 a, Demo3dGraphic *p);
 
@@ -211,7 +211,7 @@ void DEMO3D_GRAPHIC_Noop(void *unused);
 
 void DEMO3D_GRAPHIC_UpdateBg(void *unused);
 
-void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b);
+void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, struct DispVramCfg *a, int b);
 
 void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p);
 
@@ -266,7 +266,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
     GF_FONT_InitTextColor();
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_InitBg(ctx, heap);
-        DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (sptr)d_021BFBC4, heap);
+        DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (struct DispVramCfg *)d_021BFBC4, heap);
         ctx->proc = GFL_USE_AddMainTask((TcbFunc)((uptr)DEMO3D_GRAPHIC_VBlank), (void *)((uptr)ctx), 0);
     }
     DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
@@ -319,7 +319,7 @@ void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colo
 
 void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val){G3D_LIGHT_SetColor(p->lightSlots,i,&val);}
 
-void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b)
+void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, VecFx16 *b)
 {
     int buf[2];
     VEC_Fx16Normalize((const VecFx16 *)b, (VecFx16 *)buf);
@@ -372,7 +372,7 @@ void DEMO3D_GRAPHIC_Noop(void *unused){}
 
 void DEMO3D_GRAPHIC_UpdateBg(void *unused){BG_SYS_Update();}
 
-void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
+void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021BFB60), (const struct DispVramCfg *)a, b);

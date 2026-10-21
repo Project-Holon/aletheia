@@ -699,7 +699,7 @@ void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u3
     BTL_SETUP_SetPlayerParty(param, gd, heap);
     param->competitor = 3;
     param->rule = rule;
-    param->netHandle = netHandle;
+    param->netHandle = (struct GFLNetHandle *)(uptr)netHandle;
     param->commPos = commPos;
     param->multiMode = multiMode;
     param->netId = netId;

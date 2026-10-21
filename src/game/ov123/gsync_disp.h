@@ -7,6 +7,8 @@
 #include "../types.h"
 #include "../ov123/gsync_common_types.h"
 
+struct ClactAnimCommand;
+
 u8 *GSYNC_DISP_Init(u32 heap);
 void GSYNC_DISP_Draw(GsyncDispWork *disp);
 void GSYNC_DISP_Exit(GsyncDispWork *disp);
@@ -16,7 +18,7 @@ void GSYNC_DISP_LoadResources(GsyncDispWork *disp);
 void GSYNC_DISP_CreateEffectActorDefault(GsyncDispWork *disp);
 void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex);
 void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq);
-void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command);
+void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, struct ClactAnimCommand *command);
 void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex);
 void GSYNC_DISP_CreateEffectActorAt(GsyncDispWork *disp, int posX, int posY);
 void GSYNC_DISP_CreateSlotActorAt(GsyncDispWork *disp, unsigned int slotIndex);

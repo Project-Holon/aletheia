@@ -458,7 +458,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
     void *tempWork = 0;
     ScriptVm *vm;
     if (scriptWork == 0) {
-        tempWork = SCRIPT_WORK_Create(4, fieldSys, (struct GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)mode);
+        tempWork = SCRIPT_WORK_Create(4, fieldSys, (struct GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)(uptr)mode);
         scriptWork = tempWork;
     }
     vm = SCRIPT_SYS_CreateVm(4, scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId, mode);

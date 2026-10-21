@@ -70,7 +70,7 @@ struct BbBoard;
 
 /* Reflection effect work (FLDEFF_CTRL effect slot 6). */
 typedef struct ReflectEffectWork {
-    u32 fieldEffectCtrl;
+    struct FieldEffectSys *fieldEffectCtrl;
 } ReflectEffectWork;
 
 /* Add-task header copied into every reflection task. */
@@ -122,15 +122,15 @@ struct G3dCamera;
 #include "field_camera.h"
 #include "../arm9/g3d_camera.h"
 #include "../arm9/billboard.h"
-ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId);
-void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork);
+ReflectEffectWork *FLDEFF_REFLECT_Init(struct FieldEffectSys *fieldEffectCtrl, int heapId);
+void FLDEFF_REFLECT_Delete(struct FieldEffectSys *fieldEffectCtrl, u8 *effWork);
 void FLDEFF_REFLECT_InitResource(void);
 void FLDEFF_REFLECT_DeleteResource(void *effWork);
 void FLDEFF_REFLECT_SetMMdl(struct MmdlSys *mmdlSys, struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, u32 type);
-void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work);
-void FLDEFF_REFLECT_DeleteTask(int task, ReflectTaskWork *work);
-void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work);
-void FLDEFF_REFLECT_DrawTask(int task, ReflectTaskWork *work);
+void FLDEFF_REFLECT_InitTask(FieldEffectObj *task, ReflectTaskWork *work);
+void FLDEFF_REFLECT_DeleteTask(FieldEffectObj *task, ReflectTaskWork *work);
+void FLDEFF_REFLECT_UpdateTask(FieldEffectObj *task, ReflectTaskWork *work);
+void FLDEFF_REFLECT_DrawTask(FieldEffectObj *task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work);
 int FLDEFF_REFLECT_GetZoneRotateOffset(u32 zoneId);
 int FLDEFF_REFLECT_GetZoneHeightOffset(int zoneId, int mdlSize);
@@ -141,7 +141,7 @@ extern const fx32 gReflectMdlSizeOffsetZ[];
 extern const fx32 gReflectTypeOffsetY[];
 extern const fx32 gReflectMdlSizeOffsetY[];
 
-ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId)
+ReflectEffectWork *FLDEFF_REFLECT_Init(struct FieldEffectSys *fieldEffectCtrl, int heapId)
 {
     ReflectEffectWork *effWork = GFL_HEAP_Alloc(heapId, 4, 1, (const char *)&d_021DE320, 0x78);
 
@@ -150,7 +150,7 @@ ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId)
     return effWork;
 }
 
-void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork)
+void FLDEFF_REFLECT_Delete(struct FieldEffectSys *fieldEffectCtrl, u8 *effWork)
 {
     FLDEFF_REFLECT_DeleteResource(effWork);
     GFL_HEAP_Free(effWork);
@@ -176,9 +176,9 @@ void FLDEFF_REFLECT_SetMMdl(struct MmdlSys *mmdlSys, struct Mmdl *mmdl, struct F
     FIELD_EFFECT_AddObject(fieldEffectCtrl, (struct FieldEffectObjFuncs *)gReflectTaskHeader, (VecFx32 *)0, 0, &head, 0);
 }
 
-void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work)
+void FLDEFF_REFLECT_InitTask(FieldEffectObj *task, ReflectTaskWork *work)
 {
-    ReflectTaskHead *head = (ReflectTaskHead *)FIELD_EFFECT_GetObjectParam((struct FieldEffectObj *)task);
+    ReflectTaskHead *head = (ReflectTaskHead *)FIELD_EFFECT_GetObjectParam(task);
 
     work->head = *head;
     work->swaySpeed = 0x40;
@@ -190,7 +190,7 @@ void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work)
     FLDMMDL_GetCheckInfo((struct Mmdl *)head->mmdl, (struct MmdlCheckInfo *)work->checkInfo);
 }
 
-void FLDEFF_REFLECT_DeleteTask(int task, ReflectTaskWork *work)
+void FLDEFF_REFLECT_DeleteTask(FieldEffectObj *task, ReflectTaskWork *work)
 {
     if (work->actorAdded) {
         work->actorAdded = 0;
@@ -203,13 +203,13 @@ void FLDEFF_REFLECT_DeleteTask(int task, ReflectTaskWork *work)
  * what materialises `add r6, sp, #0xc` before the three stores and keeps r6
  * across the FLDMMDL_GetObjCodeParam call (plain element stores fold to sp-relative).
  */
-void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work)
+void FLDEFF_REFLECT_UpdateTask(FieldEffectObj *task, ReflectTaskWork *work)
 {
     u16 angle[2];
     int mmdlActId;
 
     if (FLDMMDL_CheckCheckInfo((struct Mmdl *)work->head.mmdl, (struct MmdlCheckInfo *)work->checkInfo) == 0 || FLDMMDL_CheckMoveBitReflect((void *)work->head.mmdl) == 0) {
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)task);
+        FIELD_EFFECT_DeleteObject(task);
         return;
     }
     mmdlActId = FLDMMDL_CallDrawGetProc((void *)work->head.mmdl, 0);
@@ -244,7 +244,7 @@ void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work)
     }
 }
 
-void FLDEFF_REFLECT_DrawTask(int task, ReflectTaskWork *work)
+void FLDEFF_REFLECT_DrawTask(FieldEffectObj *task, ReflectTaskWork *work)
 {
     if (FLDMMDL_CheckCheckInfo((struct Mmdl *)work->head.mmdl, (struct MmdlCheckInfo *)work->checkInfo) == 1 && work->actorAdded != 0 && work->actorId != 0xFFFF) {
         FLDEFF_REFLECT_UpdateActor(work->actorId, work);

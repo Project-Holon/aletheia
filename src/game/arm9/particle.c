@@ -1238,10 +1238,10 @@ struct Obj3D {
     u16     alpha;
     u8      pad72[0x1E];
     s32     callback;
-    s32     userData;
+    void   *userData;
 };
 
-extern u32 d_02146A88;
+extern void *d_02146A88;
 struct LerpDest;
 struct LerpSource;
 
@@ -1281,9 +1281,9 @@ extern int NNSi_GfdDefaultAllocTexVram(int a, int b, int c); /* original prototy
 
 
 
-u32 PARTICLE_GetCallbackArg(void)
+void *PARTICLE_GetCallbackArg(void)
 {
-    return *(u32 *)(*(u32 *)&d_02146A88 + 0x40);
+    return *(void **)((char *)d_02146A88 + 0x40);
 }
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
@@ -1581,7 +1581,7 @@ void PARTICLE_EMITTER_SetCallback(struct Obj3D *p, int v)
  *
  * Addresses are Black-image addresses.
  */
-void PARTICLE_EMITTER_SetUserData(struct Obj3D *p, int v)
+void PARTICLE_EMITTER_SetUserData(struct Obj3D *p, void *v)
 {
     p->userData = v;
 }
@@ -1592,7 +1592,7 @@ void PARTICLE_EMITTER_SetUserData(struct Obj3D *p, int v)
  *
  * Addresses are Black-image addresses.
  */
-int PARTICLE_EMITTER_GetUserData(struct Obj3D *p)
+void *PARTICLE_EMITTER_GetUserData(struct Obj3D *p)
 {
     return p->userData;
 }
@@ -1705,8 +1705,8 @@ int G2_GetBGCharPtrById(int i)
     case 1: return (sptr)G2_GetBG1CharPtr();
     case 2: return (sptr)G2_GetBG2CharPtr();
     case 3: return (sptr)G2_GetBG3CharPtr();
-    case 4: return G2S_GetBG0CharPtr();
-    case 5: return G2S_GetBG1CharPtr();
+    case 4: return (sptr)G2S_GetBG0CharPtr();
+    case 5: return (sptr)G2S_GetBG1CharPtr();
     case 6: return (sptr)G2S_GetBG2CharPtr();
     case 7: return (sptr)G2S_GetBG3CharPtr();
     }

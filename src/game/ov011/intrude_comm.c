@@ -426,7 +426,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
 int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work);
 void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work);
-void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, int fieldObjectAddr);
+void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, struct FieldMap *fieldObjectAddr);
 void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work);
 void INTRUDE_COMM_OnSessionStarted(void *userArg);
 void INTRUDE_COMM_OnSessionExit(void *userArg);
@@ -562,8 +562,8 @@ void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int result, 
 void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int seq);
 int INTRUDE_COMM_TakeRequestResult(IntrudeCommSys *work);
 void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *work);
-void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *sex);
-u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus);
+void INTRUDE_COMM_PickDefaultObjCode(struct MyStatus *myStatus, u16 *objCode, u8 *form, u8 *sex);
+u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, struct MyStatus *myStatus);
 int INTRUDE_COMM_HasConnectedPeers(void);
 void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile);
 u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *work);
@@ -1080,7 +1080,7 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     work->foundCount++;
 }
 
-void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, int fieldObjectAddr)
+void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, struct FieldMap *fieldObjectAddr)
 {
     struct GameData *gameData;
     int myNetId;
@@ -1620,7 +1620,7 @@ void INTRUDE_CMD_RecvRecordAccept(int netId, int size, void *record, IntrudeComm
 
 /*
  * note: Lead one run is EXACT*, followed by the root-claimed 02173FE4
- *       tail stub; tu verifies the complete 52-byte unit. INTRUDE_COMM_IsLinked's void forwarder
+ *       tail stub; tu verifies the complete 52-byte unit. INTRUDE_COMM_IsLinked's struct forwarder
  *       leaves r0 live, tested at 02173FC8; GFL_NET_SendToHandle's final send
  *       result is returned at 02173FE2. Follower loads a full word at
  *       02173FEA and forwards it without caller truncation.
@@ -2408,7 +2408,7 @@ void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
         peer->package.vanish = ShouldHidePeer(peer, self);
     }
     if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 1) {
-        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, (uptr)GAME_DATA_GetMyStatusByNetId((void *)GAME_COMM_GetGameData(work->gameComm), netId));
+        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, GAME_DATA_GetMyStatusByNetId((void *)GAME_COMM_GetGameData(work->gameComm), netId));
         if (objCode != COMM_PLAYER_GetObjCode(work->commPlayer, netId)) {
             COMM_PLAYER_Del(work->commPlayer, netId);
             if (peer->objCode != 0) {
@@ -2677,7 +2677,7 @@ void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *work)
     work->replyResult = 0;
 }
 
-void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *sex)
+void INTRUDE_COMM_PickDefaultObjCode(struct MyStatus *myStatus, u16 *objCode, u8 *form, u8 *sex)
 {
     u32 trainerId;
     u32 index;
@@ -2696,7 +2696,7 @@ void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *s
     }
 }
 
-u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, u32 myStatus)
+u16 INTRUDE_COMM_GetPlayerObjCode(IntrudePeer *peer, struct MyStatus *myStatus)
 {
     struct { u8 sex; u8 form; u16 objCode; } pick;
     u16 objCode;

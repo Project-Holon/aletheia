@@ -257,7 +257,6 @@ struct G3dResource;
 #include "../arm9/timezone.h"
 struct G3dResource;
 struct NNSG3dResFileHeader;
-extern void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
 struct G3dRender;
 struct G3dAnime;
 struct G3dObject;
@@ -273,13 +272,13 @@ BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey);
 void FIELD_BUILDMODEL_Delete(BuildModelMan *man);
 void FIELD_BUILDMODEL_UpdateSeason(BuildModelMan *man);
 void FIELD_BUILDMODEL_DrawNodes(BuildModelMan *man);
-void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, int extraResource);
-int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 modelId);
+void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, struct AreaData *mapHeader, void *extraResource);
+BuildModelPlacement *FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 modelId);
 u8 *FIELD_BUILDMODEL_GetModelDef(BuildModelMan *man, u32 index);
 int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int modelId, struct VecFx32 *pos, int *modelIndex);
-int FIELD_BUILDMODEL_RegisterObjects(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *descs, int count);
+int FIELD_BUILDMODEL_RegisterObjects(BuildModelMan *man, struct FieldG3dMap *mapObject, const BuildModelObjectDesc *descs, int count);
 void FIELD_BUILDMODEL_UnregisterObject(BuildModelMan *man, void *object);
-void FIELD_BUILDMODEL_RegisterObject(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *desc, int index);
+void FIELD_BUILDMODEL_RegisterObject(BuildModelMan *man, struct FieldG3dMap *mapObject, const BuildModelObjectDesc *desc, int index);
 void FIELD_BUILDMODEL_RemoveNode(BuildModelMan *man, BuildModelNode *node);
 void FIELD_BUILDMODEL_AddNode(BuildModelMan *man, BuildModelNode *node);
 void *FIELD_BUILDMODEL_GetNodeByHandle(BuildModelMan *man, int handle);
@@ -289,11 +288,11 @@ void FIELD_BUILDMODEL_LoadModelArchive(BuildModelMan *man, u16 archiveId, u32 me
 int FIELD_BUILDMODEL_FreeModelArchive(BuildModelMan *man);
 void FIELD_BUILDMODEL_BuildTableIndex(BuildModelMan *man, int defaultId);
 int FIELD_BUILDMODEL_GetModelIndex(BuildModelMan *man, unsigned int tableId);
-int FIELD_BUILDMODEL_GetOffsetTarget(u32 base, u32 index);
+u8 *FIELD_BUILDMODEL_GetOffsetTarget(u8 *base, u32 index);
 char *FIELD_BUILDMODEL_GetModelResourceData(char *table, int index);
 u8 *FIELD_BUILDMODEL_GetAnimResourceData(u8 *table, int index);
 unsigned short FIELD_BUILDMODEL_GetArchiveMemberIndex(int areaIndex);
-void FIELD_BUILDMODEL_CreateG3dResources(BuildModelMan *man, int resourceId, int member, int extraResource);
+void FIELD_BUILDMODEL_CreateG3dResources(BuildModelMan *man, int resourceId, int member, void *extraResource);
 void FIELD_BUILDMODEL_DeleteG3dResources(BuildModelMan *man);
 int FIELD_BUILDMODEL_CountAnimResources(int *animDefs);
 u8 *FIELD_BUILDMODEL_GetModelAnimDefs(u8 *p);
@@ -302,11 +301,11 @@ void FIELD_BUILDMODEL_InitSeason(BuildModelSeason *season, u8 dateKey);
 void FIELD_BUILDMODEL_UpdateSeasonState(BuildModelSeason *season);
 u32 FIELD_BUILDMODEL_GetSeasonChanged(BuildModelSeason *season);
 u8 FIELD_BUILDMODEL_GetSeasonAnimSlot(BuildModelSeason *season);
-void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, int extraResource);
+void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, void *extraResource);
 void FIELD_BUILDMODEL_DeleteModels(BuildModelMan *man);
 void FIELD_BUILDMODEL_CreateAnimSets(BuildModelMan *man, BuildModelHandleTable *out);
 void FIELD_BUILDMODEL_DeleteAnimSets(BuildModelMan *man, BuildModelHandleTable *table);
-void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int index, int unused);
+void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int index, void *unused);
 void FIELD_BUILDMODEL_FreeModel(BuildModelModel *model);
 void FIELD_BUILDMODEL_InitAnimSet(BuildModelMan *man, BuildModelAnimSet *out, BuildModelModel *model);
 void FIELD_BUILDMODEL_InitAnimSetNone(void *man, BuildModelAnimSet *set);
@@ -329,7 +328,7 @@ void FIELD_BUILDMODEL_AnimSetKindPlayDummy(void);
 int FIELD_BUILDMODEL_IsSlotIdle(BuildModelAnimSet *set, int slot);
 int FIELD_BUILDMODEL_GetSlotFrame(BuildModelAnimSet *set, int id);
 void FIELD_BUILDMODEL_ClearEntry(void *unused, BuildModelEntry *entry);
-BuildModelEntry *FIELD_BUILDMODEL_AddEntry(BuildModelMan *man, u32 mapObject, BuildModelEntryArgs *args, int index);
+BuildModelEntry *FIELD_BUILDMODEL_AddEntry(BuildModelMan *man, struct FieldG3dMap *mapObject, BuildModelEntryArgs *args, int index);
 void FIELD_BUILDMODEL_RemoveEntriesByObject(BuildModelMan *man, void *object);
 void FIELD_BUILDMODEL_FreeEntry(BuildModelMan *man, BuildModelEntry *entry);
 u8 FIELD_BUILDMODEL_GetEntryModelId(BuildModelEntry *entry);
@@ -355,7 +354,7 @@ int FIELD_BUILDMODEL_IsNodeCurrentSlotIdle(BuildModelNode *node);
 unsigned short FIELD_BUILDMODEL_GetNodeModelKind(BuildModelNode *node);
 void FIELD_BUILDMODEL_DrawNode(BuildModelNode *node);
 int FIELD_BUILDMODEL_GetNodeKindTableEntry(BuildModelNode *node, u32 column, u16 *out);
-int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, int out);
+int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, u16 *out);
 int FIELD_BUILDMODEL_IsNodeSeBusy(BuildModelNode *node);
 void FIELD_BUILDMODEL_MakeSearchRect(BuildModelRect *out, const struct VecFx32 *__restrict pos);
 #include "field_g3d_mapper.h"
@@ -438,7 +437,7 @@ void FIELD_BUILDMODEL_DrawNodes(BuildModelMan *man)
     }
 }
 
-void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, int extraResource)
+void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, struct AreaData *mapHeader, void *extraResource)
 {
     int member;
     int archiveId;
@@ -446,7 +445,7 @@ void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, in
     int tileSetId;
 
     member = FIELD_BUILDMODEL_GetArchiveMemberIndex(ZONEDATA_GetAreaId(areaId));
-    if (ZONEDATA_GetAreaInnerOuter((struct AreaData *)mapHeader)) {
+    if (ZONEDATA_GetAreaInnerOuter(mapHeader)) {
         archiveId = 0xE5;
         resourceId = 0xB0;
         tileSetId = 0x15;
@@ -462,9 +461,9 @@ void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, in
     FIELD_BUILDMODEL_CreateAnimSets(man, &man->handleTable);
 }
 
-int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 tableId)
+BuildModelPlacement *FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 tableId)
 {
-    return FIELD_BUILDMODEL_GetOffsetTarget((uptr)man->archive, FIELD_BUILDMODEL_GetModelIndex(man, tableId));
+    return (BuildModelPlacement *)FIELD_BUILDMODEL_GetOffsetTarget(man->archive, FIELD_BUILDMODEL_GetModelIndex(man, tableId));
 }
 
 /*
@@ -472,7 +471,7 @@ int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 tableId)
  */
 u8 *FIELD_BUILDMODEL_GetModelDef(BuildModelMan *man, u32 index)
 {
-    return (u8 *)FIELD_BUILDMODEL_GetOffsetTarget((uptr)man->archive, index);
+    return FIELD_BUILDMODEL_GetOffsetTarget(man->archive, index);
 }
 
 static inline void VEC_Set_(struct VecFx32 *v, int x, int y, int z)
@@ -497,7 +496,7 @@ int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int tableId, struc
  * compiler keeps &descs[i] in a register and spills descs; const keeps descs
  * and i*16 in registers.
  */
-int FIELD_BUILDMODEL_RegisterObjects(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *descs, int count)
+int FIELD_BUILDMODEL_RegisterObjects(BuildModelMan *man, struct FieldG3dMap *mapObject, const BuildModelObjectDesc *descs, int count)
 {
     BuildModelEntryArgs args;
     int i;
@@ -532,7 +531,7 @@ static inline void BuildModelEntryArgsFlat_SetPos(BuildModelEntryArgsFlat *v, in
     v->z = z;
 }
 
-void FIELD_BUILDMODEL_RegisterObject(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *desc, int index)
+void FIELD_BUILDMODEL_RegisterObject(BuildModelMan *man, struct FieldG3dMap *mapObject, const BuildModelObjectDesc *desc, int index)
 {
     BuildModelEntryArgsFlat args;
     args.modelIndex = FIELD_BUILDMODEL_GetModelIndex(man, (unsigned short)(desc->idLow + (desc->idHigh << 8)));
@@ -640,7 +639,7 @@ int FIELD_BUILDMODEL_GetModelIndex(BuildModelMan *man, unsigned int tableId)
     return index;
 }
 
-int FIELD_BUILDMODEL_GetOffsetTarget(u32 base, u32 index)
+u8 *FIELD_BUILDMODEL_GetOffsetTarget(u8 *base, u32 index)
 {
     return (base + *(u32 *)((u8 *)((base + (index << 2))) + 4));
 }
@@ -676,11 +675,11 @@ unsigned short FIELD_BUILDMODEL_GetArchiveMemberIndex(int areaIndex)
 }
 
 /* The trailing guard is the function exit: only its cmp survives. */
-void FIELD_BUILDMODEL_CreateG3dResources(BuildModelMan *man, int resourceId, int member, int extraResource)
+void FIELD_BUILDMODEL_CreateG3dResources(BuildModelMan *man, int resourceId, int member, void *extraResource)
 {
     man->g3dResources = G3D_SYSTEM_CreateResourceArc(resourceId, member);
     if (extraResource != 0)
-        FIELD_G3D_MAPPER_TintTexture(man->g3dResources, (void *)extraResource);
+        FIELD_G3D_MAPPER_TintTexture(man->g3dResources, extraResource);
     if (G3D_SYSTEM_TransVramTextureAndCut(man->g3dResources) == 0)
         return;
 }
@@ -756,7 +755,7 @@ u8 FIELD_BUILDMODEL_GetSeasonAnimSlot(BuildModelSeason *season)
     return season->animSlot;
 }
 
-void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, int extraResource)
+void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, void *extraResource)
 {
     unsigned short n = man->modelCount;
     unsigned char i;
@@ -820,7 +819,7 @@ void FIELD_BUILDMODEL_DeleteAnimSets(BuildModelMan *man, BuildModelHandleTable *
     }
 }
 
-void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int index, int unused)
+void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int index, void *unused)
 {
     u8 *anims;
     int count;
@@ -1165,19 +1164,19 @@ void FIELD_BUILDMODEL_ClearEntry(void *unused, BuildModelEntry *entry)
 /*
  * Claims the first free entry of the entry table.
  */
-BuildModelEntry *FIELD_BUILDMODEL_AddEntry(BuildModelMan *man, u32 mapObject, BuildModelEntryArgs *args, int index)
+BuildModelEntry *FIELD_BUILDMODEL_AddEntry(BuildModelMan *man, struct FieldG3dMap *mapObject, BuildModelEntryArgs *args, int index)
 {
     BuildModelEntry *entry = &man->entries[0];
     u32 i;
     for (i = 0; i < BUILDMODEL_ENTRY_COUNT; i++) {
         entry = &man->entries[i];
         if (entry->object == 0) {
-            FIELD_G3D_MAP_SetPlacement((struct FieldG3dMap *)mapObject, (struct FieldG3dMapPlacement *)args, index);
-            entry->object = (void *)mapObject;
+            FIELD_G3D_MAP_SetPlacement(mapObject, (struct FieldG3dMapPlacement *)args, index);
+            entry->object = mapObject;
             entry->savedWord = -1;
             entry->index = index;
             entry->visible = 1;
-            entry->instance = (BuildModelInstance *)FIELD_G3D_MAP_GetPlacement((struct FieldG3dMap *)mapObject, index);
+            entry->instance = (BuildModelInstance *)FIELD_G3D_MAP_GetPlacement(mapObject, index);
             return entry;
         }
     }
@@ -1466,7 +1465,7 @@ int FIELD_BUILDMODEL_GetNodeKindTableEntry(BuildModelNode *node, u32 column, u16
     return 0;
 }
 
-int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, int out)
+int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, u16 *out)
 {
     if (node == 0)
         return 0;
@@ -1476,7 +1475,7 @@ int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, int out)
 int FIELD_BUILDMODEL_IsNodeSeBusy(BuildModelNode *node)
 {
     unsigned short v;
-    if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, (sptr)(&v)) == 0)
+    if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, &v) == 0)
         return 0;
     return GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(v));
 }

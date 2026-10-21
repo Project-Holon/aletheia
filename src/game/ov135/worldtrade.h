@@ -40,7 +40,7 @@ void WORLDTRADE_DecrementTimer(WorldtradeWork *p);
 void WORLDTRADE_ClearSelectedSpecies(WorldtradeWork *p);
 void WORLDTRADE_CreateTimeIcon(WorldtradeWork *p);
 void WORLDTRADE_DeleteTimeIcon(WorldtradeWork *p);
-void WORLDTRADE_SetActorPos(u32 obj, u32 x, u32 y);
+void WORLDTRADE_SetActorPos(struct ClactActor *obj, u32 x, u32 y);
 void WORLDTRADE_SetBrightnessIn(u32 isMain);
 void WORLDTRADE_SetBrightnessOut(u32 isMain);
 void WORLDTRADE_ClearBlendRegs(void);

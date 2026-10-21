@@ -343,7 +343,7 @@ void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
     work->cursorObj=CLACT_CreateActor((void *)(uptr)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
     desc.x=8;
-    desc.plttRes=(uptr)((void *)wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
+    desc.plttRes=(wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
     desc.animSeq=0;
     desc.drawPriority=0;
     vramHi=0x19;

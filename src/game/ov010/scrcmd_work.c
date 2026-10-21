@@ -191,7 +191,7 @@ typedef struct ScrcmdCommonWork {
     u8 windowKind;                  /* 0x105 */
     u16 waitCount;                  /* 0x106 */
     int fadeParam;                  /* 0x108 */
-    int fadeState;                  /* 0x10C */
+    void *fadeState;                /* 0x10C */
 } ScrcmdCommonWork;
 
 /* Start parameters of one script, copied into ScrcmdWork at +0x04. */
@@ -437,9 +437,9 @@ struct ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *work)
     return work->common->scriptWork;
 }
 
-int SCRCMD_WORK_GetMenuHeap(ScrcmdWork *work)
+void *SCRCMD_WORK_GetMenuHeap(ScrcmdWork *work)
 {
-    return *(s32 *)SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work));
+    return SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->mapSystem;
 }
 
 struct MsgBank *SCRCMD_WORK_GetMsgData(ScrcmdWork *work)
@@ -532,12 +532,12 @@ void SCRCMD_WORK_SetFadeParam(ScrcmdWork *work, int param)
     work->common->fadeParam = param;
 }
 
-int SCRCMD_WORK_GetFadeState(ScrcmdWork *work)
+void *SCRCMD_WORK_GetFadeState(ScrcmdWork *work)
 {
     return work->common->fadeState;
 }
 
-void SCRCMD_WORK_SetFadeState(ScrcmdWork *work, int state)
+void SCRCMD_WORK_SetFadeState(ScrcmdWork *work, void *state)
 {
     work->common->fadeState = state;
 }
@@ -642,7 +642,7 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
     int height;
     ScrcmdMenu *menu = &work->common->menu;
     FieldMenuHeader header = gScrcmdMenuHeader;
-    int *heap = (int *)SCRCMD_WORK_GetMenuHeap(work);
+    int *heap = SCRCMD_WORK_GetMenuHeap(work);
     unsigned lines;
     unsigned count;
     width = FIELD_MSGBG_GetMenuItemsWidthChars((void *)heap, menu->items, header.fontId, header.cursorMargin);
@@ -971,14 +971,14 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct MapMatrix *mapMatrix;
     int matrixId, heapId;
     u16 zoneId;
-    MAP_REPLACE_SetFlag((sptr)gameData, replaceId, enable);
+    MAP_REPLACE_SetFlag(gameData, replaceId, enable);
     if (applyNow != 0) {
         mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(gameData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         matrixId = ZONEDATA_GetMatrixId(zoneId);
         heapId = SCRCMD_WORK_GetHeapId(work);
         MAP_MATRIX_Load(mapMatrix, matrixId, zoneId, heapId);
-        MAP_MATRIX_ApplyReplace(mapMatrix, (sptr)gameSystem, heapId);
+        MAP_MATRIX_ApplyReplace(mapMatrix, gameSystem, heapId);
     }
     return 0;
 }
@@ -988,7 +988,7 @@ int SCRCMD_WORK_CmdCheckMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     int replaceId = SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = MAP_REPLACE_CheckFlag((sptr)gameData, replaceId);
+    *ret = MAP_REPLACE_CheckFlag(gameData, replaceId);
     return 0;
 }
 

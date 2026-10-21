@@ -72,7 +72,7 @@ void WORLDTRADE_STATUS_Open(WorldtradeWork *p)
     r->config=p->ctx->statusConfig;
     r->save=GAMESYSTEM_GetGameData(p->ctx->gameData);
     if(WORLDTRADE_BOX_IsPartyBox(p->box))
-        r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(u32)(p->ctx->box),p->box);
+        r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(p->ctx->box),p->box);
     else r->slotCount=30;
     r->slot=p->slot;
     r->enabled=1;

@@ -42,6 +42,13 @@
 #include "mystery_gift_mon_shared_types.h"
 
 #include "../types.h"
+#ifdef __MWERKS__
+#define POKE_TOOL_Create POKE_TOOL_Create_header
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_Create
+#endif
 
 struct PokemonParam;
 
@@ -101,29 +108,18 @@ typedef struct GiftMon {
 #ifdef __MWERKS__
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap); /* original prototype; the definition differs in return type, argument width */
 #else
-extern struct PokemonParam*POKE_TOOL_Create(u16, u16, u64, u16);
 #endif
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
-extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *mon, u16 species, u16 level, unsigned long long id, u32 packedIvs, unsigned long long personalRnd);
 
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
 
-extern u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
 
-extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
 struct BoxPokemon;
 
-extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 
-extern struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 struct SaveData;
 
 #include "../arm9/save_event.h"

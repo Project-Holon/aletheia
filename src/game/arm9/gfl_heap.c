@@ -55,8 +55,8 @@ struct HeapSpec;
 /* One heap of the manager (16 bytes). */
 struct HeapRecord {
     void *heap;          /* expanded heap handle, NULL = free record */
-    u32   parentHeap;    /* heap the memory was carved from, 0 if none */
-    u32   block;         /* the carved memory block (freed to parentHeap) */
+    void *parentHeap;    /* heap the memory was carved from, 0 if none */
+    void *block;         /* the carved memory block (freed to parentHeap) */
     u16   allocCount;    /* live allocations */
     u8    isExternal;    /* 1 = built over a caller-supplied block */
     u8    pad0F;
@@ -113,7 +113,7 @@ struct SystemHeapState {
 #include "nns_fnd_expheap.h"
 int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
-int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size);
+int GFL_HEAP_AddRecord(void *parentHeap, u32 heapId, void *block, u32 size);
 #include "os_system.h"
 struct NNSG2dCellBank;
 #include "nns_gfd_vram_manager.h"
@@ -126,7 +126,7 @@ void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 u32 GFL_HEAP_FreeMemory(void *mem);
 u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignment);
 u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize);
-void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
+u32 GFL_HEAP_GetTotalFreeSize(u32 heapId);
 u32 GFL_HEAP_GetAllocatableSize(u32 heapId);
 u32 GFL_HEAP_GetHeapSize(u32 heapId);
 void *GFL_HEAP_GetHeapHandle(u32 heapId);
@@ -140,10 +140,10 @@ void *GFL_HEAP_AllocSystem(u32 size);
 extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
 #include "os_terminate_processor.h"
 void *GFL_HEAP_GetHeap(u32 heapId);
-u32 GFL_HEAP_GetParentHeap(u32 heapId);
-u32 GFL_HEAP_GetBlock(u32 heapId);
+void *GFL_HEAP_GetParentHeap(u32 heapId);
+void *GFL_HEAP_GetBlock(u32 heapId);
 u16 GFL_HEAP_GetAllocCount(u32 heapId);
-int GFL_HEAP_FreeSystem(u32 mem);
+int GFL_HEAP_FreeSystem(void *mem);
 void GFL_HEAP_Init(u8 *specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
 void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
 void GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 newHeapId);
@@ -158,14 +158,14 @@ void *GFL_HEAP_GetHeap(u32 heapId)
     return gHeapManager.records[slot].heap;
 }
 
-u32 GFL_HEAP_GetParentHeap(u32 heapId)
+void *GFL_HEAP_GetParentHeap(u32 heapId)
 {
     u8 slot = gHeapManager.slotOfHeapId[heapId];
     if (slot == 0xff) return 0;
     return gHeapManager.records[slot].parentHeap;
 }
 
-u32 GFL_HEAP_GetBlock(u32 heapId)
+void *GFL_HEAP_GetBlock(u32 heapId)
 {
     u8 slot = gHeapManager.slotOfHeapId[heapId];
     if (slot == 0xff) return 0;
@@ -227,7 +227,7 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
         OS_AllocFromArenaLo(0, extraSize, 4);
     }
 
-    gHeapManager.records = (struct HeapRecord *)OS_AllocFromArenaLo(0, recordTotal * 16, 4);
+    gHeapManager.records = OS_AllocFromArenaLo(0, recordTotal * 16, 4);
     for (recordIndex = 0; recordIndex < recordTotal; recordIndex++) {
         gHeapManager.records[recordIndex].heap = 0;
         gHeapManager.records[recordIndex].parentHeap = 0;
@@ -236,7 +236,7 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
         gHeapManager.records[recordIndex].isExternal = 0;
     }
 
-    gHeapManager.slotOfHeapId = (u8 *)OS_AllocFromArenaLo(0, heapIdCount, 4);
+    gHeapManager.slotOfHeapId = OS_AllocFromArenaLo(0, heapIdCount, 4);
     for (specIndex = 0; specIndex < heapIdCount; specIndex++) {
         gHeapManager.slotOfHeapId[specIndex] = 0xff;
     }
@@ -247,7 +247,7 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
     gHeapManager.lastError = 0;
 
     for (specIndex = 0; specIndex < staticCount; specIndex++) {
-        memory = (void *)OS_AllocFromArenaLo(0, specs[specIndex].size, 4);
+        memory = OS_AllocFromArenaLo(0, specs[specIndex].size, 4);
         if (memory != 0) {
             gHeapManager.records[specIndex].heap = NNS_FndCreateExpHeapEx(memory, specs[specIndex].size, 0);
             gHeapManager.slotOfHeapId[specIndex] = specIndex;
@@ -327,7 +327,7 @@ int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size)
         goto fail;
     }
 
-    if (GFL_HEAP_AddRecord((uptr)parentHeap, newHeapId, (uptr)childBlock, size) == 0) {
+    if (GFL_HEAP_AddRecord(parentHeap, newHeapId, childBlock, size) == 0) {
         goto fail;
     }
     return 1;
@@ -366,7 +366,7 @@ int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId)
         goto fail;
     }
 
-    if (GFL_HEAP_AddRecord(0, heapId, (uptr)block, size) == 0) {
+    if (GFL_HEAP_AddRecord(0, heapId, block, size) == 0) {
         goto fail;
     }
 
@@ -389,7 +389,7 @@ fail:
  * the same address at 0x0202FF94 and 0x0202FFBC), which a plain constant
  * would let mwcc keep in a callee-saved register.
  */
-int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size)
+int GFL_HEAP_AddRecord(void *parentHeap, u32 heapId, void *block, u32 size)
 {
     int recordIndex;
 
@@ -397,7 +397,7 @@ int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size)
         if (gHeapManager.records[recordIndex].heap != 0) {
             continue;
         }
-        gHeapManager.records[recordIndex].heap = NNS_FndCreateExpHeapEx((void *)block, size, 0);
+        gHeapManager.records[recordIndex].heap = NNS_FndCreateExpHeapEx(block, size, 0);
         if (gHeapManager.records[recordIndex].heap == 0) {
             gHeapManager.lastError = 5;
             continue;
@@ -460,8 +460,8 @@ u32 GFL_HEAP_Delete(u32 heapHandle)
     if (heap == 0) {
         gHeapManager.lastError = 1;
     } else {
-        parentHeap = (void *)GFL_HEAP_GetParentHeap(heapHandle);
-        memBlock = (void *)GFL_HEAP_GetBlock(heapHandle);
+        parentHeap = GFL_HEAP_GetParentHeap(heapHandle);
+        memBlock = GFL_HEAP_GetBlock(heapHandle);
         recordIndex = gHeapManager.slotOfHeapId[heapHandle];
         NNSi_FndDestroyExpHeap(heap);
 
@@ -814,7 +814,7 @@ fail:
  * and returns what that returns; see src/matched/GFL_HEAP_GetHeapHandle.c for the
  * shared preamble this family has in common.
  *
- *   void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
+ *   u32 GFL_HEAP_GetTotalFreeSize(u32 heapId)
  *
  * The two calls are back to back with no register shuffle between them,
  * which is the nested-call form `NNSi_FndGetListTotalSize(GFL_HEAP_GetHeap(heapId))`
@@ -827,7 +827,7 @@ fail:
  *   python tools/match.py one --src src/matched/GFL_HEAP_GetTotalFreeSize.c \
  *       --func GFL_HEAP_GetTotalFreeSize --addr 0x02030344 --cc 1.1p1 --arm
  */
-void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
+u32 GFL_HEAP_GetTotalFreeSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -835,7 +835,7 @@ void *GFL_HEAP_GetTotalFreeSize(u32 heapId)
         goto fail;
     }
     gHeapManager.lastError = 0;
-    return (void *)NNSi_FndGetListTotalSize(GFL_HEAP_GetHeap(heapId));
+    return NNSi_FndGetListTotalSize(GFL_HEAP_GetHeap(heapId));
 
 fail:
     return 0;
@@ -1139,11 +1139,11 @@ BOOL GFL_HEAP_InitSystemHeap(u32 size)
         return 0;
     }
 
-    arenaLow = (void *)OS_GetArenaLo(4);
-    OS_SetArenaHi((u32)4, (uptr)SDK_AUTOLOAD_MAIN_TWL_START + 0x3000);
+    arenaLow = OS_GetArenaLo(4);
+    OS_SetArenaHi((u32)4, (u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3000);
     success = 1;
     heapStart = OS_InitAlloc(4, arenaLow, (u8 *)arenaLow + size, 1);
-    OS_SetArenaLo((u32)4, (uptr)heapStart);
+    OS_SetArenaLo((u32)4, heapStart);
     osHeap = OS_CreateHeap(4, heapStart, (u8 *)arenaLow + size);
     gSystemHeap.heapHandle = osHeap;
     if (osHeap == -1) {
@@ -1201,9 +1201,9 @@ void *GFL_HEAP_AllocSystem(u32 size)
  *   python tools/match.py one --src src/matched/GFL_HEAP_FreeSystem.c \
  *       --func GFL_HEAP_FreeSystem --addr 0x020305E4 --cc 1.1p1
  */
-int GFL_HEAP_FreeSystem(u32 mem)
+int GFL_HEAP_FreeSystem(void *mem)
 {
-    OS_FreeToHeap(4, gSystemHeap.heapHandle, (void *)mem);
+    OS_FreeToHeap(4, gSystemHeap.heapHandle, mem);
     return 1;
 }
 

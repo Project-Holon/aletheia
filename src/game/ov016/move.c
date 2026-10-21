@@ -67,13 +67,13 @@ struct MBUserInfo;
 void DWCi_MOVlInit(void (*callback)(int));
 void DWCi_MOVlEnd(void);
 int DWCi_MOVlIsEnd(void);
-void DWCi_MOVlChangeCallback(unsigned int v);
+void DWCi_MOVlChangeCallback(void (*callback)(int));
 void DWCi_MOVlAdmitChild(void);
 char *DWCi_MOVlGetChild(void);
 void taskFramework(void *task);
 extern MoveWork *gMoveWork;
 extern MovData sMoveTable;
-extern void *gCommentWork;
+extern struct MsgPrm *gCommentWork;
 extern void *MemMovFree;
 
 
@@ -91,8 +91,8 @@ void DWCi_MOVlInit(void (*callback)(int))
 	gMoveWork->reportPending = 0;
 	gMoveWork->ended = 0;
 	dat = sMoveTable;
-	dat.gameNamep = (u16 *)DWCi_MSGlGet(gCommentWork, 0);
-	dat.gameIntroductionp = (u16 *)DWCi_MSGlGet(gCommentWork, 1);
+	dat.gameNamep = DWCi_MSGlGet(gCommentWork, 0);
+	dat.gameIntroductionp = DWCi_MSGlGet(gCommentWork, 1);
 	dat.language = kDWCi_Language();
 	DWCi_MOVInit((Wk *)gMoveWork, &dat);
 	if (DWCi_MOVStartAdmitChild() == 0)
@@ -133,9 +133,9 @@ int DWCi_MOVlIsEnd(void)
  *   python tools/match.py one --src src/matched/DWCi_MOVlChangeCallback.c \
  *       --func DWCi_MOVlChangeCallback --addr 0x021C11D4 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_MOVlChangeCallback(unsigned int v)
+void DWCi_MOVlChangeCallback(void (*callback)(int))
 {
-    gMoveWork->callback = (MoveCallback)v;
+    gMoveWork->callback = callback;
 }
 
 

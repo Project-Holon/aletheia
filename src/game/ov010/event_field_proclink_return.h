@@ -7,6 +7,7 @@
 struct ProcLinkSys;
 struct ProcLinkRequest;
 struct EventSlots;
+struct MyStatus;
 struct EventSlot;
 typedef struct ProcLinkSys ProcLinkSys;
 typedef struct ProcLinkRequest ProcLinkRequest;
@@ -26,7 +27,7 @@ void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, i
 void EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_ClearReturnSlots(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
-void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant);
+void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *unused, ProcLinkRequest *request, ProcLinkSys *procLink, struct MyStatus *arg, u16 linkId, u16 variant);
 void EVENT_FIELD_PROCLINK_SetReturnLinkId(EventSlots *slots, u16 pendingKey);
 void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(EventSlots *slots, EventSlot *slot);
 void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(EventSlots *slots, int index, EventSlot *slot);

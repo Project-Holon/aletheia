@@ -356,7 +356,7 @@ int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
 
-    SCRIPT_WORK_SetReturnFlag((struct ScriptWork *)scriptCtl, (uptr)ARC_UTIL_LoadMember(0xd1, 0, 0, 0x8004));
+    SCRIPT_WORK_SetReturnFlag((struct ScriptWork *)scriptCtl, ARC_UTIL_LoadMember(0xd1, 0, 0, 0x8004));
     return 0;
 }
 

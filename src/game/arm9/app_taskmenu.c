@@ -505,9 +505,9 @@ void APP_TASKMENU_UpdateCursorColor(u16 *colorPhase, u16 *color, u32 bgFrame, u3
     g = (u8)(((wave * 15) >> 12) + 0xa);
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
+        NNS_GfdRegisterNewVramTransferTask(0xf, (u32)(palNo * 32 + 0xc), color, 2);
     } else {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, (u32)(palNo * 32 + 0xc), color, 2);
     }
 }
 
@@ -543,9 +543,9 @@ void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFram
     g = (u8)(g0 + ((wave * (g1 - g0)) >> 12));
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
+        NNS_GfdRegisterNewVramTransferTask(0xf, (u32)(palNo * 32 + 0xc), color, 2);
     } else {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, (u32)(palNo * 32 + 0xc), color, 2);
     }
 }
 

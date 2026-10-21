@@ -94,7 +94,7 @@ typedef struct WorldTradeParam {
 typedef struct WorldTradeEventWork {
     u32 savedBgmNo;
     struct GameSystem *gameSystem;
-    int fieldMap;
+    struct FieldMap *fieldMap;
     WorldTradeParam param;
     struct SaveControl *saveControl;
     struct GameSystem *paramGameSystem;
@@ -127,19 +127,19 @@ struct WifiList;
 struct FieldMap;
 #include "../arm9/field_status.h"
 #include "../ov021/event_fieldmap_control.h"
-int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request);
-int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused);
+int EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request);
+int EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused);
 u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work);
 extern char ov135_id[];
 extern char d_02202BAC[];
 
 /* Overlay entry point: unpacks the request and creates the event. */
-int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request)
+int EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request)
 {
-    return EVENT_WORLDTRADE_Create(gameSystem, request->fieldMap, request->unused);
+    return EVENT_WORLDTRADE_Create(gameSystem, (struct FieldMap *)request->fieldMap, request->unused);
 }
 
-int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
+int EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused)
 {
     sptr gameData;
     sptr event;
@@ -182,13 +182,13 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         break;
     case 1:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(work->gameSystem, (struct FieldMap *)work->fieldMap, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(work->gameSystem, work->fieldMap, 0, 0));
         work->savedBgmNo = GFL_USE_GetBgmNo();
         GFL_USE_FadeOutBgm(6);
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)work->gameSystem, work->fieldMap));
         *seq = 3;
         break;
     case 3:
@@ -205,7 +205,7 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         break;
     case 5:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, (struct FieldMap *)work->fieldMap, 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         *seq = 6;
         break;
     case 6:

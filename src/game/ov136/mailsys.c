@@ -234,7 +234,7 @@ void MAILSYS_FillDefaultSentences(struct MailEditProc *proc, struct MailDraft *d
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled((unsigned short *)(&draft->message[i])) == 0) {
+        if (PMSI_PARAM_IsEnabled( (const unsigned short *)&draft->message[i]) == 0) {
             if (d_021C77A0[draft->design][i] != 0xFF) PMSI_PARAM_InitSentenceId(&draft->message[i], 5, d_021C77A0[draft->design][i]);
         }
         if (d_021C77A0[draft->design][i] == 0xFF) draft->slotEnabled[i] = 0;
@@ -377,7 +377,7 @@ int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc)
         if (d_021C77A0[x->design][i] != 0xFF) {
             if (PMSI_PARAM_IsComplete(&x->message[i], 0x64)) c1++;
         } else {
-            if (PMSI_PARAM_IsEnabled((unsigned short *)(&x->message[i]))) c0++;
+            if (PMSI_PARAM_IsEnabled( (const unsigned short *)&x->message[i])) c0++;
         }
     }
     if (c0 < t || c1 < n) return 1;
@@ -609,7 +609,7 @@ void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    proc->dialogMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)proc->taskMenuRes);
+    proc->dialogMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu( (struct TaskMenuInitWork *)&t, (struct TaskMenuRes *)proc->taskMenuRes);
     PALANM_BlendChannel(proc->palAnm, 0, 0, 48, 10, 0);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->sendButton);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->cancelButton);

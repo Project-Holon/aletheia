@@ -6,6 +6,7 @@
 
 struct BoulderDropWork;
 struct TcbTask;
+struct TcblTask;
 struct HopWork;
 struct JumpWork;
 typedef struct BoulderDropWork BoulderDropWork;
@@ -25,11 +26,11 @@ int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, i
 GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *player, u32 dir, Mmdl *boulder, u32 fillsHole);
 int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work);
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
-int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task);
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task);
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task);
 void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work);
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
-int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task);
+int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcblTask *task);
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcbTask *task);
 void FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
 int FIELD_PLAYER_GRID_EVENT_JumpUpStart(JumpWork *work);
@@ -40,7 +41,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpLand(JumpWork *work);
 int FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect(JumpWork *work);
 void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work);
 void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
-u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction);
+Mmdl *FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction);
 /* END mkheaders: generated region */
 
 #endif

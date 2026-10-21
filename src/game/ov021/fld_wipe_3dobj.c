@@ -279,7 +279,7 @@ int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work);
 
 int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work);
 
-GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unused, int zoneId);
+GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct FieldMap *fieldMap, int zoneId);
 
 int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work);
 
@@ -423,7 +423,7 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
 }
 
 /* Creates the wipe event: picks the two FLD3D_CI ids by player outfit and remembers the destination zone. */
-GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unused, int zoneId)
+GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct FieldMap *fieldMap, int zoneId)
 {
     GameEvent *event;
     WipeMapChangeWork *work;

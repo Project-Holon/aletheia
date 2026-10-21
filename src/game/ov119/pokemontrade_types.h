@@ -110,10 +110,10 @@ typedef struct TradeWork {
     int  magicValue2;
     unsigned char pad_65C[84];
     void * taskMenuRes;
-    int  subWin;
+    struct BmpWin *subWin;
     unsigned char pad_6B8[100];
     int  messageWin;
-    int  messageBank;
+    struct MsgBank *messageBank;
     int  wordSet;
     void * font;
     int  printStream;
@@ -173,7 +173,7 @@ typedef struct TradeWork {
     int  subScreenActive;
     unsigned char pad_9A0[32];
     void * touchbar;
-    int  clactSystem;
+    struct Unit *clactSystem;
     void * nodeA;
     void * charE;
     unsigned char pad_9D0[240];
@@ -188,13 +188,13 @@ typedef struct TradeWork {
     unsigned char pad_EFC[8];
     struct ClactActor * cursorActor;
     struct ClactActor * actorF08;
-    int  actorF0C;
+    struct ClactActor *actorF0C;
     int  iconActorA;
     int  iconActorB;
-    int  actorF18;
+    struct ClactActor *actorF18;
     unsigned char pad_F1C[4];
-    int  iconActorC;
-    int  iconActorD;
+    struct ClactActor *iconActorC;
+    struct ClactActor *iconActorD;
     unsigned char pad_F28[4];
     int  waitCounter;
     unsigned char pad_F30[4];
@@ -203,7 +203,7 @@ typedef struct TradeWork {
     int  iconPosX;
     int  iconPosY;
     int  dragMoved;
-    int  dragActor;
+    struct ClactActor *dragActor;
     short  targetX;
     short  targetY;
     short  offsetX;

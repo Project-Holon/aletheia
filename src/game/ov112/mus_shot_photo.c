@@ -441,7 +441,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     a = d_021F8274;
     b = d_021F8258;
     pb = &b;
-    h = BILLBOARD_Create((u8 *)(&a), (void *)(*(u16 *)p));
+    h = BILLBOARD_Create( (unsigned char *)&a, (u32)((void *)(*(u16 *)p)));
     *(void **)(p + 0x1C) = h;
     BILLBOARD_SetScale(h, (struct Blk3 *)pb);
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);

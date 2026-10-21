@@ -101,7 +101,7 @@ void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, i
 void EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_ClearReturnSlots(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
-void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant);
+void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *unused, ProcLinkRequest *request, ProcLinkSys *procLink, struct MyStatus *arg, u16 linkId, u16 variant);
 void EVENT_FIELD_PROCLINK_SetReturnLinkId(EventSlots *slots, u16 pendingKey);
 void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(EventSlots *slots, EventSlot *slot);
 void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(EventSlots *slots, int index, EventSlot *slot);
@@ -235,7 +235,7 @@ void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys
         EVENT_FIELD_PROCLINK_RunReturnSlots(slots, procLink, slotMask);
 }
 
-void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant)
+void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *unused, ProcLinkRequest *request, ProcLinkSys *procLink, struct MyStatus *arg, u16 linkId, u16 variant)
 {
     ProcLinkEntry *entry;
     sptr handle;
@@ -250,7 +250,7 @@ void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request,
         entry->value = record[2];
     entry->kind = 7;
     FIELD_WFBC_DATA_LOCAL_CloseNpcData((struct WfbcNpcData *)handle);
-    FIELD_WFBC_DATA_LOCAL_InsertPersonForCity((struct WfbcData *)request, (struct MyStatus *)arg, (struct WfbcPerson *)entry);
+    FIELD_WFBC_DATA_LOCAL_InsertPersonForCity((struct WfbcData *)request, arg, (struct WfbcPerson *)entry);
     EVENT_FIELD_PROCLINK_ClearReturnEntry(entry);
     EVENT_FIELD_PROCLINK_CompactReturnList(procLink, 1);
 }

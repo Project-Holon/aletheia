@@ -92,8 +92,8 @@ void *SAVE_OUTSIDE_Load(u32 heap)
         readOk[idx]=0;
         crcBad[idx]=0;
     }
-    readOk[0]=BACKUP_SYSTEM_ReadFlash(0x7F800,(uptr)copies[0],0x374);
-    readOk[1]=BACKUP_SYSTEM_ReadFlash(0x7FC00,(uptr)copies[1],0x374);
+    readOk[0]=BACKUP_SYSTEM_ReadFlash(0x7F800,copies[0],0x374);
+    readOk[1]=BACKUP_SYSTEM_ReadFlash(0x7FC00,copies[1],0x374);
     for(idx=0;idx<2;idx++){
         if(readOk[idx]==1){
             copy=copies[idx];
@@ -172,7 +172,7 @@ int SAVE_OUTSIDE_WriteAsync(SaveOutsideWork *work)
     case 0:
     case 2:
         work->token =
-            BACKUP_SYSTEM_WriteFlashAsync((u32)(work->copyIndex == 0 ? 0x7F800 : 0x7FC00), (uptr)work, 0x374);
+            BACKUP_SYSTEM_WriteFlashAsync((u32)(work->copyIndex == 0 ? 0x7F800 : 0x7FC00), work, 0x374);
         work->phase = work->phase + 1;
         break;
     case 1:
@@ -238,6 +238,6 @@ void SAVE_OUTSIDE_ClearFlash(u32 heap)
     void *p;
     p=GFL_HEAP_Alloc(heap,2048,0,d_021DFF60,339);
     MIi_CpuClear32(0xFFFFFFFF,p,2048);
-    BACKUP_SYSTEM_WriteFlash(0x7F800,(sptr)p,2048);
+    BACKUP_SYSTEM_WriteFlash(0x7F800,p,2048);
     GFL_HEAP_Free(p);
 }

@@ -56,7 +56,7 @@ typedef struct WifiBattleMatchParam {
 typedef struct WifiBattleMatchEventWork {
     u32 savedBgmNo;
     struct GameSystem *gameSystem;
-    int fieldMap;
+    struct FieldMap *fieldMap;
     WifiBattleMatchParam *param;
     u32 entryMode;
     u32 ratedFlag;
@@ -73,7 +73,7 @@ struct FieldMap;
 #include "../arm9/gfl_heap_wrap.h"
 #include "../ov021/event_fieldmap_control.h"
 u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
-void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
+void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, int entryMode, int ratedFlag, int matchKind);
 void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
 extern char ov199_id[];
 extern char d_02213C4C[];
@@ -94,11 +94,11 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         break;
     case 1:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)work->fieldMap, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, work->fieldMap, 0, 0));
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, work->fieldMap));
         (*seq)++;
         break;
     case 3:
@@ -128,7 +128,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         break;
     case 7:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)work->fieldMap, 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 8:
@@ -140,7 +140,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
 /*
  * Allocator + guard + link setup, stores five constructor arguments.
  */
-void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
+void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
     void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_WIFIBATTLEMATCH_Main, 0x20);
     WifiBattleMatchEventWork *work;
@@ -160,5 +160,5 @@ void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode
 /* Overlay entry point: unpacks the four-word request and creates the event. */
 void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request)
 {
-    EVENT_WIFIBATTLEMATCH_Create((void *)gameSystem, request[0], request[1], request[2], request[3]);
+    EVENT_WIFIBATTLEMATCH_Create((void *)gameSystem, (struct FieldMap *)request[0], request[1], request[2], request[3]);
 }

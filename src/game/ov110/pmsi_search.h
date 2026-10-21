@@ -19,7 +19,7 @@ void PMSI_SEARCH_ClearInput(struct PmsiSearch *s);
 void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out);
 int PMSI_SEARCH_Run(struct PmsiSearch *s);
 u8 PMSI_SEARCH_HasResults(struct PmsiSearch *s);
-void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, u8 resultIndex, int dest);
+void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, u8 resultIndex, struct U16Vec *dest);
 u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex);
 int PMSI_SEARCH_GetKeyCount(void);
 void PMSI_SEARCH_GetKeyLabel(u32 i, struct U16Vec *dst);

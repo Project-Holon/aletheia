@@ -29,7 +29,7 @@ u32 COMM_TVT_SYS_GetResId(CtvtWork *work, int index);
 struct Unit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work);
 s32 COMM_TVT_SYS_GetReturnedFromChild(CtvtWork *work);
 void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value);
-u32 COMM_TVT_SYS_GetFont(CtvtWork *work);
+struct GfFont *COMM_TVT_SYS_GetFont(CtvtWork *work);
 struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
 struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
 struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);

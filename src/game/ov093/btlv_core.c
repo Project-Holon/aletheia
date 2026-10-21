@@ -653,7 +653,7 @@ int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work)
 
     switch (*state) {
     case 0:
-        scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (sptr)core->sceneUnit, core->heapId);
+        scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
@@ -690,7 +690,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
 {
     switch (*state) {
     case 0: {
-        void *scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (sptr)core->sceneUnit, core->heapId);
+        void *scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
@@ -1065,7 +1065,7 @@ int BTLV_CORE_PollActionMenu(struct BtlvCore *core);
 
 void BTLV_CORE_StartMoveMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor);
 
-void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, u32 *entry, u8 *cursor);
+void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, struct BtlPokeParam **entry, u8 *cursor);
 
 void BTLV_CORE_ReopenMoveMenu(struct BtlvCore *core);
 
@@ -1249,7 +1249,7 @@ void BTLV_CORE_StartMoveForgetScreen(struct BtlvCore *core, u8 pokeSlot, int mov
 
 int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot);
 
-void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, int pokeParam, struct BtlExpResult *result);
+void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, void **pokeParam, struct BtlExpResult *result);
 
 int BTLV_CORE_UpdateBallWindowOpen(struct BtlvCore *core);
 
@@ -1377,9 +1377,9 @@ void BTLV_CORE_StartMoveMenu(struct BtlvCore *core, struct BtlPokeParam *pokePar
     BTLV_CORE_SetStep(core, BTLV_CORE_StepMoveMenu);
 }
 
-void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, u32 *entry, u8 *cursor)
+void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, struct BtlPokeParam **entry, u8 *cursor)
 {
-    struct BtlPokeParam *pokeParam = (struct BtlPokeParam *)*entry;
+    struct BtlPokeParam *pokeParam = *entry;
 
     core->pokeParam = pokeParam;
     core->pokeId = BTL_POKEPARAM_GetPokeId(pokeParam);
@@ -1473,12 +1473,12 @@ void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mo
     int isNotComm;
     int hasPartner;
     clientIndex = BTL_CLIENT_GetClientId(core->client);
-    plist->party = (void *)BTL_MAIN_SyncSideParty((struct BtlMain *)core->context, clientIndex);
+    plist->party = BTL_MAIN_SyncSideParty((struct BtlMain *)core->context, clientIndex);
     if (mode != 3) hasPartner = BTL_MAIN_IsCommMulti((struct BtlMain *)core->context);
     else hasPartner = 0;
     plist->isCommMulti = hasPartner;
     if (hasPartner) {
-        plist->partnerParty = (void *)BTL_MAIN_SyncPartnerSideParty((struct BtlMain *)core->context, clientIndex);
+        plist->partnerParty = BTL_MAIN_SyncPartnerSideParty((struct BtlMain *)core->context, clientIndex);
         plist->isSecondTeam = BTL_MAIN_IsSecondTeamClient((struct BtlMain *)core->context, clientIndex);
     } else {
         plist->partnerParty = 0;
@@ -1601,7 +1601,7 @@ void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, 
     void *pokeList;
     int flag;
     if (core->subStep) return;
-    core->bag.myItem = (void *)BTL_MAIN_GetMyItem((struct BtlMain *)core->context);
+    core->bag.myItem = BTL_MAIN_GetMyItem((struct BtlMain *)core->context);
     core->bag.myItemSave = (struct MyItemSave *)BTL_MAIN_GetMapMatrix((struct BtlMain *)core->context);
     core->bag.isComm = isComm;
     core->bag.fontMain = core->fontMain;
@@ -2461,9 +2461,9 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
     return 0;
 }
 
-void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, int pokeParam, struct BtlExpResult *result)
+void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, void **pokeParam, struct BtlExpResult *result)
 {
-    BTLV_SCU_StartBallWindowOpen(core->sceneUnit, (void **)pokeParam, (struct BtlvBallStates *)result);
+    BTLV_SCU_StartBallWindowOpen(core->sceneUnit, pokeParam, (struct BtlvBallStates *)result);
 }
 
 int BTLV_CORE_UpdateBallWindowOpen(struct BtlvCore *core)

@@ -6,11 +6,13 @@
 
 struct GameEvent;
 struct GameSystem;
+struct GameInitWork;
 struct FieldMap;
+typedef struct GameInitWork GameInitWork;
 
 #include "../types.h"
 
-struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
+struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, GameInitWork *initParam);
 struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem);
 void EVENT_WIFI_PROC_LoadOv020(void);
 void EVENT_WIFI_PROC_UnloadOv020(void);

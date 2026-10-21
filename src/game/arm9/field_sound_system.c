@@ -307,7 +307,7 @@ FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 heap)
 
     s = GFL_HEAP_Alloc(heap, sizeof(FieldSoundSystem), 1, g_020A7590, 331);
     FIELD_SOUND_SYSTEM_Init(s, gameData);
-    s->volumeFader = PLAYER_VOLUME_FADER_Create((void *)heap, 0);
+    s->volumeFader = PLAYER_VOLUME_FADER_Create(heap, 0);
     s->ringtone = RINGTONE_SYS_Create(heap, s->volumeFader);
     GFL_USE_SetSeqStartFilter(FIELD_SOUND_SYSTEM_IsSoundIdPlayable);
     return s;

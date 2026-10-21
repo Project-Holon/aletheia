@@ -116,7 +116,7 @@ void DWCi_SceneSetError(void);
 void DWCi_SceneSetError_procScene(void);
 void DWCi_SceneSetError_draw(void);
 void DWCi_SetErrorCode(unsigned int v);
-extern unsigned int DWCiMsgCmn;
+extern struct MsgPrm *DWCiMsgCmn;
 extern int DWCi_SceneSetSelectAp;
 
 static void initGraphics(void);
@@ -257,7 +257,7 @@ static void drawMessage(void)
         id = 2;
 
     canv = DWCi_FNTlFormBgEx(0, FONT_TBL[DWCi_Language()]);
-    msg = (unsigned short *)DWCi_MSGlGet((void *)DWCiMsgCmn, id);
+    msg = DWCi_MSGlGet(DWCiMsgCmn, id);
     OS_SNPrintf(tmpbuf, 8, "%d", -ErrorCode);
     DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 8);
     drawStr(canv, C_CODE[DWCi_Language()].x, C_CODE[DWCi_Language()].y, 2, 10, buf, 0);

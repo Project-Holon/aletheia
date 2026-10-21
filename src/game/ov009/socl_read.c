@@ -134,9 +134,9 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
     } else {
         OS_LockMutex((struct OSMutex *)recv_pipe->mutex);
     }
-    result = SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
+    result = (int)SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
     OS_UnlockMutex((struct OSMutex *)recv_pipe->mutex);
-    return result;
+    return (int)((void *)result);
 }
 
 /*
@@ -164,9 +164,9 @@ int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buff
     }
 
     if (socket->flag_mode == 1) {
-        r = SOCLi_ReadUdpBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+        r = (int)SOCLi_ReadUdpBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip, flag_block);
     } else {
-        r = SOCLi_ReadBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
+        r = (int)SOCLi_ReadBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
         if (r >= 0)
             SOCLi_ConsumeBuffer(socket);
     }
@@ -174,7 +174,7 @@ int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buff
     if (t != 0)
         recv_pipe->flag_noconsume = old;
 
-    return r;
+    return (int)((void *)r);
 }
 
 /*
@@ -187,11 +187,11 @@ int SOCLi_ReadBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, un
 
     if (socket->flag_mode == 4)
         return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    result = SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
+    result = (int)SOCLi_CopyCPSBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip);
     if (result != -6)
-        return result;
+        return (int)((void *)result);
     if ((flag_block & 1) == 0)
-        return result;
+        return (int)((void *)result);
     return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, 1);
 }
 
@@ -234,7 +234,7 @@ static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buff
         if (cpsbuffer_len == 0) {
             result = -6;
         } else {
-            copy_len = (buffer_len <= cpsbuffer_len) ? buffer_len : cpsbuffer_len;
+            copy_len = (long int)((buffer_len <= cpsbuffer_len) ? buffer_len : cpsbuffer_len);
             consume_len = SOCL_SocketIsTCP(socket) ? copy_len : cpsbuffer_len;
             MI_CpuCopy(cpsbuffer, buffer, copy_len);
             recv_pipe = socket->recv_pipe;
@@ -258,7 +258,7 @@ static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buff
             socket->local_port = my_port;
     }
     OS_RestoreInterrupts(enable);
-    return result;
+    return (int)((void *)result);
 }
 
 /*
@@ -304,10 +304,10 @@ int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_le
     else
         command = (struct SOCLiCommandRead *)SOCLi_CreateCommandPacket(SOCLi_ReadSSLNblockCallBack, socket, 1);
     command->buffer = buffer;
-    command->buffer_len = buffer_len;
+    command->buffer_len = (long int)buffer_len;
     command->remote_port = remote_port;
     command->remote_ip = remote_ip;
-    return SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command);
+    return (int)((void *)SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command));
 }
 
 /*
@@ -335,7 +335,7 @@ static int SOCLi_ReadCallBack(void *arg)
     remote_ip = cpacket->remote_ip;
     consumed = recv_pipe->consumed;
     for (;;) {
-        cpsbuffer = CPS_SocRead(&cpsbuffer_len);
+        cpsbuffer = CPS_SocRead((long unsigned int *)&cpsbuffer_len);
         if (cpsbuffer == 0)
             break;
         if ((long)cpsbuffer_len - consumed > 0)
@@ -358,7 +358,7 @@ static int SOCLi_ReadCallBack(void *arg)
         return buffer_len;
     }
     if (cpsbuffer != 0)
-        result = SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
+        result = (int)SOCLi_CopyCPSBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip);
     else
         result = 0;
     if (result <= 0)
@@ -400,7 +400,7 @@ static int SOCLi_ReadSSLNblockCallBack(void *arg)
         return -6;
     if (datalen == -1)
         return 0;
-    cpsbuffer = CPS_SocRead(&cpsbuffer_len);
+    cpsbuffer = CPS_SocRead((long unsigned int *)&cpsbuffer_len);
     if (cpsbuffer != 0 && (long)cpsbuffer_len - consumed <= 0) {
         if (isStream(socket->flag_mode) && socket->cps_socket.state != 4)
             cpsbuffer = 0;
@@ -432,7 +432,7 @@ int SOCLi_ConsumeBuffer(struct SOCLSocket *socket)
     command = (struct SOCLiCommandRead *)SOCLi_CreateCommandPacket(SOCLi_ConsumeCallBack, socket, result);
     if (command == 0)
         return result - 0x21;
-    return SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command);
+    return (int)SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command);
 }
 
 /* SOCLi_ConsumeCallBack: the command's socket sits at +4 */
@@ -493,8 +493,8 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
     }
     if (udpdata != 0) {
         if (buffer_len > udpdata->size)
-            buffer_len = udpdata->size;
-        MI_CpuCopy(udpdata->data, buffer, buffer_len);
+            buffer_len = (int)((void *)udpdata->size);
+        MI_CpuCopy(udpdata->data, buffer, (u32)buffer_len);
         if (remote_port)
             *remote_port = udpdata->remote_port;
         if (remote_ip)
@@ -509,7 +509,7 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
         }
     }
     OS_RestoreInterrupts(enable);
-    return result;
+    return (int)((void *)result);
 }
 
 /*

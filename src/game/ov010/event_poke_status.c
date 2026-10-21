@@ -54,8 +54,8 @@ struct IcaAnime;
 
 /* Work of the Pokemon pick event (0x18 bytes). */
 typedef struct PokeListEventWork {
-    void *gameSystem;           /* 0x00 */
-    void *fieldMap;             /* 0x04 */
+    struct GameSystem *gameSystem;           /* 0x00 */
+    struct FieldMap *fieldMap;             /* 0x04 */
     PokeListParam *listParam;   /* 0x08 */
     PStatusProcParam *statusParam;  /* 0x0C: status screen parameter, 0 when the event shows only the list */
     u16 *retDecided;            /* 0x10: 1 = a Pokemon was picked */
@@ -64,8 +64,8 @@ typedef struct PokeListEventWork {
 
 /* Work of the move-select event: the status screen opened in mode 2/3. */
 typedef struct MoveSelectEventWork {
-    void *gameSystem;
-    void *fieldMap;
+    struct GameSystem *gameSystem;
+    struct FieldMap *fieldMap;
     PStatusProcParam *param;
     u16 *retDecided;    /* 1 = a move slot was picked */
     u16 *retMovePos;
@@ -116,9 +116,9 @@ extern u8 ov131_id[];
 
 extern u8 gPokeStatusProcData[];
 
-void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u16 *retSlot)
+void *EVENT_POKE_STATUS_CreatePokeSelectEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot)
 {
-    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((void *)gameSystem));
+    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
     PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x40);
     void *event;
     PokeListEventWork *work;
@@ -126,10 +126,10 @@ void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u
     listParam->listMode = 3;
     listParam->listArg = 0;
     listParam->selectedSlot = 0;
-    event = (struct Desc *)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = GAME_EVENT_GetWork(event);
-    work->gameSystem = (void *)gameSystem;
-    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
+    work->gameSystem = gameSystem;
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->listParam = listParam;
     work->statusParam = 0;
     work->retDecided = retDecided;
@@ -149,7 +149,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem,
     listParam->selectedSlot = 0;
     listParam->fieldIndex = fieldIndex;
     listParam->argValue2 = moveId;
-    event = (struct Desc *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -160,11 +160,11 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem,
     return event;
 }
 
-void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecided, int retSlot)
+void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot)
 {
-    void *gameData = GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem);
+    void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
-    int zukanSave = (sptr)ZUKAN_SAVE_GetFromGameData(gameData);
+    struct ZukanSave *zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x90);
     PStatusProcParam *statusParam;
     void *event;
@@ -180,12 +180,12 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
     statusParam->mode = 1;
     statusParam->max = POKEPARTY_GetCount(party);
     statusParam->page = 0;
-    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
+    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled(zukanSave);
     statusParam->canUseButtons = 0;
-    event = (struct Desc *)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = GAME_EVENT_GetWork(event);
-    work->gameSystem = (void *)gameSystem;
-    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
+    work->gameSystem = gameSystem;
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->listParam = listParam;
     work->statusParam = statusParam;
     work->retDecided = (u16 *)retDecided;
@@ -204,7 +204,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
+        GAME_EVENT_CallEvent(event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
         *seq = 2;
         break;
     case 2:
@@ -212,7 +212,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent(event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:
@@ -236,12 +236,12 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
     return 0;
 }
 
-int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int pos, int retDecided, int retMovePos, int mode, unsigned short newMove)
+void *EVENT_POKE_STATUS_CreateMoveSelectEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int pos, u16 *retDecided, u16 *retMovePos, int mode, unsigned short newMove)
 {
-    int gameData = (sptr)GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem);
-    void *party = GAME_DATA_GetMyParty((void *)gameData);
+    void *gameData = GAMESYSTEM_GetGameData(gameSystem);
+    void *party = GAME_DATA_GetMyParty(gameData);
     PStatusProcParam *param = (PStatusProcParam *)GFL_HEAP_Alloc(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
-    sptr event;
+    struct GameEvent *event;
     MoveSelectEventWork *work;
 
     param->ppd = party;
@@ -252,11 +252,11 @@ int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int po
     param->newMove = newMove;
     param->mode = (mode == 1) ? 3 : 2;
     param->canUseButtons = 0;
-    param->config = (void *)gameData;
-    event = (sptr)(struct Desc *)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
-    work = GAME_EVENT_GetWork((struct GameEvent *)event);
-    work->gameSystem = (void *)gameSystem;
-    work->fieldMap = (void *)fieldMap;
+    param->config = gameData;
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
+    work = GAME_EVENT_GetWork(event);
+    work->gameSystem = gameSystem;
+    work->fieldMap = fieldMap;
     work->param = param;
     work->retDecided = (u16 *)retDecided;
     work->retMovePos = (u16 *)retMovePos;
@@ -277,7 +277,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
         *seq = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
+        GAME_EVENT_CallEvent(event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
         *seq = 2;
         break;
     case 2:
@@ -285,7 +285,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
         *seq = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent(event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:

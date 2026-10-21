@@ -413,7 +413,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
                     work->nameCheckFailed = 0;
                     MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(list, work->memberCount), work->ticket, GDS_TICKET_SIZE);
                     for (i = 0; i < work->memberCount; i++)
-                        work->nameCheckResult = NHTTP_RAP_RecordList_GetValue(list, i);
+                        work->nameCheckResult = (u32)NHTTP_RAP_RecordList_GetValue(list, i);
                     work->step++;
                 } else {
                     video2 = GDS_RAP_GetVideoWork();
@@ -421,7 +421,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
                         work->nameCheckFailed = 1;
                     BATTLE_REC_GetModeLayout(video2->head.mode, &sides2, &members2);
                     for (i = 0; i < work->memberCount; i++) {
-                        work->nameCheckResult = NHTTP_RAP_RecordList_GetValue(list, i);
+                        work->nameCheckResult = (u32)NHTTP_RAP_RecordList_GetValue(list, i);
                         if (work->nameCheckResult != 0 && work->secondPass == 0) {
                             if (!GDS_RAP_FindMember(work, i, &party, &member))
                                 break;

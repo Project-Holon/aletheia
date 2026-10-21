@@ -52,7 +52,7 @@ enum {
 /* Work of one "in" event (12 bytes). */
 typedef struct EntranceInWork {
     int reserved00;             /* 0x00: not touched by the events */
-    int animHandle;             /* 0x04: handle of the started object animation */
+    void *animHandle;           /* 0x04: handle of the started object animation */
     EntranceParam *param;       /* 0x08 */
 } EntranceInWork;
 

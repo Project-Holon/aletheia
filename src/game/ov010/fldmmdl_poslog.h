@@ -8,13 +8,13 @@ int FLDMMDL_GetMovedPos(void *mmdl, struct VecFx32 *out);
 /* Public functions of fldmmdl_poslog.c, prototypes copied from their definitions. */
 
 #include "../types.h"
-#include "../sdk_fx.h"
 #include "../ov010/fldmmdl_types.h"
+#include "../sdk_fx.h"
 
 u32 FLDMMDL_GetMovedPosSaveSize(void);
 void FLDMMDL_InitMovedPosSave(void *block);
 int FLDMMDL_FindMovedPosSlot(int gridX, int gridZ);
-int FLDMMDL_GetMovedPosSlot(int mmdl);
+int FLDMMDL_GetMovedPosSlot(Mmdl *mmdl);
 void FLDMMDL_StoreMovedPos(void *mmdl);
 int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 int FLDMMDL_IsMovedPosObjCode(u16 objCode);

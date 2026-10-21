@@ -152,7 +152,7 @@ extern int d_0217E630;
 extern unsigned char GAME_LANGUAGE_Code;
 extern const char d_0217E64C[];
 
-void LIVEBATTLEMATCH_IRC_ShowMenu(int *p, int a) {if(((LivebattlematchRequest *)p)->config.slot==0)WIFIBATTLEMATCH_VIEW_DrawStatusWindow(*(char * *)&((LivebattlematchRequest *)p)->record,a,((LivebattlematchRequest *)p)->msgBank,((LivebattlematchRequest *)p)->config.mgr,((LivebattlematchRequest *)p)->config.param1C,((LivebattlematchRequest *)p)->heap);else WIFIBATTLEMATCH_VIEW_DrawDateWindow(*(char * *)&((LivebattlematchRequest *)p)->record,a,((LivebattlematchRequest *)p)->msgBank,((LivebattlematchRequest *)p)->config.mgr,((LivebattlematchRequest *)p)->config.param1C,((LivebattlematchRequest *)p)->heap);}
+void LIVEBATTLEMATCH_IRC_ShowMenu(int *p, int a) {if(((LivebattlematchRequest *)p)->config.slot==0)WIFIBATTLEMATCH_VIEW_DrawStatusWindow(*(char * *)&((LivebattlematchRequest *)p)->record,a,((LivebattlematchRequest *)p)->msgBank,((LivebattlematchRequest *)p)->config.mgr,(struct GfFont *)((LivebattlematchRequest *)p)->config.param1C,((LivebattlematchRequest *)p)->heap);else WIFIBATTLEMATCH_VIEW_DrawDateWindow(*(char * *)&((LivebattlematchRequest *)p)->record,a,((LivebattlematchRequest *)p)->msgBank,((LivebattlematchRequest *)p)->config.mgr,((LivebattlematchRequest *)p)->config.param1C,((LivebattlematchRequest *)p)->heap);}
 
 /*
  * E88B0 returns its allocated record; original call truncates four coordinates to bytes.
@@ -163,7 +163,7 @@ void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode)
     int layout, x, y, width, height;
     if (*(int *)&((LivebattlematchRequest *)p)->window == 0) {
         MI_CpuFill8(&rec, 0, 0x30);
-        rec.msgBank = *(u32 *)&((LivebattlematchRequest *)p)->msgBank;
+        rec.msgBank = *(struct MsgBank **)&((LivebattlematchRequest *)p)->msgBank;
         rec.font = *(u32 *)&((LivebattlematchRequest *)p)->config.param1C;
         rec.printQue = *(u32 *)&((LivebattlematchRequest *)p)->config.mgr;
         rec.a = 0; rec.b = 15; rec.c = 13; rec.d = 1;

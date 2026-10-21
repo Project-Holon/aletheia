@@ -2374,7 +2374,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->wordSet = WORDSET_CreateDefault(work->heapId);
     work->printSys = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
     work->itemDescWindow = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
-    work->menuTaskArg = (uptr)GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
+    work->menuTaskArg = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
     ITEMMENU_SetupGraphics(work);
     ITEMMENU_InitWindows(work);
     ITEMMENU_LoadPocketGraphics(work);
@@ -2864,7 +2864,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 6, 4, 0, 0, work->heapId);
     work->bgPaletteA = charBase;
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 7, 4, 0, (u16)charBase, 0, 0, work->heapId);
-    ITEMMENU_LoadBagGraphics(work, (sptr)archive);
+    ITEMMENU_LoadBagGraphics(work, (int)archive);
     charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 0x11, 5, 0, 0, work->heapId);
     work->bgPaletteB = charBase;
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 0x17, 5, 0, (u16)charBase, 0, 0, work->heapId);
@@ -3496,7 +3496,7 @@ void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
     work->listEntries[i - 1].extra = 1;
     work->menuList = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menuTemplate), work->taskMenuState);
     for (i = 0; i < entryCount; i++) {
-        STRBUF_Delete((struct Strbuf *)(*(int *)&work->listEntries[i].text));
+        STRBUF_Delete(*(struct Strbuf **)&work->listEntries[i].text);
     }
     ITEMMENU_UpdateSideButtons(work, 0);
 }
@@ -3574,7 +3574,7 @@ void ITEMMENU_ShowMessage(ItemMenuWork *work, int mode)
     win = &work->messageWindows[0];
     if (mode == 1) {
         work->messageWindow = (struct TextStream *)PRINTSYS_PrintStream(work->messageWindows[0].window, 0, 0, work->messageString,
-                                            (struct GfFont *)work->menuTaskArg, MSG_SPEED_GetWait(),
+                                            work->menuTaskArg, MSG_SPEED_GetWait(),
                                             work->touchTask, 2, work->heapId, 0xF);
     } else {
         ITEMMENU_PrintToWindow(work, win, work->messageString, 0, 0, 0x44F);
@@ -3646,7 +3646,7 @@ void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
     MSGDATA_ReadString(work->msgBank, 0x8B, work->tempString);
     WORDSET_SetSlotFromMsg37(work->wordSet, 0, itemCount);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    freeWidth = 0x60 - PRINTSYS_MeasureWidestLine(work->messageString, (struct GfFont *)work->menuTaskArg, 0);
+    freeWidth = 0x60 - PRINTSYS_MeasureWidestLine(work->messageString, work->menuTaskArg, 0);
     ITEMMENU_PrintToWindow(work, &work->messageWindows[1], work->messageString, (unsigned short)(freeWidth >> 1), 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->messageWindows[1]);
 }
@@ -3888,7 +3888,7 @@ void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str,
 {
     void *print = work->printSys;
 
-    PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(slot->window), (TextCoord)x, y, str, (struct GfFont *)work->menuTaskArg, color);
+    PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(slot->window), (TextCoord)x, y, str, work->menuTaskArg, color);
     slot->isDirty = 1;
 }
 

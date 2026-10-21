@@ -19,7 +19,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag);
 void INTRO_MSG_DrawMenuList(char *p);
 void INTRO_MSG_MainMenuList(u8 *p);
 int INTRO_MSG_GetMenuChoice(u8 *p,int *out);
-int INTRO_MSG_GetWordSet(u8 *p);
+struct WordSet *INTRO_MSG_GetWordSet(u8 *p);
 void INTRO_MSG_StartTimeIcon(u8 *p);
 void INTRO_MSG_DeleteTimeIcon(u8 *p);
 /* END mkheaders: generated region */

@@ -110,7 +110,7 @@ void DWCi_MOV_MBP_KickChild(u16 child_aid);
 void DWCi_MOV_MBP_AcceptChild(u16 aid);
 #include "../arm9/mi_memory.h"
 #include "../arm9/os_terminate_processor.h"
-void DWCi_MOV_MBP_MemInit(sptr x);
+void DWCi_MOV_MBP_MemInit(void *x);
 void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
 int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo);
@@ -132,14 +132,12 @@ extern u16 *gMovMbpBuffers[6];
 
 static void MBPi_CheckAllReboot(void);
 static void ParentStateCallback(u16 child_aid, u32 status, void *arg);
-void DWCi_MOV_MBP_MemInit(sptr x)
+void DWCi_MOV_MBP_MemInit(void *x)
 {
-    int *g = (int *)0x021DE65C;
-
-    g[0] = x;
-    DWCi_MOV_WH_MemInit((void *)(x + 0x160 + 0x1b000));
-    *(int *)(g[0] + 0x1b000 + 0x140) = 0;
-    *(int *)(g[0] + 0x1b000 + 0x144) = 0;
+    gDwcMovMbpWork = x;
+    DWCi_MOV_WH_MemInit((char *)x + 0x160 + 0x1b000);
+    gDwcMovMbpWork->sCWork = 0;
+    gDwcMovMbpWork->sFilebuf = 0;
 }
 
 /*
@@ -376,11 +374,11 @@ void DWCi_MOV_MBP_Cancel(void)
  */
 static void MBPi_CheckAllReboot(void)
 {
-    unsigned short *p = *(unsigned short **)0x021DE65C;
+    DWCi_MOV_MBPState *p = &gDwcMovMbpWork->mbpState;
 
-    if (p[0] != 4)
+    if (p->state != 4)
         return;
-    if (p[1] != p[6])
+    if (p->connectChildBmp != p->rebootChildBmp)
         return;
     DWCi_DwcMoveidMB_EndToIdle();
 }

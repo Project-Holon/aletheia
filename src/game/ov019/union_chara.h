@@ -21,7 +21,7 @@ int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId);
 void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
 UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, int *mmdlOut);
 void UNION_CHARA_DeleteSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot);
-void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifiFriends, u32 markSys, UnionBeaconPc *beaconPc);
+void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, struct WifiList *wifiFriends, struct UnionEffWork *markSys, UnionBeaconPc *beaconPc);
 int UNION_CHARA_CheckMemberUnique(UnionRoomWork *work, UnionBeaconPc *ownerPc, u8 *mac);
 int UNION_CHARA_FocusRequestedMember(UnionRoomWork *work, UnionBeaconPc *beaconPc);
 void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);

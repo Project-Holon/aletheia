@@ -152,7 +152,7 @@ void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap);
 void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p);
 void COMM_BTL_DEMO_GRAPHIC_Noop(void *work);
 void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work);
-void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b);
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, struct DispVramCfg *a, int b);
 void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p);
 void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work);
 void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *work);
@@ -187,7 +187,7 @@ void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     COMM_BTL_DEMO_GRAPHIC_InitBg(p,heap);
-    COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(sptr)&d_021BB1C8,heap);
+    COMM_BTL_DEMO_GRAPHIC_InitClact((void **)(p+4),(struct DispVramCfg *)&d_021BB1C8,heap);
     COMM_BTL_DEMO_GRAPHIC_InitG3d((unsigned **)(p+8),heap);
     ((struct CommBtlDemoGraphic *)p)->vblankHandle=GFL_USE_AddMainTask((void *)COMM_BTL_DEMO_GRAPHIC_VBlank,p,0);
     return p;
@@ -218,7 +218,7 @@ void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3d((int 
 
 void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p) { COMM_BTL_DEMO_GRAPHIC_DrawG3dEnd(p+8); }
 
-u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p) { return (uptr)COMM_BTL_DEMO_GRAPHIC_GetClactBank((void **)((u32 *)(p+4))); }
+u32 COMM_BTL_DEMO_GRAPHIC_GetCamera(char *p) { return (u32)COMM_BTL_DEMO_GRAPHIC_GetClactBank((void **)((u32 *)(p+4))); }
 
 void COMM_BTL_DEMO_GRAPHIC_VBlank(void *unused,char *p) { COMM_BTL_DEMO_GRAPHIC_TickDisplay(p); COMM_BTL_DEMO_GRAPHIC_VBlankClact(p+4); }
 
@@ -248,7 +248,7 @@ void COMM_BTL_DEMO_GRAPHIC_Noop(void *work){}
 
 void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work){BG_SYS_Update();}
 
-void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)(&d_021BB18C), (struct DispVramCfg *)a, b);

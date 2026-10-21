@@ -48,6 +48,13 @@ struct PlayerLocationData;
 struct Party;
 struct Config;
 struct SaveControl;
+struct BagCursor;
+struct GFLNetHandle;
+struct WifiList;
+struct BgmInfoTable;
+struct MapMatrix;
+struct BeaconStatus;
+struct CalenderWork;
 
 struct GameData {
     struct SaveControl *saveControl;
@@ -59,16 +66,16 @@ struct GameData {
     struct Location *specialLocation;
     struct Location *escapeLocation;
     struct Location  warpLocation;
-    unsigned int     mapMatrix;
+    struct BagCursor *mapMatrix;
     void            *myItem;
     void            *myParty;
     struct Config   *config;
-    unsigned int     boxManager;
-    unsigned int     wifiList;
-    unsigned int     bagCursor;
+    u32             *boxManager;
+    struct WifiList *wifiList;
+    struct BgmInfoTable *bagCursor;
     void            *occupyInfo;
     void            *eventWork;
-    unsigned int     fieldWork;
+    struct MapMatrix *fieldWork;
     struct FieldSoundSystem *bgmInfo;
     void            *moveModelSys;
     unsigned int     lastBattleResult;
@@ -94,8 +101,8 @@ struct GameData {
     void            *eventState;
     struct CommPlayerSupport *pmsWork;
     void            *currentEvent;
-    unsigned int     itemUseWork;
-    unsigned int     musicalWork;
+    struct BeaconStatus *itemUseWork;
+    struct CalenderWork *musicalWork;
     unsigned char    saveSyncBlock[0x10];
     unsigned int     listCursor;
     void            *externalWork;
@@ -140,7 +147,7 @@ struct BattleSetupParam {
     struct FieldSituation    fieldSituation;
     unsigned short           bgmBattle;
     unsigned short           bgmWin;
-    unsigned int             netHandle;
+    struct GFLNetHandle     *netHandle;
     unsigned char            commPos;
     unsigned char            netId;
     unsigned char            multiMode;
@@ -152,7 +159,7 @@ struct BattleSetupParam {
     struct GameData         *gameData;
     struct Config           *config;
     void                    *myItem;
-    unsigned int             mapMatrix;
+    struct BagCursor        *mapMatrix;
     void                    *zukanWork;
     void                    *trainerRecord;
     struct CommPlayerSupport *pmsWork;

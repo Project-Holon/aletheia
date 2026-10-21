@@ -151,7 +151,7 @@ void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work);
 void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work);
 void FLDEFF_GRASS_Draw(void);
 int FLDEFF_GRASS_IsModelOnTile(GrassWork *work);
-extern u32 sGrassAnimeCommands[];                            /* grass: billboard animation commands of each kind */
+extern struct BbActCmd **sGrassAnimeCommands[];                            /* grass: billboard animation commands of each kind */
 extern u8 sGrassEndsOnLeave[];                             /* grass: 1 = the effect ends when the model leaves */
 extern u16 sGrassCommandCursor[];                            /* grass: command cursor of each kind after the first play */
 
@@ -195,7 +195,7 @@ void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass)
 {
     struct BbActRec rec;
     int i;
-    u32 arcHandle = FIELD_EFFECT_GetArcHandle(grass->fieldEffect);
+    struct ArcHandle *arcHandle = FIELD_EFFECT_GetArcHandle(grass->fieldEffect);
     u16 *fileTable;
     u32 modelBase;
     FIELDMAP_GetGameSystem((struct FieldMap *)(FIELD_EFFECT_GetFieldMap(grass->fieldEffect)));
@@ -207,7 +207,7 @@ void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass)
     rec.kind = 1;
     fileTable = gFldeffGrassImageFiles + modelBase;
     for (i = 0; i < FLDEFF_GRASS_IMAGE_COUNT; i++) {
-        rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
+        rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle(arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
         FIELD_EFFECT_ApplyPaletteTable(grass->fieldEffect, (void *)rec.resource);
         grass->slotId[i] = BILLBOARD_ACT_CreateSlots(grass->billboardAct, &rec, 1);
     }
@@ -271,7 +271,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     FldeffGrassParam *param = FIELD_EFFECT_GetObjectParam(effect);
     struct BbActDesc desc;
     u16 kind;
-    uptr billboards;
+    struct BbActSys *billboards;
     u16 entry;
 
     work->param = *param;
@@ -287,16 +287,16 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     desc.pos = param->pos;
     desc.hook = 0;
     desc.hookArg = (uptr)work;
-    billboards = (uptr)work->param.grass->billboardAct;
-    work->entry = BILLBOARD_ACT_CreateEntries((struct BbActSys *)billboards, 0, &desc, 1, 0);
+    billboards = work->param.grass->billboardAct;
+    work->entry = BILLBOARD_ACT_CreateEntries(billboards, 0, &desc, 1, 0);
     if (work->entry == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(effect);
         return;
     }
-    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)billboards, work->entry, (struct BbActCmd **)sGrassAnimeCommands[kind], 1);
+    BILLBOARD_ACT_SetEntryCommands(billboards, work->entry, sGrassAnimeCommands[kind], 1);
     entry = work->entry;
-    BILLBOARD_ACT_SetEntryList((struct BbActSys *)billboards, entry, 0);
-    BILLBOARD_ACT_SetEntryEnabled((struct BbActSys *)billboards, entry, 1);
+    BILLBOARD_ACT_SetEntryList(billboards, entry, 0);
+    BILLBOARD_ACT_SetEntryEnabled(billboards, entry, 1);
     if (FIELD_EFFECT_GetObjectMode(effect) == 0)
         work->state = GRASS_STATE_SETTLE;
     FIELD_EFFECT_UpdateObject(effect);
@@ -305,10 +305,10 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
 /* Grass effect exit: removes the billboard. */
 void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work)
 {
-    u32 billboards = (uptr)work->param.grass->billboardAct;
+    struct BbActSys *billboards = work->param.grass->billboardAct;
 
     if (work->entry != 0xFFFF)
-        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)billboards, work->entry, 1);
+        BILLBOARD_ACT_DeleteEntries(billboards, work->entry, 1);
 }
 
 /*
@@ -320,7 +320,7 @@ void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work)
 /* Grass effect update: plays the animation, then keeps the grass while the model stays on the tile. */
 void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
 {
-    u32 billboards = (uptr)work->param.grass->billboardAct;
+    struct BbActSys *billboards = work->param.grass->billboardAct;
     Mmdl *mmdl;
     u16 lastCommand;
 
@@ -333,7 +333,7 @@ void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
                 return;
             }
         }
-        if (BILLBOARD_ACT_GetEntryLastCommand((struct BbActSys *)billboards, work->entry, &lastCommand) != 0)
+        if (BILLBOARD_ACT_GetEntryLastCommand(billboards, work->entry, &lastCommand) != 0)
             work->state++;
         break;
     case GRASS_STATE_SETTLE:
@@ -341,7 +341,7 @@ void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
             FIELD_EFFECT_DeleteObject(effect);
             return;
         }
-        BILLBOARD_ACT_SetEntryCursor((struct BbActSys *)billboards, work->entry, sGrassCommandCursor[work->param.index]);
+        BILLBOARD_ACT_SetEntryCursor(billboards, work->entry, sGrassCommandCursor[work->param.index]);
         work->state++;
         break;
     case GRASS_STATE_HOLD_A:

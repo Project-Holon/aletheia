@@ -84,9 +84,9 @@ typedef struct ZukanNicknameWork {
     void *nameStr;
     unsigned int textId;
     unsigned int textParam;
-    unsigned int display;
+    struct Unit *display;
     struct GfFont *font;
-    unsigned int gfx;
+    struct PrintQueue *gfx;
     void *infoWinParam;
     void *bmpWin;
     void *printStream;
@@ -127,8 +127,8 @@ struct ClactActor;
 typedef struct ClactActor Obj;
 
 typedef struct {
-    int primaryText;
-    int secondaryText;
+    struct Strbuf *primaryText;
+    struct Strbuf *secondaryText;
     int enabled;
 } S3;
 
@@ -162,7 +162,7 @@ extern void PALANM_TransferPalettes(struct PaletteFade *p);
 extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 struct BtlvInput;
 #include "../ov094/btlv_input.h"
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,struct GfFont *f,u32 g,void *h);
+char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h);
 void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p);
@@ -179,7 +179,7 @@ extern s8 d_0220BBF8[][12];
 /*
  * ABI: 0201CCE4 is a void forwarder in its matched source; caller stores live r0, so declare its observed word return.
  */
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,struct GfFont *f,u32 g,void *h)
+char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h)
 {
     ZukanNicknameWork *p;
     struct WordSet *ws;
@@ -358,13 +358,13 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
     case 1:
         a->soundEnabled = (UI_GetInputMode() == 0) ? 1 : 0;
         {
-            int r5 = (sptr)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((ZukanNicknameWork *)a)->heapId);
-            s.primaryText = (sptr)MSGDATA_AllocString((struct MsgBank *)r5, 0);
-            s.secondaryText = (sptr)MSGDATA_AllocString((struct MsgBank *)r5, 1);
+            struct MsgBank *r5 = MSGDATA_CreateFromArchive(0, 2, 0xe9, ((ZukanNicknameWork *)a)->heapId);
+            s.primaryText = MSGDATA_AllocString((struct MsgBank *)r5, 0);
+            s.secondaryText = MSGDATA_AllocString((struct MsgBank *)r5, 1);
             s.enabled = 1;
             BTLV_INPUT_ChangeScreen((struct BtlvInput *)a->input, 4, &s);
-            STRBUF_Delete((struct Strbuf *)s.primaryText);
-            STRBUF_Delete((struct Strbuf *)s.secondaryText);
+            STRBUF_Delete(s.primaryText);
+            STRBUF_Delete(s.secondaryText);
             MSGDATA_Delete((struct MsgBank *)r5);
             a->pauseFlag = 2;
         }

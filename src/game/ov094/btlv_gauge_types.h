@@ -32,9 +32,14 @@
 #define BTLV_GAUGE_EXP_TILES 10
 
 /* Base of the sub-engine-independent OBJ VRAM that actor images are copied to. */
+#ifdef __MWERKS__
 typedef enum BtlvGaugeVramBase {
     BTLV_GAUGE_OBJ_VRAM = HW_OBJ_VRAM
 } BtlvGaugeVramBase;
+#else
+typedef uptr BtlvGaugeVramBase;
+#define BTLV_GAUGE_OBJ_VRAM ((BtlvGaugeVramBase)HW_OBJ_VRAM)
+#endif
 
 /* Loop index type of BTLV_B_GAUGE_SetSideVisible (an enum keeps the entry guard of the loop). */
 typedef enum BtlvGaugeSlotIndex {

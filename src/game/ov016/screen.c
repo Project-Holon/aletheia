@@ -41,7 +41,7 @@ void DWCi_SCREENlEnd(void);
 void DWCi_SCREENlRenew(void);
 void DWCi_SCREENlCopy(void *src, int pos, int w, int h);
 void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-void DWCi_SCREENlSetPalette(unsigned int v);
+void DWCi_SCREENlSetPalette(void *v);
 extern ScreenBss gScreenWork;
 
 
@@ -143,10 +143,9 @@ static void taskCopyPltt(void *task)
  *   python tools/match.py one --src src/matched/DWCi_SCREENlSetPalette.c \
  *       --func DWCi_SCREENlSetPalette --addr 0x021CE818 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_SCREENlSetPalette(unsigned int v)
+void DWCi_SCREENlSetPalette(void *v)
 {
-    char *g = (char *)0x021DE630;
-    *(unsigned int *)(g + 4) = v;
+    gScreenWork.src = v;
     DWCi_TSKlForm(1, (void (*)(void *, void *))taskSetPltt, 0, 0x78);
 }
 

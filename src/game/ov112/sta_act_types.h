@@ -12,10 +12,10 @@ typedef struct StaActLightModel {
     u32 param;           /* 0x04 AllocElem parameter */
     u16 frame;           /* 0x08 SetModelFrame */
     u8 pad_0A[0x12];     /* 0x0A */
-    u32 resourceArc;     /* 0x1C single resource arc, 0 until created */
-    int arcs[3];         /* 0x20 three more resource arcs */
-    int render;          /* 0x2C G3D render */
-    int animes[3];       /* 0x30 G3D anime records */
+    struct G3dResource *resourceArc;     /* 0x1C single resource arc, 0 until created */
+    struct G3dResource *arcs[3];         /* 0x20 three more resource arcs */
+    struct G3dRender *render;          /* 0x2C G3D render */
+    struct G3dAnime *animes[3];       /* 0x30 G3D anime records */
     void *object;        /* 0x3C G3D object */
 } StaActLightModel;
 
@@ -93,7 +93,7 @@ typedef struct StaActPokeElem {
     int flipX;              /* 0x54 */
     void *renderElem;     /* 0x58 */
     u32 billboardIdx;     /* 0x5C */
-    int slotArc[9];       /* 0x60 */
+    struct Tagged *slotArc[9];       /* 0x60 */
     void *slotImage[9];   /* 0x84 */
     void *slotRecord[9];  /* 0xA8 */
     int slotActive[9];    /* 0xCC */

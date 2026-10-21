@@ -6,6 +6,7 @@
 
 struct FldTradeHolder;
 struct FldTradeData;
+struct PokemonParam;
 struct FldTradeEvent;
 typedef struct FldTradeHolder FldTradeHolder;
 typedef struct FldTradeData FldTradeData;
@@ -19,7 +20,7 @@ u32 FLD_TRADE_GetWantedSpecies(FldTradeHolder *holder);
 u32 FLD_TRADE_GetWantedGender(FldTradeHolder *holder);
 void *FLD_TRADE_GetMessageString(u32 heapId, u32 msgId);
 void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData *data, u32 tradeId);
-void FLD_TRADE_DumpPokemonParams(int mon);
+void FLD_TRADE_DumpPokemonParams(struct PokemonParam *mon);
 void FLD_TRADE_DumpTradeData(FldTradeData *data);
 int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work);
 void *FLD_TRADE_CreateEvent(void *gsys, u32 tradeId, u32 partyIndex);

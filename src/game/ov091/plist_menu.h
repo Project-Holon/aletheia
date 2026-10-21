@@ -20,7 +20,7 @@ void PLIST_MENU_Update(PokelistWork *work, PlistMenu *menu);
 unsigned int PLIST_MENU_GetSelectedCommand(PokelistWork *work, PlistMenu *menu);
 void PLIST_MENU_BuildCommandList(PokelistWork *work, PlistMenu *menu, int *items);
 struct Strbuf *PLIST_MENU_CreateCommandLabel(PokelistWork *work, PlistMenu *menu, int id);
-int PLIST_MENU_CreateButtonWindow(PokelistWork *work, int unused, int id, int x, u8 y, int disabled);
+void *PLIST_MENU_CreateButtonWindow(PokelistWork *work, struct PlistMenu *unused, int id, int x, u8 y, int disabled);
 void PLIST_MENU_DeleteTaskMenuWin(void *win);
 void PLIST_MENU_UpdateTaskMenuWin(void *win);
 void PLIST_MENU_SetTaskMenuWinActive(void *win, int active);

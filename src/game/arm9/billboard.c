@@ -70,7 +70,7 @@ void BILLBOARD_DeleteAllImages(struct BbBoard *board);
 #include "gfl_heap_wrap.h"
 
 
-void *BILLBOARD_Create(u8 *src, void *heap);
+void *BILLBOARD_Create(u8 *src, u32 heap);
 
 void BILLBOARD_Delete(void *p);
 
@@ -112,18 +112,18 @@ extern const char sBillboard[];
  * must be a 4-aligned aggregate; a struct of bytes compiles to a byte-copy
  * loop instead.
  */
-void *BILLBOARD_Create(u8 *src, void *heap)
+void *BILLBOARD_Create(u8 *src, u32 heap)
 {
     struct BbBoard *h;
     const char *file;
     int i;
 
     file = sBillboard;
-    h = (struct BbBoard *)GFL_HEAP_Alloc((sptr)heap, sizeof(struct BbBoard), 1, file, 153);
-    h->heapId = (u16)(sptr)heap;
+    h = (struct BbBoard *)GFL_HEAP_Alloc(heap, sizeof(struct BbBoard), 1, file, 153);
+    h->heapId = (u16)heap;
     *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->images = (struct BbImage *)GFL_HEAP_Alloc((sptr)heap, h->imageCount * 0x28, 1, file, 159);
-    h->elems = (struct BbElem *)GFL_HEAP_Alloc((sptr)heap, h->elemCount * 0x1c, 1, file, 161);
+    h->images = (struct BbImage *)GFL_HEAP_Alloc(heap, h->imageCount * 0x28, 1, file, 159);
+    h->elems = (struct BbElem *)GFL_HEAP_Alloc(heap, h->elemCount * 0x1c, 1, file, 161);
     for (i = 0; i < h->imageCount; i++) {
         h->images[i].handle = 0;
         h->images[i].texFmt = 5;
@@ -554,7 +554,7 @@ int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex)
 void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource)
 {
     u32 plttKey;
-    image->handle = (uptr)resource;
+    image->handle = resource;
     if (G3D_SYSTEM_TransVramTexture(resource) == 0) {
         image->vramAddr = 0;
         image->plttAddr = 0;
@@ -681,7 +681,7 @@ int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int pl
 void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
 {
     struct BbImage      *image    = &board->images[index];
-    struct G3dResource  *resource = (struct G3dResource *)image->handle;
+    struct G3dResource  *resource = image->handle;
     void                *file     = G3D_SYSTEM_GetResourceFile(resource);
     struct NNSG3dResTex *texBlock = G3D_SYSTEM_GetResourceTex(resource);
     GFL_HEAP_CheckAllocator(file, (u32)((u8 *)texBlock + texBlock->texInfo.ofsTex - (u8 *)file));
@@ -706,8 +706,8 @@ void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
 {
     u32 off = index * 0x28;
     if (*(u32 *)((u8 *)board->images + off) != 0) {
-        G3D_SYSTEM_FreeVramTexture((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
-        G3D_SYSTEM_DeleteResource((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
+        G3D_SYSTEM_FreeVramTexture(*(struct G3dResource **)((u8 *)board->images + off));
+        G3D_SYSTEM_DeleteResource(*(struct G3dResource **)((u8 *)board->images + off));
         *(u32 *)((u8 *)board->images + off) = 0;
     }
     *(u32 *)((u8 *)board->images + off + 0x14) = 5;

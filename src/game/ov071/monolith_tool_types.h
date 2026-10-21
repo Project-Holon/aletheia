@@ -152,7 +152,7 @@ typedef struct MonolithToolLabel {
 
 /* Blinking cursor actor: handle, running flag, frame counter, anim phase. */
 typedef struct MonolithToolBlink {
-    int actor;
+    struct ClactActor *actor;
     u8 active;
     u8 frame;
     u8 phase;
@@ -177,9 +177,9 @@ typedef struct MonolithToolWork {
     /* 0xF0 */ MonolithState selection;
     /* 0xF4 */ u8 reservedF4[4];
     /* 0xF8 */ MonolithToolProcArgs procArgs;
-    /* 0x128 */ u32 vblankTask;
-    /* 0x12C */ int topProcSys;
-    /* 0x130 */ int subProcSys;
+    /* 0x128 */ struct TcbTask *vblankTask;
+    /* 0x12C */ struct ProcSys *topProcSys;
+    /* 0x130 */ struct ProcSys *subProcSys;
     /* 0x134 */ u8 currentScreen;
     /* 0x135 */ u8 topProcStarted;
     /* 0x136 */ u8 subProcStarted;
@@ -261,7 +261,7 @@ typedef struct MonolithToolStats {
    to 50 rows, 32 pixels per row, moved by touch drag or by keys. Seven sprite grids
    show the rows that are visible at one time. */
 typedef struct MonolithListWork {
-    /* 0x000 */ u32 task;
+    /* 0x000 */ struct TcbTask *task;
     /* 0x004 */ u32 bgCharOffset;
     /* 0x008 */ MonolithToolButton backButton;
     /* 0x018 */ struct Actor *scrollUpArrow;

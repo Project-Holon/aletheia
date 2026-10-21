@@ -97,7 +97,7 @@ typedef struct CtvtWork {
     signed char slotFlagB;
     u8 pad1B6[2];               /* alignment before the window array */
     struct BmpWin *bmpWin[4];   /* one name window per member slot */
-    u32 font;
+    struct GfFont *font;
     struct MsgBank *msgData;
     struct PrintQueue *printQue;
     struct TaskMenu *taskMenu;
@@ -395,7 +395,7 @@ extern u32 COMM_TVT_SYS_GetResId(CtvtWork *work, int index);
 extern struct Unit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work);
 extern s32 COMM_TVT_SYS_GetReturnedFromChild(CtvtWork *work);
 extern void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value);
-extern u32 COMM_TVT_SYS_GetFont(CtvtWork *work);
+extern struct GfFont *COMM_TVT_SYS_GetFont(CtvtWork *work);
 extern struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
 extern struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
 extern struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);

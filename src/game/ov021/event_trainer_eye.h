@@ -13,7 +13,7 @@ typedef struct GridPos GridPos;
 #include "../ov021/field_encount_types.h"
 #include "../ov021/event_trainer_eye_types.h"
 
-int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
+struct GameEvent *EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
 int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u16 dir, int range, FieldEncount *encount);
 int EVENT_TRAINER_EYE_FindTrainer(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out);
 int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir);
@@ -50,7 +50,7 @@ int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
 int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl);
 void EVENT_TRAINER_EYE_FillHit(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction);
 Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId);
-int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer);
+struct GameEvent *EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer);
 /* END mkheaders: generated region */
 
 #endif

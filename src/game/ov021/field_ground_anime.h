@@ -7,6 +7,8 @@
 struct FieldGroundAnime;
 struct GroundAnimeDesc;
 struct GroundAnmEntry;
+struct G3dResource;
+struct NNSG3dRenderObj;
 struct GroundAnmSet;
 struct GroundTexAnmSet;
 struct GroundTexAnm;
@@ -28,20 +30,22 @@ typedef struct GroundAnimeArgs GroundAnimeArgs;
 typedef struct GroundAnimeWork GroundAnimeWork;
 
 #include "../types.h"
+#include "../arm9/nns_g3d_anm_types.h"
 #include "../sdk_fx.h"
 
 FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId);
 int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground);
 void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground);
 GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(FieldGroundAnime *ground, int index);
-int FIELD_GROUND_ANIME_BindAnm(u32 entry, u32 fileRes, u32 texRes, u32 renderObj);
+int FIELD_GROUND_ANIME_BindAnm(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texRes, struct NNSG3dRenderObj *renderObj);
 void FIELD_GROUND_ANIME_UnbindAnm(GroundAnmEntry *entry);
 void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId);
 void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set);
 void FIELD_GROUND_ANIME_AnmSetUpdate(GroundAnmSet *set, u32 dt);
 GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index);
+void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dAnmFmtHeader *pResAnm, u16 heapId);
 int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry);
-u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj);
+u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texFile, struct NNSG3dRenderObj *renderObj);
 void FIELD_GROUND_ANIME_AnmEntryUnbind(GroundAnmEntry *entry);
 int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame);
 void FIELD_GROUND_ANIME_TexAnmSetInit(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId);
@@ -54,8 +58,8 @@ int FIELD_GROUND_ANIME_TexAnmIsActive(GroundTexAnm *anm);
 int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 animTexIdx);
 u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx);
 u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx);
-u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index);
-u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index);
+u32 *FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index);
+void *FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index);
 GroundTexKey FIELD_GROUND_ANIME_KeyTableGetKey(const GroundKeyTable *table, u32 group, u32 frame);
 u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(GroundKeyTable *table);
 u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table);

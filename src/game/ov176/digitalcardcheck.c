@@ -237,7 +237,7 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
     c = REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card, 7);
     rec.f98 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
     rec.fa8 = REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card, 11);
-    *(int *)&((struct LiveBattleMatchWork *)p)->record = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct LiveBattleMatchWork *)p)->view), ((struct LiveBattleMatchWork *)p)->font, (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->printQue), (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->mgr), (void *)(((struct LiveBattleMatchWork *)p)->arg2C), (void *)aux, 0, ((struct LiveBattleMatchWork *)p)->heap);
+    *(int *)&((struct LiveBattleMatchWork *)p)->record = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct LiveBattleMatchWork *)p)->view), (struct GfFont *)((struct LiveBattleMatchWork *)p)->font, (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->printQue), (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->mgr), (void *)(((struct LiveBattleMatchWork *)p)->arg2C), (void *)aux, 0, ((struct LiveBattleMatchWork *)p)->heap);
 }
 
 void DIGITALCARDCHECK_WaitRecord(int *p)
@@ -296,7 +296,7 @@ void DIGITALCARDCHECK_CreateRecord3(char *p)
     if (((struct LiveBattleMatchWork *)p)->record3 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(*(int *)&((struct LiveBattleMatchWork *)p)->graphic));
         ((struct LiveBattleMatchWork *)p)->record3 = (void *)WIFIBATTLEMATCH_VIEW_CreatePartyWindow(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save))), (void *)a,
-            ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->partyFont, ((struct LiveBattleMatchWork *)p)->printQue, ((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
+            ((struct LiveBattleMatchWork *)p)->view, (struct GfFont *)((struct LiveBattleMatchWork *)p)->partyFont, ((struct LiveBattleMatchWork *)p)->printQue, ((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
     }
 }
 
@@ -629,7 +629,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 9); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 8); d = REGULATION_Card_GetValue((struct RegulationCard *)obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.cardValueStatus = REGULATION_Card_GetValue((struct RegulationCard *)obj, 11);
-            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], (struct GfFont *)p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
             DigitalcardcheckRec rec;
             const u8 *table;
@@ -646,7 +646,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 9); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 8); d = REGULATION_Card_GetValue((struct RegulationCard *)obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.cardValueDate = REGULATION_Card_GetValue((struct RegulationCard *)obj, 11);
-            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], (struct GfFont *)p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         }
         LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 0);
     }

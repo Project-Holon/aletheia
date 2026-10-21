@@ -13,7 +13,7 @@ struct BtlClientSet;
 
 BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlRngState *rngState, void *partyTable, int flowParam, u16 heapId);
 void BTL_SERVER_SetClientAdapter(BtlServer *server, void *adapter, u8 clientId, u8 battleSlots);
-void BTL_SERVER_CreateClientAdapter(BtlServer *server, int unused, int netId, int clientId, u8 battleSlots);
+void BTL_SERVER_CreateClientAdapter(BtlServer *server, int unused, struct GFLNetHandle *netId, int clientId, u8 battleSlots);
 void BTL_SERVER_SetClientWithoutAdapter(BtlServer *server, u8 clientId, u8 battleSlots);
 void BTL_SERVER_Restart(BtlServer *server);
 void BTL_SERVER_Delete(BtlServer *server);

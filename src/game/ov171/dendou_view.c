@@ -486,7 +486,7 @@ void DENDOU_VIEW_LoadGraphics(void)
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
-    BG_SYS_DrawTile(3, (void *)(BG_SYS_GetBuf(0) + 0x540), 0, 0x15, 0x20, 3);
+    BG_SYS_DrawTile(3, (u8 *)BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
 }

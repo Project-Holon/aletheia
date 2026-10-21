@@ -316,7 +316,7 @@ typedef struct IrcTouchWork {
     u8 padC8[4];
     IrcTouchSprites sprites;         /* 0x0CC */
     IrcMarkers markers;              /* 0x160 */
-    u32 vblankTask;                  /* 0x170 */
+    struct TcbTask *vblankTask;                  /* 0x170 */
     IrcTextSystem text;              /* 0x174 */
     IrcWindow title;                 /* 0x184 */
     IrcTrail trail;                  /* 0x198 */
@@ -639,12 +639,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitScene(IrcTouchWork *work, u16 heapId)
     IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(&work->bgCharRange, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_Init3D(&work->scene, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitMarkers(&work->markers, &work->scene, heapId);
-    work->vblankTask = (uptr)GFL_USE_AddMainTask(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitScene(IrcTouchWork *work)
 {
-    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     IRC_COMPATIBLE_TOUCH_TEST_ExitMarkers(&work->markers);
     IRC_COMPATIBLE_TOUCH_TEST_Exit3D(&work->scene);
     IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(&work->bgCharRange);
@@ -1363,7 +1363,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(IrcDrawingExchange *exchange, const Ir
         exchange->state = 1;
         break;
     case 1:
-        if (COMPATIBLE_IRC_SYS_SendData(exchange->sys, (u32)0xe00, (u32)0xd8, (uptr)(&exchange->outgoing), (u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0), 0, 0, 1))
+        if (COMPATIBLE_IRC_SYS_SendData(exchange->sys, (u32)0xe00, (u32)0xd8, &exchange->outgoing, (u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0), 0, 0, 1))
             exchange->state = 2;
         break;
     case 2:

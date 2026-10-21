@@ -144,7 +144,7 @@ void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res)
 
 void FLDEFF_FISHING_LoadResources(FishingRodRes *res)
 {
-    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
 
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, FISHING_MODEL_FILE);
     G3D_SYSTEM_TransVramTexture(res->model);

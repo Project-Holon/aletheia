@@ -193,7 +193,7 @@ void FLDEFF_BUBBLE_LoadResources(BubbleRes *res)
     ArcHandle *arc;
     int i;
 
-    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     for (i = 0; i < BUBBLE_RES_COUNT; i++) {
         res->res[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, d_021DB95C[i]);
         if (G3D_SYSTEM_CheckResourceType(res->res[i], 2)) {

@@ -7,17 +7,17 @@
 #include "../types.h"
 
 void *G2_GetBG0ScrPtr(void);
-u32 G2S_GetBG0ScrPtr(void);
+void *G2S_GetBG0ScrPtr(void);
 void *G2_GetBG1ScrPtr(void);
-u32 G2S_GetBG1ScrPtr(void);
+void *G2S_GetBG1ScrPtr(void);
 void *G2_GetBG2ScrPtr(void);
 void *G2S_GetBG2ScrPtr(void);
 void *G2_GetBG3ScrPtr(void);
 void *G2S_GetBG3ScrPtr(void);
 void *G2_GetBG0CharPtr(void);
-u32 G2S_GetBG0CharPtr(void);
+void *G2S_GetBG0CharPtr(void);
 void *G2_GetBG1CharPtr(void);
-u32 G2S_GetBG1CharPtr(void);
+void *G2S_GetBG1CharPtr(void);
 void *G2_GetBG2CharPtr(void);
 void *G2S_GetBG2CharPtr(void);
 void *G2_GetBG3CharPtr(void);

@@ -11,6 +11,7 @@ struct ScriptVm;
 struct ScrcmdWork;
 struct GameEvent;
 struct Mmdl;
+struct BattleSetupParam;
 
 #include "../ov020/event_mapchange_types.h"
 #include "../ov021/bsubway_scr_types.h"
@@ -69,7 +70,7 @@ void BSUBWAY_SCR_GetNpcEntryInfo(BsubwayScrWork *work, u32 idx, u16 *infoFirst, 
 int BSUBWAY_SCR_WaitBeginSave(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_GetRegulationNo(u32 playMode);
 int BSUBWAY_SCR_GetTrainNo(void *fieldMap);
-u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem);
+struct BattleSetupParam *BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem);
 void *BSUBWAY_SCR_GetNameinEncounterWork(void *work);
 u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt);
 u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);

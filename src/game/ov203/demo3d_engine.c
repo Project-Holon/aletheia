@@ -210,7 +210,7 @@ void DEMO3D_ENGINE_SetupLighting(struct Demo3dEngineCtx *ctx,struct Demo3dEngine
 
 unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x);
 
-u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
+struct Cam *DEMO3D_ENGINE_GetCameraRecord(u32 id);
 
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c);
 
@@ -267,8 +267,8 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
 
     ctx = GFL_HEAP_Alloc(heap, 0x88, 1, d_021C3CE0, 0x79);
     ctx->graphic = owner;
-    ctx->id = cfg->f4;
-    ctx->data.id = ctx->id;
+    ctx->id = (u32)((void *)cfg->f4);
+    ctx->data.id = (u32)ctx->id;
     ctx->data.color = cfg->fc;
     ctx->data.frame = cfg->f8;
     ctx->data.timeZone = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
@@ -318,7 +318,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
         r = ((float)(ctx->data.frame << 12) - 0.5f);
     ICA_ANIME_SetFrame(ctx->anime, (int)r);
     n = ctx->count * 6;
-    ctx->table = (uptr)G3D_UTIL_Create((u16)n, (u16)n, heap);
+    ctx->table = G3D_UTIL_Create((u16)n, (u16)n, heap);
     e = DEMO3D_DATA_Create(heap);
     for (i = 0; i < ctx->count; i++) {
         DEMO3D_DATA_BuildTable(e, (const char *)(&ctx->data), i);
@@ -338,7 +338,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
             G3D_SYSTEM_SetObjectAnimeFrame(h, k, &ang);
         }
     }
-    ctx->cmdSys = (uptr)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
+    ctx->cmdSys = (u32)((char *)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap));
     return ctx;
 }
 
@@ -464,9 +464,9 @@ void DEMO3D_ENGINE_SetupLighting(struct Demo3dEngineCtx *ctx,struct Demo3dEngine
 
 unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x) { if(x==0||x>=19)x=0;return x; }
 
-u32 DEMO3D_ENGINE_GetCameraRecord(u32 id)
+struct Cam *DEMO3D_ENGINE_GetCameraRecord(u32 id)
 {
-    return *(u32 *)(d_021C185C + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
+    return *(struct Cam **)(d_021C185C + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c)

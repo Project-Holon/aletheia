@@ -44,8 +44,8 @@ typedef struct {
 } MmdlG3dObjRes;
 /* Links the field model system to the field 3D object control (0x10). */
 typedef struct {
-    u32 mmdlSys;
-    u32 objCtrl;
+    struct MmdlSys *mmdlSys;
+    struct FieldG3dObjCtrl *objCtrl;
     u16 resMax;
     MmdlG3dObjRes *resTable;
 } MmdlG3dObjCont;
@@ -64,40 +64,40 @@ struct FieldG3dObjCtrl;
 extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *, u32, u32, VecFx32 *);
 #endif
 struct FieldG3dObjResDesc;
-void FLDMMDL_G3DOBJ_Create(int a, int b);
+void FLDMMDL_G3DOBJ_Create(struct MmdlSys *a, struct FieldG3dObjCtrl *b);
 void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *a);
-u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 a);
+struct FieldG3dObjCtrl *FLDMMDL_G3DOBJ_GetObjCtrl(Mmdl *a);
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId);
 void FLDMMDL_G3DOBJ_DeleteResTable(MmdlG3dObjCont *cont);
 u16 FLDMMDL_G3DOBJ_AddResEntry(MmdlG3dObjCont *cont, u32 code, u32 resIdx);
 u16 FLDMMDL_G3DOBJ_FindResIdx(MmdlG3dObjCont *cont, u16 code);
-u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam);
+u32 FLDMMDL_G3DOBJ_LoadRes(struct MmdlSys *mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam);
 void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *a);
 void FLDMMDL_G3DOBJ_DelObj(struct Mmdl *mmdl, u32 objIdx);
 extern unsigned char d_021DDD80[];
 
-void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
+void FLDMMDL_G3DOBJ_Create(struct MmdlSys *mmdlSys, struct FieldG3dObjCtrl *objCtrl)
 {
     int heapId;
     MmdlG3dObjCont *cont;
-    heapId = FLDMMDL_SysGetHeapId((struct MmdlSys *)mmdlSys);
+    heapId = FLDMMDL_SysGetHeapId(mmdlSys);
     cont = (MmdlG3dObjCont *)GFL_HEAP_Alloc(heapId, sizeof(MmdlG3dObjCont), 1, (const char *)d_021DDD80, 0x48);
     cont->mmdlSys = mmdlSys;
     cont->objCtrl = objCtrl;
-    cont->resMax = FLDMMDL_SysGetMmdlMax((void *)mmdlSys);
+    cont->resMax = FLDMMDL_SysGetMmdlMax(mmdlSys);
     FLDMMDL_G3DOBJ_InitResTable(cont, heapId);
-    FLDMMDL_SysSetG3dObjCont((void *)mmdlSys, cont);
+    FLDMMDL_SysSetG3dObjCont(mmdlSys, cont);
 }
 void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *mmdlSys)
 {
-    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)mmdlSys);
+    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont(mmdlSys);
     FLDMMDL_G3DOBJ_DeleteResTable(cont);
     GFL_HEAP_Free(cont);
 }
-u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl)
+struct FieldG3dObjCtrl *FLDMMDL_G3DOBJ_GetObjCtrl(Mmdl *mmdl)
 {
-    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)((uptr)FLDMMDL_GetMmdlSys((void *)mmdl))))->objCtrl;
+    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)((uptr)FLDMMDL_GetMmdlSys(mmdl))))->objCtrl;
 }
 /* Allocates resMax entries and marks every entry free (code 0xFFFF). */
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId)
@@ -150,21 +150,21 @@ u16 FLDMMDL_G3DOBJ_FindResIdx(MmdlG3dObjCont *cont, u16 code)
 /*
  * resParam: two model ids, then three animation ids (0xFFFF = none).
  */
-u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam)
+u32 FLDMMDL_G3DOBJ_LoadRes(struct MmdlSys *mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam)
 {
     u32 resDesc[9];
-    u32 heapId;
+    struct ArcHandle *resArc;
     u32 resIdx;
     int i;
-    heapId = (uptr)FLDMMDL_SysGetResArcHandle((struct MmdlSys *)mmdlSys);
+    resArc = FLDMMDL_SysGetResArcHandle(mmdlSys);
     FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)resDesc);
     if (resParam[0] != 0xFFFF) {
-        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, heapId, resParam[0]);
+        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, resArc, resParam[0]);
     }
     if (resParam[1] != 0xFFFF) {
-        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, heapId, resParam[1]);
+        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, resArc, resParam[1]);
     }
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)resDesc, heapId);
+    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)resDesc, resArc);
     for (i = 0; i < 3; i++) {
         if (resParam[i + 2] != 0xFFFF) {
             FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)resDesc, resParam[i + 2]);
@@ -190,12 +190,12 @@ void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code)
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl)
 {
     MmdlObjCodeParam *objCode;
-    uptr mmdlSys;
+    struct MmdlSys *mmdlSys;
     MmdlG3dObjCont *cont;
     u32 resIdx;
     objCode = FLDMMDL_GetObjCodeParam(mmdl);
-    mmdlSys = (uptr)FLDMMDL_GetMmdlSys((void *)mmdl);
-    cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)mmdlSys);
+    mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
+    cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont(mmdlSys);
     resIdx = FLDMMDL_G3DOBJ_FindResIdx(cont, objCode->code);
     if (resIdx == 0xFFFF) {
         resIdx = FLDMMDL_G3DOBJ_LoadRes(mmdlSys, cont, objCode->code, FLDMMDL_GetObjCodeParamMdlRes(objCode));

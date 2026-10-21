@@ -84,7 +84,7 @@ struct BtlRecSelGraphic {
     u8 bgData[4];
     struct Bank *clactUnit;
     u32 *g3dCamera;
-    u32 vblankHandle;
+    struct TcbTask *vblankHandle;
 };
 
 /* offset-0 view of the clact slot: the clact helpers receive work + 4 */
@@ -154,7 +154,7 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap);
 void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p);
 void BTL_REC_SEL_GRAPHIC_Noop(void *p);
 void BTL_REC_SEL_GRAPHIC_TickDisplay(void *p);
-void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b);
+void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b);
 void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p);
 void BTL_REC_SEL_GRAPHIC_DrawClact(void *p);
 void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p);
@@ -189,15 +189,15 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
-    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(sptr)sBtlRecSelGraphicConfig,heap);
+    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(struct DispVramCfg *)sBtlRecSelGraphicConfig,heap);
     BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
-    ((struct BtlRecSelGraphic *)p)->vblankHandle=(uptr)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
+    ((struct BtlRecSelGraphic *)p)->vblankHandle=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
     return p;
 }
 
 void BTL_REC_SEL_GRAPHIC_Delete(char *p)
 {
-    TCB_DeleteTask((struct TcbTask *)((struct BtlRecSelGraphic *)p)->vblankHandle);
+    TCB_DeleteTask(((struct BtlRecSelGraphic *)p)->vblankHandle);
     BTL_REC_SEL_GRAPHIC_DeleteG3d((int *)(p+8));
     BTL_REC_SEL_GRAPHIC_DeleteClact(p+4);
     BTL_REC_SEL_GRAPHIC_DeleteBg(p);
@@ -246,7 +246,7 @@ void BTL_REC_SEL_GRAPHIC_Noop(void *p) { }
 
 void BTL_REC_SEL_GRAPHIC_TickDisplay(void *p) { BG_SYS_Update(); }
 
-void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b)
+void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021BB54C, (struct DispVramCfg *)a, b);
@@ -265,7 +265,7 @@ void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p) { CLACT_VBlankSystem(); }
 /*
  * follower: 021BB3D8 word getter, within handed extent.
  */
-u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return *p; }
+u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return (u32)(*(void **)p); }
 
 void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 {

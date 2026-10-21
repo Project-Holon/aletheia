@@ -109,7 +109,7 @@ void FIELD_WFBC_WriteSaveData(FieldWfbc *wfbc, WfbcData *saveData);
 FieldWfbcPeople *FIELD_WFBC_GetPeople(FieldWfbc *wfbc, u32 npcId);
 u8 FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc);
-int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
+int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, struct BuildModelMan *buildModelMan, struct FieldG3dMap *mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
 void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId);
 void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, struct FieldCamera *camera, int heapId);
 void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys);
@@ -199,7 +199,7 @@ u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc)
  * The cell comes back from FIELD_WFBC_BLOCK_GetCell as a 4-byte struct in r0; the high
  * nibble is read before the low one.
  */
-int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId)
+int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, struct BuildModelMan *buildModelMan, struct FieldG3dMap *mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId)
 {
     FieldWfbcBlock cell = FIELD_WFBC_BLOCK_GetCell(wfbc->blocks, cellX, cellZ);
     struct LandDataPatch *patch;
@@ -209,12 +209,12 @@ int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, 
     if (cell.pos.type != 0xFF) {
         dstX = (cellX * 8) & 0x1F;
         dstZ = (cellZ * 8) & 0x1F;
-        patch = (struct LandDataPatch *)LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
+        patch = LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
         offsetZ = cell.pos.offsetZ;
         offsetX = cell.pos.offsetX;
-        LAND_DATA_PATCH_OverwriteAttr((uptr)patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
+        LAND_DATA_PATCH_OverwriteAttr(patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
         if (offsetX == 0 && offsetZ == 0) {
-            modelNum = LAND_DATA_PATCH_AddBuildModels((uptr)patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
+            modelNum = LAND_DATA_PATCH_AddBuildModels(patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
         }
         LAND_DATA_PATCH_Delete((void **)patch);
     }

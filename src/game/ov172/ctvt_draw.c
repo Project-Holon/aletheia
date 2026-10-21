@@ -228,7 +228,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     u8 i;
     struct ArcHandle *arc;
     struct MsgBank *msgData;
-    uptr font;
+    struct GfFont *font;
     struct PrintQueue *printQue;
     struct Strbuf *text;
 
@@ -599,7 +599,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     sine = (s16)((s32)(sine + 0x1000) / 2);
     sine = (u8)(((s32)sine * -9 >> 12) + 0x1c);
     scene->fadeColor = sine | (sine << 5) | (sine << 10);
-    NNS_GfdRegisterNewVramTransferTask((void *)0xe, (u32)0xde, (uptr)(&scene->fadeColor), 2);
+    NNS_GfdRegisterNewVramTransferTask(0xe, (u32)0xde, (&scene->fadeColor), 2);
     return 3;
 }
 
@@ -949,7 +949,7 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
     struct BmpWin *oldWin;
     struct MsgBank *msgData;
     struct PrintQueue *printQue;
-    uptr font;
+    struct GfFont *font;
 
     font = COMM_TVT_SYS_GetFont(work);
     msgData = COMM_TVT_SYS_GetMsgData(work);
@@ -1027,7 +1027,7 @@ int CTVT_DRAW_CheckLeave(CtvtWork *work, int *out)
 
 void CTVT_DRAW_ShowMessage(CtvtWork *work, CtvtDrawScene *scene, int msgId)
 {
-    u32 font = COMM_TVT_SYS_GetFont(work);
+    struct GfFont *font = COMM_TVT_SYS_GetFont(work);
     struct MsgBank *msgData = COMM_TVT_SYS_GetMsgData(work);
     struct PrintQueue *printQue = COMM_TVT_SYS_GetPrintQue(work);
     struct Strbuf *text;

@@ -15,7 +15,7 @@ void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap);
 void WIFIBATTLEMATCH_GRAPHIC_DeleteBg(void *p);
 void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused);
-void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c);
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, struct DispVramCfg *b, int c);
 void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p);
 void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p);
 void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused);

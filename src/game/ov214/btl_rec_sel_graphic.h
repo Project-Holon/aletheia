@@ -17,7 +17,7 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap);
 void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p);
 void BTL_REC_SEL_GRAPHIC_Noop(void *p);
 void BTL_REC_SEL_GRAPHIC_TickDisplay(void *p);
-void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, int a, int b);
+void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b);
 void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p);
 void BTL_REC_SEL_GRAPHIC_DrawClact(void *p);
 void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p);

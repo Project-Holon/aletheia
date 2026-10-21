@@ -770,7 +770,7 @@ void MB_SEQ_OpenTwoEntryMenu(struct MailBoxProc *p)
     t.y = 8;
     t.w = 10;
     t.h = 3;
-    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)p->view->taskMenuRes);
+    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu( (struct TaskMenuInitWork *)&t, (struct TaskMenuRes *)p->view->taskMenuRes);
 }
 
 /*
@@ -818,7 +818,7 @@ void MB_SEQ_OpenFourEntryMenu(struct MailBoxProc *p)
     t.y = 12;
     t.w = 12;
     t.h = 3;
-    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)p->view->taskMenuRes);
+    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu( (struct TaskMenuInitWork *)&t, (struct TaskMenuRes *)p->view->taskMenuRes);
 }
 
 void MB_SEQ_CloseMenu(struct MailBoxProc *p)

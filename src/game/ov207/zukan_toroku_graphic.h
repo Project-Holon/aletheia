@@ -24,17 +24,17 @@ void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Update(void *unused);
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused);
-u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork);
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b);
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, struct DispVramCfg *a, int b);
 void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Unit**p);
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p);
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p);
-u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
 /* END mkheaders: generated region */
 
 #endif

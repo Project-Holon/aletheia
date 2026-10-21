@@ -336,7 +336,7 @@ typedef struct {
     void *strbufB;               /* 0xC068 */
     FontRef font;                /* 0xC06C */
     MsgBankRef msgBank;          /* 0xC070 */
-    u32 printHandle;             /* 0xC074 */
+    struct TextPrinter *printHandle;             /* 0xC074 */
     BeaconMessage msg78;         /* 0xC078 */
     PrintQueRef printQue;        /* 0xC080 */
     u8 textColorR;               /* 0xC084 */
@@ -519,7 +519,7 @@ void BEACON_DETAIL_MarkCurrentRecord(BeaconDetailWork *p);
 u32 BEACON_DETAIL_GetRecordIndex(u32 key);
 void BEACON_DETAIL_ReadTouchInput(char *p);
 void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdistance,int *yflag,int *ydistance);
-u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag);
+struct Descriptor *BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag);
 void BEACON_DETAIL_InitMainScreen(char *p,void *arc);
 void BEACON_DETAIL_CreateTaskMenu(char *p);
 void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i);
@@ -1194,7 +1194,7 @@ void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdis
     *yflag=yf;*ydistance=dy&63;
 }
 
-u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=(uptr)BMP_WIN_Create((unsigned int)p[0],(unsigned int)p[1],(unsigned int)p[2],p[3],p[4],p[5],1);BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)q),15);if(flag==1)BMP_WIN_MakeScreen((struct BmpWin *)q);return q;}
+struct Descriptor *BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=(uptr)BMP_WIN_Create((unsigned int)p[0],(unsigned int)p[1],(unsigned int)p[2],p[3],p[4],p[5],1);BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)q),15);if(flag==1)BMP_WIN_MakeScreen((struct BmpWin *)q);return (struct Descriptor *)q;}
 
 /*
  * prototype: explicit original heap shift pairs require narrow extern parameters for D7EC/40B94 despite their full-width own declarations;84968 returns descriptor pointer.
@@ -1248,7 +1248,7 @@ void BEACON_DETAIL_CreateTaskMenu(char *p)
 void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i)
 {
     if(*(unsigned *)&((BeaconDetailWork *)p)->win[i]==0){
-        *(unsigned *)&((BeaconDetailWork *)p)->win[i]=(uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(((BeaconDetailWork *)p)->taskMenu.id),(struct TaskMenuItem *)(&((BeaconDetailWork *)p)->winData[i]),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((BeaconDetailWork *)p)->heapId);
+        *(unsigned *)&((BeaconDetailWork *)p)->win[i]=(unsigned int)(APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(((BeaconDetailWork *)p)->taskMenu.id),(struct TaskMenuItem *)(&((BeaconDetailWork *)p)->winData[i]),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((BeaconDetailWork *)p)->heapId));
     }
 }
 
@@ -1352,7 +1352,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
         BMP_Clear(BMP_WIN_GetBmp(((BeaconDetailWork *)p)->bmp1C),15);
         ((BeaconDetailWork *)p)->printBuf=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
         MSGDATA_ReadString(((BeaconDetailWork *)p)->msgBank.ptr,message,((BeaconDetailWork *)p)->printBuf);
-        ((BeaconDetailWork *)p)->printHandle=(uptr)PRINTSYS_PrintStream(((BeaconDetailWork *)p)->bmp1C,0,0,((BeaconDetailWork *)p)->printBuf,(struct GfFont *)(((BeaconDetailWork *)p)->font.id),MSG_SPEED_GetWait(),((BeaconDetailWork *)p)->tcbl,(u32)0,((BeaconDetailWork *)p)->heapId,15);
+        ((BeaconDetailWork *)p)->printHandle=PRINTSYS_PrintStream(((BeaconDetailWork *)p)->bmp1C,0,0,((BeaconDetailWork *)p)->printBuf,(struct GfFont *)(((BeaconDetailWork *)p)->font.id),MSG_SPEED_GetWait(),((BeaconDetailWork *)p)->tcbl,(u32)0,((BeaconDetailWork *)p)->heapId,15);
         ((BeaconDetailWork *)p)->printState=1;
         break;
     case 1:
@@ -1360,7 +1360,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
         APP_KEYCURSOR_Update(((BeaconDetailWork *)p)->keyCursor.ptr,(void *)((BeaconDetailWork *)p)->printHandle,((BeaconDetailWork *)p)->bmp1C);
         switch(mode) {
         case 0:
-            if(KEY_GetCont()&1)PRINTSYS_PrintStreamShortWait((struct TextPrinter *)((BeaconDetailWork *)p)->printHandle,0);
+            if(KEY_GetCont()&1)PRINTSYS_PrintStreamShortWait(((BeaconDetailWork *)p)->printHandle,0);
             break;
         case 1:
             if((((BeaconDetailWork *)p)->keyTrg&1)||(((BeaconDetailWork *)p)->keyTrg&2)) {
@@ -1374,7 +1374,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
     case 2:
         if(force!=0 || (((BeaconDetailWork *)p)->keyTrg&1)) {
             STRBUF_Delete(((BeaconDetailWork *)p)->printBuf);
-            PRINTSYS_PrintStreamDelete((struct TextPrinter *)((BeaconDetailWork *)p)->printHandle);
+            PRINTSYS_PrintStreamDelete(((BeaconDetailWork *)p)->printHandle);
             ((BeaconDetailWork *)p)->printState=0;
             result=1;
         }

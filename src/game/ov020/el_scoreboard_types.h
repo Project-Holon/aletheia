@@ -24,13 +24,13 @@ typedef struct ElLamp {
     int texAddr;
     int plttSlot;
     int texVram;
-    char *plttVram;
+    u32 plttVram;
     int tick;
 } ElLamp;
 
 typedef struct ElLampPaletteRef {
     int index;
-    char *base;
+    u32 base;
 } ElLampPaletteRef;
 
 /* Called once when the scoreboard event ends (ELSCOREBOARD_CallFinishCallback). */

@@ -123,7 +123,7 @@ struct EncountSys;
 struct FieldEffectObj;
 #include "fldeff_encount.h"
 struct GameEvent;
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
+#include "../ov010/script_sys.h"
 #include "field_encount.h"
 #include "map_attr.h"
 #include "field_effect.h"
@@ -281,7 +281,7 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
     int isItemEvent = 0;
     GridPos playerPos;
     u16 roll;
-    int started;
+    sptr started;
     struct FieldPlayer *player;
 
     if (gimmick->spot.active == 0)
@@ -292,20 +292,20 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
     roll = GFL_USE_GetRandomBelow(1000);
     if (spot->kind == 7) {
         if (roll < 200) {
-            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+            started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
             started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind7());
             isItemEvent = 1;
         }
     } else if (spot->kind == 4) {
         if (roll < 400) {
-            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+            started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
             started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind4());
             isItemEvent = 1;
         }
     } else {
-        started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+        started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
     }
     if (started == 0) {
         EFFECT_ENCOUNT_ClearSpot(encount, effectEncount);

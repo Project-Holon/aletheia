@@ -17,7 +17,7 @@ typedef struct SubProcEventWork SubProcEventWork;
 
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
 int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work);
-int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
+struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
 int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventWork *work);
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result);
 int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, SubProcEventWork *work);

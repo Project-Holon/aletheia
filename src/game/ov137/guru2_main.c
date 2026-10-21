@@ -2357,7 +2357,7 @@ int GURU2_MAIN_DropEffectStateLand(int *p)
     if (q[21] <= 0) {
         q[21] = 0;
         r = (char *)p[5];
-        GURU2_MAIN_PrintPlayerName((struct Guru2Game *)r, (void *)(*(int *)(r + 0xa4 + q[3]*4)), q[5], q[3]);
+        GURU2_MAIN_PrintPlayerName((struct Guru2Game *)r, *(void **)(r + 0xa4 + q[3]*4), q[5], q[3]);
         return 2;
     }
     return 0;

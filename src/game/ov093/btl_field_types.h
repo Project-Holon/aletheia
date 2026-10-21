@@ -25,7 +25,7 @@ typedef struct {
  * `*(u32 *)(a + K + slot * 4)` casts CSE'd slot*4 and swapped the registers). */
 typedef struct {
     BtlFieldCountdown countdown;    /* 0x000 */
-    u32 effectHandle[8];            /* 0x008 */
+    struct BtlEventFactor *effectHandle[8]; /* 0x008 */
     union SickCont key[8];          /* 0x028 */
     u32 elapsedTurns[8];            /* 0x048 */
     u32 holderIds[8][6];            /* 0x068 */

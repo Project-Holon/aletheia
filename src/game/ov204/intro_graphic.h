@@ -30,7 +30,7 @@ void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp);
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp);
 void INTRO_GRAPHIC_UpdateBg(void *unused);
 void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap);
-void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b);
+void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b);
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact);
 void INTRO_GRAPHIC_DrawClact(void *unused);
 void INTRO_GRAPHIC_VBlankClact(void *unused);

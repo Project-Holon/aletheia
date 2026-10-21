@@ -812,11 +812,11 @@ void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p);
 
 void POKETRADE_SAVE_DeleteTypeIconActor(char *p);
 
-void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b);
+void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,struct Unit *slot,int x,int y,int a,u16 b);
 
 void POKETRADE_SAVE_DeleteStatusIconActor(char *p);
 
-void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,int slot,int x,int y,int a,u16 b,int c);
+void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,struct Unit *slot,int x,int y,int a,u16 b,int c);
 
 void POKETRADE_SAVE_OpenMessageWindow(char *p,int flag,int x,int y,int w,int h);
 
@@ -1592,7 +1592,7 @@ void POKETRADE_SAVE_DeleteTypeIconActor(char *p)
     }
 }
 
-void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b) {ActorGfxDesc d;u8 v;int z=0;v=POKE_TOOL_GetPartyValue(mon,index+174,0);d.screen=a;d.flags=z;d.arcId=APP_ICON_GetArchiveId();d.charId=APP_ICON_GetTouchBarFileId();d.plttId=APP_ICON_GetTypeCellFileId(v);d.cellId=APP_ICON_GetTypePaletteFileId(2);d.animId=APP_ICON_GetTypeAnimFileId(2);d.plttSlot=8;d.charBase=z;d.charSize=3;UI_SCENE_LoadActorGfx((ActorGfxSet *)p,&d,(void *)(slot),b);((struct PokemontradeUiScene *)p)->actor=(void *)UI_SCENE_CreateActor( (ActorGfxSet *)p, (void *)(slot), (u8)x, (u8)y,z,b);CLACT_SetActorPaletteOffset((struct ClactActor *)((struct ClactActor *)(((struct PokemontradeUiScene *)p)->actor)),APP_ICON_GetTypePaletteOffset(v),1);}
+void POKETRADE_SAVE_CreateTypeIconActor(char *p,void *mon,int index,struct Unit *slot,int x,int y,int a,u16 b) {ActorGfxDesc d;u8 v;int z=0;v=POKE_TOOL_GetPartyValue(mon,index+174,0);d.screen=a;d.flags=z;d.arcId=APP_ICON_GetArchiveId();d.charId=APP_ICON_GetTouchBarFileId();d.plttId=APP_ICON_GetTypeCellFileId(v);d.cellId=APP_ICON_GetTypePaletteFileId(2);d.animId=APP_ICON_GetTypeAnimFileId(2);d.plttSlot=8;d.charBase=z;d.charSize=3;UI_SCENE_LoadActorGfx((ActorGfxSet *)p,&d,(void *)(slot),b);((struct PokemontradeUiScene *)p)->actor=(void *)UI_SCENE_CreateActor( (ActorGfxSet *)p, (void *)(slot), (u8)x, (u8)y,z,b);CLACT_SetActorPaletteOffset((struct ClactActor *)((struct ClactActor *)(((struct PokemontradeUiScene *)p)->actor)),APP_ICON_GetTypePaletteOffset(v),1);}
 
 void POKETRADE_SAVE_DeleteStatusIconActor(char *p)
 {
@@ -1606,7 +1606,7 @@ void POKETRADE_SAVE_DeleteStatusIconActor(char *p)
 /*
  * extent: two zero alignment bytes at 0x021E0EF2, labelled next function 0x021E0EF4.
  */
-void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,int slot,int x,int y,int a,u16 b,int c) {ActorGfxDesc d;int v;v=POKE_TOOL_GetPartyValue(mon,152,0);POKETRADE_SAVE_DeleteStatusIconActor(p);d.screen=a;d.flags=0;d.arcId=APP_ICON_GetArchiveId();d.charId=APP_ICON_GetBallThrowCellFileId(v);d.plttId=APP_ICON_GetBallThrowAnimFileId(v);d.cellId=APP_ICON_GetBallOpenCellFileId(v,2);d.animId=APP_ICON_GetBallOpenPaletteFileId(v,2);d.plttSlot=c;d.charBase=0;d.charSize=1;UI_SCENE_LoadActorGfx((ActorGfxSet *)p,&d,(void *)(slot),b);((struct PokemontradeUiScene *)p)->actor=(void *)UI_SCENE_CreateActor((ActorGfxSet *)p,(void *)(slot),(u8)x,(u8)y,0,b);}
+void POKETRADE_SAVE_CreateStatusIconActor(char *p,void *mon,struct Unit *slot,int x,int y,int a,u16 b,int c) {ActorGfxDesc d;int v;v=POKE_TOOL_GetPartyValue(mon,152,0);POKETRADE_SAVE_DeleteStatusIconActor(p);d.screen=a;d.flags=0;d.arcId=APP_ICON_GetArchiveId();d.charId=APP_ICON_GetBallThrowCellFileId(v);d.plttId=APP_ICON_GetBallThrowAnimFileId(v);d.cellId=APP_ICON_GetBallOpenCellFileId(v,2);d.animId=APP_ICON_GetBallOpenPaletteFileId(v,2);d.plttSlot=c;d.charBase=0;d.charSize=1;UI_SCENE_LoadActorGfx((ActorGfxSet *)p,&d,(void *)(slot),b);((struct PokemontradeUiScene *)p)->actor=(void *)UI_SCENE_CreateActor((ActorGfxSet *)p,(void *)(slot),(u8)x,(u8)y,0,b);}
 
 /*
  * prototype: 0201F73C arg2 is u16 because 021E0FC4..021E0FC6 truncates the loaded full word before the call.
@@ -1999,7 +1999,7 @@ void POKETRADE_SAVE_DrawSummaryPage(char *p,int mode,void *mon)
             POKETRADE_SAVE_PrintGender(mon,BMP_WIN_GetBmp(P(0x6b4)),96,0,p,0,0);
             POKETRADE_2D_CreateMarkingIcon(p,side,mon);
             POKETRADE_2D_CreatePokerusIcon(p,side,0,mon);
-            POKETRADE_SAVE_CreateStatusIconActor(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,((TradeWork *)p)->heapId,13);
+            POKETRADE_SAVE_CreateStatusIconActor(p+0x8c4,mon,((TradeWork *)p)->clactSystem,b.v[side]+16,16,1,((TradeWork *)p)->heapId,13);
         } else {
             POKETRADE_SAVE_DeleteStatusIconActor(p+0x8c4);
         }
@@ -2123,7 +2123,7 @@ void POKETRADE_SAVE_ShowSummaryMon(char *p,void *mon,int side,int flag)
         POKETRADE_SAVE_PrintMoveNames((sptr)mon,(sptr)P(0x6b4),152,128,p);
         POKETRADE_SAVE_ToggleTypeIconSet(p,(sptr)mon);
         POKETRADE_2D_CreateMarkingIcon(p,2,mon);
-        POKETRADE_SAVE_CreateStatusIconActor(p+0x8c4,mon,I(0x9c4),12,7,0,((TradeWork *)p)->heapId,12);
+        POKETRADE_SAVE_CreateStatusIconActor(p+0x8c4,mon,((TradeWork *)p)->clactSystem,12,7,0,((TradeWork *)p)->heapId,12);
     } else {
         if(P(0x960)) CLACT_SetActorDrawEnable(P(0x960),i);
         POKETRADE_SAVE_DeleteTypeIcons(p);

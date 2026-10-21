@@ -98,7 +98,7 @@ u16 PMS_INPUT_GetCancelSelected(PmsInput *input);
 u16 PMS_INPUT_GetCursorPos(PmsInput *input);
 u16 PMS_INPUT_GetSavedCursorPos(PmsInput *input);
 u32 PMS_INPUT_GetListItemCount(PmsInput *input);
-void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b);
+void PMS_INPUT_GetListWord(PmsInput *input,u32 a,struct U16Vec *b);
 u32 PMS_INPUT_GetCursorCell(PmsInput *input);
 int PMS_INPUT_GetScrollDelta(PmsInput *input);
 unsigned PMS_INPUT_GetTopRow(PmsInput *input);

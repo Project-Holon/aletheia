@@ -52,14 +52,17 @@ typedef struct FieldRailLoader {
 #include "../ov010/fldmmdl.h"
 #include "../arm9/arc_util.h"
 struct GameEvent;
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
+#include "../ov010/script_sys.h"
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
 void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
 void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId);
 void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
 FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
-int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+struct GameSystem;
+struct FieldMap;
+struct GameEvent;
+struct GameEvent *FLDMMDL_CreateTalkScriptEvent(struct GameSystem *a, struct FieldMap *b, u32 c, struct Mmdl *e0, struct Mmdl *e1, u16 id);
 void FLDMMDL_MOVE_VanishProc(void *a, u32 b, u32 c, u32 d);
 void FIELD_RAIL_LOADER_EmptyProc0(void);
 void FIELD_RAIL_LOADER_EmptyProc1(void);
@@ -129,9 +132,9 @@ FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader)
 
 /* 0219F01C..0219F054 are probably a field model move proc set, not loader
  * code (see misplaced.tsv). */
-int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
+struct GameEvent *FLDMMDL_CreateTalkScriptEvent(struct GameSystem *a, struct FieldMap *b, u32 c, struct Mmdl *e0, struct Mmdl *e1, u16 id)
 {
-return (sptr)SCRIPT_SYS_CreateScriptEventSimple((void *)a, ((c << 16) >> 16), (void *)e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
+return SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, id);
 }
 
 void FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3)

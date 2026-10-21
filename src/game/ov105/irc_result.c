@@ -806,7 +806,7 @@ void IRC_RESULT_InitRankFade(IrcResultRankFade *fade,int id,int score,u16 heapId
     GFL_HEAP_Free(data);
     MI_CpuCopy8(fade->targetColors,fade->workColors,32);
     for(i=0;i<13;++i) fade->workColors[i]=0x7fff;
-    for(i=0;i<16;++i) (void *)NNS_GfdRegisterNewVramTransferTask((void *)IRC_PALETTE_TARGET,(u32)(0x100+i*2),(uptr)(&fade->workColors[i]),2);
+    for(i=0;i<16;++i) NNS_GfdRegisterNewVramTransferTask(IRC_PALETTE_TARGET,(u32)(0x100+i*2),(&fade->workColors[i]),2);
 }
 
 void IRC_RESULT_ExitRankFade(IrcResultRankFade *fade) { MI_CpuFill8(fade, 0, 0x60); }
@@ -871,7 +871,7 @@ void IRC_RESULT_BlendPaletteEntry(u16 *color,int n,u8 div,u8 paletteBank,u8 colo
  dr=((u8)(to&31)-r)*n/div;
  dg=((u8)((to&0x3E0)>>5)-g)*n/div;
  *color=(u8)(r+dr)|((u8)(g+dg)<<5)|((u8)(blue+db)<<10);
- (void *)NNS_GfdRegisterNewVramTransferTask((void *)IRC_PALETTE_TARGET,(u32)(paletteBank*32+colorIndex*2),(uptr)color,2);
+ NNS_GfdRegisterNewVramTransferTask(IRC_PALETTE_TARGET,(u32)(paletteBank*32+colorIndex*2),color,2);
 }
 
 /* ---- score rank and reward ---- */

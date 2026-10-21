@@ -360,7 +360,7 @@ int SCRCMD_SCREENEFFECTS_StartDoorOpen(struct ScriptVm *vm, struct ScrcmdWork *c
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartOpen((uptr)(SCRIPT_WORK_GetEvent(scriptWork)), (uptr)gameSystem, (uptr)fieldMap)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, FIELD_DOOR_ANIME_StartOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
     return 1;
 }
 
@@ -371,7 +371,7 @@ int SCRCMD_SCREENEFFECTS_StartDoorSetOpen(struct ScriptVm *vm, struct ScrcmdWork
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartSetOpen((uptr)(SCRIPT_WORK_GetEvent(scriptWork)), (uptr)gameSystem, (uptr)fieldMap)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, FIELD_DOOR_ANIME_StartSetOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
     return 1;
 }
 
@@ -383,7 +383,7 @@ int SCRCMD_SCREENEFFECTS_StartDoorClose(struct ScriptVm *vm, struct ScrcmdWork *
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     int doorId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartClose((uptr)(SCRIPT_WORK_GetEvent(scriptWork)), (uptr)gameSystem, (uptr)fieldMap, doorId)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, FIELD_DOOR_ANIME_StartClose(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap, doorId));
     return 1;
 }
 
@@ -512,7 +512,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(struct ScriptVm *vm, struc
 
     if (node) {
         FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, (sptr)(&seNo))) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, &seNo)) {
             GFL_USE_PlaySeDefaultVolume(seNo);
         }
     }
@@ -572,10 +572,10 @@ int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct
 /* Creates the fade task: kind 0 slow in, 1 slow out, 2 fast in, 3 fast out. */
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
 {
-    int tcbSys = (sptr)FIELDMAP_GetTcblSys(fieldMap);
+    struct TcbSystem *tcbSys = FIELDMAP_GetTcblSys(fieldMap);
     FadeEffectTask *task = GFL_HEAP_Alloc(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
 
-    TCB_AddTask((struct TcbSystem *)tcbSys, (TcbFunc)SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    TCB_AddTask(tcbSys, (TcbFunc)SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
     FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;

@@ -4296,3 +4296,11 @@ arm9_main    0x0200BA78  thumb   # BT4: word arm9:209dc78
 arm9_main    0x0209D818  arm     # "mov r0, #0; bx lr" close hook after func_0209D7D4; FILE tables hold 0x0209D818 at 0x020A8774 and 0x020A87C0 next to func_0209D784, func_0209D7D4 (LX5)
 overlay_074  0x021F54E0  thumb   # FLD3D_CI_GetNameRow: blx from ov021 FLD3D_CI_StartNameSequence (src/game/ov074/fld3d_ci_name.c)
 overlay_109  0x021BB8E0  thumb   # IDLE_SCREEN_Run: push {r4-r7,lr} at the overlay start, no caller in the image (src/game/ov109/idle_screen.c)
+# Cursor callbacks that only a data table names (tools/codeasdata.py): d_022122A0 is the
+# CursorVtbl of B_PLIST_MAIN_CreateCursor (onStart, onCancel, onMove, onCommit); the pool
+# word 0x022122A0 at 0x022119E4 hands it to CURSOR_MOVE_Create.  Each body is a tail call
+# "ldr r3, =callee; (movs r1, #0;) bx r3" with no push, so neither the trace nor the sweep sees it.
+overlay_198  0x02211A54  thumb   # B_PLIST_MAIN_HideCursor: pointer word 0x02211A55 at ov198 0x022122A4 (onCancel)
+overlay_198  0x02211A60  thumb   # B_PLIST_MAIN_HideCursorOnTouch: pointer word 0x02211A61 at ov198 0x022122AC (onCommit)
+overlay_198  0x02211A6C  thumb   # B_PLIST_MAIN_MoveCursor: pointer word 0x02211A6D at ov198 0x022122A8 (onMove)
+overlay_067  0x021B941C  thumb   # FRAME_LIST_HideCursor: bl from ov209 at 0x021BE6C8 (src/game/ov067/frame_list.c)

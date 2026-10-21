@@ -228,7 +228,7 @@ void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value)
     work->returnedFromChild = value;
 }
 
-u32 COMM_TVT_SYS_GetFont(CtvtWork *work)
+struct GfFont *COMM_TVT_SYS_GetFont(CtvtWork *work)
 {
     return work->font;
 }
@@ -467,7 +467,7 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
     name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((sptr)work, (char *)work->comm, idx), work->heapId);
-    nameWidth = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)name, (struct GfFont *)work->font, 0);
+    nameWidth = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)name, work->font, 0);
     STRBUF_Delete((struct Strbuf *)name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }
     place.y = place.yTable.b[markerIndex];

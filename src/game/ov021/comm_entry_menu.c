@@ -1816,7 +1816,7 @@ void COMM_ENTRY_MENU_StartYesNo(CommEntryMenu *menu)
     msgBg = FIELDMAP_GetMsgBg(menu->fieldMap);
     menu->parentList.items = FIELD_MSGBG_CreateMenuItems(0x10, menu->heapId);
     COMM_ENTRY_BuildParentItems(menu);
-    menu->parentList.menu = (FieldMenuFunc *)FIELD_MSGBG_CreateMenuFunc(msgBg, &gCommEntryParentListHeader, menu->parentList.items);
+    menu->parentList.menu = FIELD_MSGBG_CreateMenuFunc(msgBg, &gCommEntryParentListHeader, menu->parentList.items);
     menu->parentList.state = 0;
 }
 

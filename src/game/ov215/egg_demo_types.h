@@ -17,7 +17,7 @@ struct EggDemoWork {
     unsigned char pad2[2];       /* 0x02 */
     void *graphic;               /* 0x04 EGG_DEMO_GRAPHIC work */
     void *font;                  /* 0x08 GF_FONT handle */
-    unsigned int printQue;       /* 0x0C print queue */
+    struct PrintQueue *printQue;       /* 0x0C print queue */
     int state;                   /* 0x10 process step */
     unsigned char fadeDelay;     /* 0x14 frames left before the fade out */
     unsigned char pad15[3];      /* 0x15 */
@@ -45,7 +45,7 @@ struct EggDemoWork {
     int dialogResult;            /* 0x7C dialog result */
     void *view;                  /* 0x80 EGG_DEMO_VIEW work */
     int *nameChild;              /* 0x84 NAMEIN_SETUP arguments */
-    unsigned int proc;           /* 0x88 process created for the name entry */
+    struct ProcSys *proc;           /* 0x88 process created for the name entry */
 };
 
 struct Node;

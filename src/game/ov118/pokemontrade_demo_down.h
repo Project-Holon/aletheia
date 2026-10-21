@@ -11,7 +11,7 @@ void POKETRADE_DEMO_DOWN_StepSetupParticles(u8 *work);
 void POKETRADE_DEMO_DOWN_StepPlaySe(u8 *work);
 void POKETRADE_DEMO_DOWN_UpdateScene(u8 *work);
 void POKETRADE_DEMO_DOWN_StepFade(s8 *fade);
-void POKETRADE_DEMO_DOWN_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, u32 key, int enemy);
+void POKETRADE_DEMO_DOWN_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy);
 void POKETRADE_DEMO_DOWN_CreateUnitActor(void *work);
 void POKETRADE_DEMO_DOWN_LoadUnitResources(void *work);
 void POKETRADE_DEMO_DOWN_ReleaseUnit(void *work);

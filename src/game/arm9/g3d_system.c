@@ -337,7 +337,7 @@ void G3D_SYSTEM_Exit(void)
         GFL_HEAP_Free(_G3dSystem.work->texManagerWork);
 
     if (NNS_G3dGeIsBufferExist() == 1) {
-        GFL_HEAP_FreeSystemChecked((uptr)NNS_G3dGeReleaseBuffer());
+        GFL_HEAP_FreeSystemChecked(NNS_G3dGeReleaseBuffer());
     }
 
     GFL_HEAP_Free(_G3dSystem.work);

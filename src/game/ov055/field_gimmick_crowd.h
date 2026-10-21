@@ -21,7 +21,7 @@ typedef struct CrowdArea CrowdArea;
 typedef struct CrowdChatter CrowdChatter;
 typedef struct CrowdChatterSlot CrowdChatterSlot;
 
-#include "../ov021/field_flash_shared_types.h"
+#include "../ov020/event_mapchange_types.h"
 #include "../ov010/fldmmdl_types.h"
 #include "../types.h"
 
@@ -47,7 +47,7 @@ u32 CROWD_GetWalkCmdBase(const CrowdConfig *config);
 void CROWD_InitSolidPerson(CrowdPerson *person);
 void CROWD_InitPlayerAwarePerson(CrowdPerson *person);
 void CROWD_UpdateSolidPerson(CrowdPerson *person, MmdlSys *mmdlSys);
-void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 player);
+void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
 int CROWD_FindBlockingMmdl(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist);
 int CROWD_IsMmdlInFront(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist);
 int CROWD_IsTileInFront(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir);

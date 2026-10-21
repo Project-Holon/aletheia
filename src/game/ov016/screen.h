@@ -9,7 +9,7 @@ void DWCi_SCREENlEnd(void);
 void DWCi_SCREENlRenew(void);
 void DWCi_SCREENlCopy(void *src, int pos, int w, int h);
 void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-void DWCi_SCREENlSetPalette(unsigned int v);
+void DWCi_SCREENlSetPalette(void *v);
 /* END mkheaders: generated region */
 
 #endif

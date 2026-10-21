@@ -143,20 +143,20 @@ int NHTTPi_encodeUrlChar(char *dst, int c)
 
     if (c == 0x20) {
         *dst = '+';
-        return 1;
+        return (int)((void *)1);
     }
     if ((c >= '0' && c <= '9') ||
         (c >= 'A' && c <= 'Z') ||
         (c >= 'a' && c <= 'z')) {
         *dst = c;
-        return 1;
+        return (int)((void *)1);
     }
     hi = (c >> 4) & 0xf;
     lo = c & 0xf;
     *dst = '%';
     dst[1] = hi < 10 ? hi + '0' : hi + '7';
     dst[2] = lo < 10 ? lo + '0' : lo + '7';
-    return 3;
+    return (int)((void *)3);
 }
 
 /*

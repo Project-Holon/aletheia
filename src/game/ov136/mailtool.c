@@ -91,7 +91,7 @@ int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 void MAILTOOL_DeleteArgs(struct MailArgs *args);
 int MAILTOOL_ProcInit(void *a, void *b, struct MailArgs *args);
 int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct MailToolProc *proc);
-int MAILTOOL_ProcExit(u32 a, void *b, void *c, struct MailToolProc *proc);
+int MAILTOOL_ProcExit(struct Proc *a, void *b, void *c, struct MailToolProc *proc);
 void MAILTOOL_StartWordInput(struct MailToolProc *proc, struct MailArgs *args);
 
 extern const char d_021C7EE0[];
@@ -253,7 +253,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
     return 0;
 }
 
-int MAILTOOL_ProcExit(u32 a, void *b, void *c, struct MailToolProc *proc)
+int MAILTOOL_ProcExit(struct Proc *a, void *b, void *c, struct MailToolProc *proc)
 {
     u16 h;
     PROCSYS_Delete(proc->procSys);
@@ -284,7 +284,7 @@ void MAILTOOL_StartWordInput(struct MailToolProc *proc, struct MailArgs *args)
         proc->pmsiParam = PMSI_PARAM_Create(2, 0, &proc->sentence, 1, args->saveControl, proc->heapId);
     } else {
         proc->pmsiParam = PMSI_PARAM_Create(2, 0, 0, 1, args->saveControl, proc->heapId);
-        if (PMSI_PARAM_IsEnabled((unsigned short *)(&proc->draft->message[proc->draft->selectedSlot])))
+        if (PMSI_PARAM_IsEnabled( (const unsigned short *)&proc->draft->message[proc->draft->selectedSlot]))
             PMSI_PARAM_Copy(&proc->sentence, &proc->draft->message[proc->draft->selectedSlot]);
         else
             PMSI_PARAM_InitSentence(&proc->sentence, 0);

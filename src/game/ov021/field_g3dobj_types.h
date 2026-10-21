@@ -1,6 +1,8 @@
 #ifndef GAME_OV021_FIELD_G3DOBJ_TYPES_H
 #define GAME_OV021_FIELD_G3DOBJ_TYPES_H
 
+struct ArcHandle;
+
 #include "../types.h"
 #include "../sdk_fx.h"
 #include "../arm9/g3d_system_types.h"
@@ -24,9 +26,9 @@
 
 /* Files of one resource: a model, a texture file and up to eight animations (0x24 bytes). */
 typedef struct FieldG3dObjResDesc {
-    u32 modelArc;                          /* archive handle of the model file */
-    u32 texArc;                            /* archive handle of the texture file, 0 = none */
-    u32 anmArc;                            /* archive handle of the animation files */
+    struct ArcHandle *modelArc;                          /* archive handle of the model file */
+    struct ArcHandle *texArc;                            /* archive handle of the texture file, 0 = none */
+    struct ArcHandle *anmArc;                            /* archive handle of the animation files */
     u16 modelFile;
     u16 texFile;
     u16 anmFile[FIELD_G3DOBJ_ANIME_MAX];

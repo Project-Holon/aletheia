@@ -213,7 +213,7 @@ void FLDEFF_D06DENKI_LoadResources(D06DenkiRes *res)
 
     modelFiles = sD06DenkiModelFiles;
     animeFiles = sD06DenkiAnimeFiles;
-    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     for (i = 0; i < D06DENKI_MODEL_COUNT; i++) {
         res->model[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, modelFiles.fileId[i]);
         G3D_SYSTEM_TransVramTexture(res->model[i]);

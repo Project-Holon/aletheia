@@ -16,10 +16,10 @@ s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
 s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId);
-void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId);
+void POKEGRA_ConvertCharTo2D(NNSG2dCharacterData *charData, u32 heapId);
+void POKEGRA_ConvertCharTo1D(NNSG2dCharacterData *charData, u32 heapId);
 void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality);
-void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 **outFormPalIndex, u32 isCgr);
+void POKEGRA_CalcArcIndex(u32 arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 *outFormPalIndex, u32 isCgr);
 u32 POKEGRA_GetTrainerArcID(void *isBack);
 u32 POKEGRA_GetTrainerCgrArcIndex(u32 trType, u32 flags);
 u32 POKEGRA_GetTrainerCbrArcIndex(u32 trType, u32 flags);

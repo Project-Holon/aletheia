@@ -397,7 +397,7 @@ int DWCi_Ndi_decodeBASE64(char *decbin, char *str, int length)
     int len;
 
     len = 0;
-    n = getNchar(c, str, 4);
+    n = getNchar(c, str, (int)((void *)4));
     d = 0;
     while (n > 0 && d >= 0) {
         dec[0] = 0;
@@ -427,7 +427,7 @@ int DWCi_Ndi_decodeBASE64(char *decbin, char *str, int length)
         length -= 4;
         if (length <= 0)
             break;
-        n = getNchar(c, str, 4);
+        n = getNchar(c, str, (int)((void *)4));
     }
     *decbin = 0;
     return len;
@@ -481,9 +481,9 @@ int DWCi_NdStartup(NdAlloc alloc, NdFree free, char *url, char *token, char *gam
     if (gDwciNdStatics.token == 0)
         goto fail;
 
-    len = DWCi_Ndi_encodeBASE64(gDwciNdGameCodeEncoded, gameCode, 4);
+    len = DWCi_Ndi_encodeBASE64(gDwciNdGameCodeEncoded, gameCode, (int)((void *)4));
     gDwciNdGameCodeEncoded[len] = 0;
-    len = DWCi_Ndi_encodeBASE64(gDwciNdPasswordEncoded, password, 16);
+    len = DWCi_Ndi_encodeBASE64(gDwciNdPasswordEncoded, password, (int)((void *)16));
     gDwciNdPasswordEncoded[len] = 0;
 
     if (DWCi_Ndi_initHttpCallback() && DWCi_Ndi_initLockGlobal()) {
@@ -622,7 +622,7 @@ int DWCi_Ndi_getApInfo(char *apinfo)
                 strAp.b[3] = gDwciNdApInfo.area + '0';
             DWCi_Ndi_memcpy(&strAp.b[4], gDwciNdApInfo.spotinfo, 9);
         }
-        DWCi_Ndi_encodeBASE64(apinfo, strAp.b, 13);
+        DWCi_Ndi_encodeBASE64(apinfo, strAp.b, (int)((void *)13));
         return 1;
     }
     return 0;
@@ -641,8 +641,8 @@ int DWCi_Ndi_getDSdesc(char *gamecode, char *userid)
         return 0;
     if (DWCi_Ndi_intToStrFigure(strId, wifiinfo.attestedUserId, 13) < 0)
         return 0;
-    DWCi_Ndi_encodeBASE64(userid, strId, 13);
-    DWCi_Ndi_encodeBASE64(gamecode, ROM_HEADER_GAME_CODE, 4);
+    DWCi_Ndi_encodeBASE64(userid, strId, (int)((void *)13));
+    DWCi_Ndi_encodeBASE64(gamecode, ROM_HEADER_GAME_CODE, (int)((void *)4));
     return 1;
 }
 
@@ -685,7 +685,7 @@ int req_callback(NHTTPConnection *res, int event, void *arg)
         } else if (NHTTP_GetHeaderField(res, sDwciNdHttpstatuscode, &strHttpStatus) != 3) {
             result = 3;
         } else {
-            httpStatus = DWCi_Ndi_strToInt(strHttpStatus, 3);
+            httpStatus = DWCi_Ndi_strToInt(strHttpStatus, (int)((void *)3));
             if (httpStatus == 0x12e) {
                 isCode = 0;
                 n = NHTTP_GetBodyBuffer(res, &v, &bodyBufSize);
@@ -871,8 +871,8 @@ static int setupHttp(tagDWCi_Ndi_HTTPREQ **phrq, void **preq, char *strAction, c
         if (NHTTP_AddPostDataAscii(req, sDwciNdOptionallogdata, gDwciNdOptionEncoded) == -1)
             goto fail;
     }
-    DWCi_Ndi_decodeBASE64(strTemp, gDwciNdGameCodeEncoded, 0x80);
-    DWCi_Ndi_decodeBASE64(strTemp, gDwciNdDsGameCodeEncoded, 0x80);
+    DWCi_Ndi_decodeBASE64(strTemp, gDwciNdGameCodeEncoded, (int)((void *)0x80));
+    DWCi_Ndi_decodeBASE64(strTemp, gDwciNdDsGameCodeEncoded, (int)((void *)0x80));
     DWCi_Ndi_decodeBASE64(strTemp, gDwciNdPasswordEncoded, 0x80);
     DWCi_Ndi_decodeBASE64(strTemp, gDwciNdStatics.token, 0x80);
     DWCi_Ndi_decodeBASE64(strTemp, gDwciNdUserIdEncoded, 0x80);
@@ -904,7 +904,7 @@ int runHttp(tagDWCi_Ndi_HTTPREQ *hrq, void *req)
     err = NHTTP_StartConnection(req);
     if (err) {
         req = 0;
-        DWCi_NdSetError(3, (sptr)req);
+        DWCi_NdSetError(3, (int)req);
         DWCi_Ndi_unlockGlobal();
         return (sptr)req;
     }
@@ -927,7 +927,7 @@ int DWCi_NdGetFileListAsync(DWCNdFileInfo *filelist, int offset, int num)
 
     lenBuf = num << 8;
     if (lenBuf < 0x80)
-        lenBuf = 0x80;
+        lenBuf = (int)((void *)0x80);
     pBuf = gDwciNdStatics.alloc(lenBuf, 4);
     if (pBuf == 0) {
         DWCi_NdSetError(1, 0);

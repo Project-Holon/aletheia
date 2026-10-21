@@ -10,8 +10,8 @@ typedef struct CARDTransferInfo
     u32 command;
     void (*callback)(void *);
     void *userdata;
-    u32 src;
-    u32 dst;
+    uptr src;
+    uptr dst;
     u32 len;
     u32 work;
 } CARDTransferInfo;

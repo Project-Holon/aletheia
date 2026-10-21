@@ -138,7 +138,7 @@ void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res)
 
 void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res)
 {
-    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     int i;
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IAIGIRI_MODEL_FILE);
     G3D_SYSTEM_TransVramTexture(res->model);

@@ -58,7 +58,7 @@ typedef struct GsyncMenuWork {
     u8 unknown_204[0x20];                               /* 0x204 */
     void *msgWin;                                       /* 0x224, BG 5 message window */
     void *printStream;                                  /* 0x228 */
-    u32 keyCursor;                                      /* 0x22C */
+    struct KeyCursor *keyCursor;                                      /* 0x22C */
     void *tcbl;                                         /* 0x230 */
     void *printQue;                                     /* 0x234 */
     void *taskMenu;                                     /* 0x238 */

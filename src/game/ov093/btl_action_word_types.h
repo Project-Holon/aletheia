@@ -27,7 +27,7 @@ typedef struct {
 /* One row of the ability registry: ability id and the function that returns its handler table. */
 typedef struct {
     u32 abilityId;
-    u32 (*getHandlers)(u32 *packedInfo);
+    BtlEventHandler *(*getHandlers)(u32 *packedInfo);
 } AbilityHandlerEntry;
 
 #define ABILITY_REGISTRY_COUNT 0x9E

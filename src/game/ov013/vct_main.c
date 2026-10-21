@@ -272,9 +272,9 @@ int VCT_MAIN_RequestConnection(int peerType)
         if (peer == 0) {
             return 0;
         }
-        result = VCT_SESSION_SendGroupCommand((sptr)peer, 0);
+        result = VCT_SESSION_SendGroupCommand(peer, 0);
     } else {
-        result = VCT_SESSION_SendGroupCommand((sptr)peer, 0);
+        result = VCT_SESSION_SendGroupCommand(peer, 0);
     }
     if (result != 0) {
         VCT_SESSION_FreePeerRecord(peer);
@@ -293,7 +293,7 @@ int VCT_MAIN_AcceptPendingPeer(int unused)
 
     if (peer != 0 && peer->phase == 4) {
         accepted = 0;
-        if (VCT_SESSION_SendPeerReply((sptr)peer, 0) != 0) {
+        if (VCT_SESSION_SendPeerReply(peer, 0) != 0) {
             return accepted;
         }
         if (VCT_MIXER_AddMember(gVctWork->pendingPeer) != 0) {
@@ -320,21 +320,21 @@ void VCT_MAIN_OnEventPair(int aid, int event, VctPeer *peer, int arg)
     switch (event) {
     case VCT_EVENT_REQUEST_RECEIVED:
         if (gVctWork->pendingPeer != 0) {
-            VCT_SESSION_SendPeerReply((sptr)peer, 3);
+            VCT_SESSION_SendPeerReply(peer, 3);
             VCT_SESSION_FreePeerRecord(peer);
             return;
         }
         gVctWork->pendingPeer = peer;
         return;
     case VCT_EVENT_REQUEST_REFUSED:
-        VCT_SESSION_SendPeerReply((sptr)peer, 0);
+        VCT_SESSION_SendPeerReply(peer, 0);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_LEFT:
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_CONNECTION_CLOSED:
-        VCT_SESSION_SendPeerReply((sptr)peer, 4);
+        VCT_SESSION_SendPeerReply(peer, 4);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_JOINED:
@@ -504,12 +504,12 @@ void VCT_MAIN_HangUp(void)
         return;
     }
     if (gVctWork->linkState == 1) {
-        if (VCT_SESSION_SendGroupCommand((sptr)gVctWork->pendingPeer, 2)) {
+        if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 2)) {
             DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (VCT_SESSION_SendGroupCommand((sptr)gVctWork->pendingPeer, 1)) {
+    if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 1)) {
         DWC_RAP_CleanupVchat();
     }
 }

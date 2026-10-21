@@ -254,7 +254,7 @@ void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp);
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp);
 void INTRO_GRAPHIC_UpdateBg(void *unused);
 void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap);
-void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b);
+void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b);
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact);
 void INTRO_GRAPHIC_DrawClact(void *unused);
 void INTRO_GRAPHIC_VBlankClact(void *unused);
@@ -302,7 +302,7 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     work->mcss = INTRO_MCSS_Create(work->heapId, ((IntroArgs *)work->args)->mode);
     work->g3d = INTRO_G3D_Create(work->display, ((IntroArgs *)work->args)->mode, work->heapId);
     work->particle = INTRO_PARTICLE_Create(work->display, work->heapId);
-    work->cmdWork = INTRO_CMD_Create(work->g3d, (uptr)work->particle, (uptr)work->mcss, work->args, (uptr)work->display, work->heapId);
+    work->cmdWork = INTRO_CMD_Create(work->g3d, (unsigned int)work->particle, (unsigned int)work->mcss, work->args, (unsigned int)work->display, work->heapId);
     return 1;
 }
 
@@ -387,12 +387,12 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
     if (mode==7) {
         BG_SYS_SetVramBanks(&d_021BFE4C);
         INTRO_GRAPHIC_InitBg7(disp,heap);
-        INTRO_GRAPHIC_InitClact(&disp->clact,(uptr)&d_021BFE1C,heap);
+        INTRO_GRAPHIC_InitClact(&disp->clact,(struct DispVramCfg *)&d_021BFE1C,heap);
         INTRO_GRAPHIC_InitCamera7(&disp->camera,heap);
     } else {
         BG_SYS_SetVramBanks(&d_021BFE1C);
         INTRO_GRAPHIC_InitBg(disp,heap);
-        INTRO_GRAPHIC_InitClact(&disp->clact,(uptr)&d_021BFE1C,heap);
+        INTRO_GRAPHIC_InitClact(&disp->clact,(struct DispVramCfg *)&d_021BFE1C,heap);
         INTRO_GRAPHIC_InitCamera(&disp->camera,heap);
     }
     GF_FONT_InitTextColor();
@@ -501,7 +501,7 @@ void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
     BG_SYS_SetPlaneVisible(6,1);
 }
 
-void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b)
+void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(clact, 0, 4);
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021BFD90), (const struct DispVramCfg *)a, b);

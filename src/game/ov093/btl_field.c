@@ -327,7 +327,7 @@ int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, union SickCont key, i
 
     if (state->inUse[slot] == 0) {
         if (allocHandle != 0) {
-            state->effectHandle[slot] = (uptr)HAND_FIELD_AddFactor(slot, 0);
+            state->effectHandle[slot] = HAND_FIELD_AddFactor(slot, 0);
             if (state->effectHandle[slot] == 0)
                 return 0;
         }
@@ -350,7 +350,7 @@ int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot)
 {
     if (BTL_FIELD_IsSlotInUse(state, slot) != 0) {
         if (state->effectHandle[slot] != 0) {
-            HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]);
+            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
             state->effectHandle[slot] = 0;
         }
         BTL_FIELD_ResetSlot(state, slot);
@@ -405,7 +405,7 @@ void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
                 state->holderIds[slot][j] = BTL_FIELD_EMPTY_HOLDER;
                 state->holderCount[slot] = state->holderCount[slot] - 1;
                 if (state->holderCount[slot] == 0) {
-                    if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]); state->effectHandle[slot] = 0; }
+                    if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor(state->effectHandle[slot]); state->effectHandle[slot] = 0; }
                     BTL_FIELD_ResetSlot(state, slot);
                 } else {
                     if (pokeId == BTL_SICKCONT_GetPosition(state->key[slot])) BTL_SICKCONT_SetPosition(&state->key[slot], state->holderIds[slot][0]);
@@ -463,7 +463,7 @@ void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(int, struct BtlS
         if (state->elapsedTurns[slot] < duration)
             continue;
         if (state->effectHandle[slot] != 0) {
-            HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]);
+            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
             state->effectHandle[slot] = 0;
         }
         BTL_FIELD_ResetSlot(state, slot);

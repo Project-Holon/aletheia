@@ -193,7 +193,7 @@ s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm)
         anm->outColors[i] = (u16)((red << 10) | (blue | (green << 5)));
     }
 
-    return NNS_GfdRegisterNewVramTransferTask((void *)anm->targetMask, anm->firstColor * 2, (uptr)anm->outColors, anm->colorCount * 2);
+    return NNS_GfdRegisterNewVramTransferTask(anm->targetMask, anm->firstColor * 2, anm->outColors, anm->colorCount * 2);
 }
 
 /*

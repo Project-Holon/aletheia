@@ -542,21 +542,19 @@ struct MyStatus;
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 struct PokemonParam;
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
 struct BoxPokemon;
 extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 struct SaveData;
 #include "../arm9/save_event.h"
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 extern void *POKEGRA_OpenHandle(u32 heapId);
 extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 #include "../arm9/file_util.h"
-extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+extern void MYSTERY_UTIL_BlendPaletteRange(u32 a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 struct Pt16;
 struct BmpOamSys;
 #include "../arm9/bmp_oam.h"
@@ -1996,8 +1994,8 @@ void MYSTERY_CardViewAnimScroll(u8 *p)
         u32 n=(((MysteryCardView *)p)->step*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((MysteryCardView *)p)->fade=(((MysteryCardView *)p)->step*32767u)/120u;
-        MYSTERY_UTIL_BlendPaletteRange((void *)15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
-        MYSTERY_UTIL_BlendPaletteRange((void *)31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange(15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange(31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((MysteryCardView *)p)->step)++>120) {
             *(volatile u16 *)0x04000050=0;
             MYSTERY_StartScroll(((MysteryCardView *)p)->scrollB,1);
@@ -2063,8 +2061,8 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
         u32 n=(((MysteryCardView *)p)->step*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((MysteryCardView *)p)->fade=(((MysteryCardView *)p)->step*32767u)/120u;
-        MYSTERY_UTIL_BlendPaletteRange((void *)15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
-        MYSTERY_UTIL_BlendPaletteRange((void *)31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange(15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange(31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((MysteryCardView *)p)->step)++>120) {
             *(volatile u16 *)0x04000050=0;
             ((MysteryCardView *)p)->step=0;
@@ -2130,7 +2128,7 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
         break;
     case 9:
         ((MysteryCardView *)p)->fade=(((MysteryCardView *)p)->step*32767u)/120u;
-        MYSTERY_UTIL_BlendPaletteRange((void *)14,(u16 *)(p+178),((MysteryCardView *)p)->fade,14,(const u16 *)(p+242),(const u16 *)(p+210));
+        MYSTERY_UTIL_BlendPaletteRange(14,(u16 *)(p+178),((MysteryCardView *)p)->fade,14,(const u16 *)(p+242),(const u16 *)(p+210));
         if((((MysteryCardView *)p)->step)++>120) {
             MYSTERY_StartScroll(((MysteryCardView *)p)->scrollB,0);
             ((MysteryCardView *)p)->step=0;
@@ -2159,8 +2157,8 @@ void MYSTERY_CardViewAnimFade(u8 *p)
     case 0: ((MysteryCardView *)p)->state=1; return;
     case 1:
         ((MysteryCardView *)p)->fade=(((MysteryCardView *)p)->step*32767u)/60u;
-        MYSTERY_UTIL_BlendPaletteRange((void *)15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+146),(const u16 *)(p+114));
-        MYSTERY_UTIL_BlendPaletteRange((void *)31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+146),(const u16 *)(p+114));
+        MYSTERY_UTIL_BlendPaletteRange(15,(u16 *)(p+50),((MysteryCardView *)p)->fade,0,(const u16 *)(p+146),(const u16 *)(p+114));
+        MYSTERY_UTIL_BlendPaletteRange(31,(u16 *)(p+82),((MysteryCardView *)p)->fade,0,(const u16 *)(p+146),(const u16 *)(p+114));
         if((((MysteryCardView *)p)->step)++ >60) {
             ((MysteryCardView *)p)->step=0;
             ((MysteryCardView *)p)->state=2;

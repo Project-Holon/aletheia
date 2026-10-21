@@ -278,7 +278,7 @@ void DWC_RAP_OnVchatStopped(void);
 
 void DWC_RAP_EnableLocalVchat(void);
 
-void DWC_RAP_StartVchat(void *heapId);
+void DWC_RAP_StartVchat(int heapId);
 
 void DWC_RAP_StartVchatDefaultHeap(int unused);
 
@@ -660,7 +660,7 @@ int DWC_RAP_RunStateMachine(int cancelRequest)
     case DWC_RAP_STATE_CONNECTED: {
         GFLNetInitializeStruct *netInit = &GFL_NET_GetInitParam()->init;
         if (_pRapWork->vchatEnabled != 0)
-            DWC_RAP_StartVchat((void *)netInit->heapId);
+            DWC_RAP_StartVchat((int)((void *)netInit->heapId));
         _pRapWork->vchatLocalOn = 0;
         DWC_RAP_SetState(DWC_RAP_STATE_IN_SESSION);
         return SetResult(DWC_RAP_RESULT_CONNECTED);
@@ -745,7 +745,7 @@ void DWC_RAP_SendPendingAck(void)
     int ackValue;
     if (_pRapWork->ackPending) {
         ackValue = 0;
-        if (DWC_RAP_SendAck((sptr)&ackValue, 4))
+        if (DWC_RAP_SendAck( (int)(&ackValue), 4))
             _pRapWork->ackPending = 0;
     }
 }
@@ -1146,7 +1146,7 @@ void DWC_RAP_EnableLocalVchat(void)
 /*
  * Start the session: set the ready flags and register the setter callback.
  */
-void DWC_RAP_StartVchat(void *heapId)
+void DWC_RAP_StartVchat(int heapId)
 {
     u32 sessionSize;
     _pRapWork->vchatLocalOn = 1;
@@ -1171,7 +1171,7 @@ void DWC_RAP_StartVchat(void *heapId)
             sessionSize = 4;
             break;
         }
-        VCT_MAIN_Start(heapId, sessionSize, 1);
+        VCT_MAIN_Start((void *)heapId, sessionSize, 1);
         VCT_MAIN_SetExitCallback(DWC_RAP_OnVchatStopped);
         _pRapWork->vchatActive = 1;
     }
@@ -1182,7 +1182,7 @@ void DWC_RAP_StartVchat(void *heapId)
  */
 void DWC_RAP_StartVchatDefaultHeap(int unused)
 {
-    DWC_RAP_StartVchat((void *)GFL_NET_GetInitParam()->init.heapId);
+    DWC_RAP_StartVchat((int)((void *)GFL_NET_GetInitParam()->init.heapId));
 }
 
 /*

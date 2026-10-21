@@ -1577,7 +1577,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem(&gClActorInitParam, (struct DispVramCfg *)sVramBank, work->heapId);
     work->clactUnit = CLACT_CreateUnit(0x28, 0, work->heapId);
-    work->vblankTask = (uptr)GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
     IRCBATTLEMENU_InitBgLayers(work);
     IRCBATTLEMENU_LoadMenuGraphics(work);
     work->subObjPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x829);
@@ -1674,7 +1674,7 @@ int IRCBATTLEMENU_Exit(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
         APP_TASKMENU_WIN_Delete(work->taskMenuWin);
     }
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
-    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     CLACT_DeleteUnit(work->clactUnit);
     CLACT_ExitSystem();
     BMP_WIN_Exit();

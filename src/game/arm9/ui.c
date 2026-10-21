@@ -81,7 +81,7 @@
 #include "touchpanel.h"
 #include "pm.h"
 extern void UI_ServiceLidSleep(void);
-extern void UI_ApplyInputBounds(int inputObj);
+extern void UI_ApplyInputBounds(UiCtx *inputObj);
 extern void UI_SoftReset(u32 x);
 extern void UI_SetSuspendHook(UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetResumeHook(UiCtx *p, UiCb fn, void *arg);
@@ -116,7 +116,7 @@ void UI_ClearSoftResetInhibitGlobal(u32 v);
 u32 UI_TestSoftResetInhibitGlobal(u32 mask);
 void UI_SetIntrData(UiCtx *p, u32 a, u32 b);
 void UI_SetIntrDataGlobal(u32 a, u32 b);
-u32 UI_GetPointerValue(u32 *p);
+void *UI_GetPointerValue(void **p);
 UiCtx *UI_GetContext(void);
 void UI_RunSleepHook(UiCtx *p);
 void UI_RunWakeHook(UiCtx *p);
@@ -267,7 +267,7 @@ void UI_Main(UiCtx *p)
     KEY_Main();
     TOUCHPANEL_Main();
     UI_ServiceLidSleep();
-    UI_ApplyInputBounds((sptr)p);
+    UI_ApplyInputBounds(p);
 
     if ((KEY_GetCont() & 0x30C) == 0x30C && p->softResetInhibit == 0) {
         if (p->intrData != 0) {
@@ -575,7 +575,7 @@ void UI_SetIntrDataGlobal(u32 a, u32 b)
  *   python tools/match.py one --src src/pending/UI_GetPointerValue.c \
  *       --func UI_GetPointerValue --addr 0x0203521C --cc 1.1p1 --arm
  */
-u32 UI_GetPointerValue(u32 *p)
+void *UI_GetPointerValue(void **p)
 {
     return *p;
 }
@@ -746,7 +746,7 @@ u8 UI_GetFrameRate(void);
 void UI_ResetFrameCounter(void);
 void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
-void UI_ApplyInputBounds(int inputObj);
+void UI_ApplyInputBounds(UiCtx *inputObj);
 #include "net.h"
 
 /*
@@ -1026,7 +1026,7 @@ int UI_GetPowerState(void)
  * which fills two twelve-byte records on the stack, and the seven
  * accessors below push each pair into the object in inputObj.
  */
-void UI_ApplyInputBounds(int inputObj)
+void UI_ApplyInputBounds(UiCtx *inputObj)
 {
     UiInputCorner lower;
     UiInputCorner upper;
@@ -1037,10 +1037,10 @@ void UI_ApplyInputBounds(int inputObj)
     if (gUiState.getInputBounds(&lower, &upper) == 0) {
         return;
     }
-    KEY_SetTrg((UiCtx *)inputObj, lower.keyParam0, upper.keyParam0);
-    KEY_SetCont((UiCtx *)inputObj, lower.keyParam1, upper.keyParam1);
-    KEY_SetRepeat((UiCtx *)inputObj, lower.keyParam2, upper.keyParam2);
-    TOUCHPANEL_SetPoint((void *)inputObj, lower.touchX, lower.touchY, upper.touchX, upper.touchY);
-    TOUCHPANEL_SetTrg((UiCtx *)inputObj, lower.touchFlagA, upper.touchFlagA);
-    TOUCHPANEL_SetCont((UiCtx *)inputObj, lower.touchFlagB, upper.touchFlagB);
+    KEY_SetTrg(inputObj, lower.keyParam0, upper.keyParam0);
+    KEY_SetCont(inputObj, lower.keyParam1, upper.keyParam1);
+    KEY_SetRepeat(inputObj, lower.keyParam2, upper.keyParam2);
+    TOUCHPANEL_SetPoint(inputObj, lower.touchX, lower.touchY, upper.touchX, upper.touchY);
+    TOUCHPANEL_SetTrg(inputObj, lower.touchFlagA, upper.touchFlagA);
+    TOUCHPANEL_SetCont(inputObj, lower.touchFlagB, upper.touchFlagB);
 }

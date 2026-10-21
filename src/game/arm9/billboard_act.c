@@ -139,7 +139,7 @@ typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 #include "gfl_heap_wrap.h"
 
 #ifdef __MWERKS__
-extern void *BILLBOARD_Create(u8 *src, void *heap);
+extern void *BILLBOARD_Create(u8 *src, u32 heap);
 #else
 #include "billboard.h"
 #endif
@@ -304,7 +304,7 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     init = gBillboardActTpl;
     init.slotCount = sys->slotCount;
     init.entryCount = sys->entryCount;
-    sys->board = BILLBOARD_Create((u8 *)(&init), (void *)heapId);
+    sys->board = BILLBOARD_Create((u8 *)(&init), heapId);
 
     sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * 8, 1, file, 119);
     sys->slotPool = AREAMAN_Create(sys->slotCount, heapId);

@@ -229,7 +229,7 @@ void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *
     }
 }
 
-void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, int gameSystem, int heapId)
+void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, struct GameSystem *gameSystem, int heapId)
 {
     struct MapReplace *replace = MAP_REPLACE_Create(heapId, gameSystem);
     int recordCount = MAP_REPLACE_GetRecordCount(replace);

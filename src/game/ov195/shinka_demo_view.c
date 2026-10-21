@@ -1161,8 +1161,8 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 monsNo, u32 formNo, u32 sex, u32 isShiny, 
         }
     }
     BMP_ConvertToLinear(g->canvas, 0, heap);
-    NNS_GfdRegisterNewVramTransferTask(0, tex, (uptr)BMP_GetPixels(g->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, pltt, (uptr)g->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, tex, BMP_GetPixels(g->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask(1, pltt, g->pltt->raw, 0x20);
     return g;
 }
 
@@ -1738,7 +1738,7 @@ void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
         }
         p->pal[i] = r | (g << 5) | (b << 10);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)1, p->plttAddr, (uptr)p->pal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(1, p->plttAddr, p->pal, 0x20);
 }
 
 int SHINKA_DEMO_VIEW_IsGridState0(char *grid, u16 unused)

@@ -219,7 +219,7 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx
     dr = ((u8)(b & 31) - r) * t >> 12;
     dg = ((u8)((b & 0x3E0) >> 5) - g) * t >> 12;
     *out = (u8)(r + dr) | ((u8)(g + dg) << 5) | ((u8)(blue + db) << 10);
-    NNS_GfdRegisterNewVramTransferTask((void *)0xF, row * 32 + idx * 2, (uptr)out, 2);
+    NNS_GfdRegisterNewVramTransferTask(0xF, row * 32 + idx * 2, out, 2);
     return *out == b;
 }
 
@@ -277,15 +277,15 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, NameinFontArg c, int d, 
     base += 0x40;
     for (i = 0; i < 16; i++) {
         pos[0] = base + i * 14;
-        CLACT_SetActorAnimSeq((struct ClactActor *)(*(int *)(p + i * 4 + 0x44)), 1);
-        CLACT_SetActorAutoAnim((struct ClactActor *)(*(int *)(p + i * 4 + 0x44)), 1);
-        CLACT_AddActorSurfacePos((struct ClactActor *)(*(int *)(p + i * 4 + 0x44)), (struct ClactVec2 *)pos, 0);
-        CLACT_SetActorDrawEnable((struct ClactActor *)(*(int *)(p + i * 4 + 0x44)), 1);
+        CLACT_SetActorAnimSeq(*(struct ClactActor **)(p + i * 4 + 0x44), 1);
+        CLACT_SetActorAutoAnim(*(struct ClactActor **)(p + i * 4 + 0x44), 1);
+        CLACT_AddActorSurfacePos(*(struct ClactActor **)(p + i * 4 + 0x44), (struct ClactVec2 *)pos, 0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor **)(p + i * 4 + 0x44), 1);
     }
     for (i = *(u16 *)(p + 0x22); i < 16; i++) {
-        CLACT_SetActorDrawEnable((struct ClactActor *)(*(int *)(p + i * 4 + 0x44)), 0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor **)(p + i * 4 + 0x44), 0);
     }
-    CLACT_StartActorAnim((struct ClactActor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
+    CLACT_StartActorAnim(*(struct ClactActor **)(p + *(u16 *)(p + 0x1e) * 4 + 0x44));
     *(int *)(p + 0x28) = 1;
     NAMEIN_GRAPHIC_RefreshInputField(p);
 }
@@ -403,7 +403,7 @@ int NAMEIN_GRAPHIC_ApplyConversion(u8 *a,int b)
     if (((NameinGraphicInputField *)a)->primaryLength==0) goto fail;
     v=NAMEIN_GRAPHIC_FindTableIndex(p,(u16 *)(a+(((NameinGraphicInputField *)a)->primaryLength-1)*2));
     if(v==65535) goto fail;
-    if(!NAMEIN_GRAPHIC_PickTable8((sptr)p,v,change.added,4,&change.addedCount)) goto fail;
+    if(!NAMEIN_GRAPHIC_PickTable8((int)p,v,change.added,4,&change.addedCount)) goto fail;
     NAMEIN_GRAPHIC_CopyTableEntries(p,v,change.removed,4,&change.removedCount);
     for(i=0;i<change.removedCount;i++) NAMEIN_GRAPHIC_Backspace(a);
     for(i=0;i<change.addedCount;i++) {
@@ -420,7 +420,7 @@ int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((NameinGraphicInputField *)p)
 int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 {
     int c = p[0x30];
-    int r4 = (sptr)((NameinGraphicInputField *)p)->printSys;
+    struct PrintQueue *r4 = ((NameinGraphicInputField *)p)->printSys;
 
     if (c != 0) {
         if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)r4, (void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicInputField *)p)->win))) == 0) {

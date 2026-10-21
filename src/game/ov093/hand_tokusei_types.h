@@ -657,7 +657,7 @@ typedef struct BtlEventHandlerEntry {
 /* Registry entry of held items: item id and the function that returns the item's handler table. */
 typedef struct ItemHandlerEntry {
     u32 itemId;
-    u32 (*getHandlers)(u32 *count);
+    BtlEventHandler *(*getHandlers)(u32 *count);
 } ItemHandlerEntry;
 
 #define ITEM_HANDLER_COUNT 0xac

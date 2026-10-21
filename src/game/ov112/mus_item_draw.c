@@ -402,7 +402,7 @@ void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused)
     if (!((McssActorElem *)e)->bits.vramTransferred) {
         BILLBOARD_GetImagePlttVramOffset((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(s32 *)(&first));
         BILLBOARD_GetImagePlttKey((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(u32 *)(&second));
-        NNS_GfdRegisterNewVramTransferTask((void *)1,first,(uptr)(p+18),((second & 0xffff0000) >> 16) * 8);
+        NNS_GfdRegisterNewVramTransferTask(1,first,(p+18),((second & 0xffff0000) >> 16) * 8);
         *(u16 *)e |= 8;
     }
 }

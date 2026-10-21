@@ -20,7 +20,7 @@ typedef struct FishingWork {
     s16 targetGrid[3];                    /* 0x20: grid position of the water tile */
     u16 pad26;
     u32 playerState;                      /* 0x28 */
-    u32 exclamEffect;                     /* 0x2C: exclamation mark effect handle */
+    struct FieldEffectObj *exclamEffect;                     /* 0x2C: exclamation mark effect handle */
     struct FieldEffectObj *rodEffect;                        /* 0x30: fishing rod effect handle */
     VecFx32 playerPos;                    /* 0x34: y is the side the line was cast to */
     VecFx32 targetPos;                    /* 0x40: y is the side the player stands on, the vector is handed to the rod effect */

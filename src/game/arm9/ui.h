@@ -36,7 +36,7 @@ u32 UI_TestSoftResetInhibit(UiCtx *p, u32 mask);
 u32 UI_TestSoftResetInhibitGlobal(u32 mask);
 void UI_SetIntrData(UiCtx *p, u32 a, u32 b);
 void UI_SetIntrDataGlobal(u32 a, u32 b);
-u32 UI_GetPointerValue(u32 *p);
+void *UI_GetPointerValue(void **p);
 UiCtx *UI_GetContext(void);
 void UI_RunSleepHook(UiCtx *p);
 void UI_RunWakeHook(UiCtx *p);
@@ -60,7 +60,7 @@ u8 UI_GetFrameRate(void);
 void UI_ResetFrameCounter(void);
 void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
-void UI_ApplyInputBounds(int inputObj);
+void UI_ApplyInputBounds(UiCtx *inputObj);
 /* END mkheaders: generated region */
 
 #endif

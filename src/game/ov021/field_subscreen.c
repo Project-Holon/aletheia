@@ -796,7 +796,7 @@ void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
 void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 {
     GF_OVERLAY_Load((sptr)abs_id_20);
-    work->cgear = BEACON_VIEW_Create((uptr)(FIELDMAP_GetGameSystem(work->fieldMap)), (uptr)work);
+    work->cgear = BEACON_VIEW_Create(FIELDMAP_GetGameSystem(work->fieldMap), work);
 }
 
 /* Mode 4 exit: delete the beacon view panel and unload its overlay. */

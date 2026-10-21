@@ -110,7 +110,7 @@ void DEMO3D_CMDSYS_Delete(char *p)
     Demo3dCmdsysRecord *r;
     char *owner;
     int i;
-    owner=((Demo3dCmdContext *)p)->owner;r=(Demo3dCmdsysRecord *)DEMO3D_DATA_GetExitCommandList(((Demo3dCmdContext *)p)->config);
+    owner=((Demo3dCmdContext *)p)->owner;r=(Demo3dCmdsysRecord *)DEMO3D_DATA_GetExitCommandList((u32)((void *)((Demo3dCmdContext *)p)->config));
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
         DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,(char *)owner,r);
@@ -128,7 +128,7 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
     p->flags[2]=flag?1:0;
     TCBL_Main((struct TcblSystem *)p->task);
     if(p->ended==0 && time!=-4096) {
-        r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList(p->config)+p->index;
+        r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList((u32)((void *)p->config))+p->index;
         time>>=12;
         if(r->time==time && p->previous!=time) {
             i=0;
@@ -164,7 +164,7 @@ int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Demo3dCmdsysRecord *r;
     int i;
-    r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList(((struct Demo3dOwner *)owner)->config);
+    r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList((u32)((void *)((struct Demo3dOwner *)owner)->config));
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
         if(r[i].time==-1) DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,owner,&r[i]);

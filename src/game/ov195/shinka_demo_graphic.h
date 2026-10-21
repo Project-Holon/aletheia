@@ -19,7 +19,7 @@ void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *mainBg, u16 heap);
 void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *mainBg);
 void SHINKA_DEMO_GRAPHIC_Noop(void *unused);
 void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *unused);
-void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, int vramBanks, u32 heap);
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, struct DispVramCfg *vramBanks, u32 heap);
 void SHINKA_DEMO_GRAPHIC_ExitClact(char *clact);
 void SHINKA_DEMO_GRAPHIC_DrawClact(void *unused);
 void SHINKA_DEMO_GRAPHIC_VBlankClact(void *unused);

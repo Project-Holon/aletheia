@@ -319,7 +319,7 @@ struct BtlEventFactor *HAND_TOKUSEI_AddAbilityHandlers(struct BtlPokeParam *bpp)
     u8 pokeId;
     int priority;
     u32 handlerCount;
-    u32 handlers;
+    BtlEventHandler *handlers;
 
     for (i = 0; i < ABILITY_REGISTRY_COUNT; i++) {
         if (abilityId == gAbilityHandlerRegistry[i].abilityId) {
@@ -327,7 +327,7 @@ struct BtlEventFactor *HAND_TOKUSEI_AddAbilityHandlers(struct BtlPokeParam *bpp)
             pokeId = BTL_POKEPARAM_GetPokeId(bpp);
             handlers = gAbilityHandlerRegistry[i].getHandlers(&handlerCount);
             priority = HAND_TOKUSEI_UnpackAbilityPriority(&handlerCount);
-            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ABILITY, abilityId, priority, speed, pokeId, (u32)handlers, handlerCount);
+            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ABILITY, abilityId, priority, speed, pokeId, handlers, handlerCount);
         }
     }
     return 0;
@@ -913,7 +913,7 @@ void HAND_TOKUSEI_NaturalCureOnMemberOut(int myHandle, void *flowWork, int pokeI
 
 void *HAND_TOKUSEI_AddNaturalCure(int *handlerCount);
 
-void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId);
+void HAND_TOKUSEI_DownloadOnMemberIn(struct BtlEventFactor *myHandle, struct BtlServerFlow *flowWork, u8 pokeId);
 
 int *HAND_TOKUSEI_AddDownload(int *handlerCount);
 
@@ -3400,7 +3400,7 @@ void *HAND_TOKUSEI_AddNaturalCure(int *handlerCount)
 
 /* Download: on entering the field, compare the foes' total Defense and Special
    Defense and raise Attack or Special Attack by one stage accordingly. */
-void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId)
+void HAND_TOKUSEI_DownloadOnMemberIn(struct BtlEventFactor *myHandle, struct BtlServerFlow *flowWork, u8 pokeId)
 {
     u8 foeIds[4];
     u8 foeCount;
@@ -3413,13 +3413,13 @@ void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId)
 
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_POKE_ID))
         return;
-    foeCount = BTL_SERVER_FLOW_CollectOpponentPokeIds((struct BtlServerFlow *)flowWork, pokeId, foeIds);
+    foeCount = BTL_SERVER_FLOW_CollectOpponentPokeIds(flowWork, pokeId, foeIds);
     if (foeCount == 0)
         return;
     defenseSum = 0;
     spDefenseSum = 0;
     for (i = 0; i < foeCount; i++) {
-        foe = BTL_SERVER_FLOW_GetPokeParam((struct BtlServerFlow *)flowWork, foeIds[i]);
+        foe = BTL_SERVER_FLOW_GetPokeParam(flowWork, foeIds[i]);
         defenseSum = defenseSum + (u16)BTL_POKEPARAM_GetValue(foe, BPP_VALUE_DEFENSE);
         spDefenseSum = spDefenseSum + (u16)BTL_POKEPARAM_GetValue(foe, BPP_VALUE_SP_DEFENSE);
     }
@@ -3427,13 +3427,13 @@ void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId)
         rankKind = BTL_RANK_SP_ATTACK;
     else
         rankKind = BTL_RANK_ATTACK;
-    record = BTL_SERVER_FLOW_AllocCmdRecord((struct BtlServerFlow *)flowWork, HANDEX_KIND_RANK_EFFECT, pokeId);
+    record = BTL_SERVER_FLOW_AllocCmdRecord(flowWork, HANDEX_KIND_RANK_EFFECT, pokeId);
     record->header |= HANDEX_FLAG_SHOW_ABILITY;
     record->targetCount = 1;
     record->pokeId = pokeId;
     record->rankKind = rankKind;
     record->volume = 1;
-    BTL_SERVER_FLOW_CommitCmdRecord((struct BtlServerFlow *)flowWork, record);
+    BTL_SERVER_FLOW_CommitCmdRecord(flowWork, record);
 }
 
 int *HAND_TOKUSEI_AddDownload(int *handlerCount)

@@ -7513,10 +7513,9 @@
 ],
 "externs": [
 ]},
-"ov067": {"base": "0x021B6100", "range": ["0x021B9418", "0x021B95A0"],
+"ov067": {"base": "0x021B6100", "range": ["0x021B9428", "0x021B95A0"],
 "objects": [
-{"addr": "0x021B9418", "size": 16, "kind": "struct", "name": "g_021B9418", "fields": [["ptr", 1], ["u32", 3]], "targets": ["0x021B92F1"], "ev": "tail"},
-{"addr": "0x021B9428", "size": 4, "kind": "pointer_table", "name": "g_021B9428", "count": 1, "targets": ["0x021B92F1"], "ev": "label"},
+{"addr": "0x021B9428", "size": 4, "kind": "pointer_table", "name": "g_021B9428", "count": 1, "targets": ["0x021B92F1"], "ev": "tail"},
 {"addr": "0x021B942C", "size": 2, "kind": "zero", "name": "g_021B942C", "ev": "pool"},
 {"addr": "0x021B942E", "size": 2, "kind": "numeric", "name": "g_021B942E", "elem": "u8", "count": 2, "ev": "pool"},
 {"addr": "0x021B9430", "size": 2, "kind": "numeric", "name": "g_021B9430", "elem": "u8", "count": 2, "ev": "pool"},
@@ -7753,9 +7752,9 @@
 ],
 "externs": [
 ]},
-"ov074": {"base": "0x021F54E0", "range": ["0x021F54E0", "0x021F5700"],
+"ov074": {"base": "0x021F54E0", "range": ["0x021F54EC", "0x021F5700"],
 "objects": [
-{"addr": "0x021F54E0", "size": 16, "kind": "struct", "name": "g_021F54E0", "fields": [["u32", 3], ["ptr", 1]], "targets": ["0x021F54F0"], "ev": "tail"},
+{"addr": "0x021F54EC", "size": 4, "kind": "pointer_table", "name": "g_021F54EC", "count": 1, "targets": ["0x021F54F0"], "ev": "tail"},
 {"addr": "0x021F54F0", "size": 528, "kind": "numeric", "name": "g_021F54F0", "elem": "u8", "count": 528, "ev": "ptr"}
 ],
 "externs": [
@@ -10980,9 +10979,13 @@
 ],
 "externs": [
 ]},
-"ov109": {"base": "0x021BB8E0", "range": ["0x021BB8E0", "0x021BBB20"],
+"ov109": {"base": "0x021BB8E0", "range": ["0x021BBA38", "0x021BBB20"],
 "objects": [
-{"addr": "0x021BB8E0", "size": 364, "kind": "raw", "name": "g_021BB8E0", "ev": "tail"},
+{"addr": "0x021BBA38", "size": 4, "kind": "pointer_table", "name": "g_021BBA38", "count": 1, "targets": ["0x021BBA5C"], "ev": "tail"},
+{"addr": "0x021BBA3C", "size": 4, "kind": "pointer_table", "name": "g_021BBA3C", "count": 1, "targets": ["0x021BBA4C"], "ev": "label"},
+{"addr": "0x021BBA40", "size": 4, "kind": "pointer_table", "name": "g_021BBA40", "count": 1, "targets": ["0x021BBA8C"], "ev": "label"},
+{"addr": "0x021BBA44", "size": 4, "kind": "numeric", "name": "g_021BBA44", "elem": "u32", "count": 1, "ev": "label"},
+{"addr": "0x021BBA48", "size": 4, "kind": "numeric", "name": "g_021BBA48", "elem": "u32", "count": 1, "ev": "label"},
 {"addr": "0x021BBA4C", "size": 16, "kind": "numeric", "name": "g_021BBA4C", "elem": "u8", "count": 16, "ev": "ptr"},
 {"addr": "0x021BBA5C", "size": 48, "kind": "numeric", "name": "g_021BBA5C", "elem": "u8", "count": 48, "ev": "ptr"},
 {"addr": "0x021BBA8C", "size": 148, "kind": "numeric", "name": "g_021BBA8C", "elem": "u8", "count": 148, "ev": "ptr"}
@@ -14776,15 +14779,9 @@
 {"addr": "0x0220D9A8", "name": "func_0220D9A8", "kind": "func"},
 {"addr": "0x0220D9DC", "name": "func_0220D9DC", "kind": "func"}
 ]},
-"ov198": {"base": "0x0220B120", "range": ["0x02211A54", "0x02212560"],
+"ov198": {"base": "0x0220B120", "range": ["0x02211A70", "0x02212560"],
 "objects": [
-{"addr": "0x02211A54", "size": 1, "kind": "numeric", "name": "g_02211A54", "elem": "u8", "count": 1, "ev": "tail"},
-{"addr": "0x02211A55", "size": 7, "kind": "numeric", "name": "g_02211A55", "elem": "u8", "count": 7, "ev": "ptr"},
-{"addr": "0x02211A5C", "size": 5, "kind": "numeric", "name": "g_02211A5C", "elem": "u8", "count": 5, "ev": "label"},
-{"addr": "0x02211A61", "size": 7, "kind": "numeric", "name": "g_02211A61", "elem": "u8", "count": 7, "ev": "ptr"},
-{"addr": "0x02211A68", "size": 5, "kind": "numeric", "name": "g_02211A68", "elem": "u8", "count": 5, "ev": "label"},
-{"addr": "0x02211A6D", "size": 3, "kind": "numeric", "name": "g_02211A6D", "elem": "u8", "count": 3, "ev": "ptr"},
-{"addr": "0x02211A70", "size": 4, "kind": "pointer_table", "name": "g_02211A70", "count": 1, "targets": ["0x02211A25"], "ev": "label"},
+{"addr": "0x02211A70", "size": 4, "kind": "pointer_table", "name": "g_02211A70", "count": 1, "targets": ["0x02211A25"], "ev": "tail"},
 {"addr": "0x02211A74", "size": 1, "kind": "zero", "name": "g_02211A74", "ev": "pool"},
 {"addr": "0x02211A75", "size": 1, "kind": "zero", "name": "g_02211A75", "ev": "pool"},
 {"addr": "0x02211A76", "size": 1, "kind": "numeric", "name": "g_02211A76", "elem": "u8", "count": 1, "ev": "pool"},
@@ -14887,7 +14884,10 @@
 {"addr": "0x02211378", "name": "func_02211378", "kind": "func"},
 {"addr": "0x02211810", "name": "func_02211810", "kind": "func"},
 {"addr": "0x02211A24", "name": "func_02211A24", "kind": "func"},
-{"addr": "0x02211A40", "name": "func_02211A40", "kind": "func"}
+{"addr": "0x02211A40", "name": "func_02211A40", "kind": "func"},
+{"addr": "0x02211A54", "name": "func_02211A54", "kind": "func"},
+{"addr": "0x02211A60", "name": "func_02211A60", "kind": "func"},
+{"addr": "0x02211A6C", "name": "func_02211A6C", "kind": "func"}
 ]},
 "ov199": {"base": "0x02212560", "range": ["0x02213C4C", "0x02213D20"],
 "objects": [
@@ -15897,9 +15897,9 @@
 {"addr": "0x021B9798", "name": "func_021B9798", "kind": "func"},
 {"addr": "0x021B9834", "name": "func_021B9834", "kind": "func"}
 ]},
-"ov215": {"base": "0x021F57E0", "range": ["0x021F7100", "0x021F7420"],
+"ov215": {"base": "0x021F57E0", "range": ["0x021F7118", "0x021F7420"],
 "objects": [
-{"addr": "0x021F7100", "size": 36, "kind": "struct", "name": "g_021F7100", "fields": [["u32", 6], ["ptr", 3]], "targets": ["0x021F57E1", "0x021F5885", "0x021F584D"], "ev": "tail"},
+{"addr": "0x021F7118", "size": 12, "kind": "pointer_table", "name": "g_021F7118", "count": 3, "targets": ["0x021F57E1", "0x021F5885", "0x021F584D"], "ev": "tail"},
 {"addr": "0x021F7124", "size": 48, "kind": "numeric", "name": "g_021F7124", "elem": "u32", "count": 12, "ev": "pool"},
 {"addr": "0x021F7154", "size": 12, "kind": "numeric", "name": "g_021F7154", "elem": "u8", "count": 12, "ev": "pool"},
 {"addr": "0x021F7160", "size": 12, "kind": "numeric", "name": "g_021F7160", "elem": "u32", "count": 3, "ev": "pool"},

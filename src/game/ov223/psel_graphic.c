@@ -370,23 +370,23 @@ void PSEL_GRAPHIC_Destroy(unsigned *sys);
 void PSEL_GRAPHIC_Draw(char *work);
 void PSEL_GRAPHIC_ApplyLight(unsigned char *work);
 void PSEL_GRAPHIC_DrawEnd(unsigned char *work);
-unsigned PSEL_GRAPHIC_GetClactBank(unsigned char *work);
-unsigned PSEL_GRAPHIC_GetCamera(unsigned char *work);
+struct Unit *PSEL_GRAPHIC_GetClactBank(unsigned char *work);
+void *PSEL_GRAPHIC_GetCamera(unsigned char *work);
 void PSEL_GRAPHIC_VBlank(void *unused, char *sys);
 void PSEL_GRAPHIC_InitBg(void *sys,int heap);
 void PSEL_GRAPHIC_ExitBg(void *work);
 void PSEL_GRAPHIC_NopDraw(void *unused);
 void PSEL_GRAPHIC_UpdateBg(void *unused);
-void PSEL_GRAPHIC_InitClact(int *out, int a, int b);
+void PSEL_GRAPHIC_InitClact(int *out, const struct DispVram *a, int b);
 void PSEL_GRAPHIC_ExitClact(char *bank);
 void PSEL_GRAPHIC_ClactDraw(void *unused);
 void PSEL_GRAPHIC_ClactVBlank(void *unused);
-u32 PSEL_GRAPHIC_LoadWord(const u32 *work);
+void *PSEL_GRAPHIC_LoadWord(const u32 *work);
 void PSEL_GRAPHIC_InitG3d(int *camera,int heap);
 void PSEL_GRAPHIC_ExitG3d(int *camera);
 void PSEL_GRAPHIC_ApplyLookAt(int *camera);
 void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *unused);
-unsigned PSEL_GRAPHIC_LoadWordC6F8(unsigned char *work);
+struct Unit *PSEL_GRAPHIC_LoadWordC6F8(unsigned char *work);
 extern const struct Ent d_021BC73C[3];
 extern const u8 d_021BC6FC[];
 extern const u8 d_021BC708[];
@@ -529,7 +529,7 @@ void PSEL_GRAPHIC_LoadFadeSources(u8 *work)
     }
     for (i = 0; i < 3; i++) {
         MI_CpuCopy8((u8 *)((struct PselWork *)work)->fade.slots[i].dst, (u8 *)((struct PselWork *)work)->fade.slots[i].out, 0x20);
-        NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (uptr)((struct PselWork *)work)->fade.slots[i].out, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0x1E, d_021BC6FC[i] << 5, ((struct PselWork *)work)->fade.slots[i].out, 0x20);
     }
 }
 
@@ -591,7 +591,7 @@ void PSEL_GRAPHIC_StepFade(struct PselWork *work)
                         (u16)((w[3] * (16 - t) + w[0] * t) / 16) << 10 | ((u16)((w[5] * (16 - t) + w[2] * t) / 16) | (u16)((w[4] * (16 - t) + w[1] * t) / 16) << 5);
                 }
             }
-            NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (uptr)work->fade.slots[i].out, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1E, d_021BC6FC[i] << 5, work->fade.slots[i].out, 0x20);
         }
     }
 }
@@ -617,7 +617,7 @@ void PSEL_GRAPHIC_LoadPaletteBuffers(char *work)
     ((struct PselWork *)work)->fadeWeight = 16;
     ((struct PselWork *)work)->fadeSrcIndex = 3;
     MI_CpuCopy8((char *)((struct PselWork *)work)->palBuf[3], (char *)((struct PselWork *)work)->palDst, 256);
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 256, (uptr)((struct PselWork *)work)->palDst, 256);
+    NNS_GfdRegisterNewVramTransferTask(31, 256, ((struct PselWork *)work)->palDst, 256);
 }
 
 
@@ -666,7 +666,7 @@ void PSEL_GRAPHIC_BlendPalettes(char *work)
             green=(colors.g1*(16-weight)+colors.g2*weight)/16;
             ((struct PselWork *)q)->palDst[0]=red|(green<<5)|(blue<<10);
         }
-        NNS_GfdRegisterNewVramTransferTask((void *)31,256,(uptr)(work+0x76a),256);
+        NNS_GfdRegisterNewVramTransferTask(31,256,(work+0x76a),256);
     }
 done:;
 }
@@ -750,7 +750,7 @@ int PSEL_GRAPHIC_Init(char *work)
 {
     ((struct PselWork *)work)->graphicSys = PSEL_GRAPHIC_Create(1, ((struct PselWork *)work)->heapId);
     *(struct GfFont * *)&((struct PselWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, ((struct PselWork *)work)->heapId);
-    ((struct PselWork *)work)->printQue = (uptr)PRINTSYS_QUE_Create((u32)(unsigned)((struct PselWork *)work)->heapId);
+    ((struct PselWork *)work)->printQue = PRINTSYS_QUE_Create((u32)(unsigned)((struct PselWork *)work)->heapId);
     BG_SYS_SetPriority(0, 2);
     BG_SYS_SetPriority(1, 3);
     BG_SYS_SetPriority(2, 1);
@@ -1110,7 +1110,7 @@ void *PSEL_GRAPHIC_Create(int a,int heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     PSEL_GRAPHIC_InitBg(sys,heap);
-    PSEL_GRAPHIC_InitClact((int *)(sys+1),(sptr)d_021BC980,heap);
+    PSEL_GRAPHIC_InitClact((int *)(sys+1),(const struct DispVram *)d_021BC980,heap);
     PSEL_GRAPHIC_InitG3d((int *)(sys+2),heap);
     sys[3]=(uptr)GFL_USE_AddMainTask(PSEL_GRAPHIC_VBlank,sys,0);
     return sys;
@@ -1165,13 +1165,13 @@ void PSEL_GRAPHIC_DrawEnd(unsigned char *sys){PSEL_GRAPHIC_G3dDrawEnd(sys+8);}
 
 
 
-unsigned PSEL_GRAPHIC_GetClactBank(unsigned char *sys){return PSEL_GRAPHIC_LoadWord((const unsigned *)(sys+4));}
+struct Unit *PSEL_GRAPHIC_GetClactBank(unsigned char *sys){return PSEL_GRAPHIC_LoadWord((const unsigned *)(sys+4));}
 
 
 
 
 
-unsigned PSEL_GRAPHIC_GetCamera(unsigned char *sys){return PSEL_GRAPHIC_LoadWordC6F8(sys+8);}
+void *PSEL_GRAPHIC_GetCamera(unsigned char *sys){return PSEL_GRAPHIC_LoadWordC6F8(sys+8);}
 
 
 
@@ -1225,7 +1225,7 @@ void PSEL_GRAPHIC_UpdateBg(void *unused) {BG_SYS_Update();}
 
 
 
-void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
+void PSEL_GRAPHIC_InitClact(int *out, const struct DispVram *a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)(&d_021BC944), (struct DispVramCfg *)a, b);
@@ -1242,7 +1242,7 @@ void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 
 void PSEL_GRAPHIC_ExitClact(char *bank)
 {
-    CLACT_DeleteUnit((struct Unit *)((struct PselHandle *)bank)->value);
+    CLACT_DeleteUnit(((struct PselHandle *)bank)->value);
     CLACT_ExitSystem();
     MI_CpuFill8(bank, 0, 4);
 }
@@ -1263,7 +1263,7 @@ void PSEL_GRAPHIC_ClactVBlank(void *unused) { CLACT_VBlankSystem(); }
 /*
  * extent: tail-call stub followed by unlabelled 021BC65C load-return.
  */
-u32 PSEL_GRAPHIC_LoadWord(const u32 *word) { return *word; }
+void *PSEL_GRAPHIC_LoadWord(const u32 *word) { return *(void **)word; }
 
 
 
@@ -1300,4 +1300,4 @@ void PSEL_GRAPHIC_ApplyLookAt(int *camera)
 
 void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *unused){G3D_SYSTEM_DrawEnd();}
 
-unsigned PSEL_GRAPHIC_LoadWordC6F8(unsigned char *handle){return ((struct PselHandle *)handle)->value;}
+struct Unit *PSEL_GRAPHIC_LoadWordC6F8(unsigned char *handle){return ((struct PselHandle *)handle)->value;}

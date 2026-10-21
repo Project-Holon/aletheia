@@ -499,7 +499,7 @@ void MUS_COMM_FUNC_Update(char *p)
         if (*(int *)(p + 0x178) == 1) STA_NET_IsTransferDone(p);
         break;
     case 18:
-        if (MUS_COMM_FUNC_SendStatusBlock(p, (char *)(*(u32 *)(p + 0x120))) == 1) {
+        if (MUS_COMM_FUNC_SendStatusBlock(p, *(char **)(p + 0x120)) == 1) {
             if (*(int *)(p + 0x48) == 1) *(int *)(p + 0x4c) = 0x13;
             else *(int *)(p + 0x4c) = 0x15;
         }
@@ -880,7 +880,7 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     n=POKE_TOOL_GetPartyParamSize();
-    return GFL_NET_SendData(h,0xff,0x1104,(n+0x7c)*4,(void *)(*(u32 *)(p+0x128)),1,0,1);
+    return GFL_NET_SendData(h,0xff,0x1104,(n+0x7c)*4,*(void **)(p+0x128),1,0,1);
 }
 
 /*

@@ -559,7 +559,7 @@ struct Proc;
 #include "../ov009/dwc_rapcommon.h"
 #include "../arm9/net_err.h"
 #include "../arm9/os_ownerinfo.h"
-u32 WIFICLUB_GetMessageIdByIndex(int i);
+void *WIFICLUB_GetMessageIdByIndex(int i);
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work);
 u32 WIFICLUB_PollYesNoMenu(WifiClubWork *work);
 void WIFICLUB_SetPartnerNameWord(WifiClubWork *work, int friendIndex);
@@ -712,7 +712,7 @@ int WIFICLUB_GetStatusPhase(WifiClubWork *work, WifiClubPlayerStatus *status);
 int WIFICLUB_IsBusyPhase(int phase);
 int WIFICLUB_IsActivePhase(int phase);
 BOOL WIFICLUB_IsKindActive(int phase);
-BOOL WIFICLUB_ShouldEnterWaitMode(int kind, void *value);
+BOOL WIFICLUB_ShouldEnterWaitMode(int kind, int value);
 int WIFICLUB_HasEnoughPartyMembers(WifiClubWork *work);
 int WIFICLUB_HasRuleViolation(WifiClubWork *work);
 void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value);
@@ -725,7 +725,7 @@ void WIFICLUB_AddPeerActor(WifiClubWork *work, void *actor);
 void WIFICLUB_RemovePeerActor(WifiClubWork *work, void *actor);
 void WIFICLUB_ClearPeerActors(WifiClubWork *work);
 void *WIFICLUB_FindPeerActor(WifiClubWork *work, int key);
-void WIFICLUB_LoadBgResources(WifiClubBgLoad *bgLoad, int archive, int heapId);
+void WIFICLUB_LoadBgResources(WifiClubBgLoad *bgLoad, void *archive, int heapId);
 void WIFICLUB_FreeBgResources(WifiClubBgLoad *bgLoad);
 void WIFICLUB_DrawTileBlock(WifiClubBgLoad *bgLoad, int layer, u8 x, u8 y, unsigned int tileIndex, int unused);
 int WIFICLUB_GetPhaseIconTile(unsigned int phase, int side);
@@ -733,7 +733,7 @@ void WIFICLUB_DrawPhaseIcon(WifiClubBgLoad *bgLoad, int layer, u8 x, u8 y, int s
 int WIFICLUB_GetIconPalette(int layer);
 int WIFICLUB_BeginIdle(WifiClubWork *work, int fadeIn);
 void WIFICLUB_ExitHook(WifiClubWork *work);
-void WIFICLUB_InitPlanesAndText(WifiClubWork *work, int archive);
+void WIFICLUB_InitPlanesAndText(WifiClubWork *work, void *archive);
 void WIFICLUB_TaskHook(void *task);
 void WIFICLUB_InitSprites(WifiClubWork *work, void *archive);
 int WIFICLUB_StateEnterClub(WifiClubWork *work, int state);
@@ -858,7 +858,7 @@ void WIFICLUB_ClosePartnerPanel(WifiClubWork *work, int panelPlane);
 void WIFICLUB_ClosePanelIfSlotSelected(WifiClubWork *work, int slotId, int procState);
 void WIFICLUB_ClosePanelIfTouchActive(WifiClubWork *work, int procState);
 BOOL WIFICLUB_IsSlotPanelOpen(WifiClubWork *work);
-void WIFICLUB_OpenSlotPanel(WifiClubWork *work, int narc, int heapId);
+void WIFICLUB_OpenSlotPanel(WifiClubWork *work, void *narc, int heapId);
 void WIFICLUB_CloseSlotPanel(WifiClubWork *work);
 u8 WIFICLUB_UpdateSlotPanel(WifiClubWork *work, int heapId);
 void WIFICLUB_RedrawSlotPanelIfPending(WifiClubWork *work);
@@ -905,7 +905,7 @@ void WIFICLUB_RunPeerAddrRoutine(WifiClubPlayerStatus *status);
 int WIFICLUB_GetStatusModeFlag(WifiClubPlayerStatus *status);
 void WIFICLUB_SetStatusModeFlag(WifiClubPlayerStatus *status, u8 modeFlag);
 u8 WIFICLUB_GetStatusChangeCount(WifiClubPlayerStatus *status);
-extern u32 gWifiClubMessageIdTable[];
+extern void *gWifiClubMessageIdTable[];
 extern const u8 gWifiClubYesNoWindowTemplate[];
 extern WifiClubMenuListHeader gWifiClubMainMenuHeader;
 extern WifiClubMenuItem gWifiClubMainMenuItems[];
@@ -941,7 +941,7 @@ extern const WifiClubStateHandler gWifiClubStateHandlers[];
 
 
 
-u32 WIFICLUB_GetMessageIdByIndex(int i)
+void *WIFICLUB_GetMessageIdByIndex(int i)
 {
     return gWifiClubMessageIdTable[i];
 }
@@ -3591,9 +3591,9 @@ BOOL WIFICLUB_IsKindActive(int phase)
 
 
 /* True for net mode 4 with a busy phase. */
-BOOL WIFICLUB_ShouldEnterWaitMode(int kind, void *value)
+BOOL WIFICLUB_ShouldEnterWaitMode(int kind, int value)
 {
-    if (WIFICLUB_IsBusyPhase((sptr)value) != 0 && kind == 4) {
+    if (WIFICLUB_IsBusyPhase(value) != 0 && kind == 4) {
         return 1;
     }
 
@@ -3629,7 +3629,7 @@ void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value)
         GFL_NET_SetWaitMode(0);
         WIFICLUB_StartNetSession(work, 0);
     } else {
-        if (WIFICLUB_ShouldEnterWaitMode(kind, (void *)value)) GFL_NET_SetWaitMode(1);
+        if (WIFICLUB_ShouldEnterWaitMode(kind, value)) GFL_NET_SetWaitMode(1);
     }
     switch (kind) {
     case 2:
@@ -3667,7 +3667,7 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     WIFICLUB_InitVram();
     WIFICLUB_InitBackgrounds(0x21);
     BMP_WIN_Init(0x21);
-    WIFICLUB_InitPlanesAndText(work, (sptr)archive);
+    WIFICLUB_InitPlanesAndText(work, archive);
     work->updateTask = GFL_USE_AddMainTask(WIFICLUB_VBlankTask, work, 1);
     WIFICLUB_TaskHook(work->updateTask);
     WIFICLUB_InitSprites(work, archive);
@@ -3821,17 +3821,17 @@ void *WIFICLUB_FindPeerActor(WifiClubWork *work, int key)
 
 
 /* Loads the background resources of the club screen. */
-void WIFICLUB_LoadBgResources(WifiClubBgLoad *bgLoad, int archive, int heapId)
+void WIFICLUB_LoadBgResources(WifiClubBgLoad *bgLoad, void *archive, int heapId)
 {
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)archive, 4, 0, 0x100, 0x80, heapId);
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)archive, 4, 4, 0x100, 0x80, heapId);
-    bgLoad->mainRegion = ARC_UTIL_RegisterObjCharFromHandle((void *)archive, 13, 1, 0, 0, heapId);
-    bgLoad->subRegion = ARC_UTIL_RegisterObjCharFromHandle((void *)archive, 13, 6, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 4, 0, 0x100, 0x80, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, 4, 4, 0x100, 0x80, heapId);
+    bgLoad->mainRegion = ARC_UTIL_RegisterObjCharFromHandle(archive, 13, 1, 0, 0, heapId);
+    bgLoad->subRegion = ARC_UTIL_RegisterObjCharFromHandle(archive, 13, 6, 0, 0, heapId);
     if (bgLoad->cellHandle == 0) {
-        bgLoad->cellHandle = ARC_UTIL_LoadScreenDataFromHandle((void *)archive, 13, 0, &bgLoad->cellData, heapId);
+        bgLoad->cellHandle = ARC_UTIL_LoadScreenDataFromHandle(archive, 13, 0, &bgLoad->cellData, heapId);
     }
     if (bgLoad->screenHandle == 0) {
-        bgLoad->screenHandle = ARC_UTIL_LoadPaletteDataFromHandle((void *)archive, 21, 0, &bgLoad->screenData, heapId);
+        bgLoad->screenHandle = ARC_UTIL_LoadPaletteDataFromHandle(archive, 21, 0, &bgLoad->screenData, heapId);
     }
 }
 
@@ -3941,7 +3941,7 @@ void WIFICLUB_ExitHook(WifiClubWork *work)
 
 
 /* Shows the planes, loads the background resources and creates the text buffers. */
-void WIFICLUB_InitPlanesAndText(WifiClubWork *work, int archive)
+void WIFICLUB_InitPlanesAndText(WifiClubWork *work, void *archive)
 {
     u32 k = 0xF;
     BG_SYS_SetMainPlaneVisible(0xF, 1);
@@ -4172,7 +4172,7 @@ int WIFICLUB_StateRestartMatch(WifiClubWork *work, int state)
         work->headerWin = WIFICLUB_DeleteWindow(work->headerWin);
         BG_SYS_FreeSlot(3);
         archive = ARC_TOOL_CreateHandle(0x21, 0x21);
-        WIFICLUB_InitPlanesAndText(work, (sptr)archive);
+        WIFICLUB_InitPlanesAndText(work, archive);
         ARC_TOOL_DeleteHandle(archive);
         work->ready = 1;
         if (work->subMenuWork != 0) {
@@ -4228,7 +4228,7 @@ int WIFICLUB_StateWatchLoginAndSave(WifiClubWork *work, int state)
 {
     if (!WIFICLUB_UpdateTalkStream(work)) return state;
     if (DWC_RAP_IsUserDataChanged()) {
-        (struct GameData *)GAME_DATA_SaveStart((struct GameData *)(work->gameData));
+        GAME_DATA_SaveStart(work->gameData);
         work->state = WIFICLUB_STATE_WAIT_SAVE;
         return state;
     }
@@ -4405,11 +4405,11 @@ void WIFICLUB_ResetClubScreen(WifiClubWork *work)
         kind = 16;
         if (gender) kind = 17;
         work->mapIndexPlusOne = WIFILIST_GetFriendListEnd(work->friendList);
-        WIFICLUBACTOR_Init((&work->actorSys), WIFICLUB_HEAP_ID, (uptr)archive, kind, work->mapIndexPlusOne, WIFICLUB_HEAP_ID,
-                      (uptr)work->clactUnit, work->clactRenderer);
+        WIFICLUBACTOR_Init((&work->actorSys), WIFICLUB_HEAP_ID, archive, kind, work->mapIndexPlusOne, WIFICLUB_HEAP_ID,
+                      work->clactUnit, work->clactRenderer);
         WIFICLUB_AddPeerActor(work, WIFICLUBACTOR_SpawnCursorActor((&work->actorSys), kind));
     }
-    if (!WIFICLUB_IsSlotPanelOpen(work)) WIFICLUB_OpenSlotPanel(work, (sptr)archive, WIFICLUB_HEAP_ID);
+    if (!WIFICLUB_IsSlotPanelOpen(work)) WIFICLUB_OpenSlotPanel(work, archive, WIFICLUB_HEAP_ID);
     WIFICLUB_CopyZeroToDeviceAddr(work->localStatus);
     work->sceneReady = 0;
     WIFICLUB_OpenPanelOrRedrawPage(work, WIFICLUB_HEAP_ID);
@@ -6933,14 +6933,14 @@ BOOL WIFICLUB_IsSlotPanelOpen(WifiClubWork *work)
  * Opens the slot panel: creates the button manager and word set, then builds
  * the windows and draws the first page.
  */
-void WIFICLUB_OpenSlotPanel(WifiClubWork *work, int narc, int heapId)
+void WIFICLUB_OpenSlotPanel(WifiClubWork *work, void *narc, int heapId)
 {
     MI_CpuFill8(&work->detailWordSet, 0, 0xf4);
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
     work->buttonMan = BUTTON_MAN_Create((u8 *)d_021C377C, (void (*)(s32, s32, s32))WIFICLUB_OnSlotButtonEvent, (sptr)work, heapId);
     work->detailWordSet = WORDSET_CreateDefault((u16)heapId);
-    WIFICLUB_CreateSlotPanelWindows(work, (void *)narc, heapId);
+    WIFICLUB_CreateSlotPanelWindows(work, narc, heapId);
     work->touchDirty = 1;
     WIFICLUB_EmptyHook(work);
     WIFICLUB_RedrawSlotPanels(work);

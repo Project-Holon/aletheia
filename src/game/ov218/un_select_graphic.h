@@ -17,7 +17,7 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
 void UN_SELECT_GRAPHIC_CleanupBg(void *p);
 void UN_SELECT_GRAPHIC_Noop(void *work);
 void UN_SELECT_GRAPHIC_DrawObjects(void *work);
-void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void UN_SELECT_GRAPHIC_DeleteClact(char *p);
 void UN_SELECT_GRAPHIC_Draw(void *p);
 void UN_SELECT_GRAPHIC_VBlank(void *p);

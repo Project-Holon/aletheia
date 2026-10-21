@@ -1,6 +1,8 @@
 #ifndef WEATHER_TASK_TYPES_H
 #define WEATHER_TASK_TYPES_H
 
+struct TcbTask;
+
 #include "../ov021/field_3dbg_types.h"
 
 #include "../sdk_fx.h"
@@ -41,7 +43,7 @@ typedef struct WeatherSys {
     struct TextureList *textureList;
     struct WeatherTaskSys *tasks[2];
     int loadedOverlayId;  /* overlay of the current weather, -1 when none */
-    int updateTaskId;     /* per-frame task that releases the billboard VRAM copies */
+    struct TcbTask *updateTaskId;     /* per-frame task that releases the billboard VRAM copies */
 } WeatherSys;
 
 /* Stages of the task state machine (WeatherTaskSys.stage). */

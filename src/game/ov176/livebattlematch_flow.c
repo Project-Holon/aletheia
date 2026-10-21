@@ -762,7 +762,7 @@ void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
     int layout;
     u8 x, y, width, height;
     MI_CpuFill8(&rec, 0, 0x30);
-    rec.msgBank = ((struct LiveBattleMatchWork *)p)->menuValue;
+    rec.msgBank = (struct MsgBank *)((struct LiveBattleMatchWork *)p)->menuValue;
     rec.font = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->font;
     rec.printQue = *(unsigned int *)&((struct LiveBattleMatchWork *)p)->printQue;
     switch (mode) {

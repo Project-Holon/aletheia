@@ -6,21 +6,29 @@
 
 struct ScriptVm;
 struct ScrcmdWork;
+struct GameSystem;
+struct MsgBank;
+struct PrintQueue;
+struct Bmp;
+struct Strbuf;
+struct GfFont;
+struct BmpMenuList;
+struct BmpWin;
 
 #include "../ov021/scrcmd_proc_fld_types.h"
 #include "../types.h"
 
 int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int shopVariant);
+void SCRCMD_PROC_FLD_InitShop(struct GameSystem *gameSystem, ShopWork *shop, int shopKind, int shopVariant);
 void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *shop, int usesBattlePoints);
 u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop);
 void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop);
 void SCRCMD_PROC_FLD_PollItemList(ShopWork *shop);
 u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *shop);
 void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost);
-int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 shopVariant);
+int SCRCMD_PROC_FLD_StepShop(struct GameSystem *gameSystem, ShopWork *shop, u32 shopKind, u8 shopVariant);
 u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count);
-void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, int itemId, int msgBank);
+void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, int itemId, struct MsgBank *msgBank);
 void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int shopVariant, int tierIndex);
 void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex);
 void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *shop, int kind);
@@ -42,15 +50,15 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId);
 void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId);
 void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price);
 void SCRCMD_PROC_FLD_CreateItemListMenu(ShopWork *shop);
-void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32 text, u32 fontInfo, u16 colorBits);
-void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y);
-void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y);
-void SCRCMD_PROC_FLD_OnListCursorMove(u32 listMenu, u32 row);
+void SCRCMD_PROC_FLD_PrintListText(struct PrintQueue *printSys, struct Bmp *bitmap, int x, int y, struct Strbuf *text, struct GfFont *fontInfo, u16 colorBits);
+void SCRCMD_PROC_FLD_PrintPriceEntry(struct BmpMenuList *listMenu, int row, u8 y);
+void SCRCMD_PROC_FLD_PrintUniqueItemEntry(struct BmpMenuList *listMenu, int row, u8 y);
+void SCRCMD_PROC_FLD_OnListCursorMove(struct BmpMenuList *listMenu, u32 row);
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop);
 int SCRCMD_PROC_FLD_ReturnZero(void);
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural);
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop);
-void SCRCMD_PROC_FLD_PrepareMessageWindow(u32 window);
+void SCRCMD_PROC_FLD_PrepareMessageWindow(struct BmpWin *window);
 void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId);
 void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u32 price, u16 quantity);
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId, u32 price);

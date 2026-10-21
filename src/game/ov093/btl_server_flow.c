@@ -3800,7 +3800,7 @@ void BTL_SERVER_FLOW_RemoveSubstituteTargets(BtlServerFlow *flow, struct BtlMove
     BTL_POKESET_SeekStart(targetSet);
     x = BTL_POKESET_SeekNext(targetSet);
     while (x != 0) {
-        if (userPoke != x && BTL_POKEPARAM_HasSubstitute(x) != 0 && forced == 0 && (u32)WAZA_TOOL_GetFlag(((u16)((void *)moveParam->moveId)), (int)0xd) == 0)
+        if (userPoke != x && BTL_POKEPARAM_HasSubstitute(x) != 0 && forced == 0 && WAZA_TOOL_GetFlag((u16)moveParam->moveId, 0xd) == 0)
             BTL_POKESET_Remove(targetSet, x);
         x = BTL_POKESET_SeekNext(targetSet);
     }
@@ -5330,6 +5330,7 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(BtlServerFlow *flow, struct BtlPokePara
     u32 s;
     u32 v;
     u16 pos;
+    u32 holdsItemParam;
     if (BTL_POSPOKE_IsPokeInside(&flow->posPoke, BTL_POKEPARAM_GetPokeId(pokeParam))) {
         s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x1cea);
         if (BTL_SERVER_FLOW_RunItemActivateCheckEvent(flow, pokeParam, (u16)t) == 0) result = 1;
@@ -5341,7 +5342,12 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(BtlServerFlow *flow, struct BtlPokePara
             BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, v, 0x1cf9);
             if (result) {
                 BTL_SERVER_CMD_FillReserved(flow->cmdQueue, pos, 0x42, BTL_POKEPARAM_GetPokeId(pokeParam));
-                if (BTL_CALC_GetItemParam((uptr)(void *)((u16)t), 0x10)) BTL_SERVER_FLOW_SetHeldItem(flow, pokeParam, 0, 1);
+#ifdef __MWERKS__
+                holdsItemParam = BTL_CALC_GetItemParam((uptr)(void *)((u16)t), 0x10);
+#else
+                holdsItemParam = BTL_CALC_GetItemParam((u16)t, 0x10);
+#endif
+                if (holdsItemParam) BTL_SERVER_FLOW_SetHeldItem(flow, pokeParam, 0, 1);
             }
         }
         BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 0x1d06);
@@ -11005,7 +11011,7 @@ int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(BtlServerFlow *flow, u32 rule, str
     int position;
     u16 target;
     u8 indices[6];
-    int members[3];
+    struct BtlPokeParam *members[3];
     int d1;
     u8 i;
     u8 choice;
@@ -11023,8 +11029,8 @@ int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(BtlServerFlow *flow, u32 rule, str
     for (j = 0; j < 3; j++) members[j] = 0;
     count = 0;
     for (i = count; i < n; i++) {
-        members[count] = (sptr)BTL_SIDE_GetPokeAtPosThunk(flow->pokeCon, indices[i]);
-        if (!BTL_POKEPARAM_IsFainted((void *)members[count])) {
+        members[count] = BTL_SIDE_GetPokeAtPosThunk(flow->pokeCon, indices[i]);
+        if (!BTL_POKEPARAM_IsFainted(members[count])) {
             indices[count] = indices[i];
             count = (u8)(count + 1);
         }
@@ -11037,14 +11043,14 @@ int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(BtlServerFlow *flow, u32 rule, str
         d1 = indices[1] - self;
         if (d1 < 0) d1 *= -1;
         if (d0 == d1) {
-            d0 = BTL_POKEPARAM_GetValue((void *)members[0], 13);
-            d1 = BTL_POKEPARAM_GetValue((void *)members[1], 13);
+            d0 = BTL_POKEPARAM_GetValue(members[0], 13);
+            d1 = BTL_POKEPARAM_GetValue(members[1], 13);
         }
         if (d0 < d1) choice = 0;
         else if (d1 < d0) choice = 1;
         else choice = BTL_CALC_Random(2);
     }
-    if (members[choice]) { BTL_POKESET_Add(targetSet, (void *)members[choice]); return 1; }
+    if (members[choice]) { BTL_POKESET_Add(targetSet, members[choice]); return 1; }
 fail:
     return 0;
 }
@@ -11189,7 +11195,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, struct BtlSideSlot 
   {
     if (expTable[j].exp != 0)
     {
-      void *save;
+      u32 monLanguage;
       void *mon;
       struct MyStatus *playerStatus;
 
@@ -11201,8 +11207,8 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, struct BtlSideSlot 
       expTable[j].exp = BTL_SERVER_FLOW_CalcLevelScaledExp(t, expTable[j].exp, lvl, lvl2);
       if (POKE_TOOL_IsOwnedByPlayer(mon, playerStatus) == 0)
       {
-        save = (void *) POKE_TOOL_GetPartyValue(mon, 12, 0);
-        if ((uptr) save != MYSTATUS_GetLanguage(playerStatus))
+        monLanguage = POKE_TOOL_GetPartyValue(mon, 12, 0);
+        if (monLanguage != MYSTATUS_GetLanguage(playerStatus))
           k = 0x1b33;
         else
           k = 0x1800;

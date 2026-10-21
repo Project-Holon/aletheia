@@ -12,6 +12,7 @@ typedef struct FootmarkEffectWork FootmarkEffectWork;
 typedef struct FootmarkTaskWork FootmarkTaskWork;
 
 #include "../types.h"
+#include "../ov021/field_effect_types.h"
 
 FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId);
 void FLDEFF_FOOTMARK_Delete(u32 unused, FootmarkEffectWork *effWork);
@@ -19,9 +20,9 @@ void FLDEFF_FOOTMARK_InitResource(FootmarkEffectWork *effWork);
 void FLDEFF_FOOTMARK_DeleteResource(FootmarkEffectWork *effWork);
 int FLDEFF_FOOTMARK_GetSlotIndex(FootmarkEffectWork *effWork, int type, int dir, int oldDir);
 void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type);
-void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work);
-void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work);
-void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_InitTask(FieldEffectObj *task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_DeleteTask(FieldEffectObj *task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_UpdateTask(FieldEffectObj *task, FootmarkTaskWork *work);
 void FLDEFF_FOOTMARK_DrawTask(void);
 /* END mkheaders: generated region */
 

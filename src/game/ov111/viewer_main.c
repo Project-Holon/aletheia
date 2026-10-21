@@ -527,7 +527,7 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     VIEWER_MAIN_InitBg();
     VIEWER_MAIN_LoadBgResources((ViewerWork *)p);
-    VIEWER_TEXT_InitActors((ViewerAnim *)(&p->anim), (uptr)d_021C8564);
+    VIEWER_TEXT_InitActors( &p->anim, (u32)((struct DispVramCfg *)d_021C8564));
     VIEWER_TEXT_BuildRowList(p, p->args->info);
     VIEWER_TEXT_CreateActor((ViewerAnim *)(&p->anim));
     VIEWER_TEXT_Init(p);

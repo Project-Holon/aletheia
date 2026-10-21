@@ -201,7 +201,7 @@ typedef struct IrcMenuSprites {
 /* Background setup: the loaded character range and the task that runs the BG vblank. */
 typedef struct IrcBgSetup {
     u32 charRange;           /* offset in the low half, size in the high half */
-    u32 vblankTask;
+    struct TcbTask *vblankTask;
 } IrcBgSetup;
 
 /* One row of the button table: text id, cell position and size, window palette. */
@@ -266,7 +266,7 @@ typedef struct IrcFloaters {
 /* Work area of the menu step (0x4A4 bytes). */
 typedef struct IrcMenuWork {
     IrcMenuSprites sprites;          /* 0x000 */
-    u32 vblankTask;                  /* 0x090 */
+    struct TcbTask *vblankTask;                  /* 0x090 */
     IrcBgSetup bg;                   /* 0x094 */
     IrcTextSystem text;              /* 0x09C */
     IrcWindow title;                 /* 0x0AC */
@@ -529,12 +529,12 @@ void IRC_COMPATIBLE_MENU_InitDisplay(IrcMenuWork *work, u16 heapId)
     BG_SYS_ResetSubDisplay();
     BG_SYS_SetVramBanks((struct DispVram *)IRC_COMPATIBLE_MENU_VramBankConfig);
     IRC_COMPATIBLE_MENU_InitSprites(&work->sprites, IRC_COMPATIBLE_MENU_VramBankConfig, heapId);
-    work->vblankTask = (uptr)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_MENU_ExitDisplay(IrcMenuWork *work)
 {
-    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     IRC_COMPATIBLE_MENU_ExitSprites(&work->sprites);
 }
 
@@ -582,7 +582,7 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
     BG_SYS_Init(5, 0, 1, 0);
     bg->charRange = ARC_UTIL_RegisterObjCharFromHandle(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    bg->vblankTask = (uptr)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
+    bg->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
 }
 
 /*
@@ -592,7 +592,7 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
 {
     int i;
     unsigned range;
-    TCB_DeleteTask((struct TcbTask *)bg->vblankTask);
+    TCB_DeleteTask(bg->vblankTask);
     range = bg->charRange;
     BG_SYS_FreeTileRun(5, (u16)range, (u16)(range >> 16));
     BG_SYS_FreeTiles(5, 1, 0);
@@ -819,7 +819,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
     case 3: IRC_COMPATIBLE_MENU_PrintMessage(&work->title, &work->text, 4, 0, 0); *state = 4; break;
     case 4: if (COMPATIBLE_IRC_SYS_StepSyncTiming(work->args->view)) *state = 5; break;
     case 5:
-        if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, (sptr)work->args->gameSystem)) {
+        if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
                 saveData = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));

@@ -857,7 +857,8 @@ void FLDMMDL_MOVE_AttrEffectSplashNowPos(Mmdl *mmdl, EventInfo *info)
 
 void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
 {
-    int reflectAttr, attrOrKind, mmdlSys;
+    int reflectAttr, attrOrKind;
+    struct MmdlSys *mmdlSys;
 
     if (info->objCodeParam->reflectType == 0) {
         return;
@@ -879,11 +880,11 @@ void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
     }
     attrOrKind = 1;
     reflectAttr = MAP_ATTR_GetTerrainId(reflectAttr);
-    mmdlSys = (sptr)FLDMMDL_GetMmdlSys(mmdl);
+    mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
     if (MAP_ATTR_IsMirrorFloor(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
         attrOrKind = 2;
     }
-    FLDEFF_REFLECT_SetMMdl((struct MmdlSys *)mmdlSys, mmdl, info->effectCtrl, attrOrKind);
+    FLDEFF_REFLECT_SetMMdl(mmdlSys, mmdl, info->effectCtrl, attrOrKind);
     FLDMMDL_SetMoveBitReflect(mmdl, 1);
 }
 

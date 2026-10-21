@@ -17,7 +17,7 @@ void COMM_BTL_DEMO_GRAPHIC_InitBg(void *p, unsigned heap);
 void COMM_BTL_DEMO_GRAPHIC_DeleteBg(void *p);
 void COMM_BTL_DEMO_GRAPHIC_Noop(void *work);
 void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work);
-void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b);
+void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, struct DispVramCfg *a, int b);
 void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p);
 void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work);
 void COMM_BTL_DEMO_GRAPHIC_VBlankClact(void *work);

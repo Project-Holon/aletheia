@@ -109,8 +109,8 @@ u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u16 heap);
 struct Strbuf;
 #include "strbuf.h"
 void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap);
-void TPOKE_DATA_ReadRecord(void *dest, void *arc);
-void TPOKE_DATA_ReadParty(void *dest, void *arc);
+void TPOKE_DATA_ReadRecord(u32 memberIdx, void *dest);
+void TPOKE_DATA_ReadParty(u32 memberIdx, void *dest);
 u8 TPOKE_DATA_GetGenderValue(u32 idx);
 u8 TPOKE_DATA_FindTrainerType(u32 key);
 u8 TPOKE_DATA_GetTrainerKind(u32 key);
@@ -231,7 +231,7 @@ u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
     TpokeDataRecord rec;
     u32 r;
 
-    TPOKE_DATA_ReadRecord(a, &rec);
+    TPOKE_DATA_ReadRecord((uptr)a, &rec);
     switch (idx) {
     case 0:
         r = rec.type;
@@ -323,14 +323,14 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap)
     }
 }
 
-void TPOKE_DATA_ReadRecord(void *dest, void *arc)
+void TPOKE_DATA_ReadRecord(u32 memberIdx, void *dest)
 {
-    ARC_TOOL_ReadMember(arc, 0x5c, (uptr)dest);
+    ARC_TOOL_ReadMember(dest, 0x5c, memberIdx);
 }
 
-void TPOKE_DATA_ReadParty(void *dest, void *arc)
+void TPOKE_DATA_ReadParty(u32 memberIdx, void *dest)
 {
-    ARC_TOOL_ReadMember(arc, 0x5d, (uptr)dest);
+    ARC_TOOL_ReadMember(dest, 0x5d, memberIdx);
 }
 
 /*

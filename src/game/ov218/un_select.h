@@ -33,7 +33,7 @@ int UN_SELECT_UpdateMessage(char *p);
 void UN_SELECT_DrawWindowBorder(u8 *p);
 void *UN_SELECT_GetMsgData(u8 *p);
 void *UN_SELECT_GetPrintQue(u8 *p);
-u32 UN_SELECT_GetFont(char *p);
+struct MsgBank *UN_SELECT_GetFont(char *p);
 void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d);
 void UN_SELECT_ScrollFrameList(u8 *p);
 void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta);

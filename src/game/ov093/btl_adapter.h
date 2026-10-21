@@ -11,7 +11,7 @@ typedef struct BtlAdapter BtlAdapter;
 
 void BTL_ADAPTER_ClearSlots(int mode);
 void BTL_ADAPTER_NoOp(void);
-BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId);
+BtlAdapter *BTL_ADAPTER_Create(struct GFLNetHandle *owner, int channel, u32 netId, u32 heapId);
 void BTL_ADAPTER_ResetCommand(BtlAdapter *adapter);
 void BTL_ADAPTER_Delete(BtlAdapter *adapter);
 void BTL_ADAPTER_NotifyNet(void);

@@ -21,7 +21,7 @@ u32 DEMO3D_ENGINE_GetFrameNum(struct Demo3dEngineCtx *p);
 void DEMO3D_ENGINE_SetMode(struct Demo3dEngineCtx *p,int a);
 void DEMO3D_ENGINE_SetupLighting(struct Demo3dEngineCtx *ctx,struct Demo3dEngineConfig *cfg,const struct Demo3dEngineRecord *record,u16 heap);
 unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x);
-u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
+struct Cam *DEMO3D_ENGINE_GetCameraRecord(u32 id);
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c);
 u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x);
 /* END mkheaders: generated region */

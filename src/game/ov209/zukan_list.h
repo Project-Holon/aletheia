@@ -12,7 +12,7 @@ struct Strbuf;
 #include "../types.h"
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
-int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, int work);
+int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work);
 int ZUKAN_LIST_ProcExit(void *p);
 void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p);

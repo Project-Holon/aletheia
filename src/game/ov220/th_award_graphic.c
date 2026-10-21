@@ -82,7 +82,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-extern u32 TH_AWARD_GRAPHIC_GetValue(u32*);
+extern struct Unit *TH_AWARD_GRAPHIC_GetValue(u32*);
 /* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
 extern void BG_SYS_Create(unsigned);
@@ -104,13 +104,13 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap);
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 void TH_AWARD_GRAPHIC_Update(char *p);
-u32 TH_AWARD_GRAPHIC_GetActor(u8*p);
+struct Unit *TH_AWARD_GRAPHIC_GetActor(u8*p);
 void TH_AWARD_GRAPHIC_Task(void *unused, char *p);
 void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap);
 void TH_AWARD_GRAPHIC_CleanupBg(void*p);
 void TH_AWARD_GRAPHIC_Noop(void *p);
 void TH_AWARD_GRAPHIC_DrawObjects(void *p);
-void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void TH_AWARD_GRAPHIC_DeleteClact(char *p);
 void TH_AWARD_GRAPHIC_Draw(void *p);
 void TH_AWARD_GRAPHIC_VBlank(void *p);
@@ -136,7 +136,7 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     TH_AWARD_GRAPHIC_SetupBg(p,heap);
-    TH_AWARD_GRAPHIC_SetupClact(p+4,(sptr)&d_021BA428,heap);
+    TH_AWARD_GRAPHIC_SetupClact(p+4,(struct DispVramCfg *)&d_021BA428,heap);
     ((struct ThAwardGraphic *)p)->proc=(struct Node *)GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }
@@ -161,7 +161,7 @@ void TH_AWARD_GRAPHIC_Update(char *p)
     TH_AWARD_GRAPHIC_Noop(p);
 }
 
-u32 TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)(p+4));}
+struct Unit *TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)(p+4));}
 
 void TH_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
@@ -192,7 +192,7 @@ void TH_AWARD_GRAPHIC_Noop(void *p){}
 
 void TH_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 
-void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
+void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021BA40C, (struct DispVramCfg *)a, b);
@@ -219,4 +219,4 @@ void TH_AWARD_GRAPHIC_VBlank(void *p)
     CLACT_VBlankSystem();
 }
 
-u32 TH_AWARD_GRAPHIC_GetValue(u32*p){return *p;}
+struct Unit *TH_AWARD_GRAPHIC_GetValue(u32*p){return *(struct Unit **)p;}

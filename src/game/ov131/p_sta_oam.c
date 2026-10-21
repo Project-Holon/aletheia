@@ -109,7 +109,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     arc = ARC_TOOL_CreateHandle(0x4e, mgr->heapId);
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
-            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (uptr)arc);
+            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (u32)arc);
             grid->charRes[i * cols + j] = CLACT_RegisterCharacter(arc, 7, 0, desc->screen, mgr->heapId);
             pos.x = desc->x + (j << 6);
             pos.y = desc->y + (i << 5);

@@ -37,7 +37,7 @@ int POKE_SUMMARY_MAIN_ShowTextKind6(int *work);
 int POKE_SUMMARY_MAIN_ShowMoveText(char *work);
 int POKE_SUMMARY_MAIN_StartWipe(char *work);
 void POKE_SUMMARY_MAIN_RefreshMoveList(char *work);
-void POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, int align, u8 y);
+void POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, struct GfFont *font, u16 color, int align, u8 y);
 void POKE_SUMMARY_MAIN_PrintValue(char *work,u32 idx,u32 number,u32 digits,u8 padding);
 void POKE_SUMMARY_MAIN_DrawMovesPage(char *work);
 u32 POKE_SUMMARY_MAIN_CountMoves(struct ScanContext *work);

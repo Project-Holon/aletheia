@@ -77,8 +77,8 @@ int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSki
 struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
 int MOVE_POKEMON_SoftBoiledEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
 struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int MOVE_POKEMON_GetSkillCheckFunc(const FieldSkillCheck *check, int skill);
-int MOVE_POKEMON_GetSkillEventFunc(const FieldSkillCheck *check, int skill);
+SkillCheckFn MOVE_POKEMON_GetSkillCheckFunc(const FieldSkillCheck *check, int skill);
+SkillEventFn MOVE_POKEMON_GetSkillEventFunc(const FieldSkillCheck *check, int skill);
 void MOVE_POKEMON_InitSkillWork(FieldSkillWork *work, const FieldSkillTarget *target, const FieldSkillContext *ctx);
 int MOVE_POKEMON_IsSkillUsable(const FieldSkillCheck *check, int skill);
 /* END mkheaders: generated region */

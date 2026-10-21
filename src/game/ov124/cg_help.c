@@ -156,7 +156,7 @@ typedef struct { u32 a, b; u8 c, d, e, f; u32 g; u16 h, i, j, k, l, m; } CgHelpC
 
 typedef struct { u16 x, y, z; u8 a, b; } CgHelpActorHeader;
 
-typedef struct { u32 text; u16 color; u16 pad; u32 flag; } CgHelpMenuItem;
+typedef struct { void *text; u16 color; u16 pad; u32 flag; } CgHelpMenuItem;
 
 typedef struct { u8 bytes[16]; } CgHelpTouchRects;
 
@@ -504,18 +504,18 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     BG_SYS_PushTile(5);
     BG_SYS_PushTile(4);
     work->textDirty = 0;
-    req.text = (uptr)MSGDATA_AllocString(work->msgData, 24);
+    req.text = MSGDATA_AllocString(work->msgData, 24);
     req.color = 0x39e3;
     req.flag = 0;
     work->nextButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 11, 21, 11, work->heapId);
-    STRBUF_Delete((void *)req.text);
-    req.text = (uptr)MSGDATA_AllocString(work->msgData, 26);
+    STRBUF_Delete(req.text);
+    req.text = MSGDATA_AllocString(work->msgData, 26);
     work->prevButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 0, 21, 11, work->heapId);
-    STRBUF_Delete((void *)req.text);
-    req.text = (uptr)MSGDATA_AllocString(work->msgData, 25);
+    STRBUF_Delete(req.text);
+    req.text = MSGDATA_AllocString(work->msgData, 25);
     req.flag = 1;
     work->closeButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 22, 21, 10, work->heapId);
-    STRBUF_Delete((void *)req.text);
+    STRBUF_Delete(req.text);
     APP_TASKMENU_WIN_ClearScreen(work->prevButton);
     *(u16 *)0x050005e2 = 0;
 }
@@ -593,7 +593,7 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
     CLACT_SetActorAnimSeq(work->pageActor, gCgHelpPageAnimSeq[page]);
     CLACT_SetActorDrawEnable(work->pageActor, 1);
     if (page <= 7) {
-        NNS_GfdRegisterNewVramTransferTask((void *)31, 320, (uptr)(work->charData->rawData + gCgHelpPageCharOffset[page] * 32), 32);
+        NNS_GfdRegisterNewVramTransferTask(31, 320, (work->charData->rawData + gCgHelpPageCharOffset[page] * 32), 32);
         q = GFL_HEAP_Alloc(work->heapId, 32, 1, gCgHelpFileName, 0x2ac);
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {

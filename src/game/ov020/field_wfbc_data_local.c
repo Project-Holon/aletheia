@@ -229,7 +229,7 @@ struct MsgBank;
 
 #include "../ov010/intrude_comm_query.h"
 #include "../arm9/zonedata.h"
-extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int direction);
+#include "../ov010/fldmmdl_poslog.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/arc_tool.h"
 #include "../ov010/scrcmd_work.h"
@@ -1237,9 +1237,9 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     void *e;
     int memberKey, storedYear, storedMonth, storedDay, v96, v4c, v8f, v90, v91;
 
-    (void *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
     s = (void *)SCRCMD_WORK_GetGameData((struct ScrcmdWork *)(((void *)work)));
-    (u8 *)GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
+    GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
     w = (void *)(sptr)GAME_DATA_GetMusicalShotExtraData((struct GameData *)((sptr)s));
     b = GAME_DATA_GetMyParty(s);
     outFound = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
@@ -1452,7 +1452,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
     case 14:
         if (FADE_IsActive() != 0)
             break;
-        EVENT_FIELD_PROCLINK_ApplyReturnEntry((sptr)talk->returnList, (struct ProcLinkRequest *)talk->ownData, (struct ProcLinkSys *)talk->cityData, (sptr)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
+        EVENT_FIELD_PROCLINK_ApplyReturnEntry(talk->returnList, (struct ProcLinkRequest *)talk->ownData, (struct ProcLinkSys *)talk->cityData, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
         FIELD_WFBC_RemovePeople(talk->wfbcRuntime, talk->personIndex);
         FLDMMDL_DeleteMmdl(talk->personMmdl);
         FADE_Start(1, 0x10, 0, 0);

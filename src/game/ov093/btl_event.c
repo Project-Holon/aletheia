@@ -53,7 +53,7 @@ void BTL_EVENT_InitFactorList(void)
     u32 i;
     for (i = 0; i < BTL_EVENT_FACTOR_MAX; i++) {
         struct BtlEventFactor *factor = &gBtlEventFactorStorage[i];
-        BTL_EVENT_ClearFactor((sptr)factor);
+        BTL_EVENT_ClearFactor(factor);
         gBtlEventFactorFreePool[i] = factor;
     }
     gBtlEventFactorList.head = 0;
@@ -72,7 +72,7 @@ void BTL_EVENT_DebugPrintFactorList(void)
 {
 }
 
-struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, u32 handlers, u16 handlerCount)
+struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, const BtlEventHandler *handlers, u16 handlerCount)
 {
     struct BtlEventFactor *factor = BTL_EVENT_AllocFactor();
     struct BtlEventFactor *cur;
@@ -84,7 +84,7 @@ struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority
         factor->factorType = factorType;
         factor->prev = 0;
         factor->next = 0;
-        factor->handlers = (BtlEventHandler *)handlers;
+        factor->handlers = handlers;
         factor->handlerCount = handlerCount;
         factor->key = key;
         factor->running = 0;
@@ -346,11 +346,11 @@ struct BtlEventFactor *BTL_EVENT_AllocFactor(void)
     return gBtlEventFactorList.freePool[i];
 }
 
-void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { BTL_EVENT_ClearFactor((sptr)factor); gBtlEventFactorList.freePool[--gBtlEventFactorList.usedCount] = factor; } }
+void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { BTL_EVENT_ClearFactor(factor); gBtlEventFactorList.freePool[--gBtlEventFactorList.usedCount] = factor; } }
 
-void BTL_EVENT_ClearFactor(int factor)
+void BTL_EVENT_ClearFactor(struct BtlEventFactor *factor)
 {
-    MI_CpuFill8((void *)factor, 0, 0x3c);
+    MI_CpuFill8(factor, 0, 0x3c);
 }
 
 void BTL_EVENT_ResetVarStack(void) { struct BtlEventVarStack *stack = &gBtlEventVarStack; unsigned int i; stack->frameTop = 0; for (i = 0; i < BTL_EVENT_VAR_MAX; i++) stack->keys[i] = 0; }
@@ -398,7 +398,7 @@ void BTL_EVENT_PopVarFrame(int line)
     }
 }
 
-void BTL_EVENT_SetVar(int key, u32 value)
+void BTL_EVENT_SetVar(int key, uptr value)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
     gBtlEventVarStack.keys[i] = key;
@@ -408,7 +408,7 @@ void BTL_EVENT_SetVar(int key, u32 value)
     gBtlEventVarStack.modes[i] = 0;
 }
 
-void BTL_EVENT_SetVarReadOnly(int key, u32 value)
+void BTL_EVENT_SetVarReadOnly(int key, uptr value)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
     gBtlEventVarStack.keys[i] = key;
@@ -418,7 +418,7 @@ void BTL_EVENT_SetVarReadOnly(int key, u32 value)
     gBtlEventVarStack.modes[i] = 4;
 }
 
-void BTL_EVENT_SetVarOnce(int key, u32 value)
+void BTL_EVENT_SetVarOnce(int key, uptr value)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
     gBtlEventVarStack.keys[i] = key;
@@ -428,7 +428,7 @@ void BTL_EVENT_SetVarOnce(int key, u32 value)
     gBtlEventVarStack.modes[i] = 1;
 }
 
-void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue)
+void BTL_EVENT_SetVarRanged(int key, uptr value, u32 minValue, u32 maxValue)
 {
     u32 i = BTL_EVENT_FindVarSlot(&gBtlEventVarStack, key);
     gBtlEventVarStack.keys[i] = key;
@@ -438,7 +438,7 @@ void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue)
     gBtlEventVarStack.modes[i] = 3;
 }
 
-int BTL_EVENT_OverwriteVar(int key, u32 value)
+int BTL_EVENT_OverwriteVar(int key, uptr value)
 {
     struct BtlEventVarStack *stack = &gBtlEventVarStack;
     int i = BTL_EVENT_FindVar(stack, key);
@@ -465,7 +465,7 @@ void BTL_EVENT_MultiplyVar(int key, s32 multiplier)
     }
 }
 
-int BTL_EVENT_GetVar(int key)
+sptr BTL_EVENT_GetVar(int key)
 {
     struct BtlEventVarStack *stack = &gBtlEventVarStack;
     u32 i;

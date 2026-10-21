@@ -108,8 +108,8 @@ struct PlayerInfo;
 struct GameComm;
 #include "intrude_comm_query.h"
 struct EventWork;
-void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);
-MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo);
+void MAP_REPLACE_SetupFlags(u8 *variant, struct GameSystem *gameSystem);
+MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(struct GameData *unused, int flagNo);
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/MAP_REPLACE_GetDefaultWarpId.c \ * --func MAP_REPLACE_GetDefaultWarpId --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int MAP_REPLACE_GetDefaultWarpId(void);
 int MAP_REPLACE_IsValidWarpId(int warpId);
 struct Location;
@@ -125,7 +125,7 @@ extern u16 d_02170FF4[][10];
 extern const WarpDataEntry d_02170FEC[];
 extern const u16 d_02170FF0[][10];
 
-MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
+MapReplace *MAP_REPLACE_Create(int heapId, struct GameSystem *gameSystem)
 {
     MapReplace *replace = GFL_HEAP_Alloc(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
     replace->heapId = heapId;
@@ -198,18 +198,18 @@ int MAP_REPLACE_GetFlagIndex(int selector)
     return -1;
 }
 
-void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
+void MAP_REPLACE_SetupFlags(u8 *variant, struct GameSystem *gameSystem)
 {
-    int eventWork = (sptr)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
-    int fieldMap = (sptr)GAMESYSTEM_GetGameComm((struct GameSystem *)gameSystem);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(gameSystem));
+    struct GameComm *fieldMap = GAMESYSTEM_GetGameComm(gameSystem);
     int infoCode = COMM_PLAYER_SUPPORT_GetInfoCode((void *)gameSystem);
     int i;
     variant[0] = infoCode;
-    variant[1] = (INTRUDE_COMM_GetAreaOwnerVersion((void *)fieldMap) != 0x15);
+    variant[1] = (INTRUDE_COMM_GetAreaOwnerVersion(fieldMap) != 0x15);
     variant[2] = (variant[1] == 0) ? 0 : infoCode + 1;
     for (i = 0; i < 10; i++) {
         MapReplaceFlagEntry *entry = &d_02170FB0[i];
-        u16 *work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, entry->workId);
+        u16 *work = (u16 *)ZONEDATA_GetEventWorkAddress(eventWork, entry->workId);
         if (*work == entry->value)
             variant[3 + i] = 1;
         else
@@ -217,7 +217,7 @@ void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
     }
 }
 
-MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo)
+MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(struct GameData *unused, int flagNo)
 {
     unsigned int i;
     for (i = 0; i < 10; i++) {
@@ -231,12 +231,12 @@ MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo)
 /*
  * extent: two bytes of zero alignment padding at 0x02159F52.
  */
-void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
+void MAP_REPLACE_SetFlag(struct GameData *gameData, int flagNo, int set)
 {
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork((struct GameData *)gameData)), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork(gameData)), entry->workId);
         if (set)
             *work = entry->value;
         else
@@ -244,12 +244,12 @@ void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
     }
 }
 
-int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
+int MAP_REPLACE_CheckFlag(struct GameData *gameData, int flagNo)
 {
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork((struct GameData *)gameData)), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork(gameData)), entry->workId);
         if (entry->value == *work)
             return 1;
         else
@@ -310,12 +310,12 @@ u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((uptr)d_02170FF4 + (
  * prototype: both payload bytes come out of the halfword as bit fields, so the
  * u16 fifth input needs no extra truncation.
  */
-void MAP_REPLACE_ApplyWarpLocation(int warpId, int location)
+void MAP_REPLACE_ApplyWarpLocation(int warpId, struct Location *location)
 {
     int index = MAP_REPLACE_WarpIdToIndex(warpId);
     const WarpDataEntry *entry = &d_02170FEC[index];
     u32 zoneId = d_02170FF0[index][0];
-    MAP_REPLACE_SetDirectLocation((void *)location, zoneId, 0, entry->gridX, entry->gridZ);
+    MAP_REPLACE_SetDirectLocation(location, zoneId, 0, entry->gridX, entry->gridZ);
 }
 
 /*

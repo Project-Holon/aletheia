@@ -727,9 +727,9 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
             break;
         }
         if (ci->sequenceId == 0x11) {
-            u32 mmdl = (uptr)FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(fieldMap), (u16)ci->arg.pokemon.species);
+            Mmdl *mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(fieldMap), (u16)ci->arg.pokemon.species);
             if (mmdl)
-                FLDMMDL_DeleteMmdl((struct Mmdl *)mmdl);
+                FLDMMDL_DeleteMmdl(mmdl);
             break;
         }
     case 2:
@@ -1301,8 +1301,8 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (uptr)BMP_GetPixels(ci->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (uptr)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask(1, plttOffset, ci->pltt->raw, 0x20);
     GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
@@ -1407,8 +1407,8 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (uptr)BMP_GetPixels(ci->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (uptr)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask(1, plttOffset, ci->pltt->raw, 0x20);
     GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
@@ -1601,7 +1601,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;
-    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, (uptr)text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
+    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
     GFL_HEAP_Free(ci->plttRes);
     GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);

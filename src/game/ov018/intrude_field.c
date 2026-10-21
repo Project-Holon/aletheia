@@ -574,7 +574,7 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
             continue;
         if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
             GAME_DATA_GetMyStatusPlayer(gameData, i);
-            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], (uptr)(GAME_DATA_GetMyStatusPlayer(gameData, i)));
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], (GAME_DATA_GetMyStatusPlayer(gameData, i)));
             if (work->peers[i].objCode != 0 || GAME_DATA_GetIntrudeCount(gameData) != 0)
                 COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
@@ -764,7 +764,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
             INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            INTRUDE_COMM_PickDefaultObjCode((uptr)(GAME_DATA_GetMyStatus(gameData)), &look.objCode, &look.kind, &look.flag);
+            INTRUDE_COMM_PickDefaultObjCode((GAME_DATA_GetMyStatus(gameData)), &look.objCode, &look.kind, &look.flag);
             INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
         *seq += 1;
@@ -1330,7 +1330,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
         work->localPeer.lookKind = kind;
         work->localPeer.lookFlag = flag;
         work->peerStatusDirty = 1;
-        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, (uptr)myStatus);
+        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, myStatus);
     } else {
         objCode = 0;
         playerForm = 1;
@@ -1746,7 +1746,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
             break;
         }
         EVENT_COMM_COMMON_SetupListWindowB((struct EventCommMsgBox *)work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
-        INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)(&work->record), &work->record.name, (struct WordSet *)(*(int *)work->infoWindow), work->senderNetId);
+        INTRUDE_COMM_SetWordSetRequest( (const struct IntrudeRequestHead *)&work->record, &work->record.name, *(struct WordSet **)work->infoWindow, work->senderNetId);
         pointIndex = work->record.head.pointIndex;
         EVENT_COMM_COMMON_PrintListWindowB((struct EventCommMsgBox *)work->infoWindow, (u16)work->record.head.kind, 8, 0);
         EVENT_COMM_COMMON_PrintListWindowB((struct EventCommMsgBox *)work->infoWindow, (u16)pointIndex, 8, 0x10);

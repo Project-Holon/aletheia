@@ -56,9 +56,9 @@ int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEve
 
 VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId);
 
-int VCT_SESSION_SendCommand(int peer, int command);
+int VCT_SESSION_SendCommand(VctPeer *peer, int command);
 
-int VCT_SESSION_SendReply(int peer, int command);
+int VCT_SESSION_SendReply(VctPeer *peer, int command);
 
 void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet);
 
@@ -159,7 +159,7 @@ VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId)
 }
 
 /* Build a command packet for a peer, send it, return -4 when the send fails. */
-int VCT_SESSION_SendCommand(int peer, int command)
+int VCT_SESSION_SendCommand(VctPeer *peer, int command)
 {
     u8 packet[16];
     int result;
@@ -173,7 +173,7 @@ int VCT_SESSION_SendCommand(int peer, int command)
 }
 
 /* Same as above for a reply to a peer record. */
-int VCT_SESSION_SendReply(int peer, int command)
+int VCT_SESSION_SendReply(VctPeer *peer, int command)
 {
     u8 packet[16];
     int result;
@@ -311,12 +311,12 @@ int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet)
     case -1:
         return next;
     case -2:
-        VCT_SESSION_SendReply((sptr)peer, 1);
+        VCT_SESSION_SendReply(peer, 1);
         peer->phase = 0;
         peer->mode = 0;
         return next;
     case -3:
-        VCT_SESSION_SendReply((sptr)peer, 3);
+        VCT_SESSION_SendReply(peer, 3);
         peer->phase = 0;
         peer->mode = 0;
         return next;
@@ -422,7 +422,7 @@ int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event)
     peer = VCT_SESSION_AllocPeer(packet->srcId);
     if (peer == 0) {
         VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
-        VCT_SESSION_SendReply((sptr)&gVctPeerPool.rejectPeer, 3);
+        VCT_SESSION_SendReply(&gVctPeerPool.rejectPeer, 3);
         return 0;
     }
     next = VCT_SESSION_AdvancePhase(peer, packet);
@@ -516,11 +516,11 @@ int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event)
         event->code = 2;
         event->peer = peer;
         peer->mode = 0;
-        VCT_SESSION_SendReply((sptr)peer, 2);
+        VCT_SESSION_SendReply(peer, 2);
         return 1;
     }
     VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
-    VCT_SESSION_SendReply((sptr)&gVctPeerPool.rejectPeer, 2);
+    VCT_SESSION_SendReply(&gVctPeerPool.rejectPeer, 2);
     return 0;
 }
 

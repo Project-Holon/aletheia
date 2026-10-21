@@ -183,6 +183,13 @@ struct MiscSave;
 
 
 #include "../types.h"
+#ifdef __MWERKS__
+#define POKE_TOOL_Create POKE_TOOL_Create_header
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_Create
+#endif
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 
@@ -201,10 +208,12 @@ typedef struct PokemonSpec {
 } PokemonSpec;
 
 /* Record the overlay-launch helper parks in the script's event slot. */
+typedef void (*ScriptProcFinishFn)(void *handoff);
+
 typedef struct ScriptProcHandoff {
-    void *work;         /* 0x00 */
-    u32 userData;       /* 0x04 */
-    u32 onFinish;       /* 0x08, function called with the record when set */
+    void *work;                   /* 0x00 */
+    void *userData;               /* 0x04 */
+    ScriptProcFinishFn onFinish;  /* 0x08, function called with the record when set */
 } ScriptProcHandoff;
 
 typedef struct BagResultVars { u16 *selectedVar; u16 *itemVar; } BagResultVars;
@@ -270,6 +279,8 @@ typedef struct WifiBattleMatchParam {
 
 typedef struct MenuProcParam { u32 fieldMap; u32 mode; } MenuProcParam;
 
+struct ScriptVm;
+struct ScrcmdWork;
 #ifdef __MWERKS__
 extern unsigned short SCRIPT_WORK_ReadWorkValue(void *, void *); /* original prototype; the definition differs in pointer type, return type */
 #else
@@ -287,12 +298,10 @@ struct GameData;
 #include "../arm9/pokeparty.h"
 
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 #include "../arm9/poke_tool_ext.h"
 
 
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
 
 
@@ -309,13 +318,9 @@ struct GameSystem;
 
 
 
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
 
-extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
 
-extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 
 #include "../arm9/mystatus.h"
 
@@ -328,23 +333,19 @@ extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 
 #include "../arm9/gamesystem.h"
 
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
 #include "../arm9/zukan_save.h"
 
 
-extern u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
 
 
 
 #include "../arm9/gfl_heap_wrap.h"
 
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 
 #ifdef __MWERKS__
 extern struct PokemonParam *POKE_TOOL_Create(u32 species, u32 level, u64 otId, u32 heapId); /* original prototype; the definition differs in argument width */
 #else
-extern struct PokemonParam*POKE_TOOL_Create(u16, u16, u64, u16);
 #endif
 
 
@@ -361,9 +362,7 @@ extern void SAVE_EVENT_Write(void *gameData, u32 mode, struct MyStatus *record, 
 #endif
 
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
-extern struct PokemonParam *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 
 #include "../arm9/file_util.h"
 
@@ -374,7 +373,6 @@ extern struct PokemonParam *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 #include "../arm9/zonedata.h"
 struct BoxPokemon;
 
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
 
 
@@ -437,6 +435,7 @@ struct IntrudeProfileData;
 
 #include "../ov002/event_wifibattlematch.h"
 
+struct LaunchRequest;
 extern void*EVENT_MENUPROC_Entry(void*, struct LaunchRequest*);
 
 #include "../arm9/gf_overlay.h"
@@ -467,167 +466,167 @@ struct DaycareSave;
 
 
 
-int SCRCMD_PROC_LookupTableValue(int, int);
+int SCRCMD_PROC_LookupTableValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetPartyMember(void *, u32, void **);
+int SCRCMD_PROC_GetPartyMember(struct ScrcmdWork *cmdWork, u32 partyIndex, void **outMemberArg);
 
-int SCRCMD_PROC_GetPartyMemberParam(void *, void *, void *);
+int SCRCMD_PROC_GetPartyMemberParam(struct ScrcmdWork *cmdWork, u32 partyIndex, u32 paramId);
 
-int SCRCMD_PROC_CheckMonKnowsMove(int, int);
+int SCRCMD_PROC_CheckMonKnowsMove(struct PokemonParam *, int);
 
-int SCRCMD_PROC_GetMonPairedParams(int, int);
+int SCRCMD_PROC_GetMonPairedParams(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_HealParty(int, int);
+int SCRCMD_PROC_HealParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonEvTotal(void *, void *);
+int SCRCMD_PROC_GetMonEvTotal(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckMonHpNotFullOrEgg(int, int, int);
+int SCRCMD_PROC_CheckMonHpNotFullOrEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckMonIsEgg(int, int, int);
+int SCRCMD_PROC_CheckMonIsEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonFriendship(int, int, int);
+int SCRCMD_PROC_GetMonFriendship(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_ChangeMonFriendship(int, int);
+int SCRCMD_PROC_ChangeMonFriendship(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonSpeciesOrEgg(int, int);
+int SCRCMD_PROC_GetMonSpeciesOrEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonForm(int, int, int);
+int SCRCMD_PROC_GetMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_FindFirstPartyIndex(int, int);
+int SCRCMD_PROC_FindFirstPartyIndex(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetPartyCount(void *, void *);
+int SCRCMD_PROC_GetPartyCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CountPartyMonsOfSpecies(void *, void *);
+int SCRCMD_PROC_CountPartyMonsOfSpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetBoxMonCount(void *, void *);
+int SCRCMD_PROC_GetBoxMonCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_FindPartyMonBySpecies(void *, void *);
+int SCRCMD_PROC_FindPartyMonBySpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckPartyMonKnowsMove(int, int, int);
+int SCRCMD_PROC_CheckPartyMonKnowsMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_FindPartyMonWithMove(void *, void *);
+int SCRCMD_PROC_FindPartyMonWithMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_AddMonToPartySimple(void *, void *);
+int SCRCMD_PROC_AddMonToPartySimple(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_AddMonToPartyDetailed(void *, void *);
+int SCRCMD_PROC_AddMonToPartyDetailed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CountMonMoves(int, int, int);
+int SCRCMD_PROC_CountMonMoves(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonMove(void *, void *);
+int SCRCMD_PROC_GetMonMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_SetMonMove(void *, void *);
+int SCRCMD_PROC_SetMonMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckMonIsPlayerOwned(void *, void *);
+int SCRCMD_PROC_CheckMonIsPlayerOwned(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_ChangeMonForm(void *, void *);
+int SCRCMD_PROC_ChangeMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_SetRotomFormMove(void *, void *);
+int SCRCMD_PROC_SetRotomFormMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetRelearnableMoveCount(int, int, int);
+int SCRCMD_PROC_GetRelearnableMoveCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckMonParamMatchesTable(void *, void *);
+int SCRCMD_PROC_CheckMonParamMatchesTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonTripleParams(void *, void *);
+int SCRCMD_PROC_GetMonTripleParams(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_SetMonParamChecked(void *, void *);
+int SCRCMD_PROC_SetMonParamChecked(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetMonParamIfListed(void *, void *);
+int SCRCMD_PROC_GetMonParamIfListed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_AddMonToBoxSimple(void *, void *);
+int SCRCMD_PROC_AddMonToBoxSimple(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_AddMonToBoxDetailed(void *, void *);
+int SCRCMD_PROC_AddMonToBoxDetailed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_AddEggToParty(void *, void *);
+int SCRCMD_PROC_AddEggToParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 void *SCRCMD_PROC_CreateMonFromSpec(void *, PokemonSpec *);
 
-int SCRCMD_PROC_AddMonToBox(void *, void *);
+int SCRCMD_PROC_AddMonToBox(void *gameData, PokemonSpec *spec);
 
-int SCRCMD_PROC_AddMonToParty(void *, void *);
+int SCRCMD_PROC_AddMonToParty(void *gameData, PokemonSpec *spec);
 
-int SCRCMD_PROC_AddMoney(int, int);
+int SCRCMD_PROC_AddMoney(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_SubMoney(int, int);
+int SCRCMD_PROC_SubMoney(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckMoneyAtLeast(void *, void *);
+int SCRCMD_PROC_CheckMoneyAtLeast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallFieldOpenEvent(void *, void *);
+int SCRCMD_PROC_CallFieldOpenEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallFieldCloseEvent(int, int);
+int SCRCMD_PROC_CallFieldCloseEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
+void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *, struct ScrcmdWork *, u32 overlayId, const void *procData, void *procWork, ScriptProcFinishFn onFinish, void *userData);
 
-int SCRCMD_PROC_WaitOverlayProc(int, int);
+int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_FreeScriptUserWork(int, int);
+int SCRCMD_PROC_FreeScriptUserWork(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData);
 
-int SCRCMD_PROC_CallBagScreen(void *, void *);
+int SCRCMD_PROC_CallBagScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData);
 
-int SCRCMD_PROC_CallGtsNegotiation(void *, void *);
+int SCRCMD_PROC_CallGtsNegotiation(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_OnMoveRelearnDone(int, int);
+int SCRCMD_PROC_OnMoveRelearnDone(RelearnCallbackData *callbackData, int callArg1);
 
-int SCRCMD_PROC_CallMoveRelearn(void *, void *);
+int SCRCMD_PROC_CallMoveRelearn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallPlayerProfile(void *, void *);
+int SCRCMD_PROC_CallPlayerProfile(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallSubEvent(void *, void *);
+int SCRCMD_PROC_CallSubEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallValueScreen(void *, void *);
+int SCRCMD_PROC_CallValueScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallModeScreen(void *, void *);
+int SCRCMD_PROC_CallModeScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallWordScreen(void *, void *);
+int SCRCMD_PROC_CallWordScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_WaitNothing(int, int);
+int SCRCMD_PROC_WaitNothing(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallWifiBattleMatch(void *, void *);
+int SCRCMD_PROC_CallWifiBattleMatch(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallMenuProc(void *, void *);
+int SCRCMD_PROC_CallMenuProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_Ov037InitFromVars(void *, void *);
+int SCRCMD_PROC_Ov037InitFromVars(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_Ov037SetValueA(void *, void *);
+int SCRCMD_PROC_Ov037SetValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_Ov037SetValueB(void *, void *);
+int SCRCMD_PROC_Ov037SetValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_Ov037ReadEightVars(void *, void *);
+int SCRCMD_PROC_Ov037ReadEightVars(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_Ov037Finish(void *, void *);
+int SCRCMD_PROC_Ov037Finish(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CheckDaycareHasEgg(int, int);
+int SCRCMD_PROC_CheckDaycareHasEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_ReceiveDaycareEgg(void *, void *);
+int SCRCMD_PROC_ReceiveDaycareEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_DeclineDaycareEgg(int, int);
+int SCRCMD_PROC_DeclineDaycareEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_CallDaycarePartyMenu(void *, void *);
+int SCRCMD_PROC_CallDaycarePartyMenu(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_DepositDaycareMon(void *, void *);
+int SCRCMD_PROC_DepositDaycareMon(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_WithdrawDaycareMon(void *, void *);
+int SCRCMD_PROC_WithdrawDaycareMon(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareMonCount(int, int);
+int SCRCMD_PROC_GetDaycareMonCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareCompatibility(int, int);
+int SCRCMD_PROC_GetDaycareCompatibility(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareMonSpecies(void *, void *);
+int SCRCMD_PROC_GetDaycareMonSpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareMonForm(void *, void *);
+int SCRCMD_PROC_GetDaycareMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareMonGender(void *, void *);
+int SCRCMD_PROC_GetDaycareMonGender(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_GetDaycareSlotLevel(void *, void *);
+int SCRCMD_PROC_GetDaycareSlotLevel(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *, void *);
 
 int SCRCMD_PROC_GetDaycareSlotPrice(void *, void *);
 
-int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *, void *);
+int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 int SCRCMD_PROC_GetDaycareGenderKind(void *);
 
@@ -692,15 +691,15 @@ extern char ov037_id[];
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
-int SCRCMD_PROC_LookupTableValue(int vm,int cmdWork)
+int SCRCMD_PROC_LookupTableValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int tableIndex = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm,(void *)cmdWork);
+    int tableIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *resultVar = sScrcmdLookupTable[tableIndex];
     return 0;
 }
 
-int SCRCMD_PROC_GetPartyMember(void *cmdWork, u32 partyIndex, void **outMemberArg)
+int SCRCMD_PROC_GetPartyMember(struct ScrcmdWork *cmdWork, u32 partyIndex, void **outMemberArg)
 {
     int isValid;
     u32 slotIndex;
@@ -730,68 +729,36 @@ store:
  * Unpacks a record into a local and, when the overlay call says it took,
  * forwards the record and the third argument to the arm9 side.
  */
-int SCRCMD_PROC_GetPartyMemberParam(void *cmdWork, void *partyIndex, void *paramId)
+int SCRCMD_PROC_GetPartyMemberParam(struct ScrcmdWork *cmdWork, u32 partyIndex, u32 paramId)
 {
     sptr member;
 
-    if (SCRCMD_PROC_GetPartyMember(cmdWork, (uptr)partyIndex, (void **)(&member)) == 1)
-        return POKE_TOOL_GetPartyValue((void *)member, (uptr)paramId, 0);
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)(&member)) == 1)
+        return POKE_TOOL_GetPartyValue((void *)member, paramId, 0);
 
     return 0;
 }
 
-int SCRCMD_PROC_CheckMonKnowsMove(int callArg0, int callArg1)
+int SCRCMD_PROC_CheckMonKnowsMove(struct PokemonParam *mon, int moveId)
 {
-    int callArg2;
-    int moveIdCopy;
-    int monCopy;
-    int zero;
+    if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) != 0) {
+        return 0;
+    }
+    if (moveId == POKE_TOOL_GetPartyValue(mon, 0x36, 0) || moveId == POKE_TOOL_GetPartyValue(mon, 0x37, 0)
+        || moveId == POKE_TOOL_GetPartyValue(mon, 0x38, 0) || moveId == POKE_TOOL_GetPartyValue(mon, 0x39, 0)) {
+        return 1;
+    }
+    return 0;
+}
 
-moveIdCopy = callArg1 + 0;
-callArg1 = 0x4c;
-callArg2 = 0;
-monCopy = callArg0 + 0;
-zero = 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (callArg0 == 0) goto checkSlots;
-callArg0 = zero + 0;
-    return callArg0;
-checkSlots:
-callArg0 = monCopy + 0;
-callArg1 = 0x36;
-callArg2 = zero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (moveIdCopy == callArg0) goto found;
-callArg0 = monCopy + 0;
-callArg1 = 0x37;
-callArg2 = zero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (moveIdCopy == callArg0) goto found;
-callArg0 = monCopy + 0;
-callArg1 = 0x38;
-callArg2 = zero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (moveIdCopy == callArg0) goto found;
-callArg0 = monCopy + 0;
-callArg1 = 0x39;
-callArg2 = zero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (moveIdCopy != callArg0) goto notFound;
-found:
-callArg0 = 1;
-    return callArg0;
-notFound:
-callArg0 = zero + 0;
-    return callArg0;}
-
-int SCRCMD_PROC_GetMonPairedParams(int vm, int cmdWork)
+int SCRCMD_PROC_GetMonPairedParams(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u16 *firstResultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm, (void *)cmdWork);
-    u16 *secondResultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm, (void *)cmdWork);
-    sptr mon;
-    if (SCRCMD_PROC_GetPartyMember((void *)cmdWork, SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork), (void **)(&mon)) == 1) {
-        *firstResultVar = POKE_TOOL_GetPartyValue((void *)mon, 0xAE, 0);
-        *secondResultVar = POKE_TOOL_GetPartyValue((void *)mon, 0xAF, 0);
+    u16 *firstResultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u16 *secondResultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    struct PokemonParam *mon;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, SCRIPT_WORK_ReadWorkValue(vm, cmdWork), (void **)&mon) == 1) {
+        *firstResultVar = POKE_TOOL_GetPartyValue(mon, 0xAE, 0);
+        *secondResultVar = POKE_TOOL_GetPartyValue(mon, 0xAF, 0);
     } else {
         *firstResultVar = 0;
         *secondResultVar = 0;
@@ -799,17 +766,14 @@ int SCRCMD_PROC_GetMonPairedParams(int vm, int cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_HealParty(int callArg0, int callArg1)
+int SCRCMD_PROC_HealParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *gameData;
-    void *party;
+    void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    void *party = GAME_DATA_GetMyParty(gameData);
 
-callArg0 = callArg1 + 0;
-    gameData = SCRCMD_WORK_GetGameData((void *)callArg0);
-    party = GAME_DATA_GetMyParty(gameData);
     POKE_TOOL_HealParty(party);
-callArg0 = 0;
-    return callArg0;}
+    return 0;
+}
 
 #pragma opt_lifetimes off
 
@@ -821,7 +785,7 @@ callArg0 = 0;
  * and the initial sum) merge into one register and the first add folds to
  * adds r0,r0,#0 (35 B off, 166 B). opt_lifetimes off alone: 2 B off.
  */
-int SCRCMD_PROC_GetMonEvTotal(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetMonEvTotal(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = (u16 *)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -844,133 +808,70 @@ int SCRCMD_PROC_GetMonEvTotal(void *vm, void *cmdWork)
 
 #pragma opt_propagation reset
 
-int SCRCMD_PROC_CheckMonHpNotFullOrEgg(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_CheckMonHpNotFullOrEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    unsigned char monSlot[4];
-    int workOrValue;
-    int vmOrZero;
-    u16 *resultVar;
-vmOrZero = callArg0 + 0;
-workOrValue = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmOrZero + 0;
-callArg1 = workOrValue + 0;
-    callArg0 = SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-vmOrZero = 0;
-callArg0 = workOrValue + 0;
-callArg2 = (sptr)(monSlot + 0);
-*resultVar = vmOrZero;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto done;
-    callArg0 = *(int *)monSlot;
-callArg1 = 0xa0;
-callArg2 = vmOrZero + 0;
-    callArg0 = (int)POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-callArg0 = callArg0 << 0x10;
-workOrValue = (unsigned)callArg0 >> 0x10;
-    callArg0 = *(int *)monSlot;
-callArg1 = 0xa1;
-callArg2 = vmOrZero + 0;
-    callArg0 = (int)POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-callArg0 = callArg0 << 0x10;
-callArg0 = (unsigned)callArg0 >> 0x10;
-    if (workOrValue == callArg0) goto differ;
-    callArg0 = *(int *)monSlot;
-callArg1 = 0x4c;
-callArg2 = vmOrZero + 0;
-    callArg0 = (int)POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (callArg0 != 1) goto done;
-differ:
-callArg0 = 1;
-*resultVar = callArg0;
-done:
-callArg0 = 0;
-    return callArg0;
+    struct PokemonParam *mon;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    *resultVar = 0;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        u16 hp = POKE_TOOL_GetPartyValue(mon, 0xa0, 0);
+        u16 maxHp = POKE_TOOL_GetPartyValue(mon, 0xa1, 0);
+
+        if (hp == maxHp || POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 1) {
+            *resultVar = 1;
+        }
+    }
+    return 0;
 }
 
-int SCRCMD_PROC_CheckMonIsEgg(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_CheckMonIsEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    unsigned char monSlot[4];
-    int cmdWorkCopy;
-    int vmOrZero;
-    u16 *resultVar;
-vmOrZero = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmOrZero + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-vmOrZero = 0;
-callArg0 = cmdWorkCopy + 0;
-callArg2 = (sptr)(monSlot + 0);
-*resultVar = vmOrZero;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto done;
-    callArg0 = *(int *)monSlot;
-callArg1 = 0x4c;
-callArg2 = vmOrZero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (callArg0 != 0) goto isEgg;
-*resultVar = vmOrZero;
-    goto done;
-isEgg:
-callArg0 = 1;
-*resultVar = callArg0;
-done:
-callArg0 = 0;
-    return callArg0;
+    struct PokemonParam *mon;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    *resultVar = 0;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
+            *resultVar = 0;
+        } else {
+            *resultVar = 1;
+        }
+    }
+    return 0;
 }
 
-int SCRCMD_PROC_GetMonFriendship(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_GetMonFriendship(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    unsigned char monSlot[4];
-    int cmdWorkCopy;
-    int vmOrZero;
-    u16 *resultVar;
-vmOrZero = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmOrZero + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-vmOrZero = 0;
-callArg0 = cmdWorkCopy + 0;
-callArg2 = (sptr)(monSlot + 0);
-*resultVar = vmOrZero;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto done;
-    callArg0 = *(int *)monSlot;
-callArg1 = 0x4c;
-callArg2 = vmOrZero + 0;
-    callArg0 = (int)POKE_TOOL_GetPartyValue((void *)callArg0, (u32)callArg1, (u32)callArg2);
-    if (callArg0 != 0) goto done;
-    callArg0 = *(int *)monSlot;
-callArg1 = 9;
-callArg2 = vmOrZero + 0;
-    callArg0 = (int)POKE_TOOL_GetPartyValue((void *)callArg0, (u32)callArg1, (u32)callArg2);
-*resultVar = callArg0;
-done:
-callArg0 = 0;
-    return callArg0;
+    struct PokemonParam *mon;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    *resultVar = 0;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
+            *resultVar = POKE_TOOL_GetPartyValue(mon, 9, 0);
+        }
+    }
+    return 0;
 }
 
-int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
+int SCRCMD_PROC_ChangeMonFriendship(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int partyIndex = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
-    int amount = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
-    int operation = VM_ReadU16((struct ScriptVm *)vm);
-    sptr mon = 0;
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int amount = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int operation = VM_ReadU16(vm);
+    struct PokemonParam *mon = 0;
     u8 friendship;
-    if (SCRCMD_PROC_GetPartyMember((void *)cmdWork, partyIndex, (void **)(&mon)) == 0) {
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 0) {
         return 0;
     }
-    if (POKE_TOOL_GetPartyValue((void *)mon, 0x4C, 0) == 1) {
+    if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 1) {
         return 0;
     }
-    friendship = POKE_TOOL_GetPartyValue((void *)mon, 9, 0);
+    friendship = POKE_TOOL_GetPartyValue(mon, 9, 0);
     switch (operation) {
     case 0:
         if ((u32)amount > 0xFF) {
@@ -994,73 +895,59 @@ int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
         }
         break;
     }
-    POKE_TOOL_SetPartyValue((void *)mon, 9, friendship);
+    POKE_TOOL_SetPartyValue(mon, 9, friendship);
     return 0;
 }
 
-int SCRCMD_PROC_GetMonSpeciesOrEgg(int vm,int cmdWork)
+int SCRCMD_PROC_GetMonSpeciesOrEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm,(void *)cmdWork);
-    int partyIndex = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    if (SCRCMD_PROC_GetPartyMemberParam((void *)cmdWork,(void *)partyIndex,(void *)0x4C) != 0) *resultVar = 0x28A; else *resultVar = SCRCMD_PROC_GetPartyMemberParam((void *)cmdWork,(void *)partyIndex,(void *)5);
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    if (SCRCMD_PROC_GetPartyMemberParam(cmdWork, partyIndex, 0x4C) != 0) *resultVar = 0x28A; else *resultVar = SCRCMD_PROC_GetPartyMemberParam(cmdWork, partyIndex, 5);
     return 0;
 }
 
-int SCRCMD_PROC_GetMonForm(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_GetMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int cmdWorkCopy;
-    int vmCopy;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    *resultVar = SCRCMD_PROC_GetPartyMemberParam(cmdWork, partyIndex, 0x6f);
+    return 0;
+}
+
+int SCRCMD_PROC_FindFirstPartyIndex(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+{
+    int mode;
+    struct ScrcmdWork *cmdWorkCopy;
     u16 *resultVar;
-
-vmCopy = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmCopy + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-callArg0 = cmdWorkCopy + 0;
-callArg2 = 0x6f;
-    callArg0 = SCRCMD_PROC_GetPartyMemberParam((void *)callArg0, (void *)callArg1, (void *)callArg2);
-*resultVar = callArg0;
-callArg0 = 0;
-    return callArg0;}
-
-int SCRCMD_PROC_FindFirstPartyIndex(int callArg0, int callArg1)
-{
-    int vmOrMode;
-    int cmdWorkCopy;
-    unsigned short *resultVar;
     void *party;
+    int result;
 
-vmOrMode = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmOrMode + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-vmOrMode = callArg0 + 0;
-callArg0 = cmdWorkCopy + 0;
-    party = SCRCMD_WORK_GetGameData((void *)callArg0);
+    cmdWorkCopy = cmdWork;
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    party = SCRCMD_WORK_GetGameData(cmdWorkCopy);
     party = GAME_DATA_GetMyParty(party);
-    if (vmOrMode == 1) goto nonEgg;
-    if (vmOrMode != 2) goto none;
-    callArg0 = POKEPARTY_FindFirstBattleReady(party);
+    if (mode == 1) goto nonEgg;
+    if (mode != 2) goto none;
+    result = POKEPARTY_FindFirstBattleReady(party);
 truncate:
-callArg0 = callArg0 << 0x10;
-callArg0 = (unsigned)callArg0 >> 0x10;
+    result = result << 0x10;
+    result = (unsigned)result >> 0x10;
     goto store;
 nonEgg:
-    callArg0 = POKEPARTY_FindFirstNonEgg(party);
+    result = POKEPARTY_FindFirstNonEgg(party);
     goto truncate;
 none:
-callArg0 = 0;
+    result = 0;
 store:
-*resultVar = callArg0;
-callArg0 = 0;
-    return callArg0;}
+    *resultVar = result;
+    result = 0;
+    return result;
+}
 
-int SCRCMD_PROC_GetPartyCount(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetPartyCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int countKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1101,7 +988,7 @@ int SCRCMD_PROC_GetPartyCount(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_CountPartyMonsOfSpecies(void *vm, void *cmdWork)
+int SCRCMD_PROC_CountPartyMonsOfSpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1129,7 +1016,7 @@ int SCRCMD_PROC_CountPartyMonsOfSpecies(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetBoxMonCount(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetBoxMonCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int countKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1166,7 +1053,7 @@ int SCRCMD_PROC_GetBoxMonCount(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_FindPartyMonBySpecies(void *vm, void *cmdWork)
+int SCRCMD_PROC_FindPartyMonBySpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *foundVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1199,52 +1086,33 @@ int SCRCMD_PROC_FindPartyMonBySpecies(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_CheckPartyMonKnowsMove(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_CheckPartyMonKnowsMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int mon;
-    int cmdWorkCopy;
-    int vmCopy;
-    int moveId;
-    u16 *resultVar;
-vmCopy = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = vmCopy + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-moveId = callArg0 + 0;
-callArg0 = vmCopy + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-callArg0 = 0;
-*resultVar = callArg0;
-callArg0 = cmdWorkCopy + 0;
-callArg2 = (sptr)&mon;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto done;
-    callArg0 = mon;
-callArg1 = moveId + 0;
-    callArg0 = SCRCMD_PROC_CheckMonKnowsMove(callArg0, callArg1);
-    if (callArg0 != 1) goto done;
-callArg0 = 1;
-*resultVar = callArg0;
-done:
-callArg0 = 0;
-    return callArg0;
+    struct PokemonParam *mon;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int moveId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    *resultVar = 0;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        if (SCRCMD_PROC_CheckMonKnowsMove(mon, moveId) == 1) {
+            *resultVar = 1;
+        }
+    }
+    return 0;
 }
 
-int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
+int SCRCMD_PROC_FindPartyMonWithMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    void *moveId = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int moveId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     int i;
     int partyCount = POKEPARTY_GetCount(party);
 
     *resultVar = 6;
     for (i = 0; i < partyCount; i++) {
-        if (SCRCMD_PROC_CheckMonKnowsMove((sptr)POKEPARTY_GetMember(party, i), (sptr)moveId) == 1) {
+        if (SCRCMD_PROC_CheckMonKnowsMove(POKEPARTY_GetMember(party, i), moveId) == 1) {
             *resultVar = i;
             break;
         }
@@ -1252,7 +1120,7 @@ int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_AddMonToPartySimple(void *vm, void *cmdWork)
+int SCRCMD_PROC_AddMonToPartySimple(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u16 heapId;
@@ -1289,7 +1157,7 @@ int SCRCMD_PROC_AddMonToPartySimple(void *vm, void *cmdWork)
  * three, three of them clamped to 2), and of SCRCMD_PROC_AddMonToBoxDetailed: the u16 locals
  * are what make the second clamp reload its value from the spill slot.
  */
-int SCRCMD_PROC_AddMonToPartyDetailed(void *vm, void *cmdWork)
+int SCRCMD_PROC_AddMonToPartyDetailed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u16 heapId;
@@ -1337,56 +1205,38 @@ int SCRCMD_PROC_AddMonToPartyDetailed(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_CountMonMoves(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_CountMonMoves(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int mon;
+    struct PokemonParam *mon;
     int moveSlot;
     int moveCount;
-    int zero;
-    u16 *resultVar;
-moveCount = callArg0 + 0;
-moveSlot = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = moveCount + 0;
-callArg1 = moveSlot + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-callArg1 = callArg0 + 0;
-callArg0 = moveSlot + 0;
-callArg2 = (sptr)&mon;
-moveCount = 0;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto store;
-moveSlot = moveCount + 0;
-zero = moveCount + 0;
-countSlot:
-callArg1 = moveSlot + 0;
-    callArg0 = mon;
-callArg1 = callArg1 + 0x36;
-callArg2 = zero + 0;
-    callArg0 = POKE_TOOL_GetPartyValue((void *)callArg0, callArg1, callArg2);
-    if (callArg0 == 0) goto nextSlot;
-moveCount = moveCount + 1;
-nextSlot:
-moveSlot = moveSlot + 1;
-    if (moveSlot < 4) goto countSlot;
-store:
-*resultVar = moveCount;
-callArg0 = 0;
-    return callArg0;
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+
+    moveCount = 0;
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        for (moveSlot = 0; moveSlot < 4; moveSlot++) {
+            if (POKE_TOOL_GetPartyValue(mon, moveSlot + 0x36, 0) != 0) {
+                moveCount++;
+            }
+        }
+    }
+    *resultVar = moveCount;
+    return 0;
 }
 
-int SCRCMD_PROC_GetMonMove(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetMonMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar;
-    void *partyIndex;
-    char *moveSlot;
-    void *mon;
+    int partyIndex;
+    int moveSlot;
+    struct PokemonParam *mon;
 
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    partyIndex = (char *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    moveSlot = (char *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    if (SCRCMD_PROC_GetPartyMember(cmdWork, (uptr)partyIndex, &mon) == 1) {
-        *resultVar = POKE_TOOL_GetPartyValue(mon, (uptr)(moveSlot + 0x36), 0);
+    partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    moveSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)&mon) == 1) {
+        *resultVar = POKE_TOOL_GetPartyValue(mon, moveSlot + 0x36, 0);
     } else {
         *resultVar = 0;
     }
@@ -1399,7 +1249,7 @@ int SCRCMD_PROC_GetMonMove(void *vm, void *cmdWork)
  * the slot, shifting the later moves (ids 0x36 move, 0x3A pp, 0x3E pp-ups)
  * down one; otherwise POKE_TOOL_SetMoveSlot sets the move into the slot.
  */
-int SCRCMD_PROC_SetMonMove(void *vm, void *cmdWork)
+int SCRCMD_PROC_SetMonMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 partyIndex;
     u16 moveSlot;
@@ -1455,7 +1305,7 @@ int SCRCMD_PROC_SetMonMove(void *vm, void *cmdWork)
  * test), the name test as `== 0` (STRBUF_IsEqual answers "equal"), and the
  * version read into a local before the compare (`cmp r0, r1`).
  */
-int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
+int SCRCMD_PROC_CheckMonIsPlayerOwned(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *myStatus;
     void *mon;
@@ -1509,77 +1359,68 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
+int SCRCMD_PROC_ChangeMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *partyIndex = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *form = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *gameData;
     void *mon;
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (uptr)partyIndex);
-    POKE_TOOL_ChangeForm(mon, (uptr)form);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
+    POKE_TOOL_ChangeForm(mon, form);
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
 
-int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
+int SCRCMD_PROC_SetRotomFormMove(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *partyIndex = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *form = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *moveSlot = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int moveSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *gameData;
     void *mon;
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (uptr)partyIndex);
-    POKE_TOOL_SetRotomFormMove(mon, (uptr)moveSlot, (uptr)form);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
+    POKE_TOOL_SetRotomFormMove(mon, moveSlot, form);
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
 
-int SCRCMD_PROC_GetRelearnableMoveCount(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_GetRelearnableMoveCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int mon;
-    int cmdWorkCopy;
+    struct PokemonParam *mon;
+    struct ScrcmdWork *cmdWorkCopy;
     int partyIndex;
     int heapId;
     void *relearnMoves;
     u16 *resultVar;
-partyIndex = callArg0 + 0;
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = partyIndex + 0;
-callArg1 = cmdWorkCopy + 0;
-    callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
-partyIndex = callArg0 + 0;
-callArg0 = cmdWorkCopy + 0;
-    callArg0 = SCRCMD_WORK_GetHeapId((void *)callArg0);
-heapId = callArg0 + 0;
-callArg0 = cmdWorkCopy + 0;
-callArg1 = partyIndex + 0;
-callArg2 = (sptr)&mon;
-    callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
-    if (callArg0 != 1) goto done;
-    callArg0 = mon;
-callArg1 = heapId + 0;
-    relearnMoves = WAZA_OSHIE_CreateMoveList((void *)callArg0, callArg1);
-    callArg0 = WAZA_OSHIE_IsListEntryValid(relearnMoves);
-*resultVar = callArg0;
-    callArg0 = GFL_HEAP_Free(relearnMoves);
+    int result;
+
+    cmdWorkCopy = cmdWork;
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    heapId = SCRCMD_WORK_GetHeapId(cmdWorkCopy);
+    result = SCRCMD_PROC_GetPartyMember(cmdWorkCopy, partyIndex, (void **)&mon);
+    if (result != 1) goto done;
+    relearnMoves = WAZA_OSHIE_CreateMoveList(mon, heapId);
+    result = WAZA_OSHIE_IsListEntryValid(relearnMoves);
+    *resultVar = result;
+    result = GFL_HEAP_Free(relearnMoves);
 done:
-callArg0 = 0;
-    return callArg0;
+    result = 0;
+    return result;
 }
 
-int SCRCMD_PROC_CheckMonParamMatchesTable(void *vm, void *cmdWork)
+int SCRCMD_PROC_CheckMonParamMatchesTable(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     int tableIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    u16 monValue = SCRCMD_PROC_GetPartyMemberParam(cmdWork, (void *)partyIndex, (void *)0x95);
+    u16 monValue = SCRCMD_PROC_GetPartyMemberParam(cmdWork, partyIndex, 0x95);
 
     if (monValue == sScrcmdCompareTable[tableIndex]) {
         *resultVar = 1;
@@ -1589,7 +1430,7 @@ int SCRCMD_PROC_CheckMonParamMatchesTable(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetMonTripleParams(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetMonTripleParams(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *firstResultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondResultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -1608,7 +1449,7 @@ int SCRCMD_PROC_GetMonTripleParams(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_SetMonParamChecked(void *vm, void *cmdWork)
+int SCRCMD_PROC_SetMonParamChecked(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 paramId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1631,7 +1472,7 @@ int SCRCMD_PROC_SetMonParamChecked(void *vm, void *cmdWork)
 /*
  * lever: selector remains live in r2 and is SCRCMD_PROC_GetPartyMemberParam's third argument.
  */
-int SCRCMD_PROC_GetMonParamIfListed(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetMonParamIfListed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar;
     uptr partyIndex;
@@ -1642,7 +1483,7 @@ int SCRCMD_PROC_GetMonParamIfListed(void *vm, void *cmdWork)
     paramId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     for (i = 0; i < 12; i++) {
         if (paramId == sScrcmdAllowedParamIds[i]) {
-            *resultVar = SCRCMD_PROC_GetPartyMemberParam(cmdWork, (void *)partyIndex, (void *)paramId);
+            *resultVar = SCRCMD_PROC_GetPartyMemberParam(cmdWork, partyIndex, paramId);
             return 0;
         }
     }
@@ -1655,7 +1496,7 @@ int SCRCMD_PROC_GetMonParamIfListed(void *vm, void *cmdWork)
  * fills a 0x24-byte spec on the stack (function 0x0215C4C8 consumes it)
  * and stores the returned value through the destination.
  */
-int SCRCMD_PROC_AddMonToBoxSimple(void *vm, void *cmdWork)
+int SCRCMD_PROC_AddMonToBoxSimple(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u16 heapId;
@@ -1696,7 +1537,7 @@ int SCRCMD_PROC_AddMonToBoxSimple(void *vm, void *cmdWork)
  * into each int field is why the clamp of the spilled one reloads its
  * slot, and comparing the int field (not the u16 local) gives blt.
  */
-int SCRCMD_PROC_AddMonToBoxDetailed(void *vm, void *cmdWork)
+int SCRCMD_PROC_AddMonToBoxDetailed(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u16 heapId;
@@ -1753,7 +1594,7 @@ int SCRCMD_PROC_AddMonToBoxDetailed(void *vm, void *cmdWork)
  * from message 0x28A), writing 1 to the result word, or 0 when the
  * party is full. First draft.
  */
-int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
+int SCRCMD_PROC_AddEggToParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u32 heapId;
@@ -1807,22 +1648,23 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
 void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
 {
     void *myStatus;
-    void *trainerIdOrMon;
+    u32 trainerId;
+    struct PokemonParam *mon;
     u32 personalRnd;
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    trainerIdOrMon = (void *)MYSTATUS_GetId((const struct MyStatus *)GAME_DATA_GetMyStatus(gameData));
-    personalRnd = POKE_TOOL_CreatePersonalRnd((uptr)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
-    trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (uptr)trainerIdOrMon, -1, personalRnd, spec->heapId);
-    POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x6F, spec->form);
-    POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
+    trainerId = MYSTATUS_GetId((const struct MyStatus *)GAME_DATA_GetMyStatus(gameData));
+    personalRnd = POKE_TOOL_CreatePersonalRnd(trainerId, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
+    mon = POKE_TOOL_CreateEx(spec->species, spec->level, trainerId, -1, personalRnd, spec->heapId);
+    POKE_TOOL_SetPartyValue(mon, 0x6F, spec->form);
+    POKE_TOOL_SetPartyValue(mon, 6, spec->heldItem);
     if ((s32)FILE_UTIL_GetItemParam((u16)spec->ballItem, 0xF, spec->heapId) == 4)
-        POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
-    SAVE_EVENT_Write(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
-    POKE_TOOL_RecalcParam(trainerIdOrMon);
-    return trainerIdOrMon;
+        POKE_TOOL_SetPartyValue(mon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
+    SAVE_EVENT_Write(mon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
+    POKE_TOOL_RecalcParam(mon);
+    return mon;
 }
 
-int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
+int SCRCMD_PROC_AddMonToBox(void *gameData, PokemonSpec *spec)
 {
     void *boxManager;
     void *mon;
@@ -1831,13 +1673,13 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     if (BOX_SAVEDATA_CountPokemon(boxManager) >= 0x2D0)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
-    BOX_SAVEDATA_AddPokemon(boxManager, (struct BoxPokemon *)((uptr)POKE_TOOL_GetBoxParam(mon)));
+    BOX_SAVEDATA_AddPokemon(boxManager, POKE_TOOL_GetBoxParam(mon));
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     GFL_HEAP_Free(mon);
     return 1;
 }
 
-int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
+int SCRCMD_PROC_AddMonToParty(void *gameData, PokemonSpec *spec)
 {
     void *party;
     void *mon;
@@ -1855,27 +1697,27 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
-int SCRCMD_PROC_AddMoney(int vm,int cmdWork)
+int SCRCMD_PROC_AddMoney(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *gameData = SCRCMD_WORK_GetGameData((void *)cmdWork);
+    void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
-    value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
+    value = SCRIPT_WORK_ReadWorkValue(vm,cmdWork);
     MISC_AddMoney(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
-int SCRCMD_PROC_SubMoney(int vm,int cmdWork)
+int SCRCMD_PROC_SubMoney(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *gameData = SCRCMD_WORK_GetGameData((void *)cmdWork);
+    void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
-    value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
+    value = SCRIPT_WORK_ReadWorkValue(vm,cmdWork);
     MISC_SubMoney(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
-int SCRCMD_PROC_CheckMoneyAtLeast(void *vm, void *cmdWork)
+int SCRCMD_PROC_CheckMoneyAtLeast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     unsigned int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1889,7 +1731,7 @@ int SCRCMD_PROC_CheckMoneyAtLeast(void *vm, void *cmdWork)
  * Two overlay lookups on the second argument, the second of them classified
  * by an arm9 call, then submitted together.
  */
-int SCRCMD_PROC_CallFieldOpenEvent(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallFieldOpenEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot = SCRCMD_WORK_GetScriptWork(cmdWork);
 
@@ -1898,24 +1740,24 @@ int SCRCMD_PROC_CallFieldOpenEvent(void *vm, void *cmdWork)
     return 1;
 }
 
-int SCRCMD_PROC_CallFieldCloseEvent(int callArg0, int callArg1)
+int SCRCMD_PROC_CallFieldCloseEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int cmdWorkCopy;
+    struct ScrcmdWork *cmdWorkCopy;
     void *eventSlot;
     void *gameSystem;
     void *fieldMap;
+    void *event;
+    int result;
 
-cmdWorkCopy = callArg1 + 0;
-callArg0 = cmdWorkCopy + 0;
-    eventSlot = SCRCMD_WORK_GetScriptWork((void *)callArg0);
-callArg0 = cmdWorkCopy + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
+    cmdWorkCopy = cmdWork;
+    eventSlot = SCRCMD_WORK_GetScriptWork(cmdWorkCopy);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = (sptr)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap);
-callArg1 = callArg0 + 0;
-    SCRIPT_SYS_CallEvent(eventSlot, (void *)callArg1);
-callArg0 = 1;
-    return callArg0;}
+    event = FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap);
+    SCRIPT_SYS_CallEvent(eventSlot, event);
+    result = 1;
+    return result;
+}
 
 /*
  * Starts a child process from an overlay on behalf of a script command:
@@ -1923,7 +1765,7 @@ callArg0 = 1;
  * launches the process over the work with GAMESYSTEM_CallProc, parks the record in the
  * script's slot and waits on SCRCMD_PROC_WaitOverlayProc.
  */
-void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, void *cmdWork, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData)
+void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork, u32 overlayId, const void *procData, void *procWork, ScriptProcFinishFn onFinish, void *userData)
 {
     void *gameSystem;
     void **handoffSlot;
@@ -1940,53 +1782,48 @@ void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, void *cmdWork, u32 overla
     VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PROC_WaitOverlayProc);
 }
 
-int SCRCMD_PROC_WaitOverlayProc(int callArg0, int callArg1)
+int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int cmdWorkOrSlot;
-    sptr handoff;
+    struct ScrcmdWork *cmdWorkCopy;
+    struct ScriptWork *eventSlot;
+    ScriptProcHandoff *handoff;
     void *gameSystem;
+    int result;
 
-cmdWorkOrSlot = callArg1 + 0;
-callArg0 = cmdWorkOrSlot + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
-callArg0 = cmdWorkOrSlot + 0;
-    callArg0 = (sptr)SCRCMD_WORK_GetScriptWork((void *)callArg0); /* int-typed on purpose: pointer local changes codegen */
-cmdWorkOrSlot = callArg0 + 0;
-    callArg0 = (sptr)SCRIPT_WORK_GetUserWork((void *)callArg0);
-handoff = callArg0 + 0;
-    callArg0 = GAMESYSTEM_GetProcStatus(gameSystem);
-    if (callArg0 == 0) goto checkCallback;
-callArg0 = 0;
-    return callArg0;
+    cmdWorkCopy = cmdWork;
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
+    eventSlot = SCRCMD_WORK_GetScriptWork(cmdWorkCopy);
+    handoff = SCRIPT_WORK_GetUserWork(eventSlot);
+    result = GAMESYSTEM_GetProcStatus(gameSystem);
+    if (result == 0) goto checkCallback;
+    result = 0;
+    return result;
 checkCallback:
-callArg1 = (int)((ScriptProcHandoff *)handoff)->onFinish;
-    if (callArg1 == 0) goto noCallback;
-callArg0 = handoff + 0;
-    callArg0 = ((int (*)())callArg1)(callArg0);
+    if (handoff->onFinish == 0) goto noCallback;
+    handoff->onFinish(handoff);
     goto clearSlot;
 noCallback:
-callArg0 = (sptr)((ScriptProcHandoff *)handoff)->work;
-    if (callArg0 == 0) goto freeUserData;
-    GFL_HEAP_Free((void *)callArg0);
+    if (handoff->work == 0) goto freeUserData;
+    GFL_HEAP_Free(handoff->work);
 freeUserData:
-callArg0 = (int)((ScriptProcHandoff *)handoff)->userData;
-    if (callArg0 == 0) goto clearSlot;
-    GFL_HEAP_Free((void *)callArg0);
+    if (handoff->userData == 0) goto clearSlot;
+    GFL_HEAP_Free(handoff->userData);
 clearSlot:
-callArg0 = cmdWorkOrSlot + 0;
-    SCRIPT_WORK_FreeUserWork((struct ScriptWork *)callArg0);
-callArg0 = 1;
-    return callArg0;}
+    SCRIPT_WORK_FreeUserWork(eventSlot);
+    result = 1;
+    return result;
+}
 
-int SCRCMD_PROC_FreeScriptUserWork(int callArg0, int callArg1)
+int SCRCMD_PROC_FreeScriptUserWork(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot;
+    int result;
 
-callArg0 = callArg1 + 0;
-    eventSlot = SCRCMD_WORK_GetScriptWork((void *)callArg0);
+    eventSlot = SCRCMD_WORK_GetScriptWork(cmdWork);
     SCRIPT_WORK_FreeUserWork(eventSlot);
-callArg0 = 1;
-    return callArg0;}
+    result = 1;
+    return result;
+}
 
 /*
  * lever: Stores in both if/else arms retain the zero-first full branch;
@@ -2015,7 +1852,7 @@ void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData)
  * witness; ov070_id then resolved through the overlay_id walk (SCRCMD_PROC_StartOverlayProc
  * is a registered consumer). Source unchanged.
  */
-int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallBagScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 bagMode;
     u32 selectedVar;
@@ -2039,7 +1876,7 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     closeData = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov070_id, gItemMenuProcData, bagParam, (uptr)SCRCMD_PROC_OnBagClosed, (uptr)closeData);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov070_id, gItemMenuProcData, bagParam, (ScriptProcFinishFn)SCRCMD_PROC_OnBagClosed, closeData);
     return 1;
 }
 
@@ -2065,7 +1902,7 @@ void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData)
  *
  * 2026-10-05 (wave D9): EXACT. gMbSeqProcData resolves once its symbols line carries the ov136 token (the overlay the function loads); SCRCMD_PROC_OnGtsNegotiationDone has its own witness.
  */
-int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallGtsNegotiation(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot;
     void *gameSystem;
@@ -2087,29 +1924,25 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     return 1;
 }
 
-int SCRCMD_PROC_OnMoveRelearnDone(int callArg0, int callArg1)
+int SCRCMD_PROC_OnMoveRelearnDone(RelearnCallbackData *callbackData, int callArg1)
 {
-    sptr callbackData;
+    int learned;
+    int result;
 
-callbackData = callArg0 + 0;
-callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
-callArg0 = ((MoveRelearnParam *)callArg0)->learned;
-    if (callArg0 == 0) goto notLearned;
-    if (callArg0 == 1) goto learned;
+    result = callbackData->param->learned;
+    if (result == 0) goto notLearned;
+    if (result == 1) goto learned;
 notLearned:
-callArg1 = 0;
+    learned = 0;
     goto store;
 learned:
-callArg1 = 1;
+    learned = 1;
 store:
-callArg0 = (sptr)((RelearnCallbackData *)callbackData)->resultVar;
-*(u16 *)callArg0 = callArg1;
-callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
-callArg0 = (sptr)((MoveRelearnParam *)callArg0)->relearnMoves;
-    callArg0 = (int)GFL_HEAP_Free((void *)callArg0);
-callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
-    callArg0 = WAZA_OSHIE_Delete((void *)callArg0);
-    return callArg0;}
+    *callbackData->resultVar = learned;
+    GFL_HEAP_Free(callbackData->param->relearnMoves);
+    result = WAZA_OSHIE_Delete(callbackData->param);
+    return result;
+}
 
 static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, void *myStatus, void *gameSystem, void *moves)
 {
@@ -2127,7 +1960,7 @@ static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, voi
  * lever: enum one assigned immediately before the enabled store in the inline
  * record initializer separates it from the constant return and selects r0.
  */
-int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallMoveRelearn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot;
     void *gameSystem;
@@ -2175,7 +2008,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
  *
  * 2026-10-05 (wave D9): gPlayerProfileProcData now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches SCRCMD_PROC_StartOverlayProc, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  */
-int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallPlayerProfile(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem;
     void *gameComm;
@@ -2213,7 +2046,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
  * Script command: reads two words and stores EVENT_FIELD_PROCLINK_CreateCommExitEvent's result
  * (over the system and the script's cell) in the script's slot.
  */
-int SCRCMD_PROC_CallSubEvent(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallSubEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot;
     void *gameSystem;
@@ -2238,7 +2071,7 @@ int SCRCMD_PROC_CallSubEvent(void *vm, void *cmdWork)
  * proc table lives in ov174, which this function loads) gave the witness; the
  * ov174_id word then resolved through the overlay_id walk. Source unchanged.
  */
-int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallValueScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 value;
     ValueProcParam *param;
@@ -2266,7 +2099,7 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
  *
  * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching SCRCMD_PROC_StartOverlayProc, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> GAMESYSTEM_CallProc r1) and the hints resolve. Not fixable in C.
  */
-int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallModeScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     void *myStatus;
@@ -2312,7 +2145,7 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
  *
  * 2026-10-05 (wave D8): ov223_id and gPselProcData are data with no witness; not fixable in C. Source re-read against the listing, unchanged.
  */
-int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallWordScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 value;
     u32 *param;
@@ -2324,26 +2157,26 @@ int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
     return 1;
 }
 
-int SCRCMD_PROC_WaitNothing(int callArg0, int callArg1)
+int SCRCMD_PROC_WaitNothing(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int cmdWorkCopy;
+    struct ScrcmdWork *cmdWorkCopy;
     void *eventSlot;
     void *gameSystem;
+    int result;
 
-cmdWorkCopy = callArg1 + 0;
-callArg0 = cmdWorkCopy + 0;
-    eventSlot = SCRCMD_WORK_GetScriptWork((void *)callArg0);
-callArg0 = cmdWorkCopy + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
-callArg0 = 1;
-    return callArg0;}
+    cmdWorkCopy = cmdWork;
+    eventSlot = SCRCMD_WORK_GetScriptWork(cmdWorkCopy);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
+    result = 1;
+    return result;
+}
 
 /*
  * Script command: reads a kind (0xF-0x13 mapped to 0-4) and a flag (0/1),
  * builds a four-word request on the stack and launches EVENT_WIFIBATTLEMATCH_Entry
  * (ov002) through GAME_EVENT_CreateOverlayEvent, parking the result in the script's slot.
  */
-int SCRCMD_PROC_CallWifiBattleMatch(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallWifiBattleMatch(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot;
     void *gameSystem;
@@ -2394,7 +2227,7 @@ int SCRCMD_PROC_CallWifiBattleMatch(void *vm, void *cmdWork)
  * The ov003 callback 0x021543BC (unlabelled leaf, formerly the blocker) is
  * matched in pkt_ov003_021543BC and attests as matched.
  */
-int SCRCMD_PROC_CallMenuProc(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallMenuProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     MenuProcParam param;
     void *eventSlot = SCRCMD_WORK_GetScriptWork(cmdWork);
@@ -2406,7 +2239,7 @@ int SCRCMD_PROC_CallMenuProc(void *vm, void *cmdWork)
     return 1;
 }
 
-int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
+int SCRCMD_PROC_Ov037InitFromVars(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -2417,7 +2250,7 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
+int SCRCMD_PROC_Ov037SetValueA(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2427,7 +2260,7 @@ int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
+int SCRCMD_PROC_Ov037SetValueB(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2437,7 +2270,7 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
+int SCRCMD_PROC_Ov037ReadEightVars(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     unsigned short *resultVars[8];
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2455,7 +2288,7 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
+int SCRCMD_PROC_Ov037Finish(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     GF_OVERLAY_Load((sptr)ov037_id);
@@ -2470,23 +2303,25 @@ int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
  *   `matched, overlay`.  Extent runs 36 bytes against 34 compiled: the
  *   unlabelled follower.
  */
-int SCRCMD_PROC_CheckDaycareHasEgg(int callArg0, int callArg1)
-{    int cmdWorkCopy;
+int SCRCMD_PROC_CheckDaycareHasEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+{
+    struct ScrcmdWork *cmdWorkCopy;
     unsigned short *resultVar;
     void *gameSystem;
     void *fieldMap;
+    int result;
 
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = cmdWorkCopy + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
+    cmdWorkCopy = cmdWork;
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = SODATEYA_HasEgg(FIELDMAP_GetSodateya(fieldMap));
-*resultVar = callArg0;
-callArg0 = 0;
-    return callArg0;}
+    result = SODATEYA_HasEgg(FIELDMAP_GetSodateya(fieldMap));
+    *resultVar = result;
+    result = 0;
+    return result;
+}
 
-int SCRCMD_PROC_ReceiveDaycareEgg(void *vm, void *cmdWork)
+int SCRCMD_PROC_ReceiveDaycareEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
@@ -2494,19 +2329,20 @@ int SCRCMD_PROC_ReceiveDaycareEgg(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_DeclineDaycareEgg(int callArg0, int callArg1)
+int SCRCMD_PROC_DeclineDaycareEgg(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameSystem;
     void *fieldMap;
+    int result;
 
-callArg0 = callArg1 + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     SODATEYA_DeclineEgg((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
-callArg0 = 0;
-    return callArg0;}
+    result = 0;
+    return result;
+}
 
-int SCRCMD_PROC_CallDaycarePartyMenu(void *vm, void *cmdWork)
+int SCRCMD_PROC_CallDaycarePartyMenu(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *eventSlot = SCRCMD_WORK_GetScriptWork(cmdWork);
     unsigned short *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -2519,7 +2355,7 @@ int SCRCMD_PROC_CallDaycarePartyMenu(void *vm, void *cmdWork)
     return 1;
 }
 
-int SCRCMD_PROC_DepositDaycareMon(void *vm, void *cmdWork)
+int SCRCMD_PROC_DepositDaycareMon(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
@@ -2527,7 +2363,7 @@ int SCRCMD_PROC_DepositDaycareMon(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_WithdrawDaycareMon(void *vm, void *cmdWork)
+int SCRCMD_PROC_WithdrawDaycareMon(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
@@ -2535,43 +2371,47 @@ int SCRCMD_PROC_WithdrawDaycareMon(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetDaycareMonCount(int callArg0, int callArg1)
-{    int cmdWorkCopy;
+int SCRCMD_PROC_GetDaycareMonCount(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+{
+    struct ScrcmdWork *cmdWorkCopy;
     unsigned short *resultVar;
     void *gameSystem;
     void *fieldMap;
+    int result;
 
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = cmdWorkCopy + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
+    cmdWorkCopy = cmdWork;
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = SODATEYA_GetPokemonCount((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
-*resultVar = callArg0;
-callArg0 = 0;
-    return callArg0;}
+    result = SODATEYA_GetPokemonCount((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
+    *resultVar = result;
+    result = 0;
+    return result;
+}
 
-int SCRCMD_PROC_GetDaycareCompatibility(int callArg0, int callArg1)
-{    int cmdWorkCopy;
+int SCRCMD_PROC_GetDaycareCompatibility(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+{
+    struct ScrcmdWork *cmdWorkCopy;
     unsigned short *resultVar;
     void *gameSystem;
     void *fieldMap;
+    int result;
 
-cmdWorkCopy = callArg1 + 0;
-    resultVar = SCRIPT_WORK_ReadWorkPointer((void *)callArg0, (void *)callArg1);
-callArg0 = cmdWorkCopy + 0;
-    gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
+    cmdWorkCopy = cmdWork;
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWorkCopy);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = SODATEYA_GetCompatibility((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
-*resultVar = callArg0;
-callArg0 = 0;
-    return callArg0;}
+    result = SODATEYA_GetCompatibility((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
+    *resultVar = result;
+    result = 0;
+    return result;
+}
 
 /*
  * interface: SODATEYA_GetPokemon has two observed inputs. Its full ov021 body
  * and 0200BCA8/0200BC2C read r0/r1 only; legacy trailing r2/r3 are omitted.
  */
-int SCRCMD_PROC_GetDaycareMonSpecies(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetDaycareMonSpecies(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2581,7 +2421,7 @@ int SCRCMD_PROC_GetDaycareMonSpecies(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetDaycareMonForm(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetDaycareMonForm(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2591,7 +2431,7 @@ int SCRCMD_PROC_GetDaycareMonForm(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetDaycareMonGender(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetDaycareMonGender(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2601,7 +2441,7 @@ int SCRCMD_PROC_GetDaycareMonGender(void *vm, void *cmdWork)
     return 0;
 }
 
-int SCRCMD_PROC_GetDaycareSlotLevel(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetDaycareSlotLevel(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2630,7 +2470,7 @@ int SCRCMD_PROC_GetDaycareSlotPrice(void *vm,void *cmdWork)
  return 0;
 }
 
-int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *vm, void *cmdWork)
+int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int queryKind;
     u16 *resultVar;

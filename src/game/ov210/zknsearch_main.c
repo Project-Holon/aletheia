@@ -332,7 +332,7 @@ void ZKNSEARCH_MAIN_ConfigureWindow(void);
 void ZKNSEARCH_MAIN_ResetWindow(u32 work);
 void ZKNSEARCH_MAIN_InitTextSystem(char *p);
 u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *p);
-void ZKNSEARCH_MAIN_InitBlinkPalette(int p);
+void ZKNSEARCH_MAIN_InitBlinkPalette(ZknSearchWork *p);
 u32 ZKNSEARCH_MAIN_UpdateBlinkPalette(u8 *p);
 void ZKNSEARCH_MAIN_InitScrollWindow(char *p);
 void ZKNSEARCH_MAIN_DeleteScrollWindow(u8 *p);
@@ -417,34 +417,34 @@ void ZKNSEARCH_MAIN_InitListTexts4(u8 *p);
 void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *p);
 void ZKNSEARCH_MAIN_InitListTexts5(u8 *p);
 void ZKNSEARCH_MAIN_PrintListRow(char *p, int *a, struct Strbuf *b);
-void ZKNSEARCH_MAIN_TransferRowChars(int a, unsigned *p);
+void ZKNSEARCH_MAIN_TransferRowChars(ZknSearchWork *a, unsigned *p);
 void ZKNSEARCH_MAIN_PrintMessageText(u8 *p, unsigned message);
 void ZKNSEARCH_MAIN_PrintMessage11(void *a);
 void ZKNSEARCH_MAIN_PrintMessage9(void *a);
 void ZKNSEARCH_MAIN_PrintMessage10(void *a);
 void ZKNSEARCH_MAIN_RedrawSubWindow(int p);
-void ZKNSEARCH_MAIN_InitActorSystem(int p);
+void ZKNSEARCH_MAIN_InitActorSystem(ZknSearchWork *p);
 void ZKNSEARCH_MAIN_DeleteActorSystem(int p);
-void ZKNSEARCH_MAIN_UpdateActorAnims(int p);
+void ZKNSEARCH_MAIN_UpdateActorAnims(ZknSearchWork *p);
 void ZKNSEARCH_MAIN_SetActorAnim(char *p, int idx, int v);
 void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
-int ZKNSEARCH_MAIN_GetActorAnimSeq(int p, int i);
-int ZKNSEARCH_MAIN_IsActorAnimActive(int work, int actorIndex);
-void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
-int ZKNSEARCH_MAIN_GetActorVisible(int p, int i);
+int ZKNSEARCH_MAIN_GetActorAnimSeq(ZknSearchWork *p, int i);
+int ZKNSEARCH_MAIN_IsActorAnimActive(ZknSearchWork *work, int actorIndex);
+void ZKNSEARCH_MAIN_SetActorVisible(ZknSearchWork *p, int i, int v);
+int ZKNSEARCH_MAIN_GetActorVisible(ZknSearchWork *p, int i);
 void ZKNSEARCH_MAIN_SetActorObjMode(char *p, int idx, int flag);
 void ZKNSEARCH_MAIN_SetActorSurfacePos(char *p, int idx, int a, short b, unsigned short c);
 void ZKNSEARCH_MAIN_GetActorSurfacePos(char *p, int idx, short *outA, short *outB, unsigned short in);
-void ZKNSEARCH_MAIN_SetActorBgPriority(int p, int i, unsigned v);
+void ZKNSEARCH_MAIN_SetActorBgPriority(ZknSearchWork *p, int i, unsigned v);
 void ZKNSEARCH_MAIN_InitClact(void);
 void ZKNSEARCH_MAIN_RegisterActorRes(ZknSearchWork *p);
 void ZKNSEARCH_MAIN_ReleaseActorRes(u8 *p);
 void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *p);
-void ZKNSEARCH_MAIN_DeleteActorAt(int p, int i);
-void ZKNSEARCH_MAIN_DeleteActors(int p);
+void ZKNSEARCH_MAIN_DeleteActorAt(ZknSearchWork *p, int i);
+void ZKNSEARCH_MAIN_DeleteActors(ZknSearchWork *p);
 void ZKNSEARCH_MAIN_HideAllActors(u8 *p);
 unsigned ZKNSEARCH_MAIN_ShowResultActors(u8 *p);
-void ZKNSEARCH_MAIN_ShowActorsPage1(int p);
+void ZKNSEARCH_MAIN_ShowActorsPage1(ZknSearchWork *p);
 void ZKNSEARCH_MAIN_ShowActorsPage2(char *p);
 void ZKNSEARCH_MAIN_ShowActorsPage3(char *p);
 void ZKNSEARCH_MAIN_ShowActorsPage4(char *p);
@@ -670,11 +670,11 @@ void ZKNSEARCH_MAIN_InitPaletteAnim(char *work)
 
 void ZKNSEARCH_MAIN_DeletePaletteAnim(u8 *work)
 {
-    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 0);
-    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 1);
-    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 2);
-    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 3);
-    PALANM_Delete((void *)(*(u32 *)&((ZknSearchWork *)work)->palAnm));
+    PALANM_FreeSlotBuffers(*(PaletteFade **)&((ZknSearchWork *)work)->palAnm, 0);
+    PALANM_FreeSlotBuffers(*(PaletteFade **)&((ZknSearchWork *)work)->palAnm, 1);
+    PALANM_FreeSlotBuffers(*(PaletteFade **)&((ZknSearchWork *)work)->palAnm, 2);
+    PALANM_FreeSlotBuffers(*(PaletteFade **)&((ZknSearchWork *)work)->palAnm, 3);
+    PALANM_Delete(*(void **)&((ZknSearchWork *)work)->palAnm);
 }
 
 
@@ -788,7 +788,7 @@ u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *work)
 
 
 
-void ZKNSEARCH_MAIN_InitBlinkPalette(int work)
+void ZKNSEARCH_MAIN_InitBlinkPalette(ZknSearchWork *work)
 {
     void *h = ARC_TOOL_CreateHandle(0x9f, 0x807b);
 
@@ -813,7 +813,7 @@ u32 ZKNSEARCH_MAIN_UpdateBlinkPalette(u8 *work)
 
 void ZKNSEARCH_MAIN_InitScrollWindow(char *work)
 {
-    u32 base = BG_SYS_GetBuf(0);
+    u8 *base = BG_SYS_GetBuf(0);
     *(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin = (struct WinMgr *)BGWINFRM_Create(2, 1, 123);
     BGWINFRM_AddFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, 0, 32, 3);
     BGWINFRM_SetFrameData((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, (void *)(base + 0x540));
@@ -938,15 +938,15 @@ void ZKNSEARCH_MAIN_ShowResultLayout(char *work)
 {
     BG_SYS_DrawTile(1, ((ZknSearchWork *)work)->resultGraphics, 0, 17, 32, 6);
     BG_SYS_MarkTileDirty(1);
-    ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 15);
-    ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 3, 14);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 15);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 14);
     if (GAME_DATA_ContainsRecentId((struct GameData *)(**(int * *)&((ZknSearchWork *)work)->save), 16) == 1)
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 22);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 22);
     else
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 21);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 3, 1);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 4, 1);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 21);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 3, 1);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 4, 1);
 }
 
 
@@ -955,19 +955,19 @@ void ZKNSEARCH_MAIN_ShowResultLayout(char *work)
 
 void ZKNSEARCH_MAIN_HideResultLayout(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)((u8 *)work), 8, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(((ZknSearchWork *)(u8 *)work), 8, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 17, 32, 6, 0);
     BG_SYS_MarkTileDirty(1);
-    ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 0);
     if (GAME_DATA_ContainsRecentId((struct GameData *)(**(int * *)&((ZknSearchWork *)work)->save), 16) == 1)
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 7);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     else
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 6);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 2, 0);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorBgPriority((sptr)work, 4, 0);
-    ZKNSEARCH_MAIN_RedrawSubWindow((sptr)work);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 2, 0);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorBgPriority((ZknSearchWork *)work, 4, 0);
+    ZKNSEARCH_MAIN_RedrawSubWindow((int)work);
 }
 
 
@@ -1178,7 +1178,7 @@ u32 ZKNSEARCH_MAIN_RunState(u8 *work)
     if (s == 0x1b) {
         return 0;
     }
-    ZKNSEARCH_MAIN_UpdateActorAnims((sptr)work);
+    ZKNSEARCH_MAIN_UpdateActorAnims((ZknSearchWork *)work);
     ZKNSEARCH_MAIN_UpdateBmpWindows(work);
     ZUKAN_TickCounter(2, 6, (u32 *)(work + 0x2c4));
     return 1;
@@ -1216,8 +1216,8 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *work)
     ZKNSEARCH_MAIN_LoadCommonGraphics();
     ZKNSEARCH_MAIN_InitTextSystem((char *)work);
     ZKNSEARCH_MAIN_InitBmpWindows(work);
-    ZKNSEARCH_MAIN_InitActorSystem((sptr)work);
-    ZKNSEARCH_MAIN_InitBlinkPalette((sptr)work);
+    ZKNSEARCH_MAIN_InitActorSystem((ZknSearchWork *)work);
+    ZKNSEARCH_MAIN_InitBlinkPalette((ZknSearchWork *)work);
     GFL_NET_RefreshWmIconAtTopRight(1, 0x7b);
     ZKNSEARCH_MAIN_InitScrollWindow((char *)work);
     ZKNSEARCH_MAIN_EnterResultLayout((char *)work);
@@ -1248,7 +1248,7 @@ int ZKNSEARCH_MAIN_ExitSearchScreen(char *work)
     ZKNSEARCH_MAIN_DeleteScrollWindow((u8 *)work);
     ZKNSEARCH_MAIN_DeletePaletteAnim((u8 *)work);
     ZKNSEARCH_MAIN_UpdateBlinkPalette((u8 *)work);
-    ZKNSEARCH_MAIN_DeleteActorSystem((sptr)work);
+    ZKNSEARCH_MAIN_DeleteActorSystem((int)work);
     ZKNSEARCH_MAIN_DeleteBmpWindows(work);
     ZKNSEARCH_MAIN_DeleteBackgrounds(ZKNSEARCH_MAIN_DeleteTextSystem((u8 *)work));
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, -16);
@@ -1306,10 +1306,10 @@ int ZKNSEARCH_MAIN_EnterSearchResult(u8 *work)
 
 u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
 {
-    if (ZKNSEARCH_MAIN_UpdateScrollMove((char *)work) == 1 || PALANM_GetFadeRequestBits((const PaletteFade *)((const char *)(*(u32 *)&((ZknSearchWork *)work)->palAnm))) != 0) {
+    if (ZKNSEARCH_MAIN_UpdateScrollMove((char *)work) == 1 || PALANM_GetFadeRequestBits((const PaletteFade *)(*(const char **)&((ZknSearchWork *)work)->palAnm)) != 0) {
         return 4;
     }
-    switch (ZKNSEARCH_MAIN_PollMenuInput((sptr)work)) {
+    switch (ZKNSEARCH_MAIN_PollMenuInput((int)((int *)work))) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 0, 0, ZKNSEARCH_MAIN_EnterListState(work, 9));
@@ -1338,13 +1338,13 @@ u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x556);
         ((ZknSearchWork *)work)->save->mode = 2;
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 3, 8);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 8);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 3, 0x1a);
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x551);
         ZKNSEARCH_MAIN_DenormalizeRecordByte(work);
         ((ZknSearchWork *)work)->save->mode = 1;
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x1a);
     case (u32)-4:
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1356,7 +1356,7 @@ u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
         GFL_USE_PlaySeDefaultVolume(0x551);
         ZKNSEARCH_MAIN_DenormalizeRecordByte(work);
         ((ZknSearchWork *)work)->save->mode = 1;
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x1a);
     }
     BLINK_PALANM_Update((struct BlinkPalAnm *)(((ZknSearchWork *)work)->blinkPal));
@@ -1371,8 +1371,8 @@ u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
 u32 ZKNSEARCH_MAIN_ExitState(u8 *work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB(work);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 0);
-    ZKNSEARCH_MAIN_DeleteCursorMove((sptr)work);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 0);
+    ZKNSEARCH_MAIN_DeleteCursorMove((int)((int *)work));
     return ((ZknSearchWork *)work)->returnState;
 }
 
@@ -1387,7 +1387,7 @@ u32 ZKNSEARCH_MAIN_EnterSearchEngine(u8 *work)
 
     ZUKAN_InitQuery((struct Blk37 *)ctx[1], (u8 *)ctx[2]);
     ZKNSEARCH_MAIN_UpdateResultTexts(work);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 0);
     return 4;
 }
 
@@ -1444,12 +1444,12 @@ int ZKNSEARCH_MAIN_UpdateSearchEngine(unsigned char *work)
     if (work[0x2BB] == 1) {
         ZKNSEARCH_MAIN_DenormalizeRecordByte(work);
         *(int *)(work + 0x2CC) =
-            (sptr)ZUKAN_SEARCH_ENGINE_Create((struct Search *)(*(int *)(*(int *)work + 4)), (struct Query *)(*(int *)(*(int *)work + 8)), 0x807B);
+            (sptr)ZUKAN_SEARCH_ENGINE_Create(*(struct Search **)(*(int *)work + 4), *(struct Query **)(*(int *)work + 8), 0x807B);
         *(int *)(work + 0x2D0) = 0;
     }
     if (work[0x2BB] >= 2) {
         if (*(int *)(work + 0x2D0) == 0) {
-            r = ZUKAN_SEARCH_ENGINE_Filter((struct Search *)(*(int *)(work + 0x2CC)), 0x69, &v, (u16 **)(&w));
+            r = ZUKAN_SEARCH_ENGINE_Filter(*(struct Search **)(work + 0x2CC), 0x69, &v, (unsigned short **)&w);
             *(int *)(work + 0x2D0) = r;
             if (r == 1) {
                 *(unsigned short *)(*(int *)work + 0x14) = v;
@@ -1471,7 +1471,7 @@ int ZKNSEARCH_MAIN_UpdateSearchEngine(unsigned char *work)
             return 8;
         }
     } else {
-        ZKNSEARCH_MAIN_PlaceProgressActor((sptr)work, work[0x2BB]);
+        ZKNSEARCH_MAIN_PlaceProgressActor((int)work, work[0x2BB]);
         work[0x2BB] = work[0x2BB] + 1;
     }
     return 7;
@@ -1516,7 +1516,7 @@ int ZKNSEARCH_MAIN_EnterListPage1(u8 *work)
         work[0x2BA]++;
     case 1:
         if (FRAME_LIST_UpdateInit(((ZknSearchWork *)work)->frameList) == 0) {
-            ZKNSEARCH_MAIN_ShowActorsPage1((sptr)work);
+            ZKNSEARCH_MAIN_ShowActorsPage1((ZknSearchWork *)work);
             ZKNSEARCH_MAIN_LoadBgTile89(work);
             ZKNSEARCH_MAIN_ShowLayerSetB();
             ZKNSEARCH_MAIN_SetFadeStateA(work);
@@ -1534,7 +1534,7 @@ int ZKNSEARCH_MAIN_EnterListPage1(u8 *work)
 
 u32 ZKNSEARCH_MAIN_UpdateListPage1(u8 *work)
 {
-    int r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)work)->frameList));
+    int r5 = FRAME_LIST_Update(*(struct FrameList **)&((ZknSearchWork *)work)->frameList);
 
     if (r5 != -1) {
         switch (r5) {
@@ -1555,11 +1555,11 @@ u32 ZKNSEARCH_MAIN_UpdateListPage1(u8 *work)
     switch (r5) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 11);
     case 8:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 11);
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -1630,7 +1630,7 @@ int ZKNSEARCH_MAIN_EnterListPage2(u8 *work)
 u32 ZKNSEARCH_MAIN_UpdateListPage2(u8 *work)
 {
     u32 ret = 13;
-    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)work)->frameList));
+    u32 r5 = FRAME_LIST_Update(*(struct FrameList **)&((ZknSearchWork *)work)->frameList);
 
     switch (r5) {
     case 0:
@@ -1654,24 +1654,24 @@ u32 ZKNSEARCH_MAIN_UpdateListPage2(u8 *work)
         ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
         break;
     case (u32)-7:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         work[0x2c1] = 6;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-6:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         work[0x2c1] = 5;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-5:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 6, 13);
     case (u32)-4:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 5, 13);
     case (u32)-3:
     case (u32)-2:
@@ -1687,11 +1687,11 @@ u32 ZKNSEARCH_MAIN_UpdateListPage2(u8 *work)
         switch (r5) {
         case 0:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 14);
         case 8:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 14);
         case 9:
             GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -1763,7 +1763,7 @@ int ZKNSEARCH_MAIN_EnterListPage3(u8 *work)
 u32 ZKNSEARCH_MAIN_UpdateListPage3(u8 *work)
 {
     u32 ret = 16;
-    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)work)->frameList));
+    u32 r5 = FRAME_LIST_Update(*(struct FrameList **)&((ZknSearchWork *)work)->frameList);
 
     switch (r5) {
     case 0:
@@ -1787,24 +1787,24 @@ u32 ZKNSEARCH_MAIN_UpdateListPage3(u8 *work)
         ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
         break;
     case (u32)-7:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         work[0x2c1] = 6;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-6:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         work[0x2c1] = 5;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-5:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 6, 16);
     case (u32)-4:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 5, 16);
     case (u32)-3:
     case (u32)-2:
@@ -1821,11 +1821,11 @@ u32 ZKNSEARCH_MAIN_UpdateListPage3(u8 *work)
         switch (r5) {
         case 0:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x11);
         case 8:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x11);
         case 9:
             GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -1900,7 +1900,7 @@ int ZKNSEARCH_MAIN_EnterListPage4(u8 *work)
 u32 ZKNSEARCH_MAIN_UpdateListPage4(u8 *work)
 {
     u32 ret = 19;
-    u32 r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)work)->frameList));
+    u32 r5 = FRAME_LIST_Update(*(struct FrameList **)&((ZknSearchWork *)work)->frameList);
 
     switch (r5) {
     case 0:
@@ -1924,24 +1924,24 @@ u32 ZKNSEARCH_MAIN_UpdateListPage4(u8 *work)
         ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
         break;
     case (u32)-7:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         work[0x2c1] = 6;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-6:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         work[0x2c1] = 5;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-5:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 6, 19);
     case (u32)-4:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 5, 19);
     case (u32)-3:
     case (u32)-2:
@@ -1957,11 +1957,11 @@ u32 ZKNSEARCH_MAIN_UpdateListPage4(u8 *work)
         switch (r5) {
         case 0:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x14);
         case 8:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x14);
         case 9:
             GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -2038,7 +2038,7 @@ u32 ZKNSEARCH_MAIN_UpdateListPage5(u8 *work)
     u32 r5;
     u32 ret = 22;
 
-    r5 = FRAME_LIST_Update((struct FrameList *)(*(u32 *)&((ZknSearchWork *)work)->frameList));
+    r5 = FRAME_LIST_Update(*(struct FrameList **)&((ZknSearchWork *)work)->frameList);
 
     switch (r5) {
     case 0:
@@ -2059,24 +2059,24 @@ u32 ZKNSEARCH_MAIN_UpdateListPage5(u8 *work)
         ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
         break;
     case (u32)-7:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         work[0x2c1] = 6;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-6:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         work[0x2c1] = 5;
         ((ZknSearchWork *)work)->dialogState = 0;
         ((ZknSearchWork *)work)->returnState = ret;
         ret = 0x18;
         break;
     case (u32)-5:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 12);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 12);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 6, 22);
     case (u32)-4:
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 13);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 13);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 5, 22);
     case (u32)-3:
     case (u32)-2:
@@ -2093,11 +2093,11 @@ u32 ZKNSEARCH_MAIN_UpdateListPage5(u8 *work)
         switch (r5) {
         case 0:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x17);
         case 8:
             GFL_USE_PlaySeDefaultVolume(0x551);
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 2, 9);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
             return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x17);
         case 9:
             GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -2143,7 +2143,7 @@ int ZKNSEARCH_MAIN_UpdateConfirmDialog(u8 *work)
             ++((ZknSearchWork *)work)->dialogState;
         break;
     case 1:
-        if (work[0x2C1] != 57 && ZKNSEARCH_MAIN_IsActorAnimActive((sptr)work, work[0x2C1]) != 0)
+        if (work[0x2C1] != 57 && ZKNSEARCH_MAIN_IsActorAnimActive((ZknSearchWork *)work, work[0x2C1]) != 0)
             break;
         ((ZknSearchWork *)work)->dialogState = 0;
         ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
@@ -2164,7 +2164,7 @@ int ZKNSEARCH_MAIN_UpdateMessageDialog(u8 *work)
         case 0:
         case 2:
             if (*(u8 *)(work + 0x2C3) == 0) {
-                ZKNSEARCH_MAIN_SetCursorTile((sptr)work, *(u8 *)(work + 0x2C1), 1);
+                ZKNSEARCH_MAIN_SetCursorTile((int)((int *)work), *(u8 *)(work + 0x2C1), 1);
                 *(u8 *)(work + 0x2C3) = 4;
                 (*(u8 *)(work + 0x2C2))++;
             } else {
@@ -2174,7 +2174,7 @@ int ZKNSEARCH_MAIN_UpdateMessageDialog(u8 *work)
         case 1:
         case 3:
             if (*(u8 *)(work + 0x2C3) == 0) {
-                ZKNSEARCH_MAIN_SetCursorTile((sptr)work, *(u8 *)(work + 0x2C1), 2);
+                ZKNSEARCH_MAIN_SetCursorTile((int)((int *)work), *(u8 *)(work + 0x2C1), 2);
                 *(u8 *)(work + 0x2C3) = 4;
                 (*(u8 *)(work + 0x2C2))++;
             } else {
@@ -2183,12 +2183,12 @@ int ZKNSEARCH_MAIN_UpdateMessageDialog(u8 *work)
             break;
         case 4:
             if (UI_GetInputMode() == 1)
-                ZKNSEARCH_MAIN_SetCursorTile((sptr)work, *(u8 *)(work + 0x2C1), 1);
+                ZKNSEARCH_MAIN_SetCursorTile((int)((int *)work), *(u8 *)(work + 0x2C1), 1);
             else
-                ZKNSEARCH_MAIN_SetCursorTile((sptr)work, *(u8 *)(work + 0x2C1), 3);
+                ZKNSEARCH_MAIN_SetCursorTile((int)((int *)work), *(u8 *)(work + 0x2C1), 3);
             return *(u32 *)(work + 0x1C);
         }
-    } else if (ZKNSEARCH_MAIN_IsActorAnimActive((sptr)work, *(u8 *)(work + 0x2C1)) == 0) {
+    } else if (ZKNSEARCH_MAIN_IsActorAnimActive((ZknSearchWork *)work, *(u8 *)(work + 0x2C1)) == 0) {
         if (*(u32 *)(work + 0x1E0) != 0)
             ZKNSEARCH_MAIN_UpdateCursorActors(work, 0);
         return *(u32 *)(work + 0x1C);
@@ -2203,7 +2203,7 @@ int ZKNSEARCH_MAIN_UpdateMessageDialog(u8 *work)
 
 u32 ZKNSEARCH_MAIN_EnterMessageDialog(u8 *work)
 {
-    ZKNSEARCH_MAIN_DeleteCursorMove((sptr)work);
+    ZKNSEARCH_MAIN_DeleteCursorMove((int)((int *)work));
     ZKNSEARCH_MAIN_StartScrollMove((char *)work, 8);
     ZKNSEARCH_MAIN_RequestPaletteFade((char *)work, 0, 16);
     return 1;
@@ -2229,7 +2229,7 @@ void ZKNSEARCH_MAIN_SelectEntry1(u8 *work, u32 index)
 
 void ZKNSEARCH_MAIN_ClearEntry1(u8 *work)
 {
-    u32 t = *(u32 *)&((ZknSearchWork *)work)->save;
+    ZknSearchSave *t = *(struct ZknSearchSave **)&((ZknSearchWork *)work)->save;
     *(u8 *)(((ZknSearchSave *)t)->record + 1) = 0;
     ZKNSEARCH_MAIN_PrintEntryCount(work);
     ZKNSEARCH_MAIN_PlaceColumnActor1((char *)work, 0, 1);
@@ -2261,7 +2261,7 @@ void ZKNSEARCH_MAIN_ToggleEntry1(u8 *work, int row)
 
 void ZKNSEARCH_MAIN_ClearEntry2(u8 *work)
 {
-    u32 t = *(u32 *)&((ZknSearchWork *)work)->save;
+    ZknSearchSave *t = *(struct ZknSearchSave **)&((ZknSearchWork *)work)->save;
     *(u8 *)(((ZknSearchSave *)t)->record + 2) = 0xff;
     ZKNSEARCH_MAIN_PrintEntryCount2(work);
     ZKNSEARCH_MAIN_HideColumnActors((char *)work);
@@ -2344,7 +2344,7 @@ void ZKNSEARCH_MAIN_ToggleEntry3(u8 *work, int index)
 
 void ZKNSEARCH_MAIN_ClearEntry4(u8 *work)
 {
-    u32 t = *(u32 *)&((ZknSearchWork *)work)->save;
+    ZknSearchSave *t = *(struct ZknSearchSave **)&((ZknSearchWork *)work)->save;
     *(u8 *)(((ZknSearchSave *)t)->record + 5) = 0xff;
     ZKNSEARCH_MAIN_PrintEntryCount4(work);
     ZKNSEARCH_MAIN_HideColumnActors((char *)work);
@@ -2380,7 +2380,7 @@ void ZKNSEARCH_MAIN_ToggleEntry4(u8 *work, int index)
 
 void ZKNSEARCH_MAIN_ClearEntry5(u8 *work)
 {
-    u32 t = *(u32 *)&((ZknSearchWork *)work)->save;
+    ZknSearchSave *t = *(struct ZknSearchSave **)&((ZknSearchWork *)work)->save;
     *(u8 *)(((ZknSearchSave *)t)->record + 6) = 0xff;
     ZKNSEARCH_MAIN_ShowEntry6Actor((char *)work);
     ZKNSEARCH_MAIN_HideColumnActors((char *)work);
@@ -2428,10 +2428,10 @@ void ZKNSEARCH_MAIN_ToggleSaveFlag(u8 *work)
 {
     if (GAME_DATA_ContainsRecentId((**(void ** *)&((ZknSearchWork *)work)->save), 16) == 1) {
         GAME_DATA_SetRecentId(**(void ** *)&((ZknSearchWork *)work)->save, 16, 0);
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 6);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
     } else {
         GAME_DATA_SetRecentId(**(void ** *)&((ZknSearchWork *)work)->save, 16, 1);
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 7);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     }
 }
 
@@ -2527,7 +2527,7 @@ void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *zknSearchBmpWin)
 
 void ZKNSEARCH_MAIN_InitWindowTexts(u8 *work)
 {
-    if (*(u8 *)(*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8)) == 0)
+    if (**(u8 **)(*(u32 *)&((ZknSearchWork *)work)->save + 8) == 0)
         ZKNSEARCH_MAIN_PrintWindowText(work, 0, 0x12, 0, 4, 0x3C40, 0);
     else
         ZKNSEARCH_MAIN_PrintWindowText(work, 0, 0x11, 0, 4, 0x3C40, 0);
@@ -2590,16 +2590,16 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
     } else if (Bytes021BE564(work)[4] == 0xFF) {
         ZKNSEARCH_MAIN_PrintWindowText(work, 9, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]), 0x40, 4, 0x3C40, 2);
     } else {
-        s1 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
+        s1 = MSGDATA_AllocString(*(struct MsgBank **)&((ZknSearchWork *)work)->msgBank, 0x31);
         TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
         w = PRINTSYS_MeasureWidestLine(s1, ((ZknSearchWork *)work)->font, 0);
         STRBUF_Delete(s1);
         x = 0x40 - (u8)(w / 2);
-        s2 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]));
+        s2 = MSGDATA_AllocString(*(struct MsgBank **)&((ZknSearchWork *)work)->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[3]));
         TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
         STRBUF_Delete(s2);
         x += w;
-        s3 = MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[4]));
+        s3 = MSGDATA_AllocString(*(struct MsgBank **)&((ZknSearchWork *)work)->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, Bytes021BE564(work)[4]));
         TOUCHBAR_PrintAligned((TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
         STRBUF_Delete(s3);
     }
@@ -2623,7 +2623,7 @@ void ZKNSEARCH_MAIN_PrintLabel1(u8 *work)
 {
     u32 z = 0;
 
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 1, 0, 4, 0x440, z);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
 }
@@ -2674,10 +2674,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts2(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 5, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xD, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount2(work);
@@ -2708,10 +2708,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount2(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts3(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 6, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xE, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount3(work);
@@ -2726,14 +2726,14 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *work)
 {
     u8 c;
 
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[14].bmp)), 0);
-    c = ((u8 *)*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8))[3];
+    c = (*(u8 **)(*(u32 *)&((ZknSearchWork *)work)->save + 8))[3];
     if (c != 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, c), 0x30, 0, 0x3C40, 2);
     else
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, 0x30, 0x30, 0, 0x3C40, 2);
-    c = ((u8 *)*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8))[4];
+    c = (*(u8 **)(*(u32 *)&((ZknSearchWork *)work)->save + 8))[4];
     if (c != 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xE, ZKNSEARCH_MAIN_LookupSavedEntryId((sptr)work, c), 0x30, 0, 0x3C40, 2);
     else
@@ -2750,10 +2750,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts4(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 8, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xF, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount4(work);
@@ -2769,8 +2769,8 @@ void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *work)
     u32 v;
     u8 *b;
 
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
-    b = (u8 *)*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
+    b = *(u8 **)(*(u32 *)&((ZknSearchWork *)work)->save + 8);
     v = b[5];
     if (v != 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, v + 0x60, 0x30, 0, 0x3C40, 2);
@@ -2813,7 +2813,7 @@ void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, struct Strbuf *text)
 
 
 
-void ZKNSEARCH_MAIN_TransferRowChars(int work, unsigned *window)
+void ZKNSEARCH_MAIN_TransferRowChars(ZknSearchWork *work, unsigned *window)
 {
     BMP_WIN_TransferChars((struct BmpWin *)*window);
 }
@@ -2875,7 +2875,7 @@ void ZKNSEARCH_MAIN_RedrawSubWindow(int work)
 
 
 
-void ZKNSEARCH_MAIN_InitActorSystem(int work)
+void ZKNSEARCH_MAIN_InitActorSystem(ZknSearchWork *work)
 {
     ZKNSEARCH_MAIN_InitClact();
     ZKNSEARCH_MAIN_RegisterActorRes((ZknSearchWork *)work);
@@ -2891,7 +2891,7 @@ void ZKNSEARCH_MAIN_InitActorSystem(int work)
 
 void ZKNSEARCH_MAIN_DeleteActorSystem(int work)
 {
-    ZKNSEARCH_MAIN_DeleteActors(work);
+    ZKNSEARCH_MAIN_DeleteActors((ZknSearchWork *)work);
     ZKNSEARCH_MAIN_ReleaseActorRes((u8 *)work);
     CLACT_ExitSystem();
 }
@@ -2901,7 +2901,7 @@ void ZKNSEARCH_MAIN_DeleteActorSystem(int work)
 
 
 
-void ZKNSEARCH_MAIN_UpdateActorAnims(int work)
+void ZKNSEARCH_MAIN_UpdateActorAnims(ZknSearchWork *work)
 {
     unsigned i;
 
@@ -2941,7 +2941,7 @@ void ZKNSEARCH_MAIN_SetActorAnimAuto(int work, int i, int animSeq)
 
 
 
-int ZKNSEARCH_MAIN_GetActorAnimSeq(int work, int i)
+int ZKNSEARCH_MAIN_GetActorAnimSeq(ZknSearchWork *work, int i)
 {
     return CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[i]));
 }
@@ -2951,7 +2951,7 @@ int ZKNSEARCH_MAIN_GetActorAnimSeq(int work, int i)
 
 
 
-int ZKNSEARCH_MAIN_IsActorAnimActive(int work, int actorIndex)
+int ZKNSEARCH_MAIN_IsActorAnimActive(ZknSearchWork *work, int actorIndex)
 {
     
 
@@ -2963,7 +2963,7 @@ int ZKNSEARCH_MAIN_IsActorAnimActive(int work, int actorIndex)
 
 
 
-void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
+void ZKNSEARCH_MAIN_SetActorVisible(ZknSearchWork *work, int i, int visible)
 {
     int h = (sptr)((ZknSearchWork *)work)->actors[i];
 
@@ -2976,7 +2976,7 @@ void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
 
 
 
-int ZKNSEARCH_MAIN_GetActorVisible(int work, int i)
+int ZKNSEARCH_MAIN_GetActorVisible(ZknSearchWork *work, int i)
 {
     return CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[i]));
 }
@@ -3029,7 +3029,7 @@ void ZKNSEARCH_MAIN_GetActorSurfacePos(char *work, int idx, short *outA, short *
 
 
 
-void ZKNSEARCH_MAIN_SetActorBgPriority(int work, int i, unsigned bgPriority)
+void ZKNSEARCH_MAIN_SetActorBgPriority(ZknSearchWork *work, int i, unsigned bgPriority)
 {
     CLACT_SetActorBgPriority(((ZknSearchWork *)work)->actors[i], (unsigned char)bgPriority);
 }
@@ -3132,19 +3132,19 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
     }
 
     if (GAME_DATA_ContainsRecentId((work->save->gameData), 0x10) == 1)
-        ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 4, 7);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 8, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 10, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 11, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 12, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 13, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 14, 0);
+        ZKNSEARCH_MAIN_SetActorAnimAuto((int)((char *)work), 4, 7);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 5, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 6, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 0, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 1, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 7, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 8, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 9, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 10, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 11, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 12, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 13, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 14, 0);
     CLACT_SetActorObjMode(work->actors[13], 2);
     CLACT_SetActorObjMode(work->actors[14], 2);
     ZKNSEARCH_MAIN_SetActorObjMode((char *)work, 11, 1);
@@ -3159,7 +3159,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         t.cellIdx = work->cellRes[t.cellIdx];
         t.id = i;
         work->actors[15 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 15, 0);
+        ZKNSEARCH_MAIN_SetActorVisible(work, i + 15, 0);
 
         t = tb;
         t.charIdx = work->charRes[t.charIdx];
@@ -3167,10 +3167,10 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         t.cellIdx = work->cellRes[t.cellIdx];
         t.id = i;
         work->actors[29 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 29, 0);
+        ZKNSEARCH_MAIN_SetActorVisible(work, i + 29, 0);
         ZKNSEARCH_MAIN_SetActorObjMode((char *)work, (int)i + 29, 1);
         work->actors[43 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 43, 0);
+        ZKNSEARCH_MAIN_SetActorVisible(work, i + 43, 0);
         CLACT_SetActorObjMode(work->actors[43 + i], 2);
     }
 }
@@ -3179,7 +3179,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
 
 
 
-void ZKNSEARCH_MAIN_DeleteActorAt(int work, int i)
+void ZKNSEARCH_MAIN_DeleteActorAt(ZknSearchWork *work, int i)
 {
     int o = i * 4;
     ZknSearchWork *q = (ZknSearchWork *)work;
@@ -3194,7 +3194,7 @@ void ZKNSEARCH_MAIN_DeleteActorAt(int work, int i)
 
 
 
-void ZKNSEARCH_MAIN_DeleteActors(int work)
+void ZKNSEARCH_MAIN_DeleteActors(ZknSearchWork *work)
 {
     unsigned i;
 
@@ -3209,20 +3209,20 @@ void ZKNSEARCH_MAIN_HideAllActors(u8 *work)
 {
     unsigned int i;
 
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xA, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xB, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xC, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xD, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xE, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 1, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xA, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xB, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xC, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xD, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xE, 0);
     for (i = 0; i < 0xE; i++) {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 0xF, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 0x1D, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 0x2B, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 0xF, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 0x1D, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 0x2B, 0);
     }
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 0);
 }
 
 
@@ -3236,17 +3236,17 @@ void ZKNSEARCH_MAIN_HideAllActors(u8 *work)
 unsigned ZKNSEARCH_MAIN_ShowResultActors(u8 *work)
 {
     u8 *data;
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 3, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 4, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 6, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 5, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 3, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 4, 1);
     data = *(u8 * *)&((ZknSearchWork *)work)->save->record;
     if (data[6] == 255)
         return (uptr)data;
     ZKNSEARCH_MAIN_SetActorAnim((char *)work, 7, data[6]);
     ZKNSEARCH_MAIN_SetActorSurfacePos((char *)work, 7, 192, 116, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 1);
 #ifndef __MWERKS__
     return 0; /* the DS code falls off the end here; r0 is not set */
 #endif
@@ -3257,11 +3257,11 @@ unsigned ZKNSEARCH_MAIN_ShowResultActors(u8 *work)
 
 
 
-void ZKNSEARCH_MAIN_ShowActorsPage1(int work)
+void ZKNSEARCH_MAIN_ShowActorsPage1(ZknSearchWork *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((int)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((int)work, 4, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((int)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible(work, 2, 1);
 }
 
 
@@ -3270,13 +3270,13 @@ void ZKNSEARCH_MAIN_ShowActorsPage1(int work)
 
 void ZKNSEARCH_MAIN_ShowActorsPage2(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 4, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 5, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 6, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 1, 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0, 0xfc, 12, 0);
 }
 
@@ -3286,13 +3286,13 @@ void ZKNSEARCH_MAIN_ShowActorsPage2(char *work)
 
 void ZKNSEARCH_MAIN_ShowActorsPage3(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 4, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 5, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 6, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 1, 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0, 0xfc, 12, 0);
 }
 
@@ -3301,13 +3301,13 @@ void ZKNSEARCH_MAIN_ShowActorsPage3(char *work)
 
 void ZKNSEARCH_MAIN_ShowActorsPage4(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 4, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 5, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 6, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 1, 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0, 0xfc, 12, 0);
 }
 
@@ -3316,13 +3316,13 @@ void ZKNSEARCH_MAIN_ShowActorsPage4(char *work)
 
 void ZKNSEARCH_MAIN_ShowActorsPage5(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 3, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 4, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 2, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 5, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 6, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0, 1);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 1, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 3, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 4, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 2, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 5, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 6, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 1, 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0, 0xfc, 12, 0);
     ZKNSEARCH_MAIN_ShowEntry6Actor(work);
 }
@@ -3336,9 +3336,9 @@ void ZKNSEARCH_MAIN_ShowEntry6Actor(char *work)
     if (v != 0xff) {
         ZKNSEARCH_MAIN_SetActorAnim(work, 7, v);
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 7, 0x40, 0x68, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 1);
     } else {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 7, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 7, 0);
     }
 }
 
@@ -3350,9 +3350,9 @@ void ZKNSEARCH_MAIN_LayoutScrollActors(char *work)
     short base = FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
     short i;
     for (i = 0; i < 14; i++) {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 15, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 29, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i + 43, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 15, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 29, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 43, 0);
     }
     for (i = 0; i < 5; i++) {
         ZKNSEARCH_MAIN_PlacePageActor(work, (unsigned short)(base + i), (short)(i * 40), 1);
@@ -3383,18 +3383,18 @@ void ZKNSEARCH_MAIN_UpdateCursorActors(u8 *work, int force)
 {
     int r6 = FRAME_LIST_GetCursor((struct FrameList *)(((ZknSearchWork *)work)->frameList));
 
-    if (ZKNSEARCH_MAIN_GetActorAnimSeq((sptr)work, 6) != 0xC || force == 0) {
+    if (ZKNSEARCH_MAIN_GetActorAnimSeq((ZknSearchWork *)work, 6) != 0xC || force == 0) {
         if (FRAME_LIST_GetScrollPos((struct FrameList *)(((ZknSearchWork *)work)->frameList)) == 0 && r6 == 0)
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 0x12);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 0x12);
         else
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 6, 4);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 4);
     }
-    if (ZKNSEARCH_MAIN_GetActorAnimSeq((sptr)work, 5) != 0xD || force == 0) {
+    if (ZKNSEARCH_MAIN_GetActorAnimSeq((ZknSearchWork *)work, 5) != 0xD || force == 0) {
         if (FRAME_LIST_CanScrollDown((struct FrameList *)(((ZknSearchWork *)work)->frameList)) == 0 &&
             r6 == ((ZknSearchWork *)work)->entryCount - 1)
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 0x13);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 0x13);
         else
-            ZKNSEARCH_MAIN_SetActorAnimAuto((sptr)work, 5, 5);
+            ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 5);
     }
 }
 
@@ -3407,16 +3407,16 @@ void ZKNSEARCH_MAIN_PlaceColumnActor(char *work, int idx, int y, int flag)
     int coord;
     if (flag == 1) {
         index = idx + 9;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, index, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, index, 1);
         coord = y + 12;
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, index, 0x8c, coord, 0);
     } else {
         int other = idx + 11;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, other, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, other, 1);
         coord = y + 12;
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, other, 0x8c, coord, 1);
         index = idx + 13;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, index, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, index, 1);
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, index, 0x8c, coord, 1);
     }
 }
@@ -3426,12 +3426,12 @@ void ZKNSEARCH_MAIN_PlaceColumnActor(char *work, int idx, int y, int flag)
 
 void ZKNSEARCH_MAIN_HideColumnActors(char *work)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 10, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 11, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 12, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 13, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 14, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 10, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 11, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 12, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 13, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 14, 0);
 }
 
 
@@ -3442,9 +3442,9 @@ void ZKNSEARCH_MAIN_HideColumnActors(char *work)
  */
 void ZKNSEARCH_MAIN_PlaceColumnActor1(char *work, int i, int flag)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, flag);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 11, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 13, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, flag);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 11, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 13, 0);
     if (flag == 1)
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 9, 0x8c, (short)(i * 24 + 12), 0);
 }
@@ -3459,25 +3459,25 @@ void ZKNSEARCH_MAIN_PlaceColumnActors2(char *work, u8 firstEntry, u8 secondEntry
     u8 d;
     int y;
 
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xA, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xB, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xC, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xD, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xE, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xA, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xB, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xC, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xD, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xE, 0);
     if (firstEntry != 0xFF) {
         firstEntry = (u8)ZKNSEARCH_MAIN_GetListIndexB((uptr)work, firstEntry);
         d = (u8)(firstEntry - cur < 0 ? -(firstEntry - cur) : firstEntry - cur);
         if (firstEntry < cur) {
             if (d <= 8) {
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xB, 1);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xB, 1);
                 y = (8 - d) * 0x18 + 0xC;
                 ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xB, 0x8C, (s16)y, 1);
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xD, 1);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xD, 1);
                 ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xD, 0x8C, (s16)y, 1);
             }
         } else if (d <= 7) {
-            ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 1);
+            ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 1);
             ZKNSEARCH_MAIN_SetActorSurfacePos(work, 9, 0x8C, (s16)(d * 0x18 + 0xC), 0);
         }
     }
@@ -3486,14 +3486,14 @@ void ZKNSEARCH_MAIN_PlaceColumnActors2(char *work, u8 firstEntry, u8 secondEntry
         d = (u8)(secondEntry - cur < 0 ? -(secondEntry - cur) : secondEntry - cur);
         if (secondEntry < cur) {
             if (d <= 8) {
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xC, 1);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xC, 1);
                 y = (8 - d) * 0x18 + 0xC;
                 ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xC, 0x8C, (s16)y, 1);
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xE, 1);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xE, 1);
                 ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xE, 0x8C, (s16)y, 1);
             }
         } else if (d <= 7) {
-            ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xA, 1);
+            ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xA, 1);
             ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xA, 0x8C, (s16)(d * 0x18 + 0xC), 0);
         }
     }
@@ -3505,14 +3505,14 @@ void ZKNSEARCH_MAIN_PlaceColumnActor3(char *work, int y, int flag)
 {
     int coord;
     if (flag == 1) {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 1);
         coord = y + 20;
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 9, 0x8c, coord, 0);
     } else {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 11, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 11, 1);
         coord = y + 20;
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 11, 0x8c, coord, 1);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 13, 1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 13, 1);
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 13, 0x8c, coord, 1);
     }
 }
@@ -3521,9 +3521,9 @@ void ZKNSEARCH_MAIN_PlaceColumnActor3(char *work, int y, int flag)
 
 void ZKNSEARCH_MAIN_PlaceColumnActor4(char *work, int i, int flag)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, flag);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 11, 0);
-    ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 13, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, flag);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 11, 0);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 13, 0);
     if (flag == 1)
         ZKNSEARCH_MAIN_SetActorSurfacePos(work, 9, 0x8c, (short)(i * 40 + 20), 0);
 }
@@ -3569,16 +3569,16 @@ void ZKNSEARCH_MAIN_PlacePageActor(char *ctx, unsigned long slot, YCoord y, int 
     unsigned long second;
     if (flag == 1) {
         slot += 15;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)ctx, (unsigned)slot, (unsigned)1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)ctx, (unsigned)slot, (unsigned)1);
         y += 20;
         ZKNSEARCH_MAIN_SetActorSurfacePos(ctx, (unsigned)slot, (unsigned short)204, y, 0);
     } else {
         second = slot + 29;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)ctx, (unsigned)second, (unsigned)1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)ctx, (unsigned)second, (unsigned)1);
         y += 20;
         ZKNSEARCH_MAIN_SetActorSurfacePos(ctx, (unsigned)second, (unsigned short)204, y, 1);
         slot += 43;
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)ctx, (unsigned)slot, (unsigned)1);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)ctx, (unsigned)slot, (unsigned)1);
         ZKNSEARCH_MAIN_SetActorSurfacePos(ctx, (unsigned)slot, (unsigned short)204, y, 1);
     }
 }
@@ -3592,18 +3592,18 @@ void ZKNSEARCH_MAIN_MoveColumnActors(int work, int deltaY)
     short pos[2];
 
     for (i = 9; i <= 10; i++) {
-        if (ZKNSEARCH_MAIN_GetActorVisible(work, i) != 0) {
+        if (ZKNSEARCH_MAIN_GetActorVisible((ZknSearchWork *)work, i) != 0) {
             int t;
 
             ZKNSEARCH_MAIN_GetActorSurfacePos((char *)work, i, &pos[1], &pos[0], 0);
             ZKNSEARCH_MAIN_SetActorSurfacePos((char *)work, i, (short)pos[1], (short)(pos[0] + deltaY), (int)0);
             t = pos[0] + deltaY;
             if (t <= -12 || t >= 0xcc)
-                ZKNSEARCH_MAIN_SetActorVisible((int)work, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i, 0);
         }
     }
     for (i = 11; i <= 12; i++) {
-        if (ZKNSEARCH_MAIN_GetActorVisible(work, i) != 0) {
+        if (ZKNSEARCH_MAIN_GetActorVisible((ZknSearchWork *)work, i) != 0) {
             int t;
 
             ZKNSEARCH_MAIN_GetActorSurfacePos((char *)work, i, &pos[1], &pos[0], 1);
@@ -3611,8 +3611,8 @@ void ZKNSEARCH_MAIN_MoveColumnActors(int work, int deltaY)
             ZKNSEARCH_MAIN_SetActorSurfacePos((char *)work, i + 2, (short)pos[1], (short)(pos[0] + deltaY), (int)1);
             t = pos[0] + deltaY;
             if (t <= -12 || t >= 0xcc) {
-                ZKNSEARCH_MAIN_SetActorVisible((int)work, i, 0);
-                ZKNSEARCH_MAIN_SetActorVisible((int)work, i + 2, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i + 2, 0);
             }
         }
     }
@@ -3627,27 +3627,27 @@ void ZKNSEARCH_MAIN_MoveScrollActors(char *work, int dx)
     struct { short x; short y; } pos;
 
     for (i = 0xF; i < 0x1D; i++) {
-        if (ZKNSEARCH_MAIN_GetActorVisible((sptr)work, i)) {
+        if (ZKNSEARCH_MAIN_GetActorVisible((ZknSearchWork *)work, i)) {
             ZKNSEARCH_MAIN_GetActorSurfacePos(work, i, &pos.y, &pos.x, 0);
             ZKNSEARCH_MAIN_SetActorSurfacePos(work, i, pos.y, (short)(pos.x + dx), 0);
             if (pos.x + dx <= -20 || pos.x + dx >= 0xDC) {
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i, 0);
             }
         }
     }
     ZKNSEARCH_MAIN_GetActorSurfacePos(work, 9, &pos.y, &pos.x, 0);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 9, pos.y, (short)(pos.x + dx), 0);
     if (pos.x + dx <= -20 || pos.x + dx >= 0xDC) {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 9, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 9, 0);
     }
     for (i = 0x1D; i < 0x2B; i++) {
-        if (ZKNSEARCH_MAIN_GetActorVisible((sptr)work, i)) {
+        if (ZKNSEARCH_MAIN_GetActorVisible((ZknSearchWork *)work, i)) {
             ZKNSEARCH_MAIN_GetActorSurfacePos(work, i, &pos.y, &pos.x, 1);
             ZKNSEARCH_MAIN_SetActorSurfacePos(work, i, pos.y, (short)(pos.x + dx), 1);
             ZKNSEARCH_MAIN_SetActorSurfacePos(work, i + 0xE, pos.y, (short)(pos.x + dx), 1);
             if (pos.x + dx <= -28 || pos.x + dx >= 0xD4) {
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, i, 0);
-                ZKNSEARCH_MAIN_SetActorVisible((sptr)work, (int)i + 0xE, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, i, 0);
+                ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, (int)i + 0xE, 0);
             }
         }
     }
@@ -3655,8 +3655,8 @@ void ZKNSEARCH_MAIN_MoveScrollActors(char *work, int dx)
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xB, pos.y, (short)(pos.x + dx), 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos(work, 0xD, pos.y, (short)(pos.x + dx), 1);
     if (pos.x + dx <= -28 || pos.x + dx >= 0xD4) {
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xB, 0);
-        ZKNSEARCH_MAIN_SetActorVisible((sptr)work, 0xD, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xB, 0);
+        ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xD, 0);
     }
 }
 
@@ -3665,7 +3665,7 @@ void ZKNSEARCH_MAIN_MoveScrollActors(char *work, int dx)
 
 void ZKNSEARCH_MAIN_PlaceProgressActor(int work, int progress)
 {
-    ZKNSEARCH_MAIN_SetActorVisible((int)work, 8, 1);
+    ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 8, 1);
     ZKNSEARCH_MAIN_SetActorSurfacePos((char *)work, 8, (short)(progress * 2 + 8), 0xa8, (int)0);
 }
 
@@ -3677,7 +3677,7 @@ void ZKNSEARCH_MAIN_InitCursorMove(char *ctx, int index)
         ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021C0B60, (struct CursorVtbl *)d_021C0B14, (uptr)ctx, 0, index, 123);
     } else {
         ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021C0B60, (struct CursorVtbl *)d_021C0B14, (uptr)ctx, 1, index, 123);
-        ZKNSEARCH_MAIN_SetCursorTile((sptr)ctx, index, 3);
+        ZKNSEARCH_MAIN_SetCursorTile((int)((int *)ctx), index, 3);
     }
     CURSOR_MOVE_EnableInput(((ZknSearchWork *)ctx)->cursorMove);
 }

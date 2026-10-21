@@ -551,7 +551,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     *(u16 *)((u8 *)&config+0x10)=p->count;
     *(u16 *)((u8 *)&config+0x12)=p->count;
     config.word[3]=(uptr)out->win;
-    config.word[9]=p->msgBank;
+    config.word[9]=(uptr)p->msgBank;
     config.word[10]=(uptr)&out->win2;
     config.word[11]=p->printQue;
     config.word[12]=p->font;

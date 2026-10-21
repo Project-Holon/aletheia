@@ -541,7 +541,7 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
         CLACT_SetActorDrawEnable((struct ClactActor *)p->items[n], 1);
         return;
     }
-    PMS_INPUT_GetListWord(p->input, n - 2, (sptr)(p->wordText));
+    PMS_INPUT_GetListWord(p->input, n - 2, (p->wordText));
     GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
         PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->listWindow), 112 * ((n - 2) & 1), y, (struct Strbuf *)p->wordText, (void *)font);

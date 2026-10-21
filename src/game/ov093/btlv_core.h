@@ -45,7 +45,7 @@ void BTLV_CORE_StartActionMenu(struct BtlvCore *core, struct BtlPokeParam *pokeP
 void BTLV_CORE_AbortActionMenu(struct BtlvCore *core);
 int BTLV_CORE_PollActionMenu(struct BtlvCore *core);
 void BTLV_CORE_StartMoveMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor);
-void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, u32 *entry, u8 *cursor);
+void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, struct BtlPokeParam **entry, u8 *cursor);
 void BTLV_CORE_ReopenMoveMenu(struct BtlvCore *core);
 int BTLV_CORE_StepMoveMenu(struct BtlvCore *core, int *state, void *work);
 void BTLV_CORE_AbortMoveMenu(struct BtlvCore *core);
@@ -147,7 +147,7 @@ void BTLV_CORE_StartYesNoMenu(struct BtlvCore *core, struct BtlvMessage *yesMsg,
 int BTLV_CORE_PollYesNoMenu(struct BtlvCore *core, int *outResult);
 void BTLV_CORE_StartMoveForgetScreen(struct BtlvCore *core, u8 pokeSlot, int moveId);
 int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot);
-void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, int pokeParam, struct BtlExpResult *result);
+void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, void **pokeParam, struct BtlExpResult *result);
 int BTLV_CORE_UpdateBallWindowOpen(struct BtlvCore *core);
 void BTLV_CORE_StartBallWindowRefresh(struct BtlvCore *core);
 int BTLV_CORE_UpdateBallWindowRefresh(struct BtlvCore *core);

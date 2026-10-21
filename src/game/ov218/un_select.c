@@ -395,7 +395,7 @@ void UN_SELECT_Main(char *p);
 void UN_SELECT_DrawWindowBorder(u8 *p);
 void *UN_SELECT_GetMsgData(u8 *p);
 void *UN_SELECT_GetPrintQue(u8 *p);
-u32 UN_SELECT_GetFont(char *p);
+struct MsgBank *UN_SELECT_GetFont(char *p);
 void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d);
 void UN_SELECT_ScrollFrameList(u8 *p);
 void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta);
@@ -556,7 +556,7 @@ TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
     MI_CpuFill8(&config, 0, sizeof(config));
     config.f0 = (u8 *)&table;
     config.f4 = 3;
-    config.f8 = heap;
+    config.f8 = (int)heap;
     config.fC = 1;
     config.f10 = 13;
     config.f14 = 0;
@@ -701,7 +701,7 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, *(struct Strbuf **)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
-    if (PRINTSYS_CountLine((struct Strbuf *)(*(u32 *)(p + d * 4))) > 1) r = 4;
+    if (PRINTSYS_CountLine(*(struct Strbuf **)(p + d * 4)) > 1) r = 4;
     TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, *(struct Strbuf **)(p + d * 4), c, 0x39E0, 0);
 }
 
@@ -764,9 +764,9 @@ void *UN_SELECT_GetPrintQue(u8 *p)
  * function at 0x021B9C8C; four-byte word getter.  Blocker target of
  * UN_SELECT_SceneStepMessage (pkt_021BA0B0), whose ov218 hint then covers it.
  */
-u32 UN_SELECT_GetFont(char *p)
+struct MsgBank *UN_SELECT_GetFont(char *p)
 {
-    return ((struct UnSelectRecord *)p)->msgBank.handle;
+    return (struct MsgBank *)((struct UnSelectRecord *)p)->msgBank.handle;
 }
 
 void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)

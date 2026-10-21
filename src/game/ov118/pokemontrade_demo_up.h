@@ -19,7 +19,7 @@ void POKETRADE_DEMO_UP_StepSetup(u8 *work);
 void POKETRADE_DEMO_UP_StepParticleSystems(u8 *work);
 void POKETRADE_DEMO_UP_StepAddUnit(u8 *work);
 void POKETRADE_DEMO_UP_UpdateScene(u8 *work);
-void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, u32 key, int enemy);
+void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy);
 void POKETRADE_DEMO_UP_CreateUnitActor(void *work);
 void POKETRADE_DEMO_UP_LoadUnitResources(void *work);
 void POKETRADE_DEMO_UP_ReleaseUnit(void *work);

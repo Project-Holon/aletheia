@@ -7,6 +7,7 @@
 #include "../ov010/fldmmdl_types.h"
 #include "../types.h"
 #include "../ov021/fldmmdl_movecode_types.h"
+#include "../ov021/field_effect_types.h"
 #include "../sdk_fx.h"
 
 void FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind);
@@ -154,11 +155,11 @@ void FLDMMDL_MOVE_InitHideKind0Alt(Mmdl *mmdl);
 void FLDMMDL_MOVE_Hide(Mmdl *mmdl);
 void FLDMMDL_MOVE_DeleteHide(Mmdl *mmdl);
 void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl);
-int FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind);
+FieldEffectObj *FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind);
 int FLDMMDL_MOVE_HideCreateEffect(Mmdl *mmdl, MmdlHideWork *work);
 int FLDMMDL_MOVE_HideKeepEffect(Mmdl *mmdl, MmdlHideWork *work, u32 regR2, u32 regR3);
-void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect);
-int FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
+void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, FieldEffectObj *effect);
+FieldEffectObj *FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
 void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitFaceDirDown(Mmdl *mmdl);
@@ -169,11 +170,11 @@ void FLDMMDL_MOVE_InitFaceDirDownFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl);
-int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
-int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
 int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work);
-int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
-int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
+int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, MmdlFaceDirWork *work, u32 regR2, u32 regR3);
 void FLDMMDL_MOVE_InitWallWalkMode0Hand0(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode1Hand1(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode2Hand0(Mmdl *mmdl);

@@ -275,7 +275,7 @@ int GFL_NET_DEVWIRELESS_RequestShutdown(void) { return NET_WHPIPE_RequestFinaliz
 int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (WIH_GetSysState() == 5) return 1; return 0; }
 
 /* Slot 23: submits this frame's send data to the data-sharing step. */
-int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData) { return WIH_StepDS(sendData); }
+int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData) { return WIH_StepDS((int)((unsigned short *)sendData)); }
 
 /* Slot 24: data-sharing entry received from the child with the given aid. */
 int GFL_NET_DEVWIRELESS_GetSharedData(u32 aid) { return WIH_GetSharedDataAdr((u16)aid); }

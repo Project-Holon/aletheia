@@ -290,17 +290,17 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c);
 
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
-void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
+void WORLDTRADE_ADAPTER_CopyMon(u32 a, struct PokemonParam *b);
 
 void WORLDTRADE_ADAPTER_ClearWindowScreen(void *a, int kind);
 
-u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
+u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *a, struct MsgBank *b, u32 c, u32 d);
 
-void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 k);
+void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, struct PokemonParam *k);
 
-u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
+struct BoxPokemon *WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
 
-int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c);
+int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, struct Strbuf *a, u32 c);
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg);
 
@@ -312,7 +312,7 @@ u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
-void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, PrintStreamCtx *p);
+void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, struct Strbuf *c, int d, int e, PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 z, struct Strbuf *str, u32 x, u32 y, u32 z2, u16 color, Printer *g);
 
@@ -338,7 +338,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(WorldtradeWork *p, int flag)
     void *box;
     if (p->box != 0xFF) {
         mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
-        WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)BOX_SAVEDATA_GetPokemon(p->ctx->save, p->box, p->slot), (uptr)mon);
+        WORLDTRADE_ADAPTER_CopyBoxMon((u8 *)BOX_SAVEDATA_GetPokemon(p->ctx->save, p->box, p->slot), mon);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         BOX_SAVEDATA_ClearPokemon(p->ctx->save, p->box, p->slot);
         GFL_HEAP_Free(mon);
@@ -437,7 +437,7 @@ void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,WorldtradeEntry *p) { 
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(WorldtradeWork *p, void *mon)
 {
-    if (WORLDTRADE_BOX_IsHoldingMail((uptr)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
+    if (WORLDTRADE_BOX_IsHoldingMail((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 2;
     }
     if (p->species == 0x2D0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
@@ -513,7 +513,7 @@ void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
 /*
  * Hand the size guess back to the main writer with the caller's handle.
  */
-void WORLDTRADE_ADAPTER_CopyMon(u32 src, u32 dst)
+void WORLDTRADE_ADAPTER_CopyMon(u32 src, struct PokemonParam *dst)
 {
     MI_CpuCopy8((const void *)src, (void *)dst, POKE_TOOL_GetPartyParamSize());
 }
@@ -537,9 +537,9 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(void *win, int kind)
 /*
  * Encode one record through the two stage helpers and flush it to the writer.
  */
-u32 WORLDTRADE_ADAPTER_CreateString(u32 wordSet, u32 bank, u32 msgId, u32 heapId)
+u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId)
 {
-    u32 t1 = (uptr)MSGDATA_AllocString((struct MsgBank *)bank, msgId);
+    struct Strbuf *t1 = MSGDATA_AllocString((struct MsgBank *)bank, msgId);
     u32 t2 = (uptr)STRBUF_Create(0x200, heapId);
 
     WORDSET_CopyTaggedText((struct WordSet *)wordSet, (void *)t2, (void *)t1);
@@ -550,7 +550,7 @@ u32 WORLDTRADE_ADAPTER_CreateString(u32 wordSet, u32 bank, u32 msgId, u32 heapId
 /*
  * Create the 0x48 sub-object, register the handle and hand it to the callback.
  */
-void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 dst)
+void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, struct PokemonParam *dst)
 {
     u32 h = (uptr)POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)p, 0x48);
 
@@ -561,15 +561,15 @@ void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 dst)
 /*
  * Tail-call thunk to the thumb routine at 0x020185F4.
  */
-u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
+struct BoxPokemon *WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
 {
-    return (uptr)POKE_TOOL_GetBoxParam(mon);
+    return POKE_TOOL_GetBoxParam(mon);
 }
 
 /*
  * Tail call: the third argument goes first, the dereferenced pointer second, the u16 last.
  */
-int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, u32 str, u32 margin)
+int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, struct Strbuf *str, u32 margin)
 {
     return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)(*p), (u16)margin);
 }
@@ -669,7 +669,7 @@ u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *win,u8 unused1,void *str,u32
 /*
  * tail: 022028C6..022028C8 zero alignment padding.
  */
-void WORLDTRADE_ADAPTER_StartPrintStream(void *win, unsigned unused1, unsigned str, int x, int y, PrintStreamCtx *p)
+void WORLDTRADE_ADAPTER_StartPrintStream(void *win, unsigned unused1, struct Strbuf *str, int x, int y, PrintStreamCtx *p)
 {
     int v;
     if (p->stream) {
@@ -677,7 +677,7 @@ void WORLDTRADE_ADAPTER_StartPrintStream(void *win, unsigned unused1, unsigned s
         p->stream = 0;
     }
     v = MSG_SPEED_GetWait();
-    p->stream = PRINTSYS_PrintStream((struct BmpWin *)win, x, y, (struct Strbuf *)str, (struct GfFont *)p->font, v, (struct Tcbl *)p->msgData, 0, 0x48, 0xF);
+    p->stream = PRINTSYS_PrintStream((struct BmpWin *)win, x, y, (struct Strbuf *)str, p->font, v, p->msgData, 0, 0x48, 0xF);
     p->streamWin = win;
 }
 

@@ -138,7 +138,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p);
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p);
@@ -170,7 +170,7 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  GF_FONT_InitTextColor();
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
- ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(sptr)g,heap);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(struct DispVramCfg *)g,heap);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
  *(void* *)&((struct ZenkokuZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;
@@ -231,7 +231,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p) { }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { BG_SYS_Update(); }
 
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021BA290, (struct DispVramCfg *)a, b);

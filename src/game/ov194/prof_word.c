@@ -71,7 +71,7 @@ void PROF_WORD_Delete(u8 *p)
     int i;
 
     for (i = 0; i < 7; i++) {
-        GFL_HEAP_Free((void *)(*(u32 *)(p + i * 4)));
+        GFL_HEAP_Free(*(void **)(p + i * 4));
     }
     GFL_HEAP_Free((void *)((uptr)p));
 }

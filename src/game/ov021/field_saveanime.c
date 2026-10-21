@@ -281,13 +281,13 @@ void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
 {
     u32 charBase = BMP_WIN_GetCharOffset((struct BmpWin *)work->bmpWin);
-    u32 bmp = (uptr)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
+    struct Bmp *bmp = BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
     uptr chars;
     u32 size;
 
-    BMP_Blit(work->charData, (struct Bmp *)bmp, 0, frame << 5, work->ofsX, work->ofsY, 0x20, 0x20, 0xFFFF);
-    chars = (uptr)BMP_GetPixels((const struct Bmp *)bmp);
-    size = BMP_GetByteSize((const struct Bmp *)bmp);
+    BMP_Blit(work->charData, bmp, 0, frame << 5, work->ofsX, work->ofsY, 0x20, 0x20, 0xFFFF);
+    chars = (uptr)BMP_GetPixels(bmp);
+    size = BMP_GetByteSize(bmp);
     BG_SYS_LoadTileData(_SAVEANIME_BG_FRAME, (const void *)chars, size, charBase);
 }
 

@@ -1012,7 +1012,7 @@ void HAND_WAZA_StruggleSetFlag4B(int factor, int flow, int pokeId);
 int *HAND_WAZA_AddDestinyBond(int *handlerCount);
 void HAND_WAZA_DestinyBondOnUse(int factor, void *flow, u32 pokeId, u32 *work);
 void HAND_WAZA_RemoveOnUserAction(struct BtlEventNode *factor, int flow, int pokeId);
-void HAND_WAZA_DestinyBondOnFaint(int factor, void *flow, u32 pokeId);
+void HAND_WAZA_DestinyBondOnFaint(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 pokeId);
 int *HAND_WAZA_AddGrudge(int *handlerCount);
 void HAND_WAZA_GrudgeOnUse(int factor, void *flow, u32 pokeId, u32 *work);
 void HAND_WAZA_GrudgeOnFaint(void *factor, void *flow, int pokeId);
@@ -1025,17 +1025,17 @@ void HAND_WAZA_RoostGroundFlyingType(int factor, void *flow, int pokeId);
 int *HAND_WAZA_AddFocusPunch(int *handlerCount);
 void HAND_WAZA_FocusPunchTense(int factor, void *flow, int pokeId);
 int *HAND_WAZA_AddMetronome(int *handlerCount);
-void HAND_WAZA_MetronomePickMove(int factor, int flow, int pokeId);
-void HAND_WAZA_MetronomeSetFailMessage(int factor, int flow, int pokeId);
+void HAND_WAZA_MetronomePickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
+void HAND_WAZA_MetronomeSetFailMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 int *HAND_WAZA_AddNaturePower(int *handlerCount);
-void HAND_WAZA_NaturePowerPickMove(int factor, int flow, int pokeId);
-void HAND_WAZA_NaturePowerSetFailMessage(int factor, int flow, int pokeId);
+void HAND_WAZA_NaturePowerPickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
+void HAND_WAZA_NaturePowerSetFailMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 int *HAND_WAZA_AddAssist(int *handlerCount);
 void HAND_WAZA_AssistPickMove(void *factor, void *flow, int pokeId);
 int *HAND_WAZA_AddSleepTalk(int *handlerCount);
-void HAND_WAZA_SleepTalkPickMove(int factor, int flow, int pokeId, u32 *candidates);
+void HAND_WAZA_SleepTalkPickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, u32 *candidates);
 int *HAND_WAZA_AddMirrorMove(int *handlerCount);
-void HAND_WAZA_MirrorMovePickMove(int factor, int flow, int pokeId, u8 *targetPokeId);
+void HAND_WAZA_MirrorMovePickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, u8 *targetPokeId);
 int *HAND_WAZA_AddMeFirst(int *handlerCount);
 void HAND_WAZA_MeFirstPickMove(void *factor, void *flow, int pokeId, u8 *targetPokeId);
 void HAND_WAZA_MeFirstBoostPower(int factor, int flow, int pokeId);
@@ -1044,7 +1044,7 @@ void HAND_WAZA_CopycatPickMove(struct BtlEventFactor *factor, struct BtlServerFl
 int *HAND_WAZA_AddAllStatBoostChance(int *handlerCount);
 void HAND_WAZA_AllStatBoostSetChance(int factor, int flow, int pokeId);
 int *HAND_WAZA_AddVenoshock(int *handlerCount);
-void HAND_WAZA_VenoshockDoublePowerOnPoison(int factor, int flow, int pokeId);
+void HAND_WAZA_VenoshockDoublePowerOnPoison(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 int *HAND_WAZA_AddHex(int *handlerCount);
 void HAND_WAZA_HexDoublePowerOnStatus(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
 int *HAND_WAZA_AddAcrobatics(int *handlerCount);
@@ -1416,7 +1416,7 @@ int HAND_WAZA_AddMoveHandler(struct BtlPokeParam *bpp, u16 moveId, u32 subPriori
             if (HAND_WAZA_CanAddMoveHandler(ownerId, moveId, &alreadyAdded) != 0) {
                 handlers = gWazaHandlerRegistry[index].getHandlers(&handlerCount);
                 if (handlers != 0) {
-                    BTL_EVENT_AddFactor(BTL_EVENT_TYPE_WAZA, moveId, 0, subPriority, ownerId, (uptr)handlers, handlerCount);
+                    BTL_EVENT_AddFactor(BTL_EVENT_TYPE_WAZA, moveId, 0, subPriority, ownerId, handlers, handlerCount);
                     return 1;
                 }
             }
@@ -8753,7 +8753,7 @@ void HAND_WAZA_RemoveOnUserAction(struct BtlEventNode *factor, int flow, int pok
 
 
 /* Destiny Bond: when the user faints from an attack, the attacker faints too. */
-void HAND_WAZA_DestinyBondOnFaint(int factor, void *flow, u32 pokeId)
+void HAND_WAZA_DestinyBondOnFaint(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u32 pokeId)
 {
     struct HandWazaKillRecord *kill;
     void *attacker;
@@ -8765,7 +8765,7 @@ void HAND_WAZA_DestinyBondOnFaint(int factor, void *flow, u32 pokeId)
                 attackerId = BTL_EVENT_GetVar(WAZAVAR_ATTACKER_ID);
                 attacker = BTL_SERVER_FLOW_GetPokeParam(flow, attackerId);
                 if (BTL_MAIN_IsPokeSamePair(pokeId, attackerId) == 0 && BTL_POKEPARAM_IsFainted(attacker) == 0) {
-                    BTL_EVENT_MarkFactorDead((struct BtlEventFactor *)(u8 *)factor);
+                    BTL_EVENT_MarkFactorDead(factor);
                     kill = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_WAZA_KIND_KILL, pokeId);
                     kill->pokeId = pokeId;
                     kill->flag = 1;
@@ -8777,7 +8777,7 @@ void HAND_WAZA_DestinyBondOnFaint(int factor, void *flow, u32 pokeId)
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, kill);
                 }
             }
-            BTL_EVENT_RemoveFactor((struct BtlEventFactor *)factor);
+            BTL_EVENT_RemoveFactor(factor);
         }
     }
 }
@@ -8975,7 +8975,7 @@ int *HAND_WAZA_AddMetronome(int *handlerCount)
 
 
 /* Metronome: pick a random move other than the previous one and use it. */
-void HAND_WAZA_MetronomePickMove(int factor, int flow, int pokeId)
+void HAND_WAZA_MetronomePickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     u32 previousMove;
     u16 moveId;
@@ -8983,7 +8983,7 @@ void HAND_WAZA_MetronomePickMove(int factor, int flow, int pokeId)
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
         moveId = BTL_CALC_PickRandomMoveExcluding((u16 *)BTL_ID_GetMetronomeExcludedMoves((s32 *)(&previousMove)), (u16)previousMove);
-        slot = BTL_SERVER_FLOW_DecideMoveTarget((struct BtlServerFlow *)flow, pokeId, moveId);
+        slot = BTL_SERVER_FLOW_DecideMoveTarget(flow, pokeId, moveId);
         BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_ID, moveId);
         BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_SLOT, slot);
     }
@@ -8992,7 +8992,7 @@ void HAND_WAZA_MetronomePickMove(int factor, int flow, int pokeId)
 
 
 /* Metronome: print the message that the move cannot be called, and fail it. */
-void HAND_WAZA_MetronomeSetFailMessage(int factor, int flow, int pokeId)
+void HAND_WAZA_MetronomeSetFailMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     void *message;
     u16 moveId;
@@ -9034,14 +9034,14 @@ int *HAND_WAZA_AddNaturePower(int *handlerCount)
  * the first web the dispatch block defines).  `default:` as a separate group
  * costs 40 bytes of diff; without it at all the `bhi` lands on the shared tail.
  */
-void HAND_WAZA_NaturePowerPickMove(int factor, int flow, int pokeId)
+void HAND_WAZA_NaturePowerPickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     u16 moveId;
     int slot;
 
     if (BTL_EVENT_GetVar(WAZAVAR_POKE_ID) != pokeId)
         return;
-    switch (BTL_SERVER_FLOW_GetFieldSituationType((struct BtlServerFlow *)flow)) {
+    switch (BTL_SERVER_FLOW_GetFieldSituationType(flow)) {
     case 1: case 2: case 3: case 8: case 15:
         moveId = 0x59;
         break;
@@ -9067,7 +9067,7 @@ void HAND_WAZA_NaturePowerPickMove(int factor, int flow, int pokeId)
         moveId = 0x3a;
         break;
     }
-    slot = BTL_SERVER_FLOW_DecideMoveTarget((struct BtlServerFlow *)flow, pokeId, moveId);
+    slot = BTL_SERVER_FLOW_DecideMoveTarget(flow, pokeId, moveId);
     BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_ID, moveId);
     BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_SLOT, slot);
 }
@@ -9075,7 +9075,7 @@ void HAND_WAZA_NaturePowerPickMove(int factor, int flow, int pokeId)
 
 
 /* Nature Power: print the message that the move cannot be called, and fail it. */
-void HAND_WAZA_NaturePowerSetFailMessage(int factor, int flow, int pokeId)
+void HAND_WAZA_NaturePowerSetFailMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     void *message;
     u16 moveId;
@@ -9157,7 +9157,7 @@ int *HAND_WAZA_AddSleepTalk(int *handlerCount)
 
 
 /* Sleep Talk: while asleep, pick one of the user's other moves at random. */
-void HAND_WAZA_SleepTalkPickMove(int factor, int flow, int pokeId, u32 *candidates)
+void HAND_WAZA_SleepTalkPickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, u32 *candidates)
 {
     void *user;
     u8 moveCount;
@@ -9169,7 +9169,7 @@ void HAND_WAZA_SleepTalkPickMove(int factor, int flow, int pokeId, u32 *candidat
     int moveSlot;
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
-        user = BTL_SERVER_FLOW_GetPokeParam((struct BtlServerFlow *)flow, pokeId);
+        user = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         if (BTL_POKEPARAM_HasSick(user, sickSleep) != 0) {
             moveCount = BTL_POKEPARAM_GetMoveCount(user);
             slot = 0;
@@ -9182,7 +9182,7 @@ void HAND_WAZA_SleepTalkPickMove(int factor, int flow, int pokeId, u32 *candidat
             }
             if (candidateCount != 0) {
                 moveId = candidates[(u8)BTL_CALC_Random(candidateCount)];
-                moveSlot = BTL_SERVER_FLOW_DecideMoveTarget((struct BtlServerFlow *)flow, pokeId, moveId);
+                moveSlot = BTL_SERVER_FLOW_DecideMoveTarget(flow, pokeId, moveId);
                 BTL_EVENT_OverwriteVar(0x12, moveId);
                 BTL_EVENT_OverwriteVar(0xd, moveSlot);
             } else {
@@ -9204,7 +9204,7 @@ int *HAND_WAZA_AddMirrorMove(int *handlerCount)
 
 
 /* Mirror Move: use the move that the target used last, if it can be mirrored. */
-void HAND_WAZA_MirrorMovePickMove(int factor, int flow, int pokeId, u8 *targetPokeId)
+void HAND_WAZA_MirrorMovePickMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, u8 *targetPokeId)
 {
     u8 targetSlot;
     u16 lastMove;
@@ -9213,11 +9213,11 @@ void HAND_WAZA_MirrorMovePickMove(int factor, int flow, int pokeId, u8 *targetPo
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
         targetSlot = BTL_EVENT_GetVar(WAZAVAR_TARGET_SLOT);
         if (targetSlot == BTL_TARGET_SLOT_NONE) {
-            targetFlags = BTL_SERVER_FLOW_GetFrontPosOfPoke((struct BtlServerFlow *)flow, pokeId);
-            targetSlot = BTL_MAIN_GetEnemyLanePos(BTL_SERVER_FLOW_GetRule((struct BtlServerFlow *)flow), targetFlags, 0);
+            targetFlags = BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId);
+            targetSlot = BTL_MAIN_GetEnemyLanePos(BTL_SERVER_FLOW_GetRule(flow), targetFlags, 0);
         }
-        if (BTL_SERVER_FLOW_CollectAlivePokeIds((struct BtlServerFlow *)flow, targetSlot, targetPokeId) != 0) {
-            lastMove = BTL_POKEPARAM_GetLastUsedMoveId(BTL_SERVER_FLOW_GetPokeParam((struct BtlServerFlow *)flow, *targetPokeId));
+        if (BTL_SERVER_FLOW_CollectAlivePokeIds(flow, targetSlot, targetPokeId) != 0) {
+            lastMove = BTL_POKEPARAM_GetLastUsedMoveId(BTL_SERVER_FLOW_GetPokeParam(flow, *targetPokeId));
             if (lastMove == 0 || WAZA_TOOL_GetFlag(lastMove, BTL_WAZA_FLAG_MIRRORABLE) == 0) {
                 BTL_EVENT_OverwriteVar(WAZAVAR_FAIL_FLAG, 1);
                 return;
@@ -9352,12 +9352,12 @@ int *HAND_WAZA_AddVenoshock(int *handlerCount)
 
 
 /* Venoshock: double the power when the target is poisoned. */
-void HAND_WAZA_VenoshockDoublePowerOnPoison(int factor, int flow, int pokeId)
+void HAND_WAZA_VenoshockDoublePowerOnPoison(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     int ratioShift = 4;
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_ATTACKER_ID)) {
-        if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam((struct BtlServerFlow *)flow, (u8)BTL_EVENT_GetVar(WAZAVAR_DEFENDER_ID)), BTL_SICK_POISON) != 0) {
+        if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(WAZAVAR_DEFENDER_ID)), BTL_SICK_POISON) != 0) {
             BTL_EVENT_MultiplyVar(WAZAVAR_POWER_RATIO, ratioShift << 11);
         }
     }
@@ -9552,16 +9552,16 @@ int *HAND_WAZA_AddEchoedVoice(int *handlerCount)
  */
 void HAND_WAZA_EchoedVoiceSetPowerByStreak(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    sptr turnRecord; int factorKey, turn, basePower;
+    struct BtlWazaRec *turnRecord; int factorKey, turn, basePower;
     u32 streak;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        turnRecord = (sptr)BTL_SERVER_FLOW_GetTurnRecord(flow);
+        turnRecord = (struct BtlWazaRec *)BTL_SERVER_FLOW_GetTurnRecord(flow);
         factorKey = BTL_EVENT_GetFactorKey(factor);
         turn = BTL_SERVER_FLOW_GetTurnCount(flow) - 1;
         streak = 0;
         for (; turn >= 0;) {
-            if ((struct BtlWazaRec *)BTL_WAZAREC_IsUsedWaza((struct BtlWazaRec *)turnRecord, factorKey, turn--) == 0)
+            if (BTL_WAZAREC_IsUsedWaza(turnRecord, factorKey, turn--) == 0)
                 break;
             streak++;
         }

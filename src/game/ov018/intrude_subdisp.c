@@ -389,7 +389,7 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem);
-int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
+struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
 int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work);
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p);
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state);
@@ -656,15 +656,15 @@ void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem)
     return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)gameSystem);
 }
 
-int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
+struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
 {
     void *sys;
-    sptr ret;
+    struct GameEvent *ret;
     IntrudeDisconnectWork *work;
     unsigned char *x;
 
     sys = (void *)GAMESYSTEM_GetGameComm(gameSystem);
-    ret = (sptr)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
+    ret = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
     work = GAME_EVENT_GetWork((void *)ret);
     work->cause = cause;
     if (GAME_COMM_GetKind(sys) == 2) {
@@ -701,7 +701,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
     s1 = (void *)GAMESYSTEM_GetGameComm(x);
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, INTRUDE_SUBDISP_CreateReturnPalaceEvent((sptr)x));
+        GAME_EVENT_CallEvent(event, INTRUDE_SUBDISP_CreateReturnPalaceEvent((int)x));
         (*seq)++;
         break;
     case 1:
@@ -2128,7 +2128,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             done = 1;
             for (i = 0; i < 2; i++) {
                 if (req.words[i] != 0) {
-                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], (void *)req.words[i], req.param[i], 1, 2);
+                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], (struct Strbuf *)req.words[i], req.param[i], 1, 2);
                 }
             }
             WORDSET_CopyTaggedText(work->wordSet, work->strbufText, work->strbufMsg);

@@ -45,7 +45,7 @@ int DWC_RAP_StepSession(void);
 int DWC_RAP_GetMyAidIfConnected(void);
 void DWC_RAP_OnVchatStopped(void);
 void DWC_RAP_EnableLocalVchat(void);
-void DWC_RAP_StartVchat(void *heapId);
+void DWC_RAP_StartVchat(int heapId);
 void DWC_RAP_StartVchatDefaultHeap(int unused);
 void DWC_RAP_StopVchat(void);
 int DWC_RAP_IsVchatActive(void);

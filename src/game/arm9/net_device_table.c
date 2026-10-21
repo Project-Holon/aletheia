@@ -38,7 +38,7 @@
 
 #include "../ov015/ircnet.h"
 
-int NET_DEVICE_TABLE_Select(u32 sel);
+struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 sel);
 
 void NET_DEVICE_TABLE_Reset(u32 sel);
 
@@ -89,7 +89,7 @@ extern u8 ov_id_0F[];
  *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_Select.c \
  *       --func NET_DEVICE_TABLE_Select --addr 0x0200F17C --cc 1.1p1 --thumb
  */
-int NET_DEVICE_TABLE_Select(u32 sel)
+struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 sel)
 {
     switch (sel) {
     case 6:
@@ -98,27 +98,27 @@ int NET_DEVICE_TABLE_Select(u32 sel)
         GF_OVERLAY_Load((uptr)ov_id_09);
         GF_OVERLAY_Load((uptr)ov_id_0D);
         GF_OVERLAY_Load((uptr)ov_id_72);
-        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
+        return (struct GFLNetModeOps *)GFL_NET_DEVWIFI_GetDeviceTable();
     case 1:
         GF_OVERLAY_Unload((uptr)ov_id_0A);
         GF_OVERLAY_Unload((uptr)ov_id_0B);
         GF_OVERLAY_Load((uptr)ov_id_09);
         GF_OVERLAY_Load((uptr)ov_id_0D);
-        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
+        return (struct GFLNetModeOps *)GFL_NET_DEVWIFI_GetDeviceTable();
     case 2:
         GF_OVERLAY_Unload((uptr)ov_id_0A);
         GF_OVERLAY_Unload((uptr)ov_id_0B);
         GF_OVERLAY_Load((uptr)ov_id_09);
         GF_OVERLAY_Load((uptr)ov_id_0D);
-        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
+        return (struct GFLNetModeOps *)GFL_NET_DEVWIFI_GetDeviceTable();
     case 0:
     case 5:
         GF_OVERLAY_Load((uptr)ov_id_0E);
-        return (sptr)GFL_NET_DEVWIRELESS_GetDeviceTable();
+        return (struct GFLNetModeOps *)GFL_NET_DEVWIRELESS_GetDeviceTable();
     case 3:
     case 4:
         GF_OVERLAY_Load((uptr)ov_id_0F);
-        return (sptr)IRCNET_GetHandlerTable();
+        return (struct GFLNetModeOps *)IRCNET_GetHandlerTable();
     }
     return 0;
 }

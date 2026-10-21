@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_wfbc.c, prototypes copied from their definitions. */
 
+struct BuildModelMan;
+struct FieldG3dMap;
 struct EventDataSystem;
 struct FieldCamera;
 struct MmdlSys;
@@ -22,7 +24,7 @@ void FIELD_WFBC_ReloadSaveData(FieldWfbc *wfbc);
 FieldWfbcPeople *FIELD_WFBC_GetPeople(FieldWfbc *wfbc, u32 npcId);
 u8 FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc);
-int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
+int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, struct BuildModelMan *buildModelMan, struct FieldG3dMap *mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
 void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId);
 void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, struct FieldCamera *camera, int heapId);
 void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys);

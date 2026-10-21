@@ -330,7 +330,7 @@ struct TcblSystem;
 #include "../arm9/key.h"
 
 enum Result MICTEST_Create(struct Proc *proc);
-int MICTEST_Exit(int a, int b, int c, MictestWork *p);
+int MICTEST_Exit(struct Proc *a, int b, int c, MictestWork *p);
 int MICTEST_Main(int a, int b, int c, MictestWork *p);
 void MICTEST_InitStepMachine(MictestState *p, MictestWork *owner, MictestStepFn step);
 void MICTEST_RunStepMachine(MictestState *p);
@@ -370,7 +370,7 @@ void MICTEST_OnMicEvent(int event, MictestWork *p);
 int MICTEST_LevelToAnim(u8 level);
 int MICTEST_AreAllSpritesIdle(MictestWork *p);
 int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner);
-void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait);
+void MICTEST_InitSpriteTask(struct TcbSystem *owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait);
 void MICTEST_UpdateSpriteTask(struct TcbTask *task, void *work);
 void MICTEST_DeleteSpriteTasks(MictestWork *p);
 int MICTEST_TouchHit(void);
@@ -414,7 +414,7 @@ enum Result MICTEST_Create(struct Proc *proc)
     return result;
 }
 
-int MICTEST_Exit(int a, int b, int c, MictestWork *p)
+int MICTEST_Exit(struct Proc *a, int b, int c, MictestWork *p)
 {
     unsigned short v;
 
@@ -886,7 +886,7 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
         a = GFL_USE_GetRandom(0x1001) + 0x1333;
         b = GFL_USE_GetRandom(61) + 60;
         c = GFL_USE_GetRandom(15) + 6;
-        MICTEST_InitSpriteTask((sptr)owner, sprite, entry, x, y, a, b, c, 1);
+        MICTEST_InitSpriteTask(owner, sprite, entry, x, y, a, b, c, 1);
         return 1;
     }
     return 0;
@@ -898,7 +898,7 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
  *   stack parameter the y load stays with the entry parameter copies (ldr r5,[sp,#0x18] before the
  *   pool load); an int parameter sinks it to the end of the entry block.
  */
-void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait)
+void MICTEST_InitSpriteTask(struct TcbSystem *owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait)
 {
     MictestMotion *o;
     uptr t;
@@ -906,7 +906,7 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
 
     t = (uptr)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
     entry->task = (void *)t;
-    o = (MictestMotion *)TCBL_GetOwnedWork((struct TcblSystem *)t);
+    o = (MictestMotion *)TCBL_GetOwnedWork((struct TcblTask *)(struct TcblSystem *)t);
     o->actor = handle;
     o->wait = wait;
     o->x = FX_F32_TO_FX32(x);

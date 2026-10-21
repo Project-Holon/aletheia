@@ -108,7 +108,7 @@ static void Parent_data_receive_progress(void);
 void DWCi_MOVInit(Wk *wm, MovData *md)
 {
     gDwcMoveidWork = wm;
-    DWCi_MOV_MBP_MemInit((sptr)wm + 0xb00);
+    DWCi_MOV_MBP_MemInit((char *)wm + 0xb00);
     gDwcMoveidWork->moveid_tgid = 0;
     gDwcMoveidWork->moveid_sChannel = 0;
     gDwcMoveidWork->mov_stt = 1;
@@ -181,13 +181,13 @@ static void _DWCi_MOVPrepare(void)
  */
 int DWCi_MOVStartAdmitChild(void)
 {
-    unsigned char mode = *(unsigned char *)(*(int *)0x021DE668 + 0xa90);
+    unsigned char mode = gDwcMoveidWork->mov_stt;
 
     if (mode != 1 && mode != 0x1a && mode != 0x1d)
         return 0;
     _DWCi_MOVPrepare();
     DWCi_MOV_WH_Initialize();
-    *(unsigned char *)(*(int *)0x021DE668 + 0xa90) = 2;
+    gDwcMoveidWork->mov_stt = 2;
     return 1;
 }
 
@@ -457,7 +457,7 @@ static void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
 static void _DWCi_MOV_ReadyMovUserID(void)
 {
     Parent_InitDataShare();
-    DWCi_MOV_WH_SetJudgeAcceptFunc((uptr)((void *)0x021D45A4));
+    DWCi_MOV_WH_SetJudgeAcceptFunc((int (*)(void *))0x021D45A4);
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 8;
 }
 

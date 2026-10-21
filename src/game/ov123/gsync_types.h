@@ -12,7 +12,7 @@
 typedef struct GsyncStateWork {
     u16 heapId;                 /* 0x000, heap the child work is allocated from */
     u8 pad_002[6];
-    int downloadWork;           /* 0x008, GSYNC_DOWNLOAD work pointer, cast when passed */
+    GsyncDownloadWork *downloadWork;           /* 0x008, GSYNC_DOWNLOAD work pointer, cast when passed */
     void *receivedMon;          /* 0x00C, box mon record built by POKE_TOOL_CreateFromBoxParam */
     void *httpConnection;       /* 0x010, NHTTP_RAP connection handle */
     void *displayWork;          /* 0x014, GsyncDispWork pointer */
@@ -21,7 +21,7 @@ typedef struct GsyncStateWork {
     void *connection;           /* 0x020, GsyncConn pointer, network connection record */
     void *boxSave;              /* 0x024, box save handle for BOX_SAVEDATA_FindFreeSlot/BOX_SAVEDATA_GetPokemon */
     void *saveControl;          /* 0x028, save control returned by GAME_DATA_GetSaveControl */
-    int saveData;               /* 0x02C, save data word passed to the save API */
+    struct GameData *saveData;               /* 0x02C, save data word passed to the save API */
     void *musicalSave;          /* 0x030, MusicalDist record built by MUSICAL_DIST_SAVE_CreateFromData */
     void *receivedMonCopy;      /* 0x034, buffer copied back by GSYNC_STATE_CommitReceivedMon */
     u8 *listBuffer;             /* 0x038, received-list buffer */

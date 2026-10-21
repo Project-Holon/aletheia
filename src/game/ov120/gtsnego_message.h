@@ -6,6 +6,7 @@
 
 struct GtsnegoActorSys;
 struct GtsnegoMsgCtx;
+struct TaskMenuWork;
 
 #include "../types.h"
 
@@ -86,7 +87,7 @@ void GTSNEGO_MSG_PrintListRange(char *msgCtx,void *list,int start);
 void GTSNEGO_MSG_PrintListEntryN(char *msgCtx,void *list,int index);
 void GTSNEGO_MSG_ShiftListUp(char *msgCtx);
 void *GTSNEGO_MSG_OpenMenuB(char *msgCtx,int position);
-void GTSNEGO_MSG_CloseMenu(int taskMenu);
+void GTSNEGO_MSG_CloseMenu(struct TaskMenuWork *taskMenu);
 void GTSNEGO_MSG_CreateDraw(struct GtsnegoMsgCtx *msgCtx,void *actorSys);
 void GTSNEGO_MSG_DeleteDraw(u8 *msgCtx);
 void GTSNEGO_MSG_PrintDraw(struct GtsnegoMsgCtx *msgCtx, void *sentence);

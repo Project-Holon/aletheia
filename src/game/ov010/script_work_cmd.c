@@ -622,13 +622,13 @@ int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    struct FieldMapState *mapState;
+    FieldSubscreen *mapState;
     int done;
-    mapState = (struct FieldMapState *)FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    mapState = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     if (GAME_DATA_IsSaving(gameData) == 0) {
         done = 1;
-        if (FIELD_SUBSCREEN_GetMode((struct FieldSubscreen *)mapState) == 7) {
-            if (FIELD_SUBSCREEN_IsReportSaveAnimDone((struct FieldSubscreen *)mapState) == 0)
+        if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
+            if (FIELD_SUBSCREEN_IsReportSaveAnimDone(mapState) == 0)
                 done = 0;
         }
     } else {
@@ -644,15 +644,15 @@ int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
         case 3:
             *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = 0;
             done = 1;
-            if (FIELD_SUBSCREEN_GetMode((struct FieldSubscreen *)mapState) == 7)
-                FIELD_SUBSCREEN_StopReportSaveAnim((struct FieldSubscreen *)mapState);
+            if (FIELD_SUBSCREEN_GetMode(mapState) == 7)
+                FIELD_SUBSCREEN_StopReportSaveAnim(mapState);
             break;
         }
     }
     if (done == 1) {
-        int effectHandle = SCRIPT_WORK_GetReturnScriptId(scriptWork);
-        FIELD_SAVEANIME_Stop((struct FieldSaveAnime *)effectHandle);
-        (struct FieldSaveAnime *)FIELD_SAVEANIME_Delete((struct FieldSaveAnime *)effectHandle);
+        struct FieldSaveAnime *effectHandle = SCRIPT_WORK_GetReturnScriptId(scriptWork);
+        FIELD_SAVEANIME_Stop(effectHandle);
+        FIELD_SAVEANIME_Delete(effectHandle);
         SCRIPT_WORK_SetReturnScriptId(scriptWork, 0);
     }
     return done;
@@ -662,17 +662,17 @@ int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    int mapId; sptr effectHandle;
+    int mapId; struct FieldSaveAnime *effectHandle;
     struct FieldMap *fieldMap;
-    struct FieldMapState *mapState;
+    FieldSubscreen *mapState;
     fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
     mapId = FIELDMAP_GetHeapId(fieldMap);
-    mapState = (struct FieldMapState *)FIELDMAP_GetSubscreen(fieldMap);
-    effectHandle = (sptr)FIELD_SAVEANIME_Create(mapId, fieldMap);
-    FIELD_SAVEANIME_Start((struct FieldSaveAnime *)effectHandle);
-    if (FIELD_SUBSCREEN_GetMode((struct FieldSubscreen *)mapState) == 7) {
-        FIELD_SUBSCREEN_PrepareReportSave((struct FieldSubscreen *)mapState);
-        FIELD_SUBSCREEN_StartReportSaveAnim((struct FieldSubscreen *)mapState);
+    mapState = FIELDMAP_GetSubscreen(fieldMap);
+    effectHandle = FIELD_SAVEANIME_Create(mapId, fieldMap);
+    FIELD_SAVEANIME_Start(effectHandle);
+    if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
+        FIELD_SUBSCREEN_PrepareReportSave(mapState);
+        FIELD_SUBSCREEN_StartReportSaveAnim(mapState);
     }
     SCRIPT_WORK_SetReturnScriptId(scriptWork, effectHandle);
     RECORD_AddOne(GAME_DATA_GetTrainerRecord(gameData), 1);

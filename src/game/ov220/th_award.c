@@ -225,7 +225,7 @@ extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-extern u32 TH_AWARD_GRAPHIC_GetActor(u8 *p);
+extern struct Unit *TH_AWARD_GRAPHIC_GetActor(u8 *p);
 extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);

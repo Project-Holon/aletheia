@@ -6,7 +6,7 @@
 
 #include "../types.h"
 
-int NET_DEVICE_TABLE_Select(u32 sel);
+struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 sel);
 void NET_DEVICE_TABLE_Reset(u32 sel);
 /* END mkheaders: generated region */
 

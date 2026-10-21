@@ -26,7 +26,7 @@ int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p);
 int VIEWER_ACTOR_StepWaitActorAnim(ViewerTextWork *p);
 int VIEWER_ACTOR_StartWipe(ViewerTextWork *p);
 int VIEWER_ACTOR_StepWaitWipeOut(ViewerTextWork *p);
-void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col);
+void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, struct Strbuf *col);
 void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx);
 int VIEWER_ACTOR_WrapAngle(int a, int b);
 void VIEWER_ACTOR_StepBounce(ViewerTextWork *p);

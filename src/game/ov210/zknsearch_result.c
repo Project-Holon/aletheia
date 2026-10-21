@@ -63,7 +63,7 @@ void ZKNSEARCH_RESULT_MoveRow2(int p, int v);
 void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d);
 void ZKNSEARCH_RESULT_Noop5(void);
 void ZKNSEARCH_RESULT_MoveRow3(int p, int v);
-void ZKNSEARCH_RESULT_SetRow4(int p, unsigned a, unsigned *b, int c, int d);
+void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *p, unsigned a, unsigned *b, int c, int d);
 void ZKNSEARCH_RESULT_Noop6(void);
 void ZKNSEARCH_RESULT_MoveRow4(int a, int b);
 extern const Template d_021C0CC0;
@@ -251,7 +251,7 @@ void ZKNSEARCH_RESULT_MoveRow3(int work, int delta)
 
 
 
-void ZKNSEARCH_RESULT_SetRow4(int work, unsigned row, unsigned *window, int y, int flag)
+void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *work, unsigned row, unsigned *window, int y, int flag)
 {
     ZKNSEARCH_MAIN_TransferRowChars(work, window);
     if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[6] == row)

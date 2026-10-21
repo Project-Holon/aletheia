@@ -10,8 +10,8 @@
 void VCT_SESSION_CheckAnnounceTimeout(void);
 int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
 VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId);
-int VCT_SESSION_SendCommand(int peer, int command);
-int VCT_SESSION_SendReply(int peer, int command);
+int VCT_SESSION_SendCommand(VctPeer *peer, int command);
+int VCT_SESSION_SendReply(VctPeer *peer, int command);
 void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet);
 int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet);
 void VCT_SESSION_BroadcastState(int flag);

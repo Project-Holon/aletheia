@@ -416,7 +416,7 @@ int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id) {
     int value;
     for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;i++)
         if(view->eventTasks[i]) {
-            value=((struct PmsInputViewTask *)TCBL_GetOwnedWork((struct TcblSystem *)view->eventTasks[i]))->id;
+            value=((struct PmsInputViewTask *)TCBL_GetOwnedWork((struct TcblTask *)(struct TcblSystem *)view->eventTasks[i]))->id;
             if(value==id) return 0;
         }
     return 1;
@@ -456,9 +456,9 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     BG_SYS_SetPlaneVisible(6,0);
     ARC_UTIL_UploadPaletteFromHandle(h,4,4,128,160,32,42);
     task->view->helpBgColor[0]=0x294b;
-    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)188,(uptr)(&task->view->helpBgColor[0]),2);
+    NNS_GfdRegisterNewVramTransferTask(31,(unsigned int)188,(&task->view->helpBgColor[0]),2);
     task->view->helpBgColor[1]=0x5694;
-    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)190,(uptr)(&task->view->helpBgColor[1]),2);
+    NNS_GfdRegisterNewVramTransferTask(31,(unsigned int)190,(&task->view->helpBgColor[1]),2);
     ARC_UTIL_UploadBgCharFromHandle(h,18,7,0,0,0,42);
     ARC_UTIL_UploadBgPaletteFromHandle(h,24,7,0,0,0,42);
     BG_SYS_FillTileMap(7,0,0,32,32,5);

@@ -183,7 +183,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     if (socket == 0)
         return -0x31;
     command = SOCLi_CreateCommandPacket(SOCLi_CreateSocketCallBack, socket, 1);
-    SOCLi_ExecCommandPacketInCtrlPipe((sptr)socket, (sptr)command);
+    SOCLi_ExecCommandPacketInCtrlPipe((int)((int *)socket), (int)command);
     {
         int flag = 0;
 
@@ -202,7 +202,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
                 SOCLi_Resource.count4++;
         }
     }
-    return (sptr)socket;
+    return (int)socket;
 }
 
 /*

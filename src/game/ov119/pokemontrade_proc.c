@@ -696,7 +696,7 @@ void POKETRADE_PROC_ClearDragIcon(void *p);
 
 void POKETRADE_PROC_ShowDragIcon(void *p);
 
-void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int mon);
+void POKETRADE_PROC_BeginDrag(void *p, struct ClactActor *x, int y, int z, int mon);
 
 void *POKETRADE_PROC_LoadSlotMon(void **a, int b, int c, char *p);
 
@@ -1267,7 +1267,7 @@ void POKETRADE_PROC_ShowDragIcon(void *p) {
  }
 }
 
-void POKETRADE_PROC_BeginDrag(void *p, int x, int y, int z, int mon)
+void POKETRADE_PROC_BeginDrag(void *p, struct ClactActor *x, int y, int z, int mon)
 {
     int o1, o2;
 
@@ -1956,7 +1956,7 @@ int POKETRADE_PROC_PollGridTouch(char *p,int *a,int *b,int *c,int *d) {
 
 int POKETRADE_PROC_PollGridTouchDrag(char *p,int save)
 {
- int x, y, a, b, c, hit, result=0; sptr e;
+ int x, y, a, b, c, result=0; sptr e; struct ClactActor *hit;
  if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))==1) {
   hit=POKETRADE_2D_HitTestBoxIcons(p,x+12,y+12,(int *)(p+0xf80),(int *)(p+0xf7c),&a,&b,&c);
   if(hit) {
@@ -3244,7 +3244,7 @@ int POKETRADE_PROC_InitTradeWork(void *a,int b,char *q,char *p,int n)
     ((TradeWork *)p)->nationalDexEnabled=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct TradeRequest *)q)->gameData));
     if(q) POKETRADE_PROC_SetupGameData(p,((struct TradeRequest *)q)->gameData,((struct TradeRequest *)q)->setupParam);
     POKETRADE_PROC_SetupBoxCounts(p);POKETRADE_PROC_InitMcssSystem(p);POKETRADE_PROC_InitDisplay(p);
-    ((TradeWork *)p)->clactSystem=(sptr)CLACT_CreateUnit(0x154,0,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->clactSystem=CLACT_CreateUnit(0x154,0,((TradeWork *)p)->heapId);
     if(POKETRADE_PROC_IsNetSession(p)) {
         GFL_NET_COMMAND_AddCommandTable(0xc00,gNetCommandTable,24,p);
         GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);

@@ -188,7 +188,7 @@ typedef struct TownMapSprites {
 typedef struct TownMapGfx {
     u32 bgReady;                /* 0x00 */
     TownMapSprites sprites;     /* 0x04 */
-    u32 task;                   /* 0x28 per frame task handle */
+    struct TcbTask *task;                   /* 0x28 per frame task handle */
 } TownMapGfx;
 
 /* Back button, 0x20 bytes. */
@@ -208,7 +208,7 @@ typedef struct TownMapWork {
     TownMapGfx *gfx;        /* 0x00 graphics set (townmap_grh.c) */
     TownMapProc proc;       /* 0x04 */
     TownMapButtonBar buttonBar;     /* 0x14 */
-    int mapInfo;            /* 0x34 */
+    struct TownMapInfoRow *mapInfo;            /* 0x34 */
     TownMapCursor cursor;            /* 0x38 */
     TownMapMap map;         /* 0x50 */
     TownMapScroll scroll;   /* 0x78 */
@@ -222,7 +222,7 @@ typedef struct TownMapWork {
     TownMapArgs *args;      /* 0x130 */
     TownMapTown *hoverTown;  /* 0x134 */
     int zooming;            /* 0x138 */
-    u32 vblankTask;         /* 0x13C */
+    struct TcbTask *vblankTask;         /* 0x13C */
     u8 pad140[4];
 } TownMapWork;
 

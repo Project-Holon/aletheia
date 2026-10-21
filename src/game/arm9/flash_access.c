@@ -32,21 +32,12 @@
  */
 #include "../types.h"
 
-typedef void (*FlashErrorFunc)(u32 no_response);
-
+#include "flash_access.h"
 #include "gf_panic.h"
 #include "os_spinlock.h"
 #include "card_api.h"
 #include "card_backup.h"
-int FLASH_ACCESS_Identify(u32 unused_arg);
-u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error);
-int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void));
-void FLASH_ACCESS_OnWriteDone(void);
-u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error);
-int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error);
-void FLASH_ACCESS_CancelWrite(u16 lock_id);
 void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_error);
-void *FLASH_ACCESS_GetBusyFlag(void);
 extern const u8 flash_access_File[];
 extern const u8 flash_access_LockIdAssert[];
 extern u32 _WriteDone;
@@ -86,10 +77,10 @@ int FLASH_ACCESS_Identify(u32 unused_arg)
  * costs a `mov r4, #0` + `str r4, [sp]` and 8 bytes of frame the original
  * does not have.
  */
-u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
+u32 FLASH_ACCESS_Write(u32 flash_addr, const void *ram_src, u32 size, FlashErrorFunc on_error)
 {
     u32 success;
-    u16 lock_id = FLASH_ACCESS_StartWrite(flash_addr, ram_src, size, (void *)on_error);
+    u16 lock_id = FLASH_ACCESS_StartWrite(flash_addr, ram_src, size, on_error);
 
     while (FLASH_ACCESS_PollWrite(lock_id, &success, on_error) == 0) {
         ;
@@ -107,7 +98,7 @@ u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
  * no lr, so disasm.py gives it no label and infers this function as 188 -> 208
  * bytes.
  */
-int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
+int FLASH_ACCESS_Read(u32 flash_addr, void *ram_dst, u32 size, void (*on_error)(void))
 {
     int lock_id = OS_GetLockID();
     int result;
@@ -116,7 +107,7 @@ int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(vo
         GF_PANIC_Fail((const char *)flash_access_File, 0xa4, (const char *)flash_access_LockIdAssert);
     }
     CARD_LockBackup((u16)lock_id);
-    result = CARDi_RequestStreamCommand(flash_addr, ram_dst, size, 0, 0, 1, 6, 1, 0);
+    result = CARDi_RequestStreamCommand(flash_addr, (uptr)ram_dst, size, 0, 0, 1, 6, 1, 0);
     result = CARD_WaitBackupAsync();
     CARD_UnlockBackup((u16)lock_id);
     OS_ReleaseLockID((u16)lock_id);
@@ -144,7 +135,7 @@ void FLASH_ACCESS_OnWriteDone(void)
  * callback.  Returns the lock id for the poll.  _AccessBusy is raised before
  * the probe.
  */
-u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
+u16 FLASH_ACCESS_StartWrite(u32 flash_addr, const void *ram_src, u32 size, FlashErrorFunc on_error)
 {
     int lock_id = OS_GetLockID();
     u32 probe;
@@ -160,7 +151,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     }
 
     _WriteDone = 0;
-    CARDi_RequestStreamCommand(ram_src, flash_addr, size, (void (*)(void *))FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand((uptr)ram_src, flash_addr, size, (void (*)(void *))FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
     return (u16)lock_id;
 }
 
@@ -171,7 +162,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
  * other code fails with no_response = 0.  Returns 1 once finished, 0 while the
  * write is still running.
  */
-int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
+int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, FlashErrorFunc on_error)
 {
     if (_WriteDone == 1) {
         CARD_UnlockBackup(lock_id);
@@ -190,11 +181,11 @@ int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 on_error)
         case 7:
         default:
             *success = 0;
-            FLASH_ACCESS_EndAccess(lock_id, 0, (FlashErrorFunc)on_error);
+            FLASH_ACCESS_EndAccess(lock_id, 0, on_error);
             break;
         case 6:
             *success = 0;
-            FLASH_ACCESS_EndAccess(lock_id, 1, (FlashErrorFunc)on_error);
+            FLASH_ACCESS_EndAccess(lock_id, 1, on_error);
             break;
         }
         return 1;
@@ -237,10 +228,9 @@ void FLASH_ACCESS_EndAccess(u16 lock_id, u32 no_response, FlashErrorFunc on_erro
 }
 
 /*
- * FLASH_ACCESS_GetBusyFlag: accessor for _AccessBusy, returned through a
- * pointer-typed result because the callers store it that way.
+ * FLASH_ACCESS_GetBusyFlag: accessor for _AccessBusy.
  */
-void *FLASH_ACCESS_GetBusyFlag(void)
+u32 FLASH_ACCESS_GetBusyFlag(void)
 {
-    return (void *)_AccessBusy;
+    return _AccessBusy;
 }

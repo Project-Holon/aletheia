@@ -198,7 +198,7 @@ extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
+extern u32 GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 #include "../arm9/arc_tool.h"
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);

@@ -265,7 +265,7 @@ void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
     DWCi_MatchInit(&gDwcGlobalState.st->match,
                    &gDwcGlobalState.st->gp, &gDwcGlobalState.st->gt2Socket,
                    &gDwcGlobalState.st->gt2Callbacks, gcd_gamename,
-                   gcd_secret_key, (sptr)(friendList), friendListLen);
+                   gcd_secret_key, (int)((friendList)), friendListLen);
 
     DWCi_InitTransport((TransInfo *)gDwcGlobalState.st->transInfo);
 
@@ -1063,7 +1063,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
         DWCi_GT2ClosedProcess(0, 0, 1, node->aid);
         return 0;
     }
-    gt2CloseConnectionHard((sptr)conn);
+    gt2CloseConnectionHard((int)conn);
     return 0;
 }
 
@@ -1168,7 +1168,7 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
 
 void DWCi_GT2ReceivedCallback(void *connection, unsigned char *message, int size, int reliable)
 {
-    DWCi_RecvCallback(connection, message, size, reliable);
+    DWCi_RecvCallback(connection, message, (int)size, reliable);
 }
 
 

@@ -455,7 +455,7 @@ void FIELDMAP_CTRL_HYBRID_SetMode(FieldMap *fieldMap, FieldMapCtrlHybridWork *wo
         FIELD_CAMERA_ResumeTargetTrace(camera);
         FIELD_CAMERA_ReloadSetting(camera);
     } else {
-        FIELD_PLAYER_AttachNogridMmdl(work->player, (sptr)place);
+        FIELD_PLAYER_AttachNogridMmdl(work->player, place);
         FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, (struct RailWork *)(FIELD_PLAYER_GetNogridRailWork(work->player)));
         FIELD_CAMERA_RestartDelay(camera);
     }

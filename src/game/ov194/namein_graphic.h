@@ -44,7 +44,7 @@ void NAMEIN_GRAPHIC_StartIconAnim(unsigned char *p);
 int NAMEIN_GRAPHIC_StepIconAnim(char *p);
 int NAMEIN_GRAPHIC_GetIconMode(int x, int y);
 int NAMEIN_GRAPHIC_IsPointInRect(int *p, int *q);
-int NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b);
+struct Strbuf *NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b);
 void NAMEIN_GRAPHIC_CommitName(char *p);
 int NAMEIN_GRAPHIC_IsNameValid(int p);
 void NAMEIN_GRAPHIC_InitCallback(u8 *a, u32 b, u32 c);

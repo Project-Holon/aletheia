@@ -42,7 +42,7 @@ void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable);
 void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex);
 void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoice,int unusedExtra,int unusedX,u8 paletteSlot,unsigned heapId);
 void IRC_APPBAR_ReleaseResources(IrcAppBar *bar);
-void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId);
+void IRC_APPBAR_CreateActor(IrcAppBar *bar,void *clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId);
 extern char gIrcAppBarFileName[];
 
 #include "../types.h"

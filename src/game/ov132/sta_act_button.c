@@ -288,16 +288,16 @@ void STA_ACT_BUTTON_CreateActors(char *p)
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->frameCharacter.u,((struct StaActTaskObj *)p)->framePalette.u,((struct StaActTaskObj *)p)->frameCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
+            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->frameCharacter.u,((struct StaActTaskObj *)p)->framePalette.u,((struct StaActTaskObj *)p)->frameCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->iconCharacter.u,((struct StaActTaskObj *)p)->iconPalette.u,((struct StaActTaskObj *)p)->iconCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
+            *(void **)(p+i*4+0x54)=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->iconCharacter.u,((struct StaActTaskObj *)p)->iconPalette.u,((struct StaActTaskObj *)p)->iconCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
             CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
             STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    ((struct StaActTaskObj *)p)->pressActor=CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->pressCharacter.u,((struct StaActTaskObj *)p)->pressPalette.u,((struct StaActTaskObj *)p)->pressCellAnim.u,(const struct ActorInitParam *)&configs[0],1,((struct StaActTaskObj *)p)->heapId);
+    ((struct StaActTaskObj *)p)->pressActor=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->pressCharacter.u,((struct StaActTaskObj *)p)->pressPalette.u,((struct StaActTaskObj *)p)->pressCellAnim.u,(const struct ActorInitParam *)&configs[0],1,((struct StaActTaskObj *)p)->heapId);
     CLACT_SetActorDrawEnable(((struct StaActTaskObj *)p)->pressActor,0);
     CLACT_SetActorAutoAnim(((struct StaActTaskObj *)p)->pressActor,1);
 }

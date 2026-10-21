@@ -12,7 +12,7 @@ struct Descriptor;
 #include "../types.h"
 
 int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
-int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work);
+int POKELIST_Exit(struct Proc *procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_InitWork(PokelistWork *work);
 int POKELIST_ExitWork(PokelistWork *work);

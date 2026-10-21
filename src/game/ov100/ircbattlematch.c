@@ -424,11 +424,11 @@ void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot);
 void IRCBATTLEMATCH_SetPlayerReady(IrcBattleMatchWork *work,int aid);
 void IRCBATTLEMATCH_OnChangeoverConnected(void *userArg);
 void IRCBATTLEMATCH_RecvModeHandler(unsigned aid,int size,int *data,IrcBattleMatchWork *work,void *handle);
-void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle);
+void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle);
 void IRCBATTLEMATCH_NoOp(void);
-int IRCBATTLEMATCH_GetParty(int index,IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle);
-void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleMatchWork *work,int handle);
+struct Party *IRCBATTLEMATCH_GetParty(int index,IrcBattleMatchWork *work);
+void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle);
+void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle);
 void IRCBATTLEMATCH_RecvPlayerSlotsHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle);
 void IRCBATTLEMATCH_StepWaitTouchThenExit(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepWaitTimeout(IrcBattleMatchWork *work);
@@ -632,42 +632,42 @@ void IRCBATTLEMATCH_RecvModeHandler(unsigned aid,int size,int *data,IrcBattleMat
  if(handle==GFL_NET_HANDLE_GetCurrentHandle()) work->modeByAid[aid]=*data;
 }
 
-void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle)
+void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle)
 {
- sptr record;
- sptr saveData;
- if(handle==(sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
-  record=(sptr)GAME_DATA_GetMyStatusPlayer((struct GameData *)work->param->gameData,aid);
-  MYSTATUS_Copy((void *)data,(void *)record);
-  saveData=(sptr)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)work->param->gameData));
- MET_TRAINERS_Insert((struct MetTrainersSave *)saveData,MYSTATUS_GetId((struct MyStatus *)record));
+ struct MyStatus *record;
+ struct MetTrainersSave *saveData;
+ if(handle==GFL_NET_HANDLE_GetCurrentHandle()) {
+  record=GAME_DATA_GetMyStatusPlayer((struct GameData *)work->param->gameData,aid);
+  MYSTATUS_Copy(data,record);
+  saveData=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)work->param->gameData));
+ MET_TRAINERS_Insert(saveData,MYSTATUS_GetId(record));
  }
 }
 
 void IRCBATTLEMATCH_NoOp(void) {}
 
-int IRCBATTLEMATCH_GetParty(int index,IrcBattleMatchWork *work)
+struct Party *IRCBATTLEMATCH_GetParty(int index,IrcBattleMatchWork *work)
 {
- if(index>=0 && index<4) return (sptr)work->param->party[index];
+ if(index>=0 && index<4) return work->param->party[index];
  return 0;
 }
 
-void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle)
+void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle)
 {
  void *records = work->param->gameData;
- if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+ if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
   if (aid != GFL_NET_SYSTEM_GetCurrentAid()) {
-   int record = (sptr)GAME_DATA_GetMyStatusPlayer((struct GameData *)records,aid);
-   work->regulationResult = WIFILIST_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
+   struct MyStatus *record = GAME_DATA_GetMyStatusPlayer((struct GameData *)records,aid);
+   work->regulationResult = WIFILIST_InsertFriend(records,record,data,work->heapId);
   }
  }
 }
 
-void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleMatchWork *work,int handle)
+void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleMatchWork *work,void *handle)
 {
  u8 *macs;
  int i;
- if(handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+ if(handle == GFL_NET_HANDLE_GetCurrentHandle()) {
   if(GFL_NET_IsParentAid() != 0) {
    i=0;
    macs = (u8 *)work->macAddress;
@@ -763,9 +763,9 @@ void IRCBATTLEMATCH_StepSendRegulation(IrcBattleMatchWork *work)
 {
  int syncId=12;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7e,syncId)!=0) {
-  int handle=(sptr)GFL_NET_HANDLE_GetCurrentHandle();
+  struct GFLNetHandle *handle=GFL_NET_HANDLE_GetCurrentHandle();
   int regulationSize=POKE_REGULATION_GetDataSize();
-  if((void *)GFL_NET_SendData((struct GFLNetHandle *)handle,0xff,0xc02,regulationSize,(void *)work->param->regulation,0,0,1)!=0) {
+  if(GFL_NET_SendData(handle,0xff,0xc02,regulationSize,work->param->regulation,0,0,1)!=0) {
    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7a,syncId);
    IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepApplyPartyRules);
   }
@@ -835,10 +835,10 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
 }
 
 void IRCBATTLEMATCH_StepSendMyStatus(IrcBattleMatchWork *work) {
- int handle=(sptr)GFL_NET_HANDLE_GetCurrentHandle();
+ struct GFLNetHandle *handle=GFL_NET_HANDLE_GetCurrentHandle();
  int myStatusSize=MYSTATUS_GetSize();
- int myStatus=(sptr)GAME_DATA_GetMyStatus((void *)work->param->gameData);
- if((void *)GFL_NET_SendToHandle((void *)handle,(u16)0xc01,(u16)myStatusSize,(void *)myStatus)!=0) {
+ struct MyStatus *myStatus=GAME_DATA_GetMyStatus((void *)work->param->gameData);
+ if(GFL_NET_SendToHandle(handle,(u16)0xc01,(u16)myStatusSize,myStatus)!=0) {
   GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,12);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendTrainerInfo);
  }

@@ -458,7 +458,7 @@ int WORLDTRADE_DEPOSIT_Init(WorldtradeWork *p)
     WORLDTRADE_DEPOSIT_PrintMonSummary(p->bank,p->words,(void **)((u8 *)p+0xD9C),p->mon,(MonTag *)((u8 *)p+0xB4C),(u8 *)p+0xFA0);
     init.w00=(uptr)((u8 *)p+0xD50);
     init.w04=(uptr)((u8 *)p+0xDD4);
-    init.obj=(uptr)p->mark;
+    init.obj=p->mark;
     init.w0c=(uptr)p->btn[0];
     init.w10=(uptr)p->btn[1];
     init.w14=0;
@@ -1077,7 +1077,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     has = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
     title = MSGDATA_AllocString(bank, 0x6E);
     WORDSET_SetSlotNumber(ws, 3, level, 3, 0, 1);
-    place = (void *)WORLDTRADE_ADAPTER_CreateString((uptr)ws, (uptr)bank, 0x72, 0x48);
+    place = (void *)WORLDTRADE_ADAPTER_CreateString(ws, bank, 0x72, 0x48);
     if (form != 3) {
         MSGDATA_ReadString(bank, tbl_02202EB0[form], tmp);
     }
@@ -1154,7 +1154,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(WorldtradeEntry *dst, WorldtradeWork *p)
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeBoxForm(p->mon, 0);
         }
-        WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (uptr)dst);
+        WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (struct PokemonParam *)dst);
     }
     WORDSET_CopyString(MYSTATUS_GetName(p->ctx->myStatus), (u16 *)dst->name, 8);
     dst->trainerId = MYSTATUS_GetId(p->ctx->myStatus);

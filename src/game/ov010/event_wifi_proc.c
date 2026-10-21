@@ -134,7 +134,7 @@ extern u8 d_021D5764[];
 
 extern u8 d_021C7240[];
 
-struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
+struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, GameInitWork *initParam);
 
 struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem);
 
@@ -146,10 +146,10 @@ int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg);
 
 struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
 
-struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam)
+struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, GameInitWork *initParam)
 {
     GF_OVERLAY_Load((uptr)ov020_id);
-    return EVENT_MAPCHANGE_CreateByMode(gameSystem, (struct GameInitWork *)initParam);
+    return EVENT_MAPCHANGE_CreateByMode(gameSystem, initParam);
 }
 
 /*

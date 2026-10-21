@@ -193,12 +193,7 @@ typedef union {
 } GXBg01Control;
 
 /* The error record the net library keeps (GFL_NET_STATE_GetError returns it). */
-typedef struct {
-    u32 errorCode;
-    u32 errorType;
-    u32 errorParam;
-    u32 reasonCode;
-} NetErrInfo;
+typedef NetErrorInfo NetErrInfo;
 
 /* The module's state at 0x0214617C (size 0x64): backup of the display state
  * the error screen overwrites, plus the recorded error. */
@@ -517,7 +512,7 @@ void GFL_NET_ERR_DetectNetError(void)
 
     {
         NetErrInfo *errorInfo = (NetErrInfo *)(uptr)GFL_NET_STATE_GetError();
-        u32 reasonCode = errorInfo->reasonCode;
+        u32 reasonCode = errorInfo->gameCode;
 
         if (reasonCode - 0x3f0 <= 1) {
             work->messageId = 0x28;
@@ -1156,7 +1151,7 @@ u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a)
 {
     u32 errorNumber;
 
-    switch (info->reasonCode) {
+    switch (info->gameCode) {
     case 0x3ee:
     case 0x3f7:
         return 0xd;

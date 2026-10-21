@@ -38,4 +38,6 @@ typedef struct SkillTarget {
 
 typedef struct GameEvent *(*SkillEventFn)(SkillTarget *target, FieldSkillInfo *info);
 
+typedef int (*SkillCheckFn)(struct FieldSkillInfo *info);
+
 #endif

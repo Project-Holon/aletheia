@@ -182,7 +182,7 @@ typedef struct {
     short extraStepY;
     unsigned char extraStepFrames;
     unsigned char pad_169[15];
-    int extraActor1;
+    struct ClactActor *extraActor1;
     unsigned char pad_17C[12];
     int cursorIndex;
     unsigned char pad_18C[8];
@@ -190,14 +190,14 @@ typedef struct {
     unsigned char pad_198[12];
     int cursorMode;
     unsigned char pad_1A8[8];
-    int cursorActor2;
+    struct ClactActor *cursorActor2;
     unsigned char pad_1B4[4];
     unsigned short cursorCol;
     unsigned short cursorRow;
     unsigned char pad_1BC[4];
     int cursorActor3;
     unsigned char pad_1C4[8];
-    int cursorActor4;
+    struct ClactActor *cursorActor4;
     unsigned char pad_1D0[4];
     unsigned short cursorValue0;
     unsigned short cursorValue1;
@@ -479,7 +479,7 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     PALANM_SetAutoTransfer(((Wf2dmapScene *)scene)->palAnm.handle,1);
     PALANM_AllocSlotBuffers(((Wf2dmapScene *)scene)->palAnm.handle,0,512,50);
     WF2DMAP_SCENE_InitBg();
-    WF2DMAP_SCENE_InitClact((char *)scene,(uptr)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)scene); WF2DMAP_SCENE_CreateButtons((char *)scene);
+    WF2DMAP_SCENE_InitClact((char *)scene,(unsigned int)((struct DispVramCfg *)d_021DA800)); WF2DMAP_SCENE_BuildGrid((char *)scene); WF2DMAP_SCENE_CreateButtons((char *)scene);
     G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,0,6,15,7);
     G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR,0,14,7,8);
     ((Wf2dmapScene *)scene)->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)WF2DMAP_SCENE_VBlank),(void *)((uptr)scene),16);
@@ -1174,13 +1174,13 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
 void WF2DMAP_SCENE_DeleteActors(char *scene)  {
     int index;
     char *cell;
-    for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) CLACT_DeleteActor((struct ClactActor *)(*(int *)(scene+index*28+12)));
+    for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) CLACT_DeleteActor(*(struct ClactActor **)(scene+index*28+12));
     for(index=0;index<2;index++)  {
         cell=scene+index*28;
         CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)cell)->extraActor.handleRaw)));
         CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)cell)->cursorAnimActor)));
     }
-    for(index=0;index<3;index++) CLACT_DeleteActor((struct ClactActor *)(*(int *)(scene+index*28+0x194)));
+    for(index=0;index<3;index++) CLACT_DeleteActor(*(struct ClactActor **)(scene+index*28+0x194));
     WF2DMAP_SCENE_DeleteOam((u8 *)scene);
     BMP_WIN_Delete((struct BmpWin *)(((Wf2dmapScene *)scene)->windowHandle));
     for(index=0;index<3;index++)  {
@@ -1197,7 +1197,7 @@ void WF2DMAP_SCENE_CreateCellActors(char *scene)
 {
     Wf2dmapSceneParams param;
     int cellIdx=0;
-    int unit=((Wf2dmapScene *)scene)->unit.handleRaw;
+    struct Unit *unit = (struct Unit *)(((Wf2dmapScene *)scene)->unit.handleRaw);
     int index,extraIdx=0;
     uptr cell;
     param.x=0; param.y=0; param.frame=0; param.speed=10; param.flag=0;
@@ -1217,18 +1217,18 @@ void WF2DMAP_SCENE_CreateCellActors(char *scene)
     }
     if(((Wf2dmapScene *)scene)->group1Size==0 && ((Wf2dmapScene *)scene)->group2Size==0) {
         CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)((Wf2dmapScene *)scene)->extraActor.handleRaw),0);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)((Wf2dmapScene *)scene)->extraActor1),0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(((Wf2dmapScene *)scene)->extraActor1),0);
     }
 }
 
 void WF2DMAP_SCENE_CreateCursorActors(char *scene)
 {
     Wf2dmapSceneParams param;
-    int unit=((Wf2dmapScene *)scene)->unit.handleRaw;
+    struct Unit *unit = (struct Unit *)(((Wf2dmapScene *)scene)->unit.handleRaw);
     param.x=0; param.y=0; param.frame=0; param.speed=0; param.flag=0;
     ((Wf2dmapScene *)scene)->cursorActor.handleRaw=(sptr)CLACT_CreateActor((struct Unit *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,(const struct ActorInitParam *)&param,0,50);
-    ((Wf2dmapScene *)scene)->cursorActor2=(sptr)CLACT_CreateActor((struct Unit *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,(const struct ActorInitParam *)&param,0,50);
-    ((Wf2dmapScene *)scene)->cursorActor4=(sptr)CLACT_CreateActor((struct Unit *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,(const struct ActorInitParam *)&param,0,50);
+    ((Wf2dmapScene *)scene)->cursorActor2=CLACT_CreateActor((struct Unit *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,(const struct ActorInitParam *)&param,0,50);
+    ((Wf2dmapScene *)scene)->cursorActor4=CLACT_CreateActor((struct Unit *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,(const struct ActorInitParam *)&param,0,50);
     WF2DMAP_SCENE_MoveCursor((u8 *)scene,0);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor.handleRaw)),0);
     CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)((Wf2dmapScene *)scene)->cursorActor.handleRaw),1);
@@ -1236,14 +1236,14 @@ void WF2DMAP_SCENE_CreateCursorActors(char *scene)
     ((Wf2dmapScene *)scene)->cursorMode=1;
     WF2DMAP_SCENE_SetCursorPos(scene,0);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor2)),((Wf2dmapScene *)scene)->cursorMode);
-    CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)((Wf2dmapScene *)scene)->cursorActor2),1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor2),1);
     CLACT_SetActorObjMode((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor2)),1);
     ((Wf2dmapScene *)scene)->cursorValue0=0; ((Wf2dmapScene *)scene)->cursorValue1=0;
     ((Wf2dmapScene *)scene)->cursorActor3=1;
     WF2DMAP_SCENE_SetCursorPos(scene,0);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor4)),((Wf2dmapScene *)scene)->cursorActor3);
     CLACT_SetActorObjMode((struct ClactActor *)((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor4)),1);
-    CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)((Wf2dmapScene *)scene)->cursorActor4),1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)(((Wf2dmapScene *)scene)->cursorActor4),1);
     WF2DMAP_SCENE_SetCursorVisible(scene,1,0);
     WF2DMAP_SCENE_SetCursorVisible(scene,2,0);
 }
@@ -1251,7 +1251,7 @@ void WF2DMAP_SCENE_CreateCursorActors(char *scene)
 void WF2DMAP_SCENE_CreateExtraActors(char *scene)
 {
     L param;
-    int unit = ((Wf2dmapScene *)scene)->unit.handleRaw;
+    struct Unit *unit = (struct Unit *)(((Wf2dmapScene *)scene)->unit.handleRaw);
     param.a = 0;
     param.b = 0;
     param.c = 0;
@@ -1295,8 +1295,8 @@ void WF2DMAP_SCENE_SetCursorPosBySlot(char *scene,int cellIdx,int cursorIdx)
     unsigned char *rect = (unsigned char *)scene + (cellIdx+12)*4;
     pos.x = (rect[0x29a] + rect[0x29b])/2;
     pos.y = (rect[0x298] + rect[0x299])/2;
-    CLACT_AddActorSurfacePos((struct ClactActor *)((struct ClactActor *)(*(int *)((scene+0x194)+cursorIdx*0x1c))),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
-    CLACT_SetActorAnimFrame((struct ClactActor *)((struct ClactActor *)(*(int *)((scene+0x194)+cursorIdx*0x1c))),0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor **)((scene+0x194)+cursorIdx*0x1c)),(const struct ClactVec2 *)( &pos),0);
+    CLACT_SetActorAnimFrame((struct ClactActor *)(*(struct ClactActor **)((scene+0x194)+cursorIdx*0x1c)),0);
 }
 
 void WF2DMAP_SCENE_UpdateCursorAnim(char *scene)
@@ -1486,7 +1486,7 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     bank=MSGDATA_CreateFromArchive(0,2,25,50);
     msg=MSGDATA_AllocString(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
-    PRINTSYS_PrintColor(bmp,(80-(sptr)(struct GfFont *)PRINTSYS_MeasureWidestLine(msg,(struct GfFont *)(*(u32 *)&((Wf2dmapScene *)scene)->font.handle),0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
+    PRINTSYS_PrintColor(bmp,(80-(sptr)(struct GfFont *)PRINTSYS_MeasureWidestLine(msg,*(struct GfFont **)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
     xPos=(scene+(index+22)*4)[0x29a]+20;
     yPos=((scene+(index+22)*4)[0x298]+(scene+(index+22)*4)[0x299])/2;
     param.bmp=bmp;

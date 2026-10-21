@@ -296,11 +296,11 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
                 if (trainerId != 0)
                     WORDSET_SetSlotFromMsgBE(wordSet, slot, trainerId);
             } else {
-                trainerData = (void *)BTL_MAIN_GetTrainerNameAndType((struct BtlMain *)gBtlMsgState.battle, clientId, &trainerClass);
+                trainerData = BTL_MAIN_GetTrainerNameAndType((struct BtlMain *)gBtlMsgState.battle, clientId, &trainerClass);
                 WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
             }
         } else {
-            WORDSET_SetSlotMyStatus(wordSet, slot, (struct Strbuf *)BTL_MAIN_GetTrainerHandle((struct BtlMain *)gBtlMsgState.battle, clientId));
+            WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_GetTrainerHandle((struct BtlMain *)gBtlMsgState.battle, clientId));
         }
     } else {
         WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_UpdateCommPlayerSupport(gBtlMsgState.battle));

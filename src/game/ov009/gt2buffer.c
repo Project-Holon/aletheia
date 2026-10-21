@@ -39,7 +39,7 @@ int gti2AllocateBuffer(GTI2Buffer *buffer, int size)
     buffer->buffer = gsimalloc(size);
     if (buffer->buffer == 0)
         return 0;
-    buffer->size = size;
+    buffer->size = (int)size;
     return 1;
 }
 

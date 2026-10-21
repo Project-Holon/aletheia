@@ -228,11 +228,11 @@ struct BbBoard;
 
 void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type);
 
-void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_InitTask(FieldEffectObj *task, FootmarkTaskWork *work);
 
-void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_DeleteTask(FieldEffectObj *task, FootmarkTaskWork *work);
 
-void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work);
+void FLDEFF_FOOTMARK_UpdateTask(FieldEffectObj *task, FootmarkTaskWork *work);
 
 void FLDEFF_FOOTMARK_DrawTask(void);
 
@@ -240,7 +240,7 @@ extern int gFootmarkTaskHeader;
 
 void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type)
 {
-    sptr effWork;
+    FootmarkEffectWork *effWork;
     int dir;
     int oldDir;
     int resNo;
@@ -248,10 +248,10 @@ void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffe
     FootmarkTaskHead head;
 
     effWork = FIELD_EFFECT_GetResource(fieldEffectCtrl, 5);
-    head.effWork = (FootmarkEffectWork *)effWork;
+    head.effWork = effWork;
     dir = FLDMMDL_GetDirDisp((void *)mmdl);
     oldDir = FLDMMDL_GetDirDispOld((void *)mmdl);
-    resNo = (u16)FLDEFF_FOOTMARK_GetSlotIndex((FootmarkEffectWork *)effWork, type, dir, oldDir);
+    resNo = (u16)FLDEFF_FOOTMARK_GetSlotIndex(effWork, type, dir, oldDir);
     FLDMMDL_GetPos( (const Mmdl *)((struct Mmdl *)mmdl), (VecFx32 *)((struct VecFx32 *)&pos));
     dir = FLDMMDL_GetGridOldX( (Mmdl *)((void *)mmdl));
     FLDMMDL_MOVE_GridToVectorPos(dir, FLDMMDL_GetGridOldZ( (Mmdl *)((void *)mmdl)), (VecFx32 *)((int *)(&pos)));
@@ -267,11 +267,11 @@ void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffe
     FIELD_EFFECT_AddObject(fieldEffectCtrl, (struct FieldEffectObjFuncs *)(&gFootmarkTaskHeader), &pos, 0, &head, 0);
 }
 
-void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work)
+void FLDEFF_FOOTMARK_InitTask(FieldEffectObj *task, FootmarkTaskWork *work)
 {
     FootmarkTaskObj obj;
     FootmarkBbActAdd add;
-    FootmarkTaskHead *head = (FootmarkTaskHead *)FIELD_EFFECT_GetObjectParam((struct FieldEffectObj *)task);
+    FootmarkTaskHead *head = (FootmarkTaskHead *)FIELD_EFFECT_GetObjectParam(task);
 
     work->head = *head;
     work->alpha = 0x1f;
@@ -286,17 +286,17 @@ void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work)
     FIELD_EFFECT_GetObjectPos( (FieldEffectObj *)task, (VecFx32 *)&obj);
     work->actId = BILLBOARD_ACT_CreateEntries((void *)work->head.effWork->bbActSys, 0, (const struct BbActDesc *)(&add), 1, 3);
     if (work->actId == 0xFFFF) {
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)task);
+        FIELD_EFFECT_DeleteObject(task);
     }
 }
 
-void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work)
+void FLDEFF_FOOTMARK_DeleteTask(FieldEffectObj *task, FootmarkTaskWork *work)
 {
-    int bbActSys = (sptr)work->head.effWork->bbActSys;
+    struct BbActSys *bbActSys = work->head.effWork->bbActSys;
     u16 actId = work->actId;
 
     if (actId != 0xFFFF) {
-        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)bbActSys, actId, 1);
+        BILLBOARD_ACT_DeleteEntries(bbActSys, actId, 1);
     }
 }
 
@@ -304,10 +304,11 @@ void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work)
  * Witnesses: arm9 leaves BILLBOARD_ACT_GetBoard, BILLBOARD_ACT_GetEntryFlags, BILLBOARD_ACT_SetEntryEnabled,
  * BILLBOARD_ACT_GetEntryElemId, BILLBOARD_GetElemCell filed in src/matched/arm9 (wave A1).
  */
-void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work)
+void FLDEFF_FOOTMARK_UpdateTask(FieldEffectObj *task, FootmarkTaskWork *work)
 {
     u8 alpha;
-    sptr bbActSys, board;
+    sptr board;
+    struct BbActSys *bbActSys;
     u16 elem;
 
     switch (work->seq) {
@@ -320,13 +321,13 @@ void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work)
     case 1:
         work->alpha = work->alpha - 2;
         if (work->alpha < 0) {
-            FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)task);
+            FIELD_EFFECT_DeleteObject(task);
             return;
         }
         alpha = work->alpha;
-        bbActSys = (sptr)work->head.effWork->bbActSys;
-        board = (sptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
-        elem = (int)BILLBOARD_ACT_GetEntryElemId((struct BbActSys *)bbActSys, (u16)work->actId);
+        bbActSys = work->head.effWork->bbActSys;
+        board = (sptr)BILLBOARD_ACT_GetBoard(bbActSys);
+        elem = (int)BILLBOARD_ACT_GetEntryElemId(bbActSys, (u16)work->actId);
         BILLBOARD_SetElemAlpha((struct BbBoard *)board, elem, &alpha);
         break;
     }

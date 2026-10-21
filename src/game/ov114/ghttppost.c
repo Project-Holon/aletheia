@@ -577,7 +577,7 @@ GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection 
             } else {
                 hex.c[1] = sGhttpHexDigits[c / 16];
                 hex.c[2] = sGhttpHexDigits[c % 16];
-                result = ghiAppendDataToBuffer(writeBuffer, hex.c, 3);
+                result = ghiAppendDataToBuffer(writeBuffer, hex.c, (int)((void *)3));
             }
         }
     } else {
@@ -706,7 +706,7 @@ int ghiPostFileMemoryStateDoPosting(GHIPostState *state, GHIConnection *connecti
         do {
             int len = state->data->data.fileMemory.len - state->pos;
             if (len >= 0x3f01)
-                len = 0x3f01;
+                len = (int)((void *)0x3f01);
             result = ghiTrySendThenBuffer(connection, state->data->data.fileMemory.buffer + state->pos, len);
             if (!result)
                 return 0;
@@ -873,7 +873,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
             connection->encryptor.encryptOnBuffer == GHTTPTrue)
         {
             if (len == 0)
-                len = (int)strlen(buffer);
+                len = strlen(buffer);
             if (!ghiEncryptDataToBuffer(&connection->sendBuffer, buffer, len))
                 return GHIPostingError;
             if (!ghiSendBufferedData(connection))
@@ -885,7 +885,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
         else
         {
             if (len == 0)
-                len = (int)strlen(buffer);
+                len = strlen(buffer);
             result = ghiTrySendThenBuffer(connection, buffer, len);
             if (result == GHITrySendError)
                 return GHIPostingError;

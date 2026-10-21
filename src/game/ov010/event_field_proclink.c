@@ -214,7 +214,7 @@ typedef struct ObjAnimWork {
     u16 fieldObjectId;          /* 0x0C */
     u8 reserved0E[2];
     const char *animName;       /* 0x10 */
-    int handles[8];             /* 0x14 */
+    void *handles[8];           /* 0x14 */
 } ObjAnimWork;
 
 /* Evolution demo request (0x14 bytes, read by the evolution overlay); same record as event_wificlub_types.h. */
@@ -374,12 +374,12 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void 
 GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source);
 void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId);
 void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work);
-ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle);
+ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, void *handle);
 int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work);
 int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
-int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
-int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle);
+void *EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(void *handle);
 GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
 int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work);
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);
@@ -1311,7 +1311,7 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
         fieldObjects = EVENT_FIELD_PROCLINK_InitAnimNode(fieldObjects, work->fieldObjectId);
         if (fieldObjects == 0)
             return 1;
-        EVENT_FIELD_PROCLINK_IsAnimNodeDone(work, (sptr)FLDMMDL_ACMD_ListCreate(fieldObjects, (struct MmdlAcmdListEntry *)work->animName));
+        EVENT_FIELD_PROCLINK_IsAnimNodeDone(work, FLDMMDL_ACMD_ListCreate(fieldObjects, (struct MmdlAcmdListEntry *)work->animName));
         *state = *state + 1;
         break;
     case 1:
@@ -1372,13 +1372,13 @@ void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectI
 void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work)
 {
     int i = 0;
-    int zero = i;
+    void *zero = 0;
 
     for (; i < 8; i++)
         work->handles[i] = zero;
 }
 
-ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle)
+ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, void *handle)
 {
     int i;
 
@@ -1399,8 +1399,8 @@ int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work)
     for (i = 0; i < 8; i++) {
         if (work->handles[i] == 0)
             continue;
-        if (FLDMMDL_ACMD_ListCheckEnd((void *)work->handles[i]) == 1) {
-            FLDMMDL_ACMD_ListDelete((void *)work->handles[i]);
+        if (FLDMMDL_ACMD_ListCheckEnd(work->handles[i]) == 1) {
+            FLDMMDL_ACMD_ListDelete(work->handles[i]);
             work->handles[i] = 0;
         } else {
             stillRunning = 1;
@@ -1479,7 +1479,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     return event;
 }
 
-int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
+void *EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
 {
     const char *animName;
     void *object;
@@ -1500,13 +1500,13 @@ int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
         break;
     }
     FLDMMDL_FreeAcmd(object);
-    return (sptr)FLDMMDL_ACMD_ListCreate(object, (struct MmdlAcmdListEntry *)animName);
+    return FLDMMDL_ACMD_ListCreate(object, (struct MmdlAcmdListEntry *)animName);
 }
 
-int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(void *handle)
 {
-    if (FLDMMDL_ACMD_ListCheckEnd((void *)handle) == 1) {
-        FLDMMDL_ACMD_ListDelete((void *)handle);
+    if (FLDMMDL_ACMD_ListCheckEnd(handle) == 1) {
+        FLDMMDL_ACMD_ListDelete(handle);
         return 1;
     }
     return 0;

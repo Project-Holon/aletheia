@@ -58,7 +58,7 @@ void DWCi_MOV_WH_StateOutSetLifeTime(void);
 BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
 void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc);
 void DWCi_MOV_WH_SetReceiver(void *recvCallback);
-BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback);
+BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, int userCallback);
 int WIH_GetSharedDataAdr(u16 aid);
 BOOL WIH_StepDS(int sendData);
 void WIH_UpdateScanTimer(void);

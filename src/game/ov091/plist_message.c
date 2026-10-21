@@ -145,7 +145,7 @@ void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *ms
 void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
 void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n);
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg);
-void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused);
+void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, struct PlistMessage *unused);
 void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg);
 struct PokelistWork;
 void PLIST_MESSAGE_DrawKeyCursorMark(struct PokelistWork *unused, PlistMessage *msg);
@@ -362,7 +362,7 @@ void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
-void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { BMP_MENUWORK_LoadCharAndPltt(0, 1, 12, 0, work->heapId); }
+void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, struct PlistMessage *unused) { BMP_MENUWORK_LoadCharAndPltt(0, 1, 12, 0, work->heapId); }
 
 /*
  * Unlabelled store-and-return leaf (listed as .word at 0x021BBA68) called

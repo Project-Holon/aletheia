@@ -5,6 +5,7 @@
 /* Public functions of field_nogrid_mapper.c, prototypes copied from their definitions. */
 
 struct FieldNogridMapper;
+struct FieldCamera;
 struct FieldNogridMapperRes;
 typedef struct FieldNogridMapper FieldNogridMapper;
 typedef struct FieldNogridMapperRes FieldNogridMapperRes;
@@ -15,7 +16,7 @@ typedef struct FieldNogridMapperRes FieldNogridMapperRes;
 #include "../ov021/field_rail_types.h"
 #include "../arm9/zonedata_types.h"
 
-FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
+FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, struct FieldCamera *fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
 int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper);
 void FIELD_NOGRID_MAPPER_SetActive(FieldNogridMapper *mapper, int active);
 void FIELD_NOGRID_MAPPER_LoadData(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId);

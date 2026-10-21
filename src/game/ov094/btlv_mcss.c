@@ -294,7 +294,7 @@ void BTLV_MCSS_Delete(BtlvMcssWork *w);
 void BTLV_MCSS_Update(BtlvMcssWork *w);
 void BTLV_MCSS_Draw(BtlvMcssWork *w);
 void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos);
-void BTLV_MCSS_AddTrainer(BtlvMcssWork *w, void *trainer, int pos);
+void BTLV_MCSS_AddTrainer(BtlvMcssWork *w, u32 trainer, int pos);
 void BTLV_MCSS_RemoveSprite(BtlvMcssWork *w, int pos);
 void BTLV_MCSS_SetSideScale(BtlvMcssWork *w, int scaleEven, int scaleOdd);
 void BTLV_MCSS_SetPosition(BtlvMcssWork *w, int pos, int x, int y, int z);
@@ -350,7 +350,7 @@ void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *w, int pos, int mode);
 int BTLV_MCSS_TakeSpriteRefreshedFlag(BtlvMcssWork *w, int pos);
 void BTLV_MCSS_SaveVanishStates(BtlvMcssWork *w);
 void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *w);
-void BTLV_MCSS_MakeAddWorkFromTrainer(void *trainer, McssAddWork *out, int pos);
+void BTLV_MCSS_MakeAddWorkFromTrainer(u32 trainer, McssAddWork *out, int pos);
 void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *w, int pos);
 void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *w, int pos, int kind, BtlvMcssVec *from, BtlvMcssVec *to, int frames, int waitFrames, int repeat, void (*fn)(struct TcbTask *, void *), void (*endCb)(void *), int mirrorOdd, u8 serial);
 void BTLV_MCSS_PositionTweenTaskMain(struct TcbTask *task, void *arg);
@@ -603,7 +603,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *work, void *pp, int pos)
     }
 }
 
-void BTLV_MCSS_AddTrainer(BtlvMcssWork *work, void *trainer, int pos)
+void BTLV_MCSS_AddTrainer(BtlvMcssWork *work, u32 trainer, int pos)
 {
     int i;
     McssAddWork addWork;
@@ -630,7 +630,7 @@ void BTLV_MCSS_RemoveSprite(BtlvMcssWork *work, int pos)
     MCSS_Del((struct McssSys *)work->mcss, (struct McssWork *)work->sprites[idx].mcss);
     work->sprites[idx].mcss = 0;
     if (work->sprites[idx].animWatchTask != 0) {
-        GFL_HEAP_Free((void *)TCBL_GetOwnedWork(work->sprites[idx].animWatchTask));
+        GFL_HEAP_Free(TCBL_GetOwnedWork(work->sprites[idx].animWatchTask));
         TCB_DeleteTask(work->sprites[idx].animWatchTask);
         work->sprites[idx].animWatchTask = 0;
     }
@@ -1598,9 +1598,9 @@ void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *work)
  * Tail-call stub: forwards (trainer, out) and passes !(pos & 1) as the third
  * argument of MCSS_TOOL_MakeAddWorkFromTrainer.
  */
-void BTLV_MCSS_MakeAddWorkFromTrainer(void *trainer, McssAddWork *out, int pos)
+void BTLV_MCSS_MakeAddWorkFromTrainer(u32 trainer, McssAddWork *out, int pos)
 {
-    MCSS_TOOL_MakeAddWorkFromTrainer((void *)trainer, (struct McssAddWork *)out, (void *)((pos & 1) == 0));
+    MCSS_TOOL_MakeAddWorkFromTrainer((void *)(uptr)trainer, out, (void *)(uptr)((pos & 1) == 0));
 }
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)

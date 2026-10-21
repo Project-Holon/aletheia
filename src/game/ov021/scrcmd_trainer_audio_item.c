@@ -360,7 +360,7 @@ int SCRCMD_StartTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (secondTrainerId == 0 && EVENT_TRAINER_IsDoubleBattle(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(EVENT_BATTLE_CreateEncounterTask((sptr)SCRIPT_WORK_GetGameSystem(scriptWork), (sptr)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), battleKind, 0, trainerId, secondTrainerId, thirdTrainerId)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, EVENT_BATTLE_CreateEncounterTask(SCRIPT_WORK_GetGameSystem(scriptWork), (struct FieldMap *)SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId));
     SCRCMD_IncrementTrainerRecord(cmdWork);
     return 1;
 }
@@ -377,7 +377,7 @@ int SCRCMD_StartMultiTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     secondTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     thirdTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(EVENT_BATTLE_CreateEncounterTask((sptr)SCRIPT_WORK_GetGameSystem(scriptWork), (sptr)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), 1, allyTrainerId, trainerId, secondTrainerId, thirdTrainerId)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, EVENT_BATTLE_CreateEncounterTask(SCRIPT_WORK_GetGameSystem(scriptWork), (struct FieldMap *)SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, 1, allyTrainerId, trainerId, secondTrainerId, thirdTrainerId));
     SCRCMD_IncrementTrainerRecord(cmdWork);
     return 1;
 }
@@ -510,7 +510,7 @@ int SCRCMD_StartTrainerBattleWithMon(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (secondTrainerId == 0 && EVENT_TRAINER_IsDoubleBattle(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
-    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)((uptr)EVENT_BATTLE_CreateEncounterTaskWithMon((void *)SCRIPT_WORK_GetGameSystem(scriptWork), (uptr)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), battleKind, 0, trainerId, secondTrainerId, thirdTrainerId, fourthTrainerId)));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, EVENT_BATTLE_CreateEncounterTaskWithMon(SCRIPT_WORK_GetGameSystem(scriptWork), (struct FieldMap *)SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId, fourthTrainerId));
     return 1;
 }
 

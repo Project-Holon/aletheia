@@ -283,7 +283,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
         break;
     case 10:
         RECORD_AddOne((struct RecordBlock *)work->trainerRecord, 8);
-        GAME_EVENT_ChangeEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_BATTLE_CreateScriptedBattle((sptr)work->gameSystem, (sptr)work->fieldMap, (sptr)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
+        GAME_EVENT_ChangeEvent((struct GameEvent *)task, EVENT_BATTLE_CreateScriptedBattle(work->gameSystem, work->fieldMap, work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
         return 0;
     }
     return 0;
@@ -325,14 +325,14 @@ void FISHING_ShowBiteMark(FishingWork *w)
     void *effectSys = FIELDMAP_GetEffect(w->fieldMap);
 
     FLDMMDL_SetDrawStatus(w->mmdl, 2);
-    w->exclamEffect = (uptr)FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
+    w->exclamEffect = FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
     FLDEFF_FISHING_SetAnimeSpeed(w->rodEffect, 1);
 }
 
 void FISHING_HideBiteMark(FishingWork *w)
 {
     if (w->exclamEffect != 0) {
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)w->exclamEffect);
+        FIELD_EFFECT_DeleteObject(w->exclamEffect);
         w->exclamEffect = 0;
     }
 }

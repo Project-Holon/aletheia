@@ -760,7 +760,7 @@ void BLINK_PALANM_BlendStep(u16 *outColor, u16 *angle, int step, u32 paletteInde
     r = (u8)(r0 + (((r1 - r0) * weight) >> 12));
     g = (u8)(g0 + (((g1 - g0) * weight) >> 12));
     *outColor = (u16)((b << 10) | (r | (g << 5)));
-    (void *)NNS_GfdRegisterNewVramTransferTask((void *)15, (u32)(paletteIndex * 32 + slot * 2), (uptr)outColor, 2);
+    NNS_GfdRegisterNewVramTransferTask(15, (u32)(paletteIndex * 32 + slot * 2), outColor, 2);
 }
 
 void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 heapId)

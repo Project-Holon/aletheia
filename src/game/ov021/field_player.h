@@ -8,12 +8,14 @@ struct PlayerWork;
 struct FieldEffectObj;
 struct GameSystem;
 struct Mmdl;
+struct RailWork;
 
 #include "../ov021/field_flash_shared_types.h"
 #include "../ov020/event_mapchange_types.h"
 #include "../sdk_fx.h"
 #include "../types.h"
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/zonedata_types.h"
 #include "../ov021/field_player_types.h"
 
 FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId);
@@ -74,10 +76,10 @@ int FIELD_PLAYER_IsGridHopping(FieldPlayer *player);
 void FIELD_PLAYER_FinishGridHop(FieldPlayer *player);
 void FIELD_PLAYER_CreateNogrid(FieldPlayer *player, u32 heapId);
 void FIELD_PLAYER_UpdateNogrid(FieldPlayer *player, u32 a, u32 b);
-void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, int a);
+void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, const RailLocation *a);
 void FIELD_PLAYER_ResetNogrid(FieldPlayer *player);
 u32 FIELD_PLAYER_IsNogridForcedMove(FieldPlayer *player);
-u32 FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player);
+struct RailWork *FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player);
 void FIELD_PLAYER_SetNogridRailLocation(FieldPlayer *player, void *a);
 void FIELD_PLAYER_GetNogridNextRailLocation(FieldPlayer *player, void *a);
 int FIELD_PLAYER_GetNogridLocationByDir(FieldPlayer *player, u32 a, void *b);

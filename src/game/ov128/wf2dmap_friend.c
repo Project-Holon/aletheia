@@ -1006,7 +1006,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
             {
             int submission;
             *(u32 *)q=UI_GetInputMode();
-            submission=Wf2dmapFriend_SubmitFriendKey((char *)q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
+            submission=Wf2dmapFriend_SubmitFriendKey((char *)q,*(void **)(q+0x5C),(u32)(*(void **)(q+0x58)));
             if(submission==0) {
                 Wf2dmapFriend_ResetListWindow(p,ctx);
                 WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
@@ -1421,7 +1421,7 @@ void Wf2dmapFriend_InitItemWidgets(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(void **)(p + 0x184) = MSGDATA_AllocString(*(struct MsgBank **)(ctx + 4), 0x43);
     *(u16 *)(p + 0x188) = 0x39e3;
     *(u32 *)(p + 0x18c) = 0;
-    *(struct TaskMenuRes **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, (struct GFont *)(*(u32 *)(ctx + 0x17c)), (struct PrintQueue *)(*(u32 *)(ctx + 0x34)), heap);
+    *(struct TaskMenuRes **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(struct GFont **)(ctx + 0x17c), *(struct PrintQueue **)(ctx + 0x34), heap);
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
     *(struct U16Vec **)(p + 0x110) = (struct U16Vec *)STRBUF_Create(0x80, heap);
     r1 = gWf2dmapEntryActorRectA;

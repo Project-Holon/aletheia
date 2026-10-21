@@ -103,8 +103,8 @@ typedef struct IrcCompatibleWork {
 } IrcCompatibleWork;
 
 typedef struct IrcStepEntry {
-    int taskProc;
-    int priority;
+    u32 overlayId;
+    const struct ProcData *procData;
     void *(*createArgs)(u32 heapId, IrcCompatibleWork *work);
     void (*destroyArgs)(void *args, IrcCompatibleWork *work);
 } IrcStepEntry;
@@ -170,7 +170,7 @@ extern const IrcStepEntry IRC_COMPATIBLE_StepTable[];
 int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *param)
 {
     IrcCompatibleWork *work;
-    int gameData;
+    void *gameData;
     GFL_HEAP_CreateChildHeap(1, IRC_COMPATIBLE_HEAP_ID, 0x8000);
     work = PROCSYS_AllocProcWork(proc, 64, IRC_COMPATIBLE_HEAP_ID);
     MI_CpuFill8(work, 0, 64);
@@ -179,7 +179,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->partnerProfile = GFL_HEAP_Alloc(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
     MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
-    if (work->param->gameSystem) gameData = (sptr)GAMESYSTEM_GetGameData(work->param->gameSystem);
+    if (work->param->gameSystem) gameData = GAMESYSTEM_GetGameData(work->param->gameSystem);
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
@@ -386,7 +386,7 @@ int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapI
         runner->phase=1;
         break;
     case 1:
-        PROCSYS_Push((struct ProcSys *)runner->queue,IRC_COMPATIBLE_StepTable[stepIndex].taskProc,(const struct ProcData *)IRC_COMPATIBLE_StepTable[stepIndex].priority,runner->stepArgs);
+        PROCSYS_Push((struct ProcSys *)runner->queue,IRC_COMPATIBLE_StepTable[stepIndex].overlayId,IRC_COMPATIBLE_StepTable[stepIndex].procData,runner->stepArgs);
         runner->phase=2;
         break;
     case 2:

@@ -1190,7 +1190,7 @@ int WIFIBATTLEMATCH_SYS_RunScreen(struct WifiBattleMatchSysProc *s)
             s->result = 0;
         PROCSYS_Push((void *)s->proc,
                         *(int *)((char *)s->table + (s->stepIndex << 4)),
-                        (void *)(*(int *)((char *)s->table + 4 + (s->stepIndex << 4))),
+                        *(void **)((char *)s->table + 4 + (s->stepIndex << 4)),
                         (void *)s->result);
         s->state = 2;
         break;

@@ -8,13 +8,15 @@ struct Ctx;
 
 #include "../types.h"
 
+struct GameData;
+
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
-int WEATHER_IsSeasonSynced(int gameData);
+int WEATHER_IsSeasonSynced(struct GameData *gameData);
 void WEATHER_StoreZoneWeatherId(struct Ctx *fieldSys, u32 zoneId);
 void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId);
-s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId);
-s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId);
-u32 WEATHER_GetBirthdayWeather(void *fieldSys, void *gameData, u32 zoneId);
+s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId);
+s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId);
+u32 WEATHER_GetBirthdayWeather(void *fieldSys, struct GameData *gameData, u32 zoneId);
 /* END mkheaders: generated region */
 
 #endif

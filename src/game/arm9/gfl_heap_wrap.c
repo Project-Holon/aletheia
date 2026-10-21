@@ -109,9 +109,9 @@ void GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize);
 
 void GFL_HEAP_CheckAllocator(void *block, u32 size);
 
-void *GFL_HEAP_GetHeapHead(u32 heapId);
+u32 GFL_HEAP_GetHeapHead(u32 heapId);
 
-void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
+u32 GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 
 void GFL_HEAP_StampAllocSite(void *payload, const char *site, u16 tag);
 
@@ -137,7 +137,7 @@ void GFL_HEAP_InitSystemHeapChecked(u32 size);
 
 void *GFL_HEAP_AllocSystemChecked(u32 size);
 
-int GFL_HEAP_FreeSystemChecked(u32 idx);
+int GFL_HEAP_FreeSystemChecked(void *idx);
 
 extern s32 gWatchedHeapId;
 
@@ -379,9 +379,9 @@ void GFL_HEAP_CheckAllocator(void *block, u32 size)
  *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHead.c \
  *       --func GFL_HEAP_GetHeapHead --addr 0x02030830 --cc 1.1p1 --arm
  */
-void *GFL_HEAP_GetHeapHead(u32 heapId)
+u32 GFL_HEAP_GetHeapHead(u32 heapId)
 {
-    void *heapHead;
+    u32 heapHead;
 
     heapHead = GFL_HEAP_GetTotalFreeSize(heapId);
     if (heapHead == 0) {
@@ -414,12 +414,12 @@ void *GFL_HEAP_GetHeapHead(u32 heapId)
  *   python tools/match.py one --src src/matched/GFL_HEAP_GetHeapHeadChecked.c \
  *       --func GFL_HEAP_GetHeapHeadChecked --addr 0x0203084C --cc 1.1p1 --arm
  */
-void *GFL_HEAP_GetHeapHeadChecked(u32 heapId)
+u32 GFL_HEAP_GetHeapHeadChecked(u32 heapId)
 {
-    void *heapHead;
+    u32 heapHead;
     u32 errorPolicy;
 
-    heapHead = (void *)GFL_HEAP_IsHeapValid(heapId);
+    heapHead = GFL_HEAP_IsHeapValid(heapId);
     if (heapHead == 0) {
         errorPolicy = GFL_HEAP_GetLastError();
         if (errorPolicy != 1 && errorPolicy != 2 && errorPolicy == 3) {
@@ -895,7 +895,7 @@ void *GFL_HEAP_AllocSystemChecked(u32 size)
  *   python tools/match.py one --src src/matched/GFL_HEAP_FreeSystemChecked.c \
  *       --func GFL_HEAP_FreeSystemChecked --addr 0x02030BC8 --cc 1.1p1
  */
-int GFL_HEAP_FreeSystemChecked(u32 idx)
+int GFL_HEAP_FreeSystemChecked(void *idx)
 {
     return GFL_HEAP_FreeSystem(idx);
 }

@@ -12,7 +12,7 @@ BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
 void CARDi_RequestStreamCommandCore(CARDiCommon *p);
 void CARDi_IdentifyBackupCore(CARDiCommon *p);
 void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg);
-BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async, int req_type, int req_retry, int req_mode);
+BOOL CARDi_RequestStreamCommand(uptr src, uptr dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async, int req_type, int req_retry, int req_mode);
 BOOL CARD_IdentifyBackup(int type);
 u32 CARD_GetBackupSectorSize(void);
 BOOL CARD_WaitBackupAsync(void);

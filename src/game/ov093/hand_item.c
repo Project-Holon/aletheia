@@ -443,7 +443,7 @@ struct BtlEventFactor *HAND_ITEM_AddFactor(struct BtlPokeParam *poke, u32 itemId
     u32 i;
     u16 speed;
     u8 ownerId;
-    u32 handlerTable;
+    BtlEventHandler *handlerTable;
     u32 handlerCount;
 
     for (i = 0; i < ITEM_HANDLER_COUNT; i++) {
@@ -451,7 +451,7 @@ struct BtlEventFactor *HAND_ITEM_AddFactor(struct BtlPokeParam *poke, u32 itemId
             speed = BTL_POKEPARAM_GetStatRaw(poke, 0xc);
             ownerId = BTL_POKEPARAM_GetPokeId(poke);
             handlerTable = gItemHandlerRegistry[i].getHandlers(&handlerCount);
-            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ITEM, itemId, 6, speed, ownerId, (u32)handlerTable, handlerCount);
+            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ITEM, itemId, 6, speed, ownerId, handlerTable, handlerCount);
         }
     }
     return 0;

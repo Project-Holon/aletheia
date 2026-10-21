@@ -59,7 +59,7 @@ union MtxFx22;
 #include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c);
+int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, struct CdemoScript *c);
 int CDEMO_MAIN_Update(int a, int b, int c, int d);
 int CDEMO_MAIN_Destroy(void *p);
 void CDEMO_MAIN_SetupVram(void);
@@ -72,7 +72,7 @@ void CDEMO_MAIN_StopTask(char *p);
 extern unsigned char d_021B6B00[];
 extern int d_021B68E4[];
 
-int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
+int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, struct CdemoScript *c)
 {
     struct CdemoState *r;
 

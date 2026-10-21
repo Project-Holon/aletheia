@@ -809,7 +809,11 @@ void VS_MULTI_LIST_ExitClact(void)
 }
 
 /* Mon slot i of a work given as an integer base (the integer-base spelling is what the compiled code needs). */
+#ifdef __MWERKS__
 #define MON_AT(base, i) (*(struct PokemonParam **)((base) + (i) * 4 + 0xf8))
+#else
+#define MON_AT(base, i) (((struct VsMultiList *)(base))->mons[i])
+#endif
 
 static inline u32 CharIdsAddress(sptr base)
 {
@@ -828,7 +832,7 @@ static inline u32 CharIdsAddress(sptr base)
  */
 void VS_MULTI_LIST_LoadIconResources(struct VsMultiList *work)
 {
-    int base = (sptr)work;
+    sptr base = (sptr)work;
     u32 cellArc, cellAnim;
     struct ArcHandle *iconArc;
     struct ArcHandle *uiArc;

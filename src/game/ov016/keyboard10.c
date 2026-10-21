@@ -91,7 +91,7 @@ typedef struct tagMEMKB10 {
     void          *button[2];         /* 0x40 */
     void          *cellCanv[4];       /* 0x48 */
     void          *cellFocus;         /* 0x58 */
-    void          *task;              /* 0x5C */
+    TCB           *task;              /* 0x5C */
     unsigned char  input;             /* 0x60 */
     signed char    push;              /* 0x61 */
     signed char    touchLast;         /* 0x62 */
@@ -130,13 +130,6 @@ typedef struct { unsigned char v[5]; } KB10_N5;
 
 #include "../types.h"
 
-struct Keyboard10Work {
-    u8  pad00[0x58];
-    int focusCell;
-    u8  pad5c[7];
-    s8  focusIndex;
-};
-
 /* the object reads the file static through its .bss section symbol and takes &sKeyboard10MemKb10 through the
    variable's own symbol, so the free gets a second pool word (see
    docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md) */
@@ -165,6 +158,7 @@ void DWCi_KB10lSetShift(unsigned char v);
 int DWCi_KB10lIsInit(void);
 /* keyboard10.o .bss at 0x021DE560 */
 extern MEMKB10 *sKeyboard10MemKb10;
+extern MEMKB10 *gKeyboard10Work;
 extern const KEYBOARD10_RODATA keyboard10_rodata;
 extern const KB10_N5 keyboard10_str_20862;
 extern const KB10_N5 keyboard10_str_20864;
@@ -177,7 +171,6 @@ extern const unsigned short sKeyboard10KeyChr[13];
 extern const COORD sKeyboard10CKey[10];
 extern const COORD sKeyboard10CSkey[2];
 extern const COORD sKeyboard10CBtn[2];
-extern struct Keyboard10Work *gKeyboard10Work;
 extern u16   sKeyboard10CellPosX[][2];
 extern u16   sKeyboard10CellPosY[][2];
 extern KEYBOARD10_BSS keyboard10_bss;
@@ -288,13 +281,13 @@ void DWCi_KB10lInit(void)
  */
 void DWCi_KB10lEnd(void)
 {
-    DWCi_CELLlDelete((struct CellInfo *)(*(int *)(*(char **)0x021DE560 + 0x58)));
-    DWCi_TSKlChangeFunc((TCB *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (void (*)(void *, void *))0x021C0528);
+    DWCi_CELLlDelete((struct CellInfo *)gKeyboard10Work->cellFocus);
+    DWCi_TSKlChangeFunc(gKeyboard10Work->task, (void (*)(void *, void *))0x021C0528);
 }
 
 unsigned char DWCi_KB10lGet(void)
 {
-    return *(unsigned char *)(*(char **)0x021DE560 + 0x60);
+    return gKeyboard10Work->input;
 }
 
 /*
@@ -330,7 +323,7 @@ void DWCi_KB10lSetShift(unsigned char v)
  */
 int DWCi_KB10lIsInit(void)
 {
-    return *(void **)0x021DE560 != 0;
+    return gKeyboard10Work != 0;
 }
 
 static void taskStart0(void *task)
@@ -652,19 +645,19 @@ static void changeColor(int idx, bool push)
 
 static void dispFocus(void)
 {
-    struct Keyboard10Work *g;
+    MEMKB10 *g;
     int sel = 0x44;
     sptr v;
 
     g = gKeyboard10Work;
-    if (g->focusIndex > 0xb)
+    if (g->focus > 0xb)
         sel = 0x45;
-    v = (sptr)DWCi_CELLlGetObj((struct CellInfo *)g->focusCell, 0);
+    v = (sptr)DWCi_CELLlGetObj((struct CellInfo *)g->cellFocus, 0);
     DWCi_CEINlSet(0, sel, (GXOamAttr *)v);
     g = gKeyboard10Work;
-    DWCi_CELLlSetPriority((void *)g->focusCell, -1, 2);
+    DWCi_CELLlSetPriority(g->cellFocus, -1, 2);
     g = gKeyboard10Work;
-    DWCi_CELLlSetPosition((void *)g->focusCell, -1, sKeyboard10CellPosX[g->focusIndex][0], sKeyboard10CellPosY[g->focusIndex][0]);
+    DWCi_CELLlSetPosition(g->cellFocus, -1, sKeyboard10CellPosX[g->focus][0], sKeyboard10CellPosY[g->focus][0]);
 }
 
 static void moveFocus(int dir)

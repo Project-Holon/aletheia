@@ -754,7 +754,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
     u32 height;
     cardBase=BATTLE_COMPETITION_GetFromSave((void *)GAME_DATA_GetSaveControl(((BattleChampionshipFlowMenu *)work)->save));
     MI_CpuFill8(&rec,0,48);
-    rec.msgBank=(uptr)((BattleChampionshipFlowMenu *)work)->msgBank2;
+    rec.msgBank=(struct MsgBank *)((BattleChampionshipFlowMenu *)work)->msgBank2;
     rec.font=(uptr)((BattleChampionshipFlowMenu *)work)->font;
     rec.printQue=(uptr)((BattleChampionshipFlowMenu *)work)->printQue;
     switch(index) {

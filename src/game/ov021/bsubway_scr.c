@@ -422,7 +422,7 @@ void BSUBWAY_SCR_GetNpcEntryInfo(BsubwayScrWork *work, u32 idx, u16 *infoFirst, 
 int BSUBWAY_SCR_WaitBeginSave(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_GetRegulationNo(u32 playMode);
 int BSUBWAY_SCR_GetTrainNo(void *fieldMap);
-u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem);
+struct BattleSetupParam *BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem);
 void *BSUBWAY_SCR_GetNameinEncounterWork(void *work);
 u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt);
 u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
@@ -2407,17 +2407,17 @@ int BSUBWAY_SCR_GetTrainNo(void *fieldMap)
  *
  * Addresses are Black-image addresses.
  */
-u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem)
+struct BattleSetupParam *BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem)
 {
     void *partyList = POKEPARTY_Create(0x8004);
     void *party = BSUBWAY_SCR_GetParty(work);
     int i;
-    u32 result;
+    struct BattleSetupParam *result;
 
     POKEPARTY_InitEx(partyList, work->memberNum);
     for (i = 0; i < work->memberNum; i++)
         POKEPARTY_Add(partyList, POKEPARTY_GetMember(party, work->memberIndex[i]));
-    result = (uptr)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
+    result = FLD_BTL_INST_TOOL_CreateBtlSetup(gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
     GFL_HEAP_Free(partyList);
     return result;
 }

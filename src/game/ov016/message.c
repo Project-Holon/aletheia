@@ -27,17 +27,12 @@ struct MemMsg {
     void *queue;
 };
 
-typedef struct {
-	int a;
-	int b;
-	int c;
-} MessageQueueInfo;
-
 typedef struct MemMsg MemMsg;
 
 typedef struct MsgPrm {
     unsigned int *index;
     unsigned char *data;
+    void *raw;
 } MsgPrm;
 
 #include "heap.h"
@@ -47,7 +42,7 @@ void DWCi_MSGlInit(void);
 void DWCi_MSGlEnd(void);
 void *DWCi_MSGlRead(char *file);
 void DWCi_MSGlRelease(void *msg);
-unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
+unsigned short *DWCi_MSGlGet(MsgPrm *p, unsigned int idx);
 unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
 extern struct MemMsg *gMessageWork;
 
@@ -84,16 +79,16 @@ void DWCi_MSGlEnd(void)
 void *DWCi_MSGlRead(char *file)
 {
 	unsigned long size;
-	MessageQueueInfo *info;
+	MsgPrm *info;
 	char *msg;
 	int *hdr;
 
-	info = (MessageQueueInfo *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
+	info = (MsgPrm *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
 	msg = DWCi_ARClReadEx(file, &size, 4);
 	hdr = (int *)(msg + 0x20);
-	info->c = (int)msg;
-	info->a = (int)(hdr + 4);
-	info->b = (int)hdr + hdr[1] + 8;
+	info->raw = msg;
+	info->index = (unsigned int *)(hdr + 4);
+	info->data = (unsigned char *)hdr + hdr[1] + 8;
 	return info;
 }
 
@@ -115,9 +110,9 @@ void DWCi_MSGlRelease(void *msg)
  *   python tools/match.py one --src src/matched/DWCi_MSGlGet.c \
  *       --func DWCi_MSGlGet --addr 0x021C1030 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx)
+unsigned short *DWCi_MSGlGet(MsgPrm *p, unsigned int idx)
 {
-    return p[1] + ((unsigned int *)p[0])[(unsigned short)idx];
+    return (unsigned short *)(p->data + p->index[(unsigned short)idx]);
 }
 
 

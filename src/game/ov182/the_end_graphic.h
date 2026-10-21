@@ -22,7 +22,7 @@ void THE_END_GRAPHIC_InitWindows(void *p, u16 heap);
 void THE_END_GRAPHIC_ExitWindows(void *p);
 void THE_END_GRAPHIC_Dummy2(void *p);
 void THE_END_GRAPHIC_RefreshDisplay(void *unused);
-void THE_END_GRAPHIC_InitActors(int *p, int b, int c);
+void THE_END_GRAPHIC_InitActors(int *p, struct DispVramCfg *b, int c);
 void THE_END_GRAPHIC_DeleteActors(void *p);
 void THE_END_GRAPHIC_DrawActors(void *unused);
 void THE_END_GRAPHIC_VBlankActors(void *unused);

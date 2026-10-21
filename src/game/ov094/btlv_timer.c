@@ -175,7 +175,6 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
     struct ActorInitParam pos = {0, 0, 0, 0};
     SidePair rowYs;
     int y;
-    int unitOffset;
     int side, slot;
     int *zRow;
     columns = sBtlvTimerColumnX;
@@ -183,14 +182,13 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
     zValues = sBtlvTimerSpriteZ;
     for (side = 0; side < 2; side++) {
         if ((side == 0 && secondsPlayer != 0) || (side == 1 && secondsEnemy != 0)) {
-            unitOffset = side * 4;
             y = rowYs.v[side];
             zRow = zValues.v[side];
             for (slot = 0; slot < 6; slot++) {
                 pos.x = columns.v[slot];
                 pos.y = y;
                 pos.anim_seq = zRow[slot];
-                timer->side[side].actor[slot] = CLACT_CreateActor((void *)*(u32 *)((char *)timer + unitOffset), timer->charResId, timer->paletteResId, timer->cellResId, &pos, 0, timer->heapId);
+                timer->side[side].actor[slot] = CLACT_CreateActor(timer->unit[side], timer->charResId, timer->paletteResId, timer->cellResId, &pos, 0, timer->heapId);
                 CLACT_SetActorAutoAnim((struct ClactActor *)timer->side[side].actor[slot], 1);
             }
         }

@@ -81,7 +81,7 @@ NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u3
         return 0;
     }
     NHTTPi_memclr(connection_p, 0x804c);
-    connection_p->req_p = NHTTPi_CreateRequest(bgnEndInfo_p, url_p, method, buf_p, len, userParam_p, 0, 0);
+    connection_p->req_p = NHTTPi_CreateRequest(bgnEndInfo_p, url_p, method, buf_p, (long unsigned int)len, userParam_p, 0, 0);
     if (connection_p->req_p == 0) {
         NHTTPi_free(connection_p);
         return 0;

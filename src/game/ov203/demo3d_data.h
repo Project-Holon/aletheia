@@ -36,7 +36,7 @@ void DEMO3D_DATA_FinishTask(struct TcbTask *node, void *work_);
 void DEMO3D_DATA_StartCapture(CaptureConfig *s);
 void DEMO3D_DATA_PlaySe(void *unused,int ignored,int *s);
 void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c);
-void DEMO3D_DATA_FadeSeVolume(int ctx, int unused, int *src);
+void DEMO3D_DATA_FadeSeVolume(Demo3dCmdContext *ctx, int unused, int *src);
 void DEMO3D_DATA_FadeSeSlotParam1(Demo3dCmdContext *p,int unused,int *v);
 void DEMO3D_DATA_FadeSeSlotParam2(Demo3dCmdContext *p,int unused,int *s);
 void DEMO3D_DATA_CreateSeFade(Demo3dCmdContext *owner,u8 kind,u16 target,int start,int end,int duration,int flag);
@@ -56,7 +56,7 @@ void DEMO3D_DATA_CreateBrightnessSeq(char *p,unsigned char engineMask,signed cha
 void DEMO3D_DATA_BrightnessSeqMain(void *task,char *work);
 void DEMO3D_DATA_TaskSetLightSlot(unsigned unused,char **q,unsigned *v);
 void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v);
-void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s);
+void DEMO3D_DATA_TaskShowMessage(int a, struct Demo3dEngineCtx *b, int *s);
 void DEMO3D_DATA_CreateMessage(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g);
 void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext *ctx);
 void DEMO3D_DATA_DeleteMessageWindow(char *p);

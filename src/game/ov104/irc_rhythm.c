@@ -760,7 +760,7 @@ int IRC_RHYTHM_SendRecord(IrcRhythmNetSync *sync,const IrcRhythmRecord *record) 
  switch(sync->sendStep) {
  case 0: sync->sendBuffer=*record; sync->sendStep=1; break;
  case 1:
-  if(COMPATIBLE_IRC_SYS_SendData(sync->ircSys,IRC_RHYTHM_NET_COMMAND_BASE,0x84,(uptr)&sync->sendBuffer,(u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())==0),0,0,1)) sync->sendStep=2;
+  if(COMPATIBLE_IRC_SYS_SendData(sync->ircSys,IRC_RHYTHM_NET_COMMAND_BASE,0x84,&sync->sendBuffer,(u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())==0),0,0,1)) sync->sendStep=2;
   break;
  case 2:
   if(sync->receivedFlag) { sync->receivedFlag=0; sync->sendStep=0; return 1; }
@@ -839,7 +839,7 @@ static inline u16 blend(int angle,u16 from,u16 to) {
  */
 int IRC_RHYTHM_BlendPaletteEntry(u32 target,u16 *color,int angle,int paletteBank,u8 colorIndex,u16 from,u16 to) {
  *color=blend(angle,from,to);
- return NNS_GfdRegisterNewVramTransferTask((void *)target,(u32)(paletteBank*32+colorIndex*2),(uptr)color,2);
+ return NNS_GfdRegisterNewVramTransferTask(target,(u32)(paletteBank*32+colorIndex*2),color,2);
 }
 
 /* ---- particles ---- */

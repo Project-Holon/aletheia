@@ -468,7 +468,7 @@ extern const struct BgTemplate gMonolithInfoBgTemplate0;
 extern const struct BgTemplate gMonolithInfoBgTemplate2;
 int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup);
 int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work);
-int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work);
+int MONOLITH_TOOL_Exit(struct Proc *a, int b, int c, MonolithToolWork *work);
 void MONOLITH_TOOL_InitDisplay(void);
 void MONOLITH_TOOL_DeleteBg(void);
 void MONOLITH_TOOL_InitBmpWin(void);
@@ -510,7 +510,7 @@ MonolithCounts *MONOLITH_TOOL_GetSlotIconStates(MonolithToolProcArgs *args);
 int MONOLITH_TOOL_CreateSlotIcon(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex);
 void MONOLITH_TOOL_DeleteSlotIcon(void *p);
 void MONOLITH_TOOL_UpdateSlotIconState(void *p, MonolithCounts *counts, int i);
-int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex);
+struct ClactActor *MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex);
 void MONOLITH_TOOL_DeleteCursor(void *p);
 void MONOLITH_TOOL_CreateBlink(MonolithToolWork *work, MonolithToolBlink *blink);
 void MONOLITH_TOOL_DeleteBlink(MonolithToolBlink *blink);
@@ -720,10 +720,10 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     MONOLITH_TOOL_InitActors(work);
     MONOLITH_TOOL_LoadActorResources(work);
     work->entryTable = (struct MonolithEntry *)GPOWER_LoadPowerTable(0x61);
-    work->topProcSys = (sptr)PROCSYS_Create(0x61);
-    work->subProcSys = (sptr)PROCSYS_Create(0x61);
+    work->topProcSys = PROCSYS_Create(0x61);
+    work->subProcSys = PROCSYS_Create(0x61);
     PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->scratchList, 6);
-    work->vblankTask = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_VBlankTask), (void *)work, (unsigned int)0xA);
+    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_VBlankTask), (void *)work, (unsigned int)0xA);
     GFL_NET_RefreshWmIconAtTopRight(0, 0x61);
     work->procArgs.setup = setup;
     work->procArgs.work = work;
@@ -761,12 +761,12 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
             work->procArgs.abortRequested = 1;
         if (work->procArgs.abortRequested == 0) {
             if (work->topProcStarted == 0) {
-                PROCSYS_Push((ProcSys *)work->topProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].topProc, (void *)&work->procArgs);
+                PROCSYS_Push(work->topProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].topProc, (void *)&work->procArgs);
                 work->topProcStarted = 1;
             }
             if (work->subProcStarted == 0) {
                 GF_FONT_SetTextColor(0xF, 2, 0);
-                PROCSYS_Push((ProcSys *)work->subProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].subProc, (void *)&work->procArgs);
+                PROCSYS_Push(work->subProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].subProc, (void *)&work->procArgs);
                 work->subProcStarted = 1;
             }
         }
@@ -822,12 +822,12 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
  * (EXACT, arm9, --thumb, symbols: GFL_HEAP_Free 0x020307B0 arm):
  *   void GPOWER_FreePowerTable(void *p) { void GFL_HEAP_Free(void *); GFL_HEAP_Free(p); }
  */
-int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work)
+int MONOLITH_TOOL_Exit(struct Proc *a, int b, int c, MonolithToolWork *work)
 {
 
-    PROCSYS_Delete((struct ProcSys *)work->topProcSys);
-    PROCSYS_Delete((struct ProcSys *)work->subProcSys);
-    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    PROCSYS_Delete(work->topProcSys);
+    PROCSYS_Delete(work->subProcSys);
+    TCB_DeleteTask(work->vblankTask);
     GPOWER_FreePowerTable((struct GPowerData *)work->entryTable);
     MONOLITH_TOOL_FreeActorResources(work);
     MONOLITH_TOOL_FreeActors(work);
@@ -1415,7 +1415,7 @@ void MONOLITH_TOOL_DeleteSlotIcon(void *p)
 
 void MONOLITH_TOOL_UpdateSlotIconState(void *p, MonolithCounts *counts, int i) { Value v; if(counts->slotIconState[i]==1) v=V5; else if(counts->slotIconState[i]==2) v=V4; else {CLACT_SetActorDrawEnable(p,0);return;} CLACT_SetActorDrawEnable(p,1);CLACT_ChangeActorAnimSeq(p,v); }
 
-int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex)
+struct ClactActor *MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex)
 {
     struct MonolithToolCursorPos cursorPos;
     int onSubScreen;
@@ -1425,7 +1425,7 @@ int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIn
         onSubScreen = 1;
     cursorPos.x = pos[0];
     cursorPos.y = pos[1];
-    return (sptr)CLACT_CreateActor((void *)work->unitBank, work->actorRes[resIndex].cellRes, work->actorRes[resIndex].charPalAnm, work->actorRes[resIndex].animRes, (struct ActorInitParam *)(&cursorPos), (u16)onSubScreen, 0x61);
+    return CLACT_CreateActor((void *)work->unitBank, work->actorRes[resIndex].cellRes, work->actorRes[resIndex].charPalAnm, work->actorRes[resIndex].animRes, (const struct ActorInitParam *)&cursorPos, (u16)onSubScreen, 0x61);
 }
 
 void MONOLITH_TOOL_DeleteCursor(void *p)
@@ -1436,9 +1436,9 @@ void MONOLITH_TOOL_DeleteCursor(void *p)
 void MONOLITH_TOOL_CreateBlink(MonolithToolWork *work, MonolithToolBlink *blink)
 {
     struct MonolithToolCursorPos cursorPos;
-    sptr actor;
+    struct ClactActor *actor;
     cursorPos = d_021BA84C;
-    actor = (sptr)CLACT_CreateActor((void *)work->unitBank, work->actorRes[1].cellRes, work->actorRes[1].charPalAnm, work->actorRes[1].animRes, (struct ActorInitParam *)(&cursorPos), 1, 0x61);
+    actor = CLACT_CreateActor((void *)work->unitBank, work->actorRes[1].cellRes, work->actorRes[1].charPalAnm, work->actorRes[1].animRes, (const struct ActorInitParam *)&cursorPos, 1, 0x61);
     CLACT_SetActorAutoAnim((struct ClactActor *)actor, 1);
     blink->actor = actor;
 }
@@ -1457,7 +1457,7 @@ void MONOLITH_TOOL_UpdateBlink(MonolithToolBlink *p)
 {
     if (p->active == 1) {
         if (p->frame % 5 == 0) {
-            CLACT_SetActorPaletteOffset((struct ClactActor *)p->actor, p->phase, 1);
+            CLACT_SetActorPaletteOffset(p->actor, p->phase, 1);
             p->phase ^= 1;
             if (p->frame / 5 == 3)
                 p->active = 0;
@@ -2190,7 +2190,7 @@ int MONOLITH_TOOL_MENU_IsMessageDone(MonolithToolWork *work, MonolithToolMenu *s
 
 void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen)
 {
-    unsigned r = (uptr)BMP_WIN_GetBmp(screen->window);
+    struct Bmp *r = BMP_WIN_GetBmp(screen->window);
 
     if (screen->messageBox == 0) {
         GF_PANIC_Fail(d_021BABF8, 0, d_021BABF8);
@@ -2662,7 +2662,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         MONOLITH_TOOL_LIST_DrawTitle(args, work);
         work->taskMenuUnit = MONOLITH_TOOL_CreateTaskMenuRes((u32 *)args->work, 4, 0x61);
         args->param->selected = MONOLITH_ENTRY_NONE;
-        work->task = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_TaskUploadRows), (void *)work, (unsigned int)3);
+        work->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_TaskUploadRows), (void *)work, (unsigned int)3);
         MONOLITH_TOOL_LIST_BuildEntryList(args, work, args->work);
         MONOLITH_TOOL_LIST_FitBackground(work);
         *state = *state + 1;
@@ -2885,7 +2885,7 @@ int MONOLITH_TOOL_LIST_Exit(void *proc, void *unused, MonolithToolProcArgs *args
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0)
         return 0;
     BG_SYS_SetSubVisiblePlanes(8);
-    TCB_DeleteTask((struct TcbTask *)work->task);
+    TCB_DeleteTask(work->task);
     if (work->messagePrinter != 0)
         PRINTSYS_PrintStreamDelete(work->messagePrinter);
     if (work->messageText != 0)

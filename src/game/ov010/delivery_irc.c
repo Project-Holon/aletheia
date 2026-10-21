@@ -292,7 +292,7 @@ void DELIVERY_IRC_StepSendData(DeliveryIrcWork *work)
         if (work->found == 1) {
             DeliveryIrcEntry *entry = &work->param.entries[work->foundIndex];
             int k = 0xFF;
-            if ((struct GFLNetHandle *)(void *)GFL_NET_SendData((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (void *)entry->data, 0, 0, 1) == 0)
+            if (GFL_NET_SendData((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (void *)entry->data, 0, 0, 1) == 0)
                 return;
             DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartEndSync, k + 0x2F);
             return;

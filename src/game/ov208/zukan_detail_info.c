@@ -446,7 +446,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
 {
     void *scn = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
     void *icon = ZUKAN_DETAIL_COMMON_GetHeadbar(ctx);
-    int actorUnit;
+    struct Unit *actorUnit;
     int viewMode;
     u32 personality;
     u32 caught;
@@ -482,11 +482,11 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         }
         ZUKAN_DETAIL_INFO_CreateLanguageButtons((u16 *)h, (char *)p, ctx);
         t = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
-        actorUnit = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
+        actorUnit = (struct Unit *)ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
         viewMode = ZUKAN_SAVE_GetViewMode(t);
         ZUKAN_DETAIL_INFO_GetPanelParams((const u16 *)h, (u8 *)p, ctx, &w[3], &w[2], &w[1], &w[0], &personality, &caught, tbl);
-        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (uptr)p->font, (uptr)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
-        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (uptr)p->font, (uptr)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
+        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (uptr)p->font, (struct PrintQueue *)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
+        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (uptr)p->font, (struct PrintQueue *)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
         ZUKAN_INFO_Show(p->langInfo);
         ZUKAN_DETAIL_INFO_ResetButtons((sptr)h, (char *)p, ctx, (int *)tbl);
         ZUKAN_DETAIL_INFO_LoadHighlightPalettes((u16 *)h, (u8 *)p, ctx);
@@ -877,7 +877,7 @@ void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, struct Ov208Ctx *
     GFL_HEAP_Free((void *)file);
     ((struct Ov208InfoWork *)p)->blinkPhase = 0;
     MI_CpuCopy8(p + 0xa8, p + 0xe8, 32);
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 192, (uptr)(p + 0xe8), 32);
+    NNS_GfdRegisterNewVramTransferTask(14, 192, (p + 0xe8), 32);
 }
 
 void ZUKAN_DETAIL_INFO_NoOpHighlight(int unused0, char *unused1, unsigned unused2)
@@ -948,6 +948,6 @@ void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(struct Ov208Heap *heap, struct Ov208
                 | ((unsigned char)(b + ((ratio * ((unsigned char)((B & 0x7c00) >> 10) - b)) >> 12)) << 10));
         }
 
-        NNS_GfdRegisterNewVramTransferTask((void *)0xe, 0xc0, (sptr)e->dst, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0xc0, e->dst, 0x20);
     }
 }

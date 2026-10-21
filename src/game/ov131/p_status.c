@@ -1078,7 +1078,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_1 > 31) b_1 = 31;
         wk->cursorPal[n_1] = (b_1 << 10) | ((g_1 << 5) | r_1);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x6c, (uptr)wk->cursorPal, 8);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x6c, wk->cursorPal, 8);
 
     for (n_1 = 0; n_1 < 16; n_1++) {
         ca_2 = wk->glowPalBase[n_1];
@@ -1097,7 +1097,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_2 > 31) b_2 = 31;
         wk->glowPal[n_1] = (b_2 << 10) | ((g_2 << 5) | r_2);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x180, (uptr)wk->glowPal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x180, wk->glowPal, 0x20);
 
     for (n_1 = 12; n_1 <= 14; n_1++) {
         ca_3 = wk->markPalBase[n_1];
@@ -1124,7 +1124,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_3 > 31) b_3 = 31;
         wk->markPal[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
     }
-    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (uptr)wk->markPal, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask(14, 0x1a0, wk->markPal, 0x20);
 }
 
 void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)

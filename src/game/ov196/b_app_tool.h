@@ -12,7 +12,7 @@ typedef struct BAppToolEntry BAppToolEntry;
 
 u8 *B_APP_TOOL_Create(u16 heapId);
 void B_APP_TOOL_Delete(void *p);
-void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes);
+void B_APP_TOOL_CreateActors(char *p, struct Unit *owner, int charRes, int palRes, int cellRes);
 void B_APP_TOOL_DeleteActors(u8 *p);
 void B_APP_TOOL_SetActorsVisible(char *p, void *visible);
 void B_APP_TOOL_LayoutActors(int *actors, u8 *rect);

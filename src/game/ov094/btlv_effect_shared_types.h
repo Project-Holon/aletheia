@@ -43,7 +43,7 @@ typedef struct BtlvEffSetup {
     BtlvEffFieldSituation situation;    /* 0x08 */
     u16 trainerType[4];                 /* 0x18 */
     int isMultiMode;                    /* 0x20: BTL_MAIN_IsMultiMode */
-    int sceneUnit;                        /* 0x24: second argument of BTLV_EFFECT_CreateSetupFromBattleMain, returned by BTLV_EFFECT_GetSceneUnit */
+    void *sceneUnit;                      /* 0x24: second argument of BTLV_EFFECT_CreateSetupFromBattleMain, returned by BTLV_EFFECT_GetSceneUnit */
     void *battle;                       /* 0x28: battle main, 0 outside battle */
 } BtlvEffSetup;
 

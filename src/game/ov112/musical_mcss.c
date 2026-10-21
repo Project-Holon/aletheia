@@ -1595,7 +1595,7 @@ void MUSICAL_MCSS_FreeCellBank(void *a, void **p)
 
 void MUSICAL_MCSS_InitMCAnim(char *mcAnim, int kind)
 {
-    ((McssMcAnim *)mcAnim)->workArea=GFL_HEAP_Alloc((u16)((McssMcAnim *)mcAnim)->heapTag,NNS_G2dGetMCWorkAreaSize((struct MultiCellBank *)(*(u32 *)&((McssMcAnim *)mcAnim)->cellArg),kind),0,d_021F83D4,1216);
+    ((McssMcAnim *)mcAnim)->workArea=GFL_HEAP_Alloc((u16)((McssMcAnim *)mcAnim)->heapTag,NNS_G2dGetMCWorkAreaSize(*(struct MultiCellBank **)&((McssMcAnim *)mcAnim)->cellArg,kind),0,d_021F83D4,1216);
     NNS_G2dInitMCAnimation((struct MultiCellAnim *)(mcAnim+40),*(char * *)&((McssMcAnim *)mcAnim)->workArea,((McssMcAnim *)mcAnim)->cellAnimBankData,(struct CellDataBank *)(((McssMcAnim *)mcAnim)->cellBankArg),((McssMcAnim *)mcAnim)->cellArg,kind);
 }
 

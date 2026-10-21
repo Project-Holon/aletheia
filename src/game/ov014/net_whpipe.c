@@ -806,7 +806,7 @@ int NET_WHPIPE_HasBeaconBeenSent(void *unused)
  */
 int NET_WHPIPE_IsStateScanning(void) { if (WIH_GetSysState() == 2) return 1; return 0; }
 
-int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg) { return DWCi_MOV_WH_SendData(data, size, callbackArg); }
+int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg) { return DWCi_MOV_WH_SendData((unsigned short *)data, size, (int)((void *)callbackArg)); }
 
 unsigned int NET_WHPIPE_GetConnectBitmap(void) { return WIH_GetBitmap(); }
 
@@ -867,7 +867,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
             DWCi_MOV_WH_SetUserGameInfo(buf, (u16)len);
             return;
         }
-        WIH_SetBeaconGameInfo((sptr)buf, len, net->init.ggid, work->tgid);
+        WIH_SetBeaconGameInfo((int)((u16 *)buf), len, net->init.ggid, work->tgid);
     }
 }
 

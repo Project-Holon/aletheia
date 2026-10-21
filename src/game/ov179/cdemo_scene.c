@@ -72,7 +72,7 @@ typedef struct {
 #include "../arm9/gfl_use.h"
 #include "../arm9/os_tick.h"
 #include "../arm9/arc_util.h"
-extern void DC_FlushRange(int, int);
+#include "../arm9/os_cache.h"
 #include "../arm9/gx_load2d.h"
 #include "../arm9/gfl_heap_wrap.h"
 int CDEMO_SCENE_Create(char *p);
@@ -206,7 +206,7 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 {
     int t = (sptr)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
 
-    DC_FlushRange(t, d);
+    DC_FlushRange((void *)t, d);
     if (e == 0) {
         GX_LoadBG2Scr((void *)t, c, d);
     } else {

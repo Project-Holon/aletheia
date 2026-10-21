@@ -278,7 +278,7 @@ extern int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid, u16 dir);
 
 extern void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
 
-extern u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 dir);
+Mmdl *FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction);
 
 
 extern u8 gFileFieldPlayerGridEvent;
@@ -297,7 +297,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, Boulder
 
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
-int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task);
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task);
 
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task);
 
@@ -305,7 +305,7 @@ void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work);
 
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
-int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task);
+int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcblTask *task);
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcbTask *task);
 
@@ -416,7 +416,7 @@ int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, i
     u32 moveHit;
 
     if (hitResult == 1) {
-        boulder = (Mmdl *)FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(player, dir);
+        boulder = FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(player, dir);
         if (boulder != 0) {
             if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode(boulder)) == 1) {
                 coverage = FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(boulder, dir, FIELDMAP_GetG3dMapper(FIELD_PLAYER_CORE_GetFieldMap(FIELD_PLAYER_GRID_GetCore(player))));
@@ -546,14 +546,14 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 d
     return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
 }
 
-int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task)
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task)
 {
-    return ((HopWork *)TCBL_GetOwnedWork((struct TcblSystem *)task))->done;
+    return ((HopWork *)TCBL_GetOwnedWork(task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblSystem *)task));
+    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblTask *)task));
     TCB_DeleteTask(task);
 }
 
@@ -649,14 +649,14 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 
     return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
 }
 
-int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task)
+int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcblTask *task)
 {
-    return ((JumpWork *)TCBL_GetOwnedWork((struct TcblSystem *)task))->done;
+    return ((JumpWork *)TCBL_GetOwnedWork(task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblSystem *)task));
+    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblTask *)task));
     TCB_DeleteTask(task);
 }
 
@@ -968,18 +968,18 @@ void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state)
 }
 
 /* Belongs to the grid event file (see cuts). */
-u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction)
+Mmdl *FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction)
 {
-    uptr mmdl;
-    uptr mapHandle;
+    Mmdl *mmdl;
+    struct MmdlSys *mapHandle;
     int gridX;
     int gridZ;
 
-    mmdl = (uptr)FIELD_PLAYER_GRID_GetMmdl(work);
-    mapHandle = (uptr)FLDMMDL_GetMmdlSys((void *)mmdl);
-    gridX = FLDMMDL_GetGridNowX((Mmdl *)mmdl);
+    mmdl = FIELD_PLAYER_GRID_GetMmdl(work);
+    mapHandle = FLDMMDL_GetMmdlSys(mmdl);
+    gridX = FLDMMDL_GetGridNowX(mmdl);
     gridX += FLDMMDL_MOVE_GetDirAddGridX(direction);
-    gridZ = FLDMMDL_GetGridNowZ((Mmdl *)mmdl);
+    gridZ = FLDMMDL_GetGridNowZ(mmdl);
     gridZ += FLDMMDL_MOVE_GetDirAddGridZ(direction);
-    return (uptr)FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mapHandle, (s16)gridX, (s16)gridZ, (u32)FLDMMDL_GetPosY((void *)mmdl), (u32)1, 0);
+    return FLDMMDL_SysSearchGridPosHeight(mapHandle, (s16)gridX, (s16)gridZ, (u32)FLDMMDL_GetPosY(mmdl), (u32)1, 0);
 }

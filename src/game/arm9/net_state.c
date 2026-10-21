@@ -620,7 +620,7 @@ void GFL_NET_STATE_ExtendConnectTimer(void)
  */
 void GFL_NET_STATE_ConnectMac(struct NetStateWork *work)
 {
-    if (GFL_NET_SYSTEM_ConnectToParent(0, (uptr)work->aMacAddress, 0x200, (uptr)(void *)GFL_NET_STATE_ExtendConnectTimer) != 0)
+    if (GFL_NET_SYSTEM_ConnectToParent(0, (uptr)work->aMacAddress, 0x200, (uptr)GFL_NET_STATE_ExtendConnectTimer) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMacDone, 0xA, 0x169);
 }
 
@@ -738,7 +738,7 @@ int GFL_NET_STATE_ParentConnectCallback(void)
 void GFL_NET_STATE_StartParent(void)
 {
     GFL_NET_GetInitParam();
-    if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (uptr)(void *)GFL_NET_STATE_ParentConnectCallback) != 0)
+    if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (uptr)GFL_NET_STATE_ParentConnectCallback) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x205);
 }
 

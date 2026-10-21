@@ -40,17 +40,17 @@
 
 #include "os_system.h"
 #include "os_emulator.h"
-extern void OS_SetArenaHi(u32 arenaId, u32 newHi);
-extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
+extern void OS_SetArenaHi(u32 arenaId, void *newHi);
+extern void OS_SetArenaLo(u32 arenaId, void *newLo);
 #include "os_protectionregion.h"
 #include "../twl/os_arena.h"
 void OS_InitArena(void);
 void OS_InitArenaEx(void);
-u32 OS_GetArenaHi(u32 idx);
-u32 OS_GetArenaLo(u32 idx);
+void *OS_GetArenaHi(u32 idx);
+void *OS_GetArenaLo(u32 idx);
 void *OS_GetInitArenaHi(int id);
 void *OS_GetInitArenaLo(int id);
-u32 OS_AllocFromArenaLo(int r7, u32 r6, int r5);
+void *OS_AllocFromArenaLo(int r7, u32 r6, int r5);
 typedef struct OsArenaBss {
     u32 isInitialized;
     u32 exArenaEnabled;
@@ -79,28 +79,28 @@ void OS_InitArena(void)
     mainArenaId = 0;
     g_02151264.isInitialized = 1;
 
-    OS_SetArenaHi(mainArenaId, (uptr)(OS_GetInitArenaHi((int)(mainArenaId))));
-    OS_SetArenaLo(mainArenaId, (uptr)(OS_GetInitArenaLo((int)(mainArenaId))));
+    OS_SetArenaHi(mainArenaId, OS_GetInitArenaHi((int)(mainArenaId)));
+    OS_SetArenaLo(mainArenaId, OS_GetInitArenaLo((int)(mainArenaId)));
 
     arenaId = 2;
-    OS_SetArenaLo(arenaId, mainArenaId);
-    OS_SetArenaHi(arenaId, mainArenaId);
+    OS_SetArenaLo(arenaId, (void *)(uptr)mainArenaId);
+    OS_SetArenaHi(arenaId, (void *)(uptr)mainArenaId);
 
     arenaId = 3;
-    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, OS_GetInitArenaHi((int)(arenaId)));
+    OS_SetArenaLo(arenaId, OS_GetInitArenaLo((int)(arenaId)));
 
     arenaId = 4;
-    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, OS_GetInitArenaHi((int)(arenaId)));
+    OS_SetArenaLo(arenaId, OS_GetInitArenaLo((int)(arenaId)));
 
     arenaId = 5;
-    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, OS_GetInitArenaHi((int)(arenaId)));
+    OS_SetArenaLo(arenaId, OS_GetInitArenaLo((int)(arenaId)));
 
     arenaId = 6;
-    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, OS_GetInitArenaHi((int)(arenaId)));
+    OS_SetArenaLo(arenaId, OS_GetInitArenaLo((int)(arenaId)));
 }
 
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
@@ -114,8 +114,8 @@ void OS_InitArenaEx(void)
 {
     (void)OS_GetConsoleType();
 
-    OS_SetArenaHi(OS_ARENA_MAINEX, (uptr)OS_GetInitArenaHi(OS_ARENA_MAINEX));
-    OS_SetArenaLo(OS_ARENA_MAINEX, (uptr)OS_GetInitArenaLo(OS_ARENA_MAINEX));
+    OS_SetArenaHi(OS_ARENA_MAINEX, OS_GetInitArenaHi(OS_ARENA_MAINEX));
+    OS_SetArenaLo(OS_ARENA_MAINEX, OS_GetInitArenaLo(OS_ARENA_MAINEX));
 
     if (!OS_IsRunOnTwl()) {
         OS_SetProtectionRegionEx(1, 0x02000000, 0x2A);
@@ -125,14 +125,14 @@ void OS_InitArenaEx(void)
     }
 }
 
-u32 OS_GetArenaHi(u32 arenaId)
+void *OS_GetArenaHi(u32 arenaId)
 {
-    return *(u32 *)((arenaId << 2) + 0x02FFFDC4);
+    return *(void **)((arenaId << 2) + 0x02FFFDC4);
 }
 
-u32 OS_GetArenaLo(u32 arenaId)
+void *OS_GetArenaLo(u32 arenaId)
 {
-    return *(u32 *)((arenaId << 2) + 0x02FFFDA0);
+    return *(void **)((arenaId << 2) + 0x02FFFDA0);
 }
 
 void *OS_GetInitArenaHi(int arenaId)
@@ -233,22 +233,22 @@ void *OS_GetInitArenaLo(int arenaId)
     }
 }
 
-void OS_SetArenaHi(u32 arenaId, u32 newHi)
+void OS_SetArenaHi(u32 arenaId, void *newHi)
 {
-    *(u32 *)((arenaId << 2) + 0x02FFFDC4) = newHi;
+    *(void **)((arenaId << 2) + 0x02FFFDC4) = newHi;
 }
 
-void OS_SetArenaLo(u32 arenaId, u32 newLo)
+void OS_SetArenaLo(u32 arenaId, void *newLo)
 {
-    *(u32 *)((arenaId << 2) + 0x02FFFDA0) = newLo;
+    *(void **)((arenaId << 2) + 0x02FFFDA0) = newLo;
 }
 
-u32 OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
+void *OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
 {
-    u32 lo = OS_GetArenaLo(arenaId);
+    uptr lo = (uptr)OS_GetArenaLo(arenaId);
     u32 inv;
     u32 mask;
-    u32 result;
+    uptr result;
 
     if (lo == 0) {
         return 0;
@@ -262,10 +262,10 @@ u32 OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
     lo = lo + alignment - 1;
     alignment = mask & lo;
 
-    if (alignment > OS_GetArenaHi(arenaId)) {
+    if (alignment > (uptr)OS_GetArenaHi(arenaId)) {
         return 0;
     }
 
-    OS_SetArenaLo(arenaId, alignment);
-    return result;
+    OS_SetArenaLo(arenaId, (void *)alignment);
+    return (void *)result;
 }

@@ -897,13 +897,13 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     case 1: {
         void *buildModel;
         void *palTable;
-        fieldMap->nogridMapper = FIELD_NOGRID_MAPPER_Create((u32)fieldMap->heapId, (uptr)fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
+        fieldMap->nogridMapper = FIELD_NOGRID_MAPPER_Create((u32)fieldMap->heapId, fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
         fieldMap->palaceSys = FIELD_PALACE_SYS_Create(fieldMap->heapId, gameSystem, fieldMap, fieldMap->zoneId);
         buildModel = FIELD_G3D_MAPPER_GetBuildModel(fieldMap->g3dMapper);
         FIELDMAP_SetupMapperParam(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData));
         GAMESYSTEM_GetGameComm(fieldMap->gameSystem);
         palTable = FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys);
-        FIELD_BUILDMODEL_LoadArea(buildModel, (s32)fieldMap->zoneId, (sptr)fieldMap->areaData, (sptr)palTable);
+        FIELD_BUILDMODEL_LoadArea(buildModel, (s32)fieldMap->zoneId, fieldMap->areaData, palTable);
         FIELD_G3DOBJ_SetPalTable(fieldMap->g3dObjCtrl, palTable);
         FIELDMAP_SetupWfbc(gameData, fieldMap, fieldMap->zoneId);
         break;
@@ -925,7 +925,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         FIELDMAP_SetupMmdlSys(fieldMap);
         fieldMap->effect = FIELD_EFFECT_Create(fieldMap, 0x18, fieldMap->heapId);
         FIELD_EFFECT_InitObjectSystem((struct FieldEffectSys *)fieldMap->effect, 0x5e);
-        FIELD_EFFECT_SetPaletteTable((struct FieldEffectSys *)fieldMap->effect, (uptr)FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
+        FIELD_EFFECT_SetPaletteTable((struct FieldEffectSys *)fieldMap->effect, FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
         FIELD_EFFECT_LoadResources((struct FieldEffectSys *)fieldMap->effect, sFieldEffectTaskTable, sFieldEffectTaskCount);
         if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) {
             fieldMap->unionEff = (struct UnionEff *)UNION_EFF_Create(fieldMap->heapId);
@@ -1585,7 +1585,7 @@ void FIELDMAP_VBlankTask(struct TcbTask *tcb, void *work)
 
 void FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size)
 {
-    NNS_GfdRegisterNewVramTransferTask((void *)(vramTransfer == 0 ? B_FALSE : B_TRUE), destAddr, (uptr)src, size);
+    NNS_GfdRegisterNewVramTransferTask(vramTransfer == 0 ? B_FALSE : B_TRUE, destAddr, src, size);
 }
 
 void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId)
@@ -1638,7 +1638,7 @@ void FIELDMAP_SetupMmdlSys(FieldMap *fieldMap)
         sex = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData));
     }
     FLDMMDL_BLACT_AddResByCode(mmdlSys, FIELD_PLAYER_GetObjCodeOfFormCode(sex, 0));
-    FLDMMDL_G3DOBJ_Create((sptr)fieldMap->mmdlSys, (sptr)fieldMap->g3dObjCtrl);
+    FLDMMDL_G3DOBJ_Create(fieldMap->mmdlSys, fieldMap->g3dObjCtrl);
     FLDMMDL_SetAreaIdRef(fieldMap->mmdlSys, FIELD_CAMERA_GetViewYawPtr(fieldMap->camera));
     FLDMMDL_SysPopAll(fieldMap->mmdlSys);
     FLDMMDL_SysSetDrawEnable(mmdlSys, FIELDMAP_IsMmdlDrawEnabled(fieldMap->zoneId));

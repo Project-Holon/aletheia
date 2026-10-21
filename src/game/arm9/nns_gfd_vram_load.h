@@ -6,7 +6,7 @@
 /* One registered transfer task (0x10 bytes): taskType indexes the loader table. */
 typedef struct NNSiGfdVramTransferTask {
     u32 taskType;
-    u32 pSrc;
+    void *pSrc;
     u32 offset;
     u32 szByte;
 } NNSiGfdVramTransferTask;

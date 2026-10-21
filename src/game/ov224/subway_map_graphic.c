@@ -122,7 +122,7 @@ struct Assets {u32 palette,screen,chars;};
 
 struct SubwayMapWork {u16 heap,pad2; void **args; void *screen,*font;u32 string;void *task;};
 
-struct SubwayMapClactUnit {int unit;};
+struct SubwayMapClactUnit {void *unit;};
 
 struct SubwayMapScreen {u32 bgState; struct SubwayMapClactUnit clactUnit; void *camera; void *task;};
 
@@ -205,7 +205,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
 void SUBWAY_MAP_GRAPHIC_DrawBg(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work);
-void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, struct DispVramCfg *a, int b);
 void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p);
 void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work);
@@ -397,7 +397,7 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
-    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (sptr)sSubwayMapGraphicVram, heap);
+    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (struct DispVramCfg *)sSubwayMapGraphicVram, heap);
     SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
     ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_VBlankScreen, p, 0);
     return p;
@@ -463,12 +463,12 @@ void SUBWAY_MAP_GRAPHIC_DrawBg(void *work) {}
 
 void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work) { BG_SYS_Update(); }
 
-void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
+void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021B9C64, (struct DispVramCfg *)a, b);
-    ((struct SubwayMapClactUnit *)p)->unit = (sptr)CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer((void *)((struct SubwayMapClactUnit *)p)->unit);
+    ((struct SubwayMapClactUnit *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer(((struct SubwayMapClactUnit *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

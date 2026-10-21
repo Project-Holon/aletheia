@@ -466,7 +466,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
     GAMESYSTEM_Setup(gameSystem, 3, initParam);
-    GAMESYSTEM_SetEvent(gameSystem, EVENT_WIFI_PROC_CreateOv020Event(gameSystem, initParam));
+    GAMESYSTEM_SetEvent(gameSystem, EVENT_WIFI_PROC_CreateOv020Event(gameSystem, (struct GameInitWork *)initParam));
     if ((checkSum + checkPenalty) % 0x12af != 0) {
         penaltyCount = MISC_CountBadges(GAME_DATA_GetMiscSave(GAMESYSTEM_GetGameData(gameSystem)));
         for (i = 0; i < penaltyCount; i++)

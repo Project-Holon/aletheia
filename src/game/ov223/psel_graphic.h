@@ -45,23 +45,23 @@ void PSEL_GRAPHIC_Destroy(unsigned *sys);
 void PSEL_GRAPHIC_Draw(char *sys);
 void PSEL_GRAPHIC_ApplyLight(unsigned char *sys);
 void PSEL_GRAPHIC_DrawEnd(unsigned char *sys);
-unsigned PSEL_GRAPHIC_GetClactBank(unsigned char *sys);
-unsigned PSEL_GRAPHIC_GetCamera(unsigned char *sys);
+struct Unit *PSEL_GRAPHIC_GetClactBank(unsigned char *sys);
+void *PSEL_GRAPHIC_GetCamera(unsigned char *sys);
 void PSEL_GRAPHIC_VBlank(void *unused, char *sys);
 void PSEL_GRAPHIC_InitBg(void *sys,int heap);
 void PSEL_GRAPHIC_ExitBg(void *sys);
 void PSEL_GRAPHIC_NopDraw(void *unused);
 void PSEL_GRAPHIC_UpdateBg(void *unused);
-void PSEL_GRAPHIC_InitClact(int *out, int a, int b);
+void PSEL_GRAPHIC_InitClact(int *out, const struct DispVram *a, int b);
 void PSEL_GRAPHIC_ExitClact(char *bank);
 void PSEL_GRAPHIC_ClactDraw(void *unused);
 void PSEL_GRAPHIC_ClactVBlank(void *unused);
-u32 PSEL_GRAPHIC_LoadWord(const u32 *word);
+void *PSEL_GRAPHIC_LoadWord(const u32 *word);
 void PSEL_GRAPHIC_InitG3d(int *camera,int heap);
 void PSEL_GRAPHIC_ExitG3d(int *camera);
 void PSEL_GRAPHIC_ApplyLookAt(int *camera);
 void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *unused);
-unsigned PSEL_GRAPHIC_LoadWordC6F8(unsigned char *handle);
+struct Unit *PSEL_GRAPHIC_LoadWordC6F8(unsigned char *handle);
 /* END mkheaders: generated region */
 
 #endif

@@ -16,7 +16,7 @@ struct GameSystem;
 #include "../ov010/fldmmdl_types.h"
 #include "../arm9/script_vm_types.h"
 
-int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(const struct Mmdl *mmdl);
+int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(struct Mmdl *mmdl);
 void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
 void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data);
 void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus, int heapSeed);

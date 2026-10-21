@@ -663,9 +663,9 @@ int gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char *the
         return 12;
     }
 
-    fullMessage = (unsigned char *)gsimalloc(aTotalMessageLen);
+    fullMessage = (unsigned char *)gsimalloc((long unsigned int)aTotalMessageLen);
     *(GSUdpHdr *)fullMessage = *(GSUdpHdr *)theHeader;
-    memcpy(fullMessage + 16, theMsg, theMsgLen);
+    memcpy(fullMessage + 16, theMsg, (size_t)theMsgLen);
     aResult = gt2Send(aRemotePeerFound->mConnection, fullMessage, aTotalMessageLen, theReliable);
     gsifree(fullMessage);
     if (aResult != 0)

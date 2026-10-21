@@ -85,13 +85,13 @@ void FIELD_EFFECT_Update(FieldEffectSys *sys);
 void FIELD_EFFECT_Draw(FieldEffectSys *sys);
 struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
 struct FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
-u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
+struct ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *sys);
 void FIELD_EFFECT_LoadResources(FieldEffectSys *sys, int *ids, int count);
 void FIELD_EFFECT_FreeResource(FieldEffectSys *sys, int id);
 int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *sys, int id);
-int FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
 void FIELD_EFFECT_InitResourceTable(FieldEffectSys *sys);
 void FIELD_EFFECT_FreeResourceTable(FieldEffectSys *sys);
 FieldEffectResource *FIELD_EFFECT_FindResourceSlot(FieldEffectSys *sys, int id);
@@ -101,7 +101,7 @@ FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObj
 void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys);
 void FIELD_EFFECT_RunTasks(FieldEffectSys *sys);
 void FIELD_EFFECT_DrawObjects(FieldEffectSys *sys);
-FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, int taskSys, int objectCount);
+FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, struct TcbSystem *taskSys, int objectCount);
 void FIELD_EFFECT_DeleteObjectMgr(FieldEffectObjMgr *mgr);
 void FIELD_EFFECT_DrawObjectMgr(FieldEffectObjMgr *mgr);
 FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
@@ -115,7 +115,7 @@ void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
 void FIELD_EFFECT_GetObjectPos(FieldEffectObj *obj, VecFx32 *out);
 void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, const VecFx32 *pos);
 void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *obj);
-void FIELD_EFFECT_SetPaletteTable(FieldEffectSys *sys, u32 paletteTable);
+void FIELD_EFFECT_SetPaletteTable(FieldEffectSys *sys, const u8 *paletteTable);
 void FIELD_EFFECT_ApplyPaletteTable(FieldEffectSys *sys, void *model);
 extern char d_021DE018[];
 extern VecFx32 d_021D8F04;
@@ -132,7 +132,7 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     sys->resourceCount = resourceCount;
     sys->heapId = heapId;
     sys->fieldmap = fieldmap;
-    sys->arcHandle = (sptr)ARC_TOOL_CreateHandle(0x4b, heapId);
+    sys->arcHandle = ARC_TOOL_CreateHandle(0x4b, heapId);
     ZONEDATA_GetAreaId(FIELDMAP_GetZoneId((struct FieldMap *)fieldmap));
     sys->modelBaseOffset = COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)FIELDMAP_GetGameSystem(fieldmap));
     sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((struct FieldMap *)fieldmap));
@@ -150,7 +150,7 @@ int FIELD_EFFECT_Delete(FieldEffectSys *sys)
 {
     FIELD_EFFECT_ExitObjectSystem(sys);
     FIELD_EFFECT_FreeResourceTable(sys);
-    ARC_TOOL_DeleteHandle((void *)sys->arcHandle);
+    ARC_TOOL_DeleteHandle(sys->arcHandle);
     return GFL_HEAP_Free(sys);
 }
 
@@ -174,7 +174,7 @@ struct FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys)
     return FIELDMAP_GetG3dObjCtrl((struct FieldMap *)sys->fieldmap);
 }
 
-u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys)
+struct ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys)
 {
     return sys->arcHandle;
 }
@@ -224,7 +224,7 @@ int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *sys, int id)
     return 0;
 }
 
-int FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id)
+void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id)
 {
     return FIELD_EFFECT_FindResourceSlot(sys, id)->handle;
 }
@@ -297,7 +297,7 @@ void FIELD_EFFECT_InitObjectSystem(FieldEffectSys *sys, int objectCount)
 {
     sys->objectCount = objectCount;
     sys->taskBuffer = GFL_HEAP_Alloc(sys->heapId, TCB_GetTaskOffset(objectCount), 0, d_021DE018, 0x1db);
-    sys->taskSys = (sptr)TCB_Init(objectCount, sys->taskBuffer);
+    sys->taskSys = TCB_Init(objectCount, sys->taskBuffer);
     sys->objMgr = FIELD_EFFECT_CreateObjectMgr(sys->heapId, sys->taskSys, objectCount);
 }
 
@@ -310,7 +310,7 @@ void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
 {
     if (sys->objMgr != 0) {
         FIELD_EFFECT_DeleteObjectMgr(sys->objMgr);
-        TCB_Noop( (struct TcbSystem *)sys->taskSys);
+        TCB_Noop( sys->taskSys);
         GFL_HEAP_Free(sys->taskBuffer);
     }
 }
@@ -318,7 +318,7 @@ void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
 void FIELD_EFFECT_RunTasks(FieldEffectSys *sys)
 {
     if (sys->taskSys != 0) {
-        TCB_Main((struct TcbSystem *)sys->taskSys);
+        TCB_Main(sys->taskSys);
     }
 }
 
@@ -329,7 +329,7 @@ void FIELD_EFFECT_DrawObjects(FieldEffectSys *sys)
     }
 }
 
-FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, int taskSys, int objectCount)
+FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, struct TcbSystem *taskSys, int objectCount)
 {
     FieldEffectObjMgr *mgr;
 
@@ -379,7 +379,7 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
             if (pos != 0)
                 obj->pos = *pos;
             obj->mgr = mgr;
-            obj->task = TCB_AddTask((struct TcbSystem *)mgr->taskSys, (TcbFunc)FIELD_EFFECT_ObjectTask, obj, priority);
+            obj->task = TCB_AddTask(mgr->taskSys, (TcbFunc)FIELD_EFFECT_ObjectTask, obj, priority);
             break;
         }
         i++;
@@ -460,7 +460,7 @@ void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *obj)
     return 0;
 }
 
-void FIELD_EFFECT_SetPaletteTable(FieldEffectSys *sys, u32 paletteTable)
+void FIELD_EFFECT_SetPaletteTable(FieldEffectSys *sys, const u8 *paletteTable)
 {
     sys->paletteTable = paletteTable;
 }
@@ -471,6 +471,6 @@ void FIELD_EFFECT_ApplyPaletteTable(FieldEffectSys *sys, void *model)
 
     if (sys->paletteTable != 0) {
         res = (PaletteResource *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(model));
-        PALANM_ConvertGrayTable((u16 *)((u8 *)res + res->palOffset), res->palSize * 8u / 2, (const u8 *)sys->paletteTable);
+        PALANM_ConvertGrayTable((u16 *)((u8 *)res + res->palOffset), res->palSize * 8u / 2, sys->paletteTable);
     }
 }

@@ -185,27 +185,27 @@ void EVENTDATA_SYSTEM_Clear(EventDataSystem *system);
 void EVENTDATA_SYSTEM_Load(EventDataSystem *system, u16 zoneId, u8 encountParam);
 void EVENTDATA_SYSTEM_LoadEventData(EventDataSystem *system, u16 zoneId, u8 unused);
 void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int encountParam);
-u32 EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system);
+u8 *EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system);
 u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(EventDataSystem *system);
 void EVENTDATA_SYSTEM_DisableConnect(EventDataSystem *system, u16 index);
 int EVENTDATA_SYSTEM_CheckAutoPosEvent(EventDataSystem *system, VecFx32 *pos);
 void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId);
 void EVENTDATA_SYSTEM_ClearEventTables(EventDataSystem *system);
-u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr);
+struct EncountData *EVENTDATA_SYSTEM_GetEncountData(void *system);
 u16 EVENTDATA_SYSTEM_GetConnectCount(EventDataSystem *system);
 int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(EventDataSystem *system, const VecFx32 *pos);
 int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(EventDataSystem *system, RailLocation *location);
 ConnectData *EVENTDATA_SYSTEM_GetConnectData(const EventDataSystem *system, unsigned index);
 int EVENTDATA_SYSTEM_IsSpecialExitConnect(ConnectData *connect);
 int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventDataSystem *system, int *exitInfo, int connectIndex, int exitOffset);
-void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, int exitInfo, int exitOffset);
+void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, struct Location *exitInfo, int exitOffset);
 u16 EVENTDATA_SYSTEM_GetConnectGridExitOffset(ConnectData *connect, VecFx32 *pos);
 u16 EVENTDATA_SYSTEM_GetConnectRailExitOffset(ConnectData *connect, RailLocation *location);
 int EVENTDATA_SYSTEM_IsConnectExitDir(ConnectData *connect, int dir);
 u8 EVENTDATA_SYSTEM_GetConnectExitType(ConnectData *connect);
 int EVENTDATA_SYSTEM_IsConnectDisabled(ConnectData *connect);
 void EVENTDATA_SYSTEM_SetConnectGridPos(EventDataSystem *system, u32 index, u16 gridX, u32 height, u16 gridZ);
-u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system);
+struct MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system);
 u16 EVENTDATA_SYSTEM_GetNpcCount(EventDataSystem *system);
 void EVENTDATA_SYSTEM_SetNpcGridPos(EventDataSystem *system, u32 index, u16 dir, u16 gx, u32 y, u16 gz);
 void EVENTDATA_SYSTEM_SetNpcObjCode(EventDataSystem *system, unsigned index, u16 objCode);
@@ -288,7 +288,7 @@ void EVENTDATA_SYSTEM_LoadEventData(EventDataSystem *system, u16 zoneId, u8 unus
 
 void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int encountParam)
 {
-    (struct ArcFile *)FIELD_ENCOUNT_ST_LoadEncountData((struct EncountRow *)system->encountHead, (struct ArcFile *)system->encountArc, zoneId, encountParam);
+    FIELD_ENCOUNT_ST_LoadEncountData((struct EncountRow *)system->encountHead, (struct ArcFile *)system->encountArc, zoneId, encountParam);
     system->encountLoaded = 1;
 }
 
@@ -303,7 +303,7 @@ void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int e
  *   python tools/match.py one --src src/matched/EVENTDATA_SYSTEM_GetSpecialScriptData.c \
  *       --func EVENTDATA_SYSTEM_GetSpecialScriptData --addr 0x02162450 --region ov010 --cc dsi/1.1p1 --thumb
  */
-u32 EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system) { return (uptr)system->specialScripts; }
+u8 *EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system) { return (u8 *)system->specialScripts; }
 
 /*
  * Unlabelled thumb leaf (ldr r0,[r0,0x34]; bx lr), the sole blocker of
@@ -423,9 +423,9 @@ void EVENTDATA_SYSTEM_ClearEventTables(EventDataSystem *system)
 /*
  * Addresses are Black-image addresses.
  */
-u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr)
+struct EncountData *EVENTDATA_SYSTEM_GetEncountData(void *system)
 {
-    return systemAddr + 0x38;
+    return (struct EncountData *)((u8 *)system + 0x38);
 }
 
 /*
@@ -510,9 +510,9 @@ int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventDataSystem *system, int *
     return 1;
 }
 
-void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, int exitInfo, int exitOffset)
+void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, struct Location *exitInfo, int exitOffset)
 {
-    ZONEDATA_SetExitLocationIdOnly((struct Location *)exitInfo, connect->zoneId, connect->exitId, exitOffset);
+    ZONEDATA_SetExitLocationIdOnly(exitInfo, connect->zoneId, connect->exitId, exitOffset);
 }
 
 /*
@@ -594,9 +594,9 @@ void EVENTDATA_SYSTEM_SetConnectGridPos(EventDataSystem *system, u32 index, u16 
  *
  * Addresses are Black-image addresses.
  */
-u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system)
+struct MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system)
 {
-    return (uptr)system->npcHeaders;
+    return system->npcHeaders;
 }
 
 /*

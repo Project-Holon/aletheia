@@ -68,7 +68,7 @@ s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
 
 s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 
-void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 **outFormPalIndex, u32 isCgr);
+void POKEGRA_CalcArcIndex(u32 arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 *outFormPalIndex, u32 isCgr);
 
 int POKEGRA_GetArcID(void){ return 4; }
 
@@ -89,7 +89,7 @@ s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
     s32 dirOffset;
     s32 sexOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 1);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 1);
     return sexOffset + (index + dirOffset);
 }
 
@@ -99,7 +99,7 @@ s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
     s32 dirOffset;
     s32 sexOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 0);
     return sexOffset + (index + dirOffset + 2);
 }
 
@@ -120,7 +120,7 @@ s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
     s32 palIndex;
 
     palIndex = 0;
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), 0, 0, (u32 *)(&rareOffset), (u32 **)(&palIndex), 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), 0, 0, (u32 *)(&rareOffset), (u32 *)(&palIndex), 0);
     if (palIndex == 0) {
         palIndex = index + 0x12 + rareOffset;
     }
@@ -143,7 +143,7 @@ s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
     s32 index;
     s32 dirOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
     return index + dirOffset + 4;
 }
 
@@ -152,7 +152,7 @@ s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
     s32 index;
     s32 dirOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
     return index + dirOffset + 5;
 }
 
@@ -161,7 +161,7 @@ s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
     s32 index;
     s32 dirOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
     return index + dirOffset + 6;
 }
 
@@ -181,7 +181,7 @@ s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
     s32 index;
     s32 dirOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
     return index + dirOffset + 7;
 }
 
@@ -190,7 +190,7 @@ s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
     s32 index;
     s32 dirOffset;
 
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
+    POKEGRA_CalcArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
     return index + dirOffset + 8;
 }
 
@@ -242,9 +242,9 @@ struct PaletteData;
 
 #include "nns_g2d_anim_bank.h"
 
-void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId);
+void POKEGRA_ConvertCharTo2D(NNSG2dCharacterData *charData, u32 heapId);
 
-void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId);
+void POKEGRA_ConvertCharTo1D(NNSG2dCharacterData *charData, u32 heapId);
 
 void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality);
 
@@ -300,9 +300,9 @@ extern const u8 *const SpindaSpotTables[4];
 
 extern const u8 TrainerGraIndexTable[];
 
-void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
+void POKEGRA_ConvertCharTo2D(NNSG2dCharacterData *charData, u32 heapId)
 {
-    u8 *raw = ((NNSG2dCharacterData *)charData)->pRawData;
+    u8 *raw = charData->pRawData;
     u8 *work;
     u32 rowBytes;
     int i;
@@ -333,14 +333,14 @@ void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
     GFL_HEAP_Free(work);
 }
 
-void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
+void POKEGRA_ConvertCharTo1D(NNSG2dCharacterData *charData, u32 heapId)
 {
     u8 *raw;
     u8 *work;
     s32 i;
     s32 offset;
 
-    raw = ((NNSG2dCharacterData *)charData)->pRawData;
+    raw = charData->pRawData;
     work = (u8 *)GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x1200,
                               1, PokegraFileName, 313);
     MIi_CpuCopyFast(raw, work, 0x1200);
@@ -436,10 +436,10 @@ void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality)
  * Verified with:
  *   python tools/match.py one --src src/matched/POKEGRA_CalcArcIndex.c  *       --func POKEGRA_CalcArcIndex --addr 0x0202D4A8 --thumb --cc 1.1p1
  */
-void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
+void POKEGRA_CalcArcIndex(u32 arcId, u32 monsNo, s32 formNo, s32 sex,
                    u32 rare, u32 dir, u32 egg,
                    u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare,
-                   u32 **outFormPalIndex, u32 isCgr)
+                   u32 *outFormPalIndex, u32 isCgr)
 {
     s32 index;
     s32 formCount;
@@ -488,7 +488,7 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
         }
         if (palOnlyForms != 0) {
             if (outFormPalIndex != 0 && formNo != 0) {
-                *outFormPalIndex = (u32 *)(rare + (u32)((formStart + formNo - 1) * 2 + 0x37ad));
+                *outFormPalIndex = rare + (u32)((formStart + formNo - 1) * 2 + 0x37ad);
             }
         } else if (formNo != 0) {
             index = (formStart + formNo - 1) * 0x14 + 0x32f0;
@@ -499,7 +499,7 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
     case 0:
         break;
     case 1:
-        formCount = ARC_TOOL_GetMemberSize((uptr)arcId, (u32)(index + sexFileOffset + 1));
+        formCount = ARC_TOOL_GetMemberSize(arcId, (u32)(index + sexFileOffset + 1));
         sex = 1;
         if (formCount == 0) {
             sex = 0;
@@ -703,9 +703,9 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     arcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
     file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, outCharData, heapId);
     if (monsNo == 0x147) {
-        POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
+        POKEGRA_ConvertCharTo2D((NNSG2dCharacterData *)(*outCharData), heapId);
         POKEGRA_DrawSpindaSpots((NNSG2dCharacterData *)(*outCharData), personality);
-        POKEGRA_ConvertCharTo1D((u32 *)(*outCharData), heapId);
+        POKEGRA_ConvertCharTo1D((NNSG2dCharacterData *)(*outCharData), heapId);
     }
     return file;
 }

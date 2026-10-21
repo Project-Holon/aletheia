@@ -243,7 +243,7 @@ void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex);
 
 void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq);
 
-void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command);
+void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, struct ClactAnimCommand *command);
 
 void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex);
 
@@ -437,7 +437,7 @@ void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq)
     CLACT_SetActorAnimSeq((struct ClactActor *)disp->actors[slotIndex], (u16)animSeq);
 }
 
-void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command)
+void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, struct ClactAnimCommand *command)
 {
     CLACT_ApplyActorAnimCommand((struct ClactActor *)disp->actors[slotIndex], (const struct ClactAnimCommand *)command);
 }

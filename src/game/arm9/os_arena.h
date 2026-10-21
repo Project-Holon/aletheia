@@ -8,13 +8,13 @@
 
 void OS_InitArena(void);
 void OS_InitArenaEx(void);
-u32 OS_GetArenaHi(u32 arenaId);
-u32 OS_GetArenaLo(u32 arenaId);
+void *OS_GetArenaHi(u32 arenaId);
+void *OS_GetArenaLo(u32 arenaId);
 void *OS_GetInitArenaHi(int arenaId);
 void *OS_GetInitArenaLo(int arenaId);
-void OS_SetArenaHi(u32 arenaId, u32 newHi);
-void OS_SetArenaLo(u32 arenaId, u32 newLo);
-u32 OS_AllocFromArenaLo(int arenaId, u32 size, int alignment);
+void OS_SetArenaHi(u32 arenaId, void *newHi);
+void OS_SetArenaLo(u32 arenaId, void *newLo);
+void *OS_AllocFromArenaLo(int arenaId, u32 size, int alignment);
 /* END mkheaders: generated region */
 
 #endif

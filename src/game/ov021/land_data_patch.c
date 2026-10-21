@@ -39,19 +39,19 @@ typedef struct LandAttrBlock {
 struct BuildModelObjectDesc;
 struct BuildModelMan;
 #include "field_buildmodel.h"
-u32 *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId);
+LandDataPatch *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId);
 void LAND_DATA_PATCH_Delete(void **patch);
-void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height);
-u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 firstIndex, int offsetX, int offsetZ);
-int LAND_DATA_PATCH_GetAttrBlock(u32 patch);
-int LAND_DATA_PATCH_GetBuildModelBlock(u32 patch);
+void LAND_DATA_PATCH_OverwriteAttr(LandDataPatch *patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height);
+u32 LAND_DATA_PATCH_AddBuildModels(LandDataPatch *patch, struct BuildModelMan *bmodelMan, struct FieldG3dMap *mapIndex, u32 firstIndex, int offsetX, int offsetZ);
+u8 *LAND_DATA_PATCH_GetAttrBlock(LandDataPatch *patch);
+u32 *LAND_DATA_PATCH_GetBuildModelBlock(LandDataPatch *patch);
 extern char d_021DE558[];
 
 /* Allocates a patch handle and loads patch file patchId. */
-u32 *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId)
+LandDataPatch *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId)
 {
-    u32 *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
-    patch[0] = (uptr)ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
+    LandDataPatch *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
+    patch->data = ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
     return patch;
 }
 
@@ -62,7 +62,7 @@ void LAND_DATA_PATCH_Delete(void **patch)
 }
 
 /* Copies a height x width rectangle of attribute cells from the patch into the map attributes. */
-void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height)
+void LAND_DATA_PATCH_OverwriteAttr(LandDataPatch *patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height)
 {
     u8 *patchAttr = (u8 *)LAND_DATA_PATCH_GetAttrBlock(patch);
     u8 *dstCells = mapAttr + 4;
@@ -76,9 +76,9 @@ void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u
 }
 
 /* Adds the patch's build models (0x10-byte entries) moved by offsetX/offsetZ tiles; returns the next free index. */
-u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 firstIndex, int offsetX, int offsetZ)
+u32 LAND_DATA_PATCH_AddBuildModels(LandDataPatch *patch, struct BuildModelMan *bmodelMan, struct FieldG3dMap *mapIndex, u32 firstIndex, int offsetX, int offsetZ)
 {
-    u32 *models = (u32 *)LAND_DATA_PATCH_GetBuildModelBlock(patch);
+    u32 *models = LAND_DATA_PATCH_GetBuildModelBlock(patch);
     u32 *entries = models + 1;
     u32 i;
     u32 entry[4];
@@ -87,17 +87,17 @@ u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 f
         MI_CpuCopy8(entries + i * 4, entry, 0x10);
         entry[0] += offsetX << 16;
         entry[2] -= offsetZ << 16;
-        FIELD_BUILDMODEL_RegisterObject((struct BuildModelMan *)bmodelMan, mapIndex, (struct BuildModelObjectDesc *)entry, firstIndex + i);
+        FIELD_BUILDMODEL_RegisterObject(bmodelMan, mapIndex, (struct BuildModelObjectDesc *)entry, firstIndex + i);
     }
     return firstIndex + models[0];
 }
 
-int LAND_DATA_PATCH_GetAttrBlock(u32 patch)
+u8 *LAND_DATA_PATCH_GetAttrBlock(LandDataPatch *patch)
 {
-    return (sptr)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data));
+    return (((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data));
 }
 
-int LAND_DATA_PATCH_GetBuildModelBlock(u32 patch)
+u32 *LAND_DATA_PATCH_GetBuildModelBlock(LandDataPatch *patch)
 {
-    return (sptr)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data + 2));
+    return (u32 *)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data + 2));
 }

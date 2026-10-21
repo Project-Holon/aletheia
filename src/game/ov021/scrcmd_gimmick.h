@@ -17,7 +17,7 @@ int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CreateEvent(ScriptVm *vm, struct ScrcmdWork 
 int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLane(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);

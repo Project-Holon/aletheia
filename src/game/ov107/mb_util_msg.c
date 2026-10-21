@@ -93,7 +93,7 @@ struct TimeIcon;
 typedef struct MbTalkWinParam {
     u16 heapId;
     u32 reserved;
-    u32 font;
+    struct GfFont *font;
     u16 bgPalette;
     u32 bgFrame;
     u8 x;
@@ -147,7 +147,7 @@ typedef struct MbMsgWork {
     int keyWaitFlag;
     struct TaskMenu *taskMenu;
     struct TaskMenuRes *taskMenuRes;
-    u32 keyCursor;
+    struct KeyCursor *keyCursor;
     MbWinRect yesNoRect;
     u8 pad4E[2];
     void *yesNoMenu;
@@ -249,12 +249,12 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, (struct GFont *)w->font, (struct PrintQueue *)w->printQue, w->heapId);
     w->taskMenu = 0;
     w->yesNoMenu = 0;
-    w->keyCursor = (uptr)APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
+    w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
     GF_OVERLAY_Load((sptr)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
         talk.reserved = 0;
-        talk.font = (uptr)w->font;
+        talk.font = w->font;
         talk.bgPalette = 10;
         talk.bgFrame = bgFrame;
         talk.x = 12;
@@ -282,7 +282,7 @@ void MB_UTIL_MSG_Delete(MbMsgWork *work)
         TIME_ICON_Delete(work->timeIcon);
         work->timeIcon = 0;
     }
-    APP_KEYCURSOR_Delete((struct KeyCursor *)work->keyCursor);
+    APP_KEYCURSOR_Delete(work->keyCursor);
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
     PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue);
     if (work->stream)
@@ -306,7 +306,7 @@ void MB_UTIL_MSG_Main(MbMsgWork *work)
     TCBL_Main((struct TcblSystem *)work->tcbl);
     if (work->stream) {
         done = PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)work->keyCursorState, (struct TextPrinter *)work->stream);
-        APP_KEYCURSOR_Update((struct KeyCursor *)work->keyCursor, (struct TextPrinter *)work->stream, work->window);
+        APP_KEYCURSOR_Update(work->keyCursor, (struct TextPrinter *)work->stream, work->window);
         if (done == 1) {
             PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
             work->stream = 0;

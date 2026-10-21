@@ -350,7 +350,7 @@ void DWCi_EncSessionShutdown(void)
 u32 DWCi_EncSessionGetResponse(u32 *outLen)
 {
     *outLen = gDwcEncSession.decodedBufferLen;
-    return (uptr)gDwcEncSession.decodedBuffer;
+    return (unsigned int)gDwcEncSession.decodedBuffer;
 }
 
 /*

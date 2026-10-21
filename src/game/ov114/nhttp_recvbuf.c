@@ -239,7 +239,7 @@ int NHTTPi_RecvBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p,
 {
     NHTTPRes *res_p = req_p->res_p;
 
-    return NHTTPi_SocRecv(mutexInfo_p, req_p, socket, res_p->recvBuf_p + pos,
+    return NHTTPi_SocRecv(mutexInfo_p, req_p, (int)socket, res_p->recvBuf_p + pos,
             res_p->recvBufLen - pos, flags);
 }
 
@@ -252,9 +252,9 @@ int NHTTPi_RecvBufN(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p,
 
     if (NHTTPi_isRecvBufFull(res_p, pos))
         return -1003;
-    len2 = (int)(res_p->recvBufLen - pos);
+    len2 = (res_p->recvBufLen - pos);
     if (len <= len2)
-        len2 = len;
-    return NHTTPi_SocRecv(mutexInfo_p, req_p, socket, res_p->recvBuf_p + pos,
+        len2 = (int)len;
+    return NHTTPi_SocRecv(mutexInfo_p, req_p, (int)socket, res_p->recvBuf_p + pos,
             len2, flags);
 }

@@ -392,9 +392,9 @@ struct TcblSystem;
 
 
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, void *param, u16 heap);
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, int a, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *p, void *a, u16 heap);
 
 void BTLV_EFFECT_Init(BtlvEffSetup *p, void *font, u16 heap);
 
@@ -536,7 +536,7 @@ unsigned short BTLV_EFFECT_GetTrainerType(int a);
 
 void *BTLV_EFFECT_GetBattleMain(void);
 
-int BTLV_EFFECT_GetSceneUnit(void);
+void *BTLV_EFFECT_GetSceneUnit(void);
 
 int BTLV_EFFECT_PollLowHpBgm(void);
 
@@ -685,7 +685,7 @@ extern u32 gBtlvIntroPickTableA[];
 
 extern u32 gBtlvIntroPickTableB[];
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap)
+BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, void *param, u16 heap)
 {
     BtlvEffSetup *o;
     int i = 0;
@@ -702,7 +702,7 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFie
     return o;
 }
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, int param, u16 heap)
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, void *param, u16 heap)
 {
     u16 trainerTypes[4];
     unsigned int i;
@@ -1118,7 +1118,7 @@ void BTLV_EFFECT_AddPokeSprite(int trainerId, u32 pos, u32 x, u32 y, u32 z)
             break;
         }
     }
-    BTLV_MCSS_AddTrainer(gBtlvEff->mcss, (void *)trainerId, pos);
+    BTLV_MCSS_AddTrainer(gBtlvEff->mcss, trainerId, pos);
     if (x != 0 || y != 0 || z != 0)
         BTLV_MCSS_SetPosition(gBtlvEff->mcss, pos, x, y, z);
     gBtlvEff->pokeSprite[pos - 8] = pos;
@@ -1529,7 +1529,7 @@ void *BTLV_EFFECT_GetBattleMain(void)
 /*
  * Returns the word at 0x1e0 of the global work block.
  */
-int BTLV_EFFECT_GetSceneUnit(void)
+void *BTLV_EFFECT_GetSceneUnit(void)
 {
     return gBtlvEff->setup.sceneUnit;
 }
@@ -1675,7 +1675,7 @@ void BTLV_EFFECT_DeleteTask(void *task)
 
     if (task == 0)
         return;
-    w = (void *)TCBL_GetOwnedWork(task);
+    w = TCBL_GetOwnedWork(task);
     if (gBtlvEff->taskCallback[i] != 0)
         gBtlvEff->taskCallback[i](task);
     if (w != 0)
@@ -2157,7 +2157,7 @@ void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)
                 size = tex->plttInfo.sizePltt << 3;
                 vramOffset = (u16)tex->plttInfo.vramKey << 3;
                 PALANM_BlendColors((u16 *)((char *)tex + tex->plttInfo.ofsPlttData), fade->palettes[i], (u16)(size >> 1), fade->current, fade->color);
-                NNS_GfdRegisterNewVramTransferTask((void *)1, vramOffset, (uptr)fade->palettes[i], size);
+                NNS_GfdRegisterNewVramTransferTask(1, vramOffset, fade->palettes[i], size);
             }
             if (fade->current == fade->target) {
                 fade->enabled = 0;

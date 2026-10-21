@@ -40,9 +40,9 @@ struct FieldMap;
 
 /* Work of the door tasks (0x14 bytes, allocated by the task system). */
 typedef struct DoorAnimeWork {
-    u32 gameSys;   /* +0x00: owner passed to the task system */
-    u32 fieldmap;  /* +0x04: field map; gives the player and the build-model manager */
-    u32 door;      /* +0x08: build model found around the player, 0 if none */
+    struct GameSystem *gameSys;   /* +0x00: owner passed to the task system */
+    struct FieldMap *fieldmap;    /* +0x04: field map; gives the player and the build-model manager */
+    struct BuildModelEntry *door; /* +0x08: build model found around the player, 0 if none */
     u32 pad0C;     /* +0x0C: not used by these tasks */
     u32 silent;    /* +0x10: close without the close SE */
 } DoorAnimeWork;
@@ -60,24 +60,24 @@ struct BuildModelRect;
 struct BuildModelMan;
 struct BuildModelEntry;
 #include "field_buildmodel.h"
-int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
-u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap);
-int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
-u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap);
-int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work);
-u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent);
+int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+struct GameEvent *FIELD_DOOR_ANIME_StartOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap);
+int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+struct GameEvent *FIELD_DOOR_ANIME_StartSetOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap);
+int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+struct GameEvent *FIELD_DOOR_ANIME_StartClose(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap, u32 silent);
 
 /*
  * Door open task: plays the open SE and the open animation (0) of the build
  * model within one tile of the player, waits for the SE, then plays the hold
  * SE and animation 1.
  */
-int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
 {
     int pos[3];
     int area[4];
-    uptr bmodelMan;
-    uptr door;
+    struct BuildModelMan *bmodelMan;
+    struct BuildModelEntry *door;
 
     switch (seq[0]) {
     case 0:
@@ -87,11 +87,11 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = (uptr)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = (uptr)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
+        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 0, 0);
+            FIELD_BUILDMODEL_PlayEntryAnim(bmodelMan, door, 0, 0);
         }
         seq[0]++;
         break;
@@ -103,8 +103,8 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     case 2:
         GFL_USE_PlaySeDefaultVolume(SE_DOOR_HOLD);
         if (work->door != 0) {
-            bmodelMan = (uptr)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)work->door, 1, 2);
+            bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+            FIELD_BUILDMODEL_PlayEntryAnim(bmodelMan, (struct BuildModelEntry *)work->door, 1, 2);
         }
         seq[0]++;
         break;
@@ -114,10 +114,10 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     return 0;
 }
 
-u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap)
+struct GameEvent *FIELD_DOOR_ANIME_StartOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap)
 {
-    u32 task = (uptr)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_OpenTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_OpenTask, 0x14);
+    DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;
@@ -125,12 +125,12 @@ u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap)
 }
 
 /* Sets the door near the player to its open state (animation 1) at once, no SE. */
-int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
 {
     int pos[3];
     int area[4];
-    uptr bmodelMan;
-    uptr door;
+    struct BuildModelMan *bmodelMan;
+    struct BuildModelEntry *door;
 
     switch (seq[0]) {
     case 0:
@@ -139,11 +139,11 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = (uptr)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = (uptr)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
+        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 1, 2);
+            FIELD_BUILDMODEL_PlayEntryAnim(bmodelMan, door, 1, 2);
         }
         seq[0]++;
         break;
@@ -153,10 +153,10 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     return 0;
 }
 
-u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap)
+struct GameEvent *FIELD_DOOR_ANIME_StartSetOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap)
 {
-    u32 task = (uptr)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_SetOpenTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_SetOpenTask, 0x14);
+    DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;
@@ -164,12 +164,12 @@ u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap)
 }
 
 /* Door close task: close SE (unless silent) and close animation (2), waits for the SE. */
-int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
 {
     int pos[3];
     int area[4];
-    uptr bmodelMan;
-    uptr door;
+    struct BuildModelMan *bmodelMan;
+    struct BuildModelEntry *door;
 
     switch (seq[0]) {
     case 0:
@@ -180,11 +180,11 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = (uptr)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = (uptr)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
+        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 2, 0);
+            FIELD_BUILDMODEL_PlayEntryAnim(bmodelMan, door, 2, 0);
         }
         seq[0]++;
         break;
@@ -203,10 +203,10 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
     return 0;
 }
 
-u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent)
+struct GameEvent *FIELD_DOOR_ANIME_StartClose(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap, u32 silent)
 {
-    u32 task = (uptr)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_CloseTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_CloseTask, 0x14);
+    DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;

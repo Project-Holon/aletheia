@@ -398,7 +398,7 @@ void WORLDTRADE_DEMO_InitSlotRecord(WorldtradeWork *p)
     u32 e = (uptr)WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
     if (p->box_u == 0xff) {
-        WORLDTRADE_ADAPTER_CopyMon(e, (uptr)POKEPARTY_GetMember(p->ctx->party, p->pos));
+        WORLDTRADE_ADAPTER_CopyMon(e, POKEPARTY_GetMember(p->ctx->party, p->pos));
     } else {
         u32 a;
         u32 b;

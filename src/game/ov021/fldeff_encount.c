@@ -231,7 +231,7 @@ void FLDEFF_ENCOUNT_LoadKind(EncountModelSet *set, u32 kind)
     ArcHandle *arc;
 
     set->desc = sEncountModelDescs[kind];
-    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(set->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(set->fieldEffect);
     if (kind == 0) {
         FLDEFF_ENCOUNT_LoadKind0Models(set, &set->desc, arc);
     } else {

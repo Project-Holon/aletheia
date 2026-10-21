@@ -374,7 +374,7 @@ void WORLDTRADE_CreateTimeIcon(WorldtradeWork *p);
 
 void WORLDTRADE_DeleteTimeIcon(WorldtradeWork *p);
 
-void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
+void WORLDTRADE_SetActorPos(struct ClactActor *a, u32 b, u32 c);
 
 void WORLDTRADE_SetBrightnessIn(u32 x);
 
@@ -715,7 +715,7 @@ void WORLDTRADE_OpenTaskMenuList(WorldtradeWork *p, u16 bgLayer, int count, int 
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,20);
     if ((u32)count>3) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    for(i=0;i<count;i++) items.item[i].str=(struct Strbuf *)*(u32 *)((uptr)p->de8+i*8);
+    for(i=0;i<count;i++) items.item[i].str=*(struct Strbuf **)((uptr)p->de8+i*8);
     menu.heapId=0x48;
     menu.itemNum=count;
     menu.itemWork=items.item;
@@ -809,7 +809,7 @@ int WORLDTRADE_GetMessageWait(void)
 void WORLDTRADE_SetupGraphics(WorldtradeWork *p)
 {
     WORLDTRADE_SetupVramBanks((const struct DispVram *)g_02202BFC);
-    WORLDTRADE_InitClactSystem((WorldtradeWork *)p, (uptr)g_02202BFC);
+    WORLDTRADE_InitClactSystem((WorldtradeWork *)p, (u32)((struct DispVramCfg *)g_02202BFC));
     WORLDTRADE_SetPlaneVisibleAll(p);
 }
 
@@ -865,21 +865,21 @@ void WORLDTRADE_ClearSelectedSpecies(WorldtradeWork *p)
  */
 void WORLDTRADE_CreateTimeIcon(WorldtradeWork *p)
 {
-    p->timeIcon = (uptr)TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)(p->frame),
+    p->timeIcon = TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)(p->frame),
                                         0xf, 0x10, 0x48);
 }
 
 void WORLDTRADE_DeleteTimeIcon(WorldtradeWork *p)
 {
     if (p->timeIcon != 0) {
-        TIME_ICON_Delete((struct TimeIcon *)(p->timeIcon));
+        TIME_ICON_Delete((p->timeIcon));
         p->timeIcon = 0;
         BMP_WIN_MakeScreen((struct BmpWin *)(p->frame));
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)(p->frame)));
     }
 }
 
-void WORLDTRADE_SetActorPos(u32 obj, u32 x, u32 y)
+void WORLDTRADE_SetActorPos(struct ClactActor *obj, u32 x, u32 y)
 {
     u16 t[2];
 

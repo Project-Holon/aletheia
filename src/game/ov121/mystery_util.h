@@ -63,7 +63,7 @@ void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c);
 int MYSTERY_UTIL_IsMenuFinished(u8 *p);
 void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out);
 s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2);
-void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+void MYSTERY_UTIL_BlendPaletteRange(u32 a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 /* END mkheaders: generated region */
 
 #endif

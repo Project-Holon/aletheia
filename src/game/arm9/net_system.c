@@ -1416,7 +1416,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
+        errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -1425,7 +1425,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
         u8 *recvSeq = _pNetSys->recvSeq;
         if (recvSeq[netId] != 0 && (u8)(packet->seq - 1) != recvSeq[netId]) {
             GFL_NET_SYSTEM_SetError();
-            errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
+            errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
             if (errorInfo->gameCode == 0)
                 GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f3);
             return 0;
@@ -1466,7 +1466,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
+        errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -1654,7 +1654,7 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
         return 1;
 
     GFL_NET_SYSTEM_SetError();
-    err = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
+    err = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
     if (err->gameCode == 0)
         GFL_NET_STATE_SetError(err->errorCode, err->errorType, err->dwcError, 0x3f4);
     return 0;

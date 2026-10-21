@@ -254,7 +254,7 @@ int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p);
 int VIEWER_ACTOR_StepWaitActorAnim(ViewerTextWork *p);
 int VIEWER_ACTOR_StartWipe(ViewerTextWork *p);
 int VIEWER_ACTOR_StepWaitWipeOut(ViewerTextWork *p);
-void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col);
+void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, struct Strbuf *col);
 void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx);
 int VIEWER_ACTOR_WrapAngle(int a, int b);
 void VIEWER_ACTOR_StepBounce(ViewerTextWork *p);
@@ -595,7 +595,7 @@ int VIEWER_ACTOR_StepWaitWipeOut(ViewerTextWork *p)
 
 
 
-void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col)
+void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, struct Strbuf *col)
 {
     void *v;
 
@@ -643,10 +643,10 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
         break;
     case 1:
         for (i = 0; i < 2; i++) {
-            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, i, idx, (sptr)str);
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, i, idx, str);
         }
         if (p->rowEnabled[idx]) {
-            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, 2, idx, (sptr)str);
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, 2, idx, str);
         }
         break;
     }
@@ -1123,7 +1123,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
     dst = p->res170[k]->data;
     tex = (ViewerTexInfo *)G3D_SYSTEM_GetResourceTex((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, (uptr)(tex->plttData + *e * 8), (uptr)(dst + d_021C8874[idx] * 32), 0x20);
+    NNS_GfdRegisterNewVramTransferTask(1, (uptr)(tex->plttData + *e * 8), (dst + d_021C8874[idx] * 32), 0x20);
 }
 
 

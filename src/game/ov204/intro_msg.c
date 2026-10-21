@@ -300,7 +300,7 @@ void INTRO_MSG_MainMenuList(u8 *p);
 
 int INTRO_MSG_GetMenuChoice(u8 *p,int *out);
 
-int INTRO_MSG_GetWordSet(u8 *p);
+struct WordSet *INTRO_MSG_GetWordSet(u8 *p);
 
 void INTRO_MSG_StartTimeIcon(u8 *p);
 
@@ -486,7 +486,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
-    config.target=INTRO_MSG_InitMenuDesc(p,(sptr)obj);config.printer=work->printSys;config.font=work->font;
+    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
     *(void **)state=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&config)),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
@@ -535,10 +535,10 @@ int INTRO_MSG_GetMenuChoice(u8 *p,int *out)
     return 1;
 }
 
-int INTRO_MSG_GetWordSet(u8 *p)
+struct WordSet *INTRO_MSG_GetWordSet(u8 *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    return (sptr)work->wordSet;
+    return work->wordSet;
 }
 
 void INTRO_MSG_StartTimeIcon(u8 *p)

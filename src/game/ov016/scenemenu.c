@@ -109,7 +109,7 @@ typedef struct { unsigned char v[2]; } PALETTE_INIT;
 struct SceneMenuState {
     u8  focusPos;
     u8  pad01[3];
-    int palette;
+    void *palette;
 };
 
 #include "headline.h"
@@ -195,7 +195,7 @@ static void initGraphics(void)
     DWCi_CMNlLoadResource((char *)((sptr)sSceneMenuPathJbBgStep1Char), GX_LoadBG2Char);
     DWCi_CMNlLoadResource((char *)((sptr)sSceneMenuPathJbBgStep1Pltt), GX_LoadBGPltt);
     DWCi_CMNlLoadResource((char *)((sptr)sSceneMenuPathJb2MenuScr), GX_LoadBG2Scr);
-    gSceneMenuWork.palette = (sptr)DWCi_ARClReadEx((char *)((sptr)DWCi_Char((unsigned char *)(&buf))), 0, 4);
+    gSceneMenuWork.palette = DWCi_ARClReadEx((char *)DWCi_Char( (unsigned char *)&buf), 0, 4);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -310,7 +310,7 @@ static void endScene2(void)
         return;
     DWCi_FOCUSlDelete();
     DWCi_COMMENTlDelete();
-    DWCi_ARClRelease((void *)gSceneMenuWork.palette);
+    DWCi_ARClRelease(gSceneMenuWork.palette);
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
     switch (gSceneMenuWork.focusPos) {

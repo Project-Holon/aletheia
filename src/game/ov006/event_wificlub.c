@@ -196,8 +196,8 @@ void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int 
 void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work);
 int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work);
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
-void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects);
+void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
+int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
 int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
 extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021C37E8[];
 extern NetCommandEntry d_021F03C4[];
@@ -397,7 +397,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 1:
         if (!GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem))) {
             work->reserved10 = 0;
-            GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)work->fieldMap));
+            GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, work->fieldMap));
             ++*seq;
         }
         break;
@@ -422,7 +422,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 6:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent(event, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)work->fieldMap, 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent(event, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         ++*seq;
         break;
     case 7: return 1;
@@ -625,7 +625,7 @@ menu:
  */
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
 {
-    int battleSetup = (sptr)work->battleSetup;
+    struct BattleSetupParam *battleSetup = work->battleSetup;
     if (battleSetup != 0) {
         BTL_SETUP_Delete((struct BattleSetupParam *)battleSetup);
         work->battleSetup = 0;
@@ -641,7 +641,7 @@ void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
 
 
 
-void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hideFieldObjects)
+void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects)
 {
     WifiClubEventWork *work;
     WifiClubEventSession *session;
@@ -674,7 +674,7 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
 
 
 
-int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects)
+int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects)
 {
     sptr event;
 
@@ -687,5 +687,5 @@ int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects)
 /* Overlay entry point: unpacks the request pair and creates the event. */
 int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request)
 {
-    return EVENT_WIFICLUB_Create(gameSystem, request->a, request->b);
+    return EVENT_WIFICLUB_Create(gameSystem, (struct FieldMap *)request->a, request->b);
 }

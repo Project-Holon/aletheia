@@ -10,9 +10,9 @@ struct GameData;
 
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
 void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(struct GameData *object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase2(struct GameData *object, int unused);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused);
 void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused);
 void FIELD_MAP_CHANGE_Empty(struct GameData *system, u16 zoneId);

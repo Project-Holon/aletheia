@@ -137,7 +137,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p);
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b);
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *work);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p);
@@ -173,7 +173,7 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  GF_FONT_InitTextColor();
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
- CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(sptr)g,heap);
+ CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(struct DispVramCfg *)g,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
  *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(CHIHOU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;
@@ -237,7 +237,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p){}
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021BA1E4, (struct DispVramCfg *)a, b);
@@ -258,7 +258,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Draw(void *work) { CLACT_DrawSystem(); }
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
 
-unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue(unsigned *p){return *p;}
+unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue(unsigned *p){return (unsigned int)(*(void **)p);}
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32**p,u32 heap)
 {

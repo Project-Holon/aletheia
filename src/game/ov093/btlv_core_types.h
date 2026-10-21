@@ -200,7 +200,7 @@ struct BtlvCore {
     BtlvPlistWork plist;            /* 0x10C */
     BtlPickList *choiceFlags;       /* 0x15C */
     BtlvCounterCmd counterCmd;      /* 0x160 */
-    u32 *entry;                     /* 0x170 */
+    struct BtlPokeParam **entry;                    /* 0x170 */
     u8 subStep;                     /* 0x174 step of whichever menu sub-screen runs */
     u8 canBack;                     /* 0x175 */
     u8 reserved176[2];

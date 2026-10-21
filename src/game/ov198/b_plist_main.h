@@ -102,6 +102,9 @@ void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b);
 void B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v);
 void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx);
 void B_PLIST_MAIN_ShowCursor(u8 *p, unsigned idx);
+void B_PLIST_MAIN_HideCursor(u8 *p);
+void B_PLIST_MAIN_HideCursorOnTouch(u8 *p);
+void B_PLIST_MAIN_MoveCursor(u8 *p, u32 idx);
 /* END mkheaders: generated region */
 
 #endif

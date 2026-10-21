@@ -572,7 +572,7 @@ void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out);
 
 s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2);
 
-void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+void MYSTERY_UTIL_BlendPaletteRange(u32 a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 
 extern const char d_021DFBA0[];
 
@@ -1300,7 +1300,7 @@ static inline u16 blend(u16 c1,u16 c2,s16 factor) {
  */
 s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  *p=blend(c1,c2,(s16)((FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2));
- return NNS_GfdRegisterNewVramTransferTask((void *)a,bank*32+index*2,(uptr)p,2);
+ return NNS_GfdRegisterNewVramTransferTask(a,bank*32+index*2,p,2);
 }
 
 #pragma opt_loop_invariants off
@@ -1313,9 +1313,9 @@ s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u1
  * declaration (int i=0; for(;...)) sets the i/index birth order (r6/r4).
  * note pass 2 2026-10-06 P2L51: closed from 147/200 (h5 pragma form 7/200, i/index swap fixed by i=0 at declaration).
  */
-void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
+void MYSTERY_UTIL_BlendPaletteRange(u32 a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
  int i=0;
  int factor=(FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2;
  for(;i<16;i++) p[i]=blend(first[i],last[i],factor);
- NNS_GfdRegisterNewVramTransferTask(a,bank*32,(uptr)p,32);
+ NNS_GfdRegisterNewVramTransferTask(a,bank*32,p,32);
 }

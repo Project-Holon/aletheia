@@ -366,7 +366,7 @@ FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *m
 int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground);
 void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground);
 GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(FieldGroundAnime *ground, int index);
-int FIELD_GROUND_ANIME_BindAnm(u32 entry, u32 fileRes, u32 texRes, u32 renderObj);
+int FIELD_GROUND_ANIME_BindAnm(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texRes, struct NNSG3dRenderObj *renderObj);
 void FIELD_GROUND_ANIME_UnbindAnm(GroundAnmEntry *entry);
 void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId);
 void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set);
@@ -374,7 +374,7 @@ void FIELD_GROUND_ANIME_AnmSetUpdate(GroundAnmSet *set, u32 dt);
 GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index);
 void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dAnmFmtHeader *pResAnm, u16 heapId);
 int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry);
-u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj);
+u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texFile, struct NNSG3dRenderObj *renderObj);
 void FIELD_GROUND_ANIME_AnmEntryUnbind(GroundAnmEntry *entry);
 int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame);
 void FIELD_GROUND_ANIME_TexAnmSetInit(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId);
@@ -387,8 +387,8 @@ int FIELD_GROUND_ANIME_TexAnmIsActive(GroundTexAnm *anm);
 int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 animTexIdx);
 u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx);
 u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx);
-u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index);
-u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index);
+u32 *FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index);
+void *FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index);
 GroundTexKey FIELD_GROUND_ANIME_KeyTableGetKey(const GroundKeyTable *table, u32 group, u32 frame);
 u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(GroundKeyTable *table);
 u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table);
@@ -451,9 +451,9 @@ GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(FieldGroundAnime *ground, int ind
     return FIELD_GROUND_ANIME_AnmSetGetEntry(&ground->anmSet, index);
 }
 
-int FIELD_GROUND_ANIME_BindAnm(u32 entry, u32 fileRes, u32 texRes, u32 renderObj)
+int FIELD_GROUND_ANIME_BindAnm(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texRes, struct NNSG3dRenderObj *renderObj)
 {
-    return FIELD_GROUND_ANIME_AnmEntryBind((GroundAnmEntry *)entry, fileRes, texRes, renderObj);
+    return FIELD_GROUND_ANIME_AnmEntryBind(entry, fileRes, texRes, renderObj);
 }
 
 /*
@@ -548,17 +548,18 @@ static inline NNSG3dResMdl *ModelSetGetFirstModel(ModelSetRes *set)
 }
 
 /* Binds the entry's animation to a render object: init the animation object from model and texture, add it. */
-u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
+u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, struct G3dResource *fileRes, struct G3dResource *texFile, struct NNSG3dRenderObj *renderObj)
 {
     NNSG3dResMdl *pResMdl;
-    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
-    if (texRes != 0)
-        texRes = (uptr)G3D_SYSTEM_GetResourceTex((void *)texRes);
+    NNSG3dResTex *texRes;
+    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile(fileRes)));
+    if (texFile != 0)
+        texRes = G3D_SYSTEM_GetResourceTex(texFile);
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
-    NNS_G3dAnmObjInit(entry->anmObj, entry->pResAnm, pResMdl, (NNSG3dResTex *)texRes);
-    NNS_G3dRenderObjAddAnmObj((void *)renderObj, entry->anmObj);
+    NNS_G3dAnmObjInit(entry->anmObj, entry->pResAnm, pResMdl, texRes);
+    NNS_G3dRenderObjAddAnmObj(renderObj, entry->anmObj);
     entry->flags.word = (entry->flags.word & ~1) | 1;
     return entry->flags.word;
 }
@@ -695,7 +696,7 @@ void FIELD_GROUND_ANIME_TexAnmUpdate(GroundTexAnm *anm, s32 dt)
         } else if (anm->vramOffsets[group] != -1) {
             key = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, anm->times[group] >> 12);
             if (key.texIndex != anm->curKeys[group].texIndex || anm->needsFullUpload)
-                NNS_GfdRegisterNewVramTransferTask(0, anm->vramOffsets[group], (uptr)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
+                NNS_GfdRegisterNewVramTransferTask(0, anm->vramOffsets[group], FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
             anm->curKeys[group] = key;
         }
     }
@@ -783,15 +784,15 @@ u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
 }
 
 /* Key data of table entry index. */
-u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index)
+u32 *FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index)
 {
-    return (uptr)table + table->entries[index].keyDataOfs;
+    return (u32 *)((u8 *)table + table->entries[index].keyDataOfs);
 }
 
 /* Texture animation file of table entry index. */
-u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index)
+void *FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index)
 {
-    return (uptr)table + table->entries[index].animResOfs;
+    return (u8 *)table + table->entries[index].animResOfs;
 }
 
 /*
@@ -1376,7 +1377,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelForward(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (sptr)(&seId))) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }
@@ -1388,7 +1389,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelReverse(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (sptr)(&seId))) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }

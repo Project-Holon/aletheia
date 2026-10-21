@@ -72,7 +72,7 @@ typedef struct BAppToolEntry {
 
 /* The tool object allocated by B_APP_TOOL_Create (0x18 bytes). */
 typedef struct BAppTool {
-    int actors[4];      /* 0x00: CLACT actor handles */
+    struct ClactActor *actors[4];      /* 0x00: CLACT actor handles */
     u16 heapId;         /* 0x10: heap used for the tool and its actors */
     u16 pad12;          /* 0x12 */
     void *visible;      /* 0x14: last visibility value passed to SetActorsVisible */
@@ -97,7 +97,7 @@ struct PrintQueue;
 struct Bmp;
 u8 *B_APP_TOOL_Create(u16 heapId);
 void B_APP_TOOL_Delete(void *p);
-void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes);
+void B_APP_TOOL_CreateActors(char *p, struct Unit *owner, int charRes, int palRes, int cellRes);
 void B_APP_TOOL_DeleteActors(u8 *p);
 void B_APP_TOOL_SetActorsVisible(char *p, void *visible);
 void B_APP_TOOL_LayoutActors(int *p, u8 *q);
@@ -116,7 +116,7 @@ void B_APP_TOOL_Delete(void *p)
     GFL_HEAP_Free(p);
 }
 
-void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes)
+void B_APP_TOOL_CreateActors(char *p, struct Unit *owner, int charRes, int palRes, int cellRes)
 {
     BAppTool *tool = (BAppTool *)p;
     BAppToolActorPos pos;
@@ -124,9 +124,9 @@ void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int ce
     pos.x=0;pos.y=0;pos.mode=0;pos.space=1;
     for(i=0;i<4;i++) {
         pos.z=i;
-        tool->actors[i]=(sptr)CLACT_CreateActor((struct Unit *)owner,charRes,palRes,cellRes,(const struct ActorInitParam *)&pos,1,tool->heapId);
-        CLACT_SetActorPaletteOffset((struct ClactActor *)tool->actors[i],0,1);
-        CLACT_SetActorAutoAnim((struct ClactActor *)tool->actors[i],1);
+        tool->actors[i]=CLACT_CreateActor((struct Unit *)owner,charRes,palRes,cellRes,(const struct ActorInitParam *)&pos,1,tool->heapId);
+        CLACT_SetActorPaletteOffset(tool->actors[i],0,1);
+        CLACT_SetActorAutoAnim(tool->actors[i],1);
     }
 }
 
@@ -139,7 +139,7 @@ void B_APP_TOOL_DeleteActors(u8 *p)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        CLACT_DeleteActor((struct ClactActor *)tool->actors[i]);
+        CLACT_DeleteActor(tool->actors[i]);
     }
 }
 

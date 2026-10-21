@@ -471,7 +471,7 @@ int PSEL_Main(void *a,int *state,void *b,char *p)
         if(*state!=old) ((struct PselWork *)p)->subState=0;
     } else return 1;
     if(*state>=2&&*state<=11) {
-        PRINTSYS_QUE_Main((struct PrintQueue *)((struct PselWork *)p)->printQue);
+        PRINTSYS_QUE_Main(((struct PselWork *)p)->printQue);
         PSEL_UpdateTcbl((int *)p);
         PSEL_GRAPHIC_Draw(*(char * *)&((struct PselWork *)p)->graphicSys);
         PSEL_GRAPHIC_ApplyLight(((struct PselWork *)p)->graphicSys);
@@ -706,8 +706,8 @@ void PSEL_CreateUnits(char *p)
         MI_CpuFill8(&request,0,8);
         request.x=sPselMotion[j].b[0];request.y=sPselMotion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
-        ((struct PselUnit *)r)->actor=(uptr)CLACT_CreateActor((struct Unit *)((void *)PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->cgr,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->cellAnim,(const struct ActorInitParam *)&request,1,((struct PselWork *)p)->heapId);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)((struct PselUnit *)r)->actor),0);
+        ((struct PselUnit *)r)->actor=CLACT_CreateActor((struct Unit *)((void *)PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->cgr,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->cellAnim,(const struct ActorInitParam *)&request,1,((struct PselWork *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(((struct PselUnit *)r)->actor),0);
     }
     other=(uptr)ARC_TOOL_CreateHandle(205,((struct PselWork *)p)->heapId);
     for(i=0;i<3;i++) {
@@ -723,8 +723,8 @@ void PSEL_CreateUnits(char *p)
         desc.sx=FIX((float)sPselMotion[j].b[6]/16.0f);desc.sy=FIX((float)sPselMotion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
-        ((struct PselUnit *)r)->affineActor=(uptr)CLACT_CreateAffineActor((struct Unit *)(PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->charHandle,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->affineCellAnim,(const struct ActorInit *)((uptr)(&desc)),1,((struct PselWork *)p)->heapId);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)((struct PselUnit *)r)->affineActor),0);
+        ((struct PselUnit *)r)->affineActor=CLACT_CreateAffineActor((struct Unit *)(PSEL_GRAPHIC_GetClactBank((unsigned char *)(((struct PselWork *)p)->graphicSys))),((struct PselUnit *)r)->charHandle,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->affineCellAnim,(const struct ActorInit *)( &desc),1,((struct PselWork *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(((struct PselUnit *)r)->affineActor),0);
     }
     for(i=0;i<3;i++) {
         *(u16 *)(p+i*148+216)=0;
@@ -1230,7 +1230,7 @@ void PSEL_SetMode(char *p, int idx)
     if (*(u32 *)(p + 0x258) != 0)
         STRBUF_Delete((struct Strbuf *)(*(struct U16Vec **)(p + 0x258)));
     *(void **)(p + 0x258) = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x234), idx);
-    w = (u16)PRINTSYS_MeasureWidestLine((struct Strbuf *)(*(struct StrObj **)(p + 0x258)), (struct GfFont *)(*(unsigned *)(p + 0x18)), 0);
+    w = (u16)PRINTSYS_MeasureWidestLine((struct Strbuf *)(*(struct StrObj **)(p + 0x258)), *(struct GfFont **)(p + 0x18), 0);
     h = (u16)PRINTSYS_CountLines((struct Strbuf *)(*(struct StrObj **)(p + 0x258)), *(void **)(p + 0x18));
     W = BMP_GetWidth(BMP_WIN_GetBmp((struct BmpWin *)desc));
     H = BMP_GetHeight(BMP_WIN_GetBmp((struct BmpWin *)desc));
@@ -1238,8 +1238,8 @@ void PSEL_SetMode(char *p, int idx)
         x = ((int)(W - w)) / 2;
     if (H > h)
         y = ((int)(H - h)) / 2;
-    *(u32 *)(p + 0x250) = (u32)PRINTSYS_PrintStream((struct BmpWin *)((uptr)desc), x, y, (struct Strbuf *)(*(u32 *)(p + 0x258)), (struct GfFont *)(*(u32 *)(p + 0x18)), MSG_SPEED_GetWait(),
-                                         (struct Tcbl *)(*(u32 *)(p + 0x254)), (u32)2, *(u16 *)p, 0);
+    *(u32 *)(p + 0x250) = (u32)PRINTSYS_PrintStream((struct BmpWin *)((uptr)desc), x, y, *(struct Strbuf **)(p + 0x258), *(struct GfFont **)(p + 0x18), MSG_SPEED_GetWait(),
+                                         *(struct Tcbl **)(p + 0x254), (u32)2, *(u16 *)p, 0);
     BMP_WIN_TransferChars((struct BmpWin *)desc);
     BMP_WIN_MakeScreen((struct BmpWin *)desc);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)desc));
@@ -1249,10 +1249,10 @@ int PSEL_IsModeDone(char *a)
 {
     int r = 0;
 
-    switch (PRINTSYS_PrintStreamGetState((void *)(*(u32 *)&((struct PselWork *)a)->printStream))) {
+    switch (PRINTSYS_PrintStreamGetState(*(void **)&((struct PselWork *)a)->printStream)) {
     case 0:
         if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-            PRINTSYS_PrintStreamShortWait((struct TextPrinter *)(*(u32 *)&((struct PselWork *)a)->printStream), 0);
+            PRINTSYS_PrintStreamShortWait(*(struct TextPrinter **)&((struct PselWork *)a)->printStream, 0);
             if ((KEY_GetCont() & 3) != 0)
                 ((struct PselWork *)a)->fadeSpeed = 0;
             else
@@ -1261,7 +1261,7 @@ int PSEL_IsModeDone(char *a)
         break;
     case 1:
         if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
-            PRINTSYS_PrintStreamReleasePause((void *)(*(u32 *)&((struct PselWork *)a)->printStream));
+            PRINTSYS_PrintStreamReleasePause(*(void **)&((struct PselWork *)a)->printStream);
             if ((KEY_GetTrg() & 3) != 0)
                 ((struct PselWork *)a)->fadeSpeed = 0;
             else
@@ -1318,13 +1318,13 @@ void PSEL_PrintSubWindow(char *p, int idx)
     STRBUF_Delete((struct Strbuf *)text);
     WORDSET_Delete(words);
     BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)desc), 0);
-    PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, (struct GfFont *)(*(unsigned *)(p + 0x18)), 0);
+    PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, *(struct GfFont **)(p + 0x18), 0);
     height = PRINTSYS_CountLines((struct Strbuf *)buf, *(void **)(p + 0x18));
     BMP_GetWidth(BMP_WIN_GetBmp((struct BmpWin *)desc));
     h = BMP_GetHeight(BMP_WIN_GetBmp((struct BmpWin *)desc));
     if (h > height)
         x = ((int)h - height) / 2;
-    PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)desc), 0, (s16)x, (struct Strbuf *)buf, (struct GfFont *)(*(unsigned *)(p + 0x18)), 0x3C40);
+    PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)desc), 0, (s16)x, (struct Strbuf *)buf, *(struct GfFont **)(p + 0x18), 0x3C40);
     STRBUF_Delete((struct Strbuf *)buf);
     *flag = 0;
     PSEL_UpdateWindows(p);
@@ -1341,7 +1341,7 @@ void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear((s
 void PSEL_ClearWin2(char *p)
 {
     struct StrObj *text = (struct StrObj *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 12);
-    u16 width = PRINTSYS_MeasureWidestLine((struct Strbuf *)text, (struct GfFont *)(*(unsigned *)&((struct PselWork *)p)->font), 0);
+    u16 width = PRINTSYS_MeasureWidestLine((struct Strbuf *)text, *(struct GfFont **)&((struct PselWork *)p)->font, 0);
     u16 x = 0;
     u16 height = PRINTSYS_CountLines((struct Strbuf *)text, ((struct PselWork *)p)->font);
     unsigned w = BMP_GetWidth(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct PselWork *)p)->winMain)));
@@ -1352,7 +1352,7 @@ void PSEL_ClearWin2(char *p)
     if (h > height)
         y = ((int)h - height) / 2;
     PRINTSYS_PrintQueColor((void *)((struct PselWork *)p)->printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct PselWork *)p)->winMain)),
-                 (s16)x, (s16)y, (struct Strbuf *)text, (struct GfFont *)(*(unsigned *)&((struct PselWork *)p)->font), 0x3C40);
+                 (s16)x, (s16)y, (struct Strbuf *)text, *(struct GfFont **)&((struct PselWork *)p)->font, 0x3C40);
     STRBUF_Delete((struct Strbuf *)text);
     ((struct PselWork *)p)->winFlag = 0;
     PSEL_UpdateWindows(p);
@@ -1360,7 +1360,7 @@ void PSEL_ClearWin2(char *p)
 
 void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(p+off)))),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
 
-void PSEL_CreateTaskRes(char *p) {*(struct TaskMenuRes * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,(struct GFont *)(*(u32 *)&((struct PselWork *)p)->font),(struct PrintQueue *)(((struct PselWork *)p)->printQue),((struct PselWork *)p)->heapId);}
+void PSEL_CreateTaskRes(char *p) {*(struct TaskMenuRes * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,*(struct GFont **)&((struct PselWork *)p)->font,(struct PrintQueue *)(((struct PselWork *)p)->printQue),((struct PselWork *)p)->heapId);}
 
 void PSEL_DeleteTaskResData(int *p)
 {
@@ -1377,7 +1377,7 @@ void PSEL_ShowTaskRes(char *p)
     item.text = MSGDATA_AllocString(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 21);
     item.color = 0x39E3;
     item.value = 0;
-    *(unsigned *)&((struct PselWork *)p)->win = (uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct PselWork *)p)->taskRes), (struct TaskMenuItem *)&item, 9, 21, 14, ((struct PselWork *)p)->heapId);
+    *(unsigned *)&((struct PselWork *)p)->win = (uptr)APP_TASKMENU_WIN_Create(*(struct TaskMenuRes **)&((struct PselWork *)p)->taskRes, (struct TaskMenuItem *)&item, 9, 21, 14, ((struct PselWork *)p)->heapId);
     STRBUF_Delete(item.text);
 }
 

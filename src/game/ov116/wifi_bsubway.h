@@ -28,7 +28,7 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *status, void *saveControl, int msgId);
 int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId);
 void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async);
 int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *status,unsigned char *async);
-void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *trainer);
+void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, const struct MyStatus *trainer);
 void WIFI_BSUBWAY_OnHttpError(unsigned char *status);
 void WIFI_BSUBWAY_StartHttpRequest(u8 *status, u8 *async, u8 *unusedA, int heapId);
 int WIFI_BSUBWAY_PollHttpRequest(u8 *status, u8 *async, int quiet);

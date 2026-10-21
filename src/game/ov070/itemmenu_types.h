@@ -98,7 +98,7 @@ typedef struct ItemMenuWork {
     /* 0x524 */ struct Strbuf *tempString;
     /* 0x528 */ struct Strbuf *messageString;
     /* 0x52C */ struct Strbuf *listStrings;
-    /* 0x530 */ unsigned int menuTaskArg;
+    /* 0x530 */ struct GfFont *menuTaskArg;
     /* 0x534 */ unsigned char reserved534[0x10];
     /* 0x544 */ unsigned short heapId;
     /* 0x546 */ unsigned char reserved546[0x2];

@@ -24,7 +24,7 @@ void ENCEFF_LoadOverlays4B4D(EncEffWork *eff);
 void ENCEFF_LoadOverlay4B(EncEffWork *eff);
 void ENCEFF_UnloadOverlays(EncEffWork *eff);
 void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId);
-void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
+void ENCEFF_SelectEffectAndBgmForTrainer(int trainerId, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
 /* END mkheaders: generated region */
 
 #endif

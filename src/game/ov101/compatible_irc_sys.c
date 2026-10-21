@@ -87,7 +87,7 @@ struct PokemonParam;
 #include "../arm9/gf_standard.h"
 #include "../arm9/math.h"
 #include "../arm9/config.h"
-void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
+void *COMPATIBLE_IRC_SYS_Create(int context,void *playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *sys);
 int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
@@ -101,15 +101,15 @@ void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
 int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
-int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data);
-u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g);
+int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,const void *data);
+u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,const void *data,u8 target,u32 e,u32 f,u32 g);
 void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,NetCommandEntry *b,u32 c,void *d);
 void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys,u32 a);
 int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys,u32 a,u32 b);
 int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_SendProfileAck(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys);
-int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,int resource);
+int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,void *resource);
 void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index);
@@ -128,19 +128,19 @@ int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int
 int COMPATIBLE_IRC_SYS_ProfileSyncPollRequest(IrcProfileSync *sync);
 int COMPATIBLE_IRC_SYS_ProfileSyncSendAck(IrcProfileSync *sync);
 int COMPATIBLE_IRC_SYS_ProfileSyncPollAck(IrcProfileSync *sync);
-int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,int resource);
+int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,void *resource);
 void COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(IrcProfileSync *sync,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 aid,int size,void *data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvAckHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
-void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfileSync *work, u32 handle);
+void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, u8 *data, IrcProfileSync *work, void *handle);
 u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
 extern const char gCompatibleIrcSysFileName[];
 extern const NetSessionParam gCompatibleIrcSessionParam;
 extern NetCommandEntry gCompatibleIrcProfileCommands[];
 extern char gCompatibleIrcRecvBuffer[];
 
-void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline) {
+void *COMPATIBLE_IRC_SYS_Create(int context,void *playerRecords,int heapId,int offline) {
  IrcSys *sys;
  sys=GFL_HEAP_Alloc(heapId,0x8c,0,gCompatibleIrcSysFileName,0x113);
  MI_CpuFill8((void *)sys,0,0x8c);
@@ -148,7 +148,7 @@ void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int off
  sys->heapId=heapId;
  sys->sessionReady=0;
  sys->offline=offline;
- sys->playerRecords=(void *)playerRecords;
+ sys->playerRecords=playerRecords;
  return sys;
 }
 
@@ -241,11 +241,11 @@ int COMPATIBLE_IRC_SYS_StepSyncTiming(IrcSys *sys)
     if(sys->offline) return 1;
     switch(sys->step) {
     case 0:
-        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         sys->step=1;
         break;
     case 1:
-        if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) sys->step=2;
+        if(GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),14,13)) sys->step=2;
         break;
     case 2:
         sys->step=0;
@@ -263,7 +263,7 @@ int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value)
     switch(sys->step) {
     case 0:
         sys->valueAckReceived=0;
-        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD00,4,(uptr)(&value))) sys->step=1;
+        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD00,4,&value)) sys->step=1;
         break;
     case 1:
         if(GFL_NET_IsParentAid()) {
@@ -272,7 +272,7 @@ int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value)
         } else sys->step=3;
         break;
     case 2:
-        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD01,4,(uptr)(&value))) sys->step=4;
+        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD01,4,&value)) sys->step=4;
         break;
     case 3:
         if(sys->valueAckReceived) sys->step=4;
@@ -312,7 +312,7 @@ int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys)
     id=GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle());
     other=(id == 0);
     if(GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,id) == 0) {
-        return COMPATIBLE_IRC_SYS_SendData(sys,0xD02,4,(uptr)&sys->ownValue,other,0,0,1);
+        return COMPATIBLE_IRC_SYS_SendData(sys,0xD02,4,&sys->ownValue,other,0,0,1);
     } else {
         return 0;
     }
@@ -324,14 +324,14 @@ int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys) { if(sys->offline) return
  * note: trailing two zero alignment bytes. Extern b/c widened because
  *       caller forwards full words without callee's u16 truncation pairs.
  */
-int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data) {
+int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,const void *data) {
     if(sys->offline!=0) return 1;
-    return GFL_NET_SendToHandle((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),commandId,size,(void *)data);
+    return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),commandId,size,data);
 }
 
-u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g) {
+u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,const void *data,u8 target,u32 e,u32 f,u32 g) {
     if(sys->offline!=0) return 1;
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),target,commandId,size,(void *)data,e,f,g);
+    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),target,commandId,size,data,e,f,g);
 }
 
 /*
@@ -362,7 +362,7 @@ int COMPATIBLE_IRC_SYS_SendProfileAck(IrcSys *sys) {
 
 int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys) { if(sys->offline) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncPollAck(&sys->profileSync); }
 
-int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,int resource) { if(sys->offline) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncStepSend(&sys->profileSync,resource); }
+int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,void *resource) { if(sys->offline) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncStepSend(&sys->profileSync,resource); }
 
 void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out) { if(!sys->offline) COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(&sys->profileSync,out); }
 
@@ -438,20 +438,20 @@ void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int h
 
 void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->sys,0x1000); GFL_HEAP_Free(sync->sendProfile); GFL_HEAP_Free(sync->selfProfile); GFL_HEAP_Free(sync->partnerProfile); MI_CpuFill8(sync, 0, 0x34); }
 
-int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second) { sync->ownRequest[1]=first; sync->ownRequest[0]=second; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1000,8,(uptr)sync->ownRequest)!=0; }
+int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second) { sync->ownRequest[1]=first; sync->ownRequest[0]=second; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1000,8,sync->ownRequest)!=0; }
 
 int COMPATIBLE_IRC_SYS_ProfileSyncPollRequest(IrcProfileSync *sync) { if(sync->requestReceived==1) { sync->requestReceived=0; return 1; } return 0; }
 
-int COMPATIBLE_IRC_SYS_ProfileSyncSendAck(IrcProfileSync *sync) { int value; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1001,4,(uptr)(&value))!=0; }
+int COMPATIBLE_IRC_SYS_ProfileSyncSendAck(IrcProfileSync *sync) { int value; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1001,4,&value)!=0; }
 
 int COMPATIBLE_IRC_SYS_ProfileSyncPollAck(IrcProfileSync *sync) { if(sync->ackReceived==1) { sync->ackReceived=0; return 1; } return 0; }
 
-int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,int resource)
+int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,void *resource)
 {
     switch(sync->state) {
     case 0:
-        if(resource) COMPATIBLE_IRC_SYS_BuildProfile((void *)resource, sync->sendProfile); else return 1;
-        if(COMPATIBLE_IRC_SYS_SendData(sync->sys,0x1003,44,(uptr)sync->sendProfile,255,0,0,1)) sync->state=1;
+        if(resource) COMPATIBLE_IRC_SYS_BuildProfile(resource, sync->sendProfile); else return 1;
+        if(COMPATIBLE_IRC_SYS_SendData(sync->sys,0x1003,44,sync->sendProfile,255,0,0,1)) sync->state=1;
         break;
     case 1:
         if(sync->profileReceived) { sync->profileReceived=0; sync->state=0; return 1; }
@@ -474,14 +474,14 @@ void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync
  if(handle==GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) work->doneReceived=1; }
 }
 
-void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfileSync *work, u32 handle)
+void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, u8 *data, IrcProfileSync *work, void *handle)
 {
     void *record;
-    if (*(int *)work->sys != 0) {
-        record = GAME_DATA_GetMyStatusPlayer((void *)*(int *)work->sys, aid);
-        MI_CpuCopy8((void *)(data + 12), record, MYSTATUS_GetSize());
+    if (work->sys->playerRecords != 0) {
+        record = GAME_DATA_GetMyStatusPlayer(work->sys->playerRecords, aid);
+        MI_CpuCopy8(data + 12, record, MYSTATUS_GetSize());
     }
-    if (handle == (uptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (aid != GFL_NET_SYSTEM_GetCurrentAid())
             work->profileReceived = 1;
     }

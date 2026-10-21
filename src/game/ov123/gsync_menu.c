@@ -1122,7 +1122,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
     work->palBufSub = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
-    work->keyCursor = (uptr)APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
+    work->keyCursor = APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
     G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 1, 15, 4);

@@ -49,7 +49,7 @@ struct Demo3dEngineCtx {
     u32 animeOn;        /* 0x10 also selects clip-plane update */
     u32 step;           /* 0x14 frame step */
     struct IcaAnime *anime; /* 0x18 animation stream */
-    u32 table;          /* 0x1C G3D_UTIL handle */
+    struct G3dUtil *table;          /* 0x1C G3D_UTIL handle */
     void *light;        /* 0x20 G3D camera */
     u32 nearClip;       /* 0x24 */
     u32 farClip;        /* 0x28 */

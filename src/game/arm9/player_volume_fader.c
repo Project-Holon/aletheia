@@ -37,7 +37,7 @@ struct Fader {
 
 #include "nns_snd_player.h"
 
-struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
+struct Fader *PLAYER_VOLUME_FADER_Create(u32 heapId, int v);
 
 void PLAYER_VOLUME_FADER_Delete(void *ptr);
 
@@ -74,9 +74,9 @@ extern const char player_volume_fader_File[];
  * disagree (declaration order picks the registers, initialisation order picks
  * the load order).
  */
-struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v)
+struct Fader *PLAYER_VOLUME_FADER_Create(u32 heapId, int v)
 {
-    struct Fader *p = GFL_HEAP_Alloc((uptr)a, sizeof(struct Fader), 0,
+    struct Fader *p = GFL_HEAP_Alloc(heapId, sizeof(struct Fader), 0,
                                     player_volume_fader_File, 0x42);
     PLAYER_VOLUME_FADER_Init(p);
     p->channel = v;

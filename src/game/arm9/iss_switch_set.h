@@ -8,34 +8,34 @@ struct IssSwitchSet;
 
 #include "../types.h"
 
-u32 ISS_SWITCH_SET_Create(void *heapId);
-void ISS_SWITCH_SET_Delete(void *set);
-u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId);
-u32 ISS_SWITCH_SET_Main(void *set);
-u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx);
-u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx);
-void ISS_SWITCH_SET_ResetSwitch(void *set);
-u32 ISS_SWITCH_SET_GetBgmNo(void *set);
-u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId);
-u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx);
-void ISS_SWITCH_SET_UpdateVolume(void *set);
+struct IssSwitchSet *ISS_SWITCH_SET_Create(u32 heapId);
+void ISS_SWITCH_SET_Delete(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_Load(struct IssSwitchSet *set, u32 datId, u32 heapId);
+u32 ISS_SWITCH_SET_Main(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_SwitchOn(struct IssSwitchSet *set, u32 switchIdx);
+u32 ISS_SWITCH_SET_SwitchOff(struct IssSwitchSet *set, u32 switchIdx);
+void ISS_SWITCH_SET_ResetSwitch(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_GetBgmNo(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_IsValidZone(struct IssSwitchSet *set, u32 zoneId);
+u32 ISS_SWITCH_SET_IsSwitchOn(struct IssSwitchSet *set, u32 switchIdx);
+void ISS_SWITCH_SET_UpdateVolume(struct IssSwitchSet *set);
 void ISS_SWITCH_SET_Init(struct IssSwitchSet *set);
-void *ISS_SWITCH_SET_Alloc(void *heapId);
-u32 ISS_SWITCH_SET_Free(void *set);
-void ISS_SWITCH_SET_CreateSwitches(char *p, int heapId);
+void *ISS_SWITCH_SET_Alloc(u32 heapId);
+u32 ISS_SWITCH_SET_Free(struct IssSwitchSet *set);
+void ISS_SWITCH_SET_CreateSwitches(struct IssSwitchSet *set, int heapId);
 void ISS_SWITCH_SET_DeleteSwitches(struct IssSwitchSet *set);
-u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId);
-u32 ISS_SWITCH_SET_UpdateSwitches(void *set);
-u32 ISS_SWITCH_SET_StartSwitchOn(void *set, u32 switchIdx);
-u32 ISS_SWITCH_SET_StartSwitchOff(void *set, u32 switchIdx);
-void ISS_SWITCH_SET_ResetSwitches(void *set);
-u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set);
+u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, u32 datId);
+u32 ISS_SWITCH_SET_UpdateSwitches(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_StartSwitchOn(struct IssSwitchSet *set, u32 switchIdx);
+u32 ISS_SWITCH_SET_StartSwitchOff(struct IssSwitchSet *set, u32 switchIdx);
+void ISS_SWITCH_SET_ResetSwitches(struct IssSwitchSet *set);
+u32 ISS_SWITCH_SET_ReadBgmNo(struct IssSwitchSet *set);
 u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
 u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx);
-u32 ISS_SWITCH_SET_CheckZone(void *set, u32 zoneId);
-u32 ISS_SWITCH_SET_CheckSwitchOn(void *set, u32 switchIdx);
-u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
-void ISS_SWITCH_SET_ApplySwitchVolumes(void *set);
+u32 ISS_SWITCH_SET_CheckZone(struct IssSwitchSet *set, u32 zoneId);
+u32 ISS_SWITCH_SET_CheckSwitchOn(struct IssSwitchSet *set, u32 switchIdx);
+struct IssSwitch *ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
+void ISS_SWITCH_SET_ApplySwitchVolumes(struct IssSwitchSet *set);
 /* END mkheaders: generated region */
 
 #endif

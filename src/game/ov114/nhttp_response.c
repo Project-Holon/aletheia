@@ -87,7 +87,7 @@ int NHTTPi_getHeaderValue(const NHTTPRes *res_p, char *label_p, int *pos_p)
     int return_code_size;
 
     return_code_size = 0;
-    linetop = NHTTPi_findNextLineHdrRecvBuf(res_p, 12, res_p->headerLen, &labelend, &return_code_size);
+    linetop = NHTTPi_findNextLineHdrRecvBuf(res_p, (int)((void *)12), res_p->headerLen, &labelend, &return_code_size);
     while (linetop > 0) {
         valueend = 0;
         nextlinetop = NHTTPi_findNextLineHdrRecvBuf(res_p, linetop, res_p->headerLen, &labelend, &return_code_size);
@@ -128,7 +128,7 @@ int NHTTP_GetResponseHeaderField(NHTTPRes *res_p, char *label_p, char **value_pp
         NHTTPi_free(res_p->foundHeader_p);
         res_p->foundHeader_p = 0;
     }
-    size = NHTTPi_getHeaderValue(res_p, label_p, &pos);
+    size = NHTTPi_getHeaderValue(res_p, label_p, (int *)&pos);
     if (size >= 0) {
         res_p->foundHeader_p = NHTTPi_alloc(size + 1, 4);
         if (res_p->foundHeader_p == 0) {
@@ -140,13 +140,13 @@ int NHTTP_GetResponseHeaderField(NHTTPRes *res_p, char *label_p, char **value_pp
         return size;
     }
     if (NHTTPi_strcmp(sNHTTPStatusCodeLabel, label_p) == 0) {
-        res_p->foundHeader_p = NHTTPi_alloc(4, 4);
+        res_p->foundHeader_p = NHTTPi_alloc((long unsigned int)((void *)4), 4);
         if (res_p->foundHeader_p == 0) {
             return -1;
         }
         res_p->foundHeader_p[3] = 0;
-        size = 3;
-        NHTTPi_loadFromHdrRecvBuf(res_p, res_p->foundHeader_p, 9, size);
+        size = (int)((void *)3);
+        NHTTPi_loadFromHdrRecvBuf(res_p, res_p->foundHeader_p, (int)((void *)9), size);
         *value_pp = res_p->foundHeader_p;
         return size;
     }

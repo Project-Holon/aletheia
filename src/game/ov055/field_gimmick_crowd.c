@@ -240,7 +240,7 @@ u32 CROWD_GetWalkCmdBase(const CrowdConfig *config);
 void CROWD_InitSolidPerson(CrowdPerson *person);
 void CROWD_InitPlayerAwarePerson(CrowdPerson *person);
 void CROWD_UpdateSolidPerson(CrowdPerson *person, MmdlSys *mmdlSys);
-void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 player);
+void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
 int CROWD_FindBlockingMmdl(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist);
 int CROWD_IsMmdlInFront(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist);
 int CROWD_IsTileInFront(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir);
@@ -693,10 +693,11 @@ void CROWD_UpdateSolidPerson(CrowdPerson *person, MmdlSys *mmdlSys)
  * blocker search, as in the original; as a pointer the call gets a u16
  * truncation the original does not have.
  */
-void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 player)
+void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player)
 {
     Mmdl *blocker;
     Mmdl *playerMmdl;
+    u32 maxDist;
     switch (person->state) {
     case CROWD_STATE_WAIT_STEP:
         if (FLDMMDL_CheckEndAcmd(person->mmdl) == 0) {
@@ -708,13 +709,13 @@ void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 pl
             person->state = CROWD_STATE_LEAVE;
             return;
         }
-        playerMmdl = FIELD_PLAYER_GetMmdl((struct FieldPlayer *)player);
-        player = 1;
+        playerMmdl = FIELD_PLAYER_GetMmdl(player);
+        maxDist = 1;
         if (CROWD_IsMmdlInFront(person, playerMmdl, 1, 1)) {
             FLDMMDL_SetEventId(person->mmdl, person->eventId);
             return;
         }
-        if (CROWD_FindBlockingMmdl(person, mmdlSys, &blocker, player, 0)) {
+        if (CROWD_FindBlockingMmdl(person, mmdlSys, &blocker, maxDist, 0)) {
             CROWD_SidestepPerson(person, blocker);
             FLDMMDL_SetEventId(person->mmdl, CROWD_EVENT_NONE);
             CROWD_MakePersonSolid(person);

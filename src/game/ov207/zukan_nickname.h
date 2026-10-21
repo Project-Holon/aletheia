@@ -10,7 +10,7 @@ typedef struct ZukanNicknameWork ZukanNicknameWork;
 
 #include "../types.h"
 
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,struct GfFont *f,u32 g,void *h);
+char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h);
 void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p);

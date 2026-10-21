@@ -13,7 +13,7 @@ struct WordSet;
 
 int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table);
 int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
-void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList);
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfoTable *table);
 int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
 int GAME_BEACON_ACCESSOR_TableGetRingIndex(const GameBeaconInfoTable *table, int offset);
 int GAME_BEACON_ACCESSOR_TableRingAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew);

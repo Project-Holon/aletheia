@@ -192,7 +192,7 @@ int GSYNC_MESSAGE_UpdateStream(GsyncMessageWork *work);
 
 void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work);
 
-int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout);
+struct TaskMenuWork *GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout);
 
 int GSYNC_MESSAGE_PrintId(GsyncMessageWork *work, int msgId);
 
@@ -349,10 +349,10 @@ void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work)
     }
 }
 
-int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
+struct TaskMenuWork *GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
 {
     TaskMenuInitWork tmpl;
-    int result;
+    struct TaskMenuWork *result;
     tmpl.heapId = work->heap;
     tmpl.itemNum = 2;
     tmpl.itemWork = work->menuItems;
@@ -368,7 +368,7 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
     work->menuItems[1].str = STRBUF_Create(100, work->heap);
     MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].str);
     work->menuItems[1].msgColor = 0x39e0;
-    result = (sptr)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
+    result = APP_TASKMENU_OpenMenu( &tmpl, work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].str);
     STRBUF_Delete(work->menuItems[1].str);
     G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 9, -8);

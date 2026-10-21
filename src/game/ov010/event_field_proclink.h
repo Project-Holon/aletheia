@@ -78,12 +78,12 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void 
 GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source);
 void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId);
 void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work);
-ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle);
+ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, void *handle);
 int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work);
 int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
-int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
-int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle);
+void *EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(void *handle);
 GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
 int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work);
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);

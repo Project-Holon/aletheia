@@ -81,7 +81,7 @@ typedef struct BtlvEffVmWork {
     int defenderPos; /* 0x0E0: battler position of the target, 0xFF = none */
     int savedAttackerPos[16]; /* 0x0E4: call stack of attackerPos, indexed by callDepth */
     int savedDefenderPos[16]; /* 0x124: call stack of defenderPos */
-    int savedScriptBuf[16]; /* 0x164: call stack of scriptBuf (as int) */
+    void *savedScriptBuf[16]; /* 0x164: call stack of scriptBuf (as pointers) */
     int savedScriptVar[16]; /* 0x1A4: call stack of scriptVar */
     int waitFrames; /* 0x1E4: frame countdown of the wait command */
     void *scriptBuf; /* 0x1E8: loaded script file */

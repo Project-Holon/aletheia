@@ -47,9 +47,9 @@ typedef struct ScriptWork {
     u32 trainerParam;                /* 0x40 */
     ScriptTrainerEntry trainers[2];  /* 0x44 */
     u16 localWorks[96];              /* 0x7C: work ids 0x8000.. */
-    u32 returnScriptId;              /* 0x13C */
-    u32 returnParam;                 /* 0x140 */
-    u32 returnFlag;                  /* 0x144 */
+    void *returnScriptId;            /* 0x13C: effect handle of the report-save animation */
+    void *returnParam;               /* 0x140 */
+    void *returnFlag;                /* 0x144 */
     void *cmdWork;                   /* 0x148 */
 } ScriptWork;
 

@@ -365,19 +365,19 @@ void WIFIBATTLEMATCH_VIEW_UpdateAnimation(WifiBattleMatchViewAnimState *p);
 
 void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1);
 
-void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
+void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, struct GfFont *str, u32 c2, u32 c1, u16 heap);
 
-WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 headerMsgId, void *myStatus, void *owner, void *table, int font, void *printQue, void *msgData, void *wordSet, u16 heap);
+WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 headerMsgId, void *myStatus, void *owner, void *table, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(void *p);
 
-char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
+char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, struct GfFont *c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p);
 
-void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 unused);
+void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, struct GfFont *font, u16 unused);
 
-char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
+char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, struct GfFont *b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeleteDateWindow(void *p);
 
@@ -389,11 +389,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(WifibattlematchViewWork *w);
 
 int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(WifibattlematchViewWork *w);
 
-void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h);
+void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h);
 
-void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, u16 heap);
+void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
-void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, int font, void *printQue, void *msgData, void *wordSet, u16 heap);
+void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap);
 
 int WIFIBATTLEMATCH_VIEW_UpdateWindow(unsigned char *p, void *mgr);
 
@@ -423,7 +423,7 @@ int WIFIBATTLEMATCH_VIEW_UpdateRecordWindow(void *p, void *mgr);
 
 int WIFIBATTLEMATCH_VIEW_StepRecordWindow(WifiBattleMatchViewRecordWork *p);
 
-void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, const WifiBattleMatchViewRecord *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap);
+void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, const WifiBattleMatchViewRecord *data, struct GfFont *font, void *print, void *msg, void *fmt, int alt, u16 heap);
 
 int WIFIBATTLEMATCH_VIEW_UpdateRecordWindowInner(unsigned char *p, void *mgr);
 
@@ -447,7 +447,7 @@ void WIFIBATTLEMATCH_VIEW_Noop(int p);
 
 void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **p, int on);
 
-WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, void *table, unsigned font, void *print, void *msg, u16 heap);
+WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, void *table, struct GfFont *font, void *print, void *msg, u16 heap);
 
 void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *p);
 
@@ -635,13 +635,13 @@ void WIFIBATTLEMATCH_VIEW_BlendColors(uptr slot, u16 *out, const u16 *phase, u32
     r = (u8)(r0 + (((r1 - r0) * f) >> 12));
     g = (u8)(g0 + (((g1 - g0) * f) >> 12));
     *out = (u16)((bl << 10) | (r | (g << 5)));
-    NNS_GfdRegisterNewVramTransferTask((void *)slot, a * 32 + b * 2, (uptr)out, 2);
+    NNS_GfdRegisterNewVramTransferTask((u32)((void *)slot), a * 32 + b * 2, out, 2);
 }
 
 /*
  * note 2026-10-05 (final push G6L3): EXACT*. The three running x values are separate locals (x, x1 = x - w, x2 = x1 - w, third draw x2 - w), not one x updated in place; the separate values give each its own live range and the original colours (str r4, p r5, heap-base temp and buf r6, x r7). Earlier notes (all pragmas, declaration orders, inline helpers, u8/u16 widths) did not move the colours.
  */
-void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
+void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, struct GfFont *str, u32 c2, u32 c1, u16 heap)
 {
     struct MsgBank *msg;
     struct WordSet *ws;
@@ -687,7 +687,7 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
  * note 2026-10-05 (recoup R4): EXACT. Lever: heap parameter u16 with u16 heap parameters on every callee (02030734 first, 021E6718 last, 021E72FC fourth, 021E7464 fifth), no heapId local. u8 also gives EXACT; u16 chosen to match the sibling constructors 5D68/6118/7520. The earlier u16-only try changed only this function and gave 264 B.
  */
 WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleMatchViewMainInfo *info, u32 headerMsgId, void *myStatus, void *owner,
-                    void *table, int font, void *printQue, void *msgData, void *wordSet, u16 heap)
+                    void *table, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     WifibattlematchViewWork *w;
     u32 kind;
@@ -728,7 +728,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteMainWindow(void *p)
     GFL_HEAP_Free(p);
 }
 
-char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap)
+char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, struct GfFont *c, void *d, void *e, void *f, void *record, int mode, u16 heap)
 {
   char *w;
   Layer layer;
@@ -805,7 +805,7 @@ void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p)
  * --lang c: the output bytes do not change. Older text in this header that
  * asks for the double assignment is superseded.
  */
-void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 unused)
+void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, struct GfFont *font, u16 unused)
 {
     int i;
     void *s;
@@ -885,7 +885,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
     STRBUF_Delete(s);
 }
 
-char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap)
+char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, struct GfFont *b, void *c, void *d, void *e, void *record, int mode, u16 heap)
 {
   char *w;
   Layer layer;
@@ -1113,7 +1113,7 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(WifibattlematchViewWork *w)
     return ret;
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h)
+void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned headerMsgId, const WifiBattleMatchViewMainInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, int highlight, u16 h)
 {
     unsigned i;
     void *s1, *s2;
@@ -1203,7 +1203,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
     STRBUF_Delete(s2);
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, u32 font, void *printQue, void *msgData, void *wordSet, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned drawTotal, const WifiBattleMatchViewStatusInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     unsigned i;
     void *s1, *s2;
@@ -1287,7 +1287,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
     STRBUF_Delete(s2);
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, int font, void *printQue, void *msgData, void *wordSet, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const WifiBattleMatchViewTimeInfo *info, void *myStatus, struct GfFont *font, void *printQue, void *msgData, void *wordSet, u16 heap)
 {
     unsigned i;
     void *s1, *s2;
@@ -1575,7 +1575,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     alt = 0;
     if (mode - 2 <= 1)
         alt = kind == 5;
-    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (uptr)font, printQue, msgData, wordSet, alt, heap);
+    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, font, printQue, msgData, wordSet, alt, heap);
     WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetTrainerView((const struct MyStatus *)rec), clunit, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
@@ -1679,7 +1679,7 @@ int WIFIBATTLEMATCH_VIEW_StepRecordWindow(WifiBattleMatchViewRecordWork *p)
     return done;
 }
 
-void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, const WifiBattleMatchViewRecord *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, const WifiBattleMatchViewRecord *data, struct GfFont *font, void *print, void *msg, void *fmt, int alt, u16 heap)
 {
     void *str;
     void *buf;
@@ -1904,8 +1904,8 @@ void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, u16 heap)
 
 void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p)
 {
-    CLACT_DeleteActor((struct ClactActor *)(*(int *)((char *)p + 4)));
-    CLACT_DeleteActor((struct ClactActor *)(*(int *)p));
+    CLACT_DeleteActor(*(struct ClactActor **)((char *)p + 4));
+    CLACT_DeleteActor(*(struct ClactActor **)p);
     GFL_HEAP_Free(p);
 }
 
@@ -1939,7 +1939,7 @@ static inline unsigned HeapTemp(unsigned heap)
  * compiler CSEs into a temporary slot below the loop pointers. One shared
  * expression or one shared local CSEs both blocks together.
  */
-WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, void *table, unsigned font, void *print, void *msg, u16 heap)
+WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, void *table, struct GfFont *font, void *print, void *msg, u16 heap)
 {
     WifiBattleMatchViewPartyWork *work;
     void *party;

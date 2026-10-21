@@ -161,14 +161,14 @@ void ERROR_SCREEN_LoadBackground(void)
     MIi_CpuClear32(0, G2_GetBG1CharPtr(), 0x4000);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
-    if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData))) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)&charData)) {
         DC_FlushRange(charData->pRawData, charData->szByte);
         CopyToVram(charData->pRawData, G2_GetBG1CharPtr(), charData->szByte);
     }
     GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
-    if (NNS_G2dGetUnpackedScreenData(file, (void **)(&screenData))) {
+    if (NNS_G2dGetUnpackedScreenData(file, (void **)&screenData)) {
         DC_FlushRange(screenData->rawData, screenData->szByte);
         CopyToVram(screenData->rawData, G2_GetBG1ScrPtr(), screenData->szByte);
     }
@@ -176,7 +176,7 @@ void ERROR_SCREEN_LoadBackground(void)
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &unusedBlock);
-    if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&paletteData))) {
+    if (NNS_G2dGetUnpackedPaletteData(file, (void **)&paletteData)) {
         DC_FlushRange(paletteData->pRawData, 0x20);
         CopyToVram(paletteData->pRawData, (void *)PLTT_MAIN_BG, 0x20);
     }

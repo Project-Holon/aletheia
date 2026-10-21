@@ -54,7 +54,7 @@ struct DailyLayoutWork;
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 struct GameEvent;
 
-extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
+#include "../ov010/script_sys.h"
 
 extern char gPleasureBoatFileName;
 

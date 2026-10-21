@@ -301,7 +301,7 @@ int SAVE_SCREEN_Main(void *unused,SaveScreenState *state,SaveScreenContext *cont
         {
             GFL_USE_PlaySeDefaultVolume(0x54c);SAVE_SCREEN_PrintEntry(p,3,0,0);
             obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
-            p->resumeState=4;*state=13;GAME_DATA_SaveStart((struct GameData *)(*(int *)&p->ctx));
+            p->resumeState=4;*state=13;GAME_DATA_SaveStart(*(struct GameData **)&p->ctx);
         }
         break;
     case 4:
@@ -309,7 +309,7 @@ int SAVE_SCREEN_Main(void *unused,SaveScreenState *state,SaveScreenContext *cont
             if(context->mode==0){SAVE_SCREEN_SnapshotParty(p);SAVE_SCREEN_SetTrainerDate(p);}
             else {SAVE_SCREEN_SaveFieldClock(p);SAVE_SCREEN_SetTrainerFlag(p);SAVE_SCREEN_AppendPartyRecord(p);}
         }
-        p->timeIcon=TIME_ICON_CreateNode((struct TcblList *)(*(u32 *)&p->tcbl),p->bmpWin,15,16,p->heapId);
+        p->timeIcon=TIME_ICON_CreateNode(*(struct TcblList **)&p->tcbl,p->bmpWin,15,16,p->heapId);
         (*state)++;break;
     case 5:
         if(p->hasSave==0 && p->partSaveFlag!=0){

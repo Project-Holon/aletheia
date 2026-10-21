@@ -24,8 +24,8 @@ struct TcbTask;
 #include "../ov094/btlv_clact_shared_types.h"
 #include "../ov094/btlv_bg_types.h"
 
-BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap);
-BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, int param, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, void *param, u16 heap);
+BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, void *param, u16 heap);
 void BTLV_EFFECT_Init(BtlvEffSetup *setup, void *font, u16 heap);
 void BTLV_EFFECT_Exit(void);
 void BTLV_EFFECT_Main(void);
@@ -96,7 +96,7 @@ int BTLV_EFFECT_GetCompetitorType(void);
 int BTLV_EFFECT_IsMultiMode(void);
 unsigned short BTLV_EFFECT_GetTrainerType(int index);
 void *BTLV_EFFECT_GetBattleMain(void);
-int BTLV_EFFECT_GetSceneUnit(void);
+void *BTLV_EFFECT_GetSceneUnit(void);
 int BTLV_EFFECT_PollLowHpBgm(void);
 void BTLV_EFFECT_StopLowHpBgm(u32 bgmNo);
 void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 suppressed);

@@ -5,6 +5,7 @@
 /* Public functions of fld_wipe_3dobj.c, prototypes copied from their definitions. */
 
 struct ScrCmdWork;
+struct FieldMap;
 struct WipeMapChangeWork;
 typedef struct ScrCmdWork ScrCmdWork;
 typedef struct WipeMapChangeWork WipeMapChangeWork;
@@ -22,7 +23,7 @@ int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work);
 int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work);
 int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work);
 int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work);
-GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unused, int zoneId);
+GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct FieldMap *fieldMap, int zoneId);
 int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work);
 int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq);
 /* END mkheaders: generated region */

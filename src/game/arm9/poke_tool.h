@@ -11,6 +11,7 @@ struct PersonalData;
 struct PartyPokemon;
 
 #include "../types.h"
+#include "../arm9/poke_tool_shared_types.h"
 
 void POKE_TOOL_InitSystem(u32 heapId);
 u32 POKE_TOOL_GetBoxParamSize(void);
@@ -29,8 +30,8 @@ u32 POKE_TOOL_ChangeBoxSpecies(struct BoxPokemon *box, u32 newSpecies);
 u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 int POKE_TOOL_ChangeBoxForm(struct BoxPokemon *box, int newForm);
 u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
-void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 arg);
-u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32 arg);
+void POKE_TOOL_HatchEgg(struct PokemonParam *pp, PokeToolArg trainer, u32 location, u32 arg);
+u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, PokeToolArg trainer, u32 location, u32 arg);
 void POKE_TOOL_DeleteMoveSlot(struct PokemonParam *pp, u32 slot);
 void POKE_TOOL_UpdateAbilityForSpecies(struct BoxPokemon *box, int newSpecies, int oldSpecies);
 void POKE_TOOL_UpdateGenderForSpecies(struct BoxPokemon *box, u32 newSpecies, u32 oldSpecies);
@@ -38,10 +39,10 @@ u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
 u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode);
-u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value);
-u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
+u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg arg);
+void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, PokeToolArg value);
+void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg value);
+u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, PokeToolArg arg);
 u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 u32 POKE_TOOL_IsShinyOtIdPersonality(u32 otId, u32 personality);
@@ -100,10 +101,10 @@ u32 POKE_TOOL_DecodeCalcBlock(struct PokemonParam *pp);
 u32 POKE_TOOL_DecodeBoxBlock(struct BoxPokemon *box);
 void POKE_TOOL_EncodeCalcBlock(struct PokemonParam *pp);
 void POKE_TOOL_EncodeBoxBlock(struct BoxPokemon *box);
-u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 arg);
-u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg);
-void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 value);
-void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value);
+u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg arg);
+u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg arg);
+void POKE_TOOL_SetPartyValueRaw(struct PokemonParam *pp, u32 paramId, PokeToolArg value);
+void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg value);
 void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed);
 u16 POKE_CRYPTO_NextRandom(u32 *state);
 u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);

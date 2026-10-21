@@ -89,7 +89,7 @@ int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 		return -33;
 	}
 	command[4] = (sptr)con;
-	return SOCLi_ExecCommandPacketInRecvPipe((struct SOCLSocket *)socket, (struct SOCLiCommandPacket *)command);
+	return (int)SOCLi_ExecCommandPacketInRecvPipe((struct SOCLSocket *)socket, (struct SOCLiCommandPacket *)command);
 }
 
 

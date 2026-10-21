@@ -6,17 +6,18 @@
 
 struct GameSystem;
 struct PokeListEventWork;
+struct FieldMap;
 struct MoveSelectEventWork;
 typedef struct PokeListEventWork PokeListEventWork;
 typedef struct MoveSelectEventWork MoveSelectEventWork;
 
 #include "../types.h"
 
-void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u16 *retSlot);
+void *EVENT_POKE_STATUS_CreatePokeSelectEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot);
 void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot, int fieldIndex, unsigned short moveId);
-void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecided, int retSlot);
+void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot);
 int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
-int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int pos, int retDecided, int retMovePos, int mode, unsigned short newMove);
+void *EVENT_POKE_STATUS_CreateMoveSelectEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int pos, u16 *retDecided, u16 *retMovePos, int mode, unsigned short newMove);
 int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work);
 /* END mkheaders: generated region */
 

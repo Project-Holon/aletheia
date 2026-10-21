@@ -299,7 +299,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldM
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncCallback(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
                              u32 moveCallback, u32 lineCallback, u32 work);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPos(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos);
-u32 FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
+FieldMenuFunc *FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work,
                              u16 listPos, u16 cursorPos, u32 cancelable);
 int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
@@ -866,9 +866,9 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPos(FieldMsgBg *msgBg, const FieldMenuH
     return FIELD_MSGBG_CreateMenuFuncCallback(msgBg, header, items, listPos, cursorPos, 0, header->lineCallback, 0);
 }
 
-u32 FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items)
+FieldMenuFunc *FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items)
 {
-    return (sptr)FIELD_MSGBG_CreateMenuFuncPos(msgBg, header, items, 0, 0);
+    return FIELD_MSGBG_CreateMenuFuncPos(msgBg, header, items, 0, 0);
 }
 
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work,

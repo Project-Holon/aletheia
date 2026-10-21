@@ -259,7 +259,7 @@ typedef struct Scene {
     u16 mainHeap;              /* 0x000: 0x94 work heap */
     u16 heap;                  /* 0x002: 0x68 scene heap */
     void *graphic;             /* 0x004: SHINKA_DEMO_GRAPHIC context */
-    u32 font;                  /* 0x008: GF_FONT handle */
+    struct GfFont *font;                  /* 0x008: GF_FONT handle */
     u32 printQue;              /* 0x00c: PRINTSYS queue */
     void *partyMon;            /* 0x010: party member the demo evolves */
     void *strbuf;              /* 0x014: name strbuf */
@@ -273,12 +273,12 @@ typedef struct Scene {
     u32 character;             /* 0x03c: CLACT character handle */
     u32 palette;               /* 0x040: CLACT palette handle */
     u32 cellAnim;              /* 0x044: CLACT cell-anim handle */
-    u32 actors[6];             /* 0x048: actor handles */
+    struct ClactActor *actors[6];             /* 0x048: actor handles */
     u32 actorsReady;           /* 0x060 */
     u32 printStream;           /* 0x064: PRINTSYS stream */
     u32 tcbl;                  /* 0x068: TCBL handle */
-    u32 menuWindow;            /* 0x06c: BMP menu window */
-    u32 window;                /* 0x070: BMP window */
+    struct BmpWin *menuWindow;            /* 0x06c: BMP menu window */
+    struct BmpWin *window;                /* 0x070: BMP window */
     u32 frameGfx;              /* 0x074: loaded frame gfx handle */
     void *msgBankA;            /* 0x078: MSGDATA bank A */
     void *msgBankB;            /* 0x07c: MSGDATA bank B */
@@ -477,7 +477,7 @@ extern const char ov196_id[];
 extern const char ov198_id[];
 extern u8 ov067_id[];
 extern u8 d_02208C4C[];
-extern u32 gSpeciesNameBank;
+extern struct MsgBank *gSpeciesNameBank;
 extern u8 d_02208CCC[];
 
 /*
@@ -658,7 +658,7 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
         BG_SYS_SetPlaneVisible(i, 0);
     s->graphic = SHINKA_DEMO_GRAPHIC_Create(1, s->heap);
     SHINKA_DEMO_GRAPHIC_SetupSubBg();
-    s->font = (uptr)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
+    s->font = GF_FONT_Create(0x17, 0, 0, 0, s->heap);
     s->printQue = (uptr)PRINTSYS_QUE_Create((unsigned int)s->heap);
     SHINKA_DEMO_SetupWindows((sptr)a, (char *)s);
     s->yesNoMenu = 0;
@@ -948,14 +948,14 @@ void SHINKA_DEMO_CreateActors(int unused, char *scene)
     ARC_TOOL_DeleteHandle(h);
     for (z = i; i < 6; i++) {
         char *e = scene + i * 4;
-        ((struct Scene *)scene)->actors[i] = (uptr)CLACT_CreateActor((struct Unit *)((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))), ((struct Scene *)scene)->character, ((struct Scene *)scene)->palette,
+        ((struct Scene *)scene)->actors[i] = CLACT_CreateActor((struct Unit *)((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))), ((struct Scene *)scene)->character, ((struct Scene *)scene)->palette,
                                            ((struct Scene *)scene)->cellAnim, (const struct ActorInitParam *)(d_02208C4C + i * 8), z, ((struct Scene *)scene)->heap);
-        CLACT_SetActorAutoAnim((struct ClactActor *)((struct Scene *)scene)->actors[i], z);
+        CLACT_SetActorAutoAnim(((struct Scene *)scene)->actors[i], z);
     }
     ((struct Scene *)scene)->actorsReady = 1;
 }
 
-void SHINKA_DEMO_DeleteActors(void *unused,char *scene) {u8 i;if(((struct Scene *)scene)->actorsReady){for(i=0;i<6;i++)CLACT_DeleteActor((struct ClactActor *)(*(u32 *)(scene+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Scene *)scene)->cellAnim);CLACT_ReleaseCharacter(((struct Scene *)scene)->character);CLACT_ReleasePalette(((struct Scene *)scene)->palette);((struct Scene *)scene)->actorsReady=0;}}
+void SHINKA_DEMO_DeleteActors(void *unused,char *scene) {u8 i;if(((struct Scene *)scene)->actorsReady){for(i=0;i<6;i++)CLACT_DeleteActor(*(struct ClactActor **)(scene+0x48+i*4));CLACT_ReleaseCellAnim(((struct Scene *)scene)->cellAnim);CLACT_ReleaseCharacter(((struct Scene *)scene)->character);CLACT_ReleasePalette(((struct Scene *)scene)->palette);((struct Scene *)scene)->actorsReady=0;}}
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object has the
@@ -1022,14 +1022,14 @@ void SHINKA_DEMO_MainTask(struct TcbTask *task, void *sceneArg)
 
 void SHINKA_DEMO_SetupWindows(int unused, char *scene)
 {
-    uptr p;
+    struct BmpWin *p;
 
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x20, 0x20, ((struct Scene *)scene)->heap);
-    ((struct Scene *)scene)->window = (uptr)BMP_WIN_Create((unsigned int)1, (unsigned int)0, (unsigned int)0, 1, 1, 1, 0);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->window)), 0);
-    BMP_WIN_TransferChars((struct BmpWin *)((struct Scene *)scene)->window);
-    ((struct Scene *)scene)->menuWindow = (uptr)BMP_WIN_Create((unsigned int)1, (unsigned int)1, (unsigned int)0x13, 0x1e, 4, 1, 1);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow)), 0);
+    ((struct Scene *)scene)->window = BMP_WIN_Create((unsigned int)1, (unsigned int)0, (unsigned int)0, 1, 1, 1, 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(((struct Scene *)scene)->window)), 0);
+    BMP_WIN_TransferChars(((struct Scene *)scene)->window);
+    ((struct Scene *)scene)->menuWindow = BMP_WIN_Create((unsigned int)1, (unsigned int)1, (unsigned int)0x13, 0x1e, 4, 1, 1);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(((struct Scene *)scene)->menuWindow)), 0);
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct BmpWin *)p);
     BMP_WIN_MakeScreen((struct BmpWin *)p);
@@ -1083,7 +1083,7 @@ void SHINKA_DEMO_PrintText(char *scene, u32 msgBank, u32 msgId, u32 callback, u3
 {
     SHINKA_DEMO_ClearText((char *)scene, 0xf);
     *(u32 *)&((struct Scene *)scene)->strbufA = SHINKA_DEMO_BuildString(((struct Scene *)scene)->heap, msgBank, msgId, kind0, value0, kind1, value1);
-    *(u32 *)&((struct Scene *)scene)->printStream = (uptr)PRINTSYS_PrintStreamCallBack((struct BmpWin *)(*(u32 *)&((struct Scene *)scene)->menuWindow), 0, 0, (struct Strbuf *)(*(u32 *)&((struct Scene *)scene)->strbufA), (struct GfFont *)(((struct Scene *)scene)->font),
+    *(u32 *)&((struct Scene *)scene)->printStream = (uptr)PRINTSYS_PrintStreamCallBack(*(struct BmpWin **)&((struct Scene *)scene)->menuWindow, 0, 0, *(struct Strbuf **)&((struct Scene *)scene)->strbufA, (struct GfFont *)(((struct Scene *)scene)->font),
                                        MSG_SPEED_GetWait(), (struct Tcbl *)(((struct Scene *)scene)->tcbl), 2, ((struct Scene *)scene)->heap, 0xf, (u8 (*)(u32 arg))callback);
 }
 
@@ -1146,9 +1146,9 @@ int SHINKA_DEMO_IsConfirmPressed(char *unused)
 
 void SHINKA_DEMO_ClearText(char *scene, int fillColor)
 {
-    sptr p;
+    struct BmpWin *p;
 
-    BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow), fillColor);
+    BMP_Clear((struct Bmp *)BMP_WIN_GetBmp(((struct Scene *)scene)->menuWindow), fillColor);
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct BmpWin *)p);
     BMP_WIN_MakeScreen((struct BmpWin *)p);
@@ -1186,7 +1186,7 @@ void SHINKA_DEMO_CreateConfirmMenu(int unused, char *scene)
 {
     ((struct Scene *)scene)->confirmMsgBank = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((struct Scene *)scene)->heap);
     ((struct Scene *)scene)->yesNoMenu = (uptr)SHINKA_DEMO_YESNO_MENU_CREATE(((struct Scene *)scene)->heap, 5, 0, 1, 0, (void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))),
-                                       (struct GfFont *)((struct Scene *)scene)->font, (struct PrintQueue *)(((struct Scene *)scene)->printQue), 0);
+                                       ((struct Scene *)scene)->font, (struct PrintQueue *)(((struct Scene *)scene)->printQue), 0);
     ((struct Scene *)scene)->strbufC = 0;
     ((struct Scene *)scene)->strbufD = 0;
 }

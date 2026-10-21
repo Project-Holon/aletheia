@@ -108,11 +108,11 @@ int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     shopTable = (u8 *)GAME_DATA_GetSecondUnionInfo(gameData);
     task = GFL_HEAP_Alloc(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
     *taskSlot = task;
-    task->shop.fontInfo = (uptr)FIELD_MSGBG_GetFont(msgBg);
-    task->shop.moneyData = (uptr)GAME_DATA_GetMiscSave(gameData);
+    task->shop.fontInfo = FIELD_MSGBG_GetFont(msgBg);
+    task->shop.moneyData = GAME_DATA_GetMiscSave(gameData);
     task->shop.heapId = 0x15;
-    task->shop.bagData = (uptr)GAME_DATA_GetMyItem(gameData);
-    task->shop.battlePointData = (uptr)SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3a);
+    task->shop.bagData = GAME_DATA_GetMyItem(gameData);
+    task->shop.battlePointData = SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3a);
     task->shop.recordData = GAME_DATA_GetTrainerRecord(gameData);
     task->shop.shopTable = shopTable;
     switch (shopId) {

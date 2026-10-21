@@ -38,7 +38,7 @@ void FIELD_TASK_Update(FieldTask *task);
 
 void FIELD_TASK_Start(FieldTask *task);
 
-u32 FIELD_TASK_GetWork(FieldTask *task);
+void *FIELD_TASK_GetWork(FieldTask *task);
 
 int FIELD_TASK_IsFinished(FieldTask *task);
 
@@ -80,9 +80,9 @@ void FIELD_TASK_Start(FieldTask *task)
 }
 
 /* Returns the work block. */
-u32 FIELD_TASK_GetWork(FieldTask *task)
+void *FIELD_TASK_GetWork(FieldTask *task)
 {
-    return (uptr)task->work;
+    return task->work;
 }
 
 /* Returns 1 when the task has finished. */

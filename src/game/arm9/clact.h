@@ -189,7 +189,7 @@ void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct ClactAni
 void CLACT_ResetActorAnimCommand(struct ClactActor *actor);
 void CLACT_SetActorVisible(struct ClactActor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
-void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
+void CLACT_SetPaletteBaseOffsets(char *pltt_proxy, u16 base_offset, u32 pltt_op);
 void CLACT_SetSystemActive(u32 active);
 u32 CLACT_IsSystemActive(void);
 void CLACT_SetOamPending(u32 pending);
@@ -300,13 +300,13 @@ void CLACT_SetupCharacterVram(struct ClactRes *res, u32 idx, NNSG2dCharacterData
 void CLACT_FreeCharacterTable(void *chars);
 void CLACT_UpdateObjMapping(NNSG2dCharacterData *char_data, int screen);
 void *CLACT_AllocPaletteTable(u32 heapId, u32 count);
-void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
-void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset);
+void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
+void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, u32 vram_mode, u32 vram_offset);
 void CLACT_FreePaletteTable(void *pltts);
 struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count);
 s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void *anim_file);
 void CLACT_FreeCellAnimTable(void *cells);
-void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
+void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, void *handle, u32 vram_mode, struct CharXferInfo *xfer_info);
 /* END mkheaders: generated region */
 
 #endif

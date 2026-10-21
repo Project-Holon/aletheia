@@ -329,7 +329,7 @@ void DWCi_MOV_WH_SetReceiver(void *recvCallback);
  * follower at 02179394 (adds the block's dataSet / dataSharingInfo offsets to
  * gWihWork, tail calls a thumb function) is why the extent runs long.
  */
-BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback);
+BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, int userCallback);
 /* extent: existing matched 021793B8 follows the 36-byte leaf. */
 int WIH_GetSharedDataAdr(u16 aid);
 /*
@@ -1377,11 +1377,11 @@ void DWCi_MOV_WH_SetReceiver(void *recvCallback)
         WIH_ChangeSysState(9);
 }
 
-BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback)
+BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, int userCallback)
 {
     if (WIH_GetOwnAid() == 0 && (WIH_GetBitmap() & 0xFE) == 0)
         return 0;
-    return DWCi_MOV_WH_StateInSetMPData(data, size, userCallback);
+    return DWCi_MOV_WH_StateInSetMPData((u32)data, size, userCallback);
 }
 
 int WIH_GetSharedDataAdr(u16 aid)

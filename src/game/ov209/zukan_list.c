@@ -586,7 +586,7 @@ struct PersonalData;
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
 
-int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, int work);
+int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work);
 
 int ZUKAN_LIST_ProcExit(void *p);
 
@@ -784,7 +784,7 @@ extern const struct ClactSpeciesActor gZukanListSpeciesActor;
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg){unsigned *work;GFL_HEAP_CreateChildHeap(1,107,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)p,0xc44,107);MI_CpuFill8(work,0,0xc44);*work=arg;return 1;}
 
-int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, int work)
+int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work)
 {
     if (ZUKAN_LIST_RunState((struct ZukanList *)work) == 0)
         return 1;
@@ -1340,7 +1340,7 @@ int ZUKAN_LIST_StateSelectSpecies(struct ZukanList *p, int speciesIndex)
  */
 void ZUKAN_LIST_ToggleSaveFlag15(struct ZukanList *p)
 {
-    if (GAME_DATA_ContainsRecentId((struct GameData *)(*(int *)p->args), 15) == 1) {
+    if (GAME_DATA_ContainsRecentId(*(struct GameData **)p->args, 15) == 1) {
         GAME_DATA_SetRecentId(*(void **)p->args, 15, 0);
         ZUKAN_LIST_StartActorAnim(p, 5, 6);
     } else {
@@ -1636,7 +1636,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
     if (p->args->mode == 1) {
         ZUKAN_LIST_SetActorVisible(p, 8, 0);
         ZUKAN_LIST_SetActorVisible(p, 5, 0);
-    } else if (GAME_DATA_ContainsRecentId((struct GameData *)(*(int *)p->args), 15) == 1)
+    } else if (GAME_DATA_ContainsRecentId(*(struct GameData **)p->args, 15) == 1)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
@@ -1715,8 +1715,8 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
         desc.posY = rowUpper * 0x18 + 8;
         desc.charHandle = *(u32 *)((char *)p + rowUpper * 4 + 0xB64);
-        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (uptr)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowUpper * 4 + 0xA9C))), 0);
+        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (uptr)ZUKAN_CreateActor(*(void **)((char *)p + 0xA70), (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowUpper * 4 + 0xA9C)), 0);
     }
     desc = proto;
     desc.palHandle = *(u32 *)((char *)p + 0xBF8);
@@ -1725,13 +1725,13 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
         desc.posY = rowLower * 0x18 + 0x20;
         desc.charHandle = *(u32 *)((char *)p + rowLower * 4 + 0xBA4);
         desc.flags = 1;
-        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (uptr)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xADC))), 0);
+        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (uptr)ZUKAN_CreateActor(*(void **)((char *)p + 0xA70), (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowLower * 4 + 0xADC)), 0);
         ZUKAN_LIST_SetActorObjMode(p, rowLower + 0x1a, 1);
         unitPtr = (u32 *)((char *)p + 0xA70);
         *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (uptr)ZUKAN_CreateActor((void *)(*unitPtr), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C))), 0);
-        CLACT_SetActorObjMode((struct ClactActor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 2);
+        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowLower * 4 + 0xB1C)), 0);
+        CLACT_SetActorObjMode(*(struct ClactActor **)((char *)p + rowLower * 4 + 0xB1C), 2);
     }
     for (rowHide = 0; rowHide < 16; rowHide++) ZUKAN_LIST_SetActorVisible(p, rowHide + 0xa, 0);
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {

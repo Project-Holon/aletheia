@@ -51,7 +51,7 @@ struct TcblSystem {
 #include "gfl_heap_wrap.h"
 
 
-u32 TCBL_GetOwnedWork(struct TcblSystem *tcbl);
+void *TCBL_GetOwnedWork(struct TcblTask *task);
 
 struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index);
 
@@ -92,9 +92,9 @@ extern const char tcbl_File[];
  *   python tools/match.py one --src src/matched/TCBL_GetOwnedWork.c \
  *       --func TCBL_GetOwnedWork --addr 0x02030EE8 --cc 1.1p1
  */
-u32 TCBL_GetOwnedWork(struct TcblSystem *tcbl)
+void *TCBL_GetOwnedWork(struct TcblTask *task)
 {
-    return tcbl->deletePending;
+    return task->work;
 }
 
 /*

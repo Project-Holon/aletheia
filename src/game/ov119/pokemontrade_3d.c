@@ -737,7 +737,7 @@ void POKETRADE_3D_DeleteMcssSlot(void *p, int idx)
 
     if (v != 0) {
         MCSS_SetVanishFlag((void *)v);
-        MCSS_Del((void *)(*(u32 *)&((TradeWork *)p)->mcssSystem), (void *)(((u32 *)((char *)p + 0x844))[idx]));
+        MCSS_Del(*(void **)&((TradeWork *)p)->mcssSystem, (void *)(((u32 *)((char *)p + 0x844))[idx]));
         ((u32 *)((char *)p + 0x844))[idx] = 0;
     }
 }
@@ -991,7 +991,7 @@ void POKETRADE_3D_CreateTouchbar(char *p)
     MI_CpuFill8(&c, 0, 32);
     c.f0 = &t;
     c.f4 = 4;
-    c.f8 = ((TradeWork *)p)->clactSystem;
+    c.f8 = (int)(((TradeWork *)p)->clactSystem);
     c.fC = 4;
     c.f1C = 1;
     c.f10 = 7;

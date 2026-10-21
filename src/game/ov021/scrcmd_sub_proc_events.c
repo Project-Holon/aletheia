@@ -109,7 +109,7 @@ struct NameInArgs;
 
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
 int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work);
-int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
+struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
 int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventWork *work);
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result);
 int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, SubProcEventWork *work);
@@ -159,9 +159,9 @@ int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork 
 }
 
 /* Creates the nickname event for a party member; returns the event. */
-int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode)
+struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode)
 {
-    sptr event;
+    struct GameEvent *event;
     NicknameEventWork *work;
     void *mon;
     void *gameData;
@@ -172,8 +172,8 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
     }
-    event = (sptr)GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
-    work = GAME_EVENT_GetWork((struct GameEvent *)event);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
+    work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->result = result;

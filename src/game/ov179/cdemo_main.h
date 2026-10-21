@@ -8,7 +8,7 @@ struct ProcSystem;
 
 #include "../types.h"
 
-int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c);
+int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, struct CdemoScript *c);
 int CDEMO_MAIN_Update(int a, int b, int c, int d);
 int CDEMO_MAIN_Destroy(void *p);
 void CDEMO_MAIN_SetupVram(void);

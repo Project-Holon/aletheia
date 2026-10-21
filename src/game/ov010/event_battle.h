@@ -6,6 +6,9 @@
 
 struct ScriptedBattleArgs;
 struct GameEvent;
+struct GameSystem;
+struct FieldMap;
+struct BattleSetupParam;
 struct BattleTask;
 struct BattleEndCtx;
 typedef struct ScriptedBattleArgs ScriptedBattleArgs;
@@ -16,18 +19,18 @@ typedef struct BattleEndCtx BattleEndCtx;
 
 int EVENT_BATTLE_CallAndInvert(void (*fn)(void));
 int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs *args);
-int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetup, int returnImmediately, int effectId);
-int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options);
-struct GameEvent *EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetup);
-int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *btlSetup);
-void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, void *fieldMap, u16 heapId);
-void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
+struct GameEvent *EVENT_BATTLE_CreateScriptedBattle(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup, int returnImmediately, int effectId);
+struct GameEvent *EVENT_BATTLE_CreateEncounterTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options);
+struct GameEvent *EVENT_BATTLE_CreateResultOnlyTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup);
+struct GameEvent *EVENT_BATTLE_CreateForcedWinTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup);
+struct GameEvent *EVENT_BATTLE_CreateCatchTutorial(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 heapId);
+struct GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(struct GameSystem *gameSystem, struct FieldMap *battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
 int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work);
-int EVENT_BATTLE_GetBattleKindClass(void *battleKind);
+int EVENT_BATTLE_GetBattleKindClass(u32 trainerId);
 void EVENT_BATTLE_DispatchBattleKindNotify(u16 id, int col);
 void EVENT_BATTLE_NotifyLeadSpecies(void *btlSetup, int which);
 void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx);
-int EVENT_BATTLE_AddBattleRecord(BattleTask *task);
+void EVENT_BATTLE_AddBattleRecord(BattleTask *task);
 int EVENT_BATTLE_IsResultSilent(int outcome, int mode);
 u8 EVENT_BATTLE_GetResultFlag(int kindId);
 int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task);

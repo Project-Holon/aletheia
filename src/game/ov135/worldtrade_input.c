@@ -234,7 +234,7 @@ void WORLDTRADE_INPUT_PrintBankString(WorldtradeWork *p, void *bank, u32 index, 
     BMP_WIN_TransferChars(p->d40);
     BMP_MENUWORK_DrawWindow(p->d40, 0, 1, 14);
     if (slow)
-        WORLDTRADE_ADAPTER_StartPrintStream(p->d40, 0, (uptr)(p->str), 0, 0, &p->printCtx);
+        WORLDTRADE_ADAPTER_StartPrintStream(p->d40, 0, p->str, 0, 0, &p->printCtx);
     else
         WORLDTRADE_ADAPTER_QueuePrintDefaultColor(p->d40, 0, p->str, 0, 0, &p->printCtx);
     p->cnt = 0;
@@ -248,11 +248,11 @@ int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, 
     int width;
     switch (align) {
     case 1:
-        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (uptr)str, (int)0);
+        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, str, (int)0);
         x = (BMP_WIN_GetWidth(win) * 8 - width) / 2;
         break;
     case 2:
-        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (uptr)str, (int)0);
+        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, str, (int)0);
         x = BMP_WIN_GetWidth(win) * 8 - width;
         break;
     }
@@ -1714,8 +1714,8 @@ int WORLDTRADE_INPUT_StateWaitFrameIn(WorldtradeMenu *p)
             CLACT_SetActorAutoAnim((*(void * *)&p->down), 0);
             CLACT_SetActorAnimSeq((*(void * *)&p->up), 38);
             CLACT_SetActorAnimSeq((*(void * *)&p->down), 39);
-            WORLDTRADE_SetActorPos(*(u32 *)(void * *)&p->up, 228, 120);
-            WORLDTRADE_SetActorPos(*(u32 *)(void * *)&p->down, 154, 120);
+            WORLDTRADE_SetActorPos(p->up, 228, 120);
+            WORLDTRADE_SetActorPos(p->down, 154, 120);
             CLACT_SetActorDrawEnable((*(void * *)&p->up), 1);
             CLACT_SetActorDrawEnable((*(void * *)&p->down), 1);
         }
@@ -1775,7 +1775,7 @@ int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p)
     return -1;
 }
 
-void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(*(u32 *)(void * *)&p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(*(unsigned int *)&p->state)=1;(*(unsigned int *)&p->nextState)=7;p->layout=-1;}
+void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(*(unsigned int *)&p->state)=1;(*(unsigned int *)&p->nextState)=7;p->layout=-1;}
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
 {
@@ -1918,7 +1918,7 @@ int WORLDTRADE_INPUT_StateSubCategorySelected(WorldtradeMenu *p) { if(CLACT_IsAc
  */
 int WORLDTRADE_INPUT_StateRestoreCursor(WorldtradeMenu *p)
 {
-    uptr v;
+    struct ClactActor *v;
     int n;
 
     if (UI_GetInputMode() == 1) {
@@ -1928,7 +1928,7 @@ int WORLDTRADE_INPUT_StateRestoreCursor(WorldtradeMenu *p)
         v = p->cursor;
         n = 1;
     }
-    CLACT_SetActorDrawEnable((struct ClactActor *)v, n);
+    CLACT_SetActorDrawEnable(v, n);
     (*(unsigned int *)&p->state) = 0xa;
     return -1;
 }
@@ -2253,7 +2253,7 @@ int WORLDTRADE_INPUT_StateSubCategorySelectedAlt(WorldtradeMenu *p)
  */
 int WORLDTRADE_INPUT_StateRestoreCursorAlt(WorldtradeMenu *p)
 {
-    uptr v;
+    struct ClactActor *v;
     int n;
 
     p->state = 0x16;
@@ -2265,7 +2265,7 @@ int WORLDTRADE_INPUT_StateRestoreCursorAlt(WorldtradeMenu *p)
         v = p->cursor;
         n = 1;
     }
-    CLACT_SetActorDrawEnable((struct ClactActor *)v, n);
+    CLACT_SetActorDrawEnable(v, n);
     return -1;
 }
 

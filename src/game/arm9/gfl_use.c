@@ -733,7 +733,7 @@ void GFL_USE_InitSdk(void)
     *(volatile u16 *)0x04000208 = 1;
     FS_Init(1);
     tableSize = FS_TryLoadTable(0, 0);
-    FS_TryLoadTable((void *)OS_AllocFromArenaLo(0, (u32)tableSize, 4), tableSize);
+    FS_TryLoadTable(OS_AllocFromArenaLo(0, (u32)tableSize, 4), tableSize);
     NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
     if (APP_ENV_IsRunOnTwl()) {
         _PreExitState[0] = 0;
@@ -836,8 +836,8 @@ void GFL_USE_OnPreExit(void)
 void GFL_USE_InitSystem(void)
 {
     if (OS_IsRunOnTwl() == 0) {
-        void *hi = (void *)OS_GetArenaHi(0);
-        OS_SetArenaLo(0, (uptr)OS_InitAlloc(0, (void *)OS_GetArenaLo((u32)0), hi, 1));
+        void *hi = OS_GetArenaHi(0);
+        OS_SetArenaLo(0, OS_InitAlloc(0, OS_GetArenaLo((u32)0), hi, 1));
         _GflUse.extraHeap = OS_CreateExtraHeap(0);
         _GflUse.extraHeapBlock = OS_AllocFromHeap(0, _GflUse.extraHeap, 0x3F00);
     }
@@ -878,7 +878,7 @@ void GFL_USE_InitSystem(void)
 
     GFL_USE_InitRandom();
     FADE_Create(0);
-    BACKUP_SYSTEM_Init(7, (uptr)APP_POWER_ClearCallback, (uptr)APP_POWER_SetCallback);
+    BACKUP_SYSTEM_Init(7, APP_POWER_ClearCallback, APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
     GF_STANDARD_InitRtc();
     _GflUse.frameCount = 0;

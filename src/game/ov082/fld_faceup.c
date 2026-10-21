@@ -261,7 +261,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     work->savedBg3Control.raw = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
-    G2x_SetBlendAlpha_((u32 *)(&reg_G2_BLDCNT), 8, 4, 0, 16);
+    G2x_SetBlendAlpha_( (unsigned int *)&reg_G2_BLDCNT, 8, 4, 0, 16);
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     if (FIELD_MSGBG_ReleaseSysFrame(msgBg) != 0)
         FIELD_MSGBG_RequestSysFrame(msgBg);
@@ -283,23 +283,23 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
         facePaletteIndex = 2;
     }
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceCharIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&faceChar));
+    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)&faceChar);
     BG_SYS_LoadTileData(2, faceChar->data, faceChar->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceScreenIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedScreenData(file, (void **)(&faceScreen));
+    NNS_G2dGetUnpackedScreenData(file, (void **)&faceScreen);
     BG_SYS_PushTileSource(2, faceScreen->data, faceScreen->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, facePaletteIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedPaletteData(file, (void **)(&facePalette));
+    NNS_G2dGetUnpackedPaletteData(file, (void **)&facePalette);
     BG_SYS_LoadPltt(2, facePalette->data, 0x140, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 7, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&partsChar));
+    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)&partsChar);
     BG_SYS_LoadTileData(3, partsChar->data, partsChar->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 11, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedScreenData(file, (void **)(&partsScreen));
+    NNS_G2dGetUnpackedScreenData(file, (void **)&partsScreen);
     BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
     GFL_HEAP_Free(file);
     BG_SYS_SetPriority(0, 3);
@@ -475,7 +475,7 @@ int FLD_FACEUP_StepFadeIn(FaceupWork *work)
 
     work->fadeFrame = work->fadeFrame + 1;
     blendLevel = (work->fadeFrame << 4) / 30;
-    G2x_SetBlendAlpha_((u32 *)(&reg_G2_BLDCNT), 8, 4, blendLevel, 16 - blendLevel);
+    G2x_SetBlendAlpha_( (unsigned int *)&reg_G2_BLDCNT, 8, 4, blendLevel, 16 - blendLevel);
     if (work->fadeFrame >= 30)
         return 1;
     return 0;

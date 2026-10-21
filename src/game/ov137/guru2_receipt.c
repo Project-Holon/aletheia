@@ -498,12 +498,12 @@ int GURU2_RECEIPT_ProcMain(int proc,int seq,int parentWork,u8 *p)
  */
 int GURU2_RECEIPT_ProcExit(void *proc,int seq,void *parentWork,u8 *p)
 {
-    TCBL_DeleteAllTasks((struct TcblSystem *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl)); TCBL_Destroy((struct TcblSystem *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl));
-    PRINTSYS_QUE_Clear((struct PrintQueue *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue)); PRINTSYS_QUE_Delete((struct PrintQueue *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue));
+    TCBL_DeleteAllTasks(*(struct TcblSystem **)&((struct Guru2Lobby *)p)->tcbl); TCBL_Destroy(*(struct TcblSystem **)&((struct Guru2Lobby *)p)->tcbl);
+    PRINTSYS_QUE_Clear(*(struct PrintQueue **)&((struct Guru2Lobby *)p)->printQue); PRINTSYS_QUE_Delete(*(struct PrintQueue **)&((struct Guru2Lobby *)p)->printQue);
     GURU2_RECEIPT_FreeActors(p); GURU2_RECEIPT_DeleteWindows(p); GURU2_RECEIPT_ExitBg();
-    MSGDATA_Delete((struct MsgBank *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData)); WORDSET_Delete((struct WordSet *)(*(unsigned int *)&((struct Guru2Lobby *)p)->wordSet)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2Lobby *)p)->font));
+    MSGDATA_Delete(*(struct MsgBank **)&((struct Guru2Lobby *)p)->msgData); WORDSET_Delete(*(struct WordSet **)&((struct Guru2Lobby *)p)->wordSet); GF_FONT_Delete(*(void **)&((struct Guru2Lobby *)p)->font);
     *(volatile u16 *)0x04000304 |= 0x8000;
-    TCB_DeleteTask((struct TcbTask *)(*(unsigned int *)&((struct Guru2Lobby *)p)->vblankTask));
+    TCB_DeleteTask(*(struct TcbTask **)&((struct Guru2Lobby *)p)->vblankTask);
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->startConfirmed=*(unsigned int *)&((struct Guru2Lobby *)p)->startConfirmed;
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->playerCount=GURU2_RECEIPT_GetMemberCount(p);
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->memberMask=GURU2_RECEIPT_GetJoinedBits(p);
@@ -825,7 +825,7 @@ void GURU2_RECEIPT_InitStrings(u8 *p,void *arc)
     *(unsigned int *)&((struct Guru2Lobby *)p)->messageBuf=(uptr)STRBUF_Create(180,114);
     titleBuf=(uptr)STRBUF_Create(40,114); *(unsigned int *)&((struct Guru2Lobby *)p)->titleBuf=titleBuf;
     *(unsigned int *)&((struct Guru2Lobby *)p)->stateIndex=0;
-    MSGDATA_ReadString((struct MsgBank *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData),17,(void *)titleBuf);
+    MSGDATA_ReadString(*(struct MsgBank **)&((struct Guru2Lobby *)p)->msgData,17,(void *)titleBuf);
     GURU2_RECEIPT_LoadCharBuffer((char *)p,arc);
     *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimEnabled=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimCounter=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimIndex=0;
     *(unsigned int *)&((struct Guru2Lobby *)p)->paletteBlock=(uptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,2,(p+40),114);
@@ -940,10 +940,10 @@ void GURU2_RECEIPT_CreatePlayerActors(u8 *p)
     s.e=1; s.d=0; s.c=0;
     for(i=0;i<5;i++) {
         s.a=gGuru2MemberPositionTable[i*2+2]; s.b=gGuru2MemberPositionTable[i*2+3];
-        *(u32 *)(p+i*4+156)=(uptr)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)*(unsigned int *)&((struct Guru2Lobby *)p)->clactUnit),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Guru2Lobby *)p)->cellAnimId,(const struct ActorInitParam *)&s,0,114);
-        CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)*(u32 *)(p+i*4+156)),1);
-        CLACT_SetActorAnimSeq((struct ClactActor *)(*(u32 *)(p+i*4+156)),0);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)*(u32 *)(p+i*4+156)),0);
+        *(u32 *)(p+i*4+156)=(uptr)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)(*(void **)&((struct Guru2Lobby *)p)->clactUnit),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Guru2Lobby *)p)->cellAnimId,(const struct ActorInitParam *)&s,0,114);
+        CLACT_SetActorAutoAnim((struct ClactActor *)(*(struct ClactActor **)(p+i*4+156)),1);
+        CLACT_SetActorAnimSeq(*(struct ClactActor **)(p+i*4+156),0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)(p+i*4+156)),0);
     }
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,0);
 }

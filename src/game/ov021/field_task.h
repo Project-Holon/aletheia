@@ -12,7 +12,7 @@ FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 void FIELD_TASK_Delete(FieldTask *task);
 void FIELD_TASK_Update(FieldTask *task);
 void FIELD_TASK_Start(FieldTask *task);
-u32 FIELD_TASK_GetWork(FieldTask *task);
+void *FIELD_TASK_GetWork(FieldTask *task);
 int FIELD_TASK_IsFinished(FieldTask *task);
 u32 FIELD_TASK_GetState(FieldTask *task);
 void FIELD_TASK_SetRunning(FieldTask *task);

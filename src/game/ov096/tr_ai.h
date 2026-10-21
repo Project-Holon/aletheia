@@ -5,13 +5,14 @@
 /* Public functions of tr_ai.c, prototypes copied from their definitions. */
 
 struct BtlMain;
+struct BtlServerFlow;
 struct BtlPokeParam;
 
 #include "../arm9/script_vm_types.h"
 #include "../types.h"
 #include "../ov096/tr_ai_types.h"
 
-ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
+ScriptVm *TR_AI_Create(struct BtlMain *battleMain, struct BtlServerFlow *serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
 void TR_AI_Delete(ScriptVm *vm);
 void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos);

@@ -12,7 +12,7 @@ struct GfdLnkBlockPool;
 #include "../types.h"
 
 void NNS_GfdDoVramTransfer(void);
-s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
+s32 NNS_GfdRegisterNewVramTransferTask(u32 type, u32 dstOffset, void *pSrc, s32 szByte);
 u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
 void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead);
 struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count);

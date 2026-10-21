@@ -29,7 +29,7 @@ typedef struct {
  */
 struct BtlEventFactor {
     struct BtlEventFactor *prev, *next;
-    BtlEventHandler *handlers;
+    const BtlEventHandler *handlers;
     BtlEventSkipCheck skipCheck;
     int factorType;
     u32 priority;
@@ -64,7 +64,7 @@ struct BtlEventFactorList {
 struct BtlEventVarStack {
     u32 frameTop;
     u16 keys[BTL_EVENT_VAR_MAX];
-    u32 values[BTL_EVENT_VAR_MAX];
+    sptr values[BTL_EVENT_VAR_MAX];
     u32 maxValues[BTL_EVENT_VAR_MAX];
     u32 minValues[BTL_EVENT_VAR_MAX];
     u8 modes[BTL_EVENT_VAR_MAX];

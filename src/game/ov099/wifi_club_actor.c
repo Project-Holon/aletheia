@@ -136,7 +136,7 @@ struct Pt16;
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/nns_gfd_vram_transfer.h"
 #include "../arm9/net_command.h"
-void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 spriteArc, u32 mapIndexPlusOne, u32 paletteArc, u32 clactSys, void *gfxArchive);
+void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, void *clactResArc, u32 spriteKind, u32 mapIndexPlusOne, u32 paletteArc, void *clactSys, void *gfxArchive);
 void WIFICLUBACTOR_Exit(WifiClubActorSys *sys);
 int WIFICLUBACTOR_IsReady(WifiClubActorSys *sys);
 u32 WIFICLUBACTOR_Update(WifiClubActorSys *sys);
@@ -169,20 +169,20 @@ void WIFICLUBACTOR_ProcessSpawnCommands(WifiClubActorSys *sys);
 void WIFICLUBACTOR_UpdateActors(WifiClubActorSys *sys);
 void WIFICLUBACTOR_AnimateActors(WifiClubActorSys *sys);
 void *WIFICLUBACTOR_FindActorFacing(WifiClubActorSys *sys, WifiClubActor *actor, int direction);
-void WIFICLUBACTOR_InitSpriteManager(WifiClubActorSys *sys, void *spriteArc, u32 heapId);
+void WIFICLUBACTOR_InitSpriteManager(WifiClubActorSys *sys, u32 spriteKind, u32 heapId);
 void WIFICLUBACTOR_ExitSpriteManager(WifiClubActorSys *sys);
-void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, int unused, int mapIndex);
+void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, void *unused, int mapIndex);
 void WIFICLUBACTOR_ExitLayer(WifiClubActorSys *sys);
-void WIFICLUBACTOR_InitSprites(WifiClubSpriteSet *sprites, u32 heapId, u32 clactResArc);
+void WIFICLUBACTOR_InitSprites(WifiClubSpriteSet *sprites, u32 heapId, void *clactResArc);
 void WIFICLUBACTOR_ExitSprites(WifiClubSpriteSet *sprites);
-void WIFICLUBACTOR_RegisterResources(WifiClubSpriteSet *sprites, int heapId, u32 clactResArc);
+void WIFICLUBACTOR_RegisterResources(WifiClubSpriteSet *sprites, int heapId, void *clactResArc);
 void WIFICLUBACTOR_ReleaseResources(WifiClubSpriteSet *sprites);
 void WIFICLUBACTOR_CreateCursorActors(WifiClubSpriteSet *sprites, int heapId);
 void WIFICLUBACTOR_DeleteCursorActors(WifiClubSpriteSet *sprites);
 void WIFICLUBACTOR_NoOpInit(void *unused, int heapId);
 void WIFICLUBACTOR_NoOpExit(int unused);
-void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 paletteArc);
-void WIFICLUBACTOR_RegisterClactResources(WifiClubSpriteSet *sprites, int heapId, u32 clactResArc);
+void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, void *clactResArc, u32 paletteArc);
+void WIFICLUBACTOR_RegisterClactResources(WifiClubSpriteSet *sprites, int heapId, void *clactResArc);
 void WIFICLUBACTOR_ReleaseClactResources(WifiClubSpriteSet *sprites);
 void WIFICLUBACTOR_CreateClactActors(WifiClubSpriteSet *sprites, int heapId);
 void WIFICLUBACTOR_DeleteClactActors(WifiClubSpriteSet *sprites);
@@ -214,7 +214,7 @@ void WIFICLUBACTOR_QueueMoveCommand(WifiClubActorSys *sys, int action, int direc
 void WIFICLUBACTOR_QueueActorMove(void *sys, int action, WifiClubActor *actor);
 BOOL WIFICLUBACTOR_IsNotWalkBobbing(WifiClubActor *actor);
 void WIFICLUBACTOR_ApplyActorMode(void *sys, WifiClubActor *actor, u8 mode);
-void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink, u32 unused, u32 archive);
+void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink, void *unused, u32 archive);
 void WIFICLUBACTOR_ExitBlink(int unused, WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_TickBlinkAll(int unused, WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_TickBlinkFrame(WifiClubPaletteBlink *blink);
@@ -244,23 +244,23 @@ extern const MapSize data_021C28F0[];
 #define OS_VBLANK_COUNT (*(u32 *)0x02FFFC3C)
 
 
-void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 spriteArc, u32 mapIndexPlusOne, u32 paletteArc, u32 clactSys, void *gfxArchive)
+void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, void *clactResArc, u32 spriteKind, u32 mapIndexPlusOne, u32 paletteArc, void *clactSys, void *gfxArchive)
 {
     MapSize size;
     u32 mapIndex = 0;
 
     MI_CpuFill8(sys, 0, 0x5A0);
     if (mapIndexPlusOne != 0) mapIndex = (mapIndexPlusOne - 1) >> 3;
-    sys->sprites.clactSys = (void *)clactSys;
+    sys->sprites.clactSys = clactSys;
     sys->heapId = heapId;
-    sys->sprites.gfxArchive = (void *)gfxArchive;
+    sys->sprites.gfxArchive = gfxArchive;
     WIFICLUBACTOR_InitSprites(&sys->sprites, heapId, clactResArc);
     WIFICLUBACTOR_NoOpInit(sys->reserved10, heapId);
     size = WIFICLUBACTOR_GetMapSize(mapIndex);
     sys->tileMap = WF2DMAP_MAP_CreateGrid(size.w, size.h, heapId);
-    WF2DMAP_MAP_CopyEntries(sys->tileMap, (void *)WIFICLUB_GetMessageIdByIndex(mapIndex));
+    WF2DMAP_MAP_CopyEntries(sys->tileMap, WIFICLUB_GetMessageIdByIndex(mapIndex));
     sys->entityMgr = WF2DMAP_OBJ_CreateList(0x30, heapId);
-    WIFICLUBACTOR_InitSpriteManager(sys, (void *)spriteArc, heapId);
+    WIFICLUBACTOR_InitSpriteManager(sys, spriteKind, heapId);
     WF2DMAP_OBJDRAW_ClearPos(&sys->layerState);
     WIFICLUBACTOR_InitLayer(sys, heapId, clactResArc, mapIndex);
     WIFICLUBACTOR_LoadPalette(sys->reserved10, heapId, clactResArc, paletteArc);
@@ -627,10 +627,10 @@ void *WIFICLUBACTOR_FindActorFacing(WifiClubActorSys *sys, WifiClubActor *actor,
 }
 
 
-void WIFICLUBACTOR_InitSpriteManager(WifiClubActorSys *sys, void *spriteArc, u32 heapId)
+void WIFICLUBACTOR_InitSpriteManager(WifiClubActorSys *sys, u32 spriteKind, u32 heapId)
 {
     void *spriteMgr;
-    spriteMgr = WF2DMAP_OBJDRAW_CreateAnimSeq(sys->sprites.clactSys, 0, 48, spriteArc, 0, 0, heapId);
+    spriteMgr = WF2DMAP_OBJDRAW_CreateAnimSeq(sys->sprites.clactSys, 0, 48, (void *)(uptr)spriteKind, 0, 0, heapId);
     sys->spriteMgr = spriteMgr;
     WF2DMAP_OBJDRAW_ConfigureSprite(spriteMgr, 2, heapId);
 }
@@ -642,7 +642,7 @@ void WIFICLUBACTOR_ExitSpriteManager(WifiClubActorSys *sys)
 }
 
 
-void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, int unused, int mapIndex)
+void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, void *unused, int mapIndex)
 {
     LayerParams params = d_021C289C;
     params.b[9] += (u8)mapIndex;
@@ -656,7 +656,7 @@ void WIFICLUBACTOR_ExitLayer(WifiClubActorSys *sys)
 }
 
 
-void WIFICLUBACTOR_InitSprites(WifiClubSpriteSet *sprites, u32 heapId, u32 clactResArc)
+void WIFICLUBACTOR_InitSprites(WifiClubSpriteSet *sprites, u32 heapId, void *clactResArc)
 {
     WIFICLUBACTOR_RegisterResources(sprites, heapId, clactResArc);
     WIFICLUBACTOR_CreateCursorActors(sprites, heapId);
@@ -670,7 +670,7 @@ void WIFICLUBACTOR_ExitSprites(WifiClubSpriteSet *sprites)
 }
 
 
-void WIFICLUBACTOR_RegisterResources(WifiClubSpriteSet *sprites, int heapId, u32 clactResArc)
+void WIFICLUBACTOR_RegisterResources(WifiClubSpriteSet *sprites, int heapId, void *clactResArc)
 {
     WIFICLUBACTOR_RegisterClactResources(sprites, heapId, clactResArc);
 }
@@ -704,7 +704,7 @@ void WIFICLUBACTOR_NoOpExit(int unused)
 }
 
 
-void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 paletteArc)
+void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, void *clactResArc, u32 paletteArc)
 {
     u32 zero = 0;
     ARC_UTIL_UploadPaletteFromArchiveWhole(paletteArc, 7, 0, 0, 0x100, heapId);
@@ -713,11 +713,11 @@ void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 pa
 }
 
 
-void WIFICLUBACTOR_RegisterClactResources(WifiClubSpriteSet *sprites, int heapId, u32 clactResArc)
+void WIFICLUBACTOR_RegisterClactResources(WifiClubSpriteSet *sprites, int heapId, void *clactResArc)
 {
-    sprites->charRes = CLACT_RegisterCharacter((void *)clactResArc, 0x11, 0, 0, heapId);
-    sprites->palRes = CLACT_RegisterPaletteEx((void *)clactResArc, 8, 0, 0x160, 0, 2, heapId);
-    sprites->cellRes = CLACT_RegisterCellAnim((void *)clactResArc, 0x14, 0x20, (u16)heapId);
+    sprites->charRes = CLACT_RegisterCharacter(clactResArc, 0x11, 0, 0, heapId);
+    sprites->palRes = CLACT_RegisterPaletteEx(clactResArc, 8, 0, 0x160, 0, 2, heapId);
+    sprites->cellRes = CLACT_RegisterCellAnim(clactResArc, 0x14, 0x20, (u16)heapId);
 }
 
 
@@ -809,6 +809,13 @@ int WIFICLUBACTOR_IsCursorOnExit(WifiClubActorSys *sys)
 }
 
 
+/* The DS code compares the cell values as pointers; the host compares them as integers. */
+#ifdef __MWERKS__
+typedef void *WifiClubCellKey;
+#else
+typedef uptr WifiClubCellKey;
+#endif
+
 void WIFICLUBACTOR_FindSlotTile(WifiClubActorSys *sys, u16 *out, u32 slot)
 {
     u32 y, height, x, width;
@@ -819,8 +826,8 @@ void WIFICLUBACTOR_FindSlotTile(WifiClubActorSys *sys, u16 *out, u32 slot)
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             /* pointer-typed compares: only this form orders the cmp operands as the image does */
-            if ((void *)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y) == (void *)(column + 7)
-                && (void *)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y + 1) == (void *)(row + 3)) {
+            if ((WifiClubCellKey)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y) == (WifiClubCellKey)(column + 7)
+                && (WifiClubCellKey)WF2DMAP_MAP_GetCellValue(sys->tileMap, x, y + 1) == (WifiClubCellKey)(row + 3)) {
                 out[0] = x << 4;
                 out[1] = y << 4;
                 return;
@@ -1146,7 +1153,7 @@ void WIFICLUBACTOR_ApplyActorMode(void *sys, WifiClubActor *actor, u8 mode)
 }
 
 
-void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink, u32 unused, u32 archive)
+void WIFICLUBACTOR_InitBlink(WifiClubActorSys *sys, WifiClubPaletteBlink *blink, void *unused, u32 archive)
 {
     MI_CpuFill8(blink, 0, 20);
     blink->paletteHandle = ARC_UTIL_LoadPaletteBlockFromArchive(archive, 9, &blink->paletteData, (u16)sys->heapId);
@@ -1185,7 +1192,7 @@ void WIFICLUBACTOR_TickBlinkFrame(WifiClubPaletteBlink *blink)
         }
         for (i = 0; i < 4; i++) {
             if (blink->colorMask & (1 << i)) {
-                NNS_GfdRegisterNewVramTransferTask((void *)0xf, (i + 1) * 2 + 0xe0, (uptr)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
+                NNS_GfdRegisterNewVramTransferTask(0xf, (i + 1) * 2 + 0xe0, WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
             }
         }
     }
@@ -1220,7 +1227,7 @@ void WIFICLUBACTOR_TickBlinkScript(WifiClubPaletteBlink *blink)
         frame = d_021C287C[blink->stepIndex].frame;
     }
     if (apply != 0) {
-        NNS_GfdRegisterNewVramTransferTask((void *)0xf, (blink->stepColor + 1) * 2 + 0xe0, (uptr)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
+        NNS_GfdRegisterNewVramTransferTask(0xf, (blink->stepColor + 1) * 2 + 0xe0, WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
     }
 }
 

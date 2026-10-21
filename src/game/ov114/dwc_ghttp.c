@@ -191,7 +191,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferLen, int bufferClear, GHIPost **post,
         return -5;
     }
     if (bufferLen > 0) {
-        buffer = DWC_Alloc(6, bufferLen);
+        buffer = DWC_Alloc(6, (long unsigned int)bufferLen);
         if (buffer == 0) {
             DWCi_HandleGHTTPError(-5);
             completedCallback(0, 0, -5, param);
@@ -200,7 +200,7 @@ int DWCi_GHTTPGetEx(char *url, int bufferLen, int bufferClear, GHIPost **post,
         }
         entry->buffer = buffer;
     }
-    request = ghttpGetExA(url, 0, buffer, bufferLen, post == 0 ? 0 : *post, 0, 0,
+    request = ghttpGetExA(url, 0, buffer, (int)bufferLen, post == 0 ? 0 : *post, 0, 0,
                             progressCallback == 0 ? 0 : GHTTPProgressCallback, GHTTPCompletedCallback, entry);
     if (request < 0) {
         DWCi_HandleGHTTPError(request);

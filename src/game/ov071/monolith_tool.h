@@ -13,7 +13,7 @@ struct TaskMenuRes;
 
 int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup);
 int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work);
-int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work);
+int MONOLITH_TOOL_Exit(struct Proc *a, int b, int c, MonolithToolWork *work);
 void MONOLITH_TOOL_InitDisplay(void);
 void MONOLITH_TOOL_DeleteBg(void);
 void MONOLITH_TOOL_InitBmpWin(void);
@@ -55,7 +55,7 @@ MonolithCounts *MONOLITH_TOOL_GetSlotIconStates(MonolithToolProcArgs *args);
 int MONOLITH_TOOL_CreateSlotIcon(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex);
 void MONOLITH_TOOL_DeleteSlotIcon(void *p);
 void MONOLITH_TOOL_UpdateSlotIconState(void *p, MonolithCounts *counts, int i);
-int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex);
+struct ClactActor *MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex);
 void MONOLITH_TOOL_DeleteCursor(void *p);
 void MONOLITH_TOOL_CreateBlink(MonolithToolWork *work, MonolithToolBlink *blink);
 void MONOLITH_TOOL_DeleteBlink(MonolithToolBlink *blink);

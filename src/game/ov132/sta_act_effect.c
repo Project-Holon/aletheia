@@ -87,7 +87,7 @@ void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, StaActingVec *v);
 
 void STA_ACT_EFFECT_KillEffect(char *p, int i);
 
-void STA_ACT_EFFECT_SetEmitterPos(char *p, int i, int a);
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int i, Vec3 *a);
 
 extern const char d_021FDCB0[];
 
@@ -168,7 +168,7 @@ void STA_ACT_EFFECT_KillEffect(char *p, int index)
 /*
  * Addresses are Black-image addresses.
  */
-void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, int position)
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, Vec3 *position)
 {
     void *v = *(void **)(p + index * 16 + 0x4808);
 

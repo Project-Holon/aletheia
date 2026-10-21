@@ -279,7 +279,7 @@ extern const unsigned gPmsSelectGraphicActorInit[];
 int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct PmsSelectGraphic *p);
 void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p);
 void PMS_SELECT_GRAPHIC_Teardown(struct PmsSelectGraphic *p);
-void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 font, void *print, void *bank);
+void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, struct GfFont *font, void *print, void *bank);
 void PMS_SELECT_GRAPHIC_DeleteBg(struct PmsSelectGraphicBg *bg);
 void PMS_SELECT_GRAPHIC_ColorRowBg(struct PmsSelectGraphicBg *bg, u8 row, u32 pal, int flag);
 void PMS_SELECT_GRAPHIC_BlendBlinkColors(u16 *angle, u16 *out, const struct PmsSelectGraphicColorRec *recs, u8 count);
@@ -325,7 +325,7 @@ void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 he
 void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateSceneNothing(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_TransferSceneBgs(struct PmsSelectGraphicScene *scene);
-void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, unsigned vram, unsigned heap);
+void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, struct DispVramCfg *vram, unsigned heap);
 void PMS_SELECT_GRAPHIC_ExitSceneActors(void **unit);
 void PMS_SELECT_GRAPHIC_DrawSceneActors(void *unit);
 void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *unit);
@@ -505,7 +505,7 @@ void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p)
     p->scrollThumb = UI_SCENE_CreateActor(&p->actorGfx, actorUnit, 240, 16, 16, p->heapId);
     CLACT_SetActorBgPriority(p->scrollThumb, 1);
     CLACT_SetActorAutoAnim(p->scrollThumb, 1);
-    PMS_SELECT_GRAPHIC_CreateBg(&p->bg, p->heapId, (uptr)p->font, p->printQueue, p->msgBank);
+    PMS_SELECT_GRAPHIC_CreateBg(&p->bg, p->heapId, p->font, p->printQueue, p->msgBank);
     PMS_SELECT_GRAPHIC_ResetBgBlink(&p->bg);
     p->bg.decideFrames = 0;
     p->bg.decided = 0;
@@ -545,7 +545,7 @@ void PMS_SELECT_GRAPHIC_Teardown(struct PmsSelectGraphic *p)
  * No local arrays; palette halfwords initialized before queued two-byte reads.
  * Callback/context pointers retain their full32 bits.
  */
-void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 font, void *print, void *bank)
+void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, struct GfFont *font, void *print, void *bank)
 {
     void *h;
     void *str;
@@ -554,9 +554,9 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0, 256, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 288, 32, heap);
     bg->palette[0] = 0x7fff;
-    NNS_GfdRegisterNewVramTransferTask((void *)15, 316, (uptr)&bg->palette[0], 2);
+    NNS_GfdRegisterNewVramTransferTask(15, 316, &bg->palette[0], 2);
     bg->palette[1] = 0x7fff;
-    NNS_GfdRegisterNewVramTransferTask((void *)15, 314, (uptr)&bg->palette[1], 2);
+    NNS_GfdRegisterNewVramTransferTask(15, 314, &bg->palette[1], 2);
     ARC_UTIL_UploadBgCharFromHandle(h, 10, 4, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 21, 4, 0, 0, 0, heap);
     bg->tileRange = ARC_UTIL_RegisterObjCharFromHandle(h, 10, 3, 0, 0, heap);
@@ -565,9 +565,9 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     bg->screenMem = ARC_UTIL_LoadPaletteDataFromHandle(h, 23, 0, (void **)&bg->screen, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, 128, 256, 32, heap);
     bg->palette[2] = 0x294b;
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 284, (uptr)&bg->palette[2], 2);
+    NNS_GfdRegisterNewVramTransferTask(31, 284, &bg->palette[2], 2);
     bg->palette[3] = 0x5694;
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 286, (uptr)&bg->palette[3], 2);
+    NNS_GfdRegisterNewVramTransferTask(31, 286, &bg->palette[3], 2);
     ARC_UTIL_UploadBgCharFromHandle(h, 18, 5, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 24, 5, 0, 0, 0, heap);
     BG_SYS_FillTileMap(5, 0, 0, 32, 32, 8);
@@ -638,7 +638,7 @@ void PMS_SELECT_GRAPHIC_BlendBlinkColors(u16 *angle, u16 *out, const struct PmsS
     t = (FX_SinCosTable_[(*angle >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < count; i++) {
         BlendColor555(&out[i], t, recs[i].c, recs[i].d);
-        NNS_GfdRegisterNewVramTransferTask((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (uptr)(&out[i]), 2);
+        NNS_GfdRegisterNewVramTransferTask(15, (recs[i].x << 5) + (recs[i].y << 1), (&out[i]), 2);
     }
 }
 
@@ -1193,7 +1193,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);
-    PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (uptr)gPmsSelectGraphicVramBanks, heap);
+    PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (struct DispVramCfg *)gPmsSelectGraphicVramBanks, heap);
     scene->drawTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMS_SELECT_GRAPHIC_SceneTask, (void *)scene, 0);
     return scene;
 }
@@ -1268,7 +1268,7 @@ void PMS_SELECT_GRAPHIC_TransferSceneBgs(struct PmsSelectGraphicScene *scene)
     BG_SYS_Update();
 }
 
-void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, unsigned vram, unsigned heap)
+void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, struct DispVramCfg *vram, unsigned heap)
 {
     MI_CpuFill8(unitOut, 0, 4);
     CLACT_InitSystem((const struct ClactSysInit *)gPmsSelectGraphicActorInit, (const struct DispVramCfg *)vram, heap);

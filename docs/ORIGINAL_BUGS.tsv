@@ -319,7 +319,6 @@ B	src/game/arm9/gfl_use.c:468	NNS_SndHandlePauseSeq	extern void NNS_SndHandlePau
 B	src/game/arm9/gpower.c:66	ARC_TOOL_LoadMember	extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);	void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);	no
 B	src/game/arm9/iss_city_unit.c:32	ARC_TOOL_LoadMemberRange	extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);	void *ARC_TOOL_LoadMemberRange(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset, u32 size);	no
 B	src/game/arm9/musical_dist_save.c:76	SAVE_CONTROL_LoadExtraSaveWithBuffer	extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);	u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize);	no
-B	src/game/arm9/net.c:115	FLASH_ACCESS_GetBusyFlag	extern u32 FLASH_ACCESS_GetBusyFlag(void);	void *FLASH_ACCESS_GetBusyFlag(void);	no
 B	src/game/arm9/net_err.c:287	GFL_HEAP_Alloc	extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);	void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);	no
 B	src/game/arm9/nns_fnd_frameheap.c:57	NNSi_FndInitHeapHead	extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u32 optFlag);	void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);	no
 B	src/game/arm9/nns_g3d_anm_calc.c:71	FX_Div	extern u32 FX_Div(u32 numer, u32 denom);	fx32 FX_Div(fx32 numer, fx32 denom);	no
@@ -378,7 +377,6 @@ B	src/game/arm9/game_beacon.c:187	GAME_DATA_GetSpecialLocation	DS declares struc
 other	src/game/arm9/game_beacon.c:202	STRBUF_GetEosChar	the DS build declares it in the file; the type matches the definition	host includes the header	yes
 other	src/game/arm9/game_beacon.c:202	STRBUF_ToChars	the DS build declares it in the file; the type matches the definition	host includes the header	yes
 D	src/game/arm9/game_data.c:721	UI_SetSoftResetInhibitGlobal	DS declares void (?); the definition is void (u8) (the DS call passes extra or unprototyped arguments; the callee ignores them)	uses the header declaration	yes
-B	src/game/arm9/net_err.c:295	GFL_NET_STATE_GetError	DS declares struct NetErrInfo* (); the definition is u32 () (return ptrint: struct NetErrInfo* vs u32)	uses the header declaration	no
 other	src/game/arm9/particle.c:170	NNS_GfdLoadVramManager	the DS build declares it in the file; the type matches the definition	host includes the header	yes
 other	src/game/arm9/particle.c:192	SPL_EMITTER_FreeNodeToHeap	the DS build declares it in the file; the type matches the definition	host includes the header	yes
 other	src/game/arm9/particle.c:1250	SPL_EMITTER_LerpVec	the DS build declares it in the file; the type matches the definition	host includes the header	yes
@@ -774,3 +772,5 @@ B	src/game/arm9/wm_icon.c:95	ARC_UTIL_UploadScreenFromHandle	DS declares void (v
 B	src/game/ov021/place_name_letter.c:485	BMP_OAM_SetPos	DS declares the original form: ((void (*)(BmpOam *, int, int))BMP_OAM_SetPos)(letter->bmpOam, x, y); the definition takes s16 coordinates and a plain call adds extsh	uses the header declaration; the int values truncate to s16	yes
 B	src/game/ov021/field_event_check.c:439	SCRIPT_SYS_CreateScriptEventSimple	DS declares int scriptId, int target (original prototype; the definition takes u16 scriptId and void *target); a header prototype changes the call bytes	uses the header prototype; same values	yes
 B	src/game/ov088/startmenu.c:1363	G3D_UTIL_GetObject (STARTMENU_Demo3dInit)	the original caller declares G3D_UTIL_GetObject(struct G3dUtil *, u16) and passes base, base + 1, base + 2 uncast; an explicit (u16) cast changes the bytes	host uses the header int objIdx prototype	yes
+B	src/game/arm9/net_err.c:295	GFL_NET_STATE_GetError	DS declares struct NetErrInfo* (); the definition is u32 () (return ptrint: struct NetErrInfo* vs u32)	uses the header declaration	no
+B	src/game/arm9/poke_tool_shared_types.h:9	POKE_TOOL_GetPartyValue, POKE_TOOL_SetPartyValue, POKE_TOOL_GetBoxValue, POKE_TOOL_SetBoxValue (and Raw forms, HatchEgg)	the value argument is a u32 that carries a pointer for string and mail parameters	PokeToolArg is uptr, so the pointer keeps its full width	no

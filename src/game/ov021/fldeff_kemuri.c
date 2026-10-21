@@ -139,7 +139,7 @@ void FLDEFF_KEMURI_LoadResource(FldeffKemuri *kemuri)
 {
     FieldG3dObjResDesc desc;
     FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData(kemuri->fieldEffect);
-    int arcHandle = FIELD_EFFECT_GetArcHandle(kemuri->fieldEffect);
+    struct ArcHandle *arcHandle = FIELD_EFFECT_GetArcHandle(kemuri->fieldEffect);
     FIELD_G3DOBJ_InitResDesc(&desc);
     FIELD_G3DOBJ_SetResDescModel(&desc, arcHandle, FLDEFF_KEMURI_MODEL_FILE);
     FIELD_G3DOBJ_SetResDescAnimeArc(&desc, arcHandle);

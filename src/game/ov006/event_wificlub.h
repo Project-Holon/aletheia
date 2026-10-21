@@ -17,8 +17,8 @@ void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int 
 void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work);
 int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work);
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
-void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects);
+void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
+int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
 int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
 /* END mkheaders: generated region */
 

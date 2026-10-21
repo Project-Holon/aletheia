@@ -1119,7 +1119,7 @@ void DUP_FITTING_InitDisplay(u8 *work)
     *(void **)(work+0x1848) = CLACT_CreateUnit(24,0,*(u16 *)work);
     CLACT_SetUnitDefaultRenderer(*(void **)(work+0x1848));
     board = d_021BA5C4;
-    *(void **)(work+0x188c) = BILLBOARD_Create((u8 *)&board,(void *)*(u16 *)work);
+    *(void **)(work+0x188c) = BILLBOARD_Create((u8 *)&board,*(u16 *)work);
 }
 
 #undef H

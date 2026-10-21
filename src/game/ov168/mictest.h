@@ -12,7 +12,7 @@ typedef struct MictestState MictestState;
 
 #include "../types.h"
 
-int MICTEST_Exit(int a, int b, int c, MictestWork *p);
+int MICTEST_Exit(struct Proc *a, int b, int c, MictestWork *p);
 int MICTEST_Main(int a, int b, int c, MictestWork *p);
 void MICTEST_RunStepMachine(MictestState *p);
 MictestWork *MICTEST_GetOwner(MictestState *p);

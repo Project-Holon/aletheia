@@ -1110,7 +1110,7 @@ void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
     if (APP_TASKMENU_IsFinish(dispCtx->taskMenu)) {
         int zero;
         state = APP_TASKMENU_GetCursorPos(dispCtx->taskMenu);
-        GTSNEGO_MSG_CloseMenu(*(int *)&dispCtx->taskMenu);
+        GTSNEGO_MSG_CloseMenu(*(struct TaskMenuWork **)&dispCtx->taskMenu);
         zero = 0;
         *(int *)&dispCtx->taskMenu = zero;
         TOUCHBAR_SetButtonVisible((TouchBar *)GTSNEGO_DISP_GetTouchbar(dispCtx->actorSys), 1, 1);
@@ -1464,7 +1464,7 @@ void GTSNEGO_DISP_OnPartyMenuDone(struct GtsnegoDispCtx *dispCtx)
     int state;
     if (APP_TASKMENU_IsFinish(dispCtx->taskMenu)) {
         state = APP_TASKMENU_GetCursorPos(dispCtx->taskMenu);
-        GTSNEGO_MSG_CloseMenu(*(int *)&dispCtx->taskMenu);
+        GTSNEGO_MSG_CloseMenu(*(struct TaskMenuWork **)&dispCtx->taskMenu);
         *(int *)&dispCtx->taskMenu = 0;
         switch (state) {
         case 0:

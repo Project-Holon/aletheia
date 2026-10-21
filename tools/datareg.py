@@ -15,7 +15,9 @@ kinds: string, numeric (elem u8/u16/u32 + count), pointer_table (targets),
        struct (fields runs of u32/ptr + targets), zero, raw (byte array)
 
 Regions: arm9 (fixed scout range), every overlay ovNNN (tail = everything
-after the last traced code line of the overlay listing) and twl (the DSi-mode
+after the last traced code line of the overlay listing, or after the last
+function of layout/function_addrs.tsv that starts beyond it: a callback that only
+a data table names is not traced by the listing, see tools/codeasdata.py) and twl (the DSi-mode
 block: the byte ranges between the src/game/twl files, TWL_RANGES, kept under the registry key twl_data; names from
 TWL_NAMES, function targets named by layout/function_addrs.tsv).  Each object also
 carries "ev", the evidence classes that fix its start: tail (region start),
@@ -313,10 +315,37 @@ def classify(addr, b, syms):
 
 # --------------------------------------------------------------------------
 
+def region_functions(region):
+    """{start: end} of the functions layout/function_addrs.tsv gives region."""
+    out = {}
+    path = os.path.join(ROOT, "layout", "function_addrs.tsv")
+    if not os.path.isfile(path):
+        return out
+    with open(path, encoding="utf-8") as fh:
+        next(fh)
+        for line in fh:
+            t = line.rstrip("\n").split("\t")
+            if t[0] == region:
+                a = int(t[1], 16)
+                out[a] = a + int(t[4])
+    return out
+
+
 def build_region(layout, region, lo_hi, arm9_labels, datamap, old_names, matched=None,
                  arm9_data=None):
     base, img, listing = region_image(layout, region)
     code_end, data, labels, words = scan_listing(listing)
+    if region != "arm9":
+        # functions of src/game that the listing did not trace (named only by a
+        # data table) are code: the tail starts after them, and they are
+        # function targets of the tail's pointers
+        # (a function that starts before the listing's last code line keeps
+        # its literal pool in the tail, as before)
+        traced_end = code_end
+        for a, e in region_functions(region).items():
+            if a >= traced_end:
+                code_end = max(code_end, e)
+            labels.setdefault(a, "func_%08X" % a)
     if lo_hi:
         lo, hi = lo_hi
     else:

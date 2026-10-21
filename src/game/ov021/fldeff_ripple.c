@@ -143,7 +143,7 @@ void FLDEFF_RIPPLE_AddActor(RippleWork *work)
 {
     struct BbActRec rec;
     G3dResource *res;
-    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(work->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(work->fieldEffect);
 
     rec.format = 2;
     rec.sizeS = 0x13;
@@ -180,13 +180,13 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
 {
     RippleStartParam *param = (RippleStartParam *)FIELD_EFFECT_GetObjectParam(obj);
     RippleWork *bbRes;
-    uptr actSys; u32 entryId;
+    struct BbActSys *actSys; u32 entryId;
     struct BbActDesc desc;
 
     work->res = param->work;
     FIELD_EFFECT_SetObjectPos(obj, &param->pos);
     bbRes = work->res;
-    actSys = (uptr)bbRes->bbActSys;
+    actSys = bbRes->bbActSys;
     desc.slot = bbRes->actorId;
     desc.width = 0x1000;
     desc.height = 0x1000;
@@ -196,24 +196,24 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
     desc.pos = param->pos;
     desc.hook = 0;
     desc.hookArg = (uptr)work;
-    work->entryId = BILLBOARD_ACT_CreateEntries((struct BbActSys *)actSys, 0, &desc, 1, 3);
+    work->entryId = BILLBOARD_ACT_CreateEntries(actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)actSys, work->entryId, (struct BbActCmd **)gRippleBoardCommands, 1);
+    BILLBOARD_ACT_SetEntryCommands(actSys, work->entryId, (struct BbActCmd **)gRippleBoardCommands, 1);
     entryId = work->entryId;
-    BILLBOARD_ACT_SetEntryList((struct BbActSys *)actSys, entryId, 0);
-    BILLBOARD_ACT_SetEntryEnabled((struct BbActSys *)actSys, entryId, 1);
+    BILLBOARD_ACT_SetEntryList(actSys, entryId, 0);
+    BILLBOARD_ACT_SetEntryEnabled(actSys, entryId, 1);
 }
 
 /* Exit: deletes the billboard entry unless the creation failed. */
 void FLDEFF_RIPPLE_ExitObj(FieldEffectObj *obj, RippleObjWork *work)
 {
-    u32 actSys = (uptr)work->res->bbActSys;
+    struct BbActSys *actSys = work->res->bbActSys;
 
     if (work->entryId != 0xFFFF)
-        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)actSys, work->entryId, 1);
+        BILLBOARD_ACT_DeleteEntries(actSys, work->entryId, 1);
 }
 
 /* Update: ends the effect when the entry has run its last command. */

@@ -15,7 +15,7 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon);
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon);
-int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused);
+int PLIST_DEMO_CanUseGracidea(PokelistWork *work, void *unused);
 void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon);
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId);
 int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);

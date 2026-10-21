@@ -382,7 +382,7 @@ char *POKETRADE_2D_GetGridCellMon(int a, int b, char *p);
 void POKETRADE_2D_PlaceBoxIconActors(char *p);
 int POKETRADE_2D_IsBoxIconFiltered(char *p, int i);
 int POKETRADE_2D_IsBoxIconMatch(int i, int x);
-void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable);
+void POKETRADE_2D_SetIconObjMode(int unused, struct ClactActor *actor, int enable);
 void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row);
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag);
 int POKETRADE_2D_GetScrollColumn(char *p);
@@ -392,7 +392,7 @@ void POKETRADE_2D_UpdateBoxIconPositions(char *p);
 void POKETRADE_2D_LoadBoxIconGfx(char *p, int b);
 s32 POKETRADE_2D_WrapIndex12(s32 x);
 void POKETRADE_2D_HideAllBoxIcons(int p);
-int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow);
+struct ClactActor *POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow);
 void POKETRADE_2D_SetupSummaryBgs(char *p,int mode);
 void POKETRADE_2D_ExitSummaryBgs(int p);
 void POKETRADE_2D_InitDisplayAndClact(char *p);
@@ -1055,9 +1055,9 @@ int POKETRADE_2D_IsBoxIconMatch(int i, int x)
 /*
  * Normalise the third argument to 0 or 1 and tail call the setter.
  */
-void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable)
+void POKETRADE_2D_SetIconObjMode(int unused, struct ClactActor *actor, int enable)
 {
-    CLACT_SetActorObjMode((struct ClactActor *)actor, enable != 0);
+    CLACT_SetActorObjMode(actor, enable != 0);
 }
 
 void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row)
@@ -1066,7 +1066,7 @@ void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recor
     if (POKETRADE_NEGO_IsMonOwnOffer(p, gridSlot, column)) {
         flag = 1;
     }
-    POKETRADE_2D_SetIconObjMode((sptr)p, ((int (*)[5])(p + 0xAC0))[row][column], flag);
+    POKETRADE_2D_SetIconObjMode((sptr)p, ((struct ClactActor *(*)[5])(p + 0xAC0))[row][column], flag);
 }
 
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
@@ -1113,7 +1113,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
             idx += n * 30;
             CLACT_GetActorSurfacePos((struct ClactActor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct ClactVec2 *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
-                if (NNS_GfdRegisterNewVramTransferTask((void *)0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
+                if (NNS_GfdRegisterNewVramTransferTask(0x23, info.c, (void *)(*(int *)(p + 0x1184) + idx * 0x200), 0x200) == 0) {
                     vram = VRAM_BASE;
                     MI_CpuCopy8((const void *)(*(int *)(p + 0x1184) + idx * 0x200), (void *)(vram + info.c), 0x200);
                 }
@@ -1313,7 +1313,7 @@ void POKETRADE_2D_HideAllBoxIcons(int p)
  * 0204B454 writes both coordinate halfwords through 0204B53C and then
  * subtracts the origin, itself written through 0204CF74/0204B0C8.
  */
-int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow)
+struct ClactActor *POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow)
 {
  PointS16 pos;
  int column,slot,row;
@@ -1332,7 +1332,7 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
     }
     if(outSlot) {*outSlot=slot;*outColumn=column;*outRow=row;}
     tmp=(Pokemontrade2dObject *)p;
-    return (sptr)tmp->actors[row][column];
+    return tmp->actors[row][column];
    }
   }
  }
@@ -1920,7 +1920,7 @@ void POKETRADE_2D_DeleteAllOfferIconActors(void *p)
 void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, void *q) {
     struct ActorInitParam c;
     c.x=x; c.y=y; c.anim_seq=1; c.draw_priority=0; c.bg_priority=0;
-    ((TradeWork *)p)->iconActorC=(sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->iconPalette),(*(int *)&((TradeWork *)p)->cellAnimC),&c,1,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->iconActorC=CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->iconPalette),(*(int *)&((TradeWork *)p)->cellAnimC),&c,1,((TradeWork *)p)->heapId);
     CLACT_SetActorPaletteOffset((struct ClactActor *)(((TradeWork *)p)->iconActorC),POKE_TOOL_GetIconPalette(q),1);
 }
 
@@ -2255,7 +2255,7 @@ void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
     struct ActorInitParam c;
     c.x=x+12;c.y=y+12;c.anim_seq=24;c.draw_priority=0;c.bg_priority=0;
     POKETRADE_2D_DeleteCursorActor(p);
-    ((TradeWork *)p)->iconActorD=(sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
+    ((TradeWork *)p)->iconActorD=CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->iconActorD,1);
     CLACT_SetActorAutoAnim((struct ClactActor *)((TradeWork *)p)->iconActorD,1);
     p[0x11f5]=0;

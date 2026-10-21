@@ -912,13 +912,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         OV230_CallSealedBody5((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_NopHook, 0);
         switch (work->changeKind) {
         case 1:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase1((sptr)gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);
             break;
         case 2:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase2((sptr)gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase2(gameData, work->destination.zoneId);
             break;
         case 3:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase3((sptr)gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase3(gameData, work->destination.zoneId);
             break;
         }
         GF_OVERLAY_Unload((sptr)ov230_id);
@@ -1338,7 +1338,7 @@ int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWo
 {
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = work->fieldMap;
-    int transition = (sptr)FIELDMAP_GetTaskManager(fieldMap);
+    FieldTaskManager *transition = FIELDMAP_GetTaskManager(fieldMap);
 
     switch (*seq) {
     case 0:
@@ -1346,7 +1346,7 @@ int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWo
         (*seq)++;
         break;
     case 1:
-        if ((struct FieldTaskManager *)FIELD_TASK_MANAGER_IsEmpty((struct FieldTaskManager *)transition)) {
+        if (FIELD_TASK_MANAGER_IsEmpty(transition)) {
             GAME_EVENT_CallEvent(event, EVENT_FIELD_PROCLINK_CreateAnimEvent(gameSystem, fieldMap));
             (*seq)++;
         }
@@ -1836,7 +1836,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEvent(GameSystem *gameSystem, FieldMap 
     if (EVENTDATA_SYSTEM_IsSpecialExitConnect(connectData) != 0) {
         work->destination = *GAME_DATA_GetSpecialLocation(gameData);
     } else {
-        EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, (sptr)(&work->destination), exitDir);
+        EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, &work->destination, exitDir);
     }
     work->exitType = EVENTDATA_SYSTEM_GetConnectExitType(connectData);
     entranceLocation = GAME_DATA_GetEntranceLocation(gameData);
@@ -1858,7 +1858,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
     work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->seasonFadeAllowed = 1;
-    EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, (sptr)(&work->destination), exitDir);
+    EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, &work->destination, exitDir);
     work->exitType = EVENTDATA_SYSTEM_GetConnectExitType(connectData);
     return event;
 }
@@ -1957,7 +1957,7 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
         Location arrivalLocation;
     } locations;
 
-    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(gameData)), (sptr)(&locations.arrivalLocation));
+    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(gameData)), &locations.arrivalLocation);
     ZONEDATA_SetZoneStartLocation(&locations.startLocation, MAP_REPLACE_GetWarpFlagId(GAME_DATA_GetSituationWarpId(gameData)));
     GAME_DATA_SetEscapeLocation(gameData, &locations.startLocation);
     EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
@@ -2012,7 +2012,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSyste
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
-    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(work->gameData)), (sptr)(&work->location));
+    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(work->gameData)), &work->location);
     return event;
 }
 
@@ -2097,11 +2097,11 @@ void EVENT_MAPCHANGE_AddEventDataMmdl(GameData *gameData, const Location *locati
     int npcCount = EVENTDATA_SYSTEM_GetNpcCount(eventData);
 
     if (npcCount != 0) {
-        int eventWork = (sptr)GAME_DATA_GetEventWork(gameData);
+        struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
         MmdlSys *mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
-        int npcHeaders = EVENTDATA_SYSTEM_GetNpcHeaders(eventData);
+        struct MmdlHeader *npcHeaders = EVENTDATA_SYSTEM_GetNpcHeaders(eventData);
         int zoneId = (s16)location->zoneId;
-        FLDMMDL_AddMmdlHeaderList(mmdlSys, (struct MmdlHeader *)npcHeaders, zoneId, npcCount, (void *)eventWork);
+        FLDMMDL_AddMmdlHeaderList(mmdlSys, npcHeaders, zoneId, npcCount, eventWork);
     }
 }
 
@@ -2118,7 +2118,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     int itemCount;
     int headerCount;
     sptr mmdlSys;
-    sptr eventWork;
+    struct EventWork *eventWork;
     unsigned short *wfbcData;
     sptr itemSlots;
 
@@ -2127,7 +2127,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
 
     mapMode = (int)FIELD_STATUS_GetMapMode(GAME_DATA_GetMoveModelSys(gameData));
     mmdlSys = (sptr)GAME_DATA_GetOccupyInfo(gameData);
-    eventWork = (sptr)GAME_DATA_GetEventWork(gameData);
+    eventWork = GAME_DATA_GetEventWork(gameData);
     if (mapMode == 0)
         wfbcData = (u16 *)GAME_DATA_GetSecondUnionInfo(gameData);
     else
@@ -2136,7 +2136,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     headers = (sptr)FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders((struct WfbcData *)wfbcData, mapMode, 1);
     headerCount = FIELD_WFBC_DATA_LOCAL_CountPeople((struct WfbcData *)wfbcData, mapMode);
     if (headers != 0 && headerCount != 0)
-        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)headerCount, (void *)eventWork);
+        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)headerCount, eventWork);
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 
@@ -2144,7 +2144,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     itemCount = FIELD_WFBC_DATA_LOCAL_CountItemSlots((u16 *)itemSlots);
     headers = (sptr)FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
     if (headers != 0 && itemCount != 0)
-        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)itemCount, (void *)eventWork);
+        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)itemCount, eventWork);
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 }
@@ -2217,7 +2217,7 @@ void EVENT_MAPCHANGE_UpdateFieldStateForZone(GameSystem *gameSystem, u16 zoneId)
     EVENTDATA_SYSTEM_Load(eventData, zoneId, GAME_DATA_GetSeason(gameData));
     fieldWork = (struct MapMatrix *)GAME_DATA_GetFieldWork(gameData);
     MAP_MATRIX_Load(fieldWork, ZONEDATA_GetMatrixId(zoneId), zoneId, 0x8001);
-    MAP_MATRIX_ApplyReplace(fieldWork, (sptr)gameSystem, 0x8001);
+    MAP_MATRIX_ApplyReplace(fieldWork, gameSystem, 0x8001);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, zoneId);
 }
 

@@ -12,10 +12,10 @@ struct ClactActor;
 typedef struct {
     void **wins;
     u8 pad4[8 - 4];
-    u32 cursor;
-    u32 up;
-    u32 down;
-    unsigned int rowCursor;
+    struct ClactActor *cursor;
+    struct ClactActor *up;
+    struct ClactActor *down;
+    struct ClactActor *rowCursor;
     void *mgr;
     void *bag;
     void *bank;
@@ -166,7 +166,7 @@ typedef struct {
 typedef struct {
     u32 vram; /* +0x0 */
     u32 pal; /* +0x4 */
-    u32 spr; /* +0x8 */
+    struct ClactActor *spr; /* +0x8 */
     u8 pixels[0x200]; /* +0xC */
 } IconRec;
 
@@ -202,8 +202,8 @@ typedef struct {
 
 /* Print stream state of the message window: font id, message data, then the stream. */
 typedef struct {
-    unsigned int font; /* +0x0 */
-    unsigned int msgData; /* +0x4 */
+    struct GfFont *font; /* +0x0 */
+    struct Tcbl *msgData; /* +0x4 */
     u8 pad8[8];
     void *stream; /* +0x10 */
     void *streamWin; /* +0x14 */
@@ -448,7 +448,7 @@ struct WorldtradeWork {
             void *cursor_p; /* +0xBF4 */
         };
     };
-    u32 arrC[6]; /* +0xCF0 */
+    struct ClactActor *arrC[6]; /* +0xCF0 */
     void *obj; /* +0xD08 */
     union { /* +0xD0C */
         u32 spr[10];
@@ -461,7 +461,7 @@ struct WorldtradeWork {
             void *btn[2]; /* +0xD2C */
         };
     };
-    u32 arrow; /* +0xD34 */
+    struct ClactActor *arrow; /* +0xD34 */
     struct ClactActor *scrollBarObj; /* +0xD38 */
     union { /* +0xD3C */
         int scroll;
@@ -534,7 +534,7 @@ struct WorldtradeWork {
     void *de8; /* +0xDE8 */
     u8 padDEC_[8];
     void *speciesMenuList;
-    u32 timeIcon; /* +0xDF8 */
+    struct TimeIcon *timeIcon; /* +0xDF8 */
     int cnt; /* +0xDFC */
     union { /* +0xE00 */
         Aux *aux;
@@ -780,7 +780,7 @@ typedef struct {
 typedef struct WorldtradeInputInit {
     u32 w00;
     u32 w04;
-    u32 obj;
+    struct ClactActor *obj;
     u32 w0c;
     u32 w10;
     u32 w14;
@@ -796,7 +796,7 @@ typedef struct WorldtradeInputInit {
 typedef struct InputMenu {
     u32 w00;
     u32 w04;
-    u32 obj;
+    struct ClactActor *obj;
     u32 w0c;
     u32 w10;
     u32 w14;

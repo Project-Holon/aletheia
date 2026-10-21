@@ -611,10 +611,10 @@ int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, voi
         }
         situation->connect.requestId = objId;
         beaconIndex = UNION_CHARA_GetBeaconIndex(objId);
-        UNION_COMM_SetSituationParam(work, 0, (uptr)(&work->beaconPc[beaconIndex]));
+        UNION_COMM_SetSituationParam(work, 0, ((unsigned int)((UnionBeacon *)&work->beaconPc[beaconIndex])));
         if (UNION_CHARA_IsChildObjId(objId) == 0) {
             if (work->beaconPc[beaconIndex].beacon.status == 0) {
-                UNION_COMM_SetSituationParam(work, 1, (uptr)(&work->beaconPc[beaconIndex]));
+                UNION_COMM_SetSituationParam(work, 1, ((unsigned int)((UnionBeacon *)&work->beaconPc[beaconIndex])));
                 UNION_ONESELF_SetNextPlayCategory(work, 5);
             } else {
                 UNION_ONESELF_SetNextPlayCategory(work, 0xB);
@@ -698,8 +698,8 @@ int UNION_ONESELF_FieldExitMain(UnionRoomWork *work, UnionMySituation *situation
 
 /* Setup of the trade scene (0x14 bytes, scene 2). */
 typedef struct UnionTradeSetup {
-    int gameData;     /* 0x00 */
-    int party;        /* 0x04 received party */
+    struct GameData *gameData;     /* 0x00 */
+    struct Party *party;        /* 0x04 received party */
     u16 tradeMode;    /* 0x08 */
     u8  isEvent;      /* 0x0A */
     u8  isDemo;       /* 0x0B */
@@ -712,9 +712,9 @@ typedef struct UnionTradeParam {
     u8  pad00[8];
     int result;               /* 0x08 */
     u8  pad0c[0x14 - 0x0c];
-    int gameData;             /* 0x14 */
+    struct GameData *gameData;             /* 0x14 */
     int pad18;
-    int party;                /* 0x1C */
+    struct Party *party;                /* 0x1C */
     UnionTradeSetup *setup;   /* 0x20 */
 } UnionTradeParam;
 
@@ -1072,7 +1072,7 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
         param = GFL_HEAP_Alloc(4, 12, 1, (char *)d_021807E8, 0x41A);
         param->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
         unisys->sceneParam = param;
-        UNION_SCENE_RequestScene(unisys, 0x1d, (sptr)param);
+        UNION_SCENE_RequestScene(unisys, 0x1d, (int)((int *)param));
         (*seq)++;
         break;
     case 1:
@@ -1973,8 +1973,8 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         break;
     case 3:
         param = GFL_HEAP_Alloc(0x41, 0x30, 1, (char *)d_021807E8, 0xA54);
-        param->gameData = (sptr)GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-        param->party = (sptr)POKEPARTY_Create(0x41);
+        param->gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
+        param->party = POKEPARTY_Create(0x41);
         setup = GFL_HEAP_Alloc(4, 0x14, 0, (char *)d_021807E8, 0xA5B);
         setup->gameData = param->gameData;
         setup->party = param->party;
@@ -1986,14 +1986,14 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         param->setup = setup;
         param->result = 0;
         unisys->sceneParam = param;
-        UNION_SCENE_RequestScene(unisys, 2, (sptr)param);
+        UNION_SCENE_RequestScene(unisys, 2, (int)((int *)param));
         (*seq)++;
         break;
     case 4:
         if (UNION_SCENE_IsScenePending(unisys) == 0) {
             param = ((UnionTradeParam *)unisys->sceneParam);
             GFL_HEAP_Free(param->setup);
-            GFL_HEAP_Free((void *)param->party);
+            GFL_HEAP_Free(param->party);
             GFL_HEAP_Free(((UnionTradeParam *)unisys->sceneParam));
             unisys->sceneParam = 0;
             (*seq)++;
@@ -2041,7 +2041,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
             if (requiredCount <= (int)GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
                 *seq = 4;
             } else {
-                UNION_COMM_SetSituationParam(unisys, 3, (uptr)&unisys->beaconPc[beaconIndex]);
+                UNION_COMM_SetSituationParam(unisys, 3, (unsigned int)((UnionBeacon *)&unisys->beaconPc[beaconIndex]));
                 situation->connect.serviceFlag = 1;
                 switch (situation->connect.partnerSelectA) {
                 case 0x14:
@@ -2176,7 +2176,7 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
                 paramThree = GFL_HEAP_Alloc(0x41, 8, 1, (char *)d_021807E8, 0xB9A);
                 paramThree->gameData = unisys->parent->gameData;
                 unisys->sceneParam = paramThree;
-                UNION_SCENE_RequestScene(unisys, 3, (sptr)paramThree);
+                UNION_SCENE_RequestScene(unisys, 3, (int)((int *)paramThree));
             } else {
                 paramFour = GFL_HEAP_Alloc(0x41, 0x18, 1, (char *)d_021807E8, 0xBA2);
                 paramFour->gameData = unisys->parent->gameData;
@@ -2184,7 +2184,7 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
                 paramFour->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
                 paramFour->bag = GAME_DATA_GetTrainerRecord(unisys->parent->gameData);
                 unisys->sceneParam = paramFour;
-                UNION_SCENE_RequestScene(unisys, 4, (sptr)paramFour);
+                UNION_SCENE_RequestScene(unisys, 4, (int)((int *)paramFour));
             }
             (*seq)++;
         }
@@ -2999,7 +2999,7 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         battle->recordMode = 0;
         battle->result = 0;
         unisys->sceneParam = battle;
-        UNION_SCENE_RequestScene(unisys, 0x1a, (sptr)battle);
+        UNION_SCENE_RequestScene(unisys, 0x1a, (int)((int *)battle));
         (*seq)++;
         break;
     case 4:
@@ -3213,7 +3213,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
             ((u8 *)colosseum->trainerCard[colosseum->talkPlayer])[4] |= 0x20;
             partnerCard = TRCARD_SYS_CreateEditWork(unisys->parent->gameData, (u8 *)colosseum->trainerCard[colosseum->talkPlayer], 0x41);
             unisys->sceneParam = partnerCard;
-            UNION_SCENE_RequestScene(unisys, 0x1c, (sptr)partnerCard);
+            UNION_SCENE_RequestScene(unisys, 0x1c, (int)partnerCard);
             (*seq)++;
         }
         break;

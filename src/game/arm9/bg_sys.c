@@ -364,9 +364,9 @@ void BG_SYS_ClearLayer(int channel, u16 val);
 
 void BG_SYS_ClearLayerEx(int channel, u16 val);
 
-u32 BG_SYS_GetGraphics(u32 channel);
+void *BG_SYS_GetGraphics(u32 channel);
 
-u32 BG_SYS_GetBuf(int channel);
+void *BG_SYS_GetBuf(int channel);
 
 u32 BG_SYS_GetChannelScrollX(u8 channel);
 
@@ -1245,11 +1245,11 @@ void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c)
     case 1:
         break;
     case 2:
-        G2x_SetBGyAffine_((uptr)(void *)REG_BG2PA_ADDR, a, b, c,
+        G2x_SetBGyAffine_(REG_BG2PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 3:
-        G2x_SetBGyAffine_((uptr)(void *)REG_BG3PA_ADDR, a, b, c,
+        G2x_SetBGyAffine_(REG_BG3PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 4:
@@ -1257,11 +1257,11 @@ void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c)
     case 5:
         break;
     case 6:
-        G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG2PA_ADDR, a, b, c,
+        G2x_SetBGyAffine_(REG_DB_BG2PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 7:
-        G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG3PA_ADDR, a, b, c,
+        G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     }
@@ -1955,17 +1955,17 @@ void BG_SYS_ClearLayerEx(int channel, u16 val)
     BG_SYS_MarkTileDirty(channel);
 }
 
-u32 BG_SYS_GetGraphics(u32 channel)
+void *BG_SYS_GetGraphics(u32 channel)
 {
     switch (channel) {
-    case 0: return (uptr)G2_GetBG0CharPtr();
-    case 1: return (uptr)G2_GetBG1CharPtr();
-    case 2: return (uptr)G2_GetBG2CharPtr();
-    case 3: return (uptr)G2_GetBG3CharPtr();
+    case 0: return G2_GetBG0CharPtr();
+    case 1: return G2_GetBG1CharPtr();
+    case 2: return G2_GetBG2CharPtr();
+    case 3: return G2_GetBG3CharPtr();
     case 4: return G2S_GetBG0CharPtr();
     case 5: return G2S_GetBG1CharPtr();
-    case 6: return (uptr)G2S_GetBG2CharPtr();
-    case 7: return (uptr)G2S_GetBG3CharPtr();
+    case 6: return G2S_GetBG2CharPtr();
+    case 7: return G2S_GetBG3CharPtr();
     default: return 0;
     }
 }
@@ -1981,9 +1981,9 @@ u32 BG_SYS_GetGraphics(u32 channel)
  *   python tools/match.py tu --src src/matched/unit_0204162C.c \
  *       --addr 0x0204162C --arm
  */
-u32 BG_SYS_GetBuf(int channel)
+void *BG_SYS_GetBuf(int channel)
 {
-    return (uptr)g_02146A44->bgs[channel].buf;
+    return g_02146A44->bgs[channel].buf;
 }
 
 u32 BG_SYS_GetChannelScrollX(u8 channel)
@@ -2271,9 +2271,9 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
-                          (sptr)(const void *)SLOT(2).scaleX,
-                          (sptr)(const void *)SLOT(2).scaleY, 2);
-            G2x_SetBGyAffine_((uptr)(void *)REG_BG2PA_ADDR, &t,
+                          (sptr)SLOT(2).scaleX,
+                          (sptr)SLOT(2).scaleY, 2);
+            G2x_SetBGyAffine_(REG_BG2PA_ADDR, &t,
                           SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
         }
@@ -2285,9 +2285,9 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
-                          (sptr)(const void *)SLOT(3).scaleX,
-                          (sptr)(const void *)SLOT(3).scaleY, 2);
-            G2x_SetBGyAffine_((uptr)(void *)REG_BG3PA_ADDR, &t,
+                          (sptr)SLOT(3).scaleX,
+                          (sptr)SLOT(3).scaleY, 2);
+            G2x_SetBGyAffine_(REG_BG3PA_ADDR, &t,
                           SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
         }
@@ -2307,9 +2307,9 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
-                          (sptr)(const void *)SLOT(6).scaleX,
-                          (sptr)(const void *)SLOT(6).scaleY, 2);
-            G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG2PA_ADDR, &t,
+                          (sptr)SLOT(6).scaleX,
+                          (sptr)SLOT(6).scaleY, 2);
+            G2x_SetBGyAffine_(REG_DB_BG2PA_ADDR, &t,
                           SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
         }
@@ -2321,9 +2321,9 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
-                          (sptr)(const void *)SLOT(7).scaleX,
-                          (sptr)(const void *)SLOT(7).scaleY, 2);
-            G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG3PA_ADDR, &t,
+                          (sptr)SLOT(7).scaleX,
+                          (sptr)SLOT(7).scaleY, 2);
+            G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, &t,
                           SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
         }
@@ -2428,7 +2428,7 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
   if (g_02146A44->bgs[layer].buf == 0)
     return 0;
   key = BG_SYS_GetTileMapEntry((u8) (x >> 3), (u8) (y >> 3), g_02146A44->bgs[layer].screenSizeCode);
-  chr = (u8 *)BG_SYS_GetGraphics(layer);
+  chr = BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
   if (g_02146A44->bgs[layer].colorMode == 0)
@@ -2621,7 +2621,7 @@ void BG_SYS_ResetAffineMatrix(u32 layer)
 {
     MtxFx22 p;
 
-    BUTTON_MAN_RotScaleMtx22(&p, 0, (sptr)(const void *)0x1000, (sptr)(const void *)0x1000, 0);
+    BUTTON_MAN_RotScaleMtx22(&p, 0, (sptr)0x1000, (sptr)0x1000, 0);
     BG_SYS_SetScrollRegs(layer, &p, 0, 0);
 }
 

@@ -38,17 +38,17 @@ typedef enum {
 } GXBGMode;
 
 void *G2_GetBG0ScrPtr(void);
-u32 G2S_GetBG0ScrPtr(void);
+void *G2S_GetBG0ScrPtr(void);
 void *G2_GetBG1ScrPtr(void);
-u32 G2S_GetBG1ScrPtr(void);
+void *G2S_GetBG1ScrPtr(void);
 void *G2_GetBG2ScrPtr(void);
 void *G2S_GetBG2ScrPtr(void);
 void *G2_GetBG3ScrPtr(void);
 void *G2S_GetBG3ScrPtr(void);
 void *G2_GetBG0CharPtr(void);
-u32 G2S_GetBG0CharPtr(void);
+void *G2S_GetBG0CharPtr(void);
 void *G2_GetBG1CharPtr(void);
-u32 G2S_GetBG1CharPtr(void);
+void *G2S_GetBG1CharPtr(void);
 void *G2_GetBG2CharPtr(void);
 void *G2S_GetBG2CharPtr(void);
 void *G2_GetBG3CharPtr(void);
@@ -70,9 +70,9 @@ void *G2_GetBG0ScrPtr(void)
     return (void *)(HW_BG_VRAM + baseBlock + screenBase * 0x800);
 }
 
-u32 G2S_GetBG0ScrPtr(void)
+void *G2S_GetBG0ScrPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
 }
 
 static inline int GetBG1ScreenBase(void)
@@ -91,9 +91,9 @@ void *G2_GetBG1ScrPtr(void)
     return (void *)(HW_BG_VRAM + baseBlock + screenBase * 0x800);
 }
 
-u32 G2S_GetBG1ScrPtr(void)
+void *G2S_GetBG1ScrPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
 }
 
 /*
@@ -230,9 +230,9 @@ void *G2_GetBG0CharPtr(void)
     return (void *)(HW_BG_VRAM + baseBlock + charBase * 0x4000);
 }
 
-u32 G2S_GetBG0CharPtr(void)
+void *G2S_GetBG0CharPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
 }
 
 static inline int GetBG1CharBase(void)
@@ -251,9 +251,9 @@ void *G2_GetBG1CharPtr(void)
     return (void *)(HW_BG_VRAM + baseBlock + charBase * 0x4000);
 }
 
-u32 G2S_GetBG1CharPtr(void)
+void *G2S_GetBG1CharPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
 }
 
 /*

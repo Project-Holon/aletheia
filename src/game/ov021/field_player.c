@@ -679,7 +679,7 @@ void FIELD_PLAYER_UpdateNogrid(FieldPlayer *player, u32 a, u32 b)
     FIELD_PLAYER_NOGRID_Update(player->nogrid, a, b);
 }
 
-void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, int a)
+void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, const RailLocation *a)
 {
     FIELD_PLAYER_NOGRID_AttachMmdl( (FieldPlayerNogrid *)player->nogrid, (RailLocation *)a);
 }
@@ -694,9 +694,9 @@ u32 FIELD_PLAYER_IsNogridForcedMove(FieldPlayer *player)
     return FIELD_PLAYER_NOGRID_IsForcedMove(player->nogrid);
 }
 
-u32 FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player)
+struct RailWork *FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player)
 {
-    return (uptr)FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
+    return FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
 }
 
 void FIELD_PLAYER_SetNogridRailLocation(FieldPlayer *player, void *a)

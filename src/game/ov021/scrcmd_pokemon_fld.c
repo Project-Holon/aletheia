@@ -428,7 +428,7 @@ int SCRCMD_POKEMON_FLD_SelectPartyMon(struct ScriptVm *vm, struct ScrcmdWork *wo
 
     SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_POKE_STATUS_CreatePokeSelectEvent((sptr)SCRCMD_WORK_GetGameSystem(work), selectedSlotOut, resultOut));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_POKE_STATUS_CreatePokeSelectEvent(SCRCMD_WORK_GetGameSystem(work), selectedSlotOut, resultOut));
     return 1;
 }
 
@@ -841,7 +841,7 @@ int SCRCMD_POKEMON_FLD_CheckMonTutorStatus(struct ScriptVm *vm, struct ScrcmdWor
         return 0;
     if (SCRCMD_POKEMON_FLD_CheckTutorGroup(mon, tutorKind) == 0) {
         *resultOut = 1;
-    } else if (SCRCMD_PROC_CheckMonKnowsMove((sptr)mon, SCRCMD_POKEMON_FLD_GetTutorMoveId(mon, tutorKind)) == 1) {
+    } else if (SCRCMD_PROC_CheckMonKnowsMove(mon, SCRCMD_POKEMON_FLD_GetTutorMoveId(mon, tutorKind)) == 1) {
         *resultOut = 3;
     } else if (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FRIENDSHIP, 0) < SCRCMD_POKEMON_FLD_GetTutorFriendship(tutorKind)) {
         *resultOut = 2;
@@ -946,7 +946,7 @@ int SCRCMD_POKEMON_FLD_StartSelectEvent(struct ScriptVm *vm, struct ScrcmdWork *
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     resultOut = SCRIPT_WORK_ReadWorkPointer(vm, work);
     firstArg = SCRIPT_WORK_ReadWorkValue(vm, work);
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)(u16 *)SCRCMD_CreateNicknameEvent(gameSystem, (u16 *)resultOut, firstArg, SCRIPT_WORK_ReadWorkValue(vm, work)));
+    SCRIPT_SYS_CallEvent(scriptWork, SCRCMD_CreateNicknameEvent(gameSystem, (u16 *)resultOut, firstArg, SCRIPT_WORK_ReadWorkValue(vm, work)));
     return 1;
 }
 
@@ -966,7 +966,7 @@ int SCRCMD_POKEMON_FLD_SelectMonMove(struct ScriptVm *vm, struct ScrcmdWork *wor
     mode = SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_POKE_STATUS_CreateMoveSelectEvent((sptr)gameSystem, (sptr)GAMESYSTEM_GetFieldMap(gameSystem), partySlot, (sptr)moveOut, (sptr)resultOut, mode == 0, mode));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_POKE_STATUS_CreateMoveSelectEvent(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), partySlot, moveOut, resultOut, mode == 0, mode));
     return 1;
 }
 
@@ -1374,17 +1374,17 @@ int SCRCMD_POKEMON_FLD_CountWarpEntries(WarpEntry *table)
  */
 int SCRCMD_POKEMON_FLD_SetWarpTable(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    SCRCMD_WORK_SetFadeState(work, (uptr)(vm->pc + VM_GetU32(vm)));
+    SCRCMD_WORK_SetFadeState(work, vm->pc + VM_GetU32(vm));
     return 0;
 }
 
 /* Script command: add every warp of the list, except the current map, to the menu. */
 u32 SCRCMD_POKEMON_FLD_AddWarpMenuItems(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    WarpEntry *table = (WarpEntry *)SCRCMD_WORK_GetFadeState(work);
+    WarpEntry *table = SCRCMD_WORK_GetFadeState(work);
     void *scriptWork = SCRCMD_WORK_GetScriptWork(work);
-    int msgBuffer = (sptr)SCRIPT_WORK_GetMsgBuffer(scriptWork);
-    int tempBuffer = (sptr)SCRIPT_WORK_GetTempBuffer(scriptWork);
+    struct Strbuf *msgBuffer = SCRIPT_WORK_GetMsgBuffer(scriptWork);
+    struct Strbuf *tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     u16 currentMapId = SCRCMD_WORK_GetScriptId(work);
     u32 entryCount = SCRCMD_POKEMON_FLD_CountWarpEntries(table);
     u32 i = 0;
@@ -1393,7 +1393,7 @@ u32 SCRCMD_POKEMON_FLD_AddWarpMenuItems(struct ScriptVm *vm, struct ScrcmdWork *
         WarpEntry *entry = SCRCMD_POKEMON_FLD_GetWarpEntry(table, i);
 
         if (currentMapId != entry->mapId)
-            SCRCMD_WORK_AddMenuItem(work, entry->labelId, 0xffff, i, (struct Strbuf *)msgBuffer, (void *)tempBuffer);
+            SCRCMD_WORK_AddMenuItem(work, entry->labelId, 0xffff, i, msgBuffer, tempBuffer);
     }
     return 0;
 }
@@ -1402,7 +1402,7 @@ u32 SCRCMD_POKEMON_FLD_AddWarpMenuItems(struct ScriptVm *vm, struct ScrcmdWork *
 u32 SCRCMD_POKEMON_FLD_WarpToEntry(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
     u32 entryIndex = SCRIPT_WORK_ReadWorkValue(vm, work);
-    WarpEntry *table = (WarpEntry *)SCRCMD_WORK_GetFadeState(work);
+    WarpEntry *table = SCRCMD_WORK_GetFadeState(work);
 
     SCRCMD_WORK_GetScriptId(work);
     if (entryIndex < SCRCMD_POKEMON_FLD_CountWarpEntries(table)) {

@@ -187,11 +187,11 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
     if (_pRapHeap->subHeap != 0) {
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap->subMem = (uptr)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
-    _pRapHeap->subHeap = (uptr)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->subMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
+    _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->subOwnerId = ownerId;
-    NNSi_FndSetAllocModeBit((char *)_pRapHeap->subHeap, 1);
-    NNSi_FndSetGroupId((char *)_pRapHeap->subHeap, 0xea);
+    NNSi_FndSetAllocModeBit((void *)_pRapHeap->subHeap, 1);
+    NNSi_FndSetGroupId((void *)_pRapHeap->subHeap, 0xea);
     _pRapHeap->subMinRequest = minRequestSize;
 }
 
@@ -288,8 +288,8 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
-    _pRapHeap->mainMem = (uptr)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
-    _pRapHeap->mainHeap = (uptr)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->mainMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
+    _pRapHeap->mainHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->tag = 0;
 }
 

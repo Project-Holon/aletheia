@@ -88,8 +88,8 @@ int CARDi_ReadCardWithHashInternalAsync(void *userdata, void *buffer, u32 offset
 
 void CARDi_InitRomHash(void)
 {
-    u32 lo = (OS_GetArenaLo(0) + 0x1f) & ~0x1f;
-    u32 hi = OS_GetArenaHi(0);
+    uptr lo = ((uptr)OS_GetArenaLo(0) + 0x1f) & ~0x1f;
+    uptr hi = (uptr)OS_GetArenaHi(0);
     u32 size;
     u16 lock;
 
@@ -98,7 +98,7 @@ void CARDi_InitRomHash(void)
         OS_Terminate();
         return;
     }
-    OS_SetArenaLo(0, lo + size);
+    OS_SetArenaLo(0, (void *)(lo + size));
     data_02732DA0 = lo;
     data_02732DA4 = size;
     if (OS_GetBootType() != 1) {

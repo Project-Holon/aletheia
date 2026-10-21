@@ -64,7 +64,7 @@ typedef struct SaveControlIntr {
  * UI_SetIntrDataGlobal (arm) resolves through the matched entry
  * src/matched/arm9/UI_SetIntrDataGlobal.c.
  */
-void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
+void *SAVE_CONTROL_INTR_Create(int heapId, struct SaveControl *saveControl)
 {
     SaveControlIntr *intr = (SaveControlIntr *)GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
     intr->saveControl = (void *)saveControl;

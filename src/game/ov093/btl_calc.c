@@ -659,7 +659,7 @@ int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(train
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }
 
 /* Prize money of one trainer: money rate * level of the last party member * 4. */
-u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=TPOKE_DATA_GetRecordField((void *)trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*POKE_TOOL_GetPartyValue(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=TPOKE_DATA_GetRecordField((void *)(uptr)trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*POKE_TOOL_GetPartyValue(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
 
 /* Money lost on defeat: badge table value * highest party level * 4. */
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)

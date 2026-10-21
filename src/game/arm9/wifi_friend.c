@@ -111,9 +111,9 @@ int WIFILIST_UpdateFriendRecord(void *friendData);
 
 void WIFILIST_StoreFriendProfile(void *saveBlock, void *profile, int slot, int heapId, int copyName);
 
-void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode);
+void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, int heapId, int mode);
 
-int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
+int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, u32 heapId);
 
 extern unsigned char sWifiPollLatch;
 
@@ -312,7 +312,7 @@ void WIFILIST_StoreFriendProfile(void *saveBlock, void *profile, int slot, int h
  * friendData and write profile with its name; mode 1: same without the name;
  * mode 2: keep friendData untouched and write only the last field.
  */
-void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode)
+void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, int heapId, int mode)
 {
     void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
     void *record = WIFILIST_GetDwcFriendData(saveBlock, slot);
@@ -321,9 +321,9 @@ void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData,
         MI_CpuCopy8(friendData, record, 0xc);
     }
     if (mode == 0) {
-        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (sptr)heapId, 1);
+        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, heapId, 1);
     } else if (mode == 1) {
-        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (sptr)heapId, 0);
+        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, heapId, 0);
     }
     WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetTrainerView(profile));
 }
@@ -334,7 +334,7 @@ void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData,
  * same friend and 1 when it reports a matching profile id. Only the free-slot
  * arm returns 1.
  */
-int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId)
+int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, u32 heapId)
 {
     void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
     int i;

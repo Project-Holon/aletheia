@@ -236,14 +236,14 @@ u32 DEMO3D_DATA_GetTimeStep(u32 a)
 
 int DEMO3D_DATA_IsDouble3dDisplay(void *a)
 {
-    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord((uptr)a);
+    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord((u32)a);
 
     return cam->count;
 }
 
 void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height)
 {
-    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetCameraRecord((uptr)ctx);
+    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetCameraRecord((u32)ctx);
     if (mode == 0) {
         *width = record[0x4e];
         *height = record[0x4f] * (((struct Cam *)record)->doubled + 1);
@@ -341,7 +341,7 @@ void DEMO3D_DATA_PlaySe(void *unused,int ignored,int *s);
 
 void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c);
 
-void DEMO3D_DATA_FadeSeVolume(int ctx, int unused, int *src);
+void DEMO3D_DATA_FadeSeVolume(Demo3dCmdContext *ctx, int unused, int *src);
 
 void DEMO3D_DATA_FadeSeSlotParam1(Demo3dCmdContext *p,int unused,int *v);
 
@@ -453,7 +453,7 @@ void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c)
     GFL_USE_StopSeSlot(ch);
 }
 
-void DEMO3D_DATA_FadeSeVolume(int ctx, int unused, int *src)
+void DEMO3D_DATA_FadeSeVolume(Demo3dCmdContext *ctx, int unused, int *src)
 {
     DEMO3D_DATA_CreateSeFade((Demo3dCmdContext *)ctx, 0, (unsigned short)src[0], src[1], src[2], src[3], src[4]);
 }
@@ -667,7 +667,7 @@ void DEMO3D_DATA_TaskSetLightSlot(unsigned unused,char **q,unsigned *v);
 
 void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v);
 
-void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s);
+void DEMO3D_DATA_TaskShowMessage(int a, struct Demo3dEngineCtx *b, int *s);
 
 void DEMO3D_DATA_CreateMessage(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g);
 
@@ -823,9 +823,9 @@ void DEMO3D_DATA_BrightnessSeqMain(void *task,char *work)
 
 void DEMO3D_DATA_TaskSetLightSlot(unsigned unused,char **q,unsigned *v){DEMO3D_GRAPHIC_SetLightSlot((struct Demo3dGraphic *)(*q),(unsigned char)v[0],v[1]|(v[2]<<5)|(v[3]<<10));}
 
-void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct Demo3dLightVector t;t.x=v[1];t.y=v[2];t.z=v[3];DEMO3D_GRAPHIC_SetLightVector((struct Demo3dGraphic *)(*q),(unsigned char)v[0],(sptr)&t);}
+void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct Demo3dLightVector t;t.x=v[1];t.y=v[2];t.z=v[3];DEMO3D_GRAPHIC_SetLightVector( (struct Demo3dGraphic *)*q,(unsigned char)v[0],(VecFx16 *)&t);}
 
-void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s)
+void DEMO3D_DATA_TaskShowMessage(int a, struct Demo3dEngineCtx *b, int *s)
 {
     unsigned char x = ((struct Demo3dEngineCtx *)b)->data.color;
     int r6 = s[2] * x;
@@ -1000,7 +1000,7 @@ void DEMO3D_DATA_TaskCreateCapture(char *a, int unused, int *p)
 
 void DEMO3D_DATA_TaskDeleteCapture(char *a)
 {
-    DEMO3D_DATA_DeleteCapture(((Demo3dCmdContext *)a)->extra);
+    DEMO3D_DATA_DeleteCapture((int)((void *)((Demo3dCmdContext *)a)->extra));
     ((Demo3dCmdContext *)a)->extra = 0;
 }
 

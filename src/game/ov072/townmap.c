@@ -283,7 +283,7 @@ void TOWNMAP_ProcFinish(TownMapProc *proc);
 void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state);
 void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state);
 int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work);
-void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId);
+void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId);
 void TOWNMAP_BackButtonFree(TownMapButtonBar *bar);
 void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll);
 int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar);
@@ -299,7 +299,7 @@ void TOWNMAP_CursorSetHoverTown(TownMapCursor *cursor, TownMapTown *town, const 
 void TOWNMAP_CursorMoveHoverSprite(TownMapCursor *cursor, const TownMapPoint *scroll);
 TownMapTown *TOWNMAP_CursorGetHoverTown(TownMapCursor *cursor);
 void TOWNMAP_CursorSetSnapToTown(TownMapCursor *cursor, int snapToTown);
-void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode);
+void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, struct TownMapInfoRow *mapInfo, TownMapGfx *gfx, struct GameData *gameData, u16 heapId, int pickMode);
 void TOWNMAP_MapFree(TownMapMap *map);
 void TOWNMAP_MapUpdate(TownMapMap *map);
 void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *center);
@@ -313,7 +313,7 @@ void TOWNMAP_MapHighlightTown(TownMapMap *map, TownMapTown *selected);
 void TOWNMAP_MapClearHighlight(TownMapMap *map);
 TownMapTown *TOWNMAP_MapFindTownById(TownMapMap *map, u32 townId, int townSubId);
 int TOWNMAP_TownIsRevealed(TownMapTown *town);
-void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode);
+void TOWNMAP_TownInit(TownMapTown *town, struct TownMapInfoRow *mapInfo, int townIndex, struct Unit *clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode);
 void TOWNMAP_TownFree(TownMapTown *town);
 void TOWNMAP_TownSetShown(TownMapTown *town, int shown);
 u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll);
@@ -323,7 +323,7 @@ void TOWNMAP_TownSetScroll(TownMapTown *town, const TownMapPoint *scroll);
 void TOWNMAP_TownSetFrame(TownMapTown *town, int frame);
 void TOWNMAP_TownHighlight(TownMapTown *town);
 void TOWNMAP_TownUnhighlight(TownMapTown *town);
-void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId);
+void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, struct Unit *clactSet, int plttRes, int cellRes, int charRes, u16 heapId);
 void TOWNMAP_DeleteMarker(TownMapMarker *marker);
 void TOWNMAP_UpdateMarkerPosition(TownMapMarker *marker, const TownMapPoint *scroll);
 void TOWNMAP_InitScroll(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId);
@@ -374,7 +374,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->nameMsg = MSGDATA_CreateFromArchive(0, 2, 0x59, 0x44);
     work->detailMsg = MSGDATA_CreateFromArchive(0, 2, 0xb9, 0x44);
     work->gfx = TOWNMAP_GRH_Create(0x44);
-    work->mapInfo = (sptr)TOWNMAP_GRH_LoadTownInfo(0x44);
+    work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
     ctx = (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx);
     if (work->args->mode != 1) {
@@ -386,7 +386,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
     BG_SYS_ChangeScrollImmediate(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
-    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
@@ -411,13 +411,13 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     if (GFL_NET_GetRunState()) {
         GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
-    work->vblankTask = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_EmptyTask, (void *)work, 0);
+    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_EmptyTask, (void *)work, 0);
     return 1;
 }
 
 int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 {
-    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    TCB_DeleteTask(work->vblankTask);
     TOWNMAP_GRH_ClearTouch(&work->touch);
     TOWNMAP_ExitSelection(&work->selection);
     TOWNMAP_ClearScroll(&work->scroll);
@@ -429,7 +429,7 @@ int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
     }
     TOWNMAP_BackButtonFree(&work->buttonBar);
     TOWNMAP_ProcClear(&work->proc);
-    TOWNMAP_GRH_FreeTownInfo((void *)work->mapInfo);
+    TOWNMAP_GRH_FreeTownInfo(work->mapInfo);
     TOWNMAP_GRH_Delete(work->gfx);
     MSGDATA_Delete((struct MsgBank *)work->detailMsg);
     MSGDATA_Delete((struct MsgBank *)work->nameMsg);
@@ -608,7 +608,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     return TOWNMAP_IsScrollZoomDone(&work->scroll);
 }
 
-void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
+void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
 {
     TouchBarParams req;
     ButtonTable table;
@@ -638,7 +638,7 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet,
     req.bgPlttSlot = palette;
     req.actorPlttSlot = tileBase + 4;
     req.iconSet = 2;
-    bar->buttonMan = (uptr)TOUCHBAR_Create(&req, heapId);
+    bar->buttonMan = (u32)((int *)TOUCHBAR_Create(&req, heapId));
     TOUCHBAR_SetAllButtonsPriority((TouchBar *)bar->buttonMan, 10);
 }
 
@@ -906,10 +906,10 @@ void TOWNMAP_CursorSetSnapToTown(TownMapCursor *cursor, int snapToTown)
     cursor->snapToTown = snapToTown;
 }
 
-void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode)
+void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, struct TownMapInfoRow *mapInfo, TownMapGfx *gfx, struct GameData *gameData, u16 heapId, int pickMode)
 {
     u32 i;
-    u32 clactSet;
+    struct Unit *clactSet;
     int markerBank0, markerBank1, markerBank2;
     int linkBank0, linkBank1, linkBank2;
     TownMapTown *startTown;
@@ -1119,7 +1119,7 @@ int TOWNMAP_TownIsRevealed(TownMapTown *town)
     return 0;
 }
 
-void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode)
+void TOWNMAP_TownInit(TownMapTown *town, struct TownMapInfoRow *mapInfo, int townIndex, struct Unit *clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode)
 {
     SpriteInit init;
     u32 flag;
@@ -1359,7 +1359,7 @@ void TOWNMAP_TownUnhighlight(TownMapTown *town)
     }
 }
 
-void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId)
+void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, struct Unit *clactSet, int plttRes, int cellRes, int charRes, u16 heapId)
 {
     SpriteInit init;
 

@@ -108,7 +108,7 @@ void NAMEIN_GRAPHIC_DeleteMembers(u8 *p)
     int i;
 
     for (i = 0; i < 5; i++) {
-        NAMEIN_GRAPHIC_FreeMember((void *)(*(u32 *)(p + i * 4)));
+        NAMEIN_GRAPHIC_FreeMember(*(void **)(p + i * 4));
     }
     GFL_HEAP_Free(p);
 }

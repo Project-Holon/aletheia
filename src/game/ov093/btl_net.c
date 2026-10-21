@@ -179,9 +179,9 @@ int BTL_NET_IsPartyReceived(void);
 void BTL_NET_ResetAfterParty(void);
 u32 BTL_NET_SendPerapVoice(u32 *voice);
 void *BTL_NET_AllocPerapVoiceBuf(int netId, int unused, u32 size);
-void BTL_NET_RecvPerapVoiceDone(int netId, int doneOrSize);
+void BTL_NET_RecvPerapVoiceDone(int netId, sptr doneOrSize);
 int BTL_NET_IsPerapVoiceReceived(void);
-u32 BTL_NET_GetPerapVoice(u32 clientId);
+void *BTL_NET_GetPerapVoice(u32 clientId);
 void BTL_NET_ResetAfterPerapVoice(void);
 u32 BTL_NET_SendRelayedParty(u32 *packet);
 void *BTL_NET_AllocRelayedPartyBuf(int unused0, int unused1, u32 size);
@@ -195,7 +195,7 @@ void BTL_NET_RecvPlayerInfoDone(int netId, void *buf);
 int BTL_NET_IsPlayerInfoReceived(void);
 void *BTL_NET_GetPlayerInfo(u8 clientId);
 u32 BTL_NET_SendRelayedPlayerInfo(struct BattleTrainerData *trainerData);
-u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size);
+void *BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size);
 void BTL_NET_RecvRelayedPlayerInfoDone(int unused, void *buf);
 int BTL_NET_IsRelayedPlayerInfoReceived(void);
 void *BTL_NET_GetRelayedPlayerInfo(void);
@@ -206,7 +206,7 @@ void BTL_NET_FreePlayerInfoPacket(struct BtlTrainerPacket *packet);
 void BTL_NET_FreeRecvBuffers(void);
 void BTL_NET_BeginSync(int stage);
 int BTL_NET_PollSync(int stage);
-u32 BTL_NET_SendServerCmd(u32 clientId, u32 data, u32 size);
+u32 BTL_NET_SendServerCmd(u32 clientId, void *data, u32 size);
 int BTL_NET_AreAllRepliesReceived(void);
 u16 BTL_NET_GetClientReply(int clientId, u8 **data);
 struct BtlNetMsgSlot *BTL_NET_GetReplySlot(int netId);
@@ -214,7 +214,7 @@ void BTL_NET_RecvClientReply(int netId, u32 size);
 void BTL_NET_ExpectReplies(u32 unused);
 unsigned char BTL_NET_HasServerCmd(void);
 u16 BTL_NET_GetServerCmd(u8 **data);
-u32 BTL_NET_SendClientReply(u32 data, u32 size);
+u32 BTL_NET_SendClientReply(void *data, u32 size);
 void BTL_NET_RecvServerCmd(int unused, u32 size);
 struct BtlNetMsgSlot *BTL_NET_GetServerCmdSlot(void);
 void BTL_NET_ResetReplySlots(void);
@@ -477,7 +477,7 @@ void *BTL_NET_AllocPerapVoiceBuf(int netId, int unused, u32 size)
  * the waiting flag of the slot; a longer one is complete in the buffer
  * passed as doneOrSize.
  */
-void BTL_NET_RecvPerapVoiceDone(int netId, int doneOrSize)
+void BTL_NET_RecvPerapVoiceDone(int netId, sptr doneOrSize)
 {
     if (doneOrSize == 4) {
         struct BtlNetMsgSlot *slot = &gBtlNet->replySlots[netId];
@@ -504,12 +504,12 @@ int BTL_NET_IsPerapVoiceReceived(void)
  * The voice buffer of client clientId, or 0 when none arrived.
  * Indexed struct arrays keep the scaled index loaded before the base.
  */
-u32 BTL_NET_GetPerapVoice(u32 clientId)
+void *BTL_NET_GetPerapVoice(u32 clientId)
 {
     u32 netId;
     netId = BTL_NET_FindNetIdByClient(clientId);
     if (netId != BTL_NET_NO_NETID) {
-        if (gBtlNet->recvDone[netId]) return (uptr)gBtlNet->recvBuf[netId];
+        if (gBtlNet->recvDone[netId]) return gBtlNet->recvBuf[netId];
     }
     return 0;
 }
@@ -653,13 +653,13 @@ u32 BTL_NET_SendRelayedPlayerInfo(struct BattleTrainerData *trainerData)
  * tempBuf. The heap id is built the other way round than elsewhere, and
  * the result is read back from the field.
  */
-u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size)
+void *BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size)
 {
     u32 heapId = (u16)(0x8000 | (gBtlNet->heapId & 0x7fff));
-    u32 buf = (uptr)GFL_HEAP_Alloc(heapId, size, 1, gBtlNetSourceName, 0x31e);
+    void *buf = GFL_HEAP_Alloc(heapId, size, 1, gBtlNetSourceName, 0x31e);
 
-    gBtlNet->tempBuf = (void *)buf;
-    return (uptr)gBtlNet->tempBuf;
+    gBtlNet->tempBuf = buf;
+    return gBtlNet->tempBuf;
 }
 
 /* The forwarded trainer record is complete in buf. */
@@ -778,12 +778,12 @@ int BTL_NET_PollSync(int stage)
 }
 
 /* Server sends a command block to client clientId (SERVER_CMD). Nonzero on success. */
-u32 BTL_NET_SendServerCmd(u32 clientId, u32 data, u32 size)
+u32 BTL_NET_SendServerCmd(u32 clientId, void *data, u32 size)
 {
     u32 netId = BTL_NET_FindNetIdByClient(clientId);
 
     if (netId != BTL_NET_NO_NETID) {
-        return GFL_NET_SendData(gBtlNet->netHandle, netId, BTL_NET_CMD_SERVER_CMD, size, (void *)data, 0, 0, 1);
+        return GFL_NET_SendData(gBtlNet->netHandle, netId, BTL_NET_CMD_SERVER_CMD, size, data, 0, 0, 1);
     }
     return 1;
 }
@@ -851,12 +851,12 @@ u16 BTL_NET_GetServerCmd(u8 **data)
 }
 
 /* A client sends its reply to the leader (CLIENT_REPLY). The command is answered once it went out. */
-u32 BTL_NET_SendClientReply(u32 data, u32 size)
+u32 BTL_NET_SendClientReply(void *data, u32 size)
 {
     struct BtlNet *net = gBtlNet;
     u32 result;
 
-    result = GFL_NET_SendData(net->netHandle, net->leaderNetId, BTL_NET_CMD_CLIENT_REPLY, size, (void *)data, 0, 1, 1);
+    result = GFL_NET_SendData(net->netHandle, net->leaderNetId, BTL_NET_CMD_CLIENT_REPLY, size, data, 0, 1, 1);
     if (result != 0) {
         net = gBtlNet;
         net->serverCmdPending = 0;

@@ -21,10 +21,10 @@ typedef struct EditWork EditWork;
 
 int TRCARD_SYS_RunChildProc(struct ProcSys **childSlot);
 int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param);
-int TRCARD_SYS_InitMinimal(void *proc, int state, int param);
-int TRCARD_SYS_Main(int proc, int *state, int param, int work);
-int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWork *work);
-int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work);
+int TRCARD_SYS_InitMinimal(void *proc, int state, void *param);
+int TRCARD_SYS_Main(void *proc, int *state, TrainerCardParam *param, TrainerCardWork *work);
+int TRCARD_SYS_Exit(void *proc, int state, TrainerCardParam *param, TrainerCardWork *work);
+int TRCARD_SYS_ExitMinimal(void *proc, int state, void *param, MinimalWork *work);
 int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param);
 int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);

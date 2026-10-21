@@ -307,10 +307,10 @@ void APP_POWER_ShowShutdownScreen(u32 messageId)
  */
 void APP_POWER_LoadShutdownScreen(void)
 {
-    u32 *chars;
-    u32 *screen;
-    u32 *palette;
-    u32 *paletteHeader;
+    NNSG2dCharacterData *chars;
+    NNSG2dScreenData *screen;
+    NNSG2dPaletteData *palette;
+    NNSG2dPaletteCompressInfo *paletteHeader;
     void *res;
     u32 charSize;
     u32 screenSize;
@@ -318,21 +318,21 @@ void APP_POWER_LoadShutdownScreen(void)
     MIi_CpuClear32(0, (void *)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)res, (void **)(&chars)) != 0) {
-        DC_FlushRange((void *)(chars[5]), chars[4]);
-        MIi_CpuCopy16((const void *)(chars[5]), (void *)G2_GetBG1CharPtr(), charSize = chars[4]);
+        DC_FlushRange(chars->pRawData, chars->szByte);
+        MIi_CpuCopy16(chars->pRawData, G2_GetBG1CharPtr(), charSize = chars->szByte);
     }
     GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (NNS_G2dGetUnpackedScreenData(res, (void **)(&screen)) != 0) {
-        DC_FlushRange((void *)((uptr)screen + 0xc), screen[2]);
-        MIi_CpuCopy16((const void *)((uptr)screen + 0xc), (void *)G2_GetBG1ScrPtr(), screenSize = screen[2]);
+        DC_FlushRange(screen->rawData, screen->szByte);
+        MIi_CpuCopy16(screen->rawData, G2_GetBG1ScrPtr(), screenSize = screen->szByte);
     }
     GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)res, (void **)(&paletteHeader));
     if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)res, (void **)(&palette)) != 0) {
-        DC_FlushRange((void *)(palette[3]), 0x20);
-        MIi_CpuCopy16((const void *)(palette[3]), (void *)HW_BG_PLTT, 0x20);
+        DC_FlushRange(palette->pRawData, 0x20);
+        MIi_CpuCopy16(palette->pRawData, (void *)HW_BG_PLTT, 0x20);
     }
     GFL_HEAP_Free(res);
 }

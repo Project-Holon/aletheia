@@ -35,7 +35,7 @@
 #include "hand_field_types.h"
 #ifdef __MWERKS__
 #undef BTL_EVENT_AddFactor
-extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
+extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, const BtlEventHandler *handlers, u16 handlerCount);
 #endif
 
 struct BtlEventFactor *HAND_FIELD_AddFactor(int effectId, int ownerId);
@@ -79,7 +79,7 @@ struct BtlEventFactor *HAND_FIELD_AddFactor(int effectId, int ownerId)
     for (i = 0; i < BTL_FLDEFF_COUNT; i++) {
         if (effectId == gHandFieldEffectTable[i].effectId) {
             const BtlEventHandler *handlers = gHandFieldEffectTable[i].getHandlers(&handlerCount);
-            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_FIELD_EFFECT, effectId, 3, 0, ownerId, (uptr)handlers, handlerCount);
+            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_FIELD_EFFECT, effectId, 3, 0, ownerId, handlers, handlerCount);
         }
     }
     return 0;

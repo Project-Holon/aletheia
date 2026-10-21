@@ -80,17 +80,17 @@ struct EventWork;
 
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
 
-int WEATHER_IsSeasonSynced(int gameData);
+int WEATHER_IsSeasonSynced(struct GameData *gameData);
 
 void WEATHER_StoreZoneWeatherId(struct Ctx *p, u32 zoneId);
 
 void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId);
 
-s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId);
+s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId);
 
-s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId);
+s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId);
 
-u32 WEATHER_GetBirthdayWeather(void *a, void *b, u32 c);
+u32 WEATHER_GetBirthdayWeather(void *a, struct GameData *b, u32 c);
 
 extern struct ZoneWeatherPair gTbl_0209FFF4[];
 
@@ -105,11 +105,11 @@ extern struct ZoneWeatherPair gTbl_0209FFF4[];
  */
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
 {
-    u32 ctx = (uptr)GAMESYSTEM_GetGameData(fieldSys);
-    u32 saved = GAME_DATA_GetMusicalWork((struct GameData *)ctx);
+    struct GameData *ctx = GAMESYSTEM_GetGameData(fieldSys);
+    uptr saved = GAME_DATA_GetMusicalWork(ctx);
     u32 r;
 
-    r = MOVE_POKEMON_FindEntryByZone((void *)ctx, (u16)zoneId);
+    r = MOVE_POKEMON_FindEntryByZone(ctx, (u16)zoneId);
     if (r != 0xffff) {
         return (u8)r;
     }
@@ -121,18 +121,18 @@ u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
     if (r != 0xffff) {
         return (u8)r;
     }
-    r = WEATHER_GetBirthdayWeather(fieldSys, (void *)ctx, zoneId);
+    r = WEATHER_GetBirthdayWeather(fieldSys, ctx, zoneId);
     if (r != 0xffff) {
         return (u8)r;
     }
     if (WEATHER_IsSeasonSynced(ctx) != 0) {
-        return (u8)CALENDER_GetWeatherThunk((void *)saved, (u16)zoneId);
+        return (u8)CALENDER_GetWeatherThunk((struct CalenderWork *)saved, (u16)zoneId);
     }
     return (u8)ZONEDATA_GetWeatherId((u16)zoneId);
 }
 
 #include "comm_player_support.h"
-int WEATHER_IsSeasonSynced(int gameData){ int season, clockSeason; season = GAME_DATA_GetSeason((struct GameData *)gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock(); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
+int WEATHER_IsSeasonSynced(struct GameData *gameData){ int season, clockSeason; season = GAME_DATA_GetSeason(gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock(); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
 
 void WEATHER_StoreZoneWeatherId(struct Ctx *fieldSys, u32 zoneId)
 {
@@ -193,24 +193,24 @@ void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId)
  * both relocation sites stay wildcarded. Unstuck by any other function that
  * also points at gTbl_0209FFF4, or by a data-symbol table entry.
  */
-s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId)
+s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId)
 {
-    uptr eventWork;
-    uptr areaOwner;
+    struct EventWork *eventWork;
+    struct GameComm *areaOwner;
     u32 i;
 
-    eventWork = (uptr)GAME_DATA_GetEventWork((struct GameData *)gameData);
-    areaOwner = (uptr)GAMESYSTEM_GetGameComm(fieldSys);
+    eventWork = GAME_DATA_GetEventWork(gameData);
+    areaOwner = GAMESYSTEM_GetGameComm(fieldSys);
     if (ZONEDATA_IsZoneGroup118To13C((u16)zoneId) == 0 || areaOwner == 0) {
         goto done;
     }
     for (i = 0; i < 0x19; i++) {
         if (zoneId == gTbl_0209FFF4[i].a) {
-            if (ZONEDATA_CheckEventFlag((void *)eventWork, gTbl_0209FFF4[i].b) == 0) {
-                if (INTRUDE_COMM_GetAreaOwnerVersion((struct GameComm *)areaOwner) == 0x14) return 0xd;
+            if (ZONEDATA_CheckEventFlag(eventWork, gTbl_0209FFF4[i].b) == 0) {
+                if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xd;
                 return 0xe;
             }
-            if (INTRUDE_COMM_GetAreaOwnerVersion((struct GameComm *)areaOwner) == 0x14) return 0xa;
+            if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xa;
             return 0xb;
         }
     }
@@ -218,12 +218,12 @@ done:
     return 0xffff;
 }
 
-s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId)
+s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, struct GameData *gameData, u32 zoneId)
 {
-    u32 eventWork = (uptr)GAME_DATA_GetEventWork((struct GameData *)gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
 
     if (zoneId == 0x151) {
-        if (ZONEDATA_CheckEventFlag((void *)eventWork, 0x96f) != 0) {
+        if (ZONEDATA_CheckEventFlag(eventWork, 0x96f) != 0) {
             if (GPOWER_GetSpecialPowerId() == 0x15) return 7;
             return 6;
         }
@@ -231,7 +231,7 @@ s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId)
     return 0xffff;
 }
 
-u32 WEATHER_GetBirthdayWeather(void *fieldSys, void *gameData, u32 zoneId)
+u32 WEATHER_GetBirthdayWeather(void *fieldSys, struct GameData *gameData, u32 zoneId)
 {
     u8 buf[2];
     RTCDate date;

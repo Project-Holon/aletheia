@@ -194,7 +194,7 @@ void SHINKA_DEMO_GRAPHIC_Noop(void *unused);
 
 void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *unused);
 
-void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, u32 b);
 
 void SHINKA_DEMO_GRAPHIC_ExitClact(char *a);
 
@@ -245,7 +245,7 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     SHINKA_DEMO_GRAPHIC_SetupMainBg(p, heap);
-    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (sptr)d_02208CEC, heap);
+    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (struct DispVramCfg *)d_02208CEC, heap);
     SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), heap);
     ((ShinkaGraphic *)p)->vblank = GFL_USE_AddMainTask(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
@@ -363,7 +363,7 @@ void SHINKA_DEMO_GRAPHIC_Noop(void *unused) {}
 
 void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *unused){BG_SYS_Update();}
 
-void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, int vramBanks, u32 heap)
+void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, struct DispVramCfg *vramBanks, u32 heap)
 {
     MI_CpuFill8(clact, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x02208CB0, (struct DispVramCfg *)vramBanks, heap);
@@ -386,7 +386,7 @@ void SHINKA_DEMO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
 int SHINKA_DEMO_GRAPHIC_GetCameraId(int *camera)
 {
-    return *camera;
+    return (int)(*(void **)camera);
 }
 
 void SHINKA_DEMO_GRAPHIC_Init3d(u32 *cameraOut, u16 heap)

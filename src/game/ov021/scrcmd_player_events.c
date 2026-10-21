@@ -114,19 +114,19 @@ struct RailSlipdown;
 
 int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork);
 
-u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(u32 vm, void *scriptWork);
+u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(struct ScriptVm *vm, void *scriptWork);
 
 int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *vm, void *scriptWork);
 
-u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(u32 vm, void *scriptWork);
+u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(struct ScriptVm *vm, void *scriptWork);
 
 int SCRCMD_IAIGIRI_StartOnPlayer(void *vm, void *scriptWork);
 
 int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork);
 
-u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c);
+struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct FieldMap *b, u32 c);
 
-void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c);
+void *RAIL_SLIPDOWN_Start(void *a, struct FieldMap *b, struct Mmdl *c);
 
 int RAIL_SLIPDOWN_UpdateTask(void *task);
 
@@ -151,7 +151,7 @@ int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork)
  * First grid event script command: starts the event on the player's grid
  * position and installs SCRCMD_PLAYER_GRID_EVENT_WaitHop as the wait callback.
  */
-u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(u32 vm, void *scriptWork)
+u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(struct ScriptVm *vm, void *scriptWork)
 {
     VecFx32 pos;
     u16 playerWork;
@@ -169,7 +169,7 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(u32 vm, void *scriptWork)
     result = MAP_ATTR_GetAt(fieldMap, &pos);
     task = FIELD_PLAYER_GRID_EVENT_CreateHopTask(player, playerWork, result, effectId);
     SCRCMD_WORK_SetTargetObject((void *)scriptWork, task);
-    VM_SetWait((struct ScriptVm *)vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitHop);
+    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitHop);
     return 1;
 }
 
@@ -190,7 +190,7 @@ int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *vm, void *scriptWork)
 /*
  * Second grid event script command (see SCRCMD_PLAYER_GRID_EVENT_StartHop).
  */
-u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(u32 vm, void *scriptWork)
+u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(struct ScriptVm *vm, void *scriptWork)
 {
     u32 effectId;
     u16 playerWork;
@@ -201,10 +201,10 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(u32 vm, void *scriptWork)
     effectId = SCRCMD_WORK_GetHeapId(scriptWork);
     player = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)scriptWork)));
     playerWork = FIELD_PLAYER_GetDirDisp(player);
-    result = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)scriptWork);
+    result = SCRIPT_WORK_ReadWorkValue(vm, (void *)scriptWork);
     task = FIELD_PLAYER_GRID_EVENT_CreateJumpTask(player, playerWork, result, effectId);
     SCRCMD_WORK_SetTargetObject((void *)scriptWork, task);
-    VM_SetWait((struct ScriptVm *)vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitJump);
+    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitJump);
     return 1;
 }
 
@@ -250,31 +250,31 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
  * Starts the ov063 effect for the player's grid event with the player's
  * data and spawns the task that drives it.
  */
-u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
+struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct FieldMap *b, u32 c)
 {
-    u32 task = (uptr)GAME_EVENT_Create((void *)a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
-    u32 *effectSlot = GAME_EVENT_GetWork((void *)task);
-    void *fieldMap;
-    void *player;
+    struct GameEvent *task = GAME_EVENT_Create(a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
+    u32 *effectSlot = GAME_EVENT_GetWork(task);
+    struct FieldPlayer *fieldMap;
+    struct Mmdl *player;
 
     GF_OVERLAY_Load((sptr)ov063_id);
-    fieldMap = FIELDMAP_GetFieldPlayer((void *)b);
-    player = FIELD_PLAYER_GetMmdl((void *)fieldMap);
+    fieldMap = FIELDMAP_GetFieldPlayer(b);
+    player = FIELD_PLAYER_GetMmdl(fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
-    *effectSlot = (uptr)RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)player, 1);
+    *effectSlot = (uptr)RAIL_SLIPDOWN_Create(a, b, player, 1);
     return task;
 }
 
 /*
  * Loads ov063 and spawns the task that drives its effect.
  */
-void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
+void *RAIL_SLIPDOWN_Start(void *a, struct FieldMap *b, struct Mmdl *c)
 {
     void *task = GAME_EVENT_Create(a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
     void **effectSlot = GAME_EVENT_GetWork(task);
 
     GF_OVERLAY_Load((uptr)ov063_id);
-    *effectSlot = RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)c, 0);
+    *effectSlot = RAIL_SLIPDOWN_Create(a, b, c, 0);
     return task;
 }
 

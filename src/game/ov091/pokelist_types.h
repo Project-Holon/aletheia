@@ -77,7 +77,7 @@ typedef char PokelistArg_SizeCheck[(sizeof(PokelistArg) == 0x98) ? 1 : -1];
 typedef struct PokelistWork {
     u16 heapId;                       /* 0x000 */
     u8 pad02[2];
-    int updateTask;                   /* 0x004 */
+    struct TcbTask *updateTask;                   /* 0x004 */
     int touchMode;                    /* 0x008: input mode restored with UI_SetInputMode */
     u8 phase;                         /* 0x00C: Update switch state */
     u8 nextPhase;                     /* 0x00D */
@@ -93,7 +93,7 @@ typedef struct PokelistWork {
     int selectedSlot;                 /* 0x02C */
     int swapSourceSlot;               /* 0x030 */
     int healSourceSlot;               /* 0x034 */
-    u32 selectedMon;                  /* 0x038 */
+    void *selectedMon;                  /* 0x038 */
     int menuChoice;                   /* 0x03C: last context menu choice (0x17 = none yet) */
     u16 palSrc[3][16];                /* 0x040 */
     u16 palDst[3][16];                /* 0x0A0 */
@@ -103,7 +103,7 @@ typedef struct PokelistWork {
     u8 swapAnimStep;                  /* 0x104: plate slide step of the swap animation */
     u8 selectedCount;                 /* 0x105 */
     u8 pad106[2];
-    int commandButtons[2];            /* 0x108 */
+    void *commandButtons[2];            /* 0x108 */
     u16 reservedCounter;              /* 0x110 */
     u8 pad112[2];
     u8 waitFrames;                    /* 0x114 */
@@ -114,7 +114,7 @@ typedef struct PokelistWork {
     u8 pad11F;
     PokelistFn phaseCallback;         /* 0x120 */
     u16 levelUpMoveStat[6];           /* 0x124: stats saved before a level up */
-    int descriptor;                   /* 0x130 */
+    struct BmpWin *descriptor;                   /* 0x130 */
     void *msgBank;                    /* 0x134 */
     void *fontMain;                   /* 0x138 */
     void *fontSub;                    /* 0x13C */
@@ -122,8 +122,8 @@ typedef struct PokelistWork {
     int messageWaitKey;               /* 0x144: message waits for a key press */
     PokelistFn messageDoneCallback;   /* 0x148: called when the message ends */
     PokelistMenuFn menuChoiceCallback; /* 0x14C: called with the choice of the open menu */
-    u32 messageWindow;                /* 0x150 */
-    u32 contextMenu;                  /* 0x154 */
+    struct PlistMessage *messageWindow;                /* 0x150 */
+    struct PlistMenu *contextMenu;                  /* 0x154 */
     void *paletteFile;                /* 0x158 */
     void *paletteData;                /* 0x15C */
     struct PlistPlate *plates[6];                    /* 0x160 */
@@ -137,7 +137,7 @@ typedef struct PokelistWork {
     struct ClactActor *switchButtonActor;            /* 0x1E4 */
     struct ClactActor *pressedButtonActor;           /* 0x1E8 */
     void *actorSystem;            /* 0x1EC: owner of the party list actors */
-    int timerDigit[3];            /* 0x1F0 */
+    struct PlistTeamPanel *timerDigit[3];            /* 0x1F0 */
     void *timerLabelWindow;       /* 0x1FC: "time left" caption */
     void *timerValueWindow;       /* 0x200: minutes and seconds */
     int timerLabelPrinting;       /* 0x204: caption print still running */
@@ -148,8 +148,8 @@ typedef struct PokelistWork {
     u16 timerPalDst[16];          /* 0x22E */
     u16 timerPalPhase;            /* 0x24E: frame in the 60 frame pulse */
     int touchDragState;               /* 0x250 */
-    int taskMenu;                     /* 0x254 */
-    int light;                        /* 0x258 */
+    struct TaskMenuRes *taskMenu;                     /* 0x254 */
+    void *light;                        /* 0x258 */
     void *particleMemory;             /* 0x25C */
     void *particleSystem;             /* 0x260 */
     u32 evolveCheckKind;              /* 0x264 */

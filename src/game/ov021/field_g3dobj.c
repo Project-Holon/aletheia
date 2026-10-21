@@ -153,9 +153,9 @@ void FIELD_G3DOBJ_DestroyObject(FieldG3dObj *obj, FieldG3dObjRes *res);
 
 void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
 
-void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
+void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, struct ArcHandle *arc, u32 file);
 
-void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
+void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, struct ArcHandle *arc);
 
 void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
 
@@ -457,9 +457,9 @@ void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDe
     int i;
 
     if (desc->modelArc != 0)
-        res->model = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->modelArc, desc->modelFile);
+        res->model = G3D_SYSTEM_CreateResourceArcHandle(desc->modelArc, desc->modelFile);
     if (desc->texArc != 0)
-        res->texture = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->texArc, desc->texFile);
+        res->texture = G3D_SYSTEM_CreateResourceArcHandle(desc->texArc, desc->texFile);
     if (palTable != 0) {
         palRes = 0;
         if (res->model != 0)
@@ -481,7 +481,7 @@ void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDe
         res->animeCount = desc->anmCount;
         MIi_CpuClear32(0, res->anime, sizeof(res->anime));
         for (i = 0; i < res->animeCount; i++)
-            res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->anmArc, desc->anmFile[i]);
+            res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(desc->anmArc, desc->anmFile[i]);
     }
 }
 
@@ -576,13 +576,13 @@ void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc)
     MIi_CpuClear32(0, desc, sizeof(FieldG3dObjResDesc));
 }
 
-void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file)
+void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, struct ArcHandle *arc, u32 file)
 {
     desc->modelArc = arc;
     desc->modelFile = file;
 }
 
-void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc)
+void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, struct ArcHandle *arc)
 {
     desc->anmArc = arc;
 }

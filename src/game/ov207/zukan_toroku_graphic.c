@@ -117,7 +117,7 @@ typedef struct ZukanTorokuWork {
     u16 pad2;           /* 0x02 */
     void *display;      /* 0x04, display object */
     void *font;         /* 0x08, GF font */
-    u32 printQueue;     /* 0x0C, PRINTSYS queue */
+    struct PrintQueue *printQueue;     /* 0x0C, PRINTSYS queue */
     int state;          /* 0x10, top-level state (0 or 1 from args[0]) */
     int step;           /* 0x14, substep within the state */
     int fadeLevel;      /* 0x18 */
@@ -160,7 +160,7 @@ typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 
 struct PrintQueue;
 #include "../arm9/printsys.h"
 #include "../ov206/zukan_info.h"
-extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, struct GfFont *f, u32 g, void *h);
+extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, struct Unit *e, struct GfFont *f, struct PrintQueue *g, void *h);
 #include "../arm9/net.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/fade.h"
@@ -215,17 +215,17 @@ void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Update(void *unused);
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused);
-u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork);
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b);
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, struct DispVramCfg *a, int b);
 void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Unit**p);
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p);
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p);
-u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
 extern char overlay67[],overlay206[];
 extern char d_0220BC20[];
 extern unsigned d_0220BAE8[];
@@ -244,7 +244,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     work->heapId=0x6a;
     work->display=ZUKAN_TOROKU_GRAPHIC_CreateDisplay(1,work->heapId);
     work->font=GF_FONT_Create(0x17,0,0,0,work->heapId);
-    work->printQueue=(uptr)PRINTSYS_QUE_Create((unsigned int)(u32)work->heapId);
+    work->printQueue=PRINTSYS_QUE_Create((unsigned int)(u32)work->heapId);
     if(args[0]==0) { work->state=0; work->step=0; } else { work->state=1; work->step=0; }
     mode=0;
     if(args[0]!=0) mode=1;
@@ -342,7 +342,7 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
         }
         break;
     }
-    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQueue);
+    PRINTSYS_QUE_Main(work->printQueue);
     ZUKAN_TOROKU_GRAPHIC_Draw((void *)work->display);
     ZUKAN_TOROKU_GRAPHIC_Update((void *)work->display);
     ZUKAN_TOROKU_GRAPHIC_UpdateSub((void *)work->display);
@@ -396,7 +396,7 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
-    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Unit **)&display->actors,(sptr)d_0220BAE8,heap);
+    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Unit **)&display->actors,(struct DispVramCfg *)d_0220BAE8,heap);
     display->vblankTask=GFL_USE_AddMainTask(ZUKAN_TOROKU_GRAPHIC_VBlank, display, 0);
     return display;
 }
@@ -424,7 +424,7 @@ void ZUKAN_TOROKU_GRAPHIC_Update(void *unused){}
 
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused){}
 
-u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)&display->actors);}
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)&display->actors);}
 
 void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork){ZukanTorokuDisplay *display=taskWork;ZUKAN_TOROKU_GRAPHIC_ResetDisplay(display);ZUKAN_TOROKU_GRAPHIC_VBlankActors(&display->actors);}
 
@@ -450,7 +450,7 @@ void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display){}
 
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Update();}
 
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b)
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(actors, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x0220BACC, (struct DispVramCfg *)a, b);
@@ -466,4 +466,4 @@ void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p){CLACT_DrawSystem();}
 
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p){CLACT_VBlankSystem();}
 
-u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p){return *p;}
+struct Unit *ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p){return *(struct Unit **)p;}

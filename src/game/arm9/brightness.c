@@ -161,9 +161,9 @@ void BRIGHTNESS_ChangeStep(struct BrightnessChange *p)
         flag = 1;
     }
     if (p->screenMask & 1) {
-        G2x_SetBlendBrightness_((uptr)((void *)REG_BLDCNT_ADDR), p->plane, p->current);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, p->plane, p->current);
     } else if (p->screenMask & 2) {
-        G2x_SetBlendBrightness_((uptr)((void *)REG_DB_BLDCNT_ADDR), p->plane, p->current);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, p->plane, p->current);
     }
     if (flag == 1)
         p->active = 0;

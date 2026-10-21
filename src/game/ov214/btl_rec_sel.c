@@ -237,7 +237,7 @@ struct BtlRecSelYesNo { u8 a, b, c, d; u16 e; };
 struct BtlRecSel {
     u16 heap, pad02;
     void *graphic;               /* 0x04 record-select graphic object */
-    u32 font;                    /* 0x08 GF_FONT handle (word-sized) */
+    struct GfFont *font;                    /* 0x08 GF_FONT handle (word-sized) */
     void *printQue[4];           /* 0x0C four print queues */
     u32 nextState;               /* 0x1C */
     u32 fadeType, fadeStart, fadeEnd, fadeSpeed;  /* 0x20 FADE_Start arguments */
@@ -245,7 +245,7 @@ struct BtlRecSel {
     u32 nextStateA, entryA, flag3C;   /* 0x34 */
     u32 nextStateB, entryB;      /* 0x40 */
     u32 menuMode;                /* 0x48 */
-    u32 task;                    /* 0x4C */
+    struct TcbTask *task;                    /* 0x4C */
     int itemCount, exitRequest;  /* 0x50 */
     struct MsgBank *msgBank;     /* 0x58 */
     void *printStream;           /* 0x5C */
@@ -444,7 +444,7 @@ void BTL_REC_SEL_StartTimer(void *obj, char *p, u32 v);
 void BTL_REC_SEL_ResetTimer(void*obj,char*p);
 void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *obj, struct BtlRecSel *e, unsigned int v);
 void BTL_REC_SEL_InitCells(void *unused,struct BtlRecSel *p);
-void BTL_REC_SEL_DeleteCellActors(int unused, int base);
+void BTL_REC_SEL_DeleteCellActors(int unused, struct BtlRecSel *base);
 int BTL_REC_SEL_CreateActor(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*x,u8 i,u8 j,u8 k,u8 l,u8 m);
 void BTL_REC_SEL_DeleteActor(void*p,void*actor);
 void BTL_REC_SEL_SetMode(int unused,char*p);
@@ -491,7 +491,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->itemCount=MYITEM_SAVEDATA_HasItem(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
-    ((struct BtlRecSel *)work)->task=(uptr)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,(unsigned int)1);
+    ((struct BtlRecSel *)work)->task=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,(unsigned int)1);
     *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
     BTL_REC_SEL_InitBgRun((sptr)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
     BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((sptr)mgr,work);BTL_REC_SEL_InitPalette((sptr)mgr,work);BTL_REC_SEL_CreateWindows((sptr)mgr,work);
@@ -689,7 +689,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         }else BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,10,1,16,0,-2,1);
         BATTLE_REC_Delete((void*)(((struct BtlRecSel *)work)->battleRec));break;
     case 9:
-        BTL_REC_SEL_ClearList((sptr)mgr,work);BTL_REC_SEL_DeleteCellActors((sptr)mgr,(sptr)work);BTL_REC_SEL_ClearLayer((void*)mgr,work);
+        BTL_REC_SEL_ClearList((sptr)mgr,work);BTL_REC_SEL_DeleteCellActors((sptr)mgr,(struct BtlRecSel *)work);BTL_REC_SEL_ClearLayer((void*)mgr,work);
         BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,(((struct BtlRecSel *)work)->menuMode),1,16,0,-2,1);
         BTL_REC_SEL_ClearWindowWhite((sptr)mgr,work);
         if((((struct BtlRecSel *)work)->menuMode)==15 && (((struct BtlRecSel *)work)->itemCount) && (*(u32*)(mgr+4)) && !(*(u32*)(mgr+8))){BTL_REC_SEL_ClearWindowClear((sptr)mgr,work);BTL_REC_SEL_DrawWindowBorder((sptr)mgr,work);}
@@ -705,8 +705,8 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         if((((struct BtlRecSel *)work)->saveStatus)!=2 && (((struct BtlRecSel *)work)->saveStatus)!=3)(((struct BtlRecSel *)work)->saveStatus)=BATTLE_REC_BeginSave(((struct BtlRecSelMgr *)mgr)->gameData,((struct BtlRecSel *)work)->heap,(((struct BtlRecSelMgr *)mgr)->saveParam0),(((struct BtlRecSelMgr *)mgr)->saveParam1),0,&((struct BtlRecSel *)work)->saveArg0,&((struct BtlRecSel *)work)->saveArg1);
         if((u32)((((struct BtlRecSel *)work)->saveStatus)-2)<=1){
             BATTLE_REC_DecodeWork();TIME_ICON_Delete((u8*)(((struct BtlRecSel *)work)->timeIcon));
-            if((((struct BtlRecSel *)work)->saveStatus)==2){GFL_USE_PlaySeDefaultVolume(0x558);BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(sptr)work,13,10);(((struct BtlRecSel *)work)->waitTimer)=120;}
-            else if((((struct BtlRecSel *)work)->saveStatus)==3){BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(sptr)work,14,11);(((struct BtlRecSel *)work)->waitTimer)=120;}
+            if((((struct BtlRecSel *)work)->saveStatus)==2){GFL_USE_PlaySeDefaultVolume(0x558);BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(int)work,13,10);(((struct BtlRecSel *)work)->waitTimer)=120;}
+            else if((((struct BtlRecSel *)work)->saveStatus)==3){BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(int)work,14,11);(((struct BtlRecSel *)work)->waitTimer)=120;}
         }break;
     case 13:if(BTL_REC_SEL_WaitPrint((sptr)mgr,work))*state=15;break;
     case 14:if(BTL_REC_SEL_WaitPrint((sptr)mgr,work))*state=15;break;
@@ -861,7 +861,7 @@ void BTL_REC_SEL_PrintEntry(int unused,char*work,unsigned entry,int v)
     if(*(void* *)&((struct BtlRecSel *)work)->strbuf)STRBUF_Delete(*(void* *)&((struct BtlRecSel *)work)->strbuf);
     *(void* *)&((struct BtlRecSel *)work)->strbuf=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
     waitTime=MSG_SPEED_GetWait();
-    *(void* *)&((struct BtlRecSel *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(*(unsigned *)&((struct BtlRecSel *)work)->win1),0,0,(struct Strbuf *)(*(unsigned *)&((struct BtlRecSel *)work)->strbuf),(struct GfFont *)(((struct BtlRecSel *)work)->font),waitTime,((struct BtlRecSel *)work)->tcbl,2,((struct BtlRecSel *)work)->heap,15);
+    *(void* *)&((struct BtlRecSel *)work)->printStream=PRINTSYS_PrintStream(*(struct BmpWin **)&((struct BtlRecSel *)work)->win1,0,0,*(struct Strbuf **)&((struct BtlRecSel *)work)->strbuf,(struct GfFont *)(((struct BtlRecSel *)work)->font),waitTime,((struct BtlRecSel *)work)->tcbl,2,((struct BtlRecSel *)work)->heap,15);
     ((struct BtlRecSel *)work)->streamWait=v;
 }
 
@@ -1113,7 +1113,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
         PRINTSYS_QUE_Clear(e->printQue[2]);
         strbuf1 = (sptr)MSGDATA_AllocString(e->msgBank, 0x10);
         bmp1 = (sptr)BMP_WIN_GetBmp(e->winHandles[2]);
-        PRINTSYS_PrintQueColor(e->printQue[2], (struct Bmp *)bmp1, 4, 1, (struct Strbuf *)strbuf1, (struct GfFont *)e->font, colorFlag);
+        PRINTSYS_PrintQueColor(e->printQue[2], (struct Bmp *)bmp1, 4, 1, (struct Strbuf *)strbuf1, e->font, colorFlag);
         e->winShown[2] = 0;
         STRBUF_Delete((struct Strbuf *)strbuf1);
     }
@@ -1126,7 +1126,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
         WORDSET_SetSlotNumber((struct WordSet *)font, 1, v, 2, 2, 1);
         WORDSET_CopyTaggedText((struct WordSet *)font, (void *)buf, (void *)strbuf2);
         bmp2 = (sptr)BMP_WIN_GetBmp(e->winHandles[3]);
-        PRINTSYS_PrintQueColor(e->printQue[3], (struct Bmp *)bmp2, 2, 2, (struct Strbuf *)buf, (struct GfFont *)e->font, colorFlag);
+        PRINTSYS_PrintQueColor(e->printQue[3], (struct Bmp *)bmp2, 2, 2, (struct Strbuf *)buf, e->font, colorFlag);
         e->winShown[3] = 0;
         STRBUF_Delete((struct Strbuf *)buf);
         STRBUF_Delete((struct Strbuf *)strbuf2);
@@ -1177,7 +1177,7 @@ void BTL_REC_SEL_InitCells(void *unused,struct BtlRecSel *work)
     }
 }
 
-void BTL_REC_SEL_DeleteCellActors(int unused, int workAddr)
+void BTL_REC_SEL_DeleteCellActors(int unused, struct BtlRecSel *workAddr)
 {
     struct BtlRecSel *w = (struct BtlRecSel *)workAddr;
     unsigned char j, i;

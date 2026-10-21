@@ -59,7 +59,7 @@ typedef struct { void *str; u16 color,pad; u32 flag; } MsgDesc;
 
 #include "../types.h"
 
-typedef struct { unsigned data; u16 tag,pad; unsigned flag; } LabelDesc;
+typedef struct { struct Strbuf *data; u16 tag,pad; unsigned flag; } LabelDesc;
 
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -126,7 +126,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
     bar->taskMenuRes=(struct TaskMenuState *)APP_TASKMENU_RES_Create(layer,x,(struct GFont *)font,(struct PrintQueue *)printQueue,heapId);
-    IRC_APPBAR_CreateActor(bar,(uptr)clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
+    IRC_APPBAR_CreateActor(bar,clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
     bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
@@ -209,18 +209,18 @@ void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable) {
  * MSGDATA_Delete 0x02045C04 arm
  */
 void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
- uptr bank;
+ struct MsgBank *bank;
  LabelDesc desc;
  if(labelIndex==bar->labelIndex) return;
  APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin);
- bank=(uptr)MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
- MI_CpuFill8(&desc,0,12);
+ bank=MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
+ MI_CpuFill8(&desc,0,sizeof(LabelDesc));
  desc.tag=0x39e3;
- desc.data=(uptr)MSGDATA_AllocString((struct MsgBank *)bank,labelIndex+8);
+ desc.data=MSGDATA_AllocString(bank,labelIndex+8);
  desc.flag=1;
  bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)bar->taskMenuRes,(struct TaskMenuItem *)(&desc),0x13,0x15,0xd,bar->heapId);
- STRBUF_Delete((struct Strbuf *)desc.data);
- MSGDATA_Delete((struct MsgBank *)bank);
+ STRBUF_Delete(desc.data);
+ MSGDATA_Delete(bank);
  bar->labelIndex=labelIndex; bar->state=0; bar->result=-1;
 }
 
@@ -243,11 +243,11 @@ void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoic
 
 void IRC_APPBAR_ReleaseResources(IrcAppBar *bar) { CLACT_ReleaseCellAnim(bar->cellAnimId); CLACT_ReleaseCharacter(bar->charId); CLACT_ReleasePalette(bar->paletteId); }
 
-void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId) {
+void IRC_APPBAR_CreateActor(IrcAppBar *bar,void *clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId) {
  struct ActorInitParam tmpl;
  MI_CpuFill8(&tmpl,0,8);
  tmpl.x=128; tmpl.y=96; tmpl.anim_seq=0; tmpl.bg_priority=priority+1;
- bar->actors[0]=CLACT_CreateActor((void *)clactUnit,bar->charId,bar->paletteId,bar->cellAnimId,&tmpl,anim,heapId);
+ bar->actors[0]=CLACT_CreateActor(clactUnit,bar->charId,bar->paletteId,bar->cellAnimId,&tmpl,anim,heapId);
 }
 
 /*

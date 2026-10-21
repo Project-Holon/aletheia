@@ -29,7 +29,7 @@ typedef struct TrAiWork {
     u8 targetPos;        /* 0x95 */
     u8 pad96[2];
     u32 rule;            /* 0x98 */
-    void *competitor;    /* 0x9C */
+    u32 competitor;      /* 0x9C */
     u16 heapId;          /* 0xA0 */
     u8 padA2[2];
     void *scriptArchive; /* 0xA4 */

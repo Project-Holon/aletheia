@@ -81,7 +81,7 @@ extern Field3dbgBillboardDesc gWeatherBillboardDescs[];
 extern u8 gWeatherSurfaceInits[];
 extern void (*const gWeatherTransitionHandlers[])(WeatherSys *sys, int frames);
 typedef struct WeatherEntry {
-    u32 taskParam;
+    struct WeatherKindDef *taskParam;
     u32 overlayId;
 } WeatherEntry;
 
@@ -114,7 +114,7 @@ WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light,
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, camera, light, fog, zoneFog, sys, soundSys, zoneId, heapId);
     }
-    sys->updateTaskId = (sptr)GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
+    sys->updateTaskId = GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
     return sys;
 }
 
@@ -123,7 +123,7 @@ void WEATHER_Delete(WeatherSys *sys)
 {
     int i;
 
-    TCB_DeleteTask((struct TcbTask *)sys->updateTaskId);
+    TCB_DeleteTask(sys->updateTaskId);
     for (i = 0; i < 2; i++) {
         WEATHER_TASK_Delete(sys->tasks[i]);
     }
@@ -184,7 +184,7 @@ int WEATHER_IsTaskActive(WeatherSys *sys)
 void WEATHER_SetImmediate(WeatherSys *sys, int weatherId, int fadeParam)
 {
     int i;
-    uptr taskParam;
+    struct WeatherKindDef *taskParam;
 
     if (weatherId == sys->weatherId && weatherId != 0) {
         return;
@@ -196,7 +196,7 @@ void WEATHER_SetImmediate(WeatherSys *sys, int weatherId, int fadeParam)
     sys->phase = 0;
     WEATHER_LoadOverlay(sys, gWeatherTable[weatherId].overlayId);
     taskParam = gWeatherTable[weatherId].taskParam;
-    WEATHER_TASK_Start(sys->tasks[0], (struct WeatherKindDef *)taskParam, 0, 0, 1, 1, fadeParam);
+    WEATHER_TASK_Start(sys->tasks[0], taskParam, 0, 0, 1, 1, fadeParam);
     sys->weatherId = weatherId;
     sys->nextWeatherId = 0xFFFF;
 }
@@ -285,7 +285,7 @@ void WEATHER_UpdateSequential(WeatherSys *sys, int frames)
         sys->phase = 4;
         break;
     case 4:
-        WEATHER_TASK_Start(sys->tasks[0], (struct WeatherKindDef *)gWeatherTable[sys->nextWeatherId].taskParam, 1, 1, 1, sys->useFade, frames);
+        WEATHER_TASK_Start(sys->tasks[0], gWeatherTable[sys->nextWeatherId].taskParam, 1, 1, 1, sys->useFade, frames);
         sys->useFade = 1;
         sys->weatherId = sys->nextWeatherId;
         sys->nextWeatherId = 0xFFFF;
@@ -303,7 +303,7 @@ void WEATHER_UpdateCrossfade(WeatherSys *sys, int frames)
     case 0:
         break;
     case 1:
-        WEATHER_TASK_Start(sys->tasks[1], (struct WeatherKindDef *)gWeatherTable[sys->nextWeatherId].taskParam, 1, 1, 2, sys->useFade, frames);
+        WEATHER_TASK_Start(sys->tasks[1], gWeatherTable[sys->nextWeatherId].taskParam, 1, 1, 2, sys->useFade, frames);
         WEATHER_TASK_RequestEnd(sys->tasks[0], 1, 2);
         sys->phase = 2;
         break;

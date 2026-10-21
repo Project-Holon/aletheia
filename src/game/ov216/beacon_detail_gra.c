@@ -1469,7 +1469,7 @@ void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p)
     type=BEACON_DETAIL_GRA_FindAppearanceType(GAME_BEACON_ACCESSOR_GetDetailsType((struct GameBeaconInfo *)(*(const char * *)&((struct BeaconDetailGraWork *)p)->beaconRecord)));
     BEACON_DETAIL_GRA_TransferChar((u8 *)p,GAME_BEACON_ACCESSOR_GetTrainerAppearance((struct GameBeaconInfo *)(*(struct GameBeaconRecord * *)&((struct BeaconDetailGraWork *)p)->beaconRecord)));
     value=GAME_BEACON_ACCESSOR_GetZoneId((struct GameBeaconInfo *)(*(struct Bits * *)&((struct BeaconDetailGraWork *)p)->beaconRecord));
-    index=TOWNMAP_GRH_FindRecordIndex((struct TownMapInfoRow *)(*(int *)&((struct BeaconDetailGraWork *)p)->townInfo),GAME_BEACON_ACCESSOR_GetTownmapRootZoneId((struct GameBeaconInfo *)(*(const char * *)&((struct BeaconDetailGraWork *)p)->beaconRecord)));
+    index=TOWNMAP_GRH_FindRecordIndex(*(struct TownMapInfoRow **)&((struct BeaconDetailGraWork *)p)->townInfo,GAME_BEACON_ACCESSOR_GetTownmapRootZoneId((struct GameBeaconInfo *)(*(const char * *)&((struct BeaconDetailGraWork *)p)->beaconRecord)));
     if(index==0xffff || TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)(*(char * *)&((struct BeaconDetailGraWork *)p)->townInfo),index,16)!=0xffff || value>=427) {
         ((struct BeaconDetailGraWork *)p)->mapVisible=0;
         *(volatile s16 *)&((struct BeaconDetailGraWork *)p)->mapY=0;

@@ -60,9 +60,9 @@ struct PlayerLocationData;
 struct FieldGimmickWork;
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
 void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(struct GameData *object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase2(struct GameData *object, int unused);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused);
 void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused);
 void FIELD_MAP_CHANGE_Empty(struct GameData *system, u16 zoneId);
@@ -107,9 +107,9 @@ void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *object, int unused)
 {
-    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
@@ -121,9 +121,9 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase3(struct GameData *object, int unused)
 {
-    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
@@ -135,9 +135,9 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase2(struct GameData *object, int unused)
 {
-    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
@@ -156,7 +156,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused)
 {
-    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*

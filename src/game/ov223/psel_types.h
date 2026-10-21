@@ -36,7 +36,7 @@ struct PselWork {
     u32 frame;                        /* 0x10 */
     void *graphicSys;                 /* 0x14 */
     void *font;                       /* 0x18 */
-    u32 printQue;                     /* 0x1C */
+    struct PrintQueue *printQue;                     /* 0x1C */
     void *vblankNode;                 /* 0x20 */
     u32 flags;                        /* 0x24 */
     void *g3dUtil;                    /* 0x28 */
@@ -107,7 +107,7 @@ struct PselResMember {
 
 /* A single 32-bit CLACT/G3D handle the graphic helpers receive by address. */
 struct PselHandle {
-    u32 value;
+    struct Unit *value;
 };
 
 /*
@@ -123,8 +123,8 @@ struct PselUnit {
     u32 charHandle;       /* 0x60: CLACT_RegisterCharacter result */
     u8 pad64[4];
     u32 affineCellAnim;   /* 0x68: CLACT_RegisterCellAnim result */
-    u32 actor;            /* 0x6C: CLACT_CreateActor result */
-    u32 affineActor;      /* 0x70: CLACT_CreateAffineActor result */
+    struct ClactActor *actor;            /* 0x6C: CLACT_CreateActor result */
+    struct ClactActor *affineActor;      /* 0x70: CLACT_CreateAffineActor result */
 };
 
 #endif

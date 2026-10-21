@@ -56,7 +56,7 @@
 #include "nns_gfd_vram_load.h"
 
 /* Loader for one VRAM destination: (source, destination offset, byte size). */
-typedef void (*NNSiGfdVramLoadFunc)(u32 pSrc, u32 offset, u32 szByte);
+typedef void (*NNSiGfdVramLoadFunc)(const void *pSrc, u32 offset, u32 szByte);
 
 #include "gx_load2d.h"
 #include "os_cache.h"
@@ -213,7 +213,7 @@ void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte)
 void NNSi_GfdRunVramTransferTask(NNSiGfdVramTransferTask *pTask)
 {
     NNSiGfdVramLoadFunc loadFunc = gNNSiGfdVramLoadFuncTable[pTask->taskType];
-    DC_FlushRange((void *)(pTask->pSrc), pTask->szByte);
+    DC_FlushRange(pTask->pSrc, pTask->szByte);
     loadFunc(pTask->pSrc, pTask->offset, pTask->szByte);
 }
 

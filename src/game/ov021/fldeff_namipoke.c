@@ -213,7 +213,7 @@ struct FieldG3dObjResDesc;
 #undef FIELD_G3DOBJ_AddObject
 #undef FIELD_G3DOBJ_SetResDescModel
 extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *, u32, u32, VecFx32 *);
-extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *, u32, u32);
+extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *, struct ArcHandle *, u32);
 #endif
 struct FieldG3dObjCtrl;
 
@@ -280,15 +280,15 @@ void FLDEFF_NAMIPOKE_LoadResources(NamipokeRes *res)
 {
     FieldG3dObjResDesc desc;
     FieldG3dObjSys *g3dObjSys = FIELD_EFFECT_GetFieldMapData(res->fieldEffect);
-    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     FIELD_G3DOBJ_InitResDesc(&desc);
-    FIELD_G3DOBJ_SetResDescModel(&desc, (uptr)arc, 0x31);
+    FIELD_G3DOBJ_SetResDescModel(&desc, arc, 0x31);
     res->waveResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, &desc, 0);
     res->waveObjId = FIELD_G3DOBJ_AddObject(g3dObjSys, res->waveResId, 0, 0);
     FIELD_G3DOBJ_SetObjectManualDraw((struct FieldG3dObjCtrl *)g3dObjSys, res->waveObjId, 1);
     FIELD_G3DOBJ_InitResDesc(&desc);
-    FIELD_G3DOBJ_SetResDescModel(&desc, (uptr)arc, 0x36);
-    FIELD_G3DOBJ_SetResDescAnimeArc(&desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel(&desc, arc, 0x36);
+    FIELD_G3DOBJ_SetResDescAnimeArc(&desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile(&desc, 0x6b);
     FIELD_G3DOBJ_AddResDescAnimeFile(&desc, 0x85);
     res->wakeResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, &desc, 0);
@@ -723,35 +723,35 @@ void FLDEFF_NAMIPOKE_SPLASH_LoadResources(NamipokeSplashRes *res)
     ArcHandle *arc;
     uptr desc;
     g3dObjSys = FIELD_EFFECT_GetFieldMapData(res->fieldEffect);
-    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     desc = (uptr)&buf;
     FIELD_G3DOBJ_InitResDesc(&buf);
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x37);
-    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, arc, 0x37);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x80);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6c);
     res->modelResId[0] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
     FIELD_G3DOBJ_InitResDesc(&buf);
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x3a);
-    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, arc, 0x3a);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6f);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x63);
     res->modelResId[1] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
     FIELD_G3DOBJ_InitResDesc(&buf);
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x39);
-    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, arc, 0x39);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6e);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x62);
     res->modelResId[3] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
     FIELD_G3DOBJ_InitResDesc(&buf);
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x3b);
-    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, arc, 0x3b);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x70);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x64);
     res->modelResId[2] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
     FIELD_G3DOBJ_InitResDesc(&buf);
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x38);
-    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, arc, 0x38);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, arc);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6d);
     FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x61);
     res->modelResId[4] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);

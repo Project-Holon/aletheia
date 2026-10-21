@@ -82,7 +82,7 @@ typedef struct {
 extern u32 BTL_SICKCONT_MakeKind1Empty(void);
 extern u32 BTL_SICKCONT_MakeKind1Index15(void);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
-extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
+extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, const BtlEventHandler *handlers, u16 handlerCount);
 #endif
 #include "../ov093/btl_event.h"
 void HAND_SIDE_InitTable(void);
@@ -166,7 +166,7 @@ struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont 
             if (slot->layers == 0) {
                 struct BtlEventFactor *factor;
                 const BtlEventHandler *handlers = gHandSideEffectTable[i].getHandlers(&handlerCount);
-                factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_SIDE_EFFECT, effectId, 2, 0, side, (uptr)handlers, handlerCount);
+                factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_SIDE_EFFECT, effectId, 2, 0, side, handlers, handlerCount);
                 BTL_EVENT_SetFactorWork(factor, 6, cont.raw);
                 slot->layers = 1;
                 slot->turnsElapsed = 0;

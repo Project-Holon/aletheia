@@ -53,7 +53,7 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
 GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem);
 int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk);
 int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk);
-int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **mywk);
+int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, void **pwk, struct ProcSys **mywk);
 int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *work);
 GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInfo *transitionInfo, void *extra);
 int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *work);

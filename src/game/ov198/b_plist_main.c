@@ -1,7 +1,7 @@
 /*
  * file:     b_plist_main.c
  * unit:     yes
- * function: B_PLIST_MAIN_SyncMoveActors, B_PLIST_MAIN_SetActorAnimSeq, B_PLIST_MAIN_GetMonAnimState, B_PLIST_MAIN_UpdateActorAnims, B_PLIST_MAIN_CreateToolActors, B_PLIST_MAIN_ShiftActors, B_PLIST_MAIN_SwapActorPos, B_PLIST_MAIN_Create, B_PLIST_MAIN_Task, B_PLIST_MAIN_Init, B_PLIST_MAIN_WaitPrintQue, B_PLIST_MAIN_WaitWipe, B_PLIST_MAIN_HandleSelectInput, B_PLIST_MAIN_ConfirmSelect, B_PLIST_MAIN_HandleModeSelect, B_PLIST_MAIN_HandleListSelect, B_PLIST_MAIN_HandleMoveSelect, B_PLIST_MAIN_HandleSlotSelect, B_PLIST_MAIN_HandleSlotSelectFade, B_PLIST_MAIN_HandleItemSelect, B_PLIST_MAIN_HandleConfirmCancel, B_PLIST_MAIN_EnterState1A, B_PLIST_MAIN_HandlePartySelect, B_PLIST_MAIN_ApplyPartyListPage, B_PLIST_MAIN_ApplyMonMenuPage, B_PLIST_MAIN_ApplySummaryPage, B_PLIST_MAIN_ApplyMoveListPage, B_PLIST_MAIN_ApplyMoveDetailPage, B_PLIST_MAIN_ApplyMoveListWithNewMovePage, B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage, B_PLIST_MAIN_ApplyMoveListForItemPage, B_PLIST_MAIN_RedrawByMode, B_PLIST_MAIN_RefreshAndState16, B_PLIST_MAIN_ClearPrintStream, B_PLIST_MAIN_WaitPrintStream, B_PLIST_MAIN_HandleSkipKey, B_PLIST_MAIN_CheckBusyFlag, B_PLIST_MAIN_BeginFadeOut, B_PLIST_MAIN_WaitFadeOut, B_PLIST_MAIN_Delete, B_PLIST_MAIN_InitBg, B_PLIST_MAIN_ExitBg, B_PLIST_MAIN_LoadGraphics, B_PLIST_MAIN_CreateTextResources, B_PLIST_MAIN_DeleteTextResources, B_PLIST_MAIN_ReadSummary, B_PLIST_MAIN_ReadParty, B_PLIST_MAIN_HandleCursorInput, B_PLIST_MAIN_GetSlotState, B_PLIST_MAIN_NextSelectable, B_PLIST_MAIN_DrawExpBar, B_PLIST_MAIN_ApplyMode, B_PLIST_MAIN_LoadModePalette, B_PLIST_MAIN_GetRowStatus, B_PLIST_MAIN_PrintStatusMessage, B_PLIST_MAIN_IsRowFlagged, B_PLIST_MAIN_GetOwnerFlag18, B_PLIST_MAIN_IsBattleSlot, B_PLIST_MAIN_CheckMoveUsable, B_PLIST_MAIN_IsSlotSelectable, B_PLIST_MAIN_IsIndexValid, B_PLIST_MAIN_IsIndexInParty, B_PLIST_MAIN_InitSelectionForMode, B_PLIST_MAIN_InitOrder, B_PLIST_MAIN_SwapOrder, B_PLIST_MAIN_IsInSelection, B_PLIST_MAIN_GetOrderIndex, B_PLIST_MAIN_SetSelectionEntry, B_PLIST_MAIN_PushSelectionPair, B_PLIST_MAIN_PopSelectionPair, B_PLIST_MAIN_BeginMode8, B_PLIST_MAIN_PrintRowMessage, B_PLIST_MAIN_ConfirmSwap, B_PLIST_MAIN_EndSwap, B_PLIST_MAIN_GetFramePos, B_PLIST_MAIN_CopyFrame, B_PLIST_MAIN_MoveActorByFlag, B_PLIST_MAIN_UpdateSwapFrames, B_PLIST_MAIN_FinishSwap, B_PLIST_MAIN_CanSwap, B_PLIST_MAIN_HasSwappable, B_PLIST_MAIN_CommitSwap, B_PLIST_MAIN_ClearSelection, B_PLIST_MAIN_CheckCancel, B_PLIST_MAIN_PlaySe, B_PLIST_MAIN_PlaySe2, B_PLIST_MAIN_CreateCursor, B_PLIST_MAIN_DeleteCursor, B_PLIST_MAIN_RecreateCursor, B_PLIST_MAIN_SetActorsVisible, B_PLIST_MAIN_LayoutCursorActors, B_PLIST_MAIN_ShowCursor
+ * function: B_PLIST_MAIN_SyncMoveActors, B_PLIST_MAIN_SetActorAnimSeq, B_PLIST_MAIN_GetMonAnimState, B_PLIST_MAIN_UpdateActorAnims, B_PLIST_MAIN_CreateToolActors, B_PLIST_MAIN_ShiftActors, B_PLIST_MAIN_SwapActorPos, B_PLIST_MAIN_Create, B_PLIST_MAIN_Task, B_PLIST_MAIN_Init, B_PLIST_MAIN_WaitPrintQue, B_PLIST_MAIN_WaitWipe, B_PLIST_MAIN_HandleSelectInput, B_PLIST_MAIN_ConfirmSelect, B_PLIST_MAIN_HandleModeSelect, B_PLIST_MAIN_HandleListSelect, B_PLIST_MAIN_HandleMoveSelect, B_PLIST_MAIN_HandleSlotSelect, B_PLIST_MAIN_HandleSlotSelectFade, B_PLIST_MAIN_HandleItemSelect, B_PLIST_MAIN_HandleConfirmCancel, B_PLIST_MAIN_EnterState1A, B_PLIST_MAIN_HandlePartySelect, B_PLIST_MAIN_ApplyPartyListPage, B_PLIST_MAIN_ApplyMonMenuPage, B_PLIST_MAIN_ApplySummaryPage, B_PLIST_MAIN_ApplyMoveListPage, B_PLIST_MAIN_ApplyMoveDetailPage, B_PLIST_MAIN_ApplyMoveListWithNewMovePage, B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage, B_PLIST_MAIN_ApplyMoveListForItemPage, B_PLIST_MAIN_RedrawByMode, B_PLIST_MAIN_RefreshAndState16, B_PLIST_MAIN_ClearPrintStream, B_PLIST_MAIN_WaitPrintStream, B_PLIST_MAIN_HandleSkipKey, B_PLIST_MAIN_CheckBusyFlag, B_PLIST_MAIN_BeginFadeOut, B_PLIST_MAIN_WaitFadeOut, B_PLIST_MAIN_Delete, B_PLIST_MAIN_InitBg, B_PLIST_MAIN_ExitBg, B_PLIST_MAIN_LoadGraphics, B_PLIST_MAIN_CreateTextResources, B_PLIST_MAIN_DeleteTextResources, B_PLIST_MAIN_ReadSummary, B_PLIST_MAIN_ReadParty, B_PLIST_MAIN_HandleCursorInput, B_PLIST_MAIN_GetSlotState, B_PLIST_MAIN_NextSelectable, B_PLIST_MAIN_DrawExpBar, B_PLIST_MAIN_ApplyMode, B_PLIST_MAIN_LoadModePalette, B_PLIST_MAIN_GetRowStatus, B_PLIST_MAIN_PrintStatusMessage, B_PLIST_MAIN_IsRowFlagged, B_PLIST_MAIN_GetOwnerFlag18, B_PLIST_MAIN_IsBattleSlot, B_PLIST_MAIN_CheckMoveUsable, B_PLIST_MAIN_IsSlotSelectable, B_PLIST_MAIN_IsIndexValid, B_PLIST_MAIN_IsIndexInParty, B_PLIST_MAIN_InitSelectionForMode, B_PLIST_MAIN_InitOrder, B_PLIST_MAIN_SwapOrder, B_PLIST_MAIN_IsInSelection, B_PLIST_MAIN_GetOrderIndex, B_PLIST_MAIN_SetSelectionEntry, B_PLIST_MAIN_PushSelectionPair, B_PLIST_MAIN_PopSelectionPair, B_PLIST_MAIN_BeginMode8, B_PLIST_MAIN_PrintRowMessage, B_PLIST_MAIN_ConfirmSwap, B_PLIST_MAIN_EndSwap, B_PLIST_MAIN_GetFramePos, B_PLIST_MAIN_CopyFrame, B_PLIST_MAIN_MoveActorByFlag, B_PLIST_MAIN_UpdateSwapFrames, B_PLIST_MAIN_FinishSwap, B_PLIST_MAIN_CanSwap, B_PLIST_MAIN_HasSwappable, B_PLIST_MAIN_CommitSwap, B_PLIST_MAIN_ClearSelection, B_PLIST_MAIN_CheckCancel, B_PLIST_MAIN_PlaySe, B_PLIST_MAIN_PlaySe2, B_PLIST_MAIN_CreateCursor, B_PLIST_MAIN_DeleteCursor, B_PLIST_MAIN_RecreateCursor, B_PLIST_MAIN_SetActorsVisible, B_PLIST_MAIN_LayoutCursorActors, B_PLIST_MAIN_ShowCursor, B_PLIST_MAIN_HideCursor, B_PLIST_MAIN_HideCursorOnTouch, B_PLIST_MAIN_MoveCursor
  * address:  0x0220F060
  * region:   ov198
  * compiler: dsi/1.1p1
@@ -398,7 +398,7 @@ extern const u32 d_022121D4[];
 extern u8 d_02212138[][6];
 extern u8 data_02212550[];
 extern const u32 d_022122D4[];
-extern const u32 d_022122A0[];
+extern const struct CursorVtbl d_022122A0;
 
 
 
@@ -499,7 +499,7 @@ void B_PLIST_MAIN_UpdateActorAnims(u8 *p)
 
 
 
-void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct B_PlistWork *)p)->appTool,*(int *)&((struct B_PlistWork *)p)->unit,((struct B_PlistWork *)p)->toolChar,((struct B_PlistWork *)p)->toolPal,((struct B_PlistWork *)p)->toolCell);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct B_PlistWork *)p)->appTool,0); }
+void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct B_PlistWork *)p)->appTool,*(struct Unit **)&((struct B_PlistWork *)p)->unit,((struct B_PlistWork *)p)->toolChar,((struct B_PlistWork *)p)->toolPal,((struct B_PlistWork *)p)->toolCell);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct B_PlistWork *)p)->appTool,0); }
 
 
 
@@ -2290,7 +2290,7 @@ void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
 {
     u32 offset=0x218C;
     struct CursorMove *result;
-    result=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_022122D4[index],(struct CursorVtbl *)d_022122A0,(uptr)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
+    result=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_022122D4[index],(struct CursorVtbl *)&d_022122A0,(uptr)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
     *(struct CursorMove **)(p+(offset-8))=result;
     CURSOR_MOVE_EnableInput((struct Cursor *)result);
     offset-=8;
@@ -2348,4 +2348,33 @@ void B_PLIST_MAIN_ShowCursor(u8 *p, unsigned idx)
 {
     B_PLIST_MAIN_LayoutCursorActors(p, idx);
     B_PLIST_MAIN_SetActorsVisible(p, 1);
+}
+
+
+
+
+/*
+ * The cursor callbacks of d_022122A0 (CursorVtbl: onStart ShowCursor, onCancel
+ * HideCursor, onMove MoveCursor, onCommit HideCursorOnTouch).  Only that table
+ * names the last three.
+ */
+void B_PLIST_MAIN_HideCursor(u8 *p)
+{
+    B_PLIST_MAIN_SetActorsVisible(p, 0);
+}
+
+
+
+
+void B_PLIST_MAIN_HideCursorOnTouch(u8 *p)
+{
+    B_PLIST_MAIN_SetActorsVisible(p, 0);
+}
+
+
+
+
+void B_PLIST_MAIN_MoveCursor(u8 *p, u32 idx)
+{
+    B_PLIST_MAIN_LayoutCursorActors(p, idx);
 }

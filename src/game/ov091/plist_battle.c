@@ -265,19 +265,19 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     paletteIndex = POKE_TOOL_GetIconPalette((void *)boxMon);
     iconParam.x = x + 16; iconParam.y = y + 8; iconParam.animNo = 1; iconParam.softPriority = 16; iconParam.bgPriority = 2;
     {
-        int actor = (sptr)CLACT_CreateActor((struct Unit *)work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], (const struct ActorInitParam *)&iconParam, 1, work->heapId);
+        struct ClactActor *actor = CLACT_CreateActor((struct Unit *)work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], (const struct ActorInitParam *)&iconParam, 1, work->heapId);
         cell->iconActor = actor;
         CLACT_SetActorPaletteOffset((struct ClactActor *)actor, paletteIndex, 1);
     }
-    CLACT_SetActorAutoAnim((struct ClactActor *)cell->iconActor, 1);
+    CLACT_SetActorAutoAnim(cell->iconActor, 1);
     heldItem = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HELD_ITEM, 0);
     markParam.x = x + 32; markParam.y = y + 16; markParam.animNo = 0; markParam.softPriority = 8; markParam.bgPriority = 2;
-    cell->itemMarkActor = (uptr)CLACT_CreateActor((struct Unit *)work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], (const struct ActorInitParam *)&markParam, 1, work->heapId);
+    cell->itemMarkActor = CLACT_CreateActor((struct Unit *)work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], (const struct ActorInitParam *)&markParam, 1, work->heapId);
     if (heldItem != 0) {
-        CLACT_SetActorDrawEnable((struct ClactActor *)cell->itemMarkActor, 1);
-        if (FILE_UTIL_IsMailItem(heldItem) == 1) CLACT_SetActorAnimSeq((struct ClactActor *)cell->itemMarkActor, 1);
-        else CLACT_SetActorAnimSeq((struct ClactActor *)cell->itemMarkActor, 0);
-    } else CLACT_SetActorDrawEnable((struct ClactActor *)cell->itemMarkActor, 0);
+        CLACT_SetActorDrawEnable(cell->itemMarkActor, 1);
+        if (FILE_UTIL_IsMailItem(heldItem) == 1) CLACT_SetActorAnimSeq(cell->itemMarkActor, 1);
+        else CLACT_SetActorAnimSeq(cell->itemMarkActor, 0);
+    } else CLACT_SetActorDrawEnable(cell->itemMarkActor, 0);
     sex = POKE_TOOL_GetPartyValue(mon, PLIST_MON_SEX, 0);
     xOffset = x % 8;
     xShift = xOffset;
@@ -305,8 +305,8 @@ void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell)
 {
     BMP_WIN_Delete(cell->sexWindow);
     BMP_WIN_Delete(cell->levelWindow);
-    CLACT_DeleteActor((struct ClactActor *)cell->itemMarkActor);
-    CLACT_DeleteActor((struct ClactActor *)cell->iconActor);
+    CLACT_DeleteActor(cell->itemMarkActor);
+    CLACT_DeleteActor(cell->iconActor);
     CLACT_ReleaseCharacter(cell->iconRes);
     GFL_HEAP_Free(cell);
 }
@@ -340,18 +340,18 @@ void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
     sptr text;
     if (work->arg->timerExpired == 0)
         return;
-    if (PLIST_MESSAGE_IsWindowOpen(work, (struct PlistMessage *)work->messageWindow) == 0)
-        PLIST_MESSAGE_OpenWindow(work, (struct PlistMessage *)work->messageWindow, 1);
+    if (PLIST_MESSAGE_IsWindowOpen(work, work->messageWindow) == 0)
+        PLIST_MESSAGE_OpenWindow(work, work->messageWindow, 1);
     if (work->arg->battleKind == 1) {
         text = (sptr)STRBUF_Create(0x10, work->heapId);
         STRBUF_SetString((struct Strbuf *)text, work->arg->entries[1].name);
-        PLIST_MESSAGE_CreateWordSet(work, (struct PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetString(work, (struct PlistMessage *)work->messageWindow, 0, (void *)text, work->arg->entries[1].gender);
-        PLIST_MESSAGE_PrintText(work, (struct PlistMessage *)work->messageWindow, 0xA9);
-        PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
+        PLIST_MESSAGE_SetWordSetString(work, work->messageWindow, 0, (void *)text, work->arg->entries[1].gender);
+        PLIST_MESSAGE_PrintText(work, work->messageWindow, 0xA9);
+        PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         STRBUF_Delete((struct Strbuf *)text);
     } else {
-        PLIST_MESSAGE_PrintText(work, (struct PlistMessage *)work->messageWindow, work->arg->timerExpired + 0xA9);
+        PLIST_MESSAGE_PrintText(work, work->messageWindow, work->arg->timerExpired + 0xA9);
     }
 }
 
@@ -449,7 +449,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
             red = value;
             work->timerPalDst[i] = (blue << 10) | (red | (green << 5));
         }
-        NNS_GfdRegisterNewVramTransferTask((void *)31, 64, (uptr)work->timerPalDst, 32);
+        NNS_GfdRegisterNewVramTransferTask(31, 64, work->timerPalDst, 32);
         work->timerPalPhase++;
         if (work->timerPalPhase >= 60) work->timerPalPhase = 0;
     }
@@ -478,21 +478,21 @@ void PLIST_BATTLE_FinishEffect(PokelistWork *work)
         callback = POKELIST_EndMessageToExit;
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
         POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
-        PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else if (work->evolveCheckKind == 2) {
         callback = POKELIST_EndMessageToExit;
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
         POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
-        PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else if (work->evolveCheckKind == 3) {
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
         POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)POKELIST_EndMessageToExit));
-        PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else {
         work->phase = 0x13;
     }
@@ -512,14 +512,14 @@ void PLIST_BATTLE_UpdateEffect(PokelistWork *work)
             else if (work->evolveCheckKind == 3) GFL_USE_PlaySeDefaultVolume(0x644);
         }
         if (work->effectFrame > work->effectLength) {
-            PLIST_PLATE_SetMon(work, (struct PlistPlate *)work->plates[work->selectedSlot], (void *)work->selectedMon, 0);
+            PLIST_PLATE_SetMon(work, (struct PlistPlate *)work->plates[work->selectedSlot], work->selectedMon, 0);
             work->effectStarted = 1;
         }
     }
     if (PARTICLE_GetEffectCount((struct ParticleSys *)work->particleSystem) <= 0 && GFL_USE_IsAnySeBusy() == 0) {
         if (work->cryStarted == 0) {
-            species = POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0);
-            form = POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, 0);
+            species = POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_SPECIES, 0);
+            form = POKE_TOOL_GetPartyValue(work->selectedMon, PLIST_MON_FORM, 0);
             work->cryHandle = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, 0);
             work->cryStarted = 1;
         } else {

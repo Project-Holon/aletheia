@@ -288,7 +288,7 @@ int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n)
 int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
 {
     MIi_CpuClear32(0, buf, n << 2);
-    return CTVT_ADPCM_Decode(a, (int)n, (sptr)buf);
+    return CTVT_ADPCM_Decode(a, (int)n, (int)buf);
 }
 
 void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)

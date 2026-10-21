@@ -202,6 +202,7 @@ struct NitroFileHeader;
 
 #include "el_scoreboard_types.h"
 #include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/nns_g2d_res_types.h"
 #include "../arm9/arc_tool.h"
 struct FieldMap;
 #include "../ov021/fieldmap.h"
@@ -248,7 +249,7 @@ int EL_SCOREBOARD_GetFadeOutDuration(ElScoreboardWork *work);
 int EL_SCOREBOARD_GetHoldDuration(ElScoreboardWork *work);
 void EL_SCOREBOARD_CallFinishCallback(ElScoreboardWork *work);
 extern int EL_SCOREBOARD_SourceFileName;
-extern int EL_SCOREBOARD_LampPaletteColors[];
+extern void *EL_SCOREBOARD_LampPaletteColors[];
 extern char EL_SCOREBOARD_VramBankConfig[];
 extern char EL_SCOREBOARD_DispConfig[];
 extern char EL_SCOREBOARD_BgTemplate[];
@@ -263,14 +264,14 @@ ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char 
     lamp->texIndex = TEXT_TEXTURE_GetTexFormatCount() - 1;
     lamp->plttIndex = TEXT_TEXTURE_GetTexFormatCount() - 1;
     lamp->texVram = -1;
-    lamp->plttVram = (char *)-1;
-    if (TEXT_TEXTURE_LoadTexPlttByName(archive, texName, 0, plttName, (uptr)text, xPos, yPos, 0xC40, heapId, (struct TexKey *)(&loaded)) != 0) {
+    lamp->plttVram = -1;
+    if (TEXT_TEXTURE_LoadTexPlttByName(archive, texName, 0, plttName, text, xPos, yPos, 0xC40, heapId, (struct TexKey *)(&loaded)) != 0) {
         lamp->texAddr = loaded.texAddr;
         lamp->plttSlot = loaded.plttSlot;
         lamp->texVram = loaded.texVram;
         lamp->texIndex = loaded.texIndex;
         lamp->plttIndex = loaded.plttIndex;
-        lamp->plttVram = (char *)loaded.plttVram;
+        lamp->plttVram = loaded.plttVram;
         lamp->tick = 0;
     }
     return lamp;
@@ -284,10 +285,10 @@ void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp) { GFL_HEAP_Free(lamp); }
 void EL_SCOREBOARD_TickLamp(ElLamp *lamp)
 {
     ElLampPaletteRef pair;
-    char *base;
+    u32 base;
     lamp->tick++;
     base = lamp->plttVram;
-    if (base != (char *)-1) {
+    if (base != -1) {
         pair.index = lamp->plttSlot;
         pair.base = base;
         EL_SCOREBOARD_AnimateLampPalette(&pair, lamp->tick);
@@ -296,7 +297,7 @@ void EL_SCOREBOARD_TickLamp(ElLamp *lamp)
 
 void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick)
 {
-    NNS_GfdRegisterNewVramTransferTask((void *)1, (uptr)(paletteRef->base + (u16)paletteRef->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
+    NNS_GfdRegisterNewVramTransferTask(1, paletteRef->base + (u16)paletteRef->index * 8, EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }
 
 int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
@@ -422,9 +423,9 @@ void EL_SCOREBOARD_TeardownStandaloneDisplay(ElScoreboardWork *work)
 
 void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
 {
-    int *palFile;
-    int *charFile;
-    int *screenFile;
+    NNSG2dPaletteData *palFile;
+    NNSG2dCharacterData *charFile;
+    NNSG2dScreenData *screenFile;
     void *archive;
     void *member;
     int palIdx, charIdx, screenIdx;
@@ -447,15 +448,15 @@ void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
     archive = ARC_TOOL_CreateHandle(0x97, heapId);
     member = ARC_TOOL_LoadHandleMember(archive, palIdx, heapId);
     NNS_G2dGetUnpackedPaletteData(member, (void **)(&palFile));
-    BG_SYS_LoadPltt(3, (void *)palFile[3], 0x20, 0);
+    BG_SYS_LoadPltt(3, palFile->pRawData, 0x20, 0);
     GFL_HEAP_Free(member);
     member = ARC_TOOL_LoadHandleMember(archive, charIdx, heapId);
     NNS_G2dGetUnpackedCharacterDataEx(member, (void **)(&charFile));
-    BG_SYS_LoadTileData(3, (const void *)charFile[5], charFile[4], 0);
+    BG_SYS_LoadTileData(3, charFile->pRawData, charFile->szByte, 0);
     GFL_HEAP_Free(member);
     member = ARC_TOOL_LoadHandleMember(archive, screenIdx, heapId);
     NNS_G2dGetUnpackedScreenData(member, (void **)(&screenFile));
-    BG_SYS_PushTileSource(3, screenFile + 3, screenFile[2], 0);
+    BG_SYS_PushTileSource(3, screenFile->rawData, screenFile->szByte, 0);
     GFL_HEAP_Free(member);
     ARC_TOOL_DeleteHandle(archive);
 }

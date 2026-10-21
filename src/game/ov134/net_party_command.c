@@ -268,7 +268,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
     case 7:
         handle = GFL_NET_HANDLE_GetCurrentHandle();
         dataSize = POKE_REGULATION_GetDataSize();
-        if (GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2f00, dataSize, (void *)*(u32 *)&((NetPartyListProc *)listProc)->destParty, 0, 0, 1) != 0) {
+        if (GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2f00, dataSize, *(void **)&((NetPartyListProc *)listProc)->destParty, 0, 0, 1) != 0) {
             GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
             ((NetPartyWork *)work)->state = 8;
         }
@@ -371,8 +371,8 @@ void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatu
     save = GAME_DATA_GetSaveControl(args->save);
     GAME_DATA_GetMyStatus(args->save);
     zukan = ZUKAN_SAVE_GetFromGameData(args->save);
-    statusParam->ppd = (void *)*(u32 *)&args->party;
-    statusParam->config = (void *)*(u32 *)&args->save;
+    statusParam->ppd = *(void **)&args->party;
+    statusParam->config = *(void **)&args->save;
     statusParam->callerData = SYSTEM_DATA_GetConfig(save);
     statusParam->ppt = 1;
     statusParam->mode = 1;

@@ -177,7 +177,7 @@ void EGG_DEMO_GRAPHIC_Draw3d(char *p);
 
 void EGG_DEMO_GRAPHIC_DrawEnd(char *p);
 
-int EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
+struct Bank *EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
 
 void EGG_DEMO_GRAPHIC_VBlank(int a, char *b);
 
@@ -189,7 +189,7 @@ void EGG_DEMO_GRAPHIC_Noop(void *unused);
 
 void EGG_DEMO_GRAPHIC_TickDisplay(void *unused);
 
-void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, int a, u32 b);
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, u32 b);
 
 void EGG_DEMO_GRAPHIC_DeleteClact(char *p);
 
@@ -197,7 +197,7 @@ void EGG_DEMO_GRAPHIC_DrawClact(void *unused);
 
 void EGG_DEMO_GRAPHIC_VBlankClact(void *unused);
 
-int EGG_DEMO_GRAPHIC_GetClactBank(void *p);
+struct Bank *EGG_DEMO_GRAPHIC_GetClactBank(void *p);
 
 void EGG_DEMO_GRAPHIC_InitG3d(void **out,u16 heap);
 
@@ -239,7 +239,7 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     EGG_DEMO_GRAPHIC_InitBg(work,heapId);
-    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(sptr)d_021F71C4,heapId);
+    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(struct DispVramCfg *)d_021F71C4,heapId);
     EGG_DEMO_GRAPHIC_InitG3d((void **)(work+8),heapId);
     ((struct EggDemoGraphic *)work)->vblankTask=(struct Node *)GFL_USE_AddMainTask((TcbFunc)EGG_DEMO_GRAPHIC_VBlank,(void *)work,0);
     return work;
@@ -270,7 +270,7 @@ void EGG_DEMO_GRAPHIC_Draw3d(char *work){EGG_DEMO_GRAPHIC_DrawG3d(work+8);}
 
 void EGG_DEMO_GRAPHIC_DrawEnd(char *work){EGG_DEMO_GRAPHIC_DrawG3dEnd(work+8);}
 
-int EGG_DEMO_GRAPHIC_GetClactBank2(char *work){return EGG_DEMO_GRAPHIC_GetClactBank(work+4);}
+struct Bank *EGG_DEMO_GRAPHIC_GetClactBank2(char *work){return EGG_DEMO_GRAPHIC_GetClactBank(work+4);}
 
 void EGG_DEMO_GRAPHIC_VBlank(int unused, char *work)
 {
@@ -307,7 +307,7 @@ void EGG_DEMO_GRAPHIC_Noop(void *unused){}
 
 void EGG_DEMO_GRAPHIC_TickDisplay(void *unused){BG_SYS_Update();}
 
-void EGG_DEMO_GRAPHIC_InitClact(unsigned char *clact, int resource, u32 heapId)
+void EGG_DEMO_GRAPHIC_InitClact(unsigned char *clact, struct DispVramCfg *resource, u32 heapId)
 {
     MI_CpuFill8(clact, 0, 4);
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021F7188), (const struct DispVramCfg *)resource, heapId);
@@ -326,7 +326,7 @@ void EGG_DEMO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
  */
 void EGG_DEMO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-int EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return (sptr)((struct EggDemoClact *)clact)->unit;}
+struct Bank *EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return ((struct EggDemoClact *)clact)->unit;}
 
 /*
  * evidence: 46440 heap extern widened; original stores full r1 at sp+4.

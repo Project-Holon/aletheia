@@ -1354,7 +1354,7 @@ u16 PMS_INPUT_GetSavedCursorPos(PmsInput *input);
 
 u32 PMS_INPUT_GetListItemCount(PmsInput *input);
 
-void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b);
+void PMS_INPUT_GetListWord(PmsInput *input,u32 a,struct U16Vec *b);
 
 u32 PMS_INPUT_GetCursorCell(PmsInput *input);
 
@@ -1912,8 +1912,8 @@ u32 PMS_INPUT_GetListItemCount(PmsInput *input) {
 }
 
 /* Writes the text of one list word to a buffer. */
-void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b) {
-    if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,b);
+void PMS_INPUT_GetListWord(PmsInput *input,u32 a,struct U16Vec *b) {
+    if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,(int)b);
     else PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,b);
 }
 
@@ -1957,7 +1957,7 @@ u8 PMS_INPUT_GetInitialCount(PmsInput *input) { return PMSI_SEARCH_HasResults((s
 int PMS_INPUT_GetSearchState(PmsInput *input) { return PMSI_SEARCH_GetInputCount((struct PmsiSearch *)input->search); }
 
 /* Writes the text of one word of the selected initial letter to a buffer. */
-void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b) { PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,b); }
+void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b) { PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,((void *)b)); }
 
 /* Whether the input can be confirmed. */
 int PMS_INPUT_CanConfirm(PmsInput *input) { return PMS_INPUT_IsComplete(input); }

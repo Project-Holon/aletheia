@@ -224,7 +224,7 @@ void *HAND_TOKUSEI_AddTrace(int *handlerCount);
 void HAND_TOKUSEI_TraceOnMemberIn(int myHandle, struct BtlServerFlow *flow, int pokeId, int *work);
 void HAND_TOKUSEI_NaturalCureOnMemberOut(int myHandle, void *flowWork, int pokeId);
 void *HAND_TOKUSEI_AddNaturalCure(int *handlerCount);
-void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId);
+void HAND_TOKUSEI_DownloadOnMemberIn(struct BtlEventFactor *myHandle, struct BtlServerFlow *flowWork, u8 pokeId);
 int *HAND_TOKUSEI_AddDownload(int *handlerCount);
 void HAND_TOKUSEI_ForewarnOnMemberIn(int myHandle, struct BtlServerFlow *flow, int pokeId);
 int *HAND_TOKUSEI_AddForewarn(int *handlerCount);

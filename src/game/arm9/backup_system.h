@@ -16,8 +16,9 @@ typedef struct SaveDataParam SaveDataParam;
 typedef struct SaveFooter SaveFooter;
 
 #include "../types.h"
+#include "../arm9/flash_access.h"
 
-void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func);
+void BACKUP_SYSTEM_Init(u32 heap_id, void (*read_error_func)(void), FlashErrorFunc write_error_func);
 BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
 BackupSaveData *BACKUP_SYSTEM_Create(const SaveDataParam *param, u32 heap_id);
 BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
@@ -35,7 +36,7 @@ void BACKUP_SYSTEM_InitLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_
 int BACKUP_SYSTEM_MainLinkedSave(BackupSaveData *main_sv, BackupSaveData *link_sv);
 int BACKUP_SYSTEM_LoadLinked(BackupSaveData *sv, u32 heap_id, u32 link_count);
 u32 BACKUP_SYSTEM_GetWrittenSize(const BackupSaveData *sv);
-void *BACKUP_SYSTEM_IsFlashBusy(void);
+u32 BACKUP_SYSTEM_IsFlashBusy(void);
 u16 BACKUP_SYSTEM_CalcCrcTableCrc(BackupSaveData *sv, u8 *buf);
 u32 BACKUP_SYSTEM_GetAreaAddr(BackupSaveData *sv, u32 area);
 u16 *BACKUP_SYSTEM_GetCrcTable(BackupSaveData *sv);
@@ -64,11 +65,11 @@ void BACKUP_SYSTEM_SetBlockArea(BackupSaveData *sv, u32 block, u32 area);
 void BACKUP_SYSTEM_SwapBlockAreas(BackupSaveData *sv);
 void BACKUP_SYSTEM_ClearBlockAreas(BackupSaveData *sv);
 void BACKUP_SYSTEM_FillBlockAreas(BackupSaveData *sv, u32 area);
-void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
-u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size);
+void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, const void *src, u32 size);
+u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, const void *src, u32 size);
 int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
-int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size);
-int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
+int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, void *dst, u32 size);
+int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, void *dst, u32 size);
 /* END mkheaders: generated region */
 
 #endif

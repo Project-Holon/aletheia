@@ -208,7 +208,7 @@ void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int
     cnv->buf = DWCi_OVRlAlloc(lcd, width * height, head, &name);
     cnv->u.obj.name = name;
     *obj = NNSi_G2dCalcCharAreaSize(width, height);
-    base = (u8 *)(lcd == 1 ? 0x6600000 : 0x6400000);
+    base = lcd == 1 ? (u8 *)0x6600000 : (u8 *)0x6400000;
     base += name * 128;
     NNS_G2dCharCanvasInitForVRAM(cnv, base, width, height, 4);
     cnv->pFmt->pfnClear(cnv, 0);
@@ -270,7 +270,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     cv->text.hSpace = 1;
     cv->text.vSpace = 1;
     if (lcd == 1)
-        scr = (void *)G2S_GetBG0ScrPtr();
+        scr = G2S_GetBG0ScrPtr();
     else
         scr = G2_GetBG0ScrPtr();
     chr = sFontTable1[lcd];

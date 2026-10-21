@@ -109,14 +109,14 @@ void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((StaActLightModel *)p)->resourceArc) {
 void STA_ACT_LIGHT_CreateModel(StaActLightModel *p, u32 id) {
     u8 i, j;
     if (p->resourceArc != 0) STA_ACT_LIGHT_FreeModel(p);
-    p->resourceArc = (uptr)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x1e);
-    p->arcs[0] = (sptr)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x24);
-    p->arcs[1] = (sptr)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x2e);
-    p->arcs[2] = (sptr)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x29);
-    if (G3D_SYSTEM_TransVramTexture((struct G3dResource *)p->resourceArc) != 0) {
-        p->render = (sptr)G3D_SYSTEM_CreateRender((void *)p->resourceArc, 0, (void *)p->resourceArc);
-        for (i = 0; i < 3; i++) p->animes[i] = (sptr)G3D_SYSTEM_CreateAnime((struct G3dRender *)p->render, (struct G3dResource *)p->arcs[i], 0);
-        p->object = (void *)G3D_SYSTEM_CreateObject((struct G3dRender *)p->render, (struct G3dAnime **)p->animes, 3);
+    p->resourceArc = G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x1e);
+    p->arcs[0] = G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x24);
+    p->arcs[1] = G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x2e);
+    p->arcs[2] = G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x29);
+    if (G3D_SYSTEM_TransVramTexture(p->resourceArc) != 0) {
+        p->render = G3D_SYSTEM_CreateRender((void *)p->resourceArc, 0, (void *)p->resourceArc);
+        for (i = 0; i < 3; i++) p->animes[i] = G3D_SYSTEM_CreateAnime(p->render, p->arcs[i], 0);
+        p->object = (void *)G3D_SYSTEM_CreateObject(p->render, (struct G3dAnime **)p->animes, 3);
         for (j = 0; j < 3; j++) G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)p->object, j);
     }
 }
@@ -124,11 +124,11 @@ void STA_ACT_LIGHT_CreateModel(StaActLightModel *p, u32 id) {
 void STA_ACT_LIGHT_FreeModel(StaActLightModel *p) {
     u8 i;
     G3D_SYSTEM_DeleteObject((struct G3dObject *)p->object);
-    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct G3dAnime *)p->animes[i]);
-    G3D_SYSTEM_DeleteRender((struct G3dRender *)p->render);
-    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteResource((struct G3dResource *)p->arcs[i]);
-    G3D_SYSTEM_FreeVramTexture((struct G3dResource *)p->resourceArc);
-    G3D_SYSTEM_DeleteResource((struct G3dResource *)p->resourceArc);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime(p->animes[i]);
+    G3D_SYSTEM_DeleteRender(p->render);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteResource(p->arcs[i]);
+    G3D_SYSTEM_FreeVramTexture(p->resourceArc);
+    G3D_SYSTEM_DeleteResource(p->resourceArc);
     p->resourceArc = 0;
 }
 

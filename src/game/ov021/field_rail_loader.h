@@ -5,6 +5,10 @@
 /* Public functions of field_rail_loader.c, prototypes copied from their definitions. */
 
 struct FieldRailLoader;
+struct GameEvent;
+struct GameSystem;
+struct FieldMap;
+struct Mmdl;
 typedef struct FieldRailLoader FieldRailLoader;
 
 #include "../ov021/field_rail_types.h"
@@ -16,7 +20,7 @@ void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
 void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId);
 void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
 FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
-int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+struct GameEvent *FLDMMDL_CreateTalkScriptEvent(struct GameSystem *a, struct FieldMap *b, u32 c, struct Mmdl *e0, struct Mmdl *e1, u16 id);
 void FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3);
 void FIELD_RAIL_LOADER_EmptyProc0(void);
 void FIELD_RAIL_LOADER_EmptyProc1(void);

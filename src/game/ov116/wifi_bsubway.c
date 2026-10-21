@@ -274,7 +274,7 @@ void WIFI_BSUBWAY_StatusSetMessage(u8 *p, void *save, int id);
 int WIFI_BSUBWAY_StatusCheckMessage(u8 *p,unsigned heap);
 void WIFI_BSUBWAY_StartProfileUpload(u8 *p,void *q,u8 *r);
 int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *a,unsigned char *b);
-void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx);
+void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, const struct MyStatus *idx);
 void WIFI_BSUBWAY_OnHttpError(unsigned char *a);
 void WIFI_BSUBWAY_StartHttpRequest(u8 *p, u8 *q, u8 *a, int b);
 int WIFI_BSUBWAY_PollHttpRequest(u8 *p, u8 *q, int flag);
@@ -497,7 +497,7 @@ void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async) {
     NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)(status+4),(const struct MyStatus *)recordCount);
     DPW_BT_SetProfileAsync((u8 *)(status+4),(status+0x68));
     WIFI_BSUBWAY_AsyncReset(async);
-    WIFI_BSUBWAY_BuildProfile(status+0x70,saveControl,(void *)recordCount);
+    WIFI_BSUBWAY_BuildProfile(status+0x70,saveControl,((void *)recordCount));
     *(int *)(status+0x160)=saveBlockB;
     *(int *)(status+0x164)=saveBlockA;
 }
@@ -519,7 +519,7 @@ int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *status,unsigned char *async)
  * 4 redundant-bitfield/result-truncation idioms; 5 fresh full idiom ls
  * and full 6C50/6A5C/6E50 neighbours. Iteration2, no stop exhaustion.
  */
-void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *trainer)
+void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, const struct MyStatus *trainer)
 {
     void *profile, *saveBlockA, *saveData;
     int i;

@@ -486,7 +486,7 @@ int WORLDTRADE_SEARCH_Init(WorldtradeWork *p)
     p->keepBgLayers = 0;
     init.w00 = (uptr)p->menuWins;
     init.w04 = (uptr)p->menuInitArg;
-    init.obj = (uptr)p->mark;
+    init.obj = p->mark;
     init.w0c = (uptr)p->btn[0];
     init.w10 = (uptr)p->btn[1];
     init.w14 = (uptr)p->cursor_p;
@@ -522,7 +522,7 @@ int WORLDTRADE_SEARCH_Main(WorldtradeWork *p)
         WORLDTRADE_SetActorSurfacePos(*(void **)((unsigned char *)p + i * 4 + 0xd0c), *(short *)((unsigned char *)p + i * 4 + 0xec4), *(short *)((unsigned char *)p + i * 4 + 0xec6) + p->scroll);
     x = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
     y = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
-    WORLDTRADE_SetActorPos(p->cursor, d_02203D46[x].x, d_02203D46[y].y - p->scroll);
+    WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, d_02203D46[x].x, d_02203D46[y].y - p->scroll);
     WORLDTRADE_SetActorSurfacePos((void *)p->scrollBarObj, 55, p->scroll + 168);
     return result;
 }
@@ -538,7 +538,7 @@ int WORLDTRADE_SEARCH_Exit(WorldtradeWork *p)
     if (*(int *)&p->nextScreenId == 1)
         *(int *)&p->keepBgLayers = 1;
     WORLDTRADE_TITLE_ExitBgPlanes(p);
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct WorldtradeObj *)((struct WorldtradeObj *)*(u32 *)(void * *)&p->scrollBarObj)), 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((struct WorldtradeObj *)(*(struct WorldtradeObj **)(void * *)&p->scrollBarObj)), 0);
     WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }
@@ -1158,7 +1158,7 @@ void WORLDTRADE_SEARCH_UpdateKeyCursor(WorldtradeWork *p)
     }
     a = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
     b = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
-    WORLDTRADE_SetActorPos(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
+    WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
 }
 
 /*
@@ -1183,7 +1183,7 @@ void WORLDTRADE_SEARCH_SelectButton(WorldtradeWork *p, int button)
     }
     a = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
     b = WORLDTRADE_SEARCH_GetSelectedButton((WorldtradeWork *)p);
-    WORLDTRADE_SetActorPos(p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
+    WORLDTRADE_SetActorPos((struct ClactActor *)p->cursor, tbl_02203D46[a].x, tbl_02203D46[b].y);
 }
 
 /*
@@ -1233,7 +1233,7 @@ int WORLDTRADE_SEARCH_StatePrintNamePrompt(WorldtradeWork *p)
  */
 int WORLDTRADE_SEARCH_StateOpenNameMenu(WorldtradeWork *p)
 {
-    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)((u8 *)((*(unsigned int *)&p->menu))), 0);
+    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)(*(u8 **)&p->menu), 0);
     WORLDTRADE_SEARCH_SetBlendEffect(9);
     p->state = 6;
     return 2;
@@ -1288,7 +1288,7 @@ int WORLDTRADE_SEARCH_StatePrintGenderPrompt(WorldtradeWork *p)
  */
 int WORLDTRADE_SEARCH_StateOpenGenderMenu(WorldtradeWork *p)
 {
-    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)((u8 *)((*(unsigned int *)&p->menu))), 1);
+    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)(*(u8 **)&p->menu), 1);
     WORLDTRADE_SEARCH_SetBlendEffect(9);
     p->state = 9;
     return 2;
@@ -1338,7 +1338,7 @@ int WORLDTRADE_SEARCH_StatePrintLevelPrompt(WorldtradeWork *p)
 int WORLDTRADE_SEARCH_StateOpenLevelMenu(WorldtradeWork *p)
 {
     p->menuChoice = 0xffff;
-    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)((u8 *)((*(unsigned int *)&p->menu))), 2);
+    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)(*(u8 **)&p->menu), 2);
     WORLDTRADE_SEARCH_SetBlendEffect(9);
     p->state = 0xc;
     return 2;
@@ -1381,7 +1381,7 @@ int WORLDTRADE_SEARCH_StatePrintConditionPrompt(WorldtradeWork *p)
 int WORLDTRADE_SEARCH_StateOpenConditionMenu(WorldtradeWork *p)
 {
     p->menuChoice = 0xffff;
-    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)((u8 *)((*(unsigned int *)&p->menu))), 3);
+    WORLDTRADE_INPUT_MenuSetMode((WorldtradeMenu *)(*(u8 **)&p->menu), 3);
     WORLDTRADE_SEARCH_SetBlendEffect(9);
     p->state = 0xf;
     return 2;
@@ -1527,7 +1527,7 @@ int WORLDTRADE_SEARCH_StateHistoryInput(WorldtradeWork *p)
     } else {
         r = WORLDTRADE_SUBLCD_CheckButtonTouch((*(int *)&p->d0));
         if (p->historyFlag && r >= 0) {
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct WorldtradeObj *)(*(unsigned *)((char *)p + 0xd0c + (r + 1) * 4))), (u16)(16 + r * 4));
+            CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct WorldtradeObj **)((char *)p + 0xd0c + (r + 1) * 4)), (u16)(16 + r * 4));
             p->state_i = 2;
             WORLDTRADE_SetStateAndReturn(p, 3, 0);
             p->cur = r;
@@ -1585,10 +1585,10 @@ void WORLDTRADE_SEARCH_PrintMessage(u8 *p, u32 msgId, int unused1, int unused2, 
 {
     struct BmpWin *v;
 
-    MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((WorldtradeWork *)p)->bank_u), msgId, (struct Strbuf *)((void *)(*(u32 *)(p + 0xb6c + 0x1c))));
+    MSGDATA_ReadString(*(struct MsgBank **)&((WorldtradeWork *)p)->bank_u, msgId, (struct Strbuf *)(*(void **)(p + 0xb6c + 0x1c)));
     BMP_Clear((struct Bmp *)((struct CharBuf *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct Descriptor *)((WorldtradeWork *)p)->frame)))), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((WorldtradeWork *)p)->frame), 0, 1, 0xe);
-    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((WorldtradeWork *)p)->frame), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, (void *)(p + 0xfa0));
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((WorldtradeWork *)p)->frame), 0, *(void **)(p + 0xb6c + 0x1c), 0, 0, (void *)(p + 0xfa0));
     v = ((WorldtradeWork *)p)->frame;
     BMP_WIN_TransferChars((struct BmpWin *)v);
     BMP_WIN_MakeScreen((struct BmpWin *)v);

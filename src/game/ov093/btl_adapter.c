@@ -43,7 +43,7 @@ struct BtlAdapterPacket {
  * non-zero netId the data goes through the net functions instead.
  */
 typedef struct BtlAdapter {
-    u32 owner;                  /* 0x00 */
+    struct GFLNetHandle *owner; /* 0x00 */
     const u8 *peerData;         /* 0x04 data the other side supplied (local mode) */
     u32 peerSize;               /* 0x08 */
     u8 peerReady : 4;           /* 0x0c */
@@ -61,7 +61,7 @@ typedef struct BtlAdapter {
 
 extern void BTL_NET_ExpectReplies(u32 netId);
 
-extern u32 BTL_NET_SendServerCmd(u32 clientId, u32 data, u32 size);
+extern u32 BTL_NET_SendServerCmd(u32 clientId, void *data, u32 size);
 
 extern int BTL_NET_AreAllRepliesReceived(void);
 
@@ -71,7 +71,7 @@ extern u8 BTL_NET_HasServerCmd(void);
 
 extern u16 BTL_NET_GetServerCmd(u8 **data);
 
-extern u32 BTL_NET_SendClientReply(u32 data, u32 size);
+extern u32 BTL_NET_SendClientReply(void *data, u32 size);
 
 extern BtlAdapter *gBtlAdapterSlots[];
 
@@ -83,7 +83,7 @@ void BTL_ADAPTER_ClearSlots(int mode);
 
 void BTL_ADAPTER_NoOp(void);
 
-BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId);
+BtlAdapter *BTL_ADAPTER_Create(struct GFLNetHandle *owner, int channel, u32 netId, u32 heapId);
 
 void BTL_ADAPTER_ResetCommand(BtlAdapter *adapter);
 
@@ -124,7 +124,7 @@ void BTL_ADAPTER_ClearSlots(int mode)
 
 void BTL_ADAPTER_NoOp(void) { }
 
-BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId)
+BtlAdapter *BTL_ADAPTER_Create(struct GFLNetHandle *owner, int channel, u32 netId, u32 heapId)
 {
     BtlAdapter *adapter;
 
@@ -221,7 +221,7 @@ u32 BTL_ADAPTER_StartSend(BtlAdapter *adapter)
 
     if (adapter->netId != 0) {
         packet = &adapter->packet;
-        return BTL_NET_SendServerCmd((u32)adapter->channel, (uptr)packet, packet->size + 4);
+        return BTL_NET_SendServerCmd((u32)adapter->channel, packet, packet->size + 4);
     }
     return 1;
 }
@@ -279,7 +279,7 @@ u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData)
 u32 BTL_ADAPTER_SetRecvTarget(BtlAdapter *adapter, const u8 *data, u32 size)
 {
     if (adapter->netId != 0)
-        return BTL_NET_SendClientReply((uptr)data, size);
+        return BTL_NET_SendClientReply((void *)data, size);
     if (adapter->peerReady == 0) {
         adapter->peerData = data;
         adapter->peerSize = size;

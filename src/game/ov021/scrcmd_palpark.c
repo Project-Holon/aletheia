@@ -54,10 +54,6 @@ struct Blk34;
 #include "../types.h"
 
 /* Script virtual machine: the read pointer into the command stream. */
-typedef struct ScriptVM {
-    u8 pad0[0x14];
-    u8 *pc;
-} ScriptVM;
 
 /* Parameter block of the ov107 Pal Park process (8 bytes). */
 typedef struct PalParkProcParam {
@@ -89,19 +85,19 @@ struct MiscSave;
 struct GPowerData;
 #include "../ov083/gpower_event.h"
 
-int SCRCMD_PALPARK_CallFallEvent(void *core, void *work);
-int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work);
-int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work);
-int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work);
-int SCRCMD_PALPARK_ClearExpiredGPower(void *core, void *work);
-int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, u32 work, u32 unused2, u32 unused3);
+int SCRCMD_PALPARK_CallFallEvent(struct ScriptVm *core, struct ScrcmdWork *work);
+int SCRCMD_PALPARK_CallPalParkProc(struct ScriptVm *core, struct ScrcmdWork *work);
+int SCRCMD_PALPARK_GetSaveValue(struct ScriptVm *core, struct ScrcmdWork *work);
+int SCRCMD_PALPARK_SetBeacon(struct ScriptVm *core, struct ScrcmdWork *work);
+int SCRCMD_PALPARK_ClearExpiredGPower(struct ScriptVm *core, struct ScrcmdWork *work);
+int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, struct ScrcmdWork *work, u32 unused2, u32 unused3);
 
 extern const char d_021DE5A8[];
 extern const u8 ov107_id[];
 extern u8 d_021F6D78[];
 
 /* Script command: calls the event that ov010 NAMEIN_SETUP_StartFallEvent builds on the field map. */
-int SCRCMD_PALPARK_CallFallEvent(void *core, void *work)
+int SCRCMD_PALPARK_CallFallEvent(struct ScriptVm *core, struct ScrcmdWork *work)
 {
     void *script = SCRCMD_WORK_GetScriptWork(work);
     void *gsys = SCRCMD_WORK_GetGameSystem(work);
@@ -110,7 +106,7 @@ int SCRCMD_PALPARK_CallFallEvent(void *core, void *work)
 }
 
 /* Script command: runs the ov107 Pal Park process as a field sub-process. */
-int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
+int SCRCMD_PALPARK_CallPalParkProc(struct ScriptVm *core, struct ScrcmdWork *work)
 {
     void *script;
     void *gsys;
@@ -118,9 +114,9 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
     void *fieldmap;
     PalParkProcParam *param;
 
-    script = SCRCMD_WORK_GetScriptWork((void *)work);
-    gsys = SCRCMD_WORK_GetGameSystem((void *)work);
-    gameData = SCRCMD_WORK_GetGameData((void *)work);
+    script = SCRCMD_WORK_GetScriptWork(work);
+    gsys = SCRCMD_WORK_GetGameSystem(work);
+    gameData = SCRCMD_WORK_GetGameData(work);
     fieldmap = GAMESYSTEM_GetFieldMap((void *)gsys);
     param = GFL_HEAP_Alloc(4, 8, 0, (char *)d_021DE5A8, 0x44);
     param->result = 0;
@@ -130,7 +126,7 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
 }
 
 /* Script command: mode byte, result variable; stores one of two values of a save block. */
-int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
+int SCRCMD_PALPARK_GetSaveValue(struct ScriptVm *core, struct ScrcmdWork *work)
 {
     u8 mode;
     u16 *result;
@@ -138,7 +134,7 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
 
     mode = *core->pc;
     core->pc++;
-    result = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)core, work);
+    result = SCRIPT_WORK_ReadWorkPointer(core, work);
     saveBlock = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     switch (mode) {
     case 0:
@@ -156,18 +152,18 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
  * GAMESYSTEM_GetGameData takes the SCRCMD_WORK_GetGameSystem result as its argument (r0 still
  * holds it at the bl), as at every other caller; the results are unused.
  */
-int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
+int SCRCMD_PALPARK_SetBeacon(struct ScriptVm *core, struct ScrcmdWork *work)
 {
     u32 kind;
     u32 value;
     void *gsys;
 
-    kind = SCRIPT_WORK_ReadWorkValue((void *)core, (void *)work);
-    value = SCRIPT_WORK_ReadWorkValue((void *)core, (void *)work);
-    gsys = SCRCMD_WORK_GetGameSystem((void *)work);
+    kind = SCRIPT_WORK_ReadWorkValue(core, work);
+    value = SCRIPT_WORK_ReadWorkValue(core, work);
+    gsys = SCRCMD_WORK_GetGameSystem(work);
     GAMESYSTEM_GetGameData(gsys);
     GAMESYSTEM_GetFieldMap((void *)gsys);
-    SCRCMD_WORK_GetScriptWork((void *)work);
+    SCRCMD_WORK_GetScriptWork(work);
     switch (kind) {
     case 0:
         GAME_BEACON_SEARCH_SetItemFound((u32)value);
@@ -204,7 +200,7 @@ int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
  * Script command: stores the expiring G power id (0x30 = none) and whether a
  * power is still active after that one is cleared.
  */
-int SCRCMD_PALPARK_ClearExpiredGPower(void *core, void *work)
+int SCRCMD_PALPARK_ClearExpiredGPower(struct ScriptVm *core, struct ScrcmdWork *work)
 {
     u16 *powerId = SCRIPT_WORK_ReadWorkPointer(core, work);
     u16 *stillActive = SCRIPT_WORK_ReadWorkPointer(core, work);
@@ -223,8 +219,8 @@ int SCRCMD_PALPARK_ClearExpiredGPower(void *core, void *work)
 }
 
 /* Script command: calls the event that ov083 GPOWER_EVENT_CreateFlashEvent builds. */
-int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, u32 work, u32 unused2, u32 unused3)
+int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, struct ScrcmdWork *work, u32 unused2, u32 unused3)
 {
-    SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork((void *)work), GPOWER_EVENT_CreateFlashEvent(SCRCMD_WORK_GetGameSystem((void *)work)));
+    SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork(work), GPOWER_EVENT_CreateFlashEvent(SCRCMD_WORK_GetGameSystem(work)));
     return 1;
 }

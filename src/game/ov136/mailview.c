@@ -516,8 +516,8 @@ void MAILVIEW_CreateButtons(struct MailEditProc *proc)
         proc->buttonEntry[1].text = MSGDATA_AllocString((struct MsgBank *)proc->msgData, 1);
         proc->buttonEntry[1].color = 0x39E3;
         proc->buttonEntry[1].selected = 1;
-        proc->sendButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (struct TaskMenuItem *)(&proc->buttonEntry[0]), 21, 18, 10, (u16)proc->heapId);
-        proc->cancelButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (struct TaskMenuItem *)(&proc->buttonEntry[1]), 21, 21, 10, (u16)proc->heapId);
+        proc->sendButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (const struct TaskMenuItem *)&proc->buttonEntry[0], 21, 18, 10, (u16)proc->heapId);
+        proc->cancelButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (const struct TaskMenuItem *)&proc->buttonEntry[1], 21, 21, 10, (u16)proc->heapId);
     }
 }
 
@@ -555,7 +555,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
     struct MailDraft *draft;
     struct BmpWin *w;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled((unsigned short *)(&proc->draft->message[i]))) {
+        if (PMSI_PARAM_IsEnabled( (const unsigned short *)&proc->draft->message[i])) {
             PMS_DRAW_Print((uptr)proc->pmsDraw, (uptr)(proc->win[i + 1]), (struct BeaconDetailGraQuad *)((uptr)(&proc->draft->message[i])), (u8)i);
         }
     }
@@ -579,7 +579,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
 
 void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
 {
-    CLACT_InitSystem((const struct ClactSysInit *)(struct SysInit *)gClActorInitParam, (struct DispVramCfg *)(&d_021C77C4), (u16)(proc->heapId));
+    CLACT_InitSystem((const struct ClactSysInit *)(struct SysInit *)gClActorInitParam, (const struct DispVramCfg *)&d_021C77C4, (u16)(proc->heapId));
     proc->clactUnit = CLACT_CreateUnit(4, (int)0, (u16)(proc->heapId));
     CLACT_SetUnitDefaultRenderer((struct Unit *)proc->clactUnit);
     BG_SYS_SetMainPlaneVisible(16, 1);

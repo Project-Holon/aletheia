@@ -41,9 +41,9 @@ struct ScriptTrainerEntry;
 
 #include "../arm9/tpoke_data.h"
 
-void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src)
+void EVENT_TRAINER_SetScriptTrainerEntry(struct GameEvent *scrcmdWork, int index, RecordHead24 *src)
 {
-    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((struct ScriptWork *)SCRIPT_SYS_GetEventScriptWork((struct GameEvent *)scrcmdWork), index);
+    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((struct ScriptWork *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
 
     *(RecordHead24 *)entry = *src;
     entry[6] = 0;

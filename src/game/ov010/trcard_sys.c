@@ -143,7 +143,7 @@ typedef struct TrainerCardWork {
 typedef struct MinimalWork {
     int heapId;                     /* 0x00 */
     u8 pad04[0x14];
-    int param;                      /* 0x18 */
+    void *param;                    /* 0x18 */
     u8 pad1C[4];
 } MinimalWork;
 
@@ -189,10 +189,10 @@ struct Proc;
 #include "../arm9/game_beacon.h"
 int TRCARD_SYS_RunChildProc(struct ProcSys **childSlot);
 int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param);
-int TRCARD_SYS_InitMinimal(void *proc, int state, int param);
-int TRCARD_SYS_Main(int proc, int *state, int param, int work);
-int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWork *work);
-int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work);
+int TRCARD_SYS_InitMinimal(void *proc, int state, void *param);
+int TRCARD_SYS_Main(void *proc, int *state, TrainerCardParam *param, TrainerCardWork *work);
+int TRCARD_SYS_Exit(void *proc, int state, TrainerCardParam *param, TrainerCardWork *work);
+int TRCARD_SYS_ExitMinimal(void *proc, int state, void *param, MinimalWork *work);
 int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param);
 int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
@@ -279,7 +279,7 @@ int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param)
     return 1;
 }
 
-int TRCARD_SYS_InitMinimal(void *proc, int state, int param)
+int TRCARD_SYS_InitMinimal(void *proc, int state, void *param)
 {
     MinimalWork *work;
 
@@ -291,29 +291,29 @@ int TRCARD_SYS_InitMinimal(void *proc, int state, int param)
     return 1;
 }
 
-int TRCARD_SYS_Main(int proc, int *state, int param, int work)
+int TRCARD_SYS_Main(void *proc, int *state, TrainerCardParam *param, TrainerCardWork *work)
 {
     switch (*state) {
     case 0:
-        *state = TRCARD_SYS_StateChooseScreen((TrainerCardWork *)work, (TrainerCardParam *)param);
+        *state = TRCARD_SYS_StateChooseScreen(work, param);
         break;
     case 1:
-        *state = TRCARD_SYS_StateStartCardProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartCardProc(work);
         break;
     case 2:
-        *state = TRCARD_SYS_StateWaitCardProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitCardProc(work);
         break;
     case 3:
-        *state = TRCARD_SYS_StateStartEditProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartEditProc(work);
         break;
     case 4:
-        *state = TRCARD_SYS_StateWaitEditProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitEditProc(work);
         break;
     case 5:
-        *state = TRCARD_SYS_StateStartBadgeProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartBadgeProc(work);
         break;
     case 6:
-        *state = TRCARD_SYS_StateWaitBadgeProc((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitBadgeProc(work);
         break;
     case 7:
     default:
@@ -325,7 +325,7 @@ int TRCARD_SYS_Main(int proc, int *state, int param, int work)
 /*
  * blocked:  listing 72 compiled 70
  */
-int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWork *work)
+int TRCARD_SYS_Exit(void *proc, int state, TrainerCardParam *param, TrainerCardWork *work)
 {
     u8 *myStatus;
     int outfit;
@@ -339,14 +339,14 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
     param->result = work->param->result;
     GFL_HEAP_Free(work->param->profile);
     GFL_HEAP_Free(work->param);
-    PROCSYS_FreeProcWork((struct Proc *)proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
 
-int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work)
+int TRCARD_SYS_ExitMinimal(void *proc, int state, void *param, MinimalWork *work)
 {
-    GFL_HEAP_Free((void *)work->param);
+    GFL_HEAP_Free(work->param);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x26);
     return 1;

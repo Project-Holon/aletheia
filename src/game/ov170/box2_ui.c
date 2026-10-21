@@ -1814,7 +1814,7 @@ int BOX2_UI_IsListClosed(struct BgWinFrmWork *mgr)
  */
 void BOX2_UI_AddFadeFrame(BoxTask *task)
 {
-    int x = BG_SYS_GetBuf(0);
+    u8 *x = BG_SYS_GetBuf(0);
     BGWINFRM_AddFrame((struct BgWinFrmWork *)task->work->winMgr, 6, 0, 0x20, 3);
     BGWINFRM_SetFrameData((struct BgWinFrmWork *)task->work->winMgr, 6, (void *)(x + 0x540));
 }

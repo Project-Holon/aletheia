@@ -230,7 +230,7 @@ void BTLV_BG_OnScrollJobEnd(void *task)
  */
 void BTLV_BG_ApplyScrollTask(struct TcbTask *task, void *work)
 {
-    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetOwnedWork((struct TcblSystem *)task);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetOwnedWork((struct TcblTask *)task);
 
     BG_SYS_ChangeScrollImmediate(3, 0, args->scrollX);
     BG_SYS_ChangeScrollImmediate(3, 3, args->scrollY);

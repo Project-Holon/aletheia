@@ -18,7 +18,7 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *spinWork);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem);
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem);
-int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause);
+struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause);
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem);
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state);
 void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);

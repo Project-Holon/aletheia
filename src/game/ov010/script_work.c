@@ -135,12 +135,12 @@ int SCRIPT_WORK_SetWorkValue(ScriptWork *work, u32 id, int value);
 int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, u16 param3);
 void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work);
 void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup);
-void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, u32 scriptId);
-u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *work);
-void SCRIPT_WORK_SetReturnParam(ScriptWork *work, u32 param);
-u32 SCRIPT_WORK_GetReturnParam(ScriptWork *work);
-ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, u32 flag);
-u32 SCRIPT_WORK_GetReturnFlag(ScriptWork *work);
+void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, void *scriptId);
+void *SCRIPT_WORK_GetReturnScriptId(ScriptWork *work);
+void SCRIPT_WORK_SetReturnParam(ScriptWork *work, void *param);
+void *SCRIPT_WORK_GetReturnParam(ScriptWork *work);
+ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, void *flag);
+void *SCRIPT_WORK_GetReturnFlag(ScriptWork *work);
 ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *work, int index);
 void SCRIPT_WORK_ClearCheckFlags(void);
 void SCRIPT_WORK_SetCheckFlag(int flagId);
@@ -166,8 +166,9 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
     int result = MIi_CpuClear32(0, fieldParam, 8);
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
-        result = (sptr)FIELDMAP_GetMsgBg(fieldSystem);
-        fieldParam->mapSystem = (void *)result;
+        void *mapSystem = FIELDMAP_GetMsgBg(fieldSystem);
+        fieldParam->mapSystem = mapSystem;
+        result = (sptr)mapSystem;
     }
     return result;
 }
@@ -285,9 +286,9 @@ u16 *SCRIPT_WORK_GetLocalWork(ScriptWork *work, u32 id)
 
 u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id)
 {
-    u32 eventWork = (uptr)GAME_DATA_GetEventWork(gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     if (id < 0x4000) return 0;
-    if (id < 0x8000) return ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, id);
+    if (id < 0x8000) return ZONEDATA_GetEventWorkAddress(eventWork, id);
     if (id < 0xc000) return SCRIPT_WORK_GetLocalWork(work, id);
     return 0;
 }
@@ -335,23 +336,23 @@ void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup)
     GFL_HEAP_Free(backup);
 }
 
-void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, u32 scriptId) { work->returnScriptId = scriptId; }
+void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, void *scriptId) { work->returnScriptId = scriptId; }
 
-u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *work) { return work->returnScriptId; }
+void *SCRIPT_WORK_GetReturnScriptId(ScriptWork *work) { return work->returnScriptId; }
 
-void SCRIPT_WORK_SetReturnParam(ScriptWork *work, u32 param)
+void SCRIPT_WORK_SetReturnParam(ScriptWork *work, void *param)
 {
     work->returnParam = param;
 }
 
-u32 SCRIPT_WORK_GetReturnParam(ScriptWork *work)
+void *SCRIPT_WORK_GetReturnParam(ScriptWork *work)
 {
     return work->returnParam;
 }
 
-ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, u32 flag) { work->returnFlag = flag; return work; }
+ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, void *flag) { work->returnFlag = flag; return work; }
 
-u32 SCRIPT_WORK_GetReturnFlag(ScriptWork *work) { return work->returnFlag; }
+void *SCRIPT_WORK_GetReturnFlag(ScriptWork *work) { return work->returnFlag; }
 
 ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *work, int index)
 {

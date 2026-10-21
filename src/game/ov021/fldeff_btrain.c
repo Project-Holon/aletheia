@@ -142,7 +142,7 @@ void FLDEFF_BTRAIN_LoadResources(BtrainRes *res, int modelIndex)
     const u16 *animeFile;
     int i;
 
-    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     modelFile = sBtrainModelFiles;
     if (res->model[modelIndex] == 0) {
         res->model[modelIndex] = G3D_SYSTEM_CreateResourceArcHandle(arc, modelFile[modelIndex]);
