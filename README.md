@@ -1,4 +1,4 @@
-# aletheia
+<h1><img src="docs/banner.png" alt="aletheia"></h1>
 
 A byte-matching decompilation of Pokémon Black (USA/Europe).
 
