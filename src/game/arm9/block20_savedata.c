@@ -32,6 +32,7 @@
 struct Big;
 struct SaveControl;
 #include "../types.h"
+#include "item.h"
 
 /*
  * The C-Gear save object (0x2C bytes), shared with the file that owns
@@ -352,7 +353,7 @@ u16 BLOCK20_SAVEDATA_GetEntryId(const struct CgearSaveBlock *block, int index)
         return 0;
     }
     id = block->entryIds[index];
-    if (id > 0x272) {
+    if (id > ITEM_LAST) {
         id = 0;
     }
     return id;

@@ -210,6 +210,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "scrcmd_proc_fld_types.h"
+#include "../arm9/item.h"
 #include "scrcmd_proc_fld_shared_types.h"
 
 struct MsgBank;
@@ -1300,7 +1301,7 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
     uptr charBuf;
     uptr plttBuf;
 
-    if (itemId <= 0x272) {
+    if (itemId <= ITEM_LAST) {
         charBuf = (uptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (&charData), shop->heapId);
         plttBuf = (uptr)ARC_UTIL_LoadScreenDataFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (&plttData), shop->heapId);
         CLACT_TransferPalette(shop->iconCharRes, (struct PaletteData *)charData, 1);
@@ -1471,7 +1472,7 @@ void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
 
     bitmap = BMP_WIN_GetBmp(shop->windows[SHOP_WIN_DESCRIPTION]);
     BMP_Clear(bitmap, 0);
-    if (itemId <= 0x272) {
+    if (itemId <= ITEM_LAST) {
         text = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->itemMsgBank), itemId);
         PRINTSYS_PrintColor(bitmap, 0, 0, (void *)text, shop->fontInfo, 0x3C40);
         STRBUF_Delete((struct Strbuf *)text);

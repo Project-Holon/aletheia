@@ -92,6 +92,7 @@
  */
 
 #include "../types.h"
+#include "../arm9/item.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -774,7 +775,7 @@ static inline int chk2(const struct MysteryNetRec *r)
 {
     if (r->giftType != 2)
         return 0;
-    if (r->otIdOrItem > 0 && r->otIdOrItem <= 0x272)
+    if (r->otIdOrItem > 0 && r->otIdOrItem <= ITEM_LAST)
         return r->otIdOrItem;
     return 0;
 }
@@ -858,7 +859,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
             res = 0;
             goto end;
         }
-        if (r->heldItem > 0x272) {
+        if (r->heldItem > ITEM_LAST) {
             res = 0;
             goto end;
         }

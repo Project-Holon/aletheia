@@ -77,6 +77,7 @@
 #include "poke_tool_shared_types.h"
 
 #include "../types.h"
+#include "item.h"
 
 /* Which block of the personality-shuffled box area to fetch. */
 enum {
@@ -2900,7 +2901,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg ar
         break;
     case POKE_TOOL_PARAM_HELD_ITEM:
         result = blockA->heldItem;
-        if (result > 626) {
+        if (result > ITEM_LAST) {
             result = 0;
         }
         break;
@@ -3243,7 +3244,7 @@ void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, PokeToolArg v
     case POKE_TOOL_PARAM_CHECKSUM: box->checksum = (u16)value; break;
     case POKE_TOOL_PARAM_SPECIES: blockA->species = (u16)value; break;
     case POKE_TOOL_PARAM_HELD_ITEM:
-        if (value > 626) {
+        if (value > ITEM_LAST) {
             break;
         }
         blockA->heldItem = (u16)value;

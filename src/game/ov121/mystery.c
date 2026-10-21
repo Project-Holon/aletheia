@@ -243,6 +243,7 @@ struct Mon;
 struct Vec2;
 struct Pt;
 #include "../types.h"
+#include "../arm9/item.h"
 
 typedef struct { s16 x,y,z; u8 a,b; } MysteryActorPos;
 
@@ -1780,7 +1781,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         work.iv[0]=desc[67];work.iv[1]=desc[68];work.iv[2]=desc[69];
         work.iv[3]=desc[71];work.iv[4]=desc[72];work.iv[5]=desc[70];
         work.move[0]=H(18);work.move[1]=H(20);work.move[2]=H(22);work.move[3]=H(24);
-        if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>626) goto image;
+        if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>ITEM_LAST) goto image;
         if(level==0) level=(u16)(GFL_USE_GetRandom(100)+1);
         if(D(0)==0) otId=MYSTATUS_GetId((struct MyStatus *)GAME_DATA_GetMyStatus(save));
         if(gender==255) gender=2;

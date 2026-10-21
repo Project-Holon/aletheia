@@ -176,6 +176,7 @@
 #define WAZA_TOOL_GetMaxPP WAZA_TOOL_GetMaxPPHeader
 #endif
 #include "btl_pokeparam_types.h"
+#include "../arm9/item.h"
 
 
 int BTL_POKEPARAM_HasSick(BtlPokeParam *pp, int condition);
@@ -333,7 +334,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heap
     pp->hp = POKE_TOOL_GetPartyValue(mon, 0xa0, 0);
     pp->maxHp = POKE_TOOL_GetPartyValue(mon, 0xa1, 0);
     pp->heldItem = POKE_TOOL_GetPartyValue(mon, 6, 0);
-    if (pp->heldItem > 0x272) pp->heldItem = 0;
+    if (pp->heldItem > ITEM_LAST) pp->heldItem = 0;
     pp->consumedItem = 0;
     pp->isTransformed = 0;
     pp->illusionMon = 0;

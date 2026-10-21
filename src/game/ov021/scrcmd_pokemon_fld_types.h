@@ -31,7 +31,6 @@ typedef struct MysteryGiftCard {
 #define MYSTERY_GIFT_TYPE_FLAG   3   /* sets an obtained flag of the intrude save */
 
 #define MYSTERY_GIFT_PARTY_MAX   6
-#define MYSTERY_GIFT_ITEM_MAX    0x272   /* highest item id a card may carry */
 #define MYSTERY_GIFT_MON_PARAM_IS_EGG 0x4C
 
 /* Values of getReceiveType (what kind of scene the script plays). */

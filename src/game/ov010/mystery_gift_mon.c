@@ -42,6 +42,7 @@
 #include "mystery_gift_mon_shared_types.h"
 
 #include "../types.h"
+#include "../arm9/item.h"
 #ifdef __MWERKS__
 #define POKE_TOOL_Create POKE_TOOL_Create_header
 #endif
@@ -209,7 +210,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         result = 0;
         goto out;
     }
-    if (gift->item > 626) {
+    if (gift->item > ITEM_LAST) {
         result = 0;
         goto out;
     }

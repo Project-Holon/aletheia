@@ -209,6 +209,7 @@ typedef struct ThresholdEntry {
 } ThresholdEntry;
 
 #include "../types.h"
+#include "../arm9/item.h"
 
 /* Owner information from the firmware user settings (OS owner info). */
 typedef struct OwnerInfo {
@@ -1729,7 +1730,7 @@ void SCRCMD_POKEMON_FLD_ReceiveGiftItem(ScrcmdWork *work, struct GameData *gameD
     heapId = SCRCMD_WORK_GetHeapId(work);
     bag = GAME_DATA_GetMyItem(gameData);
     itemId = card->param;
-    if (itemId != 0 && itemId <= MYSTERY_GIFT_ITEM_MAX) {
+    if (itemId != 0 && itemId <= ITEM_LAST) {
         MYITEM_SAVEDATA_AddItem(bag, itemId, 1, heapId);
     }
 }

@@ -730,6 +730,7 @@ u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action)
 struct WordSet;
 
 #include "../types.h"
+#include "../arm9/item.h"
 
 /* How the value of an action is registered for printing. */
 enum BeaconPrintKind {
@@ -918,7 +919,7 @@ int GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid(GameBeaconInfo *info)
 /* Item number at +0x34 must be 1..0x272. */
 int GAME_BEACON_ACCESSOR_IsActionItemNoInvalid(GameBeaconInfo *info)
 {
-    if (info->actionData.value == 0 || info->actionData.value > 0x272)
+    if (info->actionData.value == 0 || info->actionData.value > ITEM_LAST)
         return 1;
     return 0;
 }
@@ -950,7 +951,7 @@ int GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid(GameBeaconInfo *info)
 /* Distributed item number at +0x36 must be 1..0x272. */
 int GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid(GameBeaconInfo *info)
 {
-    if (info->actionData.special.itemNo == 0 || info->actionData.special.itemNo > 0x272)
+    if (info->actionData.special.itemNo == 0 || info->actionData.special.itemNo > ITEM_LAST)
         return 1;
     return 0;
 }

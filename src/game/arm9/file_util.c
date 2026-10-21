@@ -38,6 +38,7 @@
 #include "bmp_menulist_shared_types.h"
 
 #include "../types.h"
+#include "item.h"
 
 struct MsgBank;
 
@@ -321,7 +322,7 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  */
 u32 FILE_UTIL_Get(u32 item, u32 which)
 {
-    if (item > 626) {
+    if (item > ITEM_LAST) {
         item = 0;
     }
 
@@ -378,7 +379,7 @@ void *FILE_UTIL_CreateItemArcHandle(u32 heap)
 
 void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap)
 {
-    if (item > 626) {
+    if (item > ITEM_LAST) {
         item = 0;
     }
 
@@ -391,7 +392,7 @@ void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap)
 
 void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap)
 {
-    if (item > 626) {
+    if (item > ITEM_LAST) {
         item = 0;
     }
 
@@ -427,7 +428,7 @@ void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap)
 {
     void *bank;
 
-    if (entry > 0x272) {
+    if (entry > ITEM_LAST) {
         entry = 0;
     }
     bank = MSGDATA_CreateFromArchive(0, 2, 0x36, heap);
@@ -455,7 +456,7 @@ void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap)
 {
     void *bank;
 
-    if (entry > 0x272) {
+    if (entry > ITEM_LAST) {
         entry = 0;
     }
     bank = MSGDATA_CreateFromArchive(0, 2, 0x35, heap);

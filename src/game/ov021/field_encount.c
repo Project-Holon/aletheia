@@ -110,6 +110,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
+#include "../arm9/item.h"
 #include "../arm9/gf_standard_types.h"
 
 #include "../arm9/poke_tool_param.h"
@@ -460,7 +461,7 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
     POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_FORM, encMon->form);
     if (encMon->hiddenAbility)
         POKE_TOOL_SetAbility((struct BoxPokemon *)pp, encMon->species, encMon->form);
-    if (encMon->heldItem <= 0x272) {
+    if (encMon->heldItem <= ITEM_LAST) {
         if (encMon->heldItem != 0)
             POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HELD_ITEM, encMon->heldItem);
         else
