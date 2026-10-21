@@ -35,9 +35,9 @@ Decompiled C source code is located in `src/game/` across 1,367 files.
 - [x] **Milestone 3**: Decompilation to matching C (`src/game/`)
   - [x] 100% matching functions across ARM9, overlays, ITCM, and TWL
   - [x] Byte-identical link with original compiler/linker (`mwldarm`)
-  - [x] Source cleanup and naming refinement: every function named, real types and per-file headers, 0 mismatched declarations, the host build compiles; bugs kept from the original are listed in `docs/ORIGINAL_BUGS.md` (the open notes are in `docs/DEBT.tsv`)
+  - [x] Source cleanup and naming (`docs/ORIGINAL_BUGS.md`)
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
-- [x] **Milestone 5**: Pokémon White support (`python tools/romlink.py --version white` builds the verified retail White byte-identical from `src/game`; White data mode 181 of 181 regions, per-function tracking 35,669 of 35,669 EXACT: `docs/WHITE_TRACKING.md`)
+- [x] **Milestone 5**: Pokémon White support (`tools/romlink.py --version white`)
 
 ## Requirements
 

@@ -519,7 +519,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
 #ifdef __MWERKS__
     header.que = PRINTSYS_QUE_Create((void *)heapId);
 #else
-    header.que = PRINTSYS_QUE_Create((u32)(uptr)(void *)heapId);
+    header.que = PRINTSYS_QUE_Create(heapId);
 #endif
     header.committed = 0;
 
