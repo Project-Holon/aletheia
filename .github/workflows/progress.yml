@@ -6,7 +6,8 @@
 # parses as an objdiff report and uploads it as the artifact decomp.dev reads:
 # an artifact named `<version>_report` that holds `report.json`. decomp.dev
 # lists the push runs of the default branch and takes the version from the
-# artifact name (here IRBO, the game code of Pokemon Black USA/Europe).
+# artifact name (IRBO and IRAO, the game codes of Pokemon Black and White USA/Europe).
+# ByteMatch (bytematch.dev) reads the same artifacts.
 # See docs/PROGRESS_REPORT.md.
 
 name: progress
@@ -30,6 +31,7 @@ jobs:
       - name: Check the report parses as an objdiff report
         run: |
           test -s progress/report.json
+          test -s progress/report_white.json
           python3 -c "import json,sys; r=json.load(open('progress/report.json')); sys.exit(0 if r.get('version') == 2 else 'report version must be 2')"
           curl -sSfL -o objdiff-cli "https://github.com/encounter/objdiff/releases/download/${OBJDIFF_VERSION}/objdiff-cli-linux-x86_64"
           chmod +x objdiff-cli
@@ -41,4 +43,14 @@ jobs:
         with:
           name: IRBO_report
           path: progress/report.json
+          if-no-files-found: error
+
+      - name: Name the White report report.json
+        run: mkdir -p build/IRAO && cp progress/report_white.json build/IRAO/report.json
+
+      - name: Upload the White report
+        uses: actions/upload-artifact@v4
+        with:
+          name: IRAO_report
+          path: build/IRAO/report.json
           if-no-files-found: error

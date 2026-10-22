@@ -12,9 +12,9 @@ The project is **100% matched** and links byte-identically to the original ROM u
 |---|---|---|---|
 | ARM9 main | 5,418 game + 1,304 SDK | 450,678 game + 144,086 SDK | 100.0% |
 | ITCM (autoload) | 11 SDK | 1,826 SDK | 100.0% |
-| Overlays (237) | 24,714 game + 3,407 SDK | 2,188,064 game + 564,604 SDK | 100.0% |
+| Overlays (237) | 24,718 game + 3,407 SDK | 2,188,092 game + 564,604 SDK | 100.0% |
 | TWL (DSi) | 8 game + 331 SDK | 582 game + 46,600 SDK | 100.0% |
-| **Total** | **35,193** | **3,396,440** | **100.0%** |
+| **Total** | **35,197** | **3,396,468** | **100.0%** |
 
 Decompiled C source code is located in `src/game/` across 1,367 files.
 
