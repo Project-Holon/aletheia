@@ -1,6 +1,6 @@
-# Progress report for decomp.dev
+# Progress report for ByteMatch
 
-decomp.dev shows the progress of a decompilation from an objdiff report that a
+ByteMatch (https://bytematch.dev) shows the progress of a decompilation from an objdiff report that a
 GitHub Actions run uploads. This project makes that report locally and commits
 it, because CI has no ROM.
 
@@ -14,8 +14,7 @@ objdiff writes it:
 - 64-bit integers (`total_code`, `matched_code`, `complete_code`, `size`,
   `virtual_address`) are JSON strings;
 - fields at their default value are left out;
-- `version` is 2. decomp.dev migrates older versions, and a version 1 report
-  gets its unit counts added a second time.
+- `version` is 2 (objdiff REPORT_VERSION).
 
 The figures come from `tools/linkstats.py`:
 
@@ -32,6 +31,32 @@ no unit covers is in the units `<region>/_no_unit_game` and
 `<region>/_no_unit_sdk` (`auto_generated`, not counted in `total_units`). The
 categories are `game` and `sdk`: a unit is `sdk` when most of its code bytes are
 SDK functions. Each category is the sum of its units.
+
+### Data measures
+
+`total_data`, `matched_data` and `complete_data` count `.rodata` and `.data`
+(the sections objdiff counts as data; `.bss` is not counted).
+
+| measure | rule |
+|---|---|
+| `total_data` | the data objects of the region in `layout/data_objects.json` (ARM9, each overlay, the DSi block) |
+| `matched_data` | the `.rodata` and `.data` bytes of the compiled `src/game` file of the unit (data written as C). The data-mode link (`tools/datamode_all.py`) proves them byte-identical; a region whose data link is not PASS in `build/datamode_all.tsv` counts none |
+| `complete_data` | matched data of a complete unit |
+
+Data that the build takes from companions generated from the image
+(`tools/datagen.py`) is not source. It is in the unit `<region>/_generated_data`
+(`auto_generated`, no source path, no code): in `total_data`, never in
+`matched_data`. A source file that includes `build/gen/` data counts as
+generated. The per-file sizes are cached in `build/linkstats/data_sections.json`.
+
+### Categories
+
+Besides `game` and `sdk`, the report has one category per region group and
+kind: `arm9`, `arm9_game`, `arm9_sdk`, `itcm` (and any other autoload block),
+`overlays`, `overlays_game`, `overlays_sdk`, `twl`, `twl_game`, `twl_sdk`
+(only those with units). Each unit lists all its categories in
+`metadata.progress_categories`. Each category carries the code and data
+measures of its units.
 
 The file holds names, sizes, addresses and percentages. It holds no ROM bytes.
 
@@ -59,40 +84,31 @@ needs no secrets and no ROM. It:
 
 1. parses the committed report with `objdiff-cli report changes` (objdiff
    v3.8.2), so a malformed report fails the run;
-2. uploads `progress/report.json` as the artifact `IRBO_report`.
+2. uploads `progress/report.json` as the artifact `IRBO_report` (Black) and
+   `progress/report_white.json`, renamed `report.json`, as `IRAO_report` (White).
 
-decomp.dev reads the push runs of the default branch. It takes an artifact
+ByteMatch reads the push runs of the default branch. It takes each artifact
 whose name matches `<version>_report` and reads the file `report.json` in it.
-The version is `IRBO`, the game code of Pokemon Black (USA, Europe).
+The versions are `IRBO` and `IRAO`, the game codes of Pokemon Black and White
+(USA, Europe). Runs started by hand are not read.
 
-## Launch steps
+## ByteMatch
 
-1. Make the repository public. decomp.dev reads public repositories only.
-2. Push one commit to `main` after the repository is public, so that a
-   `progress` run with an `IRBO_report` artifact exists. Check the run on the
-   Actions tab.
-3. Sign in on https://decomp.dev with GitHub.
-4. Open https://decomp.dev/manage/new and add `Project-Holon/aletheia`:
-   - name: aletheia (short name as you like);
-   - platform: Nintendo DS;
-   - decomp.dev finds the workflow with report artifacts. If it does not, set
-     the workflow ID to `progress.yml` on the project manage page.
-   - default version: `IRBO`.
-5. Optional: install the decomp.dev GitHub app on the repository. Then each
-   push is picked up at once (without it, decomp.dev polls), and the manage page
-   can turn on pull request comments.
-6. Optional: on the manage page, use "refresh" to load the reports of earlier
-   runs.
-7. Add badges to the READMEs. decomp.dev serves a shield for any measure:
+The project is registered at https://bytematch.dev/Project-Holon/aletheia.
+For a private repository, install the ByteMatch GitHub App (link on the manage
+page): GitHub requires authentication to download artifacts. CI that cannot
+upload artifacts can send a report to the upload API instead, with a token from
+the manage page:
 
-       ![Code](https://decomp.dev/Project-Holon/aletheia.svg?mode=shield&measure=code&label=Code)
-       ![Linked](https://decomp.dev/Project-Holon/aletheia.svg?mode=shield&measure=complete_code&label=Linked)
-       ![Functions](https://decomp.dev/Project-Holon/aletheia.svg?mode=shield&measure=functions&label=Functions)
+    curl --fail -X POST -H "Authorization: Bearer $BYTEMATCH_TOKEN"       --data-binary @progress/report.json       "https://bytematch.dev/api/v1/projects/Project-Holon/aletheia/reports?version=IRBO&commit=<sha>"
 
-   Other measures: `matched_code_bytes`, `complete_units`,
-   `complete_units_percent`. Add `&category=game` or `&category=sdk` for one
-   category. The same URL with `.json` in place of `.svg` is a shields.io
-   endpoint (`https://img.shields.io/endpoint?url=...`, URL-encoded).
+Badges for the READMEs:
+
+    ![Code](https://bytematch.dev/Project-Holon/aletheia.svg?label=Code&measure=matched_code_percent)
+    ![Data](https://bytematch.dev/Project-Holon/aletheia.svg?label=Data&measure=matched_data_percent)
+    ![Functions](https://bytematch.dev/Project-Holon/aletheia.svg?label=Functions&measure=matched_functions)
+
+Add `&version=IRAO` for White and `&category=<id>` for one category.
 
 ## Check the format by hand
 
@@ -101,4 +117,4 @@ objdiff-cli can parse a report:
     objdiff-cli report changes progress/report.json progress/report.json
 
 A run that ends without an error and prints the measures means objdiff (and so
-decomp.dev, which uses objdiff-core to read reports) accepts the file.
+ByteMatch, which reads objdiff reports) accepts the file.

@@ -1,13 +1,12 @@
-# Publishes the committed progress report for decomp.dev.
+# Publishes the committed progress reports for ByteMatch (bytematch.dev).
 #
 # CI has no ROM, so it cannot compute progress. tools/progress_report.py makes
 # progress/report.json locally (numbers only: names, sizes, addresses,
 # percentages) and the integrator commits it. This workflow checks that the file
-# parses as an objdiff report and uploads it as the artifact decomp.dev reads:
-# an artifact named `<version>_report` that holds `report.json`. decomp.dev
+# parses as an objdiff report and uploads it as the artifact ByteMatch reads:
+# an artifact named `<version>_report` that holds `report.json`. ByteMatch
 # lists the push runs of the default branch and takes the version from the
 # artifact name (IRBO and IRAO, the game codes of Pokemon Black and White USA/Europe).
-# ByteMatch (bytematch.dev) reads the same artifacts.
 # See docs/PROGRESS_REPORT.md.
 
 name: progress
@@ -38,7 +37,7 @@ jobs:
           ./objdiff-cli report changes progress/report.json progress/report.json -o /tmp/changes.json
           python3 -c "import json; m=json.load(open('/tmp/changes.json'))['to']; print('code %s, matched %s, complete %s, units %s/%s' % (m.get('total_code'), m.get('matched_code'), m.get('complete_code'), m.get('complete_units', 0), m.get('total_units', 0)))"
 
-      - name: Upload the report for decomp.dev
+      - name: Upload the Black report
         uses: actions/upload-artifact@v4
         with:
           name: IRBO_report
