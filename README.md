@@ -46,6 +46,9 @@ Decompiled C source code is located in `src/game/` across 1,374 files.
 - Legally dumped ROM of Pokémon Black (USA, Europe) (NDSi Enhanced):
   - SHA-1: `26ad0b9967aa279c4a266ee69f52b9b2332399a5`
   - Size: 268,435,456 bytes
+- Optional (for Pokémon White): legally dumped ROM of Pokémon White (USA, Europe) (NDSi Enhanced):
+  - SHA-1: `bc696a0dfb448c7b3a8a206f0f8214411a039208`
+  - Size: 268,435,456 bytes
 - The Metrowerks CodeWarrior for DS compilers and linker (`mwccarm.exe`, `mwldarm.exe`), not included: place them under `tools/mwccarm/mwccarm/<version>/`. The builds use `dsi/1.1p1` for almost all code (33,068 functions), plus `2.0/sp2`, `2.0/sp1p2`, `2.0/sp2p2`, `1.2/sp2` and `1.2` for overlay 230 and some SDK and library objects (530 functions); `layout/matched/` lists the version per function.
 - Optional (for DSi-mode `twl` region): DSi AES key constant passed via `--dsi-key` or `ALETHEIA_DSI_KEY`.
 
