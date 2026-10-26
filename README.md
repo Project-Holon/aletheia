@@ -36,7 +36,6 @@ Decompiled C source code is located in `src/game/` across 1,374 files.
 - [x] **Milestone 4**: Pokémon White support (`tools/romlink.py --version white`)
 - [ ] **Milestone 5**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
   - [x] 64-bit ready source (real pointer types)
-    - The 71 pointer-width hits that remain are original integer use (SDK handles, hardware addresses).
   - [x] Recovered structs for code that still reads fields by offset
   - [x] Repository cleanup (tool data out of the source, leftover casts and includes)
   - [ ] Fixes for issues the port finds
