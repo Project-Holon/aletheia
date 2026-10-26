@@ -403,8 +403,15 @@ int SCRCMD_GetWifiHistoryGreetingSet(struct ScriptVm *vm, struct ScrcmdWork *cmd
 /* Script command: fills the partner candidates for a language and mode read from the script. */
 int SCRCMD_FillPartnerCandidatesFromScript(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
+    struct GameSystem *gameSystem;
+    u16 language;
+    u16 mode;
+
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    SCRCMD_FillPartnerCandidates(SCRCMD_WORK_GetGameSystem(cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    language = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRCMD_FillPartnerCandidates(gameSystem, language, mode);
     return 0;
 }
 

@@ -1125,7 +1125,8 @@ int FLD_BTL_INST_TOOL_DrawTrainerParty(BtlInstGroup *group, u16 rank, BattleMon 
     }
 
     iv = FLD_BTL_INST_TOOL_GetIvForRank(rank);
-    otId = FLD_BTL_INST_TOOL_GetRandomU16() | (FLD_BTL_INST_TOOL_GetRandomU16() << 16);
+    otId = FLD_BTL_INST_TOOL_GetRandomU16();
+    otId |= FLD_BTL_INST_TOOL_GetRandomU16() << 16;
     if (itemTries >= 50)
         itemRuleDropped = 1;
     for (i = 0; i < drawn; i++)

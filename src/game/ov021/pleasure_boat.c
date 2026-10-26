@@ -318,8 +318,15 @@ int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 /* Script command: advances the boat clock by the seconds operand; the second operand is the clamp flag. */
 int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
+    PleasureBoatHolder *holder;
+    u16 seconds;
+    u16 clamp;
+
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
-    PLEASURE_BOAT_AdvanceTime(PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat, VM_ReadU16(vm), VM_ReadU16(vm));
+    holder = PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
+    seconds = VM_ReadU16(vm);
+    clamp = VM_ReadU16(vm);
+    PLEASURE_BOAT_AdvanceTime(holder->boat, seconds, clamp);
     return 0;
 }
 

@@ -537,10 +537,14 @@ int SCRCMD_FadeOutPlayBgmWithFade(ScriptVm *vm, ScrcmdWork *cmdWork)
     GameSystem *gameSystem;
     ScriptWork *scriptWork;
     GameEvent *event;
+    u16 bgmNo;
+    u16 fadeFrames;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(gameSystem, VM_ReadU16(vm), VM_ReadU16(vm));
+    bgmNo = VM_ReadU16(vm);
+    fadeFrames = VM_ReadU16(vm);
+    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(gameSystem, bgmNo, fadeFrames);
     SCRIPT_SYS_CallEvent(scriptWork, event);
     FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
@@ -994,7 +998,12 @@ int SCRCMD_IsIssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     IssSwitchSys *switchSys = ISS_SYS_GetSwitchSys(GAMESYSTEM_GetIssSystem(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = ISS_SWITCH_SYS_IsSwitchOn(switchSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    u16 *out;
+    u16 switchNo;
+
+    out = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    switchNo = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    *out = ISS_SWITCH_SYS_IsSwitchOn(switchSys, switchNo);
     return 0;
 }
 
