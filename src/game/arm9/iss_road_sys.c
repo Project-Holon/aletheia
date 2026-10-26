@@ -70,7 +70,7 @@ void ISS_ROAD_SYS_Deactivate(IssRoadSys *road);
  */
 IssRoadSys *ISS_ROAD_SYS_Create(struct Location *player, u32 heapId)
 {
-    IssRoadSys *road = (IssRoadSys *)GFL_HEAP_Alloc(heapId, 0x18, 0,
+    IssRoadSys *road = (IssRoadSys *)GFL_HEAP_Alloc(heapId, sizeof(IssRoadSys), 0,
                                                    (const void *)0x020A7708, 0x4a);
     const PlayerPosition *position;
 

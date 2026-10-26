@@ -102,7 +102,7 @@ void NNSi_SndInsertActiveSeqPlayer(SndSeqPlayer *seqPlayer);
 void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer);
 SndSeqPlayer *NNSi_SndAllocFreeSeqPlayer(s32 priority);
 void NNSi_SndSeqPlayerRelease(SndSeqPlayer *seqPlayer);
-void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap);
+void NNSi_SndPlayerHeapDisposeCallback(void *pHeapBlock, u32 size, uptr data1, u32 data2);
 void NNSi_SndSeqPlayerSetPriority(SndSeqPlayer *seqPlayer, u32 priority);
 /* The player slot table, 32 entries. */
 extern SndPlayer gSndPlayers[];
@@ -165,14 +165,14 @@ u32 NNS_SndPlayerCreateHeap(int playerNo, NNSSndHeap *heap, u32 size)
     NNSSndHeap *subHeap;
 
     pPlayerHeap = (SndPlayerHeap *)NNS_SndHeapAlloc(heap, size + SND_PLAYER_HEAP_HEADER_SIZE,
-                                                 (NNSSndHeapDisposeCallback)NNSi_SndPlayerHeapDisposeCallback, 0, 0);
+                                                 NNSi_SndPlayerHeapDisposeCallback, 0, 0);
     if (pPlayerHeap == 0) {
         return 0;
     }
     pPlayerHeap->pOwner = 0;
     pPlayerHeap->playerNo = playerNo;
     pPlayerHeap->heap = 0;
-    subHeap = NNS_SndHeapCreate((uptr)pPlayerHeap->buffer, size);
+    subHeap = NNS_SndHeapCreate(pPlayerHeap->buffer, size);
     if (subHeap == 0) {
         return 0;
     }
@@ -418,8 +418,8 @@ void NNS_SndPlayerInit(void)
     SndSeqPlayer *seqPlayer;
     SndPlayer *player;
 
-    NNS_FndInitList((sptr)(&gSndActiveSeqList), 0x14);
-    NNS_FndInitList((sptr)(&gSndFreeSeqList), 0x14);
+    NNS_FndInitList(&gSndActiveSeqList, 0x14);
+    NNS_FndInitList(&gSndFreeSeqList, 0x14);
 
     for (i = 0, seqPlayer = gSndSeqPlayers; i < 0x10; i++, seqPlayer++) {
         seqPlayer->state = SND_SEQ_STATE_FREE;
@@ -428,8 +428,8 @@ void NNS_SndPlayerInit(void)
     }
 
     for (i = 0, player = gSndPlayers; i < 0x20; i++, player++) {
-        NNS_FndInitList((sptr)(&player->seqList), 0xc);
-        NNS_FndInitList((sptr)(&player->heapList), 0);
+        NNS_FndInitList(&player->seqList, 0xc);
+        NNS_FndInitList(&player->heapList, 0);
         player->volume = 0x7f;
         player->playableSeqCount = 1;
         player->allocatableChannelMask = 0;
@@ -736,8 +736,9 @@ void NNSi_SndSeqPlayerRelease(SndSeqPlayer *seqPlayer)
  * detaches the block from its owning sequence player or, when it has none,
  * takes it off its player's heap list.
  */
-void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap)
+void NNSi_SndPlayerHeapDisposeCallback(void *pHeapBlock, u32 size, uptr data1, u32 data2)
 {
+    SndPlayerHeap *pPlayerHeap = (SndPlayerHeap *)pHeapBlock;
     if (pPlayerHeap->heap == 0) return;
     NNS_SndHeapDestroy(pPlayerHeap->heap);
     if (pPlayerHeap->pOwner != 0) { pPlayerHeap->pOwner->pPlayerHeap = 0; return; }

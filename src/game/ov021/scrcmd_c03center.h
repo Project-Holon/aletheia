@@ -11,7 +11,7 @@ struct CameraTurnTask;
 typedef struct CameraTurnTask CameraTurnTask;
 
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
-void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, CameraTurnTask *turn);
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, void *arg);
 /* END mkheaders: generated region */
 
 #endif

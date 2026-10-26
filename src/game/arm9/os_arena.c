@@ -33,6 +33,7 @@
  *   SDK_SECTION_ARENA_ITCM_START  0x01FF8820  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -127,12 +128,12 @@ void OS_InitArenaEx(void)
 
 void *OS_GetArenaHi(u32 arenaId)
 {
-    return *(void **)((arenaId << 2) + 0x02FFFDC4);
+    return *(void **)((arenaId << 2) + IOREG_ADDR(0x02FFFDC4));
 }
 
 void *OS_GetArenaLo(u32 arenaId)
 {
-    return *(void **)((arenaId << 2) + 0x02FFFDA0);
+    return *(void **)((arenaId << 2) + IOREG_ADDR(0x02FFFDA0));
 }
 
 void *OS_GetInitArenaHi(int arenaId)
@@ -166,9 +167,9 @@ void *OS_GetInitArenaHi(int arenaId)
         return (void *)0x02000000;
     case OS_ARENA_DTCM:
         {
-            u32 start = (uptr)SDK_AUTOLOAD_DTCM_START;
-            u32 end = start + 0x3F80;
-            u32 top = end - (uptr)SDK_IRQ_STACKSIZE;
+            uptr start = (uptr)SDK_AUTOLOAD_DTCM_START;
+            uptr end = start + 0x3F80;
+            uptr top = end - (uptr)SDK_IRQ_STACKSIZE;
             s32 sysStack = (sptr)SDK_SYS_STACKSIZE;
 
             if (sysStack == 0) {
@@ -235,12 +236,12 @@ void *OS_GetInitArenaLo(int arenaId)
 
 void OS_SetArenaHi(u32 arenaId, void *newHi)
 {
-    *(void **)((arenaId << 2) + 0x02FFFDC4) = newHi;
+    *(void **)((arenaId << 2) + IOREG_ADDR(0x02FFFDC4)) = newHi;
 }
 
 void OS_SetArenaLo(u32 arenaId, void *newLo)
 {
-    *(void **)((arenaId << 2) + 0x02FFFDA0) = newLo;
+    *(void **)((arenaId << 2) + IOREG_ADDR(0x02FFFDA0)) = newLo;
 }
 
 void *OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
@@ -249,6 +250,7 @@ void *OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
     u32 inv;
     u32 mask;
     uptr result;
+    uptr newLo;
 
     if (lo == 0) {
         return 0;
@@ -260,12 +262,12 @@ void *OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
 
     lo = result + size;
     lo = lo + alignment - 1;
-    alignment = mask & lo;
+    newLo = mask & lo;
 
-    if (alignment > (uptr)OS_GetArenaHi(arenaId)) {
+    if (newLo > (uptr)OS_GetArenaHi(arenaId)) {
         return 0;
     }
 
-    OS_SetArenaLo(arenaId, (void *)alignment);
+    OS_SetArenaLo(arenaId, (void *)newLo);
     return (void *)result;
 }

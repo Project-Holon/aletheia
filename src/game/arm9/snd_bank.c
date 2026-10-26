@@ -40,7 +40,7 @@ void SND_DestroyBank(SNDBankData *bank);
 void SND_DestroyWaveArc(SNDWaveArc *waveArc);
 SNDInstPos SND_GetFirstInstDataPos(const void *bank);
 BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos);
-void *SNDi_GetBankWaveArcTable(char *bank);
+u32 SNDi_GetBankWaveArcTable(char *bank);
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *address);
 const SNDWaveData *SND_GetWaveDataAddress(const SNDWaveArc *waveArc, int index);
 
@@ -194,9 +194,9 @@ BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos 
     return 0;
 }
 
-void *SNDi_GetBankWaveArcTable(char *bank)
+u32 SNDi_GetBankWaveArcTable(char *bank)
 {
-    return (void *)((SNDWaveArc *)bank)->waveCount;
+    return ((SNDWaveArc *)bank)->waveCount;
 }
 
 /*

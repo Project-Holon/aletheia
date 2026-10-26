@@ -9,6 +9,8 @@ struct MiscSave;
 
 struct GameSystem;
 
+struct GameInitWork;
+
 struct BgmInfo;
 
 struct GameComm;
@@ -17,7 +19,7 @@ struct GameEvent;
 
 struct GameEvent;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
+typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
 
@@ -25,7 +27,7 @@ typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, v
 struct GameSystem {
     u16   heapId;
     u8    pad02[2];
-    u32   initParam;
+    struct GameInitWork *initParam;
     struct ProcSys *procSys;
     u32   procStatus;
     GameEventCreatorFn eventCreator;
@@ -47,7 +49,7 @@ struct GameSystem {
 struct GameEvent {
     struct GameEvent *parent;
     GameEventFunc func;
-    u32   seq;
+    int   seq;
     void *work;
     struct GameSystem *gameSystem;
 };

@@ -93,7 +93,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     BtlvStageFiles *table;
     int i, k, m;
     int bytes;
-    stage = GFL_HEAP_Alloc(heap, 0xbc, 1, gBtlvStageFileName, 0x63);
+    stage = GFL_HEAP_Alloc(heap, sizeof(*stage), 1, gBtlvStageFileName, 0x63);
     table = ARC_TOOL_LoadMember(0x98, 2, (u16)((heap & 0x7fff) | 0x8000));
     stage->heap = heap;
     if (mode == 3)
@@ -110,10 +110,10 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     stage->render[1] = G3D_SYSTEM_CreateRender(stage->resource, 0, stage->resource);
     if (mode == 3) {
         stage->animCount = 1;
-        stage->animResource = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0x93);
+        stage->animResource = GFL_HEAP_Alloc(stage->heap, sizeof(*stage->animResource), 0, gBtlvStageFileName, 0x93);
         *stage->animResource = G3D_SYSTEM_CreateResourceArc(11, 0x57);
         for (i = 0; i < 2; i++) {
-            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0x98);
+            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, sizeof(*stage->anime[i]), 0, gBtlvStageFileName, 0x98);
             stage->animState[i] = GFL_HEAP_Alloc(stage->heap, 0x10, 1, gBtlvStageFileName, 0x99);
             *stage->anime[i] = G3D_SYSTEM_CreateAnime(stage->render[i], *stage->animResource, 0);
             stage->animState[i]->kind = BTLV_ANIM_TIMED;
@@ -121,9 +121,9 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
             G3D_SYSTEM_EnableObjectAnime(stage->object[i], (u16)0);
         }
     } else if (stage->animCount != 0) {
-        stage->animResource = GFL_HEAP_Alloc(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xa7);
+        stage->animResource = GFL_HEAP_Alloc(stage->heap, stage->animCount * sizeof(*stage->animResource), 0, gBtlvStageFileName, 0xa7);
         for (i = 0; i < 2; i++) {
-            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, stage->animCount * 4, 0, gBtlvStageFileName, 0xab);
+            stage->anime[i] = GFL_HEAP_Alloc(stage->heap, stage->animCount * sizeof(*stage->anime[i]), 0, gBtlvStageFileName, 0xab);
             stage->animState[i] = GFL_HEAP_Alloc(stage->heap, stage->animCount * 16, 1, gBtlvStageFileName, 0xac);
         }
         k = 0;
@@ -146,8 +146,8 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->object[1] = G3D_SYSTEM_CreateObject(stage->render[1], 0, (u16)0);
     }
     bytes = ((NNSG3dResTex *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(stage->resource)))->plttInfo.sizePltt * 8;
-    stage->palFade.resources = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd6);
-    stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd7);
+    stage->palFade.resources = GFL_HEAP_Alloc(stage->heap, sizeof(*stage->palFade.resources), 0, gBtlvStageFileName, 0xd6);
+    stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, sizeof(*stage->palFade.palettes), 0, gBtlvStageFileName, 0xd7);
     *stage->palFade.resources = stage->resource;
     *stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, bytes, 0, gBtlvStageFileName, 0xda);
     stage->palFade.enabled = 0;
@@ -224,8 +224,8 @@ void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage)
                     if (state->armed == 1) {
                         amount = state->speed;
                         state->updatesLeft--;
-                        if (((BtlvAnimState *)(i * 16 + (uptr)stage->animState[side]))->updatesLeft == 0)
-                            ((BtlvAnimState *)(i * 16 + (uptr)stage->animState[side]))->armed = 0;
+                        if (stage->animState[side][i].updatesLeft == 0)
+                            stage->animState[side][i].armed = 0;
                     }
                     break;
                 }

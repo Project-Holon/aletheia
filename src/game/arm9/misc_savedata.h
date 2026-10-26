@@ -19,7 +19,7 @@ u32 MISC_SAVEDATA_GetAnswerMessageOffset(u32 fieldId, u32 index);
 u32 MISC_SAVEDATA_IsTallyFull(u8 *tally, u32 fieldId, u32 index);
 u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
 void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
-int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
+int MISC_SAVEDATA_GetScoreValue(const u8 *tally, int fieldId, int index);
 void MISC_SAVEDATA_FoldTally(Tally *tally);
 /* END mkheaders: generated region */
 

@@ -328,6 +328,7 @@ struct TcblSystem;
 #include "../arm9/tcbl.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/key.h"
+#include "../sdk_ioreg.h"
 
 enum Result MICTEST_Create(struct Proc *proc);
 int MICTEST_Exit(struct Proc *a, int b, int c, MictestWork *p);
@@ -394,7 +395,7 @@ enum Result MICTEST_Create(struct Proc *proc)
     Size size;
     int result=1;
     GFL_HEAP_CreateChildHeap(1,73,0x70000);
-    size=OBJECT_SIZE;
+    size=(Size)sizeof(MictestWork);
     p=PROCSYS_AllocProcWork(proc,size,73);
     MI_CpuFill8(p,0,size);
     p->heapId=73;
@@ -571,18 +572,18 @@ void MICTEST_ResetDisplay(int unused)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    *(volatile u32 *)0x04000000 &= 0xFFFFE0FFu;
-    *(volatile u32 *)0x04001000 &= 0xFFFFE0FFu;
-    WIPE_ResetWndMask((void *)0);
-    WIPE_ResetWndMask((void *)1);
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xFFFFE0FFu;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xFFFFE0FFu;
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask(1);
 }
 
 void MICTEST_ClearDisplay(void)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    *(volatile u32 *)0x04000000 &= 0xFFFFE0FFu;
-    *(volatile u32 *)0x04001000 &= 0xFFFFE0FFu;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xFFFFE0FFu;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xFFFFE0FFu;
 }
 
 void MICTEST_SetupVramBanks(void)
@@ -645,7 +646,7 @@ void MICTEST_CreateActors(MictestWork *p, u16 heap)
     ARC_TOOL_DeleteHandle(first);
     do{
         r=&d_02184910[i];
-        p->actor[i]=CLACT_CreateActor((struct Unit *)p->unit,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->character,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->palette,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->cell,(struct ActorInitParam *)(&d_021848AC[r->config]),r->id,heap);
+        p->actor[i]=CLACT_CreateActor((struct Unit *)p->unit,((MictestWork *)((u32 *)p + r->group))->animReg->character,((MictestWork *)((u32 *)p + r->group))->animReg->palette,((MictestWork *)((u32 *)p + r->group))->animReg->cell,(struct ActorInitParam *)(&d_021848AC[r->config]),r->id,heap);
         CLACT_SetActorAutoAnim(p->actor[i],1);
         ++i;
     }while(i<7);
@@ -901,11 +902,11 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
 void MICTEST_InitSpriteTask(struct TcbSystem *owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait)
 {
     MictestMotion *o;
-    uptr t;
+    void *t;
     int c;
 
-    t = (uptr)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
-    entry->task = (void *)t;
+    t = TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
+    entry->task = t;
     o = (MictestMotion *)TCBL_GetOwnedWork((struct TcblTask *)(struct TcblSystem *)t);
     o->actor = handle;
     o->wait = wait;

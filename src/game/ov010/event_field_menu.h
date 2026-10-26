@@ -16,7 +16,7 @@ typedef struct FieldMenuWork FieldMenuWork;
 
 struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
 struct GameEvent *EVENT_FIELD_MENU_CreateForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
-int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_FIELD_MENU_Main(struct GameEvent *event, int *seq, void *workArg);
 u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 button);
 int EVENT_FIELD_MENU_OnUpdate(ShortcutRequest *request, FieldMenuWork *work);
 int EVENT_FIELD_MENU_OnClose(ShortcutRequest *request, FieldMenuWork *work);

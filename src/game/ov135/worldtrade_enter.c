@@ -159,7 +159,7 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(WorldtradeWork *p, void *dialog);
 
 extern const char str_02203C34[], ov115_id[];
 
-extern const u32 gNetSaveMainProc[];
+#include "../arm9/net_save.h"
 
 extern u8 tbl_021D654C[];
 
@@ -400,7 +400,7 @@ int WORLDTRADE_ENTER_PushWifiSetup(WorldtradeWork *p)
     p->connectStep = 0;
     if ((u32)p->kind == 21) args->isTrade = 1;
     else args->isTrade = 0;
-    PROCSYS_Push((ProcSys *)p->procSys, (uptr)ov115_id, (const ProcData *)gNetSaveMainProc, (void *)p->saveArgs);
+    PROCSYS_Push((ProcSys *)p->procSys, (uptr)ov115_id, &gNetSaveMainProc, (void *)p->saveArgs);
     GFL_NET_ERR_ShowScreen(0);
     p->state = 3;
     return 2;

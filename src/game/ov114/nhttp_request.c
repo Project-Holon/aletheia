@@ -110,7 +110,7 @@ NHTTPReq *NHTTPi_CreateRequest(
     }
     NHTTPi_memclr(req_p, 0x258);
 
-    req_p->res_p = NHTTPi_alloc(0x43c, 4);
+    req_p->res_p = NHTTPi_alloc(sizeof(*req_p->res_p), 4);
     if (req_p->res_p == 0) {
         NHTTPi_SetError(bgnEndInfo_p, 1);
         goto cleanup;

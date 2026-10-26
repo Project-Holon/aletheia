@@ -75,7 +75,7 @@ struct ClactCtx {
 struct UnSelectGraphic {
     u32 bgState;           /* +0x00 zeroed by SetupBg and CleanupBg, never read */
     struct ClactCtx clact; /* +0x04 CLACT context */
-    unsigned *camera;      /* +0x08 G3D camera from SetupCamera */
+    struct G3dCamera *camera;      /* +0x08 G3D camera from SetupCamera */
     void *proc;            /* +0x0C task proc from GFL_USE_AddMainTask */
 };
 
@@ -95,7 +95,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-extern void UN_SELECT_GRAPHIC_DeleteCamera(int *);
+extern void UN_SELECT_GRAPHIC_DeleteCamera(struct G3dCamera **);
 /* The DS code was built against other parameter widths for BG_SYS_Create, BG_SYS_FreeLayerBuf (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
 extern void BG_SYS_Create(unsigned);
@@ -127,12 +127,10 @@ extern struct G3dCamera *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigne
 #else
 #include "../arm9/g3d_camera.h"
 #endif
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(void);
 char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
 void UN_SELECT_GRAPHIC_Delete(char *ctx);
 void UN_SELECT_GRAPHIC_Update(char *p);
-u32 UN_SELECT_GRAPHIC_GetActor(char *p);
+struct Unit *UN_SELECT_GRAPHIC_GetActor(char *p);
 void UN_SELECT_GRAPHIC_Task(struct TcbTask *unused, void *p);
 void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
 void UN_SELECT_GRAPHIC_CleanupBg(void *p);
@@ -142,8 +140,8 @@ void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b
 void UN_SELECT_GRAPHIC_DeleteClact(char *p);
 void UN_SELECT_GRAPHIC_Draw(void *p);
 void UN_SELECT_GRAPHIC_VBlank(void *p);
-u32 UN_SELECT_GRAPHIC_GetValue(u32 *p);
-void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap);
+struct Unit *UN_SELECT_GRAPHIC_GetValue(struct Unit **p);
+void UN_SELECT_GRAPHIC_SetupCamera(struct G3dCamera **out, unsigned heap);
 extern const struct DispVram d_021BAEF8;
 extern const char d_021BB094[];
 extern const unsigned d_021BAEAC[];
@@ -154,8 +152,8 @@ extern const short d_020A1EB8[];
 char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
 {
     char *p;
-    p = GFL_HEAP_Alloc(heap, 16, 0, d_021BB094, 436);
-    MI_CpuFill8(p, 0, 16);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct UnSelectGraphic), 0, d_021BB094, 436);
+    MI_CpuFill8(p, 0, sizeof(struct UnSelectGraphic));
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000u;
@@ -168,8 +166,8 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     UN_SELECT_GRAPHIC_SetupBg(p, heap);
-    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (struct DispVramCfg *)&d_021BAEF8, heap);
-    UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
+    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)&((struct UnSelectGraphic *)p)->clact, (struct DispVramCfg *)&d_021BAEF8, heap);
+    UN_SELECT_GRAPHIC_SetupCamera((struct G3dCamera **)(&((struct UnSelectGraphic *)p)->camera), heap);
     ((struct UnSelectGraphic *)p)->proc = GFL_USE_AddMainTask(UN_SELECT_GRAPHIC_Task, p, 0);
     return p;
 }
@@ -180,15 +178,15 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
 void UN_SELECT_GRAPHIC_Delete(char *ctx)
 {
     TCB_DeleteTask(((struct UnSelectGraphic *)ctx)->proc);
-    UN_SELECT_GRAPHIC_DeleteCamera((int *)(ctx + 8));
-    UN_SELECT_GRAPHIC_DeleteClact(ctx + 4);
+    UN_SELECT_GRAPHIC_DeleteCamera((struct G3dCamera **)(&((struct UnSelectGraphic *)ctx)->camera));
+    UN_SELECT_GRAPHIC_DeleteClact((void *)&((struct UnSelectGraphic *)ctx)->clact);
     UN_SELECT_GRAPHIC_CleanupBg(ctx);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000u;
     *(volatile unsigned *)0x04001000 &= ~0xe000u;
-    MI_CpuFill8(ctx, 0, 16);
+    MI_CpuFill8(ctx, 0, sizeof(struct UnSelectGraphic));
     GFL_HEAP_Free(ctx);
 }
 
@@ -199,16 +197,16 @@ void UN_SELECT_GRAPHIC_Delete(char *ctx)
  */
 void UN_SELECT_GRAPHIC_Update(char *p)
 {
-    UN_SELECT_GRAPHIC_Draw(p + 4);
+    UN_SELECT_GRAPHIC_Draw((void *)&((struct UnSelectGraphic *)p)->clact);
     UN_SELECT_GRAPHIC_Noop(p);
 }
 
-u32 UN_SELECT_GRAPHIC_GetActor(char *p){return UN_SELECT_GRAPHIC_GetValue((u32 *)(p+4));}
+struct Unit *UN_SELECT_GRAPHIC_GetActor(char *p){return UN_SELECT_GRAPHIC_GetValue((struct Unit **)(&((struct UnSelectGraphic *)p)->clact));}
 
 void UN_SELECT_GRAPHIC_Task(struct TcbTask *unused, void *work_)
 { char * p = work_;
     UN_SELECT_GRAPHIC_DrawObjects(p);
-    UN_SELECT_GRAPHIC_VBlank(p + 4);
+    UN_SELECT_GRAPHIC_VBlank((void *)&((struct UnSelectGraphic *)p)->clact);
 }
 
 /*
@@ -232,7 +230,7 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap)
     }
 }
 
-void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(uptr)d_021BAF28;u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf(d_021BAF28[i].bg);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 /*
  * extent: 2 zero alignment bytes at 021BAA1A.
@@ -243,7 +241,7 @@ void UN_SELECT_GRAPHIC_DrawObjects(void *work) {BG_SYS_Update();}
 
 void UN_SELECT_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
     CLACT_InitSystem((struct ClactSysInit *)0x021BAEBC, (struct DispVramCfg *)a, b);
     ((struct ClactCtx *)p)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct ClactCtx *)p)->unit));
@@ -258,23 +256,23 @@ void UN_SELECT_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Unit *)(((struct ClactCtx *)p)->unit));
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
 }
 
 void UN_SELECT_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}
 
 void UN_SELECT_GRAPHIC_VBlank(void *p){CLACT_VBlankSystem();}
 
-u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return (u32)(*(void **)p);}
+struct Unit *UN_SELECT_GRAPHIC_GetValue(struct Unit **p){return *p;}
 
-void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
+void UN_SELECT_GRAPHIC_SetupCamera(struct G3dCamera **out, unsigned heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, UN_SELECT_SetupDisplay);
-    *out = (u32 *)G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, (struct VecFx32 *)(&d_021BAE94), (struct VecFx32 *)(&d_021BAE88), (struct VecFx32 *)(&d_021BAEA0), heap);
+    *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, (struct VecFx32 *)(&d_021BAE94), (struct VecFx32 *)(&d_021BAE88), (struct VecFx32 *)(&d_021BAEA0), heap);
 }
 
-void UN_SELECT_GRAPHIC_DeleteCamera(int *p)
+void UN_SELECT_GRAPHIC_DeleteCamera(struct G3dCamera **p)
 {
-    G3D_CAMERA_Delete((void *)(*p));
+    G3D_CAMERA_Delete(*p);
     G3D_SYSTEM_Exit();
 }

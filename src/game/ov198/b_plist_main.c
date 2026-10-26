@@ -159,7 +159,6 @@
  */
 #include "b_plist_types.h"
 
-#define MGR (*(struct BgWinFrmWork **)(p + 0x2194))
 struct Obj;
 struct Actor;
 struct ClactVec2;
@@ -297,97 +296,97 @@ struct Party;
 #include "../arm9/gfl_use.h"
 struct CursorVtbl;
 struct CursorEntry;
-void B_PLIST_MAIN_SyncMoveActors(u8 *p);
+void B_PLIST_MAIN_SyncMoveActors(struct B_PlistWork *p);
 void B_PLIST_MAIN_SetActorAnimSeq(struct ClactActor *a, u16 b);
-u16 B_PLIST_MAIN_GetMonAnimState(char *p);
-void B_PLIST_MAIN_UpdateActorAnims(u8 *p);
-void B_PLIST_MAIN_CreateToolActors(u8 *p);
-void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta);
-void B_PLIST_MAIN_SwapActorPos(char *p, int slotA, int slotB);
-void B_PLIST_MAIN_Create(u8 *p);
-void B_PLIST_MAIN_Task(void *task,u8 *p);
-int B_PLIST_MAIN_Init(u8 *p);
-int B_PLIST_MAIN_WaitPrintQue(u8 *p);
-int B_PLIST_MAIN_WaitWipe(u8 *p);
-int B_PLIST_MAIN_HandleSelectInput(u8 *p);
-int B_PLIST_MAIN_ConfirmSelect(u8 *p);
-int B_PLIST_MAIN_HandleModeSelect(u8 *p);
-int B_PLIST_MAIN_HandleListSelect(u8 *p);
-int B_PLIST_MAIN_HandleMoveSelect(u8 *p);
-int B_PLIST_MAIN_HandleSlotSelect(u8 *p);
-int B_PLIST_MAIN_HandleSlotSelectFade(u8 *p);
-int B_PLIST_MAIN_HandleItemSelect(u8 *p);
-int B_PLIST_MAIN_HandleConfirmCancel(u8 *p);
-u32 B_PLIST_MAIN_EnterState1A(u8 *p);
-int B_PLIST_MAIN_HandlePartySelect(u8 *p);
-u32 B_PLIST_MAIN_ApplyPartyListPage(u32 a);
-u32 B_PLIST_MAIN_ApplyMonMenuPage(u32 a);
-u32 B_PLIST_MAIN_ApplySummaryPage(u32 a);
-u32 B_PLIST_MAIN_ApplyMoveListPage(u32 a);
-int B_PLIST_MAIN_ApplyMoveDetailPage(char *p);
-u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(u32 a);
-u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(u32 a);
-u32 B_PLIST_MAIN_ApplyMoveListForItemPage(u32 a);
-int B_PLIST_MAIN_RedrawByMode(u8 *p);
-u32 B_PLIST_MAIN_RefreshAndState16(u8 *p);
-u32 B_PLIST_MAIN_ClearPrintStream(u8 *p);
+u16 B_PLIST_MAIN_GetMonAnimState(struct B_PlistWork *p);
+void B_PLIST_MAIN_UpdateActorAnims(struct B_PlistWork *p);
+void B_PLIST_MAIN_CreateToolActors(struct B_PlistWork *p);
+void B_PLIST_MAIN_ShiftActors(struct B_PlistWork *p,int a,short delta);
+void B_PLIST_MAIN_SwapActorPos(struct B_PlistWork *p, int slotA, int slotB);
+void B_PLIST_MAIN_Create(struct B_PlistHost *host);
+void B_PLIST_MAIN_Task(struct TcbTask *task, void *arg);
+int B_PLIST_MAIN_Init(struct B_PlistWork *p);
+int B_PLIST_MAIN_WaitPrintQue(struct B_PlistWork *p);
+int B_PLIST_MAIN_WaitWipe(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleSelectInput(struct B_PlistWork *p);
+int B_PLIST_MAIN_ConfirmSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleModeSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleListSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleMoveSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleSlotSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleSlotSelectFade(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleItemSelect(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleConfirmCancel(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_EnterState1A(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandlePartySelect(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_ApplyPartyListPage(struct B_PlistWork *a);
+u32 B_PLIST_MAIN_ApplyMonMenuPage(struct B_PlistWork *a);
+u32 B_PLIST_MAIN_ApplySummaryPage(struct B_PlistWork *a);
+u32 B_PLIST_MAIN_ApplyMoveListPage(struct B_PlistWork *a);
+int B_PLIST_MAIN_ApplyMoveDetailPage(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(struct B_PlistWork *a);
+u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(struct B_PlistWork *a);
+u32 B_PLIST_MAIN_ApplyMoveListForItemPage(struct B_PlistWork *a);
+int B_PLIST_MAIN_RedrawByMode(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_RefreshAndState16(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_ClearPrintStream(struct B_PlistWork *p);
 int B_PLIST_MAIN_WaitPrintStream(struct B_PlistWork *a);
-int B_PLIST_MAIN_HandleSkipKey(char *p);
-int B_PLIST_MAIN_CheckBusyFlag(char *p);
-int B_PLIST_MAIN_BeginFadeOut(char *p);
-u32 B_PLIST_MAIN_WaitFadeOut(u8 *p);
-int B_PLIST_MAIN_Delete(struct TcbTask *task,char *p);
-void B_PLIST_MAIN_InitBg(u8 *p);
+int B_PLIST_MAIN_HandleSkipKey(struct B_PlistWork *p);
+int B_PLIST_MAIN_CheckBusyFlag(struct B_PlistWork *p);
+int B_PLIST_MAIN_BeginFadeOut(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_WaitFadeOut(struct B_PlistWork *p);
+int B_PLIST_MAIN_Delete(struct TcbTask *task,struct B_PlistWork *p);
+void B_PLIST_MAIN_InitBg(struct B_PlistWork *p);
 void B_PLIST_MAIN_ExitBg(void);
-void B_PLIST_MAIN_LoadGraphics(char *p);
-void B_PLIST_MAIN_CreateTextResources(char *p);
-void B_PLIST_MAIN_DeleteTextResources(u8 *p);
+void B_PLIST_MAIN_LoadGraphics(struct B_PlistWork *p);
+void B_PLIST_MAIN_CreateTextResources(struct B_PlistWork *p);
+void B_PLIST_MAIN_DeleteTextResources(struct B_PlistWork *p);
 void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p);
-void B_PLIST_MAIN_ReadParty(u8 *p);
-int B_PLIST_MAIN_HandleCursorInput(u8 *p);
-int B_PLIST_MAIN_GetSlotState(u8 *p,int i);
-u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta);
-void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode);
-int B_PLIST_MAIN_ApplyMode(u8 *p,unsigned mode);
-void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n);
-int B_PLIST_MAIN_GetRowStatus(u8 *p);
-int B_PLIST_MAIN_PrintStatusMessage(u8 *p);
-u8 B_PLIST_MAIN_IsRowFlagged(u8 *p);
-int B_PLIST_MAIN_GetOwnerFlag18(char **p);
-u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b);
-u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p);
-int B_PLIST_MAIN_IsSlotSelectable(u8 *p,int i);
-int B_PLIST_MAIN_IsIndexValid(char **p, unsigned int v);
-unsigned B_PLIST_MAIN_IsIndexInParty(u8 *p, int index);
-void B_PLIST_MAIN_InitSelectionForMode(u8 *p, u32 state);
-void B_PLIST_MAIN_InitOrder(u8 *p);
-void B_PLIST_MAIN_SwapOrder(u8 *p, int a, int b);
-u32 B_PLIST_MAIN_IsInSelection(u8 **p, u32 c);
-int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
-void B_PLIST_MAIN_SetSelectionEntry(u8 **p, u32 b, u32 c);
-void B_PLIST_MAIN_PushSelectionPair(u8 *p, int a, int b);
-int B_PLIST_MAIN_PopSelectionPair(unsigned char *p, unsigned char *a, unsigned char *b, int clear);
-int B_PLIST_MAIN_BeginMode8(u8 *p);
-int B_PLIST_MAIN_PrintRowMessage(u8 *p);
-int B_PLIST_MAIN_ConfirmSwap(u8 *p);
-int B_PLIST_MAIN_EndSwap(char *p);
+void B_PLIST_MAIN_ReadParty(struct B_PlistWork *p);
+int B_PLIST_MAIN_HandleCursorInput(struct B_PlistWork *p);
+int B_PLIST_MAIN_GetSlotState(struct B_PlistWork *p,int i);
+u8 B_PLIST_MAIN_NextSelectable(struct B_PlistWork *p,int i,int delta);
+void B_PLIST_MAIN_DrawExpBar(struct B_PlistWork *p,int mode);
+int B_PLIST_MAIN_ApplyMode(struct B_PlistWork *p,unsigned mode);
+void B_PLIST_MAIN_LoadModePalette(struct B_PlistWork *p,u32 n);
+int B_PLIST_MAIN_GetRowStatus(struct B_PlistWork *p);
+int B_PLIST_MAIN_PrintStatusMessage(struct B_PlistWork *p);
+u8 B_PLIST_MAIN_IsRowFlagged(struct B_PlistWork *p);
+int B_PLIST_MAIN_GetOwnerFlag18(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_IsBattleSlot(struct B_PlistWork *a, u32 b);
+u32 B_PLIST_MAIN_CheckMoveUsable(struct B_PlistWork *p);
+int B_PLIST_MAIN_IsSlotSelectable(struct B_PlistWork *p,int i);
+int B_PLIST_MAIN_IsIndexValid(struct B_PlistWork *p, unsigned int v);
+unsigned B_PLIST_MAIN_IsIndexInParty(struct B_PlistWork *p, int index);
+void B_PLIST_MAIN_InitSelectionForMode(struct B_PlistWork *p, u32 state);
+void B_PLIST_MAIN_InitOrder(struct B_PlistWork *p);
+void B_PLIST_MAIN_SwapOrder(struct B_PlistWork *p, int a, int b);
+u32 B_PLIST_MAIN_IsInSelection(struct B_PlistWork *p, u32 c);
+int B_PLIST_MAIN_GetOrderIndex(struct B_PlistWork *p, int i);
+void B_PLIST_MAIN_SetSelectionEntry(struct B_PlistWork *p, u32 b, u32 c);
+void B_PLIST_MAIN_PushSelectionPair(struct B_PlistWork *p, int a, int b);
+int B_PLIST_MAIN_PopSelectionPair(struct B_PlistWork *p, unsigned char *a, unsigned char *b, int clear);
+int B_PLIST_MAIN_BeginMode8(struct B_PlistWork *p);
+int B_PLIST_MAIN_PrintRowMessage(struct B_PlistWork *p);
+int B_PLIST_MAIN_ConfirmSwap(struct B_PlistWork *p);
+int B_PLIST_MAIN_EndSwap(struct B_PlistWork *p);
 void B_PLIST_MAIN_GetFramePos(u8 *a, u8 *b, unsigned int c);
 void B_PLIST_MAIN_CopyFrame(u8 *dst, unsigned bg, unsigned which);
-void B_PLIST_MAIN_MoveActorByFlag(u8 *p, int a, int b);
-int B_PLIST_MAIN_UpdateSwapFrames(u8 *p);
-int B_PLIST_MAIN_FinishSwap(u8 *p);
-int B_PLIST_MAIN_CanSwap(u8 *p);
-int B_PLIST_MAIN_HasSwappable(u8 *p);
-void B_PLIST_MAIN_CommitSwap(u8 *p);
-void B_PLIST_MAIN_ClearSelection(u8 **p);
-u32 B_PLIST_MAIN_CheckCancel(u8 **p);
-void B_PLIST_MAIN_PlaySe(u8 **p, u32 b);
-void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b);
-void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b);
-u32 B_PLIST_MAIN_DeleteCursor(u8 *p);
-void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b);
-void B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v);
-void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx);
+void B_PLIST_MAIN_MoveActorByFlag(struct B_PlistWork *p, int a, int b);
+int B_PLIST_MAIN_UpdateSwapFrames(struct B_PlistWork *p);
+int B_PLIST_MAIN_FinishSwap(struct B_PlistWork *p);
+int B_PLIST_MAIN_CanSwap(struct B_PlistWork *p);
+int B_PLIST_MAIN_HasSwappable(struct B_PlistWork *p);
+void B_PLIST_MAIN_CommitSwap(struct B_PlistWork *p);
+void B_PLIST_MAIN_ClearSelection(struct B_PlistWork *p);
+u32 B_PLIST_MAIN_CheckCancel(struct B_PlistWork *p);
+void B_PLIST_MAIN_PlaySe(struct B_PlistWork *p, u32 b);
+void B_PLIST_MAIN_PlaySe2(struct B_PlistWork *p, u32 b);
+void B_PLIST_MAIN_CreateCursor(struct B_PlistWork *p,u32 index,u32 b);
+u32 B_PLIST_MAIN_DeleteCursor(struct B_PlistWork *p);
+void B_PLIST_MAIN_RecreateCursor(struct B_PlistWork *p, u32 a, u32 b);
+void B_PLIST_MAIN_SetActorsVisible(struct B_PlistWork *p, u32 v);
+void B_PLIST_MAIN_LayoutCursorActors(struct B_PlistWork *p, u32 idx);
 extern u32 d_02211DA0[];
 extern const char d_02212550[];
 extern volatile u16 d_04001050[];
@@ -397,25 +396,24 @@ extern const struct Order d_02212130;
 extern const u32 d_022121D4[];
 extern u8 d_02212138[][6];
 extern u8 data_02212550[];
-extern const u32 d_022122D4[];
+extern struct CursorEntry *const d_022122D4[];
 extern const struct CursorVtbl d_022122A0;
 
 
 
 
-void B_PLIST_MAIN_SyncMoveActors(u8 *p)
+void B_PLIST_MAIN_SyncMoveActors(struct B_PlistWork *p)
 {
-  u8 *rec;
+  struct B_PlistSlot *rec;
   u8 *objects;
   int base;
   unsigned long offset;
   int i;
-  u8 *entry;
   u8 *b;
   int slot;
   u8 *tmp;
-  rec = (p + 4) + (B_PLIST_MAIN_GetOrderIndex(p, (*((u8 **) p))[32]) * 76);
-  if (((struct B_PlistWork *)p)->winFlags.flipB == 0)
+  rec = &p->slot[B_PLIST_MAIN_GetOrderIndex(p, p->owner->orderIndex)];
+  if (p->winFlags.flipB == 0)
   {
     base = 29;
     slot = 12;
@@ -425,28 +423,25 @@ void B_PLIST_MAIN_SyncMoveActors(u8 *p)
     base = 34;
     slot = 17;
   }
-  objects = p + (base * 4);
+  objects = (u8 *)p + (base * (int)sizeof(void *));
   for (i = 0; i < 4u; i++)
   {
-    entry = rec + (i * 8);
-    if ((*((u16 *) (entry + 44))) != 0)
+    if (rec->move[i].id != 0)
     {
       offset = i * 4;
-      b = objects + offset;
-      B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + 0x1ebc)), slot + i, entry[48]);
+      b = objects + offset * (sizeof(void *) / 4);
+      B_PLIST_DRAW_TransferCharacter(p, ((struct B_PlistWork *)b)->actor[0], slot + i, rec->move[i].type);
       tmp = (u8 *) d_02211DA0;
-      B_PLIST_DRAW_PlaceActor(*((u8 **) (b + 0x1ebc)), (uptr) (tmp + offset));
+      B_PLIST_DRAW_PlaceActor(((struct B_PlistWork *)b)->actor[0], (const struct ClactVec2 *)(tmp + offset));
     }
   }
 
-  if (((*((u16 *) ((*((u8 **) p)) + 38))) != 0) && ((*((u8 **) p))[31] == 4))
+  if ((p->owner->moveId != 0) && (p->owner->listType == 4))
   {
-    offset = (base + i) * 4;
-    b = p + 0x1ebc;
-    B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + offset)), slot + i, WAZA_TOOL_GetParam(*((u16 *) ((*((u8 **) p)) + 38)), 0));
-    B_PLIST_DRAW_PlaceActor(*((u8 **) (b + offset)), (uptr) (d_02211DA0 + i));
+    B_PLIST_DRAW_TransferCharacter(p, p->actor[base + i], slot + i, WAZA_TOOL_GetParam(p->owner->moveId, 0));
+    B_PLIST_DRAW_PlaceActor(p->actor[base + i], (const struct ClactVec2 *)(d_02211DA0 + i));
   }
-  ((struct B_PlistWork *)p)->winFlags.flipB ^= 1;
+  p->winFlags.flipB ^= 1;
 }
 
 
@@ -465,13 +460,13 @@ void B_PLIST_MAIN_SetActorAnimSeq(struct ClactActor *a, u16 b)
 
 
 
-u16 B_PLIST_MAIN_GetMonAnimState(char *p)
+u16 B_PLIST_MAIN_GetMonAnimState(struct B_PlistWork *p)
 {
-    u16 a=((struct B_PlistWork *)p)->monSpecies;
+    u16 a=((struct B_PlistSlot *)p)->hp;
     if (a==0) return 0;
-    if (((struct B_PlistWork *)p)->monFlags.kind!=8 && ((struct B_PlistWork *)p)->monFlags.kind!=6) return 5;
-    if (a==((struct B_PlistWork *)p)->monSpeciesAlt) return 1;
-    switch (BGWINFRM_GetScaleRank(a,((struct B_PlistWork *)p)->monSpeciesAlt)) {
+    if (((struct B_PlistSlot *)p)->statusFlags.kind!=8 && ((struct B_PlistSlot *)p)->statusFlags.kind!=6) return 5;
+    if (a==((struct B_PlistSlot *)p)->maxHp) return 1;
+    switch (BGWINFRM_GetScaleRank(a,((struct B_PlistSlot *)p)->maxHp)) {
     case 0: return 2;
     case 1: return 3;
     case 2: return 4;
@@ -482,16 +477,16 @@ u16 B_PLIST_MAIN_GetMonAnimState(char *p)
 
 
 
-void B_PLIST_MAIN_UpdateActorAnims(u8 *p)
+void B_PLIST_MAIN_UpdateActorAnims(struct B_PlistWork *p)
 {
     u16 i;
     int j;
     for (i=0;i<6;i++) {
         j=B_PLIST_MAIN_GetOrderIndex(p,i);
-        if (*(u16 *)(p+j*0x4c+8)) {
-            u16 k=B_PLIST_MAIN_GetMonAnimState((char *)p+4+j*0x4c);
-            B_PLIST_MAIN_SetActorAnimSeq(*(void **)(p+j*4+0x1ed8),k);
-            CLACT_AddActorAnimFrame(*(void **)(p+j*4+0x1ed8),0x1000);
+        if (p->slot[j].species) {
+            u16 k=B_PLIST_MAIN_GetMonAnimState(((void *)&p->slot[j]));
+            B_PLIST_MAIN_SetActorAnimSeq(p->actor[j + 7],k);
+            CLACT_AddActorAnimFrame(p->actor[j + 7],0x1000);
         }
     }
 }
@@ -499,97 +494,98 @@ void B_PLIST_MAIN_UpdateActorAnims(u8 *p)
 
 
 
-void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&((struct B_PlistWork *)p)->appTool,*(struct Unit **)&((struct B_PlistWork *)p)->unit,((struct B_PlistWork *)p)->toolChar,((struct B_PlistWork *)p)->toolPal,((struct B_PlistWork *)p)->toolCell);B_APP_TOOL_SetActorsVisible(*(char * *)&((struct B_PlistWork *)p)->appTool,0); }
+void B_PLIST_MAIN_CreateToolActors(struct B_PlistWork *p) { B_APP_TOOL_CreateActors(*(char * *)&p->appTool,*(struct Unit **)&p->unit,p->charId[24],p->palId[4],p->cellId[4]);B_APP_TOOL_SetActorsVisible(*(char * *)&p->appTool,0); }
 
 
 
 
-void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta)
+void B_PLIST_MAIN_ShiftActors(struct B_PlistWork *p,int a,short delta)
 {
     int i=B_PLIST_MAIN_GetOrderIndex(p,a);
     BPlistMainPair pair;
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct ClactVec2 *)&pair,1);
+    CLACT_GetActorSurfacePos(*(void **)((char *)&p->actor[0] + i * (int)sizeof(void *)),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct ClactVec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct ClactVec2 *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)((char *)&p->actor[0] + i * (int)sizeof(void *)),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)((char *)&p->actor[7] + i * (int)sizeof(void *)),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct ClactVec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct ClactVec2 *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)((char *)&p->actor[7] + i * (int)sizeof(void *)),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)((char *)&p->actor[13] + i * (int)sizeof(void *)),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct ClactVec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct ClactVec2 *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)((char *)&p->actor[13] + i * (int)sizeof(void *)),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)((char *)&p->actor[19] + i * (int)sizeof(void *)),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct ClactVec2 *)(&pair),1);
+    CLACT_AddActorSurfacePos(*(void **)((char *)&p->actor[19] + i * (int)sizeof(void *)),(struct ClactVec2 *)(&pair),1);
 }
 
 
 
 
 
-void B_PLIST_MAIN_SwapActorPos(char *p, int slotA, int slotB)
+void B_PLIST_MAIN_SwapActorPos(struct B_PlistWork *p, int slotA, int slotB)
 {
-    int i1 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, slotA);
-    int i2 = B_PLIST_MAIN_GetOrderIndex((u8 *)p, slotB);
+    int i1 = B_PLIST_MAIN_GetOrderIndex(p, slotA);
+    int i2 = B_PLIST_MAIN_GetOrderIndex(p, slotB);
     u32 x;
     u32 y;
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i1], (struct ClactVec2 *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i2], (struct ClactVec2 *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i1], (struct ClactVec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i2], (struct ClactVec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos((&p->actor[0])[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos((&p->actor[0])[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos((&p->actor[0])[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos((&p->actor[0])[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i1], (struct ClactVec2 *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i2], (struct ClactVec2 *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i1], (struct ClactVec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i2], (struct ClactVec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos((&p->actor[7])[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos((&p->actor[7])[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos((&p->actor[7])[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos((&p->actor[7])[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i1], (struct ClactVec2 *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i2], (struct ClactVec2 *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i1], (struct ClactVec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i2], (struct ClactVec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos((&p->actor[13])[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos((&p->actor[13])[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos((&p->actor[13])[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos((&p->actor[13])[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i1], (struct ClactVec2 *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i2], (struct ClactVec2 *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i1], (struct ClactVec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i2], (struct ClactVec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos((&p->actor[19])[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos((&p->actor[19])[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos((&p->actor[19])[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos((&p->actor[19])[i2], (struct ClactVec2 *)(&x), 1);
 }
 
 
 
 
-void B_PLIST_MAIN_Create(u8 *p)
+void B_PLIST_MAIN_Create(struct B_PlistHost *host)
 {
-    u8 *q;
-    if (p[0x20]>5) p[0x20]=0;
-    q=GFL_HEAP_Alloc(((struct B_PlistWork *)p)->monSpecies,0x2544,1,d_02212550,0x130);
-    TCB_AddTask((struct TcbSystem *)((struct B_PlistWork *)p)->task,(TcbFunc)B_PLIST_MAIN_Task,(void *)q,100);
-    ((struct B_PlistWork *)q)->owner=(struct B_PlistHost *)p;
-    if (p[0x1f]!=5) p[0x4b]=0;
-    else if (B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)q))==1 && p[0x1c]==1) p[0x20]++;
-    ((struct B_PlistWork *)q)->palAnm=((struct B_PlistWork *)p)->palAnmSlot;
-    ((struct B_PlistWork *)q)->state=0;
-    q[0x2176]=p[0x20];
-    ((struct B_PlistWork *)q)->done=0;
+    struct B_PlistWork *work;
+    if (host->orderIndex>5) host->orderIndex=0;
+    work=GFL_HEAP_Alloc(host->heapId,sizeof(struct B_PlistWork),1,d_02212550,0x130);
+    TCB_AddTask((struct TcbSystem *)host->fadeContext,B_PLIST_MAIN_Task,(void *)work,100);
+    work->owner=host;
+    if (host->listType!=5) host->order[3]=0;
+    else if (B_PLIST_MAIN_GetOwnerFlag18(work)==1 && host->isSecondTeam==1) host->orderIndex++;
+    work->palAnm=host->palAnm;
+    work->state=0;
+    work->orderIndex=host->orderIndex;
+    work->done=0;
 }
 
 
 
 
-extern int (*const d_0221221C[])(u8 *);
+extern int (*const d_0221221C[])(struct B_PlistWork *);
 
 
 
 
-void B_PLIST_MAIN_Task(void *task,u8 *p)
+void B_PLIST_MAIN_Task(struct TcbTask *task, void *arg)
 {
-    if (((struct B_PlistWork *)p)->owner->exitRequest==1) {
-        B_PLIST_MAIN_ClearSelection((u8 **)p);
-        ((struct B_PlistWork *)p)->state=33;
+    struct B_PlistWork *p = arg;
+    if (p->owner->exitRequest==1) {
+        B_PLIST_MAIN_ClearSelection(p);
+        p->state=33;
     }
-    if (((struct B_PlistWork *)p)->state!=33)
-        ((struct B_PlistWork *)p)->state=d_0221221C[*(int *)(p+0x2178)](p);
-    if (((struct B_PlistWork *)p)->state==33 && B_PLIST_MAIN_Delete(task,(char *)p)==1) return;
-    TCBL_Main(((struct B_PlistWork *)p)->tcbl);
+    if (p->state!=33)
+        p->state=d_0221221C[p->state](p);
+    if (p->state==33 && B_PLIST_MAIN_Delete(task,p)==1) return;
+    TCBL_Main(p->tcbl);
     B_PLIST_MAIN_UpdateActorAnims(p);
     B_PLIST_ANM_StepPaletteAnim(p);
     B_PLIST_DRAW_UpdateToolWindows(p);
@@ -601,75 +597,75 @@ void B_PLIST_MAIN_Task(void *task,u8 *p)
 /*
  * volatile: hardware halfword store at 0220F4EC writes display register 04001050.
  */
-int B_PLIST_MAIN_Init(u8 *p)
+int B_PLIST_MAIN_Init(struct B_PlistWork *p)
 {
     d_04001050[0]=0;
-    GXx_SetMasterBrightness_((u16 *)((uptr)d_04001050+28),-16);
-    ((struct B_PlistWork *)p)->tcbl=TCBL_Create(((struct B_PlistWork *)p)->owner->heapId,((struct B_PlistWork *)p)->owner->heapId,1,4);
-    if((*(u8 **)p)[31]==4) p[0x2180]=6;
-    else if((*(u8 **)p)[31]==5) p[0x2180]=4;
-    else p[0x2180]=0;
-    ((struct B_PlistWork *)p)->appTool=B_APP_TOOL_Create(((struct B_PlistWork *)p)->owner->heapId);
-    B_PLIST_MAIN_InitOrder(p);B_PLIST_MAIN_ReadParty(p);B_PLIST_MAIN_InitBg(p);B_PLIST_MAIN_LoadGraphics((char *)p);B_PLIST_MAIN_CreateTextResources((char *)p);
-    B_PLIST_MAIN_LoadModePalette(p,p[0x2180]);B_PLIST_ANM_UpdateByMode(p,p[0x2180]);B_PLIST_ANM_CopyPaletteSlot(p,p[0x2180]);
-    B_PLIST_DRAW_Init((char *)p);
-    if((*(u8 **)p)[31]==5) B_PLIST_MAIN_SyncMoveActors(p);
-    B_PLIST_DRAW_LayoutActors((char *)p,p[0x2180]);B_PLIST_ANM_CreateTileWindows(p);B_PLIST_DRAW_DrawModePage((char *)p,p[0x2180]);B_PLIST_DRAW_ShowToolWindows(p);
-    if(**(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr==1) *(u32 *)&((struct B_PlistWork *)p)->syncRequested=1;
-    else *(u32 *)&((struct B_PlistWork *)p)->syncRequested=0;
-    B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct B_PlistWork *)p)->appTool),(void *)(((struct B_PlistWork *)p)->syncRequested));
-    if(p[0x2180]==0) {
-        if(B_PLIST_MAIN_IsBattleSlot((uptr)p,B_PLIST_MAIN_GetOrderIndex(p,0))==1) (*(u8 **)p)[32]=1;
-        B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[32]);
-    } else if((*(u8 **)p)[31]==5) B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[75]);
-    else B_PLIST_MAIN_CreateCursor(p,p[0x2180],0);
-    B_PLIST_MAIN_DrawExpBar(p,p[0x2180]);
-    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)((struct B_PlistWork *)p)->palAnm,10,65535,0,16,0,0,((struct B_PlistWork *)p)->owner->fadeContext);
-    ((struct B_PlistWork *)p)->done=1;
+    GXx_SetMasterBrightness_((u16 *)((char *)d_04001050+28),-16);
+    p->tcbl=TCBL_Create(p->owner->heapId,p->owner->heapId,1,4);
+    if(p->owner->listType==4) p->mode=6;
+    else if(p->owner->listType==5) p->mode=4;
+    else p->mode=0;
+    p->appTool=B_APP_TOOL_Create(p->owner->heapId);
+    B_PLIST_MAIN_InitOrder(p);B_PLIST_MAIN_ReadParty(p);B_PLIST_MAIN_InitBg(p);B_PLIST_MAIN_LoadGraphics(p);B_PLIST_MAIN_CreateTextResources(p);
+    B_PLIST_MAIN_LoadModePalette(p,p->mode);B_PLIST_ANM_UpdateByMode(p,p->mode);B_PLIST_ANM_CopyPaletteSlot(p,p->mode);
+    B_PLIST_DRAW_Init(p);
+    if(p->owner->listType==5) B_PLIST_MAIN_SyncMoveActors(p);
+    B_PLIST_DRAW_LayoutActors(p,p->mode);B_PLIST_ANM_CreateTileWindows(p);B_PLIST_DRAW_DrawModePage(p,p->mode);B_PLIST_DRAW_ShowToolWindows(p);
+    if(**(u8 * *)&p->owner->syncFlagPtr==1) *(u32 *)&p->syncRequested=1;
+    else *(u32 *)&p->syncRequested=0;
+    B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&p->appTool),p->syncRequested);
+    if(p->mode==0) {
+        if(B_PLIST_MAIN_IsBattleSlot(p,B_PLIST_MAIN_GetOrderIndex(p,0))==1) p->owner->orderIndex=1;
+        B_PLIST_MAIN_CreateCursor(p,p->mode,p->owner->orderIndex);
+    } else if(p->owner->listType==5) B_PLIST_MAIN_CreateCursor(p,p->mode,p->owner->order[3]);
+    else B_PLIST_MAIN_CreateCursor(p,p->mode,0);
+    B_PLIST_MAIN_DrawExpBar(p,p->mode);
+    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)p->palAnm,10,65535,0,16,0,0,p->owner->fadeContext);
+    p->done=1;
     return 1;
 }
 
 
 
 
-int B_PLIST_MAIN_WaitPrintQue(u8 *p) { if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(const struct PrintSys * *)&((struct B_PlistWork *)p)->printQue))==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct B_PlistWork *)p)->owner->heapId);return 2;}return 1; }
+int B_PLIST_MAIN_WaitPrintQue(struct B_PlistWork *p) { if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(const struct PrintSys * *)&p->printQue))==1){WIPE_SYS_Start((void *)4,1,1,0,6,1,p->owner->heapId);return 2;}return 1; }
 
 
 
 
-int B_PLIST_MAIN_WaitWipe(u8 *p) { if(WIPE_SYS_EndCheck()==1) { if((*(u8 **)p)[31]==4)return 25; if((*(u8 **)p)[31]==5)return 30; return 3; } return 2; }
+int B_PLIST_MAIN_WaitWipe(struct B_PlistWork *p) { if(WIPE_SYS_EndCheck()==1) { if(p->owner->listType==4)return 25; if(p->owner->listType==5)return 30; return 3; } return 2; }
 
 
 
 
-int B_PLIST_MAIN_HandleSelectInput(u8 *p)
+int B_PLIST_MAIN_HandleSelectInput(struct B_PlistWork *p)
 {
     u8 pair[2];
-    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(char * *)&((struct B_PlistWork *)p)->palAnm)!=0) return 3;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1) return 31;
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(char * *)&p->palAnm)!=0) return 3;
+    if(B_PLIST_MAIN_CheckCancel(p)==1) return 31;
     if(B_PLIST_MAIN_HandleCursorInput(p)==1) {
-        if((*(u8 **)p)[32]==6) {
-            if((*(u8 **)p)[31]==2) {
+        if(p->owner->orderIndex==6) {
+            if(p->owner->listType==2) {
                 if(B_PLIST_MAIN_PopSelectionPair(p,pair+1,pair,1)==1) {
-                    if(pair[1]<pair[0]) (*(u8 * *)&((struct B_PlistWork *)p)->owner+pair[1])[72]=255;
-                    else (*(u8 * *)&((struct B_PlistWork *)p)->owner+pair[0])[72]=255;
-                    p[0x2499]=pair[1];
-                    p[0x249a]=pair[0];
-                    p[0x1e98]=0;
-                    B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+                    if(pair[1]<pair[0]) (*(u8 * *)&p->owner+pair[1])[72]=255;
+                    else (*(u8 * *)&p->owner+pair[0])[72]=255;
+                    p->flag2499=pair[1];
+                    p->flag249A=pair[0];
+                    p->animStep=0;
+                    B_PLIST_MAIN_PlaySe(p,1362);
                     return 9;
                 }
-            } else if((*(u8 **)p)[31]!=1) {
-                B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+            } else if(p->owner->listType!=1) {
+                B_PLIST_MAIN_PlaySe(p,1362);
                 B_PLIST_ANM_StartPaletteAnim(p,6);
-                B_PLIST_MAIN_ClearSelection((u8 **)p);
+                B_PLIST_MAIN_ClearSelection(p);
                 return 31;
             }
         } else {
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
-            B_PLIST_ANM_StartPaletteAnim(p,(*(u8 **)p)[32]);
-            if((*(u8 **)p)[31]==3) return B_PLIST_MAIN_ConfirmSelect(p);
-            ((struct B_PlistWork *)p)->nextState=12;
+            B_PLIST_MAIN_PlaySe(p,1357);
+            B_PLIST_ANM_StartPaletteAnim(p,p->owner->orderIndex);
+            if(p->owner->listType==3) return B_PLIST_MAIN_ConfirmSelect(p);
+            p->nextState=12;
             return 29;
         }
     }
@@ -679,77 +675,77 @@ int B_PLIST_MAIN_HandleSelectInput(u8 *p)
 
 
 
-int B_PLIST_MAIN_ConfirmSelect(u8 *p)
+int B_PLIST_MAIN_ConfirmSelect(struct B_PlistWork *p)
 {
-    u8 *q = *(u8 **)p;
-    if (((struct B_PlistSlot *)(p+B_PLIST_MAIN_GetOrderIndex(p,q[32])*76))->u1A.bits.flags.high != 0) {
-        MSGDATA_ReadString(*(void **)(p+0x1ea0),91,*(void **)(p+0x1ea8));
+    struct B_PlistHost *q = p->owner;
+    if ((&p->slot[B_PLIST_MAIN_GetOrderIndex(p,q->orderIndex)])->statusFlags.high != 0) {
+        MSGDATA_ReadString(p->msgBank,91,p->strBuf);
         B_PLIST_DRAW_ClearAndPrintStream(p);
-        (*(u8 **)p)[32] = 6;
-        *(u32 *)(p+0x217c) = 31;
-        B_PLIST_MAIN_ClearSelection((u8 **)p);
+        p->owner->orderIndex = 6;
+        p->nextState = 31;
+        B_PLIST_MAIN_ClearSelection(p);
         return 23;
     }
-    if ((q+B_PLIST_MAIN_GetOrderIndex(p,q[32]))[56] != 0) {
+    if (q->slotFlags[B_PLIST_MAIN_GetOrderIndex(p,q->orderIndex)] != 0) {
         B_PLIST_DRAW_FormatRowWord(p);
         B_PLIST_DRAW_ClearAndPrintStream(p);
-        (*(u8 **)p)[32] = 6;
-        *(u32 *)(p+0x217c) = 31;
-        B_PLIST_MAIN_ClearSelection((u8 **)p);
+        p->owner->orderIndex = 6;
+        p->nextState = 31;
+        B_PLIST_MAIN_ClearSelection(p);
         return 23;
     }
-    if (FILE_UTIL_GetItemParam((unsigned int)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
-        FILE_UTIL_GetItemParam((unsigned int)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
-        *(u32 *)(p+0x217c) = 18;
+    if (FILE_UTIL_GetItemParam((unsigned int)q->itemId,39,q->heapId) != 0 &&
+        FILE_UTIL_GetItemParam((unsigned int)q->itemId,40,q->heapId) == 0) {
+        p->nextState = 18;
         return 29;
     }
-    q[72] = B_PLIST_MAIN_GetOrderIndex(p,q[32]);
+    q->order[0] = B_PLIST_MAIN_GetOrderIndex(p,q->orderIndex);
     return 31;
 }
 
 
 
 
-int B_PLIST_MAIN_HandleModeSelect(u8 *p)
+int B_PLIST_MAIN_HandleModeSelect(struct B_PlistWork *p)
 {
     u32 sel;
-    u8 *q;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1) return 31;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    struct B_PlistHost *q;
+    if(B_PLIST_MAIN_CheckCancel(p)==1) return 31;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel) {
     case 0:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,7);
         if(B_PLIST_MAIN_PrintStatusMessage(p)==1) {
-            q=*(u8 * *)&((struct B_PlistWork *)p)->owner;
-            if(q[31]!=2) {
-                (q+q[33])[72]=B_PLIST_MAIN_GetOrderIndex(p,q[32]);
+            q=p->owner;
+            if(q->listType!=2) {
+                q->order[q->pickIndex]=B_PLIST_MAIN_GetOrderIndex(p,q->orderIndex);
                 return 31;
             }
             if(B_PLIST_MAIN_CanSwap(p)==0) {B_PLIST_MAIN_CommitSwap(p);return 31;}
-            ((struct B_PlistWork *)p)->nextState=19;return 29;
+            p->nextState=19;return 29;
         }
-        ((struct B_PlistWork *)p)->nextState=21;return 29;
+        p->nextState=21;return 29;
     case 1:
         if(B_PLIST_MAIN_IsRowFlagged(p)==1) break;
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,8);
-        ((struct B_PlistWork *)p)->nextState=13;return 29;
+        p->nextState=13;return 29;
     case 2:
         if(B_PLIST_MAIN_IsRowFlagged(p)==1) break;
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,10);
-        ((struct B_PlistWork *)p)->nextState=14;return 29;
+        p->nextState=14;return 29;
     case 3:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=11;return 29;
+        p->nextState=11;return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=11;return 29;
+        p->nextState=11;return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);break;
+        B_PLIST_MAIN_PlaySe(p,1352);break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
     }
@@ -759,52 +755,52 @@ int B_PLIST_MAIN_HandleModeSelect(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleListSelect(u8 *p)
+int B_PLIST_MAIN_HandleListSelect(struct B_PlistWork *p)
 {
     u32 sel;
     u8 next;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    if(B_PLIST_MAIN_CheckCancel(p)==1)return 31;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0:
-        next=B_PLIST_MAIN_NextSelectable(p,(*(u8 **)p)[0x20],-1);
+        next=B_PLIST_MAIN_NextSelectable(p,p->owner->orderIndex,-1);
         if(next!=255){
-            (*(u8 **)p)[0x20]=next;
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+            p->owner->orderIndex=next;
+            B_PLIST_MAIN_PlaySe(p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,12);
-            ((struct B_PlistWork *)p)->nextState=20;
+            p->nextState=20;
             return 29;
         }
         break;
     case 1:
-        next=B_PLIST_MAIN_NextSelectable(p,(*(u8 **)p)[0x20],1);
+        next=B_PLIST_MAIN_NextSelectable(p,p->owner->orderIndex,1);
         if(next!=255){
-            (*(u8 **)p)[0x20]=next;
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+            p->owner->orderIndex=next;
+            B_PLIST_MAIN_PlaySe(p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,13);
-            ((struct B_PlistWork *)p)->nextState=20;
+            p->nextState=20;
             return 29;
         }
         break;
     case 2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,11);
-        ((struct B_PlistWork *)p)->nextState=14;
+        p->nextState=14;
         return 29;
     case 3:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        p[0x2190]=1;
-        ((struct B_PlistWork *)p)->nextState=12;
+        p->flag2190=1;
+        p->nextState=12;
         return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        p[0x2190]=1;
-        ((struct B_PlistWork *)p)->nextState=12;
+        p->flag2190=1;
+        p->nextState=12;
         return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -818,63 +814,63 @@ int B_PLIST_MAIN_HandleListSelect(u8 *p)
 /*
  * Width: original narrows state to u8 before 0220B760; extern preserves caller truncation despite owner u32 state.
  */
-int B_PLIST_MAIN_HandleMoveSelect(u8 *p)
+int B_PLIST_MAIN_HandleMoveSelect(struct B_PlistWork *p)
 {
     u32 sel;
-    sptr row;
+    struct B_PlistWork *row;
     u8 next;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    if(B_PLIST_MAIN_CheckCancel(p)==1)return 31;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
-        row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
-        if(*(u16 *)(row+sel*8+0x30)!=0){
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        row=(struct B_PlistWork *)((u8 *)p+B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)*sizeof(struct B_PlistSlot));
+        if(row->slot[0].move[sel].id!=0){
+            B_PLIST_MAIN_PlaySe(p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,(u8)(sel+14));
-            (*(u8 **)p)[0x4B]=sel;
-            ((struct B_PlistWork *)p)->nextState=15;
+            p->owner->order[3]=sel;
+            p->nextState=15;
             return 29;
         }
         break;
     case 4:
-        next=B_PLIST_MAIN_NextSelectable(p,(*(u8 **)p)[0x20],-1);
+        next=B_PLIST_MAIN_NextSelectable(p,p->owner->orderIndex,-1);
         if(next!=255){
-            (*(u8 **)p)[0x20]=next;
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+            p->owner->orderIndex=next;
+            B_PLIST_MAIN_PlaySe(p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,(u8)12);
-            ((struct B_PlistWork *)p)->nextState=20;
+            p->nextState=20;
             return 29;
         }
         break;
     case 5:
-        next=B_PLIST_MAIN_NextSelectable(p,(*(u8 **)p)[0x20],1);
+        next=B_PLIST_MAIN_NextSelectable(p,p->owner->orderIndex,1);
         if(next!=255){
-            (*(u8 **)p)[0x20]=next;
-            B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+            p->owner->orderIndex=next;
+            B_PLIST_MAIN_PlaySe(p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,(u8)13);
-            ((struct B_PlistWork *)p)->nextState=20;
+            p->nextState=20;
             return 29;
         }
         break;
     case 6:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,(u8)9);
-        ((struct B_PlistWork *)p)->nextState=13;
+        p->nextState=13;
         return 29;
     case 7:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
-        p[0x2190]=2;
-        ((struct B_PlistWork *)p)->nextState=12;
+        p->flag2190=2;
+        p->nextState=12;
         return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
-        p[0x2190]=2;
-        ((struct B_PlistWork *)p)->nextState=12;
+        p->flag2190=2;
+        p->nextState=12;
         return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -885,35 +881,35 @@ int B_PLIST_MAIN_HandleMoveSelect(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleSlotSelect(u8 *p)
+int B_PLIST_MAIN_HandleSlotSelect(struct B_PlistWork *p)
 {
     u32 sel;
-    sptr row;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    struct B_PlistWork *row;
+    if(B_PLIST_MAIN_CheckCancel(p)==1)return 31;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
-        if((*(u8 **)p)[0x4B]!=sel){
-            row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
-            if(*(u16 *)(row+sel*8+0x30)!=0){
-                B_PLIST_MAIN_PlaySe((u8 **)p,1357);
-                (*(u8 **)p)[0x4B]=sel;
+        if(p->owner->order[3]!=sel){
+            row=(struct B_PlistWork *)((u8 *)p+B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)*sizeof(struct B_PlistSlot));
+            if(row->slot[0].move[sel].id!=0){
+                B_PLIST_MAIN_PlaySe(p,1357);
+                p->owner->order[3]=sel;
                 return 15;
             }
         }
         break;
     case 4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=14;
+        p->nextState=14;
         return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=14;
+        p->nextState=14;
         return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -924,34 +920,34 @@ int B_PLIST_MAIN_HandleSlotSelect(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleSlotSelectFade(u8 *p)
+int B_PLIST_MAIN_HandleSlotSelectFade(struct B_PlistWork *p)
 {
     u32 sel;
-    sptr row;
-    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 30;
-    if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    struct B_PlistWork *row;
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&p->palAnm)!=0)return 30;
+    if(B_PLIST_MAIN_CheckCancel(p)==1)return 31;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
-        if((*(u8 **)p)[0x4B]!=sel){
-            row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
-            if(*(u16 *)(row+sel*8+0x30)!=0){
-                B_PLIST_MAIN_PlaySe((u8 **)p,1357);
-                (*(u8 **)p)[0x4B]=sel;
+        if(p->owner->order[3]!=sel){
+            row=(struct B_PlistWork *)((u8 *)p+B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)*sizeof(struct B_PlistSlot));
+            if(row->slot[0].move[sel].id!=0){
+                B_PLIST_MAIN_PlaySe(p,1357);
+                p->owner->order[3]=sel;
                 return 15;
             }
         }
         break;
     case 4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
         return 31;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -962,33 +958,33 @@ int B_PLIST_MAIN_HandleSlotSelectFade(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleItemSelect(u8 *p)
+int B_PLIST_MAIN_HandleItemSelect(struct B_PlistWork *p)
 {
     u32 sel;
     u8 value;
-    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 25;
-    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&p->palAnm)!=0)return 25;
+    sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:
         value=sel;
-        (*(u8 **)p)[0x4B]=value;
-        p[0x2191]=value;
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        p->owner->order[3]=value;
+        p->flag2191=value;
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,(u8)(sel+22));
-        ((struct B_PlistWork *)p)->nextState=17;
+        p->nextState=17;
         return 29;
     case 5:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
-        (*(u8 **)p)[0x4B]=4;
+        B_PLIST_MAIN_PlaySe(p,1362);
+        p->owner->order[3]=4;
         B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         return 31;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
-        (*(u8 **)p)[0x4B]=4;
+        B_PLIST_MAIN_PlaySe(p,1362);
+        p->owner->order[3]=4;
         B_PLIST_ANM_StartPaletteAnim(p,(u8)6);
         return 31;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -999,30 +995,30 @@ int B_PLIST_MAIN_HandleItemSelect(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleConfirmCancel(u8 *p)
+int B_PLIST_MAIN_HandleConfirmCancel(struct B_PlistWork *p)
 {
-    u32 sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    u32 sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel){
     case 0:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,27);
-        if(B_PLIST_MAIN_CheckMoveUsable(p)==0)((struct B_PlistWork *)p)->nextState=31;
-        else ((struct B_PlistWork *)p)->nextState=27;
+        if(B_PLIST_MAIN_CheckMoveUsable(p)==0)p->nextState=31;
+        else p->nextState=27;
         return 29;
     case 1:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        p[0x2192]=0;
-        ((struct B_PlistWork *)p)->nextState=16;
+        p->flag2192=0;
+        p->nextState=16;
         return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        p[0x2192]=0;
-        ((struct B_PlistWork *)p)->nextState=16;
+        p->flag2192=0;
+        p->nextState=16;
         return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -1037,11 +1033,11 @@ int B_PLIST_MAIN_HandleConfirmCancel(u8 *p)
 /*
  * Addresses are Black-image addresses.
  */
-u32 B_PLIST_MAIN_EnterState1A(u8 *p)
+u32 B_PLIST_MAIN_EnterState1A(struct B_PlistWork *p)
 {
     B_PLIST_DRAW_PrintWordAndRefresh(p);
-    ((struct B_PlistWork *)p)->flag2193 = 1;
-    ((struct B_PlistWork *)p)->nextState = 0x1a;
+    p->flag2193 = 1;
+    p->nextState = 0x1a;
     return 0x17;
 }
 
@@ -1053,36 +1049,36 @@ u32 B_PLIST_MAIN_EnterState1A(u8 *p)
  *   and captured the byte selection in tmp before calling B_PLIST_MAIN_GetOrderIndex.
  * Caller truncates the selection+18 argument to u8 before B_PLIST_ANM_StartPaletteAnim.
  */
-int B_PLIST_MAIN_HandlePartySelect(u8 *p)
+int B_PLIST_MAIN_HandlePartySelect(struct B_PlistWork *p)
 {
-    u32 selection=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    u32 selection=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     u8 tmp;
     switch(selection) {
     case 0: case 1: case 2: case 3: {
         unsigned idx;
         u8 *row;
-        tmp=(*(u8 **)p)[0x20];
+        tmp=p->owner->orderIndex;
         idx=B_PLIST_MAIN_GetOrderIndex(p,tmp);
-        row=(u8 *)((uptr)p+idx*0x4c);
-        if(*(u16 *)((u32)((uptr)((u8 *)((uptr)p+idx*0x4c))+selection*8)+0x30)==0) break;
-        (*(u8 **)p)[0x4b]=selection;
-        (*(u8 **)p)[0x48]=idx;
-        B_PLIST_MAIN_PlaySe((u8 **)p,1357);
+        row=(u8 *)&p->slot[idx];
+        if(((struct B_PlistSlot *)row)->move[selection].id==0) break;
+        p->owner->order[3]=selection;
+        p->owner->order[0]=idx;
+        B_PLIST_MAIN_PlaySe(p,1357);
         B_PLIST_ANM_StartPaletteAnim(p,(u8)(selection+18));
         return 31;
     }
     case 4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=11;
+        p->nextState=11;
         return 29;
     case (u32)-2:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1362);
+        B_PLIST_MAIN_PlaySe(p,1362);
         B_PLIST_ANM_StartPaletteAnim(p,6);
-        ((struct B_PlistWork *)p)->nextState=11;
+        p->nextState=11;
         return 29;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5:
     case (u32)-6: case (u32)-7: case (u32)-8:
@@ -1095,9 +1091,9 @@ int B_PLIST_MAIN_HandlePartySelect(u8 *p)
 
 
 
-u32 B_PLIST_MAIN_ApplyPartyListPage(u32 a)
+u32 B_PLIST_MAIN_ApplyPartyListPage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 0) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 0) == 0) {
         return 0xb;
     }
     return 0x3;
@@ -1107,9 +1103,9 @@ u32 B_PLIST_MAIN_ApplyPartyListPage(u32 a)
 
 
 
-u32 B_PLIST_MAIN_ApplyMonMenuPage(u32 a)
+u32 B_PLIST_MAIN_ApplyMonMenuPage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 1) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 1) == 0) {
         return 0xc;
     }
     return 0x4;
@@ -1119,9 +1115,9 @@ u32 B_PLIST_MAIN_ApplyMonMenuPage(u32 a)
 
 
 
-u32 B_PLIST_MAIN_ApplySummaryPage(u32 a)
+u32 B_PLIST_MAIN_ApplySummaryPage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 2) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 2) == 0) {
         return 0xd;
     }
     return 0x5;
@@ -1131,9 +1127,9 @@ u32 B_PLIST_MAIN_ApplySummaryPage(u32 a)
 
 
 
-u32 B_PLIST_MAIN_ApplyMoveListPage(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveListPage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 3) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 3) == 0) {
         return 0xe;
     }
     return 0x6;
@@ -1143,13 +1139,13 @@ u32 B_PLIST_MAIN_ApplyMoveListPage(u32 a)
 
 
 
-int B_PLIST_MAIN_ApplyMoveDetailPage(char *p)
+int B_PLIST_MAIN_ApplyMoveDetailPage(struct B_PlistWork *p)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)p, 4) == 0)
+    if (B_PLIST_MAIN_ApplyMode(p, 4) == 0)
     {
         return 0xf;
     }
-    if (((struct B_PlistWork *)p)->owner->listType == 5)
+    if (p->owner->listType == 5)
     {
         return 0x1e;
     }
@@ -1160,9 +1156,9 @@ int B_PLIST_MAIN_ApplyMoveDetailPage(char *p)
 
 
 
-u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 6) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 6) == 0) {
         return 0x10;
     }
     return 0x19;
@@ -1172,9 +1168,9 @@ u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(u32 a)
 
 
 
-u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 7) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 7) == 0) {
         return 0x11;
     }
     return 0x1a;
@@ -1184,9 +1180,9 @@ u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(u32 a)
 
 
 
-u32 B_PLIST_MAIN_ApplyMoveListForItemPage(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveListForItemPage(struct B_PlistWork *a)
 {
-    if (B_PLIST_MAIN_ApplyMode((u8 *)a, 5) == 0) {
+    if (B_PLIST_MAIN_ApplyMode(a, 5) == 0) {
         return 0x12;
     }
     return 0x1c;
@@ -1195,16 +1191,16 @@ u32 B_PLIST_MAIN_ApplyMoveListForItemPage(u32 a)
 
 
 
-int B_PLIST_MAIN_RedrawByMode(u8 *p) { B_PLIST_DRAW_LayoutActors((char *)p,p[0x2180]);B_PLIST_DRAW_DrawModePage((char *)p,p[0x2180]);B_PLIST_ANM_UpdateByMode(p,p[0x2180]);B_PLIST_MAIN_DrawExpBar(p,p[0x2180]);if(p[0x2180]==2)return 5;return 6; }
+int B_PLIST_MAIN_RedrawByMode(struct B_PlistWork *p) { B_PLIST_DRAW_LayoutActors(p,p->mode);B_PLIST_DRAW_DrawModePage(p,p->mode);B_PLIST_ANM_UpdateByMode(p,p->mode);B_PLIST_MAIN_DrawExpBar(p,p->mode);if(p->mode==2)return 5;return 6; }
 
 
 
 
 
-u32 B_PLIST_MAIN_RefreshAndState16(u8 *p)
+u32 B_PLIST_MAIN_RefreshAndState16(struct B_PlistWork *p)
 {
     B_PLIST_DRAW_ClearAndPrintStream(p);
-    ((struct B_PlistWork *)p)->nextState = 0x16;
+    p->nextState = 0x16;
     return 0x17;
 }
 
@@ -1212,9 +1208,9 @@ u32 B_PLIST_MAIN_RefreshAndState16(u8 *p)
 
 
 
-u32 B_PLIST_MAIN_ClearPrintStream(u8 *p)
+u32 B_PLIST_MAIN_ClearPrintStream(struct B_PlistWork *p)
 {
-    BMP_MENUWORK_DrawWindowBorder((void *)(((struct B_PlistWork *)p)->win[1].handle), 0);
+    BMP_MENUWORK_DrawWindowBorder((void *)(p->win[1].handle), 0);
     return 4;
 }
 
@@ -1234,7 +1230,7 @@ int B_PLIST_MAIN_WaitPrintStream(struct B_PlistWork *a)
         if (a->printStreamFlags != 0)
             break;
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
-            B_PLIST_MAIN_PlaySe2((u8 **)a, 0x547);
+            B_PLIST_MAIN_PlaySe2(a, 0x547);
             PRINTSYS_PrintStreamReleasePause((void *)a->printStream);
             a->printStreamFlags = 1;
         }
@@ -1254,15 +1250,15 @@ int B_PLIST_MAIN_WaitPrintStream(struct B_PlistWork *a)
 /*
  * remainder: separate conditional follower B_PLIST_MAIN_CheckBusyFlag.c (28 bytes).
  */
-int B_PLIST_MAIN_HandleSkipKey(char *p)
+int B_PLIST_MAIN_HandleSkipKey(struct B_PlistWork *p)
 {
-    if (B_PLIST_MAIN_CheckCancel((u8 **)p)==1) return 0x1f;
+    if (B_PLIST_MAIN_CheckCancel(p)==1) return 0x1f;
     if ((KEY_GetTrg()&3)!=0 || TOUCHPANEL_GetTrg()==1) {
-        if (((struct B_PlistWork *)p)->flag2193==1) {
-            BMP_MENUWORK_DrawWindowBorder(((struct B_PlistWork *)p)->win[1].handle,0);
-            ((struct B_PlistWork *)p)->flag2193=0;
+        if (p->flag2193==1) {
+            BMP_MENUWORK_DrawWindowBorder(p->win[1].handle,0);
+            p->flag2193=0;
         }
-        return ((struct B_PlistWork *)p)->nextState;
+        return p->nextState;
     }
     return 0x18;
 }
@@ -1270,20 +1266,20 @@ int B_PLIST_MAIN_HandleSkipKey(char *p)
 
 
 
-int B_PLIST_MAIN_CheckBusyFlag(char *p)
+int B_PLIST_MAIN_CheckBusyFlag(struct B_PlistWork *p)
 {
-    if (((struct B_PlistWork *)p)->animFlags.active==0) return ((struct B_PlistWork *)p)->nextState;
+    if (p->animFlags.active==0) return p->nextState;
     return 0x1d;
 }
 
 
 
 
-int B_PLIST_MAIN_BeginFadeOut(char *p)
+int B_PLIST_MAIN_BeginFadeOut(struct B_PlistWork *p)
 {
-    if (B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1 && (*(u8 **)p)[0x20]!=6)
-        (*(u8 **)p)[0x20]/=2u;
-    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)((struct B_PlistWork *)p)->palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->fadeContext);
+    if (B_PLIST_MAIN_GetOwnerFlag18(p)==1 && p->owner->orderIndex!=6)
+        p->owner->orderIndex/=2u;
+    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)p->palAnm,10,0xffff,0,0,0x10,0,p->owner->fadeContext);
     return 0x20;
 }
 
@@ -1291,9 +1287,9 @@ int B_PLIST_MAIN_BeginFadeOut(char *p)
 
 
 
-u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
+u32 B_PLIST_MAIN_WaitFadeOut(struct B_PlistWork *p)
 {
-    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)(((uptr)((struct B_PlistWork *)p)->palAnm))) == 0) {
+    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)((p->palAnm))) == 0) {
         return 0x21;
     }
     return 0x20;
@@ -1302,30 +1298,30 @@ u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
 
 
 
-int B_PLIST_MAIN_Delete(struct TcbTask *task,char *p)
+int B_PLIST_MAIN_Delete(struct TcbTask *task,struct B_PlistWork *p)
 {
-    if(((struct B_PlistWork *)p)->done==1) {
-        if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct B_PlistWork *)p)->printQue))==0) {
-            if(((struct B_PlistWork *)p)->owner->exitRequest==1) PRINTSYS_QUE_Clear((struct PrintQueue *)(*(struct PrintSys * *)&((struct B_PlistWork *)p)->printQue));
+    if(p->done==1) {
+        if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&p->printQue))==0) {
+            if(p->owner->exitRequest==1) PRINTSYS_QUE_Clear((struct PrintQueue *)(*(struct PrintSys * *)&p->printQue));
             else return 0;
         }
         if(WIPE_SYS_EndCheck()==0) {
-            if(((struct B_PlistWork *)p)->owner->exitRequest==1) WIPE_SYS_ExeEnd();
+            if(p->owner->exitRequest==1) WIPE_SYS_ExeEnd();
             else return 0;
         }
-        if(*(struct Rec3 * *)&((struct B_PlistWork *)p)->printStream) PRINTSYS_PrintStreamDelete((struct TextPrinter *)(*(struct Rec3 * *)&((struct B_PlistWork *)p)->printStream));
-        if(*(struct Obj * *)&((struct B_PlistWork *)p)->bgWinFrame) BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct Obj * *)&((struct B_PlistWork *)p)->bgWinFrame));
-        B_PLIST_MAIN_DeleteTextResources((u8 *)p);
+        if(*(struct Rec3 * *)&p->printStream) PRINTSYS_PrintStreamDelete((struct TextPrinter *)(*(struct Rec3 * *)&p->printStream));
+        if(*(struct Obj * *)&p->bgWinFrame) BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct Obj * *)&p->bgWinFrame));
+        B_PLIST_MAIN_DeleteTextResources(p);
         B_PLIST_DRAW_DeleteActors(p);
-        B_PLIST_DRAW_DeleteAllWindows((u8 *)p);
+        B_PLIST_DRAW_DeleteAllWindows(p);
         B_PLIST_MAIN_ExitBg();
-        TCBL_Destroy((struct TcblSystem *)(*(struct S02031140 * *)&((struct B_PlistWork *)p)->tcbl));
-        B_PLIST_MAIN_DeleteCursor((u8 *)p);
-        B_APP_TOOL_Delete(((struct B_PlistWork *)p)->appTool);
-        if(((struct B_PlistWork *)p)->syncRequested==1) **(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr=1;
-        else **(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr=0;
+        TCBL_Destroy((struct TcblSystem *)(*(struct S02031140 * *)&p->tcbl));
+        B_PLIST_MAIN_DeleteCursor(p);
+        B_APP_TOOL_Delete(p->appTool);
+        if(p->syncRequested==1) **(u8 * *)&p->owner->syncFlagPtr=1;
+        else **(u8 * *)&p->owner->syncFlagPtr=0;
     }
-    (*(u8 **)p)[0x4c]=1;
+    p->owner->done=1;
     TCB_DeleteTask((struct TcbTask *)task);
     GFL_HEAP_Free(p);
     return 1;
@@ -1334,7 +1330,7 @@ int B_PLIST_MAIN_Delete(struct TcbTask *task,char *p)
 
 
 
-void B_PLIST_MAIN_InitBg(u8 *p)
+void B_PLIST_MAIN_InitBg(struct B_PlistWork *p)
 {
     struct DispConfig req=d_02212144;
     struct BgTemplate cfg7,cfg6,cfg5,cfg4;
@@ -1349,8 +1345,8 @@ void B_PLIST_MAIN_InitBg(u8 *p)
     cfg4=d_02212194;
     BG_SYS_InitBgLayer(4,&cfg4,0);
     BG_SYS_ClearSlot(4);
-    BG_SYS_InitRun(5,32,0,((struct B_PlistWork *)p)->owner->heapId);
-    BG_SYS_InitRun(4,32,0,((struct B_PlistWork *)p)->owner->heapId);
+    BG_SYS_InitRun(5,32,0,p->owner->heapId);
+    BG_SYS_InitRun(4,32,0,p->owner->heapId);
     BG_SYS_MarkTileDirty(5);
     BG_SYS_MarkTileDirty(4);
     BG_SYS_SetSubPlaneVisible(15,1);
@@ -1372,42 +1368,42 @@ void B_PLIST_MAIN_ExitBg(void)
 
 
 
-void B_PLIST_MAIN_LoadGraphics(char *p)
+void B_PLIST_MAIN_LoadGraphics(struct B_PlistWork *p)
 {
-    void *owner=ARC_TOOL_CreateHandle(100,(u16)((((struct B_PlistWork *)p)->owner->heapId&0x7fff)|0x8000));
+    void *owner=ARC_TOOL_CreateHandle(100,(u16)((p->owner->heapId&0x7fff)|0x8000));
     void *handle;
     char *data;
-    ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,((struct B_PlistWork *)p)->owner->heapId);
-    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,16,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
+    ARC_UTIL_UploadBgCharFromHandle(owner,18,7,0,0,1,p->owner->heapId);
+    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,16,1,(void **)&data,p->owner->heapId);
     B_PLIST_ANM_CopyMonSpriteTiles(p,(u16 *)(data+12));
     GFL_HEAP_Free(handle);
-    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,17,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
+    handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,17,1,(void **)&data,p->owner->heapId);
     B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
     GFL_HEAP_Free(handle);
-    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
+    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&p->palAnm,100,19,p->owner->heapId,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
-    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(((struct B_PlistWork *)p)->palAnm,1) + 0xc0),p+0x1e78,32);
-    BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,((struct B_PlistWork *)p)->owner->heapId);
-    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,1,0xe0,32);
-    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,23,5,((struct B_PlistWork *)p)->owner->heapId,1,32,0xd0);
+    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(p->palAnm,1) + 0xc0),p->palette,32);
+    BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,p->owner->heapId);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&p->palAnm,1,0xe0,32);
+    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&p->palAnm,23,5,p->owner->heapId,1,32,0xd0);
 }
 
 
 
 
-void B_PLIST_MAIN_CreateTextResources(char *p)
+void B_PLIST_MAIN_CreateTextResources(struct B_PlistWork *p)
 {
-    ((struct B_PlistWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,0x12,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->fontSmall=GF_FONT_Create(0x17,3,0,0,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->wordSet=WORDSET_CreateDefault(((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->printQue=PRINTSYS_QUE_CreateEx(0x800,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->strBuf=STRBUF_Create(0x200,((struct B_PlistWork *)p)->owner->heapId);
+    p->msgBank=MSGDATA_CreateFromArchive(0,2,0x12,p->owner->heapId);
+    p->fontSmall=GF_FONT_Create(0x17,3,0,0,p->owner->heapId);
+    p->wordSet=WORDSET_CreateDefault(p->owner->heapId);
+    p->printQue=PRINTSYS_QUE_CreateEx(0x800,p->owner->heapId);
+    p->strBuf=STRBUF_Create(0x200,p->owner->heapId);
 }
 
 
 
 
-void B_PLIST_MAIN_DeleteTextResources(u8 *p) { MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct B_PlistWork *)p)->msgBank));GF_FONT_Delete(((struct B_PlistWork *)p)->fontSmall);WORDSET_Delete(*(struct WordSet * *)&((struct B_PlistWork *)p)->wordSet);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintSys * *)&((struct B_PlistWork *)p)->printQue));STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((struct B_PlistWork *)p)->strBuf)); }
+void B_PLIST_MAIN_DeleteTextResources(struct B_PlistWork *p) { MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&p->msgBank));GF_FONT_Delete(p->fontSmall);WORDSET_Delete(*(struct WordSet * *)&p->wordSet);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintSys * *)&p->printQue));STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&p->strBuf)); }
 
 
 
@@ -1482,23 +1478,23 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
 /*
  * remainder: two-byte alignment padding at 02210A4A.
  */
-void B_PLIST_MAIN_ReadParty(u8 *p)
+void B_PLIST_MAIN_ReadParty(struct B_PlistWork *p)
 {
     unsigned i;
-    if (((struct B_PlistWork *)p)->owner->ownerKind==0) {
+    if (p->owner->hasPartner==0) {
         for (i=0;i<6;i++) {
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->party))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->party,i),(struct Summary *)(p+4+i*76));
-            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+i*76));
+            if (i<POKEPARTY_GetCount(p->owner->party))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(p->owner->party,i),(struct Summary *)((char *)p->slot + i * (int)sizeof(struct B_PlistSlot)));
+            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)((char *)p->slot + i * (int)sizeof(struct B_PlistSlot)));
         }
     } else {
         for (i=0;i<3;i++) {
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->party))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->party,i),(struct Summary *)(p+4+i*76));
-            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+i*76));
-            if (i<POKEPARTY_GetCount(((struct B_PlistWork *)p)->owner->partnerParty))
-                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(((struct B_PlistWork *)p)->owner->partnerParty,i),(struct Summary *)(p+4+(i+3)*76));
-            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)(p+4+(i+3)*76));
+            if (i<POKEPARTY_GetCount(p->owner->party))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(p->owner->party,i),(struct Summary *)((char *)p->slot + i * (int)sizeof(struct B_PlistSlot)));
+            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)((char *)p->slot + i * (int)sizeof(struct B_PlistSlot)));
+            if (i<POKEPARTY_GetCount(p->owner->partnerParty))
+                B_PLIST_MAIN_ReadSummary(p,POKEPARTY_GetMember(p->owner->partnerParty,i),(struct Summary *)((char *)p->slot + (i+3) * (int)sizeof(struct B_PlistSlot)));
+            else B_PLIST_MAIN_ReadSummary(p,0,(struct Summary *)((char *)p->slot + (i+3) * (int)sizeof(struct B_PlistSlot)));
         }
     }
 }
@@ -1506,24 +1502,24 @@ void B_PLIST_MAIN_ReadParty(u8 *p)
 
 
 
-int B_PLIST_MAIN_HandleCursorInput(u8 *p)
+int B_PLIST_MAIN_HandleCursorInput(struct B_PlistWork *p)
 {
-    u32 sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
+    u32 sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&p->cursorMove));
     switch(sel) {
     case 0: case 1: case 2: case 3: case 4: case 5:
         if(B_PLIST_MAIN_GetSlotState(p,sel)) {
-            (*(u8 **)p)[32]=sel;
+            p->owner->orderIndex=sel;
             return 1;
         }
         break;
     case 6:
-        (*(u8 **)p)[32]=6;
+        p->owner->orderIndex=6;
         return 1;
     case (u32)-2:
-        (*(u8 **)p)[32]=6;
+        p->owner->orderIndex=6;
         return 1;
     case (u32)-3: case (u32)-4:
-        B_PLIST_MAIN_PlaySe((u8 **)p,1352);
+        B_PLIST_MAIN_PlaySe(p,1352);
         break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:
         break;
@@ -1534,15 +1530,15 @@ int B_PLIST_MAIN_HandleCursorInput(u8 *p)
 
 
 
-int B_PLIST_MAIN_GetSlotState(u8 *p,int i) { if(!*(u16 *)(p+B_PLIST_MAIN_GetOrderIndex(p,i)*76+8))return 0;if(B_PLIST_MAIN_IsSlotSelectable(p,i)==1)return 1;return 2; }
+int B_PLIST_MAIN_GetSlotState(struct B_PlistWork *p,int i) { if(!p->slot[B_PLIST_MAIN_GetOrderIndex(p,i)].species)return 0;if(B_PLIST_MAIN_IsSlotSelectable(p,i)==1)return 1;return 2; }
 
 
 
 
-u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta)
+u8 B_PLIST_MAIN_NextSelectable(struct B_PlistWork *p,int i,int delta)
 {
     int current=i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) {
+    if(B_PLIST_MAIN_GetOwnerFlag18(p)==1) {
         struct Order order=d_02212130;
         u8 selected;
         for(i=0;i<6;i++) if(current==order.ids[i]) break;
@@ -1553,7 +1549,7 @@ u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta)
             selected=order.ids[i];
             if(current==selected) break;
             if(!B_PLIST_MAIN_GetSlotState(p,selected)) continue;
-            if(((struct B_PlistSlot *)(p+B_PLIST_MAIN_GetOrderIndex(p,selected)*0x4c))->u1A.bits.flags.high) continue;
+            if((&p->slot[B_PLIST_MAIN_GetOrderIndex(p,selected)])->statusFlags.high) continue;
             return selected;
         }
     } else {
@@ -1563,7 +1559,7 @@ u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta)
             else if(i>=6) i=0;
             if(current==i) break;
             if(!B_PLIST_MAIN_GetSlotState(p,i)) continue;
-            if(((struct B_PlistSlot *)(p+B_PLIST_MAIN_GetOrderIndex(p,i)*0x4c))->u1A.bits.flags.high) continue;
+            if((&p->slot[B_PLIST_MAIN_GetOrderIndex(p,i)])->statusFlags.high) continue;
             return i;
         }
     }
@@ -1575,14 +1571,14 @@ u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta)
  * Lever: the seven-bit unsigned byte field emits shifts and an unsigned
  * comparison while retaining the original entry-pointer scheduling.
  */
-void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
+void B_PLIST_MAIN_DrawExpBar(struct B_PlistWork *p,int mode)
 {
     u8 *q;
     u32 numerator,denominator;
     u8 amount,i;
     u16 tile;
     if(mode!=2) return;
-    q=p+4+76*B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
+    q=((void *)&p->slot[B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)]);
     if(((struct B_PlistSlot *)q)->levelBits.level<100U) {
         denominator=((struct B_PlistSlot *)q)->expMax-((struct B_PlistSlot *)q)->expMin;
         numerator=((struct B_PlistSlot *)q)->expCurrent-((struct B_PlistSlot *)q)->expMin;
@@ -1604,30 +1600,30 @@ void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
  * FCC receives only two loaded arguments here; mode is in 0..8, so its
  * out-of-domain incoming-r2 fallback is unused. BB94 receives live mode.
  */
-int B_PLIST_MAIN_ApplyMode(u8 *p,unsigned mode)
+int B_PLIST_MAIN_ApplyMode(struct B_PlistWork *p,unsigned mode)
 {
-    switch(((struct B_PlistWork *)p)->stateFlags.step) {
+    switch(p->stateFlags.step) {
     case 0:
-        if(PRINTSYS_QUE_IsFinished(((struct B_PlistWork *)p)->printQue)==1) {
-            B_PLIST_DRAW_DeleteStateWindows((char *)p);
+        if(PRINTSYS_QUE_IsFinished(p->printQue)==1) {
+            B_PLIST_DRAW_DeleteStateWindows(p);
             B_PLIST_DRAW_CreateStateWindows(p,mode);
-            B_PLIST_DRAW_DrawModePage((char *)p,mode);
-            ((struct B_PlistWork *)p)->stateFlags.step=(u8)(((struct B_PlistWork *)p)->stateFlags.step+1);
+            B_PLIST_DRAW_DrawModePage(p,mode);
+            p->stateFlags.step=(u8)(p->stateFlags.step+1);
         }
         break;
     case 1:
-        if(PRINTSYS_QUE_IsFinished(((struct B_PlistWork *)p)->printQue)==1) {
+        if(PRINTSYS_QUE_IsFinished(p->printQue)==1) {
             B_PLIST_MAIN_LoadModePalette(p,mode);
             BG_SYS_ClearLayerEx(4,0);
             BG_SYS_ClearLayerEx(5,0);
             B_PLIST_DRAW_ShowToolWindows(p);
             B_PLIST_MAIN_DrawExpBar(p,mode);
-            B_PLIST_DRAW_LayoutActors((char *)p,mode);
+            B_PLIST_DRAW_LayoutActors(p,mode);
             B_PLIST_MAIN_InitSelectionForMode(p,mode);
             B_PLIST_ANM_UpdateByMode(p,mode);
             B_PLIST_ANM_CopyPaletteSlot(p,mode);
-            p[0x2180]=mode;
-            ((struct B_PlistWork *)p)->stateFlags.step=0;
+            p->mode=mode;
+            p->stateFlags.step=0;
             return 1;
         }
         break;
@@ -1639,14 +1635,14 @@ int B_PLIST_MAIN_ApplyMode(u8 *p,unsigned mode)
 
 
 
-void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n)
+void B_PLIST_MAIN_LoadModePalette(struct B_PlistWork *p,u32 n)
 {
     u32 i=0;
     const u32 *table=d_022121D4+n*2;
     u8 *out;
     void *buf;
     for(;i<2;i++) {
-        buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(&out),((struct B_PlistWork *)p)->owner->heapId);
+        buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(&out),p->owner->heapId);
         BG_SYS_DrawTile((u8)(i+6),(out+12),0,0,32,24);
         BG_SYS_MarkTileDirty(i+6);
         GFL_HEAP_Free(buf);
@@ -1660,16 +1656,16 @@ void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n)
 /*
  * Trailing 02210E1E halfword is zero alignment padding.
  */
-int B_PLIST_MAIN_GetRowStatus(u8 *p)
+int B_PLIST_MAIN_GetRowStatus(struct B_PlistWork *p)
 {
-    int index=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
-    u8 *q=p+4+76*index;
-    if(B_PLIST_MAIN_IsBattleSlot((uptr)p,index)==1) return 1;
+    int index=B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex);
+    u8 *q=((void *)&p->slot[index]);
+    if(B_PLIST_MAIN_IsBattleSlot(p,index)==1) return 1;
     if(((struct B_PlistSlot *)q)->hp==0) return 2;
-    if(B_PLIST_MAIN_IsSlotSelectable(p,(*(u8 **)p)[32])==1) return 3;
+    if(B_PLIST_MAIN_IsSlotSelectable(p,p->owner->orderIndex)==1) return 3;
     if(B_PLIST_MAIN_IsRowFlagged(p)==1) return 5;
-    if(B_PLIST_MAIN_IsIndexInParty(p,(*(u8 **)p)[32])==1) return 4;
-    if(((struct B_PlistWork *)p)->owner->moveId!=0) return 6;
+    if(B_PLIST_MAIN_IsIndexInParty(p,p->owner->orderIndex)==1) return 4;
+    if(p->owner->moveId!=0) return 6;
     return 0;
 }
 
@@ -1687,35 +1683,35 @@ int B_PLIST_MAIN_GetRowStatus(u8 *p)
  *   multiplied in its own statement after base (`index*=76;`); `76*f()`
  *   and `f()*76` initialisers are DIFF4.
  */
-int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
+int B_PLIST_MAIN_PrintStatusMessage(struct B_PlistWork *p)
 {
-    u32 index=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
-    u8 *base=p+4;
+    u32 index=B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex);
+    struct B_PlistSlot *base=p->slot;
     void *text;
-    index*=76;
+    index*=sizeof(struct B_PlistSlot);
     switch((u32)B_PLIST_MAIN_GetRowStatus(p)) {
-    case 1: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),90); break;
+    case 1: text=MSGDATA_AllocString(p->msgBank,90); break;
     case 2:
-        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),87);
-        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        text=MSGDATA_AllocString(p->msgBank,87);
+        WORDSET_SetSlotMonNickname(p->wordSet,0,((struct B_PlistSlot *)((u8 *)base+index))->mon);
         break;
     case 3:
-        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),86);
-        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        text=MSGDATA_AllocString(p->msgBank,86);
+        WORDSET_SetSlotMonNickname(p->wordSet,0,((struct B_PlistSlot *)((u8 *)base+index))->mon);
         break;
     case 4:
-        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),103);
-        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        text=MSGDATA_AllocString(p->msgBank,103);
+        WORDSET_SetSlotMonNickname(p->wordSet,0,((struct B_PlistSlot *)((u8 *)base+index))->mon);
         break;
-    case 5: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),89); break;
+    case 5: text=MSGDATA_AllocString(p->msgBank,89); break;
     case 6:
-        index=76*(*(u8 **)p)[33];
-        text=MSGDATA_AllocString(*(void **)(p+0x1EA0),88);
-        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        index=sizeof(struct B_PlistSlot)*p->owner->pickIndex;
+        text=MSGDATA_AllocString(p->msgBank,88);
+        WORDSET_SetSlotMonNickname(p->wordSet,0,((struct B_PlistSlot *)((u8 *)base+index))->mon);
         break;
     case 0: return 1;
     }
-    WORDSET_CopyTaggedText(*(void **)(p+0x1EA4),*(void **)(p+0x1EA8),text);
+    WORDSET_CopyTaggedText(p->wordSet,p->strBuf,text);
     STRBUF_Delete(text);
     return 0;
 }
@@ -1724,20 +1720,22 @@ int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
 
 
 
-u8 B_PLIST_MAIN_IsRowFlagged(u8 *p) { if(((struct B_PlistSlot *)(p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32])*76))->u1A.bits.flags.high) return 1; return 0; }
+u8 B_PLIST_MAIN_IsRowFlagged(struct B_PlistWork *p) { 
+if((&p->slot[B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)])->statusFlags.high) return 1;
+ return 0; }
 
 
 
 
-int B_PLIST_MAIN_GetOwnerFlag18(char **p) { return ((struct B_PlistWork *)p)->owner->ownerKind; }
+int B_PLIST_MAIN_GetOwnerFlag18(struct B_PlistWork *p) { return p->owner->hasPartner; }
 
 
 
 
 
-u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b)
+u32 B_PLIST_MAIN_IsBattleSlot(struct B_PlistWork *a, u32 b)
 {
-    if (B_PLIST_MAIN_GetOwnerFlag18((char **)a) == 1 && b >= 3) {
+    if (B_PLIST_MAIN_GetOwnerFlag18(a) == 1 && b >= 3) {
         return 1;
     }
     return 0;
@@ -1749,32 +1747,42 @@ u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b)
 /*
  * lever: Group the unsigned address sum as base plus row, then column, then offset.
  */
-u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(uptr)p+q[32]*76;return WAZA_TOOL_IsHmMove(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
-
-
-
-
-int B_PLIST_MAIN_IsSlotSelectable(u8 *p,int i) { u32 v;v=B_PLIST_MAIN_GetOrderIndex(p,i);if(B_PLIST_MAIN_GetOwnerFlag18((char **)p)==1) {if(v==0 || v==3)return 1;return 0;}else {if(v<(*(u8 **)p)[34])return 1;return 0;} }
-
-
-
-
-
-int B_PLIST_MAIN_IsIndexValid(char **p, unsigned int v)
+u32 B_PLIST_MAIN_CheckMoveUsable(struct B_PlistWork *p)
 {
-    return v < ((struct B_PlistWork *)p)->owner->partyCount;
+    struct B_PlistHost *q;
+    unsigned long i;
+    struct B_PlistSlot *row;
+    q=p->owner;
+    i=q->order[3];
+    if(i==4)return 0;
+    row=&p->slot[q->orderIndex];
+    return WAZA_TOOL_IsHmMove(q->gameData,row->move[i].id,q->heapId);
 }
 
 
 
 
-unsigned B_PLIST_MAIN_IsIndexInParty(u8 *p, int index)
+int B_PLIST_MAIN_IsSlotSelectable(struct B_PlistWork *p,int i) { u32 v;v=B_PLIST_MAIN_GetOrderIndex(p,i);if(B_PLIST_MAIN_GetOwnerFlag18(p)==1) {if(v==0 || v==3)return 1;return 0;}else {if(v<p->owner->partyCount)return 1;return 0;} }
+
+
+
+
+
+int B_PLIST_MAIN_IsIndexValid(struct B_PlistWork *p, unsigned int v)
+{
+    return v < p->owner->partyCount;
+}
+
+
+
+
+unsigned B_PLIST_MAIN_IsIndexInParty(struct B_PlistWork *p, int index)
 {
     unsigned selected = B_PLIST_MAIN_GetOrderIndex(p, index);
-    u8 *q = *(u8 * *)&((struct B_PlistWork *)p)->owner;
-    if (q[0x22] != 1) {
-        if (selected == q[0x1d] || selected == q[0x1e]) return 1;
-        return B_PLIST_MAIN_IsInSelection((u8 **)p, selected);
+    struct B_PlistHost *q = p->owner;
+    if (q->partyCount != 1) {
+        if (selected == q->selected[0] || selected == q->selected[1]) return 1;
+        return B_PLIST_MAIN_IsInSelection(p, selected);
     }
     return 0;
 }
@@ -1782,24 +1790,24 @@ unsigned B_PLIST_MAIN_IsIndexInParty(u8 *p, int index)
 
 
 
-void B_PLIST_MAIN_InitSelectionForMode(u8 *p, u32 state)
+void B_PLIST_MAIN_InitSelectionForMode(struct B_PlistWork *p, u32 state)
 {
     u32 value;
     switch(state) {
     case 0: case 8:
-        p[0x2190]=0;
-        (*(u8 **)p)[0x4B]=0;
-        value=(*(u8 **)p)[0x20];
+        p->flag2190=0;
+        p->owner->order[3]=0;
+        value=p->owner->orderIndex;
         break;
     case 1:
-        (*(u8 **)p)[0x4B]=0;
-        value=p[0x2190];
+        p->owner->order[3]=0;
+        value=p->flag2190;
         break;
     case 3: case 4:
-        value=(*(u8 **)p)[0x4B];
+        value=p->owner->order[3];
         break;
-    case 6: value=p[0x2191]; break;
-    case 7: value=p[0x2192]; break;
+    case 6: value=p->flag2191; break;
+    case 7: value=p->flag2192; break;
     case 2: case 5: value=0; break;
     }
     B_PLIST_MAIN_RecreateCursor(p,state,value);
@@ -1812,27 +1820,27 @@ void B_PLIST_MAIN_InitSelectionForMode(u8 *p, u32 state)
  * Lead 112 bytes includes two pool words; follower 022110A4 is a
  * 20-byte independent push/pop swap leaf. No padding remains.
  */
-void B_PLIST_MAIN_InitOrder(u8 *p)
+void B_PLIST_MAIN_InitOrder(struct B_PlistWork *p)
 {
     unsigned i;
-    if(((struct B_PlistWork *)p)->owner->ownerKind==1) {
-        for(i=0;i<6;i++) (p+i)[0x1CC]=d_02212138[(*(u8 **)p)[28]][i];
+    if(p->owner->hasPartner==1) {
+        for(i=0;i<6;i++) p->order[i]=d_02212138[p->owner->isSecondTeam][i];
     } else {
-        for(i=0;i<6;i++) (p+i)[0x1CC]=i;
+        for(i=0;i<6;i++) p->order[i]=i;
     }
-    for(i=0;i<3;i++) (*(u8 * *)&((struct B_PlistWork *)p)->owner+i)[72]=255;
+    for(i=0;i<3;i++) (*(u8 * *)&p->owner+i)[72]=255;
     for(i=0;i<2;i++) {
-        *(u16 *)(p+i*4+0x249C)=255;
-        *(u16 *)(p+i*4+0x249E)=255;
+        p->selPair[i].first=255;
+        p->selPair[i].second=255;
     }
 }
 
 
 
 
-void B_PLIST_MAIN_SwapOrder(u8 *p, int a, int b)
+void B_PLIST_MAIN_SwapOrder(struct B_PlistWork *p, int a, int b)
 {
-    u8 *q=p+0x1CC;
+    u8 *q=p->order;
     u8 t=q[a];
     q[a]=q[b];
     q[b]=t;
@@ -1842,12 +1850,12 @@ void B_PLIST_MAIN_SwapOrder(u8 *p, int a, int b)
 
 
 
-u32 B_PLIST_MAIN_IsInSelection(u8 **p, u32 c)
+u32 B_PLIST_MAIN_IsInSelection(struct B_PlistWork *p, u32 c)
 {
     u32 i;
 
     for (i = 0; i < 3; i++) {
-        if (c == *(u8 *)(*p + i + 0x48)) {
+        if (c == p->owner->order[i]) {
             return 1;
         }
     }
@@ -1861,40 +1869,39 @@ u32 B_PLIST_MAIN_IsInSelection(u8 **p, u32 c)
 /*
  * Recursive MATCH unblocker: named callee of the parked ov198 B_PLIST_DRAW_PrintStatRow0
  * (the first statement, `B_PLIST_MAIN_GetOrderIndex(a0)`, and every later use of the
- * resulting entry pointer).  `(p + i)[0x1cc]` is what keeps the added index in
+ * resulting entry pointer).  `((struct B_PlistWork *)p)->order[i]` is what keeps the added index in
  * r1 and the 0x1cc constant in r0 (`ldrb r0,[r1,r0]`); the subscript form folds
  * the constant into the pointer add.  The two-byte follower is the listing's
  * alignment word, so the extent runs one word long.
  *
  * Addresses are Black-image addresses.
  */
-int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i)
+int B_PLIST_MAIN_GetOrderIndex(struct B_PlistWork *p, int i)
 {
-    return (p + i)[0x1cc];
+    return p->order[i];
 }
 
 
 
 
 
-void B_PLIST_MAIN_SetSelectionEntry(u8 **p, u32 b, u32 c)
+void B_PLIST_MAIN_SetSelectionEntry(struct B_PlistWork *p, u32 b, u32 c)
 {
-    u8 v = B_PLIST_MAIN_GetOrderIndex((u8 *)p, c);
+    u8 v = B_PLIST_MAIN_GetOrderIndex(p, c);
 
-    *(u8 *)(*p + b + 0x48) = v;
+    p->owner->order[b] = v;
 }
 
 
 
 
-void B_PLIST_MAIN_PushSelectionPair(u8 *p, int a, int b)
+void B_PLIST_MAIN_PushSelectionPair(struct B_PlistWork *p, int a, int b)
 {
     u8 i;
     for (i = 0; i < 2; i++) {
-        u8 *q = p + i * 4;
-        if (((struct B_PlistWork *)q)->selPairFirst == 0xff) {
-            ((struct B_PlistWork *)q)->selPairFirst = a;
-            ((struct B_PlistWork *)q)->selPairSecond = b;
+        if (p->selPair[i].first == 0xff) {
+            p->selPair[i].first = a;
+            p->selPair[i].second = b;
             return;
         }
     }
@@ -1902,19 +1909,19 @@ void B_PLIST_MAIN_PushSelectionPair(u8 *p, int a, int b)
 
 
 
-int B_PLIST_MAIN_PopSelectionPair(unsigned char *p, unsigned char *a, unsigned char *b, int clear)
+int B_PLIST_MAIN_PopSelectionPair(struct B_PlistWork *p, unsigned char *a, unsigned char *b, int clear)
 {
     int i;
 
     for (i = 1; i >= 0; i--) {
-        if (*(unsigned short *)(p + 0x249c + i * 4) == 0xff) {
+        if (*(unsigned short *)((u8 *)&p->selPair[0].first + i * (int)sizeof(p->selPair[0])) == 0xff) {
             continue;
         }
-        *a = (unsigned char)*(unsigned short *)(p + 0x249c + i * 4);
-        *b = (unsigned char)*(unsigned short *)(p + 0x249c + 2 + i * 4);
+        *a = (unsigned char)*(unsigned short *)((u8 *)&p->selPair[0].first + i * (int)sizeof(p->selPair[0]));
+        *b = (unsigned char)*(unsigned short *)((u8 *)&p->selPair[0].second + i * (int)sizeof(p->selPair[0]));
         if (clear == 1) {
-            *(unsigned short *)(p + 0x249c + i * 4) = 0xff;
-            *(unsigned short *)(p + 0x249c + 2 + i * 4) = 0xff;
+            *(unsigned short *)((u8 *)&p->selPair[0].first + i * (int)sizeof(p->selPair[0])) = 0xff;
+            *(unsigned short *)((u8 *)&p->selPair[0].second + i * (int)sizeof(p->selPair[0])) = 0xff;
         }
         return 1;
     }
@@ -1923,11 +1930,11 @@ int B_PLIST_MAIN_PopSelectionPair(unsigned char *p, unsigned char *a, unsigned c
 
 
 
-int B_PLIST_MAIN_BeginMode8(u8 *p)
+int B_PLIST_MAIN_BeginMode8(struct B_PlistWork *p)
 {
     int mode = 8;
     if (B_PLIST_MAIN_ApplyMode(p, mode) == 0) {
-        p[0x2498] = (*(u8 **)p)[0x20];
+        p->flag2498 = p->owner->orderIndex;
         return 0x13;
     }
     return mode;
@@ -1935,40 +1942,40 @@ int B_PLIST_MAIN_BeginMode8(u8 *p)
 
 
 
-int B_PLIST_MAIN_PrintRowMessage(u8 *p)
+int B_PLIST_MAIN_PrintRowMessage(struct B_PlistWork *p)
 {
     u8 *row;
     int idx;
     void *text;
-    idx = B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[0x20]);
-    row = p + 4 + idx * 0x4c;
-    if (B_PLIST_MAIN_IsBattleSlot((uptr)p, idx) == 1) {
-        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x5a);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->strBuf, text);
+    idx = B_PLIST_MAIN_GetOrderIndex(p, p->owner->orderIndex);
+    row = ((void *)&p->slot[idx]);
+    if (B_PLIST_MAIN_IsBattleSlot(p, idx) == 1) {
+        text = MSGDATA_AllocString(p->msgBank, 0x5a);
+        WORDSET_CopyTaggedText(p->wordSet, p->strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
-    if (B_PLIST_MAIN_IsIndexValid((char **)p, (*(u8 **)p)[0x20]) == 0) {
-        if (B_PLIST_MAIN_IsIndexValid((char **)p, idx) == 1)
-            text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6b);
+    if (B_PLIST_MAIN_IsIndexValid(p, p->owner->orderIndex) == 0) {
+        if (B_PLIST_MAIN_IsIndexValid(p, idx) == 1)
+            text = MSGDATA_AllocString(p->msgBank, 0x6b);
         else
-            text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6a);
-        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->strBuf, text);
+            text = MSGDATA_AllocString(p->msgBank, 0x6a);
+        WORDSET_SetSlotMonNickname(p->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
+        WORDSET_CopyTaggedText(p->wordSet, p->strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
-    if (B_PLIST_MAIN_IsIndexInParty(p, (*(u8 **)p)[0x20]) == 1) {
-        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->strBuf, text);
+    if (B_PLIST_MAIN_IsIndexInParty(p, p->owner->orderIndex) == 1) {
+        text = MSGDATA_AllocString(p->msgBank, 0x56);
+        WORDSET_SetSlotMonNickname(p->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
+        WORDSET_CopyTaggedText(p->wordSet, p->strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (((struct B_PlistSlot *)row)->hp != 0) {
-        text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
-        WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->strBuf, text);
+        text = MSGDATA_AllocString(p->msgBank, 0x56);
+        WORDSET_SetSlotMonNickname(p->wordSet, 0, ((struct B_PlistSlot *)row)->mon);
+        WORDSET_CopyTaggedText(p->wordSet, p->strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
@@ -1977,29 +1984,29 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
 
 
 
-int B_PLIST_MAIN_ConfirmSwap(u8 *p)
+int B_PLIST_MAIN_ConfirmSwap(struct B_PlistWork *p)
 {
-    if (PALANM_GetFadeRequestBits(((struct B_PlistWork *)p)->palAnm) != 0) return 8;
-    if (B_PLIST_MAIN_CheckCancel((u8 **)p) == 1) return 0x1f;
+    if (PALANM_GetFadeRequestBits(p->palAnm) != 0) return 8;
+    if (B_PLIST_MAIN_CheckCancel(p) == 1) return 0x1f;
     if (B_PLIST_MAIN_HandleCursorInput(p) == 1) {
-        if ((*(u8 **)p)[0x20] == 6) {
-            B_PLIST_MAIN_PlaySe((u8 **)p, 0x552);
+        if (p->owner->orderIndex == 6) {
+            B_PLIST_MAIN_PlaySe(p, 0x552);
             B_PLIST_ANM_StartPaletteAnim(p, 6);
-            (*(u8 **)p)[0x20] = p[0x2498];
-            ((struct B_PlistWork *)p)->nextState = 0xc;
+            p->owner->orderIndex = p->flag2498;
+            p->nextState = 0xc;
             return 0x1d;
         }
-        if ((*(u8 **)p)[0x20] == p[0x2498]) return 0xc;
+        if (p->owner->orderIndex == p->flag2498) return 0xc;
         if (B_PLIST_MAIN_PrintRowMessage(p) == 1) {
-            B_PLIST_MAIN_PushSelectionPair(p, (*(u8 **)p)[0x20], p[0x2498]);
-            B_PLIST_MAIN_SetSelectionEntry((u8 **)p, (*(u8 **)p)[0x20], p[0x2498]);
-            p[0x2499] = (*(u8 **)p)[0x20];
-            p[0x249a] = p[0x2498];
-            p[0x1e98] = 0;
+            B_PLIST_MAIN_PushSelectionPair(p, p->owner->orderIndex, p->flag2498);
+            B_PLIST_MAIN_SetSelectionEntry(p, p->owner->orderIndex, p->flag2498);
+            p->flag2499 = p->owner->orderIndex;
+            p->flag249A = p->flag2498;
+            p->animStep = 0;
             return 9;
         }
         B_PLIST_DRAW_ClearAndPrintStream(p);
-        ((struct B_PlistWork *)p)->nextState = 0xa;
+        p->nextState = 0xa;
         return 0x17;
     }
     return 8;
@@ -2008,11 +2015,11 @@ int B_PLIST_MAIN_ConfirmSwap(u8 *p)
 
 
 
-int B_PLIST_MAIN_EndSwap(char *p)
+int B_PLIST_MAIN_EndSwap(struct B_PlistWork *p)
 {
-    BMP_MENUWORK_DrawWindowBorder(((struct B_PlistWork *)p)->win[1].handle, 0);
+    BMP_MENUWORK_DrawWindowBorder(p->win[1].handle, 0);
     B_PLIST_DRAW_PrintHeader10(p);
-    B_PLIST_DRAW_ShowSubWindow((u8 *)p);
+    B_PLIST_DRAW_ShowSubWindow(p);
     return 8;
 }
 
@@ -2048,7 +2055,7 @@ void B_PLIST_MAIN_CopyFrame(u8 *dst, unsigned bg, unsigned which)
 /*
  * prototype: delta is word-wide at this call; the callee's short extern inserts lsls/asrs absent from 0x02211418.
  */
-void B_PLIST_MAIN_MoveActorByFlag(u8 *p, int a, int b)
+void B_PLIST_MAIN_MoveActorByFlag(struct B_PlistWork *p, int a, int b)
 {
     short delta = 1;
     if (a & delta) {
@@ -2064,103 +2071,103 @@ void B_PLIST_MAIN_MoveActorByFlag(u8 *p, int a, int b)
 
 
 
-int B_PLIST_MAIN_UpdateSwapFrames(u8 *p)
+int B_PLIST_MAIN_UpdateSwapFrames(struct B_PlistWork *p)
 {
     s8 xy[4];
     s8 pos[4];
     s8 pos2[4];
-    switch (p[0x1e98]) {
+    switch (p->animStep) {
     case 0: {
         u8 *buf;
-        MGR = (struct BgWinFrmWork *)BGWINFRM_Create(2, 4, *(u16 *)(*(u8 **)p + 0x10));
-        BGWINFRM_AddFrame((struct BgWinFrmWork *)MGR, 0, 5, 0x10, 6);
-        BGWINFRM_AddFrame((struct BgWinFrmWork *)MGR, 1, 6, 0x10, 6);
-        BGWINFRM_AddFrame((struct BgWinFrmWork *)MGR, 2, 5, 0x10, 6);
-        BGWINFRM_AddFrame((struct BgWinFrmWork *)MGR, 3, 6, 0x10, 6);
-        buf = GFL_HEAP_Alloc((u16)(0x8000 | (*(u16 *)(*(u8 **)p + 0x10) & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
-        B_PLIST_MAIN_CopyFrame(buf, 5, p[0x2499]);
-        BGWINFRM_SetFrameData((struct BgWinFrmWork *)MGR, 0, buf);
-        B_PLIST_MAIN_CopyFrame(buf, 6, p[0x2499]);
-        BGWINFRM_SetFrameData((struct BgWinFrmWork *)MGR, 1, buf);
-        B_PLIST_MAIN_CopyFrame(buf, 5, p[0x249a]);
-        BGWINFRM_SetFrameData((struct BgWinFrmWork *)MGR, 2, buf);
-        B_PLIST_MAIN_CopyFrame(buf, 6, p[0x249a]);
-        BGWINFRM_SetFrameData((struct BgWinFrmWork *)MGR, 3, buf);
+        p->bgWinFrame = BGWINFRM_Create(2, 4, p->owner->heapId);
+        BGWINFRM_AddFrame(p->bgWinFrame, 0, 5, 0x10, 6);
+        BGWINFRM_AddFrame(p->bgWinFrame, 1, 6, 0x10, 6);
+        BGWINFRM_AddFrame(p->bgWinFrame, 2, 5, 0x10, 6);
+        BGWINFRM_AddFrame(p->bgWinFrame, 3, 6, 0x10, 6);
+        buf = GFL_HEAP_Alloc((u16)(0x8000 | (p->owner->heapId & 0x7fff)), 0xc0, 0, (const char *)data_02212550, 0xb89);
+        B_PLIST_MAIN_CopyFrame(buf, 5, p->flag2499);
+        BGWINFRM_SetFrameData(p->bgWinFrame, 0, buf);
+        B_PLIST_MAIN_CopyFrame(buf, 6, p->flag2499);
+        BGWINFRM_SetFrameData(p->bgWinFrame, 1, buf);
+        B_PLIST_MAIN_CopyFrame(buf, 5, p->flag249A);
+        BGWINFRM_SetFrameData(p->bgWinFrame, 2, buf);
+        B_PLIST_MAIN_CopyFrame(buf, 6, p->flag249A);
+        BGWINFRM_SetFrameData(p->bgWinFrame, 3, buf);
         GFL_HEAP_Free(buf);
-        B_PLIST_MAIN_GetFramePos((u8 *)&xy[1], (u8 *)&xy[0], p[0x2499]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 0, xy[1], xy[0]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 1, xy[1], xy[0]);
-        B_PLIST_MAIN_GetFramePos((u8 *)&xy[1], (u8 *)&xy[0], p[0x249a]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 2, xy[1], xy[0]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 3, xy[1], xy[0]);
-        BGWINFRM_UpdateMoves((struct BgWinFrmWork *)MGR);
-        p[0x1e98]++;
+        B_PLIST_MAIN_GetFramePos((u8 *)&xy[1], (u8 *)&xy[0], p->flag2499);
+        BGWINFRM_PutFrame(p->bgWinFrame, 0, xy[1], xy[0]);
+        BGWINFRM_PutFrame(p->bgWinFrame, 1, xy[1], xy[0]);
+        B_PLIST_MAIN_GetFramePos((u8 *)&xy[1], (u8 *)&xy[0], p->flag249A);
+        BGWINFRM_PutFrame(p->bgWinFrame, 2, xy[1], xy[0]);
+        BGWINFRM_PutFrame(p->bgWinFrame, 3, xy[1], xy[0]);
+        BGWINFRM_UpdateMoves(p->bgWinFrame);
+        p->animStep++;
         break;
     }
     case 1:
-        if (p[0x2499] & 1) {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 0, 1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 1, 1, 0, 0x10);
+        if (p->flag2499 & 1) {
+            BGWINFRM_StartMove(p->bgWinFrame, 0, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 1, 1, 0, 0x10);
         } else {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 0, -1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 1, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 0, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 1, -1, 0, 0x10);
         }
-        if (p[0x249a] & 1) {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 2, 1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 3, 1, 0, 0x10);
+        if (p->flag249A & 1) {
+            BGWINFRM_StartMove(p->bgWinFrame, 2, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 3, 1, 0, 0x10);
         } else {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 2, -1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 3, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 2, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 3, -1, 0, 0x10);
         }
-        p[0x1e98]++;
+        p->animStep++;
         break;
     case 2: {
-        BGWINFRM_UpdateMoves((struct BgWinFrmWork *)MGR);
-        B_PLIST_MAIN_MoveActorByFlag(p, p[0x2499], 0);
-        B_PLIST_MAIN_MoveActorByFlag(p, p[0x249a], 0);
-        BGWINFRM_GetPos(MGR, 0, &pos[3], &pos[2]);
-        BGWINFRM_GetPos(MGR, 2, &pos[1], &pos[0]);
-        if (BGWINFRM_IsMoving(MGR, 0) != 0) break;
-        B_PLIST_MAIN_SwapOrder(p, p[0x2499], p[0x249a]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 0, pos[1], pos[0]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 1, pos[1], pos[0]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 2, pos[3], pos[2]);
-        BGWINFRM_PutFrame((struct BgWinFrmWork *)MGR, 3, pos[3], pos[2]);
-        B_PLIST_MAIN_SwapActorPos((char *)p, p[0x2499], p[0x249a]);
-        p[0x1e98]++;
+        BGWINFRM_UpdateMoves(p->bgWinFrame);
+        B_PLIST_MAIN_MoveActorByFlag(p, p->flag2499, 0);
+        B_PLIST_MAIN_MoveActorByFlag(p, p->flag249A, 0);
+        BGWINFRM_GetPos(p->bgWinFrame, 0, &pos[3], &pos[2]);
+        BGWINFRM_GetPos(p->bgWinFrame, 2, &pos[1], &pos[0]);
+        if (BGWINFRM_IsMoving(p->bgWinFrame, 0) != 0) break;
+        B_PLIST_MAIN_SwapOrder(p, p->flag2499, p->flag249A);
+        BGWINFRM_PutFrame(p->bgWinFrame, 0, pos[1], pos[0]);
+        BGWINFRM_PutFrame(p->bgWinFrame, 1, pos[1], pos[0]);
+        BGWINFRM_PutFrame(p->bgWinFrame, 2, pos[3], pos[2]);
+        BGWINFRM_PutFrame(p->bgWinFrame, 3, pos[3], pos[2]);
+        B_PLIST_MAIN_SwapActorPos(p, p->flag2499, p->flag249A);
+        p->animStep++;
         break;
     }
     case 3:
-        BGWINFRM_UpdateMoves((struct BgWinFrmWork *)MGR);
-        if (p[0x249a] & 1) {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 0, -1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 1, -1, 0, 0x10);
+        BGWINFRM_UpdateMoves(p->bgWinFrame);
+        if (p->flag249A & 1) {
+            BGWINFRM_StartMove(p->bgWinFrame, 0, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 1, -1, 0, 0x10);
         } else {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 0, 1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 1, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 0, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 1, 1, 0, 0x10);
         }
-        if (p[0x2499] & 1) {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 2, -1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 3, -1, 0, 0x10);
+        if (p->flag2499 & 1) {
+            BGWINFRM_StartMove(p->bgWinFrame, 2, -1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 3, -1, 0, 0x10);
         } else {
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 2, 1, 0, 0x10);
-            BGWINFRM_StartMove((struct BgWinFrmWork *)MGR, 3, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 2, 1, 0, 0x10);
+            BGWINFRM_StartMove(p->bgWinFrame, 3, 1, 0, 0x10);
         }
-        p[0x1e98]++;
+        p->animStep++;
         break;
     case 4: {
-        BGWINFRM_UpdateMoves((struct BgWinFrmWork *)MGR);
-        B_PLIST_MAIN_MoveActorByFlag(p, p[0x2499], 1);
-        B_PLIST_MAIN_MoveActorByFlag(p, p[0x249a], 1);
-        BGWINFRM_GetPos(MGR, 0, &pos2[3], &pos2[2]);
-        BGWINFRM_GetPos(MGR, 2, &pos2[1], &pos2[0]);
-        if (BGWINFRM_IsMoving(MGR, 0) == 0) p[0x1e98]++;
+        BGWINFRM_UpdateMoves(p->bgWinFrame);
+        B_PLIST_MAIN_MoveActorByFlag(p, p->flag2499, 1);
+        B_PLIST_MAIN_MoveActorByFlag(p, p->flag249A, 1);
+        BGWINFRM_GetPos(p->bgWinFrame, 0, &pos2[3], &pos2[2]);
+        BGWINFRM_GetPos(p->bgWinFrame, 2, &pos2[1], &pos2[0]);
+        if (BGWINFRM_IsMoving(p->bgWinFrame, 0) == 0) p->animStep++;
         break;
     }
     case 5:
-        BGWINFRM_Delete((struct BgWinFrmWork *)MGR);
-        MGR = 0;
-        p[0x1e98] = 0;
+        BGWINFRM_Delete(p->bgWinFrame);
+        p->bgWinFrame = 0;
+        p->animStep = 0;
         return 0;
     }
     return 1;
@@ -2168,12 +2175,12 @@ int B_PLIST_MAIN_UpdateSwapFrames(u8 *p)
 
 
 
-int B_PLIST_MAIN_FinishSwap(u8 *p)
+int B_PLIST_MAIN_FinishSwap(struct B_PlistWork *p)
 {
     if (B_PLIST_MAIN_UpdateSwapFrames(p) == 0) {
         if (B_PLIST_MAIN_HasSwappable(p) == 0) return 31;
         B_PLIST_ANM_UpdateSelectedTile(p);
-        B_PLIST_DRAW_PrintHeader9((char *)p);
+        B_PLIST_DRAW_PrintHeader9(p);
         B_PLIST_DRAW_ShowSubWindow(p);
         return 3;
     }
@@ -2185,15 +2192,15 @@ int B_PLIST_MAIN_FinishSwap(u8 *p)
 /*
  * tail: 0221189A..0221189C is zero alignment padding.
  */
-int B_PLIST_MAIN_CanSwap(u8 *p)
+int B_PLIST_MAIN_CanSwap(struct B_PlistWork *p)
 {
     u8 count,i,bound;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) return 0;
-    bound=(*(u8 **)p)[0x22];
+    if(B_PLIST_MAIN_GetOwnerFlag18(p)==1) return 0;
+    bound=p->owner->partyCount;
     if(bound==1) return 0;
     count=0;
     for(i=0;i<bound;i++) {
-        if(*(unsigned short *)(p+B_PLIST_MAIN_GetOrderIndex(p,i)*0x4c+0x14)==0) {
+        if(p->slot[B_PLIST_MAIN_GetOrderIndex(p,i)].hp==0) {
             count++;
             if(count==2) return 1;
         }
@@ -2203,15 +2210,15 @@ int B_PLIST_MAIN_CanSwap(u8 *p)
 
 
 
-int B_PLIST_MAIN_HasSwappable(u8 *p)
+int B_PLIST_MAIN_HasSwappable(struct B_PlistWork *p)
 {
     u8 i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) return 0;
-    i=(*(u8 **)p)[0x22];
+    if(B_PLIST_MAIN_GetOwnerFlag18(p)==1) return 0;
+    i=p->owner->partyCount;
     if(i==1) return 0;
     for(;i<6;i++) {
-        u8 *record=p+B_PLIST_MAIN_GetOrderIndex(p,i)*0x4c;
-        if(((struct B_PlistSlot *)record)->active!=0 && ((struct B_PlistSlot *)record)->u1A.bits.flags.high==0 && ((struct B_PlistSlot *)record)->hpRawBase!=0) return 1;
+        struct B_PlistWork *record=(struct B_PlistWork *)((u8 *)p+B_PLIST_MAIN_GetOrderIndex(p,i)*sizeof(struct B_PlistSlot));
+        if(record->slot[0].species!=0 && record->slot[0].statusFlags.high==0 && record->slot[0].hp!=0) return 1;
     }
     return 0;
 }
@@ -2221,15 +2228,15 @@ int B_PLIST_MAIN_HasSwappable(u8 *p)
 /*
  * lever: associate the index with the destination pointer before adding 0x48.
  */
-void B_PLIST_MAIN_CommitSwap(u8 *p)
+void B_PLIST_MAIN_CommitSwap(struct B_PlistWork *p)
 {
     unsigned i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) {
-        (*(u8 **)p)[0x48]=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
+    if(B_PLIST_MAIN_GetOwnerFlag18(p)==1) {
+        p->owner->order[0]=B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex);
     } else {
         for(i=0;i<3;i++) {
-            if(*(unsigned short *)(p+B_PLIST_MAIN_GetOrderIndex(p,i)*0x4c+0x14)==0) {
-                ((*(u8 * *)&((struct B_PlistWork *)p)->owner)+i)[0x48]=(*(u8 **)p)[0x20];
+            if(p->slot[B_PLIST_MAIN_GetOrderIndex(p,i)].hp==0) {
+                ((*(u8 * *)&p->owner)+i)[0x48]=p->owner->orderIndex;
                 break;
             }
         }
@@ -2239,21 +2246,21 @@ void B_PLIST_MAIN_CommitSwap(u8 *p)
 
 
 
-void B_PLIST_MAIN_ClearSelection(u8 **p)
+void B_PLIST_MAIN_ClearSelection(struct B_PlistWork *p)
 {
     u32 i;
 
     for (i = 0; i < 3; i++) {
-        *(u8 *)(*p + i + 0x48) = 0xff;
+        p->owner->order[i] = 0xff;
     }
 }
 
 
 
 
-u32 B_PLIST_MAIN_CheckCancel(u8 **p)
+u32 B_PLIST_MAIN_CheckCancel(struct B_PlistWork *p)
 {
-    if (((struct B_PlistWork *)p)->owner->cancelRequest == 1) {
+    if (p->owner->cancelRequest == 1) {
         B_PLIST_MAIN_ClearSelection(p);
         return 1;
     }
@@ -2263,9 +2270,9 @@ u32 B_PLIST_MAIN_CheckCancel(u8 **p)
 
 
 
-void B_PLIST_MAIN_PlaySe(u8 **p, u32 b)
+void B_PLIST_MAIN_PlaySe(struct B_PlistWork *p, u32 b)
 {
-    if (((struct B_PlistWork *)p)->owner->seEnabled == 1) {
+    if (p->owner->seEnabled == 1) {
         GFL_USE_PlaySeDefaultVolume(b);
     }
 }
@@ -2273,9 +2280,9 @@ void B_PLIST_MAIN_PlaySe(u8 **p, u32 b)
 
 
 
-void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b)
+void B_PLIST_MAIN_PlaySe2(struct B_PlistWork *p, u32 b)
 {
-    if (((struct B_PlistWork *)p)->owner->seEnabled == 1) {
+    if (p->owner->seEnabled == 1) {
         GFL_USE_PlaySeDefaultVolume(b);
     }
 }
@@ -2283,33 +2290,30 @@ void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b)
 
 
 /*
- * lever: enum offset retains 0x218C across calls and derives 0x2184.
  * ABI: 02211A24 explicitly receives the forwarded entry r2 as its r1.
  */
-void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
+void B_PLIST_MAIN_CreateCursor(struct B_PlistWork *p,u32 index,u32 b)
 {
-    u32 offset=0x218C;
     struct CursorMove *result;
-    result=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_022122D4[index],(struct CursorVtbl *)&d_022122A0,(uptr)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
-    *(struct CursorMove **)(p+(offset-8))=result;
+    result=(struct CursorMove *)CURSOR_MOVE_Create(d_022122D4[index],(struct CursorVtbl *)&d_022122A0,p,(u32)p->syncRequested,b,p->owner->heapId);
+    p->cursorMove=result;
     CURSOR_MOVE_EnableInput((struct Cursor *)result);
-    offset-=8;
-    CURSOR_MOVE_SetMode((struct Cursor *)(*(struct CursorMove **)(p+offset)));
+    CURSOR_MOVE_SetMode((struct Cursor *)p->cursorMove);
     B_PLIST_MAIN_LayoutCursorActors(p,b);
 }
 
 
 
 
-u32 B_PLIST_MAIN_DeleteCursor(u8 *p)
+u32 B_PLIST_MAIN_DeleteCursor(struct B_PlistWork *p)
 {
-    return CURSOR_MOVE_Delete((void *)(((uptr)((struct B_PlistWork *)p)->cursorMove)));
+    return CURSOR_MOVE_Delete((void *)((p->cursorMove)));
 }
 
 
 
 
-void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b)
+void B_PLIST_MAIN_RecreateCursor(struct B_PlistWork *p, u32 a, u32 b)
 {
     B_PLIST_MAIN_DeleteCursor(p);
     B_PLIST_MAIN_CreateCursor(p, a, b);
@@ -2320,31 +2324,28 @@ void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b)
 
 /*
  * note:     the callee takes (p, v); passing v as the second argument keeps r1 live
- *           across the store, so the index decrement stays in r2.
+ *           across the store.
  */
-void B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v)
+void B_PLIST_MAIN_SetActorsVisible(struct B_PlistWork *p, u32 v)
 {
-    u32 i = 0x218c;
-
-    *(u32 *)(p + i) = v;
-    i -= 4;
-    B_APP_TOOL_SetActorsVisible((char *)(*(u32 *)(p + i)), (void *)v);
+    p->syncRequested = v;
+    B_APP_TOOL_SetActorsVisible(*(char **)&p->appTool, v);
 }
 
 
 
 
-void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx)
+void B_PLIST_MAIN_LayoutCursorActors(struct B_PlistWork *p, u32 idx)
 {
-    void *t = CURSOR_MOVE_GetEntry((struct Cursor *)(*(void ** *)&((struct B_PlistWork *)p)->cursorMove), idx);
+    void *t = CURSOR_MOVE_GetEntry((struct Cursor *)(*(void ** *)&p->cursorMove), idx);
 
-    B_APP_TOOL_LayoutActors((int *)(((uptr)((struct B_PlistWork *)p)->appTool)), (u8 *)((uptr)t));
+    B_APP_TOOL_LayoutActors((struct ClactActor **)(p->appTool), (u8 *)(t));
 }
 
 
 
 
-void B_PLIST_MAIN_ShowCursor(u8 *p, unsigned idx)
+void B_PLIST_MAIN_ShowCursor(struct B_PlistWork *p, unsigned idx)
 {
     B_PLIST_MAIN_LayoutCursorActors(p, idx);
     B_PLIST_MAIN_SetActorsVisible(p, 1);
@@ -2358,7 +2359,7 @@ void B_PLIST_MAIN_ShowCursor(u8 *p, unsigned idx)
  * HideCursor, onMove MoveCursor, onCommit HideCursorOnTouch).  Only that table
  * names the last three.
  */
-void B_PLIST_MAIN_HideCursor(u8 *p)
+void B_PLIST_MAIN_HideCursor(struct B_PlistWork *p)
 {
     B_PLIST_MAIN_SetActorsVisible(p, 0);
 }
@@ -2366,7 +2367,7 @@ void B_PLIST_MAIN_HideCursor(u8 *p)
 
 
 
-void B_PLIST_MAIN_HideCursorOnTouch(u8 *p)
+void B_PLIST_MAIN_HideCursorOnTouch(struct B_PlistWork *p)
 {
     B_PLIST_MAIN_SetActorsVisible(p, 0);
 }
@@ -2374,7 +2375,7 @@ void B_PLIST_MAIN_HideCursorOnTouch(u8 *p)
 
 
 
-void B_PLIST_MAIN_MoveCursor(u8 *p, u32 idx)
+void B_PLIST_MAIN_MoveCursor(struct B_PlistWork *p, u32 idx)
 {
     B_PLIST_MAIN_LayoutCursorActors(p, idx);
 }

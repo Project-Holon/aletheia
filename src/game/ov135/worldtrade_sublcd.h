@@ -13,7 +13,7 @@ struct ClactActor;
 
 void WORLDTRADE_SUBLCD_CreateActors(WorldtradeWork *p);
 void WORLDTRADE_SUBLCD_StartAnimTaskA(WorldtradeWork *p);
-void WORLDTRADE_SUBLCD_SetActorAnim(u32 *p, u32 animSeq);
+void WORLDTRADE_SUBLCD_SetActorAnim(WorldtradeSubAnim *p, u32 animSeq);
 void WORLDTRADE_SUBLCD_StartAnimTaskB(WorldtradeWork *p);
 void WORLDTRADE_SUBLCD_SetActorSurfacePos(struct ClactActor *obj, int x, int y);
 int WORLDTRADE_SUBLCD_CheckButtonTouch(int count);

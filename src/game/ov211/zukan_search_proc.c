@@ -32,12 +32,12 @@ int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearc
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work);
 int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj);
 int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work);
-extern unsigned char d_021BC8D8[];
+extern unsigned (*const d_021BC8D8[])(struct ZukanSearchWork *);
 
-int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner){struct ZukanSearchWork *work;GFL_HEAP_CreateChildHeap(1,126,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)obj,16,126);MI_CpuFill8(work,0,16);work->owner=owner;return 1;}
+int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner){struct ZukanSearchWork *work;GFL_HEAP_CreateChildHeap(1,126,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)obj,sizeof(struct ZukanSearchWork),126);MI_CpuFill8(work,0,sizeof(struct ZukanSearchWork));work->owner=owner;return 1;}
 
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work){return ZUKAN_SEARCH_PROC_Update(work)==0;}
 
 int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj){PROCSYS_FreeProcWork(obj);GFL_HEAP_DeleteChecked(126);return 1;}
 
-int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work){work->procState=(*(unsigned (**)(struct ZukanSearchWork *))(d_021BC8D8+work->procState*4))(work);return work->procState!=6;}
+int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work){work->procState=d_021BC8D8[work->procState](work);return work->procState!=6;}

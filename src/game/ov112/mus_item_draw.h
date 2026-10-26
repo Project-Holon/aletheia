@@ -7,6 +7,7 @@
 struct McssActorPool;
 struct Tagged;
 struct McssActorElem;
+struct G3dResource;
 typedef struct McssActorPool McssActorPool;
 typedef struct McssActorElem McssActorElem;
 
@@ -26,8 +27,8 @@ int MUSICAL_MCSS_ElemHasAltDepth(u8 *elem);
 int MUSICAL_MCSS_ElemKeepsFlippedHeight(u8 *elem);
 void *MUSICAL_MCSS_CreateResourceArc(int type);
 void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
-u16 MUSICAL_MCSS_FindFreeActorIndex(u32 pool);
-McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,u32 id,int *v);
+u16 MUSICAL_MCSS_FindFreeActorIndex(McssActorPool *pool);
+McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,struct G3dResource *id,int *v);
 McssActorElem *MUSICAL_MCSS_AddImageNoVram(McssActorPool *pool, int type, u32 id, int *v);
 McssActorElem *MUSICAL_MCSS_AddElem(McssActorPool *p, u16 index, int *v, s16 a, s16 b);
 void MUSICAL_MCSS_FreeElem(u8 *pool,u8 *e);
@@ -36,7 +37,7 @@ void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused);
 void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d);
 void MUSICAL_MCSS_SetElemVisible(u8 *pool,u8 *e,u32 value);
 void MUSICAL_MCSS_SetElemPos(void *unused, McssActorElem *p, const int *q);
-void MUSICAL_MCSS_SetElemScale(u32 unused,u32 elem,u32 q);
+void MUSICAL_MCSS_SetElemScale(u32 unused,McssActorElem *elem,void *q);
 void MUSICAL_MCSS_SetElemRotZ(void *unused, u8 *elem, s16 a, s16 b);
 void MUSICAL_MCSS_SetElemRot(void *unused, u8 *elem, s16 *a, s16 *b);
 void MUSICAL_MCSS_SetElemField(void *unused, u8 *elem, u16 v);
@@ -44,7 +45,7 @@ void MUSICAL_MCSS_GetElemField(int unused, u16 *p, u16 *out);
 void MUSICAL_MCSS_SetElemFlag(u8 *unused, McssActorElem *s, int flag);
 int MUSICAL_MCSS_GetElemFlag(int unused, McssActorElem *p);
 void MUSICAL_MCSS_GetElemOffset(u8 *elem, McssOffset *out);
-u32 MUSICAL_MCSS_GetActorPoolResource(u8 *pool);
+void *MUSICAL_MCSS_GetActorPoolResource(McssActorPool *pool);
 /* END mkheaders: generated region */
 
 #endif

@@ -133,11 +133,11 @@ void BR_RES_LoadUiPalette(struct BrRes *res,unsigned screen,unsigned heapId);
 
 void BR_RES_ReleaseUiPalette(struct BrRes *res, int screen);
 
-unsigned BR_RES_GetFont(struct BrRes *res);
+void *BR_RES_GetFont(struct BrRes *res);
 
-int BR_RES_GetMsgData(struct BrRes *res);
+void *BR_RES_GetMsgData(struct BrRes *res);
 
-int BR_RES_GetWordSet(struct BrRes *res);
+void *BR_RES_GetWordSet(struct BrRes *res);
 
 int BR_RES_GetCurrentSetParam(struct BrRes *res);
 
@@ -173,8 +173,8 @@ extern const u32 d_022008E0[];
 void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,u16 heapId)
 {
     struct BrRes *res;
-    res=GFL_HEAP_Alloc(heapId,0xfc,0,d_02200D3C,0x60);
-    MI_CpuFill8(res,0,0xfc);
+    res=GFL_HEAP_Alloc(heapId,sizeof(*res),0,d_02200D3C,0x60);
+    MI_CpuFill8(res,0,sizeof(*res));
     res->useCustomSet=useCustomSet;
     if(res->useCustomSet){res->palSet=palSet;if(res->palSet==1)res->palSet=0;}
     else res->palSet=1;
@@ -511,19 +511,19 @@ void BR_RES_ReleaseUiPalette(struct BrRes *res, int screen)
     res->paletteId[screen] = -1;
 }
 
-unsigned BR_RES_GetFont(struct BrRes *res) { return (uptr)res->font; }
+void *BR_RES_GetFont(struct BrRes *res) { return res->font; }
 
-int BR_RES_GetMsgData(struct BrRes *res)
+void *BR_RES_GetMsgData(struct BrRes *res)
 {
-    return (sptr)res->msgData;
+    return res->msgData;
 }
 
 /*
  * trailing: two zero padding bytes at 021FC222, then existing matched 021FC224.
  */
-int BR_RES_GetWordSet(struct BrRes *res)
+void *BR_RES_GetWordSet(struct BrRes *res)
 {
-    return (sptr)res->wordSet;
+    return res->wordSet;
 }
 
 /*
@@ -561,4 +561,4 @@ unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fai
 
 unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
 
-u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return *(const u32*)((uptr)d_022008E0+palSet*4);}
+u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return *(const u32*)((char *)d_022008E0+palSet*4);}

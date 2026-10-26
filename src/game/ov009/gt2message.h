@@ -52,7 +52,7 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len);
 int gti2SendAck(GTI2Connection *connection);
 int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax);
 int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len);
-int gti2SendClosed(int *p);
+int gti2SendClosed(GTI2Connection *p);
 int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short port);
 int gti2ResendMessage(GTI2Connection *connection, GTI2OutgoingBufferMessage *message);
 int gti2Send(GTI2Connection *a, unsigned char *b, int c, int d);

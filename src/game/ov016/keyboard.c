@@ -200,12 +200,12 @@ static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
     oam->attr2 = (unsigned short)((oam->attr2 & ~0xC00) | (priority << 10));
 }
 
-static void taskStart0(void *task);
-static void taskStart1(void *task);
-static void taskStart2(void *task);
-static void taskStart3(void *task);
-static void taskStart4(void *task);
-static void taskMain(void *task);
+static void taskStart0(void *task, void *work);
+static void taskStart1(void *task, void *work);
+static void taskStart2(void *task, void *work);
+static void taskStart3(void *task, void *work);
+static void taskStart4(void *task, void *work);
+static void taskMain(void *task, void *work);
 static void touchTriger(void);
 static void touchRelease(void);
 static void pushCaps(void);
@@ -218,12 +218,12 @@ static void changePage(int page);
 static void changeColor(int idx, bool push);
 static void dispFocus(void);
 static void moveFocus(int dir);
-static void taskEnd0(void *task);
-static void taskEnd1(void *task);
-static void taskEnd2(void *task);
-static void taskEnd3(void *task);
-static void taskEnd4(void *task);
-static void taskEnd5(void *task);
+static void taskEnd0(void *task, void *work);
+static void taskEnd1(void *task, void *work);
+static void taskEnd2(void *task, void *work);
+static void taskEnd3(void *task, void *work);
+static void taskEnd4(void *task, void *work);
+static void taskEnd5(void *task, void *work);
 
 
 void DWCi_KBlInit(void)
@@ -275,7 +275,7 @@ void DWCi_KBlInit(void)
     sKeyboardMemKb->cellFocus = DWCi_CEINlSetExCell(0, 0x40, 1);
     DWCi_CELLlSetEffect(sKeyboardMemKb->cellFocus, -1, 0x200, 0);
     DWCi_CELLlSetPriority(sKeyboardMemKb->cellFocus, -1, 2);
-    sKeyboardMemKb->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskStart0, 0, 0x78);
+    sKeyboardMemKb->task = DWCi_TSKlForm(0, taskStart0, 0, 0x78);
     disp(sKeyboardMemKb->page, 0, 192);
 }
 
@@ -283,7 +283,7 @@ void DWCi_KBlInit(void)
 void DWCi_KBlEnd(void)
 {
     DWCi_CELLlDelete(sKeyboardMemKb->cellFocus);
-    DWCi_TSKlChangeFunc(sKeyboardMemKb->task, (void (*)(void *, void *))taskEnd0);
+    DWCi_TSKlChangeFunc(sKeyboardMemKb->task, taskEnd0);
 }
 
 
@@ -343,7 +343,7 @@ int DWCi_KBlIsInit(void)
 }
 
 
-static void taskStart0(void *task)
+static void taskStart0(void *task, void *work)
 {
     int x, y;
 
@@ -354,12 +354,12 @@ static void taskStart0(void *task)
     } else {
         disp(sKeyboardMemKb->page, 0, 81);
         disp(sKeyboardMemKb->page, 1, 192);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart1);
+        DWCi_TSKlChangeFunc(task, taskStart1);
     }
 }
 
 
-static void taskStart1(void *task)
+static void taskStart1(void *task, void *work)
 {
     int x, y;
 
@@ -370,12 +370,12 @@ static void taskStart1(void *task)
     } else {
         disp(sKeyboardMemKb->page, 1, 103);
         disp(sKeyboardMemKb->page, 2, 192);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart2);
+        DWCi_TSKlChangeFunc(task, taskStart2);
     }
 }
 
 
-static void taskStart2(void *task)
+static void taskStart2(void *task, void *work)
 {
     int x, y;
 
@@ -386,12 +386,12 @@ static void taskStart2(void *task)
     } else {
         disp(sKeyboardMemKb->page, 2, 125);
         disp(sKeyboardMemKb->page, 3, 192);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart3);
+        DWCi_TSKlChangeFunc(task, taskStart3);
     }
 }
 
 
-static void taskStart3(void *task)
+static void taskStart3(void *task, void *work)
 {
     int x, y;
 
@@ -402,12 +402,12 @@ static void taskStart3(void *task)
     } else {
         disp(sKeyboardMemKb->page, 3, 147);
         disp(sKeyboardMemKb->page, 4, 192);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart4);
+        DWCi_TSKlChangeFunc(task, taskStart4);
     }
 }
 
 
-static void taskStart4(void *task)
+static void taskStart4(void *task, void *work)
 {
     int x, y;
 
@@ -418,7 +418,7 @@ static void taskStart4(void *task)
     } else {
         disp(sKeyboardMemKb->page, 4, 170);
         dispFocus();
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMain);
+        DWCi_TSKlChangeFunc(task, taskMain);
     }
 }
 
@@ -431,7 +431,7 @@ static void taskStart4(void *task)
  *   python tools/match.py one --src src/matched/taskMain.c \
  *       --func taskMain --addr 0x021BDF08 --region ov016 --cc dsi/1.1p1 --arm
  */
-static void taskMain(void *task)
+static void taskMain(void *task, void *work)
 {
     touchTriger();
     touchRelease();
@@ -920,7 +920,7 @@ static void moveFocus(int dir)
 }
 
 
-static void taskEnd0(void *task)
+static void taskEnd0(void *task, void *work)
 {
     GXOamAttr *obj;
     int x, y;
@@ -930,11 +930,11 @@ static void taskEnd0(void *task)
     y += 12;
     disp(sKeyboardMemKb->page, 4, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
+        DWCi_TSKlChangeFunc(task, taskEnd1);
 }
 
 
-static void taskEnd1(void *task)
+static void taskEnd1(void *task, void *work)
 {
     GXOamAttr *obj;
     int x, y;
@@ -944,11 +944,11 @@ static void taskEnd1(void *task)
     y += 12;
     disp(sKeyboardMemKb->page, 3, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
+        DWCi_TSKlChangeFunc(task, taskEnd2);
 }
 
 
-static void taskEnd2(void *task)
+static void taskEnd2(void *task, void *work)
 {
     GXOamAttr *obj;
     int x, y;
@@ -958,11 +958,11 @@ static void taskEnd2(void *task)
     y += 12;
     disp(sKeyboardMemKb->page, 2, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
+        DWCi_TSKlChangeFunc(task, taskEnd3);
 }
 
 
-static void taskEnd3(void *task)
+static void taskEnd3(void *task, void *work)
 {
     GXOamAttr *obj;
     int x, y;
@@ -972,11 +972,11 @@ static void taskEnd3(void *task)
     y += 12;
     disp(sKeyboardMemKb->page, 1, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd4);
+        DWCi_TSKlChangeFunc(task, taskEnd4);
 }
 
 
-static void taskEnd4(void *task)
+static void taskEnd4(void *task, void *work)
 {
     GXOamAttr *obj;
     int x, y;
@@ -986,11 +986,11 @@ static void taskEnd4(void *task)
     y += 12;
     disp(sKeyboardMemKb->page, 0, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd5);
+        DWCi_TSKlChangeFunc(task, taskEnd5);
 }
 
 
-static void taskEnd5(void *task)
+static void taskEnd5(void *task, void *work)
 {
     int i, j;
 

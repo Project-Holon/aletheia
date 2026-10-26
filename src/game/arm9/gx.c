@@ -230,7 +230,7 @@ void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d)
 
 void GXS_SetGraphicsMode(u32 mode)
 {
-    *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~7) | mode;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~7) | mode;
 }
 
 /*

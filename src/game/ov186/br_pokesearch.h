@@ -7,12 +7,13 @@
 struct BrPokeSearch;
 struct ZukanSave;
 struct BrRes;
+struct Unit;
 struct BrFade;
 struct BrTapFx;
 
 #include "../types.h"
 
-struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, int uiParamA, int uiParamB, struct BrFade *fade, int listParam, struct BrTapFx *tapFx, unsigned short heapId);
+struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, struct Unit *uiParamA, void *uiParamB, struct BrFade *fade, void *listParam, struct BrTapFx *tapFx, unsigned short heapId);
 void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps);
 int BR_POKESEARCH_Main(struct BrPokeSearch *ps);
 unsigned BR_POKESEARCH_UpdatePrint(struct BrPokeSearch *ps);

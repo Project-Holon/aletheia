@@ -29,6 +29,6 @@ void CTRDG_DummyInit(void)
 {
     CTRDGi_InitCommon();
     PXI_SetFifoRecvCallback(13, 0);
-    PXI_SetFifoRecvCallback(13, (void (*)(int,  u32,  BOOL))MSL_C_LIB_EmptyStub);
+    PXI_SetFifoRecvCallback(13, MSL_C_LIB_EmptyStub);
     CTRDGi_SendtoPxi(1);
 }

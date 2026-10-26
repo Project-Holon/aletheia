@@ -35,16 +35,7 @@ struct Sub02008700Obj;
 
 struct Rec44;
 
-struct BagParam {
-    void *gameData;
-    void *myStatus;
-    void *myItem;
-    struct BagCursor *saveWork;
-    void *config;
-    u8    itemCheck[0x18];
-    int   mode;
-    int   cycleFlag;
-};
+#include "bag_param_types.h"
 
 #include "gfl_heap_wrap.h"
 struct GameData;
@@ -88,7 +79,7 @@ extern char BagParamFileName[];
 void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId)
 {
     struct SaveControl *saveControl = GAME_DATA_GetSaveControl((struct GameData *)gameData);
-    struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
+    struct BagParam *param = GFL_HEAP_Alloc(heapId, sizeof(struct BagParam), 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;
     param->myStatus = SYSTEM_DATA_GetConfig(saveControl);

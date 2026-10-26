@@ -71,6 +71,7 @@ struct Cfg;
 struct Bank;
 struct Light;
 #include "../types.h"
+#include "../arm9/gfl_use.h"
 
 struct VecFx32;
 #include "../arm9/clact.h"
@@ -83,7 +84,7 @@ struct BtlRecSelGraphicVec3 { u32 x,y,z; };
 struct BtlRecSelGraphic {
     u8 bgData[4];
     struct Bank *clactUnit;
-    u32 *g3dCamera;
+    struct G3dCamera *g3dCamera;
     struct TcbTask *vblankHandle;
 };
 
@@ -102,7 +103,6 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/gf_font.h"
 struct TcbTask;
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *),void *,u32);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 /* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
@@ -111,7 +111,6 @@ extern void BG_SYS_Create(u32);
 #else
 #include "../arm9/bg_sys.h"
 #endif
-extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -137,19 +136,14 @@ extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struc
 #else
 #include "../arm9/g3d_camera.h"
 #endif
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawEnd(void);
 char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap);
 void BTL_REC_SEL_GRAPHIC_Delete(char *p);
 void BTL_REC_SEL_GRAPHIC_Draw(u8 *p);
 void BTL_REC_SEL_GRAPHIC_Draw3d(u8 *p);
 void BTL_REC_SEL_GRAPHIC_DrawEnd(char *p);
-u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *p);
-void BTL_REC_SEL_GRAPHIC_VBlank(void *unused,u8 *p);
+struct Unit *BTL_REC_SEL_GRAPHIC_GetCamera(u8 *p);
+void BTL_REC_SEL_GRAPHIC_VBlank(struct TcbTask *unused, void *p);
 void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap);
 void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p);
 void BTL_REC_SEL_GRAPHIC_Noop(void *p);
@@ -158,10 +152,10 @@ void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int 
 void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p);
 void BTL_REC_SEL_GRAPHIC_DrawClact(void *p);
 void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p);
-u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p);
-void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap);
-void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p);
-void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p);
+struct Unit *BTL_REC_SEL_GRAPHIC_GetClactBank(struct Unit **p);
+void BTL_REC_SEL_GRAPHIC_InitG3d(struct G3dCamera **out,u32 heap);
+void BTL_REC_SEL_GRAPHIC_DeleteG3d(struct G3dCamera **p);
+void BTL_REC_SEL_GRAPHIC_DrawG3d(struct G3dCamera **p);
 void BTL_REC_SEL_GRAPHIC_DrawG3dEnd(void *work);
 extern const char sBtlRecSelGraphicSite[];
 extern const u32 sBtlRecSelGraphicConfig[];
@@ -175,8 +169,8 @@ extern struct BtlRecSelGraphicVec3 sBtlRecSelGraphicVec1,sBtlRecSelGraphicVec2,s
  */
 char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
 {
-    char *p=GFL_HEAP_Alloc(heap,16,0,sBtlRecSelGraphicSite,458);
-    MI_CpuFill8(p,0,16);
+    char *p=GFL_HEAP_Alloc(heap,sizeof(struct BtlRecSelGraphic),0,sBtlRecSelGraphicSite,458);
+    MI_CpuFill8(p,0,sizeof(struct BtlRecSelGraphic));
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
@@ -189,36 +183,36 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
-    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(struct DispVramCfg *)sBtlRecSelGraphicConfig,heap);
-    BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
-    ((struct BtlRecSelGraphic *)p)->vblankHandle=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
+    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)&((struct BtlRecSelGraphic *)p)->clactUnit,(struct DispVramCfg *)sBtlRecSelGraphicConfig,heap);
+    BTL_REC_SEL_GRAPHIC_InitG3d((struct G3dCamera **)(&((struct BtlRecSelGraphic *)p)->g3dCamera),heap);
+    ((struct BtlRecSelGraphic *)p)->vblankHandle=GFL_USE_AddMainTask(BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
     return p;
 }
 
 void BTL_REC_SEL_GRAPHIC_Delete(char *p)
 {
     TCB_DeleteTask(((struct BtlRecSelGraphic *)p)->vblankHandle);
-    BTL_REC_SEL_GRAPHIC_DeleteG3d((int *)(p+8));
-    BTL_REC_SEL_GRAPHIC_DeleteClact(p+4);
+    BTL_REC_SEL_GRAPHIC_DeleteG3d((struct G3dCamera **)(&((struct BtlRecSelGraphic *)p)->g3dCamera));
+    BTL_REC_SEL_GRAPHIC_DeleteClact((void *)&((struct BtlRecSelGraphic *)p)->clactUnit);
     BTL_REC_SEL_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
-    MI_CpuFill8(p,0,16);
+    MI_CpuFill8(p,0,sizeof(struct BtlRecSelGraphic));
     GFL_HEAP_Free(p);
 }
 
-void BTL_REC_SEL_GRAPHIC_Draw(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawClact(p+4);BTL_REC_SEL_GRAPHIC_Noop(p); }
+void BTL_REC_SEL_GRAPHIC_Draw(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawClact((void *)&((struct BtlRecSelGraphic *)p)->clactUnit);BTL_REC_SEL_GRAPHIC_Noop(p); }
 
-void BTL_REC_SEL_GRAPHIC_Draw3d(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawG3d((u32 *)(p+8)); }
+void BTL_REC_SEL_GRAPHIC_Draw3d(u8 *p) { BTL_REC_SEL_GRAPHIC_DrawG3d((struct G3dCamera **)(&((struct BtlRecSelGraphic *)p)->g3dCamera)); }
 
-void BTL_REC_SEL_GRAPHIC_DrawEnd(char *p) { BTL_REC_SEL_GRAPHIC_DrawG3dEnd(p+8); }
+void BTL_REC_SEL_GRAPHIC_DrawEnd(char *p) { BTL_REC_SEL_GRAPHIC_DrawG3dEnd((void *)&((struct BtlRecSelGraphic *)p)->g3dCamera); }
 
-u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *p) { return BTL_REC_SEL_GRAPHIC_GetClactBank((u32 *)(p+4)); }
+struct Unit *BTL_REC_SEL_GRAPHIC_GetCamera(u8 *p) { return BTL_REC_SEL_GRAPHIC_GetClactBank((struct Unit **)(&((struct BtlRecSelGraphic *)p)->clactUnit)); }
 
-void BTL_REC_SEL_GRAPHIC_VBlank(void *unused,u8 *p) { BTL_REC_SEL_GRAPHIC_TickDisplay(p);BTL_REC_SEL_GRAPHIC_VBlankClact(p+4); }
+void BTL_REC_SEL_GRAPHIC_VBlank(struct TcbTask *unused, void *p) { BTL_REC_SEL_GRAPHIC_TickDisplay(p);BTL_REC_SEL_GRAPHIC_VBlankClact((void *)&((struct BtlRecSelGraphic *)p)->clactUnit); }
 
 /*
  * Caller explicitly narrows both BG identifiers and record fields to u8.
@@ -248,7 +242,7 @@ void BTL_REC_SEL_GRAPHIC_TickDisplay(void *p) { BG_SYS_Update(); }
 
 void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct BtlRecSelClact));
     CLACT_InitSystem((struct ClactSysInit *)0x021BB54C, (struct DispVramCfg *)a, b);
     ((struct BtlRecSelClact *)p)->bank = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct BtlRecSelClact *)p)->bank));
@@ -256,7 +250,7 @@ void BTL_REC_SEL_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int 
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit((struct Unit *)(((struct BtlRecSelClact *)p)->bank));CLACT_ExitSystem();MI_CpuFill8(p,0,4); }
+void BTL_REC_SEL_GRAPHIC_DeleteClact(void *p) { CLACT_DeleteUnit((struct Unit *)(((struct BtlRecSelClact *)p)->bank));CLACT_ExitSystem();MI_CpuFill8(p,0,sizeof(struct BtlRecSelClact)); }
 
 void BTL_REC_SEL_GRAPHIC_DrawClact(void *p) { CLACT_DrawSystem(); }
 
@@ -265,24 +259,24 @@ void BTL_REC_SEL_GRAPHIC_VBlankClact(void *p) { CLACT_VBlankSystem(); }
 /*
  * follower: 021BB3D8 word getter, within handed extent.
  */
-u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return (u32)(*(void **)p); }
+struct Unit *BTL_REC_SEL_GRAPHIC_GetClactBank(struct Unit **p) { return *p; }
 
-void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
+void BTL_REC_SEL_GRAPHIC_InitG3d(struct G3dCamera **out,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,BTL_REC_SEL_InitG3dDisplay);
-    *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(gCameraParams+12),*(s16 *)(gCameraParams+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&sBtlRecSelGraphicVec1),(struct VecFx32 *)(&sBtlRecSelGraphicVec2),(struct VecFx32 *)(&sBtlRecSelGraphicVec3),heap);
+    *out=G3D_CAMERA_Create(0,*(s16 *)(gCameraParams+12),*(s16 *)(gCameraParams+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&sBtlRecSelGraphicVec1),(struct VecFx32 *)(&sBtlRecSelGraphicVec2),(struct VecFx32 *)(&sBtlRecSelGraphicVec3),heap);
 }
 
-void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
+void BTL_REC_SEL_GRAPHIC_DeleteG3d(struct G3dCamera **p)
 {
-    G3D_CAMERA_Delete((void *)(*p));
+    G3D_CAMERA_Delete(*p);
     G3D_SYSTEM_Exit();
 }
 
-void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)
+void BTL_REC_SEL_GRAPHIC_DrawG3d(struct G3dCamera **p)
 {
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset((struct G3dCamera *)(*p));
+    G3D_CAMERA_Reset(*p);
     G3D_SYSTEM_ApplyLookAt();
 }
 

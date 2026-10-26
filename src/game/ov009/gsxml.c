@@ -102,7 +102,7 @@
 #include "gsplatformthread.h"
 #include "gsdebug.h"
 #include "gsplatformutil.h"
-#include "../../matched/arm9_sdk/libc/strncmp/string.h"
+#include "../libc/strncmp/string.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x8))

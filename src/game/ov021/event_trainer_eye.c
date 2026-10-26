@@ -127,7 +127,7 @@ typedef struct TrainerEyePairWork {
 
 typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const GridPos *targetPos);
 typedef int (*TrainerEyeStepFunc)(TrainerEyeWork *work);
-typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
+#include "../arm9/game_event.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "field_effect.h"
@@ -138,7 +138,7 @@ struct RecordHead24;
 struct GameData;
 extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 #include "../arm9/game_data.h"
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
+#include "../ov010/script_sys.h"
 #ifdef __MWERKS__
 #define FLDMMDL_SetAcmd FLDMMDL_SetAcmd_header
 #include "../ov010/fldmmdl.h"
@@ -152,7 +152,6 @@ void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd); /* original prototype: the definitio
 struct MmdlGridVec;
 struct Mmdl;
 #include "field_player.h"
-extern GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 #include "fldmmdl_acmd.h"
 #include "fldeff_gyoe.h"
@@ -190,7 +189,7 @@ int EVENT_TRAINER_EYE_StepWaitPlayerFace(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_StepRelease(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_StepDone(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work);
-int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work);
+int EVENT_TRAINER_EYE_UpdatePairEvent(struct GameEvent *eventSys, int *gameSystem, void *work);
 int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl);
 int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u16 dir, int distance, FieldEncount *encount);
 int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
@@ -383,7 +382,7 @@ GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first,
     GameEvent *event;
     TrainerEyePairWork *pair;
 
-    event = GAME_EVENT_Create(owner, 0, (GameEventFunc)EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
+    event = GAME_EVENT_Create(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
     pair = GAME_EVENT_GetWork(event);
     pair->first = first;
     pair->second = second;
@@ -614,7 +613,7 @@ int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work)
 }
 
 /* Event callback: runs both trainer eye events of a pair and frees each when done. Returns 1 when both ended. */
-int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work)
+int EVENT_TRAINER_EYE_UpdatePairEvent(struct GameEvent *eventSys, int *gameSystem, void *work)
 {
     TrainerEyePairWork *pair = work;
 

@@ -50,7 +50,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, str
 int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait);
-void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, FadeEffectTask *task);
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, void *arg);
 int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 /* END mkheaders: generated region */
 

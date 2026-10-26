@@ -45,7 +45,7 @@ extern char *gObjWork;
  * sdk:      DWCi_OBJlInit (libdwcutil.TWL.HYB.a(obj.o))
  */
 
-static void taskTransfer(void);
+static void taskTransfer(void * unused0, void * unused1);
 void DWCi_OBJlInit(void)
 {
 	int i;
@@ -54,11 +54,11 @@ void DWCi_OBJlInit(void)
 	MIi_CpuClearFast(0x200, gObjWork, 0x800);
 	for (i = 0; i < 2; i++)
 		*(void **)(gObjWork + i * 4 + 0x800) = DWCi_QUElFormEx(0x40, gObjWork + i * 0x400, 8);
-	*(void **)(gObjWork + 0x808) = DWCi_TSKlForm(1, (void (*)(void *, void *))taskTransfer, 0, 0xc8);
+	*(void **)(gObjWork + 0x808) = DWCi_TSKlForm(1, taskTransfer, 0, 0xc8);
 }
 
 
-static void taskTransfer(void)
+static void taskTransfer(void * unused0, void * unused1)
 {
 	DC_FlushRange(gObjWork, 0x800);
 	GX_LoadOAM(gObjWork, 0, 0x400);
@@ -102,7 +102,7 @@ void DWCi_OBJlDelete(unsigned int *obj)
 	lcd = 0;
 	if ((char *)obj >= gObjWork + 0x400)
 		lcd = 1;
-	DWCi_QUElPushBack(*(void **)(gObjWork + 0x800 + lcd * 4), obj);
+	DWCi_QUElPushBack(((void **)(gObjWork + 0x800))[lcd], obj);
 }
 
 /*

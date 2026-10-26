@@ -13,7 +13,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
 int gpiBuddyHandleKeyRequest(void **connection, GPIPeer *peer);
 int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer);
 int gpiAuthBuddyRequest(void **connection, int profile);
-int gpiFixBuddyIndices(int unused, GPIProfile *profile, int baseIndex);
+int gpiFixBuddyIndices(void *unused, GPIProfile *profile, void *baseIndexArg);
 int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
 int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
 /* END mkheaders: generated region */

@@ -139,7 +139,7 @@ void MBi_InitTaskThread(void *p_work, unsigned long size)
         mbi_task_work = p;
         MBi_InitTaskInfo((char *)p + 0xC4);
         p->tasks.head = 0;
-        OS_CreateThread((OSThread *)p, (void (*)(void *))((void (*)(void *))MBi_TaskThread), (void *)p, (void *)((char *)p + 0xE4 + ((size - 0xE4) & ~3)), (size - 0xE4) & ~3, 0);
+        OS_CreateThread((OSThread *)p, MBi_TaskThread, (void *)p, (void *)((char *)p + 0xE4 + ((size - 0xE4) & ~3)), (size - 0xE4) & ~3, 0);
         OS_WakeupThreadDirect((OSThread *)p);
     }
     OS_RestoreInterrupts(bak_cpsr);

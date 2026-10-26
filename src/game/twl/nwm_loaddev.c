@@ -26,7 +26,7 @@
 #include "../types.h"
 
 #include "nwm_system.h"
-extern void DC_InvalidateRange(u32, u32);
+extern void DC_InvalidateRange(void *, u32);
 #include "nwm_installfirm.h"
 #include "nwm_cmd.h"
 struct PMiGenCallbackInfo;
@@ -34,20 +34,20 @@ extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, int pr
 #include "nwm_unloaddev.h"
 extern u32 NWMi_PostExitInfo[];
 
-u32 NWM_LoadDevice(u32 callback) {
-    u32 base = NWMi_GetSystemWork();
+u32 NWM_LoadDevice(NWMCallbackFunc callback) {
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
     u32 st = NWMi_CheckState(1, 1);
     u32 busy;
     u32 ret;
-    uptr b2;
+    struct NwmSystemWork *b2;
     if (st != 0 && st != 2) {
         return st;
     }
     b2 = NWMi_GetSystemWork();
     if (b2 != 0) {
         busy = 1;
-        DC_InvalidateRange(*(u32 *)(b2 + 0x2278) + 3, busy);
-        if (*(u8 *)(*(u32 *)(b2 + 0x2278) + 3) != 1) {
+        DC_InvalidateRange(&b2->status->busy[3], busy);
+        if (b2->status->busy[3] != 1) {
             busy = 0;
         }
     } else {
@@ -57,12 +57,12 @@ u32 NWM_LoadDevice(u32 callback) {
         return 3;
     }
     NWMi_CheckFirmDataParamIntegrity();
-    NWMi_SetCallbackTable(3, (u32)callback);
+    NWMi_SetCallbackTable(3, callback);
     NWMi_RegisterSleepCallback();
     NWMi_PostExitInfo[0] = (uptr)NWMi_ForceExit;
     NWMi_PostExitInfo[1] = 0;
     PMi_InsertPostExitCallbackEx((struct PMiGenCallbackInfo *)NWMi_PostExitInfo, 0xFFFF);
-    ret = NWMi_SendCommand(3, 4, *(u32 *)(base + 0x2274), *(u32 *)(base + 0x2278), *(u32 *)(base + 0x227C), 0);
+    ret = NWMi_SendCommand(3, 4, base->recvFlag, base->status, base->cmdBuf, 0);
     if (ret == 0 || ret == 2) {
         ret = 2;
     }

@@ -248,7 +248,7 @@ void POKEGRA_ConvertCharTo1D(NNSG2dCharacterData *charData, u32 heapId);
 
 void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality);
 
-u32 POKEGRA_GetTrainerArcID(void *isBack);
+u32 POKEGRA_GetTrainerArcID(u32 isBack);
 
 u32 POKEGRA_GetTrainerCgrArcIndex(u32 trType, u32 flags);
 
@@ -266,33 +266,33 @@ u32 POKEGRA_GetTrainerMAnmArcIndex(u32 trType, u32 flags);
 
 u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags);
 
-void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
+void *POKEGRA_LoadCharDataPP(NNSG2dCharacterData **outCharData, void *pp, u32 dir, u16 heapId);
 
-void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId);
+void *POKEGRA_LoadCharData(NNSG2dCharacterData **outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId);
 
 void *POKEGRA_OpenHandle(u32 heapId);
 
-int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
+int POKEGRA_RegisterPalette(void *handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
 
-u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
+u32 POKEGRA_RegisterCgr(void *handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
 
 u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId);
 
-int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
+int POKEGRA_RegisterPalettePP(void *handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
 
-int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId);
+int POKEGRA_RegisterCgrPP(void *handle, void *pp, int dir, int drawType, unsigned short heapId);
 
 u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 
 void *POKEGRA_OpenTrainerHandle(u32 heapId);
 
-s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
+s32 POKEGRA_RegisterTrainerPalette(void *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
 
-s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
+s32 POKEGRA_RegisterTrainerCgr(void *handle, u32 trType, u32 drawType, u32 heapId);
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
 
-void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId);
+void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, u32 charDst, u32 palDst, volatile u16 heapId);
 
 extern const char PokegraFileName[];
 
@@ -526,7 +526,7 @@ void POKEGRA_CalcArcIndex(u32 arcId, u32 monsNo, s32 formNo, s32 sex,
     }
 }
 
-u32 POKEGRA_GetTrainerArcID(void *isBack)
+u32 POKEGRA_GetTrainerArcID(u32 isBack)
 {
     if (isBack != 0) {
         return 0x49;
@@ -653,7 +653,7 @@ u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags)
  * are read in that order, then forwarded along with the caller's own
  * a2/a3 pass-throughs.
  */
-void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
+void *POKEGRA_LoadCharDataPP(NNSG2dCharacterData **outCharData, void *pp, u32 dir, u16 heapId)
 {
     u32 monsNo;
     u32 formNo;
@@ -694,7 +694,7 @@ void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
  * docs/notes/POKEGRA_DrawSpindaSpots.c.txt, which records the lever that halved it
  * and the twelve spellings that do not move it further.
  */
-void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
+void *POKEGRA_LoadCharData(NNSG2dCharacterData **outCharData, u32 monsNo, u32 formNo, u32 sex,
                     u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId)
 {
     u32 arcIndex;
@@ -703,9 +703,9 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     arcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
     file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, outCharData, heapId);
     if (monsNo == 0x147) {
-        POKEGRA_ConvertCharTo2D((NNSG2dCharacterData *)(*outCharData), heapId);
-        POKEGRA_DrawSpindaSpots((NNSG2dCharacterData *)(*outCharData), personality);
-        POKEGRA_ConvertCharTo1D((NNSG2dCharacterData *)(*outCharData), heapId);
+        POKEGRA_ConvertCharTo2D(*outCharData, heapId);
+        POKEGRA_DrawSpindaSpots(*outCharData, personality);
+        POKEGRA_ConvertCharTo1D(*outCharData, heapId);
     }
     return file;
 }
@@ -715,12 +715,12 @@ void *POKEGRA_OpenHandle(u32 heapId)
     return ARC_TOOL_CreateHandle(POKEGRA_GetArcID(), heapId);
 }
 
-int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType,
+int POKEGRA_RegisterPalette(void *handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType,
                    unsigned short palOffset, unsigned short heapId)
 {
     int arcId = POKEGRA_GetArcID();
     int palIndex = POKEGRA_GetPalArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg);
-    return CLACT_RegisterPaletteEx((void *)handle, palIndex, drawType, palOffset, 0, 1, heapId);
+    return CLACT_RegisterPaletteEx(handle, palIndex, drawType, palOffset, 0, 1, heapId);
 }
 
 /*
@@ -753,24 +753,24 @@ int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rar
  * open question about a hidden write inside POKEGRA_LoadCharData is resolved as
  * "there is none, and the C does not need one".
  */
-u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
+u32 POKEGRA_RegisterCgr(void *handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
                   volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId)
 {
-    uptr charFile;
+    void *charFile;
     u32 cgrIndex;
     u32 cgrArcIndex;
     u32 heap;
     u32 vramType;
-    void *charData;
+    NNSG2dCharacterData *charData;
 
     cgrArcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
     heap = heapId;
     vramType = drawType;
-    cgrIndex = CLACT_RegisterCharacter((void *)handle, cgrArcIndex, 1, vramType, heap);
+    cgrIndex = CLACT_RegisterCharacter(handle, cgrArcIndex, 1, vramType, heap);
     if (monsNo == 0x147) {
-        charFile = (uptr)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
-        CLACT_TransferCharacter(cgrIndex, (struct NNSG2dCharacterData *)charData);
-        GFL_HEAP_Free((void *)charFile);
+        charFile = POKEGRA_LoadCharData(&charData, monsNo, formNo, sex, rare, dir, egg, personality, heapId);
+        CLACT_TransferCharacter(cgrIndex, charData);
+        GFL_HEAP_Free(charFile);
     }
     return cgrIndex;
 }
@@ -812,7 +812,7 @@ u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile
     return cellIndex;
 }
 
-int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
+int POKEGRA_RegisterPalettePP(void *handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
 {
     int monsNo = POKE_TOOL_GetBoxValue(pp, 5, 0);
     int formNo = POKE_TOOL_GetBoxValue(pp, 0x6f, 0);
@@ -823,7 +823,7 @@ int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsig
     return POKEGRA_RegisterPalette(handle, monsNo, formNo, sex, rare, dir, egg, drawType, palOffset, heapId);
 }
 
-int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId)
+int POKEGRA_RegisterCgrPP(void *handle, void *pp, int dir, int drawType, unsigned short heapId)
 {
     int monsNo = POKE_TOOL_GetBoxValue(pp, 5, 0);
     int formNo = POKE_TOOL_GetBoxValue(pp, 0x6f, 0);
@@ -878,14 +878,14 @@ void *POKEGRA_OpenTrainerHandle(u32 heapId)
     return ARC_TOOL_CreateHandle(POKEGRA_GetTrainerArcID(0), heapId);
 }
 
-s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
+s32 POKEGRA_RegisterTrainerPalette(void *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
 {
-    return CLACT_RegisterPaletteEx((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
+    return CLACT_RegisterPaletteEx(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
 }
 
-s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId)
+s32 POKEGRA_RegisterTrainerCgr(void *handle, u32 trType, u32 drawType, u32 heapId)
 {
-    return CLACT_RegisterCharacter((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
+    return CLACT_RegisterCharacter(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
 }
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId)
@@ -915,18 +915,18 @@ s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u1
  * the second call rather than cached, so it is spelled as a `volatile
  * u16' stack parameter.
  */
-void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId)
+void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, u32 charDst, u32 palDst, volatile u16 heapId)
 {
     void *file;
     void *palData;
-    void *charData;
+    NNSG2dCharacterData *charData;
 
     file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
     NNS_G2dGetUnpackedPaletteData(file, &palData);
-    CLACT_TransferPalette((uptr)palDst, palData, 1);
+    CLACT_TransferPalette(palDst, palData, 1);
     GFL_HEAP_Free(file);
 
     file = ARC_UTIL_LoadScreenDataFromHandle((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (&charData), heapId);
-    CLACT_TransferCharacter((sptr)charDst, charData);
+    CLACT_TransferCharacter(charDst, charData);
     GFL_HEAP_Free(file);
 }

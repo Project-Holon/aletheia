@@ -65,7 +65,7 @@
  *   KeyValFree  0x0219E89C  arm  ov009
  *   KeyValHashKey  0x0219E8C4  arm  ov009
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "sb_server_types.h"
 static int StringHash(char *s, int numbuckets);
 

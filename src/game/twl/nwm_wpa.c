@@ -32,7 +32,7 @@ typedef struct TwlMsg {
 #include "nwm_cmd.h"
 #include "../arm9/mi_memory.h"
 
-u32 NWM_SetWPAPSK(void *callback, TwlReq *pskInfo) {
+u32 NWM_SetWPAPSK(NWMCallbackFunc callback, TwlReq *pskInfo) {
     u32 r;
     TwlMsg msg;
 
@@ -53,11 +53,11 @@ u32 NWM_SetWPAPSK(void *callback, TwlReq *pskInfo) {
     default:
         return 5;
     }
-    NWMi_SetCallbackTable(0x12, (uptr)callback);
+    NWMi_SetCallbackTable(0x12, callback);
     msg.len = 0x12;
     msg.kind = pskInfo->kind;
     MI_CpuCopy8(pskInfo->data, msg.data, 0x20);
-    r = NWMi_SendCommandDirect((uptr)(&msg), 0x24);
+    r = NWMi_SendCommandDirect(&msg, 0x24);
     if (r == 0 || r == 2) {
         r = 2;
     }

@@ -55,6 +55,7 @@
 #include "hand_field_types.h"
 
 #include "../ov093/btl_event.h"
+#include "../ov094/btlv_effvm_types.h"
 #include "../ov093/btl_server_flow.h"
 #include "../ov093/btl_server_types.h"
 #include "../ov093/btl_pokeparam.h"
@@ -239,7 +240,7 @@ void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlServ
         }
         if (needsRestore != 0) {
             notice = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_POS_HEAL_NOTICE, enteringId);
-            notice->animId = 0x280;
+            notice->animId = BTLV_EFFECT_MOVE_END + 79;
             notice->position = position;
             notice->targetKind = 6;
             notice->restorePp = 1;
@@ -316,7 +317,7 @@ void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlSer
             needsRestore = 1;
         if (needsRestore != 0) {
             notice = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_POS_HEAL_NOTICE, enteringId);
-            notice->animId = 0x27f;
+            notice->animId = BTLV_EFFECT_MOVE_END + 78;
             notice->position = position;
             notice->targetKind = 6;
             BTL_SERVER_FLOW_InitMsgRecord(&notice->message, HANDEX_MESSAGE_SET, 0x2b9);

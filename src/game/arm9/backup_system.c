@@ -231,10 +231,10 @@ extern const char str_020A7888[];
  */
 void BACKUP_SYSTEM_Init(u32 heap_id, void (*read_error_func)(void), FlashErrorFunc write_error_func)
 {
-    BackupSystem *work = GFL_HEAP_Alloc((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
+    BackupSystem *work = GFL_HEAP_Alloc((u16)heap_id, sizeof(*work), 0, str_020A7848, 0xdf);
 
     svsys = work;
-    MIi_CpuClear32(0, work, 0x210);
+    MIi_CpuClear32(0, work, sizeof(*work));
     MATHi_CRC16InitTable((struct MATHCRC16Table *)svsys->crc_table, 0x1100 - 0xdf);
     svsys->read_error_func = read_error_func;
     work = svsys;
@@ -270,7 +270,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     if (svsys == 0)
         GF_PANIC_Fail(str_020A7848, 0x10c, (const char *)str_020A7858);
 
-    sv = GFL_HEAP_Alloc(heap_id, 0x154, 1, str_020A7848, 0x10e);
+    sv = GFL_HEAP_Alloc(heap_id, sizeof(*sv), 1, str_020A7848, 0x10e);
     sv->area_addr[0] = param->main_addr;
     sv->area_addr[1] = param->backup_addr;
     sv->savearea_size = param->savearea_size;
@@ -396,7 +396,7 @@ u8 *BACKUP_SYSTEM_GetRecordWork(BackupSaveData *sv, u32 id)
  */
 void BACKUP_SYSTEM_ClearWork(BackupSaveData *sv)
 {
-    SAVEDATA_InitBuffer((uptr)sv->svwk, sv->table);
+    SAVEDATA_InitBuffer(sv->svwk, sv->table);
     BACKUP_SYSTEM_FillBlockAreas(sv, 1);
 }
 

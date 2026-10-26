@@ -24,4 +24,10 @@ void DWCi_GsFree(void *ptr);
 void *DWCi_GsMemalign(unsigned long boundary, unsigned long size);
 /* END mkheaders: generated region */
 
+#ifndef __MWERKS__
+/* Allocator callbacks with the SDK typedef signatures (DWCAuthAlloc, ACAllocFunc), calling DWC_Alloc and DWC_Free. */
+void *DWC_AllocCallback(unsigned long name, long size);
+void DWC_FreeCallback(unsigned long name, void *ptr, long size);
+#endif
+
 #endif

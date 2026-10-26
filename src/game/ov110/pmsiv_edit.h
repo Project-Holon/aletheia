@@ -13,11 +13,13 @@ struct U16Vec;
 
 #include "../types.h"
 
+struct TcbTask;
+
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
 void PMSIV_EDIT_Delete(struct PmsivEdit *p);
 void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle);
 vu16 GX_GetVCount(void);
-void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p);
+void PMSIV_EDIT_UpdateFramePosition(struct TcbTask *task, void *pArg);
 void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing);
 int PMSIV_EDIT_StepPanelScroll(struct PmsivEdit *p);
 void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle);

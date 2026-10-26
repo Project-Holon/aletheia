@@ -8,6 +8,8 @@
 #include "../types.h"
 #include "../ov021/field_subscreen_types.h"
 
+struct TcbTask;
+
 DowsingSearch *DOWSING_CreateSearch(u32 heapId, void *eventFlags, void *eventData);
 void DOWSING_DeleteSearch(DowsingSearch *search);
 int DOWSING_IsTargetAvailable(DowsingSearch *search, DowsingTarget *target);
@@ -17,7 +19,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
 void DOWSING_Delete(DowsingWork *work);
 void DOWSING_Update(DowsingWork *work, int isOn);
 void DOWSING_UpdateDisplay(DowsingWork *work, int draw);
-void DOWSING_TaskTransferPalettes(int taskId, DowsingWork *work);
+void DOWSING_TaskTransferPalettes(struct TcbTask *task, void *taskWork);
 void DOWSING_InitBgsAndActorUnit(DowsingWork *work);
 void DOWSING_ExitBgsAndActorUnit(DowsingWork *work);
 void DOWSING_LoadBackground(DowsingWork *work);

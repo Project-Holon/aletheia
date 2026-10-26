@@ -537,7 +537,6 @@ extern int DWC_RAP_SetOwnStatus(char *data, int size);
 #include "../arm9/net_state.h"
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
 extern void DWC_RAP_ClearUserDataChanged(int v);
-extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
 extern int DWC_RAP_GetNewClientAid(void);
 #include "../arm9/gf_standard.h"
 extern int DWC_RAP_GetCanceledPeerIndex(void);
@@ -551,7 +550,7 @@ struct MetTrainersSave;
 struct ButtonMan;
 extern void TOUCHBAR_Update(struct TouchBar *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(struct TouchBar *p);
-extern s32 DWC_RAP_GetFriendStatusData(int i);
+extern u8 *DWC_RAP_GetFriendStatusData(int i);
 extern unsigned char DWC_RAP_GetFriendStatus(int i);
 #include "../arm9/gfl_heap.h"
 struct Proc;
@@ -559,6 +558,7 @@ struct Proc;
 #include "../ov009/dwc_rapcommon.h"
 #include "../arm9/net_err.h"
 #include "../arm9/os_ownerinfo.h"
+#include "../sdk_ioreg.h"
 void *WIFICLUB_GetMessageIdByIndex(int i);
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work);
 u32 WIFICLUB_PollYesNoMenu(WifiClubWork *work);
@@ -754,7 +754,7 @@ int WIFICLUB_StateWatchConnection(WifiClubWork *work, int state);
 int WIFICLUB_StateShowSaveNotice(WifiClubWork *work, int state);
 int WIFICLUB_StateWaitSaveNotice(WifiClubWork *work, int state);
 void WIFICLUB_CreateTitleWindows(WifiClubWork *work);
-BOOL WIFICLUB_IsFriendRequestFromPeer(void *friendIndex, WifiClubFriendRequest *request);
+BOOL WIFICLUB_IsFriendRequestFromPeer(int friendIndex, void *userArg);
 int WIFICLUB_StateHandleNetError(WifiClubWork *work, int state);
 void WIFICLUB_ResetClubScreen(WifiClubWork *work);
 int WIFICLUB_StateReturnToClub(WifiClubWork *work, int state);
@@ -824,12 +824,12 @@ int WIFICLUB_StateUnusedE(WifiClubWork *work, int procState);
 int WIFICLUB_StateOnPartnerConnected(WifiClubWork *work, int procState);
 int WIFICLUB_HandleNetFailure(WifiClubWork *work);
 int WIFICLUB_StateWaitNegotiation(WifiClubWork *work, int procState);
-void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedStatus, WifiClubWork *work, int handle);
+void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedStatus, WifiClubWork *work, GFLNetHandle *handle);
 void WIFICLUB_NoOpNetCommand(void);
-void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWork *work, int handle);
-u32 WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work);
-void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWork *work, int handle);
-void WIFICLUB_RecvRuleId(int unusedA, int unusedB, int *ruleId, WifiClubWork *work, int handle);
+void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWork *work, GFLNetHandle *handle);
+void *WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work);
+void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWork *work, GFLNetHandle *handle);
+void WIFICLUB_RecvRuleId(int unusedA, int unusedB, int *ruleId, WifiClubWork *work, GFLNetHandle *handle);
 void WIFICLUB_RecvPeerChoice(int slot, int unused, WifiClubPeerChoice *choice, WifiClubWork *work);
 int WIFICLUB_StateSendTrainerCard(WifiClubWork *work, int procState);
 int WIFICLUB_StateSendChoiceMessage(WifiClubWork *work, int procState);
@@ -865,7 +865,7 @@ void WIFICLUB_RedrawSlotPanelIfPending(WifiClubWork *work);
 int WIFICLUB_IsSlotPanelDismissed(WifiClubWork *work);
 u8 WIFICLUB_GetSelectedSlotPlusOne(WifiClubWork *work);
 void WIFICLUB_ResetSlotSelection(WifiClubWork *work);
-void WIFICLUB_OnSlotButtonEvent(u32 buttonIndex, int event, WifiClubWork *work);
+void WIFICLUB_OnSlotButtonEvent(u32 buttonIndex, s32 event, void *arg);
 void WIFICLUB_TickSlotBlink(WifiClubWork *work);
 void WIFICLUB_CreateSlotPanelWindows(WifiClubWork *work, void *narc, int heapId);
 void WIFICLUB_DeleteSlotPanelWindows(WifiClubWork *work);
@@ -1398,7 +1398,7 @@ void WIFICLUB_CreateTouchBar(WifiClubWork *work, u16 heapId)
 
     table = gWifiClubTouchBarTable;
     if (work->touchBar == 0) {
-        MI_CpuFill8(&setup, 0, 0x20);
+        MI_CpuFill8(&setup, 0, sizeof(setup));
         setup.table = &table;
         setup.buttonCount = 1;
         setup.clactUnit = work->clactUnit;
@@ -3655,8 +3655,8 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     if (work->updateTask != 0) TCB_DeleteTask(work->updateTask);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    *(volatile u32 *)0x04000000 &= 0xffffe0ff;
-    *(volatile u32 *)0x04001000 &= 0xffffe0ff;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xffffe0ff;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xffffe0ff;
     archive = ARC_TOOL_CreateHandle(0x21, 0x21);
     work->wordSet = WORDSET_CreateDefault(0x21);
     work->msgBank = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0xd1, 0x21);
@@ -3759,8 +3759,8 @@ void WIFICLUB_InitBackgrounds(u16 heapId)
     BG_SYS_SetPriority(1, 1);
     BG_SYS_SetPriority(3, 1);
     BG_SYS_SetPriority(2, 0);
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
 }
 
 
@@ -3798,7 +3798,7 @@ void WIFICLUB_ClearPeerActors(WifiClubWork *work)
     int i;
     WIFICLUBACTOR_Exit((&work->actorSys));
     for (i = 0; i < WIFICLUB_PEER_SLOT_COUNT; i++) {
-        *(int *)((uptr)work + (unsigned int)i * 4 + 0x814) = 0;
+        work->peerSlots[i] = 0;
         WIFICLUB_ClearSlotState(work, i + 1);
     }
     MI_CpuFill8(work->shownActorState, 0, WIFICLUB_SLOT_COUNT);
@@ -3948,9 +3948,9 @@ void WIFICLUB_InitPlanesAndText(WifiClubWork *work, void *archive)
     BG_SYS_SetSubPlaneVisible(0xD, 1);
     WIFICLUB_LoadBgResources((&work->bgLoad), archive, 0x21);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, k << 5, 0x20, 0x21);
-    work->menuFrameBase = (uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
-    work->windowFrameBase = (uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
-    work->textBufferC = BMP_MENUWORK_LoadFrameGfx((unsigned int)1, 0xE, 0, 0x21);
+    work->menuFrameBase = BMP_MENUWORK_LoadFrameGfx(2, 0xE, 0, 0x21);
+    work->windowFrameBase = BMP_MENUWORK_LoadFrameGfx(2, 0xE, 0, 0x21);
+    work->textBufferC = BMP_MENUWORK_LoadFrameGfx(1, 0xE, 0, 0x21);
 }
 
 
@@ -4358,10 +4358,11 @@ void WIFICLUB_CreateTitleWindows(WifiClubWork *work)
 
 
 /* Callback: true when the requester matches the status of the peer slot. */
-BOOL WIFICLUB_IsFriendRequestFromPeer(void *friendIndex, WifiClubFriendRequest *request)
+BOOL WIFICLUB_IsFriendRequestFromPeer(int friendIndex, void *userArg)
 {
+    WifiClubFriendRequest *request = userArg;
     WifiClubPlayerStatus *x = request->status;
-    WifiClubPlayerStatus *y = WIFICLUB_GetFriendStatus((sptr)friendIndex);
+    WifiClubPlayerStatus *y = WIFICLUB_GetFriendStatus(friendIndex);
 
     WIFICLUB_GetStatusActionState(x);
     WIFICLUB_GetStatusActionState(y);
@@ -4388,7 +4389,7 @@ void WIFICLUB_ResetClubScreen(WifiClubWork *work)
 {
     void *archive;
     int kind, gender;
-    DWC_RAP_SetAcceptFriendCallback((void (*)(void))WIFICLUB_IsFriendRequestFromPeer);
+    DWC_RAP_SetAcceptFriendCallback(WIFICLUB_IsFriendRequestFromPeer);
     archive = ARC_TOOL_CreateHandle(WIFICLUB_HEAP_ID, WIFICLUB_HEAP_ID);
     WIFICLUB_ResetOwnSeatStatus(work);
     WIFICLUB_ClosePartnerMenu(work);
@@ -4627,7 +4628,7 @@ void WIFICLUB_ReleaseSlotActors(WifiClubWork *work)
         void *peerActor = work->peerSlots[i];
 
         if (peerActor != 0) {
-            WIFICLUBACTOR_ResumeActorSprite((sptr)&work->actorSys, peerActor);
+            WIFICLUBACTOR_ResumeActorSprite(&work->actorSys, peerActor);
         }
     }
 }
@@ -6256,11 +6257,11 @@ int WIFICLUB_StateWaitNegotiation(WifiClubWork *work, int procState)
  * Net command: receives the trainer card of a friend. It stores the card in the
  * friend slot and records it in the save data.
  */
-void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedStatus, WifiClubWork *work, int handle)
+void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedStatus, WifiClubWork *work, GFLNetHandle *handle)
 {
     void *friendStatus;
     void *friendRecords;
-    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
         friendStatus = GAME_DATA_GetMyStatusPlayer(work->gameData, friendIndex);
         MYSTATUS_Copy(receivedStatus, friendStatus);
         friendRecords = MET_TRAINERS_GetFromSave(work->saveData);
@@ -6281,9 +6282,9 @@ void WIFICLUB_NoOpNetCommand(void) {}
 
 
 /* Net command: marks the scene result when the sender is the current handle. */
-void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWork *work, int handle)
+void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWork *work, GFLNetHandle *handle)
 {
-    if ((sptr)GFL_NET_HANDLE_GetCurrentHandle() == handle) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
         work->sceneResult = 1;
     }
 }
@@ -6293,9 +6294,9 @@ void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWor
 
 
 /* Net command buffer getter: returns the party snapshot of one seat. */
-u32 WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work)
+void *WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work)
 {
-    return (uptr)work->session->seatParty[seat];
+    return work->session->seatParty[seat];
 }
 
 
@@ -6310,9 +6311,9 @@ u32 WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work)
  * Net command: receives the state to resume in. In state 0x48 it stores the
  * value and starts a sync. In any other state it sets state 21.
  */
-void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWork *work, int handle)
+void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWork *work, GFLNetHandle *handle)
 {
-    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (work->state == WIFICLUB_STATE_WAIT_SYNC_AND_RESUME) {
             work->resumeState = *payload;
             GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x1a, 10);
@@ -6332,9 +6333,9 @@ void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWor
 
 
 /* Net command: applies the received rule id when the sender is the current handle. */
-void WIFICLUB_RecvRuleId(int unusedA, int unusedB, int *ruleId, WifiClubWork *work, int handle)
+void WIFICLUB_RecvRuleId(int unusedA, int unusedB, int *ruleId, WifiClubWork *work, GFLNetHandle *handle)
 {
-    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle()) {
         WIFICLUB_ApplyRuleId(work, *ruleId);
     }
 }
@@ -6367,15 +6368,15 @@ void WIFICLUB_RecvPeerChoice(int slot, int unused, WifiClubPeerChoice *choice, W
 /* Sends the own trainer card to the peer after the sync. Ends in state 135. */
 int WIFICLUB_StateSendTrainerCard(WifiClubWork *work, int procState)
 {
-    sptr handle;
+    GFLNetHandle *handle;
     unsigned statusSize;
     void *statusData;
     if (WIFICLUB_HandleNetFailure(work) == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 14, 10) != 0) {
-            handle = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
+            handle = GFL_NET_HANDLE_GetCurrentHandle();
             statusSize = MYSTATUS_GetSize();
             statusData = GAME_DATA_GetMyStatus(work->gameData);
-            if (GFL_NET_SendToHandle((void *)handle, (u16)0xa04, (u16)statusSize, (void *)statusData) != 0) {
+            if (GFL_NET_SendToHandle(handle, (u16)0xa04, (u16)statusSize, (void *)statusData) != 0) {
                 WIFICLUB_ClearTalkWindow(work);
                 work->state = WIFICLUB_STATE_SEND_CHOICE_MESSAGE;
             }
@@ -6921,7 +6922,7 @@ void WIFICLUB_ClosePanelIfTouchActive(WifiClubWork *work, int procState)
  */
 BOOL WIFICLUB_IsSlotPanelOpen(WifiClubWork *work)
 {
-    if ((uptr)work->buttonMan != 0) {
+    if (work->buttonMan != 0) {
         return 1;
     }
 
@@ -6938,7 +6939,7 @@ void WIFICLUB_OpenSlotPanel(WifiClubWork *work, void *narc, int heapId)
     MI_CpuFill8(&work->detailWordSet, 0, 0xf4);
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
-    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021C377C, (void (*)(s32, s32, s32))WIFICLUB_OnSlotButtonEvent, (sptr)work, heapId);
+    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021C377C, WIFICLUB_OnSlotButtonEvent, work, heapId);
     work->detailWordSet = WORDSET_CreateDefault((u16)heapId);
     WIFICLUB_CreateSlotPanelWindows(work, narc, heapId);
     work->touchDirty = 1;
@@ -7077,12 +7078,13 @@ void WIFICLUB_ResetSlotSelection(WifiClubWork *work)
  * Button manager callback. Selects the slot of the pressed button when it is
  * active (state 2), nothing is selected yet and the event is 0. Plays the select sound.
  */
-void WIFICLUB_OnSlotButtonEvent(u32 buttonIndex, int event, WifiClubWork *work)
+void WIFICLUB_OnSlotButtonEvent(u32 buttonIndex, s32 event, void *arg)
 {
+    WifiClubWork *work = arg;
     u32 slotIndex;
     slotIndex = buttonIndex + (work->page << 3);
     /* Byte offset 0x8cc is the buttonState table. */
-    if (*(u8 *)((uptr)work + slotIndex + 0x8cc) == 2 && work->selectedSlotPlusOne == 0 && event == 0) {
+    if (((u8 *)work->buttonState)[slotIndex] == 2 && work->selectedSlotPlusOne == 0 && event == 0) {
         work->selectedSlotPlusOne = slotIndex + 1;
         GFL_USE_PlaySeDefaultVolume(1356);
     }
@@ -7217,7 +7219,11 @@ void WIFICLUB_AddTileOffsetToTileMap(u16 *tileMap, u16 tileOffset)
 void WIFICLUB_SetSlotState(WifiClubWork *work, int slotNumber, u8 state)
 {
     /* Byte offset 0x8CB + slotNumber is buttonState[slotNumber - 1]. */
+#ifdef __MWERKS__
     *((u8 *)work + slotNumber + 0x8CB) = state;
+#else
+    ((u8 *)work->buttonState)[slotNumber - 1] = state;
+#endif
     work->pageRedraw = 1;
 }
 
@@ -7227,7 +7233,11 @@ void WIFICLUB_SetSlotState(WifiClubWork *work, int slotNumber, u8 state)
  */
 void WIFICLUB_ClearSlotState(WifiClubWork *work, int slotNumber)
 {
+#ifdef __MWERKS__
     *((u8 *)work + slotNumber + 0x8CB) = 0;
+#else
+    ((u8 *)work->buttonState)[slotNumber - 1] = 0;
+#endif
     work->pageRedraw = 1;
 }
 
@@ -7237,7 +7247,11 @@ void WIFICLUB_ClearSlotState(WifiClubWork *work, int slotNumber)
  */
 u8 WIFICLUB_GetSlotState(WifiClubWork *work, int slotNumber)
 {
+#ifdef __MWERKS__
     return *((u8 *)work + slotNumber + 0x8CB);
+#else
+    return ((u8 *)work->buttonState)[slotNumber - 1];
+#endif
 }
 
 
@@ -7300,7 +7314,7 @@ void WIFICLUB_RedrawSlotPanels(WifiClubWork *work)
     }
     for (i = 0; i < 8; i++) {
         slotNumber = i + work->page * 8 + 1;
-        if (*((u8 *)work + 0x8CB + slotNumber) != 0) {
+        if (((u8 *)work->buttonState)[slotNumber - 1] != 0) {
             if (WIFILIST_GetFriendInfoField(work->friendList, slotNumber - 1, 9) == 0) {
                 panelStyle = 0;
             } else {
@@ -7420,7 +7434,7 @@ void WIFICLUB_SetFriendNameWord(WifiClubWork *work, int friendIndex)
 /*
  * Returns the status record of one friend (an ov009 function).
  */
-WifiClubPlayerStatus *WIFICLUB_GetFriendStatus(int friendIndex) { return (struct WifiClubPlayerStatus *)DWC_RAP_GetFriendStatusData(friendIndex); }
+WifiClubPlayerStatus *WIFICLUB_GetFriendStatus(int friendIndex) { return (WifiClubPlayerStatus *)DWC_RAP_GetFriendStatusData(friendIndex); }
 
 
 /*
@@ -7541,8 +7555,8 @@ int WIFICLUB_ProcInit(void *procObj, int unused, WifiClubSession *session)
 {
     WifiClubWork *work;
     GFL_HEAP_CreateChildHeap(1, 0x8021, 0xa4000);
-    work = PROCSYS_AllocProcWork(procObj, 0x1360, 0x21);
-    MI_CpuFill8(work, 0, 0x1360);
+    work = PROCSYS_AllocProcWork(procObj, sizeof(*work), 0x21);
+    MI_CpuFill8(work, 0, sizeof(*work));
     GFL_NET_SetUserArg(work);
     work->localStatus = session->localStatus;
     work->saveData = session->saveData;

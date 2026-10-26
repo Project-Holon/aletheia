@@ -3,20 +3,23 @@
 
 #include "../types.h"
 
-/* One entry of a graph group: an identifier and a colour, 12 bytes. */
+/* One entry of a graph group: an identifier, a colour and two tally values, 12 bytes. */
 struct GraphTableEntry {
     u16 id;
     u8 red;
     u8 green;
     u8 blue;
-    u8 tailBytes[7];                    /* fixed record tail, never read by this overlay, see open_items */
+    u8 pad5;
+    u16 valueA;
+    u32 valueB;
 };
 
-/* One group of the graph table, 0xD4 bytes: a key, an entry count and 17 entries. */
+/* One group of the graph table, 0xD4 bytes: a key, an entry count, two totals and 17 entries. */
 struct GraphTableGroup {
     u8 key;
     u8 entryCount;
-    u8 tailBytes[6];                    /* fixed record tail, never read by this overlay, see open_items */
+    u16 valueA;
+    u32 valueB;
     struct GraphTableEntry entries[17];
 };
 

@@ -50,28 +50,28 @@ typedef struct ApCmd {
 } ApCmd;
 
 #include "nwm_system.h"
-extern void DC_InvalidateRange(u32, u32);
+extern void DC_InvalidateRange(void *, u32);
 #include "../arm9/mi_memory.h"
 extern void DC_StoreRange(void *, u32);
 #include "nwm_cmd.h"
-u32 NWM_StartScanEx(void *callback, const ApInfo *param);
+u32 NWM_StartScanEx(NWMCallbackFunc callback, const ApInfo *param);
 u8 *NWM_GetInfoElements(u8 *bssDesc, u8 elementId);
 u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
 
-u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
+u32 NWM_StartScanEx(NWMCallbackFunc callback, const ApInfo *param) {
     ApCmd cmd;
     u32 r = NWMi_CheckState(1, 3);
-    uptr base;
+    struct NwmSystemWork *base;
     u32 busy;
     if (r != 0 && r != 2) {
         return r;
     }
     base = NWMi_GetSystemWork();
     if (base != 0) {
-        u32 ptr = *(u32 *)(base + 0x2278);
+        struct NwmStatus *ptr = base->status;
         busy = 1;
-        DC_InvalidateRange(ptr + 7, 1);
-        if (*(u8 *)(*(u32 *)(base + 0x2278) + 7) != 1) {
+        DC_InvalidateRange(&ptr->busy[7], 1);
+        if (base->status->busy[7] != 1) {
             busy = 0;
         }
     } else {
@@ -95,7 +95,7 @@ u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     MI_CpuFill8(param->buf, 0, (param->bufLen + 3) & ~3);
     DC_StoreRange(param->buf, (param->bufLen + 3) & ~3);
     r = 7;
-    NWMi_SetCallbackTable(r, (uptr)callback);
+    NWMi_SetCallbackTable(r, callback);
     cmd.cmd = r;
     cmd.channelList = param->channelList;
     cmd.bufLen = param->bufLen;
@@ -106,7 +106,7 @@ u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     cmd.ssidMatchLength = param->ssidMatchLength;
     MI_CpuCopy8(param->ssid, cmd.ssid, 0x20);
     MI_CpuCopy8(param->mac, cmd.mac, 6);
-    r = NWMi_SendCommandDirect((uptr)(&cmd), 0x38);
+    r = NWMi_SendCommandDirect(&cmd, 0x38);
     if (r == 0 || r == 2) {
         r = 2;
     }

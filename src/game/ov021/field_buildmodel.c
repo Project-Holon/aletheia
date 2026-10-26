@@ -377,7 +377,7 @@ BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey)
     unsigned j;
     sptr z = 0;
 
-    man = (BuildModelMan *)GFL_HEAP_Alloc(heapId, 0x13F8, 0, (char *)gBuildModelFileName, 0x193);
+    man = (BuildModelMan *)GFL_HEAP_Alloc(heapId, sizeof(BuildModelMan), 0, (char *)gBuildModelFileName, 0x193);
     man->heapId = heapId;
     man->fieldMap = fieldMap;
     FIELD_BUILDMODEL_InitSeason(&man->season, dateKey);
@@ -761,7 +761,7 @@ void FIELD_BUILDMODEL_CreateModels(BuildModelMan *man, void *extraResource)
     unsigned char i;
     if (n != 0) {
         man->modelInfoCount = n;
-        man->modelInfos = GFL_HEAP_Alloc(man->heapId, n * 0x18, 1, (char *)gBuildModelFileName, 0x45F);
+        man->modelInfos = GFL_HEAP_Alloc(man->heapId, n * sizeof(*man->modelInfos), 1, (char *)gBuildModelFileName, 0x45F);
         for (i = 0; i < man->modelInfoCount; i++)
             FIELD_BUILDMODEL_LoadModel(man, &man->modelInfos[i], i, extraResource);
     }
@@ -788,7 +788,7 @@ void FIELD_BUILDMODEL_CreateAnimSets(BuildModelMan *man, BuildModelHandleTable *
         out->count = n;
         out->handles = GFL_HEAP_Alloc(man->heapId, n << 3, 1, (char *)gBuildModelFileName, 0x490);
         man->animSetCount = n;
-        man->animSets = GFL_HEAP_Alloc(man->heapId, n * 0x18, 1, (char *)gBuildModelFileName, 0x494);
+        man->animSets = GFL_HEAP_Alloc(man->heapId, n * sizeof(*man->animSets), 1, (char *)gBuildModelFileName, 0x494);
         for (i = 0; i < man->animSetCount; i++) {
             BuildModelAnimSet *sets = man->animSets;
             BuildModelModel *models = man->modelInfos;
@@ -865,11 +865,11 @@ void FIELD_BUILDMODEL_InitAnimSet(BuildModelMan *man, BuildModelAnimSet *out, Bu
 {
     u32 buf[BUILDMODEL_ANIM_SLOTS];
     u8 *anims;
-    uptr owner;
+    G3dRender *owner;
     int i;
     u8 k;
     anims = FIELD_BUILDMODEL_GetModelAnimDefs(model->def);
-    owner = (uptr)G3D_SYSTEM_CreateRender(model->resource, 0, man->g3dResources);
+    owner = G3D_SYSTEM_CreateRender(model->resource, 0, man->g3dResources);
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS; i++) {
         if (model->animResource[i] != 0)
             buf[i] = (uptr)G3D_SYSTEM_CreateAnime((struct G3dRender *)owner, (struct G3dResource *)model->animResource[i], 0);
@@ -1252,7 +1252,7 @@ BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, Buil
     struct VecFx32 pos;
     int n = 0;
     u32 i;
-    list = GFL_HEAP_Alloc(man->heapId, 0x80, 1, (char *)gBuildModelFileName, 0x749);
+    list = GFL_HEAP_Alloc(man->heapId, 0x20 * sizeof(*list), 1, (char *)gBuildModelFileName, 0x749);
     for (i = 0; i < BUILDMODEL_ENTRY_COUNT; i++) {
         entry = &man->entries[i];
         if (entry->object == 0)
@@ -1326,7 +1326,7 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
     BuildModelNode *node;
     struct VecFx32 fieldOffset;
     int facing;
-    node = GFL_HEAP_Alloc(man->heapId, 0x60, 0, (char *)gBuildModelFileName, 0x7E9);
+    node = GFL_HEAP_Alloc(man->heapId, sizeof(*node), 0, (char *)gBuildModelFileName, 0x7E9);
     node->man = man;
     node->entry = entry;
     node->slot = 0xFFFF;
@@ -1358,7 +1358,7 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind,
  */
 BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(BuildModelMan *man, u32 tableId, BuildModelBlock *src)
 {
-    BuildModelNode *node = GFL_HEAP_Alloc(man->heapId, 0x60, 0, (char *)gBuildModelFileName, 0x825);
+    BuildModelNode *node = GFL_HEAP_Alloc(man->heapId, sizeof(*node), 0, (char *)gBuildModelFileName, 0x825);
     node->man = man;
     node->entry = 0;
     node->slot = 0xFFFF;

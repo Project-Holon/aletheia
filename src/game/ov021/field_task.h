@@ -16,7 +16,7 @@ void *FIELD_TASK_GetWork(FieldTask *task);
 int FIELD_TASK_IsFinished(FieldTask *task);
 u32 FIELD_TASK_GetState(FieldTask *task);
 void FIELD_TASK_SetRunning(FieldTask *task);
-int FIELD_TASK_SetFinished(FieldTask *task);
+FieldTask *FIELD_TASK_SetFinished(FieldTask *task);
 void FIELD_TASK_RunCheck(FieldTask *task);
 /* END mkheaders: generated region */
 

@@ -24,7 +24,7 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
 void DWCi_FNTlClear(Canvas *cnv, int color);
 void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
-void DWCi_FNTlRenewBg(int x);
+void DWCi_FNTlRenewBg(Canvas *x);
 /* END mkheaders: generated region */
 
 #endif

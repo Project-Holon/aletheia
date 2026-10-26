@@ -16,8 +16,8 @@ typedef struct FieldSubscreen {
     u16 padHeap;
     u32 panelResult;       /* result posted by the panel (close, select ...) */
     void *fieldMap;
-    void (*callback)(int); /* handed to the panel by mode 8 (callback mode) */
-    u32 callbackArg;
+    void (*callback)(void *); /* handed to the panel by mode 8 (callback mode) */
+    void *callbackArg;
     void *cgear;           /* handle of the loaded panel */
     u32 pad24[2];
 } FieldSubscreen;

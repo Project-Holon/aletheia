@@ -15,11 +15,11 @@ BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
 int DWC_AC_ProcessGetWDSInfo(void);
 void DWC_AC_CancelGetWDSInfo(void);
 void DWC_AC_CleanupGetWDSInfo(void);
-void WDS_Initialize_CB(void);
-void WDS_StartScan_CB(void);
-void WDS_EndScan_CB(void);
-void WDS_End_CB(void);
-void WDS_Error_End_CB(void);
+void WDS_Initialize_CB(void * unused0);
+void WDS_StartScan_CB(void * unused0);
+void WDS_EndScan_CB(void * unused0);
+void WDS_End_CB(void * unused0);
+void WDS_Error_End_CB(void * unused0);
 /* END mkheaders: generated region */
 
 #endif

@@ -14,10 +14,20 @@ struct Guru2LobbyMember {
     void *previous;
 };
 
+/* Member id pair (low word: id, high word: present flag) of one frame. */
+struct Guru2LobbyWordPair {
+    unsigned int a;
+    unsigned int b;
+};
+
+struct Guru2LobbyFrame {
+    struct Guru2LobbyWordPair current;
+    struct Guru2LobbyWordPair previous;
+};
+
 /*
  * Lobby work (0x4874 bytes) of the receipt proc (guru2_receipt.c), allocated
- * by GURU2_RECEIPT_ProcInit. The records after 0x4822 are reached by raw
- * offset (FrameRecord in guru2_receipt.c).
+ * by GURU2_RECEIPT_ProcInit.
  */
 struct Guru2Lobby {
     int state;                        /* 0x00 proc phase: 0 wipe in, 1 recruit, 2 state table only, 3 wipe out, 4 reset */
@@ -32,20 +42,20 @@ struct Guru2Lobby {
     void *paletteBlock;               /* 0x24 heap block of the member palette file */
     void *paletteData;                /* 0x28 unpacked palette data pointer */
     unsigned char pad_2C[4];
-    int vblankTask;                   /* 0x30 main task that runs GURU2_RECEIPT_VBlank */
-    int arcHandle;                    /* 0x34 archive handle 32 */
+    void *vblankTask;                 /* 0x30 main task that runs GURU2_RECEIPT_VBlank */
+    void *arcHandle;                  /* 0x34 archive handle 32 */
     void *font;                       /* 0x38 */
     void *wordSet;                    /* 0x3C */
-    int msgData;                      /* 0x40 message bank */
+    void *msgData;                    /* 0x40 message bank */
     void *memberName[5];              /* 0x44 name string buffer per member */
     unsigned char pad_58[4];
     void *messageBuf;                 /* 0x5C text of the message window */
     void *titleBuf;                   /* 0x60 title text */
     unsigned char pad_64[4];
     void *clactUnit;                  /* 0x68 */
-    unsigned int paletteId[5];        /* 0x6C CLACT palette id per member */
-    unsigned int charId[5];           /* 0x80 CLACT character id per member */
-    unsigned int cellAnimId;          /* 0x94 */
+    int paletteId[5];                 /* 0x6C CLACT palette id per member */
+    int charId[5];                    /* 0x80 CLACT character id per member */
+    int cellAnimId;                   /* 0x94 */
     unsigned char pad_98[4];
     void *memberActor[5];             /* 0x9C one actor per member */
     unsigned char pad_B0[32];
@@ -71,7 +81,7 @@ struct Guru2Lobby {
     struct Guru2LobbyMember member[5]; /* 0x138 */
     unsigned int actorState[5];       /* 0x160 0 idle, 1 show, 2 shown, 3 hide */
     unsigned char pad_174[0x4690];
-    unsigned int previousMemberCount; /* 0x4804 */
+    volatile int previousMemberCount; /* 0x4804 */
     int recruitClosed;                /* 0x4808 */
     unsigned int syncKey;             /* 0x480C */
     unsigned char answerSent;         /* 0x4810 */
@@ -82,8 +92,10 @@ struct Guru2Lobby {
     int timeoutFrames;                /* 0x4818 */
     unsigned int timeoutMemberCount;  /* 0x481C */
     short answerWaitFrames;           /* 0x4820 */
+    unsigned char pad_4822[2];
+    struct Guru2LobbyFrame frame[5];  /* 0x4824 member ids of this and the previous frame */
 };
 
-typedef char Guru2LobbySizeCheck[(sizeof(struct Guru2Lobby) == 0x4824) ? 1 : -1];
+typedef char Guru2LobbySizeCheck[(sizeof(struct Guru2Lobby) == 0x4874) ? 1 : -1];
 
 #endif

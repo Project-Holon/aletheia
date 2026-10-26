@@ -107,9 +107,9 @@ u32 FLDMMDL_BLACT_AddActorMmdlByCode(Mmdl *mmdl, u32 code);
 int FLDMMDL_BLACT_AddActorMmdlOrReserve(Mmdl *mmdl, u16 *outBlactId);
 void FLDMMDL_BLACT_DeleteActorRes(BlactSys *cont, Mmdl *mmdl, u32 blactId, u16 code);
 void FLDMMDL_BLACT_DeleteActorMmdl(Mmdl *mmdl, u32 blactId);
-int FLDMMDL_BLACT_AddActorPosOrReserve(MmdlSys *mmdlSys, const MmdlObjCodeParam *param, u16 *actor, VecFx32 *pos, BlactAddActorHook hook, u32 hookArg);
+int FLDMMDL_BLACT_AddActorPosOrReserve(MmdlSys *mmdlSys, const MmdlObjCodeParam *param, u16 *actor, VecFx32 *pos, BlactAddActorHook hook, void *hookArg);
 void FLDMMDL_BLACT_DeleteActorPos(MmdlSys *mmdlSys, u16 *actor);
-void FLDMMDL_BLACT_EntryHook(struct BbActSys *sys, int entryIndex, u32 arg);
+void FLDMMDL_BLACT_EntryHook(struct BbActSys *sys, int entryIndex, void *arg);
 struct BbActSys *FLDMMDL_BLACT_GetBbActSys(BlactSys *cont);
 void FLDMMDL_BLACT_GetActorSize(Mmdl *mmdl, u16 *width, u16 *height);
 void FLDMMDL_BLACT_InitResTable(BlactResTable *table, u32 count, u32 heapId);
@@ -132,7 +132,7 @@ int FLDMMDL_BLACT_LoadAddRes(BlactSys *cont, u32 code, u32 mdlSize, u32 texSize,
 void FLDMMDL_BLACT_RegisterAddRes(BlactSys *cont);
 int FLDMMDL_BLACT_FindReservedRes(BlactSys *cont, unsigned int code, unsigned short *outFlags);
 int FLDMMDL_BLACT_CancelReservedRes(BlactSys *cont, unsigned int code);
-void FLDMMDL_BLACT_ReserveActor(BlactSys *cont, Mmdl *mmdl, const MmdlObjCodeParam *param, u16 *outBlactId, BlactAddActorHook hook, u32 hookArg, VecFx32 *pos);
+void FLDMMDL_BLACT_ReserveActor(BlactSys *cont, Mmdl *mmdl, const MmdlObjCodeParam *param, u16 *outBlactId, BlactAddActorHook hook, void *hookArg, VecFx32 *pos);
 void FLDMMDL_BLACT_AddReservedActor(BlactSys *cont, BlactEntry *entry);
 void FLDMMDL_BLACT_AddReservedActors(BlactSys *cont);
 int FLDMMDL_BLACT_IsActorReservedByOther(BlactSys *cont, unsigned int code, Mmdl *mmdl);
@@ -178,7 +178,7 @@ void FLDMMDL_BLACT_DeleteVramSlot(struct BbActSys *sys, u32 slotIndex)
 
 void FLDMMDL_BLACT_Init(MmdlSys *mmdlSys, struct BbActSys *bbdActSys, u32 resMax)
 {
-    BlactSys *cont = GFL_HEAP_Alloc(FLDMMDL_SysGetHeapId(mmdlSys), 0x24, 1, (const char *)sBlactFileName, 360);
+    BlactSys *cont = GFL_HEAP_Alloc(FLDMMDL_SysGetHeapId(mmdlSys), sizeof(*cont), 1, (const char *)sBlactFileName, 360);
     struct BbBoard *board;
     VecFx32 scale;
     u8 polyIdBase;
@@ -273,7 +273,7 @@ u32 FLDMMDL_BLACT_AddActorPos(MmdlSys *mmdlSys, VecFx32 *pos, int mdlSize, u32 a
     desc.flags = 1;
     desc.color = 1;
     desc.hook = FLDMMDL_BLACT_EntryHook;
-    desc.hookArg = (uptr)cont;
+    desc.hookArg = cont;
     blactId = BILLBOARD_ACT_CreateEntries(cont->bbdActSys, cont->slotBase, &desc, 1, 0);
     anime = FLDMMDL_BLACT_GetAnimeTable(animId);
     if (anime->cmdLists != 0) {
@@ -367,7 +367,7 @@ void FLDMMDL_BLACT_DeleteActorMmdl(Mmdl *mmdl, u32 blactId)
 /* actor: [0] resource flags, [1] actor id.
  * param is const: that is what lets the mdlSize/animId loads schedule above
  * the outgoing stack-argument store of slotIndex. */
-int FLDMMDL_BLACT_AddActorPosOrReserve(MmdlSys *mmdlSys, const MmdlObjCodeParam *param, u16 *actor, VecFx32 *pos, BlactAddActorHook hook, u32 hookArg)
+int FLDMMDL_BLACT_AddActorPosOrReserve(MmdlSys *mmdlSys, const MmdlObjCodeParam *param, u16 *actor, VecFx32 *pos, BlactAddActorHook hook, void *hookArg)
 {
     u16 slotIndex;
     BlactSys *cont = FLDMMDL_SysGetBlActCont(mmdlSys);
@@ -396,7 +396,7 @@ void FLDMMDL_BLACT_DeleteActorPos(MmdlSys *mmdlSys, u16 *actor)
 }
 
 /* Entry hook of every actor (BbActDesc.hook); arg is the container. */
-void FLDMMDL_BLACT_EntryHook(struct BbActSys *sys, int entryIndex, u32 arg)
+void FLDMMDL_BLACT_EntryHook(struct BbActSys *sys, int entryIndex, void *arg)
 {
     ((BlactSys *)arg)->entryHookFlag |= 1;
 }
@@ -785,7 +785,7 @@ int FLDMMDL_BLACT_CancelReservedRes(BlactSys *cont, unsigned int code)
 }
 
 /* Reserves an actor; its resource is reserved too when nobody has it yet. */
-void FLDMMDL_BLACT_ReserveActor(BlactSys *cont, Mmdl *mmdl, const MmdlObjCodeParam *param, u16 *outBlactId, BlactAddActorHook hook, u32 hookArg, VecFx32 *pos)
+void FLDMMDL_BLACT_ReserveActor(BlactSys *cont, Mmdl *mmdl, const MmdlObjCodeParam *param, u16 *outBlactId, BlactAddActorHook hook, void *hookArg, VecFx32 *pos)
 {
     unsigned int i;
     unsigned int count;

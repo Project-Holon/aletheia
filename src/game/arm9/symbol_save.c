@@ -108,7 +108,7 @@ void SYMBOL_SAVE_WriteRecord(struct SymbolSave *save, u16 id, u16 param, u8 flag
 
 void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index);
 
-u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 matchMode);
+u32 SYMBOL_SAVE_FindRecord(struct SaveControl *saveData, u32 *keyWord, u32 heapId, u32 matchMode);
 
 int SYMBOL_SAVE_GetBitBlockSize(void);
 
@@ -415,7 +415,7 @@ void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index)
     save->rank = rank;
 }
 
-u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 matchMode)
+u32 SYMBOL_SAVE_FindRecord(struct SaveControl *saveData, u32 *keyWord, u32 heapId, u32 matchMode)
 {
     struct SymbolSave *save;
     struct SymbolRec *keyRecord = (struct SymbolRec *)keyWord;
@@ -423,7 +423,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
     s32 slotIndex;
     s32 recordIndex;
 
-    save = GFL_HEAP_Alloc((uptr)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
+    save = GFL_HEAP_Alloc(heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
     for (slotIndex = 0; slotIndex < 2; slotIndex++) {
         if (SAVE_CONTROL_ReadRecordFromFlash(saveData, 0x3d, slotIndex, save, 0x850) == 1) {
             SYMBOL_SAVE_FinalizeChecksum(save);

@@ -356,8 +356,8 @@ extern const s16 FX_SinCosTable_[];
 int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  IrcRhythm *work; struct Unit *unit; void *printQueue; void *font;
  GFL_HEAP_CreateChildHeap(1,0x38,0x20000);
- work=PROCSYS_AllocProcWork(proc,0x8b4,0x38);
- MI_CpuFill8(work,0,0x8b4);
+ work=PROCSYS_AllocProcWork(proc,sizeof(*work),0x38);
+ MI_CpuFill8(work,0,sizeof(*work));
  work->context=context;
  IRC_RHYTHM_InitScreen(&work->screen,0x38);
  IRC_RHYTHM_InitTextSystem(&work->text,0,0x38);
@@ -421,7 +421,7 @@ int IRC_RHYTHM_Main(void *proc,u32 *state,void *unused,IrcRhythm *work) {
 
 /* ---- screen: backgrounds, sprites and the vblank task ---- */
 
-void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,0xbc); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((struct DispVram *)sRhythmVramBankConfig); BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=GFL_USE_AddMainTask(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
+void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,sizeof(*screen)); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((struct DispVram *)sRhythmVramBankConfig); BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=GFL_USE_AddMainTask(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
 
 /*
  * extent: two zero alignment bytes follow compiled code.
@@ -477,7 +477,7 @@ void IRC_RHYTHM_VBlankBackgrounds(void *unused) { BG_SYS_Update(); }
  */
 void IRC_RHYTHM_InitActorSystem(IrcActorSystem *sys,const void *config,u16 heapId) {
  void *archive; int i; struct ActorInitParam placement;
- MI_CpuFill8(sys,0,0xb4);
+ MI_CpuFill8(sys,0,sizeof(*sys));
  CLACT_InitSystem(&gClActorInitParam,(struct DispVramCfg *)config,heapId);
  sys->unit=CLACT_CreateUnit(0x80,0,heapId);
  CLACT_SetUnitDefaultRenderer(sys->unit);
@@ -511,7 +511,7 @@ void IRC_RHYTHM_InitActorSystem(IrcActorSystem *sys,const void *config,u16 heapI
  }
 }
 
-void IRC_RHYTHM_ExitActorSystem(IrcActorSystem *sys) { int i; for(i=0;i<35;i++) if(sys->actors[i]) CLACT_DeleteActor((struct ClactActor *)sys->actors[i]); CLACT_ReleasePalette(sys->particlePalette); CLACT_ReleaseCharacter(sys->particleCharacter); CLACT_ReleaseCellAnim(sys->particleCellAnim); CLACT_ReleasePalette(sys->subParticlePalette); CLACT_ReleaseCharacter(sys->subParticleCharacter); CLACT_ReleaseCellAnim(sys->subParticleCellAnim); CLACT_ReleasePalette(sys->countdownPalette); CLACT_ReleaseCharacter(sys->countdownCharacter); CLACT_ReleaseCellAnim(sys->countdownCellAnim); CLACT_DeleteUnit(sys->unit); CLACT_ExitSystem(); MI_CpuFill8(sys,0,0xb4); }
+void IRC_RHYTHM_ExitActorSystem(IrcActorSystem *sys) { int i; for(i=0;i<35;i++) if(sys->actors[i]) CLACT_DeleteActor((struct ClactActor *)sys->actors[i]); CLACT_ReleasePalette(sys->particlePalette); CLACT_ReleaseCharacter(sys->particleCharacter); CLACT_ReleaseCellAnim(sys->particleCellAnim); CLACT_ReleasePalette(sys->subParticlePalette); CLACT_ReleaseCharacter(sys->subParticleCharacter); CLACT_ReleaseCellAnim(sys->subParticleCellAnim); CLACT_ReleasePalette(sys->countdownPalette); CLACT_ReleaseCharacter(sys->countdownCharacter); CLACT_ReleaseCellAnim(sys->countdownCellAnim); CLACT_DeleteUnit(sys->unit); CLACT_ExitSystem(); MI_CpuFill8(sys,0,sizeof(*sys)); }
 
 /*
  * Thumb long-branch veneer in a .word run:
@@ -544,7 +544,7 @@ struct Unit *IRC_RHYTHM_GetActorUnit(IrcActorSystem *sys)
 /* ---- text system and text windows ---- */
 
 void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
- MI_CpuFill8(text,0,0x10);
+ MI_CpuFill8(text,0,sizeof(*text));
  GF_FONT_InitTextColor();
  switch (fontStyle) {
  case 0:
@@ -561,7 +561,7 @@ void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
  ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x1C0,0x20,heapId);
 }
 
-void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->msgData); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->msgData); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,sizeof(*text)); }
 
 int IRC_RHYTHM_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 
@@ -591,7 +591,7 @@ void *IRC_RHYTHM_GetWordSet(IrcTextSystem *text)
 void IRC_RHYTHM_InitMessageWindow(IrcTextWindow *win, u32 layer, u32 x, u8 y, u8 width, u8 height, u8 paletteNo, u16 heapId)
 {
     void *window;
-    MI_CpuFill8(win, 0, 0x14);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->clearColor = 15;
     win->window = BMP_WIN_Create(layer, x, y, width, height, paletteNo, 1);
     win->buffer = STRBUF_Create(0xff, heapId);
@@ -607,9 +607,9 @@ void IRC_RHYTHM_InitMessageWindow(IrcTextWindow *win, u32 layer, u32 x, u8 y, u8
 /*
  * lever: y and its callee parameter are u8; u32 hoists its spill reload.
  */
-void IRC_RHYTHM_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,u8 height,u8 paletteNo,u16 clearColor,u8 slot,u16 heapId) { void *window; MI_CpuFill8(win,0,0x14); win->clearColor=clearColor; win->window=BMP_WIN_Create(layer,x,y,width,height,paletteNo,slot); win->buffer=STRBUF_Create(0xff,heapId); win->printTarget=win->window; win->isPrinting=0; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); window=win->window; BMP_WIN_TransferChars(window); BMP_WIN_MakeScreen(window); BG_SYS_PushTile(BMP_WIN_GetBgLayer(window)); }
+void IRC_RHYTHM_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,u8 height,u8 paletteNo,u16 clearColor,u8 slot,u16 heapId) { void *window; MI_CpuFill8(win,0,sizeof(*win)); win->clearColor=clearColor; win->window=BMP_WIN_Create(layer,x,y,width,height,paletteNo,slot); win->buffer=STRBUF_Create(0xff,heapId); win->printTarget=win->window; win->isPrinting=0; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); window=win->window; BMP_WIN_TransferChars(window); BMP_WIN_MakeScreen(window); BG_SYS_PushTile(BMP_WIN_GetBgLayer(window)); }
 
-void IRC_RHYTHM_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer); BMP_WIN_Delete(win->window); MI_CpuFill8(win,0,20); }
+void IRC_RHYTHM_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer); BMP_WIN_Delete(win->window); MI_CpuFill8(win,0,sizeof(*win)); }
 
 int IRC_RHYTHM_UpdateTextWindow(IrcTextWindow *win,IrcTextSystem *text) { void *printQueue; printQueue=text->printQueue; if(win->isPrinting) { if(!PRINTSYS_QUE_IsExistTarget(printQueue,BMP_WIN_GetBmp(win->printTarget))) { BMP_WIN_TransferChars(win->printTarget); win->isPrinting=0; } } if(!win->isPrinting) return 1; return 0; }
 
@@ -625,9 +625,9 @@ void IRC_RHYTHM_ClearTextWindow(IrcTextWindow *win) { BMP_Clear(BMP_WIN_GetBmp(w
 
 /* ---- countdown ---- */
 
-void IRC_RHYTHM_InitCountdown(IrcRhythmCountdown *countdown, IrcScreen *screen, int unused) { int i; MI_CpuFill8(countdown,0,0x1c); for(i=0;i<3;i++) countdown->actor=IRC_RHYTHM_GetScreenActor(screen,i+IRC_RHYTHM_ACTOR_COUNTDOWN); }
+void IRC_RHYTHM_InitCountdown(IrcRhythmCountdown *countdown, IrcScreen *screen, int unused) { int i; MI_CpuFill8(countdown,0,sizeof(*countdown)); for(i=0;i<3;i++) countdown->actor=IRC_RHYTHM_GetScreenActor(screen,i+IRC_RHYTHM_ACTOR_COUNTDOWN); }
 
-void IRC_RHYTHM_ExitCountdown(IrcRhythmCountdown *countdown) { MI_CpuFill8(countdown, 0, 0x1c); }
+void IRC_RHYTHM_ExitCountdown(IrcRhythmCountdown *countdown) { MI_CpuFill8(countdown, 0, sizeof(*countdown)); }
 
 void IRC_RHYTHM_UpdateCountdown(IrcRhythmCountdown *countdown) { if(countdown->running) { if(countdown->frames==0) { GFL_USE_PlaySeDefaultVolume(IRC_RHYTHM_SE_COUNTDOWN); CLACT_SetActorDrawEnable((struct ClactActor *)countdown->actor,1); CLACT_SetActorAnimSeq((struct ClactActor *)countdown->actor,4-countdown->step); } if(countdown->frames++>=60) { countdown->frames=0; countdown->step++; } if(countdown->step==3) { GFL_USE_PlaySeDefaultVolume(IRC_RHYTHM_SE_GO); countdown->finished=1; countdown->running=0; CLACT_SetActorDrawEnable((struct ClactActor *)countdown->actor,0); } } }
 
@@ -655,8 +655,7 @@ void IRC_RHYTHM_StateCountdown(IrcRhythm *work,u16 *step) { IRC_RHYTHM_UpdateCou
  * written as work->field load their own constants and change the schedule.
  */
 typedef enum { RECORD_BASE = 0x814 } RecordBase;
-#define OFFSET_OF(type, field) ((sptr)&((type *)0)->field)
-#define FAR_FIELD(type, field) (*(type *)((u8 *)work + (base + (OFFSET_OF(IrcRhythm, field) - RECORD_BASE))))
+#define FAR_FIELD(type, field) (*(type *)((u8 *)work + (base + ((sptr)BW_OFFSETOF(IrcRhythm, field) - RECORD_BASE))))
 #define RECORD_AT_BASE ((IrcRhythmRecord *)((u8 *)work + base))
 
 void IRC_RHYTHM_StateTapping(IrcRhythm *work,u16 *step) {
@@ -749,9 +748,9 @@ int IRC_RHYTHM_JudgeTap(IrcRhythmRecord *record) {
 
 /* ---- record exchange over the infrared link ---- */
 
-void IRC_RHYTHM_InitNetSync(IrcRhythmNetSync *sync,IrcSys *ircSys) { MI_CpuFill8(sync,0,0x198); sync->ircSys=ircSys; COMPATIBLE_IRC_SYS_AddCommandTable(ircSys,IRC_RHYTHM_NET_COMMAND_BASE,sRhythmNetCommandTable,1,sync); }
+void IRC_RHYTHM_InitNetSync(IrcRhythmNetSync *sync,IrcSys *ircSys) { MI_CpuFill8(sync,0,sizeof(*sync)); sync->ircSys=ircSys; COMPATIBLE_IRC_SYS_AddCommandTable(ircSys,IRC_RHYTHM_NET_COMMAND_BASE,sRhythmNetCommandTable,1,sync); }
 
-void IRC_RHYTHM_ExitNetSync(IrcRhythmNetSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->ircSys,IRC_RHYTHM_NET_COMMAND_BASE); MI_CpuFill8(sync,0,0x198); }
+void IRC_RHYTHM_ExitNetSync(IrcRhythmNetSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->ircSys,IRC_RHYTHM_NET_COMMAND_BASE); MI_CpuFill8(sync,0,sizeof(*sync)); }
 
 /*
  * extent: Two zero alignment bytes at 021B87F2 before 021B87F4.
@@ -846,12 +845,12 @@ int IRC_RHYTHM_BlendPaletteEntry(u32 target,u16 *color,int angle,int paletteBank
 
 void IRC_RHYTHM_InitParticles(IrcRhythmParticles *particles,IrcScreen *screen,int mode,int firstActor,int surface) {
  int i;
- MI_CpuFill8(particles,0,0x534); particles->mode=mode;
+ MI_CpuFill8(particles,0,sizeof(*particles)); particles->mode=mode;
  particles->spawnTimer=0; particles->spawnInterval=10;
  for(i=0;i<30;i++) IRC_RHYTHM_InitParticle(&particles->particles[i],IRC_RHYTHM_GetScreenActor(screen,firstActor+i),surface);
 }
 
-void IRC_RHYTHM_ExitParticles(IrcRhythmParticles *particles) { MI_CpuFill8(particles,0,0x534); }
+void IRC_RHYTHM_ExitParticles(IrcRhythmParticles *particles) { MI_CpuFill8(particles,0,sizeof(*particles)); }
 
 static inline void initialize(IrcPoint *start,IrcPoint *end,int x,int endY)
 {
@@ -944,7 +943,7 @@ void IRC_RHYTHM_SpawnBurst(IrcRhythmParticles *particles, const IrcPoint *center
     }
 }
 
-void IRC_RHYTHM_InitParticle(IrcRhythmParticle *particle, struct ClactActor *actor, int surface) { MI_CpuFill8(particle,0,44); particle->actor=actor; particle->surface=surface; }
+void IRC_RHYTHM_InitParticle(IrcRhythmParticle *particle, struct ClactActor *actor, int surface) { MI_CpuFill8(particle,0,sizeof(*particle)); particle->actor=actor; particle->surface=surface; }
 
 /*
  * extent: Two zero alignment bytes at 021B8DA2 before 021B8DA4.

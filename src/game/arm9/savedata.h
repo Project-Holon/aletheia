@@ -11,7 +11,7 @@ struct SaveBlockDef;
 
 struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit, u32 header_size, u32 block_overhead, u32 footer_size);
 void SAVEDATA_DeleteTable(struct SaveDataTable *svdt);
-void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt);
+void SAVEDATA_InitBuffer(u8 *buffer, struct SaveDataTable *svdt);
 u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id);
 void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead);
 u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid);

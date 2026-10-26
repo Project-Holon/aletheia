@@ -18,7 +18,7 @@ struct FieldCamera;
 RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fieldCamera);
 void FIELD_RAIL_Delete(RailManager *manager);
 void FIELD_RAIL_SetSetting(RailManager *manager, FieldRailSetting *setting);
-u32 FIELD_RAIL_ClearSetting(RailManager *manager);
+RailClosedLines *FIELD_RAIL_ClearSetting(RailManager *manager);
 RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager);
 int FIELD_RAIL_ReleaseWork(RailManager *manager, RailWork *work);
 void FIELD_RAIL_SetFocusWork(RailManager *manager, RailWork *work);

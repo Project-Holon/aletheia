@@ -6,7 +6,7 @@
 
 #include "../types.h"
 
-void SYSTEMFONT_Load(u32 fontFile);
+void SYSTEMFONT_Load(const char *fontFile);
 void SYSTEMFONT_GetGlyph(int idx, u8 *out);
 u32 SYSTEMFONT_ExpandRowBits(u32 rowBits);
 int SYSTEMFONT_GetGlyphHeight(void);

@@ -129,7 +129,7 @@ void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex)
 DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
 {
     u32 i;
-    DungeonSoundTable *table = (DungeonSoundTable *)GFL_HEAP_Alloc(heapId, 8, 0, (const void *)0x020A7718, 0x77);
+    DungeonSoundTable *table = (DungeonSoundTable *)GFL_HEAP_Alloc(heapId, sizeof(*table), 0, (const void *)0x020A7718, 0x77);
 
     table->count = (u8)ARC_TOOL_GetArchiveFileCount(0x92);
     table->records = (DungeonSoundRecord *)GFL_HEAP_Alloc(heapId, 0x1c * table->count, 0,
@@ -187,7 +187,7 @@ DungeonSoundRecord *ISS_DUNGEON_SYS_FindRecord(DungeonSoundTable *table, u16 are
  */
 IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId)
 {
-    IssDungeonSys *dungeon = (IssDungeonSys *)GFL_HEAP_Alloc(heapId, 0x38, 0,
+    IssDungeonSys *dungeon = (IssDungeonSys *)GFL_HEAP_Alloc(heapId, sizeof(IssDungeonSys), 0,
                                                   (const void *)0x020A7718, 0x109);
 
     dungeon->heapId = (u16)heapId;
@@ -327,9 +327,9 @@ void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon)
  */
 void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId)
 {
-    u32 found = (uptr)ISS_DUNGEON_SYS_FindRecord(dungeon->table, areaId);
+    DungeonSoundRecord *found = ISS_DUNGEON_SYS_FindRecord(dungeon->table, areaId);
 
-    dungeon->record = (DungeonSoundRecord *)found;
+    dungeon->record = found;
     if (found != 0) {
         ISS_DUNGEON_SYS_ApplyTrack(dungeon->record, GAME_DATA_GetSeason(dungeon->gameData));
     }

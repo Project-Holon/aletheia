@@ -175,8 +175,8 @@ typedef struct {
     fx32 scaleY;             /* 0x3040 */
     u8 pad3044[4];
     int angle;               /* 0x3048 */
-    u32 cx;                  /* 0x304C */
-    u32 cy;                  /* 0x3050 */
+    int cx;                  /* 0x304C */
+    int cy;                  /* 0x3050 */
     u32 x;                   /* 0x3054 */
     u32 y;                   /* 0x3058 */
     u16 pane;                /* 0x305C 0 left half, 1 right half */
@@ -285,14 +285,14 @@ typedef struct {
         } named;
     } actors;                /* 0x04C */
     union {
-        void *set[6];        /* 0x0DC flat resource set (CreateObjects view) */
+        int set[6];        /* 0x0DC flat resource set (CreateObjects view) */
         struct {
-            void *palette;       /* 0x0DC */
-            void *chr;           /* 0x0E0 */
-            void *cellAnim;      /* 0x0E4 */
-            void *palette2;      /* 0x0E8 */
-            void *chr2;          /* 0x0EC */
-            void *cellAnim2;     /* 0x0F0 */
+            int palette;       /* 0x0DC */
+            int chr;           /* 0x0E0 */
+            int cellAnim;      /* 0x0E4 */
+            int palette2;      /* 0x0E8 */
+            int chr2;          /* 0x0EC */
+            int cellAnim2;     /* 0x0F0 */
         } named;
     } resSet;                /* 0x0DC */
     void *vblankTask;        /* 0x0F4 */

@@ -109,7 +109,7 @@ extern u8 ov008_id[];
 
 extern u8 d_0217277C[];
 
-int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work);
+int IRC_BATTLE_TASK_Main(struct GameEvent *event, int *state, void *work);
 
 struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
 
@@ -128,8 +128,9 @@ void IRC_BATTLE_TASK_Empty3(void);
  * field, runs the battle (the ov008 runner gets the setup, the slot record
  * and a zero word) and returns 1 when done.
  */
-int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
+int IRC_BATTLE_TASK_Main(struct GameEvent *event, int *state, void *workPtr)
 {
+    IrcBattleTaskWork *work = workPtr;
     void *gameSys = work->gameSys;
 
     switch (*state) {
@@ -149,7 +150,7 @@ int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
         args.setup = &work->setup;
         args.slotData = work->slot;
         args.flag = 0;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSys, (uptr)ov008_id, (GameEventCreatorFn)EVENT_BATTLE_REC_SAVE_Start, &args));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSys, (uptr)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &args));
         (*state)++;
         break;
     }
@@ -185,7 +186,7 @@ int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
 struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request)
 {
     int formation = 0x29;
-    struct GameEvent *event = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)IRC_BATTLE_TASK_Main, 0xFC);
+    struct GameEvent *event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_TASK_Main, sizeof(IrcBattleTaskWork));
     IrcBattleTaskWork *work = GAME_EVENT_GetWork(event);
     struct BattleSetupParam *setup;
     void *sysData;
@@ -204,7 +205,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
     case 6:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 3);
         sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommSingle(setup, sysData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommSingle(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 4);
@@ -215,7 +216,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
     case 10:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 7);
         sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommDouble(setup, sysData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommDouble(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 8);
@@ -226,7 +227,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
     case 14:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 11);
         sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommTriple(setup, sysData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommTriple(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 17:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 12);
@@ -237,7 +238,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
     case 18:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 15);
         sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommRotation(setup, sysData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommRotation(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 21:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 16);
@@ -248,7 +249,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
     case 22:
         IRC_BATTLE_TASK_SetFormationOnce(&formation, 19);
         sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommMulti(setup, sysData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
+        BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
     default:
         GF_PANIC_Fail((const char *)d_0217277C, 0, (const char *)d_0217277C);

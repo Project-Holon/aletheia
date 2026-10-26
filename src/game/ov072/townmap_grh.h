@@ -5,6 +5,7 @@
 /* Public functions of townmap_grh.c, prototypes copied from their definitions. */
 
 struct ClactActor;
+struct Unit;
 struct DispVram;
 
 #include "../ov072/townmap_types.h"
@@ -25,7 +26,7 @@ void TOWNMAP_GRH_ClearTouch(TownMapTouch *touch);
 void TOWNMAP_GRH_UpdateTouch(TownMapTouch *touch);
 int TOWNMAP_GRH_GetTouchDrag(TownMapTouch *touch, TownMapVec *delta, u32 *dragState);
 void TOWNMAP_GRH_RestartTouchDrag(TownMapTouch *touch);
-void TOWNMAP_GRH_EmptyTask(void *task, void *arg);
+void TOWNMAP_GRH_EmptyTask(struct TcbTask * taskArg, void *arg);
 TownMapGfx *TOWNMAP_GRH_Create(u16 heapId);
 void TOWNMAP_GRH_Delete(TownMapGfx *gfx);
 void TOWNMAP_GRH_DrawSprites(TownMapGfx *gfx);
@@ -34,7 +35,7 @@ struct Unit *TOWNMAP_GRH_GetHandle(TownMapGfx *gfx, int n);
 struct ClactActor *TOWNMAP_GRH_GetActor(TownMapGfx *gfx, int n);
 void TOWNMAP_GRH_GetResourceIds(TownMapGfx *gfx, int *charId, int *cellId, int *palId);
 void TOWNMAP_GRH_ResetDisplay(void);
-void TOWNMAP_GRH_UpdateTask(void *task, void *gfx);
+void TOWNMAP_GRH_UpdateTask(struct TcbTask * taskArg, void *gfx);
 void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId);
 void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx);
 void TOWNMAP_GRH_TransferBgData(TownMapGfx *gfx);

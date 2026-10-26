@@ -14,7 +14,7 @@ int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_le
 int SOCLi_ConsumeBuffer(struct SOCLSocket *socket);
 int SOCLi_ConsumeCallBack(void *arg);
 long SOCLi_ConsumeCPSBuffer(struct SOCLSocket *socket);
-int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct SOCLSocket *socket);
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *cpsSocket);
 /* END mkheaders: generated region */
 
 #endif

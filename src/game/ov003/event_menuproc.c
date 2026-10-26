@@ -52,9 +52,11 @@ typedef struct MenuProcEventWork {
     struct FieldMap *fieldMap;
     MenuProcParam param;
     u32 procKind;
+    u32 reserved18;             /* the event is allocated 0x1C bytes; nothing reads this word */
 } MenuProcEventWork;
 
-typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
+struct FieldMap;
+typedef struct { struct FieldMap *fieldMap; unsigned procKind; } LaunchRequest;
 
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_comm.h"
@@ -62,12 +64,13 @@ typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
 struct FieldMap;
 #include "../arm9/field_status.h"
 #include "../arm9/game_event.h"
-u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
+int EVENT_MENUPROC_Main(struct GameEvent *event, int *seq, void *work);
 void *EVENT_MENUPROC_Create(void *gameSystem, struct FieldMap *fieldMap, int procKind);
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request);
 
-u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
+int EVENT_MENUPROC_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MenuProcEventWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
 
     switch (*seq) {
@@ -112,7 +115,7 @@ u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *wo
  */
 void *EVENT_MENUPROC_Create(void *gameSystem, struct FieldMap *fieldMap, int procKind)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MENUPROC_Main, 0x1C);
+    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MENUPROC_Main, sizeof(MenuProcEventWork));
     MenuProcEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))
@@ -127,5 +130,5 @@ void *EVENT_MENUPROC_Create(void *gameSystem, struct FieldMap *fieldMap, int pro
 /* Overlay entry point: unpacks the request and creates the event. */
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request)
 {
-    return EVENT_MENUPROC_Create(gameSystem, (struct FieldMap *)request->fieldMap, request->procKind);
+    return EVENT_MENUPROC_Create(gameSystem, request->fieldMap, request->procKind);
 }

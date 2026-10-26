@@ -15,6 +15,9 @@
 #include "../types.h"
 
 struct B_PlistHost;
+struct GfFont;
+struct PaletteFade;
+struct BgWinFrmWork;
 
 /* One text window handle: a created window and its visibility flag (8 bytes). */
 struct B_PlistWin {
@@ -27,80 +30,90 @@ struct B_PlistWin {
 
 /* The app object a B_PlistWork points at through its owner field. */
 struct B_PlistHost {
-    void *config;              /* 0x00 game config, first argument of WAZA_TOOL_IsHmMove */
+    void *gameData;            /* 0x00 game data, first argument of WAZA_TOOL_IsHmMove */
     void *party;               /* 0x04 POKEPARTY shown in the first rows */
     void *partnerParty;        /* 0x08 POKEPARTY shown in rows 3..5 */
-    u32   font;                /* 0x0C font handle for text measuring and printing */
+    struct GfFont *font;       /* 0x0C font handle for text measuring and printing */
     u16   heapId;              /* 0x10 heap id, ORed with 0x8000 */
     u16   pad12;               /* 0x12 */
-    int   reserved14;             /* 0x14 */
-    int   ownerKind;           /* 0x18 compared with 1 by B_PLIST_MAIN_GetOwnerFlag18 */
-    u8    pad1C[3];
-    u8    listType;             /* 0x1F list type, compared with 2, 3 and 5; role not known */
+    u32   rule;                /* 0x14 battle rule (0 outside battle) */
+    int   hasPartner;          /* 0x18 compared with 1 by B_PLIST_MAIN_GetOwnerFlag18 */
+    u8    isSecondTeam;        /* 0x1C */
+    u8    selected[2];         /* 0x1D rows already picked for a swap */
+    u8    listType;            /* 0x1F list type, compared with 2, 3 and 5; role not known */
     u8    orderIndex;          /* 0x20 current order table index */
-    u8    pad21;
+    u8    pickIndex;           /* 0x21 index into order[] where the next pick goes */
     u8    partyCount;          /* 0x22 upper bound checked by B_PLIST_MAIN_IsIndexValid */
     u8    pad23;
     u16   itemId;              /* 0x24 item id read through FILE_UTIL_GetItemParam */
     u16   moveId;              /* 0x26 move id shown by the move info page */
     void *fadeContext;         /* 0x28 last argument of PALANM_RequestFade */
-    int   reserved2C;             /* 0x2C */
+    struct PaletteFade *palAnm; /* 0x2C palette fade handle of the caller */
     u32   cancelRequest;       /* 0x30 1 when the caller asked to cancel */
     int   exitRequest;         /* 0x34 1 when the caller asked to close the screen */
-    int   reserved38;             /* 0x38 */
-    int   reserved3C;             /* 0x3C */
+    u8    slotFlags[8];        /* 0x38 per row flag, nonzero when the row cannot be picked */
     u32   seEnabled;           /* 0x40 1 when sound effects are played */
     void *syncFlagPtr;         /* 0x44 pointer to a flag byte shared with the caller */
-    u8    pad48[3];
-    u8    moveKind;            /* 0x4B compared with 4 by B_PLIST_MAIN_CheckMoveUsable */
+    u8    order[4];            /* 0x48 picked rows; order[3] is the move kind (CheckMoveUsable) */
+    u8    done;                /* 0x4C set to 1 when the screen closes */
+    u8    pad4D[3];
+};
+
+/* One move entry of a slot (8 bytes). */
+struct B_PlistMove {
+    u16   id;                                 /* 0x00 move id */
+    u8    pp;                                 /* 0x02 current PP */
+    u8    maxPp;                              /* 0x03 */
+    u8    type;                               /* 0x04 move type */
+    u8    category;                           /* 0x05 */
+    u8    accuracy;                           /* 0x06 */
+    u8    power;                              /* 0x07 */
 };
 
 /*
- * One row / slot record (0x4C bytes). Its base is p + 4 + index * 0x4C.
- * A few call sites index it as p + index * 0x4C; the base is left exactly
- * as the original wrote it so the codegen does not move.
+ * One row / slot record (0x4C bytes), B_PlistWork.slot[index]. Some call sites reach it
+ * through a base four bytes below the record; their field names were shifted by four.
  */
 struct B_PlistSlot {
     void *mon;                                /* 0x00 mon (party member) the row shows */
-    u16   pad04;                              /* 0x04 */
+    u16   species;                            /* 0x04 species id, 0 when the slot is empty */
     u16   attack;                             /* 0x06 */
-    u16   active;                             /* 0x08 nonzero when the slot holds a mon */
+    u16   active;                             /* 0x08 */
     u16   speed;                              /* 0x0A */
     u16   spAttack;                           /* 0x0C */
     u16   spDefense;                          /* 0x0E */
     u16   hp;                                 /* 0x10 current HP */
     u16   maxHp;                              /* 0x12 */
-    u16   hpRawBase;                          /* 0x14 current HP read through an unbiased base (record - 4) */
+    u16   pad14;                              /* 0x14 */
     struct { u8 level : 7; u8 flag : 1; } levelBits; /* 0x16 */
-    u8    pad17;                              /* 0x17 */
+    struct { u8 low : 3; u8 kind : 4; u8 high : 1; } statusFlags; /* 0x17 */
     u16   abilityId;                          /* 0x18 */
     union {
         u16 heldItem;                         /* 0x1A */
-        struct { u8 pad; struct { u8 low : 7; u8 high : 1; } flags; } bits;
     } u1A;
     u32   expCurrent;                         /* 0x1C */
     u32   expMin;                             /* 0x20 */
     u32   expMax;                             /* 0x24 */
-    u8    pad28[8];                           /* 0x28 */
-    struct { u16 value; u8 pad[6]; } extra[4]; /* 0x30 four halfwords, stride 8 */
-    u8    pad38[0x14];                        /* 0x38 */
+    u32   form;                               /* 0x28 form id passed to the icon palette lookup */
+    struct B_PlistMove move[4];               /* 0x2C */
 };
 
 /* The shared B_PLIST work object (0x2544 bytes). */
 struct B_PlistWork {
     struct B_PlistHost *owner;  /* 0x0000 app object */
-    u8    pad04[0x0C];          /* 0x0004 */
-    u16   monSpecies;           /* 0x0010 */
-    u16   monSpeciesAlt;        /* 0x0012 */
-    u8    pad14[3];             /* 0x0014 */
-    struct { u8 low : 3; u8 kind : 4; u8 high : 1; } monFlags; /* 0x0017 */
-    u8    pad18[0x10];          /* 0x0018 */
-    void *task;                 /* 0x0028 task installed by TCB_AddTask */
-    void *palAnmSlot;           /* 0x002C */
-    u8    pad30[0x1A4];         /* 0x0030 */
-    void *tcbl; /* 0x01D4 tile-cache block */
-    void *palAnm; /* 0x01D8 */
-    u8    pad1DC[0x1C9C];       /* 0x01DC */
+    struct B_PlistSlot slot[6]; /* 0x0004 one record per party row, 0x4C bytes each */
+    u8    order[8];             /* 0x01CC row order table */
+    void *tcbl;                 /* 0x01D4 tile-cache block */
+    void *palAnm;               /* 0x01D8 */
+    u16   tileSet0to5[2][4][0x60];  /* 0x01DC tile buffers of tile kinds 0 to 5: [which][index] */
+    u16   tileSet8to11[4][0x41];    /* 0x07DC tile kinds 8 to 11 */
+    u16   tileSet12[4][25];         /* 0x09E4 tile kind 12 */
+    u16   tileSet13[4][25];         /* 0x0AAC tile kind 13 */
+    u16   tileSet6[4][25];          /* 0x0B74 tile kind 6 */
+    u16   tileSet7[3][0x1FE];       /* 0x0C3C tile kind 7 */
+    u16   tileSet14to26[4][0x60];   /* 0x1830 tile kinds 14 to 26 */
+    u16   tileSet27[3][0x82];       /* 0x1B30 tile kind 27 */
+    u16   tileSet28to31[3][10];     /* 0x1E3C tile kinds 28 to 31 */
     u16   palette[16];          /* 0x1E78 palette data copied into a PALANM slot */
     u8    animStep;             /* 0x1E98 palette animation step */
     u8    animTimer;            /* 0x1E99 palette animation timer */
@@ -114,11 +127,7 @@ struct B_PlistWork {
     void *printStream; /* 0x1EB0 */
     int   printStreamFlags;     /* 0x1EB4 */
     void *unit; /* 0x1EB8 actor unit */
-    u8    pad1EBC[0x18];        /* 0x1EBC */
-    void *resHandle;            /* 0x1ED4 */
-    u8    pad1ED8[0x30];        /* 0x1ED8 */
-    void *resHandle2;           /* 0x1F08 */
-    u8    pad1F0C[0x54];        /* 0x1F0C */
+    void *actor[41];            /* 0x1EBC screen actors; sub-ranges start at 6, 7, 13 and 19 */
     struct B_PlistWin win[B_PLIST_WIN_COUNT]; /* 0x1F60 text windows */
     u8    pad2018[0x158];       /* 0x2018 */
     void *bmpWin; /* 0x2170 */
@@ -129,7 +138,7 @@ struct B_PlistWork {
         u8 flipB : 1;           /* bit 6 */
         u8 flipC : 1;           /* bit 7 */
     } winFlags;
-    u8    pad2176;              /* 0x2176 */
+    u8    orderIndex;           /* 0x2176 copy of the host order index */
     struct { u8 step : 4; u8 flags : 4; } stateFlags; /* 0x2177 */
     int   state;                /* 0x2178 */
     u32   nextState;            /* 0x217C */
@@ -142,36 +151,16 @@ struct B_PlistWork {
     u8    flag2191;             /* 0x2191 */
     u8    flag2192;             /* 0x2192 */
     u8    flag2193;             /* 0x2193 */
-    void *bgWinFrame;           /* 0x2194 */
+    struct BgWinFrmWork *bgWinFrame; /* 0x2194 */
     u8    pad2198[0x300];       /* 0x2198 */
     u8    flag2498;             /* 0x2498 */
     u8    flag2499;             /* 0x2499 */
     u8    flag249A;             /* 0x249A */
     u8    pad249B;              /* 0x249B */
-    u16   selPairFirst;         /* 0x249C first value of a stored selection pair, 0xFF when free */
-    u16   selPairSecond;        /* 0x249E */
-    u8    pad24A0[4];           /* 0x24A0 */
-    int   charHandles;           /* 0x24A4 first of 26 character handles (to 0x250C) */
-    u8    pad24A8[0x14];        /* 0x24A8 */
-    int   iconSet1Char;            /* 0x24BC character handle of icon set 1 (role of the set not known) */
-    int   iconSet3Char;            /* 0x24C0 character handle of icon set 3 (role of the set not known) */
-    u8    pad24C4[0x38];        /* 0x24C4 */
-    int   moveKindChar;         /* 0x24FC */
-    int   moveKindCharAlt;      /* 0x2500 */
-    int   toolChar;             /* 0x2504 */
-    int   gearChar;             /* 0x2508 */
-    u8    pad250C[4];           /* 0x250C */
-    int   iconSet1Pal;            /* 0x2510 palette handle of icon set 1 (role of the set not known) */
-    int   iconSet3Pal;            /* 0x2514 palette handle of icon set 3 (role of the set not known) */
-    int   typeIconPal;          /* 0x2518 */
-    int   toolPal;              /* 0x251C */
-    int   gearPal;              /* 0x2520 */
-    u8    pad2524[4];           /* 0x2524 */
-    int   iconSet1Cell;            /* 0x2528 cell anim handle of icon set 1 (role of the set not known) */
-    int   iconSet3Cell;            /* 0x252C cell anim handle of icon set 3 (role of the set not known) */
-    int   typeIconCell;         /* 0x2530 */
-    int   toolCell;             /* 0x2534 */
-    int   gearCell;             /* 0x2538 */
+    struct { u16 first; u16 second; } selPair[2]; /* 0x249C stored selection pairs (first is 0xFF when free) */
+    int   charId[26];           /* 0x24A4 character resource ids of the screen sprites (-1 when free) */
+    int   palId[6];             /* 0x250C palette resource ids */
+    int   cellId[6];            /* 0x2524 cell animation resource ids */
     void *toolWinIds;           /* 0x253C window id table passed to B_APP_TOOL_ShowWindows */
     int   done;                 /* 0x2540 nonzero when the screen is finished */
 };

@@ -8,11 +8,15 @@ struct Proc;
 struct PmsSelectGraphicArgs;
 struct PmsSelectGraphic;
 struct PmsSelectGraphicBg;
+struct GfFont;
 struct PmsSelectGraphicColorRec;
 struct PmsSelectGraphicScene;
+struct DispVramCfg;
 
 #include "../types.h"
 #include "../ov067/touchbar_types.h"
+
+struct TcbTask;
 
 int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelectGraphicArgs *args);
 int PMS_SELECT_GRAPHIC_ProcExit(struct Proc *proc, int unused, int unused2, struct PmsSelectGraphic *p);
@@ -62,7 +66,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
 void PMS_SELECT_GRAPHIC_DeleteScene(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateScene(struct PmsSelectGraphicScene *scene);
 void *PMS_SELECT_GRAPHIC_GetSceneActorUnit(struct PmsSelectGraphicScene *scene);
-void PMS_SELECT_GRAPHIC_SceneTask(int taskId, void *work);
+void PMS_SELECT_GRAPHIC_SceneTask(struct TcbTask *taskId, void *work);
 void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 heap);
 void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateSceneNothing(struct PmsSelectGraphicScene *scene);

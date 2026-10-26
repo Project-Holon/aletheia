@@ -129,12 +129,12 @@ int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp);
 int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt);
 struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 limitA, u16 limitB, u16 maxResIndex);
 void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
-void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
-void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);
+void SPL_EMITTER_AllocTexVramDefault(struct RigObject *rigObject);
+void SPL_EMITTER_AllocPlttVramDefault(struct RigObject *rigObject);
 void SPL_EMITTER_FreeTexNode(struct VramFreeList *h);
 void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a);
-int SPL_EMITTER_AllocResource(char *p, int b, int c);
-int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
+struct SPLEmitter *SPL_EMITTER_AllocResource(char *p, int b, const VecFx32 *c);
+struct SPLEmitter *SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 void SPL_EMITTER_FreeResource(char *p, char *q);
 void SPL_EMITTER_FreeResourceList(void *p);
 /* END mkheaders: generated region */

@@ -261,7 +261,12 @@ int SCRCMD_BufferSpeciesNameCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetReg
     return 0;
 }
 
+#ifdef __MWERKS__
 int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, (WordSetRegisterFn)WORDSET_SetSlotSpeciesName); }
+#else
+static void WORDSET_SetSlotSpeciesNameU32(WordSet *wordSet, u32 slot, u32 value) { WORDSET_SetSlotSpeciesName(wordSet, slot, (u16)value); }
+int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_SetSlotSpeciesNameU32); }
+#endif
 int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_SetSlotFromMsg119); }
 
 int SCRCMD_BufferShortEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)

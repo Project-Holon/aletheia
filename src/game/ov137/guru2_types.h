@@ -157,7 +157,8 @@ struct Guru2Player {
     struct Guru2Vec3 scale;           /* 0x38 */
     struct Guru2Vec3 pos;             /* 0x44 */
     struct Guru2Vec3 basePos;         /* 0x50 */
-    unsigned char unknown_5C[0x58];   /* 0x5C */
+    int bounceOffset;                 /* 0x5C height added by the bounce effect */
+    unsigned char unknown_60[0x54];   /* 0x60 */
 };
 
 /* Shadow of a player piece, array of 5 at Guru2Game.shadows (0x7C bytes each). */
@@ -216,6 +217,76 @@ struct Guru2RecvEntry {
     unsigned short aid;               /* 0x02 */
 };
 
+/* One bounce effect slot, array of 5 at Guru2Game.fx0 (0x20 bytes each). */
+struct Guru2BounceEffect {
+    int active;                       /* 0x00 */
+    int state;                        /* 0x04 */
+    int timer;                        /* 0x08 */
+    int rebounded;                    /* 0x0C 1 after the first rebound */
+    int lift;                         /* 0x10 */
+    int liftDelta;                    /* 0x14 */
+    int unknown_18;                   /* 0x18 */
+    struct Guru2Player *player;       /* 0x1C piece that bounces */
+};
+
+/* One settle effect slot, array of 5 at Guru2Game.fx1 (0x14 bytes each). */
+struct Guru2SettleEffect {
+    int active;                       /* 0x00 */
+    int state;                        /* 0x04 */
+    int unknown_08;                   /* 0x08 */
+    int speed;                        /* 0x0C */
+    struct Guru2Player *player;       /* 0x10 piece that settles */
+};
+
+/* One wobble effect slot, array of 5 at Guru2Game.fx2 (0x18 bytes each). */
+struct Guru2WobbleEffect {
+    int active;                       /* 0x00 */
+    int state;                        /* 0x04 */
+    int amplitude;                    /* 0x08 */
+    int step;                         /* 0x0C */
+    int phase;                        /* 0x10 */
+    struct Guru2Player *player;       /* 0x14 piece that wobbles */
+};
+
+/* One pulse effect slot, array of 5 at Guru2Game.fx5 (0x10 bytes each). */
+struct Guru2PulseEffect {
+    int state;                        /* 0x00 */
+    int frame;                        /* 0x04 */
+    int wait;                         /* 0x08 */
+    struct Guru2Player *owner;        /* 0x0C player piece the pulse follows */
+};
+
+/* Work of the centre countdown actor task (24 bytes), allocated by GURU2_MAIN_CreateCenterActorTask. */
+struct ClactActor;
+struct Guru2Game;
+
+struct Guru2CenterActor {
+    int state;                        /* 0x00 */
+    int wait;                         /* 0x04 frames until the next count sound */
+    int unknown_08;                   /* 0x08 */
+    int count;                        /* 0x0C count sounds played */
+    struct Guru2Game *game;           /* 0x10 */
+    struct ClactActor *actor;         /* 0x14 */
+};
+
+/* Work of the palette blend fade task (12 bytes), allocated by GURU2_MAIN_StartBlendFade. */
+struct Guru2BlendFade {
+    struct Guru2Game *game;           /* 0x00 */
+    int dir;                          /* 0x04 1 fades out */
+    int level;                        /* 0x08 blend level 0..8 */
+};
+
+/* View of Guru2Game from unknown_1A0 on (0x1A0): player pieces, shadows, markers and unit ids. */
+struct Guru2PlayerBlock {
+    unsigned char pad_00[0x140];      /* 0x000 */
+    struct Guru2Player players[5];    /* 0x140 */
+    struct Guru2Shadow shadows[5];    /* 0x4C4 */
+    struct Guru2Marker markers[5];    /* 0x730 */
+    int shadowUnit;                   /* 0x938 */
+    int markerUnit;                   /* 0x93C */
+    int playerUnit[5];                /* 0x940 */
+};
+
 struct Guru2Game {
     int state;                        /* 0x00 index into the game state table */
     int unknown_04;                   /* 0x04 */
@@ -255,14 +326,14 @@ struct Guru2Game {
     int markerUnit;                   /* 0xADC */
     int playerUnit[5];                /* 0xAE0 */
     void *g3dUtil;                    /* 0xAF4 */
-    int fx0[5][8];                    /* 0xAF8 */
-    int fx1[5][5];                    /* 0xB98 */
-    int fx2[5][6];                    /* 0xBFC */
+    struct Guru2BounceEffect fx0[5];  /* 0xAF8 */
+    struct Guru2SettleEffect fx1[5];  /* 0xB98 */
+    struct Guru2WobbleEffect fx2[5];  /* 0xBFC */
     unsigned int fx3[5];              /* 0xC74 */
     unsigned short fx4State;          /* 0xC88 */
     unsigned short fx4Flag;           /* 0xC8A */
     int fx4Count;                     /* 0xC8C */
-    int fx5[5][4];                    /* 0xC90 */
+    struct Guru2PulseEffect fx5[5];  /* 0xC90 */
     struct Guru2Windows windows;      /* 0xCE0 */
     unsigned char unknown_D40[0x14];  /* 0xD40 */
     void *light;                      /* 0xD54 */

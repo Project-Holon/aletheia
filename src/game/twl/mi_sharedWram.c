@@ -41,7 +41,7 @@
 extern void (*const MIi_SetWramBankMasterFuncs[])(u32, u32);
 extern void (*const MIi_SetWramBankEnableFuncs[])(u32, u32);
 extern u32 (*const MIi_GetWramBankMasterFuncs[])(u32);
-extern u32 (*const MIi_GetWramMapStartFuncs[])(void);
+extern uptr (*const MIi_GetWramMapStartFuncs[])(void);
 
 #include "../arm9/os_system.h"
 #ifdef __MWERKS__
@@ -107,17 +107,17 @@ u32 MIi_GetWramBank_C(u32 bank)
 
 void MIi_SetWramBankMaster_A(u32 bank, u32 master)
 {
-    *(u8 *)(bank + 0x04004040) = (*(u8 *)(bank + 0x04004040) & ~1) | master;
+    *(u8 *)(bank + IOREG_ADDR(0x04004040)) = (*(u8 *)(bank + IOREG_ADDR(0x04004040)) & ~1) | master;
 }
 
 void MIi_SetWramBankMaster_B(u32 bank, u32 master)
 {
-    *(u8 *)(bank + 0x04004044) = (*(u8 *)(bank + 0x04004044) & ~3) | master;
+    *(u8 *)(bank + IOREG_ADDR(0x04004044)) = (*(u8 *)(bank + IOREG_ADDR(0x04004044)) & ~3) | master;
 }
 
 void MIi_SetWramBankMaster_C(u32 bank, u32 master)
 {
-    *(u8 *)(bank + 0x0400404C) = (*(u8 *)(bank + 0x0400404C) & ~3) | master;
+    *(u8 *)(bank + IOREG_ADDR(0x0400404C)) = (*(u8 *)(bank + IOREG_ADDR(0x0400404C)) & ~3) | master;
 }
 
 void MIi_SetWramBankMaster(u32 type, u32 bank, u32 master)
@@ -173,22 +173,22 @@ u32 MI_GetWramBankMaster(u32 type, u32 bank)
     return MIi_GetWramBankMasterFuncs[type](bank);
 }
 
-u32 MI_GetWramMapStart_A(void)
+uptr MI_GetWramMapStart_A(void)
 {
     return ((((*(volatile u32 *)REG_MI_MC_CNT4_ADDR) & 0xFF0) >> 4) << 16) + 0x03000000;
 }
 
-u32 MI_GetWramMapStart_B(void)
+uptr MI_GetWramMapStart_B(void)
 {
     return ((((*(volatile u32 *)REG_MI_MC_CNT5_ADDR) & 0xFF8) >> 3) << 15) + 0x03000000;
 }
 
-u32 MI_GetWramMapStart_C(void)
+uptr MI_GetWramMapStart_C(void)
 {
     return ((((*(volatile u32 *)REG_MI_MC_CNT6_ADDR) & 0xFF8) >> 3) << 15) + 0x03000000;
 }
 
-u32 MI_GetWramMapStart(u32 type)
+uptr MI_GetWramMapStart(u32 type)
 {
     return MIi_GetWramMapStartFuncs[type]();
 }

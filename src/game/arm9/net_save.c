@@ -56,54 +56,17 @@ struct Link;
 struct SaveControl;
 struct GameSyncData;
 
+struct GameData;
 /* the 0x14-byte net_save.c task object */
 struct NetSaveTask {
-    void (*progressCallback)(u32 arg);
-    u32 callbackArg;
+    void (*progressCallback)(void *arg);
+    void *callbackArg;
     void (*step)(struct NetSaveTask *task);
-    u32 gameData;
+    struct GameData *gameData;
     s32 delayFrames;
 };
 
-struct NetSaveScreenArgs {
-    void *gameData;
-    u32 mode;
-    u32 enable;
-    u32 waitFrames;
-    void *saveBuf;
-};
-
-struct NetSaveCheckArgs {
-    void *gameData;
-    void *saveBuf;
-    u16 heapId;
-    u8 pad[2];
-};
-
-struct NetSaveRetryArgs {
-    void *gameData;
-    u32 mode;
-    u32 enable;
-};
-
-/* the 0x1D8-byte net_save.c save task record */
-struct NetSaveProcWork {
-    struct NetSaveScreenArgs screenArgs;    /* +0x00 */
-    u32 retryRequested;                     /* +0x14 */
-    u8 pad18[4];
-    u32 cancelled;                          /* +0x1C */
-    u8 pad20[8];
-    struct NetSaveRetryArgs retryArgs;      /* +0x28 */
-    u8 pad34[0x10];
-    void *gameData;                         /* +0x44 */
-    struct NetSaveCheckArgs checkArgs;      /* +0x48 */
-    u32 skipFinalSave;                      /* +0x54 */
-    u32 saveFailed;                         /* +0x58 */
-    u8 saveBuf[0x174];                      /* +0x5C */
-    u16 heapId;                             /* +0x1D0 */
-    u8 pad1D2[2];
-    u32 state;                              /* +0x1D4 */
-};
+#include "net_save_types.h"
 
 #include "gfl_heap_wrap.h"
 struct GFLNetHandle;
@@ -122,8 +85,8 @@ struct CgearSaveBlock;
 #include "net.h"
 
 void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
-struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData);
-struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg);
+struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, struct GameData *gameData);
+struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, struct GameData *gameData, void (*callback)(void *arg), void *callbackArg);
 u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task);
 void GFL_NET_SAVE_Delete(struct NetSaveTask *task);
 void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task);
@@ -138,9 +101,8 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
 extern u8 sNetSaveFile;
 extern u8 ov115_id[];
 extern u8 ov123_id[];
-extern u8 gNetSaveMainProc[];
+#include "net_save.h"
 extern u8 gNetSaveCheckProc[];
-extern u8 gNetSaveRetryProc[];
 
 /*
  * Stores the step callback at the task's +8 field.
@@ -209,22 +171,22 @@ void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveT
  *   python tools/match.py tu --src src/matched/unit_0201088C.c \
  *       --addr 0x0201088C --thumb
  */
-struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData)
+struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, struct GameData *gameData)
 {
     struct NetSaveTask *task;
 
-    task = GFL_HEAP_Alloc(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
+    task = GFL_HEAP_Alloc(heapId, sizeof(*task), 1, (const char *)&sNetSaveFile, 0x75);
     task->gameData = gameData;
     GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepBegin);
     return task;
 }
 
-struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg)
+struct NetSaveTask *GFL_NET_SAVE_CreateWithCallback(u32 heapId, struct GameData *gameData, void (*callback)(void *arg), void *callbackArg)
 {
     struct NetSaveTask *task;
 
-    task = GFL_HEAP_Alloc(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x87);
+    task = GFL_HEAP_Alloc(heapId, sizeof(*task), 1, (const char *)&sNetSaveFile, 0x87);
     task->progressCallback = callback;
     task->callbackArg = callbackArg;
     task->gameData = gameData;
@@ -239,7 +201,7 @@ u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
         task->step(task);
     if (GFL_NET_ERR_GetErrorLevel() != 0) {
         if (task->gameData != 0)
-            GAME_DATA_SaveCancel((struct GameData *)task->gameData);
+            GAME_DATA_SaveCancel(task->gameData);
         return 1;
     }
     if (task->step == 0)
@@ -260,7 +222,7 @@ void GFL_NET_SAVE_Delete(struct NetSaveTask *task)
 void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
-        GAME_DATA_SaveStart((struct GameData *)task->gameData);
+        GAME_DATA_SaveStart(task->gameData);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSaveStart);
     }
 }
@@ -272,7 +234,7 @@ void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
  */
 void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task)
 {
-    if (GAME_DATA_SaveMain((struct GameData *)task->gameData) == 1) {
+    if (GAME_DATA_SaveMain(task->gameData) == 1) {
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         task->delayFrames = GFL_USE_GetRandom(0x3c);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSync72);
@@ -329,7 +291,7 @@ void GFL_NET_SAVE_StepProgress(struct NetSaveTask *task)
     if (task->progressCallback != 0) {
         task->progressCallback(task->callbackArg);
     }
-    if (GAME_DATA_SaveMain((struct GameData *)task->gameData) == 2) {
+    if (GAME_DATA_SaveMain(task->gameData) == 2) {
         task->gameData = 0;
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepFinish);
@@ -354,8 +316,8 @@ int GFL_NET_SAVE_InitWork(void *proc)
     void *gameData;
 
     GFL_HEAP_CreateChildHeap(1, 0x67, 0x78000);
-    work = PROCSYS_AllocProcWork(proc, 0x1d8, 0x67);
-    MI_CpuFill8(work, 0, 0x1d8);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x67);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->heapId = 0x67;
     gameData = GAME_DATA_Create(0x67);
     work->gameData = gameData;
@@ -424,16 +386,16 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
 {
     switch (work->state) {
     case 0:
-        work->screenArgs.gameData = work->gameData;
-        work->screenArgs.mode = 0;
-        work->screenArgs.enable = 1;
-        work->screenArgs.waitFrames = 0x32;
-        work->screenArgs.saveBuf = work->saveBuf;
-        PROCSYS_PushGlobal((uptr)ov115_id, (const ProcData *)gNetSaveMainProc, work);
+        work->login.gameData = work->gameData;
+        work->login.loginType = 0;
+        work->login.loginOption = 1;
+        work->login.messageId = 0x32;
+        work->login.saveData = work->saveBuf;
+        PROCSYS_PushGlobal((uptr)ov115_id, &gNetSaveMainProc, work);
         work->state += 1;
         break;
     case 1:
-        if (work->cancelled == 1) {
+        if (work->login.result == 1) {
             work->state = 4;
             break;
         }
@@ -453,14 +415,14 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
         break;
     case 3:
         if (GFL_NET_GetRunState() == 0 || work->saveFailed == 1) {
-            work->retryRequested = 1;
+            work->login.useSaveData = 1;
             work->state = 0;
             break;
         }
-        work->retryArgs.gameData = work->gameData;
-        work->retryArgs.mode = 0;
-        work->retryArgs.enable = 1;
-        PROCSYS_PushGlobal((uptr)ov115_id, (const ProcData *)gNetSaveRetryProc, &work->retryArgs);
+        work->confirm.gameData = work->gameData;
+        work->confirm.loginType = 0;
+        work->confirm.loginOption = 1;
+        PROCSYS_PushGlobal((uptr)ov115_id, &gNetSaveRetryProc, &work->confirm);
         work->state += 1;
         break;
     default:

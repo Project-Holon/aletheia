@@ -625,13 +625,13 @@ int BTLV_EFFVM_CmdSetPokeSpriteAnimMode(struct ScriptVm *vm, BtlvEffVmWork *work
 
 int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_IsAllIdle(int vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_IsAllIdle(struct ScriptVm *vm, void *arg);
 
-int BTLV_EFFVM_WaitFramesCallback(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_WaitFramesCallback(struct ScriptVm *vm, void *arg);
 
-int BTLV_EFFVM_WaitTaskCallback(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_WaitTaskCallback(struct ScriptVm *vm, void *arg);
 
-int BTLV_EFFVM_WaitParticleCallback(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_WaitParticleCallback(struct ScriptVm *vm, void *arg);
 
 int BTLV_EFFVM_ResolveBattlerList(BtlvEffVmWork *work, int cmd, int *out);
 
@@ -815,7 +815,7 @@ struct ScriptVm *BTLV_EFFVM_Create(void *owner, u32 heapId)
     void *vm;
     int i;
 
-    work = GFL_HEAP_Alloc(heapId, 0x2AC, 1, d_0220AE68, 0x27D);
+    work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, d_0220AE68, 0x27D);
     work->heapId = heapId;
     work->owner = owner;
     work->result = 1;
@@ -1015,7 +1015,7 @@ void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch
         BTLV_EFFVM_PlaySeWithParams(seId, slot, pan, pitch, volume, modDepth, modSpeed);
         return;
     }
-    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x24, 0, d_0220AE68, 0x431);
+    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0x431);
     job->work = work;
     job->seId = seId;
     job->slot = slot;
@@ -1036,7 +1036,7 @@ void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, int mode, int param, int f
     float stepFx;
     int spanFx;
     work = VM_GetContext(vm);
-    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0x455);
+    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0x455);
     job->work = work;
     job->slot = slot;
     job->mode = mode;
@@ -1491,17 +1491,17 @@ int BTLV_EFFVM_CmdLoadParticleResource(struct ScriptVm *vm, BtlvEffVmWork *work)
         buffer = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
         resource = (void *)PARTICLE_LoadArchiveMember(6, key, (u16)((work->heapId & 0x7fff) | 0x8000));
         if (buffer != 0 && resource != 0) {
-            work->emitters[slot] = PARTICLE_CreateSystem((uptr)buffer, 0x4800, 0, 5, 6, 0x36, (u16)((work->heapId & 0x7fff) | 0x8000));
+            work->emitters[slot] = PARTICLE_CreateSystem(buffer, 0x4800, 0, 5, 6, 0x36, (u16)((work->heapId & 0x7fff) | 0x8000));
             if (work->emitters[slot] != 0) {
                 PARTICLE_SetupSystemNoHandlers(work->emitters[slot], resource);
                 line += 10;
-                job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 12, 0, d_0220AE68, line);
+                job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, line);
                 job->work = work;
                 job->emitter = work->emitters[slot];
                 job->resource = resource;
                 work->flags.bit.particleSysActive = 1;
                 BTLV_EFFECT_RegisterTask(GFL_USE_AddMainTask(BTLV_EFFVM_ParticleLoadTaskMain, job, 0), 0, 1);
-                VM_SetWait(vm, (ScriptWaitFn)BTLV_EFFVM_WaitParticleCallback);
+                VM_SetWait(vm, BTLV_EFFVM_WaitParticleCallback);
                 BTLV_EFFVM_SetEmitterHandle(work, slot, resource);
             }
         }
@@ -1522,7 +1522,7 @@ int BTLV_EFFVM_CmdStartParticleEffect(struct ScriptVm *vm, BtlvEffVmWork *work)
     int slot;
     int effectIdx;
 
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x74a);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x74a);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1550,9 +1550,9 @@ int BTLV_EFFVM_CmdStartParticleEffectFixedPos(struct ScriptVm *vm, BtlvEffVmWork
     BtlvEffVmParticleReq *req;
     int slot;
     int effectIdx;
-    int result;
+    struct SPLEmitter *result;
 
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x77d);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x77d);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1574,8 +1574,8 @@ int BTLV_EFFVM_CmdStartParticleEffectFixedPos(struct ScriptVm *vm, BtlvEffVmWork
     req->angleScale = VM_GetU32(vm);
     req->posScale = VM_GetU32(vm);
     if (slot != 16) {
-        result = PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (sptr)req);
-        if (result == -1)
+        result = PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, req);
+        if (result == (struct SPLEmitter *)-1)
             GFL_HEAP_Free(req);
     } else {
         GFL_HEAP_Free(req);
@@ -1593,7 +1593,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargeted(struct ScriptVm *vm, BtlvEffVmWork
     int slot;
     int effectIdx;
 
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7b6);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x7b6);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1644,7 +1644,7 @@ int BTLV_EFFVM_CmdStartParticleEffectForEachInstance(struct ScriptVm *vm, BtlvEf
     int useScreenCamera;
     int effectIdx;
 
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7ff);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x7ff);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectCount = BTLV_EFFVM_GetEmitterHandle(work, slot);
     req->vm = vm;
@@ -1706,7 +1706,7 @@ int BTLV_EFFVM_CmdStartParticleEffectOffset(struct ScriptVm *vm, BtlvEffVmWork *
     int slot;
     int effectIdx;
 
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x868);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x868);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1726,7 +1726,7 @@ int BTLV_EFFVM_CmdStartParticleEffectOffset(struct ScriptVm *vm, BtlvEffVmWork *
     if (req->wobbleScale == 0)
         req->wobbleScale = 1;
     if (slot != 16) {
-        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (sptr)req) == -1)
+        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, req) == (struct SPLEmitter *)-1)
             GFL_HEAP_Free(req);
     } else {
         GFL_HEAP_Free(req);
@@ -1739,7 +1739,7 @@ int BTLV_EFFVM_CmdStartParticleEffectConstOffset(struct ScriptVm *vm, BtlvEffVmW
     BtlvEffVmParticleReq *req;
     int slot;
     int effectIdx;
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x8a2);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x8a2);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1761,7 +1761,7 @@ int BTLV_EFFVM_CmdStartParticleEffectConstOffset(struct ScriptVm *vm, BtlvEffVmW
     req->wobbleScale = VM_GetU32(vm);
     if (req->wobbleScale == 0) req->wobbleScale = 1;
     if (slot != 16) {
-        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (sptr)req) == -1) {
+        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, req) == (struct SPLEmitter *)-1) {
             GFL_HEAP_Free(req);
         }
     } else {
@@ -1776,7 +1776,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedOffset(struct ScriptVm *vm, BtlvEff
     BtlvEffVmParticleReq *req;
     int slot;
     int effectIdx;
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x8e0);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x8e0);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1811,7 +1811,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedOffset(struct ScriptVm *vm, BtlvEff
         projection.projScale = 0x1000;
         if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
-        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (sptr)req) == -1) {
+        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, req) == (struct SPLEmitter *)-1) {
             GFL_HEAP_Free(req);
         }
     } else {
@@ -1830,7 +1830,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(struct ScriptVm *vm, Bt
     BtlvEffVmParticleReq *req;
     int slot;
     int effectIdx;
-    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x92d);
+    req = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*req), 1, d_0220AE68, 0x92d);
     slot = BTLV_EFFVM_FindEmitterSlot(work, BTLV_EFFVM_ResolveParticleKey(work, VM_GetU32(vm)));
     effectIdx = VM_GetU32(vm);
     req->vm = vm;
@@ -1866,7 +1866,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(struct ScriptVm *vm, Bt
         projection.projScale = 0x1000;
         if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
-        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (sptr)req) == -1) {
+        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, req) == (struct SPLEmitter *)-1) {
             GFL_HEAP_Free(req);
         }
     } else {
@@ -2377,7 +2377,7 @@ int BTLV_EFFVM_CmdStartFadeTask(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     BtlvEffVmWindowWipeJob *job;
 
-    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x28, 1, d_0220AE68, 0xd88);
+    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 1, d_0220AE68, 0xd88);
     job->work = work;
     job->direction = VM_GetU32(vm);
     job->edgeX = VM_GetU32(vm);
@@ -2614,7 +2614,7 @@ int BTLV_EFFVM_CmdStartSeVolumeTween(struct ScriptVm *vm, BtlvEffVmWork *work)
     int diff;
     float stepsFx;
     float rangeFx;
-    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0xf17);
+    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0xf17);
     job->work = work;
     job->slot = VM_GetU32(vm);
     job->mode = VM_GetU32(vm);
@@ -2667,7 +2667,7 @@ int BTLV_EFFVM_CmdStartSeVolumeTask(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdWaitFrames(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     work->waitMode = VM_GetU32(vm);
-    VM_SetWait(vm, (ScriptWaitFn)BTLV_EFFVM_IsAllIdle);
+    VM_SetWait(vm, BTLV_EFFVM_IsAllIdle);
     work->result = 1;
     return 1;
 }
@@ -2678,7 +2678,7 @@ int BTLV_EFFVM_CmdWaitFrames(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdWaitParticles(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     work->waitFrames = VM_GetU32(vm);
-    VM_SetWait(vm, (ScriptWaitFn)BTLV_EFFVM_WaitFramesCallback);
+    VM_SetWait(vm, BTLV_EFFVM_WaitFramesCallback);
     work->result = 1;
     return 1;
 }
@@ -2875,13 +2875,13 @@ int BTLV_EFFVM_CmdStartPokeCry(struct ScriptVm *vm, BtlvEffVmWork *work)
             }
             BTLV_EFFVM_StartSeVolumeTweenTask(work, 0x7f000, 0x6b000, 10);
             if (!work->flags.bit.fadeRestart) {
-                wait = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x10f9);
+                wait = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*wait), 0, d_0220AE68, 0x10f9);
                 wait->work = work;
                 BTLV_EFFECT_RegisterTask(TCB_AddTask(work->owner, BTLV_EFFVM_WaitVoiceTaskMain, wait, 0), 0, 0);
             }
         } else {
             for (targetIdx = 0; targetIdx < targetCount; targetIdx++) {
-                job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x20, 0, d_0220AE68, 0x1104);
+                job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0x1104);
                 job->work = work;
                 job->battlerPos = targetIds[targetIdx];
                 job->pitch = pitch;
@@ -2984,7 +2984,7 @@ int BTLV_EFFVM_CmdJumpScript(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdWaitForTask(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     work->flags.bit.blockedOnTask = 1;
-    VM_SetWait(vm, (ScriptWaitFn)BTLV_EFFVM_WaitTaskCallback);
+    VM_SetWait(vm, BTLV_EFFVM_WaitTaskCallback);
     work->result = 1;
     return 1;
 }
@@ -3013,7 +3013,7 @@ int BTLV_EFFVM_CmdStartWaitTask(struct ScriptVm *vm, BtlvEffVmWork *work)
     int side = VM_GetU32(vm);
     BtlvEffVmSlotSweepJob *job;
 
-    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0xc, 0, d_0220AE68, 0x1250);
+    job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0x1250);
     job->work = work;
     job->side = side;
     job->doneMask = 0;
@@ -3146,8 +3146,9 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
  * lever: enum loop counters retain entry guards; flag bitfields retain
  *   shift-pair tests (raw unsigned mask expressions added 16 bytes).
  */
-int BTLV_EFFVM_IsAllIdle(int vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_IsAllIdle(struct ScriptVm *vm, void *arg)
 {
+    BtlvEffVmWork *work = arg;
     int i;
     BtlvSlotIndex pos;
 
@@ -3226,16 +3227,18 @@ int BTLV_EFFVM_IsAllIdle(int vm, BtlvEffVmWork *work)
 /*
  * Wait callback: decrements waitFrames, done when it reaches zero.
  */
-int BTLV_EFFVM_WaitFramesCallback(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_WaitFramesCallback(struct ScriptVm *vm, void *arg)
 {
+    BtlvEffVmWork *work = arg;
     return --work->waitFrames <= 0;
 }
 
 /*
  * Wait callback: done once the blockedOnTask flag is clear.
  */
-int BTLV_EFFVM_WaitTaskCallback(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_WaitTaskCallback(struct ScriptVm *vm, void *arg)
 {
+    BtlvEffVmWork *work = arg;
     if (work->flags.bit.blockedOnTask)
         return 0;
     return 1;
@@ -3244,8 +3247,9 @@ int BTLV_EFFVM_WaitTaskCallback(struct ScriptVm *vm, BtlvEffVmWork *work)
 /*
  * Wait callback: done once the particleSysActive flag is clear.
  */
-int BTLV_EFFVM_WaitParticleCallback(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_WaitParticleCallback(struct ScriptVm *vm, void *arg)
 {
+    BtlvEffVmWork *work = arg;
     if (work->flags.bit.particleSysActive)
         return 0;
     return 1;
@@ -3842,7 +3846,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         motion = (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount];
         PARTICLE_EMITTER_SetUserData(emitter, motion);
-        PARTICLE_EMITTER_SetCallback(emitter, (sptr)BTLV_EFFVM_ParticleMotionStep);
+        PARTICLE_EMITTER_SetCallback(emitter, BTLV_EFFVM_ParticleMotionStep);
         work->allocBufferCount += 1;
         motion->phaseA = 0;
         motion->delayLeft = 0;
@@ -4026,7 +4030,7 @@ void BTLV_EFFVM_EmitterInitCallback(void *emitter)
     if (motion->projectToScreen != 0 && motion->center.z < 0)
         PARTICLE_EMITTER_SetAngle(emitter, 0x800);
     PARTICLE_EMITTER_SetUserData(emitter, motion);
-    PARTICLE_EMITTER_SetCallback(emitter, (sptr)BTLV_EFFVM_EmitterMoveCallbackB);
+    PARTICLE_EMITTER_SetCallback(emitter, BTLV_EFFVM_EmitterMoveCallbackB);
 }
 
 void BTLV_EFFVM_EmitterMoveCallbackB(void *emitter, int active)
@@ -4170,11 +4174,11 @@ void BTLV_EFFVM_StartParticleEffectInternal(BtlvEffVmWork *work, BtlvEffVmPartic
         count = BTLV_EFFVM_ResolveBattlerListExpanded(work, 16, targets);
         if (count != 0) {
             for (i = 0; i < count; i++) {
-                reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c0e);
+                reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*reqCopy), 1, d_0220AE68, 0x1c0e);
                 *reqCopy = *req;
                 reqCopy->srcKey = targets[i];
                 reqCopy->dstKey = targets[i];
-                if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, (sptr)reqCopy) == -1)
+                if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, reqCopy) == (struct SPLEmitter *)-1)
                     GFL_HEAP_Free(reqCopy);
             }
         }
@@ -4199,18 +4203,18 @@ void BTLV_EFFVM_StartParticleEffectInternal(BtlvEffVmWork *work, BtlvEffVmPartic
         }
         if (keyCount != 0) {
             for (i = 0; i < keyCount; i++) {
-                reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c45);
+                reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*reqCopy), 1, d_0220AE68, 0x1c45);
                 *reqCopy = *req;
                 reqCopy->srcKey = keys[i];
                 reqCopy->dstKey = keys[i];
-                if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, (sptr)reqCopy) == -1)
+                if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, reqCopy) == (struct SPLEmitter *)-1)
                     GFL_HEAP_Free(reqCopy);
             }
         }
     } else {
-        reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c56);
+        reqCopy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*reqCopy), 1, d_0220AE68, 0x1c56);
         *reqCopy = *req;
-        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, (sptr)reqCopy) == -1)
+        if (PARTICLE_StartEffectWithCallback(work->emitters[slot], arg, BTLV_EFFVM_ParticleStartCallback, reqCopy) == (struct SPLEmitter *)-1)
             GFL_HEAP_Free(reqCopy);
     }
 }
@@ -4284,7 +4288,7 @@ int BTLV_EFFVM_SetupEmitterCallbacks(void *vm, BtlvEffVmWork *work, int mode)
     if (anchorPos & 1)
         motion->phase = 0x8000;
     motion->center.y += heightOffset;
-    if (PARTICLE_StartEffectWithCallback(work->emitters[idx], effectIdx, BTLV_EFFVM_EmitterInitCallback, (sptr)motion) == -1)
+    if (PARTICLE_StartEffectWithCallback(work->emitters[idx], effectIdx, BTLV_EFFVM_EmitterInitCallback, motion) == (struct SPLEmitter *)-1)
         GFL_HEAP_Free(motion);
 end:
     return work->result;
@@ -4384,7 +4388,7 @@ void BTLV_EFFVM_StartSeVolumeTweenTask(BtlvEffVmWork *work, int fromLevel, int t
     } else {
         work->flags.bit.fading = 0;
     }
-    job = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7fff) | 0x8000), 0x10, 0, d_0220AE68, 0x1d78);
+    job = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7fff) | 0x8000), sizeof(*job), 0, d_0220AE68, 0x1d78);
     job->current = fromLevel;
     job->target = toLevel;
     job->flags = &work->flags;
@@ -4534,7 +4538,7 @@ void BTLV_EFFVM_SeModulationTaskMain(struct TcbTask *task, void *arg)
         BTLV_MCSS_PlayCry(BTLV_EFFECT_GetMcss(), job->battlerPos, job->pitch, job->pan, job->chorusParamA, job->chorusParamB, job->chorusParamC);
     BTLV_EFFVM_StartSeVolumeTweenTask(job->work, 0x7f000, 0x6b000, 10);
     if (!job->work->flags.bit.fadeRestart) {
-        wait = GFL_HEAP_Alloc((u16)(((u16)job->work->heapId & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x1e6d);
+        wait = GFL_HEAP_Alloc((u16)(((u16)job->work->heapId & 0x7fff) | 0x8000), sizeof(*wait), 0, d_0220AE68, 0x1e6d);
         wait->work = job->work;
         BTLV_EFFECT_RegisterTask((void *)TCB_AddTask((void *)job->work->owner, BTLV_EFFVM_WaitVoiceTaskMain, wait, 0), 0, 0);
     }
@@ -4555,7 +4559,7 @@ void BTLV_EFFVM_DelayTaskMain(struct TcbTask *task, void *arg)
     int flag = 1;
 
     BTLV_EFFECT_StepScalarWithLimit(&job->current, &job->step, &job->target, &flag);
-    GFL_NET_SetBgmTrackVolumeUnlessVoiceChat((void *)0xffff, (void *)(job->current >> 12));
+    GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(0xffff, job->current >> 12);
     if (flag)
         BTLV_EFFECT_DeleteTask(task);
 }

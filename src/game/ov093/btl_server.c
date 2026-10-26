@@ -177,7 +177,7 @@ BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlRngState *rngState, void *
 {
     BtlServer *server;
     int i;
-    server = GFL_HEAP_Alloc(heapId, 0xcc4, 1, (const char *)gBtlServerFileName, 0xad);
+    server = GFL_HEAP_Alloc(heapId, sizeof(BtlServer), 1, (const char *)gBtlServerFileName, 0xad);
     server->main = main;
     server->partyTable = partyTable;
     server->heapId = heapId;

@@ -5,9 +5,10 @@
 /* Public functions of dsp_g711.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../sdk_fs.h"
 
-void DSPi_OpenStaticComponentG711Core(u32 *file);
-u32 DSPi_LoadG711Core(u32 file, u16 bankMaskA, u16 bankMaskB);
+void DSPi_OpenStaticComponentG711Core(FSFile *file);
+u32 DSPi_LoadG711Core(FSFile *file, u16 bankMaskA, u16 bankMaskB);
 void DSPi_UnloadG711Core(void);
 /* END mkheaders: generated region */
 

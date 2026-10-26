@@ -131,8 +131,6 @@ struct McssSlide;
 #include "../ov119/pokemontrade_2d.h"
 
 
-
-
 #include "../ov119/pokemontrade_save.h"
 
 
@@ -155,10 +153,7 @@ struct McssWork;
 #include "../arm9/mcss.h"
 
 
-
 #include "../ov119/pokemontrade_3d.h"
-
-
 
 
 #include "../arm9/net.h"
@@ -169,46 +164,13 @@ struct Strbuf;
 #include "../arm9/wordset.h"
 
 
-
 #include "../arm9/bg_sys.h"
-
-
-
-
-
-
 
 
 struct ParticleManager;
 
 
-
 struct Obj3D;
-
-
-
-
-
-
-
-
-
-
-
-extern void CLACT_ExitSystem(void);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -217,33 +179,34 @@ extern void CLACT_ExitSystem(void);
 
 
 #include "../ov119/pokemontrade_nego.h"
+#include "../sdk_ioreg.h"
 
 
-void POKETRADE_DEMO_UP_StepStartPlayback(u8 *p);
+void POKETRADE_DEMO_UP_StepStartPlayback(TradeWork *p);
 
-void POKETRADE_DEMO_UP_PrintMessage(u8 *p);
+void POKETRADE_DEMO_UP_PrintMessage(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepMessage(u8 *p);
+void POKETRADE_DEMO_UP_StepMessage(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepEndScene(void *p);
+void POKETRADE_DEMO_UP_StepEndScene(TradeWork *p);
 
 void POKETRADE_DEMO_UP_UpdateEmitterA(void *obj, int on);
 
-void POKETRADE_DEMO_UP_SetupEmitterA(void *p);
+void POKETRADE_DEMO_UP_SetupEmitterA(void *emitter);
 
 void POKETRADE_DEMO_UP_UpdateEmitterB(void *obj, int on);
 
-void POKETRADE_DEMO_UP_SetupEmitterB(void *p);
+void POKETRADE_DEMO_UP_SetupEmitterB(void *emitter);
 
-void POKETRADE_DEMO_UP_StepStartCompare(u8 *p);
+void POKETRADE_DEMO_UP_StepStartCompare(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepSetup(u8 *p);
+void POKETRADE_DEMO_UP_StepSetup(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepParticleSystems(u8 *p);
+void POKETRADE_DEMO_UP_StepParticleSystems(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepAddUnit(u8 *p);
+void POKETRADE_DEMO_UP_StepAddUnit(TradeWork *p);
 
-void POKETRADE_DEMO_UP_UpdateScene(u8 *p);
+void POKETRADE_DEMO_UP_UpdateScene(TradeWork *p);
 
 extern const u8 d_021D7D00[];
 
@@ -255,9 +218,8 @@ extern const PokemontradeDemoVec d_021D7C90;
 
 extern const char d_021D7FD4[];
 
-#define WORK ((u8 *)((PokeTradeDemoWork *)work)->animWork)
 
-void POKETRADE_DEMO_UP_StepStartPlayback(u8 *work)
+void POKETRADE_DEMO_UP_StepStartPlayback(TradeWork *work)
 {
     void *mon;
     u32 a;
@@ -266,15 +228,15 @@ void POKETRADE_DEMO_UP_StepStartPlayback(u8 *work)
     PokemontradeDemoVec sameMonPos;
     u32 buf;
 
-    POKETRADE_DEMO_COMMON_StepFade(*(s8 * *)&((PokeTradeDemoWork *)work)->fade);
-    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slideOwn, (int)work);
-    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slidePeer, (int)work);
-    if (FRAME > POKETRADE_DEMO_COMMON_PassThrough(0x2A)) {
-        POKETRADE_2D_ScheduleMainPlaneVisible(work, (int)((void *)0x11));
+    POKETRADE_DEMO_COMMON_StepFade(*(s8 * *)&work->fade);
+    POKETRADE_MCSS_SlideUpdate(work->slide[0], work);
+    POKETRADE_MCSS_SlideUpdate(work->slide[1], work);
+    if (work->waitCounter > POKETRADE_DEMO_COMMON_PassThrough(0x2A)) {
+        POKETRADE_2D_ScheduleMainPlaneVisible(work, 0x11);
         POKETRADE_2D_ScheduleSubPlaneVisible(work, 0);
         POKETRADE_2D_DeleteAllOfferIconActors(work);
-        POKETRADE_2D_DeleteAllBoxIcons((char *)work);
-        POKETRADE_SAVE_DeleteOfferListWindows((char *)work);
+        POKETRADE_2D_DeleteAllBoxIcons(work);
+        POKETRADE_SAVE_DeleteOfferListWindows(work);
         POKETRADE_DEMO_COMMON_SetFrame(work, 0);
         mon = POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work));
         POKE_TOOL_GetPartyValue(mon, 7, 0);
@@ -282,96 +244,96 @@ void POKETRADE_DEMO_UP_StepStartPlayback(u8 *work)
             a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
             b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
             PM_VOICE_GetPerapVoiceSave((struct SaveBlock **)(&buf));
-            (void **)PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (void **)(&buf));
+            PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (void **)(&buf));
         }
-        if (SLOT0 != 0) {
-            GFL_HEAP_Free(SLOT0);
-            SLOT0 = 0;
+        if (work->slide[0] != 0) {
+            GFL_HEAP_Free(work->slide[0]);
+            work->slide[0] = 0;
         }
-        if (((PokeTradeDemoWork *)work)->enemySameMon == 0) {
-            MCSS_GetPosition(OBJ(0), (u32 *)(&differentMonPos));
-            POKETRADE_SAVE_FreeIfSet(SLOT0);
-            if (((PokeTradeDemoWork *)work)->enemySpecialMon != 0) {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets(OBJ(0), (void *)0x14, &differentMonPos, d_021D86A0, HEAP);
+        if (work->enemySameMon == 0) {
+            MCSS_GetPosition(work->mcssPokemon[0], (u32 *)(&differentMonPos));
+            POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+            if (work->enemySpecialMon != 0) {
+                work->slide[0] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[0], 0x14, &differentMonPos, d_021D86A0, work->heapId);
             } else {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets(OBJ(0), (void *)0x12, &differentMonPos, (void *)d_021D7D00, HEAP);
+                work->slide[0] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[0], 0x12, &differentMonPos, (void *)d_021D7D00, work->heapId);
             }
             POKETRADE_3D_AddPokemonMcssPlain(work, 2, 0, POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work)), 1);
-            MCSS_SetAnmStopFlag(OBJ(2));
-            MCSS_SetVanishFlag(OBJ(2));
+            MCSS_SetAnmStopFlag(work->mcssPokemon[2]);
+            MCSS_SetVanishFlag(work->mcssPokemon[2]);
         } else {
-            MCSS_GetPosition(OBJ(0), (u32 *)(&sameMonPos));
-            POKETRADE_SAVE_FreeIfSet(SLOT0);
-            if (((PokeTradeDemoWork *)work)->enemySpecialMon != 0) {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets(OBJ(0), (void *)0x14, &sameMonPos, d_021D86A0, HEAP);
+            MCSS_GetPosition(work->mcssPokemon[0], (u32 *)(&sameMonPos));
+            POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+            if (work->enemySpecialMon != 0) {
+                work->slide[0] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[0], 0x14, &sameMonPos, d_021D86A0, work->heapId);
             } else {
-                SLOT0 = POKETRADE_MCSS_SlideCreateWithOffsets(OBJ(0), (void *)0x28, &sameMonPos, (void *)d_021D7DD8, HEAP);
+                work->slide[0] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[0], 0x28, &sameMonPos, (void *)d_021D7DD8, work->heapId);
             }
         }
-        POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepMessage);
+        POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepMessage);
     }
 }
 
-void POKETRADE_DEMO_UP_PrintMessage(u8 *work)
+void POKETRADE_DEMO_UP_PrintMessage(TradeWork *work)
 {
-    GFL_NET_RefreshWmIconAtTopRight(0, ((PokeTradeDemoWork *)work)->heapId);
-    if (((PokeTradeDemoWork *)work)->sceneMode == 6) {
-        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x98, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
-    } else if (((PokeTradeDemoWork *)work)->sceneMode == 8) {
-        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x9B, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
-    } else if (((PokeTradeDemoWork *)work)->enemySameMon != 0) {
-        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x82, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
+    if (work->tradeState == 6) {
+        MSGDATA_ReadString((struct MsgBank *)(work->messageBank), 0x98, (void *)(work->messageTemplate));
+    } else if (work->tradeState == 8) {
+        MSGDATA_ReadString((struct MsgBank *)(work->messageBank), 0x9B, (void *)(work->messageTemplate));
+    } else if (work->enemySameMon != 0) {
+        MSGDATA_ReadString((struct MsgBank *)(work->messageBank), 0x82, (void *)(work->messageTemplate));
     } else {
-        MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
+        MSGDATA_ReadString((struct MsgBank *)(work->messageBank), 0x81, (void *)(work->messageTemplate));
     }
-    WORDSET_SetSlotMonNickname(((PokeTradeDemoWork *)work)->wordSet, 0, POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work)));
-    WORDSET_SetSlotMyStatus(*(struct WordSet **)&((PokeTradeDemoWork *)work)->wordSet, 1, (void *)(((PokeTradeDemoWork *)work)->enemyMonKey));
-    WORDSET_CopyTaggedText(*(struct WordSet **)&((PokeTradeDemoWork *)work)->wordSet, (void *)(((PokeTradeDemoWork *)work)->stringDst), (void *)(((PokeTradeDemoWork *)work)->stringSrc));
+    WORDSET_SetSlotMonNickname(work->wordSet, 0, POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work)));
+    WORDSET_SetSlotMyStatus(work->wordSet, 1, (void *)(work->playerStatus));
+    WORDSET_CopyTaggedText(work->wordSet, (void *)(work->messageText), (void *)(work->messageTemplate));
     BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x18, 0x11);
     POKETRADE_SAVE_OpenMessageWindowAtPos(work, 1, 0);
-    POKETRADE_2D_ScheduleSubPlaneVisible(work, (int)((void *)0x14));
-    *(volatile u16 *)0x04001050 = 0;
+    POKETRADE_2D_ScheduleSubPlaneVisible(work, 0x14);
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
 }
 
-void POKETRADE_DEMO_UP_StepMessage(u8 *work)
+void POKETRADE_DEMO_UP_StepMessage(TradeWork *work)
 {
     PokemontradeDemoVec v;
 
-    if (FRAME == 10) {
+    if (work->waitCounter == 10) {
         POKETRADE_DEMO_UP_PrintMessage(work);
     }
-    if (((PokeTradeDemoWork *)work)->enemySameMon == 0 && FRAME == 6) {
-        MCSS_GetPosition(OBJ(0), (u32 *)(&v));
-        MCSS_SetPosition(OBJ(2), (u32 *)(&v));
-        MCSS_ResetVanishFlag(OBJ(2));
-        MCSS_SetVanishFlag(OBJ(0));
-        MCSS_ResetAnmStopFlag(OBJ(2));
-        *(void **)SLOT0 = OBJ(2);
+    if (work->enemySameMon == 0 && work->waitCounter == 6) {
+        MCSS_GetPosition(work->mcssPokemon[0], (u32 *)(&v));
+        MCSS_SetPosition(work->mcssPokemon[2], (u32 *)(&v));
+        MCSS_ResetVanishFlag(work->mcssPokemon[2]);
+        MCSS_SetVanishFlag(work->mcssPokemon[0]);
+        MCSS_ResetAnmStopFlag(work->mcssPokemon[2]);
+        *(void **)work->slide[0] = work->mcssPokemon[2];
     }
-    if (FRAME > 0xC8 && POKETRADE_SAVE_IsMessagePrintDone((char *)work) != 0) {
-        POKETRADE_SAVE_CloseMessageWindowClear((char *)work);
-        if (((PokeTradeDemoWork *)work)->enemySameMon == 0) {
+    if (work->waitCounter > 0xC8 && POKETRADE_SAVE_IsMessagePrintDone(work) != 0) {
+        POKETRADE_SAVE_CloseMessageWindowClear(work);
+        if (work->enemySameMon == 0) {
             POKETRADE_3D_DeleteMcssSlot(work, 0);
-            OBJ(0) = OBJ(2);
-            OBJ(2) = 0;
+            work->mcssPokemon[0] = work->mcssPokemon[2];
+            work->mcssPokemon[2] = 0;
         }
-        if (SLOT0 != 0) {
-            GFL_HEAP_Free(SLOT0);
-            SLOT0 = 0;
+        if (work->slide[0] != 0) {
+            GFL_HEAP_Free(work->slide[0]);
+            work->slide[0] = 0;
         }
-        POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepSetup);
+        POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepSetup);
     }
-    POKETRADE_MCSS_SlideUpdate(SLOT0, (int)work);
+    POKETRADE_MCSS_SlideUpdate(work->slide[0], work);
 }
 
-void POKETRADE_DEMO_UP_StepEndScene(void *work)
+void POKETRADE_DEMO_UP_StepEndScene(TradeWork *work)
 {
     POKETRADE_DEMO_COMMON_ReleaseUnit(work);
-    POKETRADE_3D_ExitParticleManager(((PokeTradeDemoWork *)work)->animWork, 6);
-    POKETRADE_3D_FreeParticleResources(((PokeTradeDemoWork *)work)->animWork);
-    GFL_HEAP_Free(((PokeTradeDemoWork *)work)->animWork);
-    ((PokeTradeDemoWork *)work)->animWork = 0;
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_SAVE_ResetClactAndBeginEvent);
+    POKETRADE_3D_ExitParticleManager(work->particleManager, 6);
+    POKETRADE_3D_FreeParticleResources(work->particleManager);
+    GFL_HEAP_Free(work->particleManager);
+    work->particleManager = 0;
+    POKETRADE_PROC_SetStep(work, POKETRADE_SAVE_ResetClactAndBeginEvent);
 }
 
 void POKETRADE_DEMO_UP_UpdateEmitterA(void *obj, int on) {
@@ -392,7 +354,7 @@ void POKETRADE_DEMO_UP_UpdateEmitterA(void *obj, int on) {
 void POKETRADE_DEMO_UP_SetupEmitterA(void *emitter)
 {
     PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    PARTICLE_EMITTER_SetCallback(emitter, (sptr)POKETRADE_DEMO_UP_UpdateEmitterA);
+    PARTICLE_EMITTER_SetCallback(emitter, POKETRADE_DEMO_UP_UpdateEmitterA);
 }
 
 void POKETRADE_DEMO_UP_UpdateEmitterB(void *obj, int on)
@@ -417,293 +379,288 @@ void POKETRADE_DEMO_UP_UpdateEmitterB(void *obj, int on)
 void POKETRADE_DEMO_UP_SetupEmitterB(void *emitter)
 {
     PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    PARTICLE_EMITTER_SetCallback(emitter, (sptr)POKETRADE_DEMO_UP_UpdateEmitterB);
+    PARTICLE_EMITTER_SetCallback(emitter, POKETRADE_DEMO_UP_UpdateEmitterB);
 }
 
-void POKETRADE_DEMO_UP_StepStartCompare(u8 *work)
+void POKETRADE_DEMO_UP_StepStartCompare(TradeWork *work)
 {
     POKETRADE_DEMO_COMMON_SetFinishFlag(work);
-    ((PokeTradeDemoWork *)work)->sceneStarted = 1;
-    MCSS_SetAnimeIndex((void *)(((PokeTradeDemoWork *)work)->mcssObj[0]), 0);
-    if (((PokeTradeDemoWork *)work)->sceneMode == 6) {
+    work->mcssAnimStopped = 1;
+    MCSS_SetAnimeIndex((void *)(work->mcssPokemon[0]), 0);
+    if (work->tradeState == 6) {
         PokemontradeDemoVec v = d_021D7C90;
-        MCSS_SetPosition((void *)(((PokeTradeDemoWork *)work)->mcssObj[0]), (u32 *)(&v));
+        MCSS_SetPosition((void *)(work->mcssPokemon[0]), (u32 *)(&v));
     }
     POKETRADE_DEMO_COMMON_SetFrame(work, 0);
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_COMMON_StepCompareMons);
+    POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_COMMON_StepCompareMons);
 }
 
-void POKETRADE_DEMO_UP_StepSetup(u8 *work)
+void POKETRADE_DEMO_UP_StepSetup(TradeWork *work)
 {
-    POKETRADE_PROC_DeleteAllResources((char *)work);
+    POKETRADE_PROC_DeleteAllResources(work);
     CLACT_ExitSystem();
-    POKETRADE_2D_InitClactSystemMain((char *)work);
-    ((PokeTradeDemoWork *)work)->clactSystem = CLACT_CreateUnit(3, 0, HEAP);
-    ((PokeTradeDemoWork *)work)->animWork = GFL_HEAP_Alloc(HEAP, 0xBC, 1, d_021D7FD4, 0x98);
-    *(u16 *)(WORK + 0xBA) = HEAP;
-    POKETRADE_2D_SetupSummaryBgs((char *)work, 0);
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u16 *)0x04000050 = 0;
+    POKETRADE_2D_InitClactSystemMain(work);
+    work->clactSystem = CLACT_CreateUnit(3, 0, work->heapId);
+    work->particleManager = GFL_HEAP_Alloc(work->heapId, sizeof(ParticleManager), 1, d_021D7FD4, 0x98);
+    work->particleManager->heap = work->heapId;
+    POKETRADE_2D_SetupSummaryBgs(work, 0);
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
     POKETRADE_3D_AddUnitAndInit(work, 3);
     POKETRADE_3D_AddPokemonMcssPlain(work, 1, 0, POKETRADE_PROC_GetSideMon(work, 1), 1);
     POKETRADE_3D_AddPokemonMcssPlain(work, 2, 0, POKETRADE_PROC_GetSideMon(work, 0), 1);
     POKETRADE_3D_AddPokemonMcssPlain(work, 3, 1, POKETRADE_PROC_GetSideMon(work, 1), 1);
-    MCSS_SetVanishFlag(OBJ(1));
-    MCSS_SetVanishFlag(OBJ(2));
-    MCSS_SetVanishFlag(OBJ(3));
-    POKETRADE_3D_InitParticleSystems((struct ParticleManager *)WORK);
-    POKETRADE_3D_SetupParticleSystemsLow((struct ParticleManager *)WORK);
-    POKETRADE_3D_CreateIcaStreamsForMode((struct ParticleManager *)WORK, 1);
+    MCSS_SetVanishFlag(work->mcssPokemon[1]);
+    MCSS_SetVanishFlag(work->mcssPokemon[2]);
+    MCSS_SetVanishFlag(work->mcssPokemon[3]);
+    POKETRADE_3D_InitParticleSystems(work->particleManager);
+    POKETRADE_3D_SetupParticleSystemsLow(work->particleManager);
+    POKETRADE_3D_CreateIcaStreamsForMode(work->particleManager, 1);
     POKETRADE_DEMO_COMMON_SetFrame(work, 0);
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepParticleSystems);
+    POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepParticleSystems);
 }
 
-void POKETRADE_DEMO_UP_StepParticleSystems(u8 *work)
+void POKETRADE_DEMO_UP_StepParticleSystems(TradeWork *work)
 {
-    POKETRADE_3D_SetupParticleSystemsHigh(((PokeTradeDemoWork *)work)->animWork);
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepAddUnit);
+    POKETRADE_3D_SetupParticleSystemsHigh(work->particleManager);
+    POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepAddUnit);
 }
 
-#undef WORK
-
-#undef WORK
-
-#define WORK ((u32 *)((PokeTradeDemoWork *)work)->animWork)
 
 /*
  * Addresses are Black-image addresses.
  */
-void POKETRADE_DEMO_UP_StepAddUnit(u8 *work)
+void POKETRADE_DEMO_UP_StepAddUnit(TradeWork *work)
 {
     POKETRADE_3D_RemoveCurrentUnit(work);
     POKETRADE_3D_AddUnitAndInit(work, 3);
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_UpdateScene);
+    POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_UpdateScene);
 }
 
-void POKETRADE_DEMO_UP_UpdateScene(u8 *work)
+void POKETRADE_DEMO_UP_UpdateScene(TradeWork *work)
 {
     PokemontradeDemoVec ownVec, peerVec, slideBeginVec, swapVec, leftMonVec, rightMonVec, exitVec, copyPosVec;
 
-    POKETRADE_NEGO_PlaySeByKeyA(FRAME);
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(1)) {
-        MCSS_SetPaletteFade(OBJ(0), 8, 8, 0, 0xFFFF);
+    POKETRADE_NEGO_PlaySeByKeyA(work->waitCounter);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(1)) {
+        MCSS_SetPaletteFade(work->mcssPokemon[0], 8, 8, 0, 0xFFFF);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(2)) {
-        MCSS_SetPaletteFade(OBJ(0), 0x10, 0x10, 0, 0xFFFF);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(2)) {
+        MCSS_SetPaletteFade(work->mcssPokemon[0], 0x10, 0x10, 0, 0xFFFF);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(3)) {
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(3)) {
         POKETRADE_DEMO_COMMON_LoadUnitResources(work);
         POKETRADE_DEMO_COMMON_ShowUnitActor(work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(4)) {
-        POKETRADE_2D_ScheduleMainPlaneVisible(work, (int)((void *)0x11));
-        POKETRADE_2D_ScheduleSubPlaneVisible(work, (int)((void *)0x18));
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(4)) {
+        POKETRADE_2D_ScheduleMainPlaneVisible(work, 0x11);
+        POKETRADE_2D_ScheduleSubPlaneVisible(work, 0x18);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(4)) {
-        MCSS_SetVanishFlag(OBJ(0));
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(4)) {
+        MCSS_SetVanishFlag(work->mcssPokemon[0]);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x356)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[0], 10, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x356)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[0], 10, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x65)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[1], 1, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x65)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[1], 1, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x9A)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[2], 2, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x9A)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[2], 2, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x356)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[8], 2, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x356)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[8], 2, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0xE)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[3], 3, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0xE)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[3], 3, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x483)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[7], 3, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x483)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[7], 3, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x9A)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[4], 4, POKETRADE_DEMO_UP_SetupEmitterA, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x9A)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[4], 4, POKETRADE_DEMO_UP_SetupEmitterA, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x152)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[5], 5, 0, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x152)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[5], 5, 0, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x2BC)) {
-        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[6], 6, POKETRADE_DEMO_UP_SetupEmitterB, (sptr)work);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x2BC)) {
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)work->particleManager->system[6], 6, POKETRADE_DEMO_UP_SetupEmitterB, work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x47F)) {
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x47F)) {
         POKETRADE_DEMO_COMMON_ShowUnitActor(work);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x10A)) {
-        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x14), 1, HEAP);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x10A)) {
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x14), 1, work->heapId);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x12D) - 2) {
-        if (SLOT0 != 0) {
-            GFL_HEAP_Free(SLOT0);
-            SLOT0 = 0;
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x12D) - 2) {
+        if (work->slide[0] != 0) {
+            GFL_HEAP_Free(work->slide[0]);
+            work->slide[0] = 0;
         }
-        if (SLOT1 != 0) {
-            GFL_HEAP_Free(SLOT1);
-            SLOT1 = 0;
+        if (work->slide[1] != 0) {
+            GFL_HEAP_Free(work->slide[1]);
+            work->slide[1] = 0;
         }
         POKETRADE_3D_RemoveCurrentUnit(work);
-        POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepEndScene);
+        POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepEndScene);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x14A)) {
-        MCSS_ResetVanishFlag(OBJ(2));
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x14A)) {
+        MCSS_ResetVanishFlag(work->mcssPokemon[2]);
         ownVec.x = -0x32000;
         ownVec.y = -0x96000;
         ownVec.z = 0xA000;
-        MCSS_SetPosition(OBJ(2), (u32 *)(&ownVec));
+        MCSS_SetPosition(work->mcssPokemon[2], (u32 *)(&ownVec));
         ownVec.x = -0x32000;
         ownVec.y = -0x37000;
         ownVec.z = 0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT0);
-        SLOT0 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(2)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0xF)), &ownVec, HEAP);
-        MCSS_SetAnmStopFlag(OBJ(2));
-        MCSS_GetScale(OBJ(2), (u32 *)(&ownVec));
+        POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+        work->slide[0] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[2]), (POKETRADE_DEMO_COMMON_PassThrough(0xF)), &ownVec, work->heapId);
+        MCSS_SetAnmStopFlag(work->mcssPokemon[2]);
+        MCSS_GetScale(work->mcssPokemon[2], (u32 *)(&ownVec));
         ownVec.x *= 1.2;
         ownVec.y *= 1.2;
-        MCSS_SetScale(OBJ(2), (u32 *)(&ownVec));
+        MCSS_SetScale(work->mcssPokemon[2], (u32 *)(&ownVec));
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x14B)) {
-        MCSS_ResetVanishFlag(OBJ(3));
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x14B)) {
+        MCSS_ResetVanishFlag(work->mcssPokemon[3]);
         peerVec.x = 0x3C000;
         peerVec.y = 0x50000;
         peerVec.z = -0xA000;
-        MCSS_SetPosition(OBJ(3), (u32 *)(&peerVec));
+        MCSS_SetPosition(work->mcssPokemon[3], (u32 *)(&peerVec));
         peerVec.x = 0x3C000;
         peerVec.y = 0x5000;
         peerVec.z = -0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT1);
-        SLOT1 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(3)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0xF)), &peerVec, HEAP);
-        MCSS_SetAnmStopFlag(OBJ(3));
-        MCSS_GetScale(OBJ(3), (u32 *)(&peerVec));
+        POKETRADE_SAVE_FreeIfSet(work->slide[1]);
+        work->slide[1] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[3]), (POKETRADE_DEMO_COMMON_PassThrough(0xF)), &peerVec, work->heapId);
+        MCSS_SetAnmStopFlag(work->mcssPokemon[3]);
+        MCSS_GetScale(work->mcssPokemon[3], (u32 *)(&peerVec));
         peerVec.x *= 1.2;
         peerVec.y *= 1.2;
-        MCSS_SetScale(OBJ(3), (u32 *)(&peerVec));
+        MCSS_SetScale(work->mcssPokemon[3], (u32 *)(&peerVec));
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x154)) {
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x154)) {
         slideBeginVec.x = -0x32000;
         slideBeginVec.y = -0x37000;
         slideBeginVec.z = 0xA000;
-        POKETRADE_MCSS_SlideBegin(SLOT0, (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x1C)), &slideBeginVec);
+        POKETRADE_MCSS_SlideBegin(work->slide[0], (POKETRADE_DEMO_COMMON_PassThrough(0x1C)), &slideBeginVec);
         slideBeginVec.x = 0x3C000;
         slideBeginVec.y = 0x5000;
         slideBeginVec.z = -0xA000;
-        POKETRADE_MCSS_SlideBegin(SLOT1, (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x1C)), &slideBeginVec);
+        POKETRADE_MCSS_SlideBegin(work->slide[1], (POKETRADE_DEMO_COMMON_PassThrough(0x1C)), &slideBeginVec);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x170)) {
-        GFL_HEAP_Free(SLOT0);
-        SLOT0 = 0;
-        GFL_HEAP_Free(SLOT1);
-        SLOT1 = 0;
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x170)) {
+        GFL_HEAP_Free(work->slide[0]);
+        work->slide[0] = 0;
+        GFL_HEAP_Free(work->slide[1]);
+        work->slide[1] = 0;
         swapVec.x = -0x96000;
         swapVec.y = -0x37000;
         swapVec.z = 0;
-        POKETRADE_SAVE_FreeIfSet(SLOT0);
-        SLOT0 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(2)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x2E)), &swapVec, HEAP);
+        POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+        work->slide[0] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[2]), (POKETRADE_DEMO_COMMON_PassThrough(0x2E)), &swapVec, work->heapId);
         swapVec.x = 0x96000;
         swapVec.y = 0x5000;
         swapVec.z = 0;
-        POKETRADE_SAVE_FreeIfSet(SLOT1);
-        SLOT1 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(3)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x2E)), &swapVec, HEAP);
-        *(u16 *)((u8 *)SLOT0 + 0x16) = 1;
-        *(u16 *)((u8 *)SLOT1 + 0x16) = 1;
+        POKETRADE_SAVE_FreeIfSet(work->slide[1]);
+        work->slide[1] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[3]), (POKETRADE_DEMO_COMMON_PassThrough(0x2E)), &swapVec, work->heapId);
+        work->slide[0]->wobbleEnabled = 1;
+        work->slide[1]->wobbleEnabled = 1;
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x1B2)) {
-        GFL_HEAP_Free(SLOT0);
-        SLOT0 = 0;
-        MCSS_ResetVanishFlag(OBJ(0));
-        MCSS_SetPaletteFade(OBJ(0), 0, 0, 0, 0x7FFF);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x1B2)) {
+        GFL_HEAP_Free(work->slide[0]);
+        work->slide[0] = 0;
+        MCSS_ResetVanishFlag(work->mcssPokemon[0]);
+        MCSS_SetPaletteFade(work->mcssPokemon[0], 0, 0, 0, 0x7FFF);
         leftMonVec.x = -0x96000;
         leftMonVec.y = 0x5000;
         leftMonVec.z = -0xA000;
-        MCSS_SetPosition(OBJ(0), (u32 *)(&leftMonVec));
+        MCSS_SetPosition(work->mcssPokemon[0], (u32 *)(&leftMonVec));
         leftMonVec.x = 0x3C000;
         leftMonVec.y = 0x5000;
         leftMonVec.z = -0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT0);
-        SLOT0 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(0)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x67)), &leftMonVec, HEAP);
-        MCSS_GetScale(OBJ(0), (u32 *)(&leftMonVec));
+        POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+        work->slide[0] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[0]), (POKETRADE_DEMO_COMMON_PassThrough(0x67)), &leftMonVec, work->heapId);
+        MCSS_GetScale(work->mcssPokemon[0], (u32 *)(&leftMonVec));
         leftMonVec.x *= 1.2;
         leftMonVec.y *= 1.2;
-        MCSS_SetScale(OBJ(0), (u32 *)(&leftMonVec));
-        GFL_HEAP_Free(SLOT1);
-        SLOT1 = 0;
-        MCSS_ResetVanishFlag(OBJ(1));
+        MCSS_SetScale(work->mcssPokemon[0], (u32 *)(&leftMonVec));
+        GFL_HEAP_Free(work->slide[1]);
+        work->slide[1] = 0;
+        MCSS_ResetVanishFlag(work->mcssPokemon[1]);
         rightMonVec.x = 0x96000;
         rightMonVec.y = -0x37000;
         rightMonVec.z = 0xA000;
-        MCSS_SetPosition(OBJ(1), (u32 *)(&rightMonVec));
+        MCSS_SetPosition(work->mcssPokemon[1], (u32 *)(&rightMonVec));
         rightMonVec.x = -0x2D000;
         rightMonVec.y = -0x37000;
         rightMonVec.z = 0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT1);
-        SLOT1 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(1)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x67)), &rightMonVec, HEAP);
-        MCSS_GetScale(OBJ(1), (u32 *)(&rightMonVec));
+        POKETRADE_SAVE_FreeIfSet(work->slide[1]);
+        work->slide[1] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[1]), (POKETRADE_DEMO_COMMON_PassThrough(0x67)), &rightMonVec, work->heapId);
+        MCSS_GetScale(work->mcssPokemon[1], (u32 *)(&rightMonVec));
         rightMonVec.x *= 1.2;
         rightMonVec.y *= 1.2;
-        MCSS_SetScale(OBJ(1), (u32 *)(&rightMonVec));
-        *(u16 *)((u8 *)SLOT0 + 0x16) = 1;
-        *(u16 *)((u8 *)SLOT1 + 0x16) = 1;
+        MCSS_SetScale(work->mcssPokemon[1], (u32 *)(&rightMonVec));
+        work->slide[0]->wobbleEnabled = 1;
+        work->slide[1]->wobbleEnabled = 1;
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x1F8)) {
-        POKETRADE_MCSS_SlideBegin(SLOT0, (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x80)), (u8 *)SLOT0 + 0x28);
-        POKETRADE_MCSS_SlideBegin(SLOT1, (void *)(POKETRADE_DEMO_COMMON_PassThrough(0x80)), (u8 *)SLOT1 + 0x28);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x1F8)) {
+        POKETRADE_MCSS_SlideBegin(work->slide[0], (POKETRADE_DEMO_COMMON_PassThrough(0x80)), &work->slide[0]->target);
+        POKETRADE_MCSS_SlideBegin(work->slide[1], (POKETRADE_DEMO_COMMON_PassThrough(0x80)), &work->slide[1]->target);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x27D)) {
-        GFL_HEAP_Free(SLOT0);
-        SLOT0 = 0;
-        GFL_HEAP_Free(SLOT1);
-        SLOT1 = 0;
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x27D)) {
+        GFL_HEAP_Free(work->slide[0]);
+        work->slide[0] = 0;
+        GFL_HEAP_Free(work->slide[1]);
+        work->slide[1] = 0;
         exitVec.x = 0x3C000;
         exitVec.y = 0x64000;
         exitVec.z = -0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT0);
-        SLOT0 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(0)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(7)), &exitVec, HEAP);
+        POKETRADE_SAVE_FreeIfSet(work->slide[0]);
+        work->slide[0] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[0]), (POKETRADE_DEMO_COMMON_PassThrough(7)), &exitVec, work->heapId);
         exitVec.x = -0x2D000;
         exitVec.y = -0xA0000;
         exitVec.z = 0xA000;
-        POKETRADE_SAVE_FreeIfSet(SLOT1);
-        SLOT1 = POKETRADE_MCSS_SlideCreate((void *)(OBJ(1)), (void *)(POKETRADE_DEMO_COMMON_PassThrough(7)), &exitVec, HEAP);
+        POKETRADE_SAVE_FreeIfSet(work->slide[1]);
+        work->slide[1] = POKETRADE_MCSS_SlideCreate((void *)(work->mcssPokemon[1]), (POKETRADE_DEMO_COMMON_PassThrough(7)), &exitVec, work->heapId);
     }
     POKETRADE_DEMO_COMMON_PassThrough(0x48B);
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x48B + 3)) {
-        MCSS_ResetVanishFlag(OBJ(3));
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x48B + 3)) {
+        MCSS_ResetVanishFlag(work->mcssPokemon[3]);
         copyPosVec.x = 0;
         copyPosVec.y = -0x17000;
         copyPosVec.z = 0xA000;
-        MCSS_SetPosition(OBJ(3), (u32 *)(&copyPosVec));
-        MCSS_SetAnmStopFlag(OBJ(3));
-        MCSS_SetPaletteFade(OBJ(3), 0x10, 0x10, 0, 0x7FFF);
+        MCSS_SetPosition(work->mcssPokemon[3], (u32 *)(&copyPosVec));
+        MCSS_SetAnmStopFlag(work->mcssPokemon[3]);
+        MCSS_SetPaletteFade(work->mcssPokemon[3], 0x10, 0x10, 0, 0x7FFF);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x48F)) {
-        MCSS_SetPaletteFade(OBJ(3), 8, 8, 0, 0x7FFF);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x48F)) {
+        MCSS_SetPaletteFade(work->mcssPokemon[3], 8, 8, 0, 0x7FFF);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x490)) {
-        MCSS_SetPaletteFade(OBJ(3), 0, 0, 0, 0x7FFF);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x490)) {
+        MCSS_SetPaletteFade(work->mcssPokemon[3], 0, 0, 0, 0x7FFF);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x28B)) {
-        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0xA), 1, HEAP);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x28B)) {
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0xA), 1, work->heapId);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x2B5)) {
-        WIPE_SYS_Start(0, 1, 1, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x19), 1, HEAP);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x2B5)) {
+        WIPE_SYS_Start(0, 1, 1, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x19), 1, work->heapId);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x380)) {
-        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x1E), 1, HEAP);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x380)) {
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x1E), 1, work->heapId);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x3CA)) {
-        WIPE_SYS_Start(0, 1, 1, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x1E), 1, HEAP);
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x3CA)) {
+        WIPE_SYS_Start(0, 1, 1, 0x7FFF, (u32)POKETRADE_DEMO_COMMON_PassThrough(0x1E), 1, work->heapId);
     }
-    if (FRAME == POKETRADE_DEMO_COMMON_PassThrough(0x4C1)) {
-        GFL_HEAP_Free(SLOT0);
-        SLOT0 = 0;
-        GFL_HEAP_Free(SLOT1);
-        SLOT1 = 0;
+    if (work->waitCounter == POKETRADE_DEMO_COMMON_PassThrough(0x4C1)) {
+        GFL_HEAP_Free(work->slide[0]);
+        work->slide[0] = 0;
+        GFL_HEAP_Free(work->slide[1]);
+        work->slide[1] = 0;
         POKETRADE_3D_RemoveCurrentUnit(work);
-        POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_UP_StepEndScene);
+        POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_UP_StepEndScene);
     }
-    POKETRADE_MCSS_SlideUpdate(SLOT0, (int)work);
-    POKETRADE_MCSS_SlideUpdate(SLOT1, (int)work);
+    POKETRADE_MCSS_SlideUpdate(work->slide[0], work);
+    POKETRADE_MCSS_SlideUpdate(work->slide[1], work);
 }
 
 typedef struct {
@@ -721,55 +678,46 @@ struct MyStatus;
 struct ClactActor;
 
 
-
-
 #include "../arm9/arc_tool.h"
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-void POKETRADE_DEMO_UP_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy);
 
-void POKETRADE_DEMO_UP_CreateUnitActor(void *p);
+void POKETRADE_DEMO_UP_CompareSideMon(TradeWork *p, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy);
 
-void POKETRADE_DEMO_UP_LoadUnitResources(void *p);
+void POKETRADE_DEMO_UP_CreateUnitActor(TradeWork *p);
 
-void POKETRADE_DEMO_UP_ReleaseUnit(void *p);
+void POKETRADE_DEMO_UP_LoadUnitResources(TradeWork *p);
+
+void POKETRADE_DEMO_UP_ReleaseUnit(TradeWork *p);
 
 int POKETRADE_DEMO_UP_PassThrough(int a);
 
-void POKETRADE_DEMO_UP_SetFrame(u8 *p, u32 v);
+void POKETRADE_DEMO_UP_SetFrame(TradeWork *p, u32 v);
 
-void POKETRADE_DEMO_UP_SetFinishFlag(u8 *p);
+void POKETRADE_DEMO_UP_SetFinishFlag(TradeWork *p);
 
-void POKETRADE_DEMO_UP_StepReleaseUnit(void *p);
+void POKETRADE_DEMO_UP_StepReleaseUnit(TradeWork *p);
 
-void POKETRADE_DEMO_UP_DeleteSlide(u8 *p, int idx);
+void POKETRADE_DEMO_UP_DeleteSlide(TradeWork *p, int idx);
 
-void POKETRADE_DEMO_UP_SetMonSlide(u8 *p, int idx);
+void POKETRADE_DEMO_UP_SetMonSlide(TradeWork *p, int idx);
 
-void POKETRADE_DEMO_UP_ResetMonSlide(u8 *p, int idx);
+void POKETRADE_DEMO_UP_ResetMonSlide(TradeWork *p, int idx);
 
 void POKETRADE_DEMO_UP_UpdateEmitterC(void *obj, int on);
 
-void POKETRADE_DEMO_UP_SetupEmitterC(void *p);
+void POKETRADE_DEMO_UP_SetupEmitterC(void *emitter);
 
 void POKETRADE_DEMO_UP_UpdateEmitterD(void *obj, int on);
 
-void POKETRADE_DEMO_UP_SetupEmitterD(void *p);
+void POKETRADE_DEMO_UP_SetupEmitterD(void *emitter);
 
-void POKETRADE_DEMO_UP_StepStartDownScene(u8 *p);
+void POKETRADE_DEMO_UP_StepStartDownScene(TradeWork *p);
 
 #include "pokemontrade_demo_down.h"
 
@@ -783,7 +731,7 @@ extern u8 d_021D8790[];
 
 extern const PokemontradeDemoVec d_021D7CA8;
 
-void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy)
+void POKETRADE_DEMO_UP_CompareSideMon(TradeWork *work, u8 *outSame, u8 *outFlag, struct MyStatus *key, int enemy)
 {
     int which;
     void *mon;
@@ -791,7 +739,7 @@ void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct
     u32 a;
     u32 b;
     u32 egg;
-    uptr h;
+    struct PersonalData *h;
     u32 flag;
 
     if (enemy != 0) {
@@ -813,7 +761,7 @@ void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct
     b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
     egg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (egg == 0) {
-        h = (uptr)POKE_PERSONAL_Create((u16)a, (u16)b, ((PokeTradeDemoWork *)work)->heapId);
+        h = POKE_PERSONAL_Create((u16)a, (u16)b, work->heapId);
         flag = POKE_PERSONAL_GetParam((struct PersonalData *)h, 0x10);
         POKE_PERSONAL_Delete((void *)h);
     }
@@ -831,9 +779,9 @@ void POKETRADE_DEMO_UP_CompareSideMon(u8 *work, u8 *outSame, u8 *outFlag, struct
     }
 }
 
-void POKETRADE_DEMO_UP_CreateUnitActor(void *work)
+void POKETRADE_DEMO_UP_CreateUnitActor(TradeWork *work)
 {
-    struct ClactActor *v = ((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor;
+    struct ClactActor *v = work->particleManager->actor;
     if (v == 0) {
         ClactActorPos s;
         s.x = 0x80;
@@ -841,27 +789,27 @@ void POKETRADE_DEMO_UP_CreateUnitActor(void *work)
         s.animSeq = 0;
         s.drawPriority = 0;
         s.bgPriority = 0;
-        ((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor =
-            (void *)CLACT_CreateActor(((PokeTradeDemoWork *)work)->clactSystem,
-                          ((PokeTradeDemoWork *)work)->characterHandle,
-                          ((PokeTradeDemoWork *)work)->paletteHandle,
-                          ((PokeTradeDemoWork *)work)->cellAnimHandle,
-                          (const struct ActorInitParam *)&s, 0, ((PokeTradeDemoWork *)work)->heapId);
-        CLACT_SetActorAutoAnim((struct ClactActor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
+        work->particleManager->actor =
+            (void *)CLACT_CreateActor(work->clactSystem,
+                          work->cellAnimB,
+                          work->paletteSpare,
+                          work->cellAnimSpare,
+                          (const struct ActorInitParam *)&s, 0, work->heapId);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->particleManager->actor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->particleManager->actor, 1);
     } else {
         CLACT_RestartActorAnim((struct ClactActor *)v);
     }
 }
 
-void POKETRADE_DEMO_UP_LoadUnitResources(void *work)
+void POKETRADE_DEMO_UP_LoadUnitResources(TradeWork *work)
 {
-    void *h = ARC_TOOL_CreateHandle(0x67, ((PokeTradeDemoWork *)work)->heapId);
-    ((PokeTradeDemoWork *)work)->characterHandle = CLACT_RegisterCharacter(h, 2, 0, 0, ((PokeTradeDemoWork *)work)->heapId);
-    ((PokeTradeDemoWork *)work)->paletteHandle = CLACT_RegisterPaletteEx(h, 3, 0, 0xE0, 0, 1, ((PokeTradeDemoWork *)work)->heapId);
-    ((PokeTradeDemoWork *)work)->cellAnimHandle = CLACT_RegisterCellAnim(h, 1, 0, ((PokeTradeDemoWork *)work)->heapId);
+    void *h = ARC_TOOL_CreateHandle(0x67, work->heapId);
+    work->cellAnimB = CLACT_RegisterCharacter(h, 2, 0, 0, work->heapId);
+    work->paletteSpare = CLACT_RegisterPaletteEx(h, 3, 0, 0xE0, 0, 1, work->heapId);
+    work->cellAnimSpare = CLACT_RegisterCellAnim(h, 1, 0, work->heapId);
     ARC_TOOL_DeleteHandle(h);
-    ((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor = 0;
+    work->particleManager->actor = 0;
 }
 
 /*
@@ -872,51 +820,51 @@ void POKETRADE_DEMO_UP_LoadUnitResources(void *work)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_DEMO_UP_ReleaseUnit(void *work)
+void POKETRADE_DEMO_UP_ReleaseUnit(TradeWork *work)
 {
-    u8 *b = work;
+    TradeWork *b = work;
 
-    if (((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor != 0)
-        CLACT_DeleteActor(((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor);
-    if (((PokeTradeDemoWork *)b)->characterHandle != 0) {
-        CLACT_ReleaseCharacter((u32)((PokeTradeDemoWork *)b)->characterHandle);
-        CLACT_ReleasePalette((u32)((PokeTradeDemoWork *)b)->paletteHandle);
-        CLACT_ReleaseCellAnim((u32)((PokeTradeDemoWork *)b)->cellAnimHandle);
+    if (b->particleManager->actor != 0)
+        CLACT_DeleteActor(b->particleManager->actor);
+    if (b->cellAnimB != 0) {
+        CLACT_ReleaseCharacter((u32)b->cellAnimB);
+        CLACT_ReleasePalette((u32)b->paletteSpare);
+        CLACT_ReleaseCellAnim((u32)b->cellAnimSpare);
     }
-    ((PokeTradeDemoWork *)b)->characterHandle = 0;
-    ((PokeTradeDemoWork *)b)->paletteHandle = 0;
-    ((PokeTradeDemoWork *)b)->cellAnimHandle = 0;
-    ((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor = 0;
+    b->cellAnimB = 0;
+    b->paletteSpare = 0;
+    b->cellAnimSpare = 0;
+    b->particleManager->actor = 0;
 }
 
-int POKETRADE_DEMO_UP_PassThrough(int value) { return (int)((void *)value); }
+int POKETRADE_DEMO_UP_PassThrough(int value) { return value; }
 
-void POKETRADE_DEMO_UP_SetFrame(u8 *work, u32 frame) { ((PokeTradeDemoWork *)work)->frame = frame; }
+void POKETRADE_DEMO_UP_SetFrame(TradeWork *work, u32 frame) { work->waitCounter = frame; }
 
-void POKETRADE_DEMO_UP_SetFinishFlag(u8 *work) { ((PokeTradeDemoWork *)work)->finishFlag = 1; }
+void POKETRADE_DEMO_UP_SetFinishFlag(TradeWork *work) { work->repeatCounter = 1; }
 
-void POKETRADE_DEMO_UP_StepReleaseUnit(void *work)
+void POKETRADE_DEMO_UP_StepReleaseUnit(TradeWork *work)
 {
     POKETRADE_DEMO_UP_ReleaseUnit(work);
-    POKETRADE_3D_ExitParticleManager(((PokeTradeDemoWork *)work)->animWork, 6);
-    POKETRADE_3D_FreeParticleResources(((PokeTradeDemoWork *)work)->animWork);
-    GFL_HEAP_Free(((PokeTradeDemoWork *)work)->animWork);
-    ((PokeTradeDemoWork *)work)->animWork = 0;
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_SAVE_ResetClactAndBeginEvent);
+    POKETRADE_3D_ExitParticleManager(work->particleManager, 6);
+    POKETRADE_3D_FreeParticleResources(work->particleManager);
+    GFL_HEAP_Free(work->particleManager);
+    work->particleManager = 0;
+    POKETRADE_PROC_SetStep(work, POKETRADE_SAVE_ResetClactAndBeginEvent);
 }
 
-void POKETRADE_DEMO_UP_DeleteSlide(u8 *work, int idx)
+void POKETRADE_DEMO_UP_DeleteSlide(TradeWork *work, int idx)
 {
-    if (((PokeTradeDemoWork *)work)->slideOwn != 0) {
-        GFL_HEAP_Free(((PokeTradeDemoWork *)work)->slideOwn);
-        ((PokeTradeDemoWork *)work)->slideOwn = 0;
+    if (work->slide[0] != 0) {
+        GFL_HEAP_Free(work->slide[0]);
+        work->slide[0] = 0;
     }
 }
 
 /*
  * Addresses are Black-image addresses.
  */
-void POKETRADE_DEMO_UP_SetMonSlide(u8 *work, int idx)
+void POKETRADE_DEMO_UP_SetMonSlide(TradeWork *work, int idx)
 {
     void *x;
     PokemontradeDemoVec buf;
@@ -926,30 +874,30 @@ void POKETRADE_DEMO_UP_SetMonSlide(u8 *work, int idx)
     if (POKE_TOOL_GetPartyValue(x, 0x4c, 0) == 0) {
         PM_VOICE_Play(POKE_TOOL_GetPartyValue(x, 0xab, 0), POKE_TOOL_GetPartyValue(x, 0x6f, 0), 0x40, 0, 0, 0, 0, 0);
     }
-    if (((PokeTradeDemoWork *)work)->ownSameMon == 0) {
-        MCSS_GetPosition(((void **)(work + 0x844))[idx], (u32 *)(&buf));
-        POKETRADE_SAVE_FreeIfSet(((PokeTradeDemoWork *)work)->slidePtr);
-        if (((PokeTradeDemoWork *)work)->ownSpecialMon != 0) {
-            ((PokeTradeDemoWork *)work)->slidePtr = POKETRADE_MCSS_SlideCreateWithOffsets(((void **)(work + 0x844))[idx], (void *)0x14, &buf, d_021D8790, ((PokeTradeDemoWork *)work)->heapId);
+    if (work->ownSameMon == 0) {
+        MCSS_GetPosition(work->mcssPokemon[idx], (u32 *)(&buf));
+        POKETRADE_SAVE_FreeIfSet(work->slide[3]);
+        if (work->ownSpecialMon != 0) {
+            work->slide[3] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[idx], 0x14, &buf, d_021D8790, work->heapId);
         } else {
-            ((PokeTradeDemoWork *)work)->slidePtr = POKETRADE_MCSS_SlideCreateWithOffsets(((void **)(work + 0x844))[idx], (void *)0x28, &buf, (void *)d_021D80C4, ((PokeTradeDemoWork *)work)->heapId);
+            work->slide[3] = POKETRADE_MCSS_SlideCreateWithOffsets(work->mcssPokemon[idx], 0x28, &buf, (void *)d_021D80C4, work->heapId);
         }
     } else {
         Quad t = d_021D7CB4;
-        void *obj = ((PokeTradeDemoWork *)work)->mcssObj[t.v[idx]];
-        MCSS_GetPosition(((void **)(work + 0x844))[idx], (u32 *)(&buf));
-        POKETRADE_SAVE_FreeIfSet(((PokeTradeDemoWork *)work)->slidePtr);
-        if (((PokeTradeDemoWork *)work)->ownSpecialMon != 0) {
-            ((PokeTradeDemoWork *)work)->slidePtr = POKETRADE_MCSS_SlideCreateWithOffsets(obj, (void *)0x14, &buf, d_021D8790, ((PokeTradeDemoWork *)work)->heapId);
+        void *obj = work->mcssPokemon[t.v[idx]];
+        MCSS_GetPosition(work->mcssPokemon[idx], (u32 *)(&buf));
+        POKETRADE_SAVE_FreeIfSet(work->slide[3]);
+        if (work->ownSpecialMon != 0) {
+            work->slide[3] = POKETRADE_MCSS_SlideCreateWithOffsets(obj, 0x14, &buf, d_021D8790, work->heapId);
         } else {
-            ((PokeTradeDemoWork *)work)->slidePtr = POKETRADE_MCSS_SlideCreateWithOffsets(obj, (void *)0x12, &buf, (void *)d_021D7FEC, ((PokeTradeDemoWork *)work)->heapId);
+            work->slide[3] = POKETRADE_MCSS_SlideCreateWithOffsets(obj, 0x12, &buf, (void *)d_021D7FEC, work->heapId);
         }
     }
 }
 
-void POKETRADE_DEMO_UP_ResetMonSlide(u8 *work, int idx)
+void POKETRADE_DEMO_UP_ResetMonSlide(TradeWork *work, int idx)
 {
-    void **obj = ((PokeTradeDemoWork *)work)->mcssObj;
+    void **obj = work->mcssPokemon;
     PokemontradeDemoVec v;
 
     MCSS_ResetVanishFlag((void *)obj[idx]);
@@ -991,7 +939,7 @@ void POKETRADE_DEMO_UP_UpdateEmitterC(void *obj, int on)
 void POKETRADE_DEMO_UP_SetupEmitterC(void *emitter)
 {
     PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    PARTICLE_EMITTER_SetCallback(emitter, (sptr)POKETRADE_DEMO_UP_UpdateEmitterC);
+    PARTICLE_EMITTER_SetCallback(emitter, POKETRADE_DEMO_UP_UpdateEmitterC);
 }
 
 void POKETRADE_DEMO_UP_UpdateEmitterD(void *obj, int on)
@@ -1016,23 +964,23 @@ void POKETRADE_DEMO_UP_UpdateEmitterD(void *obj, int on)
 void POKETRADE_DEMO_UP_SetupEmitterD(void *emitter)
 {
     PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    PARTICLE_EMITTER_SetCallback(emitter, (sptr)POKETRADE_DEMO_UP_UpdateEmitterD);
+    PARTICLE_EMITTER_SetCallback(emitter, POKETRADE_DEMO_UP_UpdateEmitterD);
 }
 
-void POKETRADE_DEMO_UP_StepStartDownScene(u8 *work)
+void POKETRADE_DEMO_UP_StepStartDownScene(TradeWork *work)
 {
     POKETRADE_DEMO_UP_SetFinishFlag(work);
-    ((PokeTradeDemoWork *)work)->sceneStarted = 1;
-    MCSS_SetAnimeIndex((void *)(((PokeTradeDemoWork *)work)->mcssObj[0]), 0);
-    MCSS_SetVanishFlag((void *)(((PokeTradeDemoWork *)work)->mcssObj[0]));
-    MCSS_SetVanishFlag((void *)(((PokeTradeDemoWork *)work)->mcssObj[1]));
-    if (((PokeTradeDemoWork *)work)->sceneMode == 6) {
+    work->mcssAnimStopped = 1;
+    MCSS_SetAnimeIndex((void *)(work->mcssPokemon[0]), 0);
+    MCSS_SetVanishFlag((void *)(work->mcssPokemon[0]));
+    MCSS_SetVanishFlag((void *)(work->mcssPokemon[1]));
+    if (work->tradeState == 6) {
         PokemontradeDemoVec v = d_021D7CA8;
-        MCSS_SetPosition((void *)(((PokeTradeDemoWork *)work)->mcssObj[0]), (u32 *)(&v));
+        MCSS_SetPosition((void *)(work->mcssPokemon[0]), (u32 *)(&v));
     }
-    POKETRADE_2D_ScheduleMainPlaneVisible(work, (int)((void *)0x11));
+    POKETRADE_2D_ScheduleMainPlaneVisible(work, 0x11);
     POKETRADE_2D_ScheduleSubPlaneVisible(work, 0);
-    POKETRADE_DEMO_UP_CompareSideMon(work, work + 0x11ED, work + 0x11EF, (struct MyStatus *)((PokeTradeDemoWork *)work)->enemyMonKey, 1);
-    POKETRADE_DEMO_UP_CompareSideMon(work, work + 0x11EE, work + 0x11F0, (struct MyStatus *)((PokeTradeDemoWork *)work)->ownMonKey, 0);
-    POKETRADE_PROC_SetStep(work, (sptr)POKETRADE_DEMO_DOWN_StepSetup);
+    POKETRADE_DEMO_UP_CompareSideMon(work, &work->enemySameMon, &work->enemySpecialMon, (struct MyStatus *)work->playerStatus, 1);
+    POKETRADE_DEMO_UP_CompareSideMon(work, &work->ownSameMon, &work->ownSpecialMon, (struct MyStatus *)work->trainerRecord, 0);
+    POKETRADE_PROC_SetStep(work, POKETRADE_DEMO_DOWN_StepSetup);
 }

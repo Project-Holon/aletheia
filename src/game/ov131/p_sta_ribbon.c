@@ -203,7 +203,11 @@ struct PStaRibbonWork {
 /* stand-in: a row reached from the start of the work (offset 0x70 + 0x14 * row); the compiler only keeps the original
  * code shape when the row fields are read at their offsets from the work pointer, not through the rows array. */
 typedef struct StaRibbonRowAt {
+#ifdef __MWERKS__
     u8 pad_0[0x70];
+#else
+    u8 pad_0[BW_OFFSETOF(struct PStaRibbonWork, rows)];
+#endif
     u16 ownedIdx;                       /* 0x70 */
     u8 pad_72[6];
     u32 printPending;                   /* 0x78 */
@@ -211,7 +215,7 @@ typedef struct StaRibbonRowAt {
     StaOamBitmapActors *actors;  /* 0x80 */
 } StaRibbonRowAt;
 
-#define STA_RIBBON_ROW_AT(work, i) ((StaRibbonRowAt *)((u8 *)(work) + (i) * 20))
+#define STA_RIBBON_ROW_AT(work, i) ((StaRibbonRowAt *)((u8 *)(work) + (i) * (int)sizeof(StaRibbonRow)))
 
 /* Touch hit rectangles; a row of 0xFF at top ends the table. */
 
@@ -282,7 +286,7 @@ extern const char P_STA_RIBBON_FileName[];
 extern const StaRibbonKindCount P_STA_RIBBON_KindCountInit;
 
 void *P_STA_RIBBON_Create(PStatusWork *wk) {
- PStaRibbonWork *work = GFL_HEAP_Alloc(wk->heapId, 0x3b8, 0, P_STA_RIBBON_FileName, 0xaf);
+ PStaRibbonWork *work = GFL_HEAP_Alloc(wk->heapId, sizeof(PStaRibbonWork), 0, P_STA_RIBBON_FileName, 0xaf);
  work->isActive = 0;
  work->seCooldown = 0;
  work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xaa, wk->heapId);
@@ -340,7 +344,7 @@ void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
     uptr vramBase;
     u8 i;
     pos.x=0;pos.y=0;pos.draw_priority=10;pos.bg_priority=0;pos.anim_seq=0;
-    work->cursorObj=CLACT_CreateActor((void *)(uptr)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
+    work->cursorObj=CLACT_CreateActor(wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
     desc.x=8;
     desc.plttRes=(wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
@@ -355,7 +359,7 @@ void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++){
         StaRibbonRowAt *row;
         desc.y=P_STA_RIBBON_GetRowY(work,i);
-        row=(StaRibbonRowAt *)((u8 *)work+i*0x14);
+        row=(StaRibbonRowAt *)((u8 *)work+i*(int)sizeof(StaRibbonRow));
         desc.bmp=row->bmp=BMP_CreateFromVram((void *)(vramBase-(i+1)*0x660),0x11,3,0x20,wk->heapId);
         row->actors=P_STA_OAM_CreateBitmapActors(work->oamMgr,&desc);
         P_STA_OAM_SetBitmapActorsEnabled(row->actors,0);
@@ -366,7 +370,7 @@ void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *work) {
  unsigned char i;
  CLACT_DeleteActor((struct ClactActor *)work->cursorObj);
  for (i = 0; i < STA_RIBBON_ROW_COUNT; i++) {
-  StaRibbonRowAt *row = (StaRibbonRowAt *)((u8 *)work + i * 20);
+  StaRibbonRowAt *row = (StaRibbonRowAt *)((u8 *)work + i * (int)sizeof(StaRibbonRow));
   P_STA_OAM_DeleteBitmapActors(row->actors);
   BMP_Delete(row->bmp);
  }
@@ -760,8 +764,12 @@ void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work)
     StaRibbonRowAt *row;
     s16 y;
     changed=0;
+#ifdef __MWERKS__
     entries=(u8 *)work;
     entries+=0x70;
+#else
+    entries=(u8 *)work->rows;
+#endif
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
         if(work->redrawReq==1) {
             y=P_STA_RIBBON_GetRowY(work,i);
@@ -773,7 +781,7 @@ void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work)
             } else if(ownedIdx!=STA_RIBBON_ROW_AT(work,i)->ownedIdx) {
                 changed=1;
                 STA_RIBBON_ROW_AT(work,i)->ownedIdx=ownedIdx;
-                P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+i*20));
+                P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+i*(int)sizeof(StaRibbonRow)));
                 P_STA_OAM_SetBitmapActorsEnabled(STA_RIBBON_ROW_AT(work,i)->actors,1);
             }
         }
@@ -788,8 +796,8 @@ void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work)
         work->seCooldown=3;
     }
     if(work->selectionChanged==1) {
-        if(work->selectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->selectedRow*20));
-        if(work->prevSelectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->prevSelectedRow*20));
+        if(work->selectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->selectedRow*(int)sizeof(StaRibbonRow)));
+        if(work->prevSelectedRow<STA_RIBBON_ROW_COUNT) P_STA_RIBBON_DrawRow(wk,work,(StaRibbonRow *)(entries+work->prevSelectedRow*(int)sizeof(StaRibbonRow)));
         work->prevSelectedRow=work->selectedRow;
         work->selectionChanged=0;
     }
@@ -883,7 +891,7 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     pos.draw_priority=10;
     pos.bg_priority=0;
     pos.anim_seq=0;
-    work->detailObj=CLACT_CreateActor((void *)(uptr)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
+    work->detailObj=CLACT_CreateActor(wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
     CLACT_SetActorPaletteOffset((struct ClactActor *)work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->detailObj,1);
     BG_SYS_DecodeTile(6,work->detailPal->data,work->detailPal->dataSize);

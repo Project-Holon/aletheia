@@ -89,7 +89,7 @@ int DWCi_IsReliableQueueFree(void)
 
 int DWCi_ProcessReliableQueue(void)
 {
-    return DWCi_ProcessReliableQueueEx((int (*)(void *, unsigned char *, int,  int))gt2Send);
+    return DWCi_ProcessReliableQueueEx(gt2Send);
 }
 
 

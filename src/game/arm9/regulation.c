@@ -216,7 +216,7 @@ void REGULATION_SetRuleValue(struct Regulation *rule, u32 id, s32 value)
     case 6:  if (value <= 600)  { rule->levelTotal = value; } break;
     case 7:  if (value < 2)     { rule->bothPoke = value; } break;
     case 8:  if (value < 2)     { rule->bothItem = value; } break;
-    case 11: if (value < 0x28B) { rule->mustPoke = value; } break;
+    case 11: if (value < SPECIES_LAST + 2) { rule->mustPoke = value; } break;
     case 12: rule->mustPokeForm = value; break;
     case 13: if (value < 2)     { rule->shooter = value; } break;
     case 15: rule->timeVs = value; break;

@@ -15,7 +15,7 @@ struct RegulationText;
 
 int POKE_REGULATION_IsInSpeciesTable(unsigned short species);
 int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *mon);
-int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
+int POKE_REGULATION_CheckSelection(struct Regulation *reg, struct Party *party, u8 *order);
 int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party *party);
 int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokemon *mon, u32 *flags);
 int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party, u32 *flags);

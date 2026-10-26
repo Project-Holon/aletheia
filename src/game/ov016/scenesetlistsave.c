@@ -111,7 +111,7 @@ extern unsigned short sSceneSetListSavePathXb4NoneScr[];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
-extern int DWCi_SceneSetSelectAp;
+extern void DWCi_SceneSetSelectAp(void);
 
 static void initGraphics(void);
 static void procInit(void);
@@ -125,7 +125,7 @@ void DWCi_SceneSetListSave(void)
     initGraphics();
     DWCi_HLlLoadSet();
     DWCi_SETTINGlSet();
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -137,9 +137,9 @@ static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetListSavePathJbBgStep3Char), GX_LoadBG2Char);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetListSavePathYbBgStep3Pltt), GX_LoadBGPltt);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetListSavePathXb4NoneScr), GX_LoadBG2Scr);
+    DWCi_CMNlLoadResource((char *)(sSceneSetListSavePathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)(sSceneSetListSavePathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)(sSceneSetListSavePathXb4NoneScr), GX_LoadBG2Scr);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -163,7 +163,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -172,7 +172,7 @@ static void procInit1(void)
         return;
     }
     DWCi_WINlInitEx(0x44, 5, 1, -1, 0);
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 
@@ -184,7 +184,7 @@ static void procScene(void)
     if (DWCi_WINlIsInit()) {
         return;
     }
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 /*
@@ -215,7 +215,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -227,5 +227,5 @@ static void endScene1(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
     DWCi_SetParam_(2, 1);
-    DWCi_ChangeScene((uptr)((void (*)())&DWCi_SceneSetSelectAp));
+    DWCi_ChangeScene(DWCi_SceneSetSelectAp);
 }

@@ -13,7 +13,7 @@ struct LocationRecord;
 
 u32 PLAYER_LOCATION_GetSize(void);
 void PLAYER_LOCATION_Init(struct PlayerLocationData *location_data);
-struct Location *PLAYER_LOCATION_Nop(u32 situation);
+struct Location *PLAYER_LOCATION_Nop(struct PlayerLocationData *situation);
 struct Location *PLAYER_LOCATION_GetLocationA(struct PlayerLocationData *location_data);
 struct Location *PLAYER_LOCATION_GetLocationB(struct PlayerLocationData *location_data);
 u16 *PLAYER_LOCATION_GetShortData(struct PlayerLocationData *location_data);

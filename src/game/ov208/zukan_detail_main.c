@@ -130,7 +130,7 @@ int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p);
 
 int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m);
 
-void ZUKAN_DETAIL_MAIN_NoOp(void);
+void ZUKAN_DETAIL_MAIN_NoOp(struct TcbTask * unused0, void * unused1);
 
 #include "zukan_detail.h"
 
@@ -142,8 +142,8 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
 {
     struct Ov208Main *p;
     GFL_HEAP_CreateChildHeap(1, 0x95, 0x90000);
-    p = PROCSYS_AllocProcWork(owner, 0x2c, 0x95);
-    MI_CpuFill8(p, 0, 0x2c);
+    p = PROCSYS_AllocProcWork(owner, sizeof(struct Ov208Main), 0x95);
+    MI_CpuFill8(p, 0, sizeof(struct Ov208Main));
     p->heap = 0x95;
     args->speciesStep = 0;
     p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 1);
@@ -151,10 +151,10 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
     p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)p->heap);
-    p->task = (void *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))ZUKAN_DETAIL_MAIN_NoOp, (void *)p, 1);
+    p->task = (void *)GFL_USE_AddMainTask(ZUKAN_DETAIL_MAIN_NoOp, (void *)p, 1);
 
     p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
-    p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (uptr)p->font);
+    p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, p->font);
     p->context = ZUKAN_DETAIL_COMMON_CreateContext(p->heap, args->src, p->display, p->font, p->printer, p->touchbar, p->headbar, args->extra, args->formNo, &args->shiny);
     p->node = 0;
     p->mem = 0;
@@ -177,7 +177,7 @@ int ZUKAN_DETAIL_MAIN_Exit(void *owner,int seq,int args,char *p)
     ZUKAN_DETAIL_HEADBAR_Delete(((struct Ov208Main *)p)->headbar);
     ZUKAN_DETAIL_TOUCHBAR_Delete(((struct Ov208Main *)p)->touchbar);
     TCB_DeleteTask(((struct Ov208Main *)p)->task);
-    PRINTSYS_QUE_Clear((struct PrintQueue *)(*(unsigned *)&((struct Ov208Main *)p)->printer));
+    PRINTSYS_QUE_Clear(((struct Ov208Main *)p)->printer);
     PRINTSYS_QUE_Delete(((struct Ov208Main *)p)->printer);
     GF_FONT_Delete(((struct Ov208Main *)p)->font);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);
@@ -227,6 +227,6 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *args, struc
     return 0;
 }
 
-void ZUKAN_DETAIL_MAIN_NoOp(void)
+void ZUKAN_DETAIL_MAIN_NoOp(struct TcbTask * unused0, void * unused1)
 {
 }

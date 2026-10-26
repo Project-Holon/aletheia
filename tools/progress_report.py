@@ -33,26 +33,10 @@ each category's measures are the sum of its units, as objdiff computes them.
 Function names are `func_XXXXXXXX`, or the SDK symbol from
 layout/symbols_sdk.txt; metadata.virtual_address is the function address.
 
-Data (total_data, matched_data, complete_data; .rodata and .data, the sections objdiff
-counts as data; .bss is not data here):
-
-  total         the data objects of the region in layout/data_objects.json (arm9, every
-                overlay, twl_data);
-  matched       the .rodata/.data bytes of the compiled src/game files of the unit
-                (data written as C; the data-mode link, tools/datamode_all.py, proves it
-                byte-identical, and a region whose data link is FAIL in
-                build/datamode_all.tsv counts none);
-  generated     total minus matched: the data that the build takes from companions
-                that tools/datagen.py makes from the image (not source yet).  It is the
-                unit `<region>/_generated_data` (auto_generated, no source_path, no
-                code, matched_data 0).  A source file that includes build/gen/ data
-                counts as generated too;
-  complete      matched data of a complete unit.
-
 Categories: `game` and `sdk` (all units), and per region group `arm9`, `itcm` (and each
 other autoload block), `overlays`, `twl`, with `<group>_game` and `<group>_sdk` for arm9,
 overlays and twl.  Each unit lists every category it belongs to in
-metadata.progress_categories; `_generated_data` units are in `game` and their group.
+metadata.progress_categories.
 
 The report holds names, sizes, addresses and percentages only, no ROM bytes.  It
 needs the asm/ listings (built from the ROM), so CI cannot make it: it is made
@@ -82,9 +66,6 @@ import json
 import os
 import struct
 import sys
-import hashlib
-import tempfile
-import concurrent.futures as cf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(ROOT, "tools")
@@ -98,8 +79,7 @@ import fnaddr  # noqa: E402  (function addresses whatever the name)
 REPORT_VERSION = 2
 DEFAULT_OUT = os.path.join(ROOT, "progress", "report.json")
 CATEGORIES = (("game", "Game"), ("sdk", "SDK"))
-U64 = {"total_code", "matched_code", "total_data", "matched_data", "complete_code",
-       "complete_data", "size", "address", "virtual_address"}
+U64 = {"total_code", "matched_code", "complete_code", "size", "address", "virtual_address"}
 
 
 # ------------------------------------------------------------------ inputs
@@ -192,100 +172,19 @@ def pct(a, b):
     return 100.0 * a / b if b else 0.0
 
 
-def measures(total, matched, complete, nf, mf, nu, cu, td=0, md=0, cd=0):
+def measures(total, matched, complete, nf, mf, nu, cu):
     return dict(fuzzy_match_percent=pct(matched, total), total_code=total, matched_code=matched,
-                matched_code_percent=pct(matched, total), total_data=td, matched_data=md,
-                matched_data_percent=pct(md, td), total_functions=nf, matched_functions=mf,
+                matched_code_percent=pct(matched, total), total_functions=nf, matched_functions=mf,
                 matched_functions_percent=pct(mf, nf), complete_code=complete,
-                complete_code_percent=pct(complete, total), complete_data=cd,
-                complete_data_percent=pct(cd, td), total_units=nu, complete_units=cu)
+                complete_code_percent=pct(complete, total), total_units=nu, complete_units=cu)
 
 
 def add(ms):
     keys = ("total_code", "matched_code", "complete_code", "total_functions", "matched_functions",
-            "total_units", "complete_units", "total_data", "matched_data", "complete_data")
+            "total_units", "complete_units")
     s = {k: sum(m[k] for m in ms) for k in keys}
     return measures(s["total_code"], s["matched_code"], s["complete_code"], s["total_functions"],
-                    s["matched_functions"], s["total_units"], s["complete_units"],
-                    s["total_data"], s["matched_data"], s["complete_data"])
-
-
-# ------------------------------------------------------------------ data
-
-DATA_CACHE = os.path.join(ROOT, "build", "linkstats", "data_sections.json")
-
-
-def _data_of_file(path):
-    """(.rodata + .data bytes, includes build/gen) of one src/game file, compiled with its header."""
-    import gamebuild
-    import gamelink
-    import match
-    raw = open(path, encoding="latin1").read()
-    h, st = gamebuild._settings(raw)
-    with tempfile.TemporaryDirectory() as w:
-        obj, _cmd, _log, _rc = match.compile_tu(path, st["compiler"], st["flags"].split(),
-                                                st["isa"] == "thumb", st["lang"] or None, w)
-        if obj is None:
-            return None
-        _d, secs, _s = gamelink.read_elf(obj)
-        n = sum(x["size"] for x in secs if x["flags"] & 2 and x["name"] in (".rodata", ".data"))
-    return n, "build/gen/" in raw
-
-
-def own_data(unitrows, jobs):
-    """{(region, stem): (bytes, generated?)} for every unit file; cached by file hash + header stamp."""
-    try:
-        cache = json.load(open(DATA_CACHE, encoding="utf-8"))
-    except (OSError, ValueError):
-        cache = {}
-    hs = linkstats._header_stamp()
-    if cache.get("headers") != hs:
-        cache = {"headers": hs}
-    todo, out = [], {}
-    for u in unitrows:
-        p = os.path.join(ROOT, u["path"])
-        key = "%s/%s" % (u["region"], u["stem"])
-        digest = hashlib.sha1(open(p, "rb").read()).hexdigest()
-        c = cache.get(key)
-        if c and c[0] == digest:
-            out[(u["region"], u["stem"])] = (c[1], bool(c[2]))
-        else:
-            todo.append((u, p, key, digest))
-    if todo:
-        with cf.ThreadPoolExecutor(max_workers=jobs) as ex:
-            for (u, _p, key, digest), r in zip(todo, ex.map(lambda t: _data_of_file(t[1]), todo)):
-                if r is None:
-                    sys.exit("progress_report: %s does not compile" % key)
-                cache[key] = [digest, r[0], r[1]]
-                out[(u["region"], u["stem"])] = r
-        os.makedirs(os.path.dirname(DATA_CACHE), exist_ok=True)
-        with open(DATA_CACHE, "w", encoding="utf-8", newline="\n") as f:
-            json.dump(cache, f, sort_keys=True)
-    return out
-
-
-def registry_totals():
-    """{region: bytes of its data objects} from layout/data_objects.json."""
-    try:
-        reg = json.load(open(os.path.join(ROOT, "layout", "data_objects.json"), encoding="utf-8"))["regions"]
-    except (OSError, ValueError, KeyError):
-        return {}
-    out = {k.replace("twl_data", "twl"): sum(o["size"] for o in v["objects"]) for k, v in reg.items()}
-    return out
-
-
-def datamode_fail(white=False):
-    """Regions whose data-mode link is FAIL in build/datamode_all[_white].tsv."""
-    p = os.path.join(ROOT, "build", "datamode_all%s.tsv" % ("_white" if white else ""))
-    out = set()
-    try:
-        for line in open(p, encoding="utf-8"):
-            w = line.rstrip("\n").split("\t")
-            if len(w) >= 2 and w[1] != "PASS":
-                out.add(w[0])
-    except OSError:
-        pass
-    return out
+                    s["matched_functions"], s["total_units"], s["complete_units"])
 
 
 def group_of(region):
@@ -333,9 +232,6 @@ def pbjson(v, key=None):
 def build(cache, jobs=4):
     rows_in = linkstats.regions()
     _rows, unitrows = linkstats.compute(rows_in, cache)
-    own = own_data(unitrows, jobs)
-    regdata = registry_totals()
-    dfail = datamode_fail()
     names = sdk_symbols()
     byreg = {}
     for u in unitrows:
@@ -358,14 +254,8 @@ def build(cache, jobs=4):
                 rest[bool(is_sdk)].append((a, n, is_sdk))
 
         gid, gname = group_of(region)
-        dok = region not in dfail
-        ownsum = 0
 
-        def unit(name, fl, exact, comp, real, path, stem=None):
-            nonlocal ownsum
-            ob, gen = own.get((region, stem), (0, False)) if stem else (0, False)
-            ob = 0 if gen else ob
-            ownsum += ob
+        def unit(name, fl, exact, comp, real, path):
             items, tot, mat, mf, sdkb = [], 0, 0, 0, 0
             for a, n, is_sdk in sorted(fl):
                 ok = exact or a in msel
@@ -380,26 +270,17 @@ def build(cache, jobs=4):
             cats = [cat, gid] + (["%s_%s" % (gid, cat)] if gid in KIND_SPLIT else [])
             meta = dict(complete=bool(comp), module_name=region, source_path=path,
                         progress_categories=cats, auto_generated=not real)
-            md = ob if dok else 0
             return dict(name=name, measures=measures(tot, mat, tot if comp else 0, len(items), mf,
-                                                     int(real), int(real and comp), ob, md,
-                                                     md if comp else 0),
+                                                     int(real), int(real and comp)),
                         functions=items, metadata=meta)
 
         for k, u in enumerate(us):
             units.append(unit("%s/%s" % (region, u["stem"]), buckets[k], bool(u["bytes_ok"]),
-                              bool(u["linked"]), True, u["path"], u["stem"]))
+                              bool(u["linked"]), True, u["path"]))
         for is_sdk, tag in ((False, "game"), (True, "sdk")):
             if rest[is_sdk]:
                 units.append(unit("%s/_no_unit_%s" % (region, tag), rest[is_sdk], False, False,
                                   False, None))
-        gen = max(0, regdata.get(region, 0) - ownsum)
-        if gen:
-            gc = ["game", gid] + (["%s_game" % gid] if gid in KIND_SPLIT else [])
-            units.append(dict(name="%s/_generated_data" % region,
-                              measures=measures(0, 0, 0, 0, 0, 0, 0, gen, 0, 0), functions=[],
-                              metadata=dict(complete=False, module_name=region, progress_categories=gc,
-                                            auto_generated=True)))
     cats = categories(units)
     return dict(measures=add([u["measures"] for u in units]), units=units, version=REPORT_VERSION,
                 categories=cats)
@@ -442,7 +323,6 @@ def white_report(report):
             for r in json.load(open(p, encoding="utf-8"))["functions"]:
                 track[(region, int(r["black_address"], 16))] = r
     rows = whitetrack.read_rows()
-    wfail = datamode_fail(True)
     linked = {}
     for u in report["units"]:
         region = u["metadata"]["module_name"]
@@ -471,10 +351,7 @@ def white_report(report):
         real = not u["metadata"]["auto_generated"]
         comp = bool(u["metadata"]["complete"]) and all(done) and linked[region]
         u["metadata"]["complete"] = comp
-        td = u["measures"]["total_data"]
-        md = u["measures"]["matched_data"] if u["metadata"]["module_name"] not in wfail else 0
-        u["measures"] = measures(tot, mat, tot if comp else 0, len(done), sum(done), int(real), int(real and comp),
-                                 td, md, md if comp else 0)
+        u["measures"] = measures(tot, mat, tot if comp else 0, len(done), sum(done), int(real), int(real and comp))
     report["categories"] = categories(report["units"])
     report["measures"] = add([u["measures"] for u in report["units"]])
     return report
@@ -500,10 +377,9 @@ def dumps(report):
 def headline(report):
     def line(tag, m):
         return ("%-16s code %9d  matched %9d (%7.3f%%)  complete %9d (%7.3f%%)  functions %6d/%6d  "
-                "data %9d matched %9d (%7.3f%%)  units %4d/%4d" % (tag, m["total_code"], m["matched_code"], m["matched_code_percent"],
+                "units %4d/%4d" % (tag, m["total_code"], m["matched_code"], m["matched_code_percent"],
                                    m["complete_code"], m["complete_code_percent"], m["matched_functions"],
-                                   m["total_functions"], m["total_data"], m["matched_data"],
-                                   m["matched_data_percent"], m["complete_units"], m["total_units"]))
+                                   m["total_functions"], m["complete_units"], m["total_units"]))
     out = [line("all", report["measures"])]
     out += [line(c["id"], c["measures"]) for c in report["categories"]]
     return "\n".join(out)

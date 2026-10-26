@@ -18,7 +18,7 @@ struct GameEvent;
 u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z);
 u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(FieldGimmickCartLanesWork *work, int lane);
 void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, void *arg);
 void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_SaveCartFrames(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);

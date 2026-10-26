@@ -182,7 +182,7 @@ typedef struct FieldMenu {
     void *fieldMap;
     void *parent;
     int state;
-    u32 mapInfo;
+    void *mapInfo;
     void *eventWork;
     void *myStatus;
     u16 zoneId;
@@ -421,7 +421,7 @@ void FIELD_MENU_ShowBgLayers(void);
 u32 FIELD_MENU_Update(FieldMenu *menu);
 void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu);
 void FIELD_MENU_ApplyBgScroll(FieldMenu *menu);
-void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo);
+void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, void *mapInfo);
 void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame);
 u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
 int FIELD_MENU_CountLayoutButtons(int layoutType);
@@ -453,7 +453,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     void *arcHandle;
     u32 layoutType;
 
-    menu = GFL_HEAP_Alloc(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
+    menu = GFL_HEAP_Alloc(heapId, sizeof(*menu), 0, gFieldMenuFileName, 0x134);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     menu->heapId = heapId;
@@ -464,7 +464,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     menu->zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     menu->eventWork = GAME_DATA_GetEventWork(gameData);
     menu->myStatus = GAME_DATA_GetMyStatus(gameData);
-    menu->mapInfo = (uptr)FIELDMAP_GetMsgBg(fieldMap);
+    menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
     menu->cursorRow = 0;
     menu->cursorDirty = menu->keyCursorActive = UI_GetInputMode() ^ 1;
@@ -698,7 +698,7 @@ void FIELD_MENU_ApplyBgScroll(FieldMenu *menu)
  * Sets up the BG layers 5 to 7, loads the screen, palette, icon and cursor
  * resources and creates the cursor and back button actors.
  */
-void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo)
+void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, void *mapInfo)
 {
     void *commonArc;
     u32 cellId;
@@ -1080,9 +1080,9 @@ void FIELD_MENU_UpdateSelection(FieldMenu *menu)
 void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init)
 {
     struct ActorInit setup;
-    uptr textColor;
+    struct GfFont *textColor;
 
-    textColor = (uptr)FIELD_MSGBG_GetFont(FIELDMAP_GetMsgBg(menu->fieldMap));
+    textColor = FIELD_MSGBG_GetFont(FIELDMAP_GetMsgBg(menu->fieldMap));
     item->inUse = 1;
     item->buttonId = init->buttonId;
     item->cursorX = init->cursorX;

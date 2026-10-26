@@ -53,7 +53,8 @@ extern struct SysState cardi_common;
 extern struct CARDTransferInfo data_02732DA8;
 #include "../arm9/os_cache.h"
 extern struct Hook cardi_rom_base;
-extern u32 data_02732DA0, data_02732DA4;
+extern u8 *data_02732DA0;
+extern u32 data_02732DA4;
 extern u8 data_02732DC4[];
 #include "../arm9/os_arena.h"
 #include "../arm9/card_api.h"
@@ -63,8 +64,8 @@ extern u8 data_02732DC4[];
 #include "../arm9/os_spinlock.h"
 #include "../arm9/card_pullout.h"
 
-int CARDi_ReadCardWithHash(int userdata, int buffer, int offset, int length) {
-    CARD_ReadRomHashImage((CardHash *)data_02732DC4, (u8 *)buffer, offset, length);
+int CARDi_ReadCardWithHash(void *userdata, void *buffer, u32 offset, u32 length) {
+    CARD_ReadRomHashImage((CardHash *)data_02732DC4, buffer, offset, length);
     return length;
 }
 
@@ -99,7 +100,7 @@ void CARDi_InitRomHash(void)
         return;
     }
     OS_SetArenaLo(0, (void *)(lo + size));
-    data_02732DA0 = lo;
+    data_02732DA0 = (u8 *)lo;
     data_02732DA4 = size;
     if (OS_GetBootType() != 1) {
         return;

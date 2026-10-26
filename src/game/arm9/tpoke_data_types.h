@@ -5,7 +5,7 @@
 
 /* Trainer Pokemon data container: archive handle and the record buffers. */
 typedef struct Tpoke {
-    int   handle;
+    void *handle;
     void *buf;
     void *buf4;
     u32   count;

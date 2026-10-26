@@ -13,58 +13,38 @@
  * the same record as the ov185 BrPokeSearchOwner (sidebar, graphic, res, proc,
  * net, zukanSource); this file also uses 0x1C. */
 
+struct BrUtilTask;
+struct PrintQueue;
+struct BrSidebar;
+struct GameData;
+
+struct BrDownloadOwner;
+
 struct BrDownloadWork {
-    union {
-        void *scene;                   /* 0x00 musical shot scene */
-        unsigned int sceneHandle;
-    } scene;
-    int buttons[2];                    /* 0x04 the two download choice buttons */
-    union {
-        void *task;                    /* 0x0C BR_UTIL task driving the screen */
-        int taskHandle;
-    } task;
+    void *scene;                   /* 0x00 musical shot scene */
+    void *buttons[2];                  /* 0x04 the two download choice buttons */
+    struct BrUtilTask *task;       /* 0x0C BR_UTIL task driving the screen */
     void *textWin;                     /* 0x10 message-box text window */
     void *handles[2];                  /* 0x14 the two BR_UTIL child handles */
-    union {
-        void *oamSys;                  /* 0x1C BMP OAM system */
-        int oamHandle;
-    } oamSys;
-    union {
-        unsigned int printQue;         /* 0x20 print queue */
-        int printQueHandle;
-    } printQue;
+    void *oamSys;                  /* 0x1C BMP OAM system */
+    struct PrintQueue *printQue;       /* 0x20 print queue */
     unsigned short heapId;             /* 0x24 heap id of the work */
     unsigned short pad26;              /* 0x26 alignment */
-    union {
-        void *saveData;                /* 0x28 musical save data / scene source */
-        int saveValue;
-    } saveData;
+    void *saveData;                /* 0x28 musical save data / scene source */
     unsigned int counter;              /* 0x2C network poll counter */
-    union {
-        void *owner;                   /* 0x30 owner screen object */
-        int ownerHandle;
-    } owner;
+    struct BrDownloadOwner *owner;     /* 0x30 owner screen object */
 };
 
 typedef char BrDownloadWork_size_check[(sizeof(struct BrDownloadWork) == 0x34) ? 1 : -1];
 
 struct BrDownloadOwner {
     void *fade;                        /* 0x00 fade work */
-    int sidebar;                       /* 0x04 sidebar handle */
-    union {
-        void *graphic;                 /* 0x08 BR graphic system */
-        unsigned int graphicHandle;
-    } graphic;
-    union {
-        void *res;                     /* 0x0C shared BR resources */
-        int resHandle;
-    } res;
-    union {
-        void *proc;                    /* 0x10 process-system context */
-        int procHandle;
-    } proc;
+    struct BrSidebar *sidebar;         /* 0x04 sidebar handle */
+    void *graphic;                 /* 0x08 BR graphic system */
+    void *res;                     /* 0x0C shared BR resources */
+    void *proc;                    /* 0x10 process-system context */
     void *net;                         /* 0x14 BR network work */
-    int zukanSource;                   /* 0x18 zukan save source */
+    struct GameData *zukanSource;      /* 0x18 zukan save source */
     int downloadMode;                  /* 0x1C 0 or 1, set when a choice is tapped */
 };
 

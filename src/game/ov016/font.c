@@ -132,13 +132,14 @@ struct TCB;
 #include "../arm9/gx_load2d.h"
 #include "../arm9/mi_memory.h"
 struct NNSG2dTextCtx;
-extern void NNSi_G2dCalcTextBox(struct NNSG2dTextCtx *tc, int x, int y, int color, u32 flag, u32 txt, Step p);
+extern void NNSi_G2dCalcTextBox(struct NNSG2dTextCtx *tc, s32 x, s32 y, s32 color, u32 flag, const void *txt, Step p);
 struct NNSG2dCanvas;
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);
-extern void NNSi_G2dAlignTextVertical(struct NNSG2dTextCtx *tc, int x, int y, int w, u32 h, u32 color, u32 flag, u32 txt, Step p);
+extern void NNSi_G2dAlignTextVertical(struct NNSG2dTextCtx *tc, s32 x, s32 y, s32 w, u32 h, u32 color, u32 flag, const void *txt, Step p);
 struct CellInfo;
 union GXOamAttr;
 #include "cell.h"
+#include "../sdk_ioreg.h"
 void DWCi_FNTlInit(void);
 void DWCi_FNTlEnd(void);
 void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int font);
@@ -151,7 +152,7 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
 void DWCi_FNTlClear(Canvas *cnv, int color);
 void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
-void DWCi_FNTlRenewBg(int x);
+void DWCi_FNTlRenewBg(Canvas *x);
 extern MemFont *gFontWork;
 extern char *sFontTable4[2];
 extern char *sFontTable5[2];
@@ -168,7 +169,7 @@ static void taskLoad(void *task, void *work);
 void DWCi_FNTlInit(void)
 {
     int i;
-    gFontWork = DWCi_HEAPlAllocEx(0x680, 4);
+    gFontWork = DWCi_HEAPlAllocEx(sizeof(*gFontWork), 4);
     gFontWork->unused = DWCi_QUElFormEx(32, gFontWork->canvas, 48);
     if (DWCi_Language() == 6) {
         for (i = 0; i < 2; i++) {
@@ -257,13 +258,13 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     cv = &gFontWork->bg[lcd];
     cv->buf = DWCi_HEAPlAllocEx(w * h * 32, 32);
     if (lcd == 1) {
-        *(volatile u16 *)0x04001008 &= 0xFFBF;
-        *(volatile u16 *)0x04001008 = (*(volatile u16 *)0x04001008 & 0x43) | 0xC00;
+        *(volatile u16 *)REG_DB_BG0CNT_ADDR &= 0xFFBF;
+        *(volatile u16 *)REG_DB_BG0CNT_ADDR = (*(volatile u16 *)REG_DB_BG0CNT_ADDR & 0x43) | 0xC00;
     } else {
-        *(volatile u16 *)0x04000008 &= 0xFFBF;
-        *(volatile u16 *)0x04000008 = (*(volatile u16 *)0x04000008 & 0x43) | 0xC00;
+        *(volatile u16 *)REG_BG0CNT_ADDR &= 0xFFBF;
+        *(volatile u16 *)REG_BG0CNT_ADDR = (*(volatile u16 *)REG_BG0CNT_ADDR & 0x43) | 0xC00;
     }
-    NNSi_G2dInitPenSimple((sptr)cv, (sptr)cv->buf, w, h, 4);
+    NNSi_G2dInitPenSimple((struct Pen *)cv, cv->buf, w, h, 4);
     MemFont *base = gFontWork;
     cv->text.pCanvas = cv;
     cv->text.pFont = &base->font[font];
@@ -276,7 +277,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     chr = sFontTable1[lcd];
     NNS_G2dMapScrToCharText(scr, w, h, 0, 0, 0x20, chr, 0xF);
     DWCi_FNTlClear(cv, 0);
-    cv->u.task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, &gFontWork->renew[lcd], 0xC8);
+    cv->u.task = DWCi_TSKlForm(1, taskLoad, &gFontWork->renew[lcd], 0xC8);
     return cv;
 }
 
@@ -350,7 +351,7 @@ void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
         p.dy = -1;
         break;
     }
-    NNSi_G2dCalcTextBox((struct NNSG2dTextCtx *)&cnv->text, x, y, color, flag, (uptr)txt, p);
+    NNSi_G2dCalcTextBox((struct NNSG2dTextCtx *)&cnv->text, x, y, color, flag, txt, p);
 }
 
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font)
@@ -403,7 +404,7 @@ void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 
         p.dy = -1;
         break;
     }
-    NNSi_G2dAlignTextVertical((struct NNSG2dTextCtx *)&cnv->text, x, y, w, h, color, flag, (uptr)txt, p);
+    NNSi_G2dAlignTextVertical((struct NNSG2dTextCtx *)&cnv->text, x, y, w, h, color, flag, txt, p);
 }
 
 void DWCi_FNTlClear(Canvas *cnv, int color)
@@ -425,12 +426,12 @@ void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio)
     NNSi_G2dMakeCharObjArea(oam, cnv->u.obj.width, cnv->u.obj.height, x, y, 0, cnv->u.obj.name, 2);
 }
 
-void DWCi_FNTlRenewBg(int x)
+void DWCi_FNTlRenewBg(Canvas *x)
 {
     MemFont *p = gFontWork;
     int v = 1;
 
-    if (x == (sptr)&p->bg[0])
+    if (x == &p->bg[0])
         p->renew[0] = v;
     else
         p->renew[1] = v;

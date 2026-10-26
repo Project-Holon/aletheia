@@ -48,7 +48,7 @@ struct BmpMenuListTemplate {
     u8 shadowColor : 4;
     u8 reserved19;
     struct MenuFlags flags;
-    u32 userData;
+    void *userData;
     u16 cursorW;
     u16 rowH;
     u8 reserved24[0x28 - 0x24];

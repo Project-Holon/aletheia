@@ -9,7 +9,7 @@
 char *INTRO_PARTICLE_Create(void *owner,unsigned heap);
 void INTRO_PARTICLE_Delete(char *a);
 void INTRO_PARTICLE_Main(void *unused);
-void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z);
+void INTRO_PARTICLE_StartEffect(void **work, u32 x, u32 y, u32 z);
 /* END mkheaders: generated region */
 
 #endif

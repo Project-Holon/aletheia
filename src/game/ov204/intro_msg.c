@@ -134,6 +134,13 @@ typedef struct IntroMsgMenuTemplate {
  * The intro message work (0x48 allocated). Created by INTRO_MSG_Create,
  * freed by INTRO_MSG_Delete.
  */
+/* The menu block of the intro message work: list, items and last result (12 bytes on the DS). */
+struct IntroMsgMenu {
+    void *list;              /* BMP_MENULIST_Create result */
+    void *items;             /* BMP_MENUWORK_Create result */
+    int state;               /* BMP_MENULIST_Main result */
+};
+
 typedef struct IntroMsgWork {
     unsigned short heapId;   /* 0x00 */
     unsigned char pad_2[2];
@@ -145,9 +152,7 @@ typedef struct IntroMsgWork {
     void *tcbl;              /* 0x18: TCBL_Create result */
     void *textWin;           /* 0x1C: BMP_WIN_Create result (text window) */
     void *keyCursor;         /* 0x20: APP_KEYCURSOR_CreateDefault result */
-    void *menuList;          /* 0x24: BMP_MENULIST_Create result */
-    void *menuWork;          /* 0x28: BMP_MENUWORK_Create result */
-    int menuState;           /* 0x2C: BMP_MENULIST_Main result */
+    struct IntroMsgMenu menu; /* 0x24 */
     void *menuDesc;          /* 0x30: BMP_WIN descriptor */
     unsigned char menuFlag;  /* 0x34 */
     unsigned char pad_35[3];
@@ -180,14 +185,14 @@ struct BmpMenuListTemplate;
 #include "../arm9/bmp_menuwork_shared_types.h"
 #include "../arm9/strbuf_types.h"
 #include "../ov099/wifi_club_work.h"
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+#include "../arm9/printsys.h"
 struct TcblSystem;
 
 #include "../arm9/tcbl.h"
 
 #include "../arm9/arc_util.h"
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+#include "../arm9/bmp_menuwork.h"
 
 struct Strbuf;
 
@@ -214,11 +219,9 @@ struct TimeIcon;
 
 struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
 
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 #include "../arm9/msgdata.h"
 
@@ -226,48 +229,34 @@ extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 #include "../arm9/msg_speed.h"
 
 
 
 
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
 
 
 
 #include "../arm9/mi_memory.h"
 
-extern void *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
-extern void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
 struct MenuTemplate;
 struct BmpMenuList;
 
-extern struct BmpMenuList *BMP_MENULIST_Create(struct BmpMenuListTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-
-extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
+#include "../arm9/bmp_menulist.h"
 
 
-extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 
-extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
+
 struct TcbList;
 
 #include "../arm9/gfl_use.h"
@@ -290,7 +279,7 @@ u32 INTRO_MSG_GetPrintState(u8*p);
 
 int INTRO_MSG_UpdatePrint(char *a);
 
-int *INTRO_MSG_InitMenuDesc(char *p, int v);
+int *INTRO_MSG_InitMenuDesc(char *p, void *v);
 
 void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag);
 
@@ -312,7 +301,7 @@ char *INTRO_MSG_Create(u16 heap)
 {
     IntroMsgWork *p;
     void *obj;
-    p=GFL_HEAP_Alloc(heap,72,1,gIntroSite,129);
+    p=GFL_HEAP_Alloc(heap,sizeof(IntroMsgWork),1,gIntroSite,129);
     p->heapId=heap;
     p->wordSet=WORDSET_CreateDefault(heap);
     p->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)heap);
@@ -378,7 +367,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
     GF_FONT_SetTextColor(1, 2, 15);
     MSGDATA_ReadString(work->msgBank, (uptr)a, work->strbuf1);
     WORDSET_CopyTaggedText(work->wordSet, work->strbuf2, work->strbuf1);
-    work->printStream = PRINTSYS_PrintStream((struct BmpWin *)((uptr)desc), 4, 0, (struct Strbuf *)((uptr)work->strbuf2), (struct GfFont *)((uptr)work->font), value, (struct Tcbl *)((uptr)work->tcbl), 0xFFFF, work->heapId, 15);
+    work->printStream = PRINTSYS_PrintStream((struct BmpWin *)(desc), 4, 0, (struct Strbuf *)((uptr)work->strbuf2), (struct GfFont *)((uptr)work->font), value, (struct Tcbl *)((uptr)work->tcbl), 0xFFFF, work->heapId, 15);
     if (flag == 0)
         BMP_MENUWORK_DrawWindow(desc, 1, 7, 9);
     else
@@ -390,7 +379,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
 
 void INTRO_MSG_DrawWindowBorder(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;BMP_MENUWORK_DrawWindowBorder(work->textWin,0);}
 
-u32 INTRO_MSG_GetPrintState(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;u32 a=(uptr)work->printStream;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState((void *)a);}}
+u32 INTRO_MSG_GetPrintState(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;void *a=work->printStream;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState(a);}}
 
 int INTRO_MSG_UpdatePrint(char *a)
 {
@@ -421,10 +410,10 @@ int INTRO_MSG_UpdatePrint(char *a)
     return 0;
 }
 
-int *INTRO_MSG_InitMenuDesc(char *p, int v)
+int *INTRO_MSG_InitMenuDesc(char *p, void *v)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    work->menuDesc = (void *)v;
+    work->menuDesc = v;
     work->menuFlag = 0;
     return (int *)(&work->menuDesc);
 }
@@ -463,6 +452,7 @@ int *INTRO_MSG_InitMenuDesc(char *p, int v)
  * accesses stay on state and the other fields on p; a single work pointer
  * DIFFs (16 bytes short).
  */
+#ifdef __MWERKS__
 void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
@@ -478,15 +468,15 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
         MSGDATA_ReadString(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
-        BMP_MENUWORK_AddStrItem((BmpMenuWork *)((struct IntroSlot *)((char *)*(void **)(state+4)+i*8)),(const struct U16Vec *)((uptr)work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
+        BMP_MENUWORK_AddStrItem((BmpMenuWork *)((struct IntroSlot *)((char *)*(void **)(state+4)+i*8)),(const struct U16Vec *)(work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
     }
-    MI_CpuFill8(&config,0,52);
+    MI_CpuFill8(&config,0,sizeof(IntroMsgMenuTemplate));
     config.items=*(void **)(state+4);config.win=obj;
     config.count=count;config.rows=5;config.sepX=0;config.itemX=16;config.cursorX=0;
     config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
-    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
+    config.target=INTRO_MSG_InitMenuDesc(p,obj);config.printer=work->printSys;config.font=work->font;
     *(void **)state=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&config)),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
@@ -494,6 +484,39 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     if(flag)BMP_MENULIST_SetCancelDisabled(*(void **)state,0);
     else BMP_MENULIST_SetCancelDisabled(*(void **)state,1);
 }
+#else
+void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
+{
+    IntroMsgWork *work = (IntroMsgWork *)p;
+    IntroMsgMenuTemplate config;
+    char *state;
+    void *obj;
+    u16 heap;
+    u32 i;
+    state=(char *)&work->menu;
+    heap=work->heapId;
+    obj=work->menuWin;
+    MI_CpuFill8(state,0,sizeof(struct IntroMsgMenu));
+    ((struct IntroMsgMenu *)state)->items=BMP_MENUWORK_Create(count,heap);
+    for(i=0;i<count;i++){
+        MSGDATA_ReadString(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
+        BMP_MENUWORK_AddStrItem(((BmpMenuWork *)((struct IntroMsgMenu *)state)->items)+i,(const struct U16Vec *)((uptr)work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
+    }
+    MI_CpuFill8(&config,0,sizeof(IntroMsgMenuTemplate));
+    config.items=((struct IntroMsgMenu *)state)->items;config.win=obj;
+    config.count=count;config.rows=5;config.sepX=0;config.itemX=16;config.cursorX=0;
+    config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
+    config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
+    config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
+    config.target=INTRO_MSG_InitMenuDesc(p,obj);config.printer=work->printSys;config.font=work->font;
+    ((struct IntroMsgMenu *)state)->list=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&config)),0,0,heap);
+    BMP_MENULIST_ResetCursorTile(((struct IntroMsgMenu *)state)->list,(u32)heap);
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
+    BMP_MENUWORK_DrawWindow(obj,1,7,9);
+    if(flag)BMP_MENULIST_SetCancelDisabled(((struct IntroMsgMenu *)state)->list,0);
+    else BMP_MENULIST_SetCancelDisabled(((struct IntroMsgMenu *)state)->list,1);
+}
+#endif
 
 /*
  * Trailing two bytes are zero alignment padding.
@@ -504,13 +527,13 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
 void INTRO_MSG_DrawMenuList(char *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    char *block = p + 0x24;
+    char *block = (char *)&work->menu;
     BMP_MENUWORK_DrawWindowBorder(work->menuWin, 0);
     BMP_Clear(BMP_WIN_GetBmp(work->menuWin), 0);
     BMP_WIN_TransferChars(work->menuWin);
-    BMP_MENULIST_Delete(*(void **)block, 0, 0);
-    BMP_MENUWORK_Delete(*(void **)(block + 4));
-    MI_CpuFill8(block, 0, 12);
+    BMP_MENULIST_Delete(((struct IntroMsgMenu *)block)->list, 0, 0);
+    BMP_MENUWORK_Delete(((struct IntroMsgMenu *)block)->items);
+    MI_CpuFill8(block, 0, sizeof(struct IntroMsgMenu));
 }
 
 /*
@@ -519,8 +542,8 @@ void INTRO_MSG_DrawMenuList(char *p)
  */
 void INTRO_MSG_MainMenuList(u8 *p)
 {
-    char *q=(char *)p+36;
-    *(int *)(q + 8)=BMP_MENULIST_Main((struct BmpMenuList *)(*(struct Obj * *)q));
+    char *q=(char *)&((IntroMsgWork *)p)->menu;
+    ((struct IntroMsgMenu *)q)->state=BMP_MENULIST_Main((struct BmpMenuList *)(((struct IntroMsgMenu *)q)->list));
 }
 
 /*
@@ -529,7 +552,7 @@ void INTRO_MSG_MainMenuList(u8 *p)
 int INTRO_MSG_GetMenuChoice(u8 *p,int *out)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    int v=work->menuState;
+    int v=work->menu.state;
     switch(v){case -1:return 0;case -2:return 2;}
     if(out!=0)*out=v;
     return 1;

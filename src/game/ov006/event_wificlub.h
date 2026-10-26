@@ -5,6 +5,7 @@
 /* Public functions of event_wificlub.c, prototypes copied from their definitions. */
 
 struct GameEvent;
+struct GameSystem;
 struct Pair;
 typedef struct Pair Pair;
 
@@ -15,11 +16,11 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work);
-int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work);
+int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
 void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
+struct GameEvent *EVENT_WIFICLUB_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
+struct GameEvent *EVENT_WIFICLUB_Entry(struct GameSystem *gameSystem, Pair *request);
 /* END mkheaders: generated region */
 
 #endif

@@ -36,7 +36,7 @@ typedef struct ScriptWork {
     void *gameSystem;                /* 0x10 */
     void *event;                     /* 0x14 */
     ScriptFieldParam fieldParam;     /* 0x18 */
-    int targetObjParam;              /* 0x20: creation parameter for the target object */
+    void *targetObjParam;            /* 0x20: creation parameter for the target object */
     int isChild;                     /* 0x24 */
     struct ScriptWork *parentWork;   /* 0x28 */
     void *wordSet;                   /* 0x2C */

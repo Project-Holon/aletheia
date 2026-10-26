@@ -14,7 +14,7 @@ unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i);
 void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
 void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
-void INTRO_G3D_OnAnimEnd(IntroMcssSlot *slot);
+void INTRO_G3D_OnAnimEnd(void * slotArg, u32 unused1);
 int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 int INTRO_G3D_MoveSlot1(char *p,int delta,int limit);
 void INTRO_G3D_UpdateIdleAnim(char *p);

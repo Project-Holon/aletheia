@@ -63,8 +63,9 @@ struct MyItem;
 struct Config;
 struct MyStatus;
 struct WorldTradeSave;
+struct FieldMap;
 typedef struct Pair {
-    int fieldMap;
+    struct FieldMap *fieldMap;
     int unused;
 } Pair;
 
@@ -78,7 +79,7 @@ typedef struct WorldTradeParam {
     void *party;
     struct BoxManager *boxManager;
     struct WorldTradeSave *zukanSave;
-    u32 wifiList;
+    struct WifiList *wifiList;
     void *wifiHistory;
     void *myStatus;
     struct Config *config;
@@ -127,54 +128,56 @@ struct WifiList;
 struct FieldMap;
 #include "../arm9/field_status.h"
 #include "../ov021/event_fieldmap_control.h"
-int EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request);
-int EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused);
-u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work);
+#include "../arm9/procsys.h"
+struct GameEvent *EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request);
+struct GameEvent *EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused);
+int EVENT_WORLDTRADE_Main(struct GameEvent *event, int *seq, void *work);
 extern char ov135_id[];
-extern char d_02202BAC[];
+extern const ProcData d_02202BAC;
 
 /* Overlay entry point: unpacks the request and creates the event. */
-int EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request)
+struct GameEvent *EVENT_WORLDTRADE_Entry(struct GameSystem *gameSystem, Pair *request)
 {
-    return EVENT_WORLDTRADE_Create(gameSystem, (struct FieldMap *)request->fieldMap, request->unused);
+    return EVENT_WORLDTRADE_Create(gameSystem, request->fieldMap, request->unused);
 }
 
-int EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused)
+struct GameEvent *EVENT_WORLDTRADE_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int unused)
 {
-    sptr gameData;
-    sptr event;
+    struct GameData *gameData;
+    struct GameEvent *event;
     WorldTradeEventWork *work;
 
-    gameData = (sptr)GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
-    event = (sptr)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_WORLDTRADE_Main, 0x54);
+    gameData = GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_WORLDTRADE_Main, sizeof(WorldTradeEventWork));
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem)))
         GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem));
-    work = GAME_EVENT_GetWork((struct GameEvent *)event);
-    MI_CpuFill8(work, 0, 0x54);
+    work = GAME_EVENT_GetWork(event);
+    MI_CpuFill8(work, 0, sizeof(WorldTradeEventWork));
     work->gameSystem = (struct GameSystem *)gameSystem;
     work->fieldMap = fieldMap;
-    work->saveControl = GAME_DATA_GetSaveControl((struct GameData *)gameData);
+    work->saveControl = GAME_DATA_GetSaveControl(gameData);
     work->param.worldTradeData = WORLDTRADE_GetFromSave(work->saveControl);
     work->param.consoleStamp = CONSOLE_STAMP_GetFromSave(work->saveControl);
     work->param.party = POKEPARTY_GetSaveData(work->saveControl);
-    work->param.boxManager = (struct BoxManager *)GAME_DATA_GetBoxManager((const struct GameData *)gameData);
-    work->param.zukanSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);
-    work->param.wifiList = (uptr)GAME_DATA_GetWifiList((const struct GameData *)gameData);
+    work->param.boxManager = (struct BoxManager *)GAME_DATA_GetBoxManager(gameData);
+    work->param.zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
+    work->param.wifiList = GAME_DATA_GetWifiList(gameData);
     work->param.wifiHistory = WIFI_HISTORY_GetBlock(work->saveControl);
     work->param.myStatus = SYSTEM_DATA_GetMyStatus(work->saveControl);
     work->param.config = SYSTEM_DATA_GetConfig(work->saveControl);
     work->param.record = RECORD_GetFromSave(work->saveControl);
-    work->param.myItem = GAME_DATA_GetMyItem((const struct GameData *)gameData);
+    work->param.myItem = GAME_DATA_GetMyItem(gameData);
     work->paramGameSystem = (struct GameSystem *)gameSystem;
     work->param.nationalDexEnabled = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)work->param.zukanSave);
-    work->param.gsProfileId = WIFILIST_GetGsProfileId((void *)work->param.wifiList);
+    work->param.gsProfileId = WIFILIST_GetGsProfileId(work->param.wifiList);
     work->param.reserved = 0;
     work->param.reserved2 = 0;
     return event;
 }
 
-u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work)
+int EVENT_WORLDTRADE_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    WorldTradeEventWork *work = workPtr;
     switch (*seq) {
     case 0:
         if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(work->gameSystem)) == 0)
@@ -192,7 +195,7 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         *seq = 3;
         break;
     case 3:
-        GAMESYSTEM_CallProc(work->gameSystem, (uptr)ov135_id, d_02202BAC, &work->param);
+        GAMESYSTEM_CallProc(work->gameSystem, (uptr)ov135_id, &d_02202BAC, &work->param);
         *seq = 4;
         break;
     case 4:

@@ -25,14 +25,14 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
 u16 TRIAL_HOUSE_GetTrainerObjCode(TrialHouseWork *work);
 GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
 GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
-int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work);
+int TRIAL_HOUSE_DeliveryTaskMain(struct GameEvent *event, int *seq, void *work);
 void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
 int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *unused, TrialHouseWork *work);
 GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseWork *unused, int mode);
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem);
 u8 TRIAL_HOUSE_IsDeliveryIdReceived(TrialHouseSave *save, u32 id);
 void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id);
-int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work);
+int TRIAL_HOUSE_SaveTaskMain(struct GameEvent *event, int *seq, void *work);
 /* END mkheaders: generated region */
 
 #endif

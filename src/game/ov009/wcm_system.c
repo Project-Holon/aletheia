@@ -55,7 +55,7 @@
 #ifdef __MWERKS__
 /* The caller reads the allowed channel as a halfword, so the original declaration is u16; nwmif.c defines u32. */
 extern unsigned short WCMi_NwmifGetAllowedChannel(void);
-extern int WCMi_NwmifBeginSearchAsync(unsigned long bssid, unsigned long essid, unsigned long option);
+extern int WCMi_NwmifBeginSearchAsync(unsigned char *bssid, unsigned char *essid, unsigned long option);
 #else
 #include "../twl/nwmif.h"
 #endif
@@ -84,7 +84,7 @@ extern void WcmInitOption(void);
 #include "../arm9/os_alarm.h"
 #include "../sdk_os.h"
 
-extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
+extern void WcmConfigure(WCMConfig *config, void (*notify)(WCMNotice *));
 #include "../arm9/wm_sync.h"
 #include "wcm_wmif.h"
 extern u32 WCMi_NwmifStartupAsync(void);
@@ -96,7 +96,7 @@ extern u32 WCMi_NwmifTerminateAsync();
 
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
-long WCM_StartupAsync(void *config, void (*notify)(void *));
+long WCM_StartupAsync(void *config, void (*notify)(WCMNotice *));
 long WCM_CleanupAsync(void);
 long WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
 long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
@@ -114,7 +114,7 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
 void WCMi_ResetKeepAliveAlarm(void);
 extern void WCMi_ResetKeepAliveAlarm(void);
 long WCM_InitEx(void *buf, long len, unsigned char deviceId);
-void WcmKeepAliveAlarm(void);
+void WcmKeepAliveAlarm(void * unused0);
 
 long WCM_Init(void *buf, long len)
 {
@@ -274,7 +274,7 @@ int WCM_GetWorkSize(long *workSize, unsigned char deviceId)
  *
  * Starts up the WCM: configures it in the idle phase, then starts the WM or NWM device if a channel is allowed.
  */
-long WCM_StartupAsync(void *config, void (*notify)(void *))
+long WCM_StartupAsync(void *config, void (*notify)(WCMNotice *))
 {
     unsigned long e;
     long wcmResult;
@@ -391,7 +391,7 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = WCMi_NwmifBeginSearchAsync((uptr)bssid, (uptr)essid, option);
+            wcmResult = WCMi_NwmifBeginSearchAsync(bssid, essid, option);
             break;
         }
     default:
@@ -694,7 +694,7 @@ WCMWork *WCMi_GetSystemWork(void)
     return sWcmSystemWcmw;
 }
 
-void WcmConfigure(WCMConfig *config, void (*notify)(void *))
+void WcmConfigure(WCMConfig *config, void (*notify)(WCMNotice *))
 {
     if (config == 0) {
         sWcmSystemWcmw->config.dmano = 3;
@@ -786,7 +786,7 @@ void WCMi_SetPhase(unsigned char phase)
     }
     if (phase == 9) {
         OS_CancelAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
-        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
+        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022F5341ULL, WcmKeepAliveAlarm, 0);
     }
     OS_RestoreInterrupts(e);
 }
@@ -800,11 +800,11 @@ void WCMi_ResetKeepAliveAlarm(void)
 
     OS_CancelAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm);
     if (sWcmSystemWcmw->phase == 9)
-        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
+        OS_SetAlarm((struct OSiAlarm *)sWcmSystemWcmw->alarm, 0x022f5341, WcmKeepAliveAlarm, 0);
     OS_RestoreInterrupts(e);
 }
 
-void WcmKeepAliveAlarm(void)
+void WcmKeepAliveAlarm(void * unused0)
 {
     WCMi_ResetKeepAliveAlarm();
 }

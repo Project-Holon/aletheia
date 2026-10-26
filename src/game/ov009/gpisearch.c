@@ -892,7 +892,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                     callback = operation->callback;
 
                     if (callback.callback != 0)
-                        ((void (*)(GPConnection *, void *, void *))callback.callback)(connection, &arg, callback.param);
+                        callback.callback(connection, &arg, callback.param);
 
                     if ((more == GP_MORE) && (arg.more == GP_MORE))
                         CHECK_RESULT(gpiProfileSearch(connection, data->nick, data->uniquenick, data->email, data->firstname, data->lastname, data->icquin, arg.numMatches + data->skip, (GPEnum)operation->blocking, operation->callback.callback, operation->callback.param));

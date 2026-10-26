@@ -58,12 +58,12 @@ extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
 struct EncEffScreenTexWork;
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap);
-void *ENCEFF_StartRipple(void *gameSystem);
-int ENCEFF_RippleEventMain(struct GameEvent *event, int *state);
+struct GameEvent *ENCEFF_StartRipple(struct GameSystem *gameSystem);
+int ENCEFF_RippleEventMain(struct GameEvent *event, int *state, void *work);
 void ENCEFF_UpdateRipple(struct EncEffWork *eff);
-void ENCEFF_DrawRipple(EncEffRipple *ripple);
+void ENCEFF_DrawRipple(void *rippleArg);
 int ENCEFF_StepRipple(EncEffRipple *ripple);
-void *ENCEFF_StartRippleBurst(void *gameSystem);
+struct GameEvent *ENCEFF_StartRippleBurst(struct GameSystem *gameSystem);
 extern const VecFx32 gRippleCameraPos;
 extern const VecFx32 gRippleBurstCameraPos;
 extern const VecFx32 gRippleTranslate;
@@ -75,7 +75,7 @@ extern const VecFx32 gRippleScale;
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gRippleCameraPos;
     ENCEFF_LoadOverlay4B((struct EncEffWork *)FIELDMAP_GetEncEff(fieldMap));
-    return ENCEFF_StartScreenTexEffectFlash((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, (EncEffScreenTexStartFunc)ENCEFF_StartRipple, (EncEffScreenTexDrawFunc)ENCEFF_DrawRipple);
+    return ENCEFF_StartScreenTexEffectFlash((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, ENCEFF_StartRipple, ENCEFF_DrawRipple);
 }
 
 
@@ -88,7 +88,7 @@ void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gRippleBurstCameraPos;
     ENCEFF_LoadOverlay4B((struct EncEffWork *)FIELDMAP_GetEncEff(fieldMap));
-    return ENCEFF_StartScreenTexEffect((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, (EncEffScreenTexStartFunc)ENCEFF_StartRippleBurst, (EncEffScreenTexDrawFunc)ENCEFF_DrawRipple);
+    return ENCEFF_StartScreenTexEffect((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, ENCEFF_StartRippleBurst, ENCEFF_DrawRipple);
 }
 
 
@@ -98,14 +98,14 @@ void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap) {
 /*
  * Addresses are Black-image addresses.
  */
-void *ENCEFF_StartRipple(void *gameSystem)
+struct GameEvent *ENCEFF_StartRipple(struct GameSystem *gameSystem)
 {
     EncEffRipple *ripple;
     void *event;
     int i;
 
     ripple = ENCEFF_AllocWork((struct EncEffWork *)FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_RippleEventMain, 0);
+    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 8;
@@ -128,7 +128,7 @@ void *ENCEFF_StartRipple(void *gameSystem)
 
 
 
-int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
+int ENCEFF_RippleEventMain(struct GameEvent *event, int *state, void *work)
 {
     EncEffRipple *ripple;
 
@@ -186,8 +186,9 @@ void ENCEFF_UpdateRipple(struct EncEffWork *eff) {
  *
  * Addresses are Black-image addresses.
  */
-void ENCEFF_DrawRipple(EncEffRipple *ripple)
+void ENCEFF_DrawRipple(void *rippleArg)
 {
+    EncEffRipple *ripple = rippleArg;
     VecFx32 translate;
     VecFx32 scale;
     int j;
@@ -307,14 +308,14 @@ int ENCEFF_StepRipple(EncEffRipple *ripple)
 }
 
 
-void *ENCEFF_StartRippleBurst(void *gameSystem)
+struct GameEvent *ENCEFF_StartRippleBurst(struct GameSystem *gameSystem)
 {
     EncEffRipple *ripple;
     void *event;
     int i;
 
     ripple = ENCEFF_AllocWork((struct EncEffWork *)FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_RippleEventMain, 0);
+    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 2;

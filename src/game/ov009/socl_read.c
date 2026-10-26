@@ -81,7 +81,7 @@ int SOCLi_ConsumeCallBack(void *arg);
 long SOCLi_ConsumeCPSBuffer(struct SOCLSocket *socket);
 static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block);
-int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct SOCLSocket *socket);
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *cpsSocket);
 
 static inline int isNotReady(struct SOCLSocket *socket)
 {
@@ -136,7 +136,7 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
     }
     result = (int)SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
     OS_UnlockMutex((struct OSMutex *)recv_pipe->mutex);
-    return (int)((void *)result);
+    return result;
 }
 
 /*
@@ -164,7 +164,7 @@ int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buff
     }
 
     if (socket->flag_mode == 1) {
-        r = (int)SOCLi_ReadUdpBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip, flag_block);
+        r = (int)SOCLi_ReadUdpBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
     } else {
         r = (int)SOCLi_ReadBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
         if (r >= 0)
@@ -174,7 +174,7 @@ int SOCLi_ReadAndConsumeBuffer(struct SOCLSocket *socket, void *buffer, int buff
     if (t != 0)
         recv_pipe->flag_noconsume = old;
 
-    return (int)((void *)r);
+    return r;
 }
 
 /*
@@ -187,11 +187,11 @@ int SOCLi_ReadBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, un
 
     if (socket->flag_mode == 4)
         return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    result = (int)SOCLi_CopyCPSBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip);
+    result = (int)SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
     if (result != -6)
-        return (int)((void *)result);
+        return result;
     if ((flag_block & 1) == 0)
-        return (int)((void *)result);
+        return result;
     return SOCLi_ExecReadCommand(socket, buffer, buffer_len, remote_port, remote_ip, 1);
 }
 
@@ -258,7 +258,7 @@ static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buff
             socket->local_port = my_port;
     }
     OS_RestoreInterrupts(enable);
-    return (int)((void *)result);
+    return result;
 }
 
 /*
@@ -307,7 +307,7 @@ int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_le
     command->buffer_len = (long int)buffer_len;
     command->remote_port = remote_port;
     command->remote_ip = remote_ip;
-    return (int)((void *)SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command));
+    return SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command);
 }
 
 /*
@@ -358,7 +358,7 @@ static int SOCLi_ReadCallBack(void *arg)
         return buffer_len;
     }
     if (cpsbuffer != 0)
-        result = (int)SOCLi_CopyCPSBuffer(socket, buffer, (int)((void *)buffer_len), remote_port, remote_ip);
+        result = (int)SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, remote_port, remote_ip);
     else
         result = 0;
     if (result <= 0)
@@ -493,7 +493,7 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
     }
     if (udpdata != 0) {
         if (buffer_len > udpdata->size)
-            buffer_len = (int)((void *)udpdata->size);
+            buffer_len = udpdata->size;
         MI_CpuCopy(udpdata->data, buffer, (u32)buffer_len);
         if (remote_port)
             *remote_port = udpdata->remote_port;
@@ -509,7 +509,7 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
         }
     }
     OS_RestoreInterrupts(enable);
-    return (int)((void *)result);
+    return result;
 }
 
 /*
@@ -518,8 +518,9 @@ static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buff
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
-int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct SOCLSocket *socket)
+int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *cpsSocket)
 {
+    struct SOCLSocket *socket = (struct SOCLSocket *)cpsSocket;
     struct SOCLiSocketRecvCommandPipe *pipe = socket->recv_pipe;
     struct SOCLiUdpData *udpheader;
     unsigned long enable;

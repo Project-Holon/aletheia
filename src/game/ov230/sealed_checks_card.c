@@ -62,7 +62,7 @@ void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
     io <<= 26;
     exmem = *(vu16 *)REG_EXMEMCNT_ADDR;
     *(vu16 *)0x04000204 &= ~0x800;
-    romCtrl = (*(u32 *)((((((*(vu8 *)(io + 0x4000)) & 1) + 5) << 18) - 13) << 5) & ~0x07000000) | 0xA1000000;
+    romCtrl = (*(u32 *)(uptr)((((((*(vu8 *)(io + 0x4000)) & 1) + 5) << 18) - 13) << 5) & ~0x07000000) | 0xA1000000;
     pos = -(s32)(offset & (0x204 - maskBias));
     while (*(vu32 *)(io + 0x1A4) & 0x80000000) {
     }
@@ -70,7 +70,7 @@ void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
     p = savedCmd;
     i = 0;
     do {
-        *p++ = *(vu8 *)(0x04000000 + i + 0x1A8);
+        *p++ = *(vu8 *)((uptr)0x04000000 + i + 0x1A8);
         i++;
     } while (i < 8);
     offset += pos;
@@ -93,7 +93,7 @@ void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
     p = savedCmd;
     i = 0;
     do {
-        *(vu8 *)(0x04000000 + i + 0x1A8) = *p++;
+        *(vu8 *)((uptr)0x04000000 + i + 0x1A8) = *p++;
         i++;
     } while (i < 8);
     *(vu16 *)(io + 0x204) = exmem;

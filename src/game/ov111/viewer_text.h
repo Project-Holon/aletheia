@@ -4,8 +4,12 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of viewer_text.c, prototypes copied from their definitions. */
 
+struct DispVramCfg;
+
 #include "../ov111/viewer_types.h"
 #include "../types.h"
+
+struct TcbTask;
 
 void VIEWER_TEXT_Init(ViewerWork *p);
 void VIEWER_TEXT_Exit(ViewerWork *p);
@@ -28,14 +32,14 @@ void VIEWER_TEXT_PrintWrapped(ViewerWork *p, void *a, int x, int dx, int y, void
 void VIEWER_TEXT_Print(ViewerWork *p, void *a, int x, int dx, int y, void *s);
 void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info, void *s, int idx);
 void VIEWER_TEXT_NoOp(void *work, void *bg, u32 flag, void *str);
-void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x);
+void VIEWER_TEXT_InitActors(ViewerAnim *a, const struct DispVramCfg *x);
 void VIEWER_TEXT_CreateActor(ViewerAnim *a);
 void VIEWER_TEXT_DeleteActors(ViewerAnim *a);
 void VIEWER_TEXT_SetActorAnim(ViewerAnim *p, int idx, u8 a, u8 b);
 int VIEWER_TEXT_Create(void *proc, int *seq, void *parent);
 int VIEWER_TEXT_Main(void *a, void *b, int c, ViewerTextWork *p);
 int VIEWER_TEXT_Delete(void *proc, void *seq, int c, ViewerTextWork *p);
-void VIEWER_TEXT_VBlank(void *unused, ViewerTextWork *p);
+void VIEWER_TEXT_VBlank(struct TcbTask *unused, void *pArg);
 void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent);
 void VIEWER_TEXT_FreeResources(ViewerTextWork *p);
 void VIEWER_TEXT_InitVram(void);

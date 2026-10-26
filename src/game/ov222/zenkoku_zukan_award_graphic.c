@@ -95,14 +95,13 @@ extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *);
+extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(void **);
 /* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
 extern void BG_SYS_Create(u32);
 #else
 #include "../arm9/bg_sys.h"
 #endif
-extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -128,7 +127,6 @@ extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struc
 #else
 #include "../arm9/g3d_camera.h"
 #endif
-extern u32 G3D_CAMERA_Delete(void *ptr);
 void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
@@ -155,8 +153,8 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
 {
  char*p;
  u32*g;
- p=GFL_HEAP_Alloc(heap,16,0,d_021BA390,0x1cc);
- MI_CpuFill8(p,0,16);
+ p=GFL_HEAP_Alloc(heap,sizeof(struct ZenkokuZukanAwardGraphic),0,d_021BA390,0x1cc);
+ MI_CpuFill8(p,0,sizeof(struct ZenkokuZukanAwardGraphic));
  *(volatile u16*)0x04000050=0;
  *(volatile u16*)0x04001050=0;
  *(volatile u32*)0x04000000 &= ~0xe000u;
@@ -170,8 +168,8 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  GF_FONT_InitTextColor();
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
- ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(struct DispVramCfg *)g,heap);
- ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)&((struct ZenkokuZukanAwardGraphic *)p)->clact,(struct DispVramCfg *)g,heap);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(&((struct ZenkokuZukanAwardGraphic *)p)->camera),heap);
  *(void* *)&((struct ZenkokuZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;
 }
@@ -183,30 +181,30 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p)
 {
     TCB_DeleteTask(((struct ZenkokuZukanAwardGraphic *)p)->proc);
-    ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera((u32 *)(p+8));
-    ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(p+4);
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera((void **)(&((struct ZenkokuZukanAwardGraphic *)p)->camera));
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact((void *)&((struct ZenkokuZukanAwardGraphic *)p)->clact);
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
-    MI_CpuFill8(p,0,16);
+    MI_CpuFill8(p,0,sizeof(struct ZenkokuZukanAwardGraphic));
     GFL_HEAP_Free(p);
 }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 {
-    ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(p + 4);
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw((void *)&((struct ZenkokuZukanAwardGraphic *)p)->clact);
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(p);
 }
 
-u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p) { return ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue((const u32 *)(p+4)); }
+u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p) { return ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue((const u32 *)(&((struct ZenkokuZukanAwardGraphic *)p)->clact)); }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(struct TcbTask *unused, void *work_)
 { char * p = work_;
     ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(p);
-    ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(p + 4);
+    ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank((void *)&((struct ZenkokuZukanAwardGraphic *)p)->clact);
 }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap)
@@ -233,7 +231,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p) { BG_SYS_Update(); }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
     CLACT_InitSystem((struct ClactSysInit *)0x021BA290, (struct DispVramCfg *)a, b);
     ((struct ClactCtx *)p)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct ClactCtx *)p)->unit));
@@ -248,7 +246,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Unit *)(((struct ClactCtx *)p)->unit));
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
 }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(void *p) { CLACT_DrawSystem(); }
@@ -263,8 +261,8 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap)
     *out=(u32 *)G3D_CAMERA_Create(0,*(s16 *)(gCameraParams+12),*(s16 *)(gCameraParams+14),0x1555,0,4096,0x400000,0,(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec1),(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec2),(struct VecFx32 *)(&sZenkokuZukanAwardGraphicVec3),heap);
 }
 
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p)
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(void **p)
 {
-    G3D_CAMERA_Delete((void *)(*p));
+    G3D_CAMERA_Delete(*p);
     G3D_SYSTEM_Exit();
 }

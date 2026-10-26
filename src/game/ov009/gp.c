@@ -396,7 +396,7 @@ int gpDenyBuddyRequest(void **connection, int profile)
     if (iconnection->infoCaching == 0 && pProfile->requestCount <= 0) {
         gsifree(pProfile->authSig);
         pProfile->authSig = 0;
-        if (gpiCanFreeProfile((char *)pProfile))
+        if (gpiCanFreeProfile(pProfile))
             gpiRemoveProfile(connection, pProfile);
     }
     return 0;

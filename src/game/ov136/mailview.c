@@ -131,7 +131,6 @@
 
 
 
-extern void CLACT_VBlankSystem(void);
 
 struct MsgBank;
 
@@ -169,7 +168,7 @@ extern char d_021C7EF8[];
 extern const struct DispVram d_021C77C4;
 
 
-void MAILVIEW_CursorBlendTask(void *unused, struct MailEditProc *proc);
+void MAILVIEW_CursorBlendTask(struct TcbTask *unused, void *arg);
 
 void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc);
 
@@ -206,8 +205,9 @@ void MAILVIEW_VBlankTask(void *task, struct MailEditProc *proc)
  * lever: blinkWeight >> 1 promotes to signed int before the u8 argument;
  * an unsigned cast drops the narrowing shift pair, a bitfield shifts 24/25.
  */
-void MAILVIEW_CursorBlendTask(void *unused, struct MailEditProc *proc)
+void MAILVIEW_CursorBlendTask(struct TcbTask *unused, void *arg)
 {
+    struct MailEditProc *proc = arg;
     u8 old;
     u8 direction;
     if (proc->dialogActive != 0 || proc->inputMode == 0) return;
@@ -246,7 +246,7 @@ int MAILVIEW_SetupStep(struct MailEditProc *proc)
         break;
     case 3:
         MAILVIEW_InitActorSystem(proc);
-        proc->taskMenuRes = (struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0, 8, (struct GFont *)proc->font, (struct PrintQueue *)proc->printQue, (u16)proc->heapId);
+        proc->taskMenuRes = (struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0, 8, (struct GFont *)proc->font, proc->printQue, (u16)proc->heapId);
         proc->subStep = 0;
         MAILVIEW_CreatePmsDraw(proc);
         MAILVIEW_PrintSentences(proc);
@@ -269,7 +269,7 @@ void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc)
     mem = GFL_HEAP_Alloc((u16)proc->heapId, TCB_GetTaskOffset(3), 0, d_021C7EF8, 0x4F3);
     proc->blinkTaskMem = mem;
     proc->blinkTaskList = TCB_Init(3, (struct TcbSystem *)mem);
-    proc->blinkTask = TCB_AddTask((struct TcbSystem *)proc->blinkTaskList, (TcbFunc)MAILVIEW_CursorBlendTask, (void *)proc, 0);
+    proc->blinkTask = TCB_AddTask((struct TcbSystem *)proc->blinkTaskList, MAILVIEW_CursorBlendTask, (void *)proc, 0);
 }
 
 int MAILVIEW_Teardown(struct MailEditProc *proc)
@@ -287,16 +287,16 @@ int MAILVIEW_Teardown(struct MailEditProc *proc)
 
 void MAILVIEW_CreatePmsDraw(struct MailEditProc *proc)
 {
-    proc->pmsPrintQue = (struct PrintQue *)PRINTSYS_QUE_Create((u16)proc->heapId);
+    proc->pmsPrintQue = (struct PrintQueue *)PRINTSYS_QUE_Create((u16)proc->heapId);
     proc->pmsClactUnit = CLACT_CreateUnit(8, 1, (u16)proc->heapId);
-    proc->pmsDraw = PMS_DRAW_Create((uptr)proc->pmsClactUnit, (unsigned int)0, (uptr)proc->pmsPrintQue, (uptr)proc->font, 0, 4, (u16)proc->heapId);
+    proc->pmsDraw = PMS_DRAW_Create(proc->pmsClactUnit, (unsigned int)0, proc->pmsPrintQue, proc->font, 0, 4, (u16)proc->heapId);
     PMS_DRAW_SetNullColorPalette(proc->pmsDraw, 0);
 }
 
 void MAILVIEW_DeletePmsDraw(struct MailEditProc *proc)
 {
     PMS_DRAW_Delete(proc->pmsDraw);
-    PRINTSYS_QUE_Delete((struct PrintQueue *)proc->pmsPrintQue);
+    PRINTSYS_QUE_Delete(proc->pmsPrintQue);
     proc->pmsPrintQue = 0;
     CLACT_DeleteUnit((struct Unit *)proc->pmsClactUnit);
 }
@@ -370,7 +370,6 @@ struct SysInit;
 
 #include "../arm9/net.h"
 
-extern void CLACT_ExitSystem(void);
 
 #include "mailsys.h"
 
@@ -461,8 +460,8 @@ void MAILVIEW_LoadGraphics(struct MailEditProc *proc)
         arc = ARC_TOOL_CreateHandle(0x9B, (u16)proc->heapId);
         ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x24, 2, 0, sz, 1, (u16)proc->heapId);
         ARC_TOOL_DeleteHandle(arc);
-        proc->onKeyInput = (void (*)(void *))MAILSYS_OnKeyModeNoOp;
-        proc->onTouchInput = (void (*)(void *))MAILSYS_OnTouchMode;
+        proc->onKeyInput = MAILSYS_OnKeyModeNoOp;
+        proc->onTouchInput = MAILSYS_OnTouchMode;
         BG_SYS_SetMainPlaneVisible(4, 1);
     }
 }
@@ -495,7 +494,7 @@ void MAILVIEW_CreateWindows(struct MailEditProc *proc)
         proc->slot[i].win = proc->win[i];
         proc->slot[i].flag = 0;
     }
-    proc->printQue = (struct PrintQue *)PRINTSYS_QUE_Create((u16)proc->heapId);
+    proc->printQue = (struct PrintQueue *)PRINTSYS_QUE_Create((u16)proc->heapId);
     for (i = 0; i < 7; i++) {
         BMP_Clear(BMP_WIN_GetBmp(proc->win[i]), 0);
         if (i < 5) {
@@ -535,7 +534,7 @@ void MAILVIEW_DeleteWindows(struct MailEditProc *proc)
         STRBUF_Delete(proc->buttonEntry[0].text);
         STRBUF_Delete(proc->buttonEntry[1].text);
     }
-    PRINTSYS_QUE_Delete((struct PrintQueue *)proc->printQue);
+    PRINTSYS_QUE_Delete(proc->printQue);
     proc->printQue = 0;
     for (i = 0; i < 7; i++) {
         w = proc->win[i];
@@ -556,7 +555,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
     struct BmpWin *w;
     for (i = 0; i < 3; i++) {
         if (PMSI_PARAM_IsEnabled( (const unsigned short *)&proc->draft->message[i])) {
-            PMS_DRAW_Print((uptr)proc->pmsDraw, (uptr)(proc->win[i + 1]), (struct BeaconDetailGraQuad *)((uptr)(&proc->draft->message[i])), (u8)i);
+            PMS_DRAW_Print(proc->pmsDraw, (proc->win[i + 1]), (struct BeaconDetailGraQuad *)(&proc->draft->message[i]), (u8)i);
         }
     }
     draft = proc->draft;
@@ -564,10 +563,10 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
         proc->closingWord.sentenceType = 6;
         proc->closingWord.sentenceId = 0;
         proc->closingWord.word[0] = draft->messageId;
-        PMS_DRAW_Print((uptr)proc->pmsDraw, (uptr)proc->win[4], (struct BeaconDetailGraQuad *)((uptr)(&proc->closingWord)), (u8)3);
+        PMS_DRAW_Print(proc->pmsDraw, proc->win[4], (struct BeaconDetailGraQuad *)(&proc->closingWord), (u8)3);
     }
     if (proc->mode == 0) {
-        struct PrintQue *queue = proc->printQue;
+        struct PrintQueue *queue = proc->printQue;
         PRINTSYS_PrintQueColor((struct PrintQueue *)queue, BMP_WIN_GetBmp(proc->slot[5].win), 0, 2, proc->draft->writerName, proc->font, 0x440);
         proc->slot[5].flag = 1;
         w = proc->win[5];

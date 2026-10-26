@@ -6,12 +6,13 @@
 
 struct MailArgs;
 struct MailToolProc;
+struct Proc;
 
 #include "../types.h"
 
 void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
-void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
+void *MAILTOOL_CreateArgsFromMail(void *a, u32 design, unsigned heap);
 u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 void MAILTOOL_DeleteArgs(struct MailArgs *args);

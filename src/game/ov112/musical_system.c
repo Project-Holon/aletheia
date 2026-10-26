@@ -31,6 +31,7 @@
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  */
 #include "musical_shot_sys_shared_types.h"
+#include "../ov010/musical_event_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -43,15 +44,6 @@ struct Blk2C;
 
 struct MusicalDist;
 
-/* The MUSICAL_MCSS_LoadDistSave object: four loaded ARC members at 0x04..0x10. */
-typedef struct McssDistSave {
-    u8 kind;                /* 0x00 */
-    u8 pad_1[3];            /* 0x01 */
-    void *member0;          /* 0x04 */
-    void *member1;          /* 0x08 */
-    void *member2;          /* 0x0C */
-    void *member3;          /* 0x10 */
-} McssDistSave;
 
 
 struct PokemonParam;
@@ -74,11 +66,11 @@ char *MUSICAL_MCSS_CreateMon(void *a,u16 heap);
 
 char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap);
 
-void *MUSICAL_MCSS_AllocDistSave(u32 heap);
+MusicalSystemHead *MUSICAL_MCSS_AllocDistSave(u32 heap);
 
-void MUSICAL_MCSS_FreeDistSave(char *p);
+void MUSICAL_MCSS_FreeDistSave(MusicalSystemHead *p);
 
-void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
+void MUSICAL_MCSS_LoadDistSave(MusicalSystemHead *m, void *unused, void *sys, u8 kind, u16 heap);
 
 extern const char d_021F83E4[];
 
@@ -90,11 +82,11 @@ char *MUSICAL_MCSS_CreateMon(void *a,u16 heap)
     ((McssMon *)p)->kind=4;
     ((McssMon *)p)->source=a;
     ((McssMon *)p)->reserved4A=0;
-    for(i=0;i<9;i++) { *(u16 *)(p+20+6*i)=255; *(u16 *)(p+22+6*i)=0; *(u32 *)(p+84+4*i)=0; }
+    for(i=0;i<9;i++) { ((McssMon *)p)->slots[i][0]=255; ((McssMon *)p)->slots[i][1]=0; ((McssMon *)p)->values[i]=0; }
     ((McssMon *)p)->species=POKE_TOOL_GetPartyValue(a,5,0);
-    p[10]=POKE_TOOL_GetPartyValue(a,110,0);
-    p[11]=POKE_TOOL_GetPartyValue(a,111,0);
-    p[12]=POKE_TOOL_IsShiny(a);
+    ((McssMon *)p)->sex=POKE_TOOL_GetPartyValue(a,110,0);
+    ((McssMon *)p)->form=POKE_TOOL_GetPartyValue(a,111,0);
+    ((McssMon *)p)->isShiny=POKE_TOOL_IsShiny(a);
     ((McssMon *)p)->personalRnd=POKE_TOOL_GetPartyValue(a,0,0);
     return p;
 }
@@ -106,48 +98,48 @@ char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
     int j;
     p=GFL_HEAP_Alloc(heap,124,1,d_021F83E4,165);
     ((McssMon *)p)->kind=4; ((McssMon *)p)->source=0; ((McssMon *)p)->reserved4A=0;
-    for(i=0;i<9;i++) { *(u16 *)(p+20+6*i)=255; *(u16 *)(p+22+6*i)=0; *(u32 *)(p+84+4*i)=0; }
-    for(j=0;j<4;j++) *(u16 *)(p+76+2*j)=0;
+    for(i=0;i<9;i++) { ((McssMon *)p)->slots[i][0]=255; ((McssMon *)p)->slots[i][1]=0; ((McssMon *)p)->values[i]=0; }
+    for(j=0;j<4;j++) ((McssMon *)p)->reserved4C[j]=0;
     ((McssMon *)p)->reserved78=0;
-    ((McssMon *)p)->species=a; p[10]=b; p[11]=c; p[12]=d; ((McssMon *)p)->personalRnd=e;
+    ((McssMon *)p)->species=a; ((McssMon *)p)->sex=b; ((McssMon *)p)->form=c; ((McssMon *)p)->isShiny=d; ((McssMon *)p)->personalRnd=e;
     return p;
 }
 
-void *MUSICAL_MCSS_AllocDistSave(u32 heap) {u32 *p;int z;z=0;p=GFL_HEAP_Alloc(heap,48,0,d_021F83E4,194);p[1]=z;p[2]=z;p[3]=z;p[4]=z;p[5]=z;p[6]=z;p[7]=z;return p;}
+MusicalSystemHead *MUSICAL_MCSS_AllocDistSave(u32 heap) {MusicalSystemHead *p;void *z;z=0;p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_021F83E4,194);p->programs=z;p->msgFile=z;p->member2=z;p->payload=z;p->section0=z;p->section1=z;p->section2=z;return p;}
 
-void MUSICAL_MCSS_FreeDistSave(char *p) {if(((McssDistSave *)p)->member0)GFL_HEAP_Free(((McssDistSave *)p)->member0);if(((McssDistSave *)p)->member1)GFL_HEAP_Free(((McssDistSave *)p)->member1);if(((McssDistSave *)p)->member2)GFL_HEAP_Free(((McssDistSave *)p)->member2);if(((McssDistSave *)p)->member3)GFL_HEAP_Free(((McssDistSave *)p)->member3);GFL_HEAP_Free(p);}
+void MUSICAL_MCSS_FreeDistSave(MusicalSystemHead *p) {if(p->programs)GFL_HEAP_Free(p->programs);if(p->msgFile)GFL_HEAP_Free(p->msgFile);if(p->member2)GFL_HEAP_Free(p->member2);if(p->payload)GFL_HEAP_Free(p->payload);GFL_HEAP_Free(p);}
 
-void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
+void MUSICAL_MCSS_LoadDistSave(MusicalSystemHead *m, void *unused, void *sys, u8 kind, u16 heap)
 {
     void *x;
     void *arc;
     u32 c, d, e;
     u8 *q;
-    *p = kind;
+    m->kind = kind;
     if (kind >= 4) {
         x = MUSICAL_DIST_SAVE_Create(sys, heap);
-        arc = ARC_TOOL_CreateHandleFromMemory((void *)MUSICAL_DIST_SAVE_GetPayload(x), MUSICAL_DIST_SAVE_GetPayloadSize(x), (u16)((heap & 0x7fff) | 0x8000));
+        arc = ARC_TOOL_CreateHandleFromMemory(MUSICAL_DIST_SAVE_GetPayload(x), MUSICAL_DIST_SAVE_GetPayloadSize(x), (u16)((heap & 0x7fff) | 0x8000));
     } else {
         arc = ARC_TOOL_CreateHandle(kind + 0x6f, (u16)((heap & 0x7fff) | 0x8000));
     }
-    *(void **)(p + 4) = ARC_UTIL_LoadHandleMemberWithSize(arc, 0, 0, heap, (u32 *)(p + 0x20));
-    *(void **)(p + 8) = ARC_UTIL_LoadHandleMemberWithSize(arc, 1, 0, heap, (u32 *)(p + 0x24));
-    *(void **)(p + 0xc) = ARC_UTIL_LoadHandleMemberWithSize(arc, 2, 0, heap, (u32 *)(p + 0x28));
+    m->programs = ARC_UTIL_LoadHandleMemberWithSize(arc, 0, 0, heap, &m->size0);
+    m->msgFile = ARC_UTIL_LoadHandleMemberWithSize(arc, 1, 0, heap, &m->size1);
+    m->member2 = ARC_UTIL_LoadHandleMemberWithSize(arc, 2, 0, heap, &m->size2);
     c = ARC_TOOL_GetHandleMemberSize(arc, 4);
     d = ARC_TOOL_GetHandleMemberSize(arc, 3);
     e = ARC_TOOL_GetHandleMemberSize(arc, 5);
-    *(u32 *)(p + 0x2c) = c + 0xc + d + e;
-    q = GFL_HEAP_Alloc(heap, *(u32 *)(p + 0x2c), 1, d_021F83E4, 0x104);
-    *(u8 **)(p + 0x10) = q;
-    *(u8 **)(p + 0x14) = q + 0xc;
-    *(u8 **)(p + 0x18) = q + 0xc + c;
-    *(u32 *)(p + 0x1c) = d + *(u32 *)(p + 0x18);
+    m->payloadSize = c + 0xc + d + e;
+    q = GFL_HEAP_Alloc(heap, m->payloadSize, 1, d_021F83E4, 0x104);
+    m->payload = q;
+    m->section0 = q + 0xc;
+    m->section1 = q + 0xc + c;
+    m->section2 = (u8 *)(d + (uptr)m->section1);
     *(u32 *)q = c;
     *(u32 *)(q + 4) = d;
     *(u32 *)(q + 8) = e;
-    ARC_TOOL_ReadHandleMember(arc, 4, *(void **)(p + 0x14));
-    ARC_TOOL_ReadHandleMember(arc, 3, *(void **)(p + 0x18));
-    ARC_TOOL_ReadHandleMember(arc, 5, *(void **)(p + 0x1c));
+    ARC_TOOL_ReadHandleMember(arc, 4, m->section0);
+    ARC_TOOL_ReadHandleMember(arc, 3, m->section1);
+    ARC_TOOL_ReadHandleMember(arc, 5, m->section2);
     ARC_TOOL_DeleteHandle(arc);
     if (kind >= 4) MUSICAL_DIST_SAVE_Delete(x);
 }

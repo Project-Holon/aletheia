@@ -18,7 +18,7 @@ unsigned long enter_computebound(void);
 void CPS_SetRootCa(struct SOCLCaInfo **rootCa, int num);
 SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
 int chars_till_end(const char *str);
-int select_method(int methods, int num, int size);
+int select_method(unsigned char *methods, int num, int size);
 int version_ok(int major, int minor);
 void finished_md5(CPSSslConnection *con, unsigned char *d, int flag);
 void finished_sha1(CPSSslConnection *con, unsigned char *d, int flag);

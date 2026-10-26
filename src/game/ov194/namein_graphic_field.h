@@ -18,7 +18,7 @@ typedef u16 NameinFontArg;
 struct GfFont;
 typedef struct GfFont *NameinFontArg;
 #endif
-void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, NameinFontArg c, int d, u8 *e, int f);
+void NAMEIN_GRAPHIC_InitInputField(u8 *p, struct Strbuf *a, u16 b, NameinFontArg c, struct PrintQueue *d, u8 *e, int f);
 void NAMEIN_GRAPHIC_DeleteInputField(u8 *p);
 int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
 int NAMEIN_GRAPHIC_Backspace(unsigned char *p);
@@ -41,17 +41,17 @@ u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
 u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction);
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void *table, u32 unused);
-void NAMEIN_GRAPHIC_LoadGrid(int *a, int b, void *c);
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void **table, u32 unused);
+void NAMEIN_GRAPHIC_LoadGrid(void **a, int b, void **c);
 void NAMEIN_GRAPHIC_ClearPicker(void *p);
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out);
-void NAMEIN_GRAPHIC_PickerMove(char *a, int b, int c);
+void NAMEIN_GRAPHIC_PickerMove(char *a, int *b, int *c);
 void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u16 heap);
 int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out);
 void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved);
 void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s);
-int NAMEIN_GRAPHIC_GridValue(const int *p,int *out);
-int NAMEIN_GRAPHIC_ComputeGridValue(const int *p,int *out);
+int NAMEIN_GRAPHIC_GridValue(NameinGraphicPair *p,NameinGraphicPair *out);
+int NAMEIN_GRAPHIC_ComputeGridValue(const NameinGraphicPair *p,NameinGraphicPair *out);
 /* END mkheaders: generated region */
 
 #endif

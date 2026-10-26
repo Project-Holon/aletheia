@@ -64,7 +64,7 @@ void MANUAL_CATEGORY_DeleteList(char *p);
 
 int MANUAL_CATEGORY_IsListFinished(char *p);
 
-void MANUAL_CATEGORY_TaskNoop(void);
+void MANUAL_CATEGORY_TaskNoop(struct TcbTask *unused0, void *unused1);
 
 extern const char gManualCategoryListAllocFile[];
 
@@ -73,15 +73,15 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     char *q;
     u16 groups,items;
     u16 i,j,valid;
-    q=GFL_HEAP_Alloc(((struct ManualData *)data)->heap,0x24,1,gManualCategoryListAllocFile,0x5c);
+    q=GFL_HEAP_Alloc(((struct ManualData *)data)->heap,sizeof(struct ManualMenuList),1,gManualCategoryListAllocFile,0x5c);
     *(char * *)&((struct ManualMenuList *)q)->owner=p;
     ((struct ManualListOwner *)p)->hasDetail=0;
     ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->detailEntry=0;
     *(char * *)&((struct ManualMenuList *)q)->data=data;
-    ((struct ManualMenuList *)q)->ready=0;
+    ((struct ManualMenuList *)q)->state.ready=0;
     groups=MANUAL_COMMON_GetGroupCount(*(char * *)&((struct ManualData *)data)->assets);
-    ((struct ManualMenuList *)q)->entryCount=0;
-    *(char * *)&((struct ManualMenuList *)q)->entries=GFL_HEAP_Alloc(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
+    ((struct ManualMenuList *)q)->state.count=0;
+    *(char * *)&((struct ManualMenuList *)q)->state.data=GFL_HEAP_Alloc(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
         items=MANUAL_COMMON_GetGroupValue1(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
@@ -92,16 +92,16 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
             if(MANUAL_COMMON_CheckUnlocked(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id,*(void **)*(char * *)&((struct ManualMenuList *)q)->data)) valid++;
         }
         if(valid) {
-            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8)=i;
-            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+2)=MANUAL_COMMON_GetGroupValue0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
-            *(u32 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+4)=0;
-            ((struct ManualMenuList *)q)->entryCount+=1;
+            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->state.data+((struct ManualMenuList *)q)->state.count*8)=i;
+            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->state.data+((struct ManualMenuList *)q)->state.count*8+2)=MANUAL_COMMON_GetGroupValue0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
+            *(u32 *)(*(char * *)&((struct ManualMenuList *)q)->state.data+((struct ManualMenuList *)q)->state.count*8+4)=0;
+            ((struct ManualMenuList *)q)->state.count+=1;
         }
     }
-    ((struct ManualMenuList *)q)->savedA=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
-    ((struct ManualMenuList *)q)->savedB=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
-    *(char * *)&((struct ManualMenuList *)q)->widget=MANUAL_COMMON_CreateListWork(q+8,(struct ManualData *)data);
-    ((struct ManualMenuList *)q)->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_CATEGORY_TaskNoop),(void *)((uptr)q),1);
+    ((struct ManualMenuList *)q)->state.top=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
+    ((struct ManualMenuList *)q)->state.selected=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
+    *(char * *)&((struct ManualMenuList *)q)->widget=MANUAL_COMMON_CreateListWork((char *)&((struct ManualMenuList *)q)->state,(struct ManualData *)data);
+    ((struct ManualMenuList *)q)->task=GFL_USE_AddMainTask(MANUAL_CATEGORY_TaskNoop,(void *)((uptr)q),1);
     return q;
 }
 
@@ -112,15 +112,15 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
 void MANUAL_CATEGORY_DeleteList(char *p)
 {
     TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((struct ManualMenuList *)p)->task));
-    *(u16 *)*(char * *)&((struct ManualMenuList *)p)->owner = ((struct ManualMenuList *)p)->savedA;
-    ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY = ((struct ManualMenuList *)p)->savedB;
-    if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 0;
-    else if (((struct ManualMenuList *)p)->mode == 1) {
+    *(u16 *)*(char * *)&((struct ManualMenuList *)p)->owner = ((struct ManualMenuList *)p)->state.top;
+    ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY = ((struct ManualMenuList *)p)->state.selected;
+    if (((struct ManualMenuList *)p)->state.mode == 0) ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 0;
+    else if (((struct ManualMenuList *)p)->state.mode == 1) {
         ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 1;
-        ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->detailEntry = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY * 8);
+        ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->detailEntry = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->state.data + ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY * 8);
     }
     MANUAL_COMMON_DeleteListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
-    GFL_HEAP_Free(((struct ManualMenuList *)p)->entries);
+    GFL_HEAP_Free(((struct ManualMenuList *)p)->state.data);
     GFL_HEAP_Free(p);
 }
 
@@ -129,6 +129,6 @@ int MANUAL_CATEGORY_IsListFinished(char *p)
     return MANUAL_COMMON_UpdateListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
 }
 
-void MANUAL_CATEGORY_TaskNoop(void)
+void MANUAL_CATEGORY_TaskNoop(struct TcbTask *unused0, void *unused1)
 {
 }

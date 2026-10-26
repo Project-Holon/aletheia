@@ -35,7 +35,7 @@ typedef int (*GHIDecryptFunc)(struct GHIConnection *connection, void *encryptor,
                               char *readPos, int *readLen,
                               char *writePos, int *writeLen);
 
-typedef void (*GHICleanupFunc)(struct GHIConnection *connection, void *encryptor);
+typedef int (*GHICleanupFunc)(struct GHIConnection *connection, struct GHIEncryptor *encryptor);
 
 /* Receive throttle settings (global at 0x021CE5AC). */
 typedef struct GHIThrottle {

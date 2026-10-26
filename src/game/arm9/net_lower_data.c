@@ -56,7 +56,7 @@ struct GFLNetHandle;
 
 /* Receive side of one sender: the buffer the sender's data is collected in. */
 struct NetLdataPostWork {
-    u32 buf;
+    void *buf;
     u32 bufSize;
     u32 totalSize;
     u32 recvSize;
@@ -67,7 +67,7 @@ struct NetLdataPostWork {
 /* The block _pNetLdataWork points to, NET_LDATA_WORK_SIZE bytes (send state plus one post work per sender). */
 struct NetLdataWork {
     struct NetLdataPostWork *postWork[NET_LDATA_MAX_POST_WORK];
-    u32 sendData;
+    void *sendData;
     u32 sendSize;
     u8  sendTarget;
     u8  pad_29[3];
@@ -101,19 +101,19 @@ extern char sMsgPostBufferTooSmall[];
 extern struct NetLdataWork *_pNetLdataWork;
 void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode);
 void GFL_NET_LOWER_DATA_Exit(void);
-void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent);
-void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf);
+void GFL_NET_LOWER_DATA_SetSendData(void *sendData, int sendSize, int sendTarget, int isParent);
+void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, void *buf);
 void GFL_NET_LOWER_DATA_DeletePostWork(int netId);
-int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId);
+void *GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId);
 int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int netId);
 int GFL_NET_LOWER_DATA_IsSendFinished(void);
 int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int netId);
 void GFL_NET_LOWER_DATA_MainSend(void);
 u32 GFL_NET_LOWER_DATA_SendChunk(int size);
-u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId);
-void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32 pNetHandle);
+void *GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId);
+void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, void *pData, void *pWork, struct GFLNetHandle *pNetHandle);
 int GFL_NET_LOWER_DATA_SendControl(int kind);
-void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle);
+void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, void *pWork, struct GFLNetHandle *pNetHandle);
 
 /* Allocate the work block and clear it. ackMode 1: the sender waits for an ack after each chunk. */
 void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
@@ -121,7 +121,7 @@ void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
     u8 i;
     if (_pNetLdataWork != 0)
         GF_PANIC_Fail(sSrcFileName, 0x65, sAssertWorkIsNull);
-    _pNetLdataWork = (struct NetLdataWork *)GFL_HEAP_Alloc(heapId, NET_LDATA_WORK_SIZE, 1, sSrcFileName, 0x67);
+    _pNetLdataWork = (struct NetLdataWork *)GFL_HEAP_Alloc(heapId, sizeof(struct NetLdataWork), 1, sSrcFileName, 0x67);
     _pNetLdataWork->sendData = 0;
     _pNetLdataWork->sendSize = 0;
     _pNetLdataWork->sentSize = 0;
@@ -145,7 +145,7 @@ void GFL_NET_LOWER_DATA_Exit(void)
         if (postWork == 0)
             continue;
         if (postWork->ownsBuf == 1)
-            GFL_HEAP_Free((void *)postWork->buf);
+            GFL_HEAP_Free(postWork->buf);
         GFL_HEAP_Free(_pNetLdataWork->postWork[i]);
     }
     GFL_HEAP_Free(_pNetLdataWork);
@@ -153,7 +153,7 @@ void GFL_NET_LOWER_DATA_Exit(void)
 }
 
 /* Queue a transfer: the pump (GFL_NET_LOWER_DATA_MainSend) sends the start packet, the chunks, then the end packet. */
-void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent)
+void GFL_NET_LOWER_DATA_SetSendData(void *sendData, int sendSize, int sendTarget, int isParent)
 {
     if (_pNetLdataWork == 0)
         GF_PANIC_Fail(sSrcFileName, 0x9f, sAssertWorkNotNull);
@@ -169,7 +169,7 @@ void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, 
 }
 
 /* Create the post work of sender netId; buf (bufSize bytes) is supplied by the caller and not owned. */
-void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf)
+void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, void *buf)
 {
     if (_pNetLdataWork == 0)
         GF_PANIC_Fail(sSrcFileName, 0xcf, sAssertWorkNotNull);
@@ -190,13 +190,13 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
         GF_PANIC_Fail(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
     postWork = _pNetLdataWork->postWork[netId];
     if (postWork->ownsBuf == 1)
-        GFL_HEAP_Free((void *)postWork->buf);
+        GFL_HEAP_Free(postWork->buf);
     GFL_HEAP_Free(_pNetLdataWork->postWork[netId]);
     _pNetLdataWork->postWork[netId] = 0;
 }
 
 /* Receive buffer of sender netId. */
-int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
+void *GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 {
     if (_pNetLdataWork == 0)
         GF_PANIC_Fail(sSrcFileName, 0xf6, sAssertWorkNotNull);
@@ -294,15 +294,15 @@ void GFL_NET_LOWER_DATA_MainSend(void)
 u32 GFL_NET_LOWER_DATA_SendChunk(int size)
 {
     int isParent = _pNetLdataWork->isParent;
-    int sendData = _pNetLdataWork->sendData;
+    u8 *sendData = _pNetLdataWork->sendData;
     int sentSize = _pNetLdataWork->sentSize;
-    sptr dataAddr = sendData + sentSize;
+    u8 *dataAddr = sendData + sentSize;
     struct GFLNetHandle *handle;
     if (isParent == 1)
         handle = GFL_NET_HANDLE_GetNetHandle(NET_LDATA_NETID_SERVER);
     else
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, (void *)dataAddr, 0, 1, 1);
+    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, dataAddr, 0, 1, 1);
 }
 
 /*
@@ -311,7 +311,7 @@ u32 GFL_NET_LOWER_DATA_SendChunk(int size)
  * work is missing. The first guard is a wrapping positive test whose failure
  * falls through to the single trailing return 0.
  */
-u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
+void *GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
 {
     struct NetLdataPostWork *postWork;
     if (netId == NET_LDATA_NETID_SERVER) {
@@ -323,7 +323,7 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
             return 0;
         }
         postWork = _pNetLdataWork->postWork[netId];
-        return postWork->buf + postWork->recvSize;
+        return (u8 *)postWork->buf + postWork->recvSize;
     }
     return 0;
 }
@@ -333,7 +333,7 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
  * folds to slot 0). The global is re-read after every call because each
  * callee may publish a new work block.
  */
-void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32 pNetHandle)
+void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, void *pData, void *pWork, struct GFLNetHandle *pNetHandle)
 {
     GFLNetSession *netInit;
     struct NetLdataPostWork *postWork;
@@ -351,7 +351,7 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
         return;
     }
 
-    if ((uptr)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->init.bMPMode == 0) {
+    if (pNetHandle != GFL_NET_HANDLE_GetCurrentHandle() && netInit->init.bMPMode == 0) {
         return;
     }
 
@@ -386,7 +386,7 @@ int GFL_NET_LOWER_DATA_SendControl(int kind)
  * a transfer of pData->size bytes), end (mark the post work complete when all
  * bytes arrived) or ack (re-arm the sender).
  */
-void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle)
+void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, void *pWork, struct GFLNetHandle *pNetHandle)
 {
     GFLNetSession *netInit;
 
@@ -402,7 +402,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
         return;
     }
 
-    if (pNetHandle != (uptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (pNetHandle != GFL_NET_HANDLE_GetCurrentHandle()) {
         if (netInit->init.bMPMode == 0) {
             return;
         }

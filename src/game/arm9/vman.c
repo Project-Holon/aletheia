@@ -113,7 +113,7 @@ struct VmanBank *VMAN_Create(u16 heap_id, u32 mode, u32 bank_flags, u32 base, u3
     struct VmanBank *bank;
     u32 size;
 
-    bank = GFL_HEAP_Alloc(heap_id, 8, 0, vman_File, 0x7a);
+    bank = GFL_HEAP_Alloc(heap_id, sizeof(*bank), 0, vman_File, 0x7a);
     size = VMAN_GetBankSetSize(bank_flags) - base;
     if (mode == 1)
         bank->unit_size = VMAN_GetUnitSize(mode_arg);

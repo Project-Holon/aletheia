@@ -5,14 +5,17 @@
 /* Public functions of event_wifibattlematch.c, prototypes copied from their definitions. */
 
 struct GameEvent;
+struct GameSystem;
+struct WifiBattleMatchRequest;
+typedef struct WifiBattleMatchRequest WifiBattleMatchRequest;
 struct WifiBattleMatchEventWork;
 typedef struct WifiBattleMatchEventWork WifiBattleMatchEventWork;
 
 #include "../types.h"
 
-u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
+int EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, int *seq, void *work);
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, int entryMode, int ratedFlag, int matchKind);
-void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
+struct GameEvent *EVENT_WIFIBATTLEMATCH_Entry(struct GameSystem *gameSystem, WifiBattleMatchRequest *request);
 /* END mkheaders: generated region */
 
 #endif

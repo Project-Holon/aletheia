@@ -6,8 +6,8 @@
 
 #include "../types.h"
 
-u8 *OV230_OpenSealedBody(u32 seed, u32 body, u32 end);
-u32 OV230_SealBody(u32 seed, u32 body, u32 end);
+u8 *OV230_OpenSealedBody(u32 seed, uptr body, u32 end);
+u32 OV230_SealBody(u32 seed, uptr body, u32 end);
 u32 OV230_CallDispatcher(void);
 void LOADER_ENTRY_DecryptCallDispatch(void);
 /* END mkheaders: generated region */

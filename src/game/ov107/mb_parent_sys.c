@@ -484,9 +484,9 @@ extern int d_021F6EE8[];
 void MB_COMM_SYS_Init(MbCommSysWork *p);
 void MB_COMM_SYS_Exit(MbCommSysWork *p);
 int MB_COMM_SYS_Main(MbCommSysWork *p);
-void MB_COMM_SYS_VBlank(void);
-void MB_COMM_SYS_VBlankRefreshBg(void);
-void MB_COMM_SYS_VBlankRefreshBgStandalone(void);
+void MB_COMM_SYS_VBlank(struct TcbTask *unused0, void *unused1);
+void MB_COMM_SYS_VBlankRefreshBg(void *unused0);
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void *unused0);
 void MB_COMM_SYS_InitDisplay(MbCommSysWork *p);
 void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p);
 void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode);
@@ -497,9 +497,9 @@ void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p);
 int MB_COMM_SYS_MainWireless(MbCommSysWork *p);
 void MB_COMM_SYS_StartParent(MbCommSysWork *p);
 void MB_COMM_SYS_MainRecruit(MbCommSysWork *p);
-int MB_COMM_SYS_WmEndCallback(void);
+int MB_COMM_SYS_WmEndCallback(int ok);
 void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode);
-void MB_COMM_SYS_ResetHook(MbCommSysWork *p);
+void MB_COMM_SYS_ResetHook(void *arg);
 void MB_COMM_SYS_FinishReceive(MbCommSysWork *p);
 void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p);
 void MB_COMM_SYS_NoOp(MbCommSysWork *p);
@@ -535,11 +535,11 @@ void MB_COMM_SYS_Init(MbCommSysWork *p)
         p->saveState = 0;
         gMbParentUi.vblankCounter = 0;
     }
-    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(struct TcbTask *, void *))((uptr)MB_COMM_SYS_VBlank)), (void *)((uptr)p), 8);
+    p->vblankTask = GFL_USE_AddMainTask(MB_COMM_SYS_VBlank, (void *)p, 8);
     if (!p->standalone) {
-        GFL_USE_SetVBlankHook((void (*)(void *))((void (*)(void *))((sptr)MB_COMM_SYS_VBlankRefreshBg)), 0);
+        GFL_USE_SetVBlankHook(MB_COMM_SYS_VBlankRefreshBg, 0);
     } else {
-        GFL_USE_SetVBlankHook((void (*)(void *))((sptr)MB_COMM_SYS_VBlankRefreshBgStandalone), 0);
+        GFL_USE_SetVBlankHook(MB_COMM_SYS_VBlankRefreshBgStandalone, 0);
         GFL_USE_CancelChangeAndPlayBgm(1154, 0xffff);
     }
     p->wmActive = 0;
@@ -722,7 +722,7 @@ int MB_COMM_SYS_Main(MbCommSysWork *p)
         if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
             if (p->payloadQueued == 0) {
                 p->payloadQueued = 1;
-                MB_COMM_SYS_QueuePayload((sptr)p->net, (sptr)p->payload, p->payloadSize);
+                MB_COMM_SYS_QueuePayload((sptr)p->net, (void *)p->payload, p->payloadSize);
             }
             MB_UTIL_MSG_PrintStream(p->msg, 2, MSG_SPEED_GetWait());
             p->phase = 15;
@@ -875,13 +875,13 @@ fail_tail:
     return 0;
 }
 
-void MB_COMM_SYS_VBlank(void)
+void MB_COMM_SYS_VBlank(struct TcbTask *unused0, void *unused1)
 {
     CLACT_VBlankSystem();
 }
 
 /* VBlank hook, in-game mode: refreshes the BG planes of both engines every third frame. */
-void MB_COMM_SYS_VBlankRefreshBg(void)
+void MB_COMM_SYS_VBlankRefreshBg(void *unused0)
 {
     if (gMbParentUi.vblankDivider > 1) {
         gMbParentUi.vblankDivider = 0;
@@ -898,7 +898,7 @@ void MB_COMM_SYS_VBlankRefreshBg(void)
  * volatile: 021EEF02 re-reads counter after 021EEF00 store.
  */
 /* VBlank hook, standalone mode: refreshes plane 5 of both engines every fifth frame. */
-void MB_COMM_SYS_VBlankRefreshBgStandalone(void)
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void *unused0)
 {
     gMbParentUi.vblankCounter++;
     if (gMbParentUi.vblankCounter >= 5) {
@@ -922,8 +922,8 @@ void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
     REG_DB_DISPCNT &= 0xffffe0ff;
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
-    WIPE_ResetWndMask((void *)0);
-    WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(0);
+    WIPE_ResetWndMask(1);
     REG_BLDCNT = 0;
     REG_DB_BLDCNT = 0;
     REG_POWCNT1 |= 0x8000;
@@ -1213,7 +1213,7 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
         else
             GFL_NET_WM_ICON_EasySetScreen(1, p->heapId);
         p->subPhase = 1;
-        UI_SetIntrDataGlobal((uptr)MB_COMM_SYS_ResetHook, (uptr)p);
+        UI_SetIntrDataGlobal(MB_COMM_SYS_ResetHook, p);
         break;
     case 1:
         if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() == 1)
@@ -1263,7 +1263,7 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
         break;
     case 6:
         gMbParentUi.wmEndDone = 0;
-        WIH_End((void (*)(int))((int (*)(int))MB_COMM_SYS_WmEndCallback));
+        WIH_End(MB_COMM_SYS_WmEndCallback);
         p->wmActive = 0;
         p->subPhase = 7;
         break;
@@ -1289,7 +1289,7 @@ void MB_COMM_SYS_StartParent(MbCommSysWork *p)
     MbRegistryBlock registry = d_021F6C40;
     int channel = WIH_FinishMeasureChannel();
 
-    MI_CpuCopy8(&registry, &p->registry, 60);
+    MI_CpuCopy8(&registry, &p->registry, sizeof(registry));
     p->registry.romPath = p->standalone == 0 ? romPaths.inGame : romPaths.standalone;
 #if VERSION == VERSION_WHITE
     p->registry.iconCharPath = iconCharPaths.inGame;
@@ -1404,7 +1404,7 @@ void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
 }
 
 /* WM end callback: tells the main loop that WM has finished shutting down. */
-int MB_COMM_SYS_WmEndCallback(void)
+int MB_COMM_SYS_WmEndCallback(int ok)
 {
     gMbParentUi.wmEndDone = 1;
     return 1;
@@ -1452,8 +1452,9 @@ void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode)
  * ABI: 19E4 keeps the caller's visibly supplied r1. 0AE4 reads no incoming arguments.
  */
 /* Reset hook: stops recruiting and waits for WM to shut down before the reset goes on. */
-void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
+void MB_COMM_SYS_ResetHook(void *arg)
 {
+    MbCommSysWork *p = arg;
     unsigned registered = MB_PARENT_SYS_IsRegistered();
 
     if (registered == 1)
@@ -1462,7 +1463,7 @@ void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
         OS_WaitIrq(1, 1);
     if (p->wmActive == 1) {
         gMbParentUi.wmEndDone = 0;
-        while (WIH_End((void (*)(int))((sptr)MB_COMM_SYS_WmEndCallback)))
+        while (WIH_End(MB_COMM_SYS_WmEndCallback))
             OS_WaitIrq(1, 1);
         while (gMbParentUi.wmEndDone == 0)
             OS_WaitIrq(1, 1);
@@ -1558,7 +1559,7 @@ void MB_COMM_SYS_MainSave(MbCommSysWork *p)
             p->subPhase = 11;
         break;
     case 11:
-        (struct GameData *)GAME_DATA_SaveStart((struct GameData *)p->arg->gameData);
+        GAME_DATA_SaveStart((struct GameData *)p->arg->gameData);
         p->subPhase = 12;
         break;
     case 12:
@@ -1906,9 +1907,9 @@ int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument)
     if (!GFL_NET_IsSessionNull())
         return 0;
     GFL_HEAP_CreateChildHeap(1, 93, 0x130000);
-    p = PROCSYS_AllocProcWork(task, 188, 93);
+    p = PROCSYS_AllocProcWork(task, sizeof(*p), 93);
     if (!argument) {
-        argument = GFL_HEAP_Alloc(93, 8, 0, d_021F6E0C, 2788);
+        argument = GFL_HEAP_Alloc(93, sizeof(*argument), 0, d_021F6E0C, 2788);
         if (KEY_GetCont() & 256) {
             argument->standalone = 1;
         } else {

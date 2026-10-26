@@ -180,8 +180,8 @@ void PMi_CallPostExitCallbackAndReset(int flag)
 
     PMi_ExecuteList(PMi_PostExitCallbackList);
     GX_DispOff();
-    *(volatile u32 *)0x04001000 &= ~0x10000;
-    *(volatile u16 *)0x04000204 |= 0x8000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= ~0x10000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR |= 0x8000;
     for (i = 0; i < 3; i++) {
         u32 t = *(volatile u32 *)0x02FFFC3C;
         while (t == *(volatile u32 *)0x02FFFC3C)

@@ -9,8 +9,8 @@
 #include "../ov020/event_mapchange_types.h"
 
 GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap);
-int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work);
-int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_Run(struct GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_RunCommExit(struct GameEvent *event, int *seq, void *work);
 int EVENT_COMM_ERROR_SubProcInit(void *proc, int *seq, void *procWork, void *myWork);
 int EVENT_COMM_ERROR_SubProcMain(void *proc, int *seq, void *procWork, void *myWork);
 int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWork);

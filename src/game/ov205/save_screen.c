@@ -223,10 +223,9 @@ struct TcblSystem;
 struct Strbuf;
 #include "../arm9/strbuf.h"
 #include "../arm9/wordset.h"
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 #include "../arm9/strbuf_types.h"
 #include "../ov099/wifi_club_work.h"
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 #include "../arm9/external.h"
 #include "../arm9/dendou_savedata.h"
 #include "../arm9/playtime.h"
@@ -264,8 +263,8 @@ int SAVE_SCREEN_Init(void *owner,int unused,void **args)
     SaveScreenWork *p;
     context=*args;
     GFL_HEAP_CreateChildHeap(1,84,1<<18);
-    p=(SaveScreenWork *) PROCSYS_AllocProcWork(owner,76,84);
-    MIi_CpuClear32(0,p,76);
+    p=(SaveScreenWork *) PROCSYS_AllocProcWork(owner,sizeof(SaveScreenWork),84);
+    MIi_CpuClear32(0,p,sizeof(SaveScreenWork));
     p->heapId=84;
     p->arcId=36;
     p->ctx=GAMESYSTEM_GetGameData(context);
@@ -289,7 +288,7 @@ int SAVE_SCREEN_Main(void *unused,SaveScreenState *state,SaveScreenContext *cont
         enum { Z0,Z1 } zero;
         zero=0;
         *(u16 *)0x04000050=zero;
-        *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&0xffffe0ff)|256;
+        *(volatile u32 *)REG_DISPCNT_ADDR=(*(volatile u32 *)REG_DISPCNT_ADDR&0xffffe0ff)|256;
         if(GPOWER_GetSpecialPowerId()==21)mode=3;
         else {GXS_LoadBGPltt(&local,zero,2);mode=12;}
         FADE_Start(mode,16,zero,zero);(*state)++;break;
@@ -350,7 +349,7 @@ int SAVE_SCREEN_Main(void *unused,SaveScreenState *state,SaveScreenContext *cont
     case 11:SAVE_SCREEN_Delete(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)((char *)p+40),p->printStream))*state=p->resumeState;
+        if(PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)p->printBlk,p->printStream))*state=p->resumeState;
         break;
     }
     if(p->tcbl)TCBL_Main(p->tcbl);
@@ -365,7 +364,7 @@ int SAVE_SCREEN_Exit(void *p)
     return 1;
 }
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,(void *)(0x6800000),0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=(uptr)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);*(struct Tcbl **)&p->tcbl=(struct Tcbl *)TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=(struct U16Vec *)STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,(void *)(0x6800000),0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);p->msgBank=MSGDATA_CreateFromArchive(0,2,p->arcId,*(u16 *)p);p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);p->bmpWin=BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
 {
@@ -447,7 +446,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 
 void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl((struct GameData *)(*(struct Big * *)&p->ctx));if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain((struct GameData *)(*(char * *)&p->ctx),8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
-int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork((struct Proc *)obj,28,84);MIi_CpuClear32(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
+int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork((struct Proc *)obj,sizeof(SaveScreenNoticeWork),84);MIi_CpuClear32(0,p,sizeof(SaveScreenNoticeWork));p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
 
 int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p)
 {

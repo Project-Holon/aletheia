@@ -9,12 +9,14 @@ struct ZukanDetailVoice;
 
 #include "../types.h"
 
+struct TcbTask;
+
 void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
 u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unused2, struct Ov208Ctx *ctx);
 u32 ZUKAN_DETAIL_VOICE_Exit(void *workAlloc, u32 unused, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
 int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
 void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx, int key);
-void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, struct ZukanDetailVoice *voice);
+void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(struct TcbTask *unused, void *voiceArg);
 void ZUKAN_DETAIL_VOICE_FadeOutBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
 void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);
 void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx);

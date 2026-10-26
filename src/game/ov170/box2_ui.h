@@ -23,7 +23,7 @@ void BOX2_UI_DrawSlotByName(char *task, int a);
 void BOX2_UI_UploadSlotChar(BoxTask *task, int a, int i);
 void BOX2_UI_FindAndDrawSlot(BoxTask *task, int a, int b);
 void BOX2_UI_ReplaceColorIndex(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n);
-void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest);
+void BOX2_UI_LoadMonIcon(BoxTask *a, int box, u8 *dest);
 void BOX2_UI_AddSlotIcon(BoxTask *task, int d);
 void BOX2_UI_HideSlotIcon(BoxTask *task, int d);
 void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *task);

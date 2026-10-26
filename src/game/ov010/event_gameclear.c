@@ -68,7 +68,7 @@ typedef struct GameClearSaveScreenParam {
 typedef struct GameClearHallOfFameParam {
     struct PokeParty *myParty;      /* 0x00 */
     struct MyStatus *myStatus;      /* 0x04 */
-    u32 playTime;                   /* 0x08 */
+    void *playTime;                   /* 0x08 */
 } GameClearHallOfFameParam;
 
 typedef struct GameClearStaffRollParam {
@@ -157,6 +157,7 @@ struct PlayTime;
 #include "event_field_proclink.h"
 
 #include "move_pokemon.h"
+#include "../arm9/procsys.h"
 
 extern u8 ov180_id[];
 
@@ -166,15 +167,15 @@ extern u8 ov205_id[];
 
 extern u8 ov182_id[];
 
-extern u8 d_021B800C[];
+extern const ProcData d_021B800C;
 
-extern u8 d_021BAB24[];
+extern const ProcData d_021BAB24;
 
 extern u8 d_021B9E54[];
 
 extern u8 d_021B9BA0[];
 
-int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_GAMECLEAR_Main(struct GameEvent *event, int *seq, void *workArg);
 
 struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode);
 
@@ -186,7 +187,7 @@ void EVENT_GAMECLEAR_InitStepSequence(GameClearWork *work);
 
 int EVENT_GAMECLEAR_GetCommExitKind(void);
 
-void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq);
+void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, int *seq);
 
 void EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work);
 
@@ -201,7 +202,7 @@ void EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work);
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
+int EVENT_GAMECLEAR_Main(struct GameEvent *event, int *seq, void *workArg)
 {
     GameClearWork *work = workArg;
     struct GameSystem *gameSystem = work->gameSystem;
@@ -236,7 +237,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_CALL_HALL_OF_FAME:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov180_id, d_021B800C, &work->hallOfFameParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov180_id, &d_021B800C, &work->hallOfFameParam);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_WAIT_HALL_OF_FAME:
@@ -244,7 +245,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
             EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_CALL_STAFF_ROLL:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov181_id, d_021BAB24, &work->staffRollParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov181_id, &d_021BAB24, &work->staffRollParam);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_WAIT_STAFF_ROLL:
@@ -286,7 +287,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
 struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode)
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAMECLEAR_Main, 0x7C);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAMECLEAR_Main, sizeof(GameClearWork));
     GameClearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -308,7 +309,7 @@ void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work)
 {
     work->hallOfFameParam.myParty = GAME_DATA_GetMyParty(work->gameData);
     work->hallOfFameParam.myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->hallOfFameParam.playTime = (uptr)GAME_DATA_GetPlayTime(work->gameData);
+    work->hallOfFameParam.playTime = GAME_DATA_GetPlayTime(work->gameData);
 }
 
 /* Fills the staff roll and The End parameters from the config applied flag. */
@@ -385,7 +386,7 @@ int EVENT_GAMECLEAR_GetCommExitKind(void)
 /*
  * Advance the step counter and load the next step from the sequence.
  */
-void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq)
+void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, int *seq)
 {
     (*seq)++;
     work->step = work->seq[*seq];

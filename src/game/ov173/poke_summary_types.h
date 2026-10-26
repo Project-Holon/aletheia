@@ -19,10 +19,12 @@
 #ifndef ALETHEIA_OV173_POKE_SUMMARY_TYPES_H
 #define ALETHEIA_OV173_POKE_SUMMARY_TYPES_H
 
+struct MyStatus;
+
 /* The boxed-mon record. Its pointer is stored at PokeSummaryWork.mon (0x0). */
 struct PokeSummaryMon {
     void          *party;               /* 0x00  party/mon data pointer */
-    unsigned int   myStatus;            /* 0x04  my-status word */
+    struct MyStatus *myStatus;          /* 0x04  my-status record */
     unsigned int   config;             /* 0x08  forwarded to the proc args */
     void          *gameSystem;          /* 0x0C  GAMESYSTEM_CallProc and GAMESYSTEM_GetGameData argument */
     unsigned short *moveList;           /* 0x10  u16 move-id array */
@@ -139,5 +141,6 @@ typedef char PokeSummaryWork_size_check[
     (sizeof(struct PokeSummaryWork) == 0x228) ? 1 : -1];
 typedef char PokeSummaryMon_size_check[
     (sizeof(struct PokeSummaryMon) == 0x1C) ? 1 : -1];
+
 
 #endif

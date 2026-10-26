@@ -10,7 +10,7 @@ int DWCi_MOVlIsEnd(void);
 void DWCi_MOVlChangeCallback(void (*callback)(int));
 void DWCi_MOVlAdmitChild(void);
 char *DWCi_MOVlGetChild(void);
-void taskFramework(void *task);
+void taskFramework(void *task, void * unused1);
 /* END mkheaders: generated region */
 
 #endif

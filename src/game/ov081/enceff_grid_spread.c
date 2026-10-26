@@ -29,8 +29,8 @@
 extern void ENCEFF_LoadOverlays4B4D(struct EncEffWork *eff);
 extern struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos,
                                        struct GameEvent *(*start)(struct GameSystem *gameSystem),
-                                       void (*draw)(EncEffGridWork *work));
-extern void ENCEFF_DrawCellGrid(EncEffGridWork *work);
+                                       void (*draw)(void *workArg));
+extern void ENCEFF_DrawCellGrid(void *workArg);
 extern void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 struct GameEvent *ENCEFF_BuildGridSpread(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 struct GameEvent *ENCEFF_StartGridSpread(struct GameSystem *gameSystem);

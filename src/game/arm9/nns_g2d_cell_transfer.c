@@ -147,7 +147,7 @@ typedef struct CellTransferStateManager {
 
 #include "nns_g2d_srt_control.h"
 CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
-void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, const void *e, const void *f, u32 g);
 void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStates, TransferFunc pTransferFunc);
 void NNS_G2dUpdateCellTransferStateManager(void);
 CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
@@ -161,7 +161,7 @@ CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx)
     return &sCellTransferStateManager.pStateArray[stateIdx];
 }
 
-void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
+void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, const void *e, const void *f, u32 g)
 {
     CellTransferState *rec = &sCellTransferStateManager.pStateArray[idx];
 
@@ -176,8 +176,8 @@ void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32
         NNSi_G2dSrtcSetTable((s32 *)rec, 2, c);
     }
     rec->szDst = d;
-    rec->pSrcNCGR = (const void *)e;
-    rec->pSrcNCBR = (const void *)f;
+    rec->pSrcNCGR = e;
+    rec->pSrcNCBR = f;
     rec->szSrcData = g;
 }
 

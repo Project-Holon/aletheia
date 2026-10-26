@@ -5,15 +5,16 @@
 /* Public functions of event_gtsnego.c, prototypes copied from their definitions. */
 
 struct GameEvent;
+struct GameSystem;
 struct GtsNegoEventWork;
 typedef struct GtsNegoEventWork GtsNegoEventWork;
 
 #include "../types.h"
 
-u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
-void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
-void *EVENT_GTSNEGO_Create(void *gameSystem, int a);
-void *EVENT_GTSNEGO_Entry(void *gameSystem, int a);
+int EVENT_GTSNEGO_Main(struct GameEvent *event, int *seq, void *work);
+void *EVENT_GTSNEGO_InitWork(struct GameEvent *event, struct GameSystem *gameSystem, void *arg, int startMode);
+struct GameEvent *EVENT_GTSNEGO_Create(struct GameSystem *gameSystem, void *arg);
+struct GameEvent *EVENT_GTSNEGO_Entry(struct GameSystem *gameSystem, void *arg);
 /* END mkheaders: generated region */
 
 #endif

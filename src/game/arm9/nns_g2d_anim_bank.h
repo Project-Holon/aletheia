@@ -19,7 +19,7 @@ void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
 int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out);
 void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx);
-void NNSi_G2dUnpackCellBank(int *p);
+void NNSi_G2dUnpackCellBank(CellDataBank *p);
 int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank);

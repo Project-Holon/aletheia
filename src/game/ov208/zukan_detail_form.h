@@ -6,13 +6,22 @@
 
 struct Ov208Ctx;
 struct Ov208Form;
+struct Strbuf;
+struct PrintQueue;
+struct BmpWin;
+struct McssWork;
+struct McssSys;
 struct Ov208Mdl;
 struct Ov208AnmState;
 struct Ov208Turn;
+struct ClactActor;
+struct Unit;
 struct Ov208Ent;
 
 #include "../types.h"
 #include "../ov208/zukan_detail_form_types.h"
+
+struct TcbTask;
 
 void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value);
 int ZUKAN_DETAIL_FORM_Init(void *proc, int *seq, u16 *heap, u8 *unused, struct Ov208Ctx *key);
@@ -20,8 +29,8 @@ int ZUKAN_DETAIL_FORM_Exit(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
 int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int ev);
 void ZUKAN_DETAIL_FORM_DrawModels(u32 unused, u32 unused2, u32 unused3, struct Ov208Form *p);
-void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(int unused, char *p);
-void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u32 *outStr, u32 *outB, int *outC, int *outD, u16 idx);
+void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(struct TcbTask *unused, void *p);
+void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, struct Strbuf **outStr, struct Strbuf **outB, int *outC, int *outD, u16 idx);
 void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
@@ -29,28 +38,28 @@ void ZUKAN_DETAIL_FORM_DeletePrintQueues(u16 *heap, struct Ov208Form *p, struct 
 void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i);
 void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
-void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i, u32 print, u32 win, u32 *active, u16 idx);
+void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i, struct PrintQueue *print, struct BmpWin *win, u32 *active, u16 idx);
 void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
-u32 ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 form, u32 gender, u32 shiny, u32 isEgg, u32 direction, u32 extra);
-void ZUKAN_DETAIL_FORM_DeleteModel(int sys, int obj);
-void ZUKAN_DETAIL_FORM_CenterModelOffset(u32 obj);
-void ZUKAN_DETAIL_FORM_GetModelPosition(u32 obj, ZukanDetailFormVec *out);
+struct McssWork *ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 form, u32 gender, u32 shiny, u32 isEgg, u32 direction, u32 extra);
+void ZUKAN_DETAIL_FORM_DeleteModel(struct McssSys *sys, struct McssWork *obj);
+void ZUKAN_DETAIL_FORM_CenterModelOffset(struct McssWork *obj);
+void ZUKAN_DETAIL_FORM_GetModelPosition(struct McssWork *obj, ZukanDetailFormVec *out);
 void ZUKAN_DETAIL_FORM_CreateModelItem(struct Ov208Mdl *item, u32 heap, void *sys, u32 species, u32 form, u32 gender, u32 shiny, u32 isEgg, u32 direction, u32 extra);
-void ZUKAN_DETAIL_FORM_DestroyModelItem(struct Ov208Mdl *p, int cam);
+void ZUKAN_DETAIL_FORM_DestroyModelItem(struct Ov208Mdl *p, struct McssSys *cam);
 void ZUKAN_DETAIL_FORM_InitAnimState(struct Ov208AnmState *s, int side, struct Ov208Form *form);
 void ZUKAN_DETAIL_FORM_RestartModelAnim(struct Ov208Mdl *s);
-void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p);
+void ZUKAN_DETAIL_FORM_SignalAnimDone(struct Ov208Mdl *p);
 void ZUKAN_DETAIL_FORM_StopModelAnim(struct Ov208Mdl *p);
-void ZUKAN_DETAIL_FORM_OnAnimStopRequest(struct Ov208Turn *t);
+void ZUKAN_DETAIL_FORM_OnAnimStopRequest(void *param, u32 frame);
 void ZUKAN_DETAIL_FORM_ToggleModelVisibility(u16 *heap,struct Ov208Form *p,struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_LoadIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_ReleaseIconResources(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
-u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg);
-void ZUKAN_DETAIL_FORM_DeleteIconActor(int charKey, int actor);
+struct ClactActor *ZUKAN_DETAIL_FORM_CreateIconActor(void *arc, u32 *res, u32 j, u32 k, struct Unit *owner, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg);
+void ZUKAN_DETAIL_FORM_DeleteIconActor(int charKey, struct ClactActor *actor);
 void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, struct Ov208Ctx *key, struct Ov208Ent *out, u16 *count, u16 *groups, u16 *twos, u16 *sel, u16 *next);
 void ZUKAN_DETAIL_FORM_RefreshFormEntries(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int item0Index, int item1Index, int pose, u16 idx);
@@ -87,7 +96,7 @@ void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *heap, struct Ov208Form *p, struc
 void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_FORM_GetModelOffsets(VecF *pos, u32 species, u32 form, u32 gender, u32 shiny, u32 personality, u32 side, u32 extra);
 void ZUKAN_DETAIL_FORM_ConvertModelPosition(struct Ov208Mdl *item, int index, ZukanDetailFormVec *out);
-void ZUKAN_DETAIL_FORM_SelectModelPosition(int item, int pose, int out);
+void ZUKAN_DETAIL_FORM_SelectModelPosition(struct Ov208Mdl *item, int pose, ZukanDetailFormVec *out);
 void ZUKAN_DETAIL_FORM_CopyModelPosition(struct Ov208Mdl *item, int index, VecF *dst);
 /* END mkheaders: generated region */
 

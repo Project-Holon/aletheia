@@ -57,8 +57,8 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
 void CARDi_StartLoading(CardHash *p);
 void CARD_NotifyRomHashReadAsync(void *arg);
 CardHashNode *CARDi_TouchRomHashBlock(CardHash *obj, u32 a);
-u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
-void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size,
+u8 *CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
+void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u8 *base, u32 size,
                    int (*cb34)(void *, void *, u32, u32),
                    int (*cb38)(void *, void *, u32, u32), void *arg30);
 void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len);
@@ -85,11 +85,11 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
     u32 diff = 0;
 
     MI_CpuCopy8(data_02732E98, ctx, 0x64);
-    MSL_C_LIB_TwlCall3((uptr)ctx, (uptr)data, len);
-    MSL_C_LIB_TwlCall2((uptr)ctx, (uptr)digest);
+    MSL_C_LIB_TwlCall3(ctx, data, len);
+    MSL_C_LIB_TwlCall2(ctx, digest);
     MI_CpuCopy8(data_02732E34, ctx, 0x64);
-    MSL_C_LIB_TwlCall3((uptr)ctx, (uptr)digest, 0x14);
-    MSL_C_LIB_TwlCall2((uptr)ctx, (uptr)digest);
+    MSL_C_LIB_TwlCall3(ctx, digest, 0x14);
+    MSL_C_LIB_TwlCall2(ctx, digest);
     diff |= expect[0] ^ digest[0];
     diff |= expect[1] ^ digest[1];
     diff |= expect[2] ^ digest[2];
@@ -120,12 +120,12 @@ void CARDi_StartLoading(CardHash *obj)
             obj->cur = q;
             b = v - sz;
             c = (obj->blockSectorCount * 20 + sz + 0x1FF) & ~0x1FF;
-            a = (void *)q->buffer;
+            a = q->buffer;
         } else {
             q = obj->free_a;
             if (q != 0) {
                 obj->cur = q;
-                a = (void *)q->data;
+                a = q->data;
                 b = q->offset;
                 c = obj->sectorSize;
             }
@@ -221,9 +221,9 @@ CardHashNode *CARDi_TouchRomHashBlock(CardHash *obj, u32 sector)
     return res;
 }
 
-u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
+u8 *CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
 {
-    u32 res = 0;
+    u8 *res = 0;
     u32 off = addr;
     u32 size;
     u32 key;
@@ -276,7 +276,7 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
 }
 
 #pragma opt_common_subs off
-void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size,
+void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u8 *base, u32 size,
                    int (*cb34)(void *, void *, u32, u32),
                    int (*cb38)(void *, void *, u32, u32), void *arg30)
 {
@@ -288,7 +288,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
     per = hdr->blockSectorCount;
     psz = hdr->sectorSize;
     hsz = hdr->blockHashLength;
-    start = (u8 *)((base + 0x1f) & ~0x1f);
+    start = (u8 *)(((uptr)base + 0x1f) & ~0x1f);
     size = (uptr)(start + size) & ~0x1f;
     obj->hash = start;
     l0 = start + ((hsz + 0x1f) & ~0x1f);
@@ -323,17 +323,17 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         ipad[i] = data_0272EB9C[i] ^ 0x36;
         opad[i] = data_0272EB9C[i] ^ 0x5c;
     }
-    MSL_C_LIB_TwlCall1((uptr)data_02732E98);
-    MSL_C_LIB_TwlCall1((uptr)data_02732E34);
-    MSL_C_LIB_TwlCall3((uptr)data_02732E98, (uptr)ipad, 0x40);
-    MSL_C_LIB_TwlCall3((uptr)data_02732E34, (uptr)opad, 0x40);
+    MSL_C_LIB_TwlCall1(data_02732E98);
+    MSL_C_LIB_TwlCall1(data_02732E34);
+    MSL_C_LIB_TwlCall3(data_02732E98, ipad, 0x40);
+    MSL_C_LIB_TwlCall3(data_02732E34, opad, 0x40);
     obj->readCallback(obj->userData, obj->hash, obj->blockHashOffset, obj->blockHashLength);
     CARDi_CompareHash(hdr->digest, obj->hash, obj->blockHashLength);
     {
         Node16 *n = obj->l2;
         for (i = 0; (i < obj->sectorCacheCount) ? 1 : 0; i++) {
             n[i].next = n + (i - 1);
-            n[i].data = (uptr)obj->l0 + i * obj->sectorSize;
+            n[i].data = obj->l0 + i * obj->sectorSize;
             n[i].key = -1;
         }
     }
@@ -347,7 +347,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         for (i = 0; (i < obj->blockCacheCount) ? 1 : 0; i++) {
             m[i].next = m + (i + 1);
             m[i].key = -1;
-            m[i].buffer = (uptr)obj->l1 + i * ((((int)per * 0x14 + 0xff + 0x500) & -0x600));
+            m[i].buffer = obj->l1 + i * ((((int)per * 0x14 + 0xff + 0x500) & -0x600));
         }
         obj->cache_b = obj->l3;
         obj->l3[obj->blockCacheCount - 1].next = 0;
@@ -400,7 +400,7 @@ void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len)
                         obj->used_b = node->next;
                     }
                     OS_RestoreInterrupts(irq);
-                    CARDi_CompareHash((u32 *)(obj->hash + node->key * 0x14), (void *)node->data, per * 0x14);
+                    CARDi_CompareHash((u32 *)(obj->hash + node->key * 0x14), node->data, per * 0x14);
                     node->next = obj->cache_b;
                     obj->cache_b = node;
                 }
@@ -416,7 +416,7 @@ void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len)
 void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
 {
     while (len != 0) {
-        u32 page = CARDi_TouchRomHashSector(obj, off);
+        u8 *page = CARDi_TouchRomHashSector(obj, off);
 
         if (page != 0) {
             u32 pos = off - (off & ~(obj->sectorSize - 1));
@@ -425,7 +425,7 @@ void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
             if (len <= n) {
                 n = len;
             }
-            MI_CpuCopy8((u8 *)page + pos, buf, n);
+            MI_CpuCopy8(page + pos, buf, n);
             len -= n;
             buf += n;
             off += n;
@@ -460,12 +460,12 @@ void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
                 }
                 OS_RestoreInterrupts(irq);
                 if (nb != 0) {
-                    CARDi_CompareHash((u32 *)(obj->hash + nb->key * 0x14), (void *)nb->data, obj->blockSectorCount * 0x14);
+                    CARDi_CompareHash((u32 *)(obj->hash + nb->key * 0x14), nb->data, obj->blockSectorCount * 0x14);
                     nb->next = obj->cache_b;
                     obj->cache_b = nb;
                 } else if (na != 0) {
                     CardHashNode *h = CARDi_TouchRomHashBlock(obj, na->key);
-                    CARDi_CompareHash((u32 *)(h->data + (na->key - h->key * obj->blockSectorCount) * 0x14), (void *)na->data, obj->sectorSize);
+                    CARDi_CompareHash((u32 *)(h->data + (na->key - h->key * obj->blockSectorCount) * 0x14), na->data, obj->sectorSize);
                     na->next = obj->cache_a;
                     obj->cache_a = na;
                 } else {

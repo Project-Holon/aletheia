@@ -11,7 +11,7 @@ struct Ov208Win;
 
 #include "../types.h"
 
-void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, void *font, void *graphics, void *work, void *headbar, int speciesTable, unsigned short entryCount, void *cursorPtr);
+void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, void *font, void *graphics, void *work, void *headbar, unsigned short *speciesTable, unsigned short entryCount, void *cursorPtr);
 void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx);
 void *ZUKAN_DETAIL_COMMON_GetSource(struct Ov208Ctx *p);
 void *ZUKAN_DETAIL_COMMON_GetDisplay(struct Ov208Ctx *p);
@@ -42,7 +42,7 @@ int ZUKAN_DETAIL_COMMON_IsFadeBusy(struct Ov208PalFade *p);
 void ZUKAN_DETAIL_COMMON_StartFadeOut(struct Ov208PalFade *p);
 void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(struct Ov208PalFade *p);
 void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p);
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p);
 void ZUKAN_DETAIL_COMMON_RequestFade(struct Ov208PalFade *p, short step, unsigned char startLevel, unsigned char endLevel);
 struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal);

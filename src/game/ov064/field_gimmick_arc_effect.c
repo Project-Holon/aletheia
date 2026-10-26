@@ -62,18 +62,18 @@ struct GameSystem;
 #include "../arm9/game_event.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/fade.h"
-extern int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq);
+extern int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(struct GameEvent *event, int *unusedSeq, void *eventWork);
 void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Update(void *fieldMap);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem);
-int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq);
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(struct GameEvent *event, int *seq, void *eventWork);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
 void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
-int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
-int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(struct GameEvent *event, int *unusedSeq, void *eventWork);
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(struct GameEvent *event, int *unusedSeq, void *eventWork);
 extern char gArcEffectPlayerUnitSetup[];
 extern char gArcEffectDefaultUnitSetup[];
 
@@ -141,12 +141,12 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem)
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 1);
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 0);
     }
-    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
 }
 
 /* Event of the player effect: plays sounds at frames of the first anime and fades the screen out and in
  * around frame 0x65000. Ends when the anime reaches its last frame. */
-int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq)
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(struct GameEvent *event, int *seq, void *eventWork)
 {
     void *fieldMap;
     void *expObj;
@@ -227,7 +227,7 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, cons
     work->arcFrameCount = frameCount;
     work->arcFrame = 0;
     work->arcHeight = arcHeight;
-    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
 }
 
 /* Shows the arc model at pos and plays its animes. */
@@ -251,18 +251,18 @@ void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos)
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, 0);
 }
 
 /* Creates an event that ends once the arc model anime has stopped. */
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped, 0);
 }
 
 /* Event of the arc effect: moves the arc model one frame along the line from start to end with the extra arc height. */
-int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(struct GameEvent *event, int *unusedSeq, void *eventWork)
 {
     VecFx32 pos;
     FieldGimmickArcEffectWork *work;
@@ -302,7 +302,7 @@ int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq)
  * saved zero is then materialised before the saved one. The trailing
  * halfword at 021F3BD6 is zero alignment padding.
  */
-int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(struct GameEvent *event, int *unusedSeq, void *eventWork)
 {
     unsigned char zero;
     unsigned char reached;
@@ -321,7 +321,7 @@ int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq)
 }
 
 /* Event: ends once the first anime of the arc model has stopped. */
-int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(struct GameEvent *event, int *unusedSeq, void *eventWork)
 {
     void *expObj;
 

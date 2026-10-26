@@ -6,9 +6,9 @@
 
 #include "../types.h"
 
-void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
+void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg);
 void MIi_NDMACallback(void);
-void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
+void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg);
 void MIi_NDMAFastCallback(void);
 /* END mkheaders: generated region */
 

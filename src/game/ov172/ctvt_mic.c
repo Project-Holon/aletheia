@@ -112,7 +112,7 @@ struct CtvtMic;
 
 void CTVT_MIC_SetMode(struct CtvtMic *mode);
 
-void CTVT_MIC_OnVBlank(void);
+void CTVT_MIC_OnVBlank(void *unused0);
 
 int CTVT_MIC_StartCapture(CtvtMic *mic);
 
@@ -124,7 +124,7 @@ u32 CTVT_MIC_IsCapturing(CtvtMic *mic);
 
 u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic);
 
-u32 CTVT_MIC_GetBuffer(CtvtMic *mic);
+void *CTVT_MIC_GetBuffer(CtvtMic *mic);
 
 extern const char gCtvtMicAllocSite[], gCtvtMicIirFilter[];
 
@@ -132,7 +132,7 @@ extern CtvtMic *gCtvtMic;
 
 CtvtMic *CTVT_MIC_Create(u16 heap)
 {
-    CtvtMic *mic = GFL_HEAP_Alloc(heap, 36, 1, gCtvtMicAllocSite, 87);
+    CtvtMic *mic = GFL_HEAP_Alloc(heap, sizeof(CtvtMic), 1, gCtvtMicAllocSite, 87);
     MIC_Init();
     PM_Init();
     PM_SetAmp(1);
@@ -144,7 +144,7 @@ CtvtMic *CTVT_MIC_Create(u16 heap)
     mic->capturing = 0;
     mic->captureTicks = 0;
     gCtvtMic = mic;
-    GFL_USE_SetVBlankHook((void (*)(void *))((sptr)CTVT_MIC_OnVBlank), 0);
+    GFL_USE_SetVBlankHook(CTVT_MIC_OnVBlank, 0);
     return mic;
 }
 
@@ -180,7 +180,7 @@ void CTVT_MIC_SetMode(struct CtvtMic *mode)
 {
 }
 
-void CTVT_MIC_OnVBlank(void)
+void CTVT_MIC_OnVBlank(void *unused0)
 {
     CtvtMic *mic = gCtvtMic;
     if (mic->playing == 1) mic->playPos++;
@@ -238,7 +238,7 @@ u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic)
     return 0;
 }
 
-u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (uptr)mic->buffer; }
+void *CTVT_MIC_GetBuffer(CtvtMic *mic) { return mic->buffer; }
 
 
 #include "ctvt_adpcm.h"
@@ -255,7 +255,7 @@ struct CtvtMic;
 
 int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n);
 
-int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
+int CTVT_MIC_DecodeAdpcm(void *unused, char *a, void *buf, unsigned n);
 
 
 
@@ -285,10 +285,10 @@ int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n)
     return CTVT_ADPCM_Encode(a, n, buf);
 }
 
-int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
+int CTVT_MIC_DecodeAdpcm(void *unused, char *a, void *buf, unsigned n)
 {
     MIi_CpuClear32(0, buf, n << 2);
-    return CTVT_ADPCM_Decode(a, (int)n, (int)buf);
+    return CTVT_ADPCM_Decode((char *)a, (int)n, (s16 *)buf);
 }
 
 void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)

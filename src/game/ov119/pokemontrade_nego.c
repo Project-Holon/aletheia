@@ -257,7 +257,7 @@
 
 #include "pokemontrade_2d.h"
 
-void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v);
+void POKETRADE_NEGO_ShowOfferSlotMon(TradeWork *p,int i,void *v);
 
 #include "../arm9/wipe.h"
 
@@ -348,7 +348,7 @@ void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v);
 
 
 
-int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind);
+int POKETRADE_NEGO_SendOfferMon(TradeWork *p,void *src,int kind);
 
 #include "../arm9/app_icon.h"
 
@@ -362,9 +362,9 @@ int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind);
 
 
 
-void POKETRADE_NEGO_SetupWindowRegsOffers(void *p);
+void POKETRADE_NEGO_SetupWindowRegsOffers(TradeWork *p);
 
-void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
+void POKETRADE_NEGO_StepBrowseOffersMain(TradeWork *p);
 
 
 
@@ -392,109 +392,109 @@ void POKETRADE_NEGO_StepBrowseOffersMain(char *p);
 
 
 
-void POKETRADE_NEGO_FreeOfferMons(char *p);
+void POKETRADE_NEGO_FreeOfferMons(TradeWork *p);
 
-void POKETRADE_NEGO_ClearOfferSlots(char *p);
+void POKETRADE_NEGO_ClearOfferSlots(TradeWork *p);
 
-int POKETRADE_NEGO_CountOwnOffers(char *p);
+int POKETRADE_NEGO_CountOwnOffers(TradeWork *p);
 
-extern int POKETRADE_NEGO_CheckCancelTouch(char *p);
+extern int POKETRADE_NEGO_CheckCancelTouch(TradeWork *p);
 
-extern void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b);
+extern void POKETRADE_NEGO_CloseCancelMenu(TradeWork *p, int a, int b);
 
-int POKETRADE_NEGO_CanConfirmOffers(char *p);
+int POKETRADE_NEGO_CanConfirmOffers(TradeWork *p);
 
-int POKETRADE_NEGO_HasOffer(char *p);
+int POKETRADE_NEGO_HasOffer(TradeWork *p);
 
-extern int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b);
+extern int POKETRADE_NEGO_FindOfferIndex(TradeWork *p, int a, int b);
 
-void POKETRADE_NEGO_StoreRemoteOffer(char *p,int i,void *src);
+void POKETRADE_NEGO_StoreRemoteOffer(TradeWork *p,int i,void *src);
 
-int POKETRADE_NEGO_FindFreeOfferIndex(const char *p, int n, int a, int b);
+int POKETRADE_NEGO_FindFreeOfferIndex(TradeWork *p, int n, int a, int b);
 
 int POKETRADE_NEGO_AddOffer(TradeWork *p,int side,int a,int b,void *value);
 
 extern void POKETRADE_NEGO_RemoveOffer(TradeWork *p, int i, int j);
 
-extern void POKETRADE_NEGO_RegisterIconResources(char *,int);
+extern void POKETRADE_NEGO_RegisterIconResources(TradeWork *,int);
 
-extern void POKETRADE_NEGO_ReleaseIconResources(char *p);
+extern void POKETRADE_NEGO_ReleaseIconResources(TradeWork *p);
 
-int POKETRADE_NEGO_AddSelectedAsOffer(char *p,int a,int b);
+int POKETRADE_NEGO_AddSelectedAsOffer(TradeWork *p,int a,int b);
 
-void POKETRADE_NEGO_DrawPlayerNames(char *p);
+void POKETRADE_NEGO_DrawPlayerNames(TradeWork *p);
 
-extern void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p, int i, int msg, int force);
+extern void POKETRADE_NEGO_DrawOfferStatusLabel(TradeWork *p, int i, int msg, int force);
 
-extern void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *);
+extern void POKETRADE_NEGO_DeleteHeaderWindows(TradeWork *);
 
-void POKETRADE_NEGO_StepQuitMenuChoice(void *p);
+void POKETRADE_NEGO_StepQuitMenuChoice(TradeWork *p);
 
-void POKETRADE_NEGO_StepOpenQuitMenu(char *p);
+void POKETRADE_NEGO_StepOpenQuitMenu(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitSync25(unsigned char *p);
+void POKETRADE_NEGO_StepWaitSync25(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendSync25(unsigned char *p);
+void POKETRADE_NEGO_StepSendSync25(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitReplyKey(unsigned char *p);
+void POKETRADE_NEGO_StepWaitReplyKey(TradeWork *p);
 
-void POKETRADE_NEGO_StepResolveReplies(char *p);
+void POKETRADE_NEGO_StepResolveReplies(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendReply(unsigned char *p);
+void POKETRADE_NEGO_StepSendReply(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitReplySync(unsigned char *p);
+void POKETRADE_NEGO_StepWaitReplySync(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendCancelReply(unsigned char *p);
+void POKETRADE_NEGO_StepSendCancelReply(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitCancelSync(unsigned char *p);
+void POKETRADE_NEGO_StepWaitCancelSync(TradeWork *p);
 
-void POKETRADE_NEGO_StepShowWaitMessageA(unsigned char *p);
+void POKETRADE_NEGO_StepShowWaitMessageA(TradeWork *p);
 
-void POKETRADE_NEGO_StepShowWaitMessageB(unsigned char *p);
+void POKETRADE_NEGO_StepShowWaitMessageB(TradeWork *p);
 
-void POKETRADE_NEGO_StepConfirmMenuChoice(unsigned char *p);
+void POKETRADE_NEGO_StepConfirmMenuChoice(TradeWork *p);
 
-void POKETRADE_NEGO_StepOpenConfirmMenu(char *p);
+void POKETRADE_NEGO_StepOpenConfirmMenu(TradeWork *p);
 
-void POKETRADE_NEGO_StepResolveConfirm(char *p);
+void POKETRADE_NEGO_StepResolveConfirm(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendConfirm(void *p);
+void POKETRADE_NEGO_StepSendConfirm(TradeWork *p);
 
-void POKETRADE_NEGO_StepBeginConfirm(char *p);
+void POKETRADE_NEGO_StepBeginConfirm(TradeWork *p);
 
 void POKETRADE_NEGO_ShowOfferSummary(TradeWork *p,int index);
 
-extern int POKETRADE_NEGO_PollOfferCursorKeys(char *);
+extern int POKETRADE_NEGO_PollOfferCursorKeys(TradeWork *);
 
-void POKETRADE_NEGO_StepReturnFromSummary(char *p);
+void POKETRADE_NEGO_StepReturnFromSummary(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitSelectionDelay(char *p);
+void POKETRADE_NEGO_StepWaitSelectionDelay(TradeWork *p);
 
-void POKETRADE_NEGO_StepBrowseOffers(char *p);
+void POKETRADE_NEGO_StepBrowseOffers(TradeWork *p);
 
 void POKETRADE_NEGO_StepOpenSummaryFromBrowse(TradeWork *p);
 
-void POKETRADE_NEGO_StepOfferActionChoice(char *p);
+void POKETRADE_NEGO_StepOfferActionChoice(TradeWork *p);
 
-void POKETRADE_NEGO_StepOpenOfferActionMenu(char *p);
+void POKETRADE_NEGO_StepOpenOfferActionMenu(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendOfferMon(char *p);
+void POKETRADE_NEGO_StepSendOfferMon(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendOfferIndex(void *p);
+void POKETRADE_NEGO_StepSendOfferIndex(TradeWork *p);
 
-extern int POKETRADE_NEGO_TrySelectOffer(char *,int);
+extern int POKETRADE_NEGO_TrySelectOffer(TradeWork *,int);
 
-void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p);
+void POKETRADE_NEGO_StepRebuildSceneAfterWipe(TradeWork *p);
 
-extern void POKETRADE_NEGO_StepWaitMessageThenWipe(char *p);
+extern void POKETRADE_NEGO_StepWaitMessageThenWipe(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendDeclineConfirm(void *p);
+void POKETRADE_NEGO_StepSendDeclineConfirm(TradeWork *p);
 
-void POKETRADE_NEGO_StepBeginDeclineConfirm(char *p);
+void POKETRADE_NEGO_StepBeginDeclineConfirm(TradeWork *p);
 
-void POKETRADE_NEGO_StepDeclineMenuChoice(char *p);
+void POKETRADE_NEGO_StepDeclineMenuChoice(TradeWork *p);
 
-extern void POKETRADE_NEGO_StepOpenDeclineMenu(void *);
+extern void POKETRADE_NEGO_StepOpenDeclineMenu(TradeWork *);
 
 extern const char gOfferSlotInitTable[];
 
@@ -512,117 +512,115 @@ extern const PokemontradeIntTriple gOfferActionMenuLayout;
 
 extern const PokemontradeIntPair gDeclineMenuPos;
 
-void POKETRADE_NEGO_FreeOfferMons(char *p)
+void POKETRADE_NEGO_FreeOfferMons(TradeWork *p)
 {
     int i, j;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
-            char *q = p + i * 12 + j * 4;
-            if (((TradeWork *)q)->offerMon[0][0]) {
-                GFL_HEAP_Free(((TradeWork *)q)->offerMon[0][0]);
-                ((TradeWork *)q)->offerMon[0][0] = 0;
+            if (p->offerMon[i][j]) {
+                GFL_HEAP_Free(p->offerMon[i][j]);
+                p->offerMon[i][j] = 0;
             }
         }
     }
 }
 
-void POKETRADE_NEGO_ClearOfferSlots(char *p)
+void POKETRADE_NEGO_ClearOfferSlots(TradeWork *p)
 {
     int i, j;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
-            char *q = p + i * 12 + j * 4;
-            ((TradeWork *)q)->offerSlot[0][0] = -1;
-            ((TradeWork *)q)->offerBox[0][0] = -1;
-            if (((TradeWork *)q)->offerMon[0][0]) MI_CpuFill8(((TradeWork *)q)->offerMon[0][0], 0, POKE_TOOL_GetPartyParamSize());
+            p->offerSlot[i][j] = -1;
+            p->offerBox[i][j] = -1;
+            if (p->offerMon[i][j]) MI_CpuFill8(p->offerMon[i][j], 0, POKE_TOOL_GetPartyParamSize());
         }
     }
 }
 
-int POKETRADE_NEGO_CountOwnOffers(char *p)
+int POKETRADE_NEGO_CountOwnOffers(TradeWork *p)
 {
     int i, n = 0;
     for (i = 0; i < 3; i++) {
-        if (((TradeWork *)p)->offerSlot[0][i] != -1 && ((TradeWork *)p)->offerBox[0][i] != -1)
+        if (p->offerSlot[0][i] != -1 && p->offerBox[0][i] != -1)
             n++;
     }
     return n;
 }
 
-int POKETRADE_NEGO_CheckCancelTouch(char *p)
+int POKETRADE_NEGO_CheckCancelTouch(TradeWork *p)
 {
-    if (((TradeWork *)p)->tradeState == 3) {
-        if (*(int *)&((TradeWork *)p)->taskMenuWindow == 0) POKETRADE_SAVE_OpenTaskMenuWindow(p, 0x9a);
+    if (p->tradeState == 3) {
+        if (p->taskMenuWindow == 0) POKETRADE_SAVE_OpenTaskMenuWindow(p, 0x9a);
         if (POKETRADE_SAVE_IsTouchOutsideArea(p)) {
             POKETRADE_PROC_ClearNetAutoExit(p);
-            POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepBeginWipeOut);
+            POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepBeginWipeOut);
             return 1;
         }
     }
     return 0;
 }
 
-void POKETRADE_NEGO_CloseCancelMenu(char *p, int a, int b)
+void POKETRADE_NEGO_CloseCancelMenu(TradeWork *p, int a, int b)
 {
-    if (((TradeWork *)p)->tradeState == 3)
+    if (p->tradeState == 3)
         POKETRADE_SAVE_CloseTaskMenuWindow(p, a, b);
 }
 
-int POKETRADE_NEGO_CanConfirmOffers(char *p)
+int POKETRADE_NEGO_CanConfirmOffers(TradeWork *p)
 {
-    sptr a; int b, n;
-    a = GAME_DATA_GetBoxManager((const struct GameData *)((const struct BigObj *)(*(int *)&((TradeWork *)p)->gameData)));
+    void *a; int b, n;
+    a = GAME_DATA_GetBoxManager((const struct GameData *)((const struct BigObj *)(p->gameData)));
     b = POKETRADE_NEGO_CountOwnOffers(p);
-    n = POKEPARTY_GetCount(GAME_DATA_GetMyParty(((TradeWork *)p)->gameData));
-    n += BOX_SAVEDATA_CountPokemon((void *)a);
+    n = POKEPARTY_GetCount(GAME_DATA_GetMyParty(p->gameData));
+    n += BOX_SAVEDATA_CountPokemon(a);
     if (n == 2 && b >= 1) return 1;
     if (n > 2 && b >= 2) return 1;
     return 0;
 }
 
-int POKETRADE_NEGO_HasOffer(char *p)
+int POKETRADE_NEGO_HasOffer(TradeWork *p)
 {
     int i;
     if (POKETRADE_PROC_IsHostSide(p)) {
         for (i = 0; i < 3; i++) {
-            if (((TradeWork *)p)->offerSlot[0][i] != -1 && ((TradeWork *)p)->offerBox[0][i] != -1) return 1;
+            if (p->offerSlot[0][i] != -1 && p->offerBox[0][i] != -1) return 1;
         }
     } else {
-        if (((TradeWork *)p)->selectedSlot != -1 && ((TradeWork *)p)->selectedBox != -1) return 1;
+        if (p->selectedSlot != -1 && p->selectedBox != -1) return 1;
     }
     return 0;
 }
 
-int POKETRADE_NEGO_FindOfferIndex(char *p, int a, int b)
+int POKETRADE_NEGO_FindOfferIndex(TradeWork *p, int a, int b)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (b == ((TradeWork *)p)->offerSlot[0][i] && a == ((TradeWork *)p)->offerBox[0][i])
+        if (b == p->offerSlot[0][i] && a == p->offerBox[0][i])
             return i;
     }
     return -1;
 }
 
-void POKETRADE_NEGO_StoreRemoteOffer(char *p,int i,void *src)
+void POKETRADE_NEGO_StoreRemoteOffer(TradeWork *p,int i,void *src)
 {
-    *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=GFL_HEAP_Alloc(((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize(),1,(void *)gOfferSlotInitTable,0x122);MI_CpuCopy8(src,*(void **)(p+0xfe4+i*4),POKE_TOOL_GetPartyParamSize());
+    p->offerSlot[1][i]=i; p->offerBox[1][i]=i; if(p->offerMon[1][i]==0) p->offerMon[1][i]=GFL_HEAP_Alloc(p->heapId,POKE_TOOL_GetPartyParamSize(),1,(void *)gOfferSlotInitTable,0x122);MI_CpuCopy8(src,p->offerMon[1][i],POKE_TOOL_GetPartyParamSize());
 }
 
 /*
  * lever: Spell the indexed object base at each field read; a cached q local
  * swaps the first-loop counter and pooled-offset registers (10 bytes).
  */
-int POKETRADE_NEGO_FindFreeOfferIndex(const char *p, int n, int a, int b)
+int POKETRADE_NEGO_FindFreeOfferIndex(TradeWork *p, int n, int a, int b)
 {
     int j;
     long i;
     for (i = 0; i < 3; i++) {
-        if (*(int *)(p + n * 12 + 0xfa4 + i * 4) == a &&
-            *(int *)(p + n * 12 + 0xfbc + i * 4) == b)
+        if (p->offerSlot[n][i] == a &&
+            p->offerBox[n][i] == b)
             return -1;
     }
     for (j = 0; j < 3; j++) {
-        if (*(int *)(p + n * 12 + 0xfa4 + j * 4) == -1)
+        if (p->offerSlot[n][j] == -1)
             return j;
     }
     return 2;
@@ -644,7 +642,7 @@ int POKETRADE_NEGO_AddOffer(TradeWork *p,int side,int a,int b,void *value)
             p->offerSlot[side][i]=a;
             p->offerBox[side][i]=b;
             if(p->offerMon[side][i]==0)
-                p->offerMon[side][i]=GFL_HEAP_Alloc(((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize(),1,gOfferSlotInitTable,0x14c);
+                p->offerMon[side][i]=GFL_HEAP_Alloc(p->heapId,POKE_TOOL_GetPartyParamSize(),1,gOfferSlotInitTable,0x14c);
             MI_CpuCopy8(value,p->offerMon[side][i],POKE_TOOL_GetPartyParamSize());
             POKETRADE_NEGO_ShowOfferSlotMon(p,side,value);
             return i;
@@ -662,55 +660,55 @@ void POKETRADE_NEGO_RemoveOffer(TradeWork *p, int i, int j)
     p->offerMon[i][j] = 0;
 }
 
-void POKETRADE_NEGO_RegisterIconResources(char *p,int n)
+void POKETRADE_NEGO_RegisterIconResources(TradeWork *p,int n)
 {
-    void *v;int off;int a;v=ARC_TOOL_CreateHandle(7,((TradeWork *)p)->heapId);off=96;if(n!=1)off=0;(*(int *)&((TradeWork *)p)->iconPaletteComp)=CLACT_RegisterPaletteCompressed(v,POKE_TOOL_GetIconPaletteArcId(),n,(u16)off,((TradeWork *)p)->heapId);a=POKE_TOOL_GetIconCellArcIdSub();(*(int *)&((TradeWork *)p)->cellAnimF)=CLACT_RegisterCellAnim(v,a,POKE_TOOL_GetIconCellEntryId(),((TradeWork *)p)->heapId);ARC_TOOL_DeleteHandle(v);
+    void *v;int off;int a;v=ARC_TOOL_CreateHandle(7,p->heapId);off=96;if(n!=1)off=0;(p->iconPaletteComp)=CLACT_RegisterPaletteCompressed(v,POKE_TOOL_GetIconPaletteArcId(),n,(u16)off,p->heapId);a=POKE_TOOL_GetIconCellArcIdSub();(p->cellAnimF)=CLACT_RegisterCellAnim(v,a,POKE_TOOL_GetIconCellEntryId(),p->heapId);ARC_TOOL_DeleteHandle(v);
 }
 
-void POKETRADE_NEGO_ReleaseIconResources(char *p)
+void POKETRADE_NEGO_ReleaseIconResources(TradeWork *p)
 {
-    if (((TradeWork *)p)->iconPaletteComp != 0) {
-        CLACT_ReleasePalette((uptr)(((TradeWork *)p)->iconPaletteComp));
-        ((TradeWork *)p)->iconPaletteComp = 0;
+    if (p->iconPaletteComp != 0) {
+        CLACT_ReleasePalette(p->iconPaletteComp);
+        p->iconPaletteComp = 0;
     }
-    if (((TradeWork *)p)->cellAnimF != 0) {
-        CLACT_ReleaseCellAnim((uptr)(((TradeWork *)p)->cellAnimF));
-        ((TradeWork *)p)->cellAnimF = 0;
+    if (p->cellAnimF != 0) {
+        CLACT_ReleaseCellAnim(p->cellAnimF);
+        p->cellAnimF = 0;
     }
 }
 
-int POKETRADE_NEGO_AddSelectedAsOffer(char *p,int a,int b)
+int POKETRADE_NEGO_AddSelectedAsOffer(TradeWork *p,int a,int b)
 {
-    sptr value; int slot;
+    void *value; int slot;
     unsigned i;
     GFL_NET_HANDLE_GetCurrentHandle();
-    value=(sptr)POKETRADE_PROC_LoadSlotMon(*(void ** *)&((TradeWork *)p)->boxManager,((TradeWork *)p)->selectedBox,((TradeWork *)p)->selectedSlot,p);
+    value=POKETRADE_PROC_LoadSlotMon(*(void ** *)&p->boxManager,p->selectedBox,p->selectedSlot,p);
     if(POKETRADE_PROC_IsNetSession(p)) {
         i=0;
-        slot=POKETRADE_NEGO_AddOffer((TradeWork *)p,0,a,b,(void *)value);
+        slot=POKETRADE_NEGO_AddOffer((TradeWork *)p,0,a,b,value);
         if(slot!=-1) {
-            if(POKETRADE_NEGO_SendOfferMon(p,((TradeWork *)p)->offerMon[0][slot],slot+0xc07)==0) {
+            if(POKETRADE_NEGO_SendOfferMon(p,p->offerMon[0][slot],slot+0xc07)==0) {
                 POKETRADE_NEGO_RemoveOffer((TradeWork *)p,0,slot);
-                GFL_HEAP_Free((void *)value);
+                GFL_HEAP_Free(value);
                 return 0;
             }
             for(i=0;i<(unsigned)POKE_TOOL_GetPartyParamSize();i++) {}
         }
     } else {
-        slot=POKETRADE_NEGO_AddOffer((TradeWork *)p,0,a,b,(void *)value);
+        slot=POKETRADE_NEGO_AddOffer((TradeWork *)p,0,a,b,value);
     }
-    if(slot==-1) {GFL_HEAP_Free((void *)value);return 1;}
-    POKETRADE_2D_CreateOfferIconActor(p,0,slot,(void *)value,1,0);
-    GFL_HEAP_Free((void *)value);
+    if(slot==-1) {GFL_HEAP_Free(value);return 1;}
+    POKETRADE_2D_CreateOfferIconActor(p,0,slot,value,1,0);
+    GFL_HEAP_Free(value);
     return 1;
 }
 
-void POKETRADE_NEGO_DrawPlayerNames(char *p)
+void POKETRADE_NEGO_DrawPlayerNames(TradeWork *p)
 {
     PokemontradeIntPair t;
-    PokemontradeIntPair u;
+    struct MyStatus *u[2];
     void *h;
-    sptr q;
+    struct MyStatus *q;
     void *h2;
     int i;
     int k;
@@ -718,46 +716,46 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
     int x;
 
     t = gPlayerNamePos;
-    u.a = ((TradeWork *)p)->trainerRecord;
-    u.b = ((TradeWork *)p)->playerStatus;
-    ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1F, 0, 0x1A0, 0x20, ((TradeWork *)p)->heapId);
-    if ((*(void * *)&((TradeWork *)p)->nameRowWin) != 0) {
-        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->nameRowWin));
-        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->valueRowWin));
+    u[0] = p->trainerRecord;
+    u[1] = p->playerStatus;
+    ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1F, 0, 0x1A0, 0x20, p->heapId);
+    if ((*(void * *)&p->nameRowWin) != 0) {
+        BMP_WIN_Delete((*(void * *)&p->nameRowWin));
+        BMP_WIN_Delete((*(void * *)&p->valueRowWin));
     }
     h = (void *)BMP_WIN_Create(3, 0, 0, 0x20, 2, 13, 0);
-    (*(void * *)&((TradeWork *)p)->nameRowWin) = h;
+    (*(void * *)&p->nameRowWin) = h;
     GF_FONT_SetTextColor(14, 15, 0);
-    if (((TradeWork *)p)->tradeState == 3 && ((TradeWork *)p)->ownMsgIndex != -1) {
-        MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x85, (*(void * *)&((TradeWork *)p)->infoTextOut));
-        PRINTSYS_Print(BMP_WIN_GetBmp(h), 8, 2, (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
-        MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), ((TradeWork *)p)->ownMsgIndex + 0x7B, (*(void * *)&((TradeWork *)p)->infoTextOut));
-        PRINTSYS_Print(BMP_WIN_GetBmp(h), 0x88, 2, (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
+    if (p->tradeState == 3 && p->ownMsgIndex[0] != -1) {
+        MSGDATA_ReadString((*(void * *)&p->messageBank), 0x85, (*(void * *)&p->infoTextOut));
+        PRINTSYS_Print(BMP_WIN_GetBmp(h), 8, 2, (*(void * *)&p->infoTextOut), p->font);
+        MSGDATA_ReadString((*(void * *)&p->messageBank), p->ownMsgIndex[0] + 0x7B, (*(void * *)&p->infoTextOut));
+        PRINTSYS_Print(BMP_WIN_GetBmp(h), 0x88, 2, (*(void * *)&p->infoTextOut), p->font);
     }
     BMP_WIN_TransferChars(h);
     BMP_WIN_MakeScreen(h);
     i = 0;
     h2 = (void *)BMP_WIN_Create(3, 0, 3, 0x20, 8, 5, 0);
-    (*(void * *)&((TradeWork *)p)->valueRowWin) = h2;
+    (*(void * *)&p->valueRowWin) = h2;
     for (i = 0; i < 2; i++) {
         k = i * 4;
-        q = *(int *)((char *)&u + k);
+        q = u[i];
         if (q != 0) {
-            if (((TradeWork *)p)->tradeState == 3 && *(int *)(p + k + 0x1048) != -1) {
+            if (p->tradeState == 3 && p->peerMsgIndex[i] != -1) {
                 m = 0x75;
             } else {
                 m = 0x80;
             }
             GF_FONT_SetTextColor(1, 2, 0);
-            MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), m, (*(void * *)&((TradeWork *)p)->infoTextIn));
-            WORDSET_SetSlotMyStatus((*(void * *)&((TradeWork *)p)->wordSet), 0, (void *)q);
-            WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->infoTextOut), (*(void * *)&((TradeWork *)p)->infoTextIn));
+            MSGDATA_ReadString((*(void * *)&p->messageBank), m, (*(void * *)&p->infoTextIn));
+            WORDSET_SetSlotMyStatus((*(void * *)&p->wordSet), 0, q);
+            WORDSET_CopyTaggedText((*(void * *)&p->wordSet), (*(void * *)&p->infoTextOut), (*(void * *)&p->infoTextIn));
             x = *(int *)((char *)&t + k) * 8;
-            PRINTSYS_Print(BMP_WIN_GetBmp(h2), (s16)x, 2, (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
-            if (((TradeWork *)p)->tradeState == 3 && *(int *)(p + k + 0x1048) != -1) {
+            PRINTSYS_Print(BMP_WIN_GetBmp(h2), (s16)x, 2, (*(void * *)&p->infoTextOut), p->font);
+            if (p->tradeState == 3 && p->peerMsgIndex[i] != -1) {
                 GF_FONT_SetTextColor(3, 4, 0);
-                MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), *(int *)(p + k + 0x1048) + 0x76, (*(void * *)&((TradeWork *)p)->infoTextOut));
-                PRINTSYS_Print(BMP_WIN_GetBmp(h2), (s16)(x + 4), 0x22, (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
+                MSGDATA_ReadString((*(void * *)&p->messageBank), p->peerMsgIndex[i] + 0x76, (*(void * *)&p->infoTextOut));
+                PRINTSYS_Print(BMP_WIN_GetBmp(h2), (s16)(x + 4), 0x22, (*(void * *)&p->infoTextOut), p->font);
             }
         }
     }
@@ -770,103 +768,103 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
  * 2026-10-02 lane R1: closed by storing the call result straight into items[i] and reading it back
  * (w=items[i]): the pointer local stays live across the call and the forwarded value is spilled.
  */
-void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p,int i,int msg,int force)
+void POKETRADE_NEGO_DrawOfferStatusLabel(TradeWork *p,int i,int msg,int force)
 {
     PokemontradeIntPair t=gOfferStatusLabelPos;
-    sptr w;
-    int *items;
+    struct BmpWin *w;
+    struct BmpWin **items;
     if(force==0) {
-        if((p+i)[0x11e8]==3) return;
-        if(p[0x11ea]==0) return;
-        if(POKETRADE_PROC_IsHostSide((void *)p)==0) return;
+        if(p->labelState[i]==3) return;
+        if(p->labelsReady==0) return;
+        if(POKETRADE_PROC_IsHostSide(p)==0) return;
     }
-    if(*(int *)(p+i*4+0x5bc)) BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(*(int *)(p+i*4+0x5bc))));
-    items=(int *)(p+0x5bc); items[i]=(sptr)BMP_WIN_Create(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];
+    if(p->statusWin[i]) BMP_WIN_Delete(p->statusWin[i]);
+    items=p->statusWin; items[i]=BMP_WIN_Create(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];
     GF_FONT_SetTextColor(5,6,0);
     msg+=0x72;
-    MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),msg,(void *)(((TradeWork *)p)->infoTextOut));
-    PRINTSYS_Print((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)w),0,0,(struct Strbuf *)((void *)(((TradeWork *)p)->infoTextOut)),(struct GfFont *)((void *)(*(int *)&((TradeWork *)p)->font)));
+    MSGDATA_ReadString((struct MsgBank *)(p->messageBank),msg,(void *)(p->infoTextOut));
+    PRINTSYS_Print((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)w),0,0,(struct Strbuf *)((void *)(p->infoTextOut)),(struct GfFont *)((void *)(p->font)));
     BMP_WIN_TransferChars((struct BmpWin *)w);
     BMP_WIN_MakeScreen((struct BmpWin *)w);
     BG_SYS_MarkTileDirty(3);
-    (p+i)[0x11e8]=3;
+    p->labelState[i]=3;
 }
 
-void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *p)
+void POKETRADE_NEGO_DeleteHeaderWindows(TradeWork *p)
 {
-    if(((TradeWork *)p)->statusWin0){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->statusWin0)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->statusWin0)));((TradeWork *)p)->statusWin0=0;}if(((TradeWork *)p)->statusWin1){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->statusWin1)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->statusWin1)));((TradeWork *)p)->statusWin1=0;}if(((TradeWork *)p)->nameRowWin){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->nameRowWin)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->nameRowWin)));((TradeWork *)p)->nameRowWin=0;}if(((TradeWork *)p)->valueRowWin){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->valueRowWin)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(((TradeWork *)p)->valueRowWin)));((TradeWork *)p)->valueRowWin=0;}BG_SYS_MarkTileDirty(3);
+    if(p->statusWin0){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(p->statusWin0)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(p->statusWin0)));p->statusWin0=0;}if(p->statusWin1){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(p->statusWin1)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(p->statusWin1)));p->statusWin1=0;}if(p->nameRowWin){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(p->nameRowWin)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(p->nameRowWin)));p->nameRowWin=0;}if(p->valueRowWin){BMP_WIN_ClearScreen((struct BmpWin *)((struct PokemontradeDescriptor *)(p->valueRowWin)));BMP_WIN_Delete((struct BmpWin *)((struct PokemontradeDescriptor *)(p->valueRowWin)));p->valueRowWin=0;}BG_SYS_MarkTileDirty(3);
 }
 
-void POKETRADE_NEGO_StepQuitMenuChoice(void *p)
+void POKETRADE_NEGO_StepQuitMenuChoice(TradeWork *p)
 {
     int v;
 
-    if (APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu))) == 0)
+    if (APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu))) == 0)
         return;
-    v = APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));
+    v = APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));
     POKETRADE_SAVE_CloseTaskMenu(p);
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    ((TradeWork *)p)->taskMenu = 0;
+    p->taskMenu = 0;
     switch (v) {
     case 0:
-        WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, ((TradeWork *)p)->heapId);
-        POKETRADE_PROC_SetStep(p, 0x021DE519);
+        WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, p->heapId);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepOpenSummaryFromBrowse);
         return;
     case 1:
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
         POKETRADE_PROC_UpdatePickedIcon(p);
-        POKETRADE_PROC_SetStep(p, 0x021DEA25);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepBrowseOffersMain);
         return;
     }
 }
 
-void POKETRADE_NEGO_StepOpenQuitMenu(char *p)
+void POKETRADE_NEGO_StepOpenQuitMenu(TradeWork *p)
 {
     PokemontradeIntPair t=gQuitMenuPos;
-    POKETRADE_SAVE_OpenTaskMenu((void *)p,(int *)(&t),2);
-    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepQuitMenuChoice);
+    POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
+    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepQuitMenuChoice);
 }
 
-void POKETRADE_NEGO_StepWaitSync25(unsigned char *p)
+void POKETRADE_NEGO_StepWaitSync25(TradeWork *p)
 {
-    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession((void *)p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch((char *)p);return;} } POKETRADE_SAVE_CloseMessageWindowClear((char *)p);POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_ResetTouchbarBackButton((char *)p);POKETRADE_PROC_UpdatePickedIcon((char *)p);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepBrowseOffersMain);
+    GFL_NET_HANDLE_GetCurrentHandle(); if(POKETRADE_PROC_IsNetSession(p)) { if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {POKETRADE_NEGO_CheckCancelTouch(p);return;} } POKETRADE_SAVE_CloseMessageWindowClear(p);POKETRADE_NEGO_CloseCancelMenu(p,0,0);POKETRADE_PROC_ResetTouchbarBackButton(p);POKETRADE_PROC_UpdatePickedIcon(p);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffersMain);
 }
 
-void POKETRADE_NEGO_StepSendSync25(unsigned char *p)
+void POKETRADE_NEGO_StepSendSync25(TradeWork *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
-    if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)) {
-        POKETRADE_PROC_SetSyncRange((void *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()),(void *)25,p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitSync25);
+    if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
+        POKETRADE_PROC_SetSyncRange((void *)(GFL_NET_HANDLE_GetCurrentHandle()),(void *)25,p);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitSync25);
     }
 }
 
-void POKETRADE_NEGO_StepWaitReplyKey(unsigned char *p)
+void POKETRADE_NEGO_StepWaitReplyKey(TradeWork *p)
 {
-    int v;GFL_NET_HANDLE_GetCurrentHandle();if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)){v=KEY_GetTrg();if(v)UI_SetInputMode(0);if(v==0){v=TOUCHPANEL_GetTrg();if(v)UI_SetInputMode(1);if(v==0)return;}MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon((char *)p);POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendSync25);}
+    int v;GFL_NET_HANDLE_GetCurrentHandle();if(POKETRADE_SAVE_IsMessagePrintDone(p)){v=KEY_GetTrg();if(v)UI_SetInputMode(0);if(v==0){v=TOUCHPANEL_GetTrg();if(v)UI_SetInputMode(1);if(v==0)return;}MSGDATA_ReadString((struct MsgBank *)(p->messageBank),0x88,(void *)(p->messageText));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendSync25);}
 }
 
-void POKETRADE_NEGO_StepResolveReplies(char *p)
+void POKETRADE_NEGO_StepResolveReplies(TradeWork *p)
 {
     int a, b, c, d, m;
-    a = GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())));
+    a = GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)(GFL_NET_HANDLE_GetCurrentHandle())));
     b = 1 - a;
-    if (POKETRADE_SAVE_IsMessagePrintDone((char *)p) == 0) return;
-    if (POKETRADE_PROC_TickWifiTimer((char *)p) == 0) return;
-    if (POKETRADE_PROC_IsNetSession((void *)p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1D, 8) == 0) {
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) == 0) return;
+    if (POKETRADE_PROC_TickWifiTimer(p) == 0) return;
+    if (POKETRADE_PROC_IsNetSession(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1D, 8) == 0) {
         POKETRADE_NEGO_CheckCancelTouch(p);
         return;
     }
     POKETRADE_NEGO_CloseCancelMenu(p, 0, 0);
-    c = (unsigned char)(p + a)[0x11E0];
-    if (c == 13 && (unsigned char)(p + b)[0x11E0] == 13) {
-        POKETRADE_PROC_SetSyncRange((void *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()), (void *)13, p);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepWaitCursorSync);
+    c = p->choice[a];
+    if (c == 13 && p->choice[b] == 13) {
+        POKETRADE_PROC_SetSyncRange((void *)(GFL_NET_HANDLE_GetCurrentHandle()), (void *)13, p);
+        POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepWaitCursorSync);
         return;
     }
-    d = (unsigned char)(p + b)[0x11E0];
+    d = p->choice[b];
     if (d == 5) m = 0x61;
     else if (c == 5) m = 0x62;
     else if (d == 7) m = 0x63;
@@ -877,145 +875,145 @@ void POKETRADE_NEGO_StepResolveReplies(char *p)
     else if (c == 6) m = 0x6F;
     else if (d == 14) m = 0x97;
     else if (c == 14) m = 0x96;
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), m, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), m, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
-    p[0x11E0] = 0;
-    p[0x11E1] = 0;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepWaitReplyKey);
+    p->choice[0] = 0;
+    p->choice[1] = 0;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepWaitReplyKey);
 }
 
-void POKETRADE_NEGO_StepSendReply(unsigned char *p)
+void POKETRADE_NEGO_StepSendReply(TradeWork *p)
 {
-    unsigned char b=13;if(POKETRADE_PROC_IsSelfMonReady((char *)p))b=5;else if(POKETRADE_PROC_IsCurrentSideMonInvalid((void *)p))b=7;else if(POKETRADE_PROC_IsOtherSideMonInvalid((void *)p))b=8;else if(POKETRADE_PROC_IsMonTradeable((unsigned char *)p))b=6;if(GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(const void *)((uptr)&b))){POKETRADE_PROC_SetSyncRange((void *)GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,(void *)p);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepResolveReplies);}
+    unsigned char b=13;if(POKETRADE_PROC_IsSelfMonReady(p))b=5;else if(POKETRADE_PROC_IsCurrentSideMonInvalid(p))b=7;else if(POKETRADE_PROC_IsOtherSideMonInvalid(p))b=8;else if(POKETRADE_PROC_IsMonTradeable(p))b=6;if(GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(const void *)(&b))){POKETRADE_PROC_SetSyncRange((void *)GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveReplies);}
 }
 
-void POKETRADE_NEGO_StepWaitReplySync(unsigned char *p)
+void POKETRADE_NEGO_StepWaitReplySync(TradeWork *p)
 {
-    if(POKETRADE_PROC_IsNetSession((void *)p)==0){p[0x11e0]=13;p[0x11e1]=13;POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepResolveReplies);return;} if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),30,8)==0){POKETRADE_NEGO_CheckCancelTouch((char *)p);return;}POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepSendReply);
+    if(POKETRADE_PROC_IsNetSession(p)==0){p->choice[0]=13;p->choice[1]=13;POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveReplies);return;} if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),30,8)==0){POKETRADE_NEGO_CheckCancelTouch(p);return;}POKETRADE_NEGO_CloseCancelMenu(p,0,0);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendReply);
 }
 
-void POKETRADE_NEGO_StepSendCancelReply(unsigned char *p)
+void POKETRADE_NEGO_StepSendCancelReply(TradeWork *p)
 {
     unsigned char v=14;
-    if(GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(const void *)((uptr)&v))) {
+    if(GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(const void *)(&v))) {
         POKETRADE_PROC_SetSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepResolveReplies);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveReplies);
     }
 }
 
-void POKETRADE_NEGO_StepWaitCancelSync(unsigned char *p)
+void POKETRADE_NEGO_StepWaitCancelSync(TradeWork *p)
 {
-    if(POKETRADE_PROC_IsNetSession((void *)p)==0){p[0x11e0]=14;p[0x11e1]=14;POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepResolveReplies);return;} if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),30,8)==0){POKETRADE_NEGO_CheckCancelTouch((char *)p);return;}POKETRADE_NEGO_CloseCancelMenu((char *)p,0,0);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepSendCancelReply);
+    if(POKETRADE_PROC_IsNetSession(p)==0){p->choice[0]=14;p->choice[1]=14;POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveReplies);return;} if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),30,8)==0){POKETRADE_NEGO_CheckCancelTouch(p);return;}POKETRADE_NEGO_CloseCancelMenu(p,0,0);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendCancelReply);
 }
 
-void POKETRADE_NEGO_StepShowWaitMessageA(unsigned char *p)
+void POKETRADE_NEGO_StepShowWaitMessageA(TradeWork *p)
 {
-    POKETRADE_PROC_SetSyncRange((void *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitReplySync);
+    POKETRADE_PROC_SetSyncRange((void *)(GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(p->messageBank),0x88,(void *)(p->messageText)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon(p); p->cancelTimer=120; POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitReplySync);
 }
 
-void POKETRADE_NEGO_StepShowWaitMessageB(unsigned char *p)
+void POKETRADE_NEGO_StepShowWaitMessageB(TradeWork *p)
 {
-    POKETRADE_PROC_SetSyncRange((void *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon((char *)p); p[0x11f1]=120; POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitCancelSync);
+    POKETRADE_PROC_SetSyncRange((void *)(GFL_NET_HANDLE_GetCurrentHandle()),(void *)30,p); MSGDATA_ReadString((struct MsgBank *)(p->messageBank),0x88,(void *)(p->messageText)); POKETRADE_SAVE_OpenMessageWindowTop(p); POKETRADE_SAVE_ShowTimeIcon(p); p->cancelTimer=120; POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitCancelSync);
 }
 
-void POKETRADE_NEGO_StepConfirmMenuChoice(unsigned char *p)
+void POKETRADE_NEGO_StepConfirmMenuChoice(TradeWork *p)
 {
-    int v; if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu)))==0)return;v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));POKETRADE_SAVE_CloseTaskMenu((char *)p);POKETRADE_SAVE_CloseMessageWindowClear((char *)p);((TradeWork *)p)->taskMenu=0;switch(v){case 0:POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepShowWaitMessageA);return;case 1:POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepShowWaitMessageB);return;}
+    int v; if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu)))==0)return;v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));POKETRADE_SAVE_CloseTaskMenu(p);POKETRADE_SAVE_CloseMessageWindowClear(p);p->taskMenu=0;switch(v){case 0:POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepShowWaitMessageA);return;case 1:POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepShowWaitMessageB);return;}
 }
 
-void POKETRADE_NEGO_StepOpenConfirmMenu(char *p)
+void POKETRADE_NEGO_StepOpenConfirmMenu(TradeWork *p)
 {
     if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
         PokemontradeIntPair t=gConfirmMenuPos;
-        POKETRADE_SAVE_OpenTaskMenu((void *)p,(int *)(&t),2);
+        POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),2);
         BG_SYS_SetMainVisiblePlanes(31);
-        TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepConfirmMenuChoice);
+        TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepConfirmMenuChoice);
     }
 }
 
-void POKETRADE_NEGO_StepResolveConfirm(char *p)
+void POKETRADE_NEGO_StepResolveConfirm(TradeWork *p)
 {
     int a, b, c, i, m;
-    a = GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())));
+    a = GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)(GFL_NET_HANDLE_GetCurrentHandle())));
     b = 1 - a;
-    if (POKETRADE_SAVE_IsMessagePrintDone((char *)p) == 0) return;
-    if (POKETRADE_PROC_TickWifiTimer((char *)p) == 0) return;
-    if (POKETRADE_PROC_IsNetSession((void *)p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
+    if (POKETRADE_SAVE_IsMessagePrintDone(p) == 0) return;
+    if (POKETRADE_PROC_TickWifiTimer(p) == 0) return;
+    if (POKETRADE_PROC_IsNetSession(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
         POKETRADE_NEGO_CheckCancelTouch(p);
         return;
     }
     i = 0;
     POKETRADE_NEGO_CloseCancelMenu(p, 0, 0);
-    c = (unsigned char)(p + a)[0x11E0];
-    if (c == 11 && (unsigned char)(p + b)[0x11E0] == 11) {
-        MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x92, ((TradeWork *)p)->messageTemplate);
+    c = p->choice[a];
+    if (c == 11 && p->choice[b] == 11) {
+        MSGDATA_ReadString((*(void * *)&p->messageBank), 0x92, p->messageTemplate);
         do {
-            WORDSET_SetSlotMonNickname((*(void * *)&((TradeWork *)p)->wordSet), i, POKETRADE_PROC_GetSideMon(p, i));
+            WORDSET_SetSlotMonNickname((*(void * *)&p->wordSet), i, POKETRADE_PROC_GetSideMon(p, i));
             i++;
         } while (i < 2);
-        WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->messageText), ((TradeWork *)p)->messageTemplate);
+        WORDSET_CopyTaggedText((*(void * *)&p->wordSet), (*(void * *)&p->messageText), p->messageTemplate);
         POKETRADE_SAVE_OpenMessageWindowTop(p);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepOpenConfirmMenu);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepOpenConfirmMenu);
         return;
     }
-    if ((unsigned char)(p + b)[0x11E0] == 12) {
-        (p + 0x11E0)[0x11] = 0x78;
+    if (p->choice[b] == 12) {
+        p->cancelTimer = 0x78;
         m = 0x93;
-        if (((TradeWork *)p)->tradeState == 3 && (u8)p[0x11FA] >= 3) {
+        if (p->tradeState == 3 && p->netExitCount >= 3) {
             POKETRADE_PROC_ClearNetAutoExit(p);
-            POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepBeginWipeOut);
+            POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepBeginWipeOut);
             return;
         }
     } else if (c == 12) {
-        (p + 0x11E0)[0x11] = 0x78;
+        p->cancelTimer = 0x78;
         m = 0x95;
-        if (((TradeWork *)p)->tradeState == 3 && (u8)p[0x11FA] >= 3) {
+        if (p->tradeState == 3 && p->netExitCount >= 3) {
             POKETRADE_PROC_ClearNetAutoExit(p);
-            POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepBeginWipeOut);
+            POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepBeginWipeOut);
             return;
         }
     }
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), m, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), m, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
-    p[0x11E0] = 0;
-    p[0x11E1] = 0;
-    if (POKETRADE_PROC_IsNetSession((void *)p) != 0) {
+    p->choice[0] = 0;
+    p->choice[1] = 0;
+    if (POKETRADE_PROC_IsNetSession(p) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 8);
     }
-    ((TradeWork *)p)->waitCounter = 0;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepWaitMessageThenWipe);
+    p->waitCounter = 0;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepWaitMessageThenWipe);
 }
 
-void POKETRADE_NEGO_StepSendConfirm(void *p)
+void POKETRADE_NEGO_StepSendConfirm(TradeWork *p)
 {
     u8 cmd;
     cmd = 0xB;
-    if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (const void *)((uptr)&cmd)) != 0) {
+    if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (const void *)(&cmd)) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepResolveConfirm);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepResolveConfirm);
     }
 }
 
-void POKETRADE_NEGO_StepBeginConfirm(char *p)
+void POKETRADE_NEGO_StepBeginConfirm(TradeWork *p)
 {
     void *obj;
     int n;
-    MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x88,(void *)(((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((struct MsgBank *)(p->messageBank),0x88,(void *)(p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
     POKETRADE_SAVE_ShowTimeIcon(p);
-    p[0x11f1]=120;
+    p->cancelTimer=120;
     if(POKETRADE_PROC_IsNetSession(p)==0) {
-        p[0x11e0]=11;
-        p[0x11e1]=11;
-        obj=((TradeWork *)p)->offerMon[0][0];
+        p->choice[0]=11;
+        p->choice[1]=11;
+        obj=p->offerMon[0][0];
         POKETRADE_PROC_SetSideMon(p,1,obj);
         n=POKE_TOOL_GetPartyParamSize();
         MI_CpuCopy8(obj,POKETRADE_PROC_GetSideMon(p,1),n);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepResolveConfirm);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveConfirm);
         return;
     }
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendConfirm);
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendConfirm);
 }
 
 void POKETRADE_NEGO_ShowOfferSummary(TradeWork *p,int index)
@@ -1025,37 +1023,37 @@ void POKETRADE_NEGO_ShowOfferSummary(TradeWork *p,int index)
     int other=1-row;
     void *obj=p->offerMon[other][col];
     if(POKETRADE_PROC_IsMonValid((const u8 *)obj)) {
-        POKETRADE_SAVE_ShowSummaryMon((char *)p,(void *)obj,other,1);
-        POKETRADE_2D_UpdateOfferIconHighlight((void *)((sptr)p),row,col);
+        POKETRADE_SAVE_ShowSummaryMon(p,(void *)obj,other,1);
+        POKETRADE_2D_UpdateOfferIconHighlight((void *)(p),row,col);
     }
 }
 
 static inline int poll(void) { int v=KEY_GetTrg(); if(v)UI_SetInputMode(0); return v; }
 
-int POKETRADE_NEGO_PollOfferCursorKeys(char *p)
+int POKETRADE_NEGO_PollOfferCursorKeys(TradeWork *p)
 {
     int changed=0;
     int v;
-    if(poll()==16) { ((TradeWork *)p)->cursorIndex=(((TradeWork *)p)->cursorIndex+3)%6; changed=1; }
+    if(poll()==16) { p->cursorIndex=(p->cursorIndex+3)%6; changed=1; }
     if(poll()==32) {
-        ((TradeWork *)p)->cursorIndex=(((TradeWork *)p)->cursorIndex-3)%6;
-        if(((TradeWork *)p)->cursorIndex<0) ((TradeWork *)p)->cursorIndex+=6;
+        p->cursorIndex=(p->cursorIndex-3)%6;
+        if(p->cursorIndex<0) p->cursorIndex+=6;
         changed=1;
     }
     if(poll()==64) {
-        v=((TradeWork *)p)->cursorIndex;
-        if(v==0 || v==3) ((TradeWork *)p)->cursorIndex+=3;
-        ((TradeWork *)p)->cursorIndex-=1; changed=1;
+        v=p->cursorIndex;
+        if(v==0 || v==3) p->cursorIndex+=3;
+        p->cursorIndex-=1; changed=1;
     }
     if(poll()==128) {
-        v=((TradeWork *)p)->cursorIndex;
-        if(v==2 || v==5) ((TradeWork *)p)->cursorIndex-=3;
-        ((TradeWork *)p)->cursorIndex+=1; changed=1;
+        v=p->cursorIndex;
+        if(v==2 || v==5) p->cursorIndex-=3;
+        p->cursorIndex+=1; changed=1;
     }
     return changed;
 }
 
-void POKETRADE_NEGO_StepReturnFromSummary(char *p)
+void POKETRADE_NEGO_StepReturnFromSummary(TradeWork *p)
 {
     void *resource;
     int zero,slot;
@@ -1063,14 +1061,14 @@ void POKETRADE_NEGO_StepReturnFromSummary(char *p)
     if(WIPE_SYS_EndCheck()) {
         zero=0;
         BG_SYS_SetPlaneVisible(3,zero);
-        POKETRADE_2D_UpdateOfferIconHighlight((void *)((sptr)p),-1,-1);
+        POKETRADE_2D_UpdateOfferIconHighlight((void *)(p),-1,-1);
         POKETRADE_SAVE_CloseSummaryPage(p,0);
-        resource=ARC_TOOL_CreateHandle(102,((TradeWork *)p)->heapId);
-        ARC_UTIL_UploadBgPaletteAddFromHandle(resource,11,2,0,(u16)((TradeWork *)p)->subBgHandle,zero,zero,((TradeWork *)p)->heapId);
+        resource=ARC_TOOL_CreateHandle(102,p->heapId);
+        ARC_UTIL_UploadBgPaletteAddFromHandle(resource,11,2,0,(u16)p->subBgHandle,zero,zero,p->heapId);
         ARC_TOOL_DeleteHandle(resource);
         POKETRADE_3D_AddUnitAndInit(p,0);
         BG_SYS_MarkTileDirty(3);
-        p[0x11f3]=zero;
+        p->sideMonSent=zero;
         slot=1;
         if(POKETRADE_PROC_IsMonValid(POKETRADE_PROC_GetSideMon(p,slot))) {
             mon=POKETRADE_PROC_GetSideMon(p,slot);
@@ -1083,64 +1081,64 @@ void POKETRADE_NEGO_StepReturnFromSummary(char *p)
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
         POKETRADE_PROC_UpdatePickedIcon(p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBrowseOffersMain);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffersMain);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
-        WIPE_SYS_Start((void *)3,1,1,0,6,1,((TradeWork *)p)->heapId);
+        WIPE_SYS_Start((void *)3,1,1,0,6,1,p->heapId);
     }
 }
 
-void POKETRADE_NEGO_StepWaitSelectionDelay(char *p)
+void POKETRADE_NEGO_StepWaitSelectionDelay(TradeWork *p)
 {
     int lim;
     lim = 3;
     if (GFL_NET_IsNetTypeWifi() != 0) {
         lim = 10;
     }
-    if (((TradeWork *)p)->waitCounter > lim) {
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepBrowseOffers);
+    if (p->waitCounter > lim) {
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepBrowseOffers);
     }
 }
 
 /*
  * prototype: 02035C08 return is consumed in r0; full 02035BBC forwarding body returns int, as in matched 021D98AC.
  */
-void POKETRADE_NEGO_StepBrowseOffers(char *p)
+void POKETRADE_NEGO_StepBrowseOffers(TradeWork *p)
 {
     int idx;
     BG_SYS_SetPlaneVisible(3,1);
     if(WIPE_SYS_EndCheck()) {
-        TOUCHBAR_Update((TouchBar *)(*(void * *)&((TradeWork *)p)->touchbar));
-        if(TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&((TradeWork *)p)->touchbar))==1) {
-            WIPE_SYS_Start((void *)3,0,0,0,6,1,((TradeWork *)p)->heapId);
-            POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepReturnFromSummary);
+        TOUCHBAR_Update((TouchBar *)(*(void * *)&p->touchbar));
+        if(TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&p->touchbar))==1) {
+            WIPE_SYS_Start((void *)3,0,0,0,6,1,p->heapId);
+            POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepReturnFromSummary);
             return;
         }
-        if(TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&((TradeWork *)p)->touchbar))==-1) {
+        if(TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&p->touchbar))==-1) {
             idx=TOUCHPANEL_HitTrg((const TouchHitTable *)gBrowseOffersHitArea);
             if(idx!=-1) {
                 UI_SetInputMode(1);
-                ((TradeWork *)p)->cursorIndex=idx;
-                POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),-1);
-                POKETRADE_NEGO_ShowOfferSummary((TradeWork *)p,((TradeWork *)p)->cursorIndex);
+                p->cursorIndex=idx;
+                POKETRADE_2D_MovePickedIconActor((void *)(p),-1);
+                POKETRADE_NEGO_ShowOfferSummary((TradeWork *)p,p->cursorIndex);
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                ((TradeWork *)p)->waitCounter=0;
-                POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitSelectionDelay);
+                p->waitCounter=0;
+                POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitSelectionDelay);
                 return;
             }
             if(UI_GetInputMode() && poll()) {
                 UI_SetInputMode(0);
-                POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),((TradeWork *)p)->cursorIndex);
+                POKETRADE_2D_MovePickedIconActor((void *)(p),p->cursorIndex);
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                ((TradeWork *)p)->waitCounter=0;
-                POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitSelectionDelay);
+                p->waitCounter=0;
+                POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitSelectionDelay);
                 return;
             }
             if(POKETRADE_NEGO_PollOfferCursorKeys(p)) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),((TradeWork *)p)->cursorIndex);
-                POKETRADE_NEGO_ShowOfferSummary((TradeWork *)p,((TradeWork *)p)->cursorIndex);
-                ((TradeWork *)p)->waitCounter=0;
-                POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitSelectionDelay);
+                POKETRADE_2D_MovePickedIconActor((void *)(p),p->cursorIndex);
+                POKETRADE_NEGO_ShowOfferSummary((TradeWork *)p,p->cursorIndex);
+                p->waitCounter=0;
+                POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitSelectionDelay);
             }
         }
     }
@@ -1160,71 +1158,71 @@ void POKETRADE_NEGO_StepOpenSummaryFromBrowse(TradeWork *p)
         obj=p->offerMon[other][col];
         b[0x11f3]=1;
         if(obj && POKE_TOOL_GetPartyValue((struct PokemonParam *)obj,169,0)) {
-            POKETRADE_SAVE_OpenSummaryScreen((char *)p,(void *)obj); POKETRADE_2D_UpdateOfferIconHighlight((void *)((sptr)p),row,col);
+            POKETRADE_SAVE_OpenSummaryScreen(p,(void *)obj); POKETRADE_2D_UpdateOfferIconHighlight((void *)(p),row,col);
         }
         POKETRADE_NEGO_SetupWindowRegsOffers(p);
         WIPE_SYS_Start((void *)3,1,1,0,6,1,((TradeWork *)b)->heapId);
-        POKETRADE_PROC_ResetTouchbarBackButton((char *)p); POKETRADE_PROC_UpdatePickedIcon((char *)p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBrowseOffers);
+        POKETRADE_PROC_ResetTouchbarBackButton(p); POKETRADE_PROC_UpdatePickedIcon(p);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffers);
     }
 }
 
-void POKETRADE_NEGO_StepOfferActionChoice(char *p)
+void POKETRADE_NEGO_StepOfferActionChoice(TradeWork *p)
 {
     int v;
-    if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu)))) {
-        v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));
+    if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu)))) {
+        v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));
         POKETRADE_SAVE_CloseTaskMenu(p); POKETRADE_SAVE_CloseMessageWindowClear(p);
-        ((TradeWork *)p)->taskMenu=0;
+        p->taskMenu=0;
         switch(v) {
-        case 0: POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBeginConfirm); return;
+        case 0: POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBeginConfirm); return;
         case 1:
-            WIPE_SYS_Start((void *)3,0,0,0,6,1,((TradeWork *)p)->heapId);
-            TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
-            POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOpenSummaryFromBrowse); return;
+            WIPE_SYS_Start((void *)3,0,0,0,6,1,p->heapId);
+            TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
+            POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOpenSummaryFromBrowse); return;
         case 2:
             POKETRADE_NEGO_SetupWindowRegsOffers(p); POKETRADE_PROC_ResetTouchbarBackButton(p); POKETRADE_PROC_UpdatePickedIcon(p);
-            POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBrowseOffersMain); return;
+            POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffersMain); return;
         }
     }
 }
 
-void POKETRADE_NEGO_StepOpenOfferActionMenu(char *p)
+void POKETRADE_NEGO_StepOpenOfferActionMenu(TradeWork *p)
 {
     PokemontradeIntTriple t=gOfferActionMenuLayout;
-    POKETRADE_SAVE_OpenTaskMenu((void *)p,(int *)(&t),3);
-    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOfferActionChoice);
+    POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),3);
+    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOfferActionChoice);
 }
 
-void POKETRADE_NEGO_StepSendOfferMon(char *p)
+void POKETRADE_NEGO_StepSendOfferMon(TradeWork *p)
 {
-    uptr id;
-    if(((TradeWork *)p)->stateFlags.bits.sendBusy==1) return;
-    if(POKETRADE_PROC_IsNetSession((void *)p)!=0) {
-        id=(uptr)GFL_NET_HANDLE_GetCurrentHandle();
-        if(!GFL_NET_SendToHandle((GFLNetHandle *)id,(u16)0xc01,(u16)POKE_TOOL_GetPartyParamSize(), (const void *)((uptr)((void *)(((TradeWork *)p)->sendBuf))))) return;
+    GFLNetHandle *id;
+    if(p->stateFlags.bits.sendBusy==1) return;
+    if(POKETRADE_PROC_IsNetSession(p)!=0) {
+        id=GFL_NET_HANDLE_GetCurrentHandle();
+        if(!GFL_NET_SendToHandle(id,(u16)0xc01,(u16)POKE_TOOL_GetPartyParamSize(), (const void *)(((void *)(p->sendBuf))))) return;
     }
-    ((TradeWork *)p)->stateFlags.bits.sendBusy=1;
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOpenOfferActionMenu);
+    p->stateFlags.bits.sendBusy=1;
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOpenOfferActionMenu);
 }
 
-void POKETRADE_NEGO_StepSendOfferIndex(void *p)
+void POKETRADE_NEGO_StepSendOfferIndex(TradeWork *p)
 {
     u8 v;
-    if (POKETRADE_PROC_IsNetSession((void *)p) != 0) {
-        v = POKETRADE_PROC_GetSideValue((void *)p, 0);
-        if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)POKE_TOOL_GetPartyParamSize(), (const void *)((uptr)(&v))) == 0) {
+    if (POKETRADE_PROC_IsNetSession(p) != 0) {
+        v = POKETRADE_PROC_GetSideValue(p, 0);
+        if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), (u16)0xC16, (u16)POKE_TOOL_GetPartyParamSize(), (const void *)((&v))) == 0) {
             return;
         }
     }
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepSendOfferMon);
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepSendOfferMon);
 }
 
 /*
  * lever: Shared failure label; padded two-dimensional array members reproduce index scheduling.
  */
-int POKETRADE_NEGO_TrySelectOffer(char *p,int idx)
+int POKETRADE_NEGO_TrySelectOffer(TradeWork *p,int idx)
 {
     int row,col,entry;
     void *mon;
@@ -1238,16 +1236,16 @@ int POKETRADE_NEGO_TrySelectOffer(char *p,int idx)
     mon=s->offerMon[1-row][col];
     value=s->offerReceivedValue[1-row][col];
     if(mon==0 || POKE_TOOL_GetPartyValue(mon,169,0)==0) goto fail;
-    ((TradeWork *)p)->cursorIndex=idx;
+    p->cursorIndex=idx;
     GFL_USE_PlaySeDefaultVolume(0x54c);
-    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
+    TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
     if(row!=0) {
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOpenQuitMenu);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOpenQuitMenu);
     } else {
         POKETRADE_PROC_SetSideMon(p,row,mon);
-        MI_CpuCopy8(mon,((TradeWork *)p)->sendBuf,POKE_TOOL_GetPartyParamSize());
+        MI_CpuCopy8(mon,p->sendBuf,POKE_TOOL_GetPartyParamSize());
         POKETRADE_PROC_SetSideValue(p,0,value);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendOfferIndex);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendOfferIndex);
     }
     return 1;
 fail:
@@ -1257,74 +1255,74 @@ fail:
 /*
  * volatile: 0x021DE89A reads 0x04001000 before the store at 0x021DE89E.
  */
-void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p)
+void POKETRADE_NEGO_StepRebuildSceneAfterWipe(TradeWork *p)
 {
     if(WIPE_SYS_EndCheck()) {
         POKETRADE_PROC_DeleteAllResources(p); POKETRADE_2D_SetDisplayConfig(0); POKETRADE_2D_SetupSubBgs(p);
-        (*(void * *)&((TradeWork *)p)->clactSystem)=CLACT_CreateUnit(0x154,0,((TradeWork *)p)->heapId);
+        (*(void * *)&p->clactSystem)=CLACT_CreateUnit(0x154,0,p->heapId);
         POKETRADE_SAVE_CreateMessageResources(p); POKETRADE_2D_RegisterIconSpriteResources(p); POKETRADE_2D_CreateBoxIconActors(p);
         POKETRADE_2D_LoadBackgroundGfx(p); POKETRADE_2D_CreateFontResource(p); POKETRADE_2D_LoadMainGfxAndMessageWindow(p);
         POKETRADE_3D_AddUnitAndInit(p,0); BG_SYS_SetMainVisiblePlanes(31); BG_SYS_SetSubVisiblePlanes(30);
-        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RefreshWmIconAtTopRight(0,((TradeWork *)p)->heapId);
+        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RefreshWmIconAtTopRight(0,p->heapId);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_PROC_StepResetForNewRound);
+        POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepResetForNewRound);
     }
 }
 
-void POKETRADE_NEGO_StepWaitMessageThenWipe(char *p)
+void POKETRADE_NEGO_StepWaitMessageThenWipe(TradeWork *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
-    if(POKETRADE_SAVE_IsMessagePrintDone(p) && POKETRADE_PROC_TickWifiTimer(p) && ((TradeWork *)p)->waitCounter>=120) {
-        WIPE_SYS_Start(0,0,0,0,6,1,((TradeWork *)p)->heapId);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepRebuildSceneAfterWipe);
+    if(POKETRADE_SAVE_IsMessagePrintDone(p) && POKETRADE_PROC_TickWifiTimer(p) && p->waitCounter>=120) {
+        WIPE_SYS_Start(0,0,0,0,6,1,p->heapId);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepRebuildSceneAfterWipe);
     }
 }
 
-void POKETRADE_NEGO_StepSendDeclineConfirm(void *p)
+void POKETRADE_NEGO_StepSendDeclineConfirm(TradeWork *p)
 {
     u8 cmd;
     cmd = 0xC;
-    if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (const void *)((uptr)&cmd)) != 0) {
+    if (GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xC00, 1, (const void *)(&cmd)) != 0) {
         GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepResolveConfirm);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepResolveConfirm);
     }
 }
 
-void POKETRADE_NEGO_StepBeginDeclineConfirm(char *p)
+void POKETRADE_NEGO_StepBeginDeclineConfirm(TradeWork *p)
 {
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x88, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), 0x88, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
     POKETRADE_SAVE_ShowTimeIcon(p);
-    *(p + 0x11F1) = 0x78;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepSendDeclineConfirm);
+    p->cancelTimer = 0x78;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepSendDeclineConfirm);
 }
 
-void POKETRADE_NEGO_StepDeclineMenuChoice(char *p)
+void POKETRADE_NEGO_StepDeclineMenuChoice(TradeWork *p)
 {
     int v;
-    if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu)))) {
-        v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));
+    if(APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu)))) {
+        v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));
         POKETRADE_SAVE_CloseTaskMenu(p);
         POKETRADE_SAVE_CloseMessageWindowClear(p);
-        ((TradeWork *)p)->taskMenu=0;
+        p->taskMenu=0;
         if(v==0) {
-            POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBeginDeclineConfirm);
+            POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBeginDeclineConfirm);
             return;
         }
         POKETRADE_SAVE_CloseMessageWindowClear(p);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
         POKETRADE_PROC_UpdatePickedIcon(p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBrowseOffersMain);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffersMain);
     }
 }
 
-void POKETRADE_NEGO_StepOpenDeclineMenu(void *p)
+void POKETRADE_NEGO_StepOpenDeclineMenu(TradeWork *p)
 {
     PokemontradeIntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p) != 0) {
         t = gDeclineMenuPos;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 12);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepDeclineMenuChoice);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepDeclineMenuChoice);
     }
 }
 
@@ -1412,89 +1410,89 @@ typedef struct { FnIdEnt e[6]; } FnIdTable6;
 
 
 
-void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p);
+void POKETRADE_NEGO_StepWaitInputAfterMessage(TradeWork *p);
 
-void POKETRADE_NEGO_StepShowNoOfferMessage(char *p);
+void POKETRADE_NEGO_StepShowNoOfferMessage(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitWipeBrowse(void *p);
+void POKETRADE_NEGO_StepWaitWipeBrowse(TradeWork *p);
 
-void POKETRADE_NEGO_StepBuildBrowseScene(char *p);
+void POKETRADE_NEGO_StepBuildBrowseScene(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitWipeToBrowse(void *p);
+void POKETRADE_NEGO_StepWaitWipeToBrowse(TradeWork *p);
 
-void POKETRADE_NEGO_StepWipeToBrowse(void *p);
+void POKETRADE_NEGO_StepWipeToBrowse(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendReady(void *p);
+void POKETRADE_NEGO_StepSendReady(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitReadySync(unsigned char *p);
+void POKETRADE_NEGO_StepWaitReadySync(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendCheckResult(void *p);
+void POKETRADE_NEGO_StepSendCheckResult(TradeWork *p);
 
-void POKETRADE_NEGO_AbortHttpRequest(void **p);
+void POKETRADE_NEGO_AbortHttpRequest(void *arg, u32 errorCode, u32 errorType, int dwcError);
 
-void POKETRADE_NEGO_StepPollMonCheck(u8 *p);
+void POKETRADE_NEGO_StepPollMonCheck(TradeWork *p);
 
-void POKETRADE_NEGO_StepStartMonCheck(char *p);
+void POKETRADE_NEGO_StepStartMonCheck(TradeWork *p);
 
-void POKETRADE_NEGO_StepRetryMonCheck(void *p);
+void POKETRADE_NEGO_StepRetryMonCheck(TradeWork *p);
 
-void POKETRADE_NEGO_StepBeginMonCheckWipe(void *p);
+void POKETRADE_NEGO_StepBeginMonCheckWipe(TradeWork *p);
 
-void POKETRADE_NEGO_StepResolveFinalAgree(char *p);
+void POKETRADE_NEGO_StepResolveFinalAgree(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendFinalAgree(void *p);
+void POKETRADE_NEGO_StepSendFinalAgree(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendFinalReady(u8 *p);
+void POKETRADE_NEGO_StepSendFinalReady(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitMessageThenContinue(void *p);
+void POKETRADE_NEGO_StepWaitMessageThenContinue(TradeWork *p);
 
-void POKETRADE_NEGO_StepBeginFinalReady(char *p);
+void POKETRADE_NEGO_StepBeginFinalReady(TradeWork *p);
 
-void POKETRADE_NEGO_StepFinalAgreeMenuChoice(void *p);
+void POKETRADE_NEGO_StepFinalAgreeMenuChoice(TradeWork *p);
 
-void POKETRADE_NEGO_StepOpenFinalAgreeMenu(void *p);
+void POKETRADE_NEGO_StepOpenFinalAgreeMenu(TradeWork *p);
 
-void POKETRADE_NEGO_StepWaitFinalMessage(char *p);
+void POKETRADE_NEGO_StepWaitFinalMessage(TradeWork *p);
 
-void POKETRADE_NEGO_StepBeginFinalWait(char *p);
+void POKETRADE_NEGO_StepBeginFinalWait(TradeWork *p);
 
-void POKETRADE_NEGO_StepCancelMenuChoice(void *p);
+void POKETRADE_NEGO_StepCancelMenuChoice(TradeWork *p);
 
-void POKETRADE_NEGO_StepOpenCancelMenu(void *p);
+void POKETRADE_NEGO_StepOpenCancelMenu(TradeWork *p);
 
-void POKETRADE_NEGO_StepShowCancelMessage(char *p);
+void POKETRADE_NEGO_StepShowCancelMessage(TradeWork *p);
 
-int POKETRADE_NEGO_IsMonOwnOffer(char *p,int a,int b);
+int POKETRADE_NEGO_IsMonOwnOffer(TradeWork *p,int a,int b);
 
-int POKETRADE_NEGO_IsMonPeerSelected(char *p, int a, int b);
+int POKETRADE_NEGO_IsMonPeerSelected(TradeWork *p, int a, int b);
 
-void POKETRADE_NEGO_StepWaitTouchRelease(void *p);
+void POKETRADE_NEGO_StepWaitTouchRelease(TradeWork *p);
 
-void POKETRADE_NEGO_StepSendOfferRemoval(void *p);
+void POKETRADE_NEGO_StepSendOfferRemoval(TradeWork *p);
 
-void POKETRADE_NEGO_InitOfferMarkers(void *p);
+void POKETRADE_NEGO_InitOfferMarkers(TradeWork *p);
 
-void POKETRADE_NEGO_SetOfferMarkersState(void *p, int a);
+void POKETRADE_NEGO_SetOfferMarkersState(TradeWork *p, int a);
 
-void POKETRADE_NEGO_UpdateOfferMarkers(void *p);
+void POKETRADE_NEGO_UpdateOfferMarkers(TradeWork *p);
 
-void POKETRADE_NEGO_PollMarkerTouch(void *p);
+void POKETRADE_NEGO_PollMarkerTouch(TradeWork *p);
 
-void POKETRADE_NEGO_TickMarkerTimers(void *p);
+void POKETRADE_NEGO_TickMarkerTimers(TradeWork *p);
 
-void POKETRADE_NEGO_FlashMarker(void *p, int a, int b);
+void POKETRADE_NEGO_FlashMarker(TradeWork *p, int a, int b);
 
-void POKETRADE_NEGO_ResetMarkers(void *p);
+void POKETRADE_NEGO_ResetMarkers(TradeWork *p);
 
-void POKETRADE_NEGO_ExitMarkers(void *p);
+void POKETRADE_NEGO_ExitMarkers(TradeWork *p);
 
-void POKETRADE_NEGO_TickOfferSlotTimers(void *p);
+void POKETRADE_NEGO_TickOfferSlotTimers(TradeWork *p);
 
 void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
 
 void POKETRADE_NEGO_PlaySeByKeyB(int key);
 
-void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
+void POKETRADE_NEGO_PlaySeByEvent(int eventId, TradeWork *work);
 
 
 
@@ -1517,45 +1515,45 @@ extern const IdKeyTable22 gPlaySeByKeyBTable;
 /*
  * prototype: 02035C08 returns the r0 consumed by original after its forwarding call; matched 021D98AC documents full ARM9 forwarding proof.
  */
-void POKETRADE_NEGO_StepBrowseOffersMain(char *p)
+void POKETRADE_NEGO_StepBrowseOffersMain(TradeWork *p)
 {
     int idx,sentinel;
-    TOUCHBAR_Update((TouchBar *)(*(void * *)&((TradeWork *)p)->touchbar));
-    if(TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&((TradeWork *)p)->touchbar))==1) {
-        MSGDATA_ReadString(*(struct MsgBank * *)&((TradeWork *)p)->messageBank,148,(*(void * *)&((TradeWork *)p)->messageText));
-        POKETRADE_SAVE_OpenMessageWindowTop((void *)p);
-        TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);
+    TOUCHBAR_Update((TouchBar *)(*(void * *)&p->touchbar));
+    if(TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&p->touchbar))==1) {
+        MSGDATA_ReadString(*(struct MsgBank * *)&p->messageBank,148,(*(void * *)&p->messageText));
+        POKETRADE_SAVE_OpenMessageWindowTop(p);
+        TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(p->touchbar)),1,0);
         POKETRADE_PROC_UpdatePickedIcon(p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOpenDeclineMenu);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOpenDeclineMenu);
         return;
     }
     sentinel=-1;
-    if(TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&((TradeWork *)p)->touchbar))==sentinel) {
+    if(TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&p->touchbar))==sentinel) {
         idx=TOUCHPANEL_HitTrg((const TouchHitTable *)gBrowseOffersHitArea);
         if(idx!=sentinel) {
             UI_SetInputMode(1);
             GFL_USE_PlaySeDefaultVolume(0x548);
-            POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),sentinel);
+            POKETRADE_2D_MovePickedIconActor((void *)(p),sentinel);
             if(POKETRADE_NEGO_TrySelectOffer(p,idx)) return;
         }
         if(UI_GetInputMode() && poll()) {
-            ((TradeWork *)p)->cursorIndex%=6;
-            if(((TradeWork *)p)->cursorIndex<0) ((TradeWork *)p)->cursorIndex=0;
-            POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),((TradeWork *)p)->cursorIndex);
+            p->cursorIndex%=6;
+            if(p->cursorIndex<0) p->cursorIndex=0;
+            POKETRADE_2D_MovePickedIconActor((void *)(p),p->cursorIndex);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
         if(poll()==1) {
-            if(POKETRADE_NEGO_TrySelectOffer(p,((TradeWork *)p)->cursorIndex)) return;
+            if(POKETRADE_NEGO_TrySelectOffer(p,p->cursorIndex)) return;
         }
         if(POKETRADE_NEGO_PollOfferCursorKeys(p)) {
-            POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),((TradeWork *)p)->cursorIndex);
+            POKETRADE_2D_MovePickedIconActor((void *)(p),p->cursorIndex);
             GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
 }
 
-void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
+void POKETRADE_NEGO_StepWaitInputAfterMessage(TradeWork *p)
 {
     int v;
     if(POKETRADE_PROC_TickWifiTimer(p) && POKETRADE_SAVE_IsMessagePrintDone(p)) {
@@ -1566,20 +1564,20 @@ void POKETRADE_NEGO_StepWaitInputAfterMessage(void *p)
             if(v) UI_SetInputMode(1);
             if(v==0) return;
         }
-        if(UI_GetInputMode()) POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),-1);
-        else POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),0);
+        if(UI_GetInputMode()) POKETRADE_2D_MovePickedIconActor((void *)(p),-1);
+        else POKETRADE_2D_MovePickedIconActor((void *)(p),0);
         POKETRADE_SAVE_CloseMessageWindowClear(p);
         POKETRADE_PROC_ResetTouchbarBackButton(p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBrowseOffersMain);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBrowseOffersMain);
     }
 }
 
-void POKETRADE_NEGO_StepShowNoOfferMessage(char *p)
+void POKETRADE_NEGO_StepShowNoOfferMessage(TradeWork *p)
 {
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x91, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), 0x91, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
-    *(p + 0x11F1) = 0x78;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepWaitInputAfterMessage);
+    p->cancelTimer = 0x78;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepWaitInputAfterMessage);
 }
 
 static inline void inside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)REG_DB_WININ_ADDR & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)REG_DB_WININ_ADDR=(u16)tmp;}
@@ -1589,88 +1587,89 @@ static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)REG_DB
 /*
  * volatile: hardware WININ 0x04001048, WINOUT 0x0400104A and DISPCNT 0x04001000 read-modify-written at 0x021DEBE8/0x021DEBF8, 0x021DEC0C/0x021DEC18, 0x021DEC1A/0x021DEC22.
  */
-void POKETRADE_NEGO_SetupWindowRegsOffers(void *p) {
+void POKETRADE_NEGO_SetupWindowRegsOffers(TradeWork *p) {
  G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR,27,-8);
  inside(31,1);
- *(volatile u16 *)0x04001040=0x80ff;
- *(volatile u16 *)0x04001044=0xa9;
+ *(volatile u16 *)REG_DB_WIN0H_ADDR=0x80ff;
+ *(volatile u16 *)REG_DB_WIN0V_ADDR=0xa9;
  outside(31,0);
- *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000 & ~0xe000)|0x2000;
+ *(volatile u32 *)REG_DB_DISPCNT_ADDR=(*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0xe000)|0x2000;
  BG_SYS_SetPlaneVisible(3,1);BG_SYS_SetPlaneVisible(5,1);BG_SYS_SetPlaneVisible(4,1);
 }
 
-void POKETRADE_NEGO_StepWaitWipeBrowse(void *p) {
- if(POKETRADE_2D_StepCursorSlide((char *)p)) {
-  if(UI_GetInputMode()) {POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),-1);((TradeWork *)p)->cursorIndex=0;}
-  else {POKETRADE_2D_MovePickedIconActor((void *)((sptr)p),0);((TradeWork *)p)->cursorIndex=0;}
-  if(WIPE_SYS_EndCheck()) {POKETRADE_NEGO_SetupWindowRegsOffers(p);POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepShowNoOfferMessage);}
+void POKETRADE_NEGO_StepWaitWipeBrowse(TradeWork *p) {
+ if(POKETRADE_2D_StepCursorSlide(p)) {
+  if(UI_GetInputMode()) {POKETRADE_2D_MovePickedIconActor((void *)(p),-1);p->cursorIndex=0;}
+  else {POKETRADE_2D_MovePickedIconActor((void *)(p),0);p->cursorIndex=0;}
+  if(WIPE_SYS_EndCheck()) {POKETRADE_NEGO_SetupWindowRegsOffers(p);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepShowNoOfferMessage);}
  }
 }
 
-void POKETRADE_NEGO_StepBuildBrowseScene(char *p) {
- POKETRADE_2D_FreeMainResources((char *)p);POKETRADE_NEGO_UpdateOfferMarkers(p);POKETRADE_NEGO_ResetMarkers(p);POKETRADE_2D_DeleteAllOfferIconActors((void *)p);POKETRADE_NEGO_ReleaseIconResources(p);POKETRADE_2D_DeleteBoxWindows((char *)p);POKETRADE_NEGO_DeleteHeaderWindows((unsigned char *)p);POKETRADE_2D_DeleteAllBoxIcons((char *)p);
- POKETRADE_NEGO_RegisterIconResources(p,1);BG_SYS_ClearLayerEx(6,0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Obj *)((TradeWork *)p)->cursorActor),0);
- TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,1);TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(((TradeWork *)p)->touchbar)),1,0);POKETRADE_SAVE_DrawOfferListWindows((char *)p,6);
- ((TradeWork *)p)->scrollSub=0;((TradeWork *)p)->redrawNeeded=1;POKETRADE_2D_SetupCursorBg(p);
- WIPE_SYS_Start(0,1,1,0,6,1,((TradeWork *)p)->heapId);POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitWipeBrowse);
+void POKETRADE_NEGO_StepBuildBrowseScene(TradeWork *p) {
+ POKETRADE_2D_FreeMainResources(p);POKETRADE_NEGO_UpdateOfferMarkers(p);POKETRADE_NEGO_ResetMarkers(p);POKETRADE_2D_DeleteAllOfferIconActors(p);POKETRADE_NEGO_ReleaseIconResources(p);POKETRADE_2D_DeleteBoxWindows(p);POKETRADE_NEGO_DeleteHeaderWindows(p);POKETRADE_2D_DeleteAllBoxIcons(p);
+ POKETRADE_NEGO_RegisterIconResources(p,1);BG_SYS_ClearLayerEx(6,0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Obj *)p->cursorActor),0);
+ TOUCHBAR_SetButtonVisible((TouchBar *)((unsigned char *)(p->touchbar)),1,1);TOUCHBAR_SetButtonEnabled((TouchBar *)((unsigned char *)(p->touchbar)),1,0);POKETRADE_SAVE_DrawOfferListWindows(p,6);
+ p->scrollSub=0;p->redrawNeeded=1;POKETRADE_2D_SetupCursorBg(p);
+ WIPE_SYS_Start(0,1,1,0,6,1,p->heapId);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitWipeBrowse);
 }
 
-void POKETRADE_NEGO_StepWaitWipeToBrowse(void *p)
+void POKETRADE_NEGO_StepWaitWipeToBrowse(TradeWork *p)
 {
     if (WIPE_SYS_EndCheck() != 0) {
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepBuildBrowseScene);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepBuildBrowseScene);
     }
 }
 
-void POKETRADE_NEGO_StepWipeToBrowse(void *p) {
- if(!POKETRADE_PROC_IsNetSession(p) || ((TradeWork *)p)->netFlag) {
-  WIPE_SYS_Start(0,0,0,0,6,1,((TradeWork *)p)->heapId);
-  POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitWipeToBrowse);
+void POKETRADE_NEGO_StepWipeToBrowse(TradeWork *p) {
+ if(!POKETRADE_PROC_IsNetSession(p) || p->netFlag) {
+  WIPE_SYS_Start(0,0,0,0,6,1,p->heapId);
+  POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitWipeToBrowse);
  }
 }
 
-void POKETRADE_NEGO_StepSendReady(void *p) {
- unsigned h=(uptr)GFL_NET_HANDLE_GetCurrentHandle();
+void POKETRADE_NEGO_StepSendReady(TradeWork *p) {
+ GFLNetHandle *h=GFL_NET_HANDLE_GetCurrentHandle();
  u8 b;
- if(POKETRADE_PROC_IsNetSession((void *)p)) {
+ if(POKETRADE_PROC_IsNetSession(p)) {
   b=1;
-  if(GFL_NET_SendToHandle((GFLNetHandle *)h,0xc0a,1,(const void *)((uptr)(&b)))) {POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepWipeToBrowse);return;}
- } else {POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWipeToBrowse);}
+  if(GFL_NET_SendToHandle(h,0xc0a,1,(const void *)((&b)))) {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWipeToBrowse);return;}
+ } else {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWipeToBrowse);}
 }
 
-void POKETRADE_NEGO_StepWaitReadySync(unsigned char *p) {
+void POKETRADE_NEGO_StepWaitReadySync(TradeWork *p) {
  int v;
  if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),21,8)) {
-  if(p[0x11e6]==0 && p[0x11e7]==0) {POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendReady);return;}
-  if(p[0x11e6]==0xf0) v=0x9e;
-  else if(p[0x11e6]==0xf1) v=0x9f;
-  else if(p[0x11e6]==0xf2) v=0xa0;
-  else if(p[0x11e6]==0xff) v=0xa1;
-  else if((p[0x11e7]&0xf0)==0xf0) v=0xa1;
-  else if(p[0x11e7]) v=0x8f;
+  if(p->peerState[0]==0 && p->peerState[1]==0) {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendReady);return;}
+  if(p->peerState[0]==0xf0) v=0x9e;
+  else if(p->peerState[0]==0xf1) v=0x9f;
+  else if(p->peerState[0]==0xf2) v=0xa0;
+  else if(p->peerState[0]==0xff) v=0xa1;
+  else if((p->peerState[1]&0xf0)==0xf0) v=0xa1;
+  else if(p->peerState[1]) v=0x8f;
   else v=0x90;
-  MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),v,(void *)(((TradeWork *)p)->messageText));
-  POKETRADE_SAVE_OpenMessageWindowTop(p);p[0x11f1]=120;((TradeWork *)p)->waitCounter=0;
-  POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitMessageThenWipe);
+  MSGDATA_ReadString((struct MsgBank *)(p->messageBank),v,(void *)(p->messageText));
+  POKETRADE_SAVE_OpenMessageWindowTop(p);p->cancelTimer=120;p->waitCounter=0;
+  POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitMessageThenWipe);
  }
 }
 
-void POKETRADE_NEGO_StepSendCheckResult(void *p) {
+void POKETRADE_NEGO_StepSendCheckResult(TradeWork *p) {
  void *h=GFL_NET_HANDLE_GetCurrentHandle();
- ((TradeWork *)p)->markerFlag=0;
- if(GFL_NET_SendToHandle((GFLNetHandle *)h,0xc11,1, (const void *)((u32)((uptr)((char *)p+0x11e6))))) {
+ p->markerFlag=0;
+ if(GFL_NET_SendToHandle(h,0xc11,1, (const void *)p->peerState)) {
   GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),21,8);
-  if(((TradeWork *)p)->tradeState==2) DWC_RAP_SetVchatTalkLock(0);
-  POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitReadySync);
+  if(p->tradeState==2) DWC_RAP_SetVchatTalkLock(0);
+  POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitReadySync);
  }
 }
 
-void POKETRADE_NEGO_AbortHttpRequest(void **p)
+void POKETRADE_NEGO_AbortHttpRequest(void *arg, u32 errorCode, u32 errorType, int dwcError)
 {
-    if (*p != 0) {
-        NHTTP_RAP_DeleteConnection(*p);
-        NHTTP_RAP_Destroy(*p);
-        *p = 0;
+    TradeWork *p = arg;
+    if (p->httpRap != 0) {
+        NHTTP_RAP_DeleteConnection(p->httpRap);
+        NHTTP_RAP_Destroy(p->httpRap);
+        p->httpRap = 0;
         DWC_RAPCOMMON_DestroySubHeap();
     }
 }
@@ -1682,7 +1681,7 @@ void POKETRADE_NEGO_AbortHttpRequest(void **p)
  * interface: 02019B58 receives the visibly loaded record pointer: its
  * empty 020185F0 call preserves r0 for 02019B64, which reads that input.
  */
-void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
+void POKETRADE_NEGO_StepPollMonCheck(TradeWork *p)
 {
     int status, result, i, off1, off2;
     u8 n=0, error;
@@ -1690,26 +1689,22 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
     const u16 *heap;
     void *mon, *bank, *text, *name;
     u32 value;
-    status=NHTTP_RAP_GetResultCode(((TradeWork *)p)->httpRap);
-    result=NHTTP_RAP_PollConnection(((TradeWork *)p)->httpRap);
+    status=NHTTP_RAP_GetResultCode(p->httpRap);
+    result=NHTTP_RAP_PollConnection(p->httpRap);
     if(result==0) {
     if(status==200) {
-        data=NHTTP_RAP_GetRecvBuffer(((TradeWork *)p)->httpRap);
-        p[0x11e6]=NHTTP_RAP_RecordList_GetCount((NHTTPRapRecordList *)data);
-        if(p[0x11e6]==1) {
-            off1=0x109a;
-            if(*(u16 *)(p+off1)==0) {
+        data=NHTTP_RAP_GetRecvBuffer(p->httpRap);
+        p->peerState[0]=NHTTP_RAP_RecordList_GetCount((NHTTPRapRecordList *)data);
+        if(p->peerState[0]==1) {
+            if(p->markerFlag==0) {
                 i=n;
-                heap=(const u16 *)(p+0x5f4);
-                off2=off1;
-                off2-=0xb6;
-                off1-=0xb6;
+                heap=&p->heapId;
                 do {
-                    if(POKETRADE_PROC_IsMonValid((const u8 *)(*(void **)(p+i*4+off1)))) {
-                        mon=*(void **)(p+i*4+off2);
+                    if(POKETRADE_PROC_IsMonValid((const u8 *)(p->offerMon[1][i]))) {
+                        mon=p->offerMon[1][i];
                         if(NHTTP_RAP_RecordList_GetValue((NHTTPRapRecordList *)data,n)) {
                             value=POKE_TOOL_GetPartyValue(mon,6,0);
-                            bank=MSGDATA_CreateFromArchive(0,2,81,((TradeWork *)p)->heapId);
+                            bank=MSGDATA_CreateFromArchive(0,2,81,p->heapId);
                             text=MSGDATA_AllocString(bank,MSG_PROFANITY_NOTICE);
                             MSGDATA_Delete(bank);
                             if(FILE_UTIL_IsMailItem(value)) {
@@ -1727,12 +1722,12 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                     }
                     i++;
                 } while(i<3);
-                ((TradeWork *)p)->markerFlag=1;
-                POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepStartMonCheck);
+                p->markerFlag=1;
+                POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepStartMonCheck);
                 goto cleanup;
             }
         }
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendCheckResult);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendCheckResult);
     } else goto failed;
     } else goto failed;
     goto cleanup;
@@ -1745,51 +1740,51 @@ failed:
         case 408: error=242; break;
         default: error=255; break;
         }
-        p[0x11e6]=error;
-        NHTTP_RAP_DeleteConnection(((TradeWork *)p)->httpRap);
+        p->peerState[0]=error;
+        NHTTP_RAP_DeleteConnection(p->httpRap);
     }
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendCheckResult);
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendCheckResult);
 cleanup:
-    if(((TradeWork *)p)->httpRap) {
-        NHTTP_RAP_FreePostData(((TradeWork *)p)->httpRap);
-        NHTTP_RAP_Destroy(((TradeWork *)p)->httpRap);
-        ((TradeWork *)p)->httpRap=0;
+    if(p->httpRap) {
+        NHTTP_RAP_FreePostData(p->httpRap);
+        NHTTP_RAP_Destroy(p->httpRap);
+        p->httpRap=0;
         DWC_RAPCOMMON_DestroySubHeap();
         DWC_RAP_SetErrorCallback(0,0);
     }
 }
 
-void POKETRADE_NEGO_StepStartMonCheck(char *p) {
+void POKETRADE_NEGO_StepStartMonCheck(TradeWork *p) {
  int n=0;
  int i;
- DWC_RAPCOMMON_CreateSubHeapUnlimited(13,0x10000,((TradeWork *)p)->heapId);
- ((TradeWork *)p)->httpRap=NHTTP_RAP_Create(((TradeWork *)p)->heapId,MYSTATUS_GetProfileId((*(void * *)&((TradeWork *)p)->trainerRecord)),((TradeWork *)p)->request->httpParam);
- DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((int (*)(u32, u32, u32, int))((sptr)POKETRADE_NEGO_AbortHttpRequest)),(sptr)p);
- for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid((const u8 *)(((TradeWork *)p)->offerMon[1][i]))) n++;
- NHTTP_RAP_AllocPostData(((TradeWork *)p)->httpRap,((TradeWork *)p)->heapId,POKE_TOOL_GetPartyParamSize()*n,2);
- for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid((const u8 *)(((TradeWork *)p)->offerMon[1][i]))) NHTTP_RAP_AppendPostData(((TradeWork *)p)->httpRap,(const void *)((sptr)((TradeWork *)p)->offerMon[1][i]),POKE_TOOL_GetPartyParamSize());
- NHTTP_RAP_CreatePostRequest(((TradeWork *)p)->httpRap);NHTTP_RAP_StartConnection(((TradeWork *)p)->httpRap);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepPollMonCheck);
+ DWC_RAPCOMMON_CreateSubHeapUnlimited(13,0x10000,p->heapId);
+ p->httpRap=NHTTP_RAP_Create(p->heapId,MYSTATUS_GetProfileId((*(void * *)&p->trainerRecord)),p->request->httpParam);
+ DWC_RAP_SetErrorCallback(POKETRADE_NEGO_AbortHttpRequest, p);
+ for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid((const u8 *)(p->offerMon[1][i]))) n++;
+ NHTTP_RAP_AllocPostData(p->httpRap,p->heapId,POKE_TOOL_GetPartyParamSize()*n,2);
+ for(i=0;i<3;i++) if(POKETRADE_PROC_IsMonValid((const u8 *)(p->offerMon[1][i]))) NHTTP_RAP_AppendPostData(p->httpRap,(const void *)(p->offerMon[1][i]),POKE_TOOL_GetPartyParamSize());
+ NHTTP_RAP_CreatePostRequest(p->httpRap);NHTTP_RAP_StartConnection(p->httpRap);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepPollMonCheck);
 }
 
 /*
  * volatile: field p+0x11fa re-read at 0x021DF18E after store at 0x021DF18C.
  */
-void POKETRADE_NEGO_StepRetryMonCheck(void *p) {
+void POKETRADE_NEGO_StepRetryMonCheck(TradeWork *p) {
  if(WIPE_SYS_EndCheck()) {
   POKETRADE_2D_DeleteAllBoxIcons(p);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(4);
-  ++*(volatile unsigned char *)&((TradeWork *)p)->netExitCount;
-  if(*(volatile unsigned char *)&((TradeWork *)p)->netExitCount>=3) {POKETRADE_PROC_ClearNetAutoExit((char *)p);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_PROC_StepBeginWipeOut);return;}
-  GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepStartMonCheck);
+  ++*(volatile unsigned char *)&p->netExitCount;
+  if(*(volatile unsigned char *)&p->netExitCount>=3) {POKETRADE_PROC_ClearNetAutoExit(p);POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepBeginWipeOut);return;}
+  GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepStartMonCheck);
  }
 }
 
-void POKETRADE_NEGO_StepBeginMonCheckWipe(void *p) {
- WIPE_SYS_Start((void *)4,0,0,0,6,1,((TradeWork *)p)->heapId);
- if(((TradeWork *)p)->tradeState==2) DWC_RAP_SetVchatTalkLock(1);
- POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepRetryMonCheck);
+void POKETRADE_NEGO_StepBeginMonCheckWipe(TradeWork *p) {
+ WIPE_SYS_Start((void *)4,0,0,0,6,1,p->heapId);
+ if(p->tradeState==2) DWC_RAP_SetVchatTalkLock(1);
+ POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepRetryMonCheck);
 }
 
-void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
+void POKETRADE_NEGO_StepResolveFinalAgree(TradeWork *p)
 {
     unsigned a, b;
     volatile int v; /* memory-resident on purpose: the original keeps v in [sp] and reads it uninitialised on the fall-through path; a plain local takes r7 */
@@ -1799,218 +1794,218 @@ void POKETRADE_NEGO_StepResolveFinalAgree(char *p)
         a = 0;
         b = 1;
     }
-    if (POKETRADE_PROC_IsNetSession((void *)p)) {
+    if (POKETRADE_PROC_IsNetSession(p)) {
         if (!GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
             POKETRADE_NEGO_CheckCancelTouch(p);
             return;
         }
     }
     POKETRADE_NEGO_CloseCancelMenu(p, 0, 0);
-    ((TradeWork *)p)->labelsReady = 0;
-    ((TradeWork *)p)->labelStateA = 3;
-    ((TradeWork *)p)->labelStateB = 3;
-    if (*(unsigned char *)(p + a + 0x11E0) == 10 && *(unsigned char *)(p + b + 0x11E0) == 10) {
-        POKETRADE_NEGO_DrawOfferStatusLabel((u8 *)p, 0, 1, 1);
-        POKETRADE_NEGO_DrawOfferStatusLabel((u8 *)p, 1, 1, 1);
-        if (((TradeWork *)p)->tradeState == 3) {
-            POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepBeginMonCheckWipe);
+    p->labelsReady = 0;
+    p->labelStateA = 3;
+    p->labelStateB = 3;
+    if (p->choice[a] == 10 && p->choice[b] == 10) {
+        POKETRADE_NEGO_DrawOfferStatusLabel(p, 0, 1, 1);
+        POKETRADE_NEGO_DrawOfferStatusLabel(p, 1, 1, 1);
+        if (p->tradeState == 3) {
+            POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepBeginMonCheckWipe);
         } else {
-            POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepSendReady);
+            POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepSendReady);
         }
         return;
     }
-    if (*(unsigned char *)(p + a + 0x11E0) == 4 && *(unsigned char *)(p + b + 0x11E0) == 4) {
-        ((TradeWork *)p)->request->state = 3;
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepBeginWipeOut);
+    if (p->choice[a] == 4 && p->choice[b] == 4) {
+        p->request->state = 3;
+        POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepBeginWipeOut);
         return;
     }
-    if (*(unsigned char *)(p + b + 0x11E0) == 4) {
+    if (p->choice[b] == 4) {
         v = 0x61;
-    } else if (*(unsigned char *)(p + a + 0x11E0) == 4) {
+    } else if (p->choice[a] == 4) {
         v = 0x66;
     }
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), v, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), v, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
-    ((TradeWork *)p)->peerChoiceA = 0;
-    ((TradeWork *)p)->peerChoiceB = 0;
-    ((TradeWork *)p)->labelStateA = 0;
-    ((TradeWork *)p)->labelStateB = 0;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepShowWaitMessageA);
+    p->peerChoiceA = 0;
+    p->peerChoiceB = 0;
+    p->labelStateA = 0;
+    p->labelStateB = 0;
+    POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepShowWaitMessageA);
 }
 
-void POKETRADE_NEGO_StepSendFinalAgree(void *p) {
- unsigned h=(uptr)GFL_NET_HANDLE_GetCurrentHandle();
+void POKETRADE_NEGO_StepSendFinalAgree(TradeWork *p) {
+ GFLNetHandle *h=GFL_NET_HANDLE_GetCurrentHandle();
  u8 b;
- if(POKETRADE_PROC_IsNetSession((void *)p)) {
+ if(POKETRADE_PROC_IsNetSession(p)) {
   b=1;
-  if(GFL_NET_SendToHandle((GFLNetHandle *)h,0xc0f,1, (const void *)((u32)((uptr)(&b))))) {POKETRADE_PROC_SetStep((void *)p,(sptr)POKETRADE_NEGO_StepResolveFinalAgree);return;}
- } else {POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepResolveFinalAgree);}
+  if(GFL_NET_SendToHandle(h,0xc0f,1, (const void *)(&b))) {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveFinalAgree);return;}
+ } else {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepResolveFinalAgree);}
 }
 
-void POKETRADE_NEGO_StepSendFinalReady(u8 *p) {
- unsigned h=(uptr)GFL_NET_HANDLE_GetCurrentHandle();
+void POKETRADE_NEGO_StepSendFinalReady(TradeWork *p) {
+ GFLNetHandle *h=GFL_NET_HANDLE_GetCurrentHandle();
  u8 b;
- if(POKETRADE_SAVE_IsMessagePrintDone((char *)p)) {
-  if(POKETRADE_PROC_IsNetSession((void *)p)) {
+ if(POKETRADE_SAVE_IsMessagePrintDone(p)) {
+  if(POKETRADE_PROC_IsNetSession(p)) {
    b=10;
-   if(GFL_NET_SendToHandle((GFLNetHandle *)h,0xc00,1, (const void *)((u32)((uptr)(&b))))) {
+   if(GFL_NET_SendToHandle(h,0xc00,1, (const void *)(&b))) {
     GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendFinalAgree);return;
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendFinalAgree);return;
    }
-  } else {p[0x11e0]=10;p[0x11e1]=10;POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepSendFinalAgree);}
+  } else {p->choice[0]=10;p->choice[1]=10;POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepSendFinalAgree);}
  }
 }
 
-void POKETRADE_NEGO_StepWaitMessageThenContinue(void *p)
+void POKETRADE_NEGO_StepWaitMessageThenContinue(TradeWork *p)
 {
     GFL_NET_HANDLE_GetCurrentHandle();
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepRebuildBrowseScene);
+        POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepRebuildBrowseScene);
     }
 }
 
-void POKETRADE_NEGO_StepBeginFinalReady(char *p)
+void POKETRADE_NEGO_StepBeginFinalReady(TradeWork *p)
 {
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x88, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), 0x88, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
     POKETRADE_SAVE_ShowTimeIcon(p);
-    ((TradeWork *)p)->cancelTimer = 0x78;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepSendFinalReady);
+    p->cancelTimer = 0x78;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepSendFinalReady);
 }
 
-void POKETRADE_NEGO_StepFinalAgreeMenuChoice(void *p)
+void POKETRADE_NEGO_StepFinalAgreeMenuChoice(TradeWork *p)
 {
     int v;
-    if (!APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu)))) return;
-    v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));
+    if (!APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu)))) return;
+    v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));
     POKETRADE_SAVE_CloseTaskMenu(p);
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    ((TradeWork *)p)->taskMenu=0;
-    if (v==0) {POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBeginFinalReady);return;}
+    p->taskMenu=0;
+    if (v==0) {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBeginFinalReady);return;}
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepWaitMessageThenContinue);
+    POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepWaitMessageThenContinue);
 }
 
-void POKETRADE_NEGO_StepOpenFinalAgreeMenu(void *p)
+void POKETRADE_NEGO_StepOpenFinalAgreeMenu(TradeWork *p)
 {
     PokemontradeIntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
         t = gFinalAgreeMenuPos;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 0xc);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepFinalAgreeMenuChoice);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepFinalAgreeMenuChoice);
     }
 }
 
-void POKETRADE_NEGO_StepWaitFinalMessage(char *p)
+void POKETRADE_NEGO_StepWaitFinalMessage(TradeWork *p)
 {
-    GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())));
+    GFL_NET_GetHandleNetID((GFLNetHandle *)((struct Link *)(GFL_NET_HANDLE_GetCurrentHandle())));
     if (POKETRADE_SAVE_IsMessagePrintDone(p) && POKETRADE_PROC_TickWifiTimer(p)) {
-        MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),0x89,(void *)(((TradeWork *)p)->messageText));
+        MSGDATA_ReadString((struct MsgBank *)(p->messageBank),0x89,(void *)(p->messageText));
         POKETRADE_SAVE_OpenMessageWindowTop(p);
-        POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepOpenFinalAgreeMenu);
+        POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepOpenFinalAgreeMenu);
     }
 }
 
-void POKETRADE_NEGO_StepBeginFinalWait(char *p)
+void POKETRADE_NEGO_StepBeginFinalWait(TradeWork *p)
 {
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x88, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), 0x88, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
     POKETRADE_SAVE_ShowTimeIcon(p);
-    ((TradeWork *)p)->cancelTimer = 0x78;
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepWaitFinalMessage);
+    p->cancelTimer = 0x78;
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepWaitFinalMessage);
 }
 
-void POKETRADE_NEGO_StepCancelMenuChoice(void *p)
+void POKETRADE_NEGO_StepCancelMenuChoice(TradeWork *p)
 {
     int v;
-    if (!APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(((TradeWork *)p)->taskMenu)))) return;
-    v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(((TradeWork *)p)->taskMenu)));
+    if (!APP_TASKMENU_IsFinish((TaskMenuWork *)((struct TaskMenu *)(p->taskMenu)))) return;
+    v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)((const u8 *)(p->taskMenu)));
     POKETRADE_SAVE_CloseTaskMenu(p);
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    ((TradeWork *)p)->taskMenu=0;
-    if (v==0) {POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_NEGO_StepBeginFinalWait);return;}
+    p->taskMenu=0;
+    if (v==0) {POKETRADE_PROC_SetStep(p,POKETRADE_NEGO_StepBeginFinalWait);return;}
     POKETRADE_SAVE_CloseMessageWindowClear(p);
-    POKETRADE_PROC_SetStep(p,(sptr)POKETRADE_PROC_StepRebuildBrowseScene);
+    POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepRebuildBrowseScene);
 }
 
-void POKETRADE_NEGO_StepOpenCancelMenu(void *p)
+void POKETRADE_NEGO_StepOpenCancelMenu(TradeWork *p)
 {
     PokemontradeIntPair t;
     if (POKETRADE_SAVE_IsMessagePrintDone(p)) {
         t = gCancelMenuPos;
         POKETRADE_SAVE_OpenTaskMenuAt(p, (int *)&t, 2, 0x20, 0xc);
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepCancelMenuChoice);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepCancelMenuChoice);
     }
 }
 
-void POKETRADE_NEGO_StepShowCancelMessage(char *p)
+void POKETRADE_NEGO_StepShowCancelMessage(TradeWork *p)
 {
-    MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x87, (*(void * *)&((TradeWork *)p)->messageText));
+    MSGDATA_ReadString((*(void * *)&p->messageBank), 0x87, (*(void * *)&p->messageText));
     POKETRADE_SAVE_OpenMessageWindowTop(p);
-    TOUCHBAR_SetButtonEnabled((*(void * *)&((TradeWork *)p)->touchbar), 1, 0);
-    POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepOpenCancelMenu);
+    TOUCHBAR_SetButtonEnabled((*(void * *)&p->touchbar), 1, 0);
+    POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepOpenCancelMenu);
     POKETRADE_SAVE_SetupWindowRegsSummary(p);
 }
 
-int POKETRADE_NEGO_IsMonOwnOffer(char *p,int a,int b)
+int POKETRADE_NEGO_IsMonOwnOffer(TradeWork *p,int a,int b)
 {
     int x,y,i;
     x=POKETRADE_PROC_GetBoxIndexForSlot(a,p);
     y=POKETRADE_PROC_GetSlotIndexInBox(a,b);
-    if(((TradeWork *)p)->highlightSlot==y && ((TradeWork *)p)->highlightBox==x) return 1;
+    if(p->highlightSlot==y && p->highlightBox==x) return 1;
     if(POKETRADE_PROC_IsHostSide(p)) {
         for(i=0;i<3;i++) {
-            if(((TradeWork *)p)->offerSlot[0][i]==-1) continue;
-            if(y==((TradeWork *)p)->offerSlot[0][i] && x==((TradeWork *)p)->offerBox[0][i]) return 1;
+            if(p->offerSlot[0][i]==-1) continue;
+            if(y==p->offerSlot[0][i] && x==p->offerBox[0][i]) return 1;
         }
     } else {
-        if(((TradeWork *)p)->selectedSlot==y && ((TradeWork *)p)->selectedBox==x && ((TradeWork *)p)->highlightSlot==-1 && ((TradeWork *)p)->highlightBox==-1) return 1;
+        if(p->selectedSlot==y && p->selectedBox==x && p->highlightSlot==-1 && p->highlightBox==-1) return 1;
     }
     return 0;
 }
 
-int POKETRADE_NEGO_IsMonPeerSelected(char *p, int a, int b)
+int POKETRADE_NEGO_IsMonPeerSelected(TradeWork *p, int a, int b)
 {
     int x = POKETRADE_PROC_GetBoxIndexForSlot(a, p);
     int y = POKETRADE_PROC_GetSlotIndexInBox(a, b);
-    if (((TradeWork *)p)->peerSelectedSlot == y && ((TradeWork *)p)->peerSelectedBox == x) {
+    if (p->peerSelectedSlot == y && p->peerSelectedBox == x) {
         return 1;
     }
     return 0;
 }
 
-void POKETRADE_NEGO_StepWaitTouchRelease(void *p)
+void POKETRADE_NEGO_StepWaitTouchRelease(TradeWork *p)
 {
     if (TOUCHPANEL_GetCont() == 0) {
-        POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_PROC_StepRebuildBrowseScene);
+        POKETRADE_PROC_SetStep(p, POKETRADE_PROC_StepRebuildBrowseScene);
     }
 }
 
-void POKETRADE_NEGO_StepSendOfferRemoval(void *p)
+void POKETRADE_NEGO_StepSendOfferRemoval(TradeWork *p)
 {
-    int v = POKETRADE_NEGO_FindOfferIndex(p, ((TradeWork *)p)->peerSelectedBox,
-                          ((TradeWork *)p)->peerSelectedSlot);
+    int v = POKETRADE_NEGO_FindOfferIndex(p, p->peerSelectedBox,
+                          p->peerSelectedSlot);
 
-    if (POKETRADE_PROC_IsNetSession((void *)p) == 0 ||
-        GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc0b, 4, (const void *)((u32)((uptr)(&v)))) != 0) {
-        ((TradeWork *)p)->selectedSlot = -1;
-        ((TradeWork *)p)->selectedBox = -1;
-        ((TradeWork *)p)->highlightSlot = -1;
-        ((TradeWork *)p)->highlightBox = -1;
-        ((TradeWork *)p)->peerSelectedSlot = -1;
-        ((TradeWork *)p)->peerSelectedBox = -1;
+    if (POKETRADE_PROC_IsNetSession(p) == 0 ||
+        GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc0b, 4, (const void *)(&v)) != 0) {
+        p->selectedSlot = -1;
+        p->selectedBox = -1;
+        p->highlightSlot = -1;
+        p->highlightBox = -1;
+        p->peerSelectedSlot = -1;
+        p->peerSelectedBox = -1;
         if (v != -1) {
             POKETRADE_NEGO_RemoveOffer(p, 0, v);
             POKETRADE_2D_DeleteOfferIconActor(p, 0, v);
         }
-        POKETRADE_PROC_SetStep(p, 0x021DF6ED);
+        POKETRADE_PROC_SetStep(p, POKETRADE_NEGO_StepWaitTouchRelease);
     }
 }
 
 /*
  * Init the four sub-objects when the object is in the first state.
  */
-void POKETRADE_NEGO_InitOfferMarkers(void *p)
+void POKETRADE_NEGO_InitOfferMarkers(TradeWork *p)
 {
     int i;
 
@@ -2020,7 +2015,7 @@ void POKETRADE_NEGO_InitOfferMarkers(void *p)
         POKETRADE_2D_CreateMarkerActor(p, i);
 }
 
-void POKETRADE_NEGO_SetOfferMarkersState(void *p, int a)
+void POKETRADE_NEGO_SetOfferMarkersState(TradeWork *p, int a)
 {
     int i;
 
@@ -2030,7 +2025,7 @@ void POKETRADE_NEGO_SetOfferMarkersState(void *p, int a)
         POKETRADE_2D_SetMarkerActorVisible(p, i, a);
 }
 
-void POKETRADE_NEGO_UpdateOfferMarkers(void *p)
+void POKETRADE_NEGO_UpdateOfferMarkers(TradeWork *p)
 {
     int i;
 
@@ -2040,7 +2035,7 @@ void POKETRADE_NEGO_UpdateOfferMarkers(void *p)
         POKETRADE_2D_DeleteMarkerActor(p, i);
 }
 
-void POKETRADE_NEGO_PollMarkerTouch(void *p)
+void POKETRADE_NEGO_PollMarkerTouch(TradeWork *p)
 {
     unsigned x,y;
     unsigned char slot;
@@ -2049,34 +2044,34 @@ void POKETRADE_NEGO_PollMarkerTouch(void *p)
     if(x<8 || x>=104 || y<144 || y>=168) return;
     slot=(x-8)/24U;
     if(slot>=4) slot=3;
-    POKETRADE_2D_SetMarkerActorAnim((void *)p,slot);
+    POKETRADE_2D_SetMarkerActorAnim(p,slot);
     POKETRADE_NEGO_FlashMarker(p,slot,0);
-    if(POKETRADE_PROC_IsNetSession((void *)p)) GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc0d,1, (const void *)((u32)((uptr)(&slot))));
+    if(POKETRADE_PROC_IsNetSession(p)) GFL_NET_SendToHandle((GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0xc0d,1, (const void *)(&slot));
 }
 
 /*
  * Count the two arm timers down and re-arm the ones that expired.
  */
-void POKETRADE_NEGO_TickMarkerTimers(void *p)
+void POKETRADE_NEGO_TickMarkerTimers(TradeWork *p)
 {
     int i;
 
     if (POKETRADE_PROC_IsHostSide(p) == 0)
         return;
     for (i = 0; i < 2; i++) {
-        if (((unsigned char *)p)[0x11e4 + i] == 0)
+        if (p->holdTimer[i] == 0)
             continue;
-        ((unsigned char *)p)[0x11e4 + i]--;
-        if (((unsigned char *)p)[0x11e4 + i] == 0)
-            POKETRADE_2D_DeleteMarkerButtonPair((sptr)p, i);
+        p->holdTimer[i]--;
+        if (p->holdTimer[i] == 0)
+            POKETRADE_2D_DeleteMarkerButtonPair(p, i);
     }
 }
 
-void POKETRADE_NEGO_FlashMarker(void *p, int a, int b)
+void POKETRADE_NEGO_FlashMarker(TradeWork *p, int a, int b)
 {
     if (POKETRADE_PROC_IsHostSide(p)) {
         POKETRADE_2D_CreateMarkerButtonActor(p,a,b);
-        ((unsigned char *)p+b)[0x11e4]=60;
+        p->holdTimer[b]=60;
         if (!GFL_USE_IsSeqPlaying(0x54a)) GFL_USE_PlaySeDefaultVolume(0x54a);
     }
 }
@@ -2084,31 +2079,31 @@ void POKETRADE_NEGO_FlashMarker(void *p, int a, int b)
 /*
  * Reset the two sub-objects and the decoder when in the first state.
  */
-void POKETRADE_NEGO_ResetMarkers(void *p)
+void POKETRADE_NEGO_ResetMarkers(TradeWork *p)
 {
     int i;
 
     if (POKETRADE_PROC_IsHostSide(p) == 0)
         return;
     for (i = 0; i < 2; i++)
-        POKETRADE_2D_DeleteMarkerButtonPair((sptr)p, i);
+        POKETRADE_2D_DeleteMarkerButtonPair(p, i);
     POKETRADE_2D_ReleaseMarkerResources(p);
 }
 
 /*
  * Tear the object down when it is in the first state.
  */
-void POKETRADE_NEGO_ExitMarkers(void *p)
+void POKETRADE_NEGO_ExitMarkers(TradeWork *p)
 {
     if (POKETRADE_PROC_IsHostSide(p))
-        POKETRADE_2D_RegisterMarkerResources((sptr)p);
+        POKETRADE_2D_RegisterMarkerResources(p);
 }
 
-void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v)
+void POKETRADE_NEGO_ShowOfferSlotMon(TradeWork *p,int i,void *v)
 {
     int one;
     POKETRADE_2D_SetOfferIconsVisible(p,i,0);
-    if (((unsigned char *)p+i)[0x11e2]) {
+    if (p->slotTimer[i]) {
         POKETRADE_SAVE_DeletePartnerOfferCard(p,i);
         POKETRADE_3D_DeleteMcssSlot(p,i);
     }
@@ -2119,14 +2114,14 @@ void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v)
     POKETRADE_3D_AddPokemonMcssFlipped(p,i,one-i,v,one-i,one);
 }
 
-void POKETRADE_NEGO_TickOfferSlotTimers(void *p)
+void POKETRADE_NEGO_TickOfferSlotTimers(TradeWork *p)
 {
     int i;
     for(i=0;i<2;i++) {
-        if (((unsigned char *)p+i)[0x11e2]==0) continue;
-        ((unsigned char *)p+i)[0x11e2]--;
+        if (p->slotTimer[i]==0) continue;
+        p->slotTimer[i]--;
         POKETRADE_2D_SetOfferIconsVisible(p,i,0);
-        if (((unsigned char *)p+i)[0x11e2]==0) {
+        if (p->slotTimer[i]==0) {
             POKETRADE_SAVE_DeletePartnerOfferCard(p,i);
             BG_SYS_SetTileEntry(1,0,(unsigned char)(i<<4),0,16,24,16);
             BG_SYS_MarkTileDirty(1);
@@ -2136,16 +2131,16 @@ void POKETRADE_NEGO_TickOfferSlotTimers(void *p)
     }
 }
 
-int POKETRADE_NEGO_SendOfferMon(char *p,void *src,int kind)
+int POKETRADE_NEGO_SendOfferMon(TradeWork *p,void *src,int kind)
 {
-    uptr id;
+    GFLNetHandle *id;
     int one;
-    id=(uptr)GFL_NET_HANDLE_GetCurrentHandle();
-    if(((TradeWork *)p)->stateFlags.bits.sendBusy) return 0;
-    MI_CpuCopy8(src,((TradeWork *)p)->sendBuf,POKE_TOOL_GetPartyParamSize());
+    id=GFL_NET_HANDLE_GetCurrentHandle();
+    if(p->stateFlags.bits.sendBusy) return 0;
+    MI_CpuCopy8(src,p->sendBuf,POKE_TOOL_GetPartyParamSize());
     one=1;
-    if(!(int)GFL_NET_SendData((GFLNetHandle *)id,255,(u16)kind,POKE_TOOL_GetPartyParamSize(),(const void *)((uptr)(((TradeWork *)p)->sendBuf)),(int)0,(int)0,(int)one)) return 0;
-    ((TradeWork *)p)->stateFlags.bits.sendBusy=one;
+    if(!(int)GFL_NET_SendData(id,255,(u16)kind,POKE_TOOL_GetPartyParamSize(),(const void *)((p->sendBuf)),(int)0,(int)0,(int)one)) return 0;
+    p->stateFlags.bits.sendBusy=one;
     return one;
 }
 
@@ -2183,15 +2178,15 @@ void POKETRADE_NEGO_PlaySeByKeyB(int key)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work)
+void POKETRADE_NEGO_PlaySeByEvent(int eventId, TradeWork *work)
 {
     FnIdTable2 t1 = *(FnIdTable2 *)0x021E7754;
     FnIdTable6 t2 = *(FnIdTable6 *)0x021E7764;
     unsigned int i;
 
-    if (work[0x11EF] != 0)
+    if (work->enemySpecialMon != 0)
         return;
-    if (work[0x11ED] == 0) {
+    if (work->enemySameMon == 0) {
         for (i = 0; i < 2; i++)
             if (eventId == t1.e[i].id)
                 GFL_USE_PlaySeDefaultVolume(t1.e[i].fn);

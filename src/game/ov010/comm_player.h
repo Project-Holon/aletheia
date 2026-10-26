@@ -9,6 +9,7 @@ typedef struct CommPlayerWork CommPlayerWork;
 
 struct Entry32;
 struct CommPlayerWork;
+struct Mmdl;
 typedef struct Entry32 Entry32;
 typedef struct CommPlayerWork CommPlayerWork;
 
@@ -39,7 +40,7 @@ void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *
 int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out);
 int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, s16 gridX, int gridY, s16 gridZ, int *outId, u32 *searchIndex);
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index);
-u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
+struct Mmdl *COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index);
 void COMM_PLAYER_CreateSys(void *gameSystem, CommPlayerWork *work);
 /* END mkheaders: generated region */

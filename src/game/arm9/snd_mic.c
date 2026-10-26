@@ -98,8 +98,8 @@ void SND_MIC_Init(u16 heapId)
     struct SndMic *mic;
     void *sampleBuffer;
 
-    mic = GFL_HEAP_Alloc(heapId, 0x28, 0, _SndMicFile, 0x59);
-    MI_CpuFill8(mic, 0, 0x28);
+    mic = GFL_HEAP_Alloc(heapId, sizeof(*mic), 0, _SndMicFile, 0x59);
+    MI_CpuFill8(mic, 0, sizeof(*mic));
     sampleBuffer = GFL_HEAP_Alloc(heapId, 0x2014, 0, _SndMicFile, 0x5f);
     MI_CpuFill8(sampleBuffer, 0, 0x2014);
     mic->sampleBuffer = sampleBuffer;

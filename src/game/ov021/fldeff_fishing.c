@@ -130,7 +130,7 @@ extern G3dObjectStatus sFishingDrawStatus;                     /* draw status te
 /* Loads the resources of the fishing rod effect. */
 FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    FishingRodRes *res = GFL_HEAP_Alloc(heapId, 0x18, 1, sFldeffFishingFileName, 0x60);
+    FishingRodRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffFishingFileName, 0x60);
     res->fieldEffect = fieldEffect;
     FLDEFF_FISHING_LoadResources(res);
     return res;

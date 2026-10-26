@@ -179,7 +179,7 @@ extern const struct DistEnt sZukanFormTable[];
 
 u32 ZUKAN_SAVE_IsInvalidSpecies(u32 species)
 {
-    if (species == 0 || species > 0x289) {
+    if (species == 0 || species > SPECIES_LAST) {
         return 1;
     }
     return 0;
@@ -879,7 +879,7 @@ u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan)
     s32 species;
 
     count = 0;
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsCaught(pZukan, (u16)species) == 1) {
             count++;
         }
@@ -895,7 +895,7 @@ u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, u32 heap)
 
     count = 0;
     pFormTable = POKE_PERSONAL_LoadFormTable(heap, 0);
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsCaught(pZukan, species) == 1 && pFormTable[species] != 0x3E7) {
             count = (u16)(count + 1);
         }
@@ -1013,7 +1013,7 @@ u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *pZukan)
     s32 species;
 
     count = 0;
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsSeen(pZukan, (u16)species) == 1) {
             count++;
         }
@@ -1029,7 +1029,7 @@ u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, u32 heap)
 
     count = 0;
     pFormTable = POKE_PERSONAL_LoadFormTable(heap, 0);
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsSeen(pZukan, species) == 1 && pFormTable[species] != 0x3E7) {
             count = (u16)(count + 1);
         }
@@ -1178,7 +1178,7 @@ u16 ZUKAN_SAVE_CountCaughtNationalCounted(struct ZukanSave *pZukan)
     int species;
     u16 count = 0;
 
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsCaught(pZukan, species) == 1 && ZUKAN_SAVE_IsCountedForNationalCompletion((u16)species) == 1)
             count++;
     }
@@ -1191,7 +1191,7 @@ int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap)
     u16 species;
     u16 count = 0;
 
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsCaught(pZukan, species) != 1) {
             continue;
         }
@@ -1255,7 +1255,7 @@ u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct ZukanSave *pZukan, u32 heap)
 
     count = 0;
     pFormTable = POKE_PERSONAL_LoadFormTable(heap, 0);
-    for (species = 1; species <= 0x289; species++) {
+    for (species = 1; species <= SPECIES_LAST; species++) {
         if (ZUKAN_SAVE_IsSeen(pZukan, species) == 1 && pFormTable[species] != 0x3E7 && ZUKAN_SAVE_IsCountedForRegionalCompletion(species) == 1) {
             count = (u16)(count + 1);
         }

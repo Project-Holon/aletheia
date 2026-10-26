@@ -4,15 +4,21 @@
 #include "../types.h"
 #include "../ov177/wifibattlematch_view_shared_types.h"
 
-typedef struct WifiBattleMatchViewRoot { int a, b, c, d, e, f; } WifiBattleMatchViewRoot;
+/* The 0x7c-byte view root: six CLACT resource handles, then the palette blend state. */
+typedef struct WifiBattleMatchViewAnimState {
+    u32 palMain, palSub;    /* 0x00 palette resource handles */
+    u32 chrMain, chrSub;    /* 0x08 character resource handles */
+    u32 cellMain, cellSub;  /* 0x10 cell animation resource handles */
+    unsigned short out[16], original[16], target[16], phase;
+} WifiBattleMatchViewAnimState;
 
-typedef struct WifiBattleMatchViewAnimState { char pad[0x18]; unsigned short out[16], original[16], target[16], phase; } WifiBattleMatchViewAnimState;
+typedef WifiBattleMatchViewAnimState WifiBattleMatchViewRoot;
 
 typedef struct WifiBattleMatchViewMainInfo {
     u32 kind;            /* 0x00, REC[1] box kind */
     u16 count, pad6;     /* 0x04, BSUBWAY stat count */
     u32 name;            /* 0x08, avatar id (MYSTATUS_GetTrainerView), poke-actor index */
-    void *total;         /* 0x0C, score (a + b), first GetEntryValue argument */
+    u32 total;           /* 0x0C, score (a + b), first GetEntryValue argument */
     u16 a, b;            /* 0x10 win count, 0x12 loss count */
 } WifiBattleMatchViewMainInfo;
 
@@ -21,16 +27,16 @@ typedef struct WifibattlematchViewWork {
     void *wins[30];      /* 0x004 */
     WifibattlematchViewSlot slots[30];      /* 0x07c */
     void *objs[22];      /* 0x16c */
-    void *chr[6];        /* 0x1c4 */
+    u32 chr[6];          /* 0x1c4 CLACT character resource handles */
     char pad1dc[4];
-    void *cell;          /* 0x1e0 */
-    void *pal;           /* 0x1e4 */
+    u32 cell;            /* 0x1e0 cell resource handle */
+    u32 pal;             /* 0x1e4 palette resource handle */
     u32 actorPal;        /* 0x1e8 */
     u32 actorChr;        /* 0x1ec */
     u32 actorCell;       /* 0x1f0 */
-    void *pal2;          /* 0x1f4 */
-    void *chr2;          /* 0x1f8 */
-    void *cell2;         /* 0x1fc */
+    u32 pal2;            /* 0x1f4 */
+    u32 chr2;            /* 0x1f8 */
+    u32 cell2;           /* 0x1fc */
     unsigned objCount;   /* 0x200 */
     short baseX[22];     /* 0x204 */
     u8 bg;               /* 0x230 */
@@ -66,18 +72,18 @@ typedef struct WifiBattleMatchViewRecord {
     char pad0[0x28];
     unsigned score;      /* 0x28 */
     u32 losses;          /* 0x2c */
-    void *total;           /* 0x30 */
+    u32 total;             /* 0x30 */
     unsigned count;      /* 0x34 */
     char name[1];        /* 0x38 */
 } WifiBattleMatchViewRecord;
 
 typedef struct WifiBattleMatchViewPartyWork {
-    void *pal;
-    void *chr[7];
-    void *cell;
-    void *palB;
-    void *chrB;
-    void *cellB;
+    u32 pal;             /* CLACT resource handles */
+    u32 chr[7];
+    u32 cell;
+    u32 palB;
+    u32 chrB;
+    u32 cellB;
     void *spr[14];
     void *win[6];
     WifibattlematchViewSlot ent[6];

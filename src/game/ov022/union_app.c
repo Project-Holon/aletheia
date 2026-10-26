@@ -121,7 +121,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     MI_CpuFill8(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
     OS_GetMacAddress(entry.mac);
-    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
+    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle())), &entry);
     UNION_APP_Close(app);
     UNION_APP_SetReady(app);
     return app;
@@ -449,7 +449,7 @@ unsigned int UNION_APP_GetSettingSize(struct GFLNetHandle *entry)
 
 void UNION_APP_AddSelfToJoined(UnionAppWork *app)
 {
-    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())));
+    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle())));
 }
 
 /*

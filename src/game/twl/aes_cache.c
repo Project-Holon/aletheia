@@ -40,7 +40,7 @@ void AESi_InvalidateRange(void *addr, u32 size)
     }
 
     if (size < 0x2400) {
-        u32 end = (uptr)addr + size;
+        uptr end = (uptr)addr + size;
         if ((uptr)addr & 0x1F) {
             DC_StoreRange(addr, 1);
         }

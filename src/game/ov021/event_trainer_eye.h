@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_trainer_eye.c, prototypes copied from their definitions. */
 
+struct GameEvent;
 struct GridPos;
 typedef struct GridPos GridPos;
 
@@ -43,7 +44,7 @@ int EVENT_TRAINER_EYE_StepWaitPlayerFace(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_StepRelease(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_StepDone(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work);
-int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work);
+int EVENT_TRAINER_EYE_UpdatePairEvent(struct GameEvent *eventSys, int *gameSystem, void *work);
 int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl);
 int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u16 dir, int distance, FieldEncount *encount);
 int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);

@@ -35,7 +35,7 @@ void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 void BMP_OAM_GetPos(struct BmpOam *bmpOam, s16 *outX, s16 *outY);
 void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y);
 void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode);
-void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u32 drawPriority);
+void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u8 drawPriority);
 void BMP_OAM_SetBgPriority(struct BmpOam *bmpOam, u32 bgPriority);
 void BMP_OAM_SetPalette(struct BmpOam *bmpOam, u32 palette);
 u32 BMP_OAM_AcquireModeSlot(struct BmpOamSys *sys, u32 engine, void *arcTool);

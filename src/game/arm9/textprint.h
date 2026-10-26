@@ -23,7 +23,7 @@ typedef struct TextParam {
 
 #include "../types.h"
 
-void TEXTPRINT_Init(u32 fontId);
+void TEXTPRINT_Init(const char *fontFile);
 void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
 void TEXTPRINT_PrintText(const char *text, TextParam *console);
 void TEXTPRINT_SjisToGlyphCodes(const char *text, u16 *out, int maxCodes);

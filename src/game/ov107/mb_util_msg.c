@@ -226,7 +226,7 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     MbTalkWinParam talk;
     int cursor;
 
-    w = (MbMsgWork *)GFL_HEAP_Alloc(heapId, 0x60, 1, d_021F6E38, 0x66);
+    w = (MbMsgWork *)GFL_HEAP_Alloc(heapId, sizeof(MbMsgWork), 1, d_021F6E38, 0x66);
     w->heapId = heapId;
     w->bgFrame = bgFrame;
     w->menuBgFrame = menuBgFrame;

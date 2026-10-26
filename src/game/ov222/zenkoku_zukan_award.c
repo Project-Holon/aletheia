@@ -143,6 +143,7 @@ struct Vec2;
 struct Actor;
 struct PtS;
 #include "../types.h"
+#include "../arm9/mystatus_types.h"
 #include "../sdk_ioreg.h"
 
 #include "../arm9/clact.h"
@@ -229,7 +230,7 @@ struct G3dLight;
 int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p);
 int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
-void ZENKOKU_ZUKAN_AWARD_Task(void);
+void ZENKOKU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1);
 void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(struct ZenkokuZukanAwardWork *p);
 void ZENKOKU_ZUKAN_AWARD_Noop(struct ZenkokuZukanAwardWork *p);
 void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p);
@@ -262,18 +263,18 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  u16 heap;
  void *h;
  GFL_HEAP_CreateChildHeap((uptr)((void*)1),131,0x30000);
- p=PROCSYS_AllocProcWork(owner,88,131);
+ p=PROCSYS_AllocProcWork(owner,sizeof(struct ZenkokuZukanAwardWork),131);
  i=BG_MODE0;
- MI_CpuFill8(p,i,88);
+ MI_CpuFill8(p,i,sizeof(struct ZenkokuZukanAwardWork));
  *(u16*)p=131;
- *(void**)(p+4)=input;
- *(void**)(p+8)=ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
- *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
- *(u32*)(p+16)=(uptr)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
+ ((struct ZenkokuZukanAwardWork *)p)->args=input;
+ ((struct ZenkokuZukanAwardWork *)p)->graphic=ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
+ ((struct ZenkokuZukanAwardWork *)p)->font=GF_FONT_Create(23,0,0,0,*(u16*)p);
+ ((struct ZenkokuZukanAwardWork *)p)->printQue=PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZENKOKU_ZUKAN_AWARD_Task),(void *)p,1);
+ ((struct ZenkokuZukanAwardWork *)p)->task=GFL_USE_AddMainTask(ZENKOKU_ZUKAN_AWARD_Task,(void *)p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_CreateActor((struct ZenkokuZukanAwardWork *)p);
- settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
+ settings=(char *)GAME_DATA_GetMyStatus(*(void**)(((struct ZenkokuZukanAwardWork *)p)->args));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
@@ -285,7 +286,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);
  heap=*(u16*)p;
- selected=1;if(*(u8*)(settings+29)!=1) selected=0;
+ selected=1;if(((struct MyStatus *)settings)->sex!=1) selected=0;
  h=ARC_TOOL_CreateHandle(30,heap);
  zero=0;
  ARC_UTIL_UploadPaletteFromHandleWhole(h,tbl_021BA360[selected].a,4,zero,zero,heap);
@@ -293,7 +294,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA360[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);ZENKOKU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,*(u16*)p);
- if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
+ if(((struct ZenkokuZukanAwardWork *)p)->args->bgmActive==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }
 
@@ -357,7 +358,7 @@ int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char 
  return 0;
 }
 
-void ZENKOKU_ZUKAN_AWARD_Task(void) {}
+void ZENKOKU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1) {}
 
 void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(struct ZenkokuZukanAwardWork *p)
 {
@@ -458,7 +459,7 @@ int ZENKOKU_ZUKAN_AWARD_IsWindowsReady(char*p)
 {
     u8 i;
     for(i=0;i<5;i++){
-        if(*(int*)(p+i*4+0x30)==0)return 0;
+        if(((struct ZenkokuZukanAwardWork *)p)->done[i]==0)return 0;
     }
     return 1;
 }
@@ -520,15 +521,15 @@ void ZENKOKU_ZUKAN_AWARD_DeleteActor(struct ZenkokuZukanAwardWork *p)
 void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
 {
     ZenkokuZukanAwardPt pos;
-    if(*(int*)(*(char**)(p+4)+4)==0){
+    if(((struct ZenkokuZukanAwardWork *)p)->args->bgmActive==0){
         s16 *t;
         BG_SYS_ChangeScrollImmediate(1,3,0x40);
         BG_SYS_ChangeScrollImmediate(2,3,0x40);
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;
-        CLACT_AddActorSurfacePos((struct ClactActor *)(*(void**)(p+0x54)),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
-        *(u8*)(p+0x44)=0;
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((struct ZenkokuZukanAwardWork *)p)->actor),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
+        ((struct ZenkokuZukanAwardWork *)p)->countdown=0;
     }
 }
 

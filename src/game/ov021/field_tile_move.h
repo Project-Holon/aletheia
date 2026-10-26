@@ -20,7 +20,7 @@ typedef struct TileSlideWork TileSlideWork;
 
 TileSpinEntry *FIELD_TILE_MOVE_FindSpinEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSpinEntry(u16 attr);
-int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *work);
+int FIELD_TILE_MOVE_SpinTaskMain(struct GameEvent *event, int *state, void *work);
 GameEvent *FIELD_TILE_MOVE_StartSpinTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 int FIELD_TILE_MOVE_IsSpinTile(u16 attr);
 u16 FIELD_TILE_MOVE_GetSpinStepAcmd(TileSpinWork *work);
@@ -35,7 +35,7 @@ void FIELD_TILE_MOVE_SpinFinish(TileSpinWork *work);
 const TileSlideEntry *FIELD_TILE_MOVE_FindSlideEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSlideEntry(u16 attr);
 TileBumpEntry *FIELD_TILE_MOVE_FindBumpEntry(u16 attr);
-int FIELD_TILE_MOVE_SlideTaskMain(GameEvent *event, int *state, TileSlideWork *work);
+int FIELD_TILE_MOVE_SlideTaskMain(struct GameEvent *event, int *state, void *work);
 GameEvent *FIELD_TILE_MOVE_StartSlideTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 int FIELD_TILE_MOVE_IsSlideTile(u16 attr);
 u16 FIELD_TILE_MOVE_GetSlideStepAcmd(TileSlideWork *work);

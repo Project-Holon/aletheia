@@ -73,7 +73,7 @@ extern const IntroVec sIntroMcssDefaultPos;
 
 void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
-    IntroMcssWork *work = GFL_HEAP_Alloc(heap, 108, 1, gIntroMcssSite, 98);
+    IntroMcssWork *work = GFL_HEAP_Alloc(heap, sizeof(IntroMcssWork), 1, gIntroMcssSite, 98);
     work->sys = MCSS_Init((unsigned int)8, (unsigned int)heap);
     work->heapId = heap;
     if (kind != 7)
@@ -112,5 +112,5 @@ void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c,
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = 1;
-    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], INTRO_G3D_OnAnimEnd, 0);
 }

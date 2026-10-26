@@ -481,7 +481,7 @@ int MB_COMM_SYS_GetOfferFlagB(MbNetState *net);
 int MB_COMM_SYS_HasKind20(MbNetState *net);
 int MB_COMM_SYS_HasKind21(MbNetState *net);
 int MB_COMM_SYS_GetKind21Value(MbNetState *net);
-void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize);
+void MB_COMM_SYS_QueuePayload(int a, void *payload, int payloadSize);
 void MB_COMM_SYS_ClearMonBuffer(MbNetState *net);
 int MB_COMM_SYS_HasMonsReceived(MbNetState *net);
 u8 MB_COMM_SYS_GetMonCount(MbNetState *net);
@@ -503,7 +503,7 @@ MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId)
 {
     MbNetState *net;
 
-    net = GFL_HEAP_Alloc(heapId, 40, 1, d_021F6E28, 159);
+    net = GFL_HEAP_Alloc(heapId, sizeof(*net), 1, d_021F6E28, 159);
     net->heapId = heapId;
     net->netStage = 0;
     net->headerBuffer = 0;
@@ -635,9 +635,9 @@ void MB_COMM_SYS_StartNet(MbNetState *net)
 /* Sets the timing sync range of the current handle and enters stage 4. */
 void MB_COMM_SYS_SetSyncRange(MbNetState *net)
 {
-    int handle = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
+    void *handle = GFL_NET_HANDLE_GetCurrentHandle();
 
-    GFL_NET_HANDLE_SetTimingSyncRange((void *)handle, 0x40, 4);
+    GFL_NET_HANDLE_SetTimingSyncRange(handle, 0x40, 4);
     net->netStage = 4;
 }
 
@@ -770,7 +770,7 @@ int MB_COMM_SYS_GetKind21Value(MbNetState *net)
 }
 
 /* Queues the payload for sending on the lower data layer. */
-void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize)
+void MB_COMM_SYS_QueuePayload(int a, void *payload, int payloadSize)
 {
     GFL_NET_LOWER_DATA_SetSendData(payload, payloadSize, 2, 1);
 }

@@ -12,7 +12,7 @@ void soFree(unsigned long name, void *ptr, long size);
 int DWCi_RakurakuATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
 int ATERMi_ApConfigEnd(void);
 int ATERMi_ApConfigGetState(ATERMApConfigState *state);
-int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
+int DWCi_RakurakuATERMi_ApConfigGetResult(void *a);
 /* END mkheaders: generated region */
 
 #endif

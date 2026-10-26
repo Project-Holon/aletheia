@@ -71,8 +71,8 @@ struct BgTextLabelConfig {
 /* Text label drawn into its own BMP window, 32 bytes. */
 struct BgTextLabel {
     struct BgTextLabelConfig config;
-    u32 font;
-    u32 msgBank;
+    struct GfFont *font;
+    struct MsgBank *msgBank;
     struct BmpWin *window;
     u32 visible;
 };
@@ -95,9 +95,8 @@ extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *st
 #include "../arm9/bmp_win.h"
 #include "../arm9/bmp.h"
 #include "../arm9/bg_sys.h"
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
+struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, struct GfFont *font, struct MsgBank *msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
 u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, u32 msgIndex);
 void BgTextLabel_PrintText(struct BgTextLabel *label, void *text);
@@ -108,9 +107,9 @@ int BgTextLabel_GetCenterOffset(struct BgTextLabel *label, void *text);
 extern const char d_021C4058[];
 
 /* Creates a label and its BMP window from config. */
-struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId)
+struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, struct GfFont *font, struct MsgBank *msgBank, u32 heapId)
 {
-    struct BgTextLabel *label = GFL_HEAP_Alloc(heapId, 32, 0, d_021C4058, 55);
+    struct BgTextLabel *label = GFL_HEAP_Alloc(heapId, sizeof(struct BgTextLabel), 0, d_021C4058, 55);
     label->config = *config;
     label->font = font;
     label->msgBank = msgBank;
@@ -129,7 +128,7 @@ void BgTextLabel_Destroy(struct BgTextLabel *label)
 /* Fetches message msgIndex from the label's message bank and prints it. */
 u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, u32 msgIndex)
 {
-    void *text = MSGDATA_AllocString((struct MsgBank *)label->msgBank, msgIndex);
+    void *text = MSGDATA_AllocString(label->msgBank, msgIndex);
     BgTextLabel_PrintText(label, text);
     return GFL_HEAP_Free(text);
 }
@@ -154,7 +153,7 @@ void BgTextLabel_PrintText(struct BgTextLabel *label, void *text)
         textX = label->config.textX;
         textY = label->config.textY;
     }
-    PRINTSYS_PrintColor(bmp, textX, textY, text, (void *)label->font, color);
+    PRINTSYS_PrintColor(bmp, textX, textY, text, label->font, color);
     if (label->visible != 0) {
         window = label->window;
         BMP_WIN_TransferChars(window);
@@ -203,7 +202,7 @@ int BgTextLabel_GetCenterOffset(struct BgTextLabel *label, void *text)
     int offset;
     int space;
     space = BMP_WIN_GetWidth(label->window) * 8;
-    space = space - PRINTSYS_MeasureWidestLine((struct Strbuf *)text, (struct GfFont *)label->font, 0);
+    space = space - PRINTSYS_MeasureWidestLine((struct Strbuf *)text, label->font, 0);
     offset = (int)(0.5f * (float)space);
     if (offset < 0) {
         offset = 0;

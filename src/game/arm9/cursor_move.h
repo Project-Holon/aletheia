@@ -14,7 +14,7 @@ u32 CURSOR_MOVE_GetTableValue(u32 x);
 u32 CURSOR_MOVE_GetTableGroup(u32 x);
 u32 CURSOR_MOVE_GetTableKind(u32 x);
 u32 CURSOR_MOVE_FindTableGroupIndex(u32 v);
-struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
+struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, void *ctx, u32 state, u8 start, u16 heapId);
 u32 CURSOR_MOVE_Delete(void *cursor);
 void CURSOR_MOVE_EnableInput(struct Cursor *obj);
 void CURSOR_MOVE_SetMode(struct Cursor *obj);

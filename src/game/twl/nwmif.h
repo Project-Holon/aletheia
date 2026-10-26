@@ -13,20 +13,20 @@ typedef struct Pkt Pkt;
 
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
-int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option);
+int WCMi_NwmifBeginSearchAsync(u8 *bssid, u8 *essid, u32 option);
 u32 WCMi_NwmifConnectAsync(void);
 u32 WCMi_NwmifDisconnectAsync(void);
 u32 WCMi_NwmifTerminateAsync(void);
-u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg);
+u32 WCMi_NwmifSetDCFData(u8 *destMac, u8 *frame, u32 length, u32 asyncArg);
 u32 WCMi_NwmifGetAllowedChannel(void);
 void WcmNwmReset(void);
-void WcmNwmcbCommon(u16 *arg);
-void WcmNwmcbScanEx(SendPkt *p);
-void WcmNwmcbConnect(u16 *arg);
-void WcmNwmcbDisconnect(u16 *arg);
-void WcmNwmcbSetRecvFrmBuf(Pkt *p);
-void WcmNwmcbUnsetRecvFrmBuf(Pkt *p);
-void WcmNwmcbSetDCFData(u16 *arg);
+void WcmNwmcbCommon(void *argp);
+void WcmNwmcbScanEx(void *arg);
+void WcmNwmcbConnect(void *argp);
+void WcmNwmcbDisconnect(void *argp);
+void WcmNwmcbSetRecvFrmBuf(void *arg);
+void WcmNwmcbUnsetRecvFrmBuf(void *arg);
+void WcmNwmcbSetDCFData(void *argp);
 void WcmNwmcbSetDCFDataAsync(void *arg);
 /* END mkheaders: generated region */
 

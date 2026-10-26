@@ -709,8 +709,8 @@ u32 BTL_SERVER_CMD_ReadU16(BtlServerCmdQueue *queue)
     int pos;
 
     pos = queue->readPos;
-    src = (const u8 *)((uptr)queue + queue->readPos);
-    value = (*(const u8 *)((uptr)queue + (u32)pos + BTL_SERVER_CMD_DATA_OFFSET) << 8) | *(const u8 *)((uptr)queue + queue->readPos + BTL_SERVER_CMD_DATA_OFFSET + 1);
+    src = (const u8 *)queue + queue->readPos;
+    value = (*((const u8 *)queue + (u32)pos + BTL_SERVER_CMD_DATA_OFFSET) << 8) | *((const u8 *)queue + queue->readPos + BTL_SERVER_CMD_DATA_OFFSET + 1);
     queue->readPos += 2;
     return value;
 }

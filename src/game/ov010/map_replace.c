@@ -113,10 +113,6 @@ MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(struct GameData *unused, int flag
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/MAP_REPLACE_GetDefaultWarpId.c \ * --func MAP_REPLACE_GetDefaultWarpId --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int MAP_REPLACE_GetDefaultWarpId(void);
 int MAP_REPLACE_IsValidWarpId(int warpId);
 struct Location;
-#ifdef __MWERKS__
-extern void ZONEDATA_SetDirectLocation(struct Location *, int, s16, u32, u32, u32); /* original prototype; the definition differs in pointer type, argument sign, argument width */
-#else
-#endif
 /* * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184 * witness. Recheck the caller against that witness; no owner C compiled. * prototype: owner's u16 id is widened to int here because original r1 * is passed unchanged without narrowing. Remaining payloads retain 32 bits. * prior: wave49 one MATCH; tu --suggest-split left caller OUT. */ void MAP_REPLACE_SetDirectLocation(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ);
 int MAP_REPLACE_WarpIdToIndex(int warpId);
 extern const char d_021728BC[];
@@ -302,7 +298,7 @@ warpId = 1;
  * addressing: getter result converted to unsigned; scale/add modulo 32 bits
  * preserves the original muls/add address without assuming a valid array index.
  */
-u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((uptr)d_02170FF4 + (unsigned)MAP_REPLACE_WarpIdToIndex(warpId) * 20u); }
+u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((u8 *)d_02170FF4 + (unsigned)MAP_REPLACE_WarpIdToIndex(warpId) * 20u); }
 
 /*
  * extent: followed by independently matched MAP_REPLACE_FindFlyTargetIndex.c.

@@ -108,6 +108,7 @@ struct TaskNode;         /* one-shot task node, opaque */
 #undef SPL_EMITTER_FreeTexNode
 extern int SPL_EMITTER_FreeTexNode(struct VramNodeHeap *engine); /* original prototype; the definition differs in pointer type, return type */
 #endif
+struct SPLEmitter;
 struct ParticleSys;
 
 /* ---- particle ---- */
@@ -130,10 +131,10 @@ typedef u32 (*ParticleLoadFn)(u32 id, u32 arg);
 struct ParticleSys {
     struct VramNodeHeap *engine;      /* 0x00 */
     void *resourceBlock;                /* 0x04: freed on delete unless flags bit 0 */
-    int activeEffect;                   /* 0x08: handle of the last effect started */
-    u32 workBase;                       /* 0x0C: caller's work buffer */
-    u32 workCursor;                     /* 0x10: bump allocator position */
-    u32 workEnd;                        /* 0x14 */
+    struct SPLEmitter *activeEffect;    /* 0x08: last effect started */
+    uptr workBase;                       /* 0x0C: caller's work buffer */
+    uptr workCursor;                     /* 0x10: bump allocator position */
+    uptr workEnd;                        /* 0x14 */
     ParticleLoadFn texLoadFn;           /* 0x18 */
     ParticleLoadFn palLoadFn;           /* 0x1C */
     struct ParticleCamera *camera;      /* 0x20 */
@@ -158,7 +159,7 @@ struct ParticleSys {
 /* The particle singleton (0x48 bytes). */
 struct ParticleMan {
     struct ParticleSys *systems[16];    /* 0x00 */
-    int callbackArg;                    /* 0x40: user value while an effect starts */
+    uptr callbackArg;                   /* 0x40: user value (an object address) while an effect starts */
     struct ParticleSys *current;        /* 0x44: system whose handlers run */
 };
 
@@ -199,11 +200,11 @@ struct TcbSystem;
 struct TcbTask;
 
 
-unsigned int PARTICLE_AllocTexVramOffset(int szByte, int is4x4comp, int unused2, int unused3);
+u32 PARTICLE_AllocTexVramOffset(u32 szByte, u32 is4x4comp);
 
 u32 PARTICLE_AllocTexVramTracked(u32 a, u32 b);
 
-int PARTICLE_AllocVramOffset(int a, int b);
+u32 PARTICLE_AllocVramOffset(u32 a, u32 b);
 
 u32 PARTICLE_AllocPlttVramTracked(u32 a, u32 b);
 
@@ -242,9 +243,9 @@ void PARTICLE_InitManager(u32 heapId);
 
 void PARTICLE_Main(void);
 
-struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
+struct ParticleSys *PARTICLE_CreateSystemDefault(void *workBuf, u32 workSize, u32 withCamera, u32 heapId);
 
-struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
+struct ParticleSys *PARTICLE_CreateSystem(void *workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
 
 void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 
@@ -284,15 +285,15 @@ void *PARTICLE_AllocWorkSlot15(u32 size);
 
 void *PARTICLE_LoadArchiveMember(u32 archiveId, u32 member, u32 heapId);
 
-void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
+void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, struct TcbList *taskMgr);
 
-void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
+void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, struct TcbList *taskMgr);
 
 void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block);
 
 void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys);
 
-void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys);
+void PARTICLE_ApplyLoadHandlersTask(struct TcbTask *task, void *arg);
 
 void PARTICLE_DrawSystem(struct ParticleSys *sys);
 
@@ -304,15 +305,15 @@ int PARTICLE_DrawAllSystems(void);
 
 int PARTICLE_UpdateAllSystems(void);
 
-int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
+struct SPLEmitter *PARTICLE_StartEffect(struct ParticleSys *sys, int resId, const Vec3 *arg);
 
-int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*callback)(void *), int userArg);
+struct SPLEmitter *PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*callback)(void *), void *userArg);
 
 int PARTICLE_GetEffectCount(struct ParticleSys *sys);
 
 void PARTICLE_KillAllEffects(struct ParticleSys *sys);
 
-void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect);
+void PARTICLE_KillEffect(struct ParticleSys *sys, struct SPLEmitter *effect);
 
 void *PARTICLE_GetWorkBase(struct ParticleSys *sys);
 
@@ -360,7 +361,7 @@ void PARTICLE_InitManager(u32 heapId)
 {
     int i = 0;
 
-    g_pParticleMan = GFL_HEAP_Alloc(heapId, 0x48, i, sParticleFile, 190);
+    g_pParticleMan = GFL_HEAP_Alloc(heapId, sizeof(*g_pParticleMan), i, sParticleFile, 190);
 
     for (i = 0; i < 16; i++) {
         g_pParticleMan->systems[i] = 0;
@@ -388,7 +389,7 @@ void PARTICLE_Main(void)
  *   python tools/match.py one --src src/matched/PARTICLE_CreateSystemDefault.c \
  *       --func PARTICLE_CreateSystemDefault --addr 0x02050C04 --cc 1.1p1 --arm
  */
-struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId)
+struct ParticleSys *PARTICLE_CreateSystemDefault(void *workBuf, u32 workSize, u32 withCamera, u32 heapId)
 {
     return PARTICLE_CreateSystem(workBuf, workSize, withCamera, 5, 6, 63, heapId);
 }
@@ -413,7 +414,7 @@ struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 
  * truncated with a (u16) cast at the use) and its three other decisions all
  * stand.
  */
-struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId)
+struct ParticleSys *PARTICLE_CreateSystem(void *workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId)
 {
     struct ParticleSys *sys;
     struct ParticleSys **table;
@@ -428,16 +429,16 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
     if (i >= 16)
         return 0;
 
-    sys = GFL_HEAP_Alloc((u16)heapId, 0x260, 0, sParticleFile, 285);
-    MI_CpuFill8(sys, 0, 0x260);
+    sys = GFL_HEAP_Alloc((u16)heapId, sizeof(*sys), 0, sParticleFile, 285);
+    MI_CpuFill8(sys, 0, sizeof(*sys));
     sys->cameraPos = sDefaultCameraPos;
     sys->cameraTarget = sDefaultCameraTarget;
     sys->cameraUp = sDefaultCameraUp;
     sys->flags = sys->flags & ~1u;
-    MI_CpuFill8((void *)workBuf, 0, workSize);
-    sys->workBase = workBuf;
-    sys->workCursor = workBuf;
-    sys->workEnd = workBuf + workSize;
+    MI_CpuFill8(workBuf, 0, workSize);
+    sys->workBase = (uptr)workBuf;
+    sys->workCursor = (uptr)workBuf;
+    sys->workEnd = (uptr)workBuf + workSize;
     sys->slotIndex = (u8)i;
     g_pParticleMan->systems[i] = sys;
 
@@ -522,7 +523,7 @@ void PARTICLE_DeleteSystem(struct ParticleSys *sys)
     {
         void *block = sys->resourceBlock;
         sys->loadMode = (u8)z;
-        sys->activeEffect = z;
+        sys->activeEffect = 0;
         if (block != 0) {
             if (((u32)(sys->flags << 31) >> 31) == 0) {
                 GFL_HEAP_Free(block);
@@ -579,7 +580,7 @@ void PARTICLE_ExitManager(void)
 void *PARTICLE_AllocWorkSlot0(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[0];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -591,7 +592,7 @@ void *PARTICLE_AllocWorkSlot0(u32 size)
 void *PARTICLE_AllocWorkSlot1(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[1];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -603,7 +604,7 @@ void *PARTICLE_AllocWorkSlot1(u32 size)
 void *PARTICLE_AllocWorkSlot2(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[2];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -615,7 +616,7 @@ void *PARTICLE_AllocWorkSlot2(u32 size)
 void *PARTICLE_AllocWorkSlot3(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[3];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -627,7 +628,7 @@ void *PARTICLE_AllocWorkSlot3(u32 size)
 void *PARTICLE_AllocWorkSlot4(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[4];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -639,7 +640,7 @@ void *PARTICLE_AllocWorkSlot4(u32 size)
 void *PARTICLE_AllocWorkSlot5(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[5];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -651,7 +652,7 @@ void *PARTICLE_AllocWorkSlot5(u32 size)
 void *PARTICLE_AllocWorkSlot6(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[6];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -663,7 +664,7 @@ void *PARTICLE_AllocWorkSlot6(u32 size)
 void *PARTICLE_AllocWorkSlot7(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[7];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -675,7 +676,7 @@ void *PARTICLE_AllocWorkSlot7(u32 size)
 void *PARTICLE_AllocWorkSlot8(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[8];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -687,7 +688,7 @@ void *PARTICLE_AllocWorkSlot8(u32 size)
 void *PARTICLE_AllocWorkSlot9(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[9];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -699,7 +700,7 @@ void *PARTICLE_AllocWorkSlot9(u32 size)
 void *PARTICLE_AllocWorkSlot10(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[10];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -711,7 +712,7 @@ void *PARTICLE_AllocWorkSlot10(u32 size)
 void *PARTICLE_AllocWorkSlot11(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[11];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -723,7 +724,7 @@ void *PARTICLE_AllocWorkSlot11(u32 size)
 void *PARTICLE_AllocWorkSlot12(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[12];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -735,7 +736,7 @@ void *PARTICLE_AllocWorkSlot12(u32 size)
 void *PARTICLE_AllocWorkSlot13(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[13];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -747,7 +748,7 @@ void *PARTICLE_AllocWorkSlot13(u32 size)
 void *PARTICLE_AllocWorkSlot14(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[14];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -759,7 +760,7 @@ void *PARTICLE_AllocWorkSlot14(u32 size)
 void *PARTICLE_AllocWorkSlot15(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[15];
-    u32 next = sys->workCursor + size;
+    uptr next = sys->workCursor + size;
     uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
@@ -782,7 +783,7 @@ void *PARTICLE_LoadArchiveMember(u32 archiveId, u32 member, u32 heapId)
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
-void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
+void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, struct TcbList *taskMgr)
 {
     u32 mode;
     u32 palMode;
@@ -801,7 +802,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     sys->loadMode = (u8)mode;
     if (mode & PARTICLE_LOAD_TEX_BULK) {
         NNS_GfdSaveVramManager(sys->texHandles);
-        sys->texLoadFn = (ParticleLoadFn)PARTICLE_AllocTexVramOffset;
+        sys->texLoadFn = PARTICLE_AllocTexVramOffset;
     } else if (mode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++)
             sys->texHandles[i] = z;
@@ -810,7 +811,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     }
     if (mode & PARTICLE_LOAD_PAL_BULK) {
         NNSi_GfdGetVramManagerWork((struct Arena02146B74 *)sys->palHandles);
-        sys->palLoadFn = (ParticleLoadFn)PARTICLE_AllocVramOffset;
+        sys->palLoadFn = PARTICLE_AllocVramOffset;
     } else if (mode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++)
             sys->palHandles[i] = z;
@@ -826,7 +827,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     }
     if (taskMgr == 0)
         return;
-    TCB_AddTask((struct TcbSystem *)taskMgr, (TcbFunc)PARTICLE_ApplyLoadHandlersTask, sys, 0);
+    TCB_AddTask((struct TcbSystem *)taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
 }
 
 /*
@@ -834,7 +835,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
  *   python tools/match.py one --src src/matched/PARTICLE_SetupSystemBorrowed.c \
  *       --func PARTICLE_SetupSystemBorrowed --addr 0x02051360 --cc 1.1p1 --arm
  */
-void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
+void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, u32 applyNow, struct TcbList *taskMgr)
 {
     PARTICLE_SetupSystem(sys, block, applyNow, taskMgr);
     sys->flags = (u16)((sys->flags & ~1) | 1);
@@ -886,14 +887,14 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
     fn = sys->texLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocTexVramDefault((uptr)engine);
+        SPL_EMITTER_AllocTexVramDefault((struct RigObject *)engine);
     else
         SPL_EMITTER_AllocTexVramList((struct RigObject *)engine, fn);
 
     fn = sys->palLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocPlttVramDefault((uptr)engine);
+        SPL_EMITTER_AllocPlttVramDefault((struct RigObject *)engine);
     else
         SPL_EMITTER_AllocPlttVramList((struct RigObject *)engine, fn);
 
@@ -905,8 +906,9 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
  *   python tools/match.py one --src src/matched/PARTICLE_ApplyLoadHandlersTask.c \
  *       --func PARTICLE_ApplyLoadHandlersTask --addr 0x020513F8 --cc 1.1p1 --arm
  */
-void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys)
+void PARTICLE_ApplyLoadHandlersTask(struct TcbTask *task, void *arg)
 {
+    struct ParticleSys *sys = arg;
     PARTICLE_ApplyLoadHandlers(sys);
     TCB_DeleteTask((struct TcbTask *)task);
 }
@@ -1063,9 +1065,9 @@ int PARTICLE_UpdateAllSystems(void)
  *   python tools/match.py one --src src/matched/PARTICLE_StartEffect.c \
  *       --func PARTICLE_StartEffect --addr 0x020515B4 --cc 1.1p1 --arm
  */
-int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
+struct SPLEmitter *PARTICLE_StartEffect(struct ParticleSys *sys, int resId, const Vec3 *arg)
 {
-    int effect = SPL_EMITTER_AllocResource((char *)sys->engine, resId, arg);
+    struct SPLEmitter *effect = SPL_EMITTER_AllocResource((char *)sys->engine, resId, arg);
     sys->activeEffect = effect;
     return effect;
 }
@@ -1083,12 +1085,12 @@ int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
  *   python tools/match.py one --src src/matched/PARTICLE_StartEffectWithCallback.c \
  *       --func PARTICLE_StartEffectWithCallback --addr 0x020515CC --cc 1.1p1 --arm
  */
-int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*callback)(void *), int userArg)
+struct SPLEmitter *PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*callback)(void *), void *userArg)
 {
-    int effect;
+    struct SPLEmitter *effect;
     if (sys->engine->effectCount >= 0x18)
-        return -1;
-    g_pParticleMan->callbackArg = userArg;
+        return (struct SPLEmitter *)-1;
+    g_pParticleMan->callbackArg = (uptr)userArg;
     effect = SPL_EMITTER_AllocResourceEx((char *)sys->engine, resId, callback);
     g_pParticleMan->callbackArg = 0;
     sys->activeEffect = effect;
@@ -1113,9 +1115,9 @@ void PARTICLE_KillAllEffects(struct ParticleSys *sys)
  * pointer.  Unlabelled ARM leaf in the ARM9 listing; matched so its overlay
  * callers get a `matched` witness.
  */
-void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect)
+void PARTICLE_KillEffect(struct ParticleSys *sys, struct SPLEmitter *effect)
 {
-    SPL_EMITTER_FreeResource((char *)sys->engine, effect);
+    SPL_EMITTER_FreeResource((char *)sys->engine, (char *)effect);
 }
 
 /*
@@ -1237,7 +1239,7 @@ struct Obj3D {
     s32     angle;
     u16     alpha;
     u8      pad72[0x1E];
-    s32     callback;
+    void  (*callback)(void *, int);
     void   *userData;
 };
 
@@ -1283,7 +1285,7 @@ extern int NNSi_GfdDefaultAllocTexVram(int a, int b, int c); /* original prototy
 
 void *PARTICLE_GetCallbackArg(void)
 {
-    return *(void **)((char *)d_02146A88 + 0x40);
+    return (void *)g_pParticleMan->callbackArg;
 }
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
@@ -1293,9 +1295,9 @@ extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 /*
  * Returns the word at offset 0x20. Filed as the witness for ov094 BTLV_EFFVM_CmdStartParticleEffectTargeted.
  */
-int PARTICLE_EMITTER_GetBlock(struct Obj3D *p)
+void *PARTICLE_EMITTER_GetBlock(struct Obj3D *p)
 {
-    return (sptr)p->blk;
+    return p->blk;
 }
 
 /*
@@ -1570,7 +1572,7 @@ void PARTICLE_EMITTER_SetBehavior5Data(struct Obj3D *p, Vec3 *q)
  *
  * Addresses are Black-image addresses.
  */
-void PARTICLE_EMITTER_SetCallback(struct Obj3D *p, int v)
+void PARTICLE_EMITTER_SetCallback(struct Obj3D *p, void (*v)(void *, int))
 {
     p->callback = v;
 }
@@ -1601,7 +1603,7 @@ void *PARTICLE_EMITTER_GetUserData(struct Obj3D *p)
  * Calls NNSi_GfdDefaultAllocTexVram with a constant 0 as its third argument and returns the
  * low halfword of the result scaled by eight (unused2 and unused3 are unused).
  */
-unsigned int PARTICLE_AllocTexVramOffset(int szByte, int is4x4comp, int unused2, int unused3)
+u32 PARTICLE_AllocTexVramOffset(u32 szByte, u32 is4x4comp)
 {
 #ifdef __MWERKS__
     int t0 = NNSi_GfdDefaultAllocTexVram(szByte, is4x4comp, 0);
@@ -1647,7 +1649,7 @@ u32 PARTICLE_AllocTexVramTracked(u32 szByte, u32 is4x4comp)
  *   python tools/match.py one --src src/matched/PARTICLE_AllocVramOffset.c \
  *       --func PARTICLE_AllocVramOffset --addr 0x02051AA0 --cc 1.1p1 --arm
  */
-int PARTICLE_AllocVramOffset(int a, int b)
+u32 PARTICLE_AllocVramOffset(u32 a, u32 b)
 {
     return (u16)NNS_GfdAllocVram(a, b, 1) << 3;
 }

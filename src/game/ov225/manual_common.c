@@ -112,13 +112,13 @@ extern const char gManualCommonDataAllocFile[];
 
 void *MANUAL_COMMON_CreateData(void *owner,u16 heap)
 {
-    struct ManualData *data=GFL_HEAP_Alloc(heap,0x38,1,gManualCommonDataAllocFile,0x4b);
+    struct ManualData *data=GFL_HEAP_Alloc(heap,sizeof(struct ManualData),1,gManualCommonDataAllocFile,0x4b);
     data->owner=owner; data->heap=heap;
     data->screen=MANUAL_GRAPHIC_CreateScreen(1,data->heap);
-    data->font=(uptr)GF_FONT_Create(23,0,0,0,data->heap);
-    data->printQue[0]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
-    data->printQue[1]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
-    data->printQue[2]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->font=GF_FONT_Create(23,0,0,0,data->heap);
+    data->printQue[0]=PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->printQue[1]=PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->printQue[2]=PRINTSYS_QUE_Create((u32)(u32)data->heap);
     data->bank[0]=MSGDATA_CreateFromArchive(0,2,61,data->heap);
     data->bank[1]=MSGDATA_CreateFromArchive(0,2,MANUAL_MSG_ARCHIVE_1,data->heap);
     data->arc[0]=ARC_TOOL_CreateHandle(223,data->heap);

@@ -376,9 +376,9 @@ void BTLV_MCSS_MosaicTweenTaskEnd(void *task);
 void BTLV_MCSS_AnimWatchTaskMain(struct TcbTask *task, void *arg);
 void BTLV_MCSS_RotationTaskMain(struct TcbTask *task, void *arg);
 void BTLV_MCSS_RotationTaskEnd(void *task);
-void BTLV_MCSS_IdleAnimCallback(int pos);
+void BTLV_MCSS_IdleAnimCallback(void *param, u32 frame);
 int BTLV_MCSS_CellCallbackCheckStopCell(void *ctx, void *record, void *value, int stopCell);
-void BTLV_MCSS_AnimCallbackClearPending(int pos);
+void BTLV_MCSS_AnimCallbackClearPending(void *param, u32 frame);
 void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos);
 int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *w, int pos, int mode);
 int BTLV_MCSS_FindSpriteIndex(BtlvMcssWork *w, int pos);
@@ -393,7 +393,7 @@ BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId)
     BtlvMcssWork *w;
     int sysParam = 0xe;
     int i;
-    w = GFL_HEAP_Alloc(heapId, 0x5b4, 1, gBtlvMcssSourceFileName, 0x184);
+    w = GFL_HEAP_Alloc(heapId, sizeof(*w), 1, gBtlvMcssSourceFileName, 0x184);
     w->mcss = (struct McssSys *)MCSS_Init(sysParam, heapId);
     w->taskOwner = taskOwner;
     w->heapId = heapId;
@@ -599,7 +599,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *work, void *pp, int pos)
         }
         work->sprites[i].flags.idleCounter = 3;
         BTLV_MCSS_ApplySlotScale(work, pos);
-        MCSS_SetAnimCallback(work->sprites[i].mcss, i, (uptr)BTLV_MCSS_IdleAnimCallback, 1);
+        MCSS_SetAnimCallback(work->sprites[i].mcss, (void *)(uptr)i, BTLV_MCSS_IdleAnimCallback, 1);
     }
 }
 
@@ -1011,7 +1011,7 @@ void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *work, int pos, int kind, int interva
         BTLV_MCSS_SetBlinkMode(work, pos, 0);
         return;
     case 2:
-        task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0x5e5);
+        task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*task), 0, gBtlvMcssSourceFileName, 0x5e5);
         task->work = work;
         task->pos = pos;
         task->kind = kind;
@@ -1050,7 +1050,7 @@ void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *work, int pos, int kind, int alpha,
  */
 void BTLV_MCSS_StartShakeTask(BtlvMcssWork *work, BtlvMcssShakeParams *params)
 {
-    BtlvMcssShakeParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x3c, 0, gBtlvMcssSourceFileName, 0x627);
+    BtlvMcssShakeParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*task), 0, gBtlvMcssSourceFileName, 0x627);
     task->work = work;
     task->pos = params->pos;
     task->mode = params->mode;
@@ -1078,7 +1078,7 @@ void BTLV_MCSS_StartShakeTask(BtlvMcssWork *work, BtlvMcssShakeParams *params)
 
 void BTLV_MCSS_StartBounceTask(BtlvMcssWork *work, BtlvMcssBounceParams *params)
 {
-    BtlvMcssBounceParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x2c, 0, gBtlvMcssSourceFileName, 0x660);
+    BtlvMcssBounceParams *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*task), 0, gBtlvMcssSourceFileName, 0x660);
     int idx = BTLV_MCSS_FindSpriteIndex(work, params->pos);
 
     if (idx == -1)
@@ -1269,7 +1269,7 @@ void BTLV_MCSS_SetSubstituteSprite(BtlvMcssWork *work, int pos, int showSubstitu
     if (showSubstitute == 0) {
         MCSS_TOOL_SetSpindaSpotHook(work->mcss, work->sprites[idx].identity.personalRand);
         MCSS_ReloadResource(work->mcss, work->sprites[idx].mcss, (const McssAddWork *)&work->sprites[idx].addWork.arcId);
-        MCSS_SetAnimCallback(work->sprites[idx].mcss, idx, (uptr)BTLV_MCSS_IdleAnimCallback, 1);
+        MCSS_SetAnimCallback(work->sprites[idx].mcss, (void *)(uptr)idx, BTLV_MCSS_IdleAnimCallback, 1);
         if (setSwapped)
             work->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SWAPPED;
         work->sprites[idx].attrFlags &= ~BTLV_MCSS_ATTR_SUBSTITUTE;
@@ -1404,7 +1404,7 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *work, int pos, int pitch, int pan, int choru
 /* Start the formation turn of a rotation battle: side 0 or 1, dir 0 or 1. */
 void BTLV_MCSS_StartRotation(BtlvMcssWork *work, int side, int dir, int playSound)
 {
-    BtlvMcssRotationTask *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x24, 0, gBtlvMcssSourceFileName, 0x8f2);
+    BtlvMcssRotationTask *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*task), 0, gBtlvMcssSourceFileName, 0x8f2);
 
     task->work = work;
     task->state = 0;
@@ -1464,7 +1464,7 @@ void BTLV_MCSS_SetAnimPendingCallback(BtlvMcssWork *work, int pos)
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_SetAnimCallback(work->sprites[idx].mcss, idx, (uptr)BTLV_MCSS_AnimCallbackClearPending, 1);
+    MCSS_SetAnimCallback(work->sprites[idx].mcss, (void *)(uptr)idx, BTLV_MCSS_AnimCallbackClearPending, 1);
 }
 
 int BTLV_MCSS_IsAnimPending(BtlvMcssWork *work, int pos)
@@ -1600,7 +1600,7 @@ void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *work)
  */
 void BTLV_MCSS_MakeAddWorkFromTrainer(u32 trainer, McssAddWork *out, int pos)
 {
-    MCSS_TOOL_MakeAddWorkFromTrainer((void *)(uptr)trainer, out, (void *)(uptr)((pos & 1) == 0));
+    MCSS_TOOL_MakeAddWorkFromTrainer(trainer, out, (pos & 1) == 0);
 }
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -1639,7 +1639,7 @@ void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *work, int pos)
 void BTLV_MCSS_CreateTweenTask(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *from, BtlvMcssVec *to, int frames,
                    int waitFrames, int repeat, void (*fn)(struct TcbTask *, void *), void (*endCb)(void *), int mirrorOdd, u8 serial)
 {
-    BtlvMcssTween *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x54, 0, gBtlvMcssSourceFileName, 0xa4e);
+    BtlvMcssTween *task = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(*task), 0, gBtlvMcssSourceFileName, 0xa4e);
 
     task->work = work;
     task->pos = pos;
@@ -2031,7 +2031,7 @@ void BTLV_MCSS_ShakeTaskEnd(void *task)
     BtlvMcssShakeParams *q = (struct BtlvMcssShakeParams *)TCBL_GetOwnedWork(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
-        q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
+        q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)&q->pos) ^ 0xFFFFFFFF;
 }
 
 /*
@@ -2083,7 +2083,7 @@ void BTLV_MCSS_BounceTaskEnd(void *task)
     BtlvMcssBounceParams *q = (struct BtlvMcssBounceParams *)TCBL_GetOwnedWork(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
-        q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
+        q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)&q->pos) ^ 0xFFFFFFFF;
 }
 
 /* Mosaic tween task. */
@@ -2109,7 +2109,7 @@ void BTLV_MCSS_MosaicTweenTaskMain(struct TcbTask *task, void *arg)
     done = BTLV_EFFECT_StepMover(&t->state, &t->cur);
     BTLV_MCSS_SetMosaic(w, t->pos, t->cur.x >> 12);
     if (done == 1) {
-        MCSS_SetAnimCallback(w->sprites[i].mcss, i, (uptr)BTLV_MCSS_IdleAnimCallback, 1);
+        MCSS_SetAnimCallback(w->sprites[i].mcss, (void *)(uptr)i, BTLV_MCSS_IdleAnimCallback, 1);
         BTLV_EFFECT_DeleteTask(task);
     }
 }
@@ -2131,40 +2131,36 @@ void BTLV_MCSS_AnimWatchTaskMain(struct TcbTask *task, void *arg)
 
     BtlvMcssWork *w = BTLV_EFFECT_GetMcss();
     int i = q->pos;
-    int off;
-    char *e;
     if (i == -1) {
         GFL_HEAP_Free(q);
         TCB_DeleteTask(task);
         return;
     }
-    off = i * 0x5c;
-    e = (char *)w->sprites;
-    if (*(struct McssWork **)(e + off) == 0) {
+    if (w->sprites[i].mcss == 0) {
         GFL_HEAP_Free(q);
         TCB_DeleteTask(task);
         return;
     }
     switch (q->state) {
     case 0:
-        ((AnimCtrl *)MCSS_GetAnimCtrl(*(struct McssWork **)(e + off)))->bActive = 0;
-        MCSS_SetCellCallback(*(struct McssWork **)(e + off), i | 0x80000000, BTLV_MCSS_CellCallbackCheckStopCell);
+        ((AnimCtrl *)MCSS_GetAnimCtrl(w->sprites[i].mcss))->bActive = 0;
+        MCSS_SetCellCallback(w->sprites[i].mcss, i | 0x80000000, BTLV_MCSS_CellCallbackCheckStopCell);
         q->state++;
         q->wait = gBtlvMcssIdleWaitFrames[(u32)(((u64)GF_STANDARD_Rand() * 3) >> 32)];
         return;
     case 1:
         q->wait--;
         if (q->wait != 0 && w->rotateTweenMask == 0 && BTLV_EFFVM_GetFallbackScriptFlag(BTLV_EFFECT_GetEffvm()) != 0) break;
-        MCSS_SetAnimeIndex(*(struct McssWork **)(e + off), 0);
-        ((AnimCtrl *)MCSS_GetAnimCtrl(*(struct McssWork **)(e + off)))->bActive = 1;
-        MCSS_SetCellCallback(*(struct McssWork **)(e + off), i, BTLV_MCSS_CellCallbackCheckStopCell);
+        MCSS_SetAnimeIndex(w->sprites[i].mcss, 0);
+        ((AnimCtrl *)MCSS_GetAnimCtrl(w->sprites[i].mcss))->bActive = 1;
+        MCSS_SetCellCallback(w->sprites[i].mcss, i, BTLV_MCSS_CellCallbackCheckStopCell);
         q->state++;
         return;
     case 2:
-        MCSS_SetAnimCallback(*(struct McssWork **)(e + off), i, (uptr)BTLV_MCSS_IdleAnimCallback, 1);
+        MCSS_SetAnimCallback(w->sprites[i].mcss, (void *)(uptr)i, BTLV_MCSS_IdleAnimCallback, 1);
         GFL_HEAP_Free(q);
         TCB_DeleteTask(task);
-        *(void **)((char *)w + off + 0x30) = 0;
+        w->sprites[i].animWatchTask = 0;
         break;
     }
 }
@@ -2258,8 +2254,9 @@ void BTLV_MCSS_RotationTaskEnd(void *task)
  * start the idle animation watcher.
  * lever: Bind the random draw before the variable 64-bit product.
  */
-void BTLV_MCSS_IdleAnimCallback(int pos)
+void BTLV_MCSS_IdleAnimCallback(void *param, u32 frame)
 {
+    int pos = (int)(uptr)param;
     BtlvMcssWork *w = BTLV_EFFECT_GetMcss();
     BtlvMcssSprite *sprites;
     unsigned n;
@@ -2328,8 +2325,9 @@ int BTLV_MCSS_CellCallbackCheckStopCell(void *ctx, void *record, void *value, in
     return 1;
 }
 
-void BTLV_MCSS_AnimCallbackClearPending(int pos)
+void BTLV_MCSS_AnimCallbackClearPending(void *param, u32 frame)
 {
+    int pos = (int)(uptr)param;
     BTLV_EFFECT_GetMcss()->sprites[pos].animPending = 0;
 }
 

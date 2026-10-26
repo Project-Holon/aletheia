@@ -17,7 +17,7 @@ typedef struct IRCNetPacket {
 } IRCNetPacket;
 
 typedef int (*IRCNetRecvFn)(u16 id, u8 *data, u16 len);
-typedef int (*IRCNetFilterFn)(u8 groupId, u8 packetGroupId);
+typedef int (*IRCNetFilterFn)(int groupId, int packetGroupId);
 
 /* Command byte of a link packet (IRCNetPacket.type, also passed to IRC_Send and
  * IRCi_Send). The values were read from the flow in irc.c: IRC_Connect sends

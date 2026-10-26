@@ -72,13 +72,13 @@ Wf2dmapObj *WF2DMAP_OBJ_Create(void *a,u16 *s);
 
 void WF2DMAP_OBJ_Clear(void *p);
 
-char *WF2DMAP_OBJ_FindById(unsigned *p, unsigned id);
+char *WF2DMAP_OBJ_FindById(Wf2dmapObjList *p, unsigned id);
 
-char *WF2DMAP_OBJ_GetByIndex(char **p, int i);
+char *WF2DMAP_OBJ_GetByIndex(Wf2dmapObjList *p, int i);
 
-char *WF2DMAP_OBJ_FindById2(unsigned *p,unsigned id);
+char *WF2DMAP_OBJ_FindById2(Wf2dmapObjList *p,unsigned id);
 
-char *WF2DMAP_OBJ_GetByIndex2(char **p,int i);
+char *WF2DMAP_OBJ_GetByIndex2(Wf2dmapObjList *p,int i);
 
 int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 
@@ -88,7 +88,7 @@ Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i);
 
 unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int i);
 
-char *WF2DMAP_OBJ_AllocSlot(unsigned *p);
+char *WF2DMAP_OBJ_AllocSlot(Wf2dmapObjList *p);
 
 Wf2dmapPos WF2DMAP_OBJ_GetPos(char *p);
 
@@ -113,7 +113,7 @@ extern unsigned char sWf2dmapDirectionTable[];
 Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap)
 {
     Wf2dmapObjList *p;
-    p = GFL_HEAP_Alloc(heap, 8, 1, sWf2dmapObjFileName, 128);
+    p = GFL_HEAP_Alloc(heap, sizeof(Wf2dmapObjList), 1, sWf2dmapObjFileName, 128);
     p->count = count;
     p->entries = GFL_HEAP_Alloc(heap, 24 * p->count, 1, sWf2dmapObjFileName, 133);
     return p;
@@ -133,25 +133,25 @@ void WF2DMAP_OBJ_DispatchById(void *a, u8 *q)
     WF2DMAP_OBJ_ApplyCommand(WF2DMAP_OBJ_FindById(a, q[7]), (char *)q);
 }
 
-void WF2DMAP_OBJ_UpdateList(u8 *p) { u32 i,n; char *q; n=WF2DMAP_OBJ_GetCount(p);for(i=0;i<n;i++){q=WF2DMAP_OBJ_GetByIndex((char **)p,(u16)i);if(q)WF2DMAP_OBJCMD_Update((u8 *)q);} }
+void WF2DMAP_OBJ_UpdateList(u8 *p) { u32 i,n; char *q; n=WF2DMAP_OBJ_GetCount(p);for(i=0;i<n;i++){q=WF2DMAP_OBJ_GetByIndex((Wf2dmapObjList *)p,(u16)i);if(q)WF2DMAP_OBJCMD_Update((u8 *)q);} }
 
 u32 WF2DMAP_OBJ_GetCount(u8 *p) { return ((Wf2dmapObjList *)p)->count; }
 
-Wf2dmapObj *WF2DMAP_OBJ_Create(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)WF2DMAP_OBJ_AllocSlot((unsigned *)a);x=(s16)s[0];y=(s16)s[1];((Wf2dmapObj *)p)->posX=x;((Wf2dmapObj *)p)->posY=y;((Wf2dmapObj *)p)->destX=x;((Wf2dmapObj *)p)->destY=y;((Wf2dmapObj *)p)->id=s[2];p[21]=s[3];p[20]=s[4];((Wf2dmapObj *)p)->kind=s[5];((Wf2dmapObj *)p)->active=1; return (Wf2dmapObj *)p; }
+Wf2dmapObj *WF2DMAP_OBJ_Create(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)WF2DMAP_OBJ_AllocSlot(a);x=(s16)s[0];y=(s16)s[1];((Wf2dmapObj *)p)->posX=x;((Wf2dmapObj *)p)->posY=y;((Wf2dmapObj *)p)->destX=x;((Wf2dmapObj *)p)->destY=y;((Wf2dmapObj *)p)->id=s[2];p[21]=s[3];p[20]=s[4];((Wf2dmapObj *)p)->kind=s[5];((Wf2dmapObj *)p)->active=1; return (Wf2dmapObj *)p; }
 
 void WF2DMAP_OBJ_Clear(void *p) { MI_CpuFill8(p,0,24); }
 
-char *WF2DMAP_OBJ_FindById(unsigned *p, unsigned id)
+char *WF2DMAP_OBJ_FindById(Wf2dmapObjList *p, unsigned id)
 {
  unsigned i=0;
- if (i<p[1]) { char *base=(char *)p[0]; char *e;
- do { e=base+i*24; if (((Wf2dmapObj *)e)->active==1 && id==((Wf2dmapObj *)e)->id) return e; i++; } while(i<p[1]); }
+ if (i<p->count) { char *base=(char *)p->entries; char *e;
+ do { e=base+i*24; if (((Wf2dmapObj *)e)->active==1 && id==((Wf2dmapObj *)e)->id) return e; i++; } while(i<p->count); }
  return 0;
 }
 
-char *WF2DMAP_OBJ_GetByIndex(char **p, int i)
+char *WF2DMAP_OBJ_GetByIndex(Wf2dmapObjList *p, int i)
 {
-    char *base = *p;
+    char *base = (char *)p->entries;
     char *e = base + i * 0x18;
 
     if (((Wf2dmapObj *)e)->active != 1)
@@ -159,9 +159,9 @@ char *WF2DMAP_OBJ_GetByIndex(char **p, int i)
     return e;
 }
 
-char *WF2DMAP_OBJ_FindById2(unsigned *p,unsigned id) { return WF2DMAP_OBJ_FindById(p,id); }
+char *WF2DMAP_OBJ_FindById2(Wf2dmapObjList *p,unsigned id) { return WF2DMAP_OBJ_FindById(p,id); }
 
-char *WF2DMAP_OBJ_GetByIndex2(char **p,int i) { return WF2DMAP_OBJ_GetByIndex(p,i); }
+char *WF2DMAP_OBJ_GetByIndex2(Wf2dmapObjList *p,int i) { return WF2DMAP_OBJ_GetByIndex(p,i); }
 
 /*
  * extent: two zero alignment bytes at 0x021C49FE follow the return.
@@ -229,8 +229,8 @@ void WF2DMAP_OBJ_SetSlot(void *p, int i, int v)
 Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i)
 {
  Wf2dmapPos *v=&p;
- v->x += *(signed char *)((uptr)&sWf2dmapStepDelta.dx+i*2);
- v->y += *(signed char *)((uptr)&sWf2dmapStepDelta.dy+i*2);
+ v->x += *(signed char *)(&sWf2dmapStepDelta.dx+i*2);
+ v->y += *(signed char *)(&sWf2dmapStepDelta.dy+i*2);
  return p;
 }
 
@@ -244,11 +244,11 @@ unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int i)
     return sWf2dmapDirectionTable[i];
 }
 
-char *WF2DMAP_OBJ_AllocSlot(unsigned *p)
+char *WF2DMAP_OBJ_AllocSlot(Wf2dmapObjList *p)
 {
  unsigned i=0;
- if (i<p[1]) { char *base=(char *)p[0];
- do { if (*(unsigned *)(base+i*24)==0) return base+i*24; i++; } while(i<p[1]); }
+ if (i<p->count) { char *base=(char *)p->entries;
+ do { if (*(unsigned *)(base+i*24)==0) return base+i*24; i++; } while(i<p->count); }
  return 0;
 }
 
@@ -305,7 +305,7 @@ u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n)
     id = WF2DMAP_OBJ_GetSlot(p, 4);
     count = WF2DMAP_OBJ_GetCount(list);
     for (i = 0; i < count; i++) {
-        q = (u8 *)WF2DMAP_OBJ_GetByIndex2((char **)list, (u16)i);
+        q = (u8 *)WF2DMAP_OBJ_GetByIndex2((Wf2dmapObjList *)list, (u16)i);
         if (q != 0) {
             qid = WF2DMAP_OBJ_GetSlot(q, 4);
             if (qid == id) continue;
@@ -318,10 +318,10 @@ u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n)
     return 0;
 }
 
-extern void (*sWf2dmapCommandTable)(char *,Wf2dmapPairU16,unsigned);
+extern void (*sWf2dmapCommandTable[])(char *,Wf2dmapPairU16,unsigned);
 
 void WF2DMAP_OBJ_ApplyCommand(char *p,char *q)
 {
- (*(void (**)(char *,Wf2dmapPairU16,unsigned))((uptr)&sWf2dmapCommandTable+*(u16 *)(q+4)*4))(p,*(Wf2dmapPairU16 *)q,((Wf2dmapCmdDesc *)q)->value);
+ sWf2dmapCommandTable[((Wf2dmapCmdDesc *)q)->index](p,((Wf2dmapCmdDesc *)q)->pos,((Wf2dmapCmdDesc *)q)->value);
  ((Wf2dmapObj *)p)->updateCounter=0;
 }

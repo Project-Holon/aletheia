@@ -8,8 +8,8 @@ typedef struct NNSSndSystem {
     u32 initialized;
     u32 mode;
     u8  pad08[4];
-    u32 effectBufferL;
-    u32 effectBufferR;
+    void *effectBufferL;
+    void *effectBufferR;
     u32 effectBufferSize;
     u8  pad18[4];
     u32 captureActive;

@@ -82,7 +82,7 @@
  *   memset  0x020923B0  arm
  *   strlen  0x0209477C  arm
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "auth_types.h"
 extern int wsLoginCertReadXML(GSLoginCertificate *cert, void *reader);
 

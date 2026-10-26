@@ -71,11 +71,11 @@ int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
 
 int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
 
-int GAME_EVENT_CallProcSeq(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_CallProcSeq(struct GameEvent *event, int *seq, void *work);
 
 void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 
-int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_OverlaySeq(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 
@@ -83,7 +83,7 @@ struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-u32 *GAME_EVENT_GetSeq(struct GameEvent *event);
+int *GAME_EVENT_GetSeq(struct GameEvent *event);
 
 struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
 
@@ -292,7 +292,7 @@ int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn 
  *   python tools/match.py one --src src/matched/GAME_EVENT_CallProcSeq.c \
  *       --func GAME_EVENT_CallProcSeq --addr 0x0201240C --cc 1.1p1 --thumb
  */
-int GAME_EVENT_CallProcSeq(struct GameEvent *event, u32 *seq, void *work)
+int GAME_EVENT_CallProcSeq(struct GameEvent *event, int *seq, void *work)
 {
     struct ProcCallWork *call = work;
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
@@ -340,7 +340,7 @@ void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData
  *   python tools/match.py one --src src/matched/GAME_EVENT_OverlaySeq.c \
  *       --func GAME_EVENT_OverlaySeq --addr 0x02012474 --cc 1.1p1 --thumb
  */
-int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work)
+int GAME_EVENT_OverlaySeq(struct GameEvent *event, int *seq, void *work)
 {
     struct OverlayEventWork *overlay = work;
 
@@ -398,7 +398,7 @@ void *GAME_EVENT_GetWork(struct GameEvent *event)
     return event->work;
 }
 
-u32 *GAME_EVENT_GetSeq(struct GameEvent *event)
+int *GAME_EVENT_GetSeq(struct GameEvent *event)
 {
     return &event->seq;
 }

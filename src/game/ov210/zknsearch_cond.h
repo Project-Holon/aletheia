@@ -4,7 +4,9 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zknsearch_cond.c, prototypes copied from their definitions. */
 
-void ZKNSEARCH_COND_InitFrameList(char *ctx);
+#include "../ov210/zknsearch_types.h"
+
+void ZKNSEARCH_COND_InitFrameList(ZknSearchWork *ctx);
 /* END mkheaders: generated region */
 
 #endif

@@ -237,7 +237,7 @@ struct Party;
 #ifdef __MWERKS__
 /* original prototypes: the DS code declares these with other argument or return types than the definitions */
 #undef SHINKA_CHECK_CheckEvolution
-extern u16 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
+extern u16 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *mon, u32 mode, uptr zoneId, u8 season, u32 *method, u16 heapId);
 #endif
 #include "../ov010/fldmmdl_poslog.h"
 #include "../arm9/arc_tool.h"
@@ -282,7 +282,7 @@ int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc)
     struct EventBattleReturnWork *work;
 
     GFL_HEAP_CreateChildHeap(1, EVENT_BATTLE_RETURN_HEAP_ID, 0x1000);
-    work = PROCSYS_AllocProcWork((struct Proc *)proc, 0x4c, EVENT_BATTLE_RETURN_HEAP_ID);
+    work = PROCSYS_AllocProcWork((struct Proc *)proc, sizeof(struct EventBattleReturnWork), EVENT_BATTLE_RETURN_HEAP_ID);
     work->nameBuf = STRBUF_Create(0x20, EVENT_BATTLE_RETURN_HEAP_ID);
     work->nameInArgs = 0;
     work->caughtMon = 0;
@@ -455,7 +455,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
                 work->levelUpMask = work->levelUpMask >> 1;
                 work->scanIndex++;
                 if (species) {
-                    evolutionRequest = GFL_HEAP_Alloc(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
+                    evolutionRequest = GFL_HEAP_Alloc(work->heapId, sizeof(struct EvolutionRequest), 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
                     evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
                     work->evolutionRequest = evolutionRequest;
                     PROCSYS_Push((ProcSys *)work->procSys, (uptr)ov195_id, (const ProcData *)&data_02208C40, (void *)evolutionRequest);

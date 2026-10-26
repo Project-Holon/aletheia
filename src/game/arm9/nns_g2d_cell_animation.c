@@ -34,8 +34,8 @@
 #include "nns_g2d_load.h"
 void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
 void NNS_G2dSetCellAnimationBank(CellAnim *anim, void *bank);
-void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func);
-void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, u32 param, u32 func, u16 frameIdx);
+void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, void *param, AnimCallBackFunc func);
+void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, void *param, AnimCallBackFunc func, u16 frameIdx);
 s32 NNS_G2dIsCellAnimationBoundingBox(CellAnim *anim);
 
 static inline BOOL IsForward_(const AnimCtrl *pAnimCtrl)
@@ -79,9 +79,9 @@ void NNS_G2dSetCellAnimationBank(CellAnim *anim, void *bank)
     NNS_G2dResetCellAnimation(&anim->animCtrl);
 }
 
-void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func)
+void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, void *param, AnimCallBackFunc func)
 {
-    anim->animCtrl.callBack.pFunc = (void *)func;
+    anim->animCtrl.callBack.pFunc = func;
     anim->animCtrl.callBack.param = param;
     anim->animCtrl.callBack.type = type;
     anim->animCtrl.callBack.frameIdx = 0;
@@ -95,10 +95,10 @@ void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationParamTagged.c  *       --func NNS_G2dSetCellAnimationParamTagged --addr 0x02063018 --cc 1.1p1
  */
-void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, u32 param, u32 func, u16 frameIdx)
+void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, void *param, AnimCallBackFunc func, u16 frameIdx)
 {
     anim->animCtrl.callBack.type = 2;
-    anim->animCtrl.callBack.pFunc = (void *)func;
+    anim->animCtrl.callBack.pFunc = func;
     anim->animCtrl.callBack.param = param;
     anim->animCtrl.callBack.frameIdx = frameIdx;
 }

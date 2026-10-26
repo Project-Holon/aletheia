@@ -25,7 +25,7 @@
  *   OS_GetTick        0x020870D0  arm
  *   _ZZ18DWCi_GetMathRand32mE15stRandContext32  0x021AA848  data
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 extern int strncmp(const char *s1, const char *s2, unsigned int n);
 extern char *strncpy(char *dest, const char *src, unsigned int n);
 extern char *strchr(const char *s, int c);

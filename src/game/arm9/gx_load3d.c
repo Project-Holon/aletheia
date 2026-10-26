@@ -40,12 +40,12 @@ typedef void (*MIDmaCallback)(void *);
 /* gx_load3d.o's .bss statics, in their laid-out order */
 typedef struct {
     int clrImg;
-    u32 texLCDCBlk1;
-    u32 texPlttLCDCBlk;
+    uptr texLCDCBlk1;
+    uptr texPlttLCDCBlk;
     int texPltt;
-    u32 clrImgLCDCBlk;
+    uptr clrImgLCDCBlk;
     int tex;
-    u32 texLCDCBlk2;
+    uptr texLCDCBlk2;
     u32 szTexBlk1;
 } GXLoad3DState;
 
@@ -90,7 +90,7 @@ static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopyAsync(dmaNo - 4, (uptr)src, (uptr)dest, (unsigned int)size, callback, (uptr)arg);
+        MI_NDmaCopyAsync(dmaNo - 4, (uptr)src, (uptr)dest, (unsigned int)size, callback, arg);
     } else {
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }

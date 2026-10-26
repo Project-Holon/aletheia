@@ -199,7 +199,7 @@ extern const VecFx32 sPartyRecoveryBallOffsets[RECOVERY_BALL_MAX];
 
 GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count);
 
-int EVENT_RECOVERY_RunBalls(GameEvent *event, int *seq, void *eventWork);
+int EVENT_RECOVERY_RunBalls(struct GameEvent *event, int *seq, void *eventWork);
 
 void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count);
 
@@ -217,7 +217,7 @@ int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work);
 
 GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent);
 
-int EVENT_RECOVERY_RunParty(GameEvent *event, int *seq, void *eventWork);
+int EVENT_RECOVERY_RunParty(struct GameEvent *event, int *seq, void *eventWork);
 
 void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem);
 
@@ -236,7 +236,7 @@ u32 EVENT_RECOVERY_GetPartyBallCount(GameSystem *gameSystem);
  */
 GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
     RecoveryBallsWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitBalls(work, gameSystem, count);
@@ -248,7 +248,7 @@ GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *pa
  * frames, starts the machine animation and the jingle, waits until every ball
  * is idle, then plays the balls out and the sound task that ends the jingle.
  */
-int EVENT_RECOVERY_RunBalls(GameEvent *event, int *seq, void *eventWork)
+int EVENT_RECOVERY_RunBalls(struct GameEvent *event, int *seq, void *eventWork)
 {
     RecoveryBallsWork *work = eventWork;
 
@@ -409,7 +409,7 @@ int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work)
  */
 GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
     PartyRecoveryWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitParty(work, gameSystem);
@@ -421,7 +421,7 @@ GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *pa
  * frames, then starts the finish mode on the balls and the machine node,
  * waits for the machine animation and ends.
  */
-int EVENT_RECOVERY_RunParty(GameEvent *event, int *seq, void *eventWork)
+int EVENT_RECOVERY_RunParty(struct GameEvent *event, int *seq, void *eventWork)
 {
     PartyRecoveryWork *work = eventWork;
 

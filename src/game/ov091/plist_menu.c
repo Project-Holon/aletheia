@@ -256,7 +256,7 @@ PlistMenu *PLIST_MENU_Create(PokelistWork *work)
 
     menu = GFL_HEAP_Alloc(work->heapId, sizeof(PlistMenu), 0, gPlistMenuAllocSite, 0x63);
     ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1f, 0, 0x20, 0x40, work->heapId);
-    menu->windowRes = ARC_UTIL_LoadBgCharDataFromArchive((u32)(APP_ICON_GetArchiveId()), (u32)0x20, (u32)0, (void *)((uptr)&menu->windowOut), work->heapId);
+    menu->windowRes = ARC_UTIL_LoadBgCharDataFromArchive((u32)(APP_ICON_GetArchiveId()), (u32)0x20, (u32)0, (void *)(&menu->windowOut), work->heapId);
     return menu;
 }
 
@@ -387,12 +387,12 @@ void PLIST_MENU_BuildCommandList(PokelistWork *work, PlistMenu *menu, int *items
 struct Strbuf *PLIST_MENU_CreateCommandLabel(PokelistWork *work, PlistMenu *menu, int id)
 {
     sptr r;
-    sptr h;
+    struct MsgBank *h;
     if (id >= 0x10 && id <= 0x13) {
         r = POKE_TOOL_GetPartyValue(work->selectedMon, id + 0x26, 0);
-        h = (sptr)MSGDATA_CreateFromArchive(0, 2, 0xcb, work->heapId);
-        r = (sptr)MSGDATA_AllocString((struct MsgBank *)h, r);
-        MSGDATA_Delete((struct MsgBank *)h);
+        h = MSGDATA_CreateFromArchive(0, 2, 0xcb, work->heapId);
+        r = (sptr)MSGDATA_AllocString(h, r);
+        MSGDATA_Delete(h);
     } else {
         r = (sptr)MSGDATA_AllocString(work->msgBank, gPlistMenuLabelMsgIds[id]);
     }
@@ -587,7 +587,7 @@ void PLIST_MENU_ShowItemUsedThenClose(PokelistWork *work)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetItem((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->arg->itemId);
+    PLIST_MESSAGE_SetWordSetItem((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->arg->itemId);
     POKELIST_ShowMessage(work, 0x51, 1, POKELIST_EndMessageToExit);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -596,7 +596,7 @@ void PLIST_MENU_ShowItemUsedThenContinue(PokelistWork *work)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetItem((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->arg->itemId);
+    PLIST_MESSAGE_SetWordSetItem((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->arg->itemId);
     POKELIST_ShowMessage(work, 0x51, 1, POKELIST_CloseMessageToList);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -620,13 +620,13 @@ int PLIST_MENU_StartItemUse(PokelistWork *work, int v)
     case 2:
         level = POKE_TOOL_CalcLevel(work->selectedMon);
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-        PLIST_MESSAGE_SetWordSetNumber((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 1, (u16)(level + 1), 3);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+        PLIST_MESSAGE_SetWordSetNumber((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 1, (u16)(level + 1), 3);
         POKELIST_ShowMessage(work, 0x9d, 1, PLIST_MENU_BeginLevelUpMoveWait);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         msg = STRBUF_Create(12, work->heapId);
         POKE_TOOL_GetPartyValue(work->selectedMon, 0x73, (uptr)msg);
-        GAME_BEACON_SetPokeLevelUp((struct Strbuf *)((sptr)msg));
+        GAME_BEACON_SetPokeLevelUp((struct Strbuf *)(msg));
         STRBUF_Delete(msg);
         for (i = 0; i < 6; i++) {
             work->levelUpMoveStat[i] = POKE_TOOL_GetPartyValue(work->selectedMon, gPlistStatParamIds[i], 0);
@@ -655,7 +655,7 @@ int PLIST_MENU_StartItemUse(PokelistWork *work, int v)
         break;
     case 26: case 27:
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, (u16)v);
+        PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, (u16)v);
         POKELIST_ShowMessage(work, 0x34, 1, POKELIST_CloseMessageIfItemInBag);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         break;
@@ -671,10 +671,10 @@ void PLIST_MENU_ShowHpRestored(PokelistWork *work)
     h = PLIST_PLATE_GetHp(work, (struct PlistPlate *)work->plates[work->selectedSlot]);
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
     v = work->displayHp;
     if (v != 0) {
-        PLIST_MESSAGE_SetWordSetNumber((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 1, (u16)(h - v), (int)3);
+        PLIST_MESSAGE_SetWordSetNumber((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 1, (u16)(h - v), (int)3);
         POKELIST_ShowMessage(work, 0x2c, 1, POKELIST_CloseMessageIfItemInBag);
     } else {
         POKELIST_ShowMessage(work, 0x32, 1, POKELIST_CloseMessageIfItemInBag);
@@ -686,7 +686,7 @@ void PLIST_MENU_ShowItemResult(PokelistWork *work)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
     if (PLIST_MENU_FindItemTarget(work) != -1) {
         POKELIST_ShowMessage(work, 0x32, 1, PLIST_MENU_UseItemOnFoundTarget);
     } else {
@@ -715,7 +715,7 @@ void PLIST_MENU_BeginLevelUpMoveWait(PokelistWork *work)
     work->phase = 0xd;
     work->inputStage = 0;
     work->arg->levelUpCursor = 0;
-    PLIST_MESSAGE_DrawKeyCursorMark((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow);
+    PLIST_MESSAGE_DrawKeyCursorMark((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow);
 }
 
 void PLIST_MENU_BeginExitWait(PokelistWork *work)
@@ -799,12 +799,12 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         if (result == 0xfffe) { work->inputStage = 7; return; }
         if (result & 0x8000) {
             work->arg->moveId = result - 0x8000;
-            PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-            PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 1, work->arg->moveId);
-            POKELIST_ShowMessage((PokelistWork *)work, 0x20, 0, (PokelistFn)POKELIST_OpenGiveUpMoveMenu); PLIST_MESSAGE_DestroyWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
+            PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+            PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 1, work->arg->moveId);
+            POKELIST_ShowMessage((PokelistWork *)work, 0x20, 0, POKELIST_OpenGiveUpMoveMenu); PLIST_MESSAGE_DestroyWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
         } else {
-            PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-            PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 1, result);
+            PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+            PLIST_MESSAGE_SetWordSetMove((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 1, result);
             POKELIST_ShowMessage(work, 0x29, 1, PLIST_MENU_BeginExitWait); PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         } break;
     case 7:
@@ -829,7 +829,7 @@ void PLIST_MENU_ShowMonMessage(PokelistWork *work, int msgId)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
     POKELIST_ShowMessage(work, msgId, 1, POKELIST_CloseMessageIfItemInBag);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -838,8 +838,8 @@ void PLIST_MENU_ShowMonValueMessage(PokelistWork *work, int msgId, int value)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
-    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-    PLIST_MESSAGE_SetWordSetValue((struct PokelistWork *)((sptr)work), (PlistMessage *)work->messageWindow, 1, value);
+    PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 0, work->selectedMon);
+    PLIST_MESSAGE_SetWordSetValue((struct PokelistWork *)(work), (PlistMessage *)work->messageWindow, 1, value);
     POKELIST_ShowMessage(work, msgId, 1, POKELIST_CloseMessageIfItemInBag);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -957,7 +957,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
     /* stand-in: with the timer palette inside a padding view, &tail->timerPalette is
        work + 0x1EC + 0x22 and the compiler does not fold it; it is &work->timerPalette
        (0x20E) once pokelist_types.h names that field. */
-    MIi_CpuCopy16(TIMER_PALETTE_DST, (u8 *)work + 0x20e, 0x20);
+    MIi_CpuCopy16(TIMER_PALETTE_DST, (u8 *)work->timerPalSrc, 0x20);
 }
 
 /*

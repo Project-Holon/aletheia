@@ -23,6 +23,7 @@ typedef struct FieldSkillWork FieldSkillWork;
 #include "../types.h"
 #include "../ov010/move_pokemon_types.h"
 #include "../ov010/scrcmd_musical_shared_types.h"
+#include "../ov020/event_mapchange_types.h"
 
 void MOVE_POKEMON_MoveEntry(struct MovePokemonSave *block, u32 season, u16 slot);
 void MOVE_POKEMON_MoveActiveEntries(struct GameData *gameData);
@@ -45,19 +46,19 @@ void MOVE_POKEMON_InitSkillTarget(SkillTarget *target, u16 id, u16 variant, u32 
 struct GameEvent *MOVE_POKEMON_CreateSkillEvent(int skillIndex, SkillTarget *target, FieldSkillInfo *info);
 int MOVE_POKEMON_CheckCut(FieldSkillInfo *info);
 struct GameEvent *MOVE_POKEMON_CreateCutEvent(SkillTarget *target, FieldSkillInfo *info);
-int MOVE_POKEMON_CutEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_CutEventMain(struct GameEvent *event, int *state, void *work);
 int MOVE_POKEMON_CheckFly(FieldSkillInfo *info);
 struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInfo *info);
-int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, int *state, void *work);
 int MOVE_POKEMON_CheckSurf(FieldSkillInfo *info);
 struct GameEvent *MOVE_POKEMON_CreateSurfEvent(SkillTarget *target, FieldSkillInfo *info);
-int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, int *state, void *work);
 int MOVE_POKEMON_CheckStrength(FieldSkillInfo *info);
 struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSkillInfo *info);
-int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, int *state, void *work);
 int MOVE_POKEMON_IsSkill8Unusable(FieldSkillInfo *info);
 void *MOVE_POKEMON_CreateDiveEvent(SkillTarget *target, FieldSkillInfo *info);
-int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
+GameEvent *MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
 int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check);
 int MOVE_POKEMON_CheckFlash(const FieldSkillCheck *check);
 struct GameEvent *MOVE_POKEMON_CreateFlashEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
@@ -72,7 +73,7 @@ int MOVE_POKEMON_CheckMilkDrink(const FieldSkillCheck *check);
 struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
 int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
 int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check);
-void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+struct GameEvent *MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
 int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
 struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
 int MOVE_POKEMON_SoftBoiledEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);

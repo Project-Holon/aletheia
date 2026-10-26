@@ -20,7 +20,7 @@ void BILLBOARD_ACT_InitSlot(struct BbActSlot *slot);
 void BILLBOARD_ACT_ResetPlayback(struct BbActEntry *entry);
 void BILLBOARD_ACT_InitEntry(struct BbActEntry *entry);
 u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
-u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, u32 payload);
+u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, struct G3dResource *payload);
 void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count);
 int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, u32 slot);
 u16 BILLBOARD_ACT_GetSlotBoardId(struct BbActSys *sys, int slotIndex);

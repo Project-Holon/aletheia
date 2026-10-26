@@ -27,13 +27,13 @@ void SAVE_CONTROL_SetOutsideSaveLoaded(struct SaveControl *saveControl, u8 outsi
 u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct SaveControl *saveControl);
 void SAVE_CONTROL_SetOutsideSaveBroken(struct SaveControl *saveControl, u8 outsideSaveBroken);
 void SAVE_CONTROL_ResetToNewGame(struct SaveControl *saveControl);
-void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
+int SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
 void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u32 *totalSize);
 int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, void *dest, u32 size);
 u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u16 heapId, void *work, u32 workSize);
-void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize);
+void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, void *work, u32 workSize);
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot);
 void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *saveControl, u32 slot);
 int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot);

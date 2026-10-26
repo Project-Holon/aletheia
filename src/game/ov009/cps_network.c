@@ -223,12 +223,12 @@ static unsigned long is_broadcast(unsigned long ip);
 static unsigned long ip_islocal(unsigned long ip);
 static unsigned long get_targetip(unsigned long ip);
 extern void dacktimer_reschedule(void);
-void _tcp_send_handshake(char *soc, unsigned char flag);
+void _tcp_send_handshake(CPSSoc *soc, unsigned char flag);
 static CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr);
 static void _tcp_send_ack(struct CPSSoc *soc, int flush);
 static void dt_rst(unsigned char *iphdr, unsigned char *tcphdr);
 extern unsigned long CPSi_SslConnect(struct CPSSoc *soc);
-void _tcp_send_finack(int a);
+void _tcp_send_finack(struct CPSSoc *a);
 extern void CPSi_SslShutdown(struct CPSSoc *soc);
 extern unsigned char *CPSi_SslRead(unsigned long *len, struct CPSSoc *soc);
 #include "../arm9/os_terminate_processor.h"
@@ -239,7 +239,7 @@ static void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct CPSSoc *s
 extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct CPSSoc *soc);
 extern long CPSi_SslGetLength(struct CPSSoc *soc);
 extern void CPSi_SslPeriodical(unsigned long now);
-void dacktimer_alarmhandler(void);
+void dacktimer_alarmhandler(void * unused0);
 static unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
 extern void CPS_SocConsume(u32 len);
 static u8 *dns_skipname(u8 *p);
@@ -258,7 +258,7 @@ unsigned long ip_isme(unsigned long ip);
 int maccmp(unsigned short *a, unsigned short *b);
 void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
 void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2);
-void CPSi_RecvCallbackFunc(unsigned char *srcAddr, unsigned char *dstAddr, unsigned char *buf, unsigned int size);
+void CPSi_RecvCallbackFunc(unsigned char *srcAddr, unsigned char *dstAddr, unsigned char *buf, long size);
 unsigned char *receive_packet(unsigned long *len);
 void throw_packet(void);
 unsigned char *inq_arpcache(unsigned long ip);
@@ -287,7 +287,7 @@ void dt_syn(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
 void dt_synack(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
 void mark_rwin_chunk(struct CPSSoc *soc, long chunk);
 void merge_rwin_chunks(struct CPSSoc *soc);
-void pull_rwin_chunks(char *p);
+void pull_rwin_chunks(CPSSoc *p);
 void push_rwin_chunks(CPSSoc *soc, long i);
 void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len);
 void dt_fin(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
@@ -295,10 +295,10 @@ void dispatch_tcp(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len
 void dispatch_udp(u8 *iphdr, u8 *udphdr, u32 len);
 u8 *check_frag(u8 *buf, u32 *fragmented);
 void dispatch_ip(u8 *buf, u32 len);
-void tcpip(void);
+void tcpip(void * unused0);
 unsigned short CPS_SocGetEport(void);
 unsigned long get_seqno(void);
-void CPS_SocRegister(int v);
+void CPS_SocRegister(void *v);
 void CPS_SocUnRegister(void);
 void CPS_SocDatagramMode(void);
 void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
@@ -312,7 +312,7 @@ void CPSi_TcpShutdownRaw(struct CPSSoc *soc);
 void CPS_TcpShutdown(void);
 void CPS_TcpClose(void);
 unsigned char *udp_read_raw(unsigned long *len, struct CPSSoc *soc);
-unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc);
+unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc);
 unsigned char *CPS_SocRead(unsigned long *len);
 u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct CPSSoc *soc);
 unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2);
@@ -321,8 +321,8 @@ long CPS_SocGetLength(void);
 void CPS_SocFlush(void);
 int garprequest(void);
 void set_fixed_ip(void);
-void scavenger(void);
-void dacktimer(void);
+void scavenger(void * unused0);
+void dacktimer(void * unused0);
 unsigned char *dhcp_setcommon(unsigned char *d, int type);
 unsigned long dhcp_send_discover(void);
 unsigned long dhcp_send_request(int mode);
@@ -388,6 +388,22 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
 
 
 static void empty_func(void);
+#ifndef __MWERKS__
+static void empty_func_dhcp_callback_pc(void)
+{
+}
+
+static void *empty_func_alloc_pc(u32 size)
+{
+    (void)size;
+    return 0;
+}
+
+static void empty_func_free_pc(void *ptr)
+{
+    (void)ptr;
+}
+#endif
 static void reset_network_vars(int reason);
 static void OS_YieldThread__(void);
 extern void CPSi_SslCleanup(void);
@@ -419,7 +435,7 @@ static int default_link_is_on(void);
 
 
 u32 CPSGatewayIp = 0;
-static void *checkNConfig_callback = 0;
+static int (*checkNConfig_callback)(void) = 0;
 u32 CPSNetMask = 0;
 static u32 wlan_getpnt = 0;
 static u32 wlan_putpnt = 0;
@@ -856,7 +872,7 @@ u32 resolve_common(u8 *name, u32 type, u16 id, u8 *rname, u32 rname_max)
                     cnt = get16(d + 8);
                     if (get16(d) == type) {
                         if (type != 0xc) {
-                            ip = ((u32)get16((u8 *)((uptr)d + 6 + cnt)) << 16) | get16((u8 *)((uptr)d + 8 + cnt));
+                            ip = ((u32)get16((u8 *)(d + 6 + cnt)) << 16) | get16((u8 *)((uptr)d + 8 + cnt));
                         } else if (cnt > rname_max) {
                             ip = 2;
                         } else {
@@ -1245,7 +1261,7 @@ unsigned char *dhcp_setcommon(unsigned char *d, int type)
 
 
 
-void dacktimer_alarmhandler(void)
+void dacktimer_alarmhandler(void * unused0)
 {
 	OS_WakeupThreadDirect(&dacktimer_thread);
 }
@@ -1260,7 +1276,7 @@ void dacktimer_alarmhandler(void)
 /*
  * sdk:      dacktimer (libcps.TWL.HYB.a(network.o))
  */
-void dacktimer(void)
+void dacktimer(void * unused0)
 {
     if (OS_IsThreadTerminated(&gCpsScavengerThread))
         return;
@@ -1304,7 +1320,7 @@ void dacktimer_reschedule(void)
 	}
 	if (nextdelay != 0xffffffff) {
 		OS_CancelAlarm((struct OSiAlarm *)gCpsDackTimerAlarm);
-		OS_SetAlarm((struct OSiAlarm *)gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
+		OS_SetAlarm((struct OSiAlarm *)gCpsDackTimerAlarm, nextdelay, dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
 }
@@ -1324,7 +1340,7 @@ void dacktimer_reschedule(void)
  * Case 0 spells the callback test out with a flag; cases 1 and 2 use the
  * ternary helper. The object compiles the two shapes differently.
  */
-void scavenger(void)
+void scavenger(void * unused0)
 {
     int i;
     int dhcp_state;
@@ -1344,7 +1360,7 @@ void scavenger(void)
     gCpsRecvSoc.rcvbuf.data = gCpsRecvBuffer;
     gCpsRecvSoc.sndbuf.size = sizeof(gCpsSendBuffer);
     gCpsRecvSoc.sndbuf.data = gCpsSendBuffer;
-    CPS_SocRegister((sptr)(&gCpsRecvSoc));
+    CPS_SocRegister(&gCpsRecvSoc);
     gwcache_sleep = 1;
     dhcp_sleep = 1;
     first = 1;
@@ -1539,8 +1555,8 @@ void scavenger(void)
  */
 void set_fixed_ip(void)
 {
-    ((void (*)(void))(*(unsigned int *)((char *)&gCpsNetVars + 0x28)))();
-    if (*(unsigned int *)((char *)&gCpsNetVars + 0x50) == 0)
+    gCpsNetVars.fixed_ip_hook();
+    if (gCpsNetVars.myip == 0)
         return;
     if (garprequest() != 0)
         return;
@@ -1583,11 +1599,11 @@ int garprequest(void)
  */
 void CPS_SocFlush(void)
 {
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
-    if (soc != 0 && *(unsigned long *)(soc + 0x6c) != 0) {
-        CPSi_SocWrite2(*(unsigned char **)(soc + 0x68), *(unsigned long *)(soc + 0x6c), 0, 0);
-        *(unsigned long *)(soc + 0x6c) = 0;
+    if (soc != 0 && soc->outbufp != 0) {
+        CPSi_SocWrite2(soc->outbuf.data, soc->outbufp, 0, 0);
+        soc->outbufp = 0;
     }
 }
 
@@ -1603,19 +1619,19 @@ void CPS_SocFlush(void)
 long CPS_SocGetLength(void)
 {
     long count;
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
     if (soc != 0) {
-        if (*(unsigned char *)(soc + 8) == 4)
-            _tcp_send_ack((CPSSoc *)soc, 1);
-        if (*(unsigned char *)(soc + 9) != 0)
-            return CPSi_SslGetLength((struct CPSSoc *)soc);
-        count = *(long *)(soc + 0x50);
+        if (soc->state == 4)
+            _tcp_send_ack(soc, 1);
+        if (soc->ssl != 0)
+            return CPSi_SslGetLength(soc);
+        count = soc->rcvbufp;
         if (count != 0)
             return count;
-        if (*(unsigned char *)(soc + 8) == 4)
+        if (soc->state == 4)
             return count;
-        if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
+        if (soc->state == 10 || soc->state == 11)
             return count;
         return -1;
     }
@@ -1633,22 +1649,22 @@ long CPS_SocGetLength(void)
  */
 unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len)
 {
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
     unsigned long pend;
     unsigned long n;
     unsigned long left;
 
     if (soc != 0) {
-        pend = *(unsigned long *)(soc + 0x6c);
+        pend = soc->outbufp;
         if (pend != 0) {
-            n = CPSi_SocWrite2(*(unsigned char **)(soc + 0x68), pend, buf, len);
-            left = *(unsigned long *)(soc + 0x6c);
+            n = CPSi_SocWrite2(soc->outbuf.data, pend, buf, len);
+            left = soc->outbufp;
             if (n >= left) {
-                *(unsigned long *)(soc + 0x6c) = 0;
+                soc->outbufp = 0;
                 return n - left;
             }
-            MI_CpuMove(*(unsigned char **)(soc + 0x68) + n, *(unsigned char **)(soc + 0x68), left - n);
-            *(unsigned long *)(soc + 0x6c) = *(unsigned long *)(soc + 0x6c) - n;
+            MI_CpuMove(soc->outbuf.data + n, soc->outbuf.data, left - n);
+            soc->outbufp = soc->outbufp - n;
             return 0;
         }
         return CPSi_SocWrite2(buf, len, 0, 0);
@@ -1843,7 +1859,7 @@ unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct CPSSoc 
 
 void CPS_SocConsume(unsigned long len)
 {
-	struct CPSSoc *soc = *(struct CPSSoc **)(*(char **)((char *)&OSi_ThreadInfo + 4) + 0xa4);
+	struct CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
 	if (soc == 0)
 		return;
@@ -1923,13 +1939,13 @@ void CPSi_SocConsumeRaw(unsigned long len, struct CPSSoc *soc)
  */
 unsigned char *CPS_SocRead(unsigned long *len)
 {
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
     if (soc != 0) {
-        if (*(unsigned char *)(soc + 8) == 10 || *(unsigned char *)(soc + 8) == 11)
-            return udp_read_raw(len, (struct CPSSoc *)soc);
-        if (*(unsigned char *)(soc + 9) != 0)
-            return CPSi_SslRead(len, (struct CPSSoc *)soc);
+        if (soc->state == 10 || soc->state == 11)
+            return udp_read_raw(len, soc);
+        if (soc->ssl != 0)
+            return CPSi_SslRead(len, soc);
         return CPSi_TcpReadRaw(len, soc);
     }
     *len = 0;
@@ -1949,27 +1965,27 @@ unsigned char *CPS_SocRead(unsigned long *len)
 /*
  * sdk:      CPSi_TcpReadRaw (libcps.TWL.HYB.a(network.o))
  */
-unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc)
+unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc)
 {
     unsigned long enable;
     unsigned long n;
 
-    if (*(unsigned char *)(soc + 8) == 4)
-        _tcp_send_ack((CPSSoc *)soc, 1);
-    if (*(unsigned long *)(soc + 0x50) == 0 && *(unsigned char *)(soc + 8) == 4) {
+    if (soc->state == 4)
+        _tcp_send_ack(soc, 1);
+    if (soc->rcvbufp == 0 && soc->state == 4) {
         enable = OS_DisableInterrupts();
-        while (*(unsigned long *)(soc + 0x50) == 0 && *(unsigned char *)(soc + 8) == 4) {
-            *(unsigned long *)(soc + 4) = 2;
+        while (soc->rcvbufp == 0 && soc->state == 4) {
+            soc->block_type = 2;
             OS_SleepThread(0);
         }
         OS_RestoreInterrupts(enable);
     } else {
         OS_YieldThread();
     }
-    n = *(unsigned long *)(soc + 0x50);
+    n = soc->rcvbufp;
     *len = n;
     if (n != 0)
-        return *(unsigned char **)(soc + 0x4c);
+        return soc->rcvbuf.data;
     return 0;
 }
 
@@ -2019,17 +2035,17 @@ unsigned char *udp_read_raw(unsigned long *len, struct CPSSoc *soc)
 void CPS_TcpClose(void)
 {
     unsigned long start;
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
     if (soc == 0)
         return;
-    if (*(unsigned char *)(soc + 9) != 0)
-        CPSi_SslClose((CPSSoc *)soc);
+    if (soc->ssl != 0)
+        CPSi_SslClose(soc);
     start = (unsigned long)(OS_GetTick() >> 16);
-    while (gCpsNetVars.link_is_on() != 0 && *(unsigned char *)(soc + 8) != 0 &&
+    while (gCpsNetVars.link_is_on() != 0 && soc->state != 0 &&
            (int)((unsigned long)(OS_GetTick() >> 16) - start) < 0x27)
         OS_YieldThread__();
-    *(unsigned char *)(soc + 8) = 0;
+    soc->state = 0;
 }
 
 
@@ -2044,7 +2060,7 @@ void CPS_TcpClose(void)
 
 void CPS_TcpShutdown(void)
 {
-	struct CPSSoc *soc = *(struct CPSSoc **)(*(char **)((char *)&OSi_ThreadInfo + 4) + 0xa4);
+	struct CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
 	if (soc == 0)
 		return;
@@ -2075,7 +2091,7 @@ void CPSi_TcpShutdownRaw(struct CPSSoc *soc)
 	if ((unsigned char)(state + 0xfd) <= 1) {
 		soc->state = 7;
 		OS_RestoreInterrupts(enable);
-		_tcp_send_finack((int)((char *)soc));
+		_tcp_send_finack(soc);
 	} else if (state != 0) {
 		OS_RestoreInterrupts(enable);
 		_tcp_send_ack(soc, 2);
@@ -2100,12 +2116,12 @@ void CPSi_TcpShutdownRaw(struct CPSSoc *soc)
  */
 unsigned long CPS_TcpConnect(void)
 {
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
     if (soc != 0) {
-        if (*(unsigned char *)(soc + 9) != 0)
-            return CPSi_SslConnect((struct CPSSoc *)soc);
-        return CPSi_TcpConnectRaw((struct CPSSoc *)soc);
+        if (soc->ssl != 0)
+            return CPSi_SslConnect(soc);
+        return CPSi_TcpConnectRaw(soc);
     }
     return 1;
 }
@@ -2135,7 +2151,7 @@ unsigned long CPSi_TcpConnectRaw(struct CPSSoc *soc)
 		soc->seqno = seqno;
 		soc->state = 2;
 		soc->when = (unsigned long)(OS_GetTick() >> 16);
-		_tcp_send_handshake((char *)((struct CPSSoc *)((char *)soc)), 2);
+		_tcp_send_handshake(soc, 2);
 		enabled = OS_DisableInterrupts();
 		if (soc->state == 2 && gCpsNetVars.myip != 0) {
 			soc->block_type = 1;
@@ -2162,10 +2178,10 @@ unsigned long CPSi_TcpConnectRaw(struct CPSSoc *soc)
 
 void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, struct CPSSoc *))
 {
-	char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+	CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
 	if (soc != 0)
-		*(int (**)(unsigned char *, unsigned long, struct CPSSoc *))(soc + 0x44) = callback;
+		soc->udpread_callback = callback;
 }
 
 
@@ -2180,7 +2196,7 @@ void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, struct C
 
 void CPS_SocDup(char *dst)
 {
-	*(int *)(dst + 0xa4) = *(int *)((char *)OSi_ThreadInfo.current + 0xa4);
+	((struct _OSThread *)dst)->specific[0] = OSi_ThreadInfo.current->specific[0];
 }
 
 
@@ -2199,11 +2215,10 @@ void CPS_SocDup(char *dst)
  */
 void CPS_SocRelease(void)
 {
-    char *p = (char *)OSi_ThreadInfo.current;
-    int *q = *(int **)(p + 0xa4);
+    CPSSoc *q = OSi_ThreadInfo.current->specific[0];
 
     if (q) {
-        *q = 0;
+        q->thread = 0;
     }
 }
 
@@ -2223,18 +2238,18 @@ void CPS_SocRelease(void)
  */
 void CPS_SocUse(void)
 {
-    char *cur = (char *)OSi_ThreadInfo.current;
-    char *soc = *(char **)(cur + 0xa4);
+    struct _OSThread *cur = OSi_ThreadInfo.current;
+    CPSSoc *soc = cur->specific[0];
 
     if (soc == 0)
         return;
-    *(char **)soc = cur;
-    *(unsigned char *)(soc + 8) = 0;
-    *(unsigned long *)(soc + 0x50) = 0;
-    MI_CpuFill8(soc + 0x70, 0, 0x30);
-    *(unsigned long *)(soc + 0x6c) = 0;
-    *(unsigned long *)(soc + 0x44) = 0;
-    *(unsigned char *)(soc + 0x33) = 0;
+    soc->thread = cur;
+    soc->state = 0;
+    soc->rcvbufp = 0;
+    MI_CpuFill8(soc->chunks, 0, 0x30);
+    soc->outbufp = 0;
+    soc->udpread_callback = 0;
+    soc->sack_enabled = 0;
 }
 
 
@@ -2254,20 +2269,20 @@ void CPS_SocUse(void)
  */
 void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
 {
-    char *soc = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *soc = OSi_ThreadInfo.current->specific[0];
 
     if (soc == 0)
         return;
     if (remote_ip == 0x7f000001)
         remote_ip = gCpsNetVars.myip;
-    *(unsigned short *)(soc + 0x1a) = remote_port;
-    *(unsigned short *)(soc + 0x18) = *(unsigned short *)(soc + 0x1a);
-    *(unsigned long *)(soc + 0x20) = remote_ip;
-    *(unsigned long *)(soc + 0x1c) = remote_ip;
+    soc->remote_port_bound = remote_port;
+    soc->remote_port = soc->remote_port_bound;
+    soc->remote_ip_bound = remote_ip;
+    soc->remote_ip = remote_ip;
     if (local_port != 0)
-        *(unsigned short *)(soc + 0xa) = local_port;
+        soc->local_port = local_port;
     else
-        *(unsigned short *)(soc + 0xa) = CPS_SocGetEport();
+        soc->local_port = CPS_SocGetEport();
 }
 
 
@@ -2288,11 +2303,11 @@ void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned
  */
 void CPS_SocDatagramMode(void)
 {
-    char *q = *(char **)((char *)OSi_ThreadInfo.current + 0xa4);
+    CPSSoc *q = OSi_ThreadInfo.current->specific[0];
 
     if (q != 0) {
-        *(unsigned char *)(q + 8) = 0xa;
-        *(int *)(q + 0x50) = 0;
+        q->state = 0xa;
+        q->rcvbufp = 0;
     }
 }
 
@@ -2313,9 +2328,7 @@ void CPS_SocDatagramMode(void)
  */
 void CPS_SocUnRegister(void)
 {
-    int *p = (int *)OSi_ThreadInfo.current;
-
-    *(int *)((char *)p + 0xa4) = 0;
+    OSi_ThreadInfo.current->specific[0] = 0;
 }
 
 
@@ -2333,11 +2346,9 @@ void CPS_SocUnRegister(void)
 /*
  * Stores a word at +0xa4 of the block held in the second word of the module state block.
  */
-void CPS_SocRegister(int v)
+void CPS_SocRegister(void *v)
 {
-    int blk = (sptr)OSi_ThreadInfo.current;
-
-    *(int *)(blk + 0xa4) = v;
+    OSi_ThreadInfo.current->specific[0] = v;
 }
 
 
@@ -2413,7 +2424,7 @@ unsigned short CPS_SocGetEport(void)
 /*
  * sdk:      tcpip (libcps.TWL.HYB.a(network.o))
  */
-void tcpip(void)
+void tcpip(void * unused0)
 {
     unsigned long len;
     unsigned char *buf;
@@ -2794,7 +2805,7 @@ void dt_fin(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
 		soc->ackno++;
 		soc->state = 6;
 		OS_RestoreInterrupts(enabled);
-		_tcp_send_finack(((int)((char *)(struct CPSSoc *)((sptr)soc))));
+		_tcp_send_finack(soc);
 		break;
 	default:
 		OS_RestoreInterrupts(enabled);
@@ -2837,6 +2848,12 @@ void dt_fin(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
 
 
 
+
+#ifdef __MWERKS__
+enum { CPS_SOC_CHUNKS_OFFSET = 0x70 };
+#else
+enum { CPS_SOC_CHUNKS_OFFSET = BW_OFFSETOF(CPSSoc, chunks) };
+#endif
 
 void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
 {
@@ -2892,7 +2909,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
 
                             for (;;)
                             {
-                                if (((CPSSocRcvBuf *)(e + 0x70))->start == 0)
+                                if (((CPSSocRcvBuf *)(e + CPS_SOC_CHUNKS_OFFSET))->start == 0)
                                 {
                                     MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
@@ -2901,7 +2918,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                                     merge_rwin_chunks((struct CPSSoc *)soc);
                                     goto done;
                                 }
-                                reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
+                                reorder_nextp = ((CPSSocRcvBuf *)(e + CPS_SOC_CHUNKS_OFFSET))->start + ((CPSSocRcvBuf *)(e + CPS_SOC_CHUNKS_OFFSET))->len;
                                 if (disconp < soc->chunks[ci].start && soc->chunks[ci].start <= wend)
                                 {
                                     MI_CpuCopy(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
@@ -2986,7 +3003,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
                     MI_CpuCopy(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
                 }
                 soc->chunks[0].start = 0;
-                pull_rwin_chunks((char *)soc);
+                pull_rwin_chunks(soc);
             }
             else
             {
@@ -3006,7 +3023,7 @@ void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
             soc->ackno++;
             soc->state = 6;
             OS_RestoreInterrupts(enabled);
-            _tcp_send_finack(((int)((char *)(struct CPSSoc *)((sptr)soc))));
+            _tcp_send_finack(soc);
             if (len == 0 && soc->block_type == 2)
             {
                 soc->block_type = 0;
@@ -3097,16 +3114,14 @@ void push_rwin_chunks(CPSSoc *soc, long i)
  * For every one of the three 0xc-byte records whose +0x70 triple is zero,
  * pulls the +0x7c triple down into +0x70 and clears +0x7c.
  */
-void pull_rwin_chunks(char *p)
+void pull_rwin_chunks(CPSSoc *p)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        char *e = p + i * 0xc;
-
-        if (*(int *)(e + 0x70) == 0) {
-            *(CPSSocRcvBuf *)(e + 0x70) = *(CPSSocRcvBuf *)(e + 0x7c);
-            *(int *)(e + 0x7c) = 0;
+        if (p->chunks[i].start == 0) {
+            p->chunks[i] = p->chunks[i + 1];
+            p->chunks[i + 1].start = 0;
         }
     }
 }
@@ -3130,14 +3145,14 @@ again:
 		soc->ackno += soc->chunks[0].start + soc->chunks[0].len - soc->rcvbufp;
 		soc->rcvbufp = soc->chunks[0].start + soc->chunks[0].len;
 		soc->chunks[0].start = 0;
-		pull_rwin_chunks((char *)soc);
+		pull_rwin_chunks(soc);
 	}
 	for (ci = 0; ci < 3; ci++) {
 		if (soc->chunks[ci].start != 0 && soc->chunks[ci + 1].start != 0 &&
 		    soc->chunks[ci].start + soc->chunks[ci].len >= soc->chunks[ci + 1].start) {
 			soc->chunks[ci].len = soc->chunks[ci + 1].start + soc->chunks[ci + 1].len - soc->chunks[ci].start;
 			soc->chunks[ci + 1].start = 0;
-			pull_rwin_chunks((char *)soc);
+			pull_rwin_chunks(soc);
 			goto again;
 		}
 	}
@@ -3270,7 +3285,7 @@ void dt_syn_LISTEN(unsigned char *iphdr, unsigned char *tcphdr, struct CPSSoc *s
 	soc->remote_ip = BE32(iphdr, 0xc);
 	soc->ackno = BE32(tcphdr, 4) + 1;
 	parse_mss(tcphdr, soc);
-	_tcp_send_handshake((char *)((struct CPSSoc *)((char *)soc)), 0x12);
+	_tcp_send_handshake(soc, 0x12);
 }
 
 
@@ -3294,14 +3309,14 @@ void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 	soc->remote_ip = GET32(iphdr + 0xc);
 	if (tcphdr[0xd] & 0x10) {
 		soc->seqno = GET32(tcphdr + 8);
-		_tcp_send_handshake((char *)((struct CPSSoc *)((char *)soc)), 4);
+		_tcp_send_handshake(soc, 4);
 		return;
 	}
 	soc->seqno = 0;
 	soc->ackno = GET32(tcphdr + 4) + len;
 	if (tcphdr[0xd] & 3)
 		soc->ackno++;
-	_tcp_send_handshake((char *)((struct CPSSoc *)((char *)soc)), 0x14);
+	_tcp_send_handshake(soc, 0x14);
 }
 
 
@@ -3314,9 +3329,9 @@ void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 /*
  * Tail call that supplies the second argument 0x11.
  */
-void _tcp_send_finack(int a)
+void _tcp_send_finack(struct CPSSoc *a)
 {
-    _tcp_send_handshake((char *)((struct CPSSoc *)((char *)a)), 0x11);
+    _tcp_send_handshake(a, 0x11);
 }
 
 
@@ -3344,7 +3359,7 @@ static void _tcp_send_ack(struct CPSSoc *soc, int flush)
 	return;
 
 send:
-	_tcp_send_handshake((char *)soc, 0x10);
+	_tcp_send_handshake(soc, 0x10);
 }
 
 
@@ -3372,12 +3387,12 @@ send:
 /*
  * sdk:      _tcp_send_handshake (libcps.TWL.HYB.a(network.o))
  */
-void _tcp_send_handshake(char *soc, unsigned char flag)
+void _tcp_send_handshake(CPSSoc *soc, unsigned char flag)
 {
-    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || OSi_ThreadInfo.current != (struct _OSThread *)&gCpsTcpipThread) {
-        _send_tcp(0, 0, (struct CPSSoc *)soc, flag);
+    if (no_need_inq(soc->remote_ip) != 0 || OSi_ThreadInfo.current != (struct _OSThread *)&gCpsTcpipThread) {
+        _send_tcp(0, 0, soc, flag);
     } else {
-        send_arprequest(get_targetip(*(unsigned long *)(soc + 0x1c)));
+        send_arprequest(get_targetip(soc->remote_ip));
     }
 }
 
@@ -3469,15 +3484,15 @@ static struct CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr)
 	struct CPSSoc *soc;
 	struct _OSThread *t;
 
-	t = *(struct _OSThread **)((char *)&OSi_ThreadInfo + 8);
+	t = OSi_ThreadInfo.list;
 	while (t != 0) {
-		soc = *(struct CPSSoc **)((char *)t + 0xa4);
+		soc = t->specific[0];
 
 		if (soc != 0 && *(struct _OSThread **)soc != 0) {
 			if (check_socket(iphdr, tcphdr, soc) != 0)
 				return soc;
 		}
-		t = *(struct _OSThread **)((char *)t + 0x68);
+		t = t->next;
 	}
 	return 0;
 }
@@ -3678,8 +3693,8 @@ void process_icmp_reply(unsigned char *iphdr, unsigned char *icmpdata, unsigned 
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
-	for (t = *(struct _OSThread **)((char *)&OSi_ThreadInfo + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
-		soc = *(struct CPSSoc **)((char *)t + 0xa4);
+	for (t = OSi_ThreadInfo.list; t != 0; t = t->next) {
+		soc = t->specific[0];
 		if (soc != 0 && soc->thread != 0 && soc->state == 0xb &&
 		    *(unsigned short *)(icmpdata + 4) == (unsigned short)(uptr)soc->thread &&
 		    soc->local_port == *(unsigned short *)(icmpdata + 6) &&
@@ -4392,7 +4407,7 @@ unsigned char *receive_packet(unsigned long *len)
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
-void CPSi_RecvCallbackFunc(unsigned char *srcAddr, unsigned char *dstAddr, unsigned char *buf, unsigned int size)
+void CPSi_RecvCallbackFunc(unsigned char *srcAddr, unsigned char *dstAddr, unsigned char *buf, long size)
 {
     put_in_buffer(srcAddr, dstAddr, buf, size, 0, 0);
     if (NET_THREAD != 0 && !OS_IsThreadTerminated((OSThread *)NET_THREAD))
@@ -4960,8 +4975,13 @@ void CPS_Startup(CPSConfig *config)
         CPSiAlloc = config->alloc;
         CPSiFree = config->free;
     } else {
+#ifdef __MWERKS__
         CPSiAlloc = (void *(*)(u32))empty_func;
         CPSiFree = (void (*)(void *))empty_func;
+#else
+        CPSiAlloc = empty_func_alloc_pc;
+        CPSiFree = empty_func_free_pc;
+#endif
     }
     CPSDhcpMode = config->mode;
     if (config->mymss != 0)
@@ -4973,7 +4993,11 @@ void CPS_Startup(CPSConfig *config)
     if (config->dhcp_callback != 0)
         dhcp_callback = config->dhcp_callback;
     else
+#ifdef __MWERKS__
         dhcp_callback = empty_func;
+#else
+        dhcp_callback = empty_func_dhcp_callback_pc;
+#endif
     if (config->link_is_on != 0)
         link_is_on = config->link_is_on;
     else
@@ -4985,12 +5009,12 @@ void CPS_Startup(CPSConfig *config)
     sCpsNetworkEport = (u16)(MATH_Rand32(&CPSiRand32ctx, 0xf88) + 0x400);
     WCM_GetMacAddress(CPSMyMac);
     sCpsNetworkIpConflict = 0;
-    OS_CreateThread(&tcpip_thread, (void (*)(void *))tcpip, 0, tcpip_stack + sizeof(tcpip_stack), sizeof(tcpip_stack), helper_threads_priority);
-    OS_CreateThread(&scavenger_thread, (void (*)(void *))scavenger, 0, scavenger_stack + sizeof(scavenger_stack), sizeof(scavenger_stack), helper_threads_priority);
+    OS_CreateThread(&tcpip_thread, tcpip, 0, tcpip_stack + sizeof(tcpip_stack), sizeof(tcpip_stack), helper_threads_priority);
+    OS_CreateThread(&scavenger_thread, scavenger, 0, scavenger_stack + sizeof(scavenger_stack), sizeof(scavenger_stack), helper_threads_priority);
     OS_WakeupThreadDirect(&tcpip_thread);
     OS_WakeupThreadDirect(&scavenger_thread);
     OS_CreateAlarm(&dacktimer_alarm);
-    OS_CreateThread(&dacktimer_thread, (void (*)(void *))dacktimer, 0, dacktimer_stack + sizeof(dacktimer_stack), sizeof(dacktimer_stack), helper_threads_priority - 1);
+    OS_CreateThread(&dacktimer_thread, dacktimer, 0, dacktimer_stack + sizeof(dacktimer_stack), sizeof(dacktimer_stack), helper_threads_priority - 1);
 }
 
 
@@ -5049,7 +5073,7 @@ static void reset_network_vars(int reason)
     CPSi_SslCleanup();
 }
 
-void CPS_SetCheckNConfigCallback(void *callback)
+void CPS_SetCheckNConfigCallback(int (*callback)(void))
 {
     checkNConfig_callback = callback;
 }

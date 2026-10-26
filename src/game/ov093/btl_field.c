@@ -180,9 +180,9 @@ int BTL_FIELD_GetCountdownCount(void)
 
 
 
-int BTL_FIELD_SetCountdown(int value, int count)
+BtlFieldCountdown *BTL_FIELD_SetCountdown(int value, int count)
 {
-    return (sptr)BTL_FIELD_StoreCountdown(&gBtlFieldCountdown.countdown, value, count);
+    return BTL_FIELD_StoreCountdown(&gBtlFieldCountdown.countdown, value, count);
 }
 
 
@@ -248,7 +248,7 @@ int BTL_FIELD_IsStaticSlotInUse(int arg)
 
 BtlFieldState *BTL_FIELD_Create(u32 heapId)
 {
-    BtlFieldState *state = GFL_HEAP_Alloc(heapId, 0x168, 1, gBtlFieldFileName, 0x10c);
+    BtlFieldState *state = GFL_HEAP_Alloc(heapId, sizeof(*state), 1, gBtlFieldFileName, 0x10c);
 
     BTL_FIELD_Init(state, 0);
     return state;

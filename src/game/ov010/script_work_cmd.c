@@ -104,8 +104,8 @@ struct ScrcmdWork;
 extern u16 VM_ReadU16(ScriptVm *vm);
 struct ScriptVm;
 extern u32 VM_GetU32(ScriptVm *vm);
-extern void VM_PushStack(ScriptVm *vm, u32 value);
-extern u32 VM_PopStack(ScriptVm *vm);
+extern void VM_PushStack(ScriptVm *vm, uptr value);
+extern uptr VM_PopStack(ScriptVm *vm);
 extern struct ScriptVm *VM_End(ScriptVm *vm);
 extern void VM_Jump(struct ScriptVm *vm, u8 *pc);
 extern void VM_Call(struct ScriptVm *vm, u8 *pc);
@@ -135,10 +135,6 @@ struct FieldSaveAnime;
 extern int SCRIPT_SYS_AddScript(ScriptWork *scriptWork, int zoneId, int scriptId); /* original prototype; the definition differs in pointer type, argument width */
 #else
 #include "script_sys.h"
-#endif
-#ifdef __MWERKS__
-extern void SCRIPT_SYS_RunScriptNow(void *first, void *second, int scriptId, int callParam); /* original prototype; the definition differs in argument width */
-#else
 #endif
 struct ScriptWork;
 #include "script_work.h"

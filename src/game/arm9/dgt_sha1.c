@@ -46,9 +46,9 @@ typedef struct MATHSHA1Context {
 #include "mi_memory.h"
 #include "dgt_hmac.h"
 int MATHi_SetOverlayTableMode(int flag);
-void MATH_SHA1Init(MATHSHA1Context *context);
-void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length);
-void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest);
+void MATH_SHA1Init(void * contextArg);
+void MATH_SHA1Update(void * contextArg, const void *input, u32 length);
+void MATH_SHA1GetHash(void * contextArg, void *digest);
 void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength);
 void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern int MATHi_OverlayTableMode;
@@ -105,8 +105,9 @@ int MATHi_SetOverlayTableMode(int flag)
     return prev;
 }
 
-void MATH_SHA1Init(MATHSHA1Context *context)
+void MATH_SHA1Init(void * contextArg)
 {
+    MATHSHA1Context * context = (MATHSHA1Context *)contextArg;
     context->blocks_low = 0;
     context->blocks_high = 0;
     context->pool = 0;
@@ -117,8 +118,9 @@ void MATH_SHA1Init(MATHSHA1Context *context)
     context->h[4] = 0xC3D2E1F0;
 }
 
-void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length)
+void MATH_SHA1Update(void * contextArg, const void *input, u32 length)
 {
+    MATHSHA1Context * context = (MATHSHA1Context *)contextArg;
     while (length > 0) {
         u32 rest = MATH_SHA1_BLOCK_SIZE - context->pool;
 
@@ -145,8 +147,9 @@ static inline u32 MATHi_Swap32(u32 x)
     return ((x >> 24) & 0x000000FF) | ((x >> 8) & 0x0000FF00) | ((x << 8) & 0x00FF0000) | ((x << 24) & 0xFF000000);
 }
 
-void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest)
+void MATH_SHA1GetHash(void * contextArg, void *digest)
 {
+    MATHSHA1Context * context = (MATHSHA1Context *)contextArg;
     u32 footer[2];
 
     footer[1] = MATHi_Swap32((context->blocks_low << 9) + (context->pool << 3));
@@ -192,9 +195,9 @@ void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const voi
 
     hash2funcs.context = &context;
     hash2funcs.hash_buf = hash_buf;
-    hash2funcs.HashReset = (void (*)(void *))MATH_SHA1Init;
-    hash2funcs.HashSetSource = (void (*)(void *, const void *, u32))MATH_SHA1Update;
-    hash2funcs.HashGetDigest = (void (*)(void *, void *))MATH_SHA1GetHash;
+    hash2funcs.HashReset = MATH_SHA1Init;
+    hash2funcs.HashSetSource = MATH_SHA1Update;
+    hash2funcs.HashGetDigest = MATH_SHA1GetHash;
 
     MATHi_CalcHMAC(digest, bin_ptr, bin_len, key_ptr, key_len, &hash2funcs);
 }

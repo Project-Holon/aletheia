@@ -234,8 +234,8 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgBank, work->heap);
     work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, 1, 1, work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (struct GFont *)work->font, (struct PrintQueue *)work->printQue, work->heap);
-    work->bg5Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)6, 12, 0, work->heap);
+    work->bg5Frame = BMP_MENUWORK_LoadFrameGfx(5, 12, 0, work->heap);
+    work->bg6Frame = BMP_MENUWORK_LoadFrameGfx(6, 12, 0, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 352, 32, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 352, 32, work->heap);
     return work;
@@ -295,7 +295,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
     if (instant) {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     } else {
-        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (sptr)(void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
+        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, MSG_SPEED_GetWait(), work->tcbl, (int)2, work->heap, 15);
         PRINTSYS_CTRL_Init((PrintStreamCtrl *)work->streamWait, (int)6);
     }
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);

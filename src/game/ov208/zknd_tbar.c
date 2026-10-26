@@ -180,7 +180,7 @@ void ZKND_TBAR_SetButtonAnimSeqOnce(struct Ov208Mgr *a, int b, int c);
 
 int ZKND_TBAR_IsButtonAnimActive(struct Ov208Mgr *mgr, int key);
 
-int ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key);
+struct ClactActor *ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key);
 
 void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *p, int key, u16 *pos);
 
@@ -198,19 +198,19 @@ int ZKND_TBAR_GetResourceSlot(int *p, int i);
 
 void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 srcX, u8 srcY, u8 srcW, u8 srcH, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 a13, u16 heap);
 
-void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struct Ov208ActDesc *desc, u32 prio, u16 mode);
+void ZKND_TBAR_CreateButton(struct Ov208Rec *p, struct Unit *owner, const int *res, struct Ov208ActDesc *desc, u32 prio, u16 mode);
 
 void ZKND_TBAR_DeleteButton(char *p);
 
 int ZKND_TBAR_UpdateButtonTouch(char *p);
 
-int ZKND_TBAR_IsButtonAnimating(int *p);
+int ZKND_TBAR_IsButtonAnimating(struct ClactActor **p);
 
 int ZKND_TBAR_GetButtonActorBase(char *p);
 
 void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int v);
 
-unsigned ZKND_TBAR_GetActorDrawEnable(int *p);
+unsigned ZKND_TBAR_GetActorDrawEnable(struct ClactActor **p);
 
 void ZKND_TBAR_SetActorAnimSeq(char *p, int v);
 
@@ -287,7 +287,7 @@ void ZKND_TBAR_UpdateButtons(struct Ov208Mgr *p)
     case 1:
         p->phase=2;
     case 2:
-        if(ZKND_TBAR_IsButtonAnimating((int *)&p->recs[p->pressedIndex]))p->phase=3;
+        if(ZKND_TBAR_IsButtonAnimating(&p->recs[p->pressedIndex].actor))p->phase=3;
         break;
     case 3:
         p->phase=0;
@@ -323,7 +323,7 @@ void ZKND_TBAR_SetButtonDrawEnable(struct Ov208Mgr *p, int enable)
     u32 i;
 
     for (i = 0; i < p->count; i++)
-        ZKND_TBAR_SetActorDrawEnable((void *)((uptr)p + 0x28 + i * 0x38), enable);
+        ZKND_TBAR_SetActorDrawEnable((void *)(&p->recs[i]), enable);
 }
 
 /*
@@ -377,7 +377,7 @@ int ZKND_TBAR_IsButtonAnimActive(struct Ov208Mgr *mgr, int key)
     return ZKND_TBAR_GetButtonSound(ZKND_TBAR_IsKeyAnimActive(mgr, key));
 }
 
-int ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key)
+struct ClactActor *ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key)
 {
     return ZKND_TBAR_FindButtonActor(mgr, key)->actor;
 }
@@ -388,7 +388,7 @@ void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *p, int key, u16 *pos)
 
     r->desc.x = pos[0];
     r->desc.y = pos[1];
-    CLACT_AddActorSurfacePos((struct ClactActor *)r->actor, (const struct ClactVec2 *)pos, (u16)(p->bg.channel >= 4 ? 1 : 0));
+    CLACT_AddActorSurfacePos(r->actor, (const struct ClactVec2 *)pos, (u16)(p->bg.channel >= 4 ? 1 : 0));
 }
 
 void ZKND_TBAR_GetButtonActorRaw(struct Ov208Mgr *mgr, int key)
@@ -401,8 +401,8 @@ struct Ov208Rec *ZKND_TBAR_FindButtonActor(struct Ov208Mgr *p, int key)
     u32 i;
 
     for (i = 0; i < p->count; i++) {
-        if (key == ZKND_TBAR_GetButtonActorBase((char *)((uptr)p + 0x28 + i * 0x38)))
-            return (struct Ov208Rec *)((uptr)p + 0x28 + i * 0x38);
+        if (key == ZKND_TBAR_GetButtonActorBase((char *)(&p->recs[i])))
+            return (struct Ov208Rec *)((uptr)p->recs + i * sizeof(struct Ov208Rec));
     }
     return 0;
 }
@@ -444,7 +444,7 @@ void ZKND_TBAR_ReleaseButtonResources(char *p)
     CLACT_ReleasePalette(((struct Ov208Bg *)p)->palette);
     w = ((struct Ov208Bg *)p)->charRange;
     BG_SYS_FreeTileRun(((struct Ov208Bg *)p)->channel, (unsigned short)w, (unsigned short)(w >> 16));
-    MI_CpuFill8((void *)((sptr)p), 0, 0x14);
+    MI_CpuFill8((void *)(p), 0, 0x14);
 }
 
 int ZKND_TBAR_GetResourceSlot(int *p, int i)
@@ -475,7 +475,7 @@ void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 
     GFL_HEAP_Free((void *)file);
 }
 
-void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struct Ov208ActDesc *desc,
+void ZKND_TBAR_CreateButton(struct Ov208Rec *p, struct Unit *owner, const int *res, struct Ov208ActDesc *desc,
                          u32 prio, u16 mode)
 {
     struct Ov208Pos pos;
@@ -484,7 +484,7 @@ void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struc
     u32 k;
     int n;
 
-    MI_CpuFill8(p, 0, 0x38);
+    MI_CpuFill8(p, 0, sizeof(struct Ov208Rec));
     p->desc = *desc;
     p->enabled = 1;
     p->forcePress = 0;
@@ -511,14 +511,14 @@ void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struc
     }
     p->animSeq = p->desc.idleAnim;
     pos.animSeq = p->desc.idleAnim;
-    p->actor = (uptr)CLACT_CreateActor((struct Unit *)owner, i, j, k, (struct ActorInitParam *)(&pos), prio, mode);
-    CLACT_SetActorAutoAnim((struct ClactActor *)p->actor, 1);
+    p->actor = CLACT_CreateActor(owner, i, j, k, (struct ActorInitParam *)(&pos), prio, mode);
+    CLACT_SetActorAutoAnim(p->actor, 1);
     switch (p->pressKind) {
     case 0:
-        p->onPress = (void (*)(void))ZKND_TBAR_PlayCancelAnim;
+        p->onPress = ZKND_TBAR_PlayCancelAnim;
         break;
     case 1:
-        p->onPress = (void (*)(void))ZKND_TBAR_PlayButtonAnim;
+        p->onPress = ZKND_TBAR_PlayButtonAnim;
         break;
     }
 }
@@ -528,15 +528,15 @@ void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struc
  */
 void ZKND_TBAR_DeleteButton(char *p)
 {
-    CLACT_DeleteActor((struct ClactActor *)(((struct Ov208Rec *)p)->actor));
-    MI_CpuFill8(p, 0, 0x38);
+    CLACT_DeleteActor(((struct Ov208Rec *)p)->actor);
+    MI_CpuFill8(p, 0, sizeof(struct Ov208Rec));
 }
 
 int ZKND_TBAR_UpdateButtonTouch(char *p)
 {
     unsigned x,y;
     int hit=0;
-    if(CLACT_GetActorDrawEnable((struct ClactActor *)((struct Ov208Rec *)p)->actor)&((struct Ov208Rec *)p)->enabled) {
+    if(CLACT_GetActorDrawEnable(((struct Ov208Rec *)p)->actor)&((struct Ov208Rec *)p)->enabled) {
         if(TOUCHPANEL_GetPointTrg(&x,&y) && x-((struct Ov208Rec *)p)->desc.x<=((struct Ov208Rec *)p)->desc.hitWidth && y-((struct Ov208Rec *)p)->desc.y<=24) {
             hit=1;
             UI_SetInputMode(1);
@@ -550,7 +550,7 @@ int ZKND_TBAR_UpdateButtonTouch(char *p)
             hit=1;
         }
         if(hit) {
-            (*(void (**)(char *))(p+0xc))(p);
+            ((struct Ov208Rec *)p)->onPress(p);
             return 1;
         }
     }
@@ -560,9 +560,9 @@ int ZKND_TBAR_UpdateButtonTouch(char *p)
 /*
  * Returns 1 when the ARM9 call at 0x0204B98C on the word at [p] comes back zero.
  */
-int ZKND_TBAR_IsButtonAnimating(int *p)
+int ZKND_TBAR_IsButtonAnimating(struct ClactActor **p)
 {
-    return CLACT_IsActorAnimActive((struct ClactActor *)(*p)) == 0;
+    return CLACT_IsActorAnimActive(*p) == 0;
 }
 
 int ZKND_TBAR_GetButtonActorBase(char *p)
@@ -576,12 +576,12 @@ int ZKND_TBAR_GetButtonActorBase(char *p)
  */
 void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int enable)
 {
-    CLACT_SetActorDrawEnable((struct ClactActor *)(*p), enable);
+    CLACT_SetActorDrawEnable(*p, enable);
 }
 
-unsigned ZKND_TBAR_GetActorDrawEnable(int *p)
+unsigned ZKND_TBAR_GetActorDrawEnable(struct ClactActor **p)
 {
-    return CLACT_GetActorDrawEnable((struct ClactActor *)(*p));
+    return CLACT_GetActorDrawEnable(*p);
 }
 
 void ZKND_TBAR_SetActorAnimSeq(char *p, int enabled)
@@ -590,9 +590,9 @@ void ZKND_TBAR_SetActorAnimSeq(char *p, int enabled)
     if (enabled != 0) {
         if (((struct Ov208Rec *)p)->animSeq == ((struct Ov208Rec *)p)->desc.pressedAnim)
             ((struct Ov208Rec *)p)->animSeq = ((struct Ov208Rec *)p)->desc.idleAnim;
-        CLACT_SetActorAnimSeq((struct ClactActor *)(((struct Ov208Rec *)p)->actor), (unsigned short)((struct Ov208Rec *)p)->animSeq);
+        CLACT_SetActorAnimSeq(((struct Ov208Rec *)p)->actor, (unsigned short)((struct Ov208Rec *)p)->animSeq);
     } else {
-        CLACT_SetActorAnimSeq((struct ClactActor *)(((struct Ov208Rec *)p)->actor), ((struct Ov208Rec *)p)->desc.disabledAnim);
+        CLACT_SetActorAnimSeq(((struct Ov208Rec *)p)->actor, ((struct Ov208Rec *)p)->desc.disabledAnim);
     }
 }
 
@@ -611,7 +611,7 @@ void ZKND_TBAR_SetAnimByState(char *p, int which)
     {
         ((struct Ov208Rec *)p)->animSeq = ((struct Ov208Rec *)p)->desc.idleAnim;
     }
-    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Ov208Rec *)p)->actor, (unsigned short)((struct Ov208Rec *)p)->animSeq);
+    CLACT_SetActorAnimSeq(((struct Ov208Rec *)p)->actor, (unsigned short)((struct Ov208Rec *)p)->animSeq);
 }
 
 int ZKND_TBAR_GetButtonSound(const void *p)
@@ -640,10 +640,10 @@ void ZKND_TBAR_GetButtonCount(char *p)
 void ZKND_TBAR_PlayCancelAnim(char *p)
 {
     unsigned short h = ((struct Ov208Rec *)p)->desc.pressedAnim;
-    int v = ((struct Ov208Rec *)p)->actor;
+    struct ClactActor *v = ((struct Ov208Rec *)p)->actor;
 
     ((struct Ov208Rec *)p)->animSeq = h;
-    CLACT_SetActorAnimSeq((struct ClactActor *)v, h);
+    CLACT_SetActorAnimSeq(v, h);
     if (((struct Ov208Rec *)p)->desc.seId != 0)
         GFL_USE_PlaySeDefaultVolume(((struct Ov208Rec *)p)->desc.seId);
 }

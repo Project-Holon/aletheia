@@ -51,7 +51,7 @@ extern struct MemIcon *gIconWork;
 extern unsigned char sIconCellIds[][4];
 extern struct MemIcon *gMemIcon;
 
-static void taskRenew(void);
+static void taskRenew(void * unused0, void * unused1);
 
 
 void DWCi_ICONlInit(int type)
@@ -59,13 +59,13 @@ void DWCi_ICONlInit(int type)
     int idx;
     if (gIconWork != 0)
         return;
-    gIconWork = DWCi_HEAPlAllocEx(12, 4);
+    gIconWork = DWCi_HEAPlAllocEx(sizeof(*gIconWork), 4);
     idx = *((unsigned char *)sIconCellIds + (type << 2));
     gIconWork->type = type;
     gIconWork->obj = DWCi_CEINlSetExObj(0, idx);
     ((GXOamAttr *)gIconWork->obj)->attr01 = (((GXOamAttr *)gIconWork->obj)->attr01 & 0xFE00FF00) | 0x26 | (0xE5 << 16);
     ((GXOamAttr *)gIconWork->obj)->attr2 = (((GXOamAttr *)gIconWork->obj)->attr2 & ~0xC00) | 0x800;
-    gIconWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskRenew, 0, 0x78);
+    gIconWork->task = DWCi_TSKlForm(0, taskRenew, 0, 0x78);
 }
 
 
@@ -85,7 +85,7 @@ void DWCi_ICONlEnd(void)
 /*
  * sdk:      taskRenew (libdwcutil.TWL.HYB.a icon.o)
  */
-static void taskRenew(void)
+static void taskRenew(void * unused0, void * unused1)
 {
     WMLinkLevel lv = 0;
     volatile unsigned short *ime = (volatile unsigned short *)REG_IME_ADDR;

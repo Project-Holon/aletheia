@@ -284,7 +284,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
         pos = (uptr)s->pCurrent;
         if (pos <= ((uptr)seq->pAnmFrameArray + (seq->loopStartFrameIdx << 3) - 8)) {
             if (s->callBack.type == 1) {
-                ((void (*)(u32, u32))s->callBack.pFunc)(s->callBack.param, s->currentTime);
+                s->callBack.pFunc(s->callBack.param, s->currentTime);
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
@@ -295,7 +295,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
         }
     } else {
         if (s->callBack.type == 1) {
-            ((void (*)(u32, u32))s->callBack.pFunc)(s->callBack.param, s->currentTime);
+            s->callBack.pFunc(s->callBack.param, s->currentTime);
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
@@ -307,8 +307,8 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
 
     {
         const AnimSequenceData *seq = s->pAnimSequence;
-        u32 pos = (uptr)s->pCurrent;
-        u32 bound = (uptr)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
+        uptr pos = (uptr)s->pCurrent;
+        uptr bound = (uptr)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
         if (pos > bound) {
             s->pCurrent = (AnimFrameData *)bound;
             return;
@@ -397,10 +397,10 @@ static inline void CallbackFuncHandling_(const AnimCallBack *f, u16 idx)
     switch (f->type) {
     case 2:
         if (idx == f->frameIdx)
-            ((void (*)(u32, u32))f->pFunc)(f->param, idx);
+            f->pFunc(f->param, idx);
         break;
     case 3:
-        ((void (*)(u32, u32))f->pFunc)(f->param, idx);
+        f->pFunc(f->param, idx);
         break;
     }
 }

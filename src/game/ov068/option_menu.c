@@ -769,7 +769,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     void *arc;
     int i;
 
-    MI_CpuFill8(sprites, 0, 0x54);
+    MI_CpuFill8(sprites, 0, sizeof(OptionMenuSprites));
     CLACT_InitSystem((struct ClactSysInit *)(&gClActorInitParam), (struct DispVramCfg *)res, heapId);
     sprites->unit = CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->unit);
@@ -811,14 +811,14 @@ void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites)
             CLACT_DeleteActor((struct ClactActor *)sprites->actors[i]);
         }
     }
-    CLACT_ReleasePalette((uptr)sprites->plttRes);
-    CLACT_ReleaseCharacter((uptr)sprites->mainCharRes);
-    CLACT_ReleaseCellAnim((uptr)sprites->mainCellRes);
-    CLACT_ReleaseCharacter((uptr)sprites->subCharRes);
-    CLACT_ReleaseCellAnim((uptr)sprites->subCellRes);
+    CLACT_ReleasePalette(sprites->plttRes);
+    CLACT_ReleaseCharacter(sprites->mainCharRes);
+    CLACT_ReleaseCellAnim(sprites->mainCellRes);
+    CLACT_ReleaseCharacter(sprites->subCharRes);
+    CLACT_ReleaseCellAnim(sprites->subCellRes);
     CLACT_DeleteUnit(sprites->unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(sprites, 0, 0x54);
+    MI_CpuFill8(sprites, 0, sizeof(OptionMenuSprites));
 }
 
 /* Steps the choice animation frame (wraps after 0x60) and draws the actors. */
@@ -854,12 +854,12 @@ struct Unit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites)
  */
 void OPTION_MENU_InitInput(OptionMenuInput *input, int heapId)
 {
-    MI_CpuFill8(input, 0, 0x20);
+    MI_CpuFill8(input, 0, sizeof(OptionMenuInput));
 }
 
 void OPTION_MENU_ExitInput(OptionMenuInput *input)
 {
-    MI_CpuFill8(input, 0, 0x20);
+    MI_CpuFill8(input, 0, sizeof(OptionMenuInput));
 }
 
 /*
@@ -1075,7 +1075,7 @@ void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct Unit *unit, stru
     buttons->printSys = printSys;
     buttons->gameData = gameData;
     cells = gOptionMenuReturnButtonCells;
-    MI_CpuFill8(&request, 0, 0x20);
+    MI_CpuFill8(&request, 0, sizeof(request));
     request.defs = cells.def;
     request.count = 2;
     request.actorSys = (struct Unit *)unit;
@@ -1860,7 +1860,7 @@ int OPTION_MENU_AreSettingsEqual(const OptionSettings *a, const OptionSettings *
 
 void OPTION_MENU_InitRunner(OptionMenuRunner *runner, OptionMenuWork *work, OptionMenuStateFn callback)
 {
-    MI_CpuFill8(runner, 0, 16);
+    MI_CpuFill8(runner, 0, sizeof(OptionMenuRunner));
     runner->work = work;
     OPTION_MENU_SetRunnerState(runner, callback);
 }
@@ -1870,7 +1870,7 @@ void OPTION_MENU_InitRunner(OptionMenuRunner *runner, OptionMenuWork *work, Opti
  */
 void OPTION_MENU_ExitRunner(OptionMenuRunner *runner)
 {
-    MI_CpuFill8(runner, 0, 0x10);
+    MI_CpuFill8(runner, 0, sizeof(OptionMenuRunner));
 }
 
 void OPTION_MENU_UpdateRunner(OptionMenuRunner *runner)

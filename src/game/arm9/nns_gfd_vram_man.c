@@ -59,24 +59,24 @@ void NNSi_GfdSetVramManagerWork(void *pWork);
 u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
 int NNSi_GfdRingIsFull(u8 *p);
 int NNSi_GfdRingIsEmpty(void *p);
-void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadTex(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadTexPltt(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageColor(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageDepth(void *a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
 #include "gx_load2d.h"
-void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2ScrDup(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3ScrDup(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadOBJPltt(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBGPltt(void *a, u32 b, u32 c);
 
 /*
  * VRAM (or comparable fixed-arena) BUMP ALLOCATOR STEP, against the {cur, end}
@@ -286,10 +286,10 @@ int NNSi_GfdRingIsEmpty(void *p)
  *   python tools/match.py one --src src/matched/NNS_GfdFuncLoadTex.c \
  *       --func NNS_GfdFuncLoadTex --addr 0x0206188C --arm --cc 1.1p1
  */
-void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadTex(void *a, u32 b, u32 c)
 {
     GX_BeginLoadTex();
-    GX_LoadTex((void *)a, b, c);
+    GX_LoadTex(a, b, c);
     GX_EndLoadTex();
 }
 
@@ -298,10 +298,10 @@ void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
  *   python tools/match.py one --src src/matched/NNS_GfdFuncLoadTexPltt.c \
  *       --func NNS_GfdFuncLoadTexPltt --addr 0x020618B8 --arm --cc 1.1p1
  */
-void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadTexPltt(void *a, u32 b, u32 c)
 {
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt((void *)a, b, c);
+    GX_LoadTexPltt(a, b, c);
     GX_EndLoadTexPltt();
 }
 
@@ -320,10 +320,10 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
  *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageColor.c \
  *       --func NNS_GfdFuncLoadClearImageColor --addr 0x020618E4 --arm --cc 1.1p1
  */
-void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageColor(void *a, u32 b, u32 c)
 {
     GX_BeginLoadClearImage();
-    GX_LoadClearImageColor((void *)a, c);
+    GX_LoadClearImageColor(a, c);
     GX_EndLoadClearImage();
 }
 
@@ -340,69 +340,69 @@ void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
  *   python tools/match.py one --src src/pending/NNS_GfdFuncLoadClearImageDepth.c \
  *       --func NNS_GfdFuncLoadClearImageDepth --addr 0x02061908 --arm --cc 1.1p1
  */
-void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadClearImageDepth(void *a, u32 b, u32 c)
 {
     GX_BeginLoadClearImage();
-    GX_LoadClearImageDepth((void *)a, c);
+    GX_LoadClearImageDepth(a, c);
     GX_EndLoadClearImage();
 }
 
-void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG0Char(void *a, u32 b, u32 c)
 {
-    GX_LoadBG0Char((void *)a, b, c);
+    GX_LoadBG0Char(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG1Char(void *a, u32 b, u32 c)
 {
-    GX_LoadBG1Char((void *)a, b, c);
+    GX_LoadBG1Char(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2Char(void *a, u32 b, u32 c)
 {
-    GX_LoadBG2Char((void *)a, b, c);
+    GX_LoadBG2Char(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3Char(void *a, u32 b, u32 c)
 {
-    GX_LoadBG3Char((void *)a, b, c);
+    GX_LoadBG3Char(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG0Scr(void *a, u32 b, u32 c)
 {
-    GX_LoadBG0Scr((void *)a, b, c);
+    GX_LoadBG0Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG1Scr(void *a, u32 b, u32 c)
 {
-    GX_LoadBG1Scr((void *)a, b, c);
+    GX_LoadBG1Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2Scr(void *a, u32 b, u32 c)
 {
-    GX_LoadBG2Scr((void *)a, b, c);
+    GX_LoadBG2Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3Scr(void *a, u32 b, u32 c)
 {
-    GX_LoadBG3Scr((void *)a, b, c);
+    GX_LoadBG3Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG2ScrDup(void *a, u32 b, u32 c)
 {
-    GX_LoadBG2Scr((void *)a, b, c);
+    GX_LoadBG2Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBG3ScrDup(void *a, u32 b, u32 c)
 {
-    GX_LoadBG3Scr((void *)a, b, c);
+    GX_LoadBG3Scr(a, b, c);
 }
 
-void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadOBJPltt(void *a, u32 b, u32 c)
 {
-    GX_LoadOBJPltt((void *)a, b, c);
+    GX_LoadOBJPltt(a, b, c);
 }
 
-void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c)
+void NNS_GfdFuncLoadBGPltt(void *a, u32 b, u32 c)
 {
-    GX_LoadBGPltt((void *)a, b, c);
+    GX_LoadBGPltt(a, b, c);
 }

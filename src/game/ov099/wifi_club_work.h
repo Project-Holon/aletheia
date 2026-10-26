@@ -338,7 +338,7 @@ typedef struct WifiClubWork {
     u8 pad9B8[0x1328 - 0x9B8];
     /* 0x1328 */ u16 ready; u16 mapIndexPlusOne; u16 menuAction; u8 pad132E[2];
     /* 0x1330 */ u32 menuFrameBase; u32 windowFrameBase;
-    void *textBufferC;               /* 0x1338: word buffer created with BMP_MENUWORK_LoadFrameGfx */
+    u32 textBufferC;                 /* 0x1338: word buffer created with BMP_MENUWORK_LoadFrameGfx */
     u8 pad133C[4];
     /* 0x1340 */ u8 bgmVolume, bgmVolumeFrom, bgmVolumeTarget, bgmFadeFrames;
     /* 0x1344 */ StrBuf **regulationText;     /* POKE_REGULATION_CreateText result: 12 rule strings from index 1 */

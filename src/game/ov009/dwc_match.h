@@ -10,6 +10,10 @@ struct DWCstNNInfo;
 
 #include "../types.h"
 #include "../ov009/dwc_match_ctl_types.h"
+#include "../ov009/gt2main_types.h"
+#include "../ov009/sb_server_types.h"
+
+#include "../ov009/qr2_types.h"
 
 int DWC_CancelMatch(void);
 int DWC_IsValidCancelMatch(void);
@@ -17,15 +21,15 @@ u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
 u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 int DWC_GetMatchIntValue(int index, char *key, int idefault);
 int DWC_GetSuspendMatch(void);
-void DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, int friendKeyListArg, int friendKeyListLenArg);
+void DWCi_MatchInit(DWCstMatchControl *matchCnt, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, char *gameName, char *secretKey, u8 *friendKeyListArg, int friendKeyListLenArg);
 int DWCi_QR2Startup(int profileID);
-void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
-void DWCi_SetupGameServer(int topology, u8 numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
-void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, u8 *connectionUserData, void *attemptParam);
+void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, MatchedCallback matchedCallback, void *matchedParam, DWCMatchedSCCallback newClientCallback, void *newClientParam, DWCEvalCallback evalCallback, void *evalParam, int (*attemptCallback)(unsigned char *, void *), unsigned char *connectionUserData, void *attemptParam);
+void DWCi_SetupGameServer(int topology, u8 numEntry, MatchedCallback matchedCallback, void *matchedParam, DWCMatchedSCCallback newClientCallback, void *newClientParam, int (*attemptCallback)(unsigned char *, void *), u8 *connectionUserData, void *attemptParam);
+void DWCi_ConnectToGameServerAsync(int topology, int serverPid, MatchedCallback matchedCallback, void *matchedParam, DWCMatchedSCCallback newClientCallback, void *newClientParam, int (*attemptCallback)(unsigned char *, void *), u8 *connectionUserData, void *attemptParam);
 void DWCi_SendStateChanged(struct qr2_implementation_s *qr2Obj);
 void DWCi_MatchProcess(int fullSpec);
-int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
-void DWCi_GT2ConnectAttemptCallback(void * userdata, void * connection, unsigned int ip, unsigned short port, int latency, unsigned char * message, int len);
+int DWCi_GT2UnrecognizedMessageCallback(GTI2Socket *socket, unsigned int ip, unsigned short port, unsigned char *message, int len);
+void DWCi_GT2ConnectAttemptCallback(GTI2Socket * userdata, GTI2Connection * connection, unsigned int ip, unsigned short port, int latency, unsigned char * message, int len);
 void DWCi_MakeGT2ConnectString(char *buf, int bufLen);
 void DWCi_GT2ConnectedCallback(void * connection, int result);
 void DWCi_MatchGPRecvBuddyMsgCallback(int unused, int profileID, char *message);
@@ -43,7 +47,7 @@ int DWCi_GPSetServerStatus(int status);
 void DWCi_ShutdownMatch(void);
 int DWCi_IsShutdownMatch(void);
 void DWCi_ResetMatchParam(int level);
-void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, void *callback, void *param);
+void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, MatchedCallback callback, void *param);
 void DWCi_CloseMatch(void);
 int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
 int IsPrivateAddr(unsigned int addr_in_netorder);
@@ -97,26 +101,26 @@ int DWCi_HandleSBError(int error);
 int DWCi_HandleQR2Error(int error);
 int DWCi_HandleNNError(int error);
 int DWCi_HandleNNResult(int result);
-void DWCi_SBCallback(void *sb, int reason, void *server);
+void DWCi_SBCallback(struct ServerBrowser *sbArg, int reason, SBServer *serverArg, void *unusedArg);
 void DWCi_DebugPrintServerList(void *server);
 void DWCi_RandomizeServers(void);
-void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf);
-void DWCi_QR2PlayerKeyCallback(void);
-void DWCi_QR2TeamKeyCallback(void);
-void DWCi_QR2KeyListCallback(int keytype, void *keybuffer);
-int DWCi_QR2CountCallback(void);
-int DWCi_QR2AddErrorCallback(int error);
-void DWCi_QR2PublicAddrCallback(unsigned int ip, unsigned short port);
-void DWCi_QR2NatnegCallback(int cookie);
+void DWCi_QR2ServerKeyCallback(int keyid, struct qr2_buffer_s *outbuf, void *userdata);
+void DWCi_QR2PlayerKeyCallback(int keytype, int index, struct qr2_buffer_s *outbuf, void *userdata);
+void DWCi_QR2TeamKeyCallback(int keytype, int index, struct qr2_buffer_s *outbuf, void *userdata);
+void DWCi_QR2KeyListCallback(qr2_key_type keytype, qr2_keybuffer_s *keybuffer, void *userdata);
+int DWCi_QR2CountCallback(qr2_key_type keytype, void *userdata);
+void DWCi_QR2AddErrorCallback(int error, char *errmsg, void *userdata);
+void DWCi_QR2PublicAddrCallback(unsigned int ip, unsigned short port, void *userdata);
+void DWCi_QR2NatnegCallback(int cookie, void *userdata);
 void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
-void DWCi_QR2ClientMsgCallback(char *data, int len);
-void DWCi_NNProgressCallback(void);
-void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remoteaddr, struct DWCstNNInfo *nnInfo);
+void DWCi_QR2ClientMsgCallback(char *data, int len, void *userdata);
+void DWCi_NNProgressCallback(int state, void *param);
+void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remoteaddr, void *nnInfoArg);
 int DWCi_ProcessNNFailure(int ignoreError);
 int DWCi_SendServerDownQuery(void);
 int DWCi_IsBackupMine(void);
 unsigned int DWCi_CreateGroupID(void);
-void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
+void DWCi_SetConnectionAttemptParam(int (*attemptCallback)(unsigned char *, void *), unsigned char *connectionUserData, void *attemptParam);
 void DWCi_SetupGameServer_InterChange(int init);
 void DWCi_ConnectToGameServerAsync_InterChange(int profileID);
 int DWCi_GetNumConnectionHost(void);

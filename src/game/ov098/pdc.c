@@ -47,7 +47,7 @@ struct PdcArgs *PDC_CreateArgs(struct GameData *gameData, struct PokemonParam *m
 {
     struct PdcArgs *args;
 
-    args = GFL_HEAP_Alloc(heapId, 0x20, 0, gPdcSrcName, 0x50);
+    args = GFL_HEAP_Alloc(heapId, sizeof(*args), 0, gPdcSrcName, 0x50);
     args->gameData = gameData;
     args->mon = mon;
     args->scene = scene;
@@ -101,8 +101,8 @@ int PDC_ProcInit(struct Proc *proc, int seq, struct PdcArgs *args)
 
     GF_OVERLAY_Load((sptr)ov094_id);
     GFL_HEAP_CreateChildHeap(1, 0x85, 0xc0000);
-    work = PROCSYS_AllocProcWork(proc, 0xc, 0x85);
-    MIi_CpuClearFast(0, work, 0xc);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x85);
+    MIi_CpuClearFast(0, work, sizeof(*work));
     work->heapId = 0x85;
     work->sys = PDC_MAIN_Create(args, work->heapId);
     work->args = args;

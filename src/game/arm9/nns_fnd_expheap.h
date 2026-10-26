@@ -15,7 +15,7 @@ struct Heap;
 #include "../arm9/nns_fnd_types.h"
 #include "../types.h"
 
-void NNS_FndInitList(int list, int offset);
+void NNS_FndInitList(NNSFndList *list, int offset);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
 void NNS_FndAppendListObject(NNSFndList *list, void *object);
 void NNS_FndPrependListObject(NNSFndList *list, void *object);

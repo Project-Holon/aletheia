@@ -130,7 +130,6 @@ extern void CLACT_StartActorAnim(struct ClactActor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
-extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
 #include "../arm9/gfl_heap_wrap.h"
 struct BmpWin;
 #include "../arm9/bmp_win.h"
@@ -156,15 +155,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 extern s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
 extern void CLACT_ExitSystem(void);
-#ifdef __MWERKS__
-#define CLACT_DrawSystem CLACT_DrawSystemHeader
-#endif
 #include "../arm9/clact.h"
-#ifdef __MWERKS__
-/* original prototypes: the DS code declares these with other argument or return types than the definitions */
-#undef CLACT_DrawSystem
-extern void CLACT_DrawSystem(int arg);
-#endif
 extern void CLACT_VBlankSystem(void);
 
 /* Siblings in townmap.c. */
@@ -181,7 +172,7 @@ void TOWNMAP_GRH_ExitTextBox(TownMapTextBox *box);
 void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int y);
 void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box);
 void TOWNMAP_GRH_ResetDisplay(void);
-void TOWNMAP_GRH_UpdateTask(void *task, void *gfx);
+void TOWNMAP_GRH_UpdateTask(struct TcbTask * taskArg, void *gfx);
 void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId);
 void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx);
 void TOWNMAP_GRH_TransferBgData(TownMapGfx *gfx);
@@ -359,8 +350,9 @@ void TOWNMAP_GRH_RestartTouchDrag(TownMapTouch *touch)
 }
 
 /* Empty per frame task. */
-void TOWNMAP_GRH_EmptyTask(void *task, void *arg)
+void TOWNMAP_GRH_EmptyTask(struct TcbTask * taskArg, void *arg)
 {
+    void * task = (void *)taskArg;
 }
 
 /* Graphics set. */
@@ -373,7 +365,7 @@ TownMapGfx *TOWNMAP_GRH_Create(u16 heapId)
     TOWNMAP_GRH_ResetDisplay();
     TOWNMAP_GRH_InitBgLayers(gfx, heapId);
     TOWNMAP_GRH_InitSprites(&gfx->sprites, &sTownMapGrhVramBanks, heapId);
-    gfx->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
+    gfx->task = GFL_USE_AddMainTask(TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
     return gfx;
 }
 
@@ -426,8 +418,9 @@ void TOWNMAP_GRH_ResetDisplay(void)
     GF_FONT_InitTextColor();
 }
 
-void TOWNMAP_GRH_UpdateTask(void *task, void *gfx)
+void TOWNMAP_GRH_UpdateTask(struct TcbTask * taskArg, void *gfx)
 {
+    void * task = (void *)taskArg;
     TOWNMAP_GRH_VBlankSprites(&((TownMapGfx *)gfx)->sprites);
     TOWNMAP_GRH_TransferBgData(gfx);
 }
@@ -541,11 +534,7 @@ void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites)
 /* Thumb long-branch veneer to CLACT_DrawSystem, declared as an ordinary call. */
 void TOWNMAP_GRH_DrawClactSystem(int arg)
 {
-#ifdef __MWERKS__
-    CLACT_DrawSystem(arg);
-#else
     CLACT_DrawSystem();
-#endif
 }
 
 void TOWNMAP_GRH_VBlankSprites(TownMapSprites *sprites)

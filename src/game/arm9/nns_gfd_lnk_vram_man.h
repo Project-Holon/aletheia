@@ -19,12 +19,12 @@ BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *p
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);
-void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
-u32 NNS_GfdAllocTexVram(u32 size, u32 flag);
+void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, void *pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
+u32 NNS_GfdAllocTexVram(u32 size, u32 flag, u32 opt);
 u32 NNS_GfdFreeTexVram(u32 h);
-void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, u32 szByteManagementWork);
+void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, void *pManagementWork, u32 szByteManagementWork);
 int NNSi_GfdSizeToGranulePltt(int v);
-void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
+void NNSi_GfdInitPlttVramManager(u32 szByte, void *pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
 u32 NNS_GfdAllocPlttVram(u32 size, u32 flag);
 int NNS_GfdFreePlttVram(u32 id);
 void NNSi_GfdInitPlttVramHeap(void);

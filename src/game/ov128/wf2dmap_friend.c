@@ -322,7 +322,15 @@ typedef short s16_p07;
 struct GameData;
 struct FieldState;
 #include "../arm9/game_data.h"
+/* Original DS prototype: this file reads the friend field as an int; the header returns u32. */
+#ifdef __MWERKS__
+#define WIFILIST_GetFriendInfoField WIFILIST_GetFriendInfoField_header
+#endif
 #include "../arm9/wifilist.h"
+#ifdef __MWERKS__
+#undef WIFILIST_GetFriendInfoField
+extern int WIFILIST_GetFriendInfoField(void *list, int index, int field);
+#endif
 #include "../ov010/namein_args.h"
 #include "../arm9/dwc_account.h"
 #include "../arm9/wifi_friend.h"
@@ -366,15 +374,15 @@ struct NameInArgs;
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
 int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p);
 int Wf2dmapFriend_Delete(void *p,int a,int b,char *q);
-void Wf2dmapFriend_Proc(void *p,char *q);
+void Wf2dmapFriend_Proc(struct TcbTask * pArg, void * qArg);
 void Wf2dmapFriend_Setup(char *p,u16 heap);
 void Wf2dmapFriend_Teardown(u8 *p);
-void Wf2dmapFriend_CreateWindow(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g);
+void Wf2dmapFriend_CreateWindow(void *p,void **out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g);
 void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap);
 void Wf2dmapFriend_DeleteText(u8 *p, void *unused);
 void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 void Wf2dmapFriend_CopyText(u8 *p,void *a,void *b);
-int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg);
+int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,void *arg);
 void Wf2dmapFriend_SetNameEntry(char *p,int x);
 void Wf2dmapFriend_SetIndex(char *p,int x);
 void Wf2dmapFriend_BuildEntryList(char *p);
@@ -500,12 +508,12 @@ int Wf2dmapFriend_Create(void *p,int unused,void *q)
     char *v;
     GF_OVERLAY_Load((uptr)gWf2dmapOverlayId); GF_OVERLAY_Load((uptr)gWf2dmapTouchbarOverlayId);
     GFL_HEAP_CreateChildHeap(1,52,0xc0000);
-    v=PROCSYS_AllocProcWork(p,0x5b0,52);
-    MI_CpuFill8(v,0,0x5b0);
+    v=PROCSYS_AllocProcWork(p,sizeof(Wf2dmapFriendRoot),52);
+    MI_CpuFill8(v,0,sizeof(Wf2dmapFriendRoot));
     ((Wf2dmapFriendRoot *)v)->saveData=q; ((Wf2dmapFriendRoot *)v)->procHandle=0;
-    Wf2dmapFriend_InitText((u8 *)(v+0x190),((Wf2dmapFriendRoot *)v)->saveData,52);
-    Wf2dmapFriend_InitGfx(v+4,v+0x190,52);
-    if(((Wf2dmapFriendRoot *)v)->procHandle==0) ((Wf2dmapFriendRoot *)v)->procHandle=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))Wf2dmapFriend_Proc,(void *)v,16);
+    Wf2dmapFriend_InitText((u8 *)((u8 *)&((Wf2dmapFriendRoot *)v)->friendData),((Wf2dmapFriendRoot *)v)->saveData,52);
+    Wf2dmapFriend_InitGfx((char *)&((Wf2dmapFriendRoot *)v)->gfx,(u8 *)&((Wf2dmapFriendRoot *)v)->friendData,52);
+    if(((Wf2dmapFriendRoot *)v)->procHandle==0) ((Wf2dmapFriendRoot *)v)->procHandle=GFL_USE_AddMainTask(Wf2dmapFriend_Proc,(void *)v,16);
     return 1;
 }
 
@@ -514,16 +522,16 @@ int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p)
     switch(*stage) {
     case 0:
         switch(((Wf2dmapFriendRoot *)p)->screenMode) {
-        case 0: result=Wf2dmapFriend_TopBarMain((u8 *)(p+0x1fc),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
-        case 1: result=Wf2dmapFriend_ItemScreenMain((u8 *)(p+0x24c),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
-        case 2: result=Wf2dmapFriend_NameEntryMain((void **)(p+0x3f8),(u8 *)p,(u8 *)(p+0x190),p+4,52); break;
-        case 3: result=WF2DMAP_TOUCH_FriendKeyScreen(p+0x404,(u8 *)(p+0x190),(u8 *)(p+4),52); break;
-        case 4: result=WF2DMAP_TOUCH_FriendEditScreen((u8 *)(p+0x420),(u8 *)(p+0x190),(u8 *)(p+4),52); break;
+        case 0: result=Wf2dmapFriend_TopBarMain((u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->listScreen),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->friendData),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->gfx),52); break;
+        case 1: result=Wf2dmapFriend_ItemScreenMain((u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->itemScreen),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->friendData),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->gfx),52); break;
+        case 2: result=Wf2dmapFriend_NameEntryMain((void **)((u8 *)&((Wf2dmapFriendRoot *)p)->nameEntry),(u8 *)p,(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->friendData),(u8 *)&((Wf2dmapFriendRoot *)p)->gfx,52); break;
+        case 3: result=WF2DMAP_TOUCH_FriendKeyScreen((u8 *)&((Wf2dmapFriendRoot *)p)->windowSet,(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->friendData),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->gfx),52); break;
+        case 4: result=WF2DMAP_TOUCH_FriendEditScreen((u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->edit),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->friendData),(u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->gfx),52); break;
         case 5: ((Wf2dmapSaveControl *)(*(char * *)&((Wf2dmapFriendRoot *)p)->saveData))->mode=0; return 1;
         case 6: ((Wf2dmapSaveControl *)(*(char * *)&((Wf2dmapFriendRoot *)p)->saveData))->mode=1; return 1;
         }
         if(result==1) {
-            *(int *)&((Wf2dmapFriendRoot *)p)->screenMode=((Wf2dmapFriendRoot *)p)->friendData.stateArgA;
+            ((Wf2dmapFriendRoot *)p)->screenMode=((Wf2dmapFriendRoot *)p)->friendData.stateArgA;
             ((Wf2dmapFriendRoot *)p)->friendData.state=((Wf2dmapFriendRoot *)p)->friendData.stateArgB;
             ((Wf2dmapFriendRoot *)p)->counter=4;
             *stage=1;
@@ -533,23 +541,25 @@ int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p)
         if(--((Wf2dmapFriendRoot *)p)->counter<=0) *stage=0;
         break;
     }
-    Wf2dmapFriend_Draw((u8 *)(p+4));
+    Wf2dmapFriend_Draw((u8 *)((u8 *)&((Wf2dmapFriendRoot *)p)->gfx));
     return 0;
 }
 
 int Wf2dmapFriend_Delete(void *p,int a,int b,char *q)
 {
     TCB_DeleteTask(((Wf2dmapFriendRoot *)q)->procHandle); ((Wf2dmapFriendRoot *)q)->procHandle=0;
-    Wf2dmapFriend_DeleteGfx((u8 *)(q+4));
-    Wf2dmapFriend_DeleteText((u8 *)(q+0x190),((Wf2dmapFriendRoot *)q)->saveData);
+    Wf2dmapFriend_DeleteGfx((u8 *)((u8 *)&((Wf2dmapFriendRoot *)q)->gfx));
+    Wf2dmapFriend_DeleteText((u8 *)((u8 *)&((Wf2dmapFriendRoot *)q)->friendData),((Wf2dmapFriendRoot *)q)->saveData);
     PROCSYS_FreeProcWork(p); GFL_HEAP_DeleteChecked(52);
     GF_OVERLAY_Unload((uptr)gWf2dmapTouchbarOverlayIdRef); GF_OVERLAY_Unload((uptr)gWf2dmapOverlayId);
     return 1;
 }
 
-void Wf2dmapFriend_Proc(void *p,char *q) { Wf2dmapFriend_VBlank(q+4); }
+void Wf2dmapFriend_Proc(struct TcbTask * pArg, void * qArg) {
+    void * p = (void *)pArg;
+    char * q = (char *)qArg; Wf2dmapFriend_VBlank((u8 *)&((Wf2dmapTouchFriendData *)q)->saveData); }
 
-void Wf2dmapFriend_Setup(char *p,u16 heap) {Wf2dmapFriend_InitGfx(p+4,p+0x190,heap); if(!((Wf2dmapFriendRoot *)p)->procHandle) ((Wf2dmapFriendRoot *)p)->procHandle=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))Wf2dmapFriend_Proc,(void *)p,16);}
+void Wf2dmapFriend_Setup(char *p,u16 heap) {Wf2dmapFriend_InitGfx((char *)&((Wf2dmapFriendRoot *)p)->gfx,(u8 *)&((Wf2dmapFriendRoot *)p)->friendData,heap); if(!((Wf2dmapFriendRoot *)p)->procHandle) ((Wf2dmapFriendRoot *)p)->procHandle=GFL_USE_AddMainTask(Wf2dmapFriend_Proc,(void *)p,16);}
 
 /*
  * Addresses are Black-image addresses.
@@ -557,19 +567,19 @@ void Wf2dmapFriend_Setup(char *p,u16 heap) {Wf2dmapFriend_InitGfx(p+4,p+0x190,he
 void Wf2dmapFriend_Teardown(u8 *p)
 {
     TCB_DeleteTask(((Wf2dmapFriendRoot *)p)->procHandle);
-    *(u32 *)&((Wf2dmapFriendRoot *)p)->procHandle = 0;
-    Wf2dmapFriend_DeleteGfx(p + 4);
+    ((Wf2dmapFriendRoot *)p)->procHandle = 0;
+    Wf2dmapFriend_DeleteGfx((u8 *)&((Wf2dmapFriendRoot *)p)->gfx);
 }
 
-void Wf2dmapFriend_CreateWindow(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g)
+void Wf2dmapFriend_CreateWindow(void *p,void **out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g)
 {
-    *out=(uptr)BMP_WIN_Create((unsigned int)a,(unsigned int)b,(unsigned int)c,d,e,f,1);
-    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)*out),g);
-    BMP_WIN_TransferChars((struct BmpWin *)*out);
+    *out=BMP_WIN_Create((unsigned int)a,(unsigned int)b,(unsigned int)c,d,e,f,1);
+    BMP_Clear(BMP_WIN_GetBmp(*out),g);
+    BMP_WIN_TransferChars(*out);
     WF2DMAP_TOUCH_AddSlot(p,out);
 }
 
-void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap) {((Wf2dmapTouchFriendData *)p)->saveWord=*q;((Wf2dmapTouchFriendData *)p)->textBufA=STRBUF_Create(128,heap);((Wf2dmapTouchFriendData *)p)->textBufB=STRBUF_Create(128,heap);((Wf2dmapTouchFriendData *)p)->textSpeed=UI_GetInputMode();p[12]=MSG_SPEED_GetWait();p[13]=0;p[14]=1;}
+void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap) {((Wf2dmapTouchFriendData *)p)->saveWord=*q;((Wf2dmapTouchFriendData *)p)->textBufA=STRBUF_Create(128,heap);((Wf2dmapTouchFriendData *)p)->textBufB=STRBUF_Create(128,heap);((Wf2dmapTouchFriendData *)p)->textSpeed=UI_GetInputMode();((Wf2dmapTouchFriendData *)p)->speed=MSG_SPEED_GetWait();((Wf2dmapTouchFriendData *)p)->windowFrame=0;((Wf2dmapTouchFriendData *)p)->nameReady=1;}
 
 void Wf2dmapFriend_DeleteText(u8 *p, void *unused) { UI_SetInputMode(((Wf2dmapTouchFriendData *)p)->textSpeed); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufA); STRBUF_Delete(((Wf2dmapTouchFriendData *)p)->textBufB); }
 
@@ -578,13 +588,13 @@ void Wf2dmapFriend_DeleteText(u8 *p, void *unused) { UI_SetInputMode(((Wf2dmapTo
  */
 void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b)
 {
-    p[9] = a;
-    p[10] = b;
+    ((Wf2dmapTouchFriendData *)p)->stateArgA = a;
+    ((Wf2dmapTouchFriendData *)p)->stateArgB = b;
 }
 
 void Wf2dmapFriend_CopyText(u8 *p,void *a,void *b) { if(a) STRBUF_Copy(((Wf2dmapTouchFriendData *)p)->textBufA,a); if(b) STRBUF_Copy(((Wf2dmapTouchFriendData *)p)->textBufB,b); }
 
-int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
+int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,void *arg)
 {
     int i;
     void *v;
@@ -599,7 +609,7 @@ int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
             if(DWC_CheckFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork(v),id)==0) return 1;
             if(WIFILIST_FindFriendByKey(v,id,&result)==0) return 2;
             DWC_CreateFriendKeyToken(WIFILIST_GetDwcFriendData(v,i),id);
-            WIFILIST_StoreFriendNameFromStrbuf(v,i,(void *)arg);
+            WIFILIST_StoreFriendNameFromStrbuf(v,i,arg);
             WIFILIST_SetFriendInfoField(v,i,9,2);
             return 0;
             }
@@ -611,7 +621,7 @@ int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
 
 void Wf2dmapFriend_SetNameEntry(char *p,int x) { ((Wf2dmapTouchFriendData *)p)->nameTextInt=x; ((Wf2dmapTouchFriendData *)p)->nameFlag=1; }
 
-void Wf2dmapFriend_SetIndex(char *p,int x) { p[11]=x; }
+void Wf2dmapFriend_SetIndex(char *p,int x) { ((Wf2dmapTouchFriendData *)p)->index=x; }
 
 /*
  * lever: direct assignment from postincrement preserves the old count load;
@@ -621,14 +631,14 @@ void Wf2dmapFriend_BuildEntryList(char *p)
 {
     int i;
     void *v;
-    MI_CpuFill8(p+16,0,72);
+    MI_CpuFill8((u8 *)&((Wf2dmapTouchFriendData *)p)->count,0,72);
     v=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
     ((Wf2dmapTouchFriendData *)p)->count=0;
     for(i=0;i<32;i++) {
         if(WIFILIST_IsFriendDataValid(v,i)==1) {
-            *(u8 *)(p+((Wf2dmapTouchFriendData *)p)->count+24)=i;
-            if(WIFILIST_GetFriendInfoField(v,i,9)==2) *(u8 *)(p+((Wf2dmapTouchFriendData *)p)->count+56)=255;
-            else *(u8 *)(p+((Wf2dmapTouchFriendData *)p)->count+56)=(((Wf2dmapTouchFriendData *)p)->nextColor)++;
+            ((Wf2dmapTouchFriendData *)p)->entryIndex[((Wf2dmapTouchFriendData *)p)->count]=i;
+            if(WIFILIST_GetFriendInfoField(v,i,9)==2) ((Wf2dmapTouchFriendData *)p)->entryColor[((Wf2dmapTouchFriendData *)p)->count]=255;
+            else ((Wf2dmapTouchFriendData *)p)->entryColor[((Wf2dmapTouchFriendData *)p)->count]=(((Wf2dmapTouchFriendData *)p)->nextColor)++;
             ((Wf2dmapTouchFriendData *)p)->count=((Wf2dmapTouchFriendData *)p)->count+1;
         }
     }
@@ -642,7 +652,7 @@ void Wf2dmapFriend_BuildEntryList(char *p)
 void Wf2dmapFriend_InitGfx(char *p,void *q,u16 heap)
 {
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
-    *(volatile u16 *)0x04000050=0; *(volatile u16 *)0x04001050=0;
+    *(volatile u16 *)REG_BLDCNT_ADDR=0; *(volatile u16 *)REG_DB_BLDCNT_ADDR=0;
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR,-16); GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR,-16);
     BG_SYS_SetLcdSwap(0);
     ((Wf2dmapTouchGfx *)p)->archive=ARC_TOOL_CreateHandle(63,heap); ((Wf2dmapTouchGfx *)p)->heapId=heap;
@@ -727,9 +737,9 @@ void Wf2dmapFriend_InitActors(char *p,u16 heap)
 void Wf2dmapFriend_DeleteActors(char *p)
 {
     unsigned i;
-    for(i=0;i<2;i++) CLACT_ReleaseCharacter(*(u32 *)(p+i*4+0x144));
-    for(i=0;i<2;i++) CLACT_ReleasePalette(*(u32 *)(p+i*4+0x14c));
-    for(i=0;i<2;i++) CLACT_ReleaseCellAnim(*(u32 *)(p+i*4+0x154));
+    for(i=0;i<2;i++) CLACT_ReleaseCharacter(((Wf2dmapTouchGfx *)p)->character[i]);
+    for(i=0;i<2;i++) CLACT_ReleasePalette(((Wf2dmapTouchGfx *)p)->palette[i]);
+    for(i=0;i<2;i++) CLACT_ReleaseCellAnim(((Wf2dmapTouchGfx *)p)->cellAnim[i]);
     CLACT_DeleteUnit(((Wf2dmapTouchGfx *)p)->actorBank2);
     CLACT_DeleteRenderer(((Wf2dmapTouchGfx *)p)->renderer);
     CLACT_DeleteUnit(((Wf2dmapTouchGfx *)p)->actorBank);
@@ -767,9 +777,9 @@ void Wf2dmapFriend_InitWindows(u8 *p,const u8 *q,u16 heap)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,448,32,heap);
-    BMP_MENUWORK_LoadCharAndPltt(1,70,11,q[13],heap);
+    BMP_MENUWORK_LoadCharAndPltt(1,70,11,((Wf2dmapTouchFriendData *)q)->windowFrame,heap);
     BMP_WIN_Init(heap);
-    Wf2dmapFriend_CreateWindow(p,(u32 *)(p+12),1,1,0,24,3,10,100,0);
+    Wf2dmapFriend_CreateWindow(p,(void **)((u8 *)&((Wf2dmapTouchGfx *)p)->window),1,1,0,24,3,10,100,0);
     ((Wf2dmapTouchGfx *)p)->textBufA=STRBUF_Create(128,heap);
     ((Wf2dmapTouchGfx *)p)->textBufB=STRBUF_Create(128,heap);
     ((Wf2dmapTouchGfx *)p)->textHandleStrbuf=STRBUF_Create(128,heap);
@@ -778,13 +788,13 @@ void Wf2dmapFriend_InitWindows(u8 *p,const u8 *q,u16 heap)
 
 void Wf2dmapFriend_DeleteWindows(u8 *p) { STRBUF_Delete(((Wf2dmapTouchGfx *)p)->textHandleStrbuf);STRBUF_Delete(((Wf2dmapTouchGfx *)p)->formatArg);STRBUF_Delete(((Wf2dmapTouchGfx *)p)->textBufA);STRBUF_Delete(((Wf2dmapTouchGfx *)p)->textBufB);BMP_WIN_Delete(((Wf2dmapTouchGfx *)p)->window);BMP_WIN_Exit(); }
 
-void Wf2dmapFriend_LoadBmps(u8 *p,u16 heap) {int i;for(i=0;i<2;i++) *(void **)(p+0x16c+i*4)=ARC_UTIL_LoadPaletteDataFromHandle(((Wf2dmapTouchGfx *)p)->archive,gWf2dmapBmpFileIds[i],0,(void **)(p+0x174+i*4),heap);}
+void Wf2dmapFriend_LoadBmps(u8 *p,u16 heap) {int i;for(i=0;i<2;i++) ((Wf2dmapTouchGfx *)p)->bmpHandle[i]=ARC_UTIL_LoadPaletteDataFromHandle(((Wf2dmapTouchGfx *)p)->archive,gWf2dmapBmpFileIds[i],0,&((Wf2dmapTouchGfx *)p)->bmpDesc[i],heap);}
 
 void Wf2dmapFriend_DeleteBmps(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        GFL_HEAP_Free(*(void **)(p + 0x16c + i * 4));
+        GFL_HEAP_Free(((Wf2dmapTouchGfx *)p)->bmpHandle[i]);
 }
 
 void Wf2dmapFriend_DrawText(u8 *p,u8 *q,unsigned v)
@@ -869,10 +879,10 @@ void Wf2dmapFriend_CreateListActors(char *p,u16 heap)
     e=0x15c;
     f=0x15c;
     for(i=0;i<2;i++) {
-        q=p+i*4;
-        *(void **)(q+d)=CLACT_CreateActor(((Wf2dmapTouchGfx *)p)->actorBank,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&gWf2dmapListActorPos[i],0,heap);
-        CLACT_SetActorAutoAnim(*(void **)(q+e),1);
-        CLACT_SetActorDrawEnable(*(void **)(q+f),0);
+        
+        ((Wf2dmapTouchGfx *)p)->actorSlot[i]=CLACT_CreateActor(((Wf2dmapTouchGfx *)p)->actorBank,((Wf2dmapTouchGfx *)p)->character[1],((Wf2dmapTouchGfx *)p)->palette[1],((Wf2dmapTouchGfx *)p)->cellAnim[1],&gWf2dmapListActorPos[i],0,heap);
+        CLACT_SetActorAutoAnim(((Wf2dmapTouchGfx *)p)->actorSlot[i],1);
+        CLACT_SetActorDrawEnable(((Wf2dmapTouchGfx *)p)->actorSlot[i],0);
     }
     handle=CLACT_CreateActor(((Wf2dmapTouchGfx *)p)->actorBank,((Wf2dmapTouchGfx *)p)->character[1],((Wf2dmapTouchGfx *)p)->palette[1],((Wf2dmapTouchGfx *)p)->cellAnim[1],&gWf2dmapConfirmActorPos,0,heap);
     ((Wf2dmapTouchGfx *)p)->actorA=handle;
@@ -882,13 +892,13 @@ void Wf2dmapFriend_CreateListActors(char *p,u16 heap)
     CLACT_SetActorDrawEnable(handle,1);
 }
 
-void Wf2dmapFriend_DeleteListActors(u8 *p) {int i;CLACT_DeleteActor(((Wf2dmapTouchGfx *)p)->actorB);CLACT_DeleteActor(((Wf2dmapTouchGfx *)p)->actorA);for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)((uptr)p+i*4+0x15c));}
+void Wf2dmapFriend_DeleteListActors(u8 *p) {int i;CLACT_DeleteActor(((Wf2dmapTouchGfx *)p)->actorB);CLACT_DeleteActor(((Wf2dmapTouchGfx *)p)->actorA);for(i=0;i<2;i++) CLACT_DeleteActor(((Wf2dmapTouchGfx *)p)->actorSlot[i]);}
 
-void Wf2dmapFriend_SetActorDrawEnable(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorDrawEnable(*(void **)((uptr)p+i*4+0x15c),a);}
+void Wf2dmapFriend_SetActorDrawEnable(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorDrawEnable(((Wf2dmapTouchGfx *)p)->actorSlot[i],a);}
 
-void Wf2dmapFriend_SetActorAutoAnim(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorAutoAnim(*(void **)((uptr)p+i*4+0x15c),a);}
+void Wf2dmapFriend_SetActorAutoAnim(u8 *p,u32 a) {int i; for(i=0;i<2;i++) CLACT_SetActorAutoAnim(((Wf2dmapTouchGfx *)p)->actorSlot[i],a);}
 
-void Wf2dmapFriend_RestartActorAnim(u8 *p,int i,u16 a) {CLACT_SetActorAutoAnim(*(void **)((uptr)p+0x15c+i*4),1);CLACT_SetActorAnimSeq(*(void **)((uptr)p+0x15c+i*4),a);CLACT_RestartActorAnim(*(void **)((uptr)p+0x15c+i*4));}
+void Wf2dmapFriend_RestartActorAnim(u8 *p,int i,u16 a) {CLACT_SetActorAutoAnim(((void **)((Wf2dmapTouchGfx *)p)->actorSlot)[i],1);CLACT_SetActorAnimSeq(((void **)((Wf2dmapTouchGfx *)p)->actorSlot)[i],a);CLACT_RestartActorAnim(((void **)((Wf2dmapTouchGfx *)p)->actorSlot)[i]);}
 
 void *Wf2dmapFriend_OpenMenu(void *p,void **q,int a,int heap) {Wf2dmapMenuConfig c;c.heap=heap;c.count=2;c.entries=p;c.mode=1;c.x=32;if(a==1)c.y=18;else c.y=12;c.a=8;c.b=3;return APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&c),*q);}
 
@@ -913,44 +923,44 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
     int result;
     void *text;
     u64 number;
-    switch(q[8]) {
+    switch(((Wf2dmapTouchFriendData *)q)->state) {
     case 0:
         Wf2dmapFriend_InitTopBar(p,q,ctx,52);
         Wf2dmapFriend_DrawListBg(p,(int *)q,ctx);
         WIPE_SYS_Start(0,1,1,0,6,1,heap);
-        q[8]=1;
+        ((Wf2dmapTouchFriendData *)q)->state=1;
         break;
     case 1:
-        if(WIPE_SYS_EndCheck()!=0) q[8]=3;
+        if(WIPE_SYS_EndCheck()!=0) ((Wf2dmapTouchFriendData *)q)->state=3;
         break;
     case 2:
         Wf2dmapFriend_InitTopBar(p,q,ctx,52);
         Wf2dmapFriend_DrawListBg(p,(int *)q,ctx);
-        q[8]=3;
+        ((Wf2dmapTouchFriendData *)q)->state=3;
         break;
     case 3:
-        BLINK_PALANM_Update(*(void **)(ctx+0x184));
+        BLINK_PALANM_Update(((Wf2dmapTouchGfx *)ctx)->palAnimA);
         result=Wf2dmapFriend_ListInput((int *)p,(int *)q,ctx);
         if(result!=0) {
             if(*(u32 *)p==3) WF2DMAP_TOUCH_PlayActorAnimA((char *)ctx);
             else if(*(u32 *)p==4) WF2DMAP_TOUCH_PlayActorAnimB((char *)ctx);
-            else *(u16 *)(p+8)=0;
-            q[8]=4;
+            else ((Wf2dmapFriendListScreen *)p)->blinkState=0;
+            ((Wf2dmapTouchFriendData *)q)->state=4;
         }
         break;
     case 4:
         if(*(u32 *)p==3) {
-            if(CLACT_IsActorAnimActive(*(void **)(ctx+0x164))==1) break;
+            if(CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)ctx)->actorA)==1) break;
         } else if(*(u32 *)p==4) {
-            if(CLACT_IsActorAnimActive(*(void **)(ctx+0x168))==1) break;
+            if(CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)ctx)->actorB)==1) break;
         } else {
             if(WF2DMAP_TOUCH_StepTopBarBlink((char *)p)==1) break;
         }
         if(Wf2dmapFriend_HasFreeFriendSlot((int *)p,q)==1) {
             Wf2dmapFriend_SetListState((u32 *)p,q);
-            if(*(u32 *)p==3) q[8]=5;
-            else if(*(u32 *)p==4) q[8]=5;
-            else if(*(u32 *)p==1) q[8]=5;
+            if(*(u32 *)p==3) ((Wf2dmapTouchFriendData *)q)->state=5;
+            else if(*(u32 *)p==4) ((Wf2dmapTouchFriendData *)q)->state=5;
+            else if(*(u32 *)p==1) ((Wf2dmapTouchFriendData *)q)->state=5;
             else {
                 Wf2dmapFriend_ClearListScreen(p,ctx);
                 Wf2dmapFriend_Exit(p,q,ctx);
@@ -958,12 +968,12 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
             }
         } else {
             Wf2dmapFriend_PrintMessage(p,ctx,58,heap);
-            q[8]=11;
+            ((Wf2dmapTouchFriendData *)q)->state=11;
         }
         break;
     case 5:
         WIPE_SYS_Start(0,0,0,0,6,1,heap);
-        q[8]++;
+        ((Wf2dmapTouchFriendData *)q)->state++;
         break;
     case 6:
         if(WIPE_SYS_EndCheck()==1) {
@@ -975,45 +985,45 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
         Wf2dmapFriend_InitTopBar(p,q,ctx,52);
         Wf2dmapFriend_DrawListBg(p,(int *)q,ctx);
         WIPE_SYS_Start(0,1,1,0,6,1,heap);
-        q[8]=8;
+        ((Wf2dmapTouchFriendData *)q)->state=8;
         break;
     case 8:
         if(WIPE_SYS_EndCheck()!=0) {
             text=MYSTATUS_Create(heap);
-            MYSTATUS_NameFromStrbuf(text,*(void **)(q+0x58));
+            MYSTATUS_NameFromStrbuf(text,((Wf2dmapTouchFriendData *)q)->textBufA);
             WORDSET_SetSlotMyStatus(*(void **)ctx,0,text);
             GFL_HEAP_Free(text);
-            number=WF2DMAP_TOUCH_ParseKey(*(void **)(q+0x5C),&result);
+            number=WF2DMAP_TOUCH_ParseKey(((Wf2dmapTouchFriendData *)q)->textBufB,&result);
             if(result!=0) {
                 Wf2dmapFriend_SetFriendCode((void **)ctx,number);
                 Wf2dmapFriend_PrintMessage(p,ctx,55,heap);
-                q[8]=9;
+                ((Wf2dmapTouchFriendData *)q)->state=9;
             } else {
                 Wf2dmapFriend_PrintMessage(p,ctx,56,heap);
-                q[8]=11;
+                ((Wf2dmapTouchFriendData *)q)->state=11;
             }
         }
         break;
     case 9:
         if(Wf2dmapFriend_CheckPrintStream(p,(int *)q,ctx)!=0) {
-            *(void **)(p+0x4C)=Wf2dmapFriend_OpenMenu(p+0x30,(void **)(p+0x48),1,heap);
-            q[8]=10;
+            ((Wf2dmapFriendListScreen *)p)->taskMenu=Wf2dmapFriend_OpenMenu((u8 *)&((Wf2dmapFriendListScreen *)p)->text1,(void **)((u8 *)&((Wf2dmapFriendListScreen *)p)->menu),1,heap);
+            ((Wf2dmapTouchFriendData *)q)->state=10;
         }
         break;
     case 10:
-        switch(Wf2dmapFriend_UpdateMenu(*(void **)(p+0x4C))) {
+        switch(Wf2dmapFriend_UpdateMenu(((Wf2dmapFriendListScreen *)p)->taskMenu)) {
         case 0:
             {
             int submission;
             *(u32 *)q=UI_GetInputMode();
-            submission=Wf2dmapFriend_SubmitFriendKey((char *)q,*(void **)(q+0x5C),(u32)(*(void **)(q+0x58)));
+            submission=Wf2dmapFriend_SubmitFriendKey((char *)q,((Wf2dmapTouchFriendData *)q)->textBufB,(((Wf2dmapTouchFriendData *)q)->textBufA));
             if(submission==0) {
                 Wf2dmapFriend_ResetListWindow(p,ctx);
                 WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
-                q[8]=3;
+                ((Wf2dmapTouchFriendData *)q)->state=3;
             } else {
                 Wf2dmapFriend_PrintMessage(p,ctx,gWf2dmapFriendKeyErrorMsgIds[submission],heap);
-                q[8]=11;
+                ((Wf2dmapTouchFriendData *)q)->state=11;
             }
             }
             break;
@@ -1021,7 +1031,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
             *(u32 *)q=UI_GetInputMode();
             Wf2dmapFriend_ResetListWindow(p,ctx);
             WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
-            q[8]=3;
+            ((Wf2dmapTouchFriendData *)q)->state=3;
             break;
         }
         break;
@@ -1029,7 +1039,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
         if(Wf2dmapFriend_CheckPrintStream(p,(int *)q,ctx)!=0 && WF2DMAP_TOUCH_GetConfirmInput((int *)q)==1) {
             Wf2dmapFriend_ResetListWindow(p,ctx);
             WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
-            q[8]=3;
+            ((Wf2dmapTouchFriendData *)q)->state=3;
         }
         break;
     default:
@@ -1046,8 +1056,8 @@ void Wf2dmapFriend_InitListScreen(Wf2dmapFriendListScreen *p, u8 *a, u8 *ctx, u1
     void *buf;
     void *text;
     u32 width;
-    Wf2dmapFriend_CreateWindow(ctx,(u32 *)((u8 *)p+12),3,4,5,24,20,10,1,0);
-    Wf2dmapFriend_CreateWindow(ctx,(u32 *)((u8 *)p+28),1,2,19,27,4,10,172,0);
+    Wf2dmapFriend_CreateWindow(ctx,(void **)((u8 *)&((Wf2dmapFriendListScreen *)p)->windowA),3,4,5,24,20,10,1,0);
+    Wf2dmapFriend_CreateWindow(ctx,(void **)((u8 *)&((Wf2dmapFriendListScreen *)p)->windowB),1,2,19,27,4,10,172,0);
     p->buf=STRBUF_Create(128,heap);
     buf=STRBUF_Create(128,heap);
     text=STRBUF_Create(128,heap);
@@ -1055,26 +1065,26 @@ void Wf2dmapFriend_InitListScreen(Wf2dmapFriendListScreen *p, u8 *a, u8 *ctx, u1
     for(i=0;i<3;i++) {
         MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank,i+1,text);
         WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)ctx)->wordSet,buf,text);
-        width=PRINTSYS_MeasureWidestLine((struct Strbuf *)((uptr)buf),(struct GfFont *)(((Wf2dmapTouchGfx *)ctx)->palWinU32),0);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)p+12),(void *)(((Wf2dmapTouchGfx *)ctx)->printWin),(192-width)/2,i*40+8,buf,((Wf2dmapTouchGfx *)ctx)->palWin,0x440,0);
+        width=PRINTSYS_MeasureWidestLine((struct Strbuf *)(buf),(struct GfFont *)(((Wf2dmapTouchGfx *)ctx)->palWin),0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)((u8 *)&((Wf2dmapFriendListScreen *)p)->windowA),(void *)(((Wf2dmapTouchGfx *)ctx)->printWin),(192-width)/2,i*40+8,buf,((Wf2dmapTouchGfx *)ctx)->palWin,0x440,0);
     }
     WF2DMAP_TOUCH_TransferScreen(((Wf2dmapFriendListScreen *)p)->windowA);
     STRBUF_Delete(buf);
     STRBUF_Delete(text);
-    ((Wf2dmapFriendListScreen *)p)->bitmap=ARC_UTIL_LoadPaletteDataFromHandle(((Wf2dmapTouchGfx *)ctx)->archive,13,0,(void **)((u8 *)p+24),heap);
+    ((Wf2dmapFriendListScreen *)p)->bitmap=ARC_UTIL_LoadPaletteDataFromHandle(((Wf2dmapTouchGfx *)ctx)->archive,13,0,(void **)((u8 *)&((Wf2dmapFriendListScreen *)p)->bmpDesc),heap);
     p->text1=MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank,66);
     p->color1=0x39e3;
     p->flag1=0;
     p->text2=MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank,67);
     p->color2=0x39e3;
     p->flag2=0;
-    p->menu=APP_TASKMENU_RES_Create(1,14,(struct GFont *)(((Wf2dmapTouchGfx *)ctx)->palWinU32),(struct PrintQueue *)(((Wf2dmapTouchGfx *)ctx)->printWinU32),heap);
+    p->menu=APP_TASKMENU_RES_Create(1,14,(struct GFont *)(((Wf2dmapTouchGfx *)ctx)->palWin),(struct PrintQueue *)(((Wf2dmapTouchGfx *)ctx)->printWin),heap);
 }
 
 void Wf2dmapFriend_DeleteListScreen(u8 *p, u8 *unused, u8 *q)
 {
     WF2DMAP_TOUCH_ClearSlotArray((char *)q);
-    WF2DMAP_TOUCH_AddSlot((char *)q,q+12);
+    WF2DMAP_TOUCH_AddSlot((char *)q,(u8 *)&((Wf2dmapTouchFriendData *)q)->speed);
     APP_TASKMENU_RES_Delete(((Wf2dmapFriendListScreen *)p)->menu);
     STRBUF_Delete(((Wf2dmapFriendListScreen *)p)->text1);
     STRBUF_Delete(((Wf2dmapFriendListScreen *)p)->text2);
@@ -1087,7 +1097,7 @@ void Wf2dmapFriend_DeleteListScreen(u8 *p, u8 *unused, u8 *q)
 void Wf2dmapFriend_DrawListBg(u8 *p,int *q,u8 *ctx)
 {
     u16 *data;
-    Wf2dmapFriend_DrawText(ctx,ctx+12,0);
+    Wf2dmapFriend_DrawText(ctx,(u8 *)&((Wf2dmapTouchGfx *)ctx)->window,0);
     data=*(u16 * *)&((Wf2dmapFriendListScreen *)p)->bmpDesc;
     BG_SYS_DrawTile(2,((u8 *)data+12),0,0,data[0]>>3,data[1]>>3);
     BG_SYS_ChangeScrollImmediate(2,0,0);
@@ -1231,7 +1241,7 @@ int Wf2dmapFriend_UpdatePrintStream(void *p, int *q)
     return 1;
 }
 
-int Wf2dmapFriend_CheckPrintStream(void *p,int *q,u8 *r) {if(Wf2dmapFriend_UpdatePrintStream(((Wf2dmapTouchGfx *)r)->printStream,(int *)(r+48))==0) {*q=0;return 1;}return 0;}
+int Wf2dmapFriend_CheckPrintStream(void *p,int *q,u8 *r) {if(Wf2dmapFriend_UpdatePrintStream(((Wf2dmapTouchGfx *)r)->printStream,&((Wf2dmapTouchGfx *)r)->printState)==0) {*q=0;return 1;}return 0;}
 
 void Wf2dmapFriend_ResetListWindow(u8 *p, void *ctx) {void *q;WF2DMAP_TOUCH_SetScreenBrightness(1);BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendListScreen *)p)->windowB,0);q=((Wf2dmapFriendListScreen *)p)->windowB;BMP_WIN_ClearScreen(q);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(q));}
 
@@ -1260,15 +1270,15 @@ void Wf2dmapFriend_InitItemScreen(u8 *p,u8 *q,u8 *ctx,u16 value)
 int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
 {
     int idx;
-    uptr base;
-    switch(q[8]) {
+    void *base;
+    switch(((Wf2dmapTouchFriendData *)q)->state) {
     case 0:
         *(u16 *)&((Wf2dmapFriendItemScreen *)p)->page=0; ((Wf2dmapFriendItemScreen *)p)->prevPage=0; *(u16 *)&((Wf2dmapFriendItemScreen *)p)->cursor=0; ((Wf2dmapFriendItemScreen *)p)->prevCursor=0;
     case 1:
         Wf2dmapFriend_InitItemScreen(p,q,ctx,52);
         Wf2dmapFriend_BuildEntryList((char *)q);
         Wf2dmapFriend_SetupItemScreen(p,q,ctx,heap);
-        q[8]=2;
+        ((Wf2dmapTouchFriendData *)q)->state=2;
         break;
     case 2:
         BLINK_PALANM_Update(((Wf2dmapTouchGfx *)ctx)->palAnimA);
@@ -1287,25 +1297,25 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
             BLINK_PALANM_ResetPhase(((Wf2dmapTouchGfx *)ctx)->palAnimB);
             BLINK_PALANM_Update(((Wf2dmapTouchGfx *)ctx)->palAnimB);
             break;
-        case 3: q[8]=25; break;
-        case 4: q[8]=26; break;
-        case 5: q[8]=6; break;
+        case 3: ((Wf2dmapTouchFriendData *)q)->state=25; break;
+        case 4: ((Wf2dmapTouchFriendData *)q)->state=26; break;
+        case 5: ((Wf2dmapTouchFriendData *)q)->state=6; break;
         }
         break;
-    case 3: Wf2dmapFriend_StartItemOpen(p,q,ctx,heap); q[8]=4; break;
-    case 4: if(Wf2dmapFriend_StepItemOpen(p,q,ctx,heap)==1) q[8]=5; break;
-    case 5: if(Wf2dmapFriend_WaitItemOpen(p,ctx)==1) q[8]=2; break;
+    case 3: Wf2dmapFriend_StartItemOpen(p,q,ctx,heap); ((Wf2dmapTouchFriendData *)q)->state=4; break;
+    case 4: if(Wf2dmapFriend_StepItemOpen(p,q,ctx,heap)==1) ((Wf2dmapTouchFriendData *)q)->state=5; break;
+    case 5: if(Wf2dmapFriend_WaitItemOpen(p,ctx)==1) ((Wf2dmapTouchFriendData *)q)->state=2; break;
     case 6:
         if(WF2DMAP_TOUCH_StepItemBarBlink((char *)p)!=1) {
             Wf2dmapFriend_SetIndex((char *)q,Wf2dmapFriend_GetEntryIndex((s16 *)p));
-            Wf2dmapFriend_PrintEntryInfo((s16 *)p,q,ctx,heap); q[8]=7;
+            Wf2dmapFriend_PrintEntryInfo((s16 *)p,q,ctx,heap); ((Wf2dmapTouchFriendData *)q)->state=7;
         }
         break;
     case 7:
-        if(Wf2dmapFriend_CheckEntryPrintStream(p,(int *)q,ctx)==1) {Wf2dmapFriend_OpenEntryMenu(p,q,ctx,heap);q[8]=8;}
+        if(Wf2dmapFriend_CheckEntryPrintStream(p,(int *)q,ctx)==1) {Wf2dmapFriend_OpenEntryMenu(p,q,ctx,heap);((Wf2dmapTouchFriendData *)q)->state=8;}
         break;
-    case 8: q[8]=Wf2dmapFriend_UpdateEntryMenu(p,(int *)q,ctx); break;
-    case 9: ((Wf2dmapFriendItemScreen *)p)->countdown=8; q[8]=10; break;
+    case 8: ((Wf2dmapTouchFriendData *)q)->state=Wf2dmapFriend_UpdateEntryMenu(p,(int *)q,ctx); break;
+    case 9: ((Wf2dmapFriendItemScreen *)p)->countdown=8; ((Wf2dmapTouchFriendData *)q)->state=10; break;
     case 10:
         (((Wf2dmapFriendItemScreen *)p)->countdown)--;
         if(((Wf2dmapFriendItemScreen *)p)->countdown<=0) {
@@ -1315,14 +1325,14 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 11:
         ((Wf2dmapFriendItemScreen *)p)->page=((Wf2dmapTouchFriendData *)q)->index/8;
         ((Wf2dmapFriendItemScreen *)p)->cursor=((Wf2dmapTouchFriendData *)q)->index%8;
-        q[8]=1;
+        ((Wf2dmapTouchFriendData *)q)->state=1;
         break;
     case 12:
         WIPE_SYS_Start(0,0,0,0,6,1,heap);
         idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
-        base=(uptr)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
-        Wf2dmapFriend_SetNameEntry((char *)q,(sptr)WIFILIST_GetFriendInfo((void *)base,*(u8 *)((uptr)q+(u32)idx+24)));
-        q[8]=13;
+        base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
+        Wf2dmapFriend_SetNameEntry((char *)q,(sptr)WIFILIST_GetFriendInfo(base,((Wf2dmapTouchFriendData *)q)->entryIndex[(u32)idx]));
+        ((Wf2dmapTouchFriendData *)q)->state=13;
         break;
     case 13:
         if(WIPE_SYS_EndCheck()!=0) {
@@ -1331,48 +1341,48 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
         break;
     case 14:
         idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
-        base=(uptr)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
-        WIFILIST_StoreFriendNameFromStrbuf((void *)base,*(u8 *)((uptr)q+(u32)idx+24),((Wf2dmapTouchFriendData *)q)->textBufA);
+        base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
+        WIFILIST_StoreFriendNameFromStrbuf(base,((Wf2dmapTouchFriendData *)q)->entryIndex[(u32)idx],((Wf2dmapTouchFriendData *)q)->textBufA);
     case 15:
         Wf2dmapFriend_InitItemScreen(p,q,ctx,52);Wf2dmapFriend_SetupItemScreen(p,q,ctx,heap);
-        WIPE_SYS_Start(0,1,1,0,6,1,heap);q[8]=16;
+        WIPE_SYS_Start(0,1,1,0,6,1,heap);((Wf2dmapTouchFriendData *)q)->state=16;
         break;
-    case 16: if(WIPE_SYS_EndCheck()!=0) q[8]=2; break;
-    case 17: Wf2dmapFriend_PrintEntryName((s16 *)p,q,ctx,heap);q[8]=18;break;
-    case 18: if(Wf2dmapFriend_OpenConfirmMenu(p,(int *)q,ctx,heap)==1) q[8]=19;break;
+    case 16: if(WIPE_SYS_EndCheck()!=0) ((Wf2dmapTouchFriendData *)q)->state=2; break;
+    case 17: Wf2dmapFriend_PrintEntryName((s16 *)p,q,ctx,heap);((Wf2dmapTouchFriendData *)q)->state=18;break;
+    case 18: if(Wf2dmapFriend_OpenConfirmMenu(p,(int *)q,ctx,heap)==1) ((Wf2dmapTouchFriendData *)q)->state=19;break;
     case 19:
         switch(Wf2dmapFriend_UpdateMenu(((Wf2dmapFriendItemScreen *)p)->taskMenu)) {
         case 0:
-            ((Wf2dmapTouchFriendData *)q)->textSpeed=UI_GetInputMode();Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);q[8]=20;break;
+            ((Wf2dmapTouchFriendData *)q)->textSpeed=UI_GetInputMode();Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);((Wf2dmapTouchFriendData *)q)->state=20;break;
         case 1:
-            ((Wf2dmapTouchFriendData *)q)->textSpeed=UI_GetInputMode();Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);q[8]=2;break;
+            ((Wf2dmapTouchFriendData *)q)->textSpeed=UI_GetInputMode();Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);((Wf2dmapTouchFriendData *)q)->state=2;break;
         }
         break;
-    case 20: Wf2dmapFriend_ShowEntryActor(p,ctx);q[8]=21;break;
+    case 20: Wf2dmapFriend_ShowEntryActor(p,ctx);((Wf2dmapTouchFriendData *)q)->state=21;break;
     case 21:
         if(Wf2dmapFriend_StepEntryActor(p,ctx)==1) {
-            base=(uptr)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
+            base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
             idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
-            WIFILIST_RemoveFriendSlot((void *)base,*(u8 *)((uptr)q+(u32)idx+24));
+            WIFILIST_RemoveFriendSlot(base,((Wf2dmapTouchFriendData *)q)->entryIndex[(u32)idx]);
             Wf2dmapFriend_BuildEntryList((char *)q);
-            Wf2dmapFriend_DrawEntry(p,q,ctx,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);q[8]=22;
+            Wf2dmapFriend_DrawEntry(p,q,ctx,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);((Wf2dmapTouchFriendData *)q)->state=22;
         }
         break;
-    case 22: Wf2dmapFriend_HideEntryActor(p,ctx);q[8]=2;break;
+    case 22: Wf2dmapFriend_HideEntryActor(p,ctx);((Wf2dmapTouchFriendData *)q)->state=2;break;
     case 23:
-        if(Wf2dmapFriend_ShowEntryFriendCode(p,q,ctx,heap)==1) q[8]=24;
-        else q[8]=2;
+        if(Wf2dmapFriend_ShowEntryFriendCode(p,q,ctx,heap)==1) ((Wf2dmapTouchFriendData *)q)->state=24;
+        else ((Wf2dmapTouchFriendData *)q)->state=2;
         break;
     case 24:
-        if(Wf2dmapFriend_CheckEntryPrintStream(p,(int *)q,ctx)!=0 && WF2DMAP_TOUCH_GetConfirmInput((int *)q)==1) {q[8]=2;Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);}
+        if(Wf2dmapFriend_CheckEntryPrintStream(p,(int *)q,ctx)!=0 && WF2DMAP_TOUCH_GetConfirmInput((int *)q)==1) {((Wf2dmapTouchFriendData *)q)->state=2;Wf2dmapFriend_ShowEntryDetail((char *)p,(char *)ctx);}
         break;
     case 25:
         if(CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)ctx)->actorA)!=1) {
             Wf2dmapFriend_ClearItemScreens(p,q,ctx);Wf2dmapFriend_SetState(q,0,2);Wf2dmapFriend_DeleteItemScreen(p,q,ctx);return 1;
         }
         break;
-    case 26: if(CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)ctx)->actorB)!=1) q[8]=27;break;
-    case 27: WIPE_SYS_Start(0,0,0,0,6,1,heap);q[8]=28;break;
+    case 26: if(CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)ctx)->actorB)!=1) ((Wf2dmapTouchFriendData *)q)->state=27;break;
+    case 27: WIPE_SYS_Start(0,0,0,0,6,1,heap);((Wf2dmapTouchFriendData *)q)->state=28;break;
     case 28:
         if(WIPE_SYS_EndCheck()!=0) {Wf2dmapFriend_SetState(q,6,0);Wf2dmapFriend_DeleteItemScreen(p,q,ctx);return 1;}
         break;
@@ -1394,36 +1404,36 @@ void Wf2dmapFriend_InitItemWidgets(u8 *p, void *unused, u8 *ctx, u16 heap)
     struct ActorInitParam r1;
     struct ActorInitParam r2;
     for (i = 0; i < 2; i++) {
-        Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0xf0 + i * 8), 3,
+        Wf2dmapFriend_CreateWindow(ctx, &((Wf2dmapFriendItemScreen *)p)->entryWindow[i].handle, 3,
             (u8)(iabs(gWf2dmapEntryPositions[i].x) + 4), (u8)(iabs(gWf2dmapEntryPositions[i].y) + 4), 0x1a, 0x11, 0xa, 0, 0);
     }
     for (j = 0; j < 3; j++)
-        Wf2dmapFriend_CopyPos((u16 *)(p + 12 + j * 0x4c), (u16 *)ctx, (u16 *)((const void *)&gWf2dmapEntryPositions[j]), 0, heap);
-    *(u8 **)(p + 0x14) = p + 0xf0;
-    *(u8 **)(p + 0xac) = p + 0xf8;
-    *(u8 **)(p + 0x60) = p + 0xf8;
-    *(void **)(p + 0x104) = WIFI_2DCHAR_Create(*(void **)(ctx + 0x13c), 0, 0x10, heap);
-    WIFI_2DCHAR_SetupCells(*(u8 **)(p + 0x104), 0, 2, 0xe0, heap);
+        Wf2dmapFriend_CopyPos((u16 *)((u8 *)&((Wf2dmapFriendItemScreen *)p)->pages[j]), (u16 *)ctx, (u16 *)((const void *)&gWf2dmapEntryPositions[j]), 0, heap);
+    ((Wf2dmapFriendItemScreen *)p)->pages[0].window = (u8 *)&((Wf2dmapFriendItemScreen *)p)->entryWindow[0];
+    ((Wf2dmapFriendItemScreen *)p)->pages[2].window = (u8 *)&((Wf2dmapFriendItemScreen *)p)->entryWindow[1];
+    ((Wf2dmapFriendItemScreen *)p)->pages[1].window = (u8 *)&((Wf2dmapFriendItemScreen *)p)->entryWindow[1];
+    ((Wf2dmapFriendItemScreen *)p)->wifiActor = WIFI_2DCHAR_Create(((Wf2dmapTouchGfx *)ctx)->actorBank2, 0, 0x10, heap);
+    WIFI_2DCHAR_SetupCells(((Wf2dmapFriendItemScreen *)p)->wifiActor, 0, 2, 0xe0, heap);
     for (i = 0; i < 4; i++) {
         const W2 *e = &gWf2dmapItemMsgIds[i];
-        *(void **)(p + i * 12 + 0x118) = MSGDATA_AllocString(*(struct MsgBank **)(ctx + 4), gWf2dmapItemMsgIds[i].a);
-        *(u16 *)(p + i * 12 + 0x11c) = 0x39e3;
-        *(u32 *)(p + i * 12 + 0x120) = 0;
-        *(void **)(p + i * 12 + 0x148) = MSGDATA_AllocString(*(struct MsgBank **)(ctx + 4), e[4].a);
-        *(u16 *)(p + i * 12 + 0x14c) = 0x39e3;
-        *(u32 *)(p + i * 12 + 0x150) = 0;
+        (&((Wf2dmapFriendItemScreen *)p)->widget[0] + i)->text = MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank, gWf2dmapItemMsgIds[i].a);
+        (&((Wf2dmapFriendItemScreen *)p)->widget[0] + i)->color = 0x39e3;
+        (&((Wf2dmapFriendItemScreen *)p)->widget[0] + i)->flag = 0;
+        (&((Wf2dmapFriendItemScreen *)p)->widgetKey[0] + i)->text = MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank, e[4].a);
+        (&((Wf2dmapFriendItemScreen *)p)->widgetKey[0] + i)->color = 0x39e3;
+        (&((Wf2dmapFriendItemScreen *)p)->widgetKey[0] + i)->flag = 0;
     }
-    *(u32 *)(p + 0x144) = 1;
-    *(u32 *)(p + 0x174) = 1;
-    *(void **)(p + 0x178) = MSGDATA_AllocString(*(struct MsgBank **)(ctx + 4), 0x42);
-    *(u16 *)(p + 0x17c) = 0x39e3;
-    *(u32 *)(p + 0x180) = 0;
-    *(void **)(p + 0x184) = MSGDATA_AllocString(*(struct MsgBank **)(ctx + 4), 0x43);
-    *(u16 *)(p + 0x188) = 0x39e3;
-    *(u32 *)(p + 0x18c) = 0;
-    *(struct TaskMenuRes **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(struct GFont **)(ctx + 0x17c), *(struct PrintQueue **)(ctx + 0x34), heap);
-    Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
-    *(struct U16Vec **)(p + 0x110) = (struct U16Vec *)STRBUF_Create(0x80, heap);
+    ((Wf2dmapFriendItemScreen *)p)->widget[3].flag = 1;
+    ((Wf2dmapFriendItemScreen *)p)->widgetKey[3].flag = 1;
+    ((Wf2dmapFriendItemScreen *)p)->textA = MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank, 0x42);
+    ((Wf2dmapFriendItemScreen *)p)->colorA = 0x39e3;
+    ((Wf2dmapFriendItemScreen *)p)->flagA = 0;
+    ((Wf2dmapFriendItemScreen *)p)->textB = MSGDATA_AllocString(((Wf2dmapTouchGfx *)ctx)->msgBank, 0x43);
+    ((Wf2dmapFriendItemScreen *)p)->colorB = 0x39e3;
+    ((Wf2dmapFriendItemScreen *)p)->flagB = 0;
+    ((Wf2dmapFriendItemScreen *)p)->menu = APP_TASKMENU_RES_Create(1, 14, ((Wf2dmapTouchGfx *)ctx)->palWin, ((Wf2dmapTouchGfx *)ctx)->printWin, heap);
+    Wf2dmapFriend_CreateWindow(ctx, (void **)((u8 *)&((Wf2dmapFriendItemScreen *)p)->window), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
+    ((Wf2dmapFriendItemScreen *)p)->strbuf = (struct U16Vec *)STRBUF_Create(0x80, heap);
     r1 = gWf2dmapEntryActorRectA;
     ((Wf2dmapFriendItemScreen *)p)->actor = CLACT_CreateActor(((Wf2dmapTouchGfx *)ctx)->actorBank, ((Wf2dmapTouchGfx *)ctx)->character[0], ((Wf2dmapTouchGfx *)ctx)->palette[0], ((Wf2dmapTouchGfx *)ctx)->cellAnim[0], &r1, 0, heap);
     CLACT_SetActorDrawEnable(((Wf2dmapFriendItemScreen *)p)->actor, 0);
@@ -1436,7 +1446,7 @@ void Wf2dmapFriend_DeleteItemWidgets(u8 *p, void *unused, u8 *a)
     int i;
     int offset;
     WF2DMAP_TOUCH_ClearSlotArray((char *)a);
-    WF2DMAP_TOUCH_AddSlot((char *)a,a + 12);
+    WF2DMAP_TOUCH_AddSlot((char *)a,(u8 *)&((Wf2dmapTouchGfx *)a)->window);
     CLACT_DeleteActor(((Wf2dmapFriendItemScreen *)p)->actor2);
     CLACT_DeleteActor(((Wf2dmapFriendItemScreen *)p)->actor);
     BMP_WIN_Delete(((Wf2dmapFriendItemScreen *)p)->window);
@@ -1448,18 +1458,18 @@ void Wf2dmapFriend_DeleteItemWidgets(u8 *p, void *unused, u8 *a)
     i=0;
     offset=0x118;
     for (; i < 4; i++) {
-        STRBUF_Delete(*(void **)(p + i * 12 + offset));
-        STRBUF_Delete(*(void **)(p + i * 12 + 0x148));
+        STRBUF_Delete(((Wf2dmapFriendItemScreen *)p)->widget[i].text);
+        STRBUF_Delete(((Wf2dmapFriendItemScreen *)p)->widgetKey[i].text);
     }
     WIFI_2DCHAR_ReleaseBmpCells(((Wf2dmapFriendItemScreen *)p)->wifiActor);
     WIFI_2DCHAR_Delete(*(u8 * *)&((Wf2dmapFriendItemScreen *)p)->wifiActor);
-    for(i=0;i<3;i++) Wf2dmapFriend_NoopC(p + 12 + i * 0x4c,a);
-    for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p + i * 8 + 0xf0));
+    for(i=0;i<3;i++) Wf2dmapFriend_NoopC((u8 *)&((Wf2dmapFriendItemScreen *)p)->pages[i],a);
+    for(i=0;i<2;i++) BMP_WIN_Delete(((Wf2dmapFriendItemScreen *)p)->entryWindow[i].handle);
 }
 
-void Wf2dmapFriend_SetupItemScreen(u8 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_DrawText(r,r+12,5);BG_SYS_MarkTileDirty(0);Wf2dmapFriend_DrawEntry(p,q,r,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);}
+void Wf2dmapFriend_SetupItemScreen(u8 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_DrawText(r,(u8 *)&((Wf2dmapTouchGfx *)r)->window,5);BG_SYS_MarkTileDirty(0);Wf2dmapFriend_DrawEntry(p,q,r,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);}
 
-void Wf2dmapFriend_ClearItemScreens(u8 *p,void *q,u8 *r) {int i;Wf2dmapFriend_ClearWindow(r);for(i=0;i<3;i++)Wf2dmapFriend_ClearEntryPage((char *)(p+12+i*76),r,r+364);BG_SYS_MarkTileDirty(0);}
+void Wf2dmapFriend_ClearItemScreens(u8 *p,void *q,u8 *r) {int i;Wf2dmapFriend_ClearWindow(r);for(i=0;i<3;i++)Wf2dmapFriend_ClearEntryPage((char *)&((Wf2dmapFriendItemScreen *)p)->pages[i],r,(u8 *)&((Wf2dmapTouchGfx *)r)->bmpHandle);BG_SYS_MarkTileDirty(0);}
 
 int Wf2dmapFriend_ItemSelect(s16 *p, u8 *a, void *b, int n)
 {
@@ -1535,11 +1545,11 @@ int Wf2dmapFriend_ItemKeyInput(s16 *p, u8 *a, u8 *ctx)
             dir=1;
         }
         moved=1;
-    } else if(a[14]) {
-        if(a[14] && (KEY_GetRepeat() & 512)) {
+    } else if(((Wf2dmapTouchFriendData *)a)->nameReady) {
+        if(((Wf2dmapTouchFriendData *)a)->nameReady && (KEY_GetRepeat() & 512)) {
             page=1;
             dir=0;
-        } else if(a[14] && (KEY_GetRepeat() & 256)) {
+        } else if(((Wf2dmapTouchFriendData *)a)->nameReady && (KEY_GetRepeat() & 256)) {
             page=1;
             dir=1;
         }
@@ -1627,7 +1637,7 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
         pos.y = gWf2dmapOpenAnimConfig.pos.y;
         CLACT_SetSurfacePos(((Wf2dmapTouchGfx *)b)->renderer, 0, &pos);
         mode = ((Wf2dmapFriendItemScreen *)p)->openMode == 2 ? 2 : 1;
-        Wf2dmapFriend_DeleteEntryActors((char *)(p + 12 + mode * 76), (sptr)b);
+        Wf2dmapFriend_DeleteEntryActors((char *)&((Wf2dmapFriendItemScreen *)p)->pages[mode], (sptr)b);
         Wf2dmapFriend_DrawEntryOpen(p, a, b, ((Wf2dmapFriendItemScreen *)p)->page, ((Wf2dmapFriendItemScreen *)p)->cursor, h);
         return 1;
     }
@@ -1653,9 +1663,9 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
  */
 int Wf2dmapFriend_WaitItemOpen(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(const struct PrintSys * *)&((Wf2dmapTouchGfx *)q)->printWin))==1) {BG_SYS_ChangeScroll(2,0,0);BG_SYS_ChangeScroll(3,0,0);WF2DMAP_TOUCH_TransferScreen(**(char ** *)&((Wf2dmapFriendItemScreen *)p)->pages[0].window);return 1;}return 0;}
 
-unsigned long long Wf2dmapFriend_GetEntryFriendKey(s16 *p,u8 *q) {struct WifiList *base;base=(struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)(*(const struct BigObj * *)&((Wf2dmapTouchFriendData *)q)->saveData));return DWC_GetFriendKey(WIFILIST_GetDwcFriendData(base,*(u8 *)(q+24+Wf2dmapFriend_GetEntryIndex(p))));}
+unsigned long long Wf2dmapFriend_GetEntryFriendKey(s16 *p,u8 *q) {struct WifiList *base;base=(struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)(*(const struct BigObj * *)&((Wf2dmapTouchFriendData *)q)->saveData));return DWC_GetFriendKey(WIFILIST_GetDwcFriendData(base,((Wf2dmapTouchFriendData *)q)->entryIndex[Wf2dmapFriend_GetEntryIndex(p)]));}
 
-void Wf2dmapFriend_PrintEntryInfo(s16 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_PrintMyStatus(r,q,*(u8 *)(q+24+Wf2dmapFriend_GetEntryIndex(p)),heap);Wf2dmapFriend_PrintEntryMessage((u8 *)p,r,12,heap);}
+void Wf2dmapFriend_PrintEntryInfo(s16 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_PrintMyStatus(r,q,((Wf2dmapTouchFriendData *)q)->entryIndex[Wf2dmapFriend_GetEntryIndex(p)],heap);Wf2dmapFriend_PrintEntryMessage((u8 *)p,r,12,heap);}
 
 void Wf2dmapFriend_OpenEntryMenu(u8 *p, u8 *a, void *unused, int heap)
 {
@@ -1668,7 +1678,7 @@ void Wf2dmapFriend_OpenEntryMenu(u8 *p, u8 *a, void *unused, int heap)
         config.entries = p + (Wf2dmapFriend_GetEntryFriendKey((s16 *)p, a) != 0 ? 0x148 : 0x118);
         ((Wf2dmapFriendItemScreen *)p)->menuFlag = 1;
     } else {
-        config.entries = p + 0x118;
+        config.entries = (u8 *)&((Wf2dmapFriendItemScreen *)p)->widget;
         ((Wf2dmapFriendItemScreen *)p)->menuFlag = 0;
     }
     config.mode = 1;
@@ -1711,9 +1721,9 @@ int Wf2dmapFriend_ShowEntryFriendCode(u8 *p, u8 *a, u8 *b, int c)
     return 1;
 }
 
-void Wf2dmapFriend_PrintEntryName(s16 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_PrintMyStatus(r,q,*(u8 *)(q+24+Wf2dmapFriend_GetEntryIndex(p)),heap);Wf2dmapFriend_PrintEntryMessage((u8 *)p,r,57,heap);}
+void Wf2dmapFriend_PrintEntryName(s16 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_PrintMyStatus(r,q,((Wf2dmapTouchFriendData *)q)->entryIndex[Wf2dmapFriend_GetEntryIndex(p)],heap);Wf2dmapFriend_PrintEntryMessage((u8 *)p,r,57,heap);}
 
-int Wf2dmapFriend_OpenConfirmMenu(u8 *p,int *q,u8 *r,int heap) {if(Wf2dmapFriend_CheckEntryPrintStream(p,q,r)==0)return 0;((Wf2dmapFriendItemScreen *)p)->taskMenu=Wf2dmapFriend_OpenMenu(p+376,(void **)(p+400),0,heap);return 1;}
+int Wf2dmapFriend_OpenConfirmMenu(u8 *p,int *q,u8 *r,int heap) {if(Wf2dmapFriend_CheckEntryPrintStream(p,q,r)==0)return 0;((Wf2dmapFriendItemScreen *)p)->taskMenu=Wf2dmapFriend_OpenMenu((u8 *)&((Wf2dmapFriendItemScreen *)p)->textA,(void **)((u8 *)&((Wf2dmapFriendItemScreen *)p)->menu),0,heap);return 1;}
 
 void Wf2dmapFriend_DrawEntry(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
 {
@@ -1724,10 +1734,10 @@ void Wf2dmapFriend_DrawEntry(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
         ((Wf2dmapFriendItemScreen *)p)->cursor = y;
         WF2DMAP_TOUCH_SetActorAnimSeq((char *)p, x);
     }
-    offset = n * 0x4c;
-    base = p + 12;
-    Wf2dmapFriend_DrawEntryBg((s16 *)(base + offset), b, b + 0x16c);
-    Wf2dmapFriend_DrawEntryPageTransfer((char *)(base + offset), (char *)a, b, ((Wf2dmapFriendItemScreen *)p)->wifiActor, (sptr)(b + 0x16c), (char *)(a + 16), x, c);
+    offset = n * sizeof(Wf2dmapFriendEntryPage);
+    base = (u8 *)&((Wf2dmapFriendItemScreen *)p)->pages;
+    Wf2dmapFriend_DrawEntryBg((s16 *)(base + offset), b, (u8 *)&((Wf2dmapTouchGfx *)b)->bmpHandle);
+    Wf2dmapFriend_DrawEntryPageTransfer((char *)(base + offset), (char *)a, b, ((Wf2dmapFriendItemScreen *)p)->wifiActor, (sptr)((u8 *)&((Wf2dmapTouchGfx *)b)->bmpHandle), (char *)&((Wf2dmapTouchFriendData *)a)->count, x, c);
     WF2DMAP_TOUCH_UpdateItemBar((char *)p);
 }
 
@@ -1736,8 +1746,8 @@ void Wf2dmapFriend_DrawEntryOpen(u8 *p, u8 *a, u8 *b, int x, int y, u16 c)
     ((Wf2dmapFriendItemScreen *)p)->cursor = y;
     ((Wf2dmapFriendItemScreen *)p)->page = x;
     WF2DMAP_TOUCH_SetActorAnimSeq((char *)p, x);
-    Wf2dmapFriend_DrawEntryBg((s16 *)(p + 12), b, b + 0x16c);
-    Wf2dmapFriend_DrawEntryPage((char *)(p + 12), (char *)a, b, ((Wf2dmapFriendItemScreen *)p)->wifiActor, (sptr)(b + 0x16c), (char *)(a + 16), x, c);
+    Wf2dmapFriend_DrawEntryBg((s16 *)((u8 *)&((Wf2dmapFriendItemScreen *)p)->pages), b, (u8 *)&((Wf2dmapTouchGfx *)b)->bmpHandle);
+    Wf2dmapFriend_DrawEntryPage((char *)((u8 *)&((Wf2dmapFriendItemScreen *)p)->pages), (char *)a, b, ((Wf2dmapFriendItemScreen *)p)->wifiActor, (sptr)((u8 *)&((Wf2dmapTouchGfx *)b)->bmpHandle), (char *)&((Wf2dmapTouchFriendData *)a)->count, x, c);
     WF2DMAP_TOUCH_UpdateItemBar((char *)p);
 }
 
@@ -1747,7 +1757,7 @@ void Wf2dmapFriend_NoopB(void) {}
 
 void Wf2dmapFriend_SetEntryAnim(u8 *p, u8 *a, int n)
 {
-    a[8] = 3;
+    ((Wf2dmapTouchFriendData *)a)->state = 3;
     ((Wf2dmapFriendItemScreen *)p)->openMode = n;
     ((Wf2dmapFriendItemScreen *)p)->openCounter = 0;
 }
@@ -1774,7 +1784,7 @@ void Wf2dmapFriend_PrintEntryMessage(u8 *p, u8 *a, int n, int heap)
     WF2DMAP_TOUCH_SetScreenBrightness(0);
 }
 
-int Wf2dmapFriend_CheckEntryPrintStream(void *p,int *state,u8 *q) {if(Wf2dmapFriend_UpdatePrintStream(((Wf2dmapTouchGfx *)q)->printStream,(int *)(q+48))==0) {*state=0;return 1;}return 0;}
+int Wf2dmapFriend_CheckEntryPrintStream(void *p,int *state,u8 *q) {if(Wf2dmapFriend_UpdatePrintStream(((Wf2dmapTouchGfx *)q)->printStream,&((Wf2dmapTouchGfx *)q)->printState)==0) {*state=0;return 1;}return 0;}
 
 void Wf2dmapFriend_ShowEntryDetail(char *p,char *q) {BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendItemScreen *)p)->window,1);WF2DMAP_TOUCH_MakeScreen(q);WF2DMAP_TOUCH_UpdateItemBar(p);WF2DMAP_TOUCH_SetScreenBrightness(1);}
 
@@ -1795,7 +1805,7 @@ static inline void Outside(int wnd,int effect)
 {
     u32 tmp=(*(volatile u16 *)REG_WINOUT_ADDR & ~0x3F) | wnd;
     if(effect) tmp |= 0x20;
-    *(volatile u16 *)0x0400004A=(u16)tmp;
+    *(volatile u16 *)REG_WINOUT_ADDR=(u16)tmp;
 }
 
 /*
@@ -1807,14 +1817,14 @@ void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *unused)
     CLACT_SetActorDrawEnable(((Wf2dmapFriendItemScreen *)p)->actor,1);
     CLACT_SetActorAnimSeq(((Wf2dmapFriendItemScreen *)p)->actor,1);
     CLACT_RestartActorAnim(((Wf2dmapFriendItemScreen *)p)->actor);
-    *(int *)&((Wf2dmapFriendItemScreen *)p)->animFrame=0;
+    ((Wf2dmapFriendItemScreen *)p)->animFrame=0;
     CLACT_SetActorAutoAnim(((Wf2dmapFriendItemScreen *)p)->actor,1);
-    pos.x=gWf2dmapEntrySlotPos[*(s16 *)(p + 4)].x * 8;
-    pos.y=gWf2dmapEntrySlotPos[*(s16 *)(p + 4)].y * 8 - 4;
+    pos.x=gWf2dmapEntrySlotPos[((Wf2dmapFriendItemScreen *)p)->cursor].x * 8;
+    pos.y=gWf2dmapEntrySlotPos[((Wf2dmapFriendItemScreen *)p)->cursor].y * 8 - 4;
     CLACT_AddActorSurfacePos(((Wf2dmapFriendItemScreen *)p)->actor,&pos,0);
-    *(volatile u16 *)0x0400004A=(u16)((*(volatile u16 *)0x0400004A & ~0x3F00) | 0x700);
+    *(volatile u16 *)REG_WINOUT_ADDR=(u16)((*(volatile u16 *)REG_WINOUT_ADDR & ~0x3F00) | 0x700);
     Outside(31,1);
-    *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000 & ~0xe000) | 0x8000;
+    *(volatile u32 *)REG_DISPCNT_ADDR=(*(volatile u32 *)REG_DISPCNT_ADDR & ~0xe000) | 0x8000;
     GFL_USE_PlaySeDefaultVolume(0x668);
 }
 
@@ -1883,7 +1893,7 @@ void Wf2dmapFriend_ClearEntryPage(char *p, void *unusedArg, void *unused) {
  BG_SYS_MarkTileDirty(3);
 }
 
-void Wf2dmapFriend_DeleteEntryActors(char *p,int unused) {int i;char *q;for(i=0;i<8;i++) {q=p+i*4;if(((Wf2dmapFriendEntryPage *)q)->wifiActor[0]){WIFI_2DCHAR_DeleteActor(((Wf2dmapFriendEntryPage *)q)->wifiActor[0]);*(u32 *)&((Wf2dmapFriendEntryPage *)q)->wifiActor[0]=0;} if(((Wf2dmapFriendEntryPage *)q)->clactActor[0]){CLACT_DeleteActor(((Wf2dmapFriendEntryPage *)q)->clactActor[0]);*(u32 *)&((Wf2dmapFriendEntryPage *)q)->clactActor[0]=0;}}}
+void Wf2dmapFriend_DeleteEntryActors(char *p,int unused) {int i;char *q;for(i=0;i<8;i++) {q=(char *)((void **)p+i);if(((Wf2dmapFriendEntryPage *)q)->wifiActor[0]){WIFI_2DCHAR_DeleteActor(((Wf2dmapFriendEntryPage *)q)->wifiActor[0]);((Wf2dmapFriendEntryPage *)q)->wifiActor[0]=0;} if(((Wf2dmapFriendEntryPage *)q)->clactActor[0]){CLACT_DeleteActor(((Wf2dmapFriendEntryPage *)q)->clactActor[0]);((Wf2dmapFriendEntryPage *)q)->clactActor[0]=0;}}}
 
 /*
  * lever: The colors and four-halfword position descriptor are fields of
@@ -1901,12 +1911,7 @@ void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void 
     local.colors[0] = 0x14c0;
     local.colors[1] = 0xc80;
     local.colors[2] = 0x440;
-#ifdef __MWERKS__
-    /* The original prototype returned int. */
-    result8 = ((int (*)(void *, int, int))WIFILIST_GetFriendInfoField)(base, idx, 8);
-#else
     result8 = WIFILIST_GetFriendInfoField(base, idx, 8);
-#endif
     result9 = WIFILIST_GetFriendInfoField(base, idx, 9);
     if (result9 == 2) {
         Wf2dmapFriend_CreateEntryActor((char *)p, (char *)b, unused, i, heap);
@@ -1915,8 +1920,8 @@ void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void 
         local.pos[1] = (((Wf2dmapFriendEntryPage *)p)->y + gWf2dmapEntrySlotPos[i].y) * 8 + 10;
         local.pos[2] = 8;
         local.pos[3] = 1;
-        *(void **)(p + 12 + (int)((u32)i * 4u)) = WIFI_2DCHAR_SpawnActor(a, local.pos, result8, heap);
-        WIFI_2DCHAR_SetActorAnim(*(void **)(p + 12 + (int)((u32)i * 4u)), 0, 1);
+        ((void **)((Wf2dmapFriendEntryPage *)p)->wifiActor)[(int)(u32)i] = WIFI_2DCHAR_SpawnActor(a, local.pos, result8, heap);
+        WIFI_2DCHAR_SetActorAnim(((void **)((Wf2dmapFriendEntryPage *)p)->wifiActor)[(int)(u32)i], 0, 1);
     }
     str = STRBUF_Create(128, heap);
     STRBUF_SetString(str, (const u16 *)WIFILIST_GetFriendInfo(base, idx));
@@ -1930,7 +1935,7 @@ void Wf2dmapFriend_CreateEntryActor(char *p,char *q,int unused,int i,u16 h) {
  pt.x=(((Wf2dmapFriendEntryPage *)p)->x+gWf2dmapEntrySlotPos[i].x)*8+16;
  pt.y=(((Wf2dmapFriendEntryPage *)p)->y+gWf2dmapEntrySlotPos[i].y)*8+16;
  pt.anim_seq=0;pt.draw_priority=8;pt.bg_priority=1;
- *(void **)(p+44+i*4)=CLACT_CreateActor(((Wf2dmapTouchGfx *)q)->actorBank2,((Wf2dmapTouchGfx *)q)->character[0],((Wf2dmapTouchGfx *)q)->palette[0],((Wf2dmapTouchGfx *)q)->cellAnim[0],&pt,0,h);
+ ((Wf2dmapFriendEntryPage *)p)->clactActor[i]=CLACT_CreateActor(((Wf2dmapTouchGfx *)q)->actorBank2,((Wf2dmapTouchGfx *)q)->character[0],((Wf2dmapTouchGfx *)q)->palette[0],((Wf2dmapTouchGfx *)q)->cellAnim[0],&pt,0,h);
 }
 
 /*
@@ -1941,7 +1946,7 @@ void Wf2dmapFriend_CreateEntryActor(char *p,char *q,int unused,int i,u16 h) {
 int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
 {
     u32 sizes[3];
-    switch (b[8]) {
+    switch (((Wf2dmapTouchFriendData *)b)->state) {
     case 0:
         GF_OVERLAY_Unload((uptr)gWf2dmapTouchbarOverlayId);
         p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 1, heap);
@@ -1950,17 +1955,17 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
         PROCSYS_Push((ProcSys *)p[0], (uptr)gWf2dmapNameEntryOverlayId, (const ProcData *)gNameInProcData, (void *)p[1]);
-        b[8] = 1;
+        ((Wf2dmapTouchFriendData *)b)->state = 1;
         break;
     case 1:
         if (PROCSYS_Main((ProcSys *)p[0]) == 0) {
             if (((NameInArgs *)p[1])->canceled == 0) {
                 PROCSYS_Push((ProcSys *)p[0], (uptr)gWf2dmapNameInOverlayId, (const ProcData *)d_021DA62C, (void *)p[2]);
-                b[8] = 2;
+                ((Wf2dmapTouchFriendData *)b)->state = 2;
             } else {
                 PROCSYS_Delete(p[0]);
                 Wf2dmapFriend_SetState(b, 0, 0);
-                b[8] = 3;
+                ((Wf2dmapTouchFriendData *)b)->state = 3;
             }
         }
         break;
@@ -1969,7 +1974,7 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
             PROCSYS_Delete(p[0]);
             Wf2dmapFriend_CopyText(b, ((NameInArgs *)p[1])->name, ((NameInArgs *)p[2])->name);
             Wf2dmapFriend_SetState(b, 0, 7);
-            b[8] = 3;
+            ((Wf2dmapTouchFriendData *)b)->state = 3;
         }
         break;
     case 3:
@@ -1984,7 +1989,7 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
         PROCSYS_Push((ProcSys *)p[0], (uptr)gWf2dmapNameEntryOverlayId, (const ProcData *)gNameInProcData, (void *)p[1]);
-        b[8] = 5;
+        ((Wf2dmapTouchFriendData *)b)->state = 5;
         break;
     case 5:
         if (PROCSYS_Main(p[0]) == 0) {
@@ -1993,10 +1998,10 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, u16 heap)
             if (((NameInArgs *)p[1])->canceled == 0) {
                 Wf2dmapFriend_SetState(b, 1, 14);
                 Wf2dmapFriend_CopyText(b, ((NameInArgs *)p[1])->name, 0);
-                b[8] = 6;
+                ((Wf2dmapTouchFriendData *)b)->state = 6;
             } else {
                 Wf2dmapFriend_SetState(b, 1, 15);
-                b[8] = 6;
+                ((Wf2dmapTouchFriendData *)b)->state = 6;
             }
         }
         break;

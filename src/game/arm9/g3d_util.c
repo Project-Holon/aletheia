@@ -165,7 +165,7 @@ u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int i);
 
 u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetResource(G3dUtil *util, int i);
+void *G3D_UTIL_GetResource(G3dUtil *util, int i);
 
 G3dObject *G3D_UTIL_GetObject(G3dUtil *util, int i);
 
@@ -199,13 +199,13 @@ G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID)
     util = GFL_HEAP_Alloc(heapID, sizeof(G3dUtil), 1, g3d_util_file, 92);
     util->heapID = heapID;
 
-    util->res = GFL_HEAP_Alloc(heapID, resCount * 4, 1, g3d_util_file, 97);
+    util->res = GFL_HEAP_Alloc(heapID, resCount * sizeof(*util->res), 1, g3d_util_file, 97);
     util->resStat = GFL_HEAP_Alloc(heapID, resCount, 1, g3d_util_file, 98);
     util->resCount = resCount;
     for (i = 0; i < resCount; i++)
         util->resStat[i] = 0;
 
-    util->obj = GFL_HEAP_Alloc(heapID, objCount * 4, 1, g3d_util_file, 105);
+    util->obj = GFL_HEAP_Alloc(heapID, objCount * sizeof(*util->obj), 1, g3d_util_file, 105);
     util->objStat = GFL_HEAP_Alloc(heapID, objCount, 1, g3d_util_file, 106);
     util->objCount = objCount;
     for (i = 0; i < objCount; i++)
@@ -434,16 +434,16 @@ void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *
 
         switch (rec->type) {
         case 0:
-            out[slotno] = G3D_SYSTEM_CreateResourceArc(rec->arc, rec->dat);
+            out[slotno] = G3D_SYSTEM_CreateResourceArc(rec->arc.id, rec->dat);
             break;
         case 1:
-            out[slotno] = G3D_SYSTEM_CreateResourcePath((char *)rec->arc, rec->dat);
+            out[slotno] = G3D_SYSTEM_CreateResourcePath(rec->arc.path, rec->dat);
             break;
         case 2:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 342);
             G3D_SYSTEM_InitResourceByFile(node,
-                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMember(rec->arc, rec->dat,
+                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMember(rec->arc.id, rec->dat,
                                              util->heapID));
             out[slotno] = node;
             break;
@@ -451,7 +451,7 @@ void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 355);
             G3D_SYSTEM_InitResourceByFile(node,
-                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
+                          (NNSG3dResFileHeader *)ARC_TOOL_LoadMemberFromPath(rec->arc.path, rec->dat,
                                              util->heapID));
             out[slotno] = node;
             break;
@@ -483,8 +483,8 @@ void G3D_UTIL_LoadUnitResourcesFromArchive(G3dUtil *util, u16 unitIdx, const G3d
     int i;
 
     for (i = 0; i < count; i++) {
-        ((u32 *)util->res)[base + i] =
-            (uptr)G3D_SYSTEM_CreateResourceArcHandle(arc, setup->resTbl[i].dat);
+        ((void **)util->res)[base + i] =
+            G3D_SYSTEM_CreateResourceArcHandle(arc, setup->resTbl[i].dat);
     }
 }
 
@@ -526,18 +526,18 @@ static inline void createRes(G3dUtil *util, const G3dUtilResSetup *rs, void **ou
 {
     switch (rs->type) {
     case 0:
-        *out = G3D_SYSTEM_CreateResourceArc(rs->arc, rs->dat);
+        *out = G3D_SYSTEM_CreateResourceArc(rs->arc.id, rs->dat);
         break;
     case 1:
-        *out = G3D_SYSTEM_CreateResourcePath((char *)rs->arc, rs->dat);
+        *out = G3D_SYSTEM_CreateResourcePath(rs->arc.path, rs->dat);
         break;
     case 2:
         *out = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0, g3d_util_file, 342);
-        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMember(rs->arc, rs->dat, util->heapID));
+        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMember(rs->arc.id, rs->dat, util->heapID));
         break;
     case 3:
         *out = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0, g3d_util_file, 355);
-        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMemberFromPath((const char *)rs->arc, rs->dat, util->heapID));
+        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMemberFromPath(rs->arc.path, rs->dat, util->heapID));
         break;
     }
 }
@@ -616,7 +616,7 @@ void G3D_UTIL_BuildUnitObjects(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *s
                 G3D_SYSTEM_TransVramTexture(model);
         }
         renderObj = G3D_SYSTEM_CreateRender(model, objSetup->mdlDatIdx, texture);
-        anims = GFL_HEAP_Alloc((heapID & 0x7fff) | 0x8000, objSetup->anmCount * 4, 1,
+        anims = GFL_HEAP_Alloc((heapID & 0x7fff) | 0x8000, objSetup->anmCount * sizeof(*anims), 1,
                             g3d_util_file, 534);
         for (j = 0; j < objSetup->anmCount; j++) {
             if (objSetup->anmTbl[j].anmResIdx == 0xff)
@@ -691,7 +691,7 @@ void G3D_UTIL_BuildUnitObjectsLoaded(G3dUtil *util, u16 unitIdx, const G3dUtilSe
                 G3D_SYSTEM_TransVramTexture(model);
         }
         renderObj = G3D_SYSTEM_CreateRender(model, objSetup->mdlDatIdx, texture);
-        anims = GFL_HEAP_Alloc((heapID & 0x7fff) | 0x8000, objSetup->anmCount * 4, 1,
+        anims = GFL_HEAP_Alloc((heapID & 0x7fff) | 0x8000, objSetup->anmCount * sizeof(*anims), 1,
                             g3d_util_file, 609);
         for (j = 0; j < objSetup->anmCount; j++) {
             if (objSetup->anmTbl[j].anmResIdx == 0xff)
@@ -781,12 +781,12 @@ u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx)
     return util->unit[unitIdx].objCount;
 }
 
-u32 G3D_UTIL_GetResource(G3dUtil *util, int resIdx)
+void *G3D_UTIL_GetResource(G3dUtil *util, int resIdx)
 {
-    return *(u32 *)((u8 *)util->res + resIdx * 4);
+    return util->res[resIdx];
 }
 
 G3dObject *G3D_UTIL_GetObject(G3dUtil *util, int objIdx)
 {
-    return *(G3dObject **)((u8 *)util->obj + objIdx * 4);
+    return (G3dObject *)util->obj[objIdx];
 }

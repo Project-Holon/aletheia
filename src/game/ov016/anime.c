@@ -54,13 +54,13 @@ extern struct Ani *gAnimeWork;
 extern unsigned char gAnimeWorkSlot[];
 extern const u8 sAnimePaletteByColor[];
 
-static void taskAnime(void);
+static void taskAnime(void * unused0, void * unused1);
 
 void DWCi_ANIMElInitEx(int color)
 {
 	u32 pal;
 	AnimeObj *o;
-	gAnimeWork = DWCi_HEAPlAllocEx(12, 4);
+	gAnimeWork = DWCi_HEAPlAllocEx(sizeof(*gAnimeWork), 4);
 	gAnimeWork->color = color;
 	gAnimeWork->obj = DWCi_CEINlSetExObj(0, 0x47);
 	pal = sAnimePaletteByColor[color];
@@ -69,17 +69,17 @@ void DWCi_ANIMElInitEx(int color)
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
 	((AnimeObj *)gAnimeWork->obj)->w0 = (((AnimeObj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
-	gAnimeWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskAnime, 0, 0x78);
+	gAnimeWork->task = DWCi_TSKlForm(1, taskAnime, 0, 0x78);
 }
 
 void DWCi_ANIMElEnd(void)
 {
     DWCi_TSKlDeleteEx(1, gAnimeWork->task);
     DWCi_OBJlDelete((unsigned int *)gAnimeWork->obj);
-    DWCi_HEAPlFree_((void **)((sptr)gAnimeWorkSlot));
+    DWCi_HEAPlFree_((void **)(gAnimeWorkSlot));
 }
 
-static void taskAnime(void)
+static void taskAnime(void * unused0, void * unused1)
 {
 	int name;
 	u32 pal;

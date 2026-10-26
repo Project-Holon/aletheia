@@ -217,6 +217,7 @@
  */
 
 #include "pms_input_view_shared_types.h"
+#include "../arm9/tcb_list.h"
 #include "../sdk_ioreg_reg.h"
 
 #define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)REG_MASTER_BRIGHT_ADDR)
@@ -232,9 +233,7 @@ struct MsgData;
 struct Strbuf;
 struct Bmp;
 
-typedef void (*ViewTaskFunc)(void *tcb, struct PmsInputViewTask *task);
-
-typedef struct { ViewTaskFunc entries[PMS_INPUT_VIEW_TASK_COUNT]; } ViewTaskTable;
+typedef struct { TcbFunc entries[PMS_INPUT_VIEW_TASK_COUNT]; } ViewTaskTable;
 
 #include "../sdk_gx.h"
 
@@ -293,9 +292,9 @@ extern const HelpMessageTable gPmsInputHelpMessageIds;
 
 void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordData);
 void PMS_INPUT_VIEW_Delete(struct PmsInputView *view);
-void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *work, int priority);
-void PMS_INPUT_VIEW_MainTask(void *tcb, void *work);
-void PMS_INPUT_VIEW_VBlankTask(void *tcb, void *work);
+void *PMS_INPUT_VIEW_AddVBlankTask(TcbFunc fn, void *work, int priority);
+void PMS_INPUT_VIEW_MainTask(struct TcbTask *tcb, void *work);
+void PMS_INPUT_VIEW_VBlankTask(struct TcbTask *tcb, void *work);
 void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int id);
 int PMS_INPUT_VIEW_IsIdle(struct PmsInputView *view);
 int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id);
@@ -325,7 +324,7 @@ void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordDat
         BMP_WIN_Init(PMS_INPUT_VIEW_HEAP_ID);
         GXx_SetMasterBrightness_((vu16 *)REG_MASTER_BRIGHT_MAIN,-16);
         GXx_SetMasterBrightness_((vu16 *)REG_MASTER_BRIGHT_SUB,-16);
-        view->mainTask=TCB_AddTask(PMS_INPUT_GetTasks((PmsInput *)input),(TcbFunc)((ViewTaskFunc)PMS_INPUT_VIEW_MainTask),(void *)view,2);
+        view->mainTask=TCB_AddTask(PMS_INPUT_GetTasks((PmsInput *)input),PMS_INPUT_VIEW_MainTask,(void *)view,2);
         view->vblankTask=PMS_INPUT_VIEW_AddVBlankTask(PMS_INPUT_VIEW_VBlankTask,view,1);
         for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;++i) view->eventTasks[i]=0;
         view->helpTextPending=0;
@@ -364,9 +363,9 @@ void PMS_INPUT_VIEW_Delete(struct PmsInputView *view) {
     }
 }
 
-void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *work, int priority) { return GFL_USE_AddMainTask((TcbFunc)fn, (void *)work, priority); }
+void *PMS_INPUT_VIEW_AddVBlankTask(TcbFunc fn, void *work, int priority) { return GFL_USE_AddMainTask(fn, (void *)work, priority); }
 
-void PMS_INPUT_VIEW_MainTask(void *tcb, void *work) {
+void PMS_INPUT_VIEW_MainTask(struct TcbTask *tcb, void *work) {
     struct PmsInputView *view = work;
     CLACT_DrawSystem();
     if(view->menu) PMSIV_MENU_Update(view->menu);
@@ -376,7 +375,7 @@ void PMS_INPUT_VIEW_MainTask(void *tcb, void *work) {
     }
 }
 
-void PMS_INPUT_VIEW_VBlankTask(void *tcb, void *work) {
+void PMS_INPUT_VIEW_VBlankTask(struct TcbTask *tcb, void *work) {
     struct PmsInputView *view = work;
     if(view->paletteChanged) view->paletteChanged=0;
     BG_SYS_Update();
@@ -399,7 +398,7 @@ void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int id) {
     for (i=0; i<PMS_INPUT_VIEW_TASK_SLOTS; ++i) {
         if (!view->eventTasks[i]) {
             task->slot = i;
-            view->eventTasks[i] = TCB_AddTask(PMS_INPUT_GetTasks((PmsInput *)view->input), (TcbFunc)table.entries[id], (void *)task, 1);
+            view->eventTasks[i] = TCB_AddTask(PMS_INPUT_GetTasks((PmsInput *)view->input), table.entries[id], (void *)task, 1);
             return;
         }
     }

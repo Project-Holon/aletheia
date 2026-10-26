@@ -74,9 +74,9 @@ void NNSi_SndStrmStopIfSetup(SndStrm *strm);
 void NNS_SndStrmSetVolume(SndStrm *strm, s32 volume);
 void NNS_SndStrmStop(SndStrm *strm);
 void NNSi_SndStrmReleaseTimer(SndStrm *strm);
-void NNSi_SndStrmTimerCallback(SndStrm *strm);
+void NNSi_SndStrmTimerCallback(void * strmArg);
 void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall);
-void NNSi_SndStrmAlarmHandler(SndStrm *strm);
+void NNSi_SndStrmAlarmHandler(void * strmArg);
 
 /* Set once the list of streams exists. */
 extern u32  gSndStrmListReady;
@@ -102,12 +102,12 @@ extern SndStrmChannel gSndStrmChannels[];
 void NNS_SndStrmInit(SndStrm *strm)
 {
     if (gSndStrmListReady == 0) {
-        NNS_FndInitList((sptr)(&gSndStrmList), 0);
+        NNS_FndInitList(&gSndStrmList, 0);
         gSndStrmListReady = 1;
     }
-    strm->alarm[0].handler = (void (*)(void *))NNSi_SndStrmAlarmHandler;
+    strm->alarm[0].handler = NNSi_SndStrmAlarmHandler;
     strm->alarm[0].arg = strm;
-    strm->alarm[1].handler = (void (*)(void *))NNSi_SndStrmStart;
+    strm->alarm[1].handler = NNSi_SndStrmStart;
     strm->alarm[1].arg = strm;
     strm->channelMask = 0;
     strm->numChannels = 0;
@@ -181,7 +181,7 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
         SND_SetupChannelPcm(channelNo, format, (void *)gSndStrmChannels[channelNo].bufferAddr, 1, 0, strm->bufferSize >> 2,
                       0x7f, 0, rate << 5, 0x40);
     }
-    SND_SetupAlarm(strm->timerNo, period, period, (void (*)(void *))NNSi_SndStrmTimerCallback, strm);
+    SND_SetupAlarm(strm->timerNo, period, period, NNSi_SndStrmTimerCallback, strm);
     NNS_FndAppendListObject(&gSndStrmList, strm);
     strm->format = format;
     strm->frames = frames;
@@ -289,8 +289,9 @@ void NNSi_SndStrmReleaseTimer(SndStrm *strm)
 }
 
 /* The timer callback NNS_SndStrmSetup installs: steps the stream with isTimerCall = 1. */
-void NNSi_SndStrmTimerCallback(SndStrm *strm)
+void NNSi_SndStrmTimerCallback(void * strmArg)
 {
+    SndStrm * strm = (SndStrm *)strmArg;
     NNSi_SndStrmUpdate(strm, 1);
 }
 
@@ -328,8 +329,9 @@ void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall)
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, as NNS_SndStrmSetVolume and
  * NNS_SndStrmStop are.
  */
-void NNSi_SndStrmAlarmHandler(SndStrm *strm)
+void NNSi_SndStrmAlarmHandler(void * strmArg)
 {
+    SndStrm * strm = (SndStrm *)strmArg;
     u32 saved;
     if (!strm->isStarted) return;
     SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);

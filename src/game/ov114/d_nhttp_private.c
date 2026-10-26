@@ -75,7 +75,7 @@ NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u3
     sysInfo_p = NHTTPi_GetSystemInfoP();
     bgnEndInfo_p = NHTTPi_GetBgnEndInfoP(sysInfo_p);
     mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
-    connection_p = NHTTPi_alloc(0x804c, 0x20);
+    connection_p = NHTTPi_alloc(sizeof(*connection_p), 0x20);
     if (connection_p == 0) {
         NHTTPi_SetError(bgnEndInfo_p, 1);
         return 0;

@@ -94,7 +94,7 @@ typedef struct {
     u32 skipBgGfx;
 } TouchBarParams;
 
-typedef struct {
+typedef struct TouchBar {
     u32 pressedIndex;
     u32 buttonCount;
     u32 state;

@@ -3,12 +3,14 @@
 
 #include "../types.h"
 
+struct Strbuf;
+
 typedef struct TrTrainerInfo {
     u32 trainerId;    /* +0x00 the trainer id this record was loaded for */
     u32 genderClass;  /* +0x04 copied from the record's genderClass byte */
     u32 data0C;       /* +0x08 copied from the record's data0C word */
     u32 data04[2];    /* +0x0C the record's 8 data04 bytes, copied verbatim */
-    u32 name;         /* +0x14 destination buffer for the trainer name string */
+    struct Strbuf *name; /* +0x14 destination buffer for the trainer name string */
     u32 sentence[2];  /* +0x18 PmsData easy-chat sentence (2 words) */
     u32 sentence2[2]; /* +0x20 PmsData easy-chat sentence (2 words) */
 } TrTrainerInfo;

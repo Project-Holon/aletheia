@@ -20,7 +20,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  */
 struct MbBlockPiece {
-    int f0;
+    int reserved0;
     unsigned char *buf;
     int size;
     int max;

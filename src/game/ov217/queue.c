@@ -29,7 +29,7 @@
 
 #include "../arm9/gfl_heap_wrap.h"
 
-int RingQueue_Create(int capacity, int heapId);
+struct RingQueue *RingQueue_Create(int capacity, int heapId);
 void RingQueue_Destroy(struct RingQueue *queue);
 void RingQueue_Push(struct RingQueue *queue, int value);
 u32 RingQueue_Pop(struct RingQueue *queue);
@@ -46,12 +46,12 @@ int RingQueue_IsEmptyImpl(struct RingQueue *queue);
 extern const int d_021C4050[];
 
 /* Allocates and initialises a queue holding capacity values. */
-int RingQueue_Create(int capacity, int heapId)
+struct RingQueue *RingQueue_Create(int capacity, int heapId)
 {
-    sptr queue;
-    queue = (sptr)GFL_HEAP_Alloc(heapId, 0x10, 0, (const char *)d_021C4050, 0x3C);
-    RingQueue_ClearFields((struct RingQueue *)queue);
-    RingQueue_AllocBuffer((struct RingQueue *)queue, capacity, heapId);
+    struct RingQueue *queue;
+    queue = GFL_HEAP_Alloc(heapId, sizeof(struct RingQueue), 0, (const char *)d_021C4050, 0x3C);
+    RingQueue_ClearFields(queue);
+    RingQueue_AllocBuffer(queue, capacity, heapId);
     return queue;
 }
 

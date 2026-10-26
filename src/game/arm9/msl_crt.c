@@ -62,15 +62,15 @@
 
 
 
-void MSL_C_LIB_EmptyStub(void);
+void MSL_C_LIB_EmptyStub(int tag, u32 data, BOOL err);
 
-void MSL_C_LIB_TwlCall1(u32 ctx);
+void MSL_C_LIB_TwlCall1(void *ctx);
 
-void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len);
+void MSL_C_LIB_TwlCall3(void *ctx, const void *data, u32 len);
 
-void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest);
+void MSL_C_LIB_TwlCall2(void *ctx, void *digest);
 
-void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
+void MSL_C_LIB_TwlCall5(u8 *digest, void *data, u32 dataLen, void *key, u32 keyLen);
 
 void MSL_C_LIB_SetTwlFlag(int x);
 
@@ -78,17 +78,17 @@ u32 MSL_C_LIB_LockRegisterDestructor(u32 arg);
 
 double nan(const char *tagp);
 
-void *MSL_C_LIB_AllocAllFromHeap(u32 heap);
+void *MSL_C_LIB_AllocAllFromHeap(u32 size);
 
-void MSL_C_LIB_FreeToHeap(u32 heap);
+void MSL_C_LIB_FreeToHeap(void *ptr);
 
 u32 MSL_C_LIB_PrependResourceSet(void *resSet);
 
-void *MSL_C_LIB_AllocFromHeap(u32 heap);
+void *MSL_C_LIB_AllocFromHeap(u32 size);
 
-void CRT_Free(u32 heap);
+void CRT_Free(void *ptr);
 
-void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap);
+void *MSL_C_LIB_ReallocResource(void *resSet, u32 size);
 
 void *MSL_C_LIB_Calloc(u32 count, u32 elem_size);
 
@@ -98,9 +98,9 @@ int MSL_C_LIB_FlushAll(void);
 
 int abs(int value);
 
-void MSL_C_LIB_NopBufferHookA(int a, void *b);
+void MSL_C_LIB_NopBufferHookA(void *a, void *b);
 
-void MSL_C_LIB_NopBufferHookB(int a, void *b);
+void MSL_C_LIB_NopBufferHookB(void *a, void *b);
 
 #include "msl_stdio.h"
 
@@ -121,7 +121,7 @@ extern float g_020A8818;
 
 extern u8 gMslStream0[];
 
-void MSL_C_LIB_EmptyStub(void)
+void MSL_C_LIB_EmptyStub(int tag, u32 data, BOOL err)
 {
 
 }
@@ -136,12 +136,12 @@ void MSL_C_LIB_EmptyStub(void)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall1.c \
  *       --func MSL_C_LIB_TwlCall1 --addr 0x020911D8 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall1(u32 ctx)
+void MSL_C_LIB_TwlCall1(void *ctx)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Init((void *)ctx);
+    SHA1_HMAC_Init(ctx);
 }
 
 /*
@@ -151,12 +151,12 @@ void MSL_C_LIB_TwlCall1(u32 ctx)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall3.c \
  *       --func MSL_C_LIB_TwlCall3 --addr 0x02091200 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len)
+void MSL_C_LIB_TwlCall3(void *ctx, const void *data, u32 len)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Update((void *)ctx, (const void *)data, len);
+    SHA1_HMAC_Update(ctx, data, len);
 }
 
 /*
@@ -166,12 +166,12 @@ void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall2.c \
  *       --func MSL_C_LIB_TwlCall2 --addr 0x02091230 --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest)
+void MSL_C_LIB_TwlCall2(void *ctx, void *digest)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_GetHash((void *)ctx, (void *)digest);
+    SHA1_HMAC_GetHash(ctx, digest);
 }
 
 /*
@@ -182,12 +182,12 @@ void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest)
  *   python tools/match.py one --src src/matched/MSL_C_LIB_TwlCall5.c \
  *       --func MSL_C_LIB_TwlCall5 --addr 0x0209125C --cc 1.1p1 --thumb
  */
-void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen)
+void MSL_C_LIB_TwlCall5(u8 *digest, void *data, u32 dataLen, void *key, u32 keyLen)
 {
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Calc((u8 *)digest, (void *)data, dataLen, (void *)key, keyLen);
+    SHA1_HMAC_Calc(digest, data, dataLen, key, keyLen);
 }
 
 #pragma thumb reset
@@ -256,14 +256,14 @@ double nan(const char *tagp)
     return g_020A8818;
 }
 
-void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
+void *MSL_C_LIB_AllocAllFromHeap(u32 size)
 {
-    return OS_AllocFromHeap(0, (u32)-1, heap);
+    return OS_AllocFromHeap(0, (u32)-1, size);
 }
 
-void MSL_C_LIB_FreeToHeap(u32 heap)
+void MSL_C_LIB_FreeToHeap(void *ptr)
 {
-    OS_FreeToHeap(0, (u32)-1, (void *)heap);
+    OS_FreeToHeap(0, (u32)-1, ptr);
 }
 
 /*
@@ -274,17 +274,17 @@ u32 MSL_C_LIB_PrependResourceSet(void *resSet)
     return OS_ReferentSize(0, resSet);
 }
 
-void *MSL_C_LIB_AllocFromHeap(u32 heap)
+void *MSL_C_LIB_AllocFromHeap(u32 size)
 {
-    if (heap == 0)
+    if (size == 0)
         return 0;
-    return MSL_C_LIB_AllocAllFromHeap(heap);
+    return MSL_C_LIB_AllocAllFromHeap(size);
 }
 
-void CRT_Free(u32 heap)
+void CRT_Free(void *ptr)
 {
-    if (heap) {
-        MSL_C_LIB_FreeToHeap(heap);
+    if (ptr) {
+        MSL_C_LIB_FreeToHeap(ptr);
     }
 }
 
@@ -296,24 +296,24 @@ void CRT_Free(u32 heap)
  *           EXACT once either callee has its own shard entry.
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
-void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
+void *MSL_C_LIB_ReallocResource(void *resSet, u32 size)
 {
     void *p;
     u32 n;
 
     if (resSet == 0)
-        return MSL_C_LIB_AllocFromHeap(heap);
-    if (heap == 0) {
-        CRT_Free((uptr)((void *)resSet));
+        return MSL_C_LIB_AllocFromHeap(size);
+    if (size == 0) {
+        CRT_Free(resSet);
         return 0;
     }
-    n = MSL_C_LIB_PrependResourceSet((void *)resSet);
-    p = MSL_C_LIB_AllocFromHeap(heap);
+    n = MSL_C_LIB_PrependResourceSet(resSet);
+    p = MSL_C_LIB_AllocFromHeap(size);
     if (p != 0) {
-        if (n >= heap)
-            n = heap;
-        memcpy(p, (const void *)resSet, n);
-        CRT_Free((uptr)((void *)resSet));
+        if (n >= size)
+            n = size;
+        memcpy(p, resSet, n);
+        CRT_Free(resSet);
     }
     return p;
 }
@@ -417,6 +417,6 @@ int MSL_C_LIB_FlushAll(void)
 
 int abs(int value){ return value < 0 ? -value : value; }
 
-void MSL_C_LIB_NopBufferHookA(int a, void *b){ }
+void MSL_C_LIB_NopBufferHookA(void *a, void *b){ }
 
-void MSL_C_LIB_NopBufferHookB(int a, void *b){ }
+void MSL_C_LIB_NopBufferHookB(void *a, void *b){ }

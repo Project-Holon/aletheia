@@ -110,9 +110,9 @@ extern const SubProcData sCommErrorSubProcData;
 
 GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap);
 
-int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_Run(struct GameEvent *event, int *seq, void *work);
 
-int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_RunCommExit(struct GameEvent *event, int *seq, void *work);
 
 int EVENT_COMM_ERROR_SubProcInit(void *proc, int *seq, void *procWork, void *myWork);
 
@@ -125,7 +125,7 @@ int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWo
  */
 GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_ERROR_Run, 0);
+    return GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_ERROR_Run, 0);
 }
 
 /*
@@ -133,7 +133,7 @@ GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap)
  * sub proc (or shuts the comm down when the comm is not in the intrude
  * state), and resumes the move models when the field map is ready again.
  */
-int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
+int EVENT_COMM_ERROR_Run(struct GameEvent *event, int *seq, void *work)
 {
     GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -147,7 +147,7 @@ int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
                 GFL_NET_ERR_RequestScreen();
                 child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (uptr)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
             } else {
-                child = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_ERROR_RunCommExit, 0);
+                child = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_ERROR_RunCommExit, 0);
             }
         } else {
             GFL_NET_ERR_RequestScreen();
@@ -170,7 +170,7 @@ int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
  * Comm shutdown event: leaves the comm session, resets the field map state,
  * restarts the automatic comm and sets the beacon search delay.
  */
-int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work)
+int EVENT_COMM_ERROR_RunCommExit(struct GameEvent *event, int *seq, void *work)
 {
     GameSystem *gameSystem;
     struct GameComm *gameComm;

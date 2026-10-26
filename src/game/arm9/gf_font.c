@@ -181,7 +181,7 @@ extern const u8         gTopBitMasks[];
  */
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId)
 {
-    struct GfFont *font = GFL_HEAP_Alloc(heapId, 0x94, 0, gGfFontFileName, 0xC0);
+    struct GfFont *font = GFL_HEAP_Alloc(heapId, sizeof(*font), 0, gGfFontFileName, 0xC0);
 
     if (font != 0) {
         font->arc = ARC_TOOL_CreateHandle(archiveId, heapId);

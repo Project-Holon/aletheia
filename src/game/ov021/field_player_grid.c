@@ -267,7 +267,7 @@ int FIELD_PLAYER_GRID_IsHopStartTileKind(int attrKind);
 int FIELD_PLAYER_GRID_IsOnHopStartTile(FieldPlayerGrid *grid);
 u32 FIELD_PLAYER_GRID_FindHopDir(FieldPlayerGrid *grid);
 int FIELD_PLAYER_GRID_GetHopStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, u16 dir, int *outAttr);
-u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, u32 unused1, u32 unused2);
+u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, void *unused1, void *unused2);
 void FIELD_PLAYER_GRID_StartHold(FieldPlayerGrid *grid);
 void FIELD_PLAYER_GRID_EndHold(FieldPlayerGrid *grid);
 FieldPlayerCore *FIELD_PLAYER_GRID_GetCore(FieldPlayerGrid *grid);
@@ -275,7 +275,7 @@ Mmdl *FIELD_PLAYER_GRID_GetMmdl(FieldPlayerGrid *grid);
 void FIELD_PLAYER_GRID_ResetHold(FieldPlayerGrid *grid, int keepFrame);
 void FIELD_PLAYER_GRID_StopForcedMove(FieldPlayerGrid *grid);
 u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid);
-int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed);
+FieldPlayerGrid *FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed);
 int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid);
 int FIELD_PLAYER_GRID_GetAttrAtDir(FieldPlayerGrid *grid, int dir, int *outAttr);
 int FIELD_PLAYER_GRID_GetHeightStep(FieldPlayerGrid *grid, int dir);
@@ -293,7 +293,7 @@ FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId)
 {
     FieldPlayerGrid *grid;
 
-    grid = GFL_HEAP_Alloc(heapId, 0x20, 1, (const char *)sFieldPlayerGridFile, 0x17D);
+    grid = GFL_HEAP_Alloc(heapId, sizeof(*grid), 1, (const char *)sFieldPlayerGridFile, 0x17D);
     grid->core = core;
     grid->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
     grid->soundId = FIELD_PLAYER_GRID_SOUND_NONE;
@@ -736,7 +736,7 @@ int FIELD_PLAYER_GRID_GetHopAirResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPl
 
 int FIELD_PLAYER_GRID_GetHopFallResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (FIELD_PLAYER_GRID_IsAtGroundHeight(grid, (uptr)mmdl, (uptr)request) == 1) {
+    if (FIELD_PLAYER_GRID_IsAtGroundHeight(grid, mmdl, request) == 1) {
         FIELD_PLAYER_GRID_FinishHop(grid);
         FIELD_PLAYER_GRID_SetHopFlag(grid, 0);
         return FIELD_PLAYER_GRID_RESULT_STAND;
@@ -1562,7 +1562,7 @@ int FIELD_PLAYER_GRID_GetHopStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, u16 
     return hitFlags;
 }
 
-u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, u32 unused1, u32 unused2)
+u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, void *unused1, void *unused2)
 {
     Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     VecFx32 pos;
@@ -1626,14 +1626,14 @@ u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid)
     return grid->hopLanded;
 }
 
-int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed)
+FieldPlayerGrid *FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed)
 {
     if (landed == 1) {
         grid->hopLanded = 1;
-        return (sptr)grid;
+        return grid;
     }
     grid->hopLanded = 0;
-    return (sptr)grid;
+    return grid;
 }
 
 int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid)

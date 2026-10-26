@@ -270,24 +270,24 @@ extern int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid, u16 dir);
 
 
 
-extern void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
+extern void FIELD_PLAYER_GRID_EVENT_RunStateTable(struct TcbTask *work, void *arg);
 
 Mmdl *FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction);
 
 
 extern u8 gFileFieldPlayerGridEvent;
 
-int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags);
+GameEvent *FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags);
 
-int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags);
+GameEvent *FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags);
 
 int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *map);
 
-int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult);
+GameEvent *FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult);
 
 GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *player, u32 dir, Mmdl *boulder, u32 fillsHole);
 
-int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work);
+int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(struct GameEvent *event, int *seq, void *work);
 
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
@@ -295,7 +295,7 @@ int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task);
 
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task);
 
-void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work);
+void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, void *arg);
 
 struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
@@ -322,11 +322,11 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work);
 /*
  * Tries to start the boulder drop for the tile the player faces.
  */
-int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags)
+GameEvent *FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags)
 {
     FieldPlayerCore *core;
     u16 dir;
-    int result;
+    GameEvent *result;
     int possible;
 
     core = FIELD_PLAYER_GRID_GetCore(player);
@@ -348,9 +348,9 @@ int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, 
 /*
  * Runs the boulder drop check when bit 0 of the flags is set.
  */
-int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags)
+GameEvent *FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags)
 {
-    int result = 0;
+    GameEvent *result = 0;
     int hitResult = FIELD_PLAYER_GRID_GetDirChangeKind((struct FieldPlayerGrid *)player, dir);
     if (flags & 1)
         result = FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(player, dir, hitResult);
@@ -403,7 +403,7 @@ int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *m
     return 0;
 }
 
-int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult)
+GameEvent *FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult)
 {
     Mmdl *boulder;
     u32 coverage;
@@ -422,7 +422,7 @@ int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, i
                     int fillsHole = 0;
                     if (coverage == 3)
                         fillsHole = 1;
-                    return (sptr)FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(player, dir, boulder, fillsHole);
+                    return FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(player, dir, boulder, fillsHole);
                 }
             }
         }
@@ -448,8 +448,9 @@ GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *playe
     return event;
 }
 
-int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work)
+int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    BoulderDropWork *work = workPtr;
     VecFx32 boulderPos;
     VecFx32 sinkPos;
     VecFx32 settlePos;
@@ -537,7 +538,7 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 d
     work->gameSystem = (struct GameSystem *)FIELD_PLAYER_GetGrid(player);
     if (MAP_ATTR_IsLongHopEdge(MAP_ATTR_GetTerrainId(attr)) == 1)
         work->isLong = 1;
-    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
+    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task)
@@ -551,8 +552,9 @@ void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task)
     TCB_DeleteTask(task);
 }
 
-void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work)
+void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, void *arg)
 {
+    HopWork *work = arg;
     Mmdl *mmdl;
     u16 dir;
     u32 acmd;
@@ -640,7 +642,7 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 
     if (aheadHeight > start.y)
         work->targetHigher = 1;
     work->gameSystem = (struct GameSystem *)FIELD_PLAYER_GetGrid(work->player);
-    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
+    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcblTask *task)
@@ -951,8 +953,9 @@ extern Fld3dCiStateFunc d_021DA128[];
  * Runs the state table until a state returns other than 1.
  * Belongs to the grid event file (see cuts).
  */
-void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state)
+void FIELD_PLAYER_GRID_EVENT_RunStateTable(struct TcbTask *work, void *arg)
 {
+    u16 *state = arg;
     if (state[0] != 0) {
         while (d_021DA128[(s16)state[1]](state) == 1)
             ;

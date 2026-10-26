@@ -17,18 +17,18 @@ typedef struct MslStream {
     u8  error;              /* 0x0d */
     u8  pad0e[0x0a];
     u32 position;           /* 0x18 */
-    u32 buffer;             /* 0x1c */
+    u8 *buffer;             /* 0x1c */
     u32 buffer_size;        /* 0x20 */
-    u32 buffer_ptr;         /* 0x24 */
+    u8 *buffer_ptr;         /* 0x24 */
     u32 buffer_len;         /* 0x28 */
     u32 buffer_alignment;   /* 0x2c */
     u32 pad30;              /* 0x30 */
     u32 saved_buffer_len;   /* 0x34 */
-    u32 (*seek_proc)(u32, u32 *, u32, u32);  /* 0x38 */
-    u32 read_proc;          /* 0x3c */
-    u32 write_proc;         /* 0x40 */
-    u32 close_proc;         /* 0x44 */
-    u32 ref_con;            /* 0x48 */
+    u32 (*seek_proc)(u32, u32 *, u32, void *);  /* 0x38 */
+    u32 (*read_proc)(u32, u8 *, u32 *, void *); /* 0x3c */
+    u32 (*write_proc)(u32, u8 *, u32 *, void *); /* 0x40 */
+    u32 (*close_proc)(u32); /* 0x44 */
+    void *ref_con;          /* 0x48 */
 } MslStream;
 
 struct MslFileKind {

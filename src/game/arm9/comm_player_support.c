@@ -113,7 +113,7 @@ u8 COMM_PLAYER_SUPPORT_NextSeason(u8 season);
 
 u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season);
 
-void COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
+void COMM_PLAYER_SUPPORT_SetSeason(struct GameData *handle, s32 value);
 
 int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac);
 
@@ -280,9 +280,9 @@ u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season)
     return (u8)((season + 3) % 4);
 }
 
-void COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value)
+void COMM_PLAYER_SUPPORT_SetSeason(struct GameData *handle, s32 value)
 {
-    GAME_DATA_SetSeason((struct GameData *)handle, (u8)value);
+    GAME_DATA_SetSeason(handle, (u8)value);
 }
 
 /*

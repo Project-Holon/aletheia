@@ -286,21 +286,21 @@ u32 WORLDTRADE_ADAPTER_CanProceed(WorldtradeWork *p);
 
 void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap);
 
-void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 a, u32 b, u32 c);
+void WORLDTRADE_ADAPTER_CreateMonFromBox(void *a, u32 b, void *c);
 
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
-void WORLDTRADE_ADAPTER_CopyMon(u32 a, struct PokemonParam *b);
+void WORLDTRADE_ADAPTER_CopyMon(const void *a, struct PokemonParam *b);
 
 void WORLDTRADE_ADAPTER_ClearWindowScreen(void *a, int kind);
 
-u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *a, struct MsgBank *b, u32 c, u32 d);
+struct Strbuf *WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId);
 
 void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, struct PokemonParam *k);
 
 struct BoxPokemon *WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
 
-int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, struct Strbuf *a, u32 c);
+int WORLDTRADE_ADAPTER_StrObjThunk(struct GfFont **p, u32 b, struct Strbuf *a, u32 c);
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg);
 
@@ -380,8 +380,8 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(WorldtradeWork *p, void *mon, u32 bo
         slot -= 1;
     } else {
         pos = 0;
-        BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
-        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, box, (struct BoxPokemon *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
+        BOX_SAVEDATA_FindFreeSlot((struct GameData *)p->ctx->save, (int *)(&box), (int *)(&pos));
+        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->save, box, (struct BoxPokemon *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u = box;
         slot = pos;
     }
@@ -437,7 +437,7 @@ void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,WorldtradeEntry *p) { 
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(WorldtradeWork *p, void *mon)
 {
-    if (WORLDTRADE_BOX_IsHoldingMail((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
+    if (WORLDTRADE_BOX_IsHoldingMail(mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 2;
     }
     if (p->species == 0x2D0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
@@ -494,11 +494,11 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
 /*
  * Allocate a 0x48-byte block and hand it to the writer, then free the block.
  */
-void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 wordSet, u32 slot, u32 boxMon)
+void WORLDTRADE_ADAPTER_CreateMonFromBox(void *wordSet, u32 slot, void *boxMon)
 {
-    void *blk = POKE_TOOL_CreateFromBoxParam((void *)boxMon, 0x48);
+    void *blk = POKE_TOOL_CreateFromBoxParam(boxMon, 0x48);
 
-    WORDSET_SetSlotMonNickname((void *)wordSet, slot, blk);
+    WORDSET_SetSlotMonNickname(wordSet, slot, blk);
     GFL_HEAP_Free(blk);
 }
 
@@ -513,9 +513,9 @@ void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
 /*
  * Hand the size guess back to the main writer with the caller's handle.
  */
-void WORLDTRADE_ADAPTER_CopyMon(u32 src, struct PokemonParam *dst)
+void WORLDTRADE_ADAPTER_CopyMon(const void *src, struct PokemonParam *dst)
 {
-    MI_CpuCopy8((const void *)src, (void *)dst, POKE_TOOL_GetPartyParamSize());
+    MI_CpuCopy8(src, (void *)dst, POKE_TOOL_GetPartyParamSize());
 }
 
 /*
@@ -537,13 +537,13 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(void *win, int kind)
 /*
  * Encode one record through the two stage helpers and flush it to the writer.
  */
-u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId)
+struct Strbuf *WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId)
 {
-    struct Strbuf *t1 = MSGDATA_AllocString((struct MsgBank *)bank, msgId);
-    u32 t2 = (uptr)STRBUF_Create(0x200, heapId);
+    struct Strbuf *t1 = MSGDATA_AllocString(bank, msgId);
+    struct Strbuf *t2 = STRBUF_Create(0x200, heapId);
 
-    WORDSET_CopyTaggedText((struct WordSet *)wordSet, (void *)t2, (void *)t1);
-    STRBUF_Delete((struct Strbuf *)t1);
+    WORDSET_CopyTaggedText(wordSet, t2, t1);
+    STRBUF_Delete(t1);
     return t2;
 }
 
@@ -552,10 +552,10 @@ u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *ban
  */
 void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, struct PokemonParam *dst)
 {
-    u32 h = (uptr)POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)p, 0x48);
+    struct PokemonParam *h = POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)p, 0x48);
 
     WORLDTRADE_ADAPTER_CopyMon(h, dst);
-    GFL_HEAP_Free((void *)h);
+    GFL_HEAP_Free(h);
 }
 
 /*
@@ -569,9 +569,9 @@ struct BoxPokemon *WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
 /*
  * Tail call: the third argument goes first, the dereferenced pointer second, the u16 last.
  */
-int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, struct Strbuf *str, u32 margin)
+int WORLDTRADE_ADAPTER_StrObjThunk(struct GfFont **p, u32 unused1, struct Strbuf *str, u32 margin)
 {
-    return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)(*p), (u16)margin);
+    return PRINTSYS_MeasureWidestLine(str, *p, (u16)margin);
 }
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
@@ -579,7 +579,7 @@ void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
     int i;
     PrinterSlot *s;
 
-    MI_CpuFill8(ctx, 0, 0x13C);
+    MI_CpuFill8(ctx, 0, sizeof(*ctx));
     ctx->tcb = TCBL_Create(0x48, 0x48, 0x20, 0x20);
     ctx->arg = arg;
     ctx->font = GF_FONT_Create(0x17, 0, 0, 0, 0x48);
@@ -601,7 +601,7 @@ void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p)
     PRINTSYS_QUE_Delete((struct PrintQueue *)p->queue);
     GF_FONT_Delete(p->font);
     TCBL_Destroy((struct TcblSystem *)p->tcb);
-    MI_CpuFill8(p, 0, 0x13c);
+    MI_CpuFill8(p, 0, sizeof(*p));
 }
 
 void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
@@ -654,11 +654,11 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
 u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p)
 {
     u32 r;
-    uptr x;
+    void *x;
 
     r = 0;
-    x = (uptr)p->stream;
-    if (x != 0 && PRINTSYS_PrintStreamGetState((void *)x) != 2) {
+    x = p->stream;
+    if (x != 0 && PRINTSYS_PrintStreamGetState(x) != 2) {
         r = 1;
     }
     return r;
@@ -685,7 +685,7 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, struct Strbuf *str, 
 {
     PrinterSlot *found = 0;
     int i;
-    uptr print;
+    void *print;
 
     for (i = 0; i < 24; i++) {
         if (printer->slots[i].used == 0) {
@@ -697,8 +697,8 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, struct Strbuf *str, 
     }
     found->win = win;
     found->busy = 0;
-    print = (uptr)printer->queue;
-    PRINTSYS_PrintQueColor((void *)print, BMP_WIN_GetBmp((struct BmpWin *)win), (s16)x, (s16)y, str, printer->font, color);
+    print = printer->queue;
+    PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp((struct BmpWin *)win), (s16)x, (s16)y, str, printer->font, color);
     found->busy = 1;
     found->used = 1;
     return 1;
@@ -724,8 +724,8 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 unused1, u32 unused2, u32 unuse
 {
     MsgSys *ctx;
 
-    ctx = GFL_HEAP_Alloc(heap, 0x74, 0, (const char *)g_02203F5C, 0x1DD);
-    MI_CpuFill8(ctx, 0, 0x74);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(MsgSys), 0, (const char *)g_02203F5C, 0x1DD);
+    MI_CpuFill8(ctx, 0, sizeof(MsgSys));
     ctx->heap = heap;
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->queue = (void *)PRINTSYS_QUE_Create((unsigned int)heap);

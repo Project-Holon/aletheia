@@ -279,9 +279,9 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work);
 
 GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct FieldMap *fieldMap, int zoneId);
 
-int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work);
+int FLD_WIPE_3DOBJ_MapChangeEventMain(struct GameEvent *event, int *seq, void *work);
 
-int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq);
+int FLD_WIPE_3DOBJ_FadeOutEventMain(struct GameEvent *event, int *seq, void *work);
 
 FldWipe3dObj *FLD_WIPE_3DOBJ_Create(u32 heapId)
 {
@@ -426,9 +426,9 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct Fi
     GameEvent *event;
     WipeMapChangeWork *work;
     int cutInIdAfter;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, sizeof(WipeMapChangeWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 0x30);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
     if (MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem))) == 0) {
@@ -444,12 +444,13 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct Fi
 }
 
 /* Wipe event: camera swing and FLD3D_CI cut-in, map change, then the reverse cut-in. */
-int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work)
+int FLD_WIPE_3DOBJ_MapChangeEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    WipeMapChangeWork *work = workPtr;
     FieldMap *fieldMap;
     FieldCamera *camera;
     Fld3dCi *ci;
-    uptr bg;
+    struct FieldNogridMapper *bg;
     GameEvent *child;
     void *msgBg;
     u32 visiblePlanes;
@@ -462,7 +463,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     camera = FIELDMAP_GetCamera(fieldMap);
     ci = FIELDMAP_GetFld3dCi(fieldMap);
-    bg = (uptr)FIELDMAP_GetNogridMapper(fieldMap);
+    bg = FIELDMAP_GetNogridMapper(fieldMap);
     switch (*seq) {
     case 0:
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
@@ -562,7 +563,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
             mmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
             FLDMMDL_SetStatusBitVanish(mmdl, 0);
             FLDMMDL_SetDirDispCheckPause(mmdl, 1);
-            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(work->gameSystem, event, (GameEventFunc)FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(work->gameSystem, event, FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
         }
         (*seq)++;
         break;
@@ -592,7 +593,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
 }
 
 /* Fades the screen out, then ends. */
-int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq)
+int FLD_WIPE_3DOBJ_FadeOutEventMain(struct GameEvent *event, int *seq, void *work)
 {
     GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {

@@ -571,7 +571,7 @@ void BTLV_CORE_ExitDisplay(void)
 struct BtlvCore *BTLV_CORE_Create(void *context, void *client, struct BtlSide *monTable, int param, u16 heapId)
 {
     struct BtlvCore *core;
-    core = GFL_HEAP_Alloc(heapId, 0x188, 0, gBtlvCoreFileName, 0x12d);
+    core = GFL_HEAP_Alloc(heapId, sizeof(*core), 0, gBtlvCoreFileName, 0x12d);
     core->context = context;
     core->client = client;
     core->monTable = (struct BtlMonTable *)monTable;
@@ -970,7 +970,7 @@ extern void BTLV_SCU_NoOp(char *unused);
 
 extern void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, s32 viewPos);
 
-extern int BTLV_SCU_IsPosCueEffectDone(s32 unused, s32 viewPos);
+extern int BTLV_SCU_IsPosCueEffectDone(struct BtlvScu *unused, s32 viewPos);
 
 extern void BTLV_SCU_StartMonGraphicSwap(struct BtlvScu *scu, u32 viewPos, u32 mode);
 
@@ -1089,7 +1089,7 @@ void BTLV_CORE_CloseMenuToReselect(struct BtlvCore *core);
 
 int BTLV_CORE_IsMenuClosed(struct BtlvCore *core);
 
-void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mode, u8 slot, int modeParam);
+void BTLV_CORE_InitPartyWork(struct BtlvCore *core, struct B_PlistHost *plist, int mode, u8 slot, int modeParam);
 
 void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const BtlSlotChoices *slotChoices, int slot, int canCancel, BtlPickList *choiceFlags);
 
@@ -1467,7 +1467,7 @@ void BTLV_CORE_CloseMenuToReselect(struct BtlvCore *core) { BTLV_SCD_CloseInput(
 
 int BTLV_CORE_IsMenuClosed(struct BtlvCore *core) { return BTLV_SCD_IsInputIdle(core->auxView); }
 
-void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mode, u8 slot, int modeParam)
+void BTLV_CORE_InitPartyWork(struct BtlvCore *core, struct B_PlistHost *plist, int mode, u8 slot, int modeParam)
 {
     u32 clientIndex;
     int isNotComm;
@@ -1476,7 +1476,7 @@ void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mo
     plist->party = BTL_MAIN_SyncSideParty((struct BtlMain *)core->context, clientIndex);
     if (mode != 3) hasPartner = BTL_MAIN_IsCommMulti((struct BtlMain *)core->context);
     else hasPartner = 0;
-    plist->isCommMulti = hasPartner;
+    plist->hasPartner = hasPartner;
     if (hasPartner) {
         plist->partnerParty = BTL_MAIN_SyncPartnerSideParty((struct BtlMain *)core->context, clientIndex);
         plist->isSecondTeam = BTL_MAIN_IsSecondTeamClient((struct BtlMain *)core->context, clientIndex);
@@ -1484,30 +1484,30 @@ void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mo
         plist->partnerParty = 0;
         plist->isSecondTeam = 0;
     }
-    plist->mode = mode;
-    if (BTL_MAIN_GetRule((struct BtlMain *)core->context) != 3) plist->positionsPerClient = BTL_MAIN_GetPositionsPerClientThunk((struct BtlMain *)core->context, clientIndex);
-    else plist->positionsPerClient = 3;
+    plist->listType = mode;
+    if (BTL_MAIN_GetRule((struct BtlMain *)core->context) != 3) plist->partyCount = BTL_MAIN_GetPositionsPerClientThunk((struct BtlMain *)core->context, clientIndex);
+    else plist->partyCount = 3;
     switch (mode) {
     case 4:
     case 5: hasPartner = slot; break;
     default: hasPartner = 0; break;
     }
-    plist->modeSlot = hasPartner;
-    plist->slot = slot;
-    plist->modeParam = modeParam;
-    plist->result = 0;
+    plist->orderIndex = hasPartner;
+    plist->pickIndex = slot;
+    plist->moveId = modeParam;
+    plist->order[3] = 0;
     plist->heapId = core->heapId;
-    plist->fontMain = core->fontMain;
+    plist->font = core->fontMain;
     plist->rule = BTL_MAIN_GetRule((struct BtlMain *)core->context);
-    plist->auxViewHandle = (sptr)BTLV_SCD_GetInputFlags(core->auxView);
-    plist->effectSys = BTLV_EFFECT_GetOwner();
-    plist->effectSysAux = BTLV_EFFECT_GetPalanm();
+    plist->syncFlagPtr = BTLV_SCD_GetInputFlags(core->auxView);
+    plist->fadeContext = BTLV_EFFECT_GetOwner();
+    plist->palAnm = BTLV_EFFECT_GetPalanm();
     plist->gameData = BTL_MAIN_GetGameData((struct BtlMain *)core->context);
-    plist->choiceLocked = 0;
+    plist->cancelRequest = 0;
     isNotComm = 0;
     if (BTL_MAIN_GetCompetitor((struct BtlMain *)core->context) != 3) isNotComm = 1;
-    plist->allowBag = isNotComm;
-    plist->exitFlag = 0;
+    plist->seEnabled = isNotComm;
+    plist->exitRequest = 0;
     plist->done = 0;
 }
 
@@ -1521,10 +1521,10 @@ void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const BtlSlotChoices *slotC
     count = BTL_PICK_GetCount(choiceFlags);
     for (i = 0; i < count; i++) {
         if (i >= 2) break;
-        core->plist.chosenSlots[i] = BTL_PICK_GetSlot(choiceFlags, i);
+        core->plist.selected[i] = BTL_PICK_GetSlot(choiceFlags, i);
     }
     for (; i < 2; i++)
-        core->plist.chosenSlots[i] = 6;
+        core->plist.selected[i] = 6;
     choiceFlags->locked = 1;
     core->choiceFlags = choiceFlags;
     core->subStep = 0;
@@ -1532,7 +1532,7 @@ void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const BtlSlotChoices *slotC
 
 void BTLV_CORE_LockPartyChoice(struct BtlvCore *core)
 {
-    core->plist.choiceLocked = 1;
+    core->plist.cancelRequest = 1;
 }
 
 /*
@@ -1546,7 +1546,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
     u32 i;
     switch (core->subStep) {
     case 0:
-        if ((u8)(core->plist.mode + 0xff) <= 1) BTLV_SCD_StartInputSlideIn(core->auxView, 0);
+        if ((u8)(core->plist.listType + 0xff) <= 1) BTLV_SCD_StartInputSlideIn(core->auxView, 0);
         else BTLV_SCD_StartInputSlideIn(core->auxView, 1);
         GF_OVERLAY_Load((sptr)ov196_id);
         core->subStep++;
@@ -1555,16 +1555,16 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
             GF_OVERLAY_Load((sptr)ov198_id);
-            B_PLIST_MAIN_Create((u8 *)(&core->plist));
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
         break;
     case 2:
         if (core->plist.done) {
-            if (core->plist.mode != 5 && core->plist.choiceLocked == 0) {
+            if (core->plist.listType != 5 && core->plist.cancelRequest == 0) {
                 for (i = 0; i < 3; i++) {
-                    if (core->plist.pickedSlots[i] != 0xff) {
-                        BTL_PICK_Push(core->choiceFlags, i, core->plist.pickedSlots[i]);
+                    if (core->plist.order[i] != 0xff) {
+                        BTL_PICK_Push(core->choiceFlags, i, core->plist.order[i]);
                         BTL_PICK_GetCount(core->choiceFlags);
                         core->choiceFlags->locked = 0;
                     }
@@ -1590,7 +1590,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
 void BTLV_CORE_StartMoveHighlight(struct BtlvCore *core, u8 slot, u8 kind)
 {
     BTLV_CORE_InitPartyWork(core, &core->plist, 5, slot, 0);
-    core->plist.result = kind;
+    core->plist.order[3] = kind;
     core->subStep = 0;
 }
 
@@ -1609,7 +1609,7 @@ void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, 
     core->bag.pointCounter = pointCounter;
     core->bag.lastItem = itemId;
     core->bag.selectedItem = 0;
-    core->bag.auxViewHandle = (sptr)BTLV_SCD_GetInputFlags(core->auxView);
+    core->bag.auxViewHandle = BTLV_SCD_GetInputFlags(core->auxView);
     core->bag.skipPartyPrompt = 0;
     core->bag.regulationRules = BTL_MAIN_GetRegulationRules((struct BtlMain *)core->context);
     flag = 0;
@@ -1632,15 +1632,15 @@ void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, 
     pokeList = BTL_CLIENT_GetSideData(core->client);
     count = BTL_SLOT_GetCount(pokeList);
     for (i = 0; i < count; i++)
-        core->plist.sickFlags[i] = BTL_POKEPARAM_HasSick(BTL_SLOT_GetPokeParam(pokeList, (u8)i), 0x13);
-    for (; i < 6; i++) core->plist.sickFlags[i] = 0;
+        core->plist.slotFlags[i] = BTL_POKEPARAM_HasSick(BTL_SLOT_GetPokeParam(pokeList, (u8)i), 0x13);
+    for (; i < 6; i++) core->plist.slotFlags[i] = 0;
     core->subStep = 1;
 }
 
 void BTLV_CORE_SkipBagPartyPrompt(struct BtlvCore *core)
 {
     core->bag.skipPartyPrompt = 1;
-    core->plist.choiceLocked = 1;
+    core->plist.cancelRequest = 1;
 }
 
 /*
@@ -1679,14 +1679,14 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem, core->bag.selectedItemPage)) {
             core->plist.itemId = core->bag.selectedItem;
             GF_OVERLAY_Load((sptr)ov198_id);
-            B_PLIST_MAIN_Create((u8 *)(&core->plist));
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep = 5;
         } else core->subStep = 6;
 #else
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem)) {
             core->plist.itemId = core->bag.selectedItem;
             GF_OVERLAY_Load((sptr)ov198_id);
-            B_PLIST_MAIN_Create((u8 *)(&core->plist));
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep = 5;
         } else core->subStep = 6;
 #endif
@@ -1728,17 +1728,17 @@ u8 BTLV_CORE_GetSelectedItemCost(struct BtlvCore *core)
     return 0;
 }
 
-u8 BTLV_CORE_GetItemTargetSlot(struct BtlvCore *core) { return core->plist.modeSlot; }
+u8 BTLV_CORE_GetItemTargetSlot(struct BtlvCore *core) { return core->plist.orderIndex; }
 
 u8 BTLV_CORE_GetItemTargetFlag(struct BtlvCore *core)
 {
-    return core->plist.result;
+    return core->plist.order[3];
 }
 
 /* Stores the bag cursors and the last used item into the save. */
 void BTLV_CORE_SaveBagCursors(struct BtlvCore *core)
 {
-    if (core->bag.selectedItem != 0 && core->plist.modeSlot != 6 && core->bag.isComm != 1) {
+    if (core->bag.selectedItem != 0 && core->plist.orderIndex != 6 && core->bag.isComm != 1) {
         MYITEM_SAVEDATA_SetBattlePocketCursors((struct BagCursor *)core->bag.myItemSave, core->bag.pocketCursorPos, core->bag.pocketScrollPos);
         MYITEM_SAVEDATA_SetLastBattleItem((struct BagCursor *)core->bag.myItemSave, core->bag.selectedItem, core->bag.selectedItemPage);
     }
@@ -2208,7 +2208,7 @@ void BTLV_CORE_EndWaitMessage(struct BtlvCore *core)
 
 void BTLV_CORE_StartSlotEffect25F(struct BtlvCore *core, u32 slot) { BTLV_SCU_StartPosCueEffect(core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
 
-int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsPosCueEffectDone((sptr)core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
+int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsPosCueEffectDone(core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
 
 void BTLV_CORE_StartMonSpriteLoad(struct BtlvCore *core, u32 slot, u32 mode) { BTLV_SCU_StartMonFormChange(core->sceneUnit, slot, mode); }
 
@@ -2437,7 +2437,7 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
             GF_OVERLAY_Load((sptr)ov198_id);
-            B_PLIST_MAIN_Create((u8 *)(&core->plist));
+            B_PLIST_MAIN_Create(&core->plist);
             core->subStep++;
         }
         break;
@@ -2453,7 +2453,7 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) core->subStep++;
         break;
     default:
-        *outSlot = core->plist.result;
+        *outSlot = core->plist.order[3];
         GF_OVERLAY_Unload((sptr)ov196_id);
         core->subStep = 0;
         return 1;

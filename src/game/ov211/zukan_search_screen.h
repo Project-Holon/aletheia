@@ -1,3 +1,5 @@
+
+struct TcbTask;
 #ifndef GAME_OV211_ZUKAN_SEARCH_SCREEN_H
 #define GAME_OV211_ZUKAN_SEARCH_SCREEN_H
 
@@ -7,7 +9,7 @@
 struct ZukanSearchWork;
 
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
-void ZUKAN_SEARCH_SCREEN_VBlank(void);
+void ZUKAN_SEARCH_SCREEN_VBlank(struct TcbTask *unused0, void *unused1);
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_InitBg(void);

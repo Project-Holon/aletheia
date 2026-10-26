@@ -13,11 +13,11 @@ struct BbActSys;
 typedef struct BbActRec BbActRec;
 typedef struct BbActDesc BbActDesc;
 
-typedef void (*BbActEntryHook)(struct BbActSys *sys, int entryIndex, u32 arg);
+typedef void (*BbActEntryHook)(struct BbActSys *sys, int entryIndex, void *arg);
 
 /* Request record for one image slot (creation of slots). */
 struct BbActRec {
-    u32 resource;
+    uptr resource;
     u8  format;
     u8  sizeS;
     u8  sizeT;
@@ -36,7 +36,7 @@ struct BbActDesc {
     u32 color;               /* 0x0C */
     VecFx32 pos;             /* 0x10 */
     BbActEntryHook hook;     /* 0x1C */
-    u32 hookArg;             /* 0x20 */
+    void *hookArg;           /* 0x20 */
 };
 
 #endif

@@ -2,8 +2,9 @@
 #define STA_ACT_EFFECT_SHARED_TYPES_H
 
 #include "sta_acting_shared_types.h"
+struct SPLEmitter;
 
-typedef struct { int a; StaActingVec v; } StaActEffectPart;
+typedef struct { struct SPLEmitter *a; StaActingVec v; } StaActEffectPart;
 
 /* One of the eight effect-system records in the array created by
  * STA_ACT_EFFECT_Create (stride 0x4848). +0x04 is the particle work buffer

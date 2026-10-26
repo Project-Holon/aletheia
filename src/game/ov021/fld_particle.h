@@ -13,7 +13,7 @@ FldParticle *FLD_PARTICLE_Create(u32 heapId);
 struct ParticleSys *FLD_PARTICLE_CreateEffect(FldParticle *particle);
 void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
 void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
-void FLD_PARTICLE_StartEmitter(FldParticle *particle, void *resource, u32 applyNow, u32 taskMgr);
+void FLD_PARTICLE_StartEmitter(FldParticle *particle, void *resource, u32 applyNow, struct TcbList *taskMgr);
 int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
 u32 FLD_PARTICLE_Delete(FldParticle *particle);
 void FLD_PARTICLE_Exit(void);

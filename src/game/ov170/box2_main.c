@@ -417,9 +417,9 @@ struct TcbTask;
 
 int BOX2_MAIN_Init(void *manager, int unused, void **context);
 
-int BOX2_MAIN_Main(int a, int b, int c, int *d);
+int BOX2_MAIN_Main(int a, int *b, int c, BoxTask *d);
 
-int BOX2_MAIN_Exit(int a, int b, int c, int *d);
+int BOX2_MAIN_Exit(struct Proc *a, int b, int c, BoxTask *d);
 
 void BOX2_MAIN_CreateVBlankTask(BoxTask *p);
 
@@ -427,9 +427,9 @@ void BOX2_MAIN_DeleteVBlankTask(BoxTask *p);
 
 void BOX2_MAIN_VBlankHandler(struct TcbTask *tcb, void *work);
 
-void BOX2_MAIN_InitSeq(BoxWork *p, int v);
+void BOX2_MAIN_InitSeq(BoxWork *p, BoxSeqStepFunc v);
 
-void BOX2_MAIN_SetSeqParam(BoxWork *p, int v);
+void BOX2_MAIN_SetSeqParam(BoxWork *p, BoxSeqStepFunc v);
 
 void BOX2_MAIN_RestartSeq(BoxWork *p);
 
@@ -445,24 +445,24 @@ int BOX2_MAIN_Init(void *manager, int unused, void **context)
     u16 max;
     u16 i;
     GFL_HEAP_CreateChildHeap(1,75,0x10000);
-    p = PROCSYS_AllocProcWork(manager,0x30,75);
-    MI_CpuFill8((void *)p,0,0x30);
+    p = PROCSYS_AllocProcWork(manager,sizeof(BoxTask),75);
+    MI_CpuFill8((void *)p,0,sizeof(BoxTask));
     *(void ** *)&((BoxTask *)p)->params = context;
-    p[0x14] = BOX_SAVEDATA_GetCurrentBox(context[1]);
-    p[0x15] = BOX_SAVEDATA_GetUsableBoxCount((*(void ***)p)[1]);
-    p[0x17] = 255;
+    ((BoxTask *)p)->curBox = BOX_SAVEDATA_GetCurrentBox(context[1]);
+    ((BoxTask *)p)->boxLimit = BOX_SAVEDATA_GetUsableBoxCount(((BoxTask *)p)->params->boxSave);
+    ((BoxTask *)p)->heldSlot = 255;
     ((BoxTask *)p)->state = 11;
-    if ((u8)p[0x15] != 24) {
-        if ((u8)p[0x15] == 8) max = B8;
-        else if ((u8)p[0x15] == 16) max = B16;
+    if (((BoxTask *)p)->boxLimit != 24) {
+        if (((BoxTask *)p)->boxLimit == 8) max = B8;
+        else if (((BoxTask *)p)->boxLimit == 16) max = B16;
         for (i=0;i<max;i++) {
-            if (BOX_SAVEDATA_CountPokemonInBox((*(void ***)p)[1],i) == 0) break;
+            if (BOX_SAVEDATA_CountPokemonInBox(((BoxTask *)p)->params->boxSave,i) == 0) break;
         }
-        if (i == max) p[0x15] = BOX_SAVEDATA_UnlockBoxes((*(void ***)p)[1]);
+        if (i == max) ((BoxTask *)p)->boxLimit = BOX_SAVEDATA_UnlockBoxes(((BoxTask *)p)->params->boxSave);
     }
-    p[0x20] = 0;
-    p[0x1f] = 0;
-    p[0x21] = 1;
+    ((BoxTask *)p)->slot7Mode = 0;
+    ((BoxTask *)p)->slot6Mode = 0;
+    ((BoxTask *)p)->slot8Mode = 1;
     ((BoxTask *)p)->procSys = PROCSYS_Create(75);
     return 1;
 }
@@ -470,19 +470,19 @@ int BOX2_MAIN_Init(void *manager, int unused, void **context)
 /*
  * Re-derive d[2] from d[1] then test the entry; 0 means accepted.
  */
-int BOX2_MAIN_Main(int a, int b, int c, int *d)
+int BOX2_MAIN_Main(int a, int *b, int c, BoxTask *d)
 {
-    d[2] = PROCSYS_Main((void *)d[1]);
-    if (BOX2_SEQ_UpdatePrintQueue((BoxTask *)d, (int *)b) == 0)
+    d->subState = PROCSYS_Main((void *)d->procSys);
+    if (BOX2_SEQ_UpdatePrintQueue((BoxTask *)d, b) == 0)
         return 1;
     return 0;
 }
 
-int BOX2_MAIN_Exit(int a, int b, int c, int *d)
+int BOX2_MAIN_Exit(struct Proc *a, int b, int c, BoxTask *d)
 {
-    BOX_SAVEDATA_SetCurrentBox((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
-    PROCSYS_Delete((struct ProcSys *)d[1]);
-    PROCSYS_FreeProcWork((struct Proc *)a);
+    BOX_SAVEDATA_SetCurrentBox(d->params->boxSave, d->curBox);
+    PROCSYS_Delete((struct ProcSys *)d->procSys);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x4b);
     return 1;
 }
@@ -510,27 +510,27 @@ void BOX2_MAIN_VBlankHandler(struct TcbTask *tcb, void *work)
     BOX2_SEQ_FlushDirtyBmpWins((unsigned char *)task->work);
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes((PaletteFade *)((struct PaletteFade *)((*(u32 *)&task->work->palAnm))));
+    PALANM_TransferPalettes((PaletteFade *)((struct PaletteFade *)((task->work->palAnm))));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
 }
 
 /*
  * Clear the two halfword fields at +0x64/+0x66, store v at +0x58 and zero +0x5c.
  */
-void BOX2_MAIN_InitSeq(BoxWork *work, int v)
+void BOX2_MAIN_InitSeq(BoxWork *work, BoxSeqStepFunc v)
 {
     work->seq.state = 0;
     work->seq.timer = 0;
-    work->seq.resetValue = v;
-    work->seq.param = 0;
+    work->seq.stepFunc = v;
+    work->seq.restartFunc = 0;
 }
 
 /*
  * Store the second argument into the word field at +0x5c of the object.
  */
-void BOX2_MAIN_SetSeqParam(BoxWork *work, int v)
+void BOX2_MAIN_SetSeqParam(BoxWork *work, BoxSeqStepFunc v)
 {
-    work->seq.param = v;
+    work->seq.restartFunc = v;
 }
 
 /*
@@ -538,7 +538,7 @@ void BOX2_MAIN_SetSeqParam(BoxWork *work, int v)
  */
 void BOX2_MAIN_RestartSeq(BoxWork *work)
 {
-    BOX2_MAIN_InitSeq((BoxWork *)work, work->seq.param);
+    BOX2_MAIN_InitSeq((BoxWork *)work, work->seq.restartFunc);
 }
 
 /*
@@ -596,7 +596,6 @@ struct GameData;
 
 typedef struct { u32 fmt; u32 bExtendedPlt; u32 szByte; u8 *pRawData; } PlttData;
 
-struct Ov170Ctx { char pad[0x2c]; char *work; };
 
 typedef struct {
     u32 heapId;
@@ -631,13 +630,6 @@ typedef struct BoxMove {
     unsigned req;
 } BoxMove;
 
-typedef struct BoxCursor {
-    void *p;
-    unsigned short index;
-    unsigned char flags;
-    unsigned char pad[5];
-} BoxCursor;
-
 typedef struct BoxMotor {
     unsigned short idx;
     unsigned short slot;
@@ -658,7 +650,7 @@ typedef struct {
     unsigned dirY:1;
     unsigned count:30;
 } Motion;
-typedef struct {
+typedef struct Summary {
     void *mon;
     unsigned short species;
     unsigned short form;
@@ -677,17 +669,8 @@ typedef struct {
     unsigned short moves[4];
 } Summary;
 
-typedef struct {
-    void *mon;
-    void *callerData;
-    void *gameData;
-    unsigned char kind, mode, count, slot, zero;
-    char pad[7];
-    void *isNationalDex;
-    char pad1C[12];
-    char pad28[16];
-    int subResult;
-} PokeStatusArgs;
+#include "../ov131/p_status_types.h"
+#include "../arm9/bag_param_types.h"
 
 typedef struct { void *task; void *text; } NameInRequest;
 
@@ -890,7 +873,7 @@ void BOX2_MAIN_InitBgSys(u8 *unused);
 
 void BOX2_MAIN_DeleteBgSys(void *p);
 
-void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx);
+void BOX2_MAIN_LoadBgData(BoxTask *ctx);
 
 void BOX2_MAIN_CreatePalAnm(BoxTask *p);
 
@@ -929,7 +912,7 @@ struct BoxTask;
 
 void BOX2_MAIN_SetBoxValueAt(struct BoxTask *a, int b, int c, int d, int e);
 
-int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
+void *BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 
 void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b);
 
@@ -941,7 +924,7 @@ void BOX2_MAIN_DepositPartyMon(BoxTask *p, unsigned char *a);
 
 void BOX2_MAIN_SwapPartyMembers(char **p, char *q);
 
-void BOX2_MAIN_ShiftMemberToEnd(int *p, unsigned char *a);
+void BOX2_MAIN_ShiftMemberToEnd(BoxTask *p, unsigned char *a);
 
 void BOX2_MAIN_MoveMonToListedBox(unsigned char *p,unsigned a,unsigned b,unsigned c);
 
@@ -1011,27 +994,27 @@ void BOX2_MAIN_StartHandMotionToSlot(BoxTask *p, int slot, unsigned idx, int mod
 
 void BOX2_MAIN_StartHandMotionToBoxArrow(BoxTask *p, int mode);
 
-void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d);
+void BOX2_MAIN_StartHandMotionToBoxSlot(BoxTask *a, int b, int c, int d);
 
 void BOX2_MAIN_StartHandMotionToTargetBoxSlot(BoxTask *p, int a, int b);
 
 int BOX2_MAIN_StepHandMotion(BoxTask *p, int a);
 
-int BOX2_MAIN_StepHandMotionToSlot(int a);
+int BOX2_MAIN_StepHandMotionToSlot(BoxTask *a);
 
 int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *p);
 
 unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
 
-void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c);
+void BOX2_MAIN_LoadBgCharTile(void *a, int b, u32 c);
 
-void BOX2_MAIN_LoadBgPaletteTile(int a, int b, int c);
+void BOX2_MAIN_LoadBgPaletteTile(void *a, int b, int c);
 
-void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 pal);
+void BOX2_MAIN_LoadBgTileSet(void *unused, int unused2, int x, u32 base, u32 pal);
 
-void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e);
+void BOX2_MAIN_LoadBgTiles(void *a, int b, int c, u32 d, int e);
 
-void BOX2_MAIN_SetBoxScroll(BoxTask *p, void *a, int dir);
+void BOX2_MAIN_SetBoxScroll(BoxTask *p, int a, int dir);
 
 void BOX2_MAIN_LoadBoxPalette(BoxTask *p, int a);
 
@@ -1041,7 +1024,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon);
 
 void BOX2_MAIN_DeleteHandle(void *s);
 
-void BOX2_MAIN_SetupSummary(BoxTask *p, int a);
+void BOX2_MAIN_SetupSummary(BoxTask *p, struct Summary *a);
 
 int BOX2_MAIN_RefreshMonInfo(char *p, int a, unsigned b);
 
@@ -1178,9 +1161,8 @@ void BOX2_MAIN_DeleteBgSys(void *unused)
     BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
-struct Ov170Ctx;
 
-void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
+void BOX2_MAIN_LoadBgData(BoxTask *ctx)
 {
     void *arc;
     void *arc2;
@@ -1202,7 +1184,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 4, 0, 0, 0x80, 0x4c);
     ARC_UTIL_UploadBgCharFromHandle((void *)arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 0x3f, 0, 0x180, 0x40, 0x4c);
-    pal = ARC_UTIL_LoadPaletteBlockFromArchive(APP_ICON_GetArchiveId(), 0x1f, (void *)(uptr)(&pd), 0x804c);
+    pal = ARC_UTIL_LoadPaletteBlockFromArchive(APP_ICON_GetArchiveId(), 0x1f, (void *)(&pd), 0x804c);
     src = pd->pRawData;
     ofs = 0x194;
     BG_SYS_LoadPltt(0, src + 0x34, 4, ofs);
@@ -1229,7 +1211,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
     BG_SYS_MarkTileDirty(2);
-    *(int *)(ctx->work + 0x178) = (sptr)BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
+    ctx->work->dexFormId = BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x160, 0x20, 0x4c);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
 }
@@ -1242,13 +1224,13 @@ void BOX2_MAIN_CreatePalAnm(BoxTask *task)
     int v = (sptr)PALANM_Create(0x4c);
 
     (*(int *)&task->work->palAnm) = v;
-    PALANM_AllocSlotBuffers((struct PaletteFade *)((*(int *)&task->work->palAnm)), 0, 0x200, 0x4c);
+    PALANM_AllocSlotBuffers((struct PaletteFade *)((task->work->palAnm)), 0, 0x200, 0x4c);
 }
 
 void BOX2_MAIN_DeletePalAnm(int *task)
 {
-    PALANM_FreeSlotBuffers((struct PaletteFade *)((*(int *)&((BoxTask *)task)->work->palAnm)), 0);
-    PALANM_Delete((void *)((*(int *)&((BoxTask *)task)->work->palAnm)));
+    PALANM_FreeSlotBuffers((struct PaletteFade *)((((BoxTask *)task)->work->palAnm)), 0);
+    PALANM_Delete((void *)((((BoxTask *)task)->work->palAnm)));
 }
 
 void BOX2_MAIN_SetDisplayControl(int a)
@@ -1262,12 +1244,12 @@ void BOX2_MAIN_SetDisplayControl(int a)
 
 void BOX2_MAIN_CreateTextSystem(char *task)
 {
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x80))) = MSGDATA_CreateFromArchive(0,2,9,0x4c);
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x78))) = GF_FONT_Create(0x17,0,1,0,0x4c);
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x7c))) = GF_FONT_Create(0x17,3,0,0,0x4c);
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x84))) = WORDSET_CreateDefault(0x4c);
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x8c))) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x88))) = STRBUF_Create(0x400,0x4c);
+    (((BoxTask *)task)->work->msgBank) = MSGDATA_CreateFromArchive(0,2,9,0x4c);
+    ((BoxTask *)task)->work->font = GF_FONT_Create(0x17,0,1,0,0x4c);
+    (((BoxTask *)task)->work->fontAlt) = GF_FONT_Create(0x17,3,0,0,0x4c);
+    (((BoxTask *)task)->work->wordSet) = WORDSET_CreateDefault(0x4c);
+    (((BoxTask *)task)->work->printQue) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
+    (((BoxTask *)task)->work->strbuf) = STRBUF_Create(0x400,0x4c);
 }
 
 
@@ -1284,12 +1266,12 @@ void BOX2_MAIN_CreateTextSystem(char *task)
  */
 void BOX2_MAIN_DeleteTextSystem(char *task)
 {
-    STRBUF_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x88))));
-    PRINTSYS_QUE_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x8c))));
-    WORDSET_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x84))));
-    GF_FONT_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x7c))));
-    GF_FONT_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x78))));
-    MSGDATA_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x80))));
+    STRBUF_Delete((((BoxTask *)task)->work->strbuf));
+    PRINTSYS_QUE_Delete((((BoxTask *)task)->work->printQue));
+    WORDSET_Delete((((BoxTask *)task)->work->wordSet));
+    GF_FONT_Delete((((BoxTask *)task)->work->fontAlt));
+    GF_FONT_Delete(((BoxTask *)task)->work->font);
+    MSGDATA_Delete((((BoxTask *)task)->work->msgBank));
 }
 
 
@@ -1310,13 +1292,13 @@ void BOX2_MAIN_DeleteTextSystem(char *task)
 
 void BOX2_MAIN_CreateTaskMenu(char *task)
 {
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x184)))=MSGDATA_AllocString((*(void **)((char *)((BoxTask *)(task))->work + (0x80))),0x6e);
-    (*(unsigned short *)((char *)((BoxTask *)(task))->work + (0x188)))=0x39e3;
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x18c)))=0;
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x190)))=MSGDATA_AllocString((*(void **)((char *)((BoxTask *)(task))->work + (0x80))),0x6f);
-    (*(unsigned short *)((char *)((BoxTask *)(task))->work + (0x194)))=0x39e3;
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x198)))=0;
-    (*(void **)((char *)((BoxTask *)(task))->work + (0x19c)))=APP_TASKMENU_RES_Create(0,8,(struct GFont *)(*(void **)((char *)((BoxTask *)(task))->work + (0x78))),(struct PrintQueue *)(*(void **)((char *)((BoxTask *)(task))->work + (0x8c))),0x4c);
+    ((BoxTask *)task)->work->taskMenuItems[0].str = MSGDATA_AllocString((((BoxTask *)task)->work->msgBank),0x6e);
+    ((BoxTask *)task)->work->taskMenuItems[0].msgColor = 0x39e3;
+    ((BoxTask *)task)->work->taskMenuItems[0].type = 0;
+    ((BoxTask *)task)->work->taskMenuItems[1].str = MSGDATA_AllocString((((BoxTask *)task)->work->msgBank),0x6f);
+    ((BoxTask *)task)->work->taskMenuItems[1].msgColor = 0x39e3;
+    ((BoxTask *)task)->work->taskMenuItems[1].type = 0;
+    (((BoxTask *)task)->work->taskMenuRes)=APP_TASKMENU_RES_Create(0,8,(struct GFont *)((BoxTask *)task)->work->font,(struct PrintQueue *)(((BoxTask *)task)->work->printQue),0x4c);
 }
 
 /*
@@ -1324,9 +1306,9 @@ void BOX2_MAIN_CreateTaskMenu(char *task)
  */
 void BOX2_MAIN_DeleteTaskMenu(BoxTask *task)
 {
-    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)((*(int *)&task->work->taskMenuRes)));
-    STRBUF_Delete((struct Strbuf *)(*(int *)&task->work->taskMenuItems[12]));
-    STRBUF_Delete((struct Strbuf *)((*(int *)&task->work->taskMenuItems[0])));
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)((task->work->taskMenuRes)));
+    STRBUF_Delete((struct Strbuf *)task->work->taskMenuItems[1].str);
+    STRBUF_Delete((struct Strbuf *)task->work->taskMenuItems[0].str);
 }
 
 
@@ -1342,7 +1324,7 @@ void BOX2_MAIN_OpenTaskMenu(BoxTask *task, int sel)
     MenuTmpl t;
     t.heapId = 0x4C;
     t.count = 2;
-    t.items = (char *)task->work + 0x184;
+    t.items = task->work->taskMenuItems;
     t.mode = 1;
     t.x = 0x20;
     t.y = 0x12;
@@ -1428,7 +1410,7 @@ void BOX2_MAIN_StepToAdjacentBox(BoxTask *task, int dir)
         BOX2_SEQ_SetActorAnimSeq((char *)((BoxWork *)task->work), 1, 4);
     }
     BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
+    BOX2_MAIN_SetBoxScroll((BoxTask *)task, BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
 }
 
 /*
@@ -1465,8 +1447,8 @@ int BOX2_MAIN_IsWrappedDistance(unsigned char *task, unsigned a, unsigned b)
     if (d < 0)
         d = -d;
     if (a > b)
-        return d >= ((unsigned)task[0x15] >> 1);
-    return d < ((unsigned)task[0x15] >> 1);
+        return d >= ((unsigned)((BoxTask *)task)->boxLimit >> 1);
+    return d < ((unsigned)((BoxTask *)task)->boxLimit >> 1);
 }
 
 /*
@@ -1499,20 +1481,20 @@ unsigned BOX2_MAIN_GetPartyValueAt(void ***task, unsigned short a, unsigned shor
  */
 void BOX2_MAIN_SetBoxValueAt(struct BoxTask *a, int b, int c, int d, int e)
 {
-    int r = BOX2_MAIN_GetMonAt((void ***)a, c, b);
+    void *r = BOX2_MAIN_GetMonAt((void ***)a, c, b);
     if (r)
-        POKE_TOOL_SetBoxValue((void *)r, d, e);
+        POKE_TOOL_SetBoxValue(r, d, e);
 }
 
-int BOX2_MAIN_GetMonAt(void ***task, int a, unsigned b)
+void *BOX2_MAIN_GetMonAt(void ***task, int a, unsigned b)
 {
     if (a == 0xFF || b >= 0x1E) {
         if (b >= 0x1E)
             b -= 0x1E;
         if (POKEPARTY_GetCount((*task)[2]) > b)
-            return (sptr)POKE_TOOL_CastToBoxParam((struct PokemonParam *)(POKEPARTY_GetMember((*task)[2], b)));
+            return POKE_TOOL_CastToBoxParam((struct PokemonParam *)(POKEPARTY_GetMember((*task)[2], b)));
     } else if (b != 0xFF) {
-        return (sptr)BOX_SAVEDATA_GetPokemon((*task)[1], a, b);
+        return BOX_SAVEDATA_GetPokemon((*task)[1], a, b);
     }
     return 0;
 }
@@ -1535,11 +1517,11 @@ void BOX2_MAIN_SwapBoxAndPartyMon(unsigned char *task,unsigned short *q,unsigned
     unsigned box;
     unsigned short slot;
     void *m;
-    if (q[0] == 0x24) box=task[0x17]; else box=task[0x14];
+    if (q[0] == 0x24) box=((BoxTask *)task)->heldSlot; else box=((BoxTask *)task)->curBox;
     m=POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)BOX2_MAIN_GetMonAt((void ***)task,box,q[2]),0x804c);
     slot=t[2]-30;
-    BOX_SAVEDATA_SetPokemon((*(void ***)task)[1],box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((*(void ***)task)[2],slot)));
-    POKEPARTY_SetMember((*(void ***)task)[2],slot,m);
+    BOX_SAVEDATA_SetPokemon(((BoxTask *)task)->params->boxSave,box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(((BoxTask *)task)->params->party,slot)));
+    POKEPARTY_SetMember(((BoxTask *)task)->params->party,slot,m);
     GFL_HEAP_Free((void *)m);
     BOX2_UI_DrawSlot((BoxTask *)task,box);
 }
@@ -1547,11 +1529,11 @@ void BOX2_MAIN_SwapBoxAndPartyMon(unsigned char *task,unsigned short *q,unsigned
 void BOX2_MAIN_AddMonToParty(unsigned char *task, unsigned short *q)
 {
     void *m;
-    m = POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)BOX2_MAIN_GetMonAt((void ***)task,task[0x17],q[2]),0x804c);
-    POKEPARTY_Add((*(void ***)task)[2],m);
-    BOX2_MAIN_ClearSlot((char **)task,task[0x17],q[2]);
+    m = POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)BOX2_MAIN_GetMonAt((void ***)task,((BoxTask *)task)->heldSlot,q[2]),0x804c);
+    POKEPARTY_Add(((BoxTask *)task)->params->party,m);
+    BOX2_MAIN_ClearSlot((char **)task,((BoxTask *)task)->heldSlot,q[2]);
     GFL_HEAP_Free((void *)m);
-    BOX2_UI_DrawSlot((BoxTask *)task,task[0x17]);
+    BOX2_UI_DrawSlot((BoxTask *)task,((BoxTask *)task)->heldSlot);
 }
 
 /*
@@ -1560,10 +1542,10 @@ void BOX2_MAIN_AddMonToParty(unsigned char *task, unsigned short *q)
  */
 void BOX2_MAIN_DepositPartyMon(BoxTask *task, unsigned char *a)
 {
-    int x = (sptr)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(*(void **)(*(int *)&task->params + 8),
+    const struct BoxPokemon *x = POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(((BoxTask *)task)->params->party,
                                         ((BoxMonRef *)(a))->slot - 0x1e));
-    BOX_SAVEDATA_SetPokemon((void *)(*(int *)(*(int *)&task->params + 4)), task->curBox,
-                  ((BoxMonRef *)(a))->pos, (const struct BoxPokemon *)x);
+    BOX_SAVEDATA_SetPokemon((void *)(((BoxTask *)task)->params->boxSave), task->curBox,
+                  ((BoxMonRef *)(a))->pos, x);
     BOX2_MAIN_ClearSlot((char **)task, task->curBox, ((BoxMonRef *)(a))->slot);
     BOX2_UI_DrawSlot((BoxTask *)task, task->curBox);
 }
@@ -1581,11 +1563,11 @@ void BOX2_MAIN_SwapPartyMembers(char **task, char *q)
  * Walk the p+8 object's entries from tag-0x1e to the current
  *   count, re-reading the count each step.
  */
-void BOX2_MAIN_ShiftMemberToEnd(int *task, unsigned char *a)
+void BOX2_MAIN_ShiftMemberToEnd(BoxTask *task, unsigned char *a)
 {
     unsigned i = ((BoxMonRef *)(a))->slot - 0x1e;
-    while (i < POKEPARTY_GetCount(*(void **)(*task + 8)) - 1) {
-        POKEPARTY_SwapMembers((struct Party *)(*(int *)(*task + 8)), i, i + 1, 0x4c);
+    while (i < POKEPARTY_GetCount(task->params->party) - 1) {
+        POKEPARTY_SwapMembers((struct Party *)task->params->party, i, i + 1, 0x4c);
         i++;
     }
 }
@@ -1594,10 +1576,10 @@ void BOX2_MAIN_MoveMonToListedBox(unsigned char *task,unsigned a,unsigned b,unsi
 {
     void *m;
     unsigned box;
-    m = (void *)BOX2_MAIN_GetMonAt((void ***)task,a,b);
+    m = BOX2_MAIN_GetMonAt((void ***)task,a,b);
     box = BOX2_MAIN_WrapSlot((unsigned char *)task,c);
-    BOX_SAVEDATA_AddPokemonToBox((*(void ***)task)[1],box,m);
-    BOX_SAVEDATA_ClearPokemon((*(void ***)task)[1],a,b);
+    BOX_SAVEDATA_AddPokemonToBox(((BoxTask *)task)->params->boxSave,box,m);
+    BOX_SAVEDATA_ClearPokemon(((BoxTask *)task)->params->boxSave,a,b);
     BOX2_UI_DrawSlot((BoxTask *)task,a);
     BOX2_UI_DrawSlotByName((char *)task,a);
     BOX2_UI_DrawSlot((BoxTask *)task,box);
@@ -1612,14 +1594,14 @@ void BOX2_MAIN_MovePartyMonToListedBox(unsigned char *task,unsigned a,unsigned b
     void *m;
     unsigned box;
     box=BOX2_MAIN_WrapSlot((unsigned char *)task,b);
-    m=POKEPARTY_GetMember((*(void ***)task)[2],a-30);
-    if(POKE_TOOL_GetPartyValue((void *)m,5,0)==492){
+    m=POKEPARTY_GetMember(((BoxTask *)task)->params->party,a-30);
+    if(POKE_TOOL_GetPartyValue(m,5,0)==492){
         POKE_TOOL_ChangeForm((void *)m,0);
         BOX2_MAIN_RecalcPartyParam((void **)task,a);
-        ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((*(void ***)task)[0]),m);
+        ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(((BoxTask *)task)->params->gameData),m);
     }
-    BOX_SAVEDATA_AddPokemonToBox((*(void ***)task)[1],box,POKE_TOOL_GetBoxParam((void *)m));
-    BOX2_MAIN_ClearSlot((char **)task,task[0x14],a);
+    BOX_SAVEDATA_AddPokemonToBox(((BoxTask *)task)->params->boxSave,box,POKE_TOOL_GetBoxParam((void *)m));
+    BOX2_MAIN_ClearSlot((char **)task,((BoxTask *)task)->curBox,a);
     BOX2_UI_DrawSlot((BoxTask *)task,box);
     BOX2_UI_DrawSlotByName((char *)task,box);
 }
@@ -1630,7 +1612,7 @@ void BOX2_MAIN_UpdateBoxSlots(BoxTask *task)
     unsigned short n;
     if (m->a == 0xFF)
         return;
-    n = POKEPARTY_GetCount(((void **)task->params)[2]);
+    n = POKEPARTY_GetCount(task->params->party);
     if (m->b >= 0x24) {
         if (m->a < 0x1E)
             BOX2_MAIN_MoveMonToListedBox((unsigned char *)task, task->heldSlot, m->a, m->b - 0x24);
@@ -1640,7 +1622,7 @@ void BOX2_MAIN_UpdateBoxSlots(BoxTask *task)
     }
     if (m->a < 0x1E) {
         if (m->b < 0x1E) {
-            BOX_SAVEDATA_SwapPokemon(((void **)task->params)[1], task->heldSlot, m->a, task->curBox, m->b);
+            BOX_SAVEDATA_SwapPokemon(task->params->boxSave, task->heldSlot, m->a, task->curBox, m->b);
             BOX2_UI_DrawSlot((BoxTask *)task, task->curBox);
             BOX2_UI_DrawSlotByName((char *)task, task->curBox);
             if (task->curBox != task->heldSlot) {
@@ -1671,14 +1653,14 @@ void BOX2_MAIN_UpdateBoxSlots(BoxTask *task)
     if (m->b - 0x1E < n)
         BOX2_MAIN_SwapPartyMembers((char **)task, (char *)m);
     else
-        BOX2_MAIN_ShiftMemberToEnd((int *)task, (unsigned char *)(&m->e[m->a - 0x1E]));
+        BOX2_MAIN_ShiftMemberToEnd((BoxTask *)task, (unsigned char *)(&m->e[m->a - 0x1E]));
 }
 
 int BOX2_MAIN_WrapSlot(unsigned char *task, unsigned i)
 {
-    unsigned v = i + task[0x19];
-    if (v >= task[0x15])
-        v -= task[0x15];
+    unsigned v = i + ((BoxTask *)task)->prevBox;
+    if (v >= ((BoxTask *)task)->boxLimit)
+        v -= ((BoxTask *)task)->boxLimit;
     return v;
 }
 
@@ -1688,7 +1670,7 @@ int BOX2_MAIN_HasOtherTradable(void ***task, unsigned skip)
     for (i = 0; i < POKEPARTY_GetCount((*task)[2]); i++) {
         if (i != skip) {
             void *m = POKEPARTY_GetMember((*task)[2], i);
-            if (POKE_TOOL_GetPartyValue((void *)m, 0x4C, 0) == 0 && POKE_TOOL_GetPartyValue((void *)m, 0xA0, 0) != 0)
+            if (POKE_TOOL_GetPartyValue(m, 0x4C, 0) == 0 && POKE_TOOL_GetPartyValue(m, 0xA0, 0) != 0)
                 return 1;
         }
     }
@@ -1699,9 +1681,9 @@ void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b)
 {
     void *r;
 
-    POKE_TOOL_ChangeBoxForm((struct BoxPokemon *)((sptr)a), b);
+    POKE_TOOL_ChangeBoxForm((struct BoxPokemon *)(a), b);
     r = POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)a, 0x4c);
-    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((void *)(*(u32 *)*pp)), r);
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(((BoxTask *)pp)->params->gameData), r);
     GFL_HEAP_Free((void *)r);
 }
 
@@ -1766,10 +1748,10 @@ void BOX2_MAIN_ResetShayminFormInBox(BoxTask *task,unsigned a,unsigned b,unsigne
     if(a>=30) a=b;
     if(BOX2_MAIN_GetPartyValueAt((void ***)task,a,box,5,0)!=492) return;
     if(BOX2_MAIN_GetPartyValueAt((void ***)task,a,box,0x6f,0)==0) return;
-    BOX2_MAIN_ChangeFormAndRegister((void **)task,(void *)BOX2_MAIN_GetMonAt((void ***)task,box,a),0);
+    BOX2_MAIN_ChangeFormAndRegister((void **)task,BOX2_MAIN_GetMonAt((void ***)task,box,a),0);
     BOX2_MAIN_RecalcPartyParam((void **)task,a);
     if(box==task->curBox)
-        BOX2_SEQ_ShowSlotIcon((BoxTask *)task,box,a,*(unsigned char *)((char *)task->work +a+0x3dd2));
+        BOX2_SEQ_ShowSlotIcon((BoxTask *)task,box,a,task->work->cursorTable[a]);
     if(task->cursorSlot==a) BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,a);
 }
 
@@ -1796,7 +1778,7 @@ void BOX2_MAIN_DeleteFormTable(BoxTask *task)
     GFL_HEAP_Free((void *)task->work->formTable);
 }
 
-int BOX2_MAIN_GetBoxValue(char *task, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)task,a,((BoxTask *)task)->curBox,5,0);return BLOCK20_SAVEDATA_TestBit(*(u8 * *)&((BoxTask *)task)->params->extra,n); }
+int BOX2_MAIN_GetBoxValue(char *task, u32 a) { u16 n;n=BOX2_MAIN_GetPartyValueAt((void ***)task,a,((BoxTask *)task)->curBox,5,0);return BLOCK20_SAVEDATA_TestBit(*(u8 * *)&((BoxTask *)task)->params->pickerBuffer,n); }
 
 int BOX2_MAIN_WaitCursorMove(BoxTask *task)
 {
@@ -1811,7 +1793,7 @@ int BOX2_MAIN_WaitCursorMove(BoxTask *task)
             if (e->used == 0)
                 continue;
             BOX2_SEQ_SetSlotDrawPriorityB((char *)((BoxWork *)task->work), e->id, e->slot, 1);
-            k = *(unsigned char *)((char *)task->work + e->id + 0x3DD2);
+            k = task->work->cursorTable[e->id];
             if (e->slot < 0x1E) {
                 BOX2_SEQ_GetSlotPos(e->slot, &t[1], &t[0], task->phase);
             } else if (e->slot < 0x24) {
@@ -1841,7 +1823,7 @@ int BOX2_MAIN_WaitCursorMove(BoxTask *task)
         e = &m->e[i];
         if (e->used == 0)
             continue;
-        k = *(unsigned char *)((char *)task->work + e->id + 0x3DD2);
+        k = task->work->cursorTable[e->id];
         t[1] = e->x + ((unsigned)(m->count * e->vx) >> 16) * e->dx;
         t[0] = e->y + ((unsigned)(m->count * e->vy) >> 16) * e->dy;
         BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), k, t[1], t[0], 0);
@@ -1867,7 +1849,7 @@ int BOX2_MAIN_WaitBoxScroll(BoxTask *task)
             e = &m->e[i];
             if (e->used == 0)
                 continue;
-            k = *(unsigned char *)((char *)task->work + e->id + 0x3DD2);
+            k = task->work->cursorTable[e->id];
             BOX2_SEQ_GetSlotPos(e->slot, (short *)&t[1], (short *)&t[0], task->phase);
             if (e->slot >= 0x1E)
                 t[0] += 0x90;
@@ -1881,7 +1863,7 @@ int BOX2_MAIN_WaitBoxScroll(BoxTask *task)
         e = &m->e[i];
         if (e->used == 0)
             continue;
-        k = *(unsigned char *)((char *)task->work + e->id + 0x3DD2);
+        k = task->work->cursorTable[e->id];
         t[1] = e->x + ((unsigned)(m->count * e->vx) >> 16) * e->dx;
         t[0] = e->y + ((unsigned)(m->count * e->vy) >> 16) * e->dy;
         BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), k, t[1], t[0], 0);
@@ -1966,24 +1948,24 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *task, unsigned a, unsigned b)
 int BOX2_MAIN_ComparePartyValue(unsigned char *task,unsigned a,unsigned b)
 {
     int result = 0;
-    if (BOX2_MAIN_GetPartyValueAt((void ***)task,(unsigned short)b,task[0x14],0xa9,0))
+    if (BOX2_MAIN_GetPartyValueAt((void ***)task,(unsigned short)b,((BoxTask *)task)->curBox,0xa9,0))
         return result;
     if (!BOX2_MAIN_HasOtherTradable((void ***)task,a-30))
         return result;
-    if (FILE_UTIL_IsMailItem((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)task)[2],a-30),6,0)) != 1)
+    if (FILE_UTIL_IsMailItem((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((BoxTask *)task)->params->party,a-30),6,0)) != 1)
         result = 1;
     return result;
 }
 
 int BOX2_MAIN_CompareSlots(unsigned char *task, unsigned a, unsigned b)
 {
-    if (BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 0xA9, 0) == 0)
+    if (BOX2_MAIN_GetPartyValueAt((void ***)task, b, ((BoxTask *)task)->curBox, 0xA9, 0) == 0)
         return 0;
-    if (BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 0x4C, 0) != 0)
+    if (BOX2_MAIN_GetPartyValueAt((void ***)task, b, ((BoxTask *)task)->curBox, 0x4C, 0) != 0)
         return 0;
-    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, a, task[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, a, ((BoxTask *)task)->curBox, 6, 0)) == 1)
         return 0;
-    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, b, ((BoxTask *)task)->curBox, 6, 0)) == 1)
         return 0;
     return 1;
 }
@@ -1991,7 +1973,7 @@ int BOX2_MAIN_CompareSlots(unsigned char *task, unsigned a, unsigned b)
 void BOX2_MAIN_AdvanceMover(BoxTask *task, BoxMover *o)
 {
     short t[2];
-    BOX2_SEQ_GetActorSurfacePos((char *)task->work, *(unsigned char *)((char *)task->work + o->id + 0x3DD2), (short *)&o->x, (short *)&o->y, 0);
+    BOX2_SEQ_GetActorSurfacePos((char *)task->work, task->work->cursorTable[o->id], (short *)&o->x, (short *)&o->y, 0);
     if (o->used != 2) {
         if (o->slot < 0x24)
             BOX2_SEQ_GetSlotPos(o->slot, &t[1], &t[0], task->phase);
@@ -2022,8 +2004,8 @@ void BOX2_MAIN_UpdateMoverX(BoxTask *task,BoxMover *o)
 {
     short t[2];
     unsigned i;
-    i=*(unsigned char *)((char *)task->work +o->slot+0x3dd2);
-    BOX2_SEQ_GetActorSurfacePos((char *)task->work,*(unsigned char *)((char *)task->work +o->id+0x3dd2),(short *)&o->x,(short *)&o->y,0);
+    i=task->work->cursorTable[o->slot];
+    BOX2_SEQ_GetActorSurfacePos((char *)task->work,task->work->cursorTable[o->id],(short *)&o->x,(short *)&o->y,0);
     BOX2_SEQ_GetActorSurfacePos((char *)task->work,i,(short *)&t[1],(short *)&t[0],0);
     if(o->x<=t[1]){
         o->dx=1;
@@ -2044,7 +2026,7 @@ void BOX2_MAIN_UpdateMoverX(BoxTask *task,BoxMover *o)
 void BOX2_MAIN_UpdateMoverY(BoxTask *task, BoxMover *o)
 {
     short t[2];
-    BOX2_SEQ_GetActorSurfacePos((char *)task->work, *(unsigned char *)((char *)task->work + o->id + 0x3DD2), (short *)&o->x, (short *)&o->y, 0);
+    BOX2_SEQ_GetActorSurfacePos((char *)task->work, task->work->cursorTable[o->id], (short *)&o->x, (short *)&o->y, 0);
     BOX2_SEQ_GetSlotPos(o->slot, &t[1], &t[0], task->phase);
     t[0] += 0xC0;
     if (o->x <= t[1]) {
@@ -2130,7 +2112,7 @@ int BOX2_MAIN_MoveCursorWithMon(BoxTask *task, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = POKEPARTY_GetCount(((void **)task->params)[2]);
+    n = POKEPARTY_GetCount(task->params->party);
     if (b >= 0x24) {
         m->e[0].id = 0x24;
         m->e[0].slot = b;
@@ -2262,7 +2244,7 @@ void BOX2_MAIN_SwapWithNeighbour(BoxTask *task, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = POKEPARTY_GetCount(((void **)task->params)[2]);
+    n = POKEPARTY_GetCount(task->params->party);
     if (b < 0x1E) {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {
@@ -2335,7 +2317,7 @@ int BOX2_MAIN_FindMoverSlot(BoxTask *task, unsigned id)
         if (e[i].used != 0 && id == e[i].id)
             return e[i].slot;
     }
-    return ((unsigned char *)task)[0x16];
+    return task->cursorSlot;
 }
 
 void BOX2_MAIN_StartMover(BoxTask *task,unsigned a)
@@ -2369,13 +2351,13 @@ void BOX2_MAIN_SetMoverEntry(BoxTask *task, BoxMover *e)
     unsigned short save = 0xFFFF;
     for (i = 0; i < 7; i++) {
         if (e[i].used != 0)
-            buf[i] = *(unsigned char *)((char *)task->work + e[i].src + 0x3DD2);
+            buf[i] = task->work->cursorTable[e[i].src];
     }
     for (i = 0; i < 7; i++) {
         if (e[i].used == 0)
             continue;
         if (e[i].slot <= 0x24) {
-            *(unsigned char *)((char *)task->work + e[i].slot + 0x3DD2) = buf[i];
+            task->work->cursorTable[e[i].slot] = buf[i];
             if (e[i].id == 0x24)
                 save = e[i].slot;
         } else {
@@ -2404,16 +2386,16 @@ int BOX2_MAIN_GetMinusOne(unsigned short a)
 
 void BOX2_MAIN_ResetMovers(BoxTask *task)
 {
-    BoxCursor *s;
+    BoxActorScale *s;
     void *m;
     unsigned i;
     int r;
-    task->work->scroll=GFL_HEAP_Alloc(0x804c,12,0,d_021F1400,0xa70);
+    task->work->scroll=GFL_HEAP_Alloc(0x804c,sizeof(BoxActorScale),0,d_021F1400,0xa70);
     s=task->work->scroll;
-    s->p=*(void **)((char *)task->work +*(unsigned char *)((char *)task->work +task->cursorSlot+0x3dd2)*4+0x9e74);
+    s->actor=((BoxTask *)task)->work->actors[task->work->cursorTable[task->cursorSlot]];
     s->index=0;
     s->flags=0;
-    m=(void *)BOX2_MAIN_GetMonAt((void ***)task,task->curBox,task->cursorSlot);
+    m=BOX2_MAIN_GetMonAt((void ***)task,task->curBox,task->cursorSlot);
     for(i=0;i<4;i++){
         r=BOX2_MAIN_GetMinusOne((unsigned short)POKE_TOOL_GetBoxValue((void *)m,i+0x36,0));
         if(r!=-1){s->flags|=(unsigned char)(1<<r);return;}
@@ -2433,7 +2415,7 @@ void BOX2_MAIN_DeleteScroll(BoxTask *task)
  */
 int BOX2_MAIN_StepScroll(BoxTask *task)
 {
-    BoxCursor *s=task->work->scroll;
+    BoxActorScale *s=task->work->scroll;
     unsigned short n=s->index;
     unsigned j,i;
     void *m;
@@ -2444,11 +2426,11 @@ int BOX2_MAIN_StepScroll(BoxTask *task)
             box=n/30;
             slot=n%30;
             if(box==task->curBox&&slot==task->cursorSlot) m=0;
-            else m=(void *)BOX2_MAIN_GetMonAt((void ***)task,box,slot);
+            else m=BOX2_MAIN_GetMonAt((void ***)task,box,slot);
         }else{
             slot=n-720;
             if(slot==task->cursorSlot-30)m=0;
-            else m=(void *)BOX2_MAIN_GetMonAt((void ***)task,255,slot);
+            else m=BOX2_MAIN_GetMonAt((void ***)task,255,slot);
         }
         if(m&&POKE_TOOL_GetBoxValue((void *)m,0xa9,0)!=0){
             for(i=0;i<4;i++){
@@ -2554,9 +2536,9 @@ void BOX2_MAIN_StartHandMotionToBoxArrow(BoxTask *task, int mode)
 /*
  * Same call with the fifth argument fixed to 1.
  */
-void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d)
+void BOX2_MAIN_StartHandMotionToBoxSlot(BoxTask *a, int b, int c, int d)
 {
-    BOX2_MAIN_StartHandMotionToSlot((BoxTask *)a, b, c, d, 1);
+    BOX2_MAIN_StartHandMotionToSlot(a, b, c, d, 1);
 }
 
 void BOX2_MAIN_StartHandMotionToTargetBoxSlot(BoxTask *task, int a, int b)
@@ -2604,9 +2586,9 @@ int BOX2_MAIN_StepHandMotion(BoxTask *task, int a)
 /*
  * Set the flag on the object.
  */
-int BOX2_MAIN_StepHandMotionToSlot(int a)
+int BOX2_MAIN_StepHandMotionToSlot(BoxTask *a)
 {
-    return BOX2_MAIN_StepHandMotion((BoxTask *)a, 1);
+    return BOX2_MAIN_StepHandMotion(a, 1);
 }
 
 /*
@@ -2624,21 +2606,21 @@ int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *task)
  */
 unsigned char BOX2_MAIN_WrapOffset(unsigned char *task, int a)
 {
-    signed char v = (signed char)task[0x19] + a;
+    signed char v = (signed char)((BoxTask *)task)->prevBox + a;
     if (v < 0)
-        v = v + (signed char)task[0x15];
-    else if (v >= task[0x15])
-        v = v - (signed char)task[0x15];
+        v = v + (signed char)((BoxTask *)task)->boxLimit;
+    else if (v >= ((BoxTask *)task)->boxLimit)
+        v = v - (signed char)((BoxTask *)task)->boxLimit;
     return v;
 }
 
-void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
+void BOX2_MAIN_LoadBgCharTile(void *a, int b, u32 c)
 {
     void *out;
     void *r;
 
-    r = ARC_UTIL_LoadBgCharDataFromArchive(0x74, b + 0xe, 1, (void *)(uptr)(&out), 0x4c);
-    BG_SYS_LoadTileData(3, (const void *)(((BoxArcTile *)(out))->data), ((BoxArcTile *)(out))->size, (uptr)c);
+    r = ARC_UTIL_LoadBgCharDataFromArchive(0x74, b + 0xe, 1, (void *)(&out), 0x4c);
+    BG_SYS_LoadTileData(3, (const void *)(((BoxArcTile *)(out))->data), ((BoxArcTile *)(out))->size, c);
     GFL_HEAP_Free((void *)r);
 }
 
@@ -2646,7 +2628,7 @@ void BOX2_MAIN_LoadBgCharTile(u32 a, int b, void *c)
  * Tail wrapper: builds the 6-argument NitroSystem call with the
  *   two stack words 0x20 and 0x4c; third argument shifted left 5.
  */
-void BOX2_MAIN_LoadBgPaletteTile(int a, int b, int c)
+void BOX2_MAIN_LoadBgPaletteTile(void *a, int b, int c)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x74, b + 0x26, 0, c << 5, 0x20, 0x4c);
 }
@@ -2659,7 +2641,7 @@ void BOX2_MAIN_LoadBgPaletteTile(int a, int b, int c)
  * --lang c99 and --lang c: the output bytes do not change. Older text in
  * this header that asks for the double assignment is superseded.
  */
-void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 pal)
+void BOX2_MAIN_LoadBgTileSet(void *unused, int unused2, int x, u32 base, u32 pal)
 {
     u8 *sheet;
     void *handle;
@@ -2669,7 +2651,7 @@ void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 p
     u16 *src;
     u32 cur,high;
     u8 col;
-    handle=ARC_UTIL_LoadPaletteDataFromArchive(116,13,1,(void *)(uptr)&sheet,76);
+    handle=ARC_UTIL_LoadPaletteDataFromArchive(116,13,1,(void *)&sheet,76);
     data=(uptr)sheet+12;
     row=0;
     high=pal<<12;
@@ -2691,17 +2673,17 @@ void BOX2_MAIN_LoadBgTileSet(void *unused, void *unused2, int x, u32 base, u32 p
     BG_SYS_SetTileEntry(3,0xe2b0,cur,5,2,1,17);
 }
 
-void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e)
+void BOX2_MAIN_LoadBgTiles(void *a, int b, int c, u32 d, int e)
 {
-    BOX2_MAIN_LoadBgCharTile((sptr)a, (sptr)b, d);
-    BOX2_MAIN_LoadBgPaletteTile((sptr)a, (sptr)b, e);
-    BOX2_MAIN_LoadBgTileSet(a, b, c, (uptr)d, e);
+    BOX2_MAIN_LoadBgCharTile(a, b, d);
+    BOX2_MAIN_LoadBgPaletteTile(a, b, e);
+    BOX2_MAIN_LoadBgTileSet(a, b, c, d, e);
     BG_SYS_MarkTileDirty(3);
 }
 
-void BOX2_MAIN_SetBoxScroll(BoxTask *task, void *a, int dir)
+void BOX2_MAIN_SetBoxScroll(BoxTask *task, int a, int dir)
 {
-    sptr d; int e, i;
+    u32 d; int e, i;
     BoxWork *q;
     if (dir == 0) {
         task->work->scrollOffset -= 0x17;
@@ -2721,7 +2703,7 @@ void BOX2_MAIN_SetBoxScroll(BoxTask *task, void *a, int dir)
         e = 0xF;
     }
     ((BoxWork *)q)->scrollDir ^= 1;
-    BOX2_MAIN_LoadBgTiles((void *)task, a, task->work->scrollOffset, (void *)d, e);
+    BOX2_MAIN_LoadBgTiles(task, a, task->work->scrollOffset, d, e);
     if (dir == 2) {
         BOX2_SEQ_DrawBoxName((char **)task, (unsigned char)task->curBox, 7);
         BOX2_UI_SetSlotOamEnabled((BoxWork *)task->work, 8, 0);
@@ -2744,7 +2726,7 @@ void BOX2_MAIN_SetBoxScroll(BoxTask *task, void *a, int dir)
 
 void BOX2_MAIN_LoadBoxPalette(BoxTask *task, int a)
 {
-    sptr offset;
+    u32 offset;
     int bank;
     if (task->work->scrollDir == 0) {
         offset = 0x25C;
@@ -2754,9 +2736,9 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *task, int a)
         bank = 15;
     }
     task->work->scrollDir ^= 1;
-    BOX2_MAIN_LoadBgCharTile((uptr)task, a, (void *)offset);
+    BOX2_MAIN_LoadBgCharTile(task, a, offset);
     PALANM_LoadArcPaletteToSlot(task->work->palAnm, 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
-    BOX2_MAIN_LoadBgTileSet(task, (void *)a, task->work->scrollOffset, offset, bank);
+    BOX2_MAIN_LoadBgTileSet(task, a, task->work->scrollOffset, offset, bank);
     BG_SYS_MarkTileDirty(3);
 }
 
@@ -2765,7 +2747,7 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *task, int a)
  */
 int BOX2_MAIN_GetBoxWallpaper(BoxTask *task, int box)
 {
-    return BOX_SAVEDATA_GetWallpaper((struct GameData *)((sptr)task->params->boxSave), box);
+    return BOX_SAVEDATA_GetWallpaper((struct GameData *)(task->params->boxSave), box);
 }
 
 /*
@@ -2778,7 +2760,7 @@ Summary *BOX2_MAIN_CreateSummary(void *mon)
     unsigned i;
 
     if (POKE_TOOL_GetBoxValue((void *)mon, 0xA9, 0) != 0) {
-        s = GFL_HEAP_Alloc(0x4C, 0x1C, 0, d_021F1400, 0xCD2);
+        s = GFL_HEAP_Alloc(0x4C, sizeof(Summary), 0, d_021F1400, 0xCD2);
         s->mon = mon;
         s->species = POKE_TOOL_GetBoxValue((void *)mon, 5, 0);
         s->form = POKE_TOOL_GetBoxValue((void *)mon, 6, 0);
@@ -2825,7 +2807,7 @@ void BOX2_MAIN_DeleteHandle(void *s)
  * Six-step handover: stage 0xb, rebuild, refresh, push the 0x10
  *   tag word, re-tag, then release handle 3.
  */
-void BOX2_MAIN_SetupSummary(BoxTask *task, int a)
+void BOX2_MAIN_SetupSummary(BoxTask *task, struct Summary *a)
 {
     BOX2_SEQ_LoadMonIconActor((char *)task, (void **)a, 0xb);
     BOX2_SEQ_ShowHandSlotB((struct BoxWork *)((BoxWork *)task->work), (unsigned char *)a);
@@ -2840,12 +2822,12 @@ int BOX2_MAIN_RefreshMonInfo(char *task, int a, unsigned b)
     void *mon;
     int state;
     void *s;
-    mon = (void *)BOX2_MAIN_GetMonAt((void ***)task, a, b);
+    mon = BOX2_MAIN_GetMonAt((void ***)task, a, b);
     if (mon) {
         state = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)((struct Sav *)mon));
         s = BOX2_MAIN_CreateSummary(mon);
         if (s) {
-            BOX2_MAIN_SetupSummary((BoxTask *)task, (sptr)s);
+            BOX2_MAIN_SetupSummary((BoxTask *)task, (struct Summary *)s);
             BOX2_MAIN_DeleteHandle(s);
             POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)((struct Sav *)mon), state);
         } else {
@@ -2873,12 +2855,12 @@ void BOX2_MAIN_SetBoxForm(BoxTask *task, unsigned b)
     void *mon;
     void *s;
     int state;
-    mon = (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, b);
+    mon = BOX2_MAIN_GetMonAt((void ***)task, task->curBox, b);
     state = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)((struct Sav *)mon));
     s = BOX2_MAIN_CreateSummary(mon);
     BOX2_SEQ_LoadMonIconActor((char *)task, (void **)s, 11);
     BOX2_SEQ_ShowHandSlotB((struct BoxWork *)((BoxWork *)task->work), (unsigned char *)s);
-    BOX2_SEQ_DeleteTextEntries((BoxTask *)task, (void *)((sptr)s));
+    BOX2_SEQ_DeleteTextEntries((BoxTask *)task, (void *)(s));
     BOX2_MAIN_DeleteHandle(s);
     POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)((struct Sav *)mon), state);
 }
@@ -2889,9 +2871,9 @@ void BOX2_MAIN_SetBoxForm(BoxTask *task, unsigned b)
 void BOX2_MAIN_ResetBoxView(BoxTask *task)
 {
     unsigned i;
-    if (task->work->cursorActorDrawn != 0)
+    if (task->work->actors[11] != 0)
         BOX2_SEQ_SetActorDrawEnable((char *)((BoxWork *)task->work), 0xB, 0);
-    if (task->work->cursorActorAnim != 0)
+    if (task->work->actors[12] != 0)
         BOX2_SEQ_SetActorDrawEnable((char *)((BoxWork *)task->work), 0xC, 0);
     for (i = 0x1C; i < 0x2D; i++)
         BOX2_SEQ_SetActorDrawEnable((char *)((BoxWork *)task->work), i, 0);
@@ -2910,7 +2892,7 @@ void BOX2_MAIN_ClearCursorBox(unsigned char *task)
 {
     BOX2_MAIN_ResetBoxView((BoxTask *)task);
     BOX2_SEQ_SetSlotDim((char **)task, 0);
-    task[0x16] = 0xff;
+    ((BoxTask *)task)->cursorSlot = 0xff;
 }
 
 void BOX2_MAIN_SetSceneSlots(char *task,int base,u32 bits) { u16 i,v;for(i=0;i<6;i++){if(bits & (1<<i))v=i*2+1;else v=i*2;BOX2_SEQ_SetActorAnimSeq((char *)(((BoxTask *)task)->work),base+i,v);BOX2_SEQ_SetActorDrawEnable((char *)(((BoxTask *)task)->work),base+i,1);} }
@@ -3017,32 +2999,32 @@ int BOX2_MAIN_HitPartyGrid(BoxTask *task, short x, short y)
 
 int BOX2_MAIN_PushPartyScene(BoxTask *task)
 {
-    PokeStatusArgs *r;
+    PStatusProcParam *r;
     unsigned mode;
-    r = GFL_HEAP_Alloc(0x4B, 0x28, 0, d_021F1400, 0xEAC);
+    r = GFL_HEAP_Alloc(0x4B, sizeof(PStatusProcParam), 0, d_021F1400, 0xEAC);
     if (task->cursorSlot < 30) {
-        r->mon = (void *)BOX2_MAIN_GetMonAt((void ***)task, task->heldSlot, 0);
-        r->kind = 2;
-        r->count = 30;
-        r->slot = task->cursorSlot;
+        r->ppd = BOX2_MAIN_GetMonAt((void ***)task, task->heldSlot, 0);
+        r->ppt = 2;
+        r->max = 30;
+        r->pos = task->cursorSlot;
     } else {
-        r->mon = (*(void ***)task)[2];
-        r->kind = 1;
-        r->count = POKEPARTY_GetCount((*(void ***)task)[2]);
-        r->slot = task->cursorSlot - 30;
+        r->ppd = ((BoxTask *)task)->params->party;
+        r->ppt = 1;
+        r->max = POKEPARTY_GetCount(((BoxTask *)task)->params->party);
+        r->pos = task->cursorSlot - 30;
     }
     mode = 0;
-    r->zero = 0;
-    r->gameData = (*(void ***)task)[0];
-    r->callerData = (*(void ***)task)[6];
-    r->isNationalDex = (*(void ***)task)[7];
-    if ((*(int **)task)[5] == 1) {
+    r->page = 0;
+    r->config = ((BoxTask *)task)->params->gameData;
+    r->callerData = ((BoxTask *)task)->params->config;
+    r->isNationalDex = ((BoxTask *)task)->params->natDex;
+    if (((BoxTask *)task)->params->linkMode == 1) {
         r->mode = 6;
     } else {
         r->mode = 0;
     }
     PROCSYS_Push((void *)task->procSys, (sptr)ov131_id, (const struct ProcData *)gPokeStatusProcData, r);
-    *(PokeStatusArgs * *)&task->subArgs = r;
+    *(PStatusProcParam * *)&task->subArgs = r;
     return 0;
 }
 
@@ -3053,12 +3035,12 @@ int BOX2_MAIN_PushPartyScene(BoxTask *task)
  */
 int BOX2_MAIN_PushPartySceneB(BoxTask *task)
 {
-    int q = (sptr)((BoxTask *)(task))->subArgs;
+    PStatusProcParam *q = ((BoxTask *)(task))->subArgs;
     if (task->handMode == 0) {
         if (task->cursorSlot < 0x1e)
-            task->cursorSlot = ((PokeStatusArgs *)(q))->slot;
+            task->cursorSlot = q->pos;
         else
-            task->cursorSlot = ((PokeStatusArgs *)(q))->slot + 0x1e;
+            task->cursorSlot = q->pos + 0x1e;
     }
     GFL_HEAP_Free((void *)(((BoxTask *)(task))->subArgs));
     return 0;
@@ -3066,10 +3048,10 @@ int BOX2_MAIN_PushPartySceneB(BoxTask *task)
 
 int BOX2_MAIN_PushBagScene(void **task)
 {
-    void *r = BAG_PARAM_Create((const struct BigObj *)(*(u32 *)task[0]), 0, 2, 0x4b);
+    void *r = BAG_PARAM_Create((const struct BigObj *)((BoxTask *)task)->params->gameData, 0, 2, 0x4b);
 
-    PROCSYS_Push(task[1], (uptr)ov070_id, (const struct ProcData *)(void *)0x021bb96c, r);
-    task[3] = r;
+    PROCSYS_Push(((BoxTask *)task)->procSys, (uptr)ov070_id, (const struct ProcData *)(void *)0x021bb96c, r);
+    ((BoxTask *)task)->subArgs = r;
     return 0;
 }
 
@@ -3080,7 +3062,7 @@ int BOX2_MAIN_PopSubArgs(BoxTask *task)
 {
     char *q = *(char * *)&task->subArgs;
 
-    ((BoxTask *)(task))->subResult = ((PokeStatusArgs *)(q))->subResult;
+    ((BoxTask *)(task))->subResult = ((BagParam *)(q))->itemId;
     GFL_HEAP_Free((void *)q);
     return 0;
 }
@@ -3090,13 +3072,13 @@ int BOX2_MAIN_PopSubArgs(BoxTask *task)
  */
 int BOX2_MAIN_PushNameScene(BoxTask *task)
 {
-    sptr value;
+    void *value;
     NameInRequest *r;
-    value = (sptr)MISC_GetBlock(GAME_DATA_GetSaveControl((*(void ***)task)[0]));
-    r = GFL_HEAP_Alloc(0x4B, 8, 1, d_021F1400, 0xF1F);
+    value = MISC_GetBlock(GAME_DATA_GetSaveControl(((BoxTask *)task)->params->gameData));
+    r = GFL_HEAP_Alloc(0x4B, sizeof(NameInRequest), 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
-    BOX_SAVEDATA_GetBoxName((*(void ***)task)[1], task->curBox, r->text);
-    r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (struct Strbuf *)(sptr)r->text, (void *)value);
+    BOX_SAVEDATA_GetBoxName(((BoxTask *)task)->params->boxSave, task->curBox, r->text);
+    r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (struct Strbuf *)r->text, value);
     PROCSYS_Push((void *)task->procSys, (sptr)ov194_id, (const struct ProcData *)gNameInProcData, r->task);
     *(NameInRequest * *)&task->subArgs = r;
     return 0;
@@ -3104,7 +3086,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *task)
 
 
 
-int BOX2_MAIN_PopNameScene(u8 *task){char **q;q=*(char ** *)&((BoxTask *)task)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)BOX_SAVEDATA_SetBoxName(((BoxTask *)task)->params->boxSave,task[0x14],((BoxNameArgs *)((*q)))->text);((BoxTask *)task)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((struct NameInArgs *)(sptr)*q);STRBUF_Delete((struct Strbuf *)q[1]);GFL_HEAP_Free(((BoxTask *)task)->subArgs);return 0;}
+int BOX2_MAIN_PopNameScene(u8 *task){char **q;q=*(char ** *)&((BoxTask *)task)->subArgs;if(((BoxNameArgs *)((*q)))->done==0)BOX_SAVEDATA_SetBoxName(((BoxTask *)task)->params->boxSave,((BoxTask *)task)->curBox,((BoxNameArgs *)((*q)))->text);((BoxTask *)task)->subResult=((BoxNameArgs *)((*q)))->done;NAMEIN_SETUP_FreeArgs((struct NameInArgs *)*q);STRBUF_Delete((struct Strbuf *)q[1]);GFL_HEAP_Free(((BoxTask *)task)->subArgs);return 0;}
 
 void BOX2_MAIN_MoveCursorActor(BoxTask *task, int x, int y)
 {
@@ -3116,7 +3098,7 @@ void BOX2_MAIN_MoveCursorActor(BoxTask *task, int x, int y)
 
 int BOX2_MAIN_StateMachinePick(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     int busy = BOX2_UI_UpdateBarMove((BoxTask *)task);
     unsigned r = BOX2_UI_UpdateListPacks(task->work->winMgr);
     unsigned x;
@@ -3149,7 +3131,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             }
             if (BOX2_UI_IsTopBarClosed(task->work->winMgr) == 1)
                 r = BOX2_MAIN_HitPartySlots(task->work->cursorX, task->work->cursorY, d_021EF7B4);
-            if ((*(int **)task)[9] == 4 && (*(int **)task)[5] == 1) {
+            if (((BoxTask *)task)->params->mode == 4 && ((BoxTask *)task)->params->linkMode == 1) {
                 r = 0xFF;
                 task->work->result = 5;
             }
@@ -3174,7 +3156,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                 BOX2_SEQ_SetSlotActors((char *)task, 1, 0);
                 BOX2_UI_ToggleSlotPair((BoxWork *)task->work, 1);
                 BOX2_UI_MoveCursor((char **)task, 6, task->cursorSlot);
-                if ((*(int **)task)[9] == 4)
+                if (((BoxTask *)task)->params->mode == 4)
                     CURSOR_MOVE_ClearSkipBit(task->work->cursorMove, 0x27);
                 BOX2_UI_DeleteSlotObjects((BoxTask *)task, 2, 1, 2);
                 task->work->heldSlot = task->cursorSlot;
@@ -3192,7 +3174,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                     b->state = 7;
                 }
             }
-            if ((*(int **)task)[9] != 4) {
+            if (((BoxTask *)task)->params->mode != 4) {
                 if (BOX2_UI_GetPageButtonHit2() != -1) {
                     if (task->work->touchState == 0) {
                         if (BOX2_UI_IsInfoBarOpen(task->work->winMgr) == 1) {
@@ -3351,7 +3333,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
 
 int BOX2_MAIN_StateMachineScroll(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     int busy = 0;
     unsigned r;
     unsigned x;
@@ -3403,7 +3385,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
                 r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
                 if (r == 0)
                     b->state = 4;
                 else
@@ -3608,15 +3590,15 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
 
 
 
-int BOX2_MAIN_StateMachineOpen(u8 *task);
+int BOX2_MAIN_StateMachineOpen(BoxTask *task);
 
 int BOX2_MAIN_StateMachineClose(BoxTask *task);
 
 int BOX2_MAIN_IsWindowMoving(BoxTask *task);
 
-int BOX2_MAIN_UpdateWindowMove(char *task);
+int BOX2_MAIN_UpdateWindowMove(BoxTask *task);
 
-int BOX2_MAIN_StateMachineOpen(u8 *task){char *s;s=(char *)((BoxTask *)task)->work +0x58;switch(((BoxSeq *)s)->state){case 0:BOX2_MAIN_StartMover((BoxTask *)task,task[0x16]);(((BoxSeq *)s)->state)++;case 1:if(BOX2_MAIN_WaitCursorMove((BoxTask *)task)==0){BOX2_MAIN_SetMoverEntry((BoxTask *)task,*(BoxMover * *)&((BoxSeq *)s)->entry);((BoxSeq *)s)->state=0;return 0;}break;}return 1;}
+int BOX2_MAIN_StateMachineOpen(BoxTask *task){char *s;s=(char *)&((BoxTask *)task)->work->seq;switch(((BoxSeq *)s)->state){case 0:BOX2_MAIN_StartMover((BoxTask *)task,((BoxTask *)task)->cursorSlot);(((BoxSeq *)s)->state)++;case 1:if(BOX2_MAIN_WaitCursorMove((BoxTask *)task)==0){BOX2_MAIN_SetMoverEntry((BoxTask *)task,*(BoxMover * *)&((BoxSeq *)s)->entry);((BoxSeq *)s)->state=0;return 0;}break;}return 1;}
 
 /*
  * lever: bind the full party-count-plus-30 expression to an int local.
@@ -3625,10 +3607,10 @@ int BOX2_MAIN_StateMachineClose(BoxTask *task)
 {
     char *s;
     int count;
-    s = (char *)task->work + 0x58;
+    s = (char *)&task->work->seq;
     switch (((BoxSeq *)s)->state) {
     case 0:
-        count = POKEPARTY_GetCount((*(void *** )task)[2]) + 30;
+        count = POKEPARTY_GetCount(((BoxTask *)task)->params->party) + 30;
         BOX2_MAIN_MoveCursorWithMon((BoxTask *)task, task->cursorSlot, count);
         BOX2_SEQ_SetSlotDim((char **)task, 0);
         (((BoxSeq *)s)->state)++;
@@ -3692,12 +3674,12 @@ int BOX2_MAIN_IsWindowMoving(BoxTask *task)
 /*
  * Tail forwarder; following code starts at 021E01B0.
  */
-int BOX2_MAIN_UpdateWindowMove(char *task)
+int BOX2_MAIN_UpdateWindowMove(BoxTask *task)
 {
     return BOX2_UI_UpdateTopBarMove((BoxTask *)task);
 }
 
-int BOX2_MAIN_IsWindowBusy(unsigned char *task)
+int BOX2_MAIN_IsWindowBusy(BoxTask *task)
 {
     return BOX2_UI_UpdateBarMove((BoxTask *)task) != 0;
 }
@@ -3724,7 +3706,7 @@ int BOX2_MAIN_ShiftWindowLeft(BoxTask *task)
 
 int BOX2_MAIN_StateMachineMove(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     unsigned r = BOX2_UI_UpdateListPacks(task->work->winMgr);
     int busy = BOX2_UI_UpdateBarMove((BoxTask *)task);
     unsigned x;
@@ -3845,7 +3827,7 @@ typedef struct {
 } BoxScrollMotion;
 
 
-int BOX2_MAIN_IsWindowBusy(unsigned char *task);
+int BOX2_MAIN_IsWindowBusy(BoxTask *task);
 
 int BOX2_MAIN_StateMachinePen(BoxTask *task);
 
@@ -3865,7 +3847,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *task);
  */
 int BOX2_MAIN_StateMachinePen(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     int busy = BOX2_UI_UpdateListPacks(task->work->winMgr);
     int wait = BOX2_UI_UpdateBarMove((BoxTask *)task);
     unsigned x;
@@ -3998,7 +3980,7 @@ void BOX2_MAIN_SceneMoveCursor(BoxTask *task)
 
 int BOX2_MAIN_SceneWaitCursor(BoxTask *task)
 {
-    char *s=(char *)task->work +0x58;
+    char *s=(char *)&task->work->seq;
     short xy[2];
     int k;
     switch(((BoxSeq *)s)->state) {
@@ -4044,7 +4026,7 @@ int BOX2_MAIN_SceneWaitCursor(BoxTask *task)
  */
 int BOX2_MAIN_SceneOpenBox(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     int r;
 
     switch (b->state) {
@@ -4063,7 +4045,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *task)
                 r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
                 if (r == 0)
                     b->state = 2;
                 else
@@ -4103,7 +4085,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *task)
         }
         break;
     case 6:
-        if (BOX2_MAIN_IsWindowBusy((unsigned char *)task) == 0)
+        if (BOX2_MAIN_IsWindowBusy(task) == 0)
             b->state = 1;
         break;
     }
@@ -4143,7 +4125,7 @@ int BOX2_MAIN_StateMachineReturnHeld(BoxTask *task);
 int BOX2_MAIN_StateMachineRunSwap(BoxTask *task)
 {
     char *s;
-    s = (char *)task->work + 0x58;
+    s = (char *)&task->work->seq;
     switch (((BoxSeq *)s)->state) {
     case 0:
         BOX2_SEQ_SetCursorFrame((BoxTask *)task, 7);
@@ -4168,7 +4150,7 @@ int BOX2_MAIN_StateMachineShowHandScroll(BoxTask *task)
     char *s;
     int a;
     int b;
-    s = (char *)task->work + 0x58;
+    s = (char *)&task->work->seq;
     switch (((BoxSeq *)s)->state) {
     case 0:
         if (task->work->counter) {
@@ -4201,7 +4183,7 @@ int BOX2_MAIN_StateMachineShowHandScroll(BoxTask *task)
  */
 int BOX2_MAIN_StateMachineDrag(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     int busy = BOX2_UI_UpdateListPacks(task->work->winMgr);
     int wait = BOX2_UI_UpdateBarMove((BoxTask *)task);
     unsigned x;
@@ -4248,12 +4230,12 @@ int BOX2_MAIN_StateMachineDrag(BoxTask *task)
                 back = 1;
             }
             if (flag == 1) {
-                BOX2_MAIN_StartHandMotionToBoxSlot((sptr)task, first, r, 2);
+                BOX2_MAIN_StartHandMotionToBoxSlot((BoxTask *)task, first, r, 2);
                 if (back == 1 && task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
                     int dir = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                     task->curBox = task->heldSlot;
                     BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
+                    BOX2_MAIN_SetBoxScroll((BoxTask *)task, BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
                     if (dir == 0)
                         b->state = 5;
                     else
@@ -4262,7 +4244,7 @@ int BOX2_MAIN_StateMachineDrag(BoxTask *task)
                     b->state = 7;
                 }
             } else {
-                BOX2_MAIN_StartHandMotionToBoxSlot((sptr)task, first, r, 0);
+                BOX2_MAIN_StartHandMotionToBoxSlot((BoxTask *)task, first, r, 0);
                 BOX2_UI_CloseListPack(task->work->winMgr);
                 b->state = 8;
             }
@@ -4325,13 +4307,13 @@ int BOX2_MAIN_StateMachineDrag(BoxTask *task)
             b->state = 7;
         break;
     case 7:
-        if (BOX2_MAIN_StepHandMotionToSlot((sptr)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlot((BoxTask *)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 9;
         }
         break;
     case 8:
-        if (BOX2_MAIN_StepHandMotionToSlot((sptr)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlot((BoxTask *)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             if ((((BoxTask *)(task))->work->counter) != 0) {
                 BOX2_SEQ_SetActorAffineMode((char *)task->work, 0);
@@ -4369,7 +4351,7 @@ int BOX2_MAIN_StateMachineHideHandScroll(BoxTask *task)
     char *s;
     int a;
     int b;
-    s = (char *)task->work + 0x58;
+    s = (char *)&task->work->seq;
     switch (((BoxSeq *)s)->state) {
     case 0:
         if (BOX2_SEQ_GetActorDrawEnable((char *)task->work, 10) == 1) {
@@ -4396,7 +4378,7 @@ int BOX2_MAIN_StateMachineHideHandScroll(BoxTask *task)
 
 int BOX2_MAIN_StateMachineHideHandWindow(BoxTask *task)
 {
-    char *b = (char *)task->work + 0x58;
+    char *b = (char *)&task->work->seq;
     switch (((BoxSeq *)b)->state) {
     case 0:
         if (BOX2_SEQ_GetActorDrawEnable((char *)task->work, 10) == 1) {
@@ -4422,7 +4404,7 @@ int BOX2_MAIN_StateMachineHideHandWindow(BoxTask *task)
 
 int BOX2_MAIN_StateMachineHideHand(BoxTask *task)
 {
-    char *b = (char *)task->work + 0x58;
+    char *b = (char *)&task->work->seq;
     switch (((BoxSeq *)b)->state) {
     case 0:
         if (BOX2_SEQ_GetActorDrawEnable((char *)task->work, 10) == 1) {
@@ -4455,7 +4437,7 @@ void BOX2_MAIN_MoveCursorTo(BoxWork *w, int x, int y)
  */
 int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     unsigned x;
     unsigned y;
     switch (b->state) {
@@ -4489,12 +4471,12 @@ int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task)
                 r = task->cursorSlot;
                 back = 1;
             }
-            BOX2_MAIN_StartHandMotionToBoxSlot((sptr)task, first, r, 2);
+            BOX2_MAIN_StartHandMotionToBoxSlot((BoxTask *)task, first, r, 2);
             if (back == 1 && task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
                 int dir = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
                 if (dir == 0)
                     b->state = 5;
                 else
@@ -4544,7 +4526,7 @@ int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task)
         if (b->state == 6 && BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 7;
     case 7:
-        if (BOX2_MAIN_StepHandMotionToSlot((sptr)task) == 0 && b->state == 7) {
+        if (BOX2_MAIN_StepHandMotionToSlot((BoxTask *)task) == 0 && b->state == 7) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 8;
         }
@@ -4575,7 +4557,7 @@ int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task)
  */
 int BOX2_MAIN_StateMachineReturnHeld(BoxTask *task)
 {
-    BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
+    BoxSeq *b = &((BoxTask *)task)->work->seq;
     switch (b->state) {
     case 0:
         BOX2_SEQ_SetActorAffineMode((char *)task->work, 1);
@@ -4595,12 +4577,12 @@ int BOX2_MAIN_StateMachineReturnHeld(BoxTask *task)
         if (task->heldSlot != 0xFF && task->heldSlot != task->curBox)
             BOX2_MAIN_StartHandMotionToBoxArrow((BoxTask *)task, 2);
         else
-            BOX2_MAIN_StartHandMotionToBoxSlot((sptr)task, old, old, 2);
+            BOX2_MAIN_StartHandMotionToBoxSlot((BoxTask *)task, old, old, 2);
         b->state = 3;
         break;
     }
     case 3:
-        if (BOX2_MAIN_StepHandMotionToSlot((sptr)task) != 0)
+        if (BOX2_MAIN_StepHandMotionToSlot((BoxTask *)task) != 0)
             break;
         if (task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
             b->state = 5;

@@ -27,8 +27,8 @@ struct NNSG2dRenderSurface {
     void (*pAfterDrawCellFunc)(void *pDrawState, void *pCellData);
     void (*pBeforeDrawOamFunc)(struct RndOamCell *c, void *pCellData, void *pOam);
     void (*pCallOamFunc)(void *pRend, void *pCellData, void *pOam);
-    int  pFuncOamRegister;
-    int  pFuncOamAffineRegister;
+    OamRegisterFunc pFuncOamRegister;
+    OamAffineRegisterFunc pFuncOamAffineRegister;
     NNSG2dRenderSurface *pNextSurface;
     int  (*pFuncVisibilityCulling)(void *pCellData, MtxFx32 *pMtx, void *pSurface);
     void (*pBeforeDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
@@ -42,7 +42,7 @@ typedef struct NNSG2dRendererInstance {
     NNSG2dRndCoreInstance rendererCore;     /* +0x00 */
     NNSG2dRenderSurface *pTargetSurfaceList; /* +0x70 */
     NNSG2dRenderSurface *pCurrentTargetSurface; /* +0x74 */
-    int  currentCell;                       /* +0x78 */
+    void *currentCell;                      /* +0x78 */
     u32  flag;                              /* +0x7c */
     fx32 spriteZoffsetStep;
     u32  overwriteEnableFlag;

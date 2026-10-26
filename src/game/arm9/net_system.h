@@ -37,7 +37,7 @@ void GFL_NET_SYSTEM_SendParentData(void);
 void GFL_NET_SYSTEM_SendWireless(void);
 void GFL_NET_SYSTEM_SendWifi(void);
 u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length);
-void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size);
+void GFL_NET_SYSTEM_RecvParentCallback(u8 *buffer, u32 size);
 void GFL_NET_SYSTEM_SendIrc(void);
 void GFL_NET_SYSTEM_SendMP(void);
 void GFL_NET_SYSTEM_SendMPParent(void);
@@ -52,7 +52,7 @@ s32 GFL_NET_SYSTEM_BuildSendPacket(struct NetPacketHeader *header, NetQueue *que
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sendArg, u32 destNetId, u32 queueArg, u32 noRing);
 int GFL_NET_SYSTEM_GetChildRingDataSize(void);
 int GFL_NET_SYSTEM_GetParentRingDataSize(void);
-void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecvCursor *cursor);
+void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, void *data, struct NetRecvCursor *cursor);
 void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, struct NetRecvCursor *cursor, u32 maxSize);
 void GFL_NET_SYSTEM_ProcessParentRecv(void);
 void GFL_NET_SYSTEM_ProcessChildRecv(void);

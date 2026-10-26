@@ -346,7 +346,7 @@ void ARROW_InitPart(struct ArrowPart *part, u8 x, u8 y, u32 startTime, u32 kind)
 /* Allocates the arrow object. */
 struct Arrow *ARROW_Alloc(u32 heapId)
 {
-    return GFL_HEAP_Alloc(heapId, 668, 0, (const char *)0x21C4074, 558);
+    return GFL_HEAP_Alloc(heapId, sizeof(struct Arrow), 0, (const char *)0x21C4074, 558);
 }
 
 /* Initialises the arrow and clears its parts. */

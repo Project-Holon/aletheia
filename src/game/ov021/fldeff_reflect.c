@@ -132,6 +132,12 @@ void FLDEFF_REFLECT_DeleteTask(FieldEffectObj *task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_UpdateTask(FieldEffectObj *task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_DrawTask(FieldEffectObj *task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work);
+#ifndef __MWERKS__
+static void FLDEFF_REFLECT_UpdateActorHook(u32 blactId, void *arg)
+{
+    FLDEFF_REFLECT_UpdateActor((u16)blactId, (ReflectTaskWork *)arg);
+}
+#endif
 int FLDEFF_REFLECT_GetZoneRotateOffset(u32 zoneId);
 int FLDEFF_REFLECT_GetZoneHeightOffset(int zoneId, int mdlSize);
 
@@ -143,7 +149,7 @@ extern const fx32 gReflectMdlSizeOffsetY[];
 
 ReflectEffectWork *FLDEFF_REFLECT_Init(struct FieldEffectSys *fieldEffectCtrl, int heapId)
 {
-    ReflectEffectWork *effWork = GFL_HEAP_Alloc(heapId, 4, 1, (const char *)&d_021DE320, 0x78);
+    ReflectEffectWork *effWork = GFL_HEAP_Alloc(heapId, sizeof(*effWork), 1, (const char *)&d_021DE320, 0x78);
 
     effWork->fieldEffectCtrl = fieldEffectCtrl;
     FLDEFF_REFLECT_InitResource();
@@ -217,8 +223,13 @@ void FLDEFF_REFLECT_UpdateTask(FieldEffectObj *task, ReflectTaskWork *work)
         if (mmdlActId == 0xFFFF) return;
         {
             VecFx32 pos = {0, 0, 0};
+#ifdef __MWERKS__
             FLDMMDL_BLACT_AddActorPosOrReserve(work->head.mmdlSys, FLDMMDL_GetObjCodeParam((void *)work->head.mmdl), &work->actorReq, &pos,
-                          (BlactAddActorHook)FLDEFF_REFLECT_UpdateActor, (uptr)work);
+                          (BlactAddActorHook)FLDEFF_REFLECT_UpdateActor, work);
+#else
+            FLDMMDL_BLACT_AddActorPosOrReserve(work->head.mmdlSys, FLDMMDL_GetObjCodeParam((void *)work->head.mmdl), &work->actorReq, &pos,
+                          FLDEFF_REFLECT_UpdateActorHook, work);
+#endif
         }
         work->actorAdded = 1;
     }
@@ -268,7 +279,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     s16 rot[4];
     u16 zoneId;
     struct BbActSys *bbActSys;
-    uptr board;
+    struct BbBoard *board;
     int mmdlActId;
     struct Mmdl *mmdl;
     const MmdlObjCodeParam *objCode;
@@ -277,7 +288,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     u16 mmdlElem;
 
     bbActSys = work->head.bbActSys;
-    board = (uptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
+    board = BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
     mmdlActId = FLDMMDL_CallDrawGetProc((void *)work->head.mmdl, 0);
     if (actId == 0xFFFF) {
         return;

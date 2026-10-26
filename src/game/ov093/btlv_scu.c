@@ -244,13 +244,14 @@
 #include "btlv_scu_types.h"
 #include "../sdk_ioreg.h"
 #include "btlv_core_types.h"
+#include "../ov094/btlv_effvm_types.h"
 #include "../arm9/fade.h"
 
 #define BTLV_SCU_SE_PLATE_SLIDE 0x573
 #define BTLV_SCU_SE_PLATE_FADE 0x54d
 #define BTLV_SCU_SE_PLATE_MOSAIC 0x54e
-#define BTLV_SCU_EFFECT_WITHDRAW 0x26c
-#define BTLV_SCU_EFFECT_SEND_OUT 0x26d
+#define BTLV_SCU_EFFECT_WITHDRAW (BTLV_EFFECT_MOVE_END + 59)
+#define BTLV_SCU_EFFECT_SEND_OUT (BTLV_EFFECT_MOVE_END + 60)
 struct PaletteFade;
 struct BgTemplate;
 struct PrintStream;
@@ -421,7 +422,7 @@ void BTLV_SCU_HideMon(BtlvScu *scu, int slotIdx);
 int BTLV_SCU_ShowMon(BtlvScu *scu, int slotIdx);
 struct BtlvScu;
 void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos);
-int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos);
+int BTLV_SCU_IsPosCueEffectDone(struct BtlvScu *unused, int viewPos);
 void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag);
 u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu);
 void BTLV_SCU_TaskMonFormChange(struct TcblTask *task, void *workPtr);
@@ -548,7 +549,7 @@ void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param) { msg->param = 
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
     BtlvScu *scu;
-    scu = GFL_HEAP_Alloc(heapId, 0x180, 1, (const char *)gBtlvScuFileName, 0x151);
+    scu = GFL_HEAP_Alloc(heapId, sizeof(*scu), 1, (const char *)gBtlvScuFileName, 0x151);
     scu->core = core;
     scu->context = context;
     scu->monTable = monTable;
@@ -1893,7 +1894,7 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 
 
 /* Effects started through the battle effect player. */
-#define BTLV_SCU_EFFECT_POS_CUE 0x25f
+#define BTLV_SCU_EFFECT_POS_CUE (BTLV_EFFECT_MOVE_END + 46)
 
 
 
@@ -2394,7 +2395,7 @@ void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos)
 
 
 /* The effect player is idle. */
-int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos)
+int BTLV_SCU_IsPosCueEffectDone(struct BtlvScu *unused, int viewPos)
 {
     if (BTLV_EFFECT_IsBusy() == 0)
         return 1;

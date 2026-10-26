@@ -63,7 +63,7 @@ extern u32   FILE_UTIL_GetItemParam(u32 item, u32 param, u16 heap); /* original 
 
 #include "pokeparty.h"
 
-u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
+u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, uptr arg, u8 timezone, u32 *methodOut, u16 heap);
 
 struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap);
 
@@ -107,7 +107,7 @@ extern const u16 _ExtraEvolutionZones[3];
  *   python tools/match.py one --src src/matched/SHINKA_CHECK_CheckEvolution.c \
  *       --func SHINKA_CHECK_CheckEvolution --addr 0x0201B2B0 --cc 1.1p1 --thumb
  */
-u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg,
+u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, uptr arg,
                  u8 timezone, u32 *methodOut, u16 heap)
 {
     u32 unusedMethod;

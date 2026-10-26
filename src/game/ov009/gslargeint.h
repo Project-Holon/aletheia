@@ -28,7 +28,7 @@ void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
-void *gsiMemoryRealloc(unsigned long block, unsigned long size);
+void *gsiMemoryRealloc(void *block, unsigned long size);
 /* END mkheaders: generated region */
 
 #endif

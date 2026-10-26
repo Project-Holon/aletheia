@@ -80,22 +80,7 @@ struct FieldMap;
 #include "../ov000/wifi_login_param_types.h"
 
 
-/* Parameter block read by the box overlay (ov170) when the player picks a Pokemon to sync. */
-typedef struct GsyncBoxParam {
-    struct GameData *gameData;
-    struct BoxManager *boxManager;
-    struct Party *party;
-    struct MyItem *myItem;
-    u8 *myStatus;
-    u32 reserved;
-    struct Config *config;
-    u32 result;
-    u8 *pickerBuffer;
-    u32 mode;
-    u16 reserved2;
-    u8 pickedBox;
-    u8 pickedSlot;
-} GsyncBoxParam;
+#include "../ov170/box2_param_types.h"
 
 /* Work of the game-sync event (0x2CC bytes). The first bytes are also the parameter block of the ov123 sync screen. */
 typedef struct GsyncEventWork {
@@ -113,7 +98,7 @@ typedef struct GsyncEventWork {
     u8 pickerBuffer[0x80];
     WifiLoginParam login;
     WifiConfirmParam confirm;
-    GsyncBoxParam box;
+    BoxParam box;
     u32 returnToMenu;
 } GsyncEventWork;
 
@@ -143,22 +128,23 @@ struct CgearSaveBlock;
 #include "../arm9/box_savedata.h"
 #include "../arm9/system_data.h"
 #include "../arm9/net_err.h"
-u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
-void *EVENT_GSYNC_Entry(void *gameSystem);
+#include "../arm9/net_save.h"
+#include "../arm9/procsys.h"
+int EVENT_GSYNC_Main(struct GameEvent *event, int *seq, void *work);
+struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *unused1);
 void *EVENT_GSYNC_Create(void *gameSystem);
 extern char ov123_id[];
 extern char ov016_id[];
 extern char ov115_id[];
 extern char ov170_id[];
-extern char d_021DA674[];
-extern char d_021DA838[];
-extern char d_021D77B8[];
-extern char gNetSaveMainProc[];
-extern char gNetSaveRetryProc[];
+extern const ProcData d_021DA674;
+extern const ProcData d_021DA838;
+extern const ProcData d_021D77B8;
 extern char d_021EF78C[];
 
-u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
+int EVENT_GSYNC_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    GsyncEventWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     int wifiFlag;
@@ -176,7 +162,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 2:
         MI_CpuFill8(work->syncParam, 0, 0x44);
         work->syncResult = 0;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, d_021DA674, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, &d_021DA674, work);
         (*seq)++;
         break;
     case 3:
@@ -195,7 +181,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 6:
         work->savedBgmNo = GFL_USE_GetBgmNo();
         GFL_USE_ClearSndHeap();
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov016_id, d_021D77B8, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov016_id, &d_021D77B8, work);
         (*seq)++;
         break;
     case 7:
@@ -252,7 +238,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 17:
         work->login.saveData = work->loginSaveData;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveMainProc, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, &gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 18:
@@ -271,7 +257,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 19:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, d_021DA838, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, &d_021DA838, work);
         (*seq)++;
         break;
     case 20:
@@ -293,13 +279,13 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 21:
         work->box.gameData = GAMESYSTEM_GetGameData(gameSystem);
-        work->box.boxManager = (struct BoxManager *)GAME_DATA_GetBoxManager(work->box.gameData);
+        work->box.boxSave = (struct BoxManager *)GAME_DATA_GetBoxManager(work->box.gameData);
         work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
         work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
         work->box.myStatus = (u8 *)GAME_DATA_GetMyStatus(work->box.gameData);
         work->box.config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
-        work->box.result = 0;
+        work->box.natDex = 0;
         work->box.mode = 5;
         GAME_EVENT_CallProc(event, (uptr)ov170_id, (void *)d_021EF78C, (void *)&work->box);
         (*seq)++;
@@ -331,7 +317,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->confirm.gameData = GAMESYSTEM_GetGameData(gameSystem);
         work->confirm.loginType = 1;
         work->confirm.loginOption = 0;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveRetryProc, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, &gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 24:
@@ -356,7 +342,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
  * Thumb tail call through r3 (ldr r3, =target; bx r3). Labelled in wave D8.
  * Overlay entry point: forwards to the event constructor.
  */
-void *EVENT_GSYNC_Entry(void *gameSystem)
+struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *unused1)
 {
     return EVENT_GSYNC_Create(gameSystem);
 }
@@ -367,7 +353,7 @@ void *EVENT_GSYNC_Create(void *gameSystem)
     GsyncEventWorkInit *work;
     struct GameData *gameData;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GSYNC_Main, 0x2CC);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GSYNC_Main, sizeof(GsyncEventWork));
     work = GAME_EVENT_GetWork(event);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;

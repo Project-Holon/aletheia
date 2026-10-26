@@ -59,7 +59,7 @@ extern const u8 BMP_CURSOR_TileData[];
 
 struct MenuCursor *BMP_CURSOR_Create(u32 heap)
 {
-    struct MenuCursor *cursor = GFL_HEAP_Alloc((u16)heap, 0xc, 1, BMP_CURSOR_FILE_NAME, 0x3a);
+    struct MenuCursor *cursor = GFL_HEAP_Alloc((u16)heap, sizeof(*cursor), 1, BMP_CURSOR_FILE_NAME, 0x3a);
 
     if (cursor != 0) {
         cursor->mode = 0;

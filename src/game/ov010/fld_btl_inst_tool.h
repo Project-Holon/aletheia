@@ -27,9 +27,9 @@ typedef struct BtlInstRecord BtlInstRecord;
 #include "../ov010/fld_btl_inst_tool_shared_types.h"
 
 GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int listArg, int listMode, int regulationId, Party *party, u8 *resultOrder, u32 *resultSlot, u32 *resultCommand, Party *resultParty);
-int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectEventWork *work);
+int FLD_BTL_INST_TOOL_PokeListEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
-int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsgEventWork *work);
+int FLD_BTL_INST_TOOL_TrainerMsgEventMain(struct GameEvent *event, int *seq, void *work);
 struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount);
 u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useTableItem, u16 heapId);
 void FLD_BTL_INST_TOOL_ReadMonData(void *dest, u32 memberId);
@@ -41,15 +41,15 @@ BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int t
 int FLD_BTL_INST_TOOL_DrawTrainerParty(BtlInstGroup *group, u16 rank, BattleMon *mons, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
 int FLD_BTL_INST_TOOL_HasBattleMsgs(BtlInstTrainer *trainer);
 u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 key);
-void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag);
-int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work);
+void FLD_BTL_INST_TOOL_SetDoneFlag(void * doneFlagArg);
+int FLD_BTL_INST_TOOL_CommResetEventMain(struct GameEvent *event, int *step, void *work);
 GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int restoreAutoComm);
 GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, BtlInstBattleRequest *request, int regulationId, int useTempParty, u16 *resultOk);
-int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, PartySelectStepWork *work);
+int FLD_BTL_INST_TOOL_PartySelectStepEventMain(struct GameEvent *event, int *step, void *work);
 GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBattleRequest *request);
 void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, struct BattleSetupParam *result);
 GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
-int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step);
+int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(struct GameEvent *event, int *step, void *eventWork);
 /* END mkheaders: generated region */
 
 #endif

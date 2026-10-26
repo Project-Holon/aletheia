@@ -60,7 +60,7 @@ struct SndHandle;
 #include "../arm9/nns_snd_player.h"
 struct TCB;
 #include "task.h"
-extern void taskSound(void);
+extern void taskSound(void * unused0, void * unused1);
 #include "../arm9/nns_snd_arcplayer.h"
 void DWCi_SNDlInit(void);
 void DWCi_SNDlEnd(void);
@@ -68,7 +68,7 @@ void DWCi_SNDlPlay(unsigned int v);
 void DWCi_SNDlSetVolume(unsigned int v);
 void DWCi_SNDlSetPitch(unsigned int a, unsigned int b);
 void DWCi_SNDlStop(void);
-void taskSound(void);
+void taskSound(void * unused0, void * unused1);
 extern struct SND *gSoundWork;
 extern char sSoundTable[];
 
@@ -92,7 +92,7 @@ void DWCi_SNDlInit(void)
 		NNS_SndPlayerSetPlayableSeqCount(playerNo, 1);
 		NNS_SndPlayerSetAllocatableChannel(playerNo, 0);
 	}
-	gSoundWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskSound, 0, 0xc8);
+	gSoundWork->task = DWCi_TSKlForm(0, taskSound, 0, 0xc8);
 }
 
 /*
@@ -106,7 +106,7 @@ void DWCi_SNDlEnd(void)
 
 void DWCi_SNDlPlay(unsigned int v)
 {
-    NNS_SndArcPlayerStartSeqArc((uptr)(*(char **)0x021DE648 + 0xa0), 0, v);
+    NNS_SndArcPlayerStartSeqArc((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), 0, v);
 }
 
 /*
@@ -140,7 +140,7 @@ void DWCi_SNDlStop(void)
     NNS_SndHandleStopSeq((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), 0);
 }
 
-void taskSound(void)
+void taskSound(void * unused0, void * unused1)
 {
     NNS_SndBoot();
 }

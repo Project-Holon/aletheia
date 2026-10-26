@@ -122,7 +122,7 @@
  *   g_021A7B14             0x021A7B14  data
  *   @460                   0x021A1B64  data
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "qr2_types.h"
 #include "../arm9/msl_string_mem.h"
 

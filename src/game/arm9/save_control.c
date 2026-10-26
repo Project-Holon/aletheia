@@ -235,7 +235,7 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
     outsideBroken = SAVE_OUTSIDE_IsCorrupt(outsideSave);
     SAVE_OUTSIDE_Free(outsideSave);
     GF_OVERLAY_Unload((sptr)ov228_id);
-    saveControl = (struct SaveControl *)GFL_HEAP_Alloc(heapId, 0x38, 1, _SaveControlFileName, 0x58);
+    saveControl = (struct SaveControl *)GFL_HEAP_Alloc(heapId, sizeof(*saveControl), 1, _SaveControlFileName, 0x58);
     _pSaveControl = saveControl;
     saveControl->isNewGame = 1;
     saveControl->loadNotClean = 1;
@@ -522,9 +522,9 @@ void SAVE_CONTROL_ResetToNewGame(struct SaveControl *saveControl)
     BACKUP_SYSTEM_ClearWork(saveControl->mainSave);
 }
 
-void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl)
+int SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl)
 {
-    return (void *)BACKUP_SYSTEM_Erase(saveControl->mainSave, 1);
+    return BACKUP_SYSTEM_Erase(saveControl->mainSave, 1);
 }
 
 void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u32 *totalSize)
@@ -621,9 +621,9 @@ u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 sl
  * `str r0, [r1, #0x14]` rather than going through a +0x14 base register.
  * 0x0209D950 is the table of 0x18 byte area descriptors, indexed by slot.
  */
-void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize)
+void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, void *work, u32 workSize)
 {
-    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId, (void *)work, workSize, 0);
+    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId, work, workSize, 0);
 }
 
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot)

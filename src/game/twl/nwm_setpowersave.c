@@ -29,7 +29,7 @@ typedef struct TwlWork {
 #include "../arm9/os_cache.h"
 #include "nwm_cmd.h"
 
-u32 NWM_SetPowerSaveMode(void *callback, u32 powerSave) {
+u32 NWM_SetPowerSaveMode(NWMCallbackFunc callback, u32 powerSave) {
     u32 r;
     u32 busy;
     TwlWork *w;
@@ -48,7 +48,7 @@ u32 NWM_SetPowerSaveMode(void *callback, u32 powerSave) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(14, (uptr)callback);
+    NWMi_SetCallbackTable(14, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(14, 1, powerSave);
     if (r == 0 || r == 2) {

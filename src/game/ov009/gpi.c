@@ -70,7 +70,7 @@
  *   d_021A420C                       0x021A420C  data
  *   d_021A4234                       0x021A4234  data
  */
-#include "../../matched/arm9_sdk/libc/strncmp/string.h"
+#include "../libc/strncmp/string.h"
 #include "gpi_types.h"
 
 #include "gsmemory.h"
@@ -83,7 +83,7 @@ extern int   gpiInitProfiles(void **pp);
 struct HashImplementation;
 #include "hashtable.h"
 #include "gpioperation.h"
-extern int gpiProfileMap(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
+extern int gpiProfileMap(void **connection, int (*func)(void *, GPIProfile *, void *), void *data);
 #include "gpiinfo.h"
 #include "gpibuffer.h"
 #include "gpiutility.h"
@@ -106,7 +106,7 @@ void gpiDestroy(void **connection);
 /*
  * sdk: gpiResetProfile (gpi.o) * * The object keeps profile in r1 (a leading unused parameter takes r0).
  */
-int gpiResetProfile(int unused, GPIProfile *profile);
+int gpiResetProfile(void *unused, GPIProfile *profile, void *unused3);
 int gpiReset(GPConnection *connection);
 int gpiProcessConnectionManager(void **connection);
 extern char d_021A412C[], d_021A4130[], d_021A415C[], d_021A4164[];
@@ -129,33 +129,33 @@ extern int gpiReset(void **connection);
  */
 int gpiInitialize(void **connection, int productID, int namespaceID, int partnerID)
 {
-    char *p;
+    GPIConnection *p;
     int i;
 
     *connection = 0;
-    p = gsimalloc(0x638);
+    p = gsimalloc(sizeof(*p));
     if (p == 0)
         return 1;
     MSL_C_LIB_MemsetPtr(p, 0, 0x638);
-    p[0] = 0;
-    *(int *)(p + 0x5b8) = 0;
-    *(int *)(p + 0x100) = 1;
-    *(int *)(p + 0x104) = 0;
-    *(int *)(p + 0x108) = 0;
-    *(int *)(p + 0x10c) = 0;
-    *(int *)(p + 0x60c) = productID;
-    *(int *)(p + 0x610) = namespaceID;
-    *(int *)(p + 0x1a4) = partnerID;
+    p->errorString[0] = 0;
+    p->errorCode = 0;
+    p->infoCaching = 1;
+    p->infoCachingBuddyAndBlockOnly = 0;
+    p->simulation = 0;
+    p->firewall = 0;
+    p->productID = productID;
+    p->namespaceID = namespaceID;
+    p->partnerID = partnerID;
 
     if (gpiInitProfiles((void **)&p) == 0) {
         gsifree(p);
         return 1;
     }
 
-    *(int *)(p + 0x5c0) = 0;
+    p->diskCache = 0;
     for (i = 0; i < 9; i++) {
-        *(int *)(p + i * 8 + 0x1a8) = 0;
-        *(int *)(p + i * 8 + 0x1ac) = 0;
+        p->callbacks[i].callback = 0;
+        p->callbacks[i].param = 0;
     }
 
     i = gpiReset((void **)&p);
@@ -195,7 +195,7 @@ void gpiDestroy(void **connection)
  *
  * The object keeps profile in r1 (a leading unused parameter takes r0).
  */
-int gpiResetProfile(int unused, GPIProfile *profile)
+int gpiResetProfile(void *unused, GPIProfile *profile, void *unused3)
 {
     profile->buddyStatus = 0;
     profile->buddyStatusInfo = 0;
@@ -265,7 +265,7 @@ int gpiReset(GPConnection *connection)
     iconnection->operationList = 0;
     iconnection->profileList.numBuddies = 0;
     iconnection->profileList.numBlocked = 0;
-    gpiProfileMap(connection, (int (*)(GPConnection *, GPIProfile *, void *))gpiResetProfile, 0);
+    gpiProfileMap(connection, gpiResetProfile, 0);
     iconnection->userid = 0;
     iconnection->profileid = 0;
     iconnection->sessKey = 0;
@@ -435,7 +435,7 @@ int gpiProcess(void **connection, int blockingOperationID)
     if (result == 0)
         result = gpiProcessSearches(connection);
 
-    operation = *(GPIOperation **)((char *)iconnection + 0x5c4);
+    operation = iconnection->operationList;
     while (operation != 0) {
         if (operation->result == 0) {
             operation = operation->pnext;
@@ -451,7 +451,7 @@ int gpiProcess(void **connection, int blockingOperationID)
     __result__ = gpiProcessCallbacks(connection, blockingOperationID);
     if (__result__ != 0)
         return __result__;
-    if (*(int *)((char *)iconnection + 0x5bc) != 0) {
+    if (iconnection->fatalError != 0) {
         gpiDisconnect(connection, 0);
         gpiReset(connection);
     }

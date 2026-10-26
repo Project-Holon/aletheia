@@ -57,7 +57,7 @@ struct Percentage {
 struct Actor;
 #include "../arm9/clact.h"
 
-u32 PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit);
+struct Percentage *PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit);
 u32 PERCENTAGE_Destroy(struct Percentage *pct);
 void PERCENTAGE_SetPosition(struct Percentage *pct, u32 x, u32 y);
 void PERCENTAGE_SetValue(struct Percentage *pct, u32 value);
@@ -83,12 +83,12 @@ void PERCENTAGE_DeleteActors(struct Percentage *pct);
 void PERCENTAGE_StoreTemplate(struct Percentage *pct, const struct PercentageTemplate *tmpl);
 
 /* Allocates the object, clears it and creates its four actors. */
-u32 PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit)
+struct Percentage *PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit)
 {
     struct Percentage *pct = PERCENTAGE_Alloc(heapId);
     PERCENTAGE_ClearFields(pct, heapId);
     PERCENTAGE_Setup(pct, tmpl, unit);
-    return (uptr)pct;
+    return pct;
 }
 
 /* Deletes the actors, then frees the object. */
@@ -233,7 +233,7 @@ void PERCENTAGE_GetHundredsPosition(const struct Percentage *pct, s16 *x, s16 *y
 /* Allocates the 52-byte object. */
 struct Percentage *PERCENTAGE_Alloc(u32 heapId)
 {
-    return GFL_HEAP_Alloc(heapId, 52, 0, (const char *)0x21C407C, 420);
+    return GFL_HEAP_Alloc(heapId, sizeof(struct Percentage), 0, (const char *)0x21C407C, 420);
 }
 
 /* Frees the object. */

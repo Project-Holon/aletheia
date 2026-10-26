@@ -43,4 +43,6 @@ void PALANM_BlendChannel(PaletteFade *p, u32 idx, u32 c, u32 count, u8 weight, u
 void PALANM_BlendChannelMask(PaletteFade *p, u32 idx, u16 m, u8 weight, u16 color);
 /* END mkheaders: generated region */
 
+void PALANM_RequestFullTransfer(PaletteFade *o, int v);
+
 #endif

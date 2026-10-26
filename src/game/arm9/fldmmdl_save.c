@@ -197,7 +197,7 @@ void FLDMMDL_StoreSaveRecord(const Mmdl *mmdl, NetDeviceRecord *record)
 }
 
 void FLDMMDL_RestoreFromSaveRecord(Mmdl *mmdl, const NetDeviceRecord *record, MmdlSys *sys) {
-    MI_CpuFill8(mmdl, 0, 0x100);
+    MI_CpuFill8(mmdl, 0, sizeof(*mmdl));
 
     mmdl->statusBit = record->statusBit;
     mmdl->sizeWidth = record->sizeWidth;
@@ -250,10 +250,10 @@ void FLDMMDL_RestoreFromSaveRecord(Mmdl *mmdl, const NetDeviceRecord *record, Mm
     mmdl->statusBit |= MMDL_STABIT_USE;
 
     {
-        s8 *sub = (s8 *)mmdl + 0xe4;
-        mmdl->offsetX = sub[0xd];
-        mmdl->offsetY = sub[0xe];
-        mmdl->offsetZ = sub[0xf];
+        MmdlObjCodeParam *sub = &mmdl->objCodeParam;
+        mmdl->offsetX = sub->offsetX;
+        mmdl->offsetY = sub->offsetY;
+        mmdl->offsetZ = sub->offsetZ;
     }
 
     mmdl->statusBit |= MMDL_STABIT_USE;
@@ -284,14 +284,14 @@ u32 FLDMMDL_GetNextUsed(const void *obj, void *out, u32 *idxptr)
     u8 *rec;
 
     if (idx < count) {
-        rec = (u8 *)((const MmdlSys *)obj)->mmdlBuf + idx * 0x100;
+        rec = (u8 *)((const MmdlSys *)obj)->mmdlBuf + idx * (int)sizeof(Mmdl);
         do {
             *idxptr = *idxptr + 1;
             if (((const Mmdl *)rec)->statusBit & MMDL_STABIT_USE) {
                 *(void **)out = rec;
                 return 1;
             }
-            rec += 0x100;
+            rec += (int)sizeof(Mmdl);
         } while (*idxptr < count);
     }
     return 0;
@@ -330,7 +330,7 @@ void *FLDMMDL_GetFreeSlot(void *ctx)
             break;
         }
         i++;
-        ctx = (u8 *)ctx + 0x100;
+        ctx = (u8 *)ctx + (int)sizeof(Mmdl);
         if (i >= count) {
             ctx = 0;
             break;

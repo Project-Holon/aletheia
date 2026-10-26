@@ -13,7 +13,7 @@
 struct GameSystem;
 struct GfFont;
 struct MsgBank;
-struct PrintSys;
+struct PrintQueue;
 struct PmsDraw;
 struct BmpWin;
 struct Unit;
@@ -60,7 +60,7 @@ typedef struct UnionSubdispWork {
     u8 inputResult;                                 /* 0x31: the chat log input handlers acted */
     u8 pad32[2];
     UnionSubdispLineSlot lineSlot[UNION_SUBDISP_LINE_COUNT]; /* 0x34 */
-    struct PrintSys *printSys;                      /* 0x40 */
+    struct PrintQueue *printSys;                      /* 0x40 */
     struct GfFont *font;                            /* 0x44 */
     struct MsgBank *msgData;                        /* 0x48 */
     struct BmpWin *lineWin[UNION_SUBDISP_LINE_COUNT]; /* 0x4C */

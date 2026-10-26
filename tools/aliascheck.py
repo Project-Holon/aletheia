@@ -141,6 +141,9 @@ def code_only(text):
                   lambda m: re.sub(r"[^\n]", " ", m.group(0)), text, flags=re.S)
 
 
+RENAME_PAIR = re.compile(r"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)[ \t]+([A-Za-z_]\w*)[ \t]*$")
+
+
 def exempt(name, addr):
     return ((name, addr) in ALLOWED or (name, None) in ALLOWED
             or COMPILER_SYMBOLS.fullmatch(name) is not None)
@@ -186,6 +189,8 @@ def check(jobs=None):
         seen = set()
         if rel in ALLOWED_FILES:
             continue
+        # a rename pair (#define F F_header) makes F_header a name of F's address
+        renamed = {b: a for a, b in RENAME_PAIR.findall(raw)}
         for ln, name, addr, kind, rreg in header_rows(head):
             if kind == "data":
                 continue
@@ -196,6 +201,8 @@ def check(jobs=None):
                 if d:
                     hit = (reg, d)
                     break
+            if hit and renamed.get(name) in hit[1]:
+                continue
             if hit and name not in hit[1] and not exempt(name, addr):
                 rows_out.append((rel, ln, name, addr, hit[0], sorted(hit[1])))
             elif not hit and not rreg and fregion not in MAIN_REGIONS:
@@ -292,6 +299,8 @@ def check_externs(paths):
             continue
         own = set(re.findall(r"(?m)^(?!extern)(?:static[ 	]+|inline[ 	]+)*[A-Za-z_][\w 	\*]*?"
                              r"([A-Za-z_]\w*)[ 	]*\([^;{}]*\)[ 	]*\{", raw))
+        # a rename pair's header-side name is the DS caller's name for the same function
+        own |= {b for a, b in RENAME_PAIR.findall(raw)}
         used = {}
         for ln, name, addr, kind, rreg in header_rows(head):
             if kind == "data":

@@ -60,7 +60,7 @@ HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId)
     HeightExTable *table;
 
     i = 0;
-    table = (HeightExTable *)GFL_HEAP_Alloc(heapId, 8, 0, (const char *)gFileHeightEx, 0x5a);
+    table = (HeightExTable *)GFL_HEAP_Alloc(heapId, sizeof(*table), 0, (const char *)gFileHeightEx, 0x5a);
     table->areas = (HeightExArea *)GFL_HEAP_Alloc(heapId, count * sizeof(HeightExArea), 0, (const char *)gFileHeightEx, 0x5b);
     table->count = count;
     for (i = 0; i < count; i++) {

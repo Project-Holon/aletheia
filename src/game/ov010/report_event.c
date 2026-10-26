@@ -293,7 +293,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
     case REPORT_EVENT_STATE_CREATE:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->fieldMap)) == 1
             && FIELD_SUBSCREEN_IsReportReady(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
-            w->res = GFL_HEAP_Alloc(w->heapId, 0x50, 0, d_02172A50, 0x9F);
+            w->res = GFL_HEAP_Alloc(w->heapId, sizeof(*w->res), 0, d_02172A50, 0x9F);
             w->res->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);

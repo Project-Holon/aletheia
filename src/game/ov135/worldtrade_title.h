@@ -8,7 +8,7 @@
 #include "../types.h"
 
 int WORLDTRADE_TITLE_Init(WorldtradeWork *p);
-void WORLDTRADE_TITLE_CallStateHandler(u8 *p);
+int WORLDTRADE_TITLE_CallStateHandler(u8 *p);
 int WORLDTRADE_TITLE_Exit(WorldtradeWork *p);
 void WORLDTRADE_TITLE_SetupBgPlanes(void);
 void WORLDTRADE_TITLE_ScrollBg(WorldtradeWork *p, u32 scrollY, u32 keepLayer6);

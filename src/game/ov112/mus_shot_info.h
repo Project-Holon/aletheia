@@ -4,10 +4,11 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of mus_shot_info.c, prototypes copied from their definitions. */
 
-#include "../types.h"
-#include "../ov112/mus_shot_info_shared_types.h"
+struct MusicalSave;
 
-void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, u16 heap);
+#include "../types.h"
+
+void *MUSICAL_SHOT_INFO_Create(void *a, struct MusicalSave *b, u32 c, void *d, u16 heap);
 void MUSICAL_SHOT_INFO_Delete(u8 *p);
 void MUSICAL_SHOT_INFO_Main(u8 *p);
 int MUSICAL_SHOT_INFO_IsFinished(u32 *p);

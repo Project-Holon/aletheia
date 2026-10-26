@@ -14,22 +14,22 @@ void NNSi_GfdSetVramManagerWork(void *pWork);
 u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
 int NNSi_GfdRingIsFull(u8 *p);
 int NNSi_GfdRingIsEmpty(void *p);
-void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c);
-void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c);
+void NNS_GfdFuncLoadTex(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadTexPltt(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageColor(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadClearImageDepth(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Char(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG0Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG1Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3Scr(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG2ScrDup(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBG3ScrDup(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadOBJPltt(void *a, u32 b, u32 c);
+void NNS_GfdFuncLoadBGPltt(void *a, u32 b, u32 c);
 /* END mkheaders: generated region */
 
 #endif

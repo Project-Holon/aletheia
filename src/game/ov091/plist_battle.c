@@ -181,10 +181,10 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource
     PlistTeamPanel *panel;
     u8 count;
     u8 i;
-    uptr nameBuf;
+    struct Strbuf *nameBuf;
     u32 active;
 
-    panel = (PlistTeamPanel *)GFL_HEAP_Alloc(work->heapId, 0x20, 0, d_021BED48, 0x143);
+    panel = (PlistTeamPanel *)GFL_HEAP_Alloc(work->heapId, sizeof(PlistTeamPanel), 0, d_021BED48, 0x143);
     count = POKEPARTY_GetCount(source->party);
     for (i = 0; i < 6; i++) {
         if (i < count) {
@@ -200,10 +200,10 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource
     }
     active = 1;
     panel->nameWindow = BMP_WIN_Create((int)4, (u8)(x + 1 + ((u32)width >> 1)), (u8)(y + 1), (int)10, 2, 0xe, active);
-    nameBuf = (uptr)STRBUF_Create(0x10, work->heapId);
-    STRBUF_SetString((struct Strbuf *)nameBuf, source->name);
-    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(panel->nameWindow), 0, 0, (struct Strbuf *)nameBuf, work->fontMain, 0x3c40);
-    STRBUF_Delete((struct Strbuf *)nameBuf);
+    nameBuf = STRBUF_Create(0x10, work->heapId);
+    STRBUF_SetString(nameBuf, source->name);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(panel->nameWindow), 0, 0, nameBuf, work->fontMain, 0x3c40);
+    STRBUF_Delete(nameBuf);
     panel->active = active;
     return panel;
 }
@@ -222,17 +222,17 @@ void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 {
     u8 i;
-    uptr window;
+    struct BmpWin *window;
     for (i = 0; i < 6; i++) {
         if (panel->cells[i] != 0)
             PLIST_BATTLE_UpdateMiniCell(work, panel->cells[i]);
     }
     if (panel->active == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(panel->nameWindow)) == 0) {
-        window = (uptr)panel->nameWindow;
+        window = panel->nameWindow;
         panel->active = 0;
-        BMP_WIN_TransferChars((struct BmpWin *)window);
-        BMP_WIN_MakeScreen((struct BmpWin *)window);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
+        BMP_WIN_TransferChars(window);
+        BMP_WIN_MakeScreen(window);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -245,7 +245,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     PlistActorParam markParam;
     PlistMiniCell *cell;
     void *iconFile;
-    sptr boxMon;
+    void *boxMon;
     int paletteIndex;
     u32 heldItem;
     u32 sex;
@@ -255,14 +255,14 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     u8 xShift;
     int cellX;
     u32 cellY;
-    uptr wordSet;
-    cell = GFL_HEAP_Alloc(work->heapId, 24, 0, d_021BED48, 0x199);
+    struct WordSet *wordSet;
+    cell = GFL_HEAP_Alloc(work->heapId, sizeof(PlistMiniCell), 0, d_021BED48, 0x199);
     isEgg = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EGG_FLAG, 0);
     iconFile = ARC_TOOL_CreateHandle(7, work->heapId);
-    boxMon = (sptr)POKE_TOOL_GetBoxParam(mon);
-    cell->iconRes = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex((void *)boxMon), 0, 1, work->heapId);
+    boxMon = POKE_TOOL_GetBoxParam(mon);
+    cell->iconRes = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex(boxMon), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(iconFile);
-    paletteIndex = POKE_TOOL_GetIconPalette((void *)boxMon);
+    paletteIndex = POKE_TOOL_GetIconPalette(boxMon);
     iconParam.x = x + 16; iconParam.y = y + 8; iconParam.animNo = 1; iconParam.softPriority = 16; iconParam.bgPriority = 2;
     {
         struct ClactActor *actor = CLACT_CreateActor((struct Unit *)work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], (const struct ActorInitParam *)&iconParam, 1, work->heapId);
@@ -288,14 +288,14 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
         if (sex == 0) POKELIST_PrintTextMain((PokelistWork *)work, (struct Descriptor *)cell->sexWindow, 7, (u16)(xShift + 4), 0, 0x14c0);
         else if (sex == 1) POKELIST_PrintTextMain((PokelistWork *)work, (struct Descriptor *)cell->sexWindow, 8, (u16)(xShift + 4), 0, 0xc80);
     }
-    level = POKE_TOOL_CalcLevel((void *)((sptr)mon));
+    level = POKE_TOOL_CalcLevel((void *)(mon));
     xShift = xOffset;
     cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
     if (isEgg == 0) {
-        wordSet = (uptr)WORDSET_CreateDefault(work->heapId);
-        WORDSET_SetSlotNumber((struct WordSet *)wordSet, 0, level, 3, 0, 1);
+        wordSet = WORDSET_CreateDefault(work->heapId);
+        WORDSET_SetSlotNumber(wordSet, 0, level, 3, 0, 1);
         POKELIST_PrintExpandedTextSub((PokelistWork *)work, (struct Descriptor *)cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
-        WORDSET_Delete((struct WordSet *)wordSet);
+        WORDSET_Delete(wordSet);
     }
     cell->active = 1;
     return cell;
@@ -313,19 +313,19 @@ void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell)
 
 void PLIST_BATTLE_UpdateMiniCell(PokelistWork *work, PlistMiniCell *cell)
 {
-    uptr window;
+    struct BmpWin *window;
     if (cell->active == 1
         && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(cell->sexWindow)) == 0
         && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(cell->levelWindow)) == 0) {
-        window = (uptr)cell->sexWindow;
+        window = cell->sexWindow;
         cell->active = 0;
-        BMP_WIN_TransferChars((struct BmpWin *)window);
-        BMP_WIN_MakeScreen((struct BmpWin *)window);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
-        window = (uptr)cell->levelWindow;
-        BMP_WIN_TransferChars((struct BmpWin *)window);
-        BMP_WIN_MakeScreen((struct BmpWin *)window);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
+        BMP_WIN_TransferChars(window);
+        BMP_WIN_MakeScreen(window);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+        window = cell->levelWindow;
+        BMP_WIN_TransferChars(window);
+        BMP_WIN_MakeScreen(window);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -337,19 +337,19 @@ void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work)
 
 void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
 {
-    sptr text;
+    struct Strbuf *text;
     if (work->arg->timerExpired == 0)
         return;
     if (PLIST_MESSAGE_IsWindowOpen(work, work->messageWindow) == 0)
         PLIST_MESSAGE_OpenWindow(work, work->messageWindow, 1);
     if (work->arg->battleKind == 1) {
-        text = (sptr)STRBUF_Create(0x10, work->heapId);
-        STRBUF_SetString((struct Strbuf *)text, work->arg->entries[1].name);
+        text = STRBUF_Create(0x10, work->heapId);
+        STRBUF_SetString(text, work->arg->entries[1].name);
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
         PLIST_MESSAGE_SetWordSetString(work, work->messageWindow, 0, (void *)text, work->arg->entries[1].gender);
         PLIST_MESSAGE_PrintText(work, work->messageWindow, 0xA9);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
-        STRBUF_Delete((struct Strbuf *)text);
+        STRBUF_Delete(text);
     } else {
         PLIST_MESSAGE_PrintText(work, work->messageWindow, work->arg->timerExpired + 0xA9);
     }
@@ -357,13 +357,13 @@ void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
 
 void PLIST_BATTLE_CreateTimerWindows(PokelistWork *work)
 {
-    sptr text;
+    struct Strbuf *text;
     work->timerLabelWindow = (void *)BMP_WIN_Create(4, 7, 0x15, 0xB, 3, 0xE, 1);
     work->timerValueWindow = (void *)BMP_WIN_Create(4, 0x14, 0x15, 5, 3, 0xE, 1);
-    text = (sptr)MSGDATA_AllocString((struct MsgBank *)work->msgBank, 0xAD);
-    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)work->timerLabelWindow), 0, 4, (struct Strbuf *)text,
+    text = MSGDATA_AllocString((struct MsgBank *)work->msgBank, 0xAD);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)work->timerLabelWindow), 0, 4, text,
                   work->fontMain, 0x3C40);
-    STRBUF_Delete((struct Strbuf *)text);
+    STRBUF_Delete(text);
     work->timerLabelPrinting = 1;
 }
 
@@ -479,19 +479,19 @@ void PLIST_BATTLE_FinishEffect(PokelistWork *work)
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, callback);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else if (work->evolveCheckKind == 2) {
         callback = POKELIST_EndMessageToExit;
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, callback);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else if (work->evolveCheckKind == 3) {
         PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, work->selectedMon);
-        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)POKELIST_EndMessageToExit));
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, POKELIST_EndMessageToExit);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else {
         work->phase = 0x13;

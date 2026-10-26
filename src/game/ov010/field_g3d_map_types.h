@@ -38,7 +38,7 @@ typedef struct FieldG3dMapHitList {
 typedef void (*FieldG3dMapQueryFunc)(void *out, void *data, VecFx32 *localPos, unsigned int gridSize, unsigned int height);
 
 /* Callback of a block type, called once per update with the user parameter of the config. */
-typedef void (*FieldG3dMapUpdateFunc)(struct FieldG3dMap *map, unsigned int userParam);
+typedef void (*FieldG3dMapUpdateFunc)(struct FieldG3dMap *map, void *userParam);
 
 /*
  * Block type table entry (0x10 bytes). The table ends with key -1; the key is
@@ -100,7 +100,7 @@ typedef struct FieldG3dMapConfig {
     unsigned int bufferSize;              /* 0x00 */
     unsigned int texVramSize;             /* 0x04 */
     const FieldG3dMapType *typeTable;     /* 0x08 */
-    unsigned int userParam;               /* 0x0C */
+    void *userParam;                      /* 0x0C */
     unsigned int chunkSize;               /* 0x10, 0 selects 0x800 */
     unsigned short placementCountA;       /* 0x14 */
     unsigned short placementCountB;       /* 0x16 */
@@ -144,7 +144,7 @@ typedef struct FieldG3dMap {
     unsigned int buildStarted;            /* 0xCC, set when the build step begins */
     unsigned int dataReady;               /* 0xD0 */
     unsigned char *buffer;                /* 0xD4 */
-    unsigned int userParam;               /* 0xD8 */
+    void *userParam;                      /* 0xD8 */
 } FieldG3dMap;
 
 #endif

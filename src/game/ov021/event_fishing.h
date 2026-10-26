@@ -6,13 +6,13 @@
 
 struct FieldMap;
 
-#include "../types.h"
 #include "../sdk_fx.h"
 #include "../ov021/event_fishing_types.h"
+#include "../types.h"
 
-int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos);
+int FISHING_CheckFacingWater(void *unused, void *fieldMap, VecFx32 *outPos);
 void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem);
-int FISHING_EventMain(void *task, int *state, FishingWork *work);
+int FISHING_EventMain(struct GameEvent *task, int *state, void *work);
 int FISHING_StepCounter(FishingWork *w, u32 limit);
 int FISHING_WaitBite(FishingWork *w, u32 limit);
 void FISHING_ShowBiteMark(FishingWork *w);

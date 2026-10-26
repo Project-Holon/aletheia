@@ -21,7 +21,7 @@ void FIELD_MENU_ShowBgLayers(void);
 u32 FIELD_MENU_Update(FieldMenu *menu);
 void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu);
 void FIELD_MENU_ApplyBgScroll(FieldMenu *menu);
-void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo);
+void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, void *mapInfo);
 void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame);
 u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
 int FIELD_MENU_CountLayoutButtons(int layoutType);

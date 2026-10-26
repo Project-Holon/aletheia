@@ -221,9 +221,9 @@ ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char 
 void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp);
 void EL_SCOREBOARD_TickLamp(ElLamp *lamp);
 void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick);
-int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work);
+int EL_SCOREBOARD_EventMain(struct GameEvent *eventTask, int *state, void *work);
 void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
-void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg);
+void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, void *finishCallbackArg);
 void *EL_SCOREBOARD_StartStandalone(void *p, u8 shownSeason, u8 targetSeason);
 void EL_SCOREBOARD_SetupDisplay(ElScoreboardWork *work);
 void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work);
@@ -300,8 +300,9 @@ void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick)
     NNS_GfdRegisterNewVramTransferTask(1, paletteRef->base + (u16)paletteRef->index * 8, EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }
 
-int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
+int EL_SCOREBOARD_EventMain(struct GameEvent *eventTask, int *state, void *workPtr)
 {
+    ElScoreboardWork *work = workPtr;
     switch (*state) {
     case 0: EL_SCOREBOARD_OnStart(work); break;
     case 1: case 3: break;
@@ -321,23 +322,23 @@ int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
  */
 void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason)
 {
-    void *eventTask = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EL_SCOREBOARD_EventMain, 0x28);
+    void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, sizeof(ElScoreboardWork));
     ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
-    u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
+    int *statePtr = GAME_EVENT_GetSeq(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
-    EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
+    EL_SCOREBOARD_EnterState(work, statePtr, 0);
     return eventTask;
 }
 
-void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg)
+void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, void *finishCallbackArg)
 {
-    void *eventTask = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EL_SCOREBOARD_EventMain, 0x28);
+    void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, sizeof(ElScoreboardWork));
     ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
-    u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
+    int *statePtr = GAME_EVENT_GetSeq(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
-    EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
+    EL_SCOREBOARD_EnterState(work, statePtr, 0);
     return eventTask;
 }
 
@@ -349,7 +350,7 @@ void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u
  */
 void *EL_SCOREBOARD_StartStandalone(void *gameSystem, u8 shownSeason, u8 targetSeason)
 {
-    void *eventTask = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EL_SCOREBOARD_EventMain, 0x28);
+    void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, sizeof(ElScoreboardWork));
     ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
     void *stateNum = GAME_EVENT_GetSeq(eventTask);
 

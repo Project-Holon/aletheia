@@ -360,7 +360,6 @@ struct Mail;
 #include "../arm9/comm_player_support.h"
 #include "../arm9/game_data.h"
 #include "el_scoreboard.h"
-extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSystem *gameSystem, struct GameEvent *parent, int kind, int sub, int flag);
 struct UnionInfo;
 struct MyStatus;
 struct WfbcData;
@@ -402,8 +401,8 @@ struct PlayerInfo;
 struct ConnectData;
 #include "../arm9/gf_overlay.h"
 #include "../arm9/game_comm.h"
-void *EVENT_MAPCHANGE_TamperLeakA(void);
-void *EVENT_MAPCHANGE_TamperLeakB(void);
+void EVENT_MAPCHANGE_TamperLeakA(void);
+void EVENT_MAPCHANGE_TamperLeakB(void);
 void EVENT_MAPCHANGE_NopHook(void);
 #include "../ov230/sealed_call_stubs_a.h"
 #include "../ov010/intrude_comm_query.h"
@@ -412,7 +411,6 @@ struct MmdlSys;
 #include "../ov021/event_entrance_out.h"
 struct IntrudeCommSys;
 #include "../ov011/intrude_comm.h"
-extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(struct GameSystem *gameSystem, void *fieldMap);
 #include "../ov021/event_appear.h"
 #include "../ov021/event_disappear.h"
 void EVENT_MAPCHANGE_ResetPlayerObjectCode(GameData *gameData);
@@ -455,21 +453,21 @@ struct EncEffWork;
 #include "../ov021/enceff.h"
 #include "../ov021/scrcmd_misc.h"
 #include "../arm9/net_system.h"
-int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_EntranceCommEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_FadeEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
-int EVENT_MAPCHANGE_SwapCommOverlayEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
+int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_EntranceCommEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_FadeEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_MAPCHANGE_SwapCommOverlayEvent(struct GameEvent *event, int *seq, void *work);
 
-int EVENT_MAPCHANGE_RunFixedZoneEvent(GameEvent *event, int *state, MapChangeWork *work);
+int EVENT_MAPCHANGE_RunFixedZoneEvent(struct GameEvent *event, int *state, void *work);
 void EVENT_MAPCHANGE_InitWork(MapChangeWork *work, GameSystem *gameSystem);
 GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed);
 GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed);
@@ -494,7 +492,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, Fie
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, short dir);
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(GameSystem *gameSystem, u16 zoneId, const VecFx32 *pos);
 void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem);
-int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(GameEvent *event, int *state, WarpIdArrivalWork *work);
+int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSystem);
 int EVENT_MAPCHANGE_DirToAngle(int dir);
 void EVENT_MAPCHANGE_ResolveLocation(struct EventDataSystem *eventData, Location *source, Location *dest);
@@ -507,8 +505,8 @@ void EVENT_MAPCHANGE_SetPlayerVanish(FieldMap *fieldMap, unsigned int vanish);
 void EVENT_MAPCHANGE_ApplyZoneTableEntry(GameData *gameData, int zoneId);
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location, int requestSession, int intrudeId);
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location);
-int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChangeIntrudeWork *work);
-int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChangeIntrudeWork *work);
+int EVENT_MAPCHANGE_RunIntrudeArriveEvent(struct GameEvent *event, int *state, void *work);
+int EVENT_MAPCHANGE_RunIntrudeSessionEvent(struct GameEvent *event, int *state, void *work);
 
 struct MsgBank;
 #include "../arm9/msgdata.h"
@@ -524,7 +522,7 @@ extern PmsData d_02187DB4;
 extern char d_02187EA0[];
 
 /* Overlay entry hook: runs the callback when one is set. */
-int EVENT_MAPCHANGE_CallHookAndInvert(void (*hook)(void))
+u32 EVENT_MAPCHANGE_CallHookAndInvert(void (*hook)(void))
 {
     if (hook)
         hook();
@@ -548,8 +546,9 @@ struct GameEvent *EVENT_MAPCHANGE_CreateByMode(struct GameSystem *gameSystem, Ga
 }
 
 /* First start: set the season, run the opening events, then hand over to the new game start event. */
-int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStartWork *work)
+int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FirstStartWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct GameEvent *child;
@@ -563,7 +562,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStar
         (*seq)++;
         break;
     case 1:
-        COMM_PLAYER_SUPPORT_SetSeason((sptr)gameData, (u16)(int)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
+        COMM_PLAYER_SUPPORT_SetSeason(gameData, (u16)(int)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
         season = GAME_DATA_GetSeason(gameData);
         child = EL_SCOREBOARD_StartStandalone(gameSystem, season, season);
         GAME_EVENT_CallEvent(event, child);
@@ -586,7 +585,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateFirstStartEvent(struct GameSystem *gameS
     struct GameEvent *event;
     FirstStartWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_FirstStartEvent, sizeof(FirstStartWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FirstStartEvent, sizeof(FirstStartWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->initWork = initWork;
@@ -607,8 +606,9 @@ void EVENT_MAPCHANGE_InitUnionInfo(struct GameSystem *gameSystem)
 }
 
 /* New game start event: plays the start BGM, fades in and shows the place name. */
-int EVENT_MAPCHANGE_NewGameStartEvent(struct GameEvent *event, int *seq, NewGameStartWork *work)
+int EVENT_MAPCHANGE_NewGameStartEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    NewGameStartWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     struct FieldMap *fieldMap;
@@ -644,7 +644,7 @@ int EVENT_MAPCHANGE_NewGameStartEvent(struct GameEvent *event, int *seq, NewGame
 
 struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gameSystem)
 {
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_NewGameStartEvent, sizeof(NewGameStartWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_NewGameStartEvent, sizeof(NewGameStartWork));
     NewGameStartWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -667,8 +667,9 @@ void EVENT_MAPCHANGE_RefreshUnionInfo(struct GameSystem *gameSystem)
 }
 
 /* Continue event: restores the field state from the save and enters the saved map. */
-int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWork *work)
+int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ContinueWork *work = workPtr;
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     struct EventWork *eventWork;
@@ -691,7 +692,7 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWor
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             EVENT_MAPCHANGE_ApplyLocation(gameSystem, specialLocation);
-            GAME_BEACON_SetZone((u32)specialLocation->zoneId, (uptr)gameData);
+            GAME_BEACON_SetZone((u32)specialLocation->zoneId, gameData);
         } else {
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
@@ -746,7 +747,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     struct MiscSave *miscSave;
     u64 nowSeconds;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_ContinueEvent, sizeof(ContinueWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_ContinueEvent, sizeof(ContinueWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -853,8 +854,9 @@ void EVENT_MAPCHANGE_SetupEnterEntranceParam(MapChangeWork *work, struct GameEve
  * FORMCHANGE_RevertShayminAtNight call.  OV230_CallSealedBody0, 2 and 5 are slots of ov230's decrypted
  * dispatcher (ov230d token); each gets EVENT_MAPCHANGE_CallHookAndInvert as the hook and
  * one of this overlay's functions (TamperLeakA, TamperLeakB, NopHook) as the hook argument. */
-int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFieldWork *changeField)
+int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ChangeFieldWork *changeField = workPtr;
     MapChangeWork *work;
     struct GameSystem *gameSystem;
     struct GameData *gameData;
@@ -862,7 +864,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
     struct GameComm *gameComm;
     void *party;
     int season;
-    sptr sessionPtr;
+    u8 *sessionPtr;
 
     work = changeField->mapChange;
     fieldMap = work->fieldMap;
@@ -891,24 +893,24 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         }
         break;
     case 3:
-        OV230_CallSealedBody0((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakA, 0);
+        OV230_CallSealedBody0(EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_TamperLeakA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
-            COMM_PLAYER_SUPPORT_SetSeason((sptr)gameData, work->toSeason);
-            sessionPtr = (sptr)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
+            COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
+            sessionPtr = (u8 *)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
             season = GAME_DATA_GetSeason(gameData);
             party = GAME_DATA_GetMyParty(gameData);
             FORMCHANGE_UpdateSeasonForms(gameData, party, season);
             sessionPtr += 0x14;
             FORMCHANGE_RevertShayminAtNight(gameData, party, (u32 *)sessionPtr, season);
         }
-        OV230_CallSealedBody2((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakB, 0);
+        OV230_CallSealedBody2(EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_TamperLeakB, 0);
         EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->destination.zoneId);
         EVENT_MAPCHANGE_ApplyLocation(gameSystem, &work->destination);
         if (work->changeKind != 4) {
-            GAME_BEACON_SetZone((u32)work->destination.zoneId, (uptr)gameData);
+            GAME_BEACON_SetZone((u32)work->destination.zoneId, gameData);
         }
-        OV230_CallSealedBody5((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_NopHook, 0);
+        OV230_CallSealedBody5(EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_NopHook, 0);
         switch (work->changeKind) {
         case 1:
             FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);
@@ -944,7 +946,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateChangeFieldEvent(MapChangeWork *work, in
     struct GameEvent *event;
     ChangeFieldWork *changeField;
 
-    event = GAME_EVENT_Create(work->gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_ChangeFieldEvent, sizeof(ChangeFieldWork));
+    event = GAME_EVENT_Create(work->gameSystem, 0, EVENT_MAPCHANGE_ChangeFieldEvent, sizeof(ChangeFieldWork));
     changeField = GAME_EVENT_GetWork(event);
     changeField->mapChange = work;
     work->changeKind = changeKind;
@@ -952,8 +954,9 @@ struct GameEvent *EVENT_MAPCHANGE_CreateChangeFieldEvent(MapChangeWork *work, in
 }
 
 /* Map change with the entrance effects. */
-int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -982,8 +985,9 @@ int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, MapChangeWo
 /* Map change with the entrance effects for zones in the table at 0209DFC0: waits for the
  * communication partner first.
  * The leaf ZONEDATA_IsZoneInTableDFC0 is `ZONEDATA_IsZoneInTable(v, tbl_0209DFC0, 4)`. */
-int EVENT_MAPCHANGE_EntranceCommEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_EntranceCommEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldMap *fieldMap;
     struct GameData *gameData;
     void *commHandle;
@@ -1043,8 +1047,9 @@ int EVENT_MAPCHANGE_EntranceCommEvent(struct GameEvent *event, int *seq, MapChan
 }
 
 /* Tail of the detached map change: sound, then the change field event. */
-int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameEvent *child;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
@@ -1079,8 +1084,9 @@ int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, MapChan
 }
 
 /* Map change with a fade, the fade picked from the season change or the zone pair. */
-int EVENT_MAPCHANGE_FadeEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_FadeEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
 
@@ -1120,8 +1126,9 @@ int EVENT_MAPCHANGE_FadeEvent(struct GameEvent *event, int *seq, MapChangeWork *
 }
 
 /* Map change with fade effect 2; the default case waits seven frames between steps 0 and 8. */
-int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1165,8 +1172,9 @@ int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, MapChang
 }
 
 /* Map change that moves the player to the target position. */
-int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1206,8 +1214,9 @@ int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, MapCh
 }
 
 /* Map change of kind 2 with the season passed to the effect events. */
-int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1251,8 +1260,9 @@ int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, MapCha
 }
 
 /* Same steps as the previous one with the second pair of effect events. */
-int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = work->gameData;
     struct FieldMap *fieldMap = work->fieldMap;
@@ -1290,8 +1300,9 @@ int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, MapCha
 }
 
 /* Map change of kind 3: resets the player's object code. */
-int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1333,8 +1344,9 @@ int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, MapC
 }
 
 /* Map change with fade effect 1; waits for the field map transition before the animation. */
-int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = work->fieldMap;
     FieldTaskManager *transition = FIELDMAP_GetTaskManager(fieldMap);
@@ -1366,8 +1378,9 @@ int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWo
 }
 
 /* Map change with fade effect 0: fades out, then continues in a detached copy of the work. */
-int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = work->fieldMap;
     struct GameEvent *tailEvent;
@@ -1383,7 +1396,7 @@ int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, MapChange
         (*seq)++;
         break;
     case 2:
-        tailEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
+        tailEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
         tailWork = GAME_EVENT_GetWork(tailEvent);
         *tailWork = *work;
         GAME_EVENT_CallEvent(event, tailEvent);
@@ -1401,8 +1414,9 @@ int EVENT_MAPCHANGE_FadeDetachEvent(struct GameEvent *event, int *seq, MapChange
 }
 
 /* Map change of kind 0 with the third pair of effect events. */
-int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct FieldSoundSystem *fieldSound;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1440,8 +1454,9 @@ int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, MapChangeWor
 }
 
 /* Map change that swaps the communication overlay (ov012 out, ov011 in) and calls script 0x83A. */
-int EVENT_MAPCHANGE_SwapCommOverlayEvent(struct GameEvent *event, int *seq, MapChangeWork *work)
+int EVENT_MAPCHANGE_SwapCommOverlayEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = work->fieldMap;
     struct GameEvent *child;
@@ -1469,8 +1484,9 @@ int EVENT_MAPCHANGE_SwapCommOverlayEvent(struct GameEvent *event, int *seq, MapC
 }
 
 /* Event callback: plays the animation, swaps overlays 11 and 12, runs the fade. */
-int EVENT_MAPCHANGE_RunFixedZoneEvent(GameEvent *event, int *state, MapChangeWork *work)
+int EVENT_MAPCHANGE_RunFixedZoneEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    MapChangeWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
@@ -1525,7 +1541,7 @@ void EVENT_MAPCHANGE_InitWork(MapChangeWork *work, GameSystem *gameSystem)
  */
 GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_EntranceEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1546,7 +1562,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fie
  */
 GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_EntranceEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1559,7 +1575,7 @@ GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, FieldMap 
 
 GameEvent *EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1579,7 +1595,7 @@ static inline void EVENT_MAPCHANGE_SetVec(VecFx32 *dst, int x, int y, int z)
 
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos, u16 zoneId, const VecFx32 *pos)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_TargetPositionEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_TargetPositionEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     ZONEDATA_SetDirectLocation(&work->destination, zoneId, 1, pos->x, pos->y, pos->z);
@@ -1591,7 +1607,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, 
 /* Escape event: warps to the stored escape location. */
 GameEvent *EVENT_MAPCHANGE_CreateDigEscapeEvent(int unused, GameSystem *gameSystem)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_SeasonEffectAEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SeasonEffectAEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *escapeLocation;
 
@@ -1607,7 +1623,7 @@ GameEvent *EVENT_MAPCHANGE_CreateDigEscapeEvent(int unused, GameSystem *gameSyst
 
 GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(GameSystem *gameSystem)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_SeasonEffectBEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SeasonEffectBEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *escapeLocation;
 
@@ -1625,7 +1641,7 @@ GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(GameSystem *gameSystem)
 GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(GameSystem *gameSystem)
 {
     int warpId = GAME_DATA_GetSituationWarpId(GAMESYSTEM_GetGameData(gameSystem));
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_ResetPlayerFormEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_ResetPlayerFormEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1638,7 +1654,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(GameSystem *gameSystem)
 /* Warp to the stored special location, facing dir 2. */
 GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(GameSystem *gameSystem)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_FadeWaitEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeWaitEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     Location *specialLocation;
 
@@ -1658,7 +1674,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(GameSystem *gameSystem
 GameEvent *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(GameSystem *gameSystem, u16 zoneId)
 {
     Location playerLocation;
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_FadeDetachEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeDetachEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     PlayerWork *playerWork;
     u16 playerZoneId;
@@ -1679,7 +1695,7 @@ GameEvent *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(GameSystem *gameSystem, u16 
 
 GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, u16 dir)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_EffectCEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EffectCEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1693,7 +1709,7 @@ GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, 
 /* Fixed destination: zone 0x1A6 at a hard-coded position. */
 GameEvent *EVENT_MAPCHANGE_CreateFixedZoneEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_RunFixedZoneEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunFixedZoneEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1706,7 +1722,7 @@ GameEvent *EVENT_MAPCHANGE_CreateFixedZoneEvent(GameSystem *gameSystem, FieldMap
 GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationEvent(GameSystem *gameSystem, u8 *unusedPos)
 {
     Location *specialLocation = GAME_DATA_GetSpecialLocation(GAMESYSTEM_GetGameData(gameSystem));
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_SwapCommOverlayEvent, 0x9C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_SwapCommOverlayEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1826,7 +1842,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEvent(GameSystem *gameSystem, FieldMap 
 {
     MapChangeWork *work;
     GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_EntranceEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceEvent, sizeof(MapChangeWork));
     Location *entranceLocation;
 
     work = GAME_EVENT_GetWork(event);
@@ -1853,7 +1869,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
     MapChangeWork *work;
 
     GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_EntranceCommEvent, 0x9c);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_EntranceCommEvent, sizeof(MapChangeWork));
     work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->seasonFadeAllowed = 1;
@@ -1864,7 +1880,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
 
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTransition(GameSystem *gameSystem, FieldMap *fieldMap, int transitionType, u16 zoneId, const VecFx32 *pos, u16 dir)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1888,7 +1904,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, Fie
     MapChangeWork *work;
 
     GAME_DATA_SetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(gameData), 0);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
     work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->destination = *location;
@@ -1905,7 +1921,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, Fie
  */
 GameEvent *EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, short dir)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_FadeEvent, 0x9c);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
@@ -1926,7 +1942,7 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(GameSystem *gameSyst
 {
     VecFx32 warpPos = *pos;
     GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_FadeDelayedEvent, 0x9C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_FadeDelayedEvent, sizeof(MapChangeWork));
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     int slotOffset = 0;
 
@@ -1962,7 +1978,7 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
     EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
     EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, locations.arrivalLocation.zoneId);
     EVENT_MAPCHANGE_ApplyLocation(gameSystem, &locations.arrivalLocation);
-    GAME_BEACON_SetZone((u32)locations.arrivalLocation.zoneId, (uptr)gameData);
+    GAME_BEACON_SetZone((u32)locations.arrivalLocation.zoneId, gameData);
     FIELD_CLOCK_Update(gameData);
     FIELD_MAP_CHANGE_ResetGimmickStateCase4(gameData, locations.arrivalLocation.zoneId);
 }
@@ -1972,8 +1988,9 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
  * tail-call stub to FIELD_SOUND_SYSTEM_GetFieldBgmForZone) are unlabelled ARM9 code resolved by
  * their matched shards.
  */
-int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(GameEvent *event, int *state, WarpIdArrivalWork *work)
+int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    WarpIdArrivalWork *work = workPtr;
     GameEvent *child;
     unsigned int bgmId;
 
@@ -2007,7 +2024,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSyste
     WarpIdArrivalWork *work;
 
     GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, sizeof(WarpIdArrivalWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, sizeof(WarpIdArrivalWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -2113,35 +2130,35 @@ void EVENT_MAPCHANGE_AddEventDataMmdl(GameData *gameData, const Location *locati
 void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
 {
     int mapMode;
-    sptr headers;
+    void *headers;
     int itemCount;
     int headerCount;
-    sptr mmdlSys;
+    void *mmdlSys;
     struct EventWork *eventWork;
     unsigned short *wfbcData;
-    sptr itemSlots;
+    u16 *itemSlots;
 
     if (ZONEDATA_IsZoneInTableDFC0((unsigned short)location->zoneId) == 0)
         return;
 
     mapMode = (int)FIELD_STATUS_GetMapMode(GAME_DATA_GetMoveModelSys(gameData));
-    mmdlSys = (sptr)GAME_DATA_GetOccupyInfo(gameData);
+    mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
     eventWork = GAME_DATA_GetEventWork(gameData);
     if (mapMode == 0)
         wfbcData = (u16 *)GAME_DATA_GetSecondUnionInfo(gameData);
     else
         wfbcData = (u16 *)GAME_DATA_GetUnionInfo(gameData, (int)0);
 
-    headers = (sptr)FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders((struct WfbcData *)wfbcData, mapMode, 1);
+    headers = FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders((struct WfbcData *)wfbcData, mapMode, 1);
     headerCount = FIELD_WFBC_DATA_LOCAL_CountPeople((struct WfbcData *)wfbcData, mapMode);
     if (headers != 0 && headerCount != 0)
         FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)headerCount, eventWork);
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 
-    itemSlots = (sptr)GAME_DATA_GetMusicalShotTitle(gameData);
+    itemSlots = GAME_DATA_GetMusicalShotTitle(gameData);
     itemCount = FIELD_WFBC_DATA_LOCAL_CountItemSlots((u16 *)itemSlots);
-    headers = (sptr)FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
+    headers = FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
     if (headers != 0 && itemCount != 0)
         FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)itemCount, eventWork);
     if (headers != 0)
@@ -2214,7 +2231,7 @@ void EVENT_MAPCHANGE_UpdateFieldStateForZone(GameSystem *gameSystem, u16 zoneId)
     }
 
     EVENTDATA_SYSTEM_Load(eventData, zoneId, GAME_DATA_GetSeason(gameData));
-    fieldWork = (struct MapMatrix *)GAME_DATA_GetFieldWork(gameData);
+    fieldWork = GAME_DATA_GetFieldWork(gameData);
     MAP_MATRIX_Load(fieldWork, ZONEDATA_GetMatrixId(zoneId), zoneId, 0x8001);
     MAP_MATRIX_ApplyReplace(fieldWork, gameSystem, 0x8001);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, zoneId);
@@ -2261,7 +2278,7 @@ void EVENT_MAPCHANGE_ApplyZoneTableEntry(GameData *gameData, int zoneId)
 /* Allocator with callback, copies the location and fills the link fields. */
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location, int requestSession, int intrudeId)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_RunIntrudeSessionEvent, 0x30);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunIntrudeSessionEvent, sizeof(MapChangeIntrudeWork));
     MapChangeIntrudeWork *work = GAME_EVENT_GetWork(event);
 
     work->location = *location;
@@ -2276,7 +2293,7 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(GameSystem *gameSystem, Fie
 /* Allocator with callback, copies the location and two link fields. */
 GameEvent *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(GameSystem *gameSystem, FieldMap *fieldMap, Location *location)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_RunIntrudeArriveEvent, 0x30);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_RunIntrudeArriveEvent, sizeof(MapChangeIntrudeWork));
     MapChangeIntrudeWork *work = GAME_EVENT_GetWork(event);
 
     work->location = *location;
@@ -2286,8 +2303,9 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(GameSystem *gameSystem, Fiel
     return event;
 }
 
-int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChangeIntrudeWork *work)
+int EVENT_MAPCHANGE_RunIntrudeArriveEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    MapChangeIntrudeWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
     GameEvent *child;
@@ -2300,7 +2318,7 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChang
         state[0]++;
         break;
     case 1:
-        child = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
+        child = GAME_EVENT_Create(gameSystem, 0, EVENT_MAPCHANGE_DetachedTailEvent, sizeof(MapChangeWork));
         childWork = GAME_EVENT_GetWork(child);
         EVENT_MAPCHANGE_InitWork(childWork, gameSystem);
         childWork->destination = work->location;
@@ -2320,8 +2338,9 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChang
 }
 
 /* Intrude warp event: starts the session, sets the intrude id, runs the arrival. */
-int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChangeIntrudeWork *work)
+int EVENT_MAPCHANGE_RunIntrudeSessionEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    MapChangeIntrudeWork *work = workPtr;
     int busy;
     GameComm *gameComm;
     int isHost;
@@ -2460,14 +2479,14 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData)
     FORMCHANGE_RevertShayminAtNight(gameData, partySave, (u32 *)((u8 *)CONSOLE_STAMP_GetDailyClock(saveControl) + 0x14), season);
 }
 
-void *EVENT_MAPCHANGE_TamperLeakA(void)
+void EVENT_MAPCHANGE_TamperLeakA(void)
 {
-    return GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe35);
+    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe35);
 }
 
-void *EVENT_MAPCHANGE_TamperLeakB(void)
+void EVENT_MAPCHANGE_TamperLeakB(void)
 {
-    return GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe3a);
+    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe3a);
 }
 
 /*

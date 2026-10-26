@@ -123,7 +123,7 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;
-    info = (struct GSIResolveHostnameInfo *)gsimalloc(8);
+    info = (struct GSIResolveHostnameInfo *)gsimalloc(sizeof(*info));
     if (info == 0)
         return -1;
     info->ip = *(unsigned long *)SOCHostEnt->addrList[0];

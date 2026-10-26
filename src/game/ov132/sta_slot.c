@@ -18,25 +18,7 @@
 
 #include "../types.h"
 
-/* One of four player slots of the staging state; stride 0x30. */
-typedef struct StaSlot {
-    int used;                /* +0x00 */
-    unsigned char value;     /* +0x04 */
-    unsigned char state;     /* +0x05, default 10 */
-    unsigned char key;       /* +0x06 */
-    unsigned char sub[0x29]; /* +0x07, per-subindex bytes */
-} StaSlot;
-
-/* Owner of the four slots and the outgoing record queue. */
-typedef struct StaSlotOwner {
-    unsigned char pad_0[0x6c];
-    StaSlot slots[4];            /* +0x6c */
-    unsigned char pad_12c[0x54];
-    unsigned char currentSlot;   /* +0x180 */
-    unsigned char pad_181[7];
-    unsigned int queueFlag;      /* +0x188 */
-    unsigned int queue[8];       /* +0x18c */
-} StaSlotOwner;
+#include "ov132_types.h"
 
 u32 STA_SLOT_GetSub(char *p, u32 index, u32 subindex);
 void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value);
@@ -44,38 +26,38 @@ unsigned char STA_SLOT_GetStateByKey(unsigned char *p, unsigned char key);
 void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key);
 int STA_SLOT_GetCurrentKey(char *p);
 void STA_SLOT_ClearCurrent(unsigned char *p);
-void STA_SLOT_PushRecord(StaSlotOwner *p, u32 a, u32 b, u32 c);
+void STA_SLOT_PushRecord(struct ActingHost *p, u32 a, u32 b, u32 c);
 unsigned char *STA_SLOT_GetRecordTable(void *h);
-void STA_SLOT_Noop(int buffer, int size, int kind);
+void STA_SLOT_Noop(void *buffer, int size, int kind);
 extern unsigned char d_021FDDEC[];
 
-u32 STA_SLOT_GetSub(char *p, u32 index, u32 subindex) { p = p + index * 0x30; return *(u8 *)(p + subindex + 0x73); }
+u32 STA_SLOT_GetSub(char *p, u32 index, u32 subindex) { p = p + index * (int)sizeof(struct StaActRecord); return ((struct ActingHost *)p)->rec[0].items[subindex]; }
 
 /* A byte parameter keeps the store input live without an entry truncation. */
-void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value) { u8 i; for (i = 0; i < 4; i++) { if (key == ((StaSlotOwner *)p)->slots[i].key) { ((StaSlotOwner *)p)->slots[i].used = 1; ((StaSlotOwner *)p)->slots[i].value = value; } } }
+void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value) { u8 i; for (i = 0; i < 4; i++) { if (key == ((struct ActingHost *)p)->rec[i].key) { ((struct ActingHost *)p)->rec[i].used = 1; ((struct ActingHost *)p)->rec[i].value = value; } } }
 
-unsigned char STA_SLOT_GetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((StaSlotOwner *)p)->slots[i].key == key) return ((StaSlotOwner *)p)->slots[i].state; } return 10; }
+unsigned char STA_SLOT_GetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((struct ActingHost *)p)->rec[i].key == key) return ((struct ActingHost *)p)->rec[i].state; } return 10; }
 
-void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((StaSlotOwner *)p)->slots[i].key == key) ((StaSlotOwner *)p)->slots[i].state = 10; } }
+void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key) { unsigned char i; for (i = 0; i < 4; i++) { if (((struct ActingHost *)p)->rec[i].key == key) ((struct ActingHost *)p)->rec[i].state = 10; } }
 
 int STA_SLOT_GetCurrentKey(char *p)
 {
-    unsigned int i = ((StaSlotOwner *)p)->currentSlot;
+    unsigned int i = ((struct ActingHost *)p)->chosenPlayer;
 
     if (i < 4)
-        return ((StaSlotOwner *)p)->slots[i].key;
+        return ((struct ActingHost *)p)->rec[i].key;
     return 4;
 }
 
-void STA_SLOT_ClearCurrent(unsigned char *p) { ((StaSlotOwner *)p)->currentSlot = 4; }
+void STA_SLOT_ClearCurrent(unsigned char *p) { ((struct ActingHost *)p)->chosenPlayer = 4; }
 
-void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result)
+void STA_SLOT_PushRecord(struct ActingHost *p, u32 player, u32 action, u32 result)
 {
     u8 i;
     for (i = 0; i < 8; i++) {
-        if (p->queue[i] == 0xffff) {
-            p->queue[i] = (result << 16) + (player << 8) + action;
-            p->queueFlag = 1;
+        if (p->pickCommand[i] == 0xffff) {
+            p->pickCommand[i] = (result << 16) + (player << 8) + action;
+            p->pickSendPending = 1;
             return;
         }
     }
@@ -83,6 +65,6 @@ void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result)
 
 unsigned char *STA_SLOT_GetRecordTable(void *unused) { return d_021FDDEC; }
 
-void STA_SLOT_Noop(int buffer, int size, int kind)
+void STA_SLOT_Noop(void *buffer, int size, int kind)
 {
 }

@@ -103,7 +103,7 @@ MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musica
     u8 second;
     u8 round;
 
-    program = GFL_HEAP_Alloc(heapId, 0x10, 0, sMusicalProgramFileName, 100);
+    program = GFL_HEAP_Alloc(heapId, sizeof(*program), 0, sMusicalProgramFileName, 100);
     program->catalog.programs = musicalSystem->programs;
     for (i = 0; i < 4; i++) {
         program->categoryBonus[i] = 0;

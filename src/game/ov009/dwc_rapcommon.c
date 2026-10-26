@@ -186,11 +186,11 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
     if (_pRapHeap->subHeap != 0) {
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap->subMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
-    _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->subMem = GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
+    _pRapHeap->subHeap = NNS_FndCreateExpHeapEx((void *)(((uptr)_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->subOwnerId = ownerId;
-    NNSi_FndSetAllocModeBit((void *)_pRapHeap->subHeap, 1);
-    NNSi_FndSetGroupId((void *)_pRapHeap->subHeap, 0xea);
+    NNSi_FndSetAllocModeBit((char *)_pRapHeap->subHeap, 1);
+    NNSi_FndSetGroupId((char *)_pRapHeap->subHeap, 0xea);
     _pRapHeap->subMinRequest = minRequestSize;
 }
 
@@ -210,8 +210,8 @@ void DWC_RAPCOMMON_DestroySubHeap(void)
 void DWC_RAPCOMMON_ReleaseSubHeap(void)
 {
     if (_pRapHeap->subMem != 0) {
-        NNSi_FndDestroyExpHeap((void *)_pRapHeap->subHeap);
-        GFL_HEAP_Free((void *)_pRapHeap->subMem);
+        NNSi_FndDestroyExpHeap(_pRapHeap->subHeap);
+        GFL_HEAP_Free(_pRapHeap->subMem);
         _pRapHeap->subHeap = 0;
         _pRapHeap->subMem = 0;
         if (_pRapHeap->tag != 0) {
@@ -238,12 +238,12 @@ void *DWC_RAPCOMMON_Alloc(int ownerId, unsigned long size, int align)
 
     if (_pRapHeap->subHeap != 0 && ownerId == _pRapHeap->subOwnerId && size > _pRapHeap->subMinRequest) {
         irqState = OS_DisableInterrupts();
-        block = NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->subHeap, size, align);
+        block = NNS_FndAllocFromExpHeapEx(_pRapHeap->subHeap, size, align);
         OS_RestoreInterrupts(irqState);
         _pRapHeap->subLiveBlocks++;
     } else {
         irqState = OS_DisableInterrupts();
-        block = NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
+        block = NNS_FndAllocFromExpHeapEx(_pRapHeap->mainHeap, size, align);
         OS_RestoreInterrupts(irqState);
     }
     if (block == 0) {
@@ -268,7 +268,7 @@ void DWC_RAPCOMMON_Free(int ownerId, void *block, unsigned long unused)
     if (NNSi_FndGetMBlockAttribute(block) == 0xEA) {
         if (_pRapHeap->subHeap != 0) {
             irqState = OS_DisableInterrupts();
-            NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->subHeap, block);
+            NNS_FndFreeToExpHeap(_pRapHeap->subHeap, block);
             OS_RestoreInterrupts(irqState);
             _pRapHeap->subLiveBlocks--;
             return;
@@ -277,7 +277,7 @@ void DWC_RAPCOMMON_Free(int ownerId, void *block, unsigned long unused)
         return;
     }
     irqState = OS_DisableInterrupts();
-    NNS_FndFreeToExpHeap((struct ExpHeap *)_pRapHeap->mainHeap, block);
+    NNS_FndFreeToExpHeap(_pRapHeap->mainHeap, block);
     OS_RestoreInterrupts(irqState);
 }
 
@@ -286,9 +286,9 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
     if (_pRapHeap != 0) {
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
-    _pRapHeap->mainMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
-    _pRapHeap->mainHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, sizeof(*_pRapHeap), 1, _sDwcRapCommonFile, 0x14C);
+    _pRapHeap->mainMem = GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
+    _pRapHeap->mainHeap = NNS_FndCreateExpHeapEx((void *)(((uptr)_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->tag = 0;
 }
 
@@ -300,8 +300,8 @@ void DWC_RAPCOMMON_DestroyHeap(void)
     if (_pRapHeap->allocFailed == 1 || _pRapHeap->subMem != 0) {
         DWC_RAPCOMMON_ReleaseSubHeap();
     }
-    NNSi_FndDestroyExpHeap((void *)_pRapHeap->mainHeap);
-    GFL_HEAP_Free((void *)_pRapHeap->mainMem);
+    NNSi_FndDestroyExpHeap(_pRapHeap->mainHeap);
+    GFL_HEAP_Free(_pRapHeap->mainMem);
     GFL_HEAP_Free(_pRapHeap);
     _pRapHeap = 0;
 }
@@ -349,7 +349,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
     int gameCode;
 
     if (GFL_NET_GetRunState() != 0) {
-        errorInfo = (NetErrorInfo *)GFL_NET_STATE_GetError();
+        errorInfo = GFL_NET_STATE_GetError();
         if (GFL_NET_ERR_GetErrorLevel() != 0) {
             switch (errorInfo->errorType) {
             case 0:

@@ -13,6 +13,7 @@
  * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, PALETTE_ANIME_ReleaseOriginal.c by tools/splitfile.py.
  *
  * symbols:
+ *   d_021C3F50 0x021C3F50 data a4
  *   RESEARCH_COMMON_SetInputFlag 0x021C09FC thumb ov217
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
@@ -83,8 +84,8 @@ struct ActorTemplate {
 
 /* ROM data read by the palette-animation setup. */
 struct PaletteAnimeBindData {
-    u32 palette;
-    u32 original;
+    u16 *palette;
+    u16 *original;
     u8 colorCount;
 };
 
@@ -96,26 +97,14 @@ struct Unit;
 struct ClactSysInit;
 struct DispVramCfg;
 struct ActorInitParam;
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 compressed, u32 vramType, u16 heapId);
-extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
-extern void CLACT_ReleaseCharacter(u32 resId);
-extern void CLACT_ReleaseCellAnim(u32 handle);
-extern s32 CLACT_RegisterPaletteEx(void *arc, u32 id, u32 type, u32 offset, u16 palCount, u16 slot, u16 heapId);
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern u32 CLACT_DeleteUnit(struct Unit *unit);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+#include "../arm9/clact.h"
 #include "../arm9/palanm.h"
-extern void CLACT_ReleasePalette(u32 resId);
 #include "../arm9/mi_memory.h"
 struct GameSystem;
 struct GameData;
 #include "../arm9/gamesystem.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-extern void CLACT_ExitSystem(void);
-extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 
 /* palette_anime.c */
 #include "palette_anime.h"
@@ -124,17 +113,17 @@ struct PaletteAnime;
 struct ResearchCommon *RESEARCH_COMMON_Create(u32 heapId, const struct Ctx *ctx);
 u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
 u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
-u32 RESEARCH_COMMON_GetContext(u32 *common);
-u32 RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
+const struct Ctx *RESEARCH_COMMON_GetContext(struct ResearchCommon *common);
+void *RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 void *RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 void RESEARCH_COMMON_SetScreen(struct ResearchCommon *common, u32 screen);
 void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, u32 value);
 u32 RESEARCH_COMMON_GetPreviousScreen(struct ResearchCommon *common);
 u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
-void RESEARCH_COMMON_UpdatePaletteAnime(u32 common);
+void RESEARCH_COMMON_UpdatePaletteAnime(struct ResearchCommon *common);
 void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, u32 index);
-void RESEARCH_COMMON_StopPaletteAnime(u32 common);
-void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
+void RESEARCH_COMMON_StopPaletteAnime(struct ResearchCommon *common);
+void RESEARCH_COMMON_RestorePaletteAnime(struct ResearchCommon *common);
 u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 void RESEARCH_COMMON_SetInputFlag(struct ResearchCommon *common);
 void RESEARCH_COMMON_ClearFields(struct ResearchCommon *common);
@@ -202,15 +191,15 @@ u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common)
 }
 
 /* Returns the context pointer, word at +4. */
-u32 RESEARCH_COMMON_GetContext(u32 *common)
+const struct Ctx *RESEARCH_COMMON_GetContext(struct ResearchCommon *common)
 {
-    return common[1];
+    return common->ctx;
 }
 
 /* Returns the shared resource data. */
-u32 RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common)
+void *RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common)
 {
-    return (uptr)common->appResource;
+    return common->appResource;
 }
 
 /* Returns the touch-rectangle table. */
@@ -245,9 +234,9 @@ u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common)
 }
 
 /* Veneer: updates palette animation 0. */
-void RESEARCH_COMMON_UpdatePaletteAnime(u32 common)
+void RESEARCH_COMMON_UpdatePaletteAnime(struct ResearchCommon *common)
 {
-    RESEARCH_COMMON_UpdatePaletteAnimeImpl((struct ResearchCommon *)common);
+    RESEARCH_COMMON_UpdatePaletteAnimeImpl(common);
 }
 
 /* Veneer: starts the palette animation at index. */
@@ -257,15 +246,15 @@ void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, u32 index)
 }
 
 /* Veneer: stops palette animation 0. */
-void RESEARCH_COMMON_StopPaletteAnime(u32 common)
+void RESEARCH_COMMON_StopPaletteAnime(struct ResearchCommon *common)
 {
-    RESEARCH_COMMON_StopPaletteAnimeImpl((struct ResearchCommon *)common, 0);
+    RESEARCH_COMMON_StopPaletteAnimeImpl(common, 0);
 }
 
 /* Veneer: restores the colours of palette animation 0. */
-void RESEARCH_COMMON_RestorePaletteAnime(u32 common)
+void RESEARCH_COMMON_RestorePaletteAnime(struct ResearchCommon *common)
 {
-    RESEARCH_COMMON_RestorePaletteAnimeImpl((struct ResearchCommon *)common, 0);
+    RESEARCH_COMMON_RestorePaletteAnimeImpl(common, 0);
 }
 
 /* Returns the input flag. */
@@ -283,7 +272,7 @@ void RESEARCH_COMMON_SetInputFlag(struct ResearchCommon *common)
 /* Clears the object and every sub-object slot. */
 void RESEARCH_COMMON_ClearFields(struct ResearchCommon *common)
 {
-    MI_CpuFill8(common, 0, 0x40);
+    MI_CpuFill8(common, 0, sizeof(struct ResearchCommon));
     common->previousScreen = 0;
     common->currentScreen = 0;
     RESEARCH_COMMON_ClearResourceIds(common);
@@ -296,7 +285,7 @@ void RESEARCH_COMMON_ClearFields(struct ResearchCommon *common)
 /* Allocates the 64-byte object. */
 struct ResearchCommon *RESEARCH_COMMON_Alloc(u32 heapId)
 {
-    return GFL_HEAP_Alloc(heapId, 64, 0, (const char *)0x21C4020, 481);
+    return GFL_HEAP_Alloc(heapId, sizeof(struct ResearchCommon), 0, (const char *)0x21C4020, 481);
 }
 
 /* Frees the object. */
@@ -481,7 +470,7 @@ void RESEARCH_COMMON_ClearPaletteAnime(struct ResearchCommon *common)
 /* Creates the palette animation. */
 void RESEARCH_COMMON_CreatePaletteAnime(struct ResearchCommon *common)
 {
-    common->paletteAnime[0] = (struct PaletteAnime *)PALETTE_ANIME_Create(common->heapId);
+    common->paletteAnime[0] = PALETTE_ANIME_Create(common->heapId);
 }
 
 /* Destroys the palette animation. */
@@ -491,10 +480,12 @@ void RESEARCH_COMMON_DestroyPaletteAnime(struct ResearchCommon *common)
 }
 
 /* Binds the palette animation to its palette range from ROM data. */
+extern const struct PaletteAnimeBindData d_021C3F50;
+
 void RESEARCH_COMMON_BindPaletteAnime(struct ResearchCommon *common)
 {
-    const struct PaletteAnimeBindData *bind = (const struct PaletteAnimeBindData *)0x21C3F50;
-    PALETTE_ANIME_Bind(common->paletteAnime[0], (unsigned short *)bind->palette, (unsigned short *)bind->original, bind->colorCount);
+    const struct PaletteAnimeBindData *bind = &d_021C3F50;
+    PALETTE_ANIME_Bind(common->paletteAnime[0], bind->palette, bind->original, bind->colorCount);
 }
 
 /* Restores the colours of palette animation 0. */
@@ -530,6 +521,7 @@ void RESEARCH_COMMON_UpdatePaletteAnimeImpl(struct ResearchCommon *common)
 }
 
 /* Copies the two touch rectangles from ROM, reordering each pair of bytes. */
+#ifdef __MWERKS__
 void RESEARCH_COMMON_InitTouchRects(struct ResearchCommon *common)
 {
     int i;
@@ -541,6 +533,18 @@ void RESEARCH_COMMON_InitTouchRects(struct ResearchCommon *common)
         base[i * 4 + 0xD] = d_021C3F48[i * 4 + 3];
     }
 }
+#else
+void RESEARCH_COMMON_InitTouchRects(struct ResearchCommon *common)
+{
+    int i;
+    for (i = 0; i < 2; i++) {
+        common->touchRects[i].left = d_021C3F48[i * 4];
+        common->touchRects[i].right = d_021C3F48[i * 4 + 1];
+        common->touchRects[i].top = d_021C3F48[i * 4 + 2];
+        common->touchRects[i].bottom = d_021C3F48[i * 4 + 3];
+    }
+}
+#endif
 
 /* Returns resource id index. */
 u32 RESEARCH_COMMON_GetResourceId(struct ResearchCommon *common, u32 index)

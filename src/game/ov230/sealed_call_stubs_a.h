@@ -6,12 +6,12 @@
 
 #include "../types.h"
 
-u32 OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused);
-u32 OV230_CallSealedBody1(void (*hook)(void), void (*hookArg)(void), u32 unused);
-u32 OV230_CallSealedBody2(void (*hook)(void), void (*hookArg)(void), u32 unused);
-u32 OV230_CallSealedBody3(void (*hook)(void), void (*hookArg)(void), u32 unused);
-u32 OV230_CallSealedBody4(void (*hook)(void), void (*hookArg)(void), u32 unused);
-u32 OV230_CallSealedBody5(void (*hook)(void), void (*hookArg)(void), u32 unused);
+u32 OV230_CallSealedBody0(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
+u32 OV230_CallSealedBody1(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
+u32 OV230_CallSealedBody2(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
+u32 OV230_CallSealedBody3(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
+u32 OV230_CallSealedBody4(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
+u32 OV230_CallSealedBody5(u32 (*caller)(void (*target)(void)), void (*target)(void), u32 unused);
 void LOADER_ENTRY_DecryptCallStubs0(void);
 /* END mkheaders: generated region */
 

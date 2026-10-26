@@ -110,7 +110,7 @@ extern int gScriptCheckFlags;
 extern ScriptCheckHandler gScriptCheckHandlers[];
 
 int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem);
-ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork);
+ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, void *targetObjParam, ScriptWork *parentWork);
 int SCRIPT_WORK_Delete(ScriptWork *work);
 void *SCRIPT_WORK_GetEvent(ScriptWork *work);
 void *SCRIPT_WORK_GetGameSystem(ScriptWork *work);
@@ -147,7 +147,7 @@ void SCRIPT_WORK_SetCheckFlag(int flagId);
 void SCRIPT_WORK_ResetCheckFlag(int flagId);
 int SCRIPT_WORK_CheckFlag(int flagId);
 int SCRIPT_WORK_IsCheckFlagSet(int flagId);
-int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task);
+int SCRIPT_WORK_RunCheckTask(struct GameEvent *taskHandle, int *taskArg, void *work);
 void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm);
 int SCRIPT_WORK_CmdNop(void);
 int SCRIPT_WORK_CmdDummy(void);
@@ -173,9 +173,9 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
     return result;
 }
 
-ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork)
+ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, void *targetObjParam, ScriptWork *parentWork)
 {
-    ScriptWork *work = GFL_HEAP_Alloc(heapId, 0x14C, 1, sScriptWorkFileName, 0xAF);
+    ScriptWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sScriptWorkFileName, 0xAF);
     work->magic = SCRIPT_WORK_MAGIC;
     work->heapId = heapId;
     work->gameSystem = gameSystem;
@@ -414,8 +414,9 @@ int SCRIPT_WORK_IsCheckFlagSet(int flagId)
     return 0;
 }
 
-int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task)
+int SCRIPT_WORK_RunCheckTask(struct GameEvent *taskHandle, int *taskArg, void *workPtr)
 {
+    ScriptCheckTask *task = workPtr;
     do {
         ScriptCheckHandler handler = gScriptCheckHandlers[task->index];
         if (handler == 0)
@@ -439,7 +440,7 @@ void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm)
 {
     void *scriptCtl = SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)vm);
     void *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)vm);
-    void *taskHandle = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
+    void *taskHandle = GAME_EVENT_Create(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
     ScriptCheckTask *task = GAME_EVENT_GetWork(taskHandle);
     task->gameSystem = gameSystem;
     task->vm = vm;

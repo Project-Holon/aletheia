@@ -193,7 +193,6 @@
 extern void NAMEIN_GRAPHIC_DrawCellTips(char *, char *, void *, void *, u32);
 #endif
 
-#define OBJ(p) (*(char **)((p) + 0x2C4))
 
 struct Descriptor;
 
@@ -260,113 +259,13 @@ typedef struct {u16 w;u16 h;u32 pad;} Dim8;
 
 typedef struct {short x,y;} NameinGraphicVec2;
 
-typedef void (*NameinGraphicCallbackFn)(u8 *, u8 *, u32);
-
 typedef struct {unsigned words[4];} Disp;
 
 typedef struct {unsigned words[8];} Bg;
 
 typedef struct {unsigned id;Bg config;unsigned type,enabled;} NameinGraphicEntry;
 
-/* The caller's parameter block reached from the work at 0x2C4. */
-typedef struct NameinGraphicConfig {
-    unsigned int mode;              /* 0x00 */
-    unsigned short valueA;          /* 0x04 species id or kind */
-    unsigned short valueB;          /* 0x06 form or variant */
-    void *mon;                      /* 0x08 mon record, 0 for a plain name */
-    unsigned int hasName;           /* 0x0C non-zero when the mon carries a name */
-    unsigned char pad_10[8];
-    unsigned int maxLength;         /* 0x18 name length limit */
-    unsigned int accepted;          /* 0x1C name accepted flag */
-    struct U16Vec *name;            /* 0x20 current name string */
-    unsigned char *saveControl;     /* 0x24 save-control block */
-    struct Blk34 *inputFlag;        /* 0x28 input-flag block */
-} NameinGraphicConfig;
-
-/* The kana/symbol grid work (the 0x130 block at work+0xFC). */
-typedef struct NameinGraphicGrid {
-    unsigned char picker[0x24];      /* 0x00 picker, see NAMEIN_GRAPHIC_InitPicker */
-    unsigned char cursor[0xB4];      /* 0x24 kana/symbol cursor */
-    int selectionX;                  /* 0xD8 selected cell x */
-    int selectionY;                  /* 0xDC selected cell y */
-    void *bmpWin;                    /* 0xE0 cell-tip bmp window */
-    int state;                       /* 0xE4 input state (kana, symbol, commit) */
-    int action;                      /* 0xE8 action returned by NAMEIN_GRAPHIC_GetGridAction */
-    void *tipBmp;                    /* 0xEC cell-tip bmp, same window as bmpWin */
-    unsigned char tipDirty;          /* 0xF0 */
-    unsigned char pad_F1[3];
-    void *font;                      /* 0xF4 */
-    void *printSys;                  /* 0xF8 */
-    unsigned short actionValue;      /* 0xFC */
-    unsigned short heap;             /* 0xFE */
-    int mode;                        /* 0x100 */
-    int index;                       /* 0x104 */
-    unsigned char variant;           /* 0x108 */
-    unsigned char pad_109[1];
-    unsigned short animTick;         /* 0x10A */
-    unsigned short animPhase;        /* 0x10C */
-    unsigned char pad_10E[2];
-    int animActive;                  /* 0x110 */
-    int targetMode;                  /* 0x114 */
-    int extraLayer;                  /* 0x118 */
-    void *paletteHandleA;            /* 0x11C */
-    void *paletteHandleB;            /* 0x120 */
-    void *paletteDataA;              /* 0x124 */
-    void *paletteDataB;              /* 0x128 */
-    void *data;                      /* 0x12C */
-} NameinGraphicGrid;
-
-/* The name-entry message box (the 0x24 block at work+0x230). */
-typedef struct NameinGraphicMsgBox {
-    void *bank;                      /* 0x00 message bank */
-    unsigned int font;               /* 0x04 text colour */
-    void *bmp;                       /* 0x08 bmp used by the printer */
-    unsigned char dirty;             /* 0x0C */
-    unsigned char pad_0D[3];
-    void *printSys;                  /* 0x10 */
-    void *win;                       /* 0x14 bmp window */
-    void *wordSet;                   /* 0x18 word set */
-    void *strbuf;                    /* 0x1C scratch string buffer */
-    unsigned short color;            /* 0x20 fill colour */
-    unsigned char pad_22[2];
-} NameinGraphicMsgBox;
-
-/* The text-control block (the 0x10 block at work+0x254). */
-typedef struct NameinGraphicTcbl {
-    void *stream;                    /* 0x00 print stream */
-    void *handle;                    /* 0x04 tcbl handle */
-    unsigned int callback;           /* 0x08 callback address */
-    unsigned short counter;          /* 0x0C */
-    unsigned short flag;             /* 0x0E */
-} NameinGraphicTcbl;
-
-/* The icon actor work (the 0x3C block at work+0x264). */
-typedef struct NameinGraphicIcon {
-    void *actor;                     /* 0x00 */
-    unsigned int reserved04;             /* 0x04 */
-    unsigned int palette;            /* 0x08 */
-    unsigned int character;          /* 0x0C */
-    unsigned int cellAnim;           /* 0x10 */
-    int state;                       /* 0x14 */
-    int touchMode;                   /* 0x18 */
-    int animActive;                  /* 0x1C */
-    unsigned short animTick;         /* 0x20 */
-    unsigned char pad_22[2];
-    unsigned int palette2;           /* 0x24 */
-    void *text;                      /* 0x28 */
-    void *oam;                       /* 0x2C */
-    void *bmp;                       /* 0x30 */
-    int oamDirty;                    /* 0x34 */
-    void *printSys;                  /* 0x38 */
-} NameinGraphicIcon;
-
-/* The callback block (the 0x10 block at work+0x2A0). */
-typedef struct NameinGraphicCallback {
-    unsigned int fn;                 /* 0x00 */
-    unsigned int state;              /* 0x04 */
-    unsigned int arg;                /* 0x08 */
-    unsigned int owner;              /* 0x0C */
-} NameinGraphicCallback;
+#include "../ov010/namein_args.h"
 
 /* The CLACT sub-object of the display (display+0x04). */
 typedef struct NameinGraphicClact {
@@ -394,17 +293,6 @@ typedef struct NameinGraphicRect4 {
     unsigned int right;              /* 0x08 */
     unsigned int bottom;             /* 0x0C */
 } NameinGraphicRect4;
-
-/* The name-entry screen work (partial view used by p03). */
-typedef struct NameinGraphicWork {
-    unsigned char pad_0[0x86];
-    unsigned short primaryLength;    /* 0x86 input-field primary length */
-    unsigned char pad_88[0x23C];
-    NameinGraphicConfig *args;       /* 0x2C4 */
-    int pendingMsg;                  /* 0x2C8 */
-    void *profWord;                  /* 0x2CC */
-    struct U16Vec *nameStrbuf;       /* 0x2D0 */
-} NameinGraphicWork;
 
 #include "../arm9/mi_memory.h"
 
@@ -671,7 +559,7 @@ struct ClactSysInit;
 
 int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *p,NameinGraphicPair *out);
 
-void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32 heap);
+void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void **data,void *palette,u32 heap);
 
 void NAMEIN_GRAPHIC_DeleteGrid(u8 *p);
 
@@ -683,7 +571,7 @@ u32 NAMEIN_GRAPHIC_GetGridIndex(const u8 *p);
 
 int NAMEIN_GRAPHIC_IsGridDrawDone(char *p);
 
-void *NAMEIN_GRAPHIC_GetGridMode(const u8 *p);
+int NAMEIN_GRAPHIC_GetGridMode(const u8 *p);
 
 u32 NAMEIN_GRAPHIC_GridIndex(u32 a,u32 b,u32 c);
 
@@ -711,7 +599,7 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out);
 
 void NAMEIN_GRAPHIC_ApplySymbolAction(char *p,int *input);
 
-void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned short e);
+void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,struct GfFont *a,struct MsgBank *b,struct PrintQueue *c,struct WordSet *d,unsigned short e);
 
 void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *p);
 
@@ -727,9 +615,9 @@ void NAMEIN_GRAPHIC_InitTcbl(char *p, int v);
 
 void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p);
 
-void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap);
+void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,NameInArgs *w,u32 heap);
 
-void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
+void NAMEIN_GRAPHIC_InitIconActor(NameinGraphicIcon *o, u32 mode, u32 iconIndex, u32 iconForm, struct Unit *s0, struct GfFont *s1, struct PrintQueue *s2, struct MsgBank *s3, struct BmpOamSys *s4, u16 heap);
 
 void NAMEIN_GRAPHIC_DeleteIconActor(unsigned char *p);
 
@@ -751,33 +639,33 @@ struct Strbuf *NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b);
 
 void NAMEIN_GRAPHIC_CommitName(char *p);
 
-int NAMEIN_GRAPHIC_IsNameValid(int p);
+int NAMEIN_GRAPHIC_IsNameValid(char *p);
 
-void NAMEIN_GRAPHIC_InitCallback(u8 *a, u32 b, u32 c);
+void NAMEIN_GRAPHIC_InitCallback(NameinGraphicCallback *a, void *b, NameinGraphicStep c);
 
-void NAMEIN_GRAPHIC_ClearCallback(void *p);
+void NAMEIN_GRAPHIC_ClearCallback(NameinGraphicCallback *p);
 
-void NAMEIN_GRAPHIC_RunCallback(u8 *p);
+void NAMEIN_GRAPHIC_RunCallback(NameinGraphicCallback *p);
 
-unsigned NAMEIN_GRAPHIC_GetCallbackState(unsigned char *p);
+unsigned NAMEIN_GRAPHIC_GetCallbackState(NameinGraphicCallback *p);
 
-void NAMEIN_GRAPHIC_SetCallback(unsigned char *p,unsigned value);
+void NAMEIN_GRAPHIC_SetCallback(NameinGraphicCallback *p,NameinGraphicStep value);
 
-void NAMEIN_GRAPHIC_FinishCallback(unsigned char *p);
+void NAMEIN_GRAPHIC_FinishCallback(NameinGraphicCallback *p);
 
-void NAMEIN_GRAPHIC_CallbackWaitDraw(unsigned char *p,int *unused,unsigned char *q);
+void NAMEIN_GRAPHIC_CallbackWaitDraw(NameinGraphicCallback *p,int *unused,unsigned char *q);
 
-void NAMEIN_GRAPHIC_CallbackFadeIn(unsigned char *p,int *state);
+void NAMEIN_GRAPHIC_CallbackFadeIn(NameinGraphicCallback *p,int *state);
 
-void NAMEIN_GRAPHIC_CallbackFadeOut(unsigned char *p,int *state);
+void NAMEIN_GRAPHIC_CallbackFadeOut(NameinGraphicCallback *p,int *state);
 
-void NAMEIN_GRAPHIC_CallbackWaitPrint(unsigned char *a, int *state, char *p);
+void NAMEIN_GRAPHIC_CallbackWaitPrint(NameinGraphicCallback *a, int *state, char *p);
 
-void NAMEIN_GRAPHIC_CallbackGridAction(unsigned char *owner,void *unused,char *p);
+void NAMEIN_GRAPHIC_CallbackGridAction(NameinGraphicCallback *owner,void *unused,char *p);
 
-void NAMEIN_GRAPHIC_CallbackFinish(unsigned char *a, int unused, char *p);
+void NAMEIN_GRAPHIC_CallbackFinish(NameinGraphicCallback *a, int unused, char *p);
 
-void NAMEIN_GRAPHIC_CallbackPauseSave(unsigned char *p,int *state,unsigned char *q);
+void NAMEIN_GRAPHIC_CallbackPauseSave(NameinGraphicCallback *p,int *state,unsigned char *q);
 
 unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap);
 
@@ -785,7 +673,7 @@ void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p);
 
 void NAMEIN_GRAPHIC_DrawDisplay(u8 *p);
 
-unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
+struct Unit *NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
 
 void NAMEIN_GRAPHIC_DisplayMainTask(struct TcbTask *a, void *b);
 
@@ -797,7 +685,7 @@ void NAMEIN_GRAPHIC_Empty(u8 *unused);
 
 void NAMEIN_GRAPHIC_ResetBg(u8 *unused);
 
-void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b);
+void NAMEIN_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b);
 
 void NAMEIN_GRAPHIC_ExitClact(u8 *p);
 
@@ -805,7 +693,7 @@ void NAMEIN_GRAPHIC_DrawClact(u8 *unused);
 
 void NAMEIN_GRAPHIC_VBlankClact(u8 *unused);
 
-u32 NAMEIN_GRAPHIC_LoadWord(const u32 *p);
+void *NAMEIN_GRAPHIC_LoadWord(void *const *p);
 
 #include "nsbtx_to_clwk.h"
 
@@ -839,36 +727,36 @@ int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *p,NameinGraphicPair *out) {
  * tail: two zero alignment bytes at 021F31B6 before 31B8.
  * prototype: 256C retains fifth heap input visibly stored by caller; heap forwards use full words without caller-side truncation.
  */
-void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32 heap)
+void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void **data,void *palette,u32 heap)
 {
  NameinGraphicBox box;
  void *bg;
  int index;
- MI_CpuFill8(p,0,0x130);
+ MI_CpuFill8(p,0,sizeof(NameinGraphicGrid));
  ((NameinGraphicGrid *)p)->selectionX=0;((NameinGraphicGrid *)p)->selectionY=0;
  ((NameinGraphicGrid *)p)->font=font;((NameinGraphicGrid *)p)->printSys=window;((NameinGraphicGrid *)p)->heap=heap;
  ((NameinGraphicGrid *)p)->mode=mode;((NameinGraphicGrid *)p)->targetMode=mode;((NameinGraphicGrid *)p)->data=data;
- ((NameinGraphicGrid *)p)->paletteHandleA=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(void *)((uptr)(p+0x124)),heap);
- ((NameinGraphicGrid *)p)->paletteHandleB=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(void *)((uptr)(p+0x128)),heap);
+ ((NameinGraphicGrid *)p)->paletteHandleA=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(void *)((((void *)&((struct NameinGraphicGrid *)p)->paletteDataA))),heap);
+ ((NameinGraphicGrid *)p)->paletteHandleB=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(void *)((((void *)&((struct NameinGraphicGrid *)p)->paletteDataB))),heap);
  if(mode==3){BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);BG_SYS_SetPlaneVisible(2,1);}
  BG_SYS_PushTile(1);
- NAMEIN_GRAPHIC_InitCursor(p+0x24,(void *)mode,palette,heap);
- index=NAMEIN_GRAPHIC_GridIndex(((NameinGraphicGrid *)p)->mode,((NameinGraphicGrid *)p)->index,p[0x108]);
+ NAMEIN_GRAPHIC_InitCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),mode,palette,heap);
+ index=NAMEIN_GRAPHIC_GridIndex(((NameinGraphicGrid *)p)->mode,((NameinGraphicGrid *)p)->index,((struct NameinGraphicGrid *)p)->variant);
  NAMEIN_GRAPHIC_InitPicker((char *)p,mode,index,((NameinGraphicGrid *)p)->data,heap);
  bg=(void *)BMP_WIN_Create(3,3,5,26,15,15,1);
  ((NameinGraphicGrid *)p)->bmpWin=bg;
  BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);BG_SYS_PushTile(BMP_WIN_GetBgLayer(bg));
- ((NameinGraphicGrid *)p)->tipBmp=((NameinGraphicGrid *)p)->bmpWin;p[0xf0]=0;
- NAMEIN_GRAPHIC_DrawCellTips((char *)p,(char *)p+0xec,window,font,heap);
+ ((NameinGraphicGrid *)p)->tipBmp=((NameinGraphicGrid *)p)->bmpWin;((struct NameinGraphicGrid *)p)->tipDirty=0;
+ NAMEIN_GRAPHIC_DrawCellTips((char *)p,(char *)((void *)&((struct NameinGraphicGrid *)p)->tipBmp),window,font,heap);
  if(UI_GetInputMode()==0){
-  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,1, (const struct NameinGraphicMainRect *)&box,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),&box))NAMEIN_GRAPHIC_SetupCursor((char *)((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&box,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
  }else {
-  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,0, (const struct NameinGraphicMainRect *)&box,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),&box))NAMEIN_GRAPHIC_SetupCursor((char *)((void *)&((struct NameinGraphicGrid *)p)->cursor),0, (const struct NameinGraphicMainRect *)&box,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
  }
 }
 
-void NAMEIN_GRAPHIC_DeleteGrid(u8 *p) {int off;BMP_WIN_Delete(((NameinGraphicGrid *)p)->bmpWin);NAMEIN_GRAPHIC_ClearPicker(p);NAMEIN_GRAPHIC_ClearCursor(p+36);off=0x11c;GFL_HEAP_Free(*(void **)(p+off));GFL_HEAP_Free(*(void **)(p+off+4));off+=20;MI_CpuFill8(p,0,off);}
+void NAMEIN_GRAPHIC_DeleteGrid(u8 *p) {int off;BMP_WIN_Delete(((NameinGraphicGrid *)p)->bmpWin);NAMEIN_GRAPHIC_ClearPicker(p);NAMEIN_GRAPHIC_ClearCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor));GFL_HEAP_Free(((NameinGraphicGrid *)p)->paletteHandleA);GFL_HEAP_Free(((NameinGraphicGrid *)p)->paletteHandleB);off=sizeof(NameinGraphicGrid);MI_CpuFill8(p,0,off);}
 
 void NAMEIN_GRAPHIC_UpdateGrid(char *p,char *q)
 {
@@ -892,12 +780,12 @@ void NAMEIN_GRAPHIC_UpdateGrid(char *p,char *q)
         if(NAMEIN_GRAPHIC_AnimateGrid(p))((NameinGraphicGrid *)p)->state=0;
         break;
     case 1:
-        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(p+0xD8));((NameinGraphicGrid *)p)->action=11;}
+        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));((NameinGraphicGrid *)p)->action=11;}
         ((NameinGraphicGrid *)p)->state=0;
         break;
     }
-    NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect));
-    NAMEIN_GRAPHIC_UpdateCursor(p+0x24,((NameinGraphicGrid *)p)->mode,&rect);
+    NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect);
+    NAMEIN_GRAPHIC_UpdateCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),((NameinGraphicGrid *)p)->mode,&rect);
     NAMEIN_GRAPHIC_IsGridDrawDone(p);
 }
 
@@ -914,8 +802,8 @@ int NAMEIN_GRAPHIC_GetGridAction(char *p, unsigned short *out)
 u32 NAMEIN_GRAPHIC_GetGridIndex(const u8 *p) {return (u32)((NameinGraphicGrid *)p)->index;}
 
 int NAMEIN_GRAPHIC_IsGridDrawDone(char *p) {
- sptr q;
- q=(sptr)((NameinGraphicGrid *)p)->printSys;
+ void *q;
+ q=((NameinGraphicGrid *)p)->printSys;
  if(((NameinGraphicGrid *)p)->tipDirty) {
  if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q,(void *)BMP_WIN_GetBmp(*(struct BmpWin **)&((NameinGraphicGrid *)p)->tipBmp))==0) {
  BMP_WIN_TransferChars(((NameinGraphicGrid *)p)->tipBmp);((NameinGraphicGrid *)p)->tipDirty=0;
@@ -923,7 +811,7 @@ int NAMEIN_GRAPHIC_IsGridDrawDone(char *p) {
  if(((NameinGraphicGrid *)p)->tipDirty==0)return 1;return 0;
 }
 
-void *NAMEIN_GRAPHIC_GetGridMode(const u8 *p) {return (void *)((NameinGraphicGrid *)p)->mode;}
+int NAMEIN_GRAPHIC_GetGridMode(const u8 *p) {return ((NameinGraphicGrid *)p)->mode;}
 
 u32 NAMEIN_GRAPHIC_GridIndex(u32 a,u32 b,u32 c) {if(a==3) a=b+(a+2*c);return a;}
 
@@ -946,18 +834,18 @@ int NAMEIN_GRAPHIC_SetGridMode(char *p,int mode) {
 int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
     int c;
     int y;
-    if (*(u32 *)(p + 0x110) != 0)
-    switch (*(u16 *)(p + 0x10c)) {
+    if (((struct NameinGraphicGrid *)p)->animActive != 0)
+    switch (((struct NameinGraphicGrid *)p)->animPhase) {
     case 0:
         BG_SYS_GetScrollY(1);
-        c = *(u16 *)(p + 0x10a);
+        c = ((struct NameinGraphicGrid *)p)->animTick;
         *(u16 *)0x04000052 = (s16)(-(c * 16) / 7 + 16) | (1 << 12);
         y = (s16)((c * -48) / 7);
         BG_SYS_ChangeScrollImmediate(1, 3, y);
         BG_SYS_ChangeScrollImmediate(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
-        if ((*(u16 *)(p + 0x10a))++ > 7) {
-            if (*(u32 *)(p + 0x118)) {
+        if (((struct NameinGraphicGrid *)p)->extraLayer) BG_SYS_ChangeScrollImmediate(2, 3, y);
+        if ((((struct NameinGraphicGrid *)p)->animTick)++ > 7) {
+            if (((struct NameinGraphicGrid *)p)->extraLayer) {
                 BG_SYS_SetPlaneVisible(1, 0);
                 BG_SYS_SetPlaneVisible(2, 0);
                 BG_SYS_SetPlaneVisible(3, 0);
@@ -965,42 +853,42 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
                 BG_SYS_SetPlaneVisible(1, 0);
                 BG_SYS_SetPlaneVisible(3, 0);
             }
-            *(u16 *)(p + 0x10a) = 0;
-            *(u16 *)(p + 0x10c) = 1;
+            ((struct NameinGraphicGrid *)p)->animTick = 0;
+            ((struct NameinGraphicGrid *)p)->animPhase = 1;
         }
         break;
     case 1:
         y = -48;
         BG_SYS_ChangeScrollImmediate(1, 3, y);
         BG_SYS_ChangeScrollImmediate(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
-        NAMEIN_GRAPHIC_SwitchGridMode(p, (u32)(*(void **)(p + 0x114)));
-        *(u16 *)(p + 0x10c) = 2;
+        if (((struct NameinGraphicGrid *)p)->extraLayer) BG_SYS_ChangeScrollImmediate(2, 3, y);
+        NAMEIN_GRAPHIC_SwitchGridMode(p, ((struct NameinGraphicGrid *)p)->targetMode);
+        ((struct NameinGraphicGrid *)p)->animPhase = 2;
         break;
     case 2:
-        *(u16 *)(p + 0x10a) = 7;
-        *(u16 *)(p + 0x10c) = 3;
+        ((struct NameinGraphicGrid *)p)->animTick = 7;
+        ((struct NameinGraphicGrid *)p)->animPhase = 3;
         BG_SYS_SetPlaneVisible(1, 1);
         BG_SYS_SetPlaneVisible(3, 1);
-        if (*(u32 *)(p + 0x100) != 3) BG_SYS_SetPlaneVisible(2, 1);
+        if (((struct NameinGraphicGrid *)p)->mode != 3) BG_SYS_SetPlaneVisible(2, 1);
         *(u16 *)0x04000052 = 1 << 12;
         break;
     case 3:
-        c = *(u16 *)(p + 0x10a);
+        c = ((struct NameinGraphicGrid *)p)->animTick;
         *(u16 *)0x04000052 = (s16)(-(c * 16) / 7 + 16) | (1 << 12);
         y = (s16)((c * -48) / 7);
         BG_SYS_ChangeScrollImmediate(1, 3, y);
         BG_SYS_ChangeScrollImmediate(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
-        if ((*(u16 *)(p + 0x10a))-- == 0) *(u16 *)(p + 0x10c) = 4;
+        if (((struct NameinGraphicGrid *)p)->extraLayer) BG_SYS_ChangeScrollImmediate(2, 3, y);
+        if ((((struct NameinGraphicGrid *)p)->animTick)-- == 0) ((struct NameinGraphicGrid *)p)->animPhase = 4;
         break;
     case 4:
         BG_SYS_ChangeScrollImmediate(1, 3, 0);
         BG_SYS_ChangeScrollImmediate(3, 3, 0);
         BG_SYS_ChangeScrollImmediate(2, 3, 0);
-        *(u32 *)(p + 0x118) = 0;
+        ((struct NameinGraphicGrid *)p)->extraLayer = 0;
         *(u16 *)0x04000050 = 0;
-        *(u32 *)(p + 0x110) = 0;
+        ((struct NameinGraphicGrid *)p)->animActive = 0;
         return 1;
     }
     return 0;
@@ -1013,11 +901,11 @@ void NAMEIN_GRAPHIC_SwitchGridMode(char *p, u32 mode) {
  index=NAMEIN_GRAPHIC_GridIndex(mode,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->variant);
  NAMEIN_GRAPHIC_InitPicker(p,mode,index,((NameinGraphicGrid *)p)->data,((NameinGraphicGrid *)p)->heap);
  BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicGrid *)p)->bmpWin),0);
- NAMEIN_GRAPHIC_DrawCellTips(p,p+0xEC,(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
+ NAMEIN_GRAPHIC_DrawCellTips(p,((void *)&((struct NameinGraphicGrid *)p)->tipBmp),(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
  if(mode==3) {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);
  BG_SYS_PushTile(1);
- if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)NAMEIN_GRAPHIC_ConvertCellMode((NameinGraphicPair *)(p+0xD8),((NameinGraphicGrid *)p)->mode,mode);
+ if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)NAMEIN_GRAPHIC_ConvertCellMode((NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),((NameinGraphicGrid *)p)->mode,mode);
  ((NameinGraphicGrid *)p)->mode=mode;
 }
 
@@ -1028,10 +916,10 @@ void NAMEIN_GRAPHIC_SetGridSelection(char *p,int index,int variant) {
  int selected;
  if(*(volatile int *)&((NameinGraphicGrid *)p)->mode!=3)return;
  if(((NameinGraphicGrid *)p)->variant==variant && ((NameinGraphicGrid *)p)->index==index)return;
- selected=NAMEIN_GRAPHIC_GridIndex(((u32)(*(void **)&((NameinGraphicGrid *)p)->mode)),(int)index,(unsigned char)variant);
- NAMEIN_GRAPHIC_LoadGrid((int *)p,selected,((NameinGraphicGrid *)p)->data);
+ selected=NAMEIN_GRAPHIC_GridIndex(((u32)((NameinGraphicGrid *)p)->mode),(int)index,(unsigned char)variant);
+ NAMEIN_GRAPHIC_LoadGrid((void **)p,selected,((NameinGraphicGrid *)p)->data);
  BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicGrid *)p)->bmpWin),0);
- NAMEIN_GRAPHIC_DrawCellTips(p,p+0xEC,(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
+ NAMEIN_GRAPHIC_DrawCellTips(p,((void *)&((struct NameinGraphicGrid *)p)->tipBmp),(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
  ((NameinGraphicGrid *)p)->index=index;((NameinGraphicGrid *)p)->variant=variant;
 }
 
@@ -1046,21 +934,21 @@ int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
     else if(KEY_GetRepeat()&16){delta.x=1;delta.y=0;changed=1;}
     else if(KEY_GetTrg()&8){
         delta.x=0;delta.y=0;changed=1;
-        NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(p+0xD8));
-        NAMEIN_GRAPHIC_PickerMove(p,(sptr)(p+0xD8),(sptr)&delta);
+        NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
+        NAMEIN_GRAPHIC_PickerMove(p,(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),(int *)&delta);
     }
     if(changed){
         if(UI_GetInputMode()==1){
-            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect))){
+            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)){
                 UI_SetInputMode(0);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
         }else{
-            NAMEIN_GRAPHIC_PickerMove(p,(sptr)p+0xD8,(sptr)&delta);
-            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect))){
+            NAMEIN_GRAPHIC_PickerMove(p,((void *)&((struct NameinGraphicGrid *)p)->selectionX),(int *)&delta);
+            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)){
                 GFL_USE_PlaySeDefaultVolume(1352);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
             }
         }
     }
@@ -1073,7 +961,7 @@ int NAMEIN_GRAPHIC_KanaKeyAction(char *p,int *out)
     int changed;
     changed=0;
     if(KEY_GetTrg()==1) {
-        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xD8);
+        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
         out[1]=1;changed=1;
     }
     if(KEY_GetTrg()==2) {
@@ -1082,14 +970,14 @@ int NAMEIN_GRAPHIC_KanaKeyAction(char *p,int *out)
     if(KEY_GetTrg()==4) {
         out[0]=((NameinGraphicGrid *)p)->mode+3;
         if(out[0]>5)out[0]=2;
-        NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(p+0xD8));
-        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xD8);changed=1;
+        NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
+        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));changed=1;
     }
     if(KEY_GetTrg()==256){((NameinGraphicGrid *)p)->action=10;changed=0;}
     if(changed && UI_GetInputMode()==1) {
-        if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect))) {
+        if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)) {
             GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
-            NAMEIN_GRAPHIC_SetupCursor(p+0x24,1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+            NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
             return 0;
         }
     }
@@ -1100,7 +988,7 @@ int NAMEIN_GRAPHIC_KanaTouch(char *p,int *out) {
  int point[2];unsigned x,y;int u;
  if(TOUCHPANEL_GetPointTrg(&x,&y)) {
  point[0]=x;point[1]=y;
- if(NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(p+0xD8))) {
+ if(NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)))) {
  u=((NameinGraphicGrid *)p)->selectionX;out[3]=((NameinGraphicGrid *)p)->selectionY;out[1]=1;out[2]=u;UI_SetInputMode(1);return 1;
  }}return 0;
 }
@@ -1109,7 +997,7 @@ void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
 {
     unsigned code;
     NameinGraphicRect rect;
-    if(input[1])code=NAMEIN_GRAPHIC_PickerToChar(p,(int *)(p+0xD8),(unsigned short *)(p+0xFC));
+    if(input[1])code=NAMEIN_GRAPHIC_PickerToChar(p,(int *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),(unsigned short *)(((void *)&((struct NameinGraphicGrid *)p)->actionValue)));
     else code=input[0];
     switch(code){
     case 0:break;
@@ -1127,8 +1015,8 @@ void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
     case 10:((NameinGraphicGrid *)p)->action=3;break;
     case 11:((NameinGraphicGrid *)p)->action=4;break;
     }
-    if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(input+2)), (NameinGraphicBox *)((sptr)&rect)))
-        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+    if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((input+2)), (NameinGraphicBox *)&rect))
+        NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),2, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
 }
 
 /*
@@ -1147,19 +1035,19 @@ int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
         else if(KEY_GetTrg()&16){delta.x=1;delta.y=0;changed=1;}
     }
     if(changed){
-        point=*(NameinGraphicPair *)(p+0xD8);
-        NAMEIN_GRAPHIC_PickerMove(p,(sptr)&point,(sptr)&delta);
+        point=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
+        NAMEIN_GRAPHIC_PickerMove(p,(int *)&point,(int *)&delta);
         if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=3){
             if(UI_GetInputMode()==1){
-                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect))){
+                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)){
                     GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
-                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                    NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 }
             }else{
-                NAMEIN_GRAPHIC_PickerMove(p,(sptr)p+0xD8,(sptr)&delta);
-                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((sptr)(p+0xD8)), (NameinGraphicBox *)((sptr)&rect))){
+                NAMEIN_GRAPHIC_PickerMove(p,((void *)&((struct NameinGraphicGrid *)p)->selectionX),(int *)&delta);
+                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)){
                     GFL_USE_PlaySeDefaultVolume(1352);
-                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                    NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 }
             }
         }
@@ -1172,20 +1060,20 @@ int NAMEIN_GRAPHIC_SymbolKeyAction(char *p,int *out) {
     int rect[4];
     if (((NameinGraphicGrid *)p)->extraLayer==0) {
         if (KEY_GetTrg()&1) {
-            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xd8);
+            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
             changed=1; out[1]=1;
         }
         if (KEY_GetTrg()&4) {
             out[0]=((NameinGraphicGrid *)p)->mode+3;
             if (out[0]>5) out[0]=2;
-            NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(p+0xd8));
-            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xd8);
+            NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
+            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
             changed=1;
         }
         if (changed && UI_GetInputMode()==1) {
-            if (NAMEIN_GRAPHIC_PickerGetBox(p,(NameinGraphicPair *)(p+0xd8),(NameinGraphicBox *)rect)) {
+            if (NAMEIN_GRAPHIC_PickerGetBox(p,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),(NameinGraphicBox *)rect)) {
                 GFL_USE_PlaySeDefaultVolume(1352); UI_SetInputMode(0);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),1,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 return 0;
             }
         }
@@ -1202,8 +1090,8 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out) {
     if (((NameinGraphicGrid *)p)->extraLayer==0) {
         if (TOUCHPANEL_GetPointTrg(&x,&y)) {
             point[0]=x; point[1]=y;
-            if (NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(p+0xd8))) {
-                if (NAMEIN_GRAPHIC_PickerToChar(p,(int *)(p+0xd8),0)-2<=3) {
+            if (NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)))) {
+                if (NAMEIN_GRAPHIC_PickerToChar(p,(int *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),0)-2<=3) {
                     u=((NameinGraphicGrid *)p)->selectionX;
                     out[3]=((NameinGraphicGrid *)p)->selectionY;
                     out[1]=1; out[2]=u;
@@ -1219,7 +1107,7 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out) {
 void NAMEIN_GRAPHIC_ApplySymbolAction(char *p,int *input) {
     unsigned code;
     int rect[4];
-    if (input[1]) code=NAMEIN_GRAPHIC_PickerToChar(p,(int *)(p+0xd8),(unsigned short *)(p+0xfc));
+    if (input[1]) code=NAMEIN_GRAPHIC_PickerToChar(p,(int *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),(unsigned short *)(((void *)&((struct NameinGraphicGrid *)p)->actionValue)));
     else code=input[0];
     switch (code) {
     case 0: case 1: break;
@@ -1231,21 +1119,21 @@ void NAMEIN_GRAPHIC_ApplySymbolAction(char *p,int *input) {
         break;
     }
     if (NAMEIN_GRAPHIC_PickerGetBox(p,(NameinGraphicPair *)(input+2),(NameinGraphicBox *)rect))
-        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+        NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),2,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
 }
 
-void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
-    sptr window;
-    MI_CpuFill8(p,0,0x24);
+void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,struct GfFont *a,struct MsgBank *b,struct PrintQueue *c,struct WordSet *d,unsigned short e) {
+    void *window;
+    MI_CpuFill8(p,0,sizeof(NameinGraphicMsgBox));
     ((NameinGraphicMsgBox *)p)->color=15;
-    ((NameinGraphicMsgBox *)p)->font=a; ((NameinGraphicMsgBox *)p)->wordSet=(void *)d; ((NameinGraphicMsgBox *)p)->bank=(void *)b; ((NameinGraphicMsgBox *)p)->printSys=(void *)c;
+    ((NameinGraphicMsgBox *)p)->font=a; ((NameinGraphicMsgBox *)p)->wordSet=d; ((NameinGraphicMsgBox *)p)->bank=b; ((NameinGraphicMsgBox *)p)->printSys=c;
     ((NameinGraphicMsgBox *)p)->strbuf=STRBUF_Create(255,e);
     ((NameinGraphicMsgBox *)p)->win=(void *)BMP_WIN_Create(4,1,19,30,4,15,1);
     BMP_MENUWORK_DrawWindow((void *)(((NameinGraphicMsgBox *)p)->win),2,1,14);
     ((NameinGraphicMsgBox *)p)->bmp=((NameinGraphicMsgBox *)p)->win;
     ((NameinGraphicMsgBox *)p)->dirty=0;
     BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win),((NameinGraphicMsgBox *)p)->color);
-    window=(sptr)((NameinGraphicMsgBox *)p)->win;
+    window=((NameinGraphicMsgBox *)p)->win;
     BMP_WIN_TransferChars((struct BmpWin *)window); BMP_WIN_MakeScreen((struct BmpWin *)window);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)window));
 }
@@ -1257,16 +1145,16 @@ void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *p)
 {
     BMP_WIN_Delete((struct BmpWin *)(((NameinGraphicMsgBox *)p)->win));
     STRBUF_Delete((struct Strbuf *)(((NameinGraphicMsgBox *)p)->strbuf));
-    MI_CpuFill8(p, 0, 0x24);
+    MI_CpuFill8(p, 0, sizeof(NameinGraphicMsgBox));
 }
 
 void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
-    sptr window;
-    while (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((NameinGraphicMsgBox *)p)->printSys),(void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win))))
+    void *window;
+    while (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((NameinGraphicMsgBox *)p)->printSys),(void *)(BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win))))
         PRINTSYS_QUE_Main((struct PrintQueue *)(((NameinGraphicMsgBox *)p)->printSys));
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
     MSGDATA_ReadString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value,(void *)(((NameinGraphicMsgBox *)p)->strbuf));
-    window=(sptr)((NameinGraphicMsgBox *)p)->printSys;
+    window=((NameinGraphicMsgBox *)p)->printSys;
     PRINTSYS_PrintQue((struct PrintQueue *)window,BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->bmp),0,0,*(void **)&((NameinGraphicMsgBox *)p)->strbuf,(struct GfFont *)(((NameinGraphicMsgBox *)p)->font));
     ((NameinGraphicMsgBox *)p)->dirty=1;
 }
@@ -1274,50 +1162,51 @@ void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
 void NAMEIN_GRAPHIC_PrintPokeMsg(char *p,int value,u32 id,u32 form,u16 heap) {void *mon;mon=POKE_TOOL_Create(id,1,0,heap);POKE_TOOL_SetPartyValue(mon,111,form);NAMEIN_GRAPHIC_PrintMonMsg(p,value,mon);GFL_HEAP_Free(mon);}
 
 void NAMEIN_GRAPHIC_PrintMonMsg(char *p,int value,void *mon) {
-    sptr text, window;
+    struct Strbuf *text;
+    void *window;
     WORDSET_SetSlotMonSpeciesName(((NameinGraphicMsgBox *)p)->wordSet,0,mon);
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
-    text=(sptr)MSGDATA_AllocString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
+    text=MSGDATA_AllocString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value);
     WORDSET_CopyTaggedText(*(struct WordSet **)&((NameinGraphicMsgBox *)p)->wordSet,((NameinGraphicMsgBox *)p)->strbuf,(void *)text);
-    window=(sptr)((NameinGraphicMsgBox *)p)->printSys;
+    window=((NameinGraphicMsgBox *)p)->printSys;
     PRINTSYS_PrintQue((struct PrintQueue *)window,BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->bmp),0,0,*(void **)&((NameinGraphicMsgBox *)p)->strbuf,(struct GfFont *)(((NameinGraphicMsgBox *)p)->font));
     ((NameinGraphicMsgBox *)p)->dirty=1;
     STRBUF_Delete((struct Strbuf *)text);
 }
 
-int NAMEIN_GRAPHIC_IsMsgDrawDone(u8 *p) {int window;window=(sptr)((NameinGraphicMsgBox *)p)->printSys;if(p[12]) {if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)window,(void *)((sptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((NameinGraphicMsgBox *)p)->bmp)))==0) {BMP_WIN_TransferChars((struct BmpWin *)(((NameinGraphicMsgBox *)p)->bmp));p[12]=0;}}if(!p[12]) return 1;return 0;}
+int NAMEIN_GRAPHIC_IsMsgDrawDone(u8 *p) {struct PrintQueue *window;window=((NameinGraphicMsgBox *)p)->printSys;if(((struct NameinGraphicMsgBox *)p)->dirty) {if(PRINTSYS_QUE_IsExistTarget(window,(void *)(BMP_WIN_GetBmp(*(struct BmpWin **)&((NameinGraphicMsgBox *)p)->bmp)))==0) {BMP_WIN_TransferChars((struct BmpWin *)(((NameinGraphicMsgBox *)p)->bmp));((struct NameinGraphicMsgBox *)p)->dirty=0;}}if(!((struct NameinGraphicMsgBox *)p)->dirty) return 1;return 0;}
 
 void NAMEIN_GRAPHIC_InitTcbl(char *p, int v)
 {
-    MI_CpuFill8(p, 0, 0x10);
+    MI_CpuFill8(p, 0, sizeof(NameinGraphicTcbl));
     ((NameinGraphicTcbl *)p)->handle = TCBL_Create(v, v, 1, 0);
 }
 
-void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p){if(((NameinGraphicTcbl *)p)->stream)PRINTSYS_PrintStreamDelete(((NameinGraphicTcbl *)p)->stream);TCBL_Destroy((struct TcblSystem *)(*(struct S02031140 * *)&((NameinGraphicTcbl *)p)->handle));MI_CpuFill8((unsigned char *)p, 0, 16);}
+void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p){if(((NameinGraphicTcbl *)p)->stream)PRINTSYS_PrintStreamDelete(((NameinGraphicTcbl *)p)->stream);TCBL_Destroy((struct TcblSystem *)(*(struct S02031140 * *)&((NameinGraphicTcbl *)p)->handle));MI_CpuFill8((unsigned char *)p, 0, sizeof(NameinGraphicTcbl));}
 
-void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
+void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,NameInArgs *w,u32 heap)
 {
     void *set=WORDSET_CreateDefault(heap);
-    if(NAMEIN_SETUP_IsCanceled((struct NameInArgs *)w)) WORDSET_SetSlotMonNickname(set,0,(void *)w[2]);
+    if(NAMEIN_SETUP_IsCanceled(w)) WORDSET_SetSlotMonNickname(set,0,w->mon);
     else {
-        struct Strbuf *text = STRBUF_Clone((struct Strbuf *)w[8],heap);
-        NAMEIN_SETUP_CopyName((struct NameInArgs *)w,(struct Strbuf *)text);
+        struct Strbuf *text = STRBUF_Clone(w->name,heap);
+        NAMEIN_SETUP_CopyName(w,(struct Strbuf *)text);
         WORDSET_SetSlotTag(set,0,(void *)text,0,0,0);
         STRBUF_Delete((struct Strbuf *)text);
     }
-    WORDSET_SetSlotBoxName(set,1,(void *)w[4],w[5]);
+    WORDSET_SetSlotBoxName(set,1,w->boxManager,w->boxIndex);
     if(((NameinGraphicTcbl *)p)->stream) PRINTSYS_PrintStreamDelete((struct TextPrinter *)(((struct Rec3 *)(((NameinGraphicTcbl *)p)->stream))));
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((NameinGraphicMsgBox *)q)->win)),((NameinGraphicMsgBox *)q)->color);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(*(struct BmpWin **)&((NameinGraphicMsgBox *)q)->win)),((NameinGraphicMsgBox *)q)->color);
     STRBUF_Clear(((NameinGraphicMsgBox *)q)->strbuf);
-    WORDSET_CopyTaggedText(set,((NameinGraphicMsgBox *)q)->strbuf,(void *)w[3]);
-    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((struct BmpWin *)((uptr)((NameinGraphicMsgBox *)q)->win),0,0,*(struct Strbuf **)&((NameinGraphicMsgBox *)q)->strbuf,(struct GfFont *)(((NameinGraphicMsgBox *)q)->font),MSG_SPEED_GetWait(),(struct Tcbl *)((uptr)((NameinGraphicTcbl *)p)->handle),2,heap,((NameinGraphicMsgBox *)q)->color);
+    WORDSET_CopyTaggedText(set,((NameinGraphicMsgBox *)q)->strbuf,w->boxName);
+    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((struct BmpWin *)(((NameinGraphicMsgBox *)q)->win),0,0,*(struct Strbuf **)&((NameinGraphicMsgBox *)q)->strbuf,(struct GfFont *)(((NameinGraphicMsgBox *)q)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((NameinGraphicTcbl *)p)->handle),2,heap,((NameinGraphicMsgBox *)q)->color);
     ((NameinGraphicTcbl *)p)->flag=0;
-    *(void (**)(void))(p+8)=(void (*)(void))NAMEIN_GRAPHIC_CallbackFadeOut;
+    ((NameinGraphicTcbl *)p)->callback=NAMEIN_GRAPHIC_CallbackFadeOut;
     ((NameinGraphicTcbl *)p)->counter=60;
     WORDSET_Delete(set);
 }
 
-void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)
+void NAMEIN_GRAPHIC_InitIconActor(NameinGraphicIcon *o, u32 mode, u32 iconIndex, u32 iconForm, struct Unit *s0, struct GfFont *s1, struct PrintQueue *s2, struct MsgBank *s3, struct BmpOamSys *s4, u16 heap)
 {
     u32 flagA = 0;
     u32 archiveId;
@@ -1332,7 +1221,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
     u32 v1c;
     u32 flagB = 0;
 
-    MI_CpuFill8((unsigned char *)o, 0, 0x3c);
+    MI_CpuFill8((unsigned char *)o, 0, sizeof(*o));
     paletteSlot = 0;
     switch (mode) {
     case 0:
@@ -1380,68 +1269,68 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
     }
     h = ARC_TOOL_CreateHandle(archiveId, heap);
     if (flagB != 0) {
-        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteCompressed(h, paletteFileId, 0, 0x40, heap);
+        o->palette = CLACT_RegisterPaletteCompressed(h, paletteFileId, 0, 0x40, heap);
     } else {
-        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteEx(h, paletteFileId, 0, 0x40, paletteSlot, 1, heap);
+        o->palette = CLACT_RegisterPaletteEx(h, paletteFileId, 0, 0x40, paletteSlot, 1, heap);
     }
-    *(void **)(o + 0x10) = (void *)CLACT_RegisterCellAnim(h, cellAnimArcId, cellAnimEntryId, heap);
+    o->cellAnim = CLACT_RegisterCellAnim(h, cellAnimArcId, cellAnimEntryId, heap);
     flagB = 0;
-    *(void **)(o + 0xC) = (void *)CLACT_RegisterCharacter(h, characterFileId, 0, 0, heap);
+    o->character = CLACT_RegisterCharacter(h, characterFileId, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
     {
         Dim8 dim;
         MI_CpuFill8((unsigned char *)&dim, 0, 8);
         dim.w = w24;
         dim.h = h20;
-        *(void **)o = CLACT_CreateActor((struct Unit *)((void *)s0), (uptr)(*(void **)(o + 0xC)), (uptr)(*(void **)(o + 8)), (uptr)(*(void **)(o + 0x10)), (const struct ActorInitParam *)&dim, flagB, heap);
+        o->actor = CLACT_CreateActor(s0, o->character, o->palette, o->cellAnim, (const struct ActorInitParam *)&dim, flagB, heap);
     }
-    CLACT_SetActorAutoAnim(*(void **)o, 1);
+    CLACT_SetActorAutoAnim(o->actor, 1);
     switch (mode) {
     case 0:
         if (iconIndex == 0) {
-            NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
+            NAMEIN_GRAPHIC_LoadIconMember(o->actor, 0x31, 6, 3, 4, 4, 0, 0, heap);
         } else {
-            NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 9, 3, 4, 4, 0, 0, heap);
+            NAMEIN_GRAPHIC_LoadIconMember(o->actor, 0x31, 9, 3, 4, 4, 0, 0, heap);
         }
         break;
     case 1:
-        NAMEIN_GRAPHIC_LoadIconMember(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
+        NAMEIN_GRAPHIC_LoadIconMember(o->actor, 0x31, 6, 3, 4, 4, 0, 0, heap);
     case 2:
-        CLACT_SetActorPaletteOffset(*(void **)o, 0, 1);
+        CLACT_SetActorPaletteOffset(o->actor, 0, 1);
         break;
     case 3:
-        CLACT_SetActorAnimSeq(*(void **)o, 1);
-        CLACT_SetActorPaletteOffset(*(void **)o, POKE_TOOL_CalcIconPalette(iconIndex, (u8)iconForm, (iconForm & 0xFF00) >> 8, flagB), flagB);
+        CLACT_SetActorAnimSeq(o->actor, 1);
+        CLACT_SetActorPaletteOffset(o->actor, POKE_TOOL_CalcIconPalette(iconIndex, (u8)iconForm, (iconForm & 0xFF00) >> 8, flagB), flagB);
         break;
     case 5:
-        CLACT_SetActorAnimSeq(*(void **)o, 5);
-        CLACT_SetActorPaletteOffset(*(void **)o, flagB, 1);
+        CLACT_SetActorAnimSeq(o->actor, 5);
+        CLACT_SetActorPaletteOffset(o->actor, flagB, 1);
         break;
     case 4:
-        CLACT_SetActorAnimSeq(*(void **)o, 2);
-        CLACT_SetActorPaletteOffset(*(void **)o, flagB, 1);
+        CLACT_SetActorAnimSeq(o->actor, 2);
+        CLACT_SetActorPaletteOffset(o->actor, flagB, 1);
         break;
     }
     if (flagA != 0) {
         void *h2;
         u32 r;
         u32 idx;
-        u8 st[0x18];
+        struct BmpOamParam st;
         h2 = ARC_TOOL_CreateHandle(0x17, heap);
-        *(void **)(o + 0x30) = BMP_Create(2, 2, 0x20, heap);
-        *(void **)(o + 0x24) = (void *)CLACT_RegisterPaletteCompressed(h2, 5, 0, 0xA0, heap);
+        o->bmp = BMP_Create(2, 2, 0x20, heap);
+        o->palette2 = CLACT_RegisterPaletteCompressed(h2, 5, 0, 0xA0, heap);
         ARC_TOOL_DeleteHandle(h2);
-        MI_CpuFill8((unsigned char *)st, 0, 0x18);
-        *(void **)(st + 0) = *(void **)(o + 0x30);
-        *(u16 *)(st + 4) = 0x2e;
-        *(u16 *)(st + 6) = 0x14;
-        *(void **)(st + 8) = *(void **)(o + 0x24);
-        *(u8 *)(st + 0x10) = 0;
-        *(u16 *)(st + 0x12) = 0;
-        *(u32 *)(st + 0x14) = 0;
-        *(u8 *)(st + 0x11) = 0;
-        *(u32 *)(st + 0xC) = 0;
-        *(void **)(o + 0x2C) = BMP_OAM_Create((struct BmpOamSys *)s4, (struct BmpOamParam *)st);
+        MI_CpuFill8(&st, 0, sizeof(st));
+        st.bmp = o->bmp;
+        st.x = 0x2e;
+        st.y = 0x14;
+        st.animResId = o->palette2;
+        st.drawPriority = 0;
+        st.space = 0;
+        st.engine = 0;
+        st.bgPriority = 0;
+        st.palette = 0;
+        o->oam = BMP_OAM_Create(s4, &st);
         if (v1c == 1) {
             idx = 0x11;
             r = 0xC80;
@@ -1449,11 +1338,11 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
             idx = 0x10;
             r = 0x14C0;
         }
-        *(void **)(o + 0x28) = MSGDATA_AllocString(s3, idx);
-        BMP_Clear(*(void **)(o + 0x30), 0);
-        PRINTSYS_PrintQueColor((struct PrintQueue *)s2, (struct Bmp *)(*(void **)(o + 0x30)), 0, 0, (struct Strbuf *)(*(void **)(o + 0x28)), (struct GfFont *)s1, r);
-        *(u32 *)(o + 0x38) = s2;
-        *(u32 *)(o + 0x34) = 1;
+        o->text = MSGDATA_AllocString(s3, idx);
+        BMP_Clear(o->bmp, 0);
+        PRINTSYS_PrintQueColor(s2, o->bmp, 0, 0, o->text, s1, r);
+        o->printSys = s2;
+        o->oamDirty = 1;
     }
 }
 
@@ -1468,7 +1357,7 @@ void NAMEIN_GRAPHIC_DeleteIconActor(unsigned char *p) {
     CLACT_ReleaseCharacter((u32)(((NameinGraphicIcon *)p)->character));
     CLACT_ReleaseCellAnim(((NameinGraphicIcon *)p)->cellAnim);
     CLACT_DeleteActor(((NameinGraphicIcon *)p)->actor);
-    MI_CpuFill8(p,0,0x3c);
+    MI_CpuFill8(p,0,sizeof(NameinGraphicIcon));
 }
 
 void NAMEIN_GRAPHIC_UpdateIconTouch(char *p) {
@@ -1543,7 +1432,7 @@ struct Strbuf *NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b)
     case 1:
         if (STRBUF_GetLength((struct Strbuf *)(((NameinGraphicWork *)p)->nameStrbuf)) == 0)
             return MSGDATA_AllocString((struct MsgBank *)gSpeciesNameBank,
-                                 *(u16 *)(*(u32 *)&((NameinGraphicWork *)p)->args + 4));
+                                 ((NameInArgs *)((NameinGraphicWork *)p)->args)->species);
         return STRBUF_Clone((struct Strbuf *)(((NameinGraphicWork *)p)->nameStrbuf), b);
     case 2:
         return STRBUF_Clone((struct Strbuf *)(((NameinGraphicWork *)p)->nameStrbuf), b);
@@ -1563,85 +1452,85 @@ struct Strbuf *NAMEIN_GRAPHIC_GetNameForAction(u8 *p, int a, int b)
 }
 
 void NAMEIN_GRAPHIC_CommitName(char *p) {
-    sptr text;
+    struct Strbuf *text;
     char *obj;
-    ((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->accepted=0;
-    text=(sptr)STRBUF_Clone((struct Strbuf *)(((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->name),30);
-    NAMEIN_GRAPHIC_CopyToStrbuf(p+0x68,(struct Strbuf *)((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->name);
-    if (STRBUF_IsEqual((struct Strbuf *)text,(struct Strbuf *)(((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->name)))
-        ((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->accepted=1;
-    if (!NAMEIN_GRAPHIC_HasNonSpace((u8 *)((sptr)(p+0x68)))) {
-        STRBUF_Copy((struct Strbuf *)(((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->name),(struct Strbuf *)text);
-        ((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->accepted=1;
+    ((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->canceled=0;
+    text=STRBUF_Clone((struct Strbuf *)(((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->name),30);
+    NAMEIN_GRAPHIC_CopyToStrbuf(((void *)&((struct NameinGraphicWork *)p)->inputField),(struct Strbuf *)((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->name);
+    if (STRBUF_IsEqual((struct Strbuf *)text,(struct Strbuf *)(((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->name)))
+        ((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->canceled=1;
+    if (!NAMEIN_GRAPHIC_HasNonSpace((u8 *)((((void *)&((struct NameinGraphicWork *)p)->inputField))))) {
+        STRBUF_Copy((struct Strbuf *)(((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->name),(struct Strbuf *)text);
+        ((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->canceled=1;
     }
     STRBUF_Delete((struct Strbuf *)text);
-    if (!STRBUF_GetLength((struct Strbuf *)(((NameinGraphicConfig *)(*(char * *)&((NameinGraphicWork *)p)->args))->name))) {
+    if (!STRBUF_GetLength((struct Strbuf *)(((NameInArgs *)(*(char * *)&((NameinGraphicWork *)p)->args))->name))) {
         obj=*(char * *)&((NameinGraphicWork *)p)->args;
-        if (((NameinGraphicConfig *)obj)->mode!=0 && ((NameinGraphicConfig *)obj)->mode!=3) ((NameinGraphicConfig *)obj)->accepted=1;
+        if (((NameInArgs *)obj)->kind!=0 && ((NameInArgs *)obj)->kind!=3) ((NameInArgs *)obj)->canceled=1;
     }
 }
 
-int NAMEIN_GRAPHIC_IsNameValid(int p)
+int NAMEIN_GRAPHIC_IsNameValid(char *p)
 {
     int *q = *(int * *)&((NameinGraphicWork *)p)->args;
 
     if (*q == 0 || *q == 3) {
-        if (NAMEIN_GRAPHIC_GetLength((const u8 *)(p + 0x68)) == 0 && NAMEIN_GRAPHIC_GetSecondaryLength((const u8 *)(p + 0x68)) == 0) {
+        if (NAMEIN_GRAPHIC_GetLength((const u8 *)(((void *)&((struct NameinGraphicWork *)p)->inputField))) == 0 && NAMEIN_GRAPHIC_GetSecondaryLength((const u8 *)(((void *)&((struct NameinGraphicWork *)p)->inputField))) == 0) {
             return 0;
         }
-        if (NAMEIN_GRAPHIC_HasNonSpace((u8 *)(p + 0x68)) == 0) {
+        if (NAMEIN_GRAPHIC_HasNonSpace((u8 *)(((void *)&((struct NameinGraphicWork *)p)->inputField))) == 0) {
             return 0;
         }
     }
     return 1;
 }
 
-void NAMEIN_GRAPHIC_InitCallback(u8 *a, u32 b, u32 c)
+void NAMEIN_GRAPHIC_InitCallback(NameinGraphicCallback *a, void *b, NameinGraphicStep c)
 {
-    MI_CpuFill8(a, 0, 0x10);
-    ((NameinGraphicCallback *)a)->owner = b;
+    MI_CpuFill8(a, 0, sizeof(NameinGraphicCallback));
+    a->owner = b;
     NAMEIN_GRAPHIC_SetCallback(a, c);
 }
 
-void NAMEIN_GRAPHIC_ClearCallback(void *p){MI_CpuFill8(p,0,16);}
+void NAMEIN_GRAPHIC_ClearCallback(NameinGraphicCallback *p){MI_CpuFill8(p,0,sizeof(NameinGraphicCallback));}
 
-void NAMEIN_GRAPHIC_RunCallback(u8 *p)
+void NAMEIN_GRAPHIC_RunCallback(NameinGraphicCallback *p)
 {
-    if (((NameinGraphicCallback *)p)->state == 0) {
-        ((NameinGraphicCallbackFn)*(void **)p)(p, p + 8, ((NameinGraphicCallback *)p)->owner);
+    if (p->state == 0) {
+        p->fn(p, &p->arg, p->owner);
     }
 }
 
-unsigned NAMEIN_GRAPHIC_GetCallbackState(unsigned char *p){return ((NameinGraphicCallback *)p)->state;}
+unsigned NAMEIN_GRAPHIC_GetCallbackState(NameinGraphicCallback *p){return p->state;}
 
-void NAMEIN_GRAPHIC_SetCallback(unsigned char *p,unsigned value){((NameinGraphicCallback *)p)->fn=value;((NameinGraphicCallback *)p)->arg=0;}
+void NAMEIN_GRAPHIC_SetCallback(NameinGraphicCallback *p,NameinGraphicStep value){p->fn=value;p->arg=0;}
 
-void NAMEIN_GRAPHIC_FinishCallback(unsigned char *p){((NameinGraphicCallback *)p)->state=1;}
+void NAMEIN_GRAPHIC_FinishCallback(NameinGraphicCallback *p){p->state=1;}
 
-void NAMEIN_GRAPHIC_CallbackWaitDraw(unsigned char *p,int *unused,unsigned char *q){int v;v=NAMEIN_GRAPHIC_IsGridDrawDone((char *)(q+252));v|=NAMEIN_GRAPHIC_IsFieldDrawDone(q+104);if(NAMEIN_GRAPHIC_IsMsgDrawDone(q+560)|v)NAMEIN_GRAPHIC_SetCallback(p,(uptr)NAMEIN_GRAPHIC_CallbackFadeIn);}
+void NAMEIN_GRAPHIC_CallbackWaitDraw(NameinGraphicCallback *p,int *unused,unsigned char *q){int v;v=NAMEIN_GRAPHIC_IsGridDrawDone((char *)&((NameinGraphicWork *)q)->grid);v|=NAMEIN_GRAPHIC_IsFieldDrawDone((u8 *)&((NameinGraphicWork *)q)->inputField);if(NAMEIN_GRAPHIC_IsMsgDrawDone((u8 *)&((NameinGraphicWork *)q)->msgBox)|v)NAMEIN_GRAPHIC_SetCallback(p,NAMEIN_GRAPHIC_CallbackFadeIn);}
 
-void NAMEIN_GRAPHIC_CallbackFadeIn(unsigned char *p,int *state) {
+void NAMEIN_GRAPHIC_CallbackFadeIn(NameinGraphicCallback *p,int *state) {
     switch (*state) {
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if (!FADE_IsActive()) *state=2; break;
-    case 2: NAMEIN_GRAPHIC_SetCallback(p,(uptr)NAMEIN_GRAPHIC_CallbackGridAction); break;
+    case 2: NAMEIN_GRAPHIC_SetCallback(p,NAMEIN_GRAPHIC_CallbackGridAction); break;
     }
 }
 
-void NAMEIN_GRAPHIC_CallbackFadeOut(unsigned char *p,int *state) {
+void NAMEIN_GRAPHIC_CallbackFadeOut(NameinGraphicCallback *p,int *state) {
     switch (*state) {
     case 0: FADE_Start(3,0,16,0); *state=1; break;
     case 1: if (!FADE_IsActive()) *state=2; break;
-    case 2: NAMEIN_GRAPHIC_SetCallback(p,(uptr)NAMEIN_GRAPHIC_CallbackFinish); break;
+    case 2: NAMEIN_GRAPHIC_SetCallback(p,NAMEIN_GRAPHIC_CallbackFinish); break;
     }
 }
 
 /*
  * Padding: two zero bytes at 0x021F47B2, then a function prologue.
  */
-void NAMEIN_GRAPHIC_CallbackWaitPrint(unsigned char *a, int *state, char *p)
+void NAMEIN_GRAPHIC_CallbackWaitPrint(NameinGraphicCallback *a, int *state, char *p)
 {
-    char *q = p + 0x254;
+    char *q = ((void *)&((struct NameinGraphicWork *)p)->tcbl);
     switch (*state) {
     case 0:
         TCBL_Main((struct TcblSystem *)(*(struct Tcbl * *)&((NameinGraphicTcbl *)q)->handle));
@@ -1677,70 +1566,70 @@ void NAMEIN_GRAPHIC_CallbackWaitPrint(unsigned char *a, int *state, char *p)
 
 static inline int invert(char *p,int v) { int r=1; if(NAMEIN_GRAPHIC_ApplyConversion((unsigned char *)p,v)==0) r=0; return r; }
 
-void NAMEIN_GRAPHIC_CallbackGridAction(unsigned char *owner,void *unused,char *p)
+void NAMEIN_GRAPHIC_CallbackGridAction(NameinGraphicCallback *owner,void *unused,char *p)
 {
     u16 selected;
-    u32 action=NAMEIN_GRAPHIC_GetGridAction(p+0xfc,&selected);
-    u32 value=NAMEIN_GRAPHIC_GetGridIndex((const u8 *)(p+0xfc));
+    u32 action=NAMEIN_GRAPHIC_GetGridAction(((void *)&((struct NameinGraphicWork *)p)->grid),&selected);
+    u32 value=NAMEIN_GRAPHIC_GetGridIndex((const u8 *)(((void *)&((struct NameinGraphicWork *)p)->grid)));
     if(((NameinGraphicWork *)p)->pendingMsg==1) {
-        if(action!=0 || NAMEIN_GRAPHIC_IsIconAnimDone((unsigned char *)(p+0x264))!=0 || (KEY_GetTrg()&~1u)!=0) {
-            int *q=*(int * *)&((NameinGraphicWork *)p)->args;
-            if(q[0]==1) {
-                if(q[2]==0) NAMEIN_GRAPHIC_PrintPokeMsg(p+0x230,q[0],((NameinGraphicConfig *)q)->valueA,((NameinGraphicConfig *)q)->valueB,30);
-                else NAMEIN_GRAPHIC_PrintMonMsg(p+0x230,q[0],(void *)q[2]);
-            } else NAMEIN_GRAPHIC_PrintMsg(p+0x230,q[0]);
+        if(action!=0 || NAMEIN_GRAPHIC_IsIconAnimDone((unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->icon)))!=0 || (KEY_GetTrg()&~1u)!=0) {
+            NameInArgs *q=((NameinGraphicWork *)p)->args;
+            if(q->kind==1) {
+                if(q->mon==0) NAMEIN_GRAPHIC_PrintPokeMsg(((void *)&((struct NameinGraphicWork *)p)->msgBox),q->kind,q->species,q->traits,30);
+                else NAMEIN_GRAPHIC_PrintMonMsg(((void *)&((struct NameinGraphicWork *)p)->msgBox),q->kind,q->mon);
+            } else NAMEIN_GRAPHIC_PrintMsg(((void *)&((struct NameinGraphicWork *)p)->msgBox),q->kind);
             ((NameinGraphicWork *)p)->pendingMsg=0;
         }
     }
     switch(action) {
-    case 1: if(NAMEIN_GRAPHIC_AppendChar(p+0x68,selected)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 2: if(NAMEIN_GRAPHIC_AppendCandidate((unsigned char *)(p+0x68),selected,value)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 3: if(invert(p+0x68,0)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 4: if(invert(p+0x68,1)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 10: if(NAMEIN_GRAPHIC_RevertChar(p+0x68)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 5: if(NAMEIN_GRAPHIC_Backspace((unsigned char *)(p+0x68))) GFL_USE_PlaySeDefaultVolume(0x553); else GFL_USE_PlaySeDefaultVolume(0x557); break;
-    case 6: NAMEIN_GRAPHIC_ClearSecondary(p+0x68); break;
-    case 11: NAMEIN_GRAPHIC_CommitSecondary(p+0x68); break;
-    case 7: if(NAMEIN_GRAPHIC_GetSecondaryLength((const u8 *)((sptr)(p+0x68)))==0) {
-        if(NAMEIN_GRAPHIC_IsNameValid((sptr)p)==0) {GFL_USE_PlaySeDefaultVolume(0x557);NAMEIN_GRAPHIC_PrintMsg(p+0x230,8);((NameinGraphicWork *)p)->pendingMsg=1;}
+    case 1: if(NAMEIN_GRAPHIC_AppendChar(((void *)&((struct NameinGraphicWork *)p)->inputField),selected)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 2: if(NAMEIN_GRAPHIC_AppendCandidate((unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->inputField)),selected,value)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 3: if(invert(((void *)&((struct NameinGraphicWork *)p)->inputField),0)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 4: if(invert(((void *)&((struct NameinGraphicWork *)p)->inputField),1)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 10: if(NAMEIN_GRAPHIC_RevertChar(((void *)&((struct NameinGraphicWork *)p)->inputField))) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 5: if(NAMEIN_GRAPHIC_Backspace((unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->inputField)))) GFL_USE_PlaySeDefaultVolume(0x553); else GFL_USE_PlaySeDefaultVolume(0x557); break;
+    case 6: NAMEIN_GRAPHIC_ClearSecondary(((void *)&((struct NameinGraphicWork *)p)->inputField)); break;
+    case 11: NAMEIN_GRAPHIC_CommitSecondary(((void *)&((struct NameinGraphicWork *)p)->inputField)); break;
+    case 7: if(NAMEIN_GRAPHIC_GetSecondaryLength((const u8 *)((((void *)&((struct NameinGraphicWork *)p)->inputField))))==0) {
+        if(NAMEIN_GRAPHIC_IsNameValid(p)==0) {GFL_USE_PlaySeDefaultVolume(0x557);NAMEIN_GRAPHIC_PrintMsg(((void *)&((struct NameinGraphicWork *)p)->msgBox),8);((NameinGraphicWork *)p)->pendingMsg=1;}
         else {
-            if(PROF_WORD_FindMatch(*(u32 * *)&((NameinGraphicWork *)p)->profWord,p+0x68,30)) GFL_USE_PlaySeDefaultVolume(0x557);
-            else if(PROF_WORD_CheckDigitCount(p+0x68,((NameinGraphicWork *)p)->primaryLength,30)) {GFL_USE_PlaySeDefaultVolume(0x557);NAMEIN_GRAPHIC_PrintMsg(p+0x230,9);((NameinGraphicWork *)p)->pendingMsg=1;}
+            if(PROF_WORD_FindMatch((const Resources *)((NameinGraphicWork *)p)->profWord,((void *)&((struct NameinGraphicWork *)p)->inputField),30)) GFL_USE_PlaySeDefaultVolume(0x557);
+            else if(PROF_WORD_CheckDigitCount(((void *)&((struct NameinGraphicWork *)p)->inputField),((NameinGraphicWork *)p)->inputField.primaryLength,30)) {GFL_USE_PlaySeDefaultVolume(0x557);NAMEIN_GRAPHIC_PrintMsg(((void *)&((struct NameinGraphicWork *)p)->msgBox),9);((NameinGraphicWork *)p)->pendingMsg=1;}
             else {
-                int *q;
-                GFL_USE_PlaySeDefaultVolume(0x54d);NAMEIN_GRAPHIC_CommitName(p);q=*(int * *)&((NameinGraphicWork *)p)->args;
-                if(q[0]==1 && q[3]!=0) {NAMEIN_GRAPHIC_PrintNameStream(p+0x254,p+0x230,q,30);NAMEIN_GRAPHIC_SetCallback(owner,(uptr)NAMEIN_GRAPHIC_CallbackWaitPrint);}
-                else NAMEIN_GRAPHIC_SetCallback(owner,(uptr)NAMEIN_GRAPHIC_CallbackFadeOut);
+                NameInArgs *q;
+                GFL_USE_PlaySeDefaultVolume(0x54d);NAMEIN_GRAPHIC_CommitName(p);q=((NameinGraphicWork *)p)->args;
+                if(q->kind==1 && q->boxName!=0) {NAMEIN_GRAPHIC_PrintNameStream(((void *)&((struct NameinGraphicWork *)p)->tcbl),((void *)&((struct NameinGraphicWork *)p)->msgBox),q,30);NAMEIN_GRAPHIC_SetCallback(owner,NAMEIN_GRAPHIC_CallbackWaitPrint);}
+                else NAMEIN_GRAPHIC_SetCallback(owner,NAMEIN_GRAPHIC_CallbackFadeOut);
             }
         }
-    } else {NAMEIN_GRAPHIC_CommitSecondary(p+0x68);GFL_USE_PlaySeDefaultVolume(0x54d);} break;
-    case 0: if(NAMEIN_GRAPHIC_IsIconAnimDone((unsigned char *)(p+0x264))) {
+    } else {NAMEIN_GRAPHIC_CommitSecondary(((void *)&((struct NameinGraphicWork *)p)->inputField));GFL_USE_PlaySeDefaultVolume(0x54d);} break;
+    case 0: if(NAMEIN_GRAPHIC_IsIconAnimDone((unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->icon)))) {
         struct Strbuf *text = NAMEIN_GRAPHIC_GetNameForAction((u8 *)p,**(int * *)&((NameinGraphicWork *)p)->args,30);
-        NAMEIN_GRAPHIC_ClearPrimary((unsigned char *)(p+0x68));
-        if(text) {NAMEIN_GRAPHIC_AppendString(p+0x68,STRBUF_GetChars((struct Strbuf *)text));STRBUF_Delete((struct Strbuf *)text);}
+        NAMEIN_GRAPHIC_ClearPrimary((unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->inputField)));
+        if(text) {NAMEIN_GRAPHIC_AppendString(((void *)&((struct NameinGraphicWork *)p)->inputField),STRBUF_GetChars((struct Strbuf *)text));STRBUF_Delete((struct Strbuf *)text);}
         GFL_USE_PlaySeDefaultVolume(0x54c);
     } break;
-    case 9: NAMEIN_GRAPHIC_CommitSecondary(p+0x68);if(NAMEIN_GRAPHIC_AppendChar(p+0x68,selected)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557);break;
+    case 9: NAMEIN_GRAPHIC_CommitSecondary(((void *)&((struct NameinGraphicWork *)p)->inputField));if(NAMEIN_GRAPHIC_AppendChar(((void *)&((struct NameinGraphicWork *)p)->inputField),selected)) GFL_USE_PlaySeDefaultVolume(0x54c); else GFL_USE_PlaySeDefaultVolume(0x557);break;
     default: break;
     }
-    NAMEIN_GRAPHIC_UpdateGrid(p+0xfc,p+0x68);
-    NAMEIN_GRAPHIC_RefreshInputField((u8 *)(p+0x68));
-    NAMEIN_GRAPHIC_UpdateIconTouch(p+0x264);
-    NAMEIN_GRAPHIC_IsMsgDrawDone((u8 *)(p+0x230));
+    NAMEIN_GRAPHIC_UpdateGrid(((void *)&((struct NameinGraphicWork *)p)->grid),((void *)&((struct NameinGraphicWork *)p)->inputField));
+    NAMEIN_GRAPHIC_RefreshInputField((u8 *)(((void *)&((struct NameinGraphicWork *)p)->inputField)));
+    NAMEIN_GRAPHIC_UpdateIconTouch(((void *)&((struct NameinGraphicWork *)p)->icon));
+    NAMEIN_GRAPHIC_IsMsgDrawDone((u8 *)(((void *)&((struct NameinGraphicWork *)p)->msgBox)));
 }
 
-void NAMEIN_GRAPHIC_CallbackFinish(unsigned char *a, int unused, char *p)
+void NAMEIN_GRAPHIC_CallbackFinish(NameinGraphicCallback *a, int unused, char *p)
 {
     unsigned n;
-    if (*(void **)(OBJ(p) + 0x28) != 0) {
-        n = (uptr)NAMEIN_GRAPHIC_GetGridMode((const unsigned char *)(p + 0xFC));
-        MISC_SetInputFlag(*(void **)(OBJ(p) + 0x28), (uptr)(*(void **)OBJ(p)), n);
+    if (((NameinGraphicWork *)p)->args->pokedex != 0) {
+        n = NAMEIN_GRAPHIC_GetGridMode((const unsigned char *)(((void *)&((struct NameinGraphicWork *)p)->grid)));
+        MISC_SetInputFlag(((NameinGraphicWork *)p)->args->pokedex, ((NameinGraphicWork *)p)->args->kind, n);
     }
-    if (*(void **)(OBJ(p) + 0x24) != 0) NAMEIN_GRAPHIC_SetCallback(a, (uptr)NAMEIN_GRAPHIC_CallbackPauseSave);
+    if (((NameinGraphicWork *)p)->args->saveIntr != 0) NAMEIN_GRAPHIC_SetCallback(a, NAMEIN_GRAPHIC_CallbackPauseSave);
     else NAMEIN_GRAPHIC_FinishCallback(a);
 }
 
-void NAMEIN_GRAPHIC_CallbackPauseSave(unsigned char *p,int *state,unsigned char *q){switch(*state){case 0:SAVE_CONTROL_INTR_Pause((struct SaveControlIntr *)(*(unsigned char * *)&((NameinGraphicConfig *)(*(unsigned char * *)&((NameinGraphicWork *)q)->args))->saveControl));*state=1;break;case 1:if(SAVE_CONTROL_INTR_IsPausedOrFinished((struct SaveControlIntr *)(*(unsigned char * *)&((NameinGraphicConfig *)(*(unsigned char * *)&((NameinGraphicWork *)q)->args))->saveControl))==1)NAMEIN_GRAPHIC_FinishCallback(p);break;}}
+void NAMEIN_GRAPHIC_CallbackPauseSave(NameinGraphicCallback *p,int *state,unsigned char *q){switch(*state){case 0:SAVE_CONTROL_INTR_Pause(((NameInArgs *)(*(unsigned char * *)&((NameinGraphicWork *)q)->args))->saveIntr);*state=1;break;case 1:if(SAVE_CONTROL_INTR_IsPausedOrFinished(((NameInArgs *)(*(unsigned char * *)&((NameinGraphicWork *)q)->args))->saveIntr)==1)NAMEIN_GRAPHIC_FinishCallback(p);break;}}
 
 static inline void G2_BlendNone(void) { *(volatile unsigned short *)REG_BLDCNT_ADDR = 0; }
 
@@ -1756,8 +1645,8 @@ static inline void GXS_SetVisibleWnd(int window) { *(volatile unsigned *)REG_DB_
 unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap)
 {
     unsigned char *p;
-    p = GFL_HEAP_Alloc(heap, 0x10, 0, d_021F5784, 0x1BB);
-    MI_CpuFill8(p, 0, 0x10);
+    p = GFL_HEAP_Alloc(heap, sizeof(NameinGraphicDisplay), 0, d_021F5784, 0x1BB);
+    MI_CpuFill8(p, 0, sizeof(NameinGraphicDisplay));
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
@@ -1770,7 +1659,7 @@ unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     NAMEIN_GRAPHIC_InitBg(p, heap);
-    NAMEIN_GRAPHIC_InitClact(p + 4, (sptr)&d_021F55D0, heap);
+    NAMEIN_GRAPHIC_InitClact((unsigned char *)&((NameinGraphicDisplay *)p)->clactUnit, (struct DispVramCfg *)&d_021F55D0, heap);
     ((NameinGraphicDisplay *)p)->mainTask = GFL_USE_AddMainTask(NAMEIN_GRAPHIC_DisplayMainTask, p, 0);
     return p;
 }
@@ -1778,24 +1667,24 @@ unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap)
 void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p)
 {
     TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((NameinGraphicDisplay *)p)->mainTask));
-    NAMEIN_GRAPHIC_ExitClact(p + 4);
+    NAMEIN_GRAPHIC_ExitClact((unsigned char *)&((NameinGraphicDisplay *)p)->clactUnit);
     NAMEIN_GRAPHIC_ExitBg(p);
     GF_FONT_SetDefaultTextColor();
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    MI_CpuFill8(p, 0, 0x10);
+    MI_CpuFill8(p, 0, sizeof(NameinGraphicDisplay));
     GFL_HEAP_Free(p);
 }
 
 void NAMEIN_GRAPHIC_DrawDisplay(u8 *p)
 {
-    NAMEIN_GRAPHIC_DrawClact(p + 4);
+    NAMEIN_GRAPHIC_DrawClact((unsigned char *)&((NameinGraphicDisplay *)p)->clactUnit);
     NAMEIN_GRAPHIC_Empty(p);
 }
 
-unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p){return NAMEIN_GRAPHIC_LoadWord((const unsigned *)(p+4));}
+struct Unit *NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p){return NAMEIN_GRAPHIC_LoadWord((void *const *)&((NameinGraphicDisplay *)p)->clactUnit);}
 
 void NAMEIN_GRAPHIC_DisplayMainTask(struct TcbTask *a, void *bArg)
 {
@@ -1842,11 +1731,11 @@ void NAMEIN_GRAPHIC_Empty(u8 *unused) {}
 
 void NAMEIN_GRAPHIC_ResetBg(u8 *unused) { BG_SYS_Update(); }
 
-void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b)
+void NAMEIN_GRAPHIC_InitClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct ClactSysInit *)0x021F55B4, (struct DispVramCfg *)a, b);
-    *(int *)&((NameinGraphicClact *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
+    CLACT_InitSystem((struct ClactSysInit *)0x021F55B4, a, b);
+    ((NameinGraphicClact *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((NameinGraphicClact *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -1866,4 +1755,4 @@ void NAMEIN_GRAPHIC_VBlankClact(u8 *unused) { CLACT_VBlankSystem(); }
 /*
  * extent: lead tail-call stub followed by unlabelled load-and-return at 021F4D1C.
  */
-u32 NAMEIN_GRAPHIC_LoadWord(const u32 *p) { return (u32)(*(void **)p); }
+void *NAMEIN_GRAPHIC_LoadWord(void *const *p) { return *p; }

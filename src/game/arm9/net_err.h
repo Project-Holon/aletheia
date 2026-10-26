@@ -6,7 +6,7 @@
 
 #include "../types.h"
 
-void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(u32 eventMask, u32 eventValue);
 void GFL_NET_ERR_CreateHeap(void);
 void GFL_NET_ERR_Init(u32 heapId);
 void GFL_NET_ERR_DetectNetError(void);

@@ -144,7 +144,7 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
     out->data0C = t->data0C;
 
     bank = MSGDATA_CreateFromArchive(0, 2, 0xbe, heap);
-    MSGDATA_ReadString(bank, id, (void *)out->name);
+    MSGDATA_ReadString(bank, id, out->name);
     MSGDATA_Delete(bank);
 
     MIi_CpuCopy16(t->data04, &out->data04, 8);

@@ -955,7 +955,7 @@ BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u3
     context->fnt_size = fnt_size;
     context->fnt_bak = context->fnt = fnt;
     context->read_func = read_func ? read_func : FSi_ReadMemCallback;
-    context->write_func = write_func ? write_func : (FS_ARCHIVE_WRITE_FUNC)FSi_WriteMemCallback;
+    context->write_func = write_func ? write_func : FSi_WriteMemCallback;
     context->load_mem = 0;
     return FS_MountArchive(arc, context, &FSiArchiveProcInterface);
 }

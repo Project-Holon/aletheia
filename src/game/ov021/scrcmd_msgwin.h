@@ -22,10 +22,10 @@ typedef struct G3dCamera G3dCamera;
 #include "../arm9/strbuf_types.h"
 #include "../ov010/script_work_types.h"
 
-int SCRCMD_MSGWIN_YesNoEventMain(GameEvent *event, int *seq, void *work);
+int SCRCMD_MSGWIN_YesNoEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *SCRCMD_MSGWIN_CreateYesNoEvent(GameSystem *gameSystem, ScrcmdWork *cmdWork, u16 *result);
 int SCRCMD_MSGWIN_CmdYesNoWin(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_MSGWIN_MenuEventMain(GameEvent *event, int *seq, void *work);
+int SCRCMD_MSGWIN_MenuEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *SCRCMD_MSGWIN_CreateMenuEvent(GameSystem *gameSystem, ScrcmdWork *cmdWork, int allowCancel);
 int SCRCMD_MSGWIN_CmdInitMenu(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_MSGWIN_CmdInitMenuMsgData(ScriptVm *vm, ScrcmdWork *cmdWork);

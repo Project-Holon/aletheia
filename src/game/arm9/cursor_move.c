@@ -45,7 +45,7 @@ struct CursorEntry {
     u8 tag[4];
 };
 
-typedef void (*CursorCb)(u32 ctx, u8 cur, int prev);
+typedef void (*CursorCb)(void *ctx, u8 cur, int prev);
 
 struct CursorVtbl {
     CursorCb onStart;
@@ -64,7 +64,7 @@ struct Cursor {
     u8 saved;
     u32 skipBitmap[2];
     struct CursorVtbl *vt;
-    u32 ctx;
+    void *ctx;
 };
 
 #include "gfl_heap_wrap.h"
@@ -93,7 +93,7 @@ u32 CURSOR_MOVE_GetTableKind(u32 x);
 
 u32 CURSOR_MOVE_FindTableGroupIndex(u32 v);
 
-struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
+struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, void *ctx, u32 state, u8 start, u16 heapId);
 
 u32 CURSOR_MOVE_Delete(void *cursor);
 
@@ -187,9 +187,9 @@ u32 CURSOR_MOVE_FindTableGroupIndex(u32 v)
     return 0;
 }
 
-struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId)
+struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, void *ctx, u32 state, u8 start, u16 heapId)
 {
-    struct Cursor *p = (struct Cursor *)GFL_HEAP_Alloc(heapId, 0x20, 0, str_020A74A0, 0x6a);
+    struct Cursor *p = (struct Cursor *)GFL_HEAP_Alloc(heapId, sizeof(*p), 0, str_020A74A0, 0x6a);
 
     p->entries = entries;
     p->vt = vt;
@@ -510,7 +510,7 @@ loop:
         {
             u8 prev = obj->cur;
             struct CursorVtbl *vt = obj->vt;
-            u32 ctx = obj->ctx;
+            void *ctx = obj->ctx;
 
             obj->cur = (u8)sel;
             obj->prev = prev;

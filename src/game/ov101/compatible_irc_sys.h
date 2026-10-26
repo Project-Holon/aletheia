@@ -34,15 +34,15 @@ int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,void *resource);
 void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index);
-int COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
+void *COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
 int COMPATIBLE_IRC_SYS_GetRecvSize(void);
 int COMPATIBLE_IRC_SYS_IsEqual(int a, int b);
 void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys);
 void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg);
 void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg);
-void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work);
-void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle);
-void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle);
+void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,IrcSys *work);
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,struct GFLNetHandle *handle);
+void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,IrcSys *work,struct GFLNetHandle *handle);
 void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int heapId);
 void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync);
 int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second);
@@ -55,7 +55,7 @@ void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 aid,int size,void *data,IrcProfil
 void COMPATIBLE_IRC_SYS_RecvAckHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, u8 *data, IrcProfileSync *work, void *handle);
-u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
+void *COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
 /* END mkheaders: generated region */
 
 #endif

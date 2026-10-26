@@ -71,12 +71,12 @@ void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
 
     attr->data = (void *)ARC_UTIL_LoadMemberWithSize(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
     attr->lineCount = *(u32 *)attr->data;
-    attr->lines = GFL_HEAP_Alloc((u16)heapId, attr->lineCount * 4, 1, (const char *)&d_021DE2C4, 0x86);
+    attr->lines = GFL_HEAP_Alloc((u16)heapId, attr->lineCount * sizeof(*attr->lines), 1, (const char *)&d_021DE2C4, 0x86);
     offset = 4;
     for (i = 0; i < attr->lineCount; i++) {
         RailAttrLine *line;
 
-        attr->lines[i] = (RailAttrLine *)((uptr)attr->data + offset);
+        attr->lines[i] = (RailAttrLine *)((u8 *)attr->data + offset);
         line = attr->lines[i];
         offset += line->width * line->length * 4 + 4;
     }

@@ -167,7 +167,7 @@ int GFL_NET_Exit(GFLNetUserFunc exitCallback);
 
 void GFL_NET_ClearExitFlag(void);
 
-u32 GFL_NET_GetScanResult(u32 index);
+void *GFL_NET_GetScanResult(u32 index);
 
 void *GFL_NET_GetScanResultMac(u32 index);
 
@@ -189,7 +189,7 @@ void GFL_NET_SetGameKindOverride(int gameKind);
 
 void GFL_NET_IRC_WIRELESS_GetMacAddress(void *dst, u32 slot);
 
-void GFL_NET_IRC_WIRELESS_SetSessionParam(unsigned int value);
+void GFL_NET_IRC_WIRELESS_SetSessionParam(NetIrcFilterFn value);
 
 void GFL_NET_IRC_WIRELESS_Exit(void);
 
@@ -253,9 +253,9 @@ void GFL_NET_SetGameKind(int gameKind, int unused);
 
 u32 GFL_NET_GetGameKind(void);
 
-u32 GFL_NET_GetWifiUserData(void);
+void *GFL_NET_GetWifiUserData(void);
 
-u32 GFL_NET_GetFriendList(void);
+void *GFL_NET_GetFriendList(void);
 
 u32 GFL_NET_GetFriendListNum(void);
 
@@ -375,7 +375,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, 
         GFL_HEAP_CreateChildHeap(gGFLNetMain.baseHeapId, req->heapId, 0x7800);
     else
         GFL_HEAP_CreateChildHeap(req->parentHeapId, req->heapId, 0x7800);
-    session = (GFLNetSession *)GFL_HEAP_Alloc(req->heapId, 0x354, 1, sNetFileName, 0x6a);
+    session = (GFLNetSession *)GFL_HEAP_Alloc(req->heapId, sizeof(*session), 1, sNetFileName, 0x6a);
     gGFLNetMain.session = session;
     session->errorCheckEnabled = 1;
     session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
@@ -383,7 +383,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, 
         GF_PANIC_Fail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
         req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, work);
-    MI_CpuCopy8(req, session, 0x70);
+    MI_CpuCopy8(req, session, sizeof(*req));
     switch (req->bNetType) {
     case 1:
     case 2:
@@ -408,7 +408,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, 
         return;
     }
     session->userArg = work;
-    GFL_NET_STATE_DeviceInitialize((void *)req->heapId, callback);
+    GFL_NET_STATE_DeviceInitialize(req->heapId, callback);
     GFL_NET_HANDLE_InitWork(session);
     GFL_NET_COMMAND_Init(req->gameKind << 8, req->recvFuncTable, req->recvFuncTableNum, session->userArg, req->heapId);
     netType = req->bNetType;
@@ -528,9 +528,9 @@ int GFL_NET_Exit(GFLNetUserFunc exitCallback)
 
         session->exitCallback = exitCallback;
         if (netType == 1) {
-            GFL_NET_STATE_WifiLogout((uptr)GFL_NET_EndSession);
+            GFL_NET_STATE_WifiLogout(GFL_NET_EndSession);
         } else {
-            GFL_NET_STATE_Exit((uptr)GFL_NET_EndSession);
+            GFL_NET_STATE_Exit(GFL_NET_EndSession);
         }
         GFL_NET_WM_ICON_EasyEnd();
         return 1;
@@ -548,7 +548,7 @@ void GFL_NET_ClearExitFlag(void)
  * there is no session. Dispatches through the getScanResult slot of the mode
  * operation table; the table pointer itself is not checked.
  */
-u32 GFL_NET_GetScanResult(u32 index)
+void *GFL_NET_GetScanResult(u32 index)
 {
     GFLNetSession *session;
 
@@ -686,7 +686,7 @@ void GFL_NET_IRC_WIRELESS_GetMacAddress(void *dst, u32 slot)
     GFL_NET_IRC_WIRELESS_CopyMacAddress(dst, slot);
 }
 
-void GFL_NET_IRC_WIRELESS_SetSessionParam(unsigned int value)
+void GFL_NET_IRC_WIRELESS_SetSessionParam(NetIrcFilterFn value)
 {
     GFL_NET_IRC_WIRELESS_SetSessionParamValue(value);
 }
@@ -1051,7 +1051,7 @@ u32 GFL_NET_GetGameKind(void)
  * Calls the net context's +0x44 callback with its +0x34c argument, or
  * returns 0 when no callback is installed.
  */
-u32 GFL_NET_GetWifiUserData(void)
+void *GFL_NET_GetWifiUserData(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
 
@@ -1065,7 +1065,7 @@ u32 GFL_NET_GetWifiUserData(void)
  * Calls the net context's +0x40 callback with its +0x34c argument, or
  * returns 0 when no callback is installed.
  */
-u32 GFL_NET_GetFriendList(void)
+void *GFL_NET_GetFriendList(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
 

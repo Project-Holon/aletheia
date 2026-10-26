@@ -224,7 +224,7 @@ static inline void SetVecFx32(VecFx32 *dst, s32 x, s32 y, s32 z)
 
 FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam)
 {
-    FieldG3dMapper *mapper = GFL_HEAP_Alloc(heapId, 0x74, 1, (char *)gFieldG3dMapperSrcName, 0xf9);
+    FieldG3dMapper *mapper = GFL_HEAP_Alloc(heapId, sizeof(*mapper), 1, (char *)gFieldG3dMapperSrcName, 0xf9);
     mapper->heapId = heapId;
     mapper->focusPos.x = 0;
     mapper->focusPos.y = 0;
@@ -366,7 +366,7 @@ void FIELD_G3D_MAPPER_Draw(FieldG3dMapper *mapper, struct G3dCamera *camera, int
             drawPos.y = mapPos.y + mapper->originOffset.y;
             drawPos.z = mapPos.z + mapper->originOffset.z;
             FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct VecFx32 *)(&drawPos));
-            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, (sptr)camera);
+            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, camera);
             FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct VecFx32 *)(&mapPos));
             if (drawn != 0 && mapper->drawnCount < mapper->slotCount)
                 *drawnCount = *drawnCount + 1;
@@ -443,7 +443,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     mapper->gridWidth = newWidth;
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
-    MAP_MATRIX_SetSize((struct MapMatrix *)GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
+    MAP_MATRIX_SetSize(GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
     GFL_HEAP_Free(newGrid);
     return 1;
 }
@@ -512,7 +512,7 @@ void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *s
     for (i = 0; i < mapper->slotCount; i++) {
         FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
         FIELD_G3D_MAPPER_InitSlotRes(&mapper->slots[i].res, mapper, i, mapper->heapId);
-        config.userParam = (uptr)&mapper->slots[i].res;
+        config.userParam = &mapper->slots[i].res;
         map = FIELD_G3D_MAP_Create(&config, mapper->heapId);
         mapper->slots[i].map = map;
         FIELD_G3D_MAP_OpenArchive(map, mapper->mapArchiveId, mapper->heapId);

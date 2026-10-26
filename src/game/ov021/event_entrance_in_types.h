@@ -14,6 +14,7 @@
  */
 
 #include "../ov020/event_mapchange_types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 /* Exit types of a connection (EntranceParam.exitType and destExitType). */
 enum {
@@ -61,8 +62,8 @@ typedef struct EntranceOutWork {
     EntranceParam *param;       /* 0x00 */
 } EntranceOutWork;
 
-typedef u32 (*EntranceInEventFunc)(GameEvent *event, int *seq, EntranceInWork *work);
-typedef u32 (*EntranceOutEventFunc)(GameEvent *event, int *seq, EntranceOutWork *work);
+typedef GameEventFunc EntranceInEventFunc;
+typedef GameEventFunc EntranceOutEventFunc;
 
 typedef struct EntranceInEventTable {
     EntranceInEventFunc func[ENTRANCE_EVENT_COUNT];

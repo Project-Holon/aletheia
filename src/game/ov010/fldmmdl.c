@@ -589,7 +589,7 @@ void FLDMMDL_SetGridPosFromHeader(Mmdl *mmdl, const MmdlHeader *header)
     s32 gridX;
     s32 gridZ;
     s32 posY;
-    if (FLDMMDL_HasMovedPos(mmdl, (sptr)header) == 0) {
+    if (FLDMMDL_HasMovedPos(mmdl, header) == 0) {
         gridX = gridPos->gridX;
         gridZ = gridPos->gridZ;
         posY = gridPos->posY;

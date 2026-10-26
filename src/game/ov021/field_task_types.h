@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* One queued field task: a state, a work block and a per-frame check callback. */
-typedef int (*FieldTaskCheckFunc)(u32 *work);
+typedef int (*FieldTaskCheckFunc)(void *work);
 
 typedef struct FieldTask {
     u32 state;                 /* 0 created, 1 running, 2 finished */

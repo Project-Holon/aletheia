@@ -4,18 +4,20 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zukan_toroku_graphic.c, prototypes copied from their definitions. */
 
+struct ZukanTorokuArgs;
 struct ZukanTorokuWork;
+struct TcbTask;
 struct ZukanTorokuDisplay;
 struct Unit;
-struct TcbTask;
+struct DispVramCfg;
 typedef struct ZukanTorokuWork ZukanTorokuWork;
 typedef struct ZukanTorokuDisplay ZukanTorokuDisplay;
 
 #include "../types.h"
 
-int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args);
+int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,struct ZukanTorokuArgs *args);
 int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work);
-int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work);
+int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,struct ZukanTorokuArgs *args,ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_ClearTask(struct TcbTask *task, void *taskWork);

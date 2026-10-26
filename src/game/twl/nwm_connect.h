@@ -5,8 +5,9 @@
 /* Public functions of nwm_connect.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_Connect(void *callback, u32 authMode, const u16 *bssDesc);
+u32 NWM_Connect(NWMCallbackFunc callback, u32 authMode, const u16 *bssDesc);
 /* END mkheaders: generated region */
 
 #endif

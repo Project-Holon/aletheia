@@ -84,8 +84,8 @@ void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte);
 void NNSi_GfdRunVramTransferTask(NNSiGfdVramTransferTask *pTask);
 void NNSi_GfdResetVramTransferTaskQueue(NNSiGfdVramTransferTaskQueue *pQueue);
 int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
-u32 NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
-u32 NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
+NNSiGfdVramTransferTask *NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
+NNSiGfdVramTransferTask *NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
 u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
 void NNS_GfdInitVramTransferTaskQueue(void *pTaskArray, u32 numTasks);
 void NNS_GfdResetVramTransferTaskQueue(void);
@@ -239,15 +239,15 @@ int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 }
 
 /* Address of the head task: base plus the head index scaled by the task size (0x10). */
-u32 NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
+NNSiGfdVramTransferTask *NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 {
-    return pQueue->pTaskArray + ((u32)pQueue->head << 4);
+    return pQueue->pTaskArray + pQueue->head;
 }
 
 /* Address of the tail slot (where the next task is written): base plus the tail index scaled by 0x10. */
-u32 NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
+NNSiGfdVramTransferTask *NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 {
-    return pQueue->pTaskArray + ((u32)pQueue->tail << 4);
+    return pQueue->pTaskArray + pQueue->tail;
 }
 
 /*
@@ -284,7 +284,7 @@ u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
  */
 void NNS_GfdInitVramTransferTaskQueue(void *pTaskArray, u32 numTasks)
 {
-    g_02146B80_cb.pTaskArray = (uptr)pTaskArray;
+    g_02146B80_cb.pTaskArray = pTaskArray;
     g_02146B80_cb.numTasks = numTasks;
     NNSi_GfdResetVramTransferTaskQueue(&sVramTransferTaskQueue);
 }

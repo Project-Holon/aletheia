@@ -261,19 +261,15 @@ extern void GAME_DATA_SetWarpId(struct GameData *gameData, int warpId); /* origi
 #else
 extern void GAME_DATA_SetWarpId(struct GameData*, u16);
 #endif
-extern unsigned int GAME_DATA_GetFieldWork(struct GameData *gameData);
+extern struct MapMatrix *GAME_DATA_GetFieldWork(struct GameData *gameData);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
-extern unsigned int GAME_DATA_GetBoxManager(struct GameData *gameData);
+extern void *GAME_DATA_GetBoxManager(struct GameData *gameData);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern void *GAME_DATA_GetTrainerCardSign(struct GameData *gameData);
 extern void *GAME_DATA_GetEventData(struct GameData *gameData);
 extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gameData);
 #include "../arm9/zonedata.h"
-#ifdef __MWERKS__
-extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, s16 direction, u32 x, u32 y, u32 z); /* original prototype; the definition differs in argument sign, argument width */
-#else
-#endif
 
 /* save data */
 #include "../arm9/system_data.h"
@@ -353,7 +349,7 @@ void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list);
 
 ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(struct ScriptWork *scriptWork, int heapId)
 {
-    ScrcmdCommonWork *common = GFL_HEAP_Alloc(heapId, 0x110, 1, sScrcmdWorkFileName, 0x78);
+    ScrcmdCommonWork *common = GFL_HEAP_Alloc(heapId, sizeof(*common), 1, sScrcmdWorkFileName, 0x78);
 
     common->scriptWork = scriptWork;
     common->gameSystem = SCRIPT_WORK_GetGameSystem(scriptWork);
@@ -376,7 +372,7 @@ ScrcmdWork *SCRCMD_WORK_Create(const ScrcmdWorkParam *param, int heapId)
 {
     ScrcmdWork *work;
     const ScrcmdWorkParam *src;
-    work = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000), 0x24, 1, sScrcmdWorkFileName, 0x94);
+    work = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000), sizeof(*work), 1, sScrcmdWorkFileName, 0x94);
     src = param;
     work->heapId = heapId;
     work->param = *src;
@@ -597,7 +593,7 @@ void SCRCMD_WORK_InitMenu(ScrcmdWork *work, unsigned short x, unsigned short y,
 {
     ScrcmdCommonWork *common = work->common;
     ScrcmdMenu *menu = &common->menu;
-    MI_CpuFill8(menu, 0, 0xa0);
+    MI_CpuFill8(menu, 0, sizeof(*menu));
     common->menu.x = x;
     menu->y = y;
     menu->cursorPos = cursorPos;
@@ -606,7 +602,7 @@ void SCRCMD_WORK_InitMenu(ScrcmdWork *work, unsigned short x, unsigned short y,
     menu->result = result;
     menu->wordSet = wordSet;
     menu->msgData = msgData;
-    MIi_CpuClear32(0, menu->itemHelp, 0x80);
+    MIi_CpuClear32(0, menu->itemHelp, sizeof(menu->itemHelp));
     if (menu->msgData == NULL) {
         menu->ownsMsgData = 1;
         menu->msgData = MSGDATA_CreateFromArchive(0, 3, 0x80 + 0x86, work->heapId);
@@ -655,7 +651,7 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
     }
     height = FIELD_MSGBG_GetMenuHeightChars(lines, header.fontHeight, header.lineSpacing, count > 6);
     FIELD_MSGBG_SetMenuHeaderRect(&header, (unsigned short)FIELD_MSGBG_GetMenuItemCount(menu->items), (unsigned short)menu->x, (unsigned short)menu->y, (unsigned short)width, (unsigned short)height);
-    menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (uptr)SCRCMD_WORK_MenuCursorCallback, (uptr)work, 0, menu->cursorPos, menu->cancelable);
+    menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (uptr)SCRCMD_WORK_MenuCursorCallback, work, 0, menu->cursorPos, menu->cancelable);
 }
 
 void SCRCMD_WORK_DeleteMenu(ScrcmdMenu *menu)
@@ -709,7 +705,7 @@ int SCRCMD_WORK_WaitMenuOrCancel(ScrcmdWork *work)
 void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list)
 {
     unsigned short index = 0;
-    ScrcmdWork *work = (struct ScrcmdWork *)BMP_MENULIST_GetUserData(list);
+    ScrcmdWork *work = BMP_MENULIST_GetUserData(list);
     ScrcmdMenu *menu = &work->common->menu;
     BMP_MENULIST_GetListIndex(list, &index);
     if (menu->itemHelp[index] != NULL) {
@@ -972,7 +968,7 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     u16 zoneId;
     MAP_REPLACE_SetFlag(gameData, replaceId, enable);
     if (applyNow != 0) {
-        mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(gameData);
+        mapMatrix = GAME_DATA_GetFieldWork(gameData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         matrixId = ZONEDATA_GetMatrixId(zoneId);
         heapId = SCRCMD_WORK_GetHeapId(work);

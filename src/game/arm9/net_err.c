@@ -287,11 +287,7 @@ extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file,
 
 #include "net_system.h"
 
-#ifdef __MWERKS__
-extern NetErrInfo *GFL_NET_STATE_GetError(void); /* original prototype; the definition returns the address as u32 */
-#else
 #include "net_state.h"
-#endif
 
 
 
@@ -349,7 +345,7 @@ struct NitroFileHeader;
 
 
 
-void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(u32 eventMask, u32 eventValue);
 
 void GFL_NET_ERR_CreateHeap(void);
 
@@ -448,10 +444,10 @@ u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a);
  * and DWC_RAP_GetVchatEnabled() report nonzero; DWC_RAP_GetVchatEnabled is only called when
  * GFL_NET_IsNetTypeWifi reports zero.
  */
-void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue)
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(u32 eventMask, u32 eventValue)
 {
     if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
-        GFL_USE_SetBgmTrackVolume((uptr)eventMask, (uptr)eventValue);
+        GFL_USE_SetBgmTrackVolume(eventMask, eventValue);
     }
 }
 
@@ -511,7 +507,7 @@ void GFL_NET_ERR_DetectNetError(void)
     }
 
     {
-        NetErrInfo *errorInfo = (NetErrInfo *)(uptr)GFL_NET_STATE_GetError();
+        NetErrInfo *errorInfo = GFL_NET_STATE_GetError();
         u32 reasonCode = errorInfo->gameCode;
 
         if (reasonCode - 0x3f0 <= 1) {
@@ -770,7 +766,7 @@ void GFL_NET_ERR_RecordError(void)
         return;
     }
     work->netType = GFL_NET_GetInitParam()->init.bNetType;
-    work->errorInfo = *(NetErrInfo *)(uptr)GFL_NET_STATE_GetError();
+    work->errorInfo = *GFL_NET_STATE_GetError();
     work->netErrorFlag = (u8)GFL_NET_STATE_GetErrorMode();
     netType = work->netType;
     if (netType == GFL_NET_TYPE_WIFI || netType == GFL_NET_TYPE_WIFI_LOBBY || netType == GFL_NET_TYPE_WIFI_GTS) {

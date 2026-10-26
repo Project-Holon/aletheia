@@ -235,7 +235,7 @@ void GFL_NET_SYSTEM_SendWifi(void);
 
 u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length);
 
-void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size);
+void GFL_NET_SYSTEM_RecvParentCallback(u8 *buffer, u32 size);
 
 void GFL_NET_SYSTEM_SendIrc(void);
 
@@ -265,7 +265,7 @@ int GFL_NET_SYSTEM_GetChildRingDataSize(void);
 
 int GFL_NET_SYSTEM_GetParentRingDataSize(void);
 
-void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecvCursor *cursor);
+void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, void *data, struct NetRecvCursor *cursor);
 
 void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, struct NetRecvCursor *cursor, u32 maxSize);
 
@@ -393,7 +393,7 @@ int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heapId, u32 useParentSize)
     if (_pNetSys == 0) {
         maxMembers = GFL_NET_GetMaxConnectNum();
         parentSendSize = GFL_NET_SYSTEM_GetSendSize();
-        _pNetSys = GFL_HEAP_Alloc(heapId, 0x1f0, 1, _FileName, 0xdd);
+        _pNetSys = GFL_HEAP_Alloc(heapId, sizeof(*_pNetSys), 1, _FileName, 0xdd);
         if (useParentSize != 0)
             _pNetSys->packetBufSize = parentSendSize + 0x40;
         else
@@ -978,7 +978,7 @@ void GFL_NET_SYSTEM_SendParentData(void)
     if (_NetPhase[1] != 0)
         return;
     if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
-        result = session->ops->sendData((uptr)_pNetSys->sendPacketBuf, childSendSize, 0, GFL_NET_SYSTEM_SendCallback);
+        result = session->ops->sendData(_pNetSys->sendPacketBuf, childSendSize, 0, GFL_NET_SYSTEM_SendCallback);
         if (result == 0)
             return;
         _NetPhase[1] = 2;
@@ -1027,7 +1027,7 @@ void GFL_NET_SYSTEM_SendWireless(void)
         childSendSize = (unsigned short)childSendSize;
         do {
         GFL_NET_SYSTEM_RecvChildData((unsigned short)i,
-                      (NetPacketHeader *)(session->ops->getSharedData(i)), childSendSize);
+                      session->ops->getSharedData(i), childSendSize);
             i++;
         } while (i < maxMembers);
     }
@@ -1058,6 +1058,7 @@ fail:
 void GFL_NET_SYSTEM_SendWifi(void)
 {
     GFLNetSession *session;
+    void (*resetLink)(void);
     u32 value;
 
     session = GFL_NET_GetSession();
@@ -1065,9 +1066,9 @@ void GFL_NET_SYSTEM_SendWifi(void)
     if (GFL_NET_QUEUE_IsEmpty(&_pNetSys->sendQueue) != 0)
         GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0, 0);
 
-    value = (uptr)session->ops->resetLink;
-    if (value != 0)
-        ((void (*)(void))value)();
+    resetLink = session->ops->resetLink;
+    if (resetLink != 0)
+        resetLink();
     if (session->ops->isActive() != 1)
         return;
 
@@ -1077,7 +1078,7 @@ void GFL_NET_SYSTEM_SendWifi(void)
     if (GFL_NET_SYSTEM_PackSendData(0) == 0)
         return;
 
-    GFL_NET_SYSTEM_RecvParentCallback((uptr)_pNetSys->sendPacketBuf, value);
+    GFL_NET_SYSTEM_RecvParentCallback(_pNetSys->sendPacketBuf, value);
     _NetPhase[1] = 4;
 }
 
@@ -1149,7 +1150,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length)
  *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_RecvParentCallback.c \
  *       --func GFL_NET_SYSTEM_RecvParentCallback --addr 0x020381D8 --cc 1.1p1 --arm
  */
-void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
+void GFL_NET_SYSTEM_RecvParentCallback(u8 *buffer, u32 size)
 {
     GFLNetSession *session;
     u32 aid;
@@ -1167,7 +1168,7 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
         return;
     session->ops->sendData(buffer, size, 0, 0);
     aid = session->ops->getMyAid();
-    GFL_NET_SYSTEM_RecvData((u16)aid, (u8 *)buffer, (u16)size);
+    GFL_NET_SYSTEM_RecvData((u16)aid, buffer, (u16)size);
     GFL_NET_SYSTEM_SetDebugByte(4, 0x40C);
 }
 
@@ -1207,7 +1208,7 @@ void GFL_NET_SYSTEM_SendIrc(void)
 
     if (_pNetSys->ircRecvPending != 1)
         return;
-    if (session->ops->sendData((uptr)_pNetSys->sendPacketBuf, childSendSize,
+    if (session->ops->sendData(_pNetSys->sendPacketBuf, childSendSize,
                                                     0, 0) == 0)
         return;
     _pNetSys->ircRecvPending = 0;
@@ -1259,7 +1260,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
             if (session->ops->isConnected() != 0) {
                 u32 size = GFL_NET_SYSTEM_GetSendSize();
                 if (session->ops->sendData(
-                        (uptr)_pNetSys->mpParentPacketBuf, size, 0, GFL_NET_SYSTEM_SendEndCallback) != 0)
+                        _pNetSys->mpParentPacketBuf, size, 0, GFL_NET_SYSTEM_SendEndCallback) != 0)
                     goto tail;
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x46a + 4);
                 goto tail;
@@ -1275,7 +1276,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
             {
                 u32 size = GFL_NET_GetChildSendSize();
                 session->ops->sendData(
-                    (uptr)_pNetSys->mpParentPacketBuf, size, 0x64, 0);
+                    _pNetSys->mpParentPacketBuf, size, 0x64, 0);
             }
         }
     }
@@ -1347,7 +1348,7 @@ void GFL_NET_SYSTEM_UpdateMPParent(void)
         {
             u32 size = GFL_NET_SYSTEM_GetSendSize();
             if (session->ops->sendData(
-                    (uptr)_pNetSys->mpParentPacketBuf, size, 0, 0) == 0)
+                    _pNetSys->mpParentPacketBuf, size, 0, 0) == 0)
                 return;
         }
         GFL_NET_SYSTEM_SetDebugByte(4, 0x4e1);
@@ -1416,7 +1417,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
+        errorInfo = GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -1425,7 +1426,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
         u8 *recvSeq = _pNetSys->recvSeq;
         if (recvSeq[netId] != 0 && (u8)(packet->seq - 1) != recvSeq[netId]) {
             GFL_NET_SYSTEM_SetError();
-            errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
+            errorInfo = GFL_NET_STATE_GetError();
             if (errorInfo->gameCode == 0)
                 GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f3);
             return 0;
@@ -1466,7 +1467,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
+        errorInfo = GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -1654,7 +1655,7 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
         return 1;
 
     GFL_NET_SYSTEM_SetError();
-    err = (struct NetErrorInfo *)(uptr)GFL_NET_STATE_GetError();
+    err = GFL_NET_STATE_GetError();
     if (err->gameCode == 0)
         GFL_NET_STATE_SetError(err->errorCode, err->errorType, err->dwcError, 0x3f4);
     return 0;
@@ -1677,16 +1678,16 @@ int GFL_NET_SYSTEM_GetParentRingDataSize(void)
  *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_DispatchRecv.c \
  *       --func GFL_NET_SYSTEM_DispatchRecv --addr 0x02038D68 --cc 1.1p1 --arm
  */
-void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecvCursor *cursor)
+void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, void *data, struct NetRecvCursor *cursor)
 {
-    u32 handle;
+    struct GFLNetHandle *handle;
 
     GFL_NET_GetInitParam();
-    handle = (uptr)GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
+    handle = GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
     GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
 
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
-        handle = (uptr)GFL_NET_HANDLE_GetNetHandle(0xFF);
+        handle = GFL_NET_HANDLE_GetNetHandle(0xFF);
         if (command < 0x11)
             GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
     }
@@ -1752,7 +1753,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
         savedReadPos = ring->readPos;
         if (GFL_NET_COMMAND_IsHugeCommand(command) && GFL_NET_COMMAND_GetHeaderSize(cursor->commandOption)) {
             if (cursor->dest == 0)
-                cursor->dest = (u8 *)GFL_NET_COMMAND_GetHugeBuffer(command, cursor->senderID, cursor->totalSize);
+                cursor->dest = GFL_NET_COMMAND_GetHugeBuffer(command, cursor->senderID, cursor->totalSize);
             dest = cursor->dest + cursor->copied;
         } else {
             dest = buf;
@@ -1775,7 +1776,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
         }
         cursor->copied += copyCount;
         if (cursor->remaining == 0) {
-            GFL_NET_SYSTEM_DispatchRecv(command, cursor->totalSize, (uptr)cursor->dest, cursor);
+            GFL_NET_SYSTEM_DispatchRecv(command, cursor->totalSize, cursor->dest, cursor);
             continue;
         }
         if (!GFL_NET_COMMAND_IsCommandValid(command))
@@ -1834,9 +1835,9 @@ void GFL_NET_SYSTEM_ProcessParentRecv(void)
 void GFL_NET_SYSTEM_ProcessChildRecv(void)
 {
     int i, j, maxMembers;
-    u8 *sendSize;
+    u32 sendSize;
 
-    sendSize = (u8 *)GFL_NET_GetChildSendSize();
+    sendSize = GFL_NET_GetChildSendSize();
     if (_pNetSys == 0)
         return;
 

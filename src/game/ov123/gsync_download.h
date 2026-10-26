@@ -7,11 +7,11 @@
 #include "../types.h"
 #include "../ov123/gsync_download_types.h"
 
-void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 err, int serverError);
+void GSYNC_DOWNLOAD_SetRequestMode(int reason, int err, int serverError);
 GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize);
 void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work);
-int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work);
+int GSYNC_DOWNLOAD_CleanupAsync(void *arg, u32 errorCode, u32 errorType, int dwcError);
 int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work);
 int GSYNC_DOWNLOAD_ClearResult(GsyncDownloadWork *work);
 int GSYNC_DOWNLOAD_Reset(GsyncDownloadWork *work);

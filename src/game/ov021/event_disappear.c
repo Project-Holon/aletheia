@@ -211,19 +211,19 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant);
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunWalkFall(struct GameEvent *event, int *seq, void *work);
+int EVENT_DISAPPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *work);
 void EVENT_DISAPPEAR_StartSpin(EventDisappearWork *work);
 void EVENT_DISAPPEAR_StartZoomIn(EventDisappearWork *work);
 void EVENT_DISAPPEAR_EndZoomIn(EventDisappearWork *work);
 GameEvent *EVENT_DISAPPEAR_CreateFadeOut(EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinZoomEffect(struct GameEvent *event, int *seq, void *work);
 void EVENT_DISAPPEAR_StartSpinAndEffect(EventDisappearWork *work);
 void EVENT_DISAPPEAR_StartZoomInAlt(EventDisappearWork *work);
 void EVENT_DISAPPEAR_EndZoomInAlt(EventDisappearWork *work);
 GameEvent *EVENT_DISAPPEAR_CreateFadeOutAlt(EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinFade(struct GameEvent *event, int *seq, void *work);
+int EVENT_DISAPPEAR_RunRisingSpin(struct GameEvent *event, int *seq, void *work);
 
 /* Same as VEC_Set of the SDK. */
 static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
@@ -236,7 +236,7 @@ static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
 /* Creates the walk event: the player walks to targetPos and falls. */
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunWalkFall, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, sizeof(EventDisappearWork));
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -250,7 +250,7 @@ GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, sizeof(EventDisappearWork));
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -264,7 +264,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event with the player effect. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, sizeof(EventDisappearWork));
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -278,7 +278,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *g
 /* Creates the spin fade event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinFade, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, sizeof(EventDisappearWork));
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -291,7 +291,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSys
 /* Creates the rising spin event. */
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, sizeof(EventDisappearWork));
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -307,8 +307,9 @@ GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameS
  * the camera moves away and the screen fades out. Waits are skipped when the
  * player already stands on the position.
  */
-int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunWalkFall(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventDisappearWork *work = workPtr;
     struct FieldPlayer *player;
     Mmdl *mmdl;
     struct FieldEffectCtrl *effectCtrl;
@@ -437,8 +438,9 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
  * the fade-out event starts. FIELD_TASK_MANAGER_IsEmpty takes the task manager that stays
  * live across the switch, which puts the step number in r1.
  */
-int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventDisappearWork *work = workPtr;
     FieldTaskManager *taskManager;
     int frame;
 
@@ -527,8 +529,9 @@ GameEvent *EVENT_DISAPPEAR_CreateFadeOut(EventDisappearWork *work)
  * player effect start together, the camera zooms in and after 35 frames the
  * fade-out event starts.
  */
-int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinZoomEffect(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventDisappearWork *work = workPtr;
     int frame;
     FieldTaskManager *taskManager;
 
@@ -624,8 +627,9 @@ GameEvent *EVENT_DISAPPEAR_CreateFadeOutAlt(EventDisappearWork *work)
  * Spin fade: the spin tasks and a fade start together (the fade waits 30
  * frames), the sound depends on soundVariant, and the camera zooms in.
  */
-int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinFade(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventDisappearWork *work = workPtr;
     FieldMap *fieldMap;
     struct FieldPlayer *player;
     struct FieldCamera *camera;
@@ -685,8 +689,9 @@ int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *
  * screen fades out. It is the mirror of the descending spin of
  * event_appear.c.
  */
-int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunRisingSpin(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventDisappearWork *work = workPtr;
     FieldMap *fieldMap;
     struct FieldPlayer *player;
     struct FieldCamera *camera;

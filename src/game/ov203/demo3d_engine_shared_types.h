@@ -22,6 +22,8 @@ struct Cam {
     u16 count   : 1;   /* 0x06 bit 1 */
     u16 rest    : 14;
     int f8, fc, f10, f14, f18, f1c;
+    s16 clipOffset;    /* 0x20: near/far clip offset, first display mode */
+    s16 clipOffsetAlt; /* 0x22: near/far clip offset, second display mode */
 };
 
 /* Processed demo config embedded in struct Demo3dEngineCtx at 0x78. */
@@ -56,7 +58,7 @@ struct Demo3dEngineCtx {
     u32 count;          /* 0x2C object count */
     u32 scale[6];       /* 0x30 */
     u8 matrix[0x24];    /* 0x48 */
-    u32 cmdSys;         /* 0x6C DEMO3D_CMDSYS handle */
+    struct Demo3dCmdContext *cmdSys; /* 0x6C DEMO3D_CMDSYS handle */
     u16 *indices;       /* 0x70 */
     struct Cam *cam;    /* 0x74 camera/light record */
     Demo3dCfg data;     /* 0x78 */

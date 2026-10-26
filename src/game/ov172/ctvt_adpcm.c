@@ -36,7 +36,7 @@ extern const s8 gImaIndexTable[];       /* IMA index adjustment table, 16 entrie
 void CTVT_ADPCM_ResetEncoder(void);
 void CTVT_ADPCM_ResetDecoder(void);
 int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
-int CTVT_ADPCM_Decode(int in, int inBytes, int out);
+int CTVT_ADPCM_Decode(char *in, int inBytes, s16 *out);
 void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, CtvtAdpcmAdpcmState *state);
 void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, CtvtAdpcmAdpcmState *state);
 s8 CTVT_ADPCM_EncodeSample(int sample, CtvtAdpcmAdpcmState *state);
@@ -66,9 +66,9 @@ int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out)
 
 /* Decodes inBytes bytes of codes (two per byte) with the decoder state.
  * Returns the number of output bytes. */
-int CTVT_ADPCM_Decode(int in, int inBytes, int out)
+int CTVT_ADPCM_Decode(char *in, int inBytes, s16 *out)
 {
-    CTVT_ADPCM_DecodeSamples((char *)in, (s16 *)out, inBytes * 2, gCtvtAdpcmState);
+    CTVT_ADPCM_DecodeSamples((char *)in, out, inBytes * 2, gCtvtAdpcmState);
     return inBytes * 4;
 }
 

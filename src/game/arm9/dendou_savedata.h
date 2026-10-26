@@ -40,7 +40,7 @@ void DENDOU_SAVEDATA_GetRecordDate(const u8 *record, struct RecordDate *out);
 u32 DENDOU_SAVEDATA_GetRecordCount(char *ring);
 u32 DENDOU_SAVEDATA_GetHallNumber(char *ring, u32 count);
 int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx);
-void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, void *recordIndex, void *target);
+void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, int memberIndex, void *target);
 void DENDOU_SAVEDATA_GetRingRecordDate(u8 *ring, int index, void *out);
 /* END mkheaders: generated region */
 

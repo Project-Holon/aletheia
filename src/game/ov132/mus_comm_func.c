@@ -73,10 +73,6 @@
 
 #include "../arm9/gf_standard.h"
 
-#define W(q,k) (*(u32 *)((q)+(k)))
-
-#define P(q,k) (*(u8 **)((q)+(k)))
-
 struct Comm;
 
 struct Req;
@@ -85,22 +81,6 @@ struct Big;
 
 struct Link;
 
-struct Pl {
-    u32 partyReceived;
-    u32 boxReceived;
-    u32 used;
-    u8 value;
-    u8 pad[3];
-    u32 pad_74;
-    u32 orderValue;
-    u8 rest[0x18];
-};
-
-struct MusCommPlayerTable {
-    u8 pad[0x64];
-    struct Pl pl[4];
-};
-
 struct MusCommFuncRequest {u8 kind;u32 value;};
 
 typedef struct 
@@ -108,12 +88,6 @@ typedef struct
   u8 tag;
   u32 data;
 } Packet;
-
-typedef struct { u32 w[12]; } E;
-
-typedef struct { u8 pad[0x60]; E e[4]; } T;
-
-struct Context { char pad0[0x60]; struct StaActRecord rec[4]; };
 
 /* The callback owner is the 0x1ac-byte allocation in 021FC644, viewed as
    struct ActingHost. */
@@ -209,9 +183,9 @@ void MUS_COMM_FUNC_SetTimingSync(int a, int b);
 
 int MUS_COMM_FUNC_CheckTimingSync(char *p,int id);
 
-int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index);
+void *MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index);
 
-int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index);
+void *MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index);
 
 char *MUS_COMM_FUNC_GetRecordPtr(char *p);
 
@@ -227,9 +201,9 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *q,
 
 u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p);
 
-void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, T *p);
+void MUS_COMM_FUNC_SetEntryFlag(int i, int b, int c, struct ActingHost *p);
 
-u32 MUS_COMM_FUNC_ClearEntryFlag(int i, T *p);
+void *MUS_COMM_FUNC_ClearEntryFlag(int i, struct ActingHost *p);
 
 int MUS_COMM_FUNC_SendBoxData(char *p);
 
@@ -239,9 +213,9 @@ void *MUS_COMM_FUNC_ResetBoxFlags(int a,char *p);
 
 int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src);
 
-void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct Context *p);
+void MUS_COMM_FUNC_SetRecordData(long i,int b,int c,struct ActingHost *p);
 
-void *MUS_COMM_FUNC_ClearRecordData(long i,struct Context *p);
+void *MUS_COMM_FUNC_ClearRecordData(long i,struct ActingHost *p);
 
 int MUS_COMM_FUNC_SendRecordBlock(const char *p);
 
@@ -258,7 +232,7 @@ extern NetCommandEntry d_021FDC38[];
 void MUS_COMM_FUNC_Create(int unused, void *icaCtx, void *comm, int useExistingSession)
 {
     char *p;
-    p = GFL_HEAP_Alloc(4, 0x1ac, 1, d_021FDE5C, 0x14c);
+    p = GFL_HEAP_Alloc(4, sizeof(struct ActingHost), 1, d_021FDE5C, 0x14c);
     ((struct ActingHost *)p)->useExistingSession = useExistingSession;
     ((struct ActingHost *)p)->icaCtx = icaCtx;
     ((struct ActingHost *)p)->gameData = GAMESYSTEM_GetGameData(icaCtx);
@@ -278,8 +252,8 @@ void *MUS_COMM_FUNC_StartSession(int unused,char *p)
         d_021FDE4C[5]=0;
         GFL_NET_StartSession((GFLNetInitializeStruct *)d_021FDDEC,MUS_COMM_FUNC_SetReady,p);
     }
-    MYSTATUS_Copy((struct MyStatus *)(((struct ActingHost *)p)->myStatus),(struct MyStatus *)(p+0x20));
-    OS_GetMacAddress((unsigned char *)(p+0x40));
+    MYSTATUS_Copy((struct MyStatus *)(((struct ActingHost *)p)->myStatus),&((struct ActingHost *)p)->ownStatus);
+    OS_GetMacAddress(((struct ActingHost *)p)->macAddress);
     ((struct ActingHost *)p)->sessionId=0x3a0b;
     return p;
 }
@@ -340,46 +314,45 @@ void MUS_COMM_FUNC_InitWork(u8 *p, void *myStatusSrc, void *boxParamSrc, void *u
  void *data;
  u32 size1,size2;
  u8 i,j;
- data=GAME_DATA_GetSaveBlock2A((struct GameData *)(P(p,0x58)));
+ data=GAME_DATA_GetSaveBlock2A((struct GameData *)((struct ActingHost *)p)->gameData);
  ((struct ActingHost *)p)->heapId=heap;
  for(i=0;i<4;i++) {
   u8 *row;
-  row=p+i*0x30;
-  W(row,0x60)=0;
-  row[0x72]=i;
-  W(row,0x78)=0;
-  W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
-  row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
+  row=p+i*(int)sizeof(struct StaActRecord);
+  ((struct ActingHost *)row)->rec[0].statusReceived=0;
+  ((struct ActingHost *)row)->rec[0].key=i;
+  ((struct ActingHost *)row)->rec[0].orderValue=0;
+  ((struct ActingHost *)row)->rec[0].partyReceived=0;((struct ActingHost *)row)->rec[0].boxReceived=0;((struct ActingHost *)row)->rec[0].used=0;
+  ((struct ActingHost *)row)->rec[0].value=10;((struct ActingHost *)row)->rec[0].state=10;
+  ((struct ActingHost *)row)->rec[0].partyBuffer=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,POKE_TOOL_GetPartyParamSize()+0x7C,0,d_021FDE5C,0x20E);
   size1=MYSTATUS_GetSize();
-  P(row,0x8C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
-  clear8(P(row,0x7C),POKE_TOOL_GetPartyParamSize()+0x7C);
+  ((struct ActingHost *)row)->rec[0].boxBuffer=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
+  clear8(((struct ActingHost *)row)->rec[0].partyBuffer,POKE_TOOL_GetPartyParamSize()+0x7C);
   size2=MYSTATUS_GetSize();
-  clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
-  P(row,0x80)=P(row,0x8C);
-  P(row,0x84)=P(row,0x8C)+4;
-  P(row,0x88)=P(row,0x8C)+4+MYSTATUS_GetSize();
-  for(j=0;j<2;j++) row[0x73+j]=0xFF;
+  clear8(((struct ActingHost *)row)->rec[0].boxBuffer,(size2+4)+POKE_TOOL_GetBoxParamSize());
+  ((struct ActingHost *)row)->rec[0].fanPoints=((struct ActingHost *)row)->rec[0].boxBuffer;
+  ((struct ActingHost *)row)->rec[0].myStatus=(u8 *)((struct ActingHost *)row)->rec[0].boxBuffer+4;
+  ((struct ActingHost *)row)->rec[0].boxParam=(u8 *)((struct ActingHost *)row)->rec[0].boxBuffer+4+MYSTATUS_GetSize();
+  for(j=0;j<2;j++) ((struct ActingHost *)row)->rec[0].items[j]=0xFF;
  }
  ((struct ActingHost *)p)->fanPoints=MUSICAL_SAVE_GetFanPoints(data);
  ((struct ActingHost *)p)->myStatusSrc=myStatusSrc;((struct ActingHost *)p)->boxParamSrc=boxParamSrc;
- W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
+ ((struct ActingHost *)p)->myStatusSendBuf=0;((struct ActingHost *)p)->statusSendBuf=0;
+ ((struct ActingHost *)p)->partyRecordBuf=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,(POKE_TOOL_GetPartyParamSize()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=MYSTATUS_GetSize();
- P(p,0x13C)=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
- p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
- p[0x14C]=0;W(p,0x150)=0;
- W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;
- W(p,0x168)=0;W(p,0x170)=0;W(p,0x174)=0;W(p,0x17C)=0;
- W(p,0x184)=0;W(p,0x188)=0;
- p[0x180]=4;
- W(p,8)=1;
+ ((struct ActingHost *)p)->boxRecvBuf=GFL_HEAP_Alloc(((struct ActingHost *)p)->heapId,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
+ ((struct ActingHost *)p)->byte1C=0;((struct ActingHost *)p)->word14=0;((struct ActingHost *)p)->startFlag=0;
+ ((struct ActingHost *)p)->chunkIndex=0;((struct ActingHost *)p)->transferActive=0;
+ ((struct ActingHost *)p)->boxesReceived=0;((struct ActingHost *)p)->recordsReceived=0;((struct ActingHost *)p)->word160=0;((struct ActingHost *)p)->kind4Received=0;
+ ((struct ActingHost *)p)->kind5Received=0;((struct ActingHost *)p)->slot1Done=0;((struct ActingHost *)p)->slot2Done=0;((struct ActingHost *)p)->transferState=0;
+ ((struct ActingHost *)p)->orderSendPending=0;((struct ActingHost *)p)->pickSendPending=0;
+ ((struct ActingHost *)p)->chosenPlayer=4;
+ ((struct ActingHost *)p)->isInitialized=1;
  for(j=0;j<8;j++) {
-  u8 *entry=p+j*4;
-  W(entry,0x18C)=0xFFFF;
+  ((struct ActingHost *)p)->pickCommand[j]=0xFFFF;
  }
  ((struct ActingHost *)p)->hostEntry.p=hostEntry;
- W(p,0x4C)=1;
+ ((struct ActingHost *)p)->state=1;
 }
 
 void MUS_COMM_FUNC_DeleteBuffers(char *p)
@@ -387,7 +360,7 @@ void MUS_COMM_FUNC_DeleteBuffers(char *p)
     u8 i;
     char *q;
     for(i=0;i<4;i++) {
-        q=p+i*0x30;
+        q=p+i*(int)sizeof(struct StaActRecord);
         if(((struct ActingHost *)q)->rec[0].partyBuffer) {
             GFL_HEAP_Free(((struct ActingHost *)q)->rec[0].boxBuffer);
             GFL_HEAP_Free(((struct ActingHost *)q)->rec[0].partyBuffer);
@@ -431,84 +404,84 @@ void MUS_COMM_FUNC_Update(char *p)
     u32 v;
     u32 ok;
     if (GFL_NET_ERR_GetErrorLevel()) {
-        *(int *)(p + 4) = 1;
+        ((struct ActingHost *)p)->hasError = 1;
         if (GFL_NET_IsSessionNull() == 0) GFL_NET_Exit(0);
     }
-    if (*(int *)(p + 4) == 1) return;
-    switch (*(u32 *)(p + 0x4c)) {
+    if (((struct ActingHost *)p)->hasError == 1) return;
+    switch (((struct ActingHost *)p)->state) {
     case 0:
         return;
     case 1:
         GFL_NET_SetLoginOption(1);
         MUS_COMM_FUNC_SetTimingSync((sptr)p, 0x46);
-        *(int *)(p + 0x4c) = 2;
+        ((struct ActingHost *)p)->state = 2;
         break;
     case 2:
         if (MUS_COMM_FUNC_CheckTimingSync(p, 0x46) == 1 && MUS_COMM_FUNC_SendMyStatus((struct ActingHost *)p) == 1) {
-            if (*(int *)(p + 0x48) == 1) *(int *)(p + 0x4c) = 3;
-            else *(int *)(p + 0x4c) = 5;
+            if (((struct ActingHost *)p)->role == 1) ((struct ActingHost *)p)->state = 3;
+            else ((struct ActingHost *)p)->state = 5;
         }
         break;
     case 3:
-        if (STA_NET_SendRandomOrder((u8 *)p) == 1) *(int *)(p + 0x4c) = 4;
+        if (STA_NET_SendRandomOrder((u8 *)p) == 1) ((struct ActingHost *)p)->state = 4;
         break;
     case 4:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct MusCommPlayerTable *)p)->pl[i].boxReceived == 1) cnt++;
-        if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendBoxData(p) == 1) *(int *)(p + 0x4c) = 5;
+            if (((struct ActingHost *)p)->rec[i].boxReceived == 1) cnt++;
+        if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendBoxData(p) == 1) ((struct ActingHost *)p)->state = 5;
         break;
     case 6:
         if (MUS_COMM_FUNC_CheckTimingSync(p, 0x40) == 1) {
-            if (*(int *)(p + 0x48) == 1) *(int *)(p + 0x4c) = 7;
-            else *(int *)(p + 0x4c) = 0xb;
+            if (((struct ActingHost *)p)->role == 1) ((struct ActingHost *)p)->state = 7;
+            else ((struct ActingHost *)p)->state = 0xb;
         }
         break;
     case 7:
-        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 8, *(u32 *)(p + 0x144), 0xff) == 1) *(int *)(p + 0x4c) = 8;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 8, ((struct ActingHost *)p)->pairValueA.u, 0xff) == 1) ((struct ActingHost *)p)->state = 8;
         break;
     case 8:
-        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 9, *(u32 *)(p + 0x148), 0xff) == 1) *(int *)(p + 0x4c) = 9;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 9, ((struct ActingHost *)p)->pairValueB.u, 0xff) == 1) ((struct ActingHost *)p)->state = 9;
         break;
     case 9:
-        if (STA_NET_NotifyHostKind4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
+        if (STA_NET_NotifyHostKind4((u8 *)p) == 1) ((struct ActingHost *)p)->state = 0xa;
         break;
     case 10:
-        if (*(int *)(p + 0x164) == 1 && STA_NET_SendSlot1Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xb;
+        if (((struct ActingHost *)p)->kind4Received == 1 && STA_NET_SendSlot1Command((u8 *)p) == 1) ((struct ActingHost *)p)->state = 0xb;
         break;
     case 12:
         if (MUS_COMM_FUNC_CheckTimingSync(p, 0x42) == 1) {
-            if (*(int *)(p + 0x48) == 1) {
-                if (STA_NET_NotifyHostKind5(p) == 1) *(int *)(p + 0x4c) = 0xd;
-            } else *(int *)(p + 0x4c) = 0x11;
+            if (((struct ActingHost *)p)->role == 1) {
+                if (STA_NET_NotifyHostKind5(p) == 1) ((struct ActingHost *)p)->state = 0xd;
+            } else ((struct ActingHost *)p)->state = 0x11;
         }
         break;
     case 13:
-        if (*(int *)(p + 0x168) == 1 && STA_NET_NotifyHostKind6(p) == 1) *(int *)(p + 0x4c) = 0xe;
+        if (((struct ActingHost *)p)->kind5Received == 1 && STA_NET_NotifyHostKind6(p) == 1) ((struct ActingHost *)p)->state = 0xe;
         break;
     case 14:
-        if (*(int *)(p + 0x16c) == 1 && STA_NET_SendSlot2Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xf;
+        if (((struct ActingHost *)p)->kind6Received == 1 && STA_NET_SendSlot2Command((u8 *)p) == 1) ((struct ActingHost *)p)->state = 0xf;
         break;
     case 15:
-        if (*(int *)(p + 0x174) == 1 && STA_NET_SendSlot3Command((u8 *)p) == 1) *(int *)(p + 0x4c) = 0x10;
+        if (((struct ActingHost *)p)->slot2Done == 1 && STA_NET_SendSlot3Command((u8 *)p) == 1) ((struct ActingHost *)p)->state = 0x10;
         break;
     case 16:
-        *(int *)(p + 0x4c) = 0x11;
+        ((struct ActingHost *)p)->state = 0x11;
         break;
     case 17:
-        if (*(int *)(p + 0x178) == 1) STA_NET_IsTransferDone(p);
+        if (((struct ActingHost *)p)->slot3Done == 1) STA_NET_IsTransferDone(p);
         break;
     case 18:
-        if (MUS_COMM_FUNC_SendStatusBlock(p, *(char **)(p + 0x120)) == 1) {
-            if (*(int *)(p + 0x48) == 1) *(int *)(p + 0x4c) = 0x13;
-            else *(int *)(p + 0x4c) = 0x15;
+        if (MUS_COMM_FUNC_SendStatusBlock(p, (char *)((struct ActingHost *)p)->statusSource) == 1) {
+            if (((struct ActingHost *)p)->role == 1) ((struct ActingHost *)p)->state = 0x13;
+            else ((struct ActingHost *)p)->state = 0x15;
         }
         break;
     case 19:
         cnt = 0;
         for (i = 0; i < 4; i++)
-            if (((struct MusCommPlayerTable *)p)->pl[i].partyReceived == 1) cnt++;
-        if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendRecordBlock(p) == 1) *(int *)(p + 0x4c) = 0x15;
+            if (((struct ActingHost *)p)->rec[i].partyReceived == 1) cnt++;
+        if (cnt == GFL_NET_GetNegotiationNum() && MUS_COMM_FUNC_SendRecordBlock(p) == 1) ((struct ActingHost *)p)->state = 0x15;
         break;
     case 20:
     case 21:
@@ -516,44 +489,44 @@ void MUS_COMM_FUNC_Update(char *p)
     default:
         break;
     }
-    if (*(int *)(p + 0x184) == 1) {
+    if (((struct ActingHost *)p)->orderSendPending == 1) {
         v = 0;
-        v += ((struct MusCommPlayerTable *)p)->pl[0].orderValue;
-        v += ((struct MusCommPlayerTable *)p)->pl[1].orderValue << 4;
-        v += ((struct MusCommPlayerTable *)p)->pl[2].orderValue << 8;
-        v += ((struct MusCommPlayerTable *)p)->pl[3].orderValue << 12;
-        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 3, v, 0xff) == 1) *(int *)(p + 0x184) = 0;
+        v += ((struct ActingHost *)p)->rec[0].orderValue;
+        v += ((struct ActingHost *)p)->rec[1].orderValue << 4;
+        v += ((struct ActingHost *)p)->rec[2].orderValue << 8;
+        v += ((struct ActingHost *)p)->rec[3].orderValue << 12;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 3, v, 0xff) == 1) ((struct ActingHost *)p)->orderSendPending = 0;
     }
     {
         u32 sum = 0;
         n = 0;
         for (i = 0; i < 4; i++) {
-            if (((struct MusCommPlayerTable *)p)->pl[i].used == 1) {
+            if (((struct ActingHost *)p)->rec[i].used == 1) {
                 list[n] = i;
                 n++;
             }
-            sum += ((struct MusCommPlayerTable *)p)->pl[i].value << (i * 4);
+            sum += ((struct ActingHost *)p)->rec[i].value << (i * 4);
         }
         if (n != 0) {
             u32 k = random_below(n);
             sum += list[k] << 16;
             if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 0xb, sum, 0xff) == 1) {
                 for (j = 0; j < n; j++) {
-                    ((struct MusCommPlayerTable *)p)->pl[list[j]].used = 0;
-                    ((struct MusCommPlayerTable *)p)->pl[list[j]].value = 10;
+                    ((struct ActingHost *)p)->rec[list[j]].used = 0;
+                    ((struct ActingHost *)p)->rec[list[j]].value = 10;
                 }
             }
         }
     }
-    if (*(int *)(p + 0x188) == 1) {
+    if (((struct ActingHost *)p)->pickSendPending == 1) {
         ok = 1;
         for (i = 0; i < 8; i++) {
-            if (*(u32 *)(p + i * 4 + 0x18c) != 0xFFFF) {
-                if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 0xc, *(u32 *)(p + i * 4 + 0x18c), 0xff) == 1) *(u32 *)(p + i * 4 + 0x18c) = 0xFFFF;
+            if (((struct ActingHost *)p)->pickCommand[i] != 0xFFFF) {
+                if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 0xc, ((struct ActingHost *)p)->pickCommand[i], 0xff) == 1) ((struct ActingHost *)p)->pickCommand[i] = 0xFFFF;
                 ok = 0;
             }
         }
-        if (ok == 1) *(int *)(p + 0x188) = 0;
+        if (ok == 1) ((struct ActingHost *)p)->pickSendPending = 0;
     }
     STA_NET_UpdateTransferState(p);
 }
@@ -565,11 +538,11 @@ void MUS_COMM_FUNC_SetTimingSync(int unused, int timingId)
 
 int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->hasError==1)return 1;return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((uptr)p+index*0x30+0x68)==1)return *(int *)((uptr)p+index*0x30+0x84);return 0;}
+void *MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && ((struct ActingHost *)p)->rec[index].boxReceived==1)return ((struct ActingHost *)p)->rec[index].myStatus;return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((uptr)p+index*0x30+0x68)==1)return *(int *)((uptr)p+index*0x30+0x88);return 0;}
+void *MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && ((struct ActingHost *)p)->rec[index].boxReceived==1)return ((struct ActingHost *)p)->rec[index].boxParam;return 0;}
 
-char *MUS_COMM_FUNC_GetRecordPtr(char *p){return p+0x20;}
+char *MUS_COMM_FUNC_GetRecordPtr(char *p){return (char *)&((struct ActingHost *)p)->ownStatus;}
 
 u32 MUS_COMM_FUNC_GetRecordSize(void){return 40;}
 
@@ -593,86 +566,86 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
   switch (packet->tag)
   {
     case 0:
-      *((u32 *) (p + 0x18)) = 1;
+      ((struct ActingHost *)p)->startFlag = 1;
       break;
 
     case 1:
       mask = 15;
       for (i = 0; i < 4; i++)
     {
-      *((u8 *) ((p + (i * 0x30)) + 0x72)) = (packet->data & mask) >> (i * 4);
+      ((struct ActingHost *)p)->rec[i].key = (packet->data & mask) >> (i * 4);
       mask <<= 4;
     }
 
       break;
 
     case 2:
-      *((u32 *) ((p + (slot * 0x30)) + 0x78)) = packet->data;
-      if ((*((u32 *) (p + 0x48))) == 1)
-      *((u32 *) (p + 0x184)) = 1;
+      ((struct ActingHost *)p)->rec[slot].orderValue = packet->data;
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 1)
+      ((struct ActingHost *)p)->orderSendPending = 1;
       break;
 
     case 3:
-      if ((*((u32 *) (p + 0x48))) != 1)
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) != 1)
     {
       v = packet->data;
-      *((u32 *) (p + 0x78)) = v & 15;
-      *((u32 *) (p + 0xa8)) = (v & 0xf0) >> 4;
-      *((u32 *) (p + 0xd8)) = (v & 0xf00) >> 8;
-      *((u32 *) (p + 0x108)) = (v & 0xf000) >> 12;
+      ((struct ActingHost *)p)->rec[0].orderValue = v & 15;
+      ((struct ActingHost *)p)->rec[1].orderValue = (v & 0xf0) >> 4;
+      ((struct ActingHost *)p)->rec[2].orderValue = (v & 0xf00) >> 8;
+      ((struct ActingHost *)p)->rec[3].orderValue = (v & 0xf000) >> 12;
     }
       break;
 
     case 4:
-      if ((*((u32 *) (p + 0x48))) == 2)
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 4)) = GFL_HEAP_Alloc(4, packet->data, 0, d_021FDE5C, 0x4c4);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x20)) = packet->data;
+      *((void **) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 4)) = GFL_HEAP_Alloc(4, packet->data, 0, d_021FDE5C, 0x4c4);
+      *((u32 *) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 0x20)) = packet->data;
     }
-      *((u32 *) (p + 0x164)) = 1;
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->kind4Received)) = 1;
       break;
 
     case 5:
-      if ((*((u32 *) (p + 0x48))) == 2)
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 8)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4cd);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x24)) = packet->data;
+      *((void **) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 8)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4cd);
+      *((u32 *) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 0x24)) = packet->data;
     }
-      *((u32 *) (p + 0x168)) = 1;
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->kind5Received)) = 1;
       break;
 
     case 6:
-      if ((*((u32 *) (p + 0x48))) == 2)
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 2)
     {
-      *((void **) ((*((char **) (p + 0x140))) + 12)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4d6);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x28)) = packet->data;
+      *((void **) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 12)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4d6);
+      *((u32 *) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 0x28)) = packet->data;
     }
-      *((u32 *) (p + 0x16c)) = 1;
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->kind6Received)) = 1;
       break;
 
     case 7:
-      if ((*((u32 *) (p + 0x48))) == 1)
-      *((u32 *) (p + 0x17c)) = 3;
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 1)
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->transferState)) = 3;
     else
     {
       *((void **) ((*((char **) (0x140 + p))) + 16)) = GFL_HEAP_Alloc(44, packet->data, 0, d_021FDE5C, 0x4e3);
-      *((u32 *) ((*((char **) (p + 0x140))) + 0x2c)) = packet->data;
+      *((u32 *) ((*((char **) ((u8 *)&((struct ActingHost *)p)->hostEntry))) + 0x2c)) = packet->data;
     }
       break;
 
     case 8:
-      *((u32 *) (p + 0x144)) = packet->data;
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->pairValueA)) = packet->data;
       break;
 
     case 9:
-      *((u32 *) (p + 0x148)) = packet->data;
+      *((u32 *) ((u8 *)&((struct ActingHost *)p)->pairValueB)) = packet->data;
       break;
 
     case 10:
-      if ((*((u32 *) (p + 0x48))) == 1)
+      if ((*((u32 *) ((u8 *)&((struct ActingHost *)p)->role))) == 1)
     {
-      *((u32 *) ((((uptr) p) + (slot * 0x30)) + 0x6c)) = 1;
-      *((u8 *) ((p + (slot * 0x30)) + 0x70)) = packet->data;
+      ((struct ActingHost *)p)->rec[slot].used = 1;
+      ((struct ActingHost *)(p + (slot * (int)sizeof(struct StaActRecord))))->rec[0].value = packet->data;
     }
       break;
 
@@ -686,11 +659,11 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
       {
         t = (packet->data & mask) >> (i * 4);
         if (t != 10)
-          *((u8 *) ((p + (i * 0x30)) + 0x71)) = t;
+          ((struct ActingHost *)p)->rec[i].state = t;
         mask <<= 4;
       }
 
-      *((u8 *) (p + 0x180)) = (packet->data & 0xf0000) >> 16;
+      *((u8 *) ((u8 *)&((struct ActingHost *)p)->chosenPlayer)) = (packet->data & 0xf0000) >> 16;
       break;
     }
 
@@ -707,13 +680,13 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
       item = (u8) v;
       for (i = 0; i < 2; i++)
       {
-        itemAddr = ((uptr) p) + (index * 0x30);
+        itemAddr = ((uptr) p) + (index * (int)sizeof(struct StaActRecord));
         itemAddr = itemAddr + i;
-        if ((*((u8 *) (itemAddr + 0x73))) == 255)
+        if ((*((u8 *) (itemAddr + BW_OFFSETOF(struct ActingHost, rec[0].items[0])))) == 255)
         {
           rowAddr = (uptr) p;
-          rowAddr = rowAddr + (index * 0x30);
-          *((u8 *) ((rowAddr + i) + 0x73)) = item;
+          rowAddr = rowAddr + (index * (int)sizeof(struct StaActRecord));
+          *((u8 *) ((rowAddr + i) + BW_OFFSETOF(struct ActingHost, rec[0].items[0]))) = item;
           break;
         }
       }
@@ -755,9 +728,9 @@ u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p)
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),p->myStatusSendBuf,1,0,1);
 }
 
-void MUS_COMM_FUNC_SetEntryFlag(int index, int unused, int unused1, T *p) { p->e[index].w[2] = 1; p->e[index].w[0] = 1; }
+void MUS_COMM_FUNC_SetEntryFlag(int index, int unused, int unused1, struct ActingHost *p) { p->rec[index].boxReceived = 1; p->rec[index].statusReceived = 1; }
 
-u32 MUS_COMM_FUNC_ClearEntryFlag(int index, T *p) { p->e[index].w[2] = 0; return p->e[index].w[11]; }
+void *MUS_COMM_FUNC_ClearEntryFlag(int index, struct ActingHost *p) { p->rec[index].boxReceived = 0; return p->rec[index].boxBuffer; }
 
 int MUS_COMM_FUNC_SendBoxData(char *p)
 {
@@ -774,7 +747,7 @@ int MUS_COMM_FUNC_SendBoxData(char *p)
         k=i*(m+4+n);
         m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
-        MI_CpuCopy8(*(void **)(p+i*0x30+0x8c),q+k,m+4+n);
+        MI_CpuCopy8(((struct ActingHost *)p)->rec[i].boxBuffer,q+k,m+4+n);
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     m=MYSTATUS_GetSize();
@@ -799,7 +772,7 @@ void MUS_COMM_FUNC_ReceiveBoxData(int unused,int unused1,int unused2,char *p)
         k=i*(m+4+n);
         m=MYSTATUS_GetSize();
         n=m+4+POKE_TOOL_GetBoxParamSize();
-        s=p+i*0x30;
+        s=p+i*(int)sizeof(struct StaActRecord);
         MI_CpuCopy8(q+k,((struct ActingHost *)s)->rec[0].boxBuffer,n);
         flag=MYSTATUS_IsNameEmpty(((struct ActingHost *)s)->rec[0].myStatus)==0 ? 1 : 0;
         ((struct ActingHost *)s)->rec[0].statusReceived=flag;
@@ -811,7 +784,7 @@ void MUS_COMM_FUNC_ReceiveBoxData(int unused,int unused1,int unused2,char *p)
 void *MUS_COMM_FUNC_ResetBoxFlags(int unused,char *p)
 {
     u8 i;
-    for(i=0;i<4;i++) *(int *)(p+i*0x30+0x68)=0;
+    for(i=0;i<4;i++) ((struct ActingHost *)p)->rec[i].boxReceived=0;
     ((struct ActingHost *)p)->boxesReceived=0;
     return ((struct ActingHost *)p)->boxRecvBuf;
 }
@@ -843,7 +816,7 @@ int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src)
  * layout: 021FC862..021FC93E initializes four 48-byte records at +0x60.
  * padding: two zero bytes at 021FD3EE before 021FD3F0.
  */
-void MUS_COMM_FUNC_SetRecordData(long index,int unused,int unused1,struct Context *p)
+void MUS_COMM_FUNC_SetRecordData(long index,int unused,int unused1,struct ActingHost *p)
 {
     char *s;
     p->rec[index].partyReceived=1;
@@ -854,7 +827,7 @@ void MUS_COMM_FUNC_SetRecordData(long index,int unused,int unused1,struct Contex
 /*
  * layout: 021FC862..021FC93E initializes four 48-byte records at +0x60.
  */
-void *MUS_COMM_FUNC_ClearRecordData(long index,struct Context *p)
+void *MUS_COMM_FUNC_ClearRecordData(long index,struct ActingHost *p)
 {
     p->rec[index].partyReceived=0;
     return p->rec[index].partyBuffer;
@@ -873,14 +846,14 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
     void *h;
     for(i=0;i<4;i++) {
         n=POKE_TOOL_GetPartyParamSize()+0x7c;
-        q=*(u32 *)(p+0x128);
+        q=(*(u32 *)&((struct ActingHost *)p)->partyRecordBuf);
         k=i*n;
         n=POKE_TOOL_GetPartyParamSize()+0x7c;
-        MI_CpuCopy8(*(void **)(p+i*0x30+0x7c),(void *)(q+k),n);
+        MI_CpuCopy8(((struct ActingHost *)p)->rec[i].partyBuffer,(void *)(q+k),n);
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     n=POKE_TOOL_GetPartyParamSize();
-    return GFL_NET_SendData(h,0xff,0x1104,(n+0x7c)*4,*(void **)(p+0x128),1,0,1);
+    return GFL_NET_SendData(h,0xff,0x1104,(n+0x7c)*4,((struct ActingHost *)p)->partyRecordBuf,1,0,1);
 }
 
 /*
@@ -894,19 +867,19 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int unused,int unused1,int unused2,const s
     char *q;
     u32 n;
     for(i=0;i<4;i++) {
-        s=(char *)p+i*0x30;
-        if(MYSTATUS_IsNameEmpty((struct MyStatus *)(*(u16 **)(s+0x84)))==0) {
+        s=(char *)p+i*(int)sizeof(struct StaActRecord);
+        if(MYSTATUS_IsNameEmpty((struct MyStatus *)((struct ActingHost *)s)->rec[0].myStatus)==0) {
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
             q=p->partyRecordBuf;
             k=i*n;
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
-            MI_CpuCopy8(q+k,*(void **)(s+0x7c),n);
-            q=*(char **)(s+0x7c);
-            *(char **)(q+4)=q+0x7c;
-            *(int *)(s+0x64)=1;
-        } else *(int *)(s+0x64)=0;
+            MI_CpuCopy8(q+k,((struct ActingHost *)s)->rec[0].partyBuffer,n);
+            q=((struct ActingHost *)s)->rec[0].partyBuffer;
+            ((struct MusCommBlockHeader *)q)->payload=q+0x7c;
+            ((struct ActingHost *)s)->rec[0].partyReceived=1;
+        } else ((struct ActingHost *)s)->rec[0].partyReceived=0;
     }
-    *(int *)((char *)p+0x15c)=1;
+    ((struct ActingHost *)p)->recordsReceived=1;
 }
 
 /* Clears the flag of the four records, clears the word at +0x15C and returns the buffer pointer. */

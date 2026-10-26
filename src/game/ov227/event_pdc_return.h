@@ -5,10 +5,12 @@
 /* Public functions of event_pdc_return.c, prototypes copied from their definitions. */
 
 struct ProcSys;
+struct GameData;
+struct PokemonParam;
 
 #include "../types.h"
 
-void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
+void *EVENT_PDC_RETURN_CreateArgs(const struct GameData *gameData, int mode, struct PokemonParam *mon, u32 heap);
 void EVENT_PDC_RETURN_DeleteArgs(void *p);
 int EVENT_PDC_RETURN_Init(struct ProcSys *procSys);
 int EVENT_PDC_RETURN_Exit(struct ProcSys *procSys,void *b,void *c,char *p);

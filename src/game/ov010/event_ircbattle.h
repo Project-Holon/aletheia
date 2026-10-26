@@ -9,7 +9,7 @@ struct GameEvent;
 #include "../ov010/event_ircbattle_shared_types.h"
 #include "../types.h"
 
-int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work);
+int IRC_BATTLE_ENTRY_Main(struct GameEvent *parentEvent, int *step, void *work);
 struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, void *unused, struct GameEvent *event, int create);
 void IRC_BATTLE_ENTRY_FreeParties(IrcBattleEntryWork *work);
 void IRC_BATTLE_ENTRY_RestoreBgm(IrcBattleEntryWork *work);

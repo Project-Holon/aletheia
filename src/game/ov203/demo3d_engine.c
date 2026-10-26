@@ -232,9 +232,14 @@ extern VecFx32 d_021BFCD4;
 
 extern VecFx32 d_021BFCEC;
 
-extern u8 d_021C185C[];
+/* One 0x14-byte row per demo: camera record, three resource pointers, animation kind. */
+struct Demo3dRow {
+    struct Cam *cam;
+    void *res[3];
+    u32 kind;
+};
 
-extern char d_021C186C[];
+extern struct Demo3dRow d_021C185C[];
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -265,10 +270,10 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     void *e;
     G3dObject *h;
 
-    ctx = GFL_HEAP_Alloc(heap, 0x88, 1, d_021C3CE0, 0x79);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(struct Demo3dEngineCtx), 1, d_021C3CE0, 0x79);
     ctx->graphic = owner;
-    ctx->id = (u32)((void *)cfg->f4);
-    ctx->data.id = (u32)ctx->id;
+    ctx->id = cfg->f4;
+    ctx->data.id = ctx->id;
     ctx->data.color = cfg->fc;
     ctx->data.frame = cfg->f8;
     ctx->data.timeZone = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
@@ -297,10 +302,10 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     G3D_CAMERA_GetFarClipAlt(ctx->light, &ctx->farClip);
     DEMO3D_ENGINE_SetupLighting(ctx, (struct Demo3dEngineConfig *)cfg, (const struct Demo3dEngineRecord *)ctx->cam, heap);
     ctx->step = DEMO3D_DATA_GetTimeStep(ctx->id);
-    ctx->animeOn = DEMO3D_DATA_IsDouble3dDisplay((void *)ctx->id);
+    ctx->animeOn = DEMO3D_DATA_IsDouble3dDisplay(ctx->id);
     if (ctx->animeOn) {
         DOUBLE3DDISP_Init(heap);
-        GFL_USE_SetVBlankHook((void (*)(void *))((sptr)DEMO3D_GRAPHIC_DeleteDouble3d), 0);
+        GFL_USE_SetVBlankHook(DEMO3D_GRAPHIC_DeleteDouble3d, 0);
     }
     ctx->scale[0] = 0;
     ctx->scale[1] = 0;
@@ -338,14 +343,14 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
             G3D_SYSTEM_SetObjectAnimeFrame(h, k, &ang);
         }
     }
-    ctx->cmdSys = (u32)((char *)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap));
+    ctx->cmdSys = DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
     return ctx;
 }
 
 void DEMO3D_ENGINE_Delete(struct Demo3dEngineCtx *ctx)
 {
     unsigned i;
-    DEMO3D_CMDSYS_Delete((char *)ctx->cmdSys);
+    DEMO3D_CMDSYS_Delete(ctx->cmdSys);
     DEMO3D_GRAPHIC_DeleteCamera(ctx->light);
     if (ctx->animeOn) {
         GFL_USE_ClearVBlankHook();
@@ -372,8 +377,8 @@ void DEMO3D_ENGINE_Delete(struct Demo3dEngineCtx *ctx)
 void DEMO3D_ENGINE_SetClipPlanes(struct Demo3dEngineCtx *p,struct Light *q)
 {
     int x;
-    if(DOUBLE3DDISP_GetMode()==0)x=*(short *)((char *)p->cam+0x20);
-    else x=*(short *)((char *)p->cam+0x22);
+    if(DOUBLE3DDISP_GetMode()==0)x=p->cam->clipOffset;
+    else x=p->cam->clipOffsetAlt;
     G3D_CAMERA_SetNearClipAlt((struct G3dCamera *)q,x+p->nearClip);
     G3D_CAMERA_SetFarClipAlt((struct G3dCamera *)q,x+p->farClip);
 }
@@ -385,8 +390,8 @@ int DEMO3D_ENGINE_Update(const struct Demo3dEngineCtx *ctx, u32 frames)
     unsigned long time = ICA_ANIME_GetFrame(ctx->anime);
     u32 i;
     for(i=0;i<frames+1;i++) {
-        if(ctx->cmdMode == 0) DEMO3D_CMDSYS_Update((void *)ctx->cmdSys,time+advance,i);
-        else DEMO3D_CMDSYS_Update((void *)ctx->cmdSys,-4096,i);
+        if(ctx->cmdMode == 0) DEMO3D_CMDSYS_Update(ctx->cmdSys,time+advance,i);
+        else DEMO3D_CMDSYS_Update(ctx->cmdSys,-4096,i);
         advance += ctx->step;
     }
     done = ICA_ANIME_IncFrameNoLoop(ctx->anime,advance);
@@ -466,7 +471,7 @@ unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x) { if(x==0||x>=19)x=0;return x; }
 
 struct Cam *DEMO3D_ENGINE_GetCameraRecord(u32 id)
 {
-    return *(struct Cam **)(d_021C185C + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
+    return d_021C185C[DEMO3D_ENGINE_ClampDemoId(id)].cam;
 }
 
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c)
@@ -476,4 +481,4 @@ void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c)
     return ICA_ANIME_CreateStream(b, 0xa0, *t, c);
 }
 
-u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return *(u32 *)(d_021C186C+DEMO3D_ENGINE_ClampDemoId(x)*20); }
+u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return d_021C185C[DEMO3D_ENGINE_ClampDemoId(x)].kind; }

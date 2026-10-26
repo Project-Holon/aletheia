@@ -31,11 +31,11 @@ typedef struct Sock {
 #include "../arm9/os_system.h"
 void SOCLi_SocketRegister(void *a);
 void SOCLi_SocketRegisterList(void **next, char *socket);
-void SOCLi_SocketRegisterTrash(int a);
-void SOCLi_SocketUnregister(int a);
+void SOCLi_SocketRegisterTrash(struct SOCLSocket *a);
+void SOCLi_SocketUnregister(struct SOCLSocket *a);
 void SOCLi_SocketUnregisterList(Sock **next, Sock *socket);
 struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next, struct SOCLSocket *socket);
-void SOCLi_SocketUnregisterTrash(int a);
+void SOCLi_SocketUnregisterTrash(struct SOCLSocket *a);
 int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 int SOCL_SocketIsInTrash(void *b);
 extern struct SOCLSocket *SOCLiSocketList;
@@ -63,7 +63,7 @@ void SOCLi_SocketRegisterList(void **next, char *socket)
 /*
  * Tail call on the object at 0x021AA4B8 with the incoming argument.
  */
-void SOCLi_SocketRegisterTrash(int a)
+void SOCLi_SocketRegisterTrash(struct SOCLSocket *a)
 {
     SOCLi_SocketRegisterList((void **)(SOCLiTrashList), (char *)(a));
 }
@@ -74,7 +74,7 @@ void SOCLi_SocketRegisterTrash(int a)
 /*
  * Tail call on the object at 0x021AA4B4 with the incoming argument.
  */
-void SOCLi_SocketUnregister(int a)
+void SOCLi_SocketUnregister(struct SOCLSocket *a)
 {
     SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)&SOCLiSocketList), (Sock *)((struct Sock *)a));
 }
@@ -120,7 +120,7 @@ struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next,
 
 
 
-void SOCLi_SocketUnregisterTrash(int a)
+void SOCLi_SocketUnregisterTrash(struct SOCLSocket *a)
 {
     SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)SOCLiTrashList), (Sock *)((struct Sock *)a));
 }
@@ -142,5 +142,5 @@ int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
  */
 int SOCL_SocketIsInTrash(void *b)
 {
-    return (sptr)(Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
+    return (Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
 }

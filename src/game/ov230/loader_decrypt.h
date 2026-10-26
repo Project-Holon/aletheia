@@ -8,7 +8,7 @@
 
 void LOADER_DECRYPT_SyncCacheRange(void *addr, unsigned int size);
 int LOADER_DECRYPT_ClassifyOpcode(unsigned instr);
-void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
+void LOADER_DECRYPT_DecodeBlocks(uptr *desc);
 /* END mkheaders: generated region */
 
 #endif

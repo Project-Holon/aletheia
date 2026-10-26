@@ -35,7 +35,7 @@
  *   sFileUploadUrlOverride  0x021E4C08  data
  *   strcpy  0x02094798  arm  arm9
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "sake_types.h"
 #include "../arm9/msl_string_mem.h"
 
@@ -58,7 +58,7 @@ typedef enum SAKERequestType {
 extern int g_021ACEF8;
 #include "../ov009/gscore.h"
 #include "../ov009/gsmemory.h"
-extern char *strcpy(char *dst, const char *src);
+#include "../arm9/msl_string_str.h"
 #include "../arm9/os_printf.h"
 #include "sakerequest.h"
 #include "sakerequestmodify.h"

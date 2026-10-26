@@ -11,7 +11,7 @@ long WCM_Init(void *buf, long len);
 long WCM_InitEx(void *buf, long len, unsigned char deviceId);
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
-long WCM_StartupAsync(void *config, void (*notify)(void *));
+long WCM_StartupAsync(void *config, void (*notify)(WCMNotice *));
 long WCM_CleanupAsync(void);
 long WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
 long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
@@ -23,14 +23,14 @@ long WCM_GetPhase(void);
 unsigned long WCM_UpdateOption(unsigned long option);
 unsigned short WCM_GetAllowedChannel(void);
 WCMWork *WCMi_GetSystemWork(void);
-void WcmConfigure(WCMConfig *config, void (*notify)(void *));
+void WcmConfigure(WCMConfig *config, void (*notify)(WCMNotice *));
 void WcmInitOption(void);
 unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 void WCMi_Notify(short result, void *para0, void *para1, long para2);
 void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
 void WCMi_SetPhase(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
-void WcmKeepAliveAlarm(void);
+void WcmKeepAliveAlarm(void * unused0);
 unsigned char WCMi_GetDefaultDeviceId(void);
 /* END mkheaders: generated region */
 

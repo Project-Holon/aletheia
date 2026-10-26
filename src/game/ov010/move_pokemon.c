@@ -350,25 +350,25 @@ int MOVE_POKEMON_CheckCut(FieldSkillInfo *info);
 
 struct GameEvent *MOVE_POKEMON_CreateCutEvent(SkillTarget *target, FieldSkillInfo *info);
 
-int MOVE_POKEMON_CutEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_CutEventMain(struct GameEvent *event, int *state, void *work);
 
 int MOVE_POKEMON_CheckFly(FieldSkillInfo *info);
 
 struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInfo *info);
 
-int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, int *state, void *work);
 
 int MOVE_POKEMON_CheckSurf(FieldSkillInfo *info);
 
 struct GameEvent *MOVE_POKEMON_CreateSurfEvent(SkillTarget *target, FieldSkillInfo *info);
 
-int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, int *state, void *work);
 
 int MOVE_POKEMON_CheckStrength(FieldSkillInfo *info);
 
 struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSkillInfo *info);
 
-int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *work);
+int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, int *state, void *work);
 
 int MOVE_POKEMON_IsSkill8Unusable(FieldSkillInfo *info);
 
@@ -783,21 +783,21 @@ int MOVE_POKEMON_CheckCut(FieldSkillInfo *info)
 
 struct GameEvent *MOVE_POKEMON_CreateCutEvent(SkillTarget *target, FieldSkillInfo *info)
 {
-    struct GameEvent *event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_CutEventMain, 20);
+    struct GameEvent *event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_CutEventMain, sizeof(SkillEventWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), (const FieldSkillTarget *)target, (const FieldSkillContext *)info);
     return event;
 }
 
 /* Event main of skill 0: script event 0x2715 on the event work. */
-int MOVE_POKEMON_CutEventMain(struct GameEvent *event, u32 *state, void *work)
+int MOVE_POKEMON_CutEventMain(struct GameEvent *event, int *state, void *work)
 {
     SkillEventWork *skillWork = work;
     int targetId;
-    sptr scriptCtl;
+    void *scriptCtl;
 
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = (sptr)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2715, 0, 0);
+    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2715, 0, 0);
     SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
@@ -823,7 +823,7 @@ int MOVE_POKEMON_CheckFly(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_FlyEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_FlyEventMain, sizeof(SkillEventWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), (const FieldSkillTarget *)target, (const FieldSkillContext *)info);
     return event;
 }
@@ -833,14 +833,14 @@ struct GameEvent *MOVE_POKEMON_CreateFlyEvent(SkillTarget *target, FieldSkillInf
  * Interface: 021587B0 returns its final ldr r0,[r4] at 021587DC; the caller
  * consumes that result despite older callers declaring void.
  */
-int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, u32 *state, void *work)
+int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, int *state, void *work)
 {
     SkillEventWork *skillWork = work;
     int targetId;
-    sptr scriptCtl;
+    void *scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = (sptr)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2713, 0, 0);
+    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2713, 0, 0);
     SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
@@ -854,20 +854,20 @@ int MOVE_POKEMON_CheckSurf(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateSurfEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_SurfEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_SurfEventMain, sizeof(SkillEventWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), (const FieldSkillTarget *)target, (const FieldSkillContext *)info);
     return event;
 }
 
 /* Event main of skill 2: script event 0x2717 on the event work. */
-int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work)
+int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, int *state, void *work)
 {
     SkillEventWork *skillWork = work;
     int targetId;
-    sptr scriptCtl;
+    void *scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = (sptr)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2717, 0, 0);
+    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2717, 0, 0);
     SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
@@ -881,20 +881,20 @@ int MOVE_POKEMON_CheckStrength(FieldSkillInfo *info)
 struct GameEvent *MOVE_POKEMON_CreateStrengthEvent(SkillTarget *target, FieldSkillInfo *info)
 {
     struct GameEvent *event;
-    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_StrengthEventMain, 20);
+    event = GAME_EVENT_Create(info->gameSys, 0, MOVE_POKEMON_StrengthEventMain, sizeof(SkillEventWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), (const FieldSkillTarget *)target, (const FieldSkillContext *)info);
     return event;
 }
 
 /* Event main of skill 3: script event 0x2711 on the event work. */
-int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *work)
+int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, int *state, void *work)
 {
     SkillEventWork *skillWork = work;
     int targetId;
-    sptr scriptCtl;
+    void *scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = (sptr)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2711, 0, 0);
+    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2711, 0, 0);
     SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
@@ -942,7 +942,7 @@ extern void*SCRIPT_SYS_CallScriptEvent(void*, u16, void*, void*, u16);
 #include "../ov021/scrcmd_misc.h"
 
 
-int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
+GameEvent *MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
 
 int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check);
 
@@ -972,7 +972,7 @@ int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkil
 
 int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check);
 
-void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+struct GameEvent *MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
 
 int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
 
@@ -993,10 +993,10 @@ extern FieldSkillRow d_02171254[];
 
 extern FieldSkillRow d_021711FC[];
 
-int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused)
+GameEvent *MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused)
 {
     GAME_BEACON_SEARCH_SetCountValue(0x13);
-    return (sptr)FLD_WIPE_3DOBJ_CreateMapChangeEvent(ctx->gameSystem, ctx->fieldMapCopy, target->targetParam);
+    return FLD_WIPE_3DOBJ_CreateMapChangeEvent(ctx->gameSystem, ctx->fieldMapCopy, target->targetParam);
 }
 
 int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check)
@@ -1013,7 +1013,7 @@ struct GameEvent *MOVE_POKEMON_CreateFlashEvent(const FieldSkillTarget *target, 
 {
     struct GameEvent *event;
 
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_FlashEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_FlashEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }
@@ -1076,7 +1076,7 @@ struct GameEvent *MOVE_POKEMON_CreateDigEvent(const FieldSkillTarget *target, co
     struct GameEvent *event;
 
     GAME_BEACON_SEARCH_SetCountValue(91);
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_DigEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_DigEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }
@@ -1113,7 +1113,7 @@ struct GameEvent *MOVE_POKEMON_CreateTeleportEvent(const FieldSkillTarget *targe
     struct GameEvent *event;
 
     GAME_BEACON_SEARCH_SetCountValue(100);
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_TeleportEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_TeleportEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }
@@ -1146,7 +1146,7 @@ struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *targ
 {
     struct GameEvent *event;
 
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_MilkDrinkEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_MilkDrinkEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }
@@ -1158,11 +1158,11 @@ struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *targ
 int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     int partySlot;
-    sptr msg;
+    void *msg;
 
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem));
     partySlot = work->target.partySlot;
-    msg = (sptr)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x271c, 0, 0);
+    msg = SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x271c, 0, 0);
     SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
     return 0;
 }
@@ -1176,10 +1176,10 @@ int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check)
  * Play the skill sound, then hand the game system, the field player and
  * the party slot to the ov021 sweet scent start.
  */
-void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     GAME_BEACON_SEARCH_SetCountValue(0x1C0);
-    EVENT_PERAP_RECORD_Create(ctx->gameSystem, ctx->fieldMapCopy, (u8)target->partySlot);
+    return EVENT_PERAP_RECORD_Create(ctx->gameSystem, ctx->fieldMapCopy, (u8)target->partySlot);
 }
 
 int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
@@ -1208,7 +1208,7 @@ struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *tar
 {
     struct GameEvent *event;
 
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SweetScentEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SweetScentEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }
@@ -1239,7 +1239,7 @@ struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *tar
 {
     struct GameEvent *event;
 
-    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SoftBoiledEventMain, 20);
+    event = GAME_EVENT_Create(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SoftBoiledEventMain, sizeof(FieldSkillWork));
     MOVE_POKEMON_InitSkillWork(GAME_EVENT_GetWork(event), target, ctx);
     return event;
 }

@@ -137,7 +137,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount);
 void EFFECT_ENCOUNT_Reset(FieldEncount *encount);
 void EFFECT_ENCOUNT_UpdateOccupiedSpot(FieldEncount *encount);
 int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, short *pos);
-int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount);
+struct GameEvent *EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount);
 int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out);
 void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount);
 void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused);
@@ -157,7 +157,7 @@ void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effect
 void EFFECT_ENCOUNT_DeleteEffectObj(EffectEncount *effectEncount);
 unsigned short EFFECT_ENCOUNT_PickItemKind4(void);
 u16 EFFECT_ENCOUNT_PickItemKind7(void);
-int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId);
+struct GameEvent *EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId);
 
 extern char sEffectEncountFileName[];
 extern const EffectEncountSetting sEffectEncountSettings[];
@@ -210,7 +210,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
 
     if (encount == 0 || encount->encountData == 0 || !encount->encountData->enabled)
         return;
-    fieldWork = (void *)GAME_DATA_GetFieldWork(encount->gameData);
+    fieldWork = GAME_DATA_GetFieldWork(encount->gameData);
     if (encount->fieldMap == 0 || fieldWork == 0)
         return;
     playerZoneId = FIELDMAP_GetZoneId(encount->fieldMap);
@@ -273,7 +273,7 @@ static inline int isSpotAt(EffectEncountSpot *spot, GridPos *pos)
  * result. Kind 7 gives a wild encounter on 20% of the rolls, kind 4 on 40%;
  * the other rolls start an item event. Returns the result of the start.
  */
-int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
+struct GameEvent *EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 {
     EffectEncount *effectEncount = encount->effectEncount;
     EncountGimmickWork *gimmick = GAME_DATA_GetFieldGimmick(encount->gameData);
@@ -281,31 +281,31 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
     int isItemEvent = 0;
     GridPos playerPos;
     u16 roll;
-    sptr started;
+    struct GameEvent *started;
     struct FieldPlayer *player;
 
     if (gimmick->spot.active == 0)
-        return isItemEvent;
+        return 0;
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), (struct MmdlGridVec *)(&playerPos));
     if (!isSpotAt(spot, &playerPos))
         return 0;
     roll = GFL_USE_GetRandomBelow(1000);
     if (spot->kind == 7) {
         if (roll < 200) {
-            started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
             started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind7());
             isItemEvent = 1;
         }
     } else if (spot->kind == 4) {
         if (roll < 400) {
-            started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
             started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind4());
             isItemEvent = 1;
         }
     } else {
-        started = (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 1);
+        started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
     }
     if (started == 0) {
         EFFECT_ENCOUNT_ClearSpot(encount, effectEncount);
@@ -635,8 +635,8 @@ u16 EFFECT_ENCOUNT_PickItemKind7(void)
 }
 
 /* Remembers the item and starts the item event script. */
-int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId)
+struct GameEvent *EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId)
 {
     encount->effectEncount->itemId = itemId;
-    return (sptr)SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
+    return SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
 }

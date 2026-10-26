@@ -189,8 +189,13 @@ void DWC_ConnectInetAsync(void)
         inp.dmaNo = g_02146AD4.stpInetCntl->dmaNo;
         inp.powerMode = g_02146AD4.stpInetCntl->powerMode;
         inp.rwin = g_02146AD4.stpInetCntl->rwin;
+#ifdef __MWERKS__
         inp.alloc = (ACAllocFunc)DWC_Alloc;
         inp.free = (ACFreeFunc)DWC_Free;
+#else
+        inp.alloc = DWC_AllocCallback;
+        inp.free = DWC_FreeCallback;
+#endif
         inp.wontExecuteEULACheck = g_02146AD4.stpInetCntl->wontExecuteEULACheck;
         g_02146AD4.stpInetCntl->state = 2;
         if (!DWC_AC_Create(&inp)) {

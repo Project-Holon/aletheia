@@ -232,7 +232,6 @@ struct FieldState;
 struct GameComm;
 #include "../ov010/intrude_comm_query.h"
 #include "../arm9/palanm.h"
-extern void PALANM_ForceStopFade(struct PaletteFade *o);
 #include "../arm9/mi_memory.h"
 #include "../arm9/wipe.h"
 #include "../arm9/gx.h"
@@ -349,13 +348,13 @@ void C_GEAR_ResetAllTiles(CGearWork *work);
 void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind);
 int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY);
 void C_GEAR_DrawAllCells(CGearWork *work);
-u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes);
+void C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes);
 void C_GEAR_LoadSpriteResources(CGearWork *work, int theme);
 void C_GEAR_LoadFrameGraphics(CGearWork *work, int customBgLoaded);
 void C_GEAR_SetupBackgrounds(CGearWork *work);
 void C_GEAR_SetupSubScreenBlend(CGearWork *work);
 void C_GEAR_HandleButton(CGearWork *work, int key);
-void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work);
+void C_GEAR_OnButtonEvent(u32 key, s32 buttonState, void *);
 void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode);
 void C_GEAR_CreateHudActors(CGearWork *work);
 void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible);
@@ -379,13 +378,13 @@ void C_GEAR_StepIntroEnd(CGearWork *work);
 void C_GEAR_StepOpen(CGearWork *work);
 void C_GEAR_StepClose(CGearWork *work);
 int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem);
-void C_GEAR_OnCommDisconnect(CGearWork *work);
-void C_GEAR_OnCommEvent(CGearWork *work);
-void C_GEAR_TransferPalettesTask(void *task, CGearWork *work);
-void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
+void C_GEAR_OnCommDisconnect(void * workArg);
+void C_GEAR_OnCommEvent(void * workArg);
+void C_GEAR_TransferPalettesTask(struct TcbTask * taskArg, void * workArg);
+void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, int introMode);
 void C_GEAR_Cleanup(CGearWork *work);
-CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
-CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode);
+CGearWork *C_GEAR_Create(struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, int introMode);
+CGearWork *C_GEAR_Open(struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, void (*callback)(void *), void *callbackArg, int introMode);
 void C_GEAR_Update(CGearWork *work, u8 powerOn);
 void C_GEAR_Nop(void);
 void C_GEAR_Destroy(CGearWork *work);
@@ -435,7 +434,6 @@ extern char d_021F3214[];
 extern char d_021F3272[];
 extern const u8 d_021F3520[];
 extern const char d_021F3554[];
-typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
 #include "../arm9/game_event.h"
 #include "../ov000/event_gsync.h"
 #include "../ov010/event_ircbattle.h"
@@ -452,7 +450,7 @@ void C_GEAR_HideCommIndicator(CGearWork *work);
 void C_GEAR_HideOffIndicator(CGearWork *work);
 void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette);
 int C_GEAR_StepFadeFx(CGearFadeFx *fx);
-int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req);
+int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, void *work);
 void C_GEAR_DeleteActorSlots(CGearWork *work);
 int C_GEAR_AreActorSlotsIdle(CGearWork *work);
 extern const unsigned int gCGearFadeSteps[];
@@ -1504,7 +1502,7 @@ void C_GEAR_DrawAllCells(CGearWork *work)
  * the table address in ip and spills the source pointer instead. `n` is declared
  * before `r` so the counter lands at [sp,#0x20] and the handle at [sp,#0x1c].
  */
-u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
+void C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
 {
     int colorIdx;
     void *handle;
@@ -1536,7 +1534,7 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
     charBase = BG_SYS_CreateRun(6, charSize, 0);
     work->bgCharBlock = (u16)charBase | (charSize << 16);
     ARC_UTIL_UploadBgCharFromHandle(work->archive, d_021F32E0[skin][theme], 6, charBase, 0, 0, 0x70);
-    return ARC_UTIL_UploadBgPaletteAddFromHandle(work->archive, 2, 6, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(work->archive, 2, 6, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
 }
 
 /*
@@ -1696,8 +1694,9 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
     }
 }
 
-void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work)
+void C_GEAR_OnButtonEvent(u32 key, s32 buttonState, void *arg)
 {
+    CGearWork *work = arg;
     if (C_GEAR_IsAnyIndicatorShown(work) == 0 && buttonState == 0)
         C_GEAR_HandleButton(work, key);
 }
@@ -1951,7 +1950,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
     C_GEAR_LoadSpriteResources(work, work->colorTheme);
     C_GEAR_CreateHudActors(work);
     C_GEAR_CreateBarActors(work);
-    work->buttonTask = (struct ButtonTask *)BUTTON_MAN_Create((unsigned char *)d_021F3272, (void (*)(s32, s32, s32))C_GEAR_OnButtonEvent, (sptr)work, work->heapId);
+    work->buttonTask = (struct ButtonTask *)BUTTON_MAN_Create((unsigned char *)d_021F3272, C_GEAR_OnButtonEvent, work, work->heapId);
     if (introMode) {
         C_GEAR_DrawEmptyBoard(work);
         C_GEAR_SetAllActorsVisible(work, z);
@@ -2113,7 +2112,7 @@ void C_GEAR_StepIdle(CGearWork *work)
 
 void C_GEAR_StepIntroEnd(CGearWork *work)
 {
-    void (*callback)(int);
+    void (*callback)(void *);
 
     if (C_GEAR_StepIntroTiles(work) == 0) {
         callback = work->endCallback;
@@ -2272,8 +2271,9 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
     return result;
 }
 
-void C_GEAR_OnCommDisconnect(CGearWork *work)
+void C_GEAR_OnCommDisconnect(void * workArg)
 {
+    CGearWork * work = (CGearWork *)workArg;
     C_GEAR_StopFade(work);
     if (work->fadeCtx != 0)
         TCB_Main((struct TcbSystem *)work->fadeCtx);
@@ -2284,13 +2284,16 @@ void C_GEAR_OnCommDisconnect(CGearWork *work)
     work->commEvent = 1;
 }
 
-void C_GEAR_OnCommEvent(CGearWork *work)
+void C_GEAR_OnCommEvent(void * workArg)
 {
+    CGearWork * work = (CGearWork *)workArg;
     work->commEvent = 2;
 }
 
-void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
+void C_GEAR_TransferPalettesTask(struct TcbTask * taskArg, void * workArg)
 {
+    void * task = (void *)taskArg;
+    CGearWork * work = (CGearWork *)workArg;
     if (work->palAnm != 0)
         PALANM_TransferPalettes(work->palAnm);
 }
@@ -2325,7 +2328,7 @@ void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
  *
  * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: unlabelled arm9 02035010 and 02035040 (no source change possible here).
  */
-void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
+void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, int introMode)
 {
     int customBgLoaded = 0;
     int powerOn;
@@ -2364,9 +2367,9 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     PALANM_CopyHwPaletteToSlot(work->palAnm, 1, 0, 0x1C0);
     C_GEAR_TintPalettes(work, work->commEnabled);
     PALANM_TransferPalettes(work->palAnm);
-    work->palTransferTask = (struct VBlankTask *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))C_GEAR_TransferPalettesTask, work, 1);
-    UI_SetSleepHookGlobal((void (*)(void *))C_GEAR_OnCommDisconnect, work);
-    UI_SetWakeHookGlobal((void (*)(void *))C_GEAR_OnCommEvent, work);
+    work->palTransferTask = (struct VBlankTask *)GFL_USE_AddMainTask(C_GEAR_TransferPalettesTask, work, 1);
+    UI_SetSleepHookGlobal(C_GEAR_OnCommDisconnect, work);
+    UI_SetWakeHookGlobal(C_GEAR_OnCommEvent, work);
     C_GEAR_CreateFadeFx(work, &work->fadeFx);
     C_GEAR_UpdateBeaconColors(work);
     C_GEAR_UpdateClock(work);
@@ -2413,7 +2416,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     MI_CpuFill8(work, 0, sizeof(CGearWork));
 }
 
-CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
+CGearWork *C_GEAR_Create(struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, int introMode)
 {
     CGearWork *work;
     work = GFL_HEAP_Alloc(0x70, sizeof(CGearWork), 1, d_021F3554, 0x1147);
@@ -2421,7 +2424,7 @@ CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSyste
     return work;
 }
 
-CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode)
+CGearWork *C_GEAR_Open(struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, void (*callback)(void *), void *callbackArg, int introMode)
 {
     CGearWork *work = C_GEAR_Create(hexMap, parentWork, gameSystem, introMode);
 
@@ -2519,7 +2522,7 @@ void C_GEAR_Destroy(CGearWork *work)
 int C_GEAR_Restart(CGearWork *work)
 {
     struct HexMap *hexMap = work->hexMap;
-    int parentWork = work->parentWork;
+    void *parentWork = work->parentWork;
     struct GameSystem *gameSystem = work->gameSystem;
 
     if (work->stepFunc == C_GEAR_StepIdle) {
@@ -2830,7 +2833,7 @@ int C_GEAR_StepFadeFx(CGearFadeFx *fx)
 
 struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
 {
-    struct GameEvent *event = GAME_EVENT_Create(work->gameSystem, 0, (GameEventFunc)C_GEAR_PanelEventMain, 8);
+    struct GameEvent *event = GAME_EVENT_Create(work->gameSystem, 0, C_GEAR_PanelEventMain, sizeof(CGearEventWork));
     CGearEventWork *req = GAME_EVENT_GetWork(event);
 
     req->work = work;
@@ -2857,8 +2860,9 @@ struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
     return event;
 }
 
-int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req)
+int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    CGearEventWork *req = workPtr;
     CGearWork *work;
     void *fieldMap;
     int done;
@@ -2888,7 +2892,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
 
     switch (req->kind) {
     case 6:
-        next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (uptr)abs_id_0, (GameEventCreatorFn)EVENT_GSYNC_Entry, fieldMap);
+        next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (uptr)abs_id_0, EVENT_GSYNC_Entry, fieldMap);
         break;
     case 1:
         next = IRC_BATTLE_ENTRY_Create((void *)work->gameSystem, fieldMap, 0, 1);
@@ -2903,7 +2907,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         next = FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->gameSystem, fieldMap, 4);
         break;
     case 12:
-        args = GFL_HEAP_Alloc(4, 8, 1, d_021F3554, 0x14B7);
+        args = GFL_HEAP_Alloc(4, sizeof(*args), 1, d_021F3554, 0x14B7);
         args->playerData = (u8 *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem));
         args->gameSystem = work->gameSystem;
         next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (uptr)abs_id_124, (void *)d_021D4D40, args, 0, args);

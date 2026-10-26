@@ -67,6 +67,7 @@
 #endif
 #include "hand_field_types.h"
 #include "hand_side_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 typedef struct {
     int stackCount;
@@ -90,7 +91,7 @@ struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont 
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId);
 int HAND_SIDE_IsActive(int side, int effectId);
 int HAND_SIDE_Remove(u32 side, u32 effectId);
-void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 arg);
+void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, void *arg), void *arg);
 int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
 const BtlEventHandler *HAND_SIDE_GetHandlersReflect(u32 *handlerCount);
 void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work);
@@ -223,7 +224,7 @@ int HAND_SIDE_Remove(u32 side, u32 effectId)
  * End of turn: every timed effect advances by one turn. An effect whose turn limit is
  * reached is removed and onExpired(side, effectId, arg) is called for it.
  */
-void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 arg)
+void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, void *arg), void *arg)
 {
     u32 side;
     u32 effectId;
@@ -727,7 +728,7 @@ void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow
             effectCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_PLAY_EFFECT, pokeId);
             effectCmd->fromPos = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
             effectCmd->toPos = 6;
-            effectCmd->effectId = 0x28e;
+            effectCmd->effectId = BTLV_EFFECT_MOVE_END + 93;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, effectCmd);
             damageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
             damageCmd->pokeId = pokeId;

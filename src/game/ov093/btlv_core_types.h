@@ -3,6 +3,7 @@
 
 #include "../ov093/btlv_scu_types.h"
 #include "../ov095/btl_pick_list_types.h"
+#include "../ov198/b_plist_types.h"
 
 /* Opaque types owned by other files of the battle code. */
 struct BtlClient;
@@ -126,44 +127,11 @@ typedef struct BtlvBagWork {
     u8 isWildBattle;            /* 0x29 */
     u8 selectedItemPage;        /* 0x2A */
     u8 reserved2B;
-    int auxViewHandle;          /* 0x2C */
+    u8 *auxViewHandle;          /* 0x2C */
     s16 pocketCursorPos[4];     /* 0x30 */
     s16 pocketScrollPos[4];     /* 0x38 */
     int allowBag;               /* 0x40 */
 } BtlvBagWork;
-
-/* Party / move-list screen work (ov198), embedded at 0x10C of BtlvCore. */
-typedef struct BtlvPlistWork {
-    void *gameData;             /* 0x00 */
-    void *party;                /* 0x04 */
-    void *partnerParty;         /* 0x08 */
-    void *fontMain;             /* 0x0C */
-    u16 heapId;                 /* 0x10 */
-    u8 reserved12[2];
-    u32 rule;                   /* 0x14 */
-    int isCommMulti;            /* 0x18 */
-    u8 isSecondTeam;            /* 0x1C */
-    u8 chosenSlots[2];          /* 0x1D */
-    u8 mode;                    /* 0x1F */
-    u8 modeSlot;                /* 0x20 */
-    u8 slot;                    /* 0x21 */
-    u8 positionsPerClient;      /* 0x22 */
-    u8 reserved23;
-    u16 itemId;                 /* 0x24 */
-    u16 modeParam;              /* 0x26 can-cancel flag of party picks, move id of the move-learn mode */
-    void *effectSys;            /* 0x28 */
-    void *effectSysAux;         /* 0x2C */
-    int choiceLocked;           /* 0x30 nonzero: picks are not copied to choiceFlags */
-    int exitFlag;               /* 0x34 */
-    u8 sickFlags[6];            /* 0x38 */
-    u8 reserved3E[2];
-    int allowBag;               /* 0x40 */
-    int auxViewHandle;          /* 0x44 */
-    u8 pickedSlots[3];          /* 0x48 */
-    u8 result;                  /* 0x4B */
-    u8 done;                    /* 0x4C */
-    u8 reserved4D[3];
-} BtlvPlistWork;
 
 /*
  * Request slot of the core: a pre procedure that runs first and clears itself,
@@ -197,7 +165,7 @@ struct BtlvCore {
     u32 pokeId;                     /* 0x0C0 */
     int actionResult;               /* 0x0C4 */
     BtlvBagWork bag;                /* 0x0C8 */
-    BtlvPlistWork plist;            /* 0x10C */
+    struct B_PlistHost plist;       /* 0x10C party / move-list screen argument (ov198) */
     BtlPickList *choiceFlags;       /* 0x15C */
     BtlvCounterCmd counterCmd;      /* 0x160 */
     struct BtlPokeParam **entry;                    /* 0x170 */
@@ -212,7 +180,6 @@ struct BtlvCore {
 };
 
 typedef char BtlvBagWork_SizeCheck[(sizeof(BtlvBagWork) == 0x44) ? 1 : -1];
-typedef char BtlvPlistWork_SizeCheck[(sizeof(BtlvPlistWork) == 0x50) ? 1 : -1];
 typedef char BtlvCoreTask_SizeCheck[(sizeof(BtlvCoreTask) == 0x90) ? 1 : -1];
 typedef char BtlvCore_SizeCheck[(sizeof(struct BtlvCore) == 0x188) ? 1 : -1];
 

@@ -168,9 +168,6 @@ typedef struct MusShotInfoItem { void *data; u16 value; u16 pad; int zero; } Mus
 
 typedef struct MusShotInfoMenu { u32 heap; u8 count; u8 pad[3]; MusShotInfoItem *items; int zero; u8 a,b,c,d; } MusShotInfoMenu;
 
-/* A word used both as a pointer handle and as a raw integer by different views. */
-typedef union { void *ptr; u32 val; } McssPtrWord;
-
 /*
  * The MUSICAL_MCSS work object. MUSICAL_SHOT_INFO_Create allocates 0x5C bytes for it.
  * Main, Delete, CreateUnits, InitWindows, DeleteWindows, PrintStream, PrintQue
@@ -185,17 +182,17 @@ typedef struct MusicalMcssWork {
     u32 mode;               /* 0x0C */
     void *src;              /* 0x10 */
     void *dst;              /* 0x14 */
-    McssPtrWord tcbl;       /* 0x18 text control block handle */
-    McssPtrWord win;        /* 0x1C window bitmap */
-    McssPtrWord font;       /* 0x20 */
-    McssPtrWord printStream;/* 0x24 */
-    McssPtrWord msgBank;    /* 0x28 */
-    McssPtrWord strbuf;     /* 0x2C */
+    void *tcbl;       /* 0x18 text control block handle */
+    void *win;        /* 0x1C window bitmap */
+    void *font;       /* 0x20 */
+    void *printStream;/* 0x24 */
+    void *msgBank;    /* 0x28 */
+    void *strbuf;     /* 0x2C */
     u32 queActive;          /* 0x30 */
-    McssPtrWord timeIcon;   /* 0x34 */
-    McssPtrWord printQue;   /* 0x38 */
+    void *timeIcon;   /* 0x34 */
+    void *printQue;   /* 0x38 */
     void *taskMenu;         /* 0x3C */
-    u32 taskMenuRes;        /* 0x40 */
+    struct TaskMenuRes *taskMenuRes;        /* 0x40 */
     void *musComm;          /* 0x44 */
     void *unit;             /* 0x48 */
     u32 palette;            /* 0x4C */
@@ -311,7 +308,7 @@ struct TcblSystem;
 struct TaskMenuInitWork;
 
 
-void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, u16 heap);
+void *MUSICAL_SHOT_INFO_Create(void *a, struct MusicalSave *b, u32 c, void *d, u16 heap);
 
 void MUSICAL_SHOT_INFO_Delete(u8 *p);
 
@@ -343,20 +340,20 @@ extern const u32 d_021F82B8[];
 
 extern const u32 d_021F82D8[];
 
-void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, u16 heap)
+void *MUSICAL_SHOT_INFO_Create(void *a, struct MusicalSave *b, u32 c, void *d, u16 heap)
 {
-    u8 *p = GFL_HEAP_Alloc(*(u16 *)&heap, 0x5c, 1, d_021F8394, 0x8d);
-    *(u16 *)p = *(u16 *)&heap;
-    *(u32 *)(p + 0xc) = c;
-    *(u32 *)(p + 0x10) = a;
-    *(u32 *)(p + 0x14) = b;
-    *(u32 *)(p + 0x44) = d;
-    *(u32 *)(p + 0x2c) = 0;
-    *(u8 *)(p + 8) = 0;
-    if (c == 1) *(u32 *)(p + 4) = 0; else *(u32 *)(p + 4) = 1;
-    MUSICAL_SHOT_INFO_InitGraphics(p);
-    MUSICAL_SHOT_INFO_InitWindows(p);
-    *(u32 *)(p + 0x40) = (uptr)APP_TASKMENU_RES_Create(4, 12, *(struct GFont **)(p + 0x20), *(struct PrintQueue **)(p + 0x38), *(u16 *)p);
+    MusicalMcssWork *p = GFL_HEAP_Alloc(*(u16 *)&heap, sizeof(*p), 1, d_021F8394, 0x8d);
+    p->heap = *(u16 *)&heap;
+    p->mode = c;
+    p->src = a;
+    p->dst = b;
+    p->musComm = d;
+    p->strbuf = 0;
+    p->counter = 0;
+    if (c == 1) p->state = 0; else p->state = 1;
+    MUSICAL_SHOT_INFO_InitGraphics((u8 *)p);
+    MUSICAL_SHOT_INFO_InitWindows((u8 *)p);
+    p->taskMenuRes = APP_TASKMENU_RES_Create(4, 12, p->font, p->printQue, p->heap);
     GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)&heap);
     BG_SYS_SetSubPlaneVisible(16, 1);
     return p;
@@ -402,7 +399,7 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
         }
         break;
     case 2:
-        if(!((MusicalMcssWork *)p)->printStream.ptr) {
+        if(!((MusicalMcssWork *)p)->printStream) {
             MUSICAL_SHOT_INFO_OpenYesNoMenu(p);
             ((MusicalMcssWork *)p)->state=3;
         }
@@ -413,9 +410,9 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
             v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)(*(u8 * *)&((MusicalMcssWork *)p)->taskMenu));
             APP_TASKMENU_CloseMenu(((MusicalMcssWork *)p)->taskMenu);
             if(v==0) MI_CpuCopy8(((MusicalMcssWork *)p)->src,MUSICAL_SAVE_NoOp(((MusicalMcssWork *)p)->dst),432);
-            if(*(int *)&((MusicalMcssWork *)p)->musComm) {
+            if(((MusicalMcssWork *)p)->musComm) {
                 ((MusicalMcssWork *)p)->state=4;
-                MUS_COMM_FUNC_SetTimingSync(*(int *)&((MusicalMcssWork *)p)->musComm,71);
+                MUS_COMM_FUNC_SetTimingSync((int)(uptr)((MusicalMcssWork *)p)->musComm,71);
                 MUSICAL_SHOT_INFO_PrintMessageQueued(p,6);
             } else ((MusicalMcssWork *)p)->state=7;
         } else if(GFL_NET_ERR_GetErrorLevel()!=0) {
@@ -440,17 +437,17 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
         break;
     case 7: break;
     }
-    if(((MusicalMcssWork *)p)->printStream.ptr&&PRINTSYS_PrintStreamGetState(((MusicalMcssWork *)p)->printStream.ptr)==2) {
-        PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream.ptr);
-        ((MusicalMcssWork *)p)->printStream.ptr=0;
+    if(((MusicalMcssWork *)p)->printStream&&PRINTSYS_PrintStreamGetState(((MusicalMcssWork *)p)->printStream)==2) {
+        PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream);
+        ((MusicalMcssWork *)p)->printStream=0;
     }
-    PRINTSYS_QUE_Main(((MusicalMcssWork *)p)->printQue.ptr);
-    if(((MusicalMcssWork *)p)->queActive==1&&PRINTSYS_QUE_IsFinished(((MusicalMcssWork *)p)->printQue.ptr)==1) {
+    PRINTSYS_QUE_Main(((MusicalMcssWork *)p)->printQue);
+    if(((MusicalMcssWork *)p)->queActive==1&&PRINTSYS_QUE_IsFinished(((MusicalMcssWork *)p)->printQue)==1) {
         ((MusicalMcssWork *)p)->queActive=0;
-        *(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr=(u8 *)TIME_ICON_CreateNode(*(struct TcblList **)&((MusicalMcssWork *)p)->tcbl.ptr,((MusicalMcssWork *)p)->win.ptr,15,16,((MusicalMcssWork *)p)->heap);
-        BMP_WIN_TransferChars(((MusicalMcssWork *)p)->win.ptr);
+        *(u8 * *)&((MusicalMcssWork *)p)->timeIcon=(u8 *)TIME_ICON_CreateNode(*(struct TcblList **)&((MusicalMcssWork *)p)->tcbl,((MusicalMcssWork *)p)->win,15,16,((MusicalMcssWork *)p)->heap);
+        BMP_WIN_TransferChars(((MusicalMcssWork *)p)->win);
     }
-    TCBL_Main(((MusicalMcssWork *)p)->tcbl.ptr);
+    TCBL_Main(((MusicalMcssWork *)p)->tcbl);
     (*(volatile u8 *)&((MusicalMcssWork *)p)->counter)++;
     if(*(volatile u8 *)&((MusicalMcssWork *)p)->counter>1) {
         *(volatile u8 *)&((MusicalMcssWork *)p)->counter=0;
@@ -477,22 +474,22 @@ void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
     CLACT_SetUnitDefaultRenderer(((MusicalMcssWork *)p)->unit);
     BG_SYS_SetSubPlaneVisible(16,1);
     t=ARC_TOOL_CreateHandle((unsigned int)46,((MusicalMcssWork *)p)->heap);
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((uptr)t),4,4,0,0,((MusicalMcssWork *)p)->heap);
-    ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)t),7,7,0,0,0,((MusicalMcssWork *)p)->heap);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)t),12,7,0,0,0,((MusicalMcssWork *)p)->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(t),4,4,0,0,((MusicalMcssWork *)p)->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(t),7,7,0,0,0,((MusicalMcssWork *)p)->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(t),12,7,0,0,0,((MusicalMcssWork *)p)->heap);
     ARC_TOOL_DeleteHandle(t);
     if (((MusicalMcssWork *)p)->mode==0) {
         t=ARC_TOOL_CreateHandle((unsigned int)APP_ICON_GetArchiveId(),((MusicalMcssWork *)p)->heap);
-        ARC_UTIL_UploadPaletteFromHandleWhole((void *)((uptr)t),APP_ICON_GetStatusAnimFileId(),4,288,32,((MusicalMcssWork *)p)->heap);
-        ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
-        ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
+        ARC_UTIL_UploadPaletteFromHandleWhole((void *)(t),APP_ICON_GetStatusAnimFileId(),4,288,32,((MusicalMcssWork *)p)->heap);
+        ARC_UTIL_UploadBgCharFromHandle((void *)(t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
+        ARC_UTIL_UploadBgPaletteFromHandle((void *)(t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((MusicalMcssWork *)p)->heap);
         BG_SYS_FillTileMap(6,0,21,32,3,9);
         BG_SYS_PushTile(6);
-        ((MusicalMcssWork *)p)->palette=CLACT_RegisterPaletteEx((void *)((uptr)t),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((MusicalMcssWork *)p)->heap);
-        ((MusicalMcssWork *)p)->character=CLACT_RegisterCharacter((void *)((uptr)t),APP_ICON_GetMoveKindAnimFileId(),0,1,((MusicalMcssWork *)p)->heap);
+        ((MusicalMcssWork *)p)->palette=CLACT_RegisterPaletteEx((void *)(t),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((MusicalMcssWork *)p)->heap);
+        ((MusicalMcssWork *)p)->character=CLACT_RegisterCharacter((void *)(t),APP_ICON_GetMoveKindAnimFileId(),0,1,((MusicalMcssWork *)p)->heap);
         v=APP_ICON_GetStatusCellFileId(0);
         w=APP_ICON_GetStatusPaletteFileId(0);
-        ((MusicalMcssWork *)p)->cellAnim=CLACT_RegisterCellAnim((void *)((uptr)t),v,w,((MusicalMcssWork *)p)->heap);
+        ((MusicalMcssWork *)p)->cellAnim=CLACT_RegisterCellAnim((void *)(t),v,w,((MusicalMcssWork *)p)->heap);
         ARC_TOOL_DeleteHandle(t);
         d.x=232;
         d.y=168;
@@ -508,79 +505,79 @@ void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c) { BG_SYS_InitBgLay
 void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 {
     int zero;
-    ((MusicalMcssWork *)p)->win.val=(uptr)BMP_WIN_Create(4,1,1,30,4,10,1);
-    BMP_WIN_TransferChars((struct BmpWin *)((MusicalMcssWork *)p)->win.val);
-    BMP_WIN_MakeScreen((struct BmpWin *)(((MusicalMcssWork *)p)->win.val));
+    ((MusicalMcssWork *)p)->win=BMP_WIN_Create(4,1,1,30,4,10,1);
+    BMP_WIN_TransferChars((struct BmpWin *)((MusicalMcssWork *)p)->win);
+    BMP_WIN_MakeScreen((struct BmpWin *)(((MusicalMcssWork *)p)->win));
     BG_SYS_PushTile(4);
     zero=0;
-    ((MusicalMcssWork *)p)->font.val=(uptr)GF_FONT_Create(23,0,0,0,((MusicalMcssWork *)p)->heap);
-    ((MusicalMcssWork *)p)->msgBank.val=(uptr)MSGDATA_CreateFromArchive(0,2,78,((MusicalMcssWork *)p)->heap);
+    ((MusicalMcssWork *)p)->font=GF_FONT_Create(23,0,0,0,((MusicalMcssWork *)p)->heap);
+    ((MusicalMcssWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,78,((MusicalMcssWork *)p)->heap);
     BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,((MusicalMcssWork *)p)->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,320,32,((MusicalMcssWork *)p)->heap);
     GF_FONT_SetDefaultTextColor();
-    ((MusicalMcssWork *)p)->tcbl.val=(uptr)TCBL_Create(((MusicalMcssWork *)p)->heap,((MusicalMcssWork *)p)->heap,3,256);
-    ((MusicalMcssWork *)p)->printStream.val=zero;
-    ((MusicalMcssWork *)p)->strbuf.val=zero;
+    ((MusicalMcssWork *)p)->tcbl=TCBL_Create(((MusicalMcssWork *)p)->heap,((MusicalMcssWork *)p)->heap,3,256);
+    ((MusicalMcssWork *)p)->printStream=0;
+    ((MusicalMcssWork *)p)->strbuf=0;
     ((MusicalMcssWork *)p)->queActive=zero;
-    ((MusicalMcssWork *)p)->timeIcon.val=zero;
-    ((MusicalMcssWork *)p)->printQue.val=(uptr)PRINTSYS_QUE_Create((u32)(((MusicalMcssWork *)p)->heap));
+    ((MusicalMcssWork *)p)->timeIcon=0;
+    ((MusicalMcssWork *)p)->printQue=PRINTSYS_QUE_Create((u32)(((MusicalMcssWork *)p)->heap));
 }
 
 void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p)
 {
-    PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val));
-    PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val));
-    if (*(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr) {
-        TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr));
-        *(u32 *)&((MusicalMcssWork *)p)->timeIcon.ptr=0;
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
+    if (*(u8 * *)&((MusicalMcssWork *)p)->timeIcon) {
+        TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon));
+        ((MusicalMcssWork *)p)->timeIcon=0;
     }
-    if (((MusicalMcssWork *)p)->printStream.ptr) PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream.ptr);
-    if (((MusicalMcssWork *)p)->strbuf.ptr) STRBUF_Delete(((MusicalMcssWork *)p)->strbuf.ptr);
-    MSGDATA_Delete(((MusicalMcssWork *)p)->msgBank.ptr);
-    BMP_WIN_Delete(((MusicalMcssWork *)p)->win.ptr);
-    GF_FONT_Delete(((MusicalMcssWork *)p)->font.ptr);
-    TCBL_Destroy(((MusicalMcssWork *)p)->tcbl.ptr);
+    if (((MusicalMcssWork *)p)->printStream) PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream);
+    if (((MusicalMcssWork *)p)->strbuf) STRBUF_Delete(((MusicalMcssWork *)p)->strbuf);
+    MSGDATA_Delete(((MusicalMcssWork *)p)->msgBank);
+    BMP_WIN_Delete(((MusicalMcssWork *)p)->win);
+    GF_FONT_Delete(((MusicalMcssWork *)p)->font);
+    TCBL_Destroy(((MusicalMcssWork *)p)->tcbl);
 }
 
 void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index)
 {
     u32 t;
-    if (((MusicalMcssWork *)p)->printStream.ptr) {
-        PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream.ptr);
-        *(u32 *)&((MusicalMcssWork *)p)->printStream.ptr=0;
+    if (((MusicalMcssWork *)p)->printStream) {
+        PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream);
+        ((MusicalMcssWork *)p)->printStream=0;
     }
-    if (((MusicalMcssWork *)p)->strbuf.ptr) {
-        STRBUF_Delete(((MusicalMcssWork *)p)->strbuf.ptr);
-        *(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr=0;
+    if (((MusicalMcssWork *)p)->strbuf) {
+        STRBUF_Delete(((MusicalMcssWork *)p)->strbuf);
+        ((MusicalMcssWork *)p)->strbuf=0;
     }
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win.ptr)),15);
-    ((MusicalMcssWork *)p)->strbuf.ptr=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),index);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win)),15);
+    ((MusicalMcssWork *)p)->strbuf=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank),index);
     t=MSG_SPEED_GetWait();
-    ((MusicalMcssWork *)p)->printStream.ptr=PRINTSYS_PrintStream((struct BmpWin *)((MusicalMcssWork *)p)->win.ptr,0,0,(struct Strbuf *)((MusicalMcssWork *)p)->strbuf.ptr,(struct GfFont *)((MusicalMcssWork *)p)->font.ptr,t,(struct Tcbl *)((MusicalMcssWork *)p)->tcbl.ptr,2,((MusicalMcssWork *)p)->heap,0);
-    BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
+    ((MusicalMcssWork *)p)->printStream=PRINTSYS_PrintStream((struct BmpWin *)((MusicalMcssWork *)p)->win,0,0,(struct Strbuf *)((MusicalMcssWork *)p)->strbuf,(struct GfFont *)((MusicalMcssWork *)p)->font,t,(struct Tcbl *)((MusicalMcssWork *)p)->tcbl,2,((MusicalMcssWork *)p)->heap,0);
+    BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win,1,1,11);
 }
 
 void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index)
 {
-    uptr win;
-    if (((MusicalMcssWork *)p)->strbuf.ptr) {
-        STRBUF_Delete(((MusicalMcssWork *)p)->strbuf.ptr);
-        *(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr=0;
+    struct Bmp *win;
+    if (((MusicalMcssWork *)p)->strbuf) {
+        STRBUF_Delete(((MusicalMcssWork *)p)->strbuf);
+        ((MusicalMcssWork *)p)->strbuf=0;
     }
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win.ptr)),15);
-    ((MusicalMcssWork *)p)->strbuf.ptr=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),index);
-    win=(uptr)BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win.ptr);
-    PRINTSYS_PrintQue((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val),(struct Bmp *)win,0,0,((MusicalMcssWork *)p)->strbuf.ptr,(struct GfFont *)(((MusicalMcssWork *)p)->font.val));
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win)),15);
+    ((MusicalMcssWork *)p)->strbuf=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank),index);
+    win=BMP_WIN_GetBmp(*(struct BmpWin **)&((MusicalMcssWork *)p)->win);
+    PRINTSYS_PrintQue((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue),win,0,0,((MusicalMcssWork *)p)->strbuf,(struct GfFont *)(((MusicalMcssWork *)p)->font));
     ((MusicalMcssWork *)p)->queActive=1;
-    BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
+    BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win,1,1,11);
 }
 
 void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p)
 {
     MusShotInfoItem items[2];
     MusShotInfoMenu menu;
-    items[0].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),4);
-    items[1].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),5);
+    items[0].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank),4);
+    items[1].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank),5);
     items[0].value=0x39e0;
     items[1].value=0x39e0;
     items[0].zero=0;

@@ -243,7 +243,7 @@ extern char d_0217299C[];
 
 EventDataSystem *EVENTDATA_SYSTEM_Create(int heapId)
 {
-    EventDataSystem *system = GFL_HEAP_Alloc(heapId, 0xAA8, 1, d_0217299C, 0xAF);
+    EventDataSystem *system = GFL_HEAP_Alloc(heapId, sizeof(EventDataSystem) + 0x978, 1, d_0217299C, 0xAF);
     system->eventArc = ARC_TOOL_CreateHandle(0x7D, heapId);
     system->encountArc = ARC_TOOL_CreateHandle(0x7E, heapId);
     system->auxArc = ARC_TOOL_CreateHandle(0x39, heapId);
@@ -258,7 +258,13 @@ void EVENTDATA_SYSTEM_Delete(EventDataSystem *system)
     GFL_HEAP_Free(system);
 }
 
-void EVENTDATA_SYSTEM_Clear(EventDataSystem *system) { EVENTDATA_SYSTEM_ClearEventTables(system); (system->specialScripts)=(char *)system+0x2328; system->encountLoaded=0; system->encountFlag=0; }
+void EVENTDATA_SYSTEM_Clear(EventDataSystem *system) { EVENTDATA_SYSTEM_ClearEventTables(system);
+#ifdef __MWERKS__
+ (system->specialScripts)=(char *)system+0x2328;
+#else
+ (system->specialScripts)=(char *)(system + 1);
+#endif
+ system->encountLoaded=0; system->encountFlag=0; }
 
 void EVENTDATA_SYSTEM_Load(EventDataSystem *system, u16 zoneId, u8 encountParam)
 {
@@ -363,7 +369,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
 {
     int fileId;
     unsigned fileSize;
-    uptr tableBase;
+    u8 *tableBase;
     unsigned offset;
     const EventFileData *fileData;
 
@@ -372,7 +378,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
     ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)system->eventArc, fileId, 0, fileSize, &system->fileSize);
     offset = 0;
     fileData = &system->fileData;
-    tableBase = (uptr)fileData + 4;
+    tableBase = (u8 *)fileData + 4;
     system->specialScripts = (char *)fileData + system->fileSize;
     {
         u8 count = fileData->counts[0];
@@ -417,7 +423,7 @@ void EVENTDATA_SYSTEM_ClearEventTables(EventDataSystem *system)
     system->npcHeaders = 0;
     system->connects = 0;
     system->posEvents = 0;
-    MI_CpuFill8((char *)system + 0x128, 0, 0x880);
+    MI_CpuFill8(&system->fileData, 0, 0x880);
 }
 
 /*
@@ -425,7 +431,7 @@ void EVENTDATA_SYSTEM_ClearEventTables(EventDataSystem *system)
  */
 struct EncountData *EVENTDATA_SYSTEM_GetEncountData(void *system)
 {
-    return (struct EncountData *)((u8 *)system + 0x38);
+    return (struct EncountData *)((EventDataSystem *)system)->encountHead;
 }
 
 /*
@@ -874,7 +880,7 @@ void EVENTDATA_SYSTEM_SetBgEventGridPos(const EventDataSystem *system, u32 index
 {
     BgEventData *bgEvent;
     if (system->bgCount >= index && system->bgEvents != 0) {
-        bgEvent = (BgEventData *)((uptr)system->bgEvents + index * 20u);
+        bgEvent = (BgEventData *)((u8 *)system->bgEvents + index * 20u);
         if (bgEvent->posType == 0) {
             setBgEventGridPos(bgEvent, gridX, height, gridZ);
         }

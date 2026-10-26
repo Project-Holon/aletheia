@@ -594,7 +594,7 @@ u32 ISS_SYS_GetCurrentBgmId(void)
 /* The ISS mode that the BGM now playing maps to. */
 u8 ISS_SYS_GetBgmMode(IssSys *iss)
 {
-    const BgmInfoTable *table = (struct BgmInfoTable *)GAME_DATA_GetBagCursor(iss->gameData);
+    const BgmInfoTable *table = GAME_DATA_GetBagCursor(iss->gameData);
 
     return BGM_INFO_GetIssMode(table, (u16)ISS_SYS_GetCurrentBgmId());
 }

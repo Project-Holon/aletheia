@@ -160,7 +160,7 @@ int TOUCHBAR_IsBusy(TouchBar *bar);
 void TOUCHBAR_SetAllButtonsEnabled(TouchBar *bar, u32 enabled);
 void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible);
 void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority);
-void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority);
+void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u8 priority);
 void TOUCHBAR_SetButtonEnabled(TouchBar *bar, unsigned int buttonId, int enabled);
 void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible);
 void TOUCHBAR_SetButtonSound(TouchBar *bar, unsigned int buttonId, int soundId);
@@ -186,7 +186,7 @@ void TOUCHBAR_SetButtonSoundId(TouchBarButton *button, int soundId);
 void TOUCHBAR_SetButtonKeys(TouchBarButton *button, int keyMask);
 void TOUCHBAR_SetButtonToggle(TouchBarButton *button, u32 down);
 u32 TOUCHBAR_IsButtonDown(TouchBarButton *button);
-void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, unsigned int priority);
+void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, u8 priority);
 void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPriority);
 void TOUCHBAR_OnPressPlain(TouchBarButton *button);
 void TOUCHBAR_OnPressToggle(TouchBarButton *button);
@@ -312,7 +312,7 @@ void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority)
     }
 }
 
-void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority)
+void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u8 priority)
 {
     u32 i;
 
@@ -461,7 +461,7 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
             }
         }
     }
-    if ((int)BG_SYS_GetBuf((u8)bgLayer)) {
+    if (BG_SYS_GetBuf((u8)bgLayer)) {
         BG_SYS_DrawTileEx(bgLayer, dstX, dstY, dstWidth, dstHeight, (data + 0xc), srcX, srcY, srcWidth, srcHeight);
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, plttSlot);
         BG_SYS_PushTile(bgLayer);
@@ -602,7 +602,7 @@ u32 TOUCHBAR_IsButtonDown(TouchBarButton *button)
     return result;
 }
 
-void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, unsigned int priority)
+void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, u8 priority)
 {
     CLACT_SetActorDrawPriority((struct ClactActor *)button->actor, priority);
 }

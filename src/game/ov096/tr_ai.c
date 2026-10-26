@@ -322,7 +322,7 @@ ScriptVm *TR_AI_Create(struct BtlMain *battleMain, struct BtlServerFlow *serverF
 {
     TrAiWork *ai;
     ScriptVm *vm;
-    ai = GFL_HEAP_Alloc(heapId, 0xD8, 1, gTrAiAllocSite, 0x1D9);
+    ai = GFL_HEAP_Alloc(heapId, sizeof(*ai), 1, gTrAiAllocSite, 0x1D9);
     ai->heapId = heapId;
     ai->cmdReturn = 1;
     ai->fullMask = scriptMask;
@@ -928,7 +928,7 @@ int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai) {
     int index;
     int entry;
 
-    list = (u16 *)((sptr)vm->pc + VM_GetU32(vm));
+    list = (u16 *)(vm->pc + VM_GetU32(vm));
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {
@@ -948,7 +948,7 @@ int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
     int index;
     int entry;
 
-    list = (u16 *)((sptr)vm->pc + VM_GetU32(vm));
+    list = (u16 *)(vm->pc + VM_GetU32(vm));
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {

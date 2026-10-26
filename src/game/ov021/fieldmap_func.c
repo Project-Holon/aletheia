@@ -95,9 +95,9 @@ void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr);
 
 void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr);
 
-void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, FieldSubproc *proc);
+void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, void *arg);
 
-void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, FieldSubproc *proc);
+void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, void *arg);
 
 FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl);
 
@@ -109,13 +109,13 @@ extern int d_021DE2F8;
 
 FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capacity)
 {
-    FieldSubprocMgr *mgr = GFL_HEAP_Alloc(heapId, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
+    FieldSubprocMgr *mgr = GFL_HEAP_Alloc(heapId, sizeof(*mgr), 1, (const char *)&d_021DE2F8, 0x46);
     int listSize;
 
     mgr->fieldSys = fieldSys;
     mgr->heapId = heapId;
     mgr->capacity = capacity;
-    mgr->procs = GFL_HEAP_Alloc(heapId, 0x18 * capacity, 1, (const char *)&d_021DE2F8, 0x4a);
+    mgr->procs = GFL_HEAP_Alloc(heapId, sizeof(*mgr->procs) * capacity, 1, (const char *)&d_021DE2F8, 0x4a);
     listSize = TCB_GetTaskOffset(capacity);
     mgr->drawList = GFL_HEAP_Alloc(heapId, listSize, 1, (const char *)&d_021DE2F8, 0x56);
     mgr->drawList = (struct TcbList *)TCB_Init(capacity, (struct TcbSystem *)mgr->drawList);
@@ -147,15 +147,17 @@ void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr)
     TCB_Main((struct TcbSystem *)mgr->drawList);
 }
 
-void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, FieldSubproc *proc)
+void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, void *arg)
 {
+    FieldSubproc *proc = arg;
     if (proc->tmpl->update != 0) {
         proc->tmpl->update(proc, proc->mgr->fieldSys, proc->work);
     }
 }
 
-void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, FieldSubproc *proc)
+void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, void *arg)
 {
+    FieldSubproc *proc = arg;
     if (proc->tmpl->draw != 0) {
         proc->tmpl->draw(proc, proc->mgr->fieldSys, proc->work);
     }
@@ -174,8 +176,8 @@ FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const Fie
             GF_OVERLAY_Load(overlayId);
         }
         proc->overlayId = overlayId;
-        proc->updateTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->updateList, (TcbFunc)FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
-        proc->drawTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->drawList, (TcbFunc)FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
+        proc->updateTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->updateList, FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
+        proc->drawTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->drawList, FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
         proc->mgr = mgr;
         proc->tmpl = tmpl;
         if (tmpl->workSize != 0) {
@@ -208,7 +210,7 @@ void FIELD_SUBPROC_End(FieldSubproc *proc)
     if (proc->overlayId != -1) {
         GF_OVERLAY_Unload(proc->overlayId);
     }
-    MI_CpuFill8(proc, 0, 0x18);
+    MI_CpuFill8(proc, 0, sizeof(*proc));
 }
 
 void *FIELD_SUBPROC_GetWork(const FieldSubproc *proc)

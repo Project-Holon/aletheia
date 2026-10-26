@@ -255,8 +255,8 @@ extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void BG_SYS_Update(void);
 int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *args);
-int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
-int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
+int BSUBWAY_RECORD_LIST_Main(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
+int BSUBWAY_RECORD_LIST_Exit(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
 void BSUBWAY_RECORD_LIST_VBlankTask(void);
 void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordListArgs *args);
 void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work);
@@ -344,7 +344,7 @@ struct Cursor;
 extern int CURSOR_MOVE_PollInput(struct Cursor *obj);
 struct CursorVtbl;
 struct CursorEntry;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, void *ctx, u32 state, u8 start, u16 heapId);
 extern u32 CURSOR_MOVE_Delete(void *cursor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
@@ -411,7 +411,7 @@ int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *a
     return 1;
 }
 
-int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
+int BSUBWAY_RECORD_LIST_Main(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
 {
     if (BSUBWAY_RECORD_LIST_RunInputState(work) == 0)
         return 1;
@@ -421,7 +421,7 @@ int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     return 0;
 }
 
-int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
+int BSUBWAY_RECORD_LIST_Exit(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work)
 {
     BSUBWAY_RECORD_LIST_DeleteCursor(work);
     BSUBWAY_RECORD_LIST_ExitText(work);
@@ -430,7 +430,7 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     BSUBWAY_RECORD_LIST_DeleteFrames(work);
     BSUBWAY_RECORD_LIST_ReleaseBgLayers(work);
     BSUBWAY_RECORD_LIST_FreeWork(work);
-    PROCSYS_FreeProcWork((struct Proc *)proc);
+    PROCSYS_FreeProcWork(proc);
     GFL_HEAP_GetHeapHeadChecked(0x80);
     GFL_HEAP_DeleteChecked(0x80);
     return 1;
@@ -716,7 +716,7 @@ int BSUBWAY_RECORD_LIST_StateFadeOutWait(BsubwayRecordListWork *work)
 
 void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work)
 {
-    work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, (uptr)work, 1, 0, 0x80);
+    work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, work, 1, 0, 0x80);
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, 0);
 }
 

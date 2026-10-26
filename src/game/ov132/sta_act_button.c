@@ -110,10 +110,6 @@ typedef struct {short x,y,index;u8 a,b;} StaActButtonParams;
 
 
 
-extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 
 
 #include "../arm9/arc_util.h"
@@ -146,14 +142,14 @@ static inline void inside(int wnd, int effect)
 {
     unsigned tmp = (*(volatile u16 *)REG_DB_WININ_ADDR & ~63) | (unsigned)wnd;
     if (effect) tmp |= 32;
-    *(volatile u16 *)0x04001048 = tmp;
+    *(volatile u16 *)REG_DB_WININ_ADDR = tmp;
 }
 
 static inline void outside(int wnd, int effect)
 {
     unsigned tmp = (*(volatile u16 *)REG_DB_WINOUT_ADDR & ~63) | (unsigned)wnd;
     if (effect) tmp |= 32;
-    *(volatile u16 *)0x0400104a = tmp;
+    *(volatile u16 *)REG_DB_WINOUT_ADDR = tmp;
 }
 
 /*
@@ -161,7 +157,7 @@ static inline void outside(int wnd, int effect)
  */
 char *STA_ACT_BUTTON_Create(unsigned heap, void *scene, char *playerRecord)
 {
-    char *p = GFL_HEAP_Alloc(heap, 0x60, 0, d_021FDCD8, 87);
+    char *p = GFL_HEAP_Alloc(heap, sizeof(struct StaActTaskObj), 0, d_021FDCD8, 87);
     ((struct StaActTaskObj *)p)->heapId = heap;
     ((struct StaActTaskObj *)p)->scene = scene;
     *(char * *)&((struct StaActTaskObj *)p)->playerRecord = playerRecord;
@@ -176,8 +172,8 @@ char *STA_ACT_BUTTON_Create(unsigned heap, void *scene, char *playerRecord)
     *(volatile unsigned *)0x04001000 = (*(volatile unsigned *)0x04001000 & ~0xe000) | 0x2000;
     inside(31, 1);
     outside(31, 0);
-    *(volatile u16 *)0x04001040 = 255;
-    *(volatile u16 *)0x04001044 = 0x80c0;
+    *(volatile u16 *)REG_DB_WIN0H_ADDR = 255;
+    *(volatile u16 *)REG_DB_WIN0V_ADDR = 0x80c0;
     return p;
 }
 
@@ -217,14 +213,14 @@ void STA_ACT_BUTTON_Update(char *p)
         key=d_021FDC20;
         hit=TOUCHPANEL_HitTrg((const TouchHitTable *)&key);
         G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR,16,0);
-        if(hit!=-1 && *(u16 *)(p+0x48+hit*2)!=255 && *(int *)(p+0x40+hit*4)==0) {
+        if(hit!=-1 && ((struct StaActTaskObj *)p)->actorIds[hit]!=255 && *(int *)((char *)&((struct StaActTaskObj *)p)->pressed+hit*4)==0) {
             if(hit==0) STA_ACTING_RequestAction(((struct StaActTaskObj *)p)->scene,7);
             else STA_ACTING_RequestAction(((struct StaActTaskObj *)p)->scene,8);
             G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR,16,-8);
             one=FLAG_ONE;
             zero=FLAG_ZERO;
-            *(u32 *)(p+0x40+hit*4)=one;
-            *(u32 *)&((struct StaActTaskObj *)p)->actionPending=one;
+            *(u32 *)((char *)&((struct StaActTaskObj *)p)->pressed+hit*4)=one;
+            ((struct StaActTaskObj *)p)->actionPending=one;
             *(u32 *)&((struct StaActTaskObj *)p)->enabled=zero;
             ((struct StaActTaskObj *)p)->pressedIndex=hit;
             pos.x=hit==0?32:224;
@@ -239,8 +235,8 @@ void STA_ACT_BUTTON_Update(char *p)
         if(STA_ACTING_GetCurrentAction(((struct StaActTaskObj *)p)->scene)==0) {
             if(((struct StaActTaskObj *)p)->actionPending==0) {
                 ((struct StaActTaskObj *)p)->enabled.s=1;
-                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct StaActTaskObj *)p)->pressedIndex*4),0);
-                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct StaActTaskObj *)p)->pressedIndex*4),0);
+                CLACT_SetActorDrawEnable(((struct StaActTaskObj *)p)->frameActors[((struct StaActTaskObj *)p)->pressedIndex],0);
+                CLACT_SetActorDrawEnable(((struct StaActTaskObj *)p)->iconActors[((struct StaActTaskObj *)p)->pressedIndex],0);
                 ((struct StaActTaskObj *)p)->pressedIndex=2;
             }
         } else {
@@ -280,20 +276,20 @@ void STA_ACT_BUTTON_CreateActors(char *p)
     *(int *)&((struct StaActTaskObj *)p)->pressCellAnim=CLACT_RegisterCellAnim(narc,18,22,((struct StaActTaskObj *)p)->heapId);
     ARC_TOOL_DeleteHandle(narc);
     for(i=0;i<2;i++) {
-        if(*(u16 *)(p+i*2+0x48)!=255) {
-            format=MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table,*(u16 *)(p+i*2+0x48)));
+        if(((struct StaActTaskObj *)p)->actorIds[i]!=255) {
+            format=MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table,((struct StaActTaskObj *)p)->actorIds[i]));
             if(i==0) configs[1].x=32;
             else configs[1].x=224;
             configs[1].y=160;
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->frameCharacter.u,((struct StaActTaskObj *)p)->framePalette.u,((struct StaActTaskObj *)p)->frameCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
+            ((struct StaActTaskObj *)p)->frameActors[i]=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->frameCharacter.u,((struct StaActTaskObj *)p)->framePalette.u,((struct StaActTaskObj *)p)->frameCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->iconCharacter.u,((struct StaActTaskObj *)p)->iconPalette.u,((struct StaActTaskObj *)p)->iconCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
-            STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
+            ((struct StaActTaskObj *)p)->iconActors[i]=CLACT_CreateActor((struct Unit *)(*(void **)&((struct StaActTaskObj *)p)->clactUnit),((struct StaActTaskObj *)p)->iconCharacter.u,((struct StaActTaskObj *)p)->iconPalette.u,((struct StaActTaskObj *)p)->iconCellAnim.u,(const struct ActorInitParam *)&configs[1],1,((struct StaActTaskObj *)p)->heapId);
+            CLACT_SetActorDrawEnable(((struct StaActTaskObj *)p)->frameActors[i],0);
+            CLACT_SetActorDrawEnable(((struct StaActTaskObj *)p)->iconActors[i],0);
+            STA_ACT_BUTTON_LoadCharacter((u8 *)p,i,((struct StaActTaskObj *)p)->actorIds[i],format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
@@ -311,9 +307,9 @@ void STA_ACT_BUTTON_CreateActors(char *p)
  */
 void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
 {
-    sptr blob;
+    NNSG3dResFileHeader *blob;
     u32 charSize,palSize;
-    u8 *dst;
+    u32 dst;
     u8 block;
     u8 height;
     u8 line;
@@ -323,14 +319,14 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     u8 *tex;
     u32 palOffset;
     u8 col;
-    blob=(sptr)ARC_UTIL_LoadMember(45,resource,0,*(u16 *)p);
+    blob=ARC_UTIL_LoadMember(45,resource,0,*(u16 *)p);
     y=0;
-    tex=(u8 *)NNS_G3dGetTex((NNSG3dResFileHeader *)blob);
+    tex=(u8 *)NNS_G3dGetTex(blob);
     src=tex+*(u32 *)(tex+20);
     charSize=*(u16 *)(tex+12)*8;
     palOffset=*(u32 *)(tex+0x38);
     palSize=*(u16 *)(tex+0x30)*8;
-    dst=(u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p+0x28),1);
+    dst=CLACT_GetCharacterVramAddress(((struct StaActTaskObj *)p)->frameCharacter.u,1);
     dst+=(slot<<11);
     DC_FlushRange(tex+palOffset,palSize);
     GXS_LoadOBJPltt(tex+palOffset,slot*32,palSize);
@@ -344,7 +340,7 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     for(block=0;block<height;block++) {
         for(line=0;line<8;line++) {
             for(col=0;col<type;col++) {
-                GXS_LoadOBJ(src+(col*4+(block*32*type+line*type*4)),(uptr)(dst+(line*4+((col+x)*32+((block+y)*256)))),4);
+                GXS_LoadOBJ(src+(col*4+(block*32*type+line*type*4)),dst+(line*4+((col+x)*32+((block+y)*256))),4);
             }
         }
     }

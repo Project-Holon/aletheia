@@ -177,7 +177,7 @@ void FIELD_PLACE_NAME_Draw(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_OnZoneChange(FieldPlaceName *placeName, int zoneId);
 void FIELD_PLACE_NAME_ShowForZone(FieldPlaceName *placeName, int zoneId);
 void FIELD_PLACE_NAME_ForceShowForZone(FieldPlaceName *placeName, int zoneId);
-int FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName);
+FieldPlaceName *FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_RestoreWindow(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_ReleaseWindow(FieldPlaceName *placeName);
@@ -401,11 +401,11 @@ void FIELD_PLACE_NAME_ForceShowForZone(FieldPlaceName *placeName, int zoneId)
 }
 
 /* Stops the banner now and drops pending show requests. */
-int FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName)
+FieldPlaceName *FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName)
 {
     FIELD_PLACE_NAME_SetState(placeName, FIELD_PLACE_NAME_STATE_IDLE);
     FIELD_PLACE_NAME_ClearZoneChangeRequest(placeName);
-    return (sptr)FIELD_PLACE_NAME_ClearForceShowRequest(placeName);
+    return FIELD_PLACE_NAME_ClearForceShowRequest(placeName);
 }
 
 /* Rebuilds the BG window (used after another screen took the BG layer). */
@@ -754,7 +754,7 @@ int FIELD_PLACE_NAME_HasPlaceNameChanged(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
 {
     int zoneId;
-    sptr myStatus;
+    struct MyStatus *myStatus;
     unsigned int placeNameId;
     Strbuf *template;
 
@@ -769,7 +769,7 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
     }
     if (FIELD_PLACE_NAME_UsesIntrudeTemplate(placeName, zoneId) != 0) {
         INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
-        myStatus = (sptr)GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
+        myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
         template = MSGDATA_AllocString((struct MsgBank *)placeName->msgData, 3);
         MSGDATA_ReadString((struct MsgBank *)placeName->msgData, placeNameId, placeName->message);
         WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
@@ -1055,7 +1055,7 @@ FieldPlaceName *FIELD_PLACE_NAME_AllocWork(u32 heapId)
 
 void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem)
 {
-    MI_CpuFill8(placeName, 0, 0x154);
+    MI_CpuFill8(placeName, 0, sizeof(*placeName));
     placeName->gameSystem = gameSystem;
     placeName->gameData = GAMESYSTEM_GetGameData(gameSystem);
     placeName->bgCharOffset = -1;

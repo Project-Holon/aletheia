@@ -123,8 +123,6 @@ typedef enum { setupValueOffset = 0x24f } SetupValueOffset;
 
 typedef enum { matchValueOffset = 0x2c0 } MatchValueOffset;
 
-struct WifibattlematchSysSub { u32 a0; u32 a4; u8 pad[1]; };
-
 /*
  * Per-side party buffer allocated by WIFIBATTLEMATCH_SYS_AllocPartyBuffers
  * (POKE_REGULATION_GetDataSize() + 0xd4 bytes).  Its head is a trainer
@@ -145,54 +143,175 @@ struct WifiBattleMatchSysPartyBuffer {
  * One struct folds the former address-named views of the same pointer
  * (sixteen views plus the local struct In).
  *
- * gameData, partyBuffer0/1 and partyA..partyD are pointers.  A few command
- * buffers (BuildRule/Match/Start/Sync) store them as plain words, so those
- * eight sites keep an explicit pointer-to-int cast rather than a union: a
- * union member suffix would touch every one of the ~100 pointer uses for no
- * change in the emitted bytes.
+ * The 0x8B0-byte size is the DS size.  The sub-records at 0x40, 0x1B4, 0x1D0,
+ * 0x224, 0x22C, 0x778, 0x7D4 and 0x8A8 are handed to the net screens by
+ * address through the command buffers below; each is named by field, so no
+ * raw byte offset into the work is needed.
  */
+typedef struct WifibattlematchSysFlags { u32 year:7, month:4, day:5, hour:5, minute:6, rest:4, enabled:1; } WifibattlematchSysFlags;
+
+typedef struct Nibbles { u8 a:4,b:4; } Nibbles;
+
+struct WifiBattleMatchSysArgs {
+    struct GameData *gameData;                       /* 0x00 */
+    s32 battleType;                       /* 0x04 */
+    s32 commMode;                         /* 0x08 */
+    s32 matchKind;                        /* 0x0C */
+    s32 flag14;                           /* 0x10 */
+};
+
+/* Per-side record in the 0x50-byte block FillSetupRecord writes. */
+struct WifiBattleMatchSysSideRecord {
+    u16 species[6];                       /* 0x00 */
+    u8 form[6];                           /* 0x0C */
+    u8 level[6];                          /* 0x12 */
+    u8 gender[6];                         /* 0x18 */
+};
+
+/* 0x50-byte record filled by WIFIBATTLEMATCH_SYS_FillSetupRecord. */
+struct WifiBattleMatchSysSetupOut {
+    u32 card;                             /* 0x00 */
+    u32 savedValue;                       /* 0x04 */
+    struct WifiBattleMatchSysSideRecord side[2]; /* 0x08 */
+    WifibattlematchSysFlags date;         /* 0x44 */
+    s32 setting;                          /* 0x48 */
+    u8 netSetupResult;                    /* 0x4C */
+    u8 ruleValue;                         /* 0x4D */
+    Nibbles counts;                       /* 0x4E */
+    u8 pad_4F;
+};
+
+/* State block at 0x1B4, cleared by BuildSetupRecord and handed to the net screens by address. */
+struct WifiBattleMatchSysSetup {
+    u32 ruleValue;                        /* 0x00 */
+    u32 recordVersion;                    /* 0x04 */
+    u8 speciesCount;                      /* 0x08 */
+    u8 partyCount;                        /* 0x09 */
+    u8 pad_0A[2];
+    s32 partyReady;                       /* 0x0C */
+    u32 flagC1;                           /* 0x10 */
+    u32 versionFlag;                      /* 0x14 */
+};
+
 struct WifiBattleMatchSysWork {
     u32 gameDataOwned;                    /* 0x000 */
-    void *gameData;                       /* 0x004 */
-    s32 battleType;                       /* 0x008 */
-    s32 commMode;                         /* 0x00C */
-    s32 matchKind;                        /* 0x010 */
-    s32 flag14;                           /* 0x014 */
-    void *procWork;                       /* 0x018 */
+    struct WifiBattleMatchSysArgs args;   /* 0x004 */
+    struct WifiBattleMatchSysProc *procWork; /* 0x018 */
     s32 ruleKind;                         /* 0x01C */
     s32 result;                           /* 0x020 */
     s32 flag24;                           /* 0x024 */
-    void *partyBuffer0;                   /* 0x028 */
-    void *partyBuffer1;                   /* 0x02C */
+    struct WifiBattleMatchSysPartyBuffer *partyBuffer0; /* 0x028 */
+    struct WifiBattleMatchSysPartyBuffer *partyBuffer1; /* 0x02C */
     void *partyA;                         /* 0x030 */
     void *partyB;                         /* 0x034 */
     void *partyC;                         /* 0x038 */
     void *partyD;                         /* 0x03C */
-    u8 pad_040[0x1B4 - 0x040];
-    u32 setupRuleValue;                      /* 0x1B4 */
-    u32 setupRecordVersion;                      /* 0x1B8 */
-    u8 speciesCount;                      /* 0x1BC */
-    u8 pad_1BD[3];
-    s32 partyReady;                       /* 0x1C0 */
-    u32 flagC1;                           /* 0x1C4 */
-    u32 versionFlag;                      /* 0x1C8 */
+    u8 matchInfo[0x1B4 - 0x040];          /* 0x040 */
+    struct WifiBattleMatchSysSetup setup; /* 0x1B4 */
     s32 countdown;                        /* 0x1CC */
-    u8 pad_1D0[0x220 - 0x1D0];
+    struct WifiBattleMatchSysSetupOut setupOut; /* 0x1D0 */
     s32 startFlag;                        /* 0x220 */
-    u8 pad_224[0x8AC - 0x224];
+    u8 session[8];                        /* 0x224 */
+    u8 sub[0x18];                         /* 0x22C */
+    u8 pad_244[0x778 - 0x244];
+    u8 statRecord[0x5C];                  /* 0x778 */
+    u8 reportBlock[0xD4];                 /* 0x7D4 */
+    u32 recLast;                          /* 0x8A8 */
     s32 flag8AC;                          /* 0x8AC */
+};
+
+/* Command buffers allocated by the Build*Command functions.  The net screens
+ * (ov175 and friends) read them as word records, filled here from the work. */
+struct WifiBattleMatchSysRuleCmd {
+    void *gameData;                       /* 0x00 */
+    s32 kind;                             /* 0x04 */
+    s32 op;                               /* 0x08, set by the screen */
+    void *partyBuffer0;                   /* 0x0C */
+    void *partyBuffer1;                   /* 0x10 */
+    struct WifiBattleMatchSysSetup *setup; /* 0x14 */
+};
+
+struct WifiBattleMatchSysMatchCmd {
+    s32 mode;                             /* 0x00, set by the screen */
+    s32 netState;                         /* 0x04, set by the screen */
+    struct WifiBattleMatchSysArgs *head;  /* 0x08 */
+    s32 state;                            /* 0x0C */
+    void *stats;                          /* 0x10 */
+    void *profile;                        /* 0x14 */
+    void *record;                         /* 0x18 */
+    u8 *info;                             /* 0x1C */
+    s32 *countdown;                       /* 0x20 */
+    struct WifiBattleMatchSysSetupOut *recData; /* 0x24 */
+    u32 *recLast;                         /* 0x28 */
+    struct WifiBattleMatchSysSetup *saveBlock; /* 0x2C */
+    u8 *session;                          /* 0x30 */
+    u8 *sub;                              /* 0x34 */
+    u8 *statRecord;                       /* 0x38 */
+    u8 *report;                           /* 0x3C */
+    s32 *resultPtr;                       /* 0x40 */
+};
+
+struct WifiBattleMatchSysStartCmd {
+    void *gameData;                       /* 0x00 */
+    s32 zero04;                           /* 0x04 */
+    s32 one08;                            /* 0x08 */
+    s32 size;                             /* 0x0C */
+    u8 *info;                             /* 0x10 */
+    s32 startFlag;                        /* 0x14 */
+    u8 pad_18[4];
+    s32 mode;                             /* 0x1C, set by the screen */
+    u8 pad_20[8];
+};
+
+struct WifiBattleMatchSysSyncCmd {
+    struct WifiBattleMatchSysArgs *head;  /* 0x00 */
+    s32 ruleIsFree;                       /* 0x04 */
+    s32 kind;                             /* 0x08, set by the screen */
+    void *partyA;                         /* 0x0C */
+    void *partyB;                         /* 0x10 */
+    u8 *report;                           /* 0x14 */
+    u32 *recLast;                         /* 0x18 */
+};
+
+struct WifiBattleMatchSysVersionCmd {
+    void *gameData;                       /* 0x00 */
+    u32 supported;                        /* 0x04 */
+    u32 zero08;                           /* 0x08 */
+    u32 flag;                             /* 0x0C */
+    u32 id;                               /* 0x10 */
+    u32 zero14;                           /* 0x14 */
+};
+
+struct WifiBattleMatchSysRule2Cmd {
+    void *gameData;                       /* 0x00 */
+    u32 zero04;                           /* 0x04 */
+    u32 one08;                            /* 0x08 */
+    u32 pad_0C;
+    u32 id;                               /* 0x10 */
+    u32 pad_14[2];
 };
 
 /* Proc work (0x20 bytes) built by WIFIBATTLEMATCH_SYS_CreateProcWork.
  * Folded views: four former address-named views and the former local typedef S. */
+typedef void *(*WifiBattleMatchSysBuildFn)();
+typedef int (*WifiBattleMatchSysHandleFn)();
+
+/* One screen of the match flow: a 0x10-byte entry of the table at d_02213C58. */
+struct WifiBattleMatchSysStep {
+    u32 overlayId;                        /* 0x00 */
+    const struct ProcData *procData;      /* 0x04 */
+    WifiBattleMatchSysBuildFn build;      /* 0x08 */
+    WifiBattleMatchSysHandleFn handle;    /* 0x0C */
+};
+
 struct WifiBattleMatchSysProc {
     void *proc;                           /* 0x00 */
-    s32 result;                           /* 0x04 */
+    void *result;                         /* 0x04 */
     u16 heap;                             /* 0x08 */
     u8 pad_0A[2];
-    s32 cbArg;                            /* 0x0C */
-    char *table;                          /* 0x10 */
-    void *owner;                          /* 0x14 */
+    struct WifiBattleMatchSysWork *cbArg; /* 0x0C */
+    const struct WifiBattleMatchSysStep *table; /* 0x10 */
+    s32 count;                            /* 0x14 */
     u8 kind;                              /* 0x18 */
     u8 step;                              /* 0x19 */
     u8 stepIndex;                         /* 0x1A */
@@ -204,7 +323,7 @@ struct WifiBattleMatchSysProc {
  * Folded views: three former address-named views. */
 struct WifiBattleMatchSysSubWork {
     void *proc;                           /* 0x00 */
-    void *timeoutFrames;                             /* 0x04 */
+    u32 timeoutFrames;                    /* 0x04 */
     s32 overlayLoaded;                    /* 0x08 */
     s32 commandAdded;                     /* 0x0C */
 };
@@ -214,69 +333,30 @@ struct WifiBattleMatchSysSubWork {
 struct WifiBattleMatchSysRegRecord {
     void *card;                           /* 0x00 */
     void *partyC;                         /* 0x04 */
-    void *row;                            /* 0x08 */
+    const u16 *name;                      /* 0x08 */
     u8 rowFlag;                           /* 0x0C */
     u8 pad_0D[3];
     void *partyD;                         /* 0x10 */
     void *gameData;                       /* 0x14 */
     u8 pad_18[4];
     void *partyA;                         /* 0x1C */
+    s32 result;                           /* 0x20, set by the screen */
 };
 
 /* Setup argument consumed by WIFIBATTLEMATCH_SYS_ApplySetup.
  * One former view. */
 struct WifiBattleMatchSysSetupArg {
     u8 pad_00[4];
-    void *record;                         /* 0x04 */
+    struct BattleSetupParam *record;      /* 0x04, post-battle record */
     void *extra;                          /* 0x08 */
     s32 state;                            /* 0x0C */
 };
 
-/* Command buffer shared by the build/handle command pairs.  The values are
- * filled by the net command framework (data_021F03C4); 0x08 is the command
- * opcode switched in CreateWork and HandleSyncCommand, 0x1C the start mode
- * switched in HandleStartCommand.
- * Folded views: three former address-named views. */
-struct WifiBattleMatchSysCommand {
-    u8 pad_00[8];
-    s32 kind;                             /* 0x08, command opcode */
-    u8 pad_0C[0x1C - 0x0C];
-    s32 mode;                             /* 0x1C, start mode */
-};
 
-/* Setup record passed to ApplySetup and FillSetupRecord, and the "box
- * record" read by CountBoxSpecies / GetPartyCounts (four sides: party
- * pointers at 0x24, 6-byte name rows at 0xc8, member counts at 0xe0).
- * Folded views: two former address-named views. */
-struct WifiBattleMatchSysSetupRecord {
-    u8 pad_00[4];
-    u32 recordVersion;                    /* 0x04, copied to Work.setupRecordVersion */
-    u8 pad_08[0x21 - 0x08];
-    u8 flags;                             /* 0x21, bit 0 is the side */
-    u8 pad_22[2];
-    void *parties[4];                     /* 0x24, POKEPARTY pointers per side */
-    u8 pad_34[0x8C - 0x34];
-    u32 netSetupResult;                   /* 0x8C, net setup result code, copied to Work.setupRuleValue */
-    u8 pad_90[0xC8 - 0x90];
-    u8 names[4][6];                       /* 0xC8, 6-byte name per side */
-    u32 counts[4];                        /* 0xE0, member count per side */
-};
 
-/* 0x50-byte record filled by WIFIBATTLEMATCH_SYS_FillSetupRecord.
- * One former view. */
-struct WifiBattleMatchSysSetupOut {
-    u32 card;                             /* 0x00 */
-    u32 savedValue;                       /* 0x04 */
-    u8 pad_08[0x48 - 0x08];
-    s32 setting;                          /* 0x48 */
-};
 
-/* Slot command consumed by WIFIBATTLEMATCH_SYS_DestroySlotCommand.
- * One former view. */
-struct WifiBattleMatchSysSlotCommand {
-    u8 pad_00[0x34];
-    void *buffer;                         /* 0x34 */
-};
+
+
 
 /*
  * The 0x58-byte setup record (struct CommBtlDemoArgs) and its per-side record
@@ -294,15 +374,9 @@ struct WifiBattleMatchSysSlotCommand {
 
 /* The 0x10-byte record BuildSetupRecord returns: gameData (0x00), the 0xF0
  * BattleSetupParam (0x04) and the CommBtlDemoArgs demo record (0x08). */
-struct Out { void *gameData; struct BattleSetupParam *setupParam; struct CommBtlDemoArgs *demoArgs; };
-
-typedef struct Flag { u8 bit:1; u8 rest:7; } Flag;
+struct Out { void *gameData; struct BattleSetupParam *setupParam; struct CommBtlDemoArgs *demoArgs; u32 pad_0C; };
 
 typedef struct PartyCounts { u8 a,b,c; } PartyCounts;
-
-typedef struct WifibattlematchSysFlags { u32 year:7, month:4, day:5, hour:5, minute:6, rest:4, enabled:1; } WifibattlematchSysFlags;
-
-typedef struct Nibbles { u8 a:4,b:4; } Nibbles;
 
 typedef struct WifibattlematchSysTriple { int a,b,c; } WifibattlematchSysTriple;
 
@@ -312,19 +386,11 @@ typedef struct PartyCountPair { u8 a,b; } PartyCountPair;
 
 typedef struct WifiBattleMatchSysProc WifiBattleMatchSysProc;
 
-struct MyWk {
-    void *procSys;
-    u32 timeoutFrames;
-    u32 overlayLoaded;
-    u32 commandAdded;
-};
-
-struct WifiBattleMatchSysNameRow { u8 pad[10]; u8 name[6]; };
 
 struct PWk {
     u32 reserved00;
-    u8 *matchParam;
-    u8 *battleParam;
+    struct BattleSetupParam *matchParam;
+    struct CommBtlDemoArgs *battleParam;
     u32 result;
 };
 
@@ -361,135 +427,135 @@ struct PokemonParam;
 struct GFLNetSession;
 #include "../ov009/dwc_rapcommon.h"
 #include "../arm9/btl_setup.h"
-int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg);
-int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p);
-int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p);
-int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, u16 heap, char *ctx);
-int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx);
-int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, char *ctx);
-int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx);
-u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, u8 *p);
-int WIFIBATTLEMATCH_SYS_HandlePartyCommand(void *obj, int *command, int *ctx);
+int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, struct WifiBattleMatchSysArgs *arg);
+int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,struct WifiBattleMatchSysWork *p);
+struct WifiBattleMatchSysRuleCmd *WIFIBATTLEMATCH_SYS_BuildRuleCommand(struct WifiBattleMatchSysProc *obj, u16 heap, struct WifiBattleMatchSysWork *ctx);
+int WIFIBATTLEMATCH_SYS_HandleRuleCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysRuleCmd *command, struct WifiBattleMatchSysWork *ctx);
+struct WifiBattleMatchSysMatchCmd *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx);
+int WIFIBATTLEMATCH_SYS_HandleMatchCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysMatchCmd *command, struct WifiBattleMatchSysWork *ctx);
+struct WifiBattleMatchSysRegRecord *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_HandlePartyCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysRegRecord *command, struct WifiBattleMatchSysWork *ctx);
 struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct WifiBattleMatchSysWork *p);
-int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p);
-int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, char *ctx);
-int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work);
-void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, u16 heap, char *p);
-int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p);
-unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, u8 *p);
-int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work);
-void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, u16 heap, char *p);
-int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p);
-void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, u16 heap, char *p);
-int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q);
-void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, u16 heap);
-void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p);
-void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode);
-void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b);
-void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b);
-void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap);
-void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p);
+int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, struct WifiBattleMatchSysSetupArg *arg, struct WifiBattleMatchSysWork *p);
+struct WifiBattleMatchSysStartCmd *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx);
+int WIFIBATTLEMATCH_SYS_HandleStartCommand(struct WifiBattleMatchSysProc *p, struct WifiBattleMatchSysStartCmd *q, struct WifiBattleMatchSysWork *work);
+struct WifiBattleMatchSysSyncCmd *WIFIBATTLEMATCH_SYS_BuildSyncCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_HandleSyncCommand(struct WifiBattleMatchSysProc *a, struct WifiBattleMatchSysSyncCmd *work, struct WifiBattleMatchSysWork *p);
+struct WifiBattleMatchSysVersionCmd *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_HandleVersionCommand(struct WifiBattleMatchSysProc *p, struct WifiBattleMatchSysVersionCmd *q, struct WifiBattleMatchSysWork *work);
+struct WifiBattleMatchSysRule2Cmd *WIFIBATTLEMATCH_SYS_BuildRule2Command(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_HandleRule2Command(struct WifiBattleMatchSysProc *a, struct WifiBattleMatchSysRule2Cmd *work, struct WifiBattleMatchSysWork *p);
+struct BattleSetupParam *WIFIBATTLEMATCH_SYS_BuildSlotCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p);
+int WIFIBATTLEMATCH_SYS_DestroySlotCommand(struct WifiBattleMatchSysProc *p, struct BattleSetupParam *q);
+void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(struct WifiBattleMatchSysWork *p, u16 heap);
+void WIFIBATTLEMATCH_SYS_FreePartyBuffers(struct WifiBattleMatchSysWork *p);
+void WIFIBATTLEMATCH_SYS_FillSetupRecord(struct WifiBattleMatchSysSetupOut *p,void *party1,void *party2,void *save,void *reg,int setting,struct BattleSetupParam *record,struct WifiBattleMatchSysSetup *other,int mode);
+void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct BattleSetupParam *box, unsigned char *a, unsigned char *b);
+void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct BattleSetupParam *box, unsigned char *a, unsigned char *b);
+struct WifiBattleMatchSysProc *WIFIBATTLEMATCH_SYS_CreateProcWork(const struct WifiBattleMatchSysStep *a, int b, struct WifiBattleMatchSysWork *c, int heap);
+void WIFIBATTLEMATCH_SYS_DeleteProcWork(struct WifiBattleMatchSysProc *p);
 int WIFIBATTLEMATCH_SYS_RunScreen(struct WifiBattleMatchSysProc *s);
-int WIFIBATTLEMATCH_SYS_GetResult(char *p);
-unsigned char WIFIBATTLEMATCH_SYS_GetKind(char *p);
-void WIFIBATTLEMATCH_SYS_SetStep(char *p, int value);
-void WIFIBATTLEMATCH_SYS_SetStepDone(unsigned char *p);
-int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,char *q);
-int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work);
-int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct MyWk *wk);
+int WIFIBATTLEMATCH_SYS_GetResult(struct WifiBattleMatchSysProc *p);
+unsigned char WIFIBATTLEMATCH_SYS_GetKind(struct WifiBattleMatchSysProc *p);
+void WIFIBATTLEMATCH_SYS_SetStep(struct WifiBattleMatchSysProc *p, int value);
+void WIFIBATTLEMATCH_SYS_SetStepDone(struct WifiBattleMatchSysProc *p);
+int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,struct WifiBattleMatchSysSubWork *q);
+int WIFIBATTLEMATCH_SYS_DestroySubWork(struct Proc *a, void *b, void *c, struct WifiBattleMatchSysSubWork *work);
+int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct WifiBattleMatchSysSubWork *wk);
 extern const char d_02213D00[];
-extern const unsigned d_02213C58[];
+extern const struct WifiBattleMatchSysStep d_02213C58[];
 extern const char d_02213D00[], d_02213D04[];
 extern const char ov093_id[];
 extern u8 ov213_id[];
-extern u8 data_021BB0B0[];
+extern const ProcData data_021BB0B0;
 extern NetCommandEntry data_021F03C4[];
-extern u8 data_021EFDAC[];
+extern const ProcData data_021EFDAC;
 
 /*
  * lever: case 1 precedes case 0 to preserve the backward shared assignment.
  * ABI exception: 3159C legacy void callee leaves allocator pointer in r0;
  * caller immediately uses this result as its workspace.
  */
-int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg)
+int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, struct WifiBattleMatchSysArgs *arg)
 {
-    u8 *p;
+    struct WifiBattleMatchSysWork *p;
     void *v;
-    u8 *dst;
+    struct WifiBattleMatchSysPartyBuffer *dst;
     unsigned kind;
-    switch (((struct WifiBattleMatchSysCommand *)arg)->kind) {
+    switch (arg->commMode) {
     case 1: kind = 1; break;
     case 0: kind = 1; break;
     default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
-    p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
-    MI_CpuFill8(p, 0, 0x8b0);
-    MI_CpuCopy8(arg, p + 4, 0x14);
-    ((struct WifiBattleMatchSysWork *)p)->result = 0;
-    if (((struct WifiBattleMatchSysWork *)p)->gameData == 0) {
-        ((struct WifiBattleMatchSysWork *)p)->gameData = GAME_DATA_Create(1);
-        ((struct WifiBattleMatchSysWork *)p)->gameDataOwned = 1;
+    p = PROCSYS_AllocProcWork(a, sizeof(struct WifiBattleMatchSysWork), 0x56);
+    MI_CpuFill8(p, 0, sizeof(struct WifiBattleMatchSysWork));
+    MI_CpuCopy8(arg, &p->args, sizeof(struct WifiBattleMatchSysArgs));
+    p->result = 0;
+    if (p->args.gameData == 0) {
+        p->args.gameData = GAME_DATA_Create(1);
+        p->gameDataOwned = 1;
     }
-    ((struct WifiBattleMatchSysWork *)p)->partyA = POKEPARTY_Create(0x56);
-    ((struct WifiBattleMatchSysWork *)p)->partyB = POKEPARTY_Create(0x56);
-    ((struct WifiBattleMatchSysWork *)p)->partyC = POKEPARTY_Create(0x56);
-    ((struct WifiBattleMatchSysWork *)p)->partyD = POKEPARTY_Create(0x56);
+    p->partyA = POKEPARTY_Create(0x56);
+    p->partyB = POKEPARTY_Create(0x56);
+    p->partyC = POKEPARTY_Create(0x56);
+    p->partyD = POKEPARTY_Create(0x56);
     BATTLE_REC_AllocWork(0x56);
-    WIFIBATTLEMATCH_SYS_AllocPartyBuffers((char *)p, 0x56);
-    ((struct WifiBattleMatchSysWork *)p)->procWork = WIFIBATTLEMATCH_SYS_CreateProcWork((void *)d_02213C58, (void *)9, p, 0x56);
-    switch (((struct WifiBattleMatchSysWork *)p)->commMode) {
+    WIFIBATTLEMATCH_SYS_AllocPartyBuffers(p, 0x56);
+    p->procWork = WIFIBATTLEMATCH_SYS_CreateProcWork(d_02213C58, 9, p, 0x56);
+    switch (p->args.commMode) {
     case 0:
-        ((struct WifiBattleMatchSysWork *)p)->ruleKind = 0;
-        WIFIBATTLEMATCH_SYS_SetStep(((struct WifiBattleMatchSysWork *)p)->procWork, 0);
+        p->ruleKind = 0;
+        WIFIBATTLEMATCH_SYS_SetStep(p->procWork, 0);
         break;
     case 1:
-        ((struct WifiBattleMatchSysWork *)p)->ruleKind = 2;
-        WIFIBATTLEMATCH_SYS_SetStep(((struct WifiBattleMatchSysWork *)p)->procWork, 4);
+        p->ruleKind = 2;
+        WIFIBATTLEMATCH_SYS_SetStep(p->procWork, 4);
         break;
     default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
-    dst = *(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer0;
-    switch (((struct WifiBattleMatchSysWork *)p)->matchKind) {
+    dst = p->partyBuffer0;
+    switch (p->args.matchKind) {
     case 0:
-        v = GAME_DATA_GetMyParty(((struct WifiBattleMatchSysWork *)p)->gameData);
-        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        v = GAME_DATA_GetMyParty(p->args.gameData);
+        MI_CpuCopy8(v, dst->partyData, POKE_REGULATION_GetDataSize());
         break;
     case 1:
-        v = BATTLE_BOX_CreateParty((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), 0x8056);
-        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        v = BATTLE_BOX_CreateParty((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), 0x8056);
+        MI_CpuCopy8(v, dst->partyData, POKE_REGULATION_GetDataSize());
         GFL_HEAP_Free(v);
         break;
     }
     return 1;
 }
 
-int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p)
+int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, struct WifiBattleMatchSysWork *p)
 {
-    WIFIBATTLEMATCH_SYS_DeleteProcWork(((struct WifiBattleMatchSysWork *)p)->procWork);
-    WIFIBATTLEMATCH_SYS_FreePartyBuffers((u8 *)p);
+    WIFIBATTLEMATCH_SYS_DeleteProcWork(p->procWork);
+    WIFIBATTLEMATCH_SYS_FreePartyBuffers(p);
     BATTLE_REC_FreeWork();
-    GFL_HEAP_Free(((struct WifiBattleMatchSysWork *)p)->partyD);
-    GFL_HEAP_Free(((struct WifiBattleMatchSysWork *)p)->partyC);
-    GFL_HEAP_Free(((struct WifiBattleMatchSysWork *)p)->partyB);
-    GFL_HEAP_Free(((struct WifiBattleMatchSysWork *)p)->partyA);
-    if (((struct WifiBattleMatchSysWork *)p)->gameDataOwned) GAME_DATA_Delete(((struct WifiBattleMatchSysWork *)p)->gameData);
-    if (((struct WifiBattleMatchSysWork *)p)->commMode != 1) OS_ResetSystem(0);
-    if (((struct WifiBattleMatchSysWork *)p)->flag14) GFL_HEAP_Free(data);
+    GFL_HEAP_Free(p->partyD);
+    GFL_HEAP_Free(p->partyC);
+    GFL_HEAP_Free(p->partyB);
+    GFL_HEAP_Free(p->partyA);
+    if (p->gameDataOwned) GAME_DATA_Delete(p->args.gameData);
+    if (p->args.commMode != 1) OS_ResetSystem(0);
+    if (p->args.flag14) GFL_HEAP_Free(data);
     PROCSYS_FreeProcWork(sys);
     GFL_HEAP_DeleteChecked(0x56);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
 
-int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
+int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,struct WifiBattleMatchSysWork *p)
 {
     switch(*state) {
     case 0:
-        if(WIFIBATTLEMATCH_SYS_RunScreen((struct WifiBattleMatchSysProc *)(((struct WifiBattleMatchSysWork *)p)->procWork))) *state=1;
-        if(((struct WifiBattleMatchSysWork *)p)->countdown) --((struct WifiBattleMatchSysWork *)p)->countdown;
+        if(WIFIBATTLEMATCH_SYS_RunScreen(p->procWork)) *state=1;
+        if(p->countdown) --p->countdown;
         {
-            int x=WIFIBATTLEMATCH_SYS_GetResult((char *)(((struct WifiBattleMatchSysWork *)p)->procWork));
+            int x=WIFIBATTLEMATCH_SYS_GetResult(p->procWork);
             if(x==2 || x==0) GFL_NET_ERR_ShowScreen(0);
         }
         break;
@@ -503,25 +569,25 @@ int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
  * the live offset variable and preserves the original instruction shape.
  * lever: enum tag 0x24F remains live and becomes offset 0x1B4.
  */
-int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, u16 heap, char *ctx)
+struct WifiBattleMatchSysRuleCmd *WIFIBATTLEMATCH_SYS_BuildRuleCommand(struct WifiBattleMatchSysProc *obj, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     SetupValueOffset offset = setupValueOffset;
-    int *p = GFL_HEAP_Alloc(heap, 0x18, 0, d_02213D04, setupValueOffset);
-    MI_CpuFill8(p, 0, 0x18);
-    p[0] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->gameData;
+    struct WifiBattleMatchSysRuleCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRuleCmd), 0, d_02213D04, setupValueOffset);
+    MI_CpuFill8(p, 0, sizeof(struct WifiBattleMatchSysRuleCmd));
+    p->gameData = ctx->args.gameData;
     offset -= 0x9b;
-    p[3] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->partyBuffer0;
-    p[4] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->partyBuffer1;
-    p[5] = (sptr)(ctx + offset);
+    p->partyBuffer0 = ctx->partyBuffer0;
+    p->partyBuffer1 = ctx->partyBuffer1;
+    p->setup = &ctx->setup;
     switch (WIFIBATTLEMATCH_SYS_GetKind(obj)) {
-    case 4: case 7: p[1] = 1; break;
-    case 8: p[1] = 6; break;
-    case 3: p[1] = 4; break;
-    case 6: p[1] = 5; break;
-    case 0: p[1] = 0; break;
+    case 4: case 7: p->kind = 1; break;
+    case 8: p->kind = 6; break;
+    case 3: p->kind = 4; break;
+    case 6: p->kind = 5; break;
+    case 0: p->kind = 0; break;
     case 1: case 2: case 5:
     default:
-        if (((struct WifiBattleMatchSysWork *)ctx)->partyReady) p[1] = 6;
+        if (ctx->setup.partyReady) p->kind = 6;
         else GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
         break;
     }
@@ -529,14 +595,14 @@ int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, u16 heap, char *ctx)
     return p;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
+int WIFIBATTLEMATCH_SYS_HandleRuleCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysRuleCmd *command, struct WifiBattleMatchSysWork *ctx)
 {
-    switch (command[2]) {
+    switch (command->op) {
     case 0: WIFIBATTLEMATCH_SYS_SetStepDone(obj); break;
-    case 1: ctx[7] = 0; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
-    case 2: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 2); break;
-    case 3: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 6); break;
-    case 4: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 8); break;
+    case 1: ctx->ruleKind = 0; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
+    case 2: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 2); break;
+    case 3: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 6); break;
+    case 4: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 8); break;
     default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     GFL_HEAP_Free(command);
@@ -547,30 +613,30 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
  * ABI: EA04 consumes the live return register from E9F4, with no new setup.
  * lever: derive an integer offset before adding the base, then reduce the enum.
  */
-int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, char *ctx)
+struct WifiBattleMatchSysMatchCmd *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     MatchValueOffset offset = matchValueOffset;
-    int *p = GFL_HEAP_Alloc(heap, 0x44, 0, d_02213D04, matchValueOffset);
-    MI_CpuFill8(p, 0, 0x44);
-    p[2] = (sptr)(ctx + 4);
-    p[3] = ((struct WifiBattleMatchSysWork *)ctx)->result;
-    p[0] = ((struct WifiBattleMatchSysWork *)ctx)->ruleKind - 2;
-    p[5] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->partyBuffer0;
-    p[6] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->partyBuffer1;
-    p[7] = (sptr)(ctx + 0x40);
-    p[8] = (sptr)(ctx + (offset - 0xf4));
+    struct WifiBattleMatchSysMatchCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysMatchCmd), 0, d_02213D04, matchValueOffset);
+    MI_CpuFill8(p, 0, sizeof(struct WifiBattleMatchSysMatchCmd));
+    p->head = &ctx->args;
+    p->state = ctx->result;
+    p->mode = ctx->ruleKind - 2;
+    p->profile = ctx->partyBuffer0;
+    p->record = ctx->partyBuffer1;
+    p->info = ctx->matchInfo;
+    p->countdown = &ctx->countdown;
     offset -= 0xf0;
-    p[9] = (sptr)(ctx + offset);
-    p[15] = (sptr)(ctx + 0x7d4);
-    p[10] = (sptr)(ctx + 0x8a8);
-    p[11] = (sptr)(ctx + 0x1b4);
-    p[12] = (sptr)(ctx + 0x224);
-    p[13] = (sptr)(ctx + 0x22c);
-    p[14] = (sptr)(ctx + 0x778);
-    p[16] = (sptr)(ctx + 0x8ac);
+    p->recData = &ctx->setupOut;
+    p->report = ctx->reportBlock;
+    p->recLast = &ctx->recLast;
+    p->saveBlock = &ctx->setup;
+    p->session = ctx->session;
+    p->sub = ctx->sub;
+    p->statRecord = ctx->statRecord;
+    p->resultPtr = &ctx->flag8AC;
     {
-        void *q = GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)ctx)->gameData);
-        p[4] = LIVEBATTLEMATCH_SAVE_GetStats2((sptr)LIVEBATTLEMATCH_SAVE_GetFromSave(q));
+        void *q = GAME_DATA_GetSaveControl(ctx->args.gameData);
+        p->stats = LIVEBATTLEMATCH_SAVE_GetStats2(LIVEBATTLEMATCH_SAVE_GetFromSave(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
@@ -579,19 +645,19 @@ int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, char *ctx)
 /*
  * lever: case 4 stores the flag and falls through to case 0's shared call.
  */
-int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx)
+int WIFIBATTLEMATCH_SYS_HandleMatchCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysMatchCmd *command, struct WifiBattleMatchSysWork *ctx)
 {
-    switch (command[0]) {
-    case 0: ctx[7] = 2; break;
-    case 1: ctx[7] = 3; break;
+    switch (command->mode) {
+    case 0: ctx->ruleKind = 2; break;
+    case 1: ctx->ruleKind = 3; break;
     case 2: break;
-    case 3: ctx[7] = 3; break;
+    case 3: ctx->ruleKind = 3; break;
     }
-    switch (command[1]) {
+    switch (command->netState) {
     case 1: WIFIBATTLEMATCH_SYS_SetStep(obj, 2); break;
     case 2: WIFIBATTLEMATCH_SYS_SetStep(obj, 6); break;
-    case 3: ctx[0x220 / 4] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
-    case 4: ctx[9] = 1;
+    case 3: ctx->startFlag = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
+    case 4: ctx->flag24 = 1;
     case 0: WIFIBATTLEMATCH_SYS_SetStep(obj, 7); break;
     default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
@@ -603,17 +669,17 @@ int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx)
  * ABI exception: AE14 and 084F4 empty callees preserve live pointer r0;
  * caller consumes it after their BL, despite legacy void(void).
  */
-u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, u8 *p)
+struct WifiBattleMatchSysRegRecord *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    u8 *out;
-    u8 *row;
+    struct WifiBattleMatchSysRegRecord *out;
+    struct WifiBattleMatchSysPartyBuffer *row;
     unsigned id;
-    POKEPARTY_Init(((struct WifiBattleMatchSysWork *)p)->partyA);
-    POKEPARTY_Init(((struct WifiBattleMatchSysWork *)p)->partyB);
-    out = GFL_HEAP_Alloc(heap, 0x24, 0, d_02213D04, 0x32f);
-    MI_CpuFill8(out, 0, 0x24);
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 2 || ((struct WifiBattleMatchSysWork *)p)->ruleKind == 3) {
-        switch (((struct WifiBattleMatchSysWork *)p)->battleType) {
+    POKEPARTY_Init(p->partyA);
+    POKEPARTY_Init(p->partyB);
+    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRegRecord), 0, d_02213D04, 0x32f);
+    MI_CpuFill8(out, 0, sizeof(struct WifiBattleMatchSysRegRecord));
+    if (p->ruleKind == 2 || p->ruleKind == 3) {
+        switch (p->args.battleType) {
         case 0: id = 15; break;
         case 1: id = 16; break;
         case 2: id = 17; break;
@@ -621,46 +687,46 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, u8 *p)
         case 4: id = 19; break;
         default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
         }
-        ((struct WifiBattleMatchSysRegRecord *)out)->card = POKE_REGULATION_Load(id, heap);
-    } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) {
-        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), 0)));
-    } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
-        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), 1)));
+        out->card = POKE_REGULATION_Load(id, heap);
+    } else if (p->ruleKind == 0) {
+        out->card = REGULATION_NoOp(REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), 0));
+    } else if (p->ruleKind == 1) {
+        out->card = REGULATION_NoOp(REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), 1));
     } else {
         GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
     }
-    ((struct WifiBattleMatchSysRegRecord *)out)->partyA = ((struct WifiBattleMatchSysWork *)p)->partyA;
-    ((struct WifiBattleMatchSysRegRecord *)out)->gameData = ((struct WifiBattleMatchSysWork *)p)->gameData;
-    POKEPARTY_Copy((struct Party *)(*(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer0 + 0xd4), ((struct WifiBattleMatchSysWork *)p)->partyC);
-    POKE_REGULATION_AdjustPartyLevels(((struct WifiBattleMatchSysRegRecord *)out)->card, ((struct WifiBattleMatchSysWork *)p)->partyC);
-    ((struct WifiBattleMatchSysRegRecord *)out)->partyC = ((struct WifiBattleMatchSysWork *)p)->partyC;
-    row = *(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer1;
-    POKEPARTY_Copy((struct Party *)(row + 0xd4), ((struct WifiBattleMatchSysWork *)p)->partyD);
-    POKE_REGULATION_AdjustPartyLevels(((struct WifiBattleMatchSysRegRecord *)out)->card, ((struct WifiBattleMatchSysWork *)p)->partyD);
-    ((struct WifiBattleMatchSysRegRecord *)out)->row = (void *)MYSTATUS_GetName((const struct MyStatus *)((struct MyStatus *)row));
-    ((struct WifiBattleMatchSysRegRecord *)out)->partyD = ((struct WifiBattleMatchSysWork *)p)->partyD;
-    out[0xc] = MYSTATUS_GetSex((const struct MyStatus *)row);
+    out->partyA = p->partyA;
+    out->gameData = p->args.gameData;
+    POKEPARTY_Copy((struct Party *)p->partyBuffer0->partyData, p->partyC);
+    POKE_REGULATION_AdjustPartyLevels(out->card, p->partyC);
+    out->partyC = p->partyC;
+    row = p->partyBuffer1;
+    POKEPARTY_Copy((struct Party *)row->partyData, p->partyD);
+    POKE_REGULATION_AdjustPartyLevels(out->card, p->partyD);
+    out->name = MYSTATUS_GetName((const struct MyStatus *)row);
+    out->partyD = p->partyD;
+    out->rowFlag = MYSTATUS_GetSex((const struct MyStatus *)row);
     return out;
 }
 
 /*
  * tail: 02212AF6..02212AF8 is zero alignment padding.
  */
-int WIFIBATTLEMATCH_SYS_HandlePartyCommand(void *obj, int *command, int *ctx)
+int WIFIBATTLEMATCH_SYS_HandlePartyCommand(struct WifiBattleMatchSysProc *obj, struct WifiBattleMatchSysRegRecord *command, struct WifiBattleMatchSysWork *ctx)
 {
-    if (ctx[7] == 1) {
-        switch (command[8]) {
+    if (ctx->ruleKind == 1) {
+        switch (command->result) {
         case 0: WIFIBATTLEMATCH_SYS_SetStep(obj, 5); break;
-        case 2: ctx[0x1c0 / 4] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 0); break;
+        case 2: ctx->setup.partyReady = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 0); break;
         }
     } else {
-        switch (command[8]) {
+        switch (command->result) {
         case 0: WIFIBATTLEMATCH_SYS_SetStep(obj, 5); break;
-        case 1: ctx[0x220 / 4] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
-        case 3: ctx[8] = 2; WIFIBATTLEMATCH_SYS_SetStep(obj, 1); break;
+        case 1: ctx->startFlag = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
+        case 3: ctx->result = 2; WIFIBATTLEMATCH_SYS_SetStep(obj, 1); break;
         }
     }
-    if ((unsigned)(ctx[7] - 2) <= 1) GFL_HEAP_Free((void *)command[0]);
+    if ((unsigned)(ctx->ruleKind - 2) <= 1) GFL_HEAP_Free(command->card);
     GFL_HEAP_Free(command);
     return 1;
 }
@@ -677,73 +743,73 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct Wi
     int id;
     int a;
     int flag = 0;
-    sys = BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->gameData));
-    out = GFL_HEAP_Alloc(heap, 0x10, 0, d_02213D04, 0x3e0);
-    MI_CpuFill8(out, 0, 0x10);
-    out->gameData = p->gameData;
+    sys = BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData));
+    out = GFL_HEAP_Alloc(heap, sizeof(struct Out), 0, d_02213D04, 0x3e0);
+    MI_CpuFill8(out, 0, sizeof(struct Out));
+    out->gameData = p->args.gameData;
     BATTLE_REC_ClearWork();
-    MI_CpuFill8((u8 *)p + 0x1b4, 0, 0x18);
-    out->demoArgs = GFL_HEAP_Alloc(heap, 0x58, 0, d_02213D04, 0x3eb);
-    MI_CpuFill8(out->demoArgs, 0, 0x58);
-    out->demoArgs->animTarget = GAME_DATA_GetTrainerRecord(p->gameData);
+    MI_CpuFill8(&p->setup, 0, sizeof(struct WifiBattleMatchSysSetup));
+    out->demoArgs = GFL_HEAP_Alloc(heap, sizeof(struct CommBtlDemoArgs), 0, d_02213D04, 0x3eb);
+    MI_CpuFill8(out->demoArgs, 0, sizeof(struct CommBtlDemoArgs));
+    out->demoArgs->animTarget = GAME_DATA_GetTrainerRecord(p->args.gameData);
     out->demoArgs->soundKind = 0;
     {
         struct CommBtlDemoArgs *r = out->demoArgs;
         r->side[0].textSys = p->partyBuffer0;
         r->side[0].party = p->partyA;
-        r->side[0].pad08[1] = ((struct WifiBattleMatchSysPartyBuffer *)p->partyBuffer0)->recordVersion;
+        r->side[0].pad08[1] = p->partyBuffer0->recordVersion;
     }
     {
         struct CommBtlDemoArgs *r = out->demoArgs;
         struct CommBtlDemoSide *b = &r->side[1];
         b->textSys = p->partyBuffer1;
         b->party = p->partyB;
-        b->pad08[1] = ((struct WifiBattleMatchSysPartyBuffer *)p->partyBuffer1)->recordVersion;
+        b->pad08[1] = p->partyBuffer1->recordVersion;
     }
-    out->setupParam = GFL_HEAP_Alloc(heap, 0xf0, 0, d_02213D04, 0x403);
-    MI_CpuFill8(out->setupParam, 0, 0xf0);
+    out->setupParam = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, d_02213D04, 0x403);
+    MI_CpuFill8(out->setupParam, 0, sizeof(struct BattleSetupParam));
     GF_OVERLAY_Load((sptr)ov093_id);
     if (p->ruleKind == 2 || p->ruleKind == 3) {
         id = 16;
-        switch (p->battleType) {
-        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        switch (p->args.battleType) {
+        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
         v = POKE_REGULATION_Load(id, heap);
         flag = 1;
     } else if (p->ruleKind == 0) {
         v = REGULATION_NoOp(REGULATION_GetCard(sys, 0));
         switch (REGULATION_GetRuleValue(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else if (p->ruleKind == 1) {
         v = REGULATION_NoOp(REGULATION_GetCard(sys, 1));
         switch (REGULATION_GetRuleValue(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (sptr)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else {
         GF_PANIC_Fail(d_02213D00, flag, d_02213D00);
     }
-    if (p->ruleKind == 3) a = p->battleType + 0x17;
-    else if (p->ruleKind == 2) a = p->battleType + 0x1c;
+    if (p->ruleKind == 3) a = p->args.battleType + 0x17;
+    else if (p->ruleKind == 2) a = p->args.battleType + 0x1c;
     else {
         int x = REGULATION_GetRuleValue(v, 0xd);
         int y = REGULATION_GetRuleValue(v, 0x15);
         if (x >= 2) x = 1;
         a = y * 2 + 0x21 + x;
     }
-    *(s32 *)out->demoArgs->pad48 = a;
+    out->demoArgs->ruleId = a;
     if (p->ruleKind == 2 || p->ruleKind == 3) {
         out->setupParam->bgmBattle = 0x490;
         out->setupParam->bgmWin = 0x47d;
@@ -771,125 +837,125 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct Wi
         }
     }
     BTL_SETUP_SetParty(out->setupParam, p->partyA, 0);
-    BTL_SETUP_ApplyRegulation((struct BattleSetupParam *)out->setupParam, v, (u16)((heap & 0x7fff) | 0x8000));
+    BTL_SETUP_ApplyRegulation(out->setupParam, v, (u16)((heap & 0x7fff) | 0x8000));
     if (p->flag8AC) out->setupParam->bitFlags |= 4;
-    BTL_SETUP_AllocRecordBuffer((struct BattleSetupParam *)out->setupParam, heap);
+    BTL_SETUP_AllocRecordBuffer(out->setupParam, heap);
     GF_OVERLAY_Unload((sptr)ov093_id);
     if (flag) GFL_HEAP_Free(v);
     return out;
 }
 
-int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p)
+int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, struct WifiBattleMatchSysSetupArg *arg, struct WifiBattleMatchSysWork *p)
 {
-    u8 *record = *(u8 * *)&((struct WifiBattleMatchSysSetupArg *)arg)->record;
-    int state = ((struct WifiBattleMatchSysSetupArg *)arg)->state;
+    struct BattleSetupParam *record = arg->record;
+    int state = arg->state;
     PartyCounts bytes;
     void *rules,*reg,*created;
     int setting;
-    ((struct WifiBattleMatchSysWork *)p)->setupRecordVersion = ((struct WifiBattleMatchSysSetupRecord *)record)->recordVersion;
-    ((struct WifiBattleMatchSysWork *)p)->setupRuleValue = ((struct WifiBattleMatchSysSetupRecord *)record)->netSetupResult;
-    ((struct WifiBattleMatchSysWork *)p)->flagC1 = ((Flag *)(record + 0xc1))->bit;
-    ((struct WifiBattleMatchSysWork *)p)->setupRuleValue = ((struct WifiBattleMatchSysSetupRecord *)record)->netSetupResult;
-    WIFIBATTLEMATCH_SYS_CountBoxSpecies((struct WifiBattleMatchSysSetupRecord *)*(u8 * *)&((struct WifiBattleMatchSysSetupArg *)arg)->record, &bytes.b, &bytes.c);
-    p[0x1bc] = bytes.c;
-    WIFIBATTLEMATCH_SYS_GetPartyCounts((const struct WifiBattleMatchSysSetupRecord *)*(u8 * *)&((struct WifiBattleMatchSysSetupArg *)arg)->record, &bytes.a, p + 0x1bd);
+    p->setup.recordVersion = record->rule;
+    p->setup.ruleValue = record->outcome;
+    p->setup.flagC1 = record->bits.recordInvalid;
+    p->setup.ruleValue = record->outcome;
+    WIFIBATTLEMATCH_SYS_CountBoxSpecies(arg->record, &bytes.b, &bytes.c);
+    p->setup.speciesCount = bytes.c;
+    WIFIBATTLEMATCH_SYS_GetPartyCounts(arg->record, &bytes.a, &p->setup.partyCount);
     BATTLE_REC_LoadToolOverlay();
-    BATTLE_REC_TOOL_PackSetup(((struct WifiBattleMatchSysSetupArg *)arg)->record);
+    BATTLE_REC_TOOL_PackSetup(arg->record);
     BATTLE_REC_UnloadToolOverlay();
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) {
-        rules = REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))),0);
+    if (p->ruleKind == 0) {
+        rules = REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)),0);
         reg = REGULATION_NoOp(rules);
         setting = REGULATION_Card_GetValue(rules,2);
-        if (state == 0) WIFIBATTLEMATCH_SYS_FillSetupRecord(p + 0x1d0,((struct WifiBattleMatchSysWork *)p)->partyA,((struct WifiBattleMatchSysWork *)p)->partyB,((struct WifiBattleMatchSysWork *)p)->partyBuffer1,reg,setting,record,p + 0x1b4,0);
-    } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 2) {
-        created = POKE_REGULATION_Load(((struct WifiBattleMatchSysWork *)p)->battleType + 0xf,0x56);
-        if (state == 0) WIFIBATTLEMATCH_SYS_FillSetupRecord(p + 0x1d0,((struct WifiBattleMatchSysWork *)p)->partyA,((struct WifiBattleMatchSysWork *)p)->partyB,((struct WifiBattleMatchSysWork *)p)->partyBuffer1,created,0,record,p + 0x1b4,2);
+        if (state == 0) WIFIBATTLEMATCH_SYS_FillSetupRecord(&p->setupOut,p->partyA,p->partyB,p->partyBuffer1,reg,setting,record,&p->setup,0);
+    } else if (p->ruleKind == 2) {
+        created = POKE_REGULATION_Load(p->args.battleType + 0xf,0x56);
+        if (state == 0) WIFIBATTLEMATCH_SYS_FillSetupRecord(&p->setupOut,p->partyA,p->partyB,p->partyBuffer1,created,0,record,&p->setup,2);
         GFL_HEAP_Free(created);
     }
-    BTL_SETUP_FreeSlots(((struct WifiBattleMatchSysSetupArg *)arg)->record);
-    GFL_HEAP_Free(((struct WifiBattleMatchSysSetupArg *)arg)->record);
-    GFL_HEAP_Free(((struct WifiBattleMatchSysSetupArg *)arg)->extra);
+    BTL_SETUP_FreeSlots(arg->record);
+    GFL_HEAP_Free(arg->record);
+    GFL_HEAP_Free(arg->extra);
     GFL_HEAP_Free(arg);
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
+    if (p->ruleKind == 1) {
         switch(state) {
         case 0: WIFIBATTLEMATCH_SYS_SetStep(manager,0);break;
-        case 1: ((struct WifiBattleMatchSysWork *)p)->partyReady=1;WIFIBATTLEMATCH_SYS_SetStep(manager,0);break;
+        case 1: p->setup.partyReady=1;WIFIBATTLEMATCH_SYS_SetStep(manager,0);break;
         }
     } else {
         switch(state) {
-        case 0: ((struct WifiBattleMatchSysWork *)p)->result=1;WIFIBATTLEMATCH_SYS_SetStep(manager,1);break;
-        case 2: ((struct WifiBattleMatchSysWork *)p)->startFlag=1;WIFIBATTLEMATCH_SYS_SetStep(manager,4);break;
-        case 3: ((struct WifiBattleMatchSysWork *)p)->result=2;WIFIBATTLEMATCH_SYS_SetStep(manager,1);break;
+        case 0: p->result=1;WIFIBATTLEMATCH_SYS_SetStep(manager,1);break;
+        case 2: p->startFlag=1;WIFIBATTLEMATCH_SYS_SetStep(manager,4);break;
+        case 3: p->result=2;WIFIBATTLEMATCH_SYS_SetStep(manager,1);break;
         }
     }
     return 1;
 }
 
-int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, char *ctx)
+struct WifiBattleMatchSysStartCmd *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     int zero = 0;
-    int *p = GFL_HEAP_Alloc(heap, 0x28, zero, d_02213D04, 0x588);
-    MI_CpuFill8(p, zero, 0x28);
-    p[0] = (sptr)((struct WifiBattleMatchSysWork *)ctx)->gameData;
-    p[1] = zero;
-    p[2] = 1;
-    p[4] = (sptr)(ctx + 0x40);
-    if (((struct WifiBattleMatchSysWork *)ctx)->commMode == 0) p[3] = 0x24;
-    else p[3] = 0x34;
-    if (((struct WifiBattleMatchSysWork *)ctx)->startFlag) {
-        ((struct WifiBattleMatchSysWork *)ctx)->startFlag = zero;
-        p[5] = 1;
-    } else p[5] = zero;
+    struct WifiBattleMatchSysStartCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysStartCmd), zero, d_02213D04, 0x588);
+    MI_CpuFill8(p, zero, sizeof(struct WifiBattleMatchSysStartCmd));
+    p->gameData = ctx->args.gameData;
+    p->zero04 = zero;
+    p->one08 = 1;
+    p->info = ctx->matchInfo;
+    if (ctx->args.commMode == 0) p->size = 0x24;
+    else p->size = 0x34;
+    if (ctx->startFlag) {
+        ctx->startFlag = zero;
+        p->startFlag = 1;
+    } else p->startFlag = zero;
     return p;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work)
+int WIFIBATTLEMATCH_SYS_HandleStartCommand(struct WifiBattleMatchSysProc *p, struct WifiBattleMatchSysStartCmd *q, struct WifiBattleMatchSysWork *work)
 {
-    int mode = ((struct WifiBattleMatchSysCommand *)q)->mode;
+    int mode = q->mode;
     GFL_HEAP_Free(q);
     switch (mode) {
     case 0:
-        ((struct WifiBattleMatchSysWork *)work)->result = 0;
+        work->result = 0;
         WIFIBATTLEMATCH_SYS_SetStep(p, 1);
         break;
     case 1:
-        if (((struct WifiBattleMatchSysWork *)work)->commMode == 0) WIFIBATTLEMATCH_SYS_SetStep(p, 0);
-        else WIFIBATTLEMATCH_SYS_SetStepDone((unsigned char *)p);
+        if (work->args.commMode == 0) WIFIBATTLEMATCH_SYS_SetStep(p, 0);
+        else WIFIBATTLEMATCH_SYS_SetStepDone(p);
         break;
     }
     return 1;
 }
 
-void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, u16 heap, char *p)
+struct WifiBattleMatchSysSyncCmd *WIFIBATTLEMATCH_SYS_BuildSyncCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    unsigned int *work = GFL_HEAP_Alloc(heap, 0x1c, 0, d_02213D04, 0x5dc);
-    MI_CpuFill8(work, 0, 0x1c);
-    work[0] = (uptr)(p + 4);
-    work[3] = (uptr)((struct WifiBattleMatchSysWork *)p)->partyA;
-    work[4] = (uptr)((struct WifiBattleMatchSysWork *)p)->partyB;
-    work[5] = (uptr)(p + 0x7d4);
-    work[6] = (uptr)(p + 0x8a8);
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1)
-        work[1] = 1;
+    struct WifiBattleMatchSysSyncCmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysSyncCmd), 0, d_02213D04, 0x5dc);
+    MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysSyncCmd));
+    work->head = &p->args;
+    work->partyA = p->partyA;
+    work->partyB = p->partyB;
+    work->report = p->reportBlock;
+    work->recLast = &p->recLast;
+    if (p->ruleKind == 1)
+        work->ruleIsFree = 1;
     else
-        work[1] = 0;
+        work->ruleIsFree = 0;
     return work;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p)
+int WIFIBATTLEMATCH_SYS_HandleSyncCommand(struct WifiBattleMatchSysProc *a, struct WifiBattleMatchSysSyncCmd *work, struct WifiBattleMatchSysWork *p)
 {
-    int state = ((struct WifiBattleMatchSysCommand *)work)->kind;
+    int state = work->kind;
     GFL_HEAP_Free(work);
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
+    if (p->ruleKind == 1) {
         switch (state) {
         case 0: WIFIBATTLEMATCH_SYS_SetStep(a, 3); break;
-        case 2: ((struct WifiBattleMatchSysWork *)p)->partyReady = 1; WIFIBATTLEMATCH_SYS_SetStep(a, 0); break;
+        case 2: p->setup.partyReady = 1; WIFIBATTLEMATCH_SYS_SetStep(a, 0); break;
         }
     } else {
         switch (state) {
         case 0: WIFIBATTLEMATCH_SYS_SetStep(a, 3); break;
-        case 1: ((struct WifiBattleMatchSysWork *)p)->startFlag = 1; WIFIBATTLEMATCH_SYS_SetStep(a, 4); break;
-        case 3: ((struct WifiBattleMatchSysWork *)p)->result = 2; WIFIBATTLEMATCH_SYS_SetStep(a, 1); break;
+        case 1: p->startFlag = 1; WIFIBATTLEMATCH_SYS_SetStep(a, 4); break;
+        case 3: p->result = 2; WIFIBATTLEMATCH_SYS_SetStep(a, 1); break;
         }
     }
     return 1;
@@ -898,80 +964,80 @@ int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p)
 /*
  * ABI exception: empty AE14 preserves its input pointer in r0, consumed here.
  */
-unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, u8 *p)
+struct WifiBattleMatchSysVersionCmd *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    unsigned *out;
+    struct WifiBattleMatchSysVersionCmd *out;
     unsigned index, id, flag;
     unsigned zero = 0;
     void *reg;
     int a;
     unsigned b;
-    out = GFL_HEAP_Alloc(heap, 0x18, 0, d_02213D04, 0x637);
-    MI_CpuFill8(out, 0, 0x18);
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 3) {
-        id = ((struct WifiBattleMatchSysWork *)p)->battleType + 0x17;
-    } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 2) {
-        id = ((struct WifiBattleMatchSysWork *)p)->battleType + 0x1c;
+    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysVersionCmd), 0, d_02213D04, 0x637);
+    MI_CpuFill8(out, 0, sizeof(struct WifiBattleMatchSysVersionCmd));
+    if (p->ruleKind == 3) {
+        id = p->args.battleType + 0x17;
+    } else if (p->ruleKind == 2) {
+        id = p->args.battleType + 0x1c;
     } else {
-        if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) index = zero;
-        else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) index = 1;
+        if (p->ruleKind == 0) index = zero;
+        else if (p->ruleKind == 1) index = 1;
         else GF_PANIC_Fail(d_02213D00, zero, d_02213D00);
-        reg = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), index)));
+        reg = REGULATION_NoOp(REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), index));
         a = REGULATION_GetRuleValue(reg, 0xd);
         b = REGULATION_GetRuleValue(reg, 0x15);
         if (a >= 2) a = 1;
         id = a + (b * 2 + 0x21);
     }
     flag = 1;
-    out[0] = *(unsigned *)&((struct WifiBattleMatchSysWork *)p)->gameData;
-    out[1] = flag;
-    out[2] = 0;
-    out[4] = id;
-    out[5] = 0;
-    if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
-        out[3] = flag;
+    out->gameData = p->args.gameData;
+    out->supported = flag;
+    out->zero08 = 0;
+    out->id = id;
+    out->zero14 = 0;
+    if (p->ruleKind == 1) {
+        out->flag = flag;
     } else {
-        if (((struct WifiBattleMatchSysWork *)p)->flagC1 == 0 && ((struct WifiBattleMatchSysWork *)p)->versionFlag == 0) {
+        if (p->setup.flagC1 == 0 && p->setup.versionFlag == 0) {
             flag = 1;
         } else {
             flag = 0;
         }
-        out[3] = flag;
+        out->flag = flag;
     }
-    if (BATTLE_REC_IsVersionSupported((u8)((struct WifiBattleMatchSysPartyBuffer *)(*(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer1))->recordVersion) != 0) out[1] = 1;
-    else out[1] = 0;
+    if (BATTLE_REC_IsVersionSupported((u8)p->partyBuffer1->recordVersion) != 0) out->supported = 1;
+    else out->supported = 0;
     return out;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work)
+int WIFIBATTLEMATCH_SYS_HandleVersionCommand(struct WifiBattleMatchSysProc *p, struct WifiBattleMatchSysVersionCmd *q, struct WifiBattleMatchSysWork *work)
 {
     GFL_HEAP_Free(q);
-    if (((struct WifiBattleMatchSysWork *)work)->ruleKind == 1) WIFIBATTLEMATCH_SYS_SetStep(p, 0);
+    if (work->ruleKind == 1) WIFIBATTLEMATCH_SYS_SetStep(p, 0);
     else {
-        ((struct WifiBattleMatchSysWork *)work)->result = 3;
+        work->result = 3;
         WIFIBATTLEMATCH_SYS_SetStep(p, 1);
     }
     return 1;
 }
 
-void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, u16 heap, char *p)
+struct WifiBattleMatchSysRule2Cmd *WIFIBATTLEMATCH_SYS_BuildRule2Command(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    unsigned int *work = GFL_HEAP_Alloc(heap, 0x1c, 0, d_02213D04, 0x6b2);
-    MI_CpuFill8(work, 0, 0x1c);
-    work[0] = (uptr)((struct WifiBattleMatchSysWork *)p)->gameData;
-    work[1] = 0;
-    work[2] = 1;
-    if (((struct WifiBattleMatchSysWork *)p)->flag24 != 0)
-        work[4] = 0x12;
+    struct WifiBattleMatchSysRule2Cmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRule2Cmd), 0, d_02213D04, 0x6b2);
+    MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysRule2Cmd));
+    work->gameData = p->args.gameData;
+    work->zero04 = 0;
+    work->one08 = 1;
+    if (p->flag24 != 0)
+        work->id = 0x12;
     return work;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
+int WIFIBATTLEMATCH_SYS_HandleRule2Command(struct WifiBattleMatchSysProc *a, struct WifiBattleMatchSysRule2Cmd *work, struct WifiBattleMatchSysWork *p)
 {
-    switch (((struct WifiBattleMatchSysWork *)p)->ruleKind) {
+    switch (p->ruleKind) {
     case 0:
-        if (((struct WifiBattleMatchSysWork *)p)->flag24 != 0)
-            WIFIBATTLEMATCH_SYS_SetStepDone((unsigned char *)a);
+        if (p->flag24 != 0)
+            WIFIBATTLEMATCH_SYS_SetStepDone(a);
         else
             WIFIBATTLEMATCH_SYS_SetStep(a, 0);
         break;
@@ -980,7 +1046,7 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
         break;
     case 2:
     case 3:
-        WIFIBATTLEMATCH_SYS_SetStepDone((unsigned char *)a);
+        WIFIBATTLEMATCH_SYS_SetStepDone(a);
         break;
     }
     GFL_HEAP_Free(work);
@@ -998,55 +1064,55 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
  * void BATTLE_REC_LoadToolOverlay(void) { GF_OVERLAY_Load(ov188_id); }
  * void BATTLE_REC_UnloadToolOverlay(void) { GF_OVERLAY_Unload(ov188_id); }
  */
-void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, u16 heap, char *p)
+struct BattleSetupParam *WIFIBATTLEMATCH_SYS_BuildSlotCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    char *work = GFL_HEAP_Alloc(heap, 0xf0, 0, d_02213D04, 0x6f4);
-    MI_CpuFill8(work, 0, 0xf0);
+    struct BattleSetupParam *work = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, d_02213D04, 0x6f4);
+    MI_CpuFill8(work, 0, sizeof(struct BattleSetupParam));
     GF_OVERLAY_Load((sptr)ov093_id);
-    BTL_SETUP_Clear((struct BattleSetupParam *)work);
-    BTL_SETUP_InitWithSlots((struct BattleSetupParam *)work, *(void **)(p + 4), heap);
+    BTL_SETUP_Clear(work);
+    BTL_SETUP_InitWithSlots(work, p->args.gameData, heap);
     GF_OVERLAY_Unload((sptr)ov093_id);
     BATTLE_REC_LoadToolOverlay();
-    BATTLE_REC_TOOL_UnpackSetup((struct BattleSetupParam *)work, heap);
+    BATTLE_REC_TOOL_UnpackSetup(work, heap);
     BATTLE_REC_UnloadToolOverlay();
     GF_OVERLAY_Load((sptr)ov093_id);
     GFL_USE_CancelChangeAndStopBgm();
-    GFL_USE_CancelChangeAndPlayBgm(*(unsigned short *)(work + 0x18), 0xffff);
+    GFL_USE_CancelChangeAndPlayBgm(work->bgmBattle, 0xffff);
     return work;
 }
 
-int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q)
+int WIFIBATTLEMATCH_SYS_DestroySlotCommand(struct WifiBattleMatchSysProc *p, struct BattleSetupParam *q)
 {
     GFL_USE_CancelChangeAndStopBgm();
-    GFL_HEAP_Free(((struct WifiBattleMatchSysSlotCommand *)q)->buffer);
-    BTL_SETUP_ClearWithSlots((struct BattleSetupParam *)q);
+    GFL_HEAP_Free(q->playerStatus[0]);
+    BTL_SETUP_ClearWithSlots(q);
     GFL_HEAP_Free(q);
     GF_OVERLAY_Unload((sptr)ov093_id);
     WIFIBATTLEMATCH_SYS_SetStep(p, 0);
     return 1;
 }
 
-void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, u16 heap)
+void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(struct WifiBattleMatchSysWork *p, u16 heap)
 {
     int size;
-    ((struct WifiBattleMatchSysWork *)p)->partyBuffer0 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
+    p->partyBuffer0 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
-    MI_CpuFill8(((struct WifiBattleMatchSysWork *)p)->partyBuffer0, 0, size);
-    ((struct WifiBattleMatchSysWork *)p)->partyBuffer1 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72f);
+    MI_CpuFill8(p->partyBuffer0, 0, size);
+    p->partyBuffer1 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72f);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
-    MI_CpuFill8(((struct WifiBattleMatchSysWork *)p)->partyBuffer1, 0, size);
+    MI_CpuFill8(p->partyBuffer1, 0, size);
 }
 
 /*
  * Addresses are Black-image addresses.
  */
-void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p)
+void WIFIBATTLEMATCH_SYS_FreePartyBuffers(struct WifiBattleMatchSysWork *p)
 {
-    GFL_HEAP_Free((void *)(((struct WifiBattleMatchSysWork *)p)->partyBuffer0));
-    GFL_HEAP_Free((void *)(((struct WifiBattleMatchSysWork *)p)->partyBuffer1));
+    GFL_HEAP_Free(p->partyBuffer0);
+    GFL_HEAP_Free(p->partyBuffer1);
 }
 
-void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
+void WIFIBATTLEMATCH_SYS_FillSetupRecord(struct WifiBattleMatchSysSetupOut *p,void *party1,void *party2,void *save,void *reg,int setting,struct BattleSetupParam *record,struct WifiBattleMatchSysSetup *other,int mode)
 {
     int i;
     unsigned zero = 0;
@@ -1054,48 +1120,48 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     Date date;
     WifibattlematchSysTriple time;
     PartyCountPair bytes;
-    MI_CpuFill8(p,0,0x50);
-    ((struct WifiBattleMatchSysSetupOut *)p)->card=MYSTATUS_GetProfileId((const struct MyStatus *)save);
-    ((struct WifiBattleMatchSysSetupOut *)p)->savedValue=((struct WifiBattleMatchSysPartyBuffer *)save)->savedValue;
+    MI_CpuFill8(p,0,sizeof(struct WifiBattleMatchSysSetupOut));
+    p->card=MYSTATUS_GetProfileId((const struct MyStatus *)save);
+    p->savedValue=((struct WifiBattleMatchSysPartyBuffer *)save)->savedValue;
     for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
         mon=POKEPARTY_GetMember(party2,i);
         if(POKE_TOOL_GetPartyValue(mon,0xa9,0)) {
-            *(u16 *)((uptr)p+i*2+8)=POKE_TOOL_GetPartyValue(mon,5,0);
-            *(u8 *)((uptr)p+i+0x14)=POKE_TOOL_GetPartyValue(mon,0x6f,0);
-            *(u8 *)((uptr)p+i+0x1a)=POKE_TOOL_GetPartyValue(mon,0x9e,0);
-            *(u8 *)((uptr)p+i+0x20)=POKE_TOOL_GetPartyValue(mon,0x6e,0);
+            p->side[0].species[i]=POKE_TOOL_GetPartyValue(mon,5,0);
+            p->side[0].form[i]=POKE_TOOL_GetPartyValue(mon,0x6f,0);
+            p->side[0].level[i]=POKE_TOOL_GetPartyValue(mon,0x9e,0);
+            p->side[0].gender[i]=POKE_TOOL_GetPartyValue(mon,0x6e,0);
         }
     }
     for(i=0;i<(int)POKEPARTY_GetCount(party1);i++) {
         mon=POKEPARTY_GetMember(party1,i);
         if(POKE_TOOL_GetPartyValue(mon,0xa9,zero)) {
-            *(u16 *)((uptr)p+i*2+0x26)=POKE_TOOL_GetPartyValue(mon,5,zero);
-            *(u8 *)((uptr)p+i+0x32)=POKE_TOOL_GetPartyValue(mon,0x6f,zero);
-            *(u8 *)((uptr)p+i+0x38)=POKE_TOOL_GetPartyValue(mon,0x9e,zero);
-            *(u8 *)((uptr)p+i+0x3e)=POKE_TOOL_GetPartyValue(mon,0x6e,zero);
+            p->side[1].species[i]=POKE_TOOL_GetPartyValue(mon,5,zero);
+            p->side[1].form[i]=POKE_TOOL_GetPartyValue(mon,0x6f,zero);
+            p->side[1].level[i]=POKE_TOOL_GetPartyValue(mon,0x9e,zero);
+            p->side[1].gender[i]=POKE_TOOL_GetPartyValue(mon,0x6e,zero);
         }
     }
     if(DWC_GetDateTime(&date,&time)==0) GF_PANIC_Fail(d_02213D00,0,d_02213D00);
-    ((WifibattlematchSysFlags *)(p + 0x44))->year=date.a;
-    ((WifibattlematchSysFlags *)(p + 0x44))->month=date.b;
-    ((WifibattlematchSysFlags *)(p + 0x44))->day=date.c;
-    ((WifibattlematchSysFlags *)(p + 0x44))->hour=time.a;
-    ((WifibattlematchSysFlags *)(p + 0x44))->minute=time.b;
-    ((struct WifiBattleMatchSysSetupOut *)p)->setting=setting;
-    p[0x4c]=((struct WifiBattleMatchSysSetupRecord *)record)->netSetupResult;
-    WIFIBATTLEMATCH_SYS_CountBoxSpecies((struct WifiBattleMatchSysSetupRecord *)record,&bytes.a,&bytes.b);
-    ((Nibbles *)(p + 0x4e))->a=bytes.a;
-    ((Nibbles *)(p + 0x4e))->b=bytes.b;
-    p[0x4d]=REGULATION_GetRuleValue(reg,0x15);
-    ((WifibattlematchSysFlags *)(p + 0x44))->enabled=REGULATION_GetRuleValue(reg,0xd);
+    p->date.year=date.a;
+    p->date.month=date.b;
+    p->date.day=date.c;
+    p->date.hour=time.a;
+    p->date.minute=time.b;
+    p->setting=setting;
+    p->netSetupResult=record->outcome;
+    WIFIBATTLEMATCH_SYS_CountBoxSpecies(record,&bytes.a,&bytes.b);
+    p->counts.a=bytes.a;
+    p->counts.b=bytes.b;
+    p->ruleValue=REGULATION_GetRuleValue(reg,0x15);
+    p->date.enabled=REGULATION_GetRuleValue(reg,0xd);
 }
 
-void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b)
+void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct BattleSetupParam *box, unsigned char *a, unsigned char *b)
 {
     int i, index, j, count;
     int side, flags;
     i = 0;
-    flags = box->flags;
+    flags = box->netId;
     *a = 0;
     *b = 0;
     side = flags & 1;
@@ -1105,9 +1171,9 @@ void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *b
                 index = (i & 2) + 1;
             else
                 index = i & 2;
-            count = POKEPARTY_GetCount(box->parties[index]);
+            count = POKEPARTY_GetCount(box->party[index]);
             for (j = 0; j < count; j++) {
-                if (box->names[index][j] != 2)
+                if (box->memberStatus[index][j] != 2)
                     (*a)++;
             }
         } else {
@@ -1115,20 +1181,20 @@ void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *b
                 index = i & 2;
             else
                 index = (i & 2) + 1;
-            count = POKEPARTY_GetCount(box->parties[index]);
+            count = POKEPARTY_GetCount(box->party[index]);
             for (j = 0; j < count; j++) {
-                if (box->names[index][j] != 2)
+                if (box->memberStatus[index][j] != 2)
                     (*b)++;
             }
         }
     }
 }
 
-void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b)
+void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct BattleSetupParam *box, unsigned char *a, unsigned char *b)
 {
     int i, index;
     int side, flags;
-    flags = box->flags;
+    flags = box->netId;
     *a = 0;
     *b = 0;
     side = flags & 1;
@@ -1138,33 +1204,33 @@ void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct WifiBattleMatchSysSetupReco
                 index = (i & 2) + 1;
             else
                 index = i & 2;
-            *a = box->counts[index];
+            *a = box->hpPercent[index];
         } else {
             if (side != 0)
                 index = i & 2;
             else
                 index = (i & 2) + 1;
-            *b = box->counts[index];
+            *b = box->hpPercent[index];
         }
     }
 }
 
-void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap)
+struct WifiBattleMatchSysProc *WIFIBATTLEMATCH_SYS_CreateProcWork(const struct WifiBattleMatchSysStep *a, int b, struct WifiBattleMatchSysWork *c, int heap)
 {
-    char *work = GFL_HEAP_Alloc(heap, 0x20, 0, d_02213D04, 0x846);
-    MI_CpuFill8(work, 0, 0x20);
-    ((struct WifiBattleMatchSysProc *)work)->proc = PROCSYS_Create(heap);
-    ((struct WifiBattleMatchSysProc *)work)->cbArg = (sptr)c;
-    ((struct WifiBattleMatchSysProc *)work)->table = a;
-    ((struct WifiBattleMatchSysProc *)work)->owner = b;
-    ((struct WifiBattleMatchSysProc *)work)->heap = heap;
+    struct WifiBattleMatchSysProc *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysProc), 0, d_02213D04, 0x846);
+    MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysProc));
+    work->proc = PROCSYS_Create(heap);
+    work->cbArg = c;
+    work->table = a;
+    work->count = b;
+    work->heap = heap;
     return work;
 }
 
-void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p)
+void WIFIBATTLEMATCH_SYS_DeleteProcWork(struct WifiBattleMatchSysProc *p)
 {
-    if (((struct WifiBattleMatchSysProc *)p)->result) GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
-    PROCSYS_Delete(((struct WifiBattleMatchSysProc *)p)->proc);
+    if (p->result) GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
+    PROCSYS_Delete(p->proc);
     GFL_HEAP_Free(p);
 }
 
@@ -1182,27 +1248,27 @@ int WIFIBATTLEMATCH_SYS_RunScreen(struct WifiBattleMatchSysProc *s)
         s->state = 1;
         break;
     case 1: {
-        int (*r)(struct WifiBattleMatchSysProc *, int, int);
-        r = *(int (**)(struct WifiBattleMatchSysProc *, int, int))((char *)s->table + (s->stepIndex << 4) + 8);
+        WifiBattleMatchSysBuildFn r;
+        r = s->table[s->stepIndex].build;
         if (r)
             s->result = r(s, s->heap, s->cbArg);
         else
             s->result = 0;
-        PROCSYS_Push((void *)s->proc,
-                        *(int *)((char *)s->table + (s->stepIndex << 4)),
-                        *(void **)((char *)s->table + 4 + (s->stepIndex << 4)),
-                        (void *)s->result);
+        PROCSYS_Push(s->proc,
+                        s->table[s->stepIndex].overlayId,
+                        s->table[s->stepIndex].procData,
+                        s->result);
         s->state = 2;
         break;
     }
     case 2:
-        s->procState = PROCSYS_Main((void *)s->proc);
+        s->procState = PROCSYS_Main(s->proc);
         if (s->procState == 0)
             s->state = 3;
         break;
     case 3: {
-        int (*h)(struct WifiBattleMatchSysProc *, int, int);
-        h = *(int (**)(struct WifiBattleMatchSysProc *, int, int))((char *)s->table + (s->stepIndex << 4) + 0xc);
+        WifiBattleMatchSysHandleFn h;
+        h = s->table[s->stepIndex].handle;
         if (h) {
             if (h(s, s->result, s->cbArg) != 0) {
                 s->result = 0;
@@ -1225,53 +1291,63 @@ int WIFIBATTLEMATCH_SYS_RunScreen(struct WifiBattleMatchSysProc *s)
     return 0;
 }
 
-int WIFIBATTLEMATCH_SYS_GetResult(char *p)
+int WIFIBATTLEMATCH_SYS_GetResult(struct WifiBattleMatchSysProc *p)
 {
-    return ((struct WifiBattleMatchSysProc *)p)->procState;
+    return p->procState;
 }
 
-unsigned char WIFIBATTLEMATCH_SYS_GetKind(char *p)
+unsigned char WIFIBATTLEMATCH_SYS_GetKind(struct WifiBattleMatchSysProc *p)
 {
-    return ((struct WifiBattleMatchSysProc *)p)->kind;
+    return p->kind;
 }
 
-void WIFIBATTLEMATCH_SYS_SetStep(char *p, int value)
+void WIFIBATTLEMATCH_SYS_SetStep(struct WifiBattleMatchSysProc *p, int value)
 {
-    ((struct WifiBattleMatchSysProc *)p)->step = value;
+    p->step = value;
 }
 
 /*
  * extent: final two bytes are alignment padding.
  */
-void WIFIBATTLEMATCH_SYS_SetStepDone(unsigned char *p){p[0x19]=255;}
+void WIFIBATTLEMATCH_SYS_SetStepDone(struct WifiBattleMatchSysProc *p){p->step=255;}
 
-int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);MI_CpuFill8(r,0,16);((struct WifiBattleMatchSysSubWork *)q)->commandAdded=0;((struct WifiBattleMatchSysSubWork *)r)->proc=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
-
-int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work)
+int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,struct WifiBattleMatchSysSubWork *q)
 {
-    if (((struct WifiBattleMatchSysSubWork *)work)->overlayLoaded) {
+    struct WifiBattleMatchSysSubWork *r;
+    GFL_HEAP_CreateChildHeap(1,88,336);
+    r=PROCSYS_AllocProcWork(p,sizeof(struct WifiBattleMatchSysSubWork),88);
+    MI_CpuFill8(r,0,sizeof(struct WifiBattleMatchSysSubWork));
+    q->commandAdded=0;
+    r->proc=PROCSYS_Create(88);
+    GFL_USE_FadeOutBgm(16);
+    return 1;
+}
+
+int WIFIBATTLEMATCH_SYS_DestroySubWork(struct Proc *a, void *b, void *c, struct WifiBattleMatchSysSubWork *work)
+{
+    if (work->overlayLoaded) {
         GF_OVERLAY_Unload((sptr)ov093_id);
-        ((struct WifiBattleMatchSysSubWork *)work)->overlayLoaded = 0;
+        work->overlayLoaded = 0;
     }
-    if (((struct WifiBattleMatchSysSubWork *)work)->commandAdded) {
+    if (work->commandAdded) {
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
-        ((struct WifiBattleMatchSysSubWork *)work)->commandAdded = 0;
+        work->commandAdded = 0;
     }
-    PROCSYS_Delete(((struct WifiBattleMatchSysSubWork *)work)->proc);
+    PROCSYS_Delete(work->proc);
     PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x58);
     return 1;
 }
 
-int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
+int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct WifiBattleMatchSysSubWork *wk)
 {
-    u32 st = PROCSYS_Main(wk->procSys);
+    u32 st = PROCSYS_Main(wk->proc);
 
     switch (*seq) {
     case 0:
-        GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(pw->matchParam + 0x18), 0xffff);
-        *(u32 *)(pw->battleParam + 0x44) = 1;
-        PROCSYS_Push(wk->procSys, (sptr)ov213_id, (const struct ProcData *)data_021BB0B0, pw->battleParam);
+        GFL_USE_CancelChangeAndPlayBgm(pw->matchParam->bgmBattle, 0xffff);
+        pw->battleParam->partyMode = 1;
+        PROCSYS_Push(wk->proc, (sptr)ov213_id, &data_021BB0B0, pw->battleParam);
         st = 2;
         *seq = 1;
         break;
@@ -1283,14 +1359,14 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         wk->overlayLoaded = 1;
         GFL_NET_COMMAND_AddCommandTable(0x100, data_021F03C4, 9, 0);
         wk->commandAdded = 1;
-        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
         *seq = 3;
         break;
     case 3:
-        if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
-        PROCSYS_Push(wk->procSys, -1, (const struct ProcData *)data_021EFDAC, pw->matchParam);
+        PROCSYS_Push(wk->proc, -1, &data_021EFDAC, pw->matchParam);
         st = 2;
         *seq = 5;
         break;
@@ -1301,19 +1377,19 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         *seq = 7;
         break;
     case 7:
-        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
         wk->timeoutFrames = 0;
         *seq = 8;
         break;
     case 8:
-        if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
             GFL_NET_COMMAND_DeleteCommandTable(0x100);
             wk->commandAdded = 0;
             GF_OVERLAY_Unload((sptr)ov093_id);
             wk->overlayLoaded = 0;
             *seq = 9;
         }
-        if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
+        if (GFL_NET_GetRunState() && GFL_NET_GetInitParam()->init.bNetType == 3) {
             if (wk->timeoutFrames++ > 600) {
                 GFL_NET_COMMAND_DeleteCommandTable(0x100);
                 wk->commandAdded = 0;
@@ -1325,13 +1401,13 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         }
         break;
     case 9:
-        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
         *seq = 10;
         wk->timeoutFrames = 0;
         break;
     case 10:
-        if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
-        if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
+        if (GFL_NET_GetRunState() && GFL_NET_GetInitParam()->init.bNetType == 3) {
             if (wk->timeoutFrames++ > 600) {
                 *seq = 11;
                 wk->timeoutFrames = 0;
@@ -1341,21 +1417,21 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
     case 11: {
         int flag = 1;
         int n, a, b, i, j, k, v;
-        u8 *q;
+        struct BattleSetupParam *q;
         u8 side;
-        if (pw->matchParam[0x22] == 0) *(u32 *)(pw->battleParam + 0x44) = 2;
-        else *(u32 *)(pw->battleParam + 0x44) = 4;
-        switch (*(u32 *)(pw->matchParam + 0x8c)) {
+        if (pw->matchParam->multiMode == 0) pw->battleParam->partyMode = 2;
+        else pw->battleParam->partyMode = 4;
+        switch (pw->matchParam->outcome) {
         case 1:
         case 4:
-            *(u32 *)(pw->battleParam + 0x40) = 0;
+            pw->battleParam->battleKind = 0;
             break;
         case 0:
         case 3:
-            *(u32 *)(pw->battleParam + 0x40) = 1;
+            pw->battleParam->battleKind = 1;
             break;
         case 2:
-            *(u32 *)(pw->battleParam + 0x40) = 2;
+            pw->battleParam->battleKind = 2;
             break;
         case 6:
             wk->timeoutFrames = 0;
@@ -1363,11 +1439,11 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
             *seq = 15;
             break;
         default:
-            *(u32 *)(pw->battleParam + 0x40) = 2;
+            pw->battleParam->battleKind = 2;
             break;
         }
         q = pw->matchParam;
-        if (q[0x22] == 0) {
+        if (q->multiMode == 0) {
             n = 1;
             a = 0;
             b = 1;
@@ -1376,20 +1452,20 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
             a = 0;
             b = 2;
         }
-        side = q[0x21];
+        side = q->netId;
         for (i = 0; i <= n; i++) {
             if ((i & 1) == (side & 1)) {
                 k = (side & 1) ? (i & 2) + 1 : (i & 2);
                 for (j = 0; j < 6; j++)
-                    ((struct WifiBattleMatchSysNameRow *)pw->battleParam)[a + (i >> 1)].name[j] = pw->matchParam[k * 6 + j + 0xc8];
+                    pw->battleParam->side[a + (i >> 1)].flags[j] = pw->matchParam->memberStatus[k][j];
             } else {
                 k = (side & 1) ? (i & 2) : (i & 2) + 1;
                 for (j = 0; j < 6; j++)
-                    ((struct WifiBattleMatchSysNameRow *)pw->battleParam)[b + (i >> 1)].name[j] = pw->matchParam[k * 6 + j + 0xc8];
+                    pw->battleParam->side[b + (i >> 1)].flags[j] = pw->matchParam->memberStatus[k][j];
             }
         }
         if (flag) {
-            PROCSYS_Push(wk->procSys, (sptr)ov213_id, (const struct ProcData *)data_021BB0B0, pw->battleParam);
+            PROCSYS_Push(wk->proc, (sptr)ov213_id, &data_021BB0B0, pw->battleParam);
             st = 2;
             *seq = 12;
         }
@@ -1412,7 +1488,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
     }
 
     if (GFL_NET_GetRunState() && st != 1) {
-        if (*(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
+        if (GFL_NET_GetInitParam()->init.bNetType == 3) {
             if (GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_ERR_RequestScreen();
                 pw->result = 1;

@@ -111,7 +111,7 @@ void PLAYER_LOCATION_Init(struct PlayerLocationData *location_data)
     location_data->zone_id = 0x1AB;
 }
 
-struct Location *PLAYER_LOCATION_Nop(u32 situation)
+struct Location *PLAYER_LOCATION_Nop(struct PlayerLocationData *situation)
 {
     return (struct Location *)situation;
 }

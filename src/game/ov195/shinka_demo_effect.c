@@ -206,7 +206,7 @@ void SHINKA_DEMO_EFFECT_DeleteParticle(char *a);
 
 void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *p);
 
-void SHINKA_DEMO_EFFECT_DrawParticle(int unused);
+void SHINKA_DEMO_EFFECT_DrawParticle(void *unused);
 
 void SHINKA_DEMO_EFFECT_SetParticleActive(char *p);
 
@@ -330,7 +330,7 @@ void SHINKA_DEMO_EFFECT_Main(EffectModel *model)
 void SHINKA_DEMO_EFFECT_Draw(char *model)
 {
     SHINKA_DEMO_EFFECT_DrawNodes((EffectModel *)((struct Anim *)model));
-    SHINKA_DEMO_EFFECT_DrawParticle((sptr)((EffectModel *)model)->ptc);
+    SHINKA_DEMO_EFFECT_DrawParticle(((EffectModel *)model)->ptc);
 }
 
 void SHINKA_DEMO_EFFECT_Trigger(char *model)
@@ -347,9 +347,9 @@ void SHINKA_DEMO_EFFECT_StartIntro(int *model)
 {
     void SHINKA_DEMO_EFFECT_SetParticleActive(char *model);
 
-    SHINKA_DEMO_EFFECT_SetParticleActive((char *)model[4]);
-    model[2] = 1;
-    model[3] = 0x26c;
+    SHINKA_DEMO_EFFECT_SetParticleActive((char *)((EffectModel *)model)->ptc);
+    ((EffectModel *)model)->state = 1;
+    ((EffectModel *)model)->wait = 0x26c;
 }
 
 /*
@@ -397,7 +397,7 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable)
     VecFx32 cameraUp = {0, 0, 0};
     EmitParam prm;
     Ptc *p;
-    uptr res;
+    void *res;
 
     prm.projType = 0;
     prm.fovSin = FX_SinCosTable_[0xe3 * 2];
@@ -416,12 +416,12 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable)
     p->active = 0;
     p->timer = -1;
     PARTICLE_InitManager(heap);
-    p->spl = PARTICLE_CreateSystem((uptr)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
+    p->spl = PARTICLE_CreateSystem(p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
     PARTICLE_ReleaseCamera((struct ParticleSys *)p->spl);
     PARTICLE_InitCamera((struct ParticleSys *)p->spl, (struct ParticleCameraParams *)(&prm), 0x2000, (Vec3 *)((int *)(&cameraPos)), (Vec3 *)((int *)(&cameraTarget)), (Vec3 *)((int *)(&cameraUp)), heap);
-    res = (uptr)PARTICLE_LoadArchiveMember((unsigned int)d_02208E9C[0], (unsigned int)d_02208E9C[1], (unsigned int)heap);
-    p->res = PARTICLE_RESOURCE_GetType((void *)res);
-    PARTICLE_SetupSystem(p->spl, (void *)res, 1, 0);
+    res = PARTICLE_LoadArchiveMember((unsigned int)d_02208E9C[0], (unsigned int)d_02208E9C[1], (unsigned int)heap);
+    p->res = PARTICLE_RESOURCE_GetType(res);
+    PARTICLE_SetupSystem(p->spl, res, 1, 0);
     return p;
 }
 
@@ -441,7 +441,7 @@ void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *particle)
             if (particle->frame != particle->cues[(int)particle->cue].frame)
                 break;
             c = &particle->cues[particle->cue];
-            PARTICLE_StartEffect(particle->emit[c->emit].spl, c->id, (sptr)(&v));
+            PARTICLE_StartEffect(particle->emit[c->emit].spl, c->id, (&v));
         }
         particle->frame++;
     }
@@ -452,7 +452,7 @@ void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *particle)
     }
 }
 
-void SHINKA_DEMO_EFFECT_DrawParticle(int unused){PARTICLE_Main();}
+void SHINKA_DEMO_EFFECT_DrawParticle(void *unused){PARTICLE_Main();}
 
 void SHINKA_DEMO_EFFECT_SetParticleActive(char *particle){((EffectParticle *)particle)->active=1;}
 
@@ -465,7 +465,7 @@ void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(EffectParticle *particle, s32 timer)
 
 void SHINKA_DEMO_EFFECT_InitUnit(char *model)
 {
-    *(int *)&((EffectModel *)model)->res = (sptr)G3D_UTIL_Create(4, 1, ((EffectModel *)model)->heap);
+    ((EffectModel *)model)->res = G3D_UTIL_Create(4, 1, ((EffectModel *)model)->heap);
     ((EffectModel *)model)->count = 0;
 }
 

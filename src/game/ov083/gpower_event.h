@@ -13,7 +13,7 @@ struct Strbuf;
 #include "../ov083/gpower_event_types.h"
 #include "../types.h"
 
-struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
+struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *paramArg);
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
@@ -21,7 +21,7 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
 void GPOWER_EVENT_FreeListWork(GPowerListWork *work);
 int GPOWER_EVENT_FlashMain(struct GameEvent *event, int *seq, void *work);
 void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wordSet, int powerType);
-int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *work);
+int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, void *work);
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
 void GPOWER_EVENT_PrintPowerList(GPowerListWork *work);
 /* END mkheaders: generated region */

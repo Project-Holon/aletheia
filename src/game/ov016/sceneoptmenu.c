@@ -195,7 +195,7 @@ static void DWCi_SceneOptMenuDispPush(void);
 
 void DWCi_SceneOptMenu(void)
 {
-    sptr q;
+    u8 *q;
     u8 i;
 
     gSceneOptMenuState.flag = 0;
@@ -204,14 +204,14 @@ void DWCi_SceneOptMenu(void)
     DWCi_STEPlChangeScr(3);
     DWCi_COMMENTlDispEx(0x39, -1, 0);
     gSceneOptMenuState.obj = (void *)DWCi_CEINlSetExObj(0, 0x5b);
-    q = (sptr)gSceneOptMenuState.obj;
+    q = (u8 *)gSceneOptMenuState.obj;
     *(u32 *)q = (*(u32 *)q & 0xFE00FF00) | 0x84 | 0xE00000;
-    q = (sptr)gSceneOptMenuState.obj;
+    q = (u8 *)gSceneOptMenuState.obj;
     *(u16 *)(q + 4) = (*(u16 *)(q + 4) & ~0xC00) | 0xC00;
     i = gSceneOptMenuState.idx;
     DWCi_FOCUSlDisp4(gSceneOptMenuFocusRects[i].l, gSceneOptMenuFocusRects[i].r,
                   gSceneOptMenuFocusRects[i].t, gSceneOptMenuFocusRects[i].b);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -262,7 +262,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -272,7 +272,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -280,7 +280,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMenu_procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMenu_procScene);
 }
 
 void DWCi_SceneOptMenu_procScene(void)
@@ -345,14 +345,14 @@ static void button(void)
 	default:
 		return;
 	}
-	DWCi_ChangeScene((uptr)endScene);
+	DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)
 {
 	DWCi_BTNlDisable();
 	DWCi_EFFlWait(8);
-	DWCi_ChangeScene((uptr)endScene1);
+	DWCi_ChangeScene(endScene1);
 }
 
 /*
@@ -366,7 +366,7 @@ static void endScene1(void)
 		DWCi_BTNlEnd();
 	DWCi_EFFlFade(3, 1, 1, 8);
 	DWCi_EFFlFade(3, 0, 0x14, 8);
-	DWCi_ChangeScene((uptr)endScene2);
+	DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -388,21 +388,21 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x14);
     if (gSceneOptMenuState.flag == 0) {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneMenu);
+        DWCi_ChangeScene(DWCi_SceneMenu);
         return;
     }
     switch (gSceneOptMenuState.idx) {
     case 0:
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((uptr)DWCi_SceneOptInfo);
+        DWCi_ChangeScene(DWCi_SceneOptInfo);
         return;
     case 1:
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((uptr)DWCi_SceneOptErase);
+        DWCi_ChangeScene(DWCi_SceneOptErase);
         return;
     case 2:
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMovConfirm1);
+        DWCi_ChangeScene(DWCi_SceneOptMovConfirm1);
         return;
     }
 }

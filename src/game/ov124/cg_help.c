@@ -269,7 +269,7 @@ struct GameSystem;
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
 int CG_HELP_Main(CgHelpWork *work);
-void CG_HELP_VBlank(void);
+void CG_HELP_VBlank(struct TcbTask * unused0, void * unused1);
 void CG_HELP_InitDisplay(CgHelpWork *work);
 void CG_HELP_ExitDisplay(CgHelpWork *work);
 void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int type);
@@ -295,7 +295,7 @@ void CG_HELP_Setup(CgHelpWork *work)
     CG_HELP_InitDisplay(work);
     CG_HELP_LoadActorResources(work);
     CG_HELP_InitWindows(work);
-    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))CG_HELP_VBlank,(void *)work,8);
+    work->vblankTask = GFL_USE_AddMainTask(CG_HELP_VBlank,(void *)work,8);
     work->pageIndex = 0;
     work->firstDrawPending = 1;
     CG_HELP_DrawPageText(work,work->pageIndex);
@@ -371,19 +371,19 @@ int CG_HELP_Main(CgHelpWork *work)
 /*
  * extent: 8-byte tail stub; labelled function 021D43F8 follows.
  */
-void CG_HELP_VBlank(void)
+void CG_HELP_VBlank(struct TcbTask * unused0, void * unused1)
 {
     CLACT_VBlankSystem();
 }
 
 static inline void visible(int plane)
 {
-    *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x1f00) | (plane << 8);
+    *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x1f00) | (plane << 8);
 }
 
 static inline void subvisible(int plane)
 {
-    *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | (plane << 8);
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | (plane << 8);
 }
 
 /*
@@ -400,8 +400,8 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask(0);
-    WIPE_ResetWndMask((void *)1);
-    *(volatile u16 *)0x04000304 |= 0x8000;
+    WIPE_ResetWndMask(1);
+    *(volatile u16 *)REG_POWCNT1_ADDR |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)gCgHelpVramBanks);
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
@@ -626,10 +626,10 @@ int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
     CgHelpWork *work;
     CgHelpArgs *q;
     GFL_HEAP_CreateChildHeap(1,0x8a,0x60000);
-    work = PROCSYS_AllocProcWork(a,0x60,0x8a);
+    work = PROCSYS_AllocProcWork(a,sizeof(CgHelpWork),0x8a);
     q = c;
     if (!q) {
-        q = GFL_HEAP_Alloc(0x8a,8,1,gCgHelpFileName,0x2f3);
+        q = GFL_HEAP_Alloc(0x8a,sizeof(CgHelpArgs),1,gCgHelpFileName,0x2f3);
         q->myStatus = MYSTATUS_Create(0x8a);
         if (KEY_GetCont() & 0x100) MYSTATUS_SetSex(q->myStatus,1);
         else MYSTATUS_SetSex(q->myStatus,0);

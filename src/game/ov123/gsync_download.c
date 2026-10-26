@@ -56,7 +56,7 @@
 
 
 
-void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 err, int serverError);
+void GSYNC_DOWNLOAD_SetRequestMode(int reason, int err, int serverError);
 
 GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize);
 
@@ -64,7 +64,7 @@ void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 
 void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work);
+int GSYNC_DOWNLOAD_CleanupAsync(void *arg, u32 errorCode, u32 errorType, int dwcError);
 
 int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work);
 
@@ -126,7 +126,7 @@ static inline u32 filterCallbackError(u32 err)
 }
 
 /* DWC nd completion callback: records that the request finished and how. */
-void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 err, int serverError)
+void GSYNC_DOWNLOAD_SetRequestMode(int reason, int err, int serverError)
 {
     u32 result = filterCallbackError(err);
     gGsyncDownloadWork->requestDone = 1;
@@ -162,8 +162,9 @@ void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work)
 }
 
 /* Error hook: starts the nd cleanup once; returns nonzero when no request is pending. */
-int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work)
+int GSYNC_DOWNLOAD_CleanupAsync(void *arg, u32 errorCode, u32 errorType, int dwcError)
 {
+    GsyncDownloadWork *work = arg;
     if (!work->cleanupStarted) {
         if (DWC_NdCleanupAsync())
             work->cleanupStarted = 1;
@@ -174,9 +175,9 @@ int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work)
 int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work)
 {
     work->requestDone = 0;
-    if (!DWC_NdInitAsync((DWCNdCallback)((DWCNdCallback)GSYNC_DOWNLOAD_SetRequestMode), (char *)sGsyncDownloadGameCode, (char *)sGsyncDownloadPassword))
+    if (!DWC_NdInitAsync(GSYNC_DOWNLOAD_SetRequestMode, (char *)sGsyncDownloadGameCode, (char *)sGsyncDownloadPassword))
         return 0;
-    DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((sptr)GSYNC_DOWNLOAD_CleanupAsync), (sptr)work);
+    DWC_RAP_SetErrorHookCallback(GSYNC_DOWNLOAD_CleanupAsync, work);
     return 1;
 }
 

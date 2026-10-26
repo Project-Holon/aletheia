@@ -71,19 +71,19 @@ u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32
 void PMS_INPUT_DATA_BuildInitialWords(struct PmsInputData *d);
 u32 PMS_INPUT_DATA_FilterInitialWords(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex);
 u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *d, int category);
-void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, int mode);
+void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, void *mode);
 unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index);
-u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
+u32 PMS_INPUT_DATA_FilterWordList(struct PmsInputData *a, u16 *b, u16 *c);
 const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry);
 u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, int index);
-void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode);
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, void *mode);
 int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused);
 
 struct PmsInputData *PMS_INPUT_DATA_Create(u32 heap, void *save)
 {
     struct PmsInputData *d;
     int i;
-    d = GFL_HEAP_Alloc((u16)heap, 0x1E50, 0, d_021C3B80, 88);
+    d = GFL_HEAP_Alloc((u16)heap, sizeof(*d), 0, d_021C3B80, 88);
     d->saveData = save;
     d->wordSys = PMS_WORD_Create(heap);
     for (i = 0; i < PMS_INPUT_DATA_SEEN_BYTES; i++) d->seenBits[i] = 0;
@@ -219,22 +219,13 @@ u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32
 
 void PMS_INPUT_DATA_BuildInitialWords(struct PmsInputData *d)
 {
-    u32 a = 0xF58;
-    u32 b;
-    u32 c;
     u32 i;
     u32 offset = 0;
-    u8 *p = (u8 *)d;
-    a -= 0x6C;
-    b = 0xF58;
-    b -= 0xD8;
-    c = 0xF58;
-    c -= 0xD8;
     for (i = 0; i < PMS_INPUT_DATA_INITIAL_COUNT; ++i) {
         u16 *src = d_021C1C88[i];
-        *(u32 *)(p + i * 4 + a) = offset;
-        *(u32 *)(p + i * 4 + b) = PMS_INPUT_DATA_FilterInitialWords(d, src, (u16 *)(p + 0xF58), offset);
-        offset += *(u32 *)(p + i * 4 + c);
+        d->initialStart[i] = offset;
+        d->initialCount[i] = PMS_INPUT_DATA_FilterInitialWords(d, src, d->initialWords, offset);
+        offset += d->initialCount[i];
     }
 }
 
@@ -275,11 +266,11 @@ u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *d, int category)
 }
 
 /* Two-byte zero alignment padding follows the compiled function. */
-void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, int mode)
+void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, void *mode)
 {
     unsigned int start;
     start = d->categoryStart[category];
-    PMS_WORD_GetString(d->wordSys, d->categoryWords[start + index], (void *)mode);
+    PMS_WORD_GetString(d->wordSys, d->categoryWords[start + index], mode);
 }
 
 unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index)
@@ -289,9 +280,9 @@ unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned
     return d->categoryWords[start + index];
 }
 
-u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c)
+u32 PMS_INPUT_DATA_FilterWordList(struct PmsInputData *a, u16 *b, u16 *c)
 {
-    return PMS_INPUT_DATA_FilterInitialWords((struct PmsInputData *)a, (u16 *)b, (u16 *)c, 0);
+    return PMS_INPUT_DATA_FilterInitialWords(a, b, c, 0);
 }
 
 /* A 0xFFFE entry is {marker, length, id * length}: returns the last id. */
@@ -320,9 +311,9 @@ u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, in
     return 0;
 }
 
-void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode)
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, void *mode)
 {
-    PMS_WORD_GetString(d->wordSys, wordId, (void *)mode);
+    PMS_WORD_GetString(d->wordSys, wordId, mode);
 }
 
 int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused)

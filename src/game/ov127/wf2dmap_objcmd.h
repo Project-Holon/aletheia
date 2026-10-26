@@ -34,10 +34,10 @@ int WF2DMAP_OBJCMD_Dispatch(void *a, void *b, const u8 *desc, int *out);
 int WF2DMAP_OBJCMD_SpawnIdle04(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_SpawnIdleNew(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t);
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk(int a, int b, int c, int d, int e);
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk(void *a, void *b, void *c, const u8 *d, void *e);
 int WF2DMAP_OBJCMD_SpawnIdle(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_StepNoop3(void);
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk2(int a, int b, int c, int d, int e);
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk2(void *a, void *b, void *c, const u8 *d, void *e);
 int WF2DMAP_OBJCMD_SpawnIdle2(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_IsTileOccupied(void *p, void *q, int n);
 /* END mkheaders: generated region */

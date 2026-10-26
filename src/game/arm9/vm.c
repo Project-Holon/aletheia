@@ -47,9 +47,9 @@ u16 VM_ReadU16(ScriptVm *vm);
 
 u32 VM_GetU32(ScriptVm *vm);
 
-void VM_PushStack(ScriptVm *vm, u32 value);
+void VM_PushStack(ScriptVm *vm, uptr value);
 
-u32 VM_PopStack(ScriptVm *vm);
+uptr VM_PopStack(ScriptVm *vm);
 
 void VM_Jump(ScriptVm *vm, u8 *pc);
 
@@ -115,7 +115,7 @@ void VM_Reset(ScriptVm *vm)
     vm->state = 0;
     vm->wait = 0;
     vm->depth = 0;
-    MI_CpuFill8(vm->stack, 0, vm->params.stackCap * 4);
+    MI_CpuFill8(vm->stack, 0, vm->params.stackCap * sizeof(*vm->stack));
     MI_CpuFill8(vm->ring, 0, vm->params.ringCap * 4);
     vm->hook = 0;
     vm->hookArg = 0;
@@ -126,12 +126,17 @@ ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params)
     u32 size;
     ScriptVm *vm;
 
-    size = params->ringCap * 4 + sizeof(ScriptVm) + params->stackCap * 4;
+    size = params->ringCap * sizeof(u32) + sizeof(ScriptVm) + params->stackCap * sizeof(uptr);
     vm = (ScriptVm *)GFL_HEAP_Alloc(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
+#ifdef __MWERKS__
     vm->ring = (u32 *)(vm + 1);
     vm->stack = vm->ring + params->ringCap;
+#else
+    vm->stack = (uptr *)(vm + 1);
+    vm->ring = (u32 *)(vm->stack + params->stackCap);
+#endif
     return vm;
 }
 
@@ -366,7 +371,7 @@ u32 VM_GetU32(ScriptVm *vm)
     return value;
 }
 
-void VM_PushStack(ScriptVm *vm, u32 value)
+void VM_PushStack(ScriptVm *vm, uptr value)
 {
     if (vm->depth + 1 < vm->params.stackCap) {
         vm->stack[vm->depth] = value;
@@ -374,7 +379,7 @@ void VM_PushStack(ScriptVm *vm, u32 value)
     }
 }
 
-u32 VM_PopStack(ScriptVm *vm)
+uptr VM_PopStack(ScriptVm *vm)
 {
     if (vm->depth == 0) {
         return 0;

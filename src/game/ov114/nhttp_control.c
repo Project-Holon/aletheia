@@ -60,7 +60,7 @@ int addHdrList(NHTTPi_DATALIST **head_pp, NHTTPBgnEndInfo *bgnEndInfo_p, char *l
     if (found != 0) {
         match_p->data = value_p;
     } else {
-        newNode_p = NHTTPi_alloc(0x18, 4);
+        newNode_p = NHTTPi_alloc(sizeof(*newNode_p), 4);
         if (newNode_p == 0) {
             NHTTPi_SetError(bgnEndInfo_p, 1);
             return 0;

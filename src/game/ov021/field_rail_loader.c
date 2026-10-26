@@ -76,7 +76,7 @@ extern char d_021DDE08[];    /* __FILE__ */
 /* Clear a setting and fill in the limits and function tables. */
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 {
-    MI_CpuFill8(setting, 0, 0x30);
+    MI_CpuFill8(setting, 0, sizeof(*setting));
     setting->cameraFuncCount = 0x14;
     setting->linePosFuncCount = 3;
     setting->lineFuncCount = 3;
@@ -87,7 +87,7 @@ void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId)
 {
-    FieldRailLoader *loader = (FieldRailLoader *)GFL_HEAP_Alloc((u16)heapId, 0x38, 1, d_021DDE08, 0xC0);
+    FieldRailLoader *loader = (FieldRailLoader *)GFL_HEAP_Alloc((u16)heapId, sizeof(*loader), 1, d_021DDE08, 0xC0);
     FIELD_RAIL_LOADER_InitSetting(&loader->setting);
     return loader;
 }

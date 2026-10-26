@@ -246,7 +246,7 @@ int MB_COMM_SYS_GetOfferFlagB(MbNetState *net);
 int MB_COMM_SYS_HasKind20(MbNetState *net);
 int MB_COMM_SYS_HasKind21(MbNetState *net);
 int MB_COMM_SYS_GetKind21Value(MbNetState *net);
-void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize);
+void MB_COMM_SYS_QueuePayload(int a, void *payload, int payloadSize);
 void MB_COMM_SYS_ClearMonBuffer(MbNetState *net);
 int MB_COMM_SYS_HasMonsReceived(MbNetState *net);
 u8 MB_COMM_SYS_GetMonCount(MbNetState *net);

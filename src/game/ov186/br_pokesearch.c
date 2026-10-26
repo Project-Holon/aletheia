@@ -123,7 +123,7 @@ struct PrintQueue;
 #include "../arm9/zukan_save.h"
 
 #include "../arm9/bmp_menuwork.h"
-struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, int uiParamA, int uiParamB, struct BrFade *fade, int listParam, struct BrTapFx *tapFx, unsigned short heapId);
+struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, struct Unit *uiParamA, void *uiParamB, struct BrFade *fade, void *listParam, struct BrTapFx *tapFx, unsigned short heapId);
 
 void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps);
 
@@ -180,7 +180,7 @@ enum {
     BR_POKESEARCH_PHASE_DONE = 10
 };
 
-struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, int uiParamA, int uiParamB, struct BrFade *fade, int listParam, struct BrTapFx *tapFx, unsigned short heapId)
+struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, struct Unit *uiParamA, void *uiParamB, struct BrFade *fade, void *listParam, struct BrTapFx *tapFx, unsigned short heapId)
 {
     struct BrPokeSearch *ps;
     int i = 0;
@@ -222,7 +222,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             struct BrPoint point;
             ps->touchedGroup=BR_POKESEARCH_PollGroupTouch(ps);
             held=TOUCHPANEL_GetPointTrg((u32 *)((unsigned int *)(&x)),(u32 *)((unsigned int *)(&y)));
-            if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
+            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
                 BR_UTIL_StartEffect((char *)ps->tapFx,1,(const BrPair *)&point);
                 ps->state=8; ps->result=1;
@@ -237,7 +237,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             BR_UTIL_MainListMenu((char *)ps->listMenu);
             ps->listChoice=BR_UTIL_GetListMenuHitId((char *)ps->listMenu);
             held=TOUCHPANEL_GetPointTrg((u32 *)((unsigned int *)(&x)),(u32 *)((unsigned int *)(&y)));
-            if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
+            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
                 BR_UTIL_StartEffect((char *)ps->tapFx,1,(const BrPair *)&point);
                 ps->state=4; ps->nextState=2;
@@ -329,8 +329,8 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
 {
     struct BrActorPos pos;
     struct BrResSprite sprite;
-    int font = BR_RES_GetFont(ps->res);
-    int msgData = BR_RES_GetMsgData(ps->res);
+    void *font = BR_RES_GetFont(ps->res);
+    void *msgData = BR_RES_GetMsgData(ps->res);
     MI_CpuFill8(&pos, 0, 8);
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite((struct BrRes *)ps->res, 6, (void *)&sprite))
@@ -340,12 +340,14 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
 
 void BR_POKESEARCH_DestroyBackButton(struct BrPokeSearch *ps)
 {
-    BR_BTN_DeleteObject((char *)ps->backButton);
+    BR_BTN_DeleteObject(ps->backButton);
 }
 
 void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
 {
-    sptr font, msgData, i;
+    void *font;
+    void *msgData;
+    sptr i;
     unsigned color;
     unsigned char x, y;
     ps->listShown = 0;
@@ -360,7 +362,7 @@ void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
         color = 0x3da0;
         if (!ps->groupHasSeen[i]) color = 0x2da0;
         BR_UTIL_SetTextLayout((unsigned char *)ps->groupWin[i], 0, 0, 1);
-        BR_UTIL_SetTextFromMessage((char *)ps->groupWin[i], (void *)msgData, (void *)(i + 0x3a), (void *)font, color);
+        BR_UTIL_SetTextFromMessage((char *)ps->groupWin[i], (void *)msgData, i + 0x3a, (void *)font, color);
     }
 }
 
@@ -426,7 +428,7 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     cfg.resources=ps->res;
     cfg.manager=ps->uiParamA;
     cfg.cursor=ps->listParam;
-    cfg.other=(uptr)ps->tapFx;
+    cfg.other=ps->tapFx;
     ps->listMenu=BR_UTIL_CreateListMenu(&cfg,ps->heapId);
 }
 
@@ -469,7 +471,7 @@ int BR_POKESEARCH_HasSeenInGroup(struct ZukanSave *zukan, u32 group, const u16 *
     end=gBrPokeSearchGroupStart[group+1];
     found=0;
     for(i=gBrPokeSearchGroupStart[group];i<end;i++) {
-        if(ZUKAN_SAVE_IsSeen(zukan,*(const u16 *)((uptr)speciesTable+i*2)))found=1;
+        if(ZUKAN_SAVE_IsSeen(zukan,*(const u16 *)((char *)speciesTable+i*2)))found=1;
     }
     return found;
 }

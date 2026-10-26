@@ -60,7 +60,7 @@ union MtxFx22;
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, struct CdemoScript *c);
-int CDEMO_MAIN_Update(int a, int b, int c, int d);
+int CDEMO_MAIN_Update(int a, int b, int c, char *d);
 int CDEMO_MAIN_Destroy(void *p);
 void CDEMO_MAIN_SetupVram(void);
 void CDEMO_MAIN_SetupScreen(char *unused);
@@ -77,16 +77,16 @@ int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, struct CdemoScript *c)
     struct CdemoState *r;
 
     GFL_HEAP_CreateChildHeap(1, 0x7f, 0x80000);
-    r = PROCSYS_AllocProcWork((struct Proc *)p, (uptr)((void *)0x605c), 0x7f);
-    MI_CpuFill8(r, 0, 0x605c);
+    r = PROCSYS_AllocProcWork((struct Proc *)p, 0x605c, 0x7f);
+    MI_CpuFill8(r, 0, sizeof(*r));
     r->script = (struct CdemoScript *)c;
     r->finish = 0;
     return 1;
 }
 
-int CDEMO_MAIN_Update(int a, int b, int c, int d)
+int CDEMO_MAIN_Update(int a, int b, int c, char *d)
 {
-    if (CDEMO_WIPE_RunScript((char *)d))
+    if (CDEMO_WIPE_RunScript(d))
         return 0;
     return 1;
 }

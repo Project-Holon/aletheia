@@ -335,7 +335,7 @@ struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem 
     struct GameEvent *event;
     SubscreenChangeEventWork *work;
     FIELDMAP_GetSubscreen(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(SubscreenChangeEventWork));
     work->gameSystem = gameSystem;

@@ -271,8 +271,12 @@ int UNION_COMMAND_SendMyStatus(UnionRoomWork *work)
 void UNION_COMMAND_RecvTrainerCard(u32 netId, u32 size, const void *data, UnionRoomWork *work)
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
+#ifdef __MWERKS__
         enum { SITUATION_OFFSET = 0x2830 } offset = SITUATION_OFFSET;
         UnionMySituation *situation = (UnionMySituation *)((u8 *)work + offset);
+#else
+        UnionMySituation *situation = &work->mySituation;
+#endif
         situation->connect.trainerCardReceived = 1;
         MI_CpuCopy8(data, work->recvTrainerCard, size);
     }

@@ -73,7 +73,7 @@ struct CellTransferState;
 void NNSi_G2dInitMCNode(Node *pNode, u32 type);
 void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim);
 void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank);
-void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx, u32 a, u32 b, u32 c, const void *d, const void *e, u32 f);
 void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq);
 void NNS_G2dTickCellAnimation(CellAnim *pCellAnim, fx32 frames);
 void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx);
@@ -224,7 +224,7 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
  * is filed.
  */
 void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx,
-                   u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
+                   u32 a, u32 b, u32 c, const void *d, const void *e, u32 f)
 {
     NNS_G2dSetCellTransferState(stateIdx, a, b, c, pCellDataBank->pVramTransferData->szByteMax, d, e, f);
     *(volatile int *)&pCellAnim->transferStateHandle = stateIdx;

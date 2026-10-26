@@ -3,11 +3,18 @@
 
 #include "../types.h"
 
+struct GfFont;
+struct PrintQueue;
+struct WifibattlematchCallback;
+
+/* Step function of a task callback record: the record itself, its state word, and the owner work object. */
+typedef void (*WifibattlematchCallbackFn)(struct WifibattlematchCallback *self, int *state, void *work);
+
 /* Menu descriptor (0x30 bytes) handed to WIFIBATTLEMATCH_UTIL_CreateMenu; ov175, ov176 and ov177 share it. */
 typedef struct WifibattlematchMenuDesc {
     struct MsgBank *msgBank;             /* 0x00 message bank */
-    u32 font;                  /* 0x04 font (BmpMenuList font) */
-    u32 printQue;             /* 0x08 PRINTSYS_QUE handle */
+    struct GfFont *font;       /* 0x04 font (BmpMenuList font) */
+    struct PrintQueue *printQue; /* 0x08 print queue */
     u32 items[4];       /* 0x0C up to four item value ids */
     u32 count;          /* 0x1C item count */
     u16 a;              /* 0x20 */

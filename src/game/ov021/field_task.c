@@ -46,14 +46,14 @@ u32 FIELD_TASK_GetState(FieldTask *task);
 
 void FIELD_TASK_SetRunning(FieldTask *task);
 
-int FIELD_TASK_SetFinished(FieldTask *task);
+FieldTask *FIELD_TASK_SetFinished(FieldTask *task);
 
 void FIELD_TASK_RunCheck(FieldTask *task);
 
 /* Allocates a task and its work block. */
 FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 {
-    FieldTask *task = GFL_HEAP_Alloc(heapId, 0xc, 0, d_021DE4D4, 0x3b);
+    FieldTask *task = GFL_HEAP_Alloc(heapId, sizeof(*task), 0, d_021DE4D4, 0x3b);
     task->state = FIELD_TASK_STATE_CREATED;
     task->work = GFL_HEAP_Alloc(heapId, workSize, 1, d_021DE4D4, 0x3d);
     task->check = check;
@@ -107,10 +107,10 @@ void FIELD_TASK_SetRunning(FieldTask *task)
 }
 
 /* Sets the state to finished. */
-int FIELD_TASK_SetFinished(FieldTask *task)
+FieldTask *FIELD_TASK_SetFinished(FieldTask *task)
 {
     task->state = FIELD_TASK_STATE_FINISHED;
-    return (sptr)task;
+    return task;
 }
 
 /* While running, calls the check callback and finishes the task when it returns 1. */

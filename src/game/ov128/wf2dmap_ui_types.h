@@ -45,14 +45,14 @@ typedef struct Wf2dmapTouchGfx {
     void *textBufA;                 /* 0x014 */
     void *textBufB;                 /* 0x018 */
     union {                         /* 0x01C: text handle for TOUCHBAR_PrintAligned */
-        unsigned int textHandle;
+        void *textHandle;
         void *textHandleStrbuf;
     };
     void *formatArg;                /* 0x020: WORDSET_CopyTaggedText source */
     unsigned char pad_024[4];
     void *tcbl;                     /* 0x028 */
     void *printStream;              /* 0x02C */
-    unsigned char pad_030[4];
+    int printState;                 /* 0x030: result slot of the print stream update */
     union { void *printWin; unsigned int printWinU32; }; /* 0x034: TOUCHBAR_PrintAligned target */
     void *slotArray[0x40];          /* 0x038: 64-entry window-record list */
     struct Unit *actorBank;         /* 0x138 */
@@ -84,7 +84,7 @@ typedef struct Wf2dmapTouchFriendData {
     unsigned char stateArgB;        /* 0x0A: second state argument byte */
     signed char index;              /* 0x0B: current entry index */
     signed char speed;              /* 0x0C: message speed */
-    unsigned char pad_00D;          /* 0x0D */
+    unsigned char windowFrame;      /* 0x0D: window frame style */
     unsigned char nameReady;        /* 0x0E */
     unsigned char pad_00F;          /* 0x0F */
     unsigned int count;             /* 0x10: number of valid entries */
@@ -178,10 +178,7 @@ typedef struct Wf2dmapFriendItemScreen {
     unsigned short blinkState;         /* 0x008: item-bar blink state */
     unsigned short blinkTimer;         /* 0x00A: item-bar blink timer */
     Wf2dmapFriendEntryPage pages[3];   /* 0x00C */
-    void *windowA;                     /* 0x0F0 */
-    unsigned char pad_0F4[4];
-    void *windowB;                     /* 0x0F8 */
-    unsigned char pad_0FC[4];
+    Wf2dmapTouchWidget entryWindow[2]; /* 0x0F0: the two entry BMP windows */
     short openCounter;                 /* 0x100: item-open animation counter */
     unsigned short openMode;           /* 0x102: item-open direction */
     void *wifiActor;                   /* 0x104 */

@@ -37,8 +37,8 @@ struct MultiCellNodeBank {
 };
 
 struct AnimBankPair {
-    u32 seqOffset;
-    u32 framesOffset;
+    AnimSequenceData *seqOffset;
+    AnimFrameData *framesOffset;
 };
 
 
@@ -68,7 +68,7 @@ void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
 int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out);
 void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx);
-void NNSi_G2dUnpackCellBank(int *p);
+void NNSi_G2dUnpackCellBank(CellDataBank *p);
 int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank);
@@ -92,7 +92,7 @@ void NNSi_G2dFixupPaletteData(u8 *block);
  */
 int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out)
 {
-    u32 r = (uptr)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x41424E4B);
+    u8 *r = (u8 *)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x41424E4B);
 
     if (r == 0) {
         *out = 0;
@@ -151,8 +151,8 @@ void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank)
     n = bank->numSequences;
     {
         struct AnimBankPair *pp = (struct AnimBankPair *)((u8 *)bank + 4);
-        seq = (AnimSequenceData *)pp->seqOffset;
-        frames = (AnimFrameData *)pp->framesOffset;
+        seq = pp->seqOffset;
+        frames = pp->framesOffset;
     }
 
     while (i < n) {
@@ -248,7 +248,7 @@ int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out)
         *out = 0;
         return 0;
     }
-    NNSi_G2dUnpackCellBank((int *)(o + 8));
+    NNSi_G2dUnpackCellBank((CellDataBank *)(o + 8));
     *out = (CellDataBank *)(o + 8);
     return 1;
 }
@@ -303,27 +303,27 @@ void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx)
  * bytes (the original `bl` displacement points at the stub).  So this stays
  * MATCH and src/pending/NNS_G2dGetUnpackedCellBank.c cannot be promoted.
  */
-void NNSi_G2dUnpackCellBank(int *p)
+void NNSi_G2dUnpackCellBank(CellDataBank *p)
 {
     u16 i;
-    int base;
-    p[1] = (sptr)((char *)p[1] + (sptr)p);
-    base = (sptr)NNSi_G2dGetCellDataBankOamBase((CellDataBank *)p);
-    for (i = 0; i < ((CellDataBank *)p)->numCells; i++) {
-        int *e = NNS_G2dGetCellDataByIdx((CellDataBank *)p, i);
-        e[1] = (sptr)((char *)e[1] + base);
+    u8 *base;
+    p->pCells = (u8 *)p->pCells + (uptr)p;
+    base = (u8 *)NNSi_G2dGetCellDataBankOamBase(p);
+    for (i = 0; i < p->numCells; i++) {
+        struct CellData *e = NNS_G2dGetCellDataByIdx(p, i);
+        e->pOam = (u8 *)e->pOam + (uptr)base;
     }
-    if (p[3] != 0) {
-        int *q;
-        p[3] = (sptr)((char *)p[3] + (sptr)p);
-        q = (int *)p[3];
-        q[1] = (sptr)((char *)q[1] + (sptr)q);
-        p[3] = (sptr)q;
+    if (p->pVramTransferData != 0) {
+        CellVramTransferData *q;
+        p->pVramTransferData = (CellVramTransferData *)((u8 *)p->pVramTransferData + (uptr)p);
+        q = p->pVramTransferData;
+        q->pTransferDataArray = q->pTransferDataArray + (uptr)q;
+        p->pVramTransferData = q;
     }
-    if (p[5] == 0)
+    if (p->pUserExt == 0)
         return;
-    p[5] = (sptr)((char *)p[5] + (sptr)p);
-    NNSi_G2dFixupCellAnimBankTbl((void *)p[5]);
+    p->pUserExt = p->pUserExt + (uptr)p;
+    NNSi_G2dFixupCellAnimBankTbl(p->pUserExt);
 }
 
 /*
@@ -334,7 +334,7 @@ void NNSi_G2dUnpackCellBank(int *p)
  */
 int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out)
 {
-    u32 r = (uptr)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4D43424B);
+    u8 *r = (u8 *)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4D43424B);
 
     if (r == 0) {
         *out = 0;
@@ -405,7 +405,7 @@ void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank)
 
     i = 0;
     n = bank->numMultiCell;
-    array = (MultiCellData *)*(volatile u32 *)&bank->pArray;
+    array = bank->pArray;
 
     while (i < n) {
         tmp = (uptr)array[i].pHierDataArray + bank->nodeBase;

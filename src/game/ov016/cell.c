@@ -94,7 +94,7 @@ void DWCi_CELLlInit(void)
 {
     int i;
 
-    gCellWork = (MEMCELL *)DWCi_HEAPlAllocEx(0x450, 4);
+    gCellWork = (MEMCELL *)DWCi_HEAPlAllocEx(sizeof(*gCellWork), 4);
     for (i = 0; i < 2; i++) {
         gCellWork->c[i].queue = DWCi_QUElFormEx(0x20, &gCellWork->c[i], 0x10);
         gCellWork->c[i].list = DWCi_LSTlForm();

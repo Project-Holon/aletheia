@@ -168,7 +168,7 @@ int FIELD_LINK_EVENT_EnterEventMain(struct GameEvent *event, int *seq, LinkEnter
 
 struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 
-void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+struct GameEvent *FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 
 int FIELD_LINK_EVENT_ToggleSubscreenEventMain(struct GameEvent *event, u32 *seq, SubscreenToggleWork *work);
 
@@ -244,7 +244,7 @@ int FIELD_SKILL_CHECK_FrontTile(struct GameData *gameData, struct FieldMap *fiel
     if (ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(player)) == 0) {
         return 0;
     }
-    return FISHING_CheckFacingWater((uptr)gameData, fieldMap, 0);
+    return FISHING_CheckFacingWater(gameData, fieldMap, 0);
 }
 
 /* Field skill check: normal field zone, except the zone of ZONEDATA_IsZone34. */
@@ -310,14 +310,14 @@ struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, s
  * Field link entry 1: adds the object 279 of overlay 20 at a fixed
  * position (2-byte zero padding follows at 0x0216469E).
  */
-void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
+struct GameEvent *FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
     VecFx32 position;
 
     position.x = 0x200000;
     position.y = 32;
     position.z = 0x1E8000;
-    EVENT_MAPCHANGE_CreateIntrudeWarpEvent(gameSystem, 279, &position, 0);
+    return EVENT_MAPCHANGE_CreateIntrudeWarpEvent(gameSystem, 279, &position, 0);
 }
 
 /* Event: switches the subscreen between mode 6 and mode 0. */

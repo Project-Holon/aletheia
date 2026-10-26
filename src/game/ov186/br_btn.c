@@ -92,7 +92,7 @@ struct BmpOamSys;
 typedef struct Button {
     int active;                 /* 0x00 */
     int enabled;                /* 0x04 */
-    char *result;               /* 0x08 */
+    struct BrButton *result;    /* 0x08 */
     void *object;               /* 0x0C */
     int (*update)(struct Button *); /* 0x10 */
     int dest_x;                 /* 0x14 */
@@ -101,9 +101,9 @@ typedef struct Button {
     s16 from, to, tick, duration; /* 0x20 */
     unsigned index;             /* 0x28 */
     int *pos;                   /* 0x2C */
-    char *owner;                /* 0x30 */
+    struct BrRes *owner;        /* 0x30 */
     unsigned short heap, pad;   /* 0x34 */
-    unsigned a;                 /* 0x38 */
+    void *a;                    /* 0x38 */
     void *b;                    /* 0x3C */
     struct U16Vec *work;        /* 0x40 */
 } Button;
@@ -184,7 +184,7 @@ struct BmpOam;
 
 
 
-struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap);
+struct BrBtn *BR_BTN_Create(int a, void *b, struct BrRes *c, int d, struct BrBtnResultSet *e, void *f, u16 heap);
 
 void BR_BTN_Delete(u8 *p);
 
@@ -196,7 +196,7 @@ int BR_BTN_GetPressed(char *p);
 
 int BR_BTN_GetResultValue(char *p);
 
-void BR_BTN_PushRecord(struct BrBtn *ctx, int source, int mode);
+void BR_BTN_PushRecord(struct BrBtn *ctx, const Button *source, int mode);
 
 int BR_BTN_Init(struct BrBtn *ctx, Button *out);
 
@@ -208,31 +208,31 @@ void BR_BTN_PopPosPair(char *p);
 
 void BR_BTN_SetTailSelection(struct BrBtn *ctx, int mode);
 
-void BR_BTN_SetupInput(void *p);
+void BR_BTN_SetupInput(struct BrUtilTask *p);
 
-void BR_BTN_HandleInput(void *p,int *state,struct BrBtn *ctx);
+void BR_BTN_HandleInput(struct BrUtilTask *p,int *state,struct BrBtn *ctx);
 
-void BR_BTN_UpdateSpread(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateSpread(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdatePress(void *p,int *state,struct BrBtn *ctx);
+void BR_BTN_UpdatePress(struct BrUtilTask *p,int *state,struct BrBtn *ctx);
 
-void BR_BTN_UpdateRestore(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateRestore(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdateHide(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateHide(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdateExpand(void *p,int *state,struct BrBtn *ctx);
+void BR_BTN_UpdateExpand(struct BrUtilTask *p,int *state,struct BrBtn *ctx);
 
-void BR_BTN_UpdateCollapse(int *task,int *state,struct BrBtn *ctx);
+void BR_BTN_UpdateCollapse(struct BrUtilTask *task,int *state,struct BrBtn *ctx);
 
-void BR_BTN_UpdateBack(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateBack(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdateTextInput(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateTextInput(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdateSlide(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateSlide(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_UpdateHide2(void *p, int *state, struct BrBtn *ctx);
+void BR_BTN_UpdateHide2(struct BrUtilTask *p, int *state, struct BrBtn *ctx);
 
-void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *owner, const void *arg, unsigned index, unsigned short heap);
+void BR_BTN_InitRecord(Button *ctx, void *object, void *a, void *b, struct BrRes *owner, const void *arg, unsigned index, unsigned short heap);
 
 void BR_BTN_DeleteRecord(Button *p);
 
@@ -260,7 +260,7 @@ void BR_BTN_SetBgPriority(Button *p, int b);
 
 void BR_BTN_SetSelected(Button *p, unsigned value);
 
-void BR_BTN_SetPos(Button *p, unsigned value);
+void BR_BTN_SetPos(Button *p, int *value);
 
 int BR_BTN_AnimMove(Button *ctx);
 
@@ -276,25 +276,25 @@ void *BR_BTN_CreateFromMessage(void *ctx, u16 file, unsigned short a, int b, voi
 
 struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u32 b,void *c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap);
 
-void BR_BTN_DeleteObject(char *p);
+void BR_BTN_DeleteObject(struct BrButton *p);
 
-int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
+int BR_BTN_HitTestWithSound(struct BrButton *obj, int x, int y);
 
-int BR_BTN_TestHitBox(u32 *p, int x, int y);
+int BR_BTN_TestHitBox(struct BrButton *p, int x, int y);
 
-void BR_BTN_SetObjectPos(char *p, short x, int y);
+void BR_BTN_SetObjectPos(struct BrButton *p, short x, int y);
 
-void BR_BTN_GetObjectPos(char *p,short *x,short *y);
+void BR_BTN_GetObjectPos(struct BrButton *p,short *x,short *y);
 
-void BR_BTN_SetObjectDrawPriority(int *p, unsigned char b);
+void BR_BTN_SetObjectDrawPriority(struct BrButton *p, unsigned char b);
 
-int BR_BTN_GetObjectDrawPriority(char *p);
+int BR_BTN_GetObjectDrawPriority(struct BrButton *p);
 
-void BR_BTN_SetObjectBgPriority(int *p, int b);
+void BR_BTN_SetObjectBgPriority(struct BrButton *p, int b);
 
-unsigned BR_BTN_GetObjectBgPriority(char *p);
+unsigned BR_BTN_GetObjectBgPriority(struct BrButton *p);
 
-void BR_BTN_SetObjectPalette(char *p,int n);
+void BR_BTN_SetObjectPalette(struct BrButton *p,int n);
 
 #include "br_btn_data.h"
 
@@ -320,23 +320,23 @@ extern char d_02200D1C[];
 
 extern const int d_02200358[];
 
-struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
+struct BrBtn *BR_BTN_Create(int a, void *b, struct BrRes *c, int d, struct BrBtnResultSet *e, void *f, u16 heap)
 {
     struct BrBtn *p;
     int tmp;
     int size;
     int i;
-    sptr arch;
-    u8 buf[0x44];
+    void *arch;
+    Button buf;
     if (a >= 12) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
-    p = GFL_HEAP_Alloc(heap, 0x60, 0, d_02200D1C, 0x13F);
-    MI_CpuFill8(p, 0, 0x60);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct BrBtn), 0, d_02200D1C, 0x13F);
+    MI_CpuFill8(p, 0, sizeof(struct BrBtn));
     p->resBase = c;
     p->oamData = b;
     p->heap = heap;
     p->resultSet = (struct BrBtnResultSet *)e;
     p->oamSys = BMP_OAM_CreateSys(heap, (void *)b);
-    p->printQue = (uptr)PRINTSYS_QUE_Create((unsigned int)heap);
+    p->printQue = PRINTSYS_QUE_Create((unsigned int)heap);
     p->effect = f;
     p->pressed = 1;
     MI_CpuFill8(&tmp, 0, 4);
@@ -344,42 +344,42 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     p->dataTable = BR_BTN_DATA_Create(&tmp, heap);
     if (a >= 10) p->spriteIndex = 2;
     else p->spriteIndex = 0;
-    BR_RES_LoadSprite((struct BrRes *)p->resBase, p->spriteIndex, heap);
-    BR_RES_LoadSprite((struct BrRes *)p->resBase, p->spriteIndex + 1, heap);
+    BR_RES_LoadSprite(p->resBase, p->spriteIndex, heap);
+    BR_RES_LoadSprite(p->resBase, p->spriteIndex + 1, heap);
     p->rowCount = BR_BTN_DATA_GetMaxSectionCount(p->dataTable);
-    size = p->rowCount * 0x44;
+    size = p->rowCount * sizeof(Button);
     p->rowRecords = GFL_HEAP_Alloc(heap, size, 0, d_02200D1C, 0x167);
     MI_CpuFill8(p->rowRecords, 0, size);
     p->maxRows = 6;
-    p->tailRecords = GFL_HEAP_Alloc(heap, 0x198, 0, d_02200D1C, 0x171);
-    MI_CpuFill8(p->tailRecords, 0, 0x198);
-    p->task = BR_UTIL_CreateTask((sptr)p, (sptr)BR_BTN_SetupInput, heap);
+    p->tailRecords = GFL_HEAP_Alloc(heap, 6 * sizeof(Button), 0, d_02200D1C, 0x171);
+    MI_CpuFill8(p->tailRecords, 0, 6 * sizeof(Button));
+    p->task = BR_UTIL_CreateTask(p, BR_BTN_SetupInput, heap);
     if (p->resultSet->count != 0) {
-        arch = BR_RES_GetMsgData((struct BrRes *)c);
+        arch = BR_RES_GetMsgData(c);
         for (i = 0; i < p->resultSet->count; i++) {
             void *q = BR_BTN_DATA_GetRow(p->dataTable, p->resultSet->rec[i].a, (unsigned short)p->resultSet->rec[i].b);
             void *rec = BR_BTN_DATA_CreateLabel(p->dataTable, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
-            MI_CpuFill8(buf, 0, 0x44);
-            BR_BTN_InitRecord((Button *)buf, q, b, p->oamSys, (char *)c, rec, p->spriteIndex, heap);
-            BR_BTN_PushRecord(p, (sptr)buf, 0);
+            MI_CpuFill8(&buf, 0, sizeof(Button));
+            BR_BTN_InitRecord(&buf, q, b, p->oamSys, c, rec, p->spriteIndex, heap);
+            BR_BTN_PushRecord(p, &buf, 0);
             STRBUF_Delete(rec);
         }
         for (i = 0; i < p->recordCount; i++)
-            BR_BTN_PlaceIndexed((Button *)(p->tailRecords + (p->recordCount - i - 1) * 0x44), (unsigned short)i);
-        BR_UTIL_SetTaskStep(p->task, (sptr)BR_BTN_UpdateCollapse);
+            BR_BTN_PlaceIndexed(&p->tailRecords[p->recordCount - i - 1], (unsigned short)i);
+        BR_UTIL_SetTaskStep(p->task, BR_BTN_UpdateCollapse);
         p->resultKind = 2;
     } else {
-        arch = BR_RES_GetMsgData((struct BrRes *)c);
+        arch = BR_RES_GetMsgData(c);
         p->sectionCount = BR_BTN_DATA_GetSectionCount(p->dataTable, a);
         for (i = 0; i < p->sectionCount; i++) {
             void *q = BR_BTN_DATA_GetRow(p->dataTable, a, (unsigned short)i);
             void *rec = BR_BTN_DATA_CreateLabel(p->dataTable, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
-            BR_BTN_InitRecord((Button *)(p->rowRecords + i * 0x44), q, b, p->oamSys, (char *)c, rec, p->spriteIndex, heap);
+            BR_BTN_InitRecord(&p->rowRecords[i], q, b, p->oamSys, c, rec, p->spriteIndex, heap);
             STRBUF_Delete(rec);
         }
         for (i = 0; i < p->sectionCount; i++)
-            BR_BTN_SetPosY((Button *)(p->rowRecords + i * 0x44), 0xe0);
-        BR_UTIL_SetTaskStep(p->task, (sptr)BR_BTN_UpdateSlide);
+            BR_BTN_SetPosY(&p->rowRecords[i], 0xe0);
+        BR_UTIL_SetTaskStep(p->task, BR_BTN_UpdateSlide);
     }
     return p;
 }
@@ -390,24 +390,24 @@ void BR_BTN_Delete(u8 *p)
 
     BR_UTIL_DeleteTask((void *)(((struct BrBtn *)p)->task));
     if (((struct BrBtn *)p)->textWin != 0) {
-        BR_UTIL_DeleteTextWin((void *)(((struct BrBtn *)p)->textWin), ((struct BrBtn *)p)->resBase);
+        BR_UTIL_DeleteTextWin(((struct BrBtn *)p)->textWin, ((struct BrBtn *)p)->resBase);
         ((struct BrBtn *)p)->textWin = 0;
     }
     for (i = 0; i < ((struct BrBtn *)p)->recordCount; i++)
-        BR_BTN_DeleteRecord((Button *)(((struct BrBtn *)p)->tailRecords + i * 0x44));
+        BR_BTN_DeleteRecord(&((struct BrBtn *)p)->tailRecords[i]);
     GFL_HEAP_Free((void *)((struct BrBtn *)p)->tailRecords);
     for (i = 0; i < ((struct BrBtn *)p)->sectionCount; i++)
-        BR_BTN_DeleteRecord((Button *)(((struct BrBtn *)p)->rowRecords + i * 0x44));
+        BR_BTN_DeleteRecord(&((struct BrBtn *)p)->rowRecords[i]);
     GFL_HEAP_Free((void *)((struct BrBtn *)p)->rowRecords);
-    BR_RES_ReleaseSprite((struct BrRes *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex);
-    BR_RES_ReleaseSprite((struct BrRes *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex + 1);
+    BR_RES_ReleaseSprite(((struct BrBtn *)p)->resBase, ((struct BrBtn *)p)->spriteIndex);
+    BR_RES_ReleaseSprite(((struct BrBtn *)p)->resBase, ((struct BrBtn *)p)->spriteIndex + 1);
     BR_BTN_DATA_Delete((void *)(((struct BrBtn *)p)->dataTable));
     BMP_OAM_DeleteSys((void *)(((struct BrBtn *)p)->oamSys));
-    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BrBtn *)p)->printQue));
+    PRINTSYS_QUE_Delete(((struct BrBtn *)p)->printQue);
     GFL_HEAP_Free(p);
 }
 
-void BR_BTN_UpdatePrint(char *p) { BR_UTIL_RunTask((u8 *)(((struct BrBtn *)p)->task));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintSys * *)&((struct BrBtn *)p)->printQue));if(*(char * *)&((struct BrBtn *)p)->textWin)BR_UTIL_FlushWindow(*(char * *)&((struct BrBtn *)p)->textWin); }
+void BR_BTN_UpdatePrint(char *p) { BR_UTIL_RunTask(((struct BrBtn *)p)->task);PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintSys * *)&((struct BrBtn *)p)->printQue));if(*(char * *)&((struct BrBtn *)p)->textWin)BR_UTIL_FlushWindow(*(char * *)&((struct BrBtn *)p)->textWin); }
 
 /*
  * blocker-leaf: ov183 021DB770; source/unit/shard ownership checked, parent cleared.
@@ -418,17 +418,17 @@ int BR_BTN_GetPressed(char *p){return ((struct BrBtn *)p)->pressed;}
 
 int BR_BTN_GetResultValue(char *p){return ((struct BrBtn *)p)->resultValue;}
 
-void BR_BTN_PushRecord(struct BrBtn *ctx, int source, int mode)
+void BR_BTN_PushRecord(struct BrBtn *ctx, const Button *source, int mode)
 {
     int i;
 
     if (ctx->recordCount >= ctx->maxRows)
         GF_PANIC_Fail((const char *)d_02200D18, 0, (const char *)d_02200D18);
-    BR_BTN_CopyRecord(ctx, (Button *)(*(u8 * *)&ctx->tailRecords + ctx->recordCount * 0x44), (const Button *)source, mode);
+    BR_BTN_CopyRecord(ctx, &ctx->tailRecords[ctx->recordCount], source, mode);
     ctx->recordCount++;
     for (i = 0; i < ctx->recordCount; i++) {
-        BR_BTN_SetDrawPriority((Button *)(*(u8 * *)&ctx->tailRecords + i * 0x44), (u16)((ctx->recordCount - i) * 2 + 1));
-        BR_BTN_SetBgPriority((Button *)(*(u8 * *)&ctx->tailRecords + i * 0x44), 1);
+        BR_BTN_SetDrawPriority(&ctx->tailRecords[i], (u16)((ctx->recordCount - i) * 2 + 1));
+        BR_BTN_SetBgPriority(&ctx->tailRecords[i], 1);
     }
 }
 
@@ -436,8 +436,8 @@ int BR_BTN_Init(struct BrBtn *ctx, Button *out)
 {
     if (ctx->recordCount) {
         ctx->recordCount--;
-        *out = (*(Button **)((u8 *)ctx + 0x3c))[ctx->recordCount];
-        MI_CpuFill8(&(*(Button **)((u8 *)ctx + 0x3c))[ctx->recordCount], 0, 0x44);
+        *out = ctx->tailRecords[ctx->recordCount];
+        MI_CpuFill8(&ctx->tailRecords[ctx->recordCount], 0, sizeof(Button));
         return 1;
     }
     return 0;
@@ -445,22 +445,22 @@ int BR_BTN_Init(struct BrBtn *ctx, Button *out)
 
 void BR_BTN_BuildSection(struct BrBtn *p,int section,const int *pos)
 {
- int i; sptr bank;
+ int i; void *bank;
  void *rec,*text;
- for(i=0;i<p->rowCount;i++)BR_BTN_DeleteRecord((Button *)(*(u8 * *)&p->rowRecords+i*0x44));
+ for(i=0;i<p->rowCount;i++)BR_BTN_DeleteRecord(&p->rowRecords[i]);
  bank=BR_RES_GetMsgData((struct BrRes *)(*(char * *)&p->resBase));
  p->sectionCount=BR_BTN_DATA_GetSectionCount(p->dataTable,section);
  for(i=0;i<p->sectionCount;i++){
   rec=BR_BTN_DATA_GetRow((struct BrBtnTable *)(*(char * *)&p->dataTable),section,(u16)i);
   text=BR_BTN_DATA_CreateLabel(*(unsigned *const * *)&p->dataTable,rec,(struct MsgBank *)bank,(p->heap&0x7fff)|0x8000);
-  BR_BTN_InitRecord((Button *)(*(u8 * *)&p->rowRecords+i*0x44), rec, p->oamData, (void *)(p->oamSys), (char *)(p->resBase), text, p->spriteIndex, p->heap);
+  BR_BTN_InitRecord(&p->rowRecords[i], rec, p->oamData, p->oamSys, p->resBase, text, p->spriteIndex, p->heap);
   STRBUF_Delete(text);
-  BR_BTN_SetDrawPriority((Button *)(*(u8 * *)&p->rowRecords+i*0x44), 3);
-  if(pos)BR_BTN_SetObjectPos(*(void **)(*(u8 * *)&p->rowRecords+i*0x44+8),pos[0],(short)pos[1]);
+  BR_BTN_SetDrawPriority(&p->rowRecords[i], 3);
+  if(pos)BR_BTN_SetObjectPos(p->rowRecords[i].result,pos[0],(short)pos[1]);
  }
 }
 
-void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)GF_PANIC_Fail(d_02200D18,0,d_02200D18);*(unsigned short *)((uptr)p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((uptr)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
+void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)GF_PANIC_Fail(d_02200D18,0,d_02200D18);*(unsigned short *)(p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((char *)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
 
 void BR_BTN_PopPosPair(char *p) { if (((struct BrBtnResultSet *)p)->count!=0) (((struct BrBtnResultSet *)p)->count)--; }
 
@@ -473,25 +473,25 @@ void BR_BTN_SetTailSelection(struct BrBtn *ctx, int mode)
         case 1: selected = (i >= ctx->recordCount - 2); break;
         }
         if (selected)
-            BR_BTN_SetSelected((Button *)(*(char * *)&ctx->tailRecords + i * 0x44), 0);
+            BR_BTN_SetSelected(&ctx->tailRecords[i], 0);
         else
-            BR_BTN_SetSelected((Button *)(*(char * *)&ctx->tailRecords + i * 0x44), 1);
+            BR_BTN_SetSelected(&ctx->tailRecords[i], 1);
     }
 }
 
-void BR_BTN_SetupInput(void *p)
+void BR_BTN_SetupInput(struct BrUtilTask *p)
 {
-    BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_HandleInput);
+    BR_UTIL_SetTaskStep(p, BR_BTN_HandleInput);
 }
 
-void BR_BTN_HandleInput(void *p,int *state,struct BrBtn *ctx)
+void BR_BTN_HandleInput(struct BrUtilTask *p,int *state,struct BrBtn *ctx)
 {
  int found,i,x,y,kind;
  found=0;ctx->placement=0;ctx->pressed=0;
  if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
   for(i=0;i<ctx->rowCount;i++){
-   if(BR_BTN_HitTest((Button *)(int *)(*(char * *)&ctx->rowRecords+i*0x44), x, y)){
-    if(BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 3)){
+   if(BR_BTN_HitTest(&ctx->rowRecords[i], x, y)){
+    if(BR_BTN_GetRowField(&ctx->rowRecords[i], 3)){
      if(ctx->textWin){
       BR_UTIL_DeleteTextWin((void *)(ctx->textWin),ctx->resBase);
       ctx->textWin=0;
@@ -500,14 +500,14 @@ void BR_BTN_HandleInput(void *p,int *state,struct BrBtn *ctx)
      ctx->selected=i;
      found=1;
      ctx->touchX=x;ctx->touchY=y;
-     BR_UTIL_StartEffect(*(char * *)&ctx->effect,7,(BrPair *)((u8 *)ctx + 0x30));
-     BR_BTN_SetPos((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), (uptr)((BrPair *)((u8 *)ctx + 0x30)));
+     BR_UTIL_StartEffect(*(char * *)&ctx->effect,7,(BrPair *)&ctx->touchX);
+     BR_BTN_SetPos(&ctx->rowRecords[ctx->selected], &ctx->touchX);
      ctx->resultValue=0;
     }else{
-     kind=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 5);
-     BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 6);
+     kind=BR_BTN_GetRowField(&ctx->rowRecords[i], 5);
+     BR_BTN_GetRowField(&ctx->rowRecords[i], 6);
      GFL_USE_PlaySeDefaultVolume(0x704);
-     if(kind==1){ctx->selected=i;BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateTextInput);}
+     if(kind==1){ctx->selected=i;BR_UTIL_SetTaskStep(p,BR_BTN_UpdateTextInput);}
     }
     break;
    }
@@ -515,24 +515,24 @@ void BR_BTN_HandleInput(void *p,int *state,struct BrBtn *ctx)
  }
  if(found){
   ctx->pressed=1;
-  *(int *)&ctx->resultKind=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), 0);
-  ctx->kind3=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), 3);
-  ctx->section=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), 1);
-  ctx->offsetY=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), 2);
+  *(int *)&ctx->resultKind=BR_BTN_GetRowField(&ctx->rowRecords[ctx->selected], 0);
+  ctx->kind3=BR_BTN_GetRowField(&ctx->rowRecords[ctx->selected], 3);
+  ctx->section=BR_BTN_GetRowField(&ctx->rowRecords[ctx->selected], 1);
+  ctx->offsetY=BR_BTN_GetRowField(&ctx->rowRecords[ctx->selected], 2);
   for(i=0;i<ctx->sectionCount;i++){
-   if(i==ctx->selected)BR_BTN_SetDrawPriority((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 1);
-   else BR_BTN_SetDrawPriority((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 3);
+   if(i==ctx->selected)BR_BTN_SetDrawPriority(&ctx->rowRecords[i], 1);
+   else BR_BTN_SetDrawPriority(&ctx->rowRecords[i], 3);
   }
   switch(ctx->resultKind){
-  case 2:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateHide);break;
-  case 0:case 1:case 4:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateSpread);break;
-  case 3:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateHide2);break;
-  default:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateBack);break;
+  case 2:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateHide);break;
+  case 0:case 1:case 4:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateSpread);break;
+  case 3:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateHide2);break;
+  default:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateBack);break;
   }
  }
 }
 
-void BR_BTN_UpdateSpread(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateSpread(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     int i, ready;
     int values[2];
@@ -540,8 +540,8 @@ void BR_BTN_UpdateSpread(void *p, int *state, struct BrBtn *ctx)
     case 0:
         for (i = 0; i < ctx->sectionCount; i++) {
             if (ctx->selected != i) {
-                BR_BTN_GetPos((Button *)(*(char * *)&ctx->rowRecords + ctx->selected * 0x44), values);
-                BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 0, values);
+                BR_BTN_GetPos(&ctx->rowRecords[ctx->selected], values);
+                BR_BTN_SetAnimMode(&ctx->rowRecords[i], 0, values);
             }
         }
         *state = 1;
@@ -549,15 +549,15 @@ void BR_BTN_UpdateSpread(void *p, int *state, struct BrBtn *ctx)
     case 1:
         ready = 1;
         for (i = 0; i < ctx->sectionCount; i++)
-            ready &= BR_BTN_StepAnim((Button *)(*(char * *)&ctx->rowRecords + i * 0x44));
+            ready &= BR_BTN_StepAnim(&ctx->rowRecords[i]);
         if (ready) *state = 2;
         break;
     case 2:
         if (ctx->resultKind == 4) {
-            BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdatePress);
+            BR_UTIL_SetTaskStep(p, BR_BTN_UpdatePress);
             return;
         } else {
-            BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdatePress);
+            BR_UTIL_SetTaskStep(p, BR_BTN_UpdatePress);
         }
         break;
     }
@@ -566,22 +566,22 @@ void BR_BTN_UpdateSpread(void *p, int *state, struct BrBtn *ctx)
 /*
  * lever: unsigned mode <= 1 range guard retains the original compare chain; switch(0,1,2) differs.
  */
-void BR_BTN_UpdatePress(void *p,int *state,struct BrBtn *ctx)
+void BR_BTN_UpdatePress(struct BrUtilTask *p,int *state,struct BrBtn *ctx)
 {
  int section,index,value,i,y;
  int pos[2],other[2];
  Button record;
  if(ctx->resultKind<=1){
   section=ctx->section;
-  BR_BTN_GetPos((Button *)(*(char * *)&ctx->rowRecords+ctx->selected*0x44), pos);
-  BR_BTN_PushRecord(ctx,(sptr)(*(char * *)&ctx->rowRecords+ctx->selected*0x44),1);
+  BR_BTN_GetPos(&ctx->rowRecords[ctx->selected], pos);
+  BR_BTN_PushRecord(ctx,&ctx->rowRecords[ctx->selected],1);
   index=ctx->selected;
-  value=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+index*0x44), 4);
+  value=BR_BTN_GetRowField(&ctx->rowRecords[index], 4);
   BR_BTN_PushPosPair((char *)ctx->resultSet,(u16)value,(u16)index);
-  MI_CpuFill8(*(char * *)&ctx->rowRecords+ctx->selected*0x44,0,0x44);
+  MI_CpuFill8(&ctx->rowRecords[ctx->selected],0,sizeof(Button));
   pos[1]=-32;
   BR_BTN_BuildSection(ctx,section,pos);
-  BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateExpand);
+  BR_UTIL_SetTaskStep(p,BR_BTN_UpdateExpand);
  }else if(ctx->resultKind==2){
   BR_BTN_PopPosPair((char *)ctx->resultSet);
   if(BR_BTN_Init(ctx, (Button *)&record)){
@@ -592,106 +592,106 @@ void BR_BTN_UpdatePress(void *p,int *state,struct BrBtn *ctx)
    BR_BTN_BuildSection(ctx,section,other);
    y=BR_BTN_DATA_GetRowField(record.object,1);
    for(i=0;i<ctx->sectionCount;i++){
-    if(y==BR_BTN_DATA_GetRowField((void *)(*(int *)(*(char * *)&ctx->rowRecords+i*0x44+0xc)),1))
-     BR_BTN_SetDrawPriority((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 1);
+    if(y==BR_BTN_DATA_GetRowField((&ctx->rowRecords[i])->object,1))
+     BR_BTN_SetDrawPriority(&ctx->rowRecords[i], 1);
    }
    BR_BTN_DeleteRecord((Button *)(&record));
-   BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateRestore);
+   BR_UTIL_SetTaskStep(p,BR_BTN_UpdateRestore);
   }
  }else{
-  BR_BTN_PushRecord(ctx,(sptr)(*(char * *)&ctx->rowRecords+ctx->selected*0x44),1);
+  BR_BTN_PushRecord(ctx,&ctx->rowRecords[ctx->selected],1);
   index=ctx->selected;
-  value=BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords+index*0x44), 4);
+  value=BR_BTN_GetRowField(&ctx->rowRecords[index], 4);
   BR_BTN_PushPosPair((char *)ctx->resultSet,(u16)value,(u16)index);
-  MI_CpuFill8(*(char * *)&ctx->rowRecords+ctx->selected*0x44,0,0x44);
-  for(i=0;i<ctx->sectionCount;i++)BR_BTN_DeleteRecord((Button *)(*(char * *)&ctx->rowRecords+i*0x44));
-  BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateExpand);
+  MI_CpuFill8(&ctx->rowRecords[ctx->selected],0,sizeof(Button));
+  for(i=0;i<ctx->sectionCount;i++)BR_BTN_DeleteRecord(&ctx->rowRecords[i]);
+  BR_UTIL_SetTaskStep(p,BR_BTN_UpdateExpand);
  }
 }
 
-void BR_BTN_UpdateRestore(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateRestore(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     int i, ready;
     switch (*state) {
     case 0:
         for (i = 0; i < ctx->sectionCount; i++)
-            BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 1, 0);
+            BR_BTN_SetAnimMode(&ctx->rowRecords[i], 1, 0);
         *state = 1;
         break;
     case 1:
         ready = 1;
         for (i = 0; i < ctx->sectionCount; i++)
-            ready &= BR_BTN_StepAnim((Button *)(*(char * *)&ctx->rowRecords + i * 0x44));
+            ready &= BR_BTN_StepAnim(&ctx->rowRecords[i]);
         if (ready) *state = 2;
         break;
     case 2:
         switch (ctx->resultKind) {
-        case 0: case 1: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdateBack); break;
-        case 4: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdateExpand); break;
-        default: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdateBack); break;
+        case 0: case 1: BR_UTIL_SetTaskStep(p, BR_BTN_UpdateBack); break;
+        case 4: BR_UTIL_SetTaskStep(p, BR_BTN_UpdateExpand); break;
+        default: BR_UTIL_SetTaskStep(p, BR_BTN_UpdateBack); break;
         }
         break;
     }
 }
 
-void BR_BTN_UpdateHide(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateHide(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     int i, ready;
     int values[2];
     switch (*state) {
     case 0:
         for (i = 0; i < ctx->sectionCount; i++) {
-            BR_BTN_GetPos((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), values);
+            BR_BTN_GetPos(&ctx->rowRecords[i], values);
             values[1] = 0xe0;
-            BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 4, values);
+            BR_BTN_SetAnimMode(&ctx->rowRecords[i], 4, values);
         }
         *state = 1;
         break;
     case 1:
         ready = 1;
         for (i = 0; i < ctx->sectionCount; i++)
-            ready &= BR_BTN_StepAnim((Button *)(*(char * *)&ctx->rowRecords + i * 0x44));
+            ready &= BR_BTN_StepAnim(&ctx->rowRecords[i]);
         if (ready) *state = 2;
         break;
-    case 2: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdateCollapse); break;
+    case 2: BR_UTIL_SetTaskStep(p, BR_BTN_UpdateCollapse); break;
     }
 }
 
-void BR_BTN_UpdateExpand(void *p,int *state,struct BrBtn *ctx)
+void BR_BTN_UpdateExpand(struct BrUtilTask *p,int *state,struct BrBtn *ctx)
 {
  int i,ready,kind;
  unsigned short value;
- char *entry;
+ Button *entry;
  switch(*state){
  case 0:
   for(i=0;i<ctx->recordCount;i++){
-   if(i==ctx->recordCount-1)BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->tailRecords+i*0x44), 2, d_02200358);
-   else BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->tailRecords+i*0x44), 4, d_02200358+(ctx->recordCount-i-1)*2);
+   if(i==ctx->recordCount-1)BR_BTN_SetAnimMode(&ctx->tailRecords[i], 2, d_02200358);
+   else BR_BTN_SetAnimMode(&ctx->tailRecords[i], 4, d_02200358+(ctx->recordCount-i-1)*2);
   }
   *state=1;break;
  case 1:
   ready=1;
-  for(i=0;i<ctx->recordCount;i++)ready&=BR_BTN_StepAnim((Button *)(*(char * *)&ctx->tailRecords+i*0x44));
+  for(i=0;i<ctx->recordCount;i++)ready&=BR_BTN_StepAnim(&ctx->tailRecords[i]);
   if(ready){BR_BTN_SetTailSelection(ctx,0);*state=2;}break;
  case 2:
-  entry=*(char * *)&ctx->tailRecords+(ctx->recordCount-1)*0x44;
-  kind=BR_BTN_GetRowField((Button *)entry, 0);
-  value=BR_BTN_GetRowField((Button *)entry, 2);
+  entry=&ctx->tailRecords[ctx->recordCount-1];
+  kind=BR_BTN_GetRowField(entry, 0);
+  value=BR_BTN_GetRowField(entry, 2);
   if(kind==1){
    if(!ctx->textWin)ctx->textWin=BR_UTIL_CreateTextWin((void *)((ctx->resBase)),(void *)(ctx->printQue),ctx->heap);
-   BR_UTIL_SetWindowText(ctx->textWin,(char *)ctx->resBase,(void *)value);
+   BR_UTIL_SetWindowText(ctx->textWin,ctx->resBase,value);
   }
   *state=3;break;
  case 3:
   switch(ctx->resultKind){
-  case 0:case 1:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateRestore);break;
-  default:BR_UTIL_SetTaskStep(p,(sptr)BR_BTN_UpdateBack);break;
+  case 0:case 1:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateRestore);break;
+  default:BR_UTIL_SetTaskStep(p,BR_BTN_UpdateBack);break;
   }
   break;
  }
 }
 
-void BR_BTN_UpdateCollapse(int *task,int *state,struct BrBtn *ctx)
+void BR_BTN_UpdateCollapse(struct BrUtilTask *task,int *state,struct BrBtn *ctx)
 {
     int position[2];
     int i;
@@ -700,25 +700,25 @@ void BR_BTN_UpdateCollapse(int *task,int *state,struct BrBtn *ctx)
     case 0:
         for(i=0;i<ctx->recordCount;i++) {
             if(i==ctx->recordCount-1) {
-                position[0]=BR_BTN_DATA_GetRowField(*(void **)(*(u8 * *)&ctx->tailRecords+i*0x44+0xC),0);
-                position[1]=BR_BTN_DATA_GetRowField(*(void **)(*(u8 * *)&ctx->tailRecords+i*0x44+0xC),1);
-                BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->tailRecords+i*0x44), 3, position);
-                BR_BTN_SetDrawPriority((Button *)(*(char * *)&ctx->tailRecords+i*0x44), 1);
-            } else BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->tailRecords+i*0x44), 4, (const int *)((uptr)d_02200358+(ctx->recordCount-i-2)*8));
+                position[0]=BR_BTN_DATA_GetRowField(ctx->tailRecords[i].object,0);
+                position[1]=BR_BTN_DATA_GetRowField(ctx->tailRecords[i].object,1);
+                BR_BTN_SetAnimMode(&ctx->tailRecords[i], 3, position);
+                BR_BTN_SetDrawPriority(&ctx->tailRecords[i], 1);
+            } else BR_BTN_SetAnimMode(&ctx->tailRecords[i], 4, (const int *)((char *)d_02200358+(ctx->recordCount-i-2)*8));
         }
-        for(i=0;i<ctx->sectionCount;i++)BR_BTN_SetDrawPriority((Button *)(*(char * *)&ctx->rowRecords+i*0x44), 3);
+        for(i=0;i<ctx->sectionCount;i++)BR_BTN_SetDrawPriority(&ctx->rowRecords[i], 3);
         *state=1;
         break;
     case 1:
         ready=1;
-        for(i=0;i<ctx->recordCount;i++)ready&=BR_BTN_StepAnim((Button *)(*(char * *)&ctx->tailRecords+i*0x44));
+        for(i=0;i<ctx->recordCount;i++)ready&=BR_BTN_StepAnim(&ctx->tailRecords[i]);
         if(ready){BR_BTN_SetTailSelection(ctx,1);*state=2;}
         break;
-    case 2:BR_UTIL_SetTaskStep(task,(sptr)BR_BTN_UpdatePress);break;
+    case 2:BR_UTIL_SetTaskStep(task,BR_BTN_UpdatePress);break;
     }
 }
 
-void BR_BTN_UpdateBack(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateBack(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     if (*state == 0) {
         if (ctx->kind3) {
@@ -728,69 +728,69 @@ void BR_BTN_UpdateBack(void *p, int *state, struct BrBtn *ctx)
             case 4: ctx->placement = 1; break;
             }
         }
-        BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_HandleInput);
+        BR_UTIL_SetTaskStep(p, BR_BTN_HandleInput);
     }
 }
 
-void BR_BTN_UpdateTextInput(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateTextInput(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     sptr value;
     switch (*state) {
     case 0:
-        value = BR_BTN_GetRowField((Button *)((uptr)ctx->rowRecords + ctx->selected * 0x44), 6);
+        value = BR_BTN_GetRowField(&ctx->rowRecords[ctx->selected], 6);
         if (ctx->textWin == 0)
             ctx->textWin = BR_UTIL_CreateTextWin(((void *)ctx->resBase), (void *)ctx->printQue, ctx->heap);
-        BR_UTIL_SetWindowText(ctx->textWin, (void *)ctx->resBase, (void *)value);
+        BR_UTIL_SetWindowText(ctx->textWin, ctx->resBase, value);
         *state = 1;
         break;
     case 1: *state = 2; break;
-    case 2: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_HandleInput); break;
+    case 2: BR_UTIL_SetTaskStep(p, BR_BTN_HandleInput); break;
     }
 }
 
-void BR_BTN_UpdateSlide(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateSlide(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     int i, ready;
     int values[2];
     switch (*state) {
     case 0:
         for (i = 0; i < ctx->sectionCount; i++) {
-            values[0] = BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 8);
-            values[1] = BR_BTN_GetRowField((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 9);
-            BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 4, values);
+            values[0] = BR_BTN_GetRowField(&ctx->rowRecords[i], 8);
+            values[1] = BR_BTN_GetRowField(&ctx->rowRecords[i], 9);
+            BR_BTN_SetAnimMode(&ctx->rowRecords[i], 4, values);
         }
         *state = 1;
         break;
     case 1:
         ready = 1;
         for (i = 0; i < ctx->sectionCount; i++)
-            ready &= BR_BTN_StepAnim((Button *)(*(char * *)&ctx->rowRecords + i * 0x44));
+            ready &= BR_BTN_StepAnim(&ctx->rowRecords[i]);
         if (ready) *state = 2;
         break;
-    case 2: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_SetupInput); break;
+    case 2: BR_UTIL_SetTaskStep(p, BR_BTN_SetupInput); break;
     }
 }
 
-void BR_BTN_UpdateHide2(void *p, int *state, struct BrBtn *ctx)
+void BR_BTN_UpdateHide2(struct BrUtilTask *p, int *state, struct BrBtn *ctx)
 {
     int i, ready;
     int values[2];
     switch (*state) {
     case 0:
         for (i = 0; i < ctx->sectionCount; i++) {
-            BR_BTN_GetPos((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), values);
+            BR_BTN_GetPos(&ctx->rowRecords[i], values);
             values[1] = 0xe0;
-            BR_BTN_SetAnimMode((Button *)(*(char * *)&ctx->rowRecords + i * 0x44), 4, values);
+            BR_BTN_SetAnimMode(&ctx->rowRecords[i], 4, values);
         }
         *state = 1;
         break;
     case 1:
         ready = 1;
         for (i = 0; i < ctx->sectionCount; i++)
-            ready &= BR_BTN_StepAnim((Button *)(*(char * *)&ctx->rowRecords + i * 0x44));
+            ready &= BR_BTN_StepAnim(&ctx->rowRecords[i]);
         if (ready) *state = 2;
         break;
-    case 2: BR_UTIL_SetTaskStep(p, (sptr)BR_BTN_UpdateBack); break;
+    case 2: BR_UTIL_SetTaskStep(p, BR_BTN_UpdateBack); break;
     }
 }
 
@@ -799,14 +799,14 @@ void BR_BTN_UpdateHide2(void *p, int *state, struct BrBtn *ctx)
  * evidence: matched arm9/STRBUF_Clone.c; original 021FAC58 loads heap into r1,
  * then loads source into r0 at021FAC5A before storing heap and calling021FAC62.
  */
-void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *owner, const void *arg, unsigned index, unsigned short heap)
+void BR_BTN_InitRecord(Button *ctx, void *object, void *a, void *b, struct BrRes *owner, const void *arg, unsigned index, unsigned short heap)
 {
     unsigned info[3];
     BrBtnCreateConfig config;
     const void *work;
     unsigned short heap_value;
     if (ctx->active) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
-    MI_CpuFill8(ctx, 0, 0x44);
+    MI_CpuFill8(ctx, 0, sizeof(Button));
     ctx->active = 1;
     ctx->enabled = 1;
     ctx->object = object;
@@ -823,8 +823,8 @@ void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *own
     config.y = BR_BTN_DATA_GetRowField(ctx->object, 1);
     config.z = BR_BTN_DATA_GetRowField(ctx->object, 4);
     config.flag = 1;
-    BR_RES_GetSprite((struct BrRes *)owner, ctx->index + 1, info);
-    ctx->result = (char *)BR_BTN_CreateObject((const BrBtnPlacement *)&config, ctx->work, 0xa0, ctx->enabled, (void *)a, b, (void *)BR_RES_GetFont((struct BrRes *)owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
+    BR_RES_GetSprite(owner, ctx->index + 1, info);
+    ctx->result = BR_BTN_CreateObject((const BrBtnPlacement *)&config, ctx->work, 0xa0, ctx->enabled, (void *)a, b, (void *)BR_RES_GetFont(owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
 }
 
 void BR_BTN_DeleteRecord(Button *p)
@@ -832,7 +832,7 @@ void BR_BTN_DeleteRecord(Button *p)
     if (p->active != 0) {
         STRBUF_Delete((struct Strbuf *)p->work);
         BR_BTN_DeleteObject(p->result);
-        MI_CpuFill8(p, 0, 0x44);
+        MI_CpuFill8(p, 0, sizeof(Button));
     }
 }
 
@@ -845,7 +845,7 @@ void BR_BTN_DeleteRecord(Button *p)
 int BR_BTN_HitTest(Button *p, int x, int y)
 {
     if (p->active != 0)
-        return BR_BTN_TestHitBox((u32 *)p->result, x, y);
+        return BR_BTN_TestHitBox(p->result, x, y);
     return 0;
 }
 
@@ -893,7 +893,7 @@ void BR_BTN_SetMode(Button *ctx, int mode)
     int priority;
     int attr;
     int shift;
-    uptr resource;
+    void *resource;
     if (ctx->enabled == mode) return;
     ctx->enabled = mode;
     BR_BTN_GetObjectPos(ctx->result, &x, &y);
@@ -908,11 +908,11 @@ void BR_BTN_SetMode(Button *ctx, int mode)
     placement.animation = BR_BTN_DATA_GetRowField(ctx->object, 4);
     placement.priority = priority;
     placement.attr = attr;
-    BR_RES_GetSprite((struct BrRes *)ctx->owner, ctx->index + mode, &config);
-    resource = BR_RES_GetFont((struct BrRes *)ctx->owner);
-    BR_RES_GetMsgData((struct BrRes *)ctx->owner);
+    BR_RES_GetSprite(ctx->owner, ctx->index + mode, &config);
+    resource = BR_RES_GetFont(ctx->owner);
+    BR_RES_GetMsgData(ctx->owner);
     BR_BTN_DATA_GetRowField(ctx->object, 3);
-    ctx->result = (char *)BR_BTN_CreateObject((const BrBtnPlacement *)&placement, ctx->work, 160, mode, (void *)ctx->a, ctx->b, (void *)resource, (const BrBtnSpriteIds *)&config, ctx->heap);
+    ctx->result = BR_BTN_CreateObject((const BrBtnPlacement *)&placement, ctx->work, 160, mode, (void *)ctx->a, ctx->b, (void *)resource, (const BrBtnSpriteIds *)&config, ctx->heap);
 }
 
 void BR_BTN_CopyRecord(void *ctx, Button *dest, const Button *source, int mode)
@@ -955,17 +955,17 @@ int BR_BTN_GetRowField(Button *ctx, int kind)
 
 void BR_BTN_SetDrawPriority(Button *p, int b)
 {
-    BR_BTN_SetObjectDrawPriority((int *)p->result, (unsigned char)b);
+    BR_BTN_SetObjectDrawPriority(p->result, (unsigned char)b);
 }
 
 void BR_BTN_SetBgPriority(Button *p, int b)
 {
-    BR_BTN_SetObjectBgPriority((int *)p->result, (unsigned char)b);
+    BR_BTN_SetObjectBgPriority(p->result, (unsigned char)b);
 }
 
 void BR_BTN_SetSelected(Button *p, unsigned value) { BR_BTN_SetObjectPalette(p->result, value); }
 
-void BR_BTN_SetPos(Button *p, unsigned value) { p->pos = (int *)value; }
+void BR_BTN_SetPos(Button *p, int *value) { p->pos = value; }
 
 /*
  * tail: 021FB056..021FB058 is two zero alignment bytes.
@@ -1160,14 +1160,14 @@ struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u
     u32 value;
     struct BrButton *p;
     value=b;config=triple;
-    p=GFL_HEAP_Alloc(heap,24,0,d_02200D1C,0xA3B);
-    MI_CpuFill8(p,0,24);
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_02200D1C,0xA3B);
+    MI_CpuFill8(p,0,sizeof(*p));
     p->paramA=a;p->surface=value;
     p->actor=CLACT_CreateActor(c,config->y,config->z,config->x,(const struct ActorInitParam *)pt,value,heap);
     CLACT_SetActorObjMode(p->actor,1);
     p->bmp=BMP_Create(p->paramA>>3,2,32,heap);
     PRINTSYS_PrintColor(p->bmp,1,0,data,font,0x3DA0);
-    MI_CpuFill8(&param,0,24);
+    MI_CpuFill8(&param,0,sizeof(param));
     param.bmp=p->bmp;
     param.x=pt->x+32;param.y=pt->y-8;
     param.spriteZ=config->z;param.objMode=pt->flag-1;param.mode=value;
@@ -1178,9 +1178,9 @@ struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u
     return p;
 }
 
-void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete((struct BmpOam *)(*(struct BmpOam * *)&((struct BrButton *)p)->grid));BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor((struct ClactActor *)*(struct Actor * *)&((struct BrButton *)p)->actor);GFL_HEAP_Free(p); }
+void BR_BTN_DeleteObject(struct BrButton *p) { BMP_OAM_Delete((struct BmpOam *)(p->grid));BMP_Delete(p->bmp);CLACT_DeleteActor((struct ClactActor *)p->actor);GFL_HEAP_Free(p); }
 
-int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y)
+int BR_BTN_HitTestWithSound(struct BrButton *obj, int x, int y)
 {
     int r = BR_BTN_TestHitBox(obj, x, y);
 
@@ -1209,33 +1209,33 @@ static inline int in_range(int v, int lo, int hi)
  *
  * Addresses are Black-image addresses.
  */
-int BR_BTN_TestHitBox(u32 *p, int x, int y)
+int BR_BTN_TestHitBox(struct BrButton *p, int x, int y)
 {
     BrBtnPtS pos;
     int hx;
-    CLACT_GetActorSurfacePos((struct ClactActor *)(struct Actor *)p[0], (struct ClactVec2 *)&pos, (u16)p[4]);
-    hx = in_range(x, pos.x, pos.x + p[5]);
+    CLACT_GetActorSurfacePos((struct ClactActor *)p->actor, (struct ClactVec2 *)&pos, (u16)p->surface);
+    hx = in_range(x, pos.x, pos.x + p->paramA);
     return in_range(y, pos.y - 16, pos.y + 16) & hx;
 }
 
-void BR_BTN_SetObjectPos(char *p, short x, int y) { struct BrBtnVec2 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos((struct ClactActor *)*(struct Actor * *)&((struct BrButton *)p)->actor,(struct ClactVec2 *)(const struct ClactVec2 *)&v,(unsigned short)(((struct BrButton *)p)->surface));BMP_OAM_SetPos((struct BmpOam *)(*(struct BmpOam * *)&((struct BrButton *)p)->grid),v.x+32,v.y-8); }
+void BR_BTN_SetObjectPos(struct BrButton *p, short x, int y) { struct BrBtnVec2 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos((struct ClactActor *)p->actor,(struct ClactVec2 *)(const struct ClactVec2 *)&v,(unsigned short)(p->surface));BMP_OAM_SetPos((struct BmpOam *)(p->grid),v.x+32,v.y-8); }
 
-void BR_BTN_GetObjectPos(char *p,short *x,short *y) { BrBtnPtS v;CLACT_GetActorSurfacePos((struct ClactActor *)*(struct Actor * *)&((struct BrButton *)p)->actor,(struct ClactVec2 *)&v,(unsigned short)((struct BrButton *)p)->surface);if(x)*x=v.x;if(y)*y=v.y; }
+void BR_BTN_GetObjectPos(struct BrButton *p,short *x,short *y) { BrBtnPtS v;CLACT_GetActorSurfacePos((struct ClactActor *)p->actor,(struct ClactVec2 *)&v,(unsigned short)p->surface);if(x)*x=v.x;if(y)*y=v.y; }
 
-void BR_BTN_SetObjectDrawPriority(int *p, unsigned char b)
+void BR_BTN_SetObjectDrawPriority(struct BrButton *p, unsigned char b)
 {
-    CLACT_SetActorDrawPriority((struct ClactActor *)(struct Actor *)p[0], b);
-    BMP_OAM_SetDrawPriority((struct BmpOam *)p[1], (unsigned char)(b - 1));
+    CLACT_SetActorDrawPriority((struct ClactActor *)p->actor, b);
+    BMP_OAM_SetDrawPriority((struct BmpOam *)p->grid, (unsigned char)(b - 1));
 }
 
-int BR_BTN_GetObjectDrawPriority(char *p) { return CLACT_GetActorDrawPriority((struct ClactActor *)((struct BrButton *)p)->actor); }
+int BR_BTN_GetObjectDrawPriority(struct BrButton *p) { return CLACT_GetActorDrawPriority((struct ClactActor *)p->actor); }
 
-void BR_BTN_SetObjectBgPriority(int *p, int b)
+void BR_BTN_SetObjectBgPriority(struct BrButton *p, int b)
 {
-    CLACT_SetActorBgPriority((struct ClactActor *)(struct Actor *)p[0], b);
-    BMP_OAM_SetBgPriority((struct BmpOam *)p[1], b);
+    CLACT_SetActorBgPriority((struct ClactActor *)p->actor, b);
+    BMP_OAM_SetBgPriority((struct BmpOam *)p->grid, b);
 }
 
-unsigned BR_BTN_GetObjectBgPriority(char *p) { return CLACT_GetActorBgPriority((struct ClactActor *)(struct Actor *)(*(unsigned char * *)&((struct BrButton *)p)->actor)); }
+unsigned BR_BTN_GetObjectBgPriority(struct BrButton *p) { return CLACT_GetActorBgPriority((struct ClactActor *)(struct Actor *)(*(unsigned char * *)&p->actor)); }
 
-void BR_BTN_SetObjectPalette(char *p,int n) { CLACT_SetActorPaletteOffset(((struct BrButton *)p)->actor,(unsigned char)n,0);BMP_OAM_SetPalette((struct BmpOam *)(*(unsigned char * *)&((struct BrButton *)p)->grid),(unsigned char)(n+1)); }
+void BR_BTN_SetObjectPalette(struct BrButton *p,int n) { CLACT_SetActorPaletteOffset(p->actor,(unsigned char)n,0);BMP_OAM_SetPalette((struct BmpOam *)(*(unsigned char * *)&p->grid),(unsigned char)(n+1)); }

@@ -396,7 +396,7 @@ u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos)
 void POKEPARTY_SetMember(struct Party *party, u32 pos, const struct PokemonParam *member)
 {
     u32 before = POKE_TOOL_GetPartyValue(&party->members[pos], 0xA9, 0);
-    u32 delta = before - POKE_TOOL_GetPartyValue((void *)member, 0xA9, 0);
+    u32 delta = before - POKE_TOOL_GetPartyValue((struct PokemonParam *)member, 0xA9, 0);
 
     *(struct PokemonParam *)((u8 *)party + pos * sizeof(struct PokemonParam) + 8) = *member;
     party->count += delta;

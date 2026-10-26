@@ -177,7 +177,7 @@ void PALANM_MaskColorBits(s32 idx, PaletteFadeWork *c, u16 *pv);
 
 void PALANM_SetFadeParam(PaletteFadeParam *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
 
-void PALANM_FadeTask(void *a, PaletteFade *p);
+void PALANM_FadeTask(struct TcbTask *a, void *arg);
 
 void PALANM_ForceStopFade(PaletteFade *o);
 
@@ -668,7 +668,7 @@ int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            TCB_AddTask(ctx, (TcbFunc)PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, PALANM_FadeTask, p, -2);
         }
     }
     return ret;
@@ -724,7 +724,7 @@ int PALANM_RequestFadeOverwrite(PaletteFade *p, u16 mask, u16 col, s16 step, u8 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            TCB_AddTask(ctx, (TcbFunc)PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, PALANM_FadeTask, p, -2);
         }
     }
     return ret;
@@ -860,8 +860,9 @@ void PALANM_SetFadeParam(PaletteFadeParam *s, u16 f0, s32 a, u8 b, u8 c, u16 d)
  * so disasm.py never labelled it). Worth seeding into
  * layout/function_starts.txt; reported rather than edited here.
  */
-void PALANM_FadeTask(void *a, PaletteFade *p)
+void PALANM_FadeTask(struct TcbTask *a, void *arg)
 {
+    PaletteFade *p = arg;
     if (p->forceStop == 1) {
         p->forceStop = 0;
         p->transBits = 0;

@@ -48,8 +48,6 @@ typedef struct EncEffNameCutInWork {
     int fadeVariant;    /* 0x08: build argument of the effect table row */
 } EncEffNameCutInWork;
 
-typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state);
-
 #include "../arm9/game_event.h"
 struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
@@ -86,8 +84,8 @@ struct GameEvent *ENCEFF_BuildNameCutInKind34(struct GameSystem *gameSystem, str
 struct GameEvent *ENCEFF_BuildNameCutInKind03(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_BuildNameCutInKind04(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct FieldMap *unusedFieldMap, int tableIndex, int fadeVariant);
-int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state);
-int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state);
+int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state, void *eventWork);
+int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state, void *eventWork);
 
 /* Build function of effect table row 10 (cut-in table row 0). */
 struct GameEvent *ENCEFF_BuildNameCutInKind10(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant)
@@ -254,7 +252,7 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
     work->flashCount = 0;
     work->tableIndex = tableIndex;
     work->fadeVariant = fadeVariant;
-    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_NameCutInEventMain, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, ENCEFF_NameCutInEventMain, 0);
 }
 
 /*
@@ -262,7 +260,7 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
  * (fade out then in, twice); state 2 then starts the cut-in, or a plain fade
  * out when the cut-in cannot start; state 3 ends the event.
  */
-int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
+int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state, void *eventWork)
 {
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -293,7 +291,7 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
                 if (child != 0) {
                     GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)child);
                 } else {
-                    child = GAME_EVENT_Create((struct GameSystem *)gameSystem, (struct GameEvent *)event, (GameEventFunc)ENCEFF_NameCutInFadeOutEventMain, 0);
+                    child = GAME_EVENT_Create((struct GameSystem *)gameSystem, (struct GameEvent *)event, ENCEFF_NameCutInFadeOutEventMain, 0);
                     GAME_EVENT_CallEvent(event, child);
                 }
                 *state = *state + 1;
@@ -311,7 +309,7 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
  * (flags 3) and ends when the fade is done. The field map lookup result is
  * not used.
  */
-int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state)
+int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state, void *eventWork)
 {
     GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*state) {

@@ -32,7 +32,7 @@ extern char gLoaderDecryptBssStart[];
 #include "loader_decrypt.h"
 #include "sealed_cipher.h"
 
-u8 *OV230_OpenSealedBody(u32 seed, u32 body, u32 end)
+u8 *OV230_OpenSealedBody(u32 seed, uptr body, u32 end)
 {
     u32 key[4];
     u32 bias = (uptr)gLoaderDecryptBssStart + 0x1600;
@@ -48,7 +48,7 @@ u8 *OV230_OpenSealedBody(u32 seed, u32 body, u32 end)
     return (u8 *)(body - 0x1600);
 }
 
-u32 OV230_SealBody(u32 seed, u32 body, u32 end)
+u32 OV230_SealBody(u32 seed, uptr body, u32 end)
 {
     u32 key[4];
     u32 bias = (uptr)gLoaderDecryptBssStart + 0x1600;

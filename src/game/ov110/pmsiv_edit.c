@@ -384,7 +384,7 @@ vu16 GX_GetVCount(void)
     return *(vu16 *)REG_VCOUNT_ADDR;
 }
 
-void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p);
+void PMSIV_EDIT_UpdateFramePosition(struct TcbTask *task, void *pArg);
 
 void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing);
 
@@ -430,8 +430,9 @@ void PMSIV_EDIT_NoopB(struct PmsivEdit *p);
 
 void PMSIV_EDIT_PlaceCursorAtSlot(struct PmsivEdit *p, int slot);
 
-void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p)
+void PMSIV_EDIT_UpdateFramePosition(struct TcbTask *task, void *pArg)
 {
+    struct PmsivEdit *p = pArg;
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameDirty) {
@@ -442,16 +443,27 @@ void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p)
     }
 }
 
+#ifndef __MWERKS__
+static void PMSIV_EDIT_ScrollHBlankTask(struct TcbTask *task, void *work)
+{
+    GX_GetVCount();
+}
+#endif
+
 void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing)
 {
     p->scrollStep = 0;
     p->scrollClosing = closing;
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
-    p->scrollTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((uptr)GX_GetVCount), (void *)((uptr)p), 1);
+#ifdef __MWERKS__
+    p->scrollTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))(GX_GetVCount), p, 1);
+#else
+    p->scrollTask = GFL_USE_AddHBlankTask(PMSIV_EDIT_ScrollHBlankTask, p, 1);
+#endif
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
-    p->frameTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMSIV_EDIT_UpdateFramePosition, (void *)p, 1);
+    p->frameTask = GFL_USE_AddMainTask(PMSIV_EDIT_UpdateFramePosition, (void *)p, 1);
 }
 
 /*
@@ -594,11 +606,9 @@ void PMSIV_EDIT_Redraw(struct PmsivEdit *p)
  */
 void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot)
 {
-    int offset = slot * 4;
-
-    rect[2] = *(short *)((char *)p + offset + 0x38) - 0x18;
+    rect[2] = p->slotPos[slot].x - 0x18;
     rect[3] = rect[2] + 0x60;
-    rect[0] = *(short *)((char *)p + offset + 0x3a);
+    rect[0] = p->slotPos[slot].y;
     rect[1] = rect[0] + 0x10;
 }
 
@@ -607,9 +617,9 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 scree
     struct U16Vec *run;
     u16 wordId;
     int running, slotCount, x, y;
-    uptr font;
+    struct GfFont *font;
     run = PMS_INPUT_GetSentenceString((struct PmsInput *)p->input, PMSIV_EDIT_HEAP);
-    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
+    font = PMS_INPUT_VIEW_GetFont(p->view);
     running = 1;
     slotCount = 0; y = 0; x = 0;
     PMSIV_EDIT_ParserInit(&p->parser, p);
@@ -617,8 +627,8 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 scree
         switch (PMSIV_EDIT_ParserNext(&p->parser, run)) {
         case PMSIV_EDIT_TOKEN_TEXT:
             GF_FONT_SetTextColor(1, 2, 15);
-            PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), x, y, (struct Strbuf *)run, (void *)font);
-            x += PRINTSYS_MeasureWidestLine((struct Strbuf *)run, (struct GfFont *)font, 0);
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), x, y, (struct Strbuf *)run, font);
+            x += PRINTSYS_MeasureWidestLine((struct Strbuf *)run, font, 0);
             break;
         case PMSIV_EDIT_TOKEN_SLOT: {
             wordId = p->parser.slotWordId;
@@ -718,10 +728,10 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const P
 {
     PmsivEditScreenPos origin;
     PmsivEditScreenPos iconPos;
-    uptr font;
+    struct GfFont *font;
     u32 decoIndex;
     u32 surface;
-    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
+    font = PMS_INPUT_VIEW_GetFont(p->view);
     if (wordId == 0xffff) return;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
     if (PMSI_PARAM_IsDecoWord(wordId) != 0) {
@@ -737,7 +747,7 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const P
     } else {
         PMS_WORD_LoadString(wordId, p->text, PMSIV_EDIT_HEAP);
         GF_FONT_SetTextColor((u32)3, (u32)4, (u32)14);
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), (short)origin.x, (short)origin.y, (struct Strbuf *)p->text, (void *)font);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), (short)origin.x, (short)origin.y, (struct Strbuf *)p->text, font);
     }
 }
 

@@ -2,6 +2,7 @@
 #define ALETHEIA_OV121_MYSTERY_ALBUM_TYPES_H
 
 #include "../types.h"
+#include "../arm9/nns_g2d_res_types.h"
 
 /* Mystery Gift album screen work (types shared with mystery_util.c, which allocates it). */
 
@@ -75,18 +76,46 @@ typedef struct MysteryAlbum {
     int isSetupDone;
     int setupMode;
     void *bgDataBuffer;
-    void *bgDataRes;
+    NNSG2dCharacterData *bgDataRes;
     void *paletteBuffer;
-    void *paletteRes;
+    NNSG2dPaletteData *paletteRes;
     void *cardView;
 } MysteryAlbum;
 
-/* Input of MYSTERY_ALBUM_CreateSlotWork, copied into the album work. */
+struct MysteryData;
+struct MsgBank;
+struct GfFont;
+struct PrintQueue;
+struct WordSet;
+struct GameData;
+
+/* Input of MYSTERY_ALBUM_CreateSlotWork, copied into the slot work (48 bytes on the DS). */
 typedef struct MysteryAlbumDesc {
-    u32 w[12];
+    unsigned int frontPlane;       /* 0x00 */
+    unsigned int backPlane;        /* 0x04 */
+    unsigned int reserved08;       /* 0x08 written by the callers, read by nobody */
+    unsigned int windowPalette;    /* 0x0C palette of the window list */
+    unsigned int charPalette;      /* 0x10 CLACT palette slot, shifted left by 5 */
+    unsigned int paletteBank;      /* 0x14 */
+    void *clactUnit;               /* 0x18 */
+    struct MysteryData *cardList;  /* 0x1C */
+    struct MsgBank *msgBank;       /* 0x20 */
+    struct GfFont *font;           /* 0x24 */
+    struct PrintQueue *printQueue; /* 0x28 */
+    struct WordSet *wordSet;       /* 0x2C */
 } MysteryAlbumDesc;
 
-/* Album select create input (MYSTERY_ALBUM_Create). */
-typedef struct MysteryAlbumCreateInput {u32 w[9];} MysteryAlbumCreateInput;
+/* Album select create input (MYSTERY_ALBUM_Create), copied to the head of the album work. */
+typedef struct MysteryAlbumCreateInput {
+    unsigned int mode;             /* 0x00 nonzero: single-card handler */
+    unsigned int reserved04;       /* 0x04 */
+    void *clactUnit;               /* 0x08 */
+    struct MysteryData *cardList;  /* 0x0C */
+    struct GfFont *font;           /* 0x10 */
+    struct PrintQueue *printQueue; /* 0x14 */
+    struct WordSet *wordSet;       /* 0x18 */
+    struct MsgBank *msgBank;       /* 0x1C */
+    struct GameData *gameData;     /* 0x20 */
+} MysteryAlbumCreateInput;
 
 #endif

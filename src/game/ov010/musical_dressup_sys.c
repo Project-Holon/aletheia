@@ -35,7 +35,7 @@
 
 /* Work of the dress-up proc. */
 typedef struct MusicalDressupWork {
-    u32 *paramCopy;                     /* 0x00 */
+    MusicalDressupParam *paramCopy;                     /* 0x00 */
     void *ui;                           /* 0x04 */
     int result;                         /* 0x08 */
     MusicalDressupParam *param;         /* 0x0C */
@@ -91,12 +91,12 @@ int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param)
     *state = 0;
     GF_OVERLAY_Load((uptr)ov133_id);
     GFL_HEAP_CreateChildHeap(1, 0x2d, 1 << 18);
-    work = PROCSYS_AllocProcWork(proc, 0x10, 0x2d);
-    work->paramCopy = GFL_HEAP_Alloc(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x2d);
+    work->paramCopy = GFL_HEAP_Alloc(0x2d, sizeof(MusicalDressupParam), 0, sMusicalDressupSysFileName, 0x4e);
     work->param = param;
-    work->paramCopy[0] = ((u32 *)param)[0];
-    work->paramCopy[1] = ((u32 *)param)[1];
-    work->paramCopy[2] = ((u32 *)param)[2];
+    work->paramCopy->session = param->session;
+    work->paramCopy->performer = param->performer;
+    work->paramCopy->save = param->save;
     return 1;
 }
 
@@ -151,7 +151,7 @@ MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *pe
     MusicalDressupParam *param;
     sptr zero = 0;
 
-    param = GFL_HEAP_Alloc(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
+    param = GFL_HEAP_Alloc(heapId, sizeof(*param), 0, sMusicalDressupSysFileName, 0xa7);
     param->session = (void *)zero;
     param->save = MUSICAL_SAVE_GetFromSave(saveControl);
     param->performer = performer;

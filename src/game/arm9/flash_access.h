@@ -12,7 +12,7 @@ typedef void (*FlashErrorFunc)(u32 no_response);
 int FLASH_ACCESS_Identify(u32 unused_arg);
 u32 FLASH_ACCESS_Write(u32 flash_addr, const void *ram_src, u32 size, FlashErrorFunc on_error);
 int FLASH_ACCESS_Read(u32 flash_addr, void *ram_dst, u32 size, void (*on_error)(void));
-void FLASH_ACCESS_OnWriteDone(void);
+void FLASH_ACCESS_OnWriteDone(void * unused0);
 u16 FLASH_ACCESS_StartWrite(u32 flash_addr, const void *ram_src, u32 size, FlashErrorFunc on_error);
 int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, FlashErrorFunc on_error);
 void FLASH_ACCESS_CancelWrite(u16 lock_id);

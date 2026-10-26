@@ -3,15 +3,10 @@
 
 #include "pokemontrade_demo_types.h"
 
-#define FRAME (((PokeTradeDemoWork *)work)->frame)
 
-#define OBJ(i) (((PokeTradeDemoWork *)work)->mcssObj[i])
 
-#define HEAP (((PokeTradeDemoWork *)work)->heapId)
 
-#define SLOT0 (((PokeTradeDemoWork *)work)->slideOwn)
 
-#define SLOT1 (((PokeTradeDemoWork *)work)->slidePeer)
 
 struct IcaAnime;
 

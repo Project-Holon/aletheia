@@ -164,7 +164,7 @@ void CAMERA_SetRebootCallbackCore(void (*callback)(u32));
 
 Camera *CTVT_CAMERA_Create(int id);
 
-void CTVT_CAMERA_OnPowerOff(Camera *p);
+void CTVT_CAMERA_OnPowerOff(void *arg);
 
 void CTVT_CAMERA_Delete(Camera *p);
 
@@ -223,10 +223,10 @@ Camera *CTVT_CAMERA_Create(int id)
     Camera *p;
     int r;
     int z;
-    char buf[0x48];
+    FSFile g711File;
 
     z = 0;
-    p = GFL_HEAP_Alloc(id, 0x50, 0, d_021C71C0, 0x6F);
+    p = GFL_HEAP_Alloc(id, sizeof(Camera), 0, d_021C71C0, 0x6F);
     g_021C88E0 = p;
     p->heapId = id;
     p->frames = 0;
@@ -277,16 +277,17 @@ Camera *CTVT_CAMERA_Create(int id)
     MI_FreeWram(2, 0);
     MI_CancelWram(2, 0);
     MI_CancelWram(2, 1);
-    if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core((unsigned int *)buf);
-    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core((uptr)buf, 0xFF, 0xFF);
+    if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core(&g711File);
+    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core(&g711File, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
-    UI_SetIntrDataGlobal((uptr)((void *)CTVT_CAMERA_OnPowerOff), (uptr)p);
+    UI_SetIntrDataGlobal(CTVT_CAMERA_OnPowerOff, p);
     return p;
 }
 
-void CTVT_CAMERA_OnPowerOff(Camera *p)
+void CTVT_CAMERA_OnPowerOff(void *arg)
 {
+    Camera *p = arg;
     int result;
     /* stand-in: the goto into the loop body gives the original block order; while/for forms differ */
     goto test;
@@ -482,7 +483,7 @@ void CTVT_CAMERA_AllocFrames(Camera *p, int count, u16 heap)
     u32 height = CTVT_CAMERA_GetHeight(p);
     u8 i;
     if (p->frames == 0) {
-        p->frames = GFL_HEAP_Alloc(p->heapId, count * 4, 0, d_021C71C0, 0x1D7);
+        p->frames = GFL_HEAP_Alloc(p->heapId, count * sizeof(*p->frames), 0, d_021C71C0, 0x1D7);
         p->frameCount = count;
         for (i = 0; i < count; i++)
             p->frames[i] = GFL_NET_AllocAligned(heap, height * (width * 2), d_021C71C0, 0x1DC);

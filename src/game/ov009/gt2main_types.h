@@ -17,6 +17,7 @@ typedef struct GTI2Socket GTI2Socket;
 
 typedef void (*GT2DumpCallback)(GTI2Socket *, GTI2Connection *, unsigned int, unsigned short, int,
                                 unsigned char *, int);
+typedef int (*GT2UnrecognizedMessageCallback)(GTI2Socket *, unsigned int, unsigned short, unsigned char *, int);
 
 typedef struct GTI2Buffer {
     unsigned char *buffer;
@@ -92,7 +93,7 @@ struct GTI2Socket {
     void (*socketErrorCallback)(GTI2Socket *);          /* 0x24 */
     GT2DumpCallback sendDumpCallback;                    /* 0x28 */
     GT2DumpCallback receiveDumpCallback;                 /* 0x2C */
-    void *unrecognizedMessageCallback;                   /* 0x30 */
+    GT2UnrecognizedMessageCallback unrecognizedMessageCallback; /* 0x30 */
     void *data;                                          /* 0x34 */
     int outgoingBufferSize;                              /* 0x38 */
     int incomingBufferSize;                              /* 0x3C */

@@ -14,9 +14,9 @@ typedef struct MusicalEventWork MusicalEventWork;
 #include "../ov010/musical_event_shared_types.h"
 
 struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link);
-int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work);
+int MUSICAL_EVENT_Main(struct GameEvent *event, int *unused, void *work);
 void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work);
-int MUSICAL_EVENT_Free(MusicalEventWork *work);
+MusicalLink *MUSICAL_EVENT_Free(MusicalEventWork *work);
 MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work);
 void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work);
 void MUSICAL_EVENT_CreateStage(MusicalEventWork *work);

@@ -279,9 +279,9 @@ static void drawApInfo(void);
 static void drawAp(int ap, int column);
 static void drapApObj(int entryIndex, int objIndex);
 static void setOffset(void);
-static void taskUp(void *task);
-static void taskDown(void *task);
-static void taskVBlank(void);
+static void taskUp(void *task, void *work);
+static void taskDown(void *task, void *work);
+static void taskVBlank(void *task, void *work);
 static void dispFocus(void);
 static void moveFocus(int dir);
 static void scrollUp(void);
@@ -308,10 +308,10 @@ void DWCi_SceneSetApList(void)
     initScrollBar();
     getCharName();
     scenesetaplist_bss.MemSsal->canv = DWCi_FNTlFormBgEx(0, 0);
-    scenesetaplist_bss.MemSsal->taskV = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x6e);
+    scenesetaplist_bss.MemSsal->taskV = DWCi_TSKlForm(1, taskVBlank, 0, 0x6e);
     drawApInfo();
     dispFocus();
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -406,7 +406,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x1d, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x1d);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -416,7 +416,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -424,7 +424,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)DWCi_SceneSetApList_procScene);
+    DWCi_ChangeScene(DWCi_SceneSetApList_procScene);
 }
 
 void DWCi_SceneSetApList_procScene(void)
@@ -546,10 +546,10 @@ static void draw(void)
             return;
         }
         if (def < 14) {
-            scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
             return;
         }
-        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
         return;
     case 4:
         if (scenesetaplist_bss.Pos == 0) {
@@ -560,7 +560,7 @@ static void draw(void)
             return;
         }
         DWCi_SNDlPlay(0x13);
-        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
         return;
     case 6:
         if (scenesetaplist_bss.MemSsal->apNum > 4 && scenesetaplist_bss.Pos != scenesetaplist_bss.MemSsal->distScroll)
@@ -572,7 +572,7 @@ static void draw(void)
         return;
     down:
         DWCi_SNDlPlay(0x13);
-        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
         return;
     case 5:
     case 7:
@@ -604,7 +604,7 @@ static void button(void)
                 DWCi_SBlDisable();
                 DWCi_BTNlDisable();
                 DWCi_WINlInitEx(0xe, 1, 1, -1, 0);
-                DWCi_ChangeScene((uptr)procError);
+                DWCi_ChangeScene(procError);
                 return;
             }
             scenesetaplist_bss.MemSsal->choose = 1;
@@ -612,7 +612,7 @@ static void button(void)
             DWCi_SNDlPlay(6);
         }
     change:
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
         break;
     }
 }
@@ -621,7 +621,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -634,7 +634,7 @@ static void endScene1(void)
         DWCi_BTNlDisable();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x1d, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 static void endScene2(void)
@@ -669,22 +669,22 @@ static void endScene2(void)
         DWCi_SEARCHlEnd();
         DWCi_SETTINGlSetSetting(((SETTINGINFO *)DWCi_SETTIGNlGet())->idx);
         DWCi_SetParam_(2, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else if (scenesetaplist_bss.Focus == 4) {
         DWCi_SEARCHlEnd();
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetSearch);
+        DWCi_ChangeScene(DWCi_SceneSetSearch);
     } else {
         DWCi_SETTINGlSetSsid((char *)scenesetaplist_bss.MemSsal->info[scenesetaplist_bss.MemSsal->apIdx].ssid);
         DWCi_SetParam_(0, 0);
         if (scenesetaplist_bss.MemSsal->info[scenesetaplist_bss.MemSsal->apIdx].wep) {
             DWCi_SetParam_(0, 1);
             DWCi_SetParam2_(1, 1);
-            DWCi_ChangeScene((uptr)DWCi_SceneSetEdit32);
+            DWCi_ChangeScene(DWCi_SceneSetEdit32);
         } else {
             DWCi_SetParam_(0, 1);
             DWCi_SetParam2_(0, 1);
-            DWCi_ChangeScene((uptr)DWCi_SceneSetTestConfirm);
+            DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
         }
     }
     DWCi_HEAPlFree_((void **)&scenesetaplist_bss.MemSsal);
@@ -706,7 +706,7 @@ static void drawApInfo(void)
         drawAp(n, i);
     for (i = 0; i < num; i++, idx++)
         drapApObj(idx, i);
-    DWCi_FNTlRenewBg((sptr)scenesetaplist_bss.MemSsal->canv);
+    DWCi_FNTlRenewBg(scenesetaplist_bss.MemSsal->canv);
     setOffset();
 }
 
@@ -774,7 +774,7 @@ static void setOffset(void)
     scenesetaplist_bss.MemSsal->renew = 1;
 }
 
-static void taskUp(void *task)
+static void taskUp(void *task, void *work)
 {
     int pos;
     int def;
@@ -805,7 +805,7 @@ static void taskUp(void *task)
     DWCi_TSKlDelete(0, task);
 }
 
-static void taskDown(void *task)
+static void taskDown(void *task, void *work)
 {
     int pos;
     int def;
@@ -828,7 +828,7 @@ static void taskDown(void *task)
     DWCi_TSKlDelete(0, task);
 }
 
-static void taskVBlank(void)
+static void taskVBlank(void *task, void *work)
 {
     int ost;
 
@@ -859,7 +859,7 @@ static void moveFocus(int dir)
                 scenesetaplist_bss.Focus = 4;
             } else {
                 DWCi_SNDlPlay(0x13);
-                scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+                scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
                 return;
             }
         } else if (scenesetaplist_bss.MemSsal->apNum > 1) {
@@ -916,7 +916,7 @@ static void scrollUp(void)
         }
     } else {
         DWCi_SNDlPlay(0x13);
-        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
     }
 }
 
@@ -932,7 +932,7 @@ static void scrollDown(void)
         return;
     }
     DWCi_SNDlPlay(0x13);
-    gSceneSetApListWork.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+    gSceneSetApListWork.MemSsal->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
 }
 
 static void dispPushButton(void)
@@ -949,7 +949,7 @@ static void procError(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)procError1);
+    DWCi_ChangeScene(procError1);
 }
 
 static void procError1(void)
@@ -958,5 +958,5 @@ static void procError1(void)
         return;
     DWCi_BTNlEnable();
     DWCi_SBlEnable();
-    DWCi_ChangeScene((uptr)DWCi_SceneSetApList_procScene);
+    DWCi_ChangeScene(DWCi_SceneSetApList_procScene);
 }

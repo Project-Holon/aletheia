@@ -20,6 +20,7 @@
 #include "../ov093/btl_pokeparam_types.h"
 #include "../ov093/hand_item_021dd588_types.h"
 #include "../ov093/btl_calc_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 /* Event variable keys that these handlers read or write (more are in btl_action_word_types.h). */
 
@@ -1378,9 +1379,9 @@ struct BtlTurnRecord;
 #define BTL_SIDE_EFFECT_SWAMP 13
 
 /* Battle effect ids played when a Pledge combination starts. */
-#define BTL_EFFECT_RAINBOW 0x28d
-#define BTL_EFFECT_SEA_OF_FIRE 0x28e
-#define BTL_EFFECT_SWAMP 0x28f
+#define BTL_EFFECT_RAINBOW (BTLV_EFFECT_MOVE_END + 92)
+#define BTL_EFFECT_SEA_OF_FIRE (BTLV_EFFECT_MOVE_END + 93)
+#define BTL_EFFECT_SWAMP (BTLV_EFFECT_MOVE_END + 94)
 
 /* Combination kinds of two Pledge moves; 0 is no combination. */
 #define PLEDGE_COMBO_NONE 0

@@ -202,7 +202,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     int isOther = 0;
     enum PlateKind { PLATE_KIND_LEAD, PLATE_KIND_OTHER } kind;
     PlistPlateSurface surface;
-    plate = GFL_HEAP_Alloc(work->heapId, 0x44, 0, gPlistPlateSourceName, 0x9f);
+    plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, 0x9f);
     plate->slot = slot;
     plate->mon = mon;
     plate->isEmpty = 0;
@@ -244,7 +244,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
 
 PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
 {
-    PlistPlate *plate = GFL_HEAP_Alloc(work->heapId, 0x44, 0, gPlistPlateSourceName, 0xea);
+    PlistPlate *plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, 0xea);
     u8 *palette = (u8 *)work->paletteData + 0xc;
 
     BG_SYS_DrawTileEx(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,

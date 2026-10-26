@@ -8,10 +8,10 @@
 #include "../ov009/sb_server_types.h"
 
 int prevKeyCompare(SBServer *server1, SBServer *server2);
-int IntKeyCompare(void *entry1, void *entry2);
-int FloatKeyCompare(void *entry1, void *entry2);
-int StrCaseKeyCompare(void *entry1, void *entry2);
-int StrNoCaseKeyCompare(void *entry1, void *entry2);
+int IntKeyCompare(const void *entry1, const void *entry2);
+int FloatKeyCompare(const void *entry1, const void *entry2);
+int StrCaseKeyCompare(const void *entry1, const void *entry2);
+int StrNoCaseKeyCompare(const void *entry1, const void *entry2);
 void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo);
 void SBServerListAppendServer(SBServerList *slist, SBServer *server);
 int SBServerListFindServer(SBServerList *slist, void *findserver);

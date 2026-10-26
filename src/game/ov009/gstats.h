@@ -4,17 +4,20 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gstats.c, prototypes copied from their definitions. */
 
-void PlayerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-int GetPlayerIndex(int *game, int pnum);
-int GetTeamIndex(int *game, int tnum);
+struct StatsGame;
+typedef struct StatsGame StatsGame;
+
+void PlayerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+double PlayerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void PlayerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+void TeamOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+double TeamOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void TeamOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+void *ServerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+double ServerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+int ServerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+int GetPlayerIndex(StatsGame *game, int pnum);
+int GetTeamIndex(StatsGame *game, int tnum);
 void ClosePendingCallbacks(void);
 void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
 int ProcessInBuffer(char *buff, int len);

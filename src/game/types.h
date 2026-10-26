@@ -67,4 +67,15 @@ typedef __UINTPTR_TYPE__   uptr;
 typedef __INTPTR_TYPE__    sptr;
 #endif
 
+/*
+ * Offset of a member, as a constant expression.  The DS compiler has no
+ * stddef.h and no __builtin_offsetof, but accepts the null-pointer form.
+ * Both forms give the same value on the same layout.
+ */
+#ifdef __MWERKS__
+#define BW_OFFSETOF(type, member) ((uptr)&((type *)0)->member)
+#else
+#define BW_OFFSETOF(type, member) ((uptr)__builtin_offsetof(type, member))
+#endif
+
 #endif

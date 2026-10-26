@@ -11,6 +11,12 @@
 #include "../types.h"
 
 struct GfFont;
+struct TcbTask;
+struct ClactActor;
+struct PrintQueue;
+struct Cursor;
+struct BlinkPalAnm;
+struct Search;
 
 /* The zukan save record block the work points at (work->save). Only the
  * fields ov210 touches are named. */
@@ -19,8 +25,8 @@ typedef struct ZknSearchSave {
     void *block;         /* 0x04 ZUKAN save block, ZUKAN_SAVE_GetViewMode / ZUKAN_InitQuery */
     u8   *record;        /* 0x08 entry record bytes (indexed by entry slot) */
     u32   mode;          /* 0x0C list mode, set to 0/1/2 when a row is confirmed */
-    u8    pad10[4];      /* 0x10 never read by ov210 */
-    u16   state;         /* 0x14 nonzero when a confirm dialog is pending */
+    u16  *found;         /* 0x10 list of found entries, set by the search engine */
+    u16   foundCount;    /* 0x14 number of found entries */
 } ZknSearchSave;
 
 /* One BMP window slot: a descriptor handle plus a pending-transfer flag. */
@@ -32,8 +38,8 @@ typedef struct ZknSearchBmpWin {
 
 typedef struct ZknSearchWork {
     ZknSearchSave *save;          /* 0x000 zukan save block */
-    u32   vblank;                 /* 0x004 vblank callback handle */
-    u32   hblank;                 /* 0x008 hblank callback handle */
+    struct TcbTask *vblank;       /* 0x004 vblank callback handle */
+    struct TcbTask *hblank;       /* 0x008 hblank callback handle */
     void *palAnm;                 /* 0x00C PALANM palette animation object */
     u32   state;                  /* 0x010 ZKNSEARCH_MAIN_RunState state index */
     u32   dialogState;            /* 0x014 confirm dialog step */
@@ -41,7 +47,7 @@ typedef struct ZknSearchWork {
     u32   returnState2;           /* 0x01C state to return to after a message */
     void *scrollWin;              /* 0x020 BGWINFRM scroll window manager */
     void *actorBank;              /* 0x024 CLACT unit bank for the actors */
-    void *actors[57];             /* 0x028 CLACT actor handles */
+    struct ClactActor *actors[57]; /* 0x028 CLACT actor handles */
     u32   charRes[6];             /* 0x10C CLACT character registrations */
     u32   palRes[6];              /* 0x124 CLACT palette registrations */
     u32   cellRes[4];             /* 0x13C CLACT cell anim registrations */
@@ -50,12 +56,12 @@ typedef struct ZknSearchWork {
     void *msgBank;                /* 0x1D0 MSG bank */
     void *wordSet;                /* 0x1D4 word set */
     void *strBuf;                 /* 0x1D8 STRBUF scratch buffer */
-    u32   printSys;               /* 0x1DC PRINTSYS queue */
+    struct PrintQueue *printSys;  /* 0x1DC PRINTSYS queue */
     void *frameList;              /* 0x1E0 FRAME_LIST object */
     void *entries[50];            /* 0x1E4 per-entry text buffers */
     u32   entryCount;             /* 0x2AC entry count for the current page */
-    void *cursorMove;             /* 0x2B0 CURSOR_MOVE object */
-    u32   blinkPal;               /* 0x2B4 BLINK_PALANM object */
+    struct Cursor *cursorMove;             /* 0x2B0 CURSOR_MOVE object */
+    struct BlinkPalAnm *blinkPal;               /* 0x2B4 BLINK_PALANM object */
     u8    fadeState;              /* 0x2B8 0 none, 1 show, 2 hide */
     u8    listPage;               /* 0x2B9 current list page 0..4, 0xFF before entry */
     u8    pageSubState;           /* 0x2BA page entry sub state */
@@ -68,7 +74,7 @@ typedef struct ZknSearchWork {
     u32   tickCounter;            /* 0x2C4 ZUKAN_TickCounter counter */
     u16   scrollRemaining;        /* 0x2C8 scroll move frames left */
     s16   scrollDelta;            /* 0x2CA scroll move step per frame */
-    u32   searchEngineWork;       /* 0x2CC ZUKAN_SEARCH_ENGINE work handle */
+    struct Search *searchEngineWork;       /* 0x2CC ZUKAN_SEARCH_ENGINE work handle */
     u32   filterResult;           /* 0x2D0 ZUKAN_SEARCH_ENGINE_Filter result */
 } ZknSearchWork;
 

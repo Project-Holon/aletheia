@@ -11,12 +11,12 @@ struct WordSet;
 typedef struct ResearchTopTaskWork ResearchTopTaskWork;
 typedef struct ResearchReportWork ResearchReportWork;
 
-int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work);
+int EVENT_RESEARCH_RADAR_TopTaskMain(struct GameEvent *task, int *state, void *work);
 void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg);
 int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWork *work, int extra);
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem);
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem);
-struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int stateRef, ResearchReportWork *workCopy, int extra);
+struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int *stateRef, ResearchReportWork *workCopy, int extra);
 int EVENT_RESEARCH_RADAR_DeleteReportMsgData(ResearchReportWork *work);
 void EVENT_RESEARCH_RADAR_CreateInfoWindow(ResearchReportWork *work);
 int EVENT_RESEARCH_RADAR_DeleteInfoWindow(ResearchReportWork *work);

@@ -56,7 +56,7 @@
  *   g_021A5A50     0x021A5A50  data
  *   abs  0x02091588  arm
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "ov009_globals.h"
 
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))

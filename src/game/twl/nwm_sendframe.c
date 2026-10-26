@@ -31,10 +31,10 @@ typedef struct TwlWork {
 #include "../arm9/os_system.h"
 #include "../arm9/os_cache.h"
 #include "nwm_cmd.h"
-extern void MI_CpuCopy8(u32, u32, u32);
-void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length);
+#include "../arm9/mi_memory.h"
+void NWMi_AddMACHeader(u8 *destMac, u8 *srcMac, u8 *frame, u32 length);
 
-u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length) {
+u32 NWM_SendFrame(NWMCallbackFunc callback, u8 *destMac, u8 *frame, u32 length) {
     TwlWork *w;
     u32 r;
     u32 saved;
@@ -50,7 +50,7 @@ u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length) {
         return 5;
     }
     DC_StoreRange(frame, length);
-    NWMi_AddMACHeader(destMac, (uptr)(w->buf + 0x40), frame, length);
+    NWMi_AddMACHeader(destMac, w->buf + 0x40, frame, length);
     DC_StoreRange(frame, 0xE);
     r = NWMi_SendCommand(0xB, 3, (uptr)callback, frame, length);
     if (r == 0) {
@@ -60,10 +60,10 @@ u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length) {
     return r;
 }
 
-void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length) {
+void NWMi_AddMACHeader(u8 *destMac, u8 *srcMac, u8 *frame, u32 length) {
     if (length < 0xE) {
         return;
     }
-    MI_CpuCopy8(destMac, (uptr)frame, 6);
-    MI_CpuCopy8(srcMac, (uptr)(frame + 6), 6);
+    MI_CpuCopy8(destMac, frame, 6);
+    MI_CpuCopy8(srcMac, frame + 6, 6);
 }

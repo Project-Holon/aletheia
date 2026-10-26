@@ -128,8 +128,8 @@ extern int (* const gGuru2EntryStateTable[])(struct Guru2Entry *);
 
 int GURU2_EntryProcInit(void *obj,int seq,struct Guru2Param *param)
 {
-    struct Guru2Entry *p=PROCSYS_AllocProcWork(obj,36,4);
-    MI_CpuFill8(p,0,36);
+    struct Guru2Entry *p=PROCSYS_AllocProcWork(obj,sizeof(struct Guru2Entry),4);
+    MI_CpuFill8(p,0,sizeof(*p));
     p->gameData=param->gameData;
     p->param=param;
     p->procHandle=PROCSYS_Create(1);
@@ -156,8 +156,8 @@ int GURU2_EntryProcExit(void *obj,int seq,int parentWork,struct Guru2Entry *p)
 struct Guru2Session *GURU2_SessionCreate(struct Guru2Param *param,int heap)
 {
     struct Guru2Session *p;
-    p=GFL_HEAP_Alloc((u16)heap,36,0,(char *)gGuru2AllocFileName,171);
-    MI_CpuFill8(p,0,36);
+    p=GFL_HEAP_Alloc((u16)heap,sizeof(*p),0,(char *)gGuru2AllocFileName,171);
+    MI_CpuFill8(p,0,sizeof(*p));
     p->param=param;
     p->comm=GURU2_COMM_Create(p,heap);
     return p;
@@ -243,8 +243,8 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
     if(mode==1) {
         GAME_DATA_GetMyStatus(p->gameData);
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
-        p->statusParam=GFL_HEAP_Alloc(4,40,0,(char *)gGuru2AllocFileName,328);
-        MI_CpuFill8(p->statusParam,0,40);
+        p->statusParam=GFL_HEAP_Alloc(4,sizeof(*p->statusParam),0,(char *)gGuru2AllocFileName,328);
+        MI_CpuFill8(p->statusParam,0,sizeof(*p->statusParam));
         r=GAME_DATA_GetMyParty(p->gameData);
         p->statusParam->party=r;
         p->statusParam->gameData=p->gameData;

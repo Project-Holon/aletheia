@@ -162,9 +162,9 @@ extern void DSP_HookPipeNotification(u32 arg);
 #include "dsp_pipe.h"
 #endif
 #ifdef __MWERKS__
-extern u32 MI_GetWramMapStart_B(void);
-extern u32 MI_GetWramMapStart_C(void);
-extern u32 MI_GetWramMapStart(u32 type);
+extern uptr MI_GetWramMapStart_B(void);
+extern uptr MI_GetWramMapStart_C(void);
+extern uptr MI_GetWramMapStart(u32 type);
 extern u32 MI_IsWramSlotUsed(u32 ch, u32 idx);
 extern u32 MI_GetWramBankMaster(u32 type, u32 bank);
 extern s32 MI_FreeWramSlot(s32 sel, u32 id, s32 n, s32 v); /* original prototype; the definition differs in argument sign, return type */

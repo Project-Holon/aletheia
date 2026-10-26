@@ -6,7 +6,7 @@
 
 #include "../types.h"
 
-char *STA_ACT_AUDIENCE_Create(unsigned heap, void *scene, unsigned input);
+char *STA_ACT_AUDIENCE_Create(unsigned heap, void *scene, void *input);
 void STA_ACT_AUDIENCE_Delete(u8 *p);
 void STA_ACT_AUDIENCE_Update(char *p);
 void STA_ACT_AUDIENCE_Noop(char *audience);

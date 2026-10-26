@@ -113,7 +113,7 @@ void *BEACON_VIEW_CreateLeaveEvent(BeaconViewWork *work, int go);
 void BEACON_VIEW_SetEndRequest(BeaconViewWork *work, int request);
 void BEACON_VIEW_ClearEndRequest(BeaconViewWork *work);
 Desc *BEACON_VIEW_CreateTaskProc(BeaconViewWork *work, struct GameEvent *eventDesc, unsigned mode, uptr param);
-int BEACON_VIEW_TaskProc(struct GameEvent *event, int seq, BeaconTaskWork *eventWork);
+int BEACON_VIEW_TaskProc(struct GameEvent *event, int *seq, void *work);
 int BEACON_VIEW_TaskStateArrowAnim(BeaconViewWork *work, BeaconTaskWork *st);
 int BEACON_VIEW_TaskStateTasks(BeaconViewWork *work, BeaconTaskWork *unused);
 int BEACON_VIEW_TaskStateTaskMenu(BeaconViewWork *work, BeaconTaskWork *st);

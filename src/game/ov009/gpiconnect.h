@@ -16,7 +16,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data);
 int gpiSendNewuser(void **connection, GPIConnectData *data);
 int gpiProcessConnect(void **connection, GPIOperation *operation, char *input);
 int gpiCheckConnect(void **connection);
-int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile);
+int gpiDisconnectCleanupProfile(void * connectionArg, GPIProfile * profile, void * unused2);
 void gpiDisconnect(void **connection, int tellServer);
 int gpiProcessRemoteAuthResponse(void **connection, char *input);
 /* END mkheaders: generated region */

@@ -9,15 +9,18 @@ struct TouchBar;
 struct TaskMenu;
 struct MsgBank;
 struct Obj;
+struct Unit;
 typedef struct Obj Obj;
 
 #include "../types.h"
+
+struct TcbTask;
 
 int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p);
 int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p);
 int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p);
 void UN_SELECT_LoadBg(u8 *p, u16 heap);
-struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id);
+struct TouchBar *UN_SELECT_CreateTouchBar(struct Unit *unit, int heap);
 void UN_SELECT_Delete(u8 *p);
 void UN_SELECT_UpdateTouchBar(struct TouchBar *p);
 struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap);
@@ -50,19 +53,19 @@ int UN_SELECT_IsFadeDone(void);
 int UN_SELECT_SceneStepFade(unsigned char *task, char *ctx);
 int UN_SELECT_SceneStepMessageIdle(void *unused, char *p);
 int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx);
-void UN_SELECT_Callback(void);
+void UN_SELECT_Callback(struct TcbTask *unused0, void *unused1);
 void UN_SELECT_LoadActors(char *ctx);
 void UN_SELECT_ReleaseActors(char *p);
 void UN_SELECT_SetupActors(char *p);
 void UN_SELECT_DeleteActor(char *p);
-struct Obj *UN_SELECT_CreateActor(u32 owner,char *p);
+struct Obj *UN_SELECT_CreateActor(struct Unit *owner,char *p);
 void UN_SELECT_SetActorVisible(char *ctx);
 void UN_SELECT_ScrollActorsBy(const char *p,int delta);
 void UN_SELECT_InitActorPositions(char *ctx);
 void UN_SELECT_SetActorX(char *p,int v);
 void UN_SELECT_SetActorY(char *p,int y);
-void UN_SELECT_SetActorPos(u32 p, int sel, u32 y);
-int UN_SELECT_SetActorPosEx(u32 base,u32 i,u32 space,int y);
+void UN_SELECT_SetActorPos(char *p, int sel, u32 y);
+int UN_SELECT_SetActorPosEx(void **base,u32 i,u32 space,int y);
 int UN_SELECT_ContainsItem(char *p, int v);
 unsigned int UN_SELECT_FindTableIndex(int v);
 void UN_SELECT_SetupDisplay(void);

@@ -12,7 +12,7 @@ typedef struct ScriptCheckTask ScriptCheckTask;
 #include "../arm9/script_vm_types.h"
 
 int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem);
-ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork);
+ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, void *targetObjParam, ScriptWork *parentWork);
 int SCRIPT_WORK_Delete(ScriptWork *work);
 void *SCRIPT_WORK_GetEvent(ScriptWork *work);
 void *SCRIPT_WORK_GetGameSystem(ScriptWork *work);
@@ -49,7 +49,7 @@ void SCRIPT_WORK_SetCheckFlag(int flagId);
 void SCRIPT_WORK_ResetCheckFlag(int flagId);
 int SCRIPT_WORK_CheckFlag(int flagId);
 int SCRIPT_WORK_IsCheckFlagSet(int flagId);
-int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task);
+int SCRIPT_WORK_RunCheckTask(struct GameEvent *taskHandle, int *taskArg, void *work);
 void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm);
 int SCRIPT_WORK_CmdNop(void);
 int SCRIPT_WORK_CmdDummy(void);

@@ -152,7 +152,7 @@ struct SaveControlIntr;
 
 #include "../arm9/config.h"
 
-extern void MYSTATUS_SetSex(struct MyStatus*,u32);
+#include "../arm9/mystatus.h"
 
 
 
@@ -178,7 +178,6 @@ extern void MYSTATUS_SetSex(struct MyStatus*,u32);
 #include "../arm9/arc_tool.h"
 struct MyStatus;
 
-extern u32 MYSTATUS_GetSex(const struct MyStatus *mystatus);
 
 #include "../arm9/clact.h"
 
@@ -290,7 +289,7 @@ int INTRO_CMD_CmdCheckConfig(u8*p);
 
 void INTRO_CMD_CmdSetWordSet(u8*p,u32 a);
 
-char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap);
+char *INTRO_CMD_Create(void *a, void *b, void *c, char *d, void *e, unsigned short heap);
 
 void INTRO_CMD_Delete(u8*p);
 
@@ -324,7 +323,7 @@ extern const IntroActorPos gIntroActorPos;
 
 extern const char gIntroCmdSite[];
 
-extern const u32 gIntroScenarioTables[];
+extern IntroCommand *const gIntroScenarioTables[];
 
 int INTRO_CMD_CmdFade(char *p,int *state,int *q){switch(*state){case 0:FADE_Start(q[0],q[1],q[2],q[3]);(*state)++;break;case 1:if(FADE_IsActive()==0)return 1;break;}return 0;}
 
@@ -389,11 +388,14 @@ u32 INTRO_CMD_CmdWaitInput(void)
 
 int INTRO_CMD_CmdSetMsgBank(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_SetMsgBank(work->msg,q[0],q[1]);return 1;}
 
-extern int (*const gIntroCmdHandlerTable[])(char *,int);
+extern void (*const gIntroCmdHandlerTable[])(char *,int);
 
 int INTRO_CMD_CmdSub(char *p,int *state,int *q){gIntroCmdHandlerTable[q[0]](p,q[1]);return 1;}
 
-int INTRO_CMD_CmdPrintText(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;switch(*state){case 0:INTRO_MSG_PrintText(work->msg,(void *)q[0],q[1]);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(work->msg))return 1;break;}return 0;}
+/* Arguments of the print-text command: the text and its speed. */
+struct IntroCmdPrintTextArgs { void *text; u32 speed; };
+
+int INTRO_CMD_CmdPrintText(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;switch(*state){case 0:INTRO_MSG_PrintText(work->msg,((struct IntroCmdPrintTextArgs *)q)->text,((struct IntroCmdPrintTextArgs *)q)->speed);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(work->msg))return 1;break;}return 0;}
 
 int INTRO_CMD_CmdDrawWindowBorder(char *p,int *state,int *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_DrawWindowBorder((u8 *)work->msg);return 1;}
 
@@ -507,7 +509,7 @@ int INTRO_CMD_CmdSaveResume(char *a)
 int INTRO_CMD_CmdSaveNoOp(char *a)
 {
     IntroCmdWork *work = (IntroCmdWork *)a;
-    SAVE_CONTROL_INTR_NoOp((void *)((sptr)work->saveControl));
+    SAVE_CONTROL_INTR_NoOp((void *)(work->saveControl));
     return 1;
 }
 
@@ -663,31 +665,31 @@ int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
     switch (*q) {
     case 0:
         BG_SYS_SetPlaneVisible(2,1);
-        BG_SYS_DrawTileSub(2,0,8,64,2,(const void *)((uptr)p->data),0,8,64,32);
+        BG_SYS_DrawTileSub(2,0,8,64,2,(const void *)(p->data),0,8,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 1:
-        BG_SYS_DrawTileSub(2,0,7,64,1,(const void *)((uptr)p+0xA8),0,7,64,32);
-        BG_SYS_DrawTileSub(2,0,10,64,1,(const void *)((uptr)p->data),0,10,64,32);
+        BG_SYS_DrawTileSub(2,0,7,64,1,(const void *)&p->data[0],0,7,64,32);
+        BG_SYS_DrawTileSub(2,0,10,64,1,(const void *)(p->data),0,10,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 2:
-        BG_SYS_DrawTileSub(2,0,6,64,1,(const void *)((uptr)p+0xA8),0,6,64,32);
-        BG_SYS_DrawTileSub(2,0,11,64,1,(const void *)((uptr)p->data),0,11,64,32);
+        BG_SYS_DrawTileSub(2,0,6,64,1,(const void *)&p->data[0],0,6,64,32);
+        BG_SYS_DrawTileSub(2,0,11,64,1,(const void *)(p->data),0,11,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 3:
-        BG_SYS_DrawTileSub(2,0,5,64,1,(const void *)((uptr)p+0xA8),0,5,64,32);
-        BG_SYS_DrawTileSub(2,0,12,64,1,(const void *)((uptr)p->data),0,12,64,32);
+        BG_SYS_DrawTileSub(2,0,5,64,1,(const void *)&p->data[0],0,5,64,32);
+        BG_SYS_DrawTileSub(2,0,12,64,1,(const void *)(p->data),0,12,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 4:
-        BG_SYS_DrawTileSub(2,0,4,64,1,(const void *)((uptr)p+0xA8),0,4,64,32);
-        BG_SYS_DrawTileSub(2,0,13,64,1,(const void *)((uptr)p->data),0,13,64,32);
+        BG_SYS_DrawTileSub(2,0,4,64,1,(const void *)&p->data[0],0,4,64,32);
+        BG_SYS_DrawTileSub(2,0,13,64,1,(const void *)(p->data),0,13,64,32);
         BG_SYS_MarkTileDirty(2);
         *q=0;
         return 1;
@@ -742,25 +744,25 @@ int INTRO_CMD_CreateActors(char *p)
     char *row;
     arc=ARC_TOOL_CreateHandle(170,work->heapId);
     if(MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->myStatus))==0){
-        work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
-        work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
-        work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,5,4,work->heapId);
+        work->charHandle[0]=CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
+        work->palHandle[0]=CLACT_RegisterPalette(arc,7,0,0,work->heapId);
+        work->cellAnimHandle[0]=CLACT_RegisterCellAnim(arc,5,4,work->heapId);
     }else{
-        work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,10,0,0,work->heapId);
-        work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,11,0,0,work->heapId);
-        work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,9,8,work->heapId);
+        work->charHandle[0]=CLACT_RegisterCharacter(arc,10,0,0,work->heapId);
+        work->palHandle[0]=CLACT_RegisterPalette(arc,11,0,0,work->heapId);
+        work->cellAnimHandle[0]=CLACT_RegisterCellAnim(arc,9,8,work->heapId);
     }
-    work->charHandle[1].ptr=(void *)CLACT_RegisterCharacter(arc,17,0,0,work->heapId);
-    work->palHandle[1].ptr=(void *)CLACT_RegisterPalette(arc,18,0,32,work->heapId);
-    work->cellAnimHandle[1].ptr=(void *)CLACT_RegisterCellAnim(arc,16,15,work->heapId);
-    work->charHandle[2].ptr=(void *)CLACT_RegisterCharacter(arc,21,0,0,work->heapId);
-    work->palHandle[2].ptr=(void *)CLACT_RegisterPalette(arc,22,0,64,work->heapId);
-    work->cellAnimHandle[2].ptr=(void *)CLACT_RegisterCellAnim(arc,20,19,work->heapId);
+    work->charHandle[1]=CLACT_RegisterCharacter(arc,17,0,0,work->heapId);
+    work->palHandle[1]=CLACT_RegisterPalette(arc,18,0,32,work->heapId);
+    work->cellAnimHandle[1]=CLACT_RegisterCellAnim(arc,16,15,work->heapId);
+    work->charHandle[2]=CLACT_RegisterCharacter(arc,21,0,0,work->heapId);
+    work->palHandle[2]=CLACT_RegisterPalette(arc,22,0,64,work->heapId);
+    work->cellAnimHandle[2]=CLACT_RegisterCellAnim(arc,20,19,work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     local=gIntroActorPos;
     for(i=0;i<3;i++){
         row=p+i*4;
-        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner((char *)work->display),(uptr)work->charHandle[i].ptr,(uptr)work->palHandle[i].ptr,(uptr)work->cellAnimHandle[i].ptr,(const struct ActorInitParam *)((char *)&local+i*8),0,work->heapId);
+        work->actor[i]=CLACT_CreateActor(INTRO_GRAPHIC_GetClactOwner((char *)work->display),work->charHandle[i],work->palHandle[i],work->cellAnimHandle[i],(const struct ActorInitParam *)((char *)&local+i*8),0,work->heapId);
         CLACT_SetActorDrawEnable(work->actor[i],0);
     }
     return 1;
@@ -771,9 +773,9 @@ int INTRO_CMD_DeleteActors(char *p)
     IntroCmdWork *work = (IntroCmdWork *)p;
     unsigned i;
     for (i = 0; i < 3; i++) {
-        CLACT_ReleaseCharacter(work->charHandle[i].id);
-        CLACT_ReleasePalette(work->palHandle[i].id);
-        CLACT_ReleaseCellAnim(work->cellAnimHandle[i].id);
+        CLACT_ReleaseCharacter(work->charHandle[i]);
+        CLACT_ReleasePalette(work->palHandle[i]);
+        CLACT_ReleaseCellAnim(work->cellAnimHandle[i]);
         CLACT_DeleteActor(work->actor[i]);
     }
     return 1;
@@ -843,15 +845,15 @@ int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYST
 
 void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->myStatus);}
 
-char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
+char *INTRO_CMD_Create(void *a, void *b, void *c, char *d, void *e, unsigned short heap)
 {
-    IntroCmdWork *work = GFL_HEAP_Alloc(heap, 0x10d8, 1, gIntroCmdSite, 0x6f2);
+    IntroCmdWork *work = GFL_HEAP_Alloc(heap, sizeof(IntroCmdWork), 1, gIntroCmdSite, 0x6f2);
     work->heapId = heap;
     work->args = d;
-    work->mcss = (void *)c;
+    work->mcss = c;
     work->g3d = a;
-    work->particle = (void *)b;
-    work->display = (void *)e;
+    work->particle = b;
+    work->display = e;
     work->saveControl = ((IntroArgs *)d)->saveControl;
     work->msg = INTRO_MSG_Create(heap);
     return (char *)work;
@@ -868,7 +870,11 @@ int INTRO_CMD_Main(char *p)
     if (INTRO_CMD_RunCommands(work) == 0) {
         char *base = p;
         int i;
+#ifdef __MWERKS__
         base += 0x40;
+#else
+        base = (char *)work->slots;
+#endif
         for (i = 0; i < 9; i++) {
             IntroCommand *row = INTRO_CMD_GetScenarioRow(work->scenarioId) + work->rowIndex;
             if (row->tag == 1) {

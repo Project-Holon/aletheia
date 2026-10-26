@@ -24,8 +24,8 @@ int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work);
 int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work);
 int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work);
 GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, struct FieldMap *fieldMap, int zoneId);
-int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work);
-int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq);
+int FLD_WIPE_3DOBJ_MapChangeEventMain(struct GameEvent *event, int *seq, void *work);
+int FLD_WIPE_3DOBJ_FadeOutEventMain(struct GameEvent *event, int *seq, void *work);
 /* END mkheaders: generated region */
 
 #endif

@@ -5,6 +5,10 @@
 /* Public functions of psel_graphic.c, prototypes copied from their definitions. */
 
 struct PselWork;
+struct PselGraphicSystem;
+struct Unit;
+struct DispVram;
+struct G3dCamera;
 
 #include "../types.h"
 
@@ -41,25 +45,25 @@ int PSEL_GRAPHIC_Delete(int *work);
 int PSEL_GRAPHIC_GetMaxState(void);
 void PSEL_GRAPHIC_G3dCallback(void);
 void *PSEL_GRAPHIC_Create(int a,int heap);
-void PSEL_GRAPHIC_Destroy(unsigned *sys);
-void PSEL_GRAPHIC_Draw(char *sys);
-void PSEL_GRAPHIC_ApplyLight(unsigned char *sys);
-void PSEL_GRAPHIC_DrawEnd(unsigned char *sys);
-struct Unit *PSEL_GRAPHIC_GetClactBank(unsigned char *sys);
-void *PSEL_GRAPHIC_GetCamera(unsigned char *sys);
+void PSEL_GRAPHIC_Destroy(struct PselGraphicSystem *sys);
+void PSEL_GRAPHIC_Draw(struct PselGraphicSystem *sys);
+void PSEL_GRAPHIC_ApplyLight(struct PselGraphicSystem *sys);
+void PSEL_GRAPHIC_DrawEnd(struct PselGraphicSystem *sys);
+struct Unit *PSEL_GRAPHIC_GetClactBank(struct PselGraphicSystem *sys);
+void *PSEL_GRAPHIC_GetCamera(struct PselGraphicSystem *sys);
 void PSEL_GRAPHIC_VBlank(void *unused, char *sys);
 void PSEL_GRAPHIC_InitBg(void *sys,int heap);
 void PSEL_GRAPHIC_ExitBg(void *sys);
 void PSEL_GRAPHIC_NopDraw(void *unused);
 void PSEL_GRAPHIC_UpdateBg(void *unused);
-void PSEL_GRAPHIC_InitClact(int *out, const struct DispVram *a, int b);
-void PSEL_GRAPHIC_ExitClact(char *bank);
+void PSEL_GRAPHIC_InitClact(struct Unit **out, const struct DispVram *a, int b);
+void PSEL_GRAPHIC_ExitClact(struct Unit **bank);
 void PSEL_GRAPHIC_ClactDraw(void *unused);
 void PSEL_GRAPHIC_ClactVBlank(void *unused);
 void *PSEL_GRAPHIC_LoadWord(const u32 *word);
-void PSEL_GRAPHIC_InitG3d(int *camera,int heap);
-void PSEL_GRAPHIC_ExitG3d(int *camera);
-void PSEL_GRAPHIC_ApplyLookAt(int *camera);
+void PSEL_GRAPHIC_InitG3d(struct G3dCamera **camera,int heap);
+void PSEL_GRAPHIC_ExitG3d(struct G3dCamera **camera);
+void PSEL_GRAPHIC_ApplyLookAt(struct G3dCamera **camera);
 void PSEL_GRAPHIC_G3dDrawEnd(unsigned char *unused);
 struct Unit *PSEL_GRAPHIC_LoadWordC6F8(unsigned char *handle);
 /* END mkheaders: generated region */

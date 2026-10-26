@@ -5,8 +5,9 @@
 /* Public functions of nwm_setpowersave.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_SetPowerSaveMode(void *callback, u32 powerSave);
+u32 NWM_SetPowerSaveMode(NWMCallbackFunc callback, u32 powerSave);
 /* END mkheaders: generated region */
 
 #endif

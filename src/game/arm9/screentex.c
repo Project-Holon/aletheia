@@ -55,7 +55,7 @@
 struct CaptureBank {
     u32 lcdcBank;
     u32 captureControl;
-    u32 vramAddress;
+    uptr vramAddress;
 };
 
 #include "../sdk_fx.h"

@@ -368,7 +368,7 @@ struct Proc;
 int P_STATUS_InitWork(PStatusWork *wk);
 int P_STATUS_ExitWork(PStatusWork *wk);
 int P_STATUS_MainSeq(PStatusWork *wk);
-void P_STATUS_VBlankTask(void);
+void P_STATUS_VBlankTask(struct TcbTask *unused0, void *unused1);
 void P_STATUS_InitGraphics(PStatusWork *wk);
 void P_STATUS_ExitGraphics(PStatusWork *wk);
 void P_STATUS_InitBgLayer(struct BgSetup *cfg,u8 bg,u32 mode);
@@ -390,13 +390,13 @@ void P_STATUS_LoadPokemonState(PStatusWork *wk);
 void P_STATUS_RequestRefresh(PStatusWork *wk);
 void P_STATUS_UpdateRefresh(PStatusWork *wk);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
-int P_STATUS_GetPokeParaSource(PStatusWork *wk);
+void *P_STATUS_GetPokeParaSource(PStatusWork *wk);
 void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode);
-void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color);
+void P_STATUS_PrintMsg(PStatusWork *wk,struct Bmp *bmpWin,int msgId,int x,unsigned short y,unsigned short color);
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color);
-void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsg(PStatusWork *wk,struct Bmp *bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
-void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,struct Bmp *bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
 int P_STATUS_CanUseButtons(PStatusWork *wk);
 int P_STATUS_HasRibbon(PStatusWork *wk, void *pp);
@@ -459,7 +459,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     P_STATUS_LoadObjResource(wk);
     P_STATUS_InitMessage(wk);
     P_STATUS_CreateButtonActors(wk);
-    wk->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)P_STATUS_VBlankTask),(void *)((uptr)wk),8);
+    wk->vblankTask=GFL_USE_AddMainTask(P_STATUS_VBlankTask,(void *)wk,8);
     wk->blinkAngle=0;
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
@@ -604,7 +604,7 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     return 0;
 }
 
-void P_STATUS_VBlankTask(void) { CLACT_VBlankSystem(); }
+void P_STATUS_VBlankTask(struct TcbTask *unused0, void *unused1) { CLACT_VBlankSystem(); }
 
 static inline void GX_SetVisiblePlane(int plane)
 { *(volatile u32 *)HW_REG_DISPCNT=(u32)((*(volatile u32 *)HW_REG_DISPCNT & ~0x1f00) | (plane<<8)); }
@@ -632,7 +632,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0);GXS_SetVisiblePlane(0);
     WIPE_SetBrightnessFadeOut(0,0);WIPE_SetBrightnessFadeOut(1,0);
-    WIPE_ResetWndMask(0);WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(0);WIPE_ResetWndMask(1);
     *(volatile u16 *)HW_REG_BLDCNT=0;
     *(volatile u16 *)HW_REG_BLDCNT_SUB=0;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
@@ -1192,7 +1192,7 @@ int P_STATUS_SearchPokemon(PStatusWork *wk,int direction,unsigned short *out)
 
 void P_STATUS_LoadPokemonState(PStatusWork *wk)
 {
- void *ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
+ void *ppSrc=P_STATUS_GetPokeParaSource(wk);
  void *pp=P_STATUS_GetPokePara(wk);
  int one=1;
  P_STATUS_SetParamDecoded(wk,1);
@@ -1322,7 +1322,7 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
             wk->playCryReq=0;
             PM_VOICE_StopSlot(0);
             if (wk->isEgg==0) {
-                ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
+                ppSrc=P_STATUS_GetPokeParaSource(wk);
                 species=POKE_TOOL_GetPartyValue(ppSrc,5,0);
                 form=POKE_TOOL_GetPartyValue(ppSrc,111,0);
                 PM_VOICE_GetPerapVoiceSave((struct SaveBlock **)(&voicePlayer));
@@ -1349,16 +1349,16 @@ void *P_STATUS_GetPokePara(PStatusWork *wk)
  }
 }
 
-int P_STATUS_GetPokeParaSource(PStatusWork *wk)
+void *P_STATUS_GetPokeParaSource(PStatusWork *wk)
 {
     PStatusProcParam *param = wk->param;
     switch (param->ppt) {
     case 0:
-        return (sptr)param->ppd;
+        return param->ppd;
     case 1:
-        return (sptr)POKEPARTY_GetMember(param->ppd, wk->pos);
+        return POKEPARTY_GetMember(param->ppd, wk->pos);
     case 2:
-        return (sptr)wk->tempPP;
+        return wk->tempPP;
     default:
         return 0;
     }
@@ -1384,48 +1384,48 @@ void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode)
  }
 }
 
-void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color)
+void P_STATUS_PrintMsg(PStatusWork *wk,struct Bmp *bmpWin,int msgId,int x,unsigned short y,unsigned short color)
 {
  void *text=MSGDATA_AllocString(wk->msgData,msgId);
- PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)x,(short)y,text,wk->font,color);
+ PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,text,wk->font,color);
  STRBUF_Delete(text);
 }
 
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintMsg(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
+ P_STATUS_PrintMsg(wk,BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
 }
 
-void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+void P_STATUS_PrintWordSetMsg(PStatusWork *wk,struct Bmp *bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
  void *str=STRBUF_Create(16,wk->heapId);
  void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  WORDSET_CopyTaggedText(wordSet,str,fmt);
- PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)x,(short)y,str,wk->font,color);
+ PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,str,wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
 }
 
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintWordSetMsg(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsg(wk,BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
-void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,struct Bmp *bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
  void *str=STRBUF_Create(16,wk->heapId);
  void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  int width;
  WORDSET_CopyTaggedText(wordSet,str,fmt);
  width=PRINTSYS_MeasureWidestLine(str,wk->font,0);
- PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)(x-width),(short)y,str,wk->font,color);
+ PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)(x-width),(short)y,str,wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
 }
 
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintWordSetMsgRight(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsgRight(wk,BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
 int P_STATUS_CanUseButtons(PStatusWork *wk)
@@ -1456,12 +1456,12 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusProcParam *pwk,PStatusWork *myw
         PStatusWork *wk;
         u8 i;
         GFL_HEAP_CreateChildHeap(1,0x42,0x50000);
-        wk=PROCSYS_AllocProcWork(proc,0x264,0x42);
-        MI_CpuFill8(wk,0,0x264);
+        wk=PROCSYS_AllocProcWork(proc,sizeof(PStatusWork),0x42);
+        MI_CpuFill8(wk,0,sizeof(PStatusWork));
         wk->heapId=0x42;
         i=0;
         if(param==0) {
-            param=GFL_HEAP_Alloc(1,0x28,0,_SourceFileName,0x4d);
+            param=GFL_HEAP_Alloc(1,sizeof(PStatusProcParam),0,_SourceFileName,0x4d);
             if((KEY_GetCont()&0x400)==0) {
                 void *party;
                 void *pokePara;

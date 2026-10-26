@@ -10,8 +10,8 @@ struct Strbuf;
 #include "../ov069/bsubway_record_list_types.h"
 
 int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *args);
-int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
-int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
+int BSUBWAY_RECORD_LIST_Main(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
+int BSUBWAY_RECORD_LIST_Exit(void *proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
 void BSUBWAY_RECORD_LIST_VBlankTask(void);
 void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordListArgs *args);
 void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work);

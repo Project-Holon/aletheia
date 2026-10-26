@@ -260,7 +260,7 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
 {
     BtlvAuxView *view;
 
-    view = GFL_HEAP_Alloc(heapId, 0xb4, 1, (const char *)gBtlvScdFileName, 0xc8);
+    view = GFL_HEAP_Alloc(heapId, sizeof(*view), 1, (const char *)gBtlvScdFileName, 0xc8);
     view->core = core;
     view->mainModule = mainModule;
     view->pokeCon = pokeCon;

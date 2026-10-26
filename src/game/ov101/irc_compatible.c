@@ -172,8 +172,8 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     IrcCompatibleWork *work;
     void *gameData;
     GFL_HEAP_CreateChildHeap(1, IRC_COMPATIBLE_HEAP_ID, 0x8000);
-    work = PROCSYS_AllocProcWork(proc, 64, IRC_COMPATIBLE_HEAP_ID);
-    MI_CpuFill8(work, 0, 64);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), IRC_COMPATIBLE_HEAP_ID);
+    MI_CpuFill8(work, 0, sizeof(*work));
     gameData = 0;
     work->param = param;
     work->partnerProfile = GFL_HEAP_Alloc(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
@@ -350,7 +350,7 @@ void IRC_COMPATIBLE_HandleHelp(IrcCompatibleWork *work, u16 *state) { switch(*st
 
 
 
-void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { MI_CpuFill8(runner, 0, 12); runner->queue=PROCSYS_Create(heapId); }
+void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { MI_CpuFill8(runner, 0, sizeof(*runner)); runner->queue=PROCSYS_Create(heapId); }
 
 
 
@@ -367,7 +367,7 @@ unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PRO
 
 
 
-void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { PROCSYS_Delete((struct ProcSys *)runner->queue); MI_CpuFill8(runner, 0, 12); }
+void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { PROCSYS_Delete((struct ProcSys *)runner->queue); MI_CpuFill8(runner, 0, sizeof(*runner)); }
 
 
 
@@ -413,8 +413,8 @@ int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapI
  */
 void *IRC_COMPATIBLE_MenuStepCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcMenuArgs *args;
- args=GFL_HEAP_Alloc(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x36e);
- MI_CpuFill8(args,0,0x14);
+ args=GFL_HEAP_Alloc(heapId,sizeof(*args),0,IRC_COMPATIBLE_SourceFileName,0x36e);
+ MI_CpuFill8(args,0,sizeof(*args));
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -447,8 +447,8 @@ void IRC_COMPATIBLE_MenuStepDestroyArgs(void *args, IrcCompatibleWork *work) {
 
 void *IRC_COMPATIBLE_SecondTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcSecondTestArgs *args;
- args=GFL_HEAP_Alloc(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x3af);
- MI_CpuFill8(args,0,0x14);
+ args=GFL_HEAP_Alloc(heapId,sizeof(*args),0,IRC_COMPATIBLE_SourceFileName,0x3af);
+ MI_CpuFill8(args,0,sizeof(*args));
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -473,8 +473,8 @@ void IRC_COMPATIBLE_SecondTestDestroyArgs(void *args, IrcCompatibleWork *work) {
 
 void *IRC_COMPATIBLE_FirstTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcFirstTestArgs *args;
- args=GFL_HEAP_Alloc(heapId,0x18,0,IRC_COMPATIBLE_SourceFileName,0x3e4);
- MI_CpuFill8(args,0,0x18);
+ args=GFL_HEAP_Alloc(heapId,sizeof(*args),0,IRC_COMPATIBLE_SourceFileName,0x3e4);
+ MI_CpuFill8(args,0,sizeof(*args));
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -517,8 +517,8 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
     u8 *partnerName;
     int useBonus,isNewPartner=0;
     u32 packedDate;
-    args=GFL_HEAP_Alloc(heapId,16,0,IRC_COMPATIBLE_SourceFileName,0x418);
-    MI_CpuFill8(args,0,16);
+    args=GFL_HEAP_Alloc(heapId,sizeof(*args),0,IRC_COMPATIBLE_SourceFileName,0x418);
+    MI_CpuFill8(args,0,sizeof(*args));
     args->gameSystem=work->param->gameSystem;
     args->view=work->view;
     args->profile=work->partnerProfile;
@@ -546,7 +546,7 @@ void IRC_COMPATIBLE_ResultStepDestroyArgs(void *args, IrcCompatibleWork *work)
 
 
 
-void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=GFL_HEAP_Alloc(heapId,4,0,IRC_COMPATIBLE_SourceFileName,0x49b); MI_CpuFill8(args,0,4); args->gameSystem=work->param->gameSystem; return args; }
+void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=GFL_HEAP_Alloc(heapId,sizeof(IrcHelpArgs),0,IRC_COMPATIBLE_SourceFileName,0x49b); MI_CpuFill8(args,0,sizeof(IrcHelpArgs)); args->gameSystem=work->param->gameSystem; return args; }
 
 
 

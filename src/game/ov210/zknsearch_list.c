@@ -40,12 +40,12 @@ struct FrameListParams;
 struct Strbuf;
 #include "../arm9/msgdata.h"
 #include "zknsearch_main.h"
-void ZKNSEARCH_LIST_InitFrameList(char *ctx);
-void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
+void ZKNSEARCH_LIST_InitFrameList(ZknSearchWork *ctx);
+void ZKNSEARCH_LIST_InitFrameList2(ZknSearchWork *ctx);
 extern const Template d_021C0C70;
 extern const Template d_021C0C48;
 
-void ZKNSEARCH_LIST_InitFrameList(char *ctx)
+void ZKNSEARCH_LIST_InitFrameList(ZknSearchWork *ctx)
 {
     void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
@@ -54,15 +54,15 @@ void ZKNSEARCH_LIST_InitFrameList(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    ((ZknSearchWork *)ctx)->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
-    ((ZknSearchWork *)ctx)->entryCount = config.count;
-    FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, archive, 97, 0, 0);
-    FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
+    ctx->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
+    ctx->entryCount = config.count;
+    FRAME_LIST_CopyMapToBuffer(ctx->frameList, archive, 97, 0, 0);
+    FRAME_LIST_LoadPalettes(ctx->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i < 26; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = MSGDATA_AllocString(((ZknSearchWork *)ctx)->msgBank, i + 51); }
+    for (i = 0; i < 26; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i); ctx->entries[i] = MSGDATA_AllocString(ctx->msgBank, i + 51); }
 }
 
-void ZKNSEARCH_LIST_InitFrameList2(char *ctx)
+void ZKNSEARCH_LIST_InitFrameList2(ZknSearchWork *ctx)
 {
     void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
@@ -71,10 +71,10 @@ void ZKNSEARCH_LIST_InitFrameList2(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    ((ZknSearchWork *)ctx)->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
-    ((ZknSearchWork *)ctx)->entryCount = config.count;
-    FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, archive, 97, 0, 0);
-    FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
+    ctx->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
+    ctx->entryCount = config.count;
+    FRAME_LIST_CopyMapToBuffer(ctx->frameList, archive, 97, 0, 0);
+    FRAME_LIST_LoadPalettes(ctx->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i); ((void **)(ctx + 0x1e4))[i] = MSGDATA_AllocString(((ZknSearchWork *)ctx)->msgBank, ZKNSEARCH_MAIN_LookupEntryId(ctx, i)); }
+    for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i); ctx->entries[i] = MSGDATA_AllocString(ctx->msgBank, ZKNSEARCH_MAIN_LookupEntryId(ctx, i)); }
 }

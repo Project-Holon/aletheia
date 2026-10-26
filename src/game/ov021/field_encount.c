@@ -289,7 +289,7 @@ void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameDat
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
     party = GAME_DATA_GetMyParty(gameData);
-    MI_CpuFill8(param, 0, 0x2C);
+    MI_CpuFill8(param, 0, sizeof(*param));
     param->encountType = encountType;
     param->triggerMode = triggerMode;
     param->gameData = gameData;
@@ -871,7 +871,7 @@ u32 FIELD_ENCOUNT_PickRandomSlot(u32 slotCount)
 FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
 {
     u32 heapId = FIELDMAP_GetHeapId(fieldMap);
-    FieldEncount *encount = GFL_HEAP_Alloc(heapId, 0x14, 1, sFieldEncountFileName, 0x62);
+    FieldEncount *encount = GFL_HEAP_Alloc(heapId, sizeof(*encount), 1, sFieldEncountFileName, 0x62);
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     struct EffectEncount *effectEncount;
@@ -1205,7 +1205,7 @@ void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupP
 
     BTL_SETUP_Clear(btlSetup);
     FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
-    trainerBgAttr = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField((void *)trainerId1, 1));
+    trainerBgAttr = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField(trainerId1, 1));
     if (trainerBgAttr != 0x11) {
         situation.bgAttr = trainerBgAttr;
     }

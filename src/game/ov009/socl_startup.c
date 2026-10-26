@@ -174,9 +174,9 @@ static void SOCLi_StartupCPS(void)
         cps_config->dhcp_callback = SOCLi_SetMyIP;
     }
     CPS_SetThreadPriority(socl_config->cps_thread_prio == 0 ? 0xB : socl_config->cps_thread_prio);
-    WCM_SetRecvDCFCallback((void (*)(unsigned char *, unsigned char *, unsigned char *, long))CPSi_RecvCallbackFunc);
+    WCM_SetRecvDCFCallback(CPSi_RecvCallbackFunc);
     CPS_SetScavengerCallback(SOCLi_TrashSocket);
-    CPS_SetCheckNConfigCallback((void *)SOCLi_CheckNConfig);
+    CPS_SetCheckNConfigCallback(SOCLi_CheckNConfig);
     CPS_Startup(cps_config);
 }
 

@@ -60,11 +60,11 @@ struct BuildModelRect;
 struct BuildModelMan;
 struct BuildModelEntry;
 #include "field_buildmodel.h"
-int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, int *seq, void *work);
 struct GameEvent *FIELD_DOOR_ANIME_StartOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap);
-int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, int *seq, void *work);
 struct GameEvent *FIELD_DOOR_ANIME_StartSetOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap);
-int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work);
+int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, int *seq, void *work);
 struct GameEvent *FIELD_DOOR_ANIME_StartClose(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap, u32 silent);
 
 /*
@@ -72,8 +72,9 @@ struct GameEvent *FIELD_DOOR_ANIME_StartClose(struct GameEvent *parent, struct G
  * model within one tile of the player, waits for the SE, then plays the hold
  * SE and animation 1.
  */
-int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, int *seq, void *workPtr)
 {
+    DoorAnimeWork *work = workPtr;
     int pos[3];
     int area[4];
     struct BuildModelMan *bmodelMan;
@@ -116,7 +117,7 @@ int FIELD_DOOR_ANIME_OpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *w
 
 struct GameEvent *FIELD_DOOR_ANIME_StartOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap)
 {
-    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_OpenTask, 0x14);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, FIELD_DOOR_ANIME_OpenTask, sizeof(DoorAnimeWork));
     DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -125,8 +126,9 @@ struct GameEvent *FIELD_DOOR_ANIME_StartOpen(struct GameEvent *parent, struct Ga
 }
 
 /* Sets the door near the player to its open state (animation 1) at once, no SE. */
-int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, int *seq, void *workPtr)
 {
+    DoorAnimeWork *work = workPtr;
     int pos[3];
     int area[4];
     struct BuildModelMan *bmodelMan;
@@ -155,7 +157,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(struct GameEvent *task, u32 *seq, DoorAnimeWork
 
 struct GameEvent *FIELD_DOOR_ANIME_StartSetOpen(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap)
 {
-    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_SetOpenTask, 0x14);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, FIELD_DOOR_ANIME_SetOpenTask, sizeof(DoorAnimeWork));
     DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -164,8 +166,9 @@ struct GameEvent *FIELD_DOOR_ANIME_StartSetOpen(struct GameEvent *parent, struct
 }
 
 /* Door close task: close SE (unless silent) and close animation (2), waits for the SE. */
-int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *work)
+int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, int *seq, void *workPtr)
 {
+    DoorAnimeWork *work = workPtr;
     int pos[3];
     int area[4];
     struct BuildModelMan *bmodelMan;
@@ -205,7 +208,7 @@ int FIELD_DOOR_ANIME_CloseTask(struct GameEvent *task, u32 *seq, DoorAnimeWork *
 
 struct GameEvent *FIELD_DOOR_ANIME_StartClose(struct GameEvent *parent, struct GameSystem *gameSys, struct FieldMap *fieldmap, u32 silent)
 {
-    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, (GameEventFunc)FIELD_DOOR_ANIME_CloseTask, 0x14);
+    struct GameEvent *task = GAME_EVENT_Create(gameSys, parent, FIELD_DOOR_ANIME_CloseTask, sizeof(DoorAnimeWork));
     DoorAnimeWork *work = GAME_EVENT_GetWork(task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;

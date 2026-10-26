@@ -187,7 +187,7 @@ extern const struct BgTemplate sBgTemplate6;
 
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId)
 {
-    CGearPowerOnOffWork *work = GFL_HEAP_Alloc(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
+    CGearPowerOnOffWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sCGearPowerOnOffFileName, 0x12D);
     work->gameSystem = gameSystem;
     work->beacon = GAMESYSTEM_GetGameComm(gameSystem);
     work->subscreen = subscreen;
@@ -308,14 +308,14 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Delete(work->menuWindow);
     BMP_WIN_Delete(work->messageWindow);
-    BMP_MENUWORK_FreeTileRun(5, (uptr)work->bmpMenuWork);
+    BMP_MENUWORK_FreeTileRun(5, work->bmpMenuWork);
 }
 
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
     struct Strbuf *msg = MSGDATA_AllocString(work->msgBank, msgId);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (uptr)work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, (u32)0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
@@ -329,7 +329,7 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
     BMP_MENUWORK_DrawWindowBorder(window, 2);
     BMP_WIN_MakeScreen(window);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (uptr)work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, (u32)0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }

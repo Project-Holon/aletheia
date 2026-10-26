@@ -113,7 +113,7 @@ int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(EventSlots *slots, int unused);
 u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries);
-int EVENT_FIELD_PROCLINK_IsNetConnected(int unused);
+int EVENT_FIELD_PROCLINK_IsNetConnected(void *unused);
 void EVENT_FIELD_PROCLINK_RunReturnSlots(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
 int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
 int EVENT_FIELD_PROCLINK_HandlerCheckEntryRail(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
@@ -203,10 +203,10 @@ void EVENT_FIELD_PROCLINK_InitReturnHeader(ProcLinkRequest *request)
 
 void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, int variant)
 {
-    sptr handle;
+    WfbcNpcData *handle;
     u16 *record;
     if (request->mode == 1) {
-        handle = (sptr)FIELD_WFBC_DATA_LOCAL_OpenNpcData(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
+        handle = FIELD_WFBC_DATA_LOCAL_OpenNpcData(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
         record = (unsigned short *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord((struct WfbcNpcData *)handle);
         result[0] = record[0x24 / 2];
         result[1] = record[8 / 2];
@@ -230,18 +230,18 @@ void EVENT_FIELD_PROCLINK_ClearReturnSlots(EventSlots *slots)
 
 void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
 {
-    if (EVENT_FIELD_PROCLINK_IsNetConnected((sptr)slots) == 0)
+    if (EVENT_FIELD_PROCLINK_IsNetConnected(slots) == 0)
         EVENT_FIELD_PROCLINK_RunReturnSlots(slots, procLink, slotMask);
 }
 
 void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *unused, ProcLinkRequest *request, ProcLinkSys *procLink, struct MyStatus *arg, u16 linkId, u16 variant)
 {
     ProcLinkEntry *entry;
-    sptr handle;
+    WfbcNpcData *handle;
     u16 *record;
 
     entry = EVENT_FIELD_PROCLINK_GetEventdataEntry((struct ProcLinkReturnList *)procLink, linkId, 1);
-    handle = (int)(sptr)FIELD_WFBC_DATA_LOCAL_OpenNpcData(linkId, variant);
+    handle = FIELD_WFBC_DATA_LOCAL_OpenNpcData(linkId, variant);
     record = (unsigned short *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord((struct WfbcNpcData *)handle);
     if (request->mode == 0)
         entry->value = record[3];
@@ -267,13 +267,13 @@ void EVENT_FIELD_PROCLINK_SetReturnLinkId(EventSlots *slots, u16 pendingKey)
 
 void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(EventSlots *slots, EventSlot *slot)
 {
-    if (EVENT_FIELD_PROCLINK_IsNetConnected((sptr)slots) == 0)
+    if (EVENT_FIELD_PROCLINK_IsNetConnected(slots) == 0)
         EVENT_FIELD_PROCLINK_SetReturnSlotDefault(slots, slot);
 }
 
 void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(EventSlots *slots, int index, EventSlot *slot)
 {
-    if (EVENT_FIELD_PROCLINK_IsNetConnected((sptr)slots) == 0)
+    if (EVENT_FIELD_PROCLINK_IsNetConnected(slots) == 0)
         EVENT_FIELD_PROCLINK_SetReturnSlot(slots, index, slot);
 }
 
@@ -307,7 +307,7 @@ void EVENT_FIELD_PROCLINK_RequestReturn(EventSlots *slots, int entryId, int hand
     EventSlot slot;
     int handlerType;
 
-    if (EVENT_FIELD_PROCLINK_IsNetConnected((sptr)slots) == 0) {
+    if (EVENT_FIELD_PROCLINK_IsNetConnected(slots) == 0) {
         EVENT_FIELD_PROCLINK_SetReturnPendingSlot(slots, entryId, handlerIndex);
         return;
     }
@@ -376,7 +376,7 @@ void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries)
 
 #pragma opt_propagation reset
 
-int EVENT_FIELD_PROCLINK_IsNetConnected(int unused)
+int EVENT_FIELD_PROCLINK_IsNetConnected(void *unused)
 {
     if (GFL_NET_ERR_GetErrorLevel() == 0)
         return 0;

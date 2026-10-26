@@ -16,12 +16,15 @@ struct PmsInputViewSpriteRes;
 struct ClactActor;
 
 #include "../types.h"
+#include "../arm9/tcb_list.h"
+
+struct TcbTask;
 
 void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordData);
 void PMS_INPUT_VIEW_Delete(struct PmsInputView *view);
-void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *work, int priority);
-void PMS_INPUT_VIEW_MainTask(void *tcb, void *work);
-void PMS_INPUT_VIEW_VBlankTask(void *tcb, void *work);
+void *PMS_INPUT_VIEW_AddVBlankTask(TcbFunc fn, void *work, int priority);
+void PMS_INPUT_VIEW_MainTask(struct TcbTask *tcb, void *work);
+void PMS_INPUT_VIEW_VBlankTask(struct TcbTask *tcb, void *work);
 void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int id);
 int PMS_INPUT_VIEW_IsIdle(struct PmsInputView *view);
 int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id);

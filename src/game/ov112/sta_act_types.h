@@ -3,6 +3,10 @@
 
 #include "../types.h"
 
+struct MusPokeDrawSlot;
+struct StaActBillboardImage;
+struct StaActPokeElem;
+
 typedef struct { int x,y,z; } StaActObjVec;
 
 /* The 64-byte G3D model part shared by the light unit and the sprite elem. */
@@ -60,9 +64,9 @@ typedef struct StaActObjObject {
 
 /* Animation state at StaActPokeElem + 0xF0 (16 bytes). Some animators count with an
    unsigned short and some with a signed short, so the counter is unioned. */
-typedef struct { u16 count; u16 pad; int index; int a; int b; } ElemTail;
+typedef struct { u16 count; u16 pad; int index; char *a; int b; } ElemTail;
 
-typedef struct { short count; short pad; int index; int a; int b; } ElemTailSigned;
+typedef struct { short count; short pad; int index; char *a; int b; } ElemTailSigned;
 
 /* One sprite element of a StaActBillboardImage (264 bytes). The same record is the
    3D actor the actor system hands out through STA_ACTING_GetActor. */
@@ -91,7 +95,7 @@ typedef struct StaActPokeElem {
     u16 animTimer;              /* 0x50 */
     u16 pad_52;           /* 0x52 */
     int flipX;              /* 0x54 */
-    void *renderElem;     /* 0x58 */
+    struct MusPokeDrawSlot *renderElem; /* 0x58 */
     u32 billboardIdx;     /* 0x5C */
     struct Tagged *slotArc[9];       /* 0x60 */
     void *slotImage[9];   /* 0x84 */
@@ -104,14 +108,14 @@ typedef struct StaActPokeElem {
     u32 pad_100;          /* 0x100 */
     union {
         int active;                        /* 0x104 nonzero while an animation runs */
-        void (*animFunc)(char *, char *);  /* 0x104 current animator */
+        void (*animFunc)(struct StaActBillboardImage *, struct StaActPokeElem *);  /* 0x104 current animator */
     } handler;            /* 0x104 */
 } StaActPokeElem;
 
 typedef struct StaActBillboardImage {
     u16 heap;             /* 0x00 */
     u16 pad_02;
-    u32 b;                /* 0x04 */
+    void *b;              /* 0x04 acting system */
     void *board;          /* 0x08 */
     void *renderObj;      /* 0x0C */
     void *actorPool;      /* 0x10 */

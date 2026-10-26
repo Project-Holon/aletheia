@@ -49,7 +49,7 @@ void NNSi_SndInsertActiveSeqPlayer(SndSeqPlayer *seqPlayer);
 void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer);
 SndSeqPlayer *NNSi_SndAllocFreeSeqPlayer(s32 priority);
 void NNSi_SndSeqPlayerRelease(SndSeqPlayer *seqPlayer);
-void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap);
+void NNSi_SndPlayerHeapDisposeCallback(void *pHeapBlock, u32 size, uptr data1, u32 data2);
 void NNSi_SndSeqPlayerSetPriority(SndSeqPlayer *seqPlayer, u32 priority);
 /* END mkheaders: generated region */
 

@@ -131,30 +131,28 @@ int OS_EncodeDeliverArg(void)
  */
 int OS_DecodeDeliverArg(void)
 {
-    u32 *state;
     u32 oldCrc;
 
     if (OS_IsValidDeliverArg() == 0)
         return -1;
 
-    state = (u32 *)0x02151384;
-    if (state[2] == 0)
+    if (g_02151384.sBufferPtr == 0)
         return -1;
 
-    MI_CpuCopy8((void *)0x02000000, (void *)state[2], 0x300);
+    MI_CpuCopy8((void *)0x02000000, g_02151384.sBufferPtr, 0x300);
 
-    oldCrc = *(u16 *)(state[2] + 0x10);
-    *(u16 *)(state[2] + 0x10) = 0;
-    *(u16 *)(state[2] + 0x10) = SVC_GetCRC16(0xffff, (void *)state[2], 0x300);
+    oldCrc = g_02151384.sBufferPtr->header.crc;
+    g_02151384.sBufferPtr->header.crc = 0;
+    g_02151384.sBufferPtr->header.crc = SVC_GetCRC16(0xffff, g_02151384.sBufferPtr, 0x300);
 
-    if (oldCrc != *(u16 *)(state[2] + 0x10)) {
-        MI_CpuFill8((void *)state[2], 0, 0x300);
+    if (oldCrc != g_02151384.sBufferPtr->header.crc) {
+        MI_CpuFill8(g_02151384.sBufferPtr, 0, 0x300);
         OS_SetDeliverArgStateInvalid();
         return 0;
     }
 
-    *(u8 *)(state[2] + 9) &= 0xfe;
-    state[1] = 1;
+    g_02151384.sBufferPtr->header.flag &= 0xfe;
+    g_02151384.sBufferState = 1;
     return 0;
 }
 

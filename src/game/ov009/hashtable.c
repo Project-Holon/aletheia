@@ -66,8 +66,8 @@ struct HashImplementation *TableNew2(int elemSize, int nBuckets, int nChains,
     struct HashImplementation *table;
     int i;
 
-    table = gsimalloc(0x14);
-    table->buckets = gsimalloc(nBuckets << 2);
+    table = gsimalloc(sizeof(*table));
+    table->buckets = gsimalloc(nBuckets * sizeof(*table->buckets));
     for (i = 0; i < nBuckets; i++)
         table->buckets[i] = ArrayNew(elemSize, nChains, freeFn);
     table->nbuckets = nBuckets;

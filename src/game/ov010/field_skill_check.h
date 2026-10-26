@@ -27,7 +27,7 @@ int FIELD_SKILL_CHECK_FrontTile(struct GameData *gameData, struct FieldMap *fiel
 int FIELD_SKILL_CHECK_NormalFieldZoneNotZone34(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player);
 int FIELD_LINK_EVENT_EnterEventMain(struct GameEvent *event, int *seq, LinkEnterWork *work);
 struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
-void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+struct GameEvent *FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 int FIELD_LINK_EVENT_ToggleSubscreenEventMain(struct GameEvent *event, u32 *seq, SubscreenToggleWork *work);
 struct GameEvent *FIELD_LINK_EVENT_CreateToggleSubscreenEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 /* END mkheaders: generated region */

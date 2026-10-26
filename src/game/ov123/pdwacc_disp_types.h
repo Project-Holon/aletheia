@@ -13,7 +13,7 @@
 /* Arguments the caller hands to the proc; the proc sets finished on exit. */
 typedef struct PdwaccProcParam {
     void *gameData;     /* 0x00 */
-    int connectionArg;  /* 0x04, third argument of NHTTP_RAP_Create */
+    void *connectionArg;  /* 0x04, third argument of NHTTP_RAP_Create */
     u16 heap;           /* 0x08 */
     u8 unused_0A[2];    /* alignment */
     int startMode;      /* 0x0C, 0: start with the intro message, 1: start with the result message */
@@ -41,7 +41,7 @@ typedef struct PdwaccDispWork {
     void *clactUnit;                    /* 0x97C */
     void *vblankTask;                   /* 0x980 */
     void *unusedTask;                   /* 0x984, deleted on exit if set, never set here */
-    void *clactResources[PDWACC_RESOURCE_COUNT];        /* 0x988 */
+    int clactResources[PDWACC_RESOURCE_COUNT];          /* 0x988 */
     u8 unused_9AC[4];                   /* never accessed */
     struct ClactActor *actors[PDWACC_ACTOR_COUNT];         /* 0x9B0 */
     u16 heap;                           /* 0x9E4 */

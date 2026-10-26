@@ -332,7 +332,7 @@ void WORLDTRADE_Nop(WorldtradeWork *p);
 
 void WORLDTRADE_SetupWindowPlanes(void);
 
-void WORLDTRADE_InitClactSystem(WorldtradeWork *p, u32 mode);
+void WORLDTRADE_InitClactSystem(WorldtradeWork *p, const struct DispVramCfg *mode);
 
 void WORLDTRADE_SetPlaneVisibleAll(WorldtradeWork *p);
 
@@ -465,7 +465,7 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, WorldtradeWork
             *state = d_02203A80[p->screenId].finish((u8 *)p, *state);
             if (p->subLcdRefresh != 0) {
                 WORLDTRADE_SUBLCD_CreateActors(p);
-                WORLDTRADE_SUBLCD_UpdateSlotPalettes(p, (*(int *)&p->d0), 0);
+                WORLDTRADE_SUBLCD_UpdateSlotPalettes(p, (p->d0), 0);
                 p->subLcdRefresh = 0;
             }
         }
@@ -477,7 +477,7 @@ int WORLDTRADE_ProcMain(void *unused0, int *state, void *unused2, WorldtradeWork
         return 1;
     }
     WORLDTRADE_DecrementTimer(p);
-    if (*(u32 *)&p->res != 0) CLACT_DrawSystem();
+    if (p->res != 0) CLACT_DrawSystem();
     if (p->countdownFrames > 0) p->countdownFrames -= 1;
     return 0;
 }
@@ -598,7 +598,7 @@ void WORLDTRADE_SetupWindowPlanes(void)
  * at 0x100, and from archive 0x1F the version-dependent set (files
  * 0x11/6/0xF/0x10 when MYSTATUS_GetSex reports 1, else 0xE/4/0xC/0xD).
  */
-void WORLDTRADE_InitClactSystem(WorldtradeWork *p, u32 mode)
+void WORLDTRADE_InitClactSystem(WorldtradeWork *p, const struct DispVramCfg *mode)
 {
     void *arc;
     void *buf;
@@ -611,8 +611,8 @@ void WORLDTRADE_InitClactSystem(WorldtradeWork *p, u32 mode)
     u32 chr;
 
     arc = ARC_TOOL_CreateHandle(0x60, 0x48);
-    CLACT_InitSystem((const struct ClactSysInit *)d_02202BE0, (const struct DispVramCfg *)mode, 0x48);
-    p->res_res.unit = (uptr)CLACT_CreateUnit(0x60, 0, 0x48);
+    CLACT_InitSystem((const struct ClactSysInit *)d_02202BE0, mode, 0x48);
+    p->res_res.unit = CLACT_CreateUnit(0x60, 0, 0x48);
     p->res_res.mainChar = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
     p->res_res.mainPlt = CLACT_RegisterPalette(arc, 8, 0, 0, 0x48);
     p->res_res.mainCell = CLACT_RegisterCellAnim(arc, 0x12, 0x13, 0x48);
@@ -680,7 +680,7 @@ void WORLDTRADE_OpenTaskMenuYesNo(WorldtradeWork *p,int y,int unused,int plttIdx
     p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
-    MI_CpuFill8(&menu,0,20);
+    MI_CpuFill8(&menu,0,sizeof(menu));
     items.item[0].str=MSGDATA_AllocString(p->bank,63);
     items.item[1].str=MSGDATA_AllocString(p->bank,64);
     menu.heapId=0x48;
@@ -713,9 +713,9 @@ void WORLDTRADE_OpenTaskMenuList(WorldtradeWork *p, u16 bgLayer, int count, int 
     if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202C2C;
-    MI_CpuFill8(&menu,0,20);
+    MI_CpuFill8(&menu,0,sizeof(menu));
     if ((u32)count>3) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    for(i=0;i<count;i++) items.item[i].str=*(struct Strbuf **)((uptr)p->de8+i*8);
+    for(i=0;i<count;i++) items.item[i].str=(struct Strbuf *)((BmpMenuWork *)p->de8)[i].u.handle;
     menu.heapId=0x48;
     menu.itemNum=count;
     menu.itemWork=items.item;
@@ -786,7 +786,7 @@ int WORLDTRADE_GetWifiLinkLevel(void)
 void WORLDTRADE_SetStateAndReturn(WorldtradeWork *p, u32 nextScreenId, u32 kind)
 {
     p->nextScreenId = nextScreenId;
-    *(u32 *)&p->kind = kind;
+    p->kind = kind;
 }
 
 /*
@@ -809,7 +809,7 @@ int WORLDTRADE_GetMessageWait(void)
 void WORLDTRADE_SetupGraphics(WorldtradeWork *p)
 {
     WORLDTRADE_SetupVramBanks((const struct DispVram *)g_02202BFC);
-    WORLDTRADE_InitClactSystem((WorldtradeWork *)p, (u32)((struct DispVramCfg *)g_02202BFC));
+    WORLDTRADE_InitClactSystem((WorldtradeWork *)p, ((struct DispVramCfg *)g_02202BFC));
     WORLDTRADE_SetPlaneVisibleAll(p);
 }
 

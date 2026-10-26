@@ -7,12 +7,15 @@
 struct Proc;
 struct IntroDisplay;
 struct IntroClact;
+struct DispVramCfg;
 struct IntroCamera;
 typedef struct IntroDisplay IntroDisplay;
 typedef struct IntroClact IntroClact;
 typedef struct IntroCamera IntroCamera;
 
 #include "../types.h"
+
+struct TcbTask;
 
 int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args);
 int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p);
@@ -23,8 +26,8 @@ void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p);
 void INTRO_GRAPHIC_UpdateDisplay(u8 *p);
 void INTRO_GRAPHIC_Draw3d(char *p);
 void INTRO_GRAPHIC_Draw3dEnd(char *p);
-unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
-void INTRO_GRAPHIC_VBlank(u32 a, u8 *b);
+void *INTRO_GRAPHIC_GetClactOwner(char *p);
+void INTRO_GRAPHIC_VBlank(struct TcbTask *a, void *arg);
 void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, u16 heap);
 void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp);
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp);
@@ -34,7 +37,7 @@ void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b);
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact);
 void INTRO_GRAPHIC_DrawClact(void *unused);
 void INTRO_GRAPHIC_VBlankClact(void *unused);
-unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact);
+void *INTRO_GRAPHIC_GetClactBank(IntroClact *clact);
 void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap);
 void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap);
 void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam);

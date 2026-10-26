@@ -541,53 +541,53 @@ extern u8 abs_id_83[];
 extern const struct TileMessage data_021D3CE8[13];
 
 int FIELDMAP_GetHeapSizeForMapType(int zoneId);
-int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int *outResetEncount, int *outMenuRequest);
-int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_Run(void *gameSystem, FieldMap *fieldMap, u32 unusedC, u32 unusedD);
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int *outResetEncount, int *outMenuRequest);
+struct GameEvent *FIELD_EVENT_CHECK_RunGrid(struct GameSystem *gameSystem, void *fieldMapArg);
+struct GameEvent *FIELD_EVENT_CHECK_CheckCommEvents(struct GameSystem *gameSystem, void *fieldMapArg);
+struct GameEvent *FIELD_EVENT_CHECK_RunRail(struct GameSystem *gameSystem, void *fieldMapArg);
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_Run(struct GameSystem *gameSystem, void *fieldMapArg);
 void FIELD_EVENT_CHECK_InitInput(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
 void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap);
 int FIELD_EVENT_CHECK_AddStepRecord(void *gameData);
-int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input);
-int FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input);
-int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir);
-int FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input);
-int FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input);
-void *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input);
-int FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input);
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input);
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir);
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input);
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input);
+struct GameEvent *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input);
+struct GameEvent *FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap);
 int FIELD_EVENT_CHECK_GetEggCycleDecrement(void *party);
 void FIELD_EVENT_CHECK_DecrementEggCycles(void *party);
 void FIELD_EVENT_CHECK_UpdateEggStepCounter(void *gameData, void *party);
 int FIELD_EVENT_CHECK_IsEggReadyToHatch(void *party);
-int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, void *gameSystem, void *gameData);
+struct GameEvent *FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, void *gameSystem, void *gameData);
 void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId);
-int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData);
-int FIELD_EVENT_CHECK_CheckStepEncount(FieldMap *fieldMap, void *gameSystem, void *gameData);
+struct GameEvent *FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId);
+struct GameEvent *FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData);
+struct GameEvent *FIELD_EVENT_CHECK_CheckStepEncount(FieldMap *fieldMap, void *gameSystem, void *gameData);
 struct GameEvent *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *gameSystem);
-int FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMap, VecFx32 *pos);
-void *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, VecFx32 *pos);
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMap, VecFx32 *pos);
+struct GameEvent *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, VecFx32 *pos);
 void FIELD_EVENT_CHECK_SetEntranceFromGridConnect(FieldEventInput *input, int connectId, VecFx32 *pos);
 u32 FIELD_EVENT_CHECK_FindGridConnectId(FieldEventInput *input, VecFx32 *pos);
 void FIELD_EVENT_CHECK_GetFrontPos(FieldEventInput *input, VecFx32 *out);
 int FIELD_EVENT_CHECK_IsConnectOnFootType(void *connect);
 int FIELD_EVENT_CHECK_IsConnectExitDir(void *connect, int dir);
-int FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, int unused, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap, RailLocation *frontLocation);
-int FIELD_EVENT_CHECK_CheckWildEncount(FieldEventInput *input, void *unused, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap, RailLocation *frontLocation);
+struct GameEvent *FIELD_EVENT_CHECK_CheckWildEncount(FieldEventInput *input, void *unused, FieldMap *fieldMap);
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
 void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int connectId, RailLocation *location);
-int FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location);
+struct GameEvent *FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location);
 int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input);
-int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, u32 *seq, void *arg);
-struct GameEvent *FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles);
-int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
+int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, int *seq, void *arg);
+struct GameEvent *FIELD_EVENT_CHECK_CreateLedgeJumpTask(FieldEventInput *unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles);
+struct GameEvent *FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
 struct Mmdl *FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, FieldMap *fieldMap);
 struct Mmdl *FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap);
 u16 FIELD_EVENT_CHECK_GetFrontTileMessage(FieldEventInput *input, FieldMap *fieldMap);
@@ -608,13 +608,13 @@ int FIELDMAP_GetHeapSizeForMapType(int zoneId)
  * in.heapId / in.zoneId loads, which is why `add r1, sp, #0x28` sits above the
  * beq after the INTRUDE_FindOfferSlotAt test.
  */
-int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int *outResetEncount, int *outMenuRequest)
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int *outResetEncount, int *outMenuRequest)
 {
     FieldEventInput input;
     VecFx32 frontPos;
     u32 commTarget;
     u16 areaZoneId;
-    int result;
+    struct GameEvent *result;
     u32 blockFlags;
     void *commWork;
     void *gameComm;
@@ -628,10 +628,10 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         *outResetEncount = 1;
         return result;
     }
-    result = (sptr)PLEASURE_BOAT_Update((struct GameSystem *)gameSystem, (struct PleasureBoatWork *)(*GAME_DATA_GetEventState(input.gameData)));
+    result = PLEASURE_BOAT_Update((struct GameSystem *)gameSystem, (struct PleasureBoatWork *)(*GAME_DATA_GetEventState(input.gameData)));
     if (result != 0)
         return result;
-    result = (sptr)EVENT_TRAINER_EYE_Check(fieldMap);
+    result = EVENT_TRAINER_EYE_Check(fieldMap);
     if (result != 0) {
         *outResetEncount = 1;
         return result;
@@ -647,7 +647,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         result = FIELD_EVENT_CHECK_CheckGridConnect(&input, fieldMap, input.playerPos);
         if (result != 0)
             return result;
-        result = (sptr)FIELD_EVENT_CHECK_CheckTileMoveTask(&input, fieldMap);
+        result = FIELD_EVENT_CHECK_CheckTileMoveTask(&input, fieldMap);
         if (result != 0)
             return result;
     }
@@ -662,7 +662,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
     result = FIELD_EVENT_CHECK_CheckPosEventHeldDir(&input);
     if (result != 0)
         return result;
-    result = (sptr)FIELD_EVENT_CHECK_CheckIntrudeEdge(&input, gameSystem, fieldMap);
+    result = FIELD_EVENT_CHECK_CheckIntrudeEdge(&input, gameSystem, fieldMap);
     if (result != 0)
         return result;
     result = FIELD_EVENT_CHECK_CheckWildEncount(&input, gameSystem, fieldMap);
@@ -680,15 +680,15 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
     commWork = (void *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)gameComm);
     playerMmdl = FIELD_PLAYER_GetMmdl(input.player);
     if (INTRUDE_FIELD_IsDisconnectNeeded((struct GameSystem *)gameSystem, input.zoneId) == 1)
-        return (sptr)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
+        return INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
     if ((int)GAME_COMM_GetKind(gameComm) == 2 && commWork != 0) {
         if (GAME_DATA_GetIntrudeCount(input.gameData) == 1 && INTRUDE_FIELD_IsStartRequested(commWork) == 1)
-            return (sptr)INTRUDE_FIELD_CreateNoticeEvent(gameSystem, fieldMap);
+            return INTRUDE_FIELD_CreateNoticeEvent(gameSystem, fieldMap);
         if (INTRUDE_COMM_ConsumeAreaNoticeSeen(commWork, input.zoneId) == 1)
-            return (sptr)FIELD_INTRUDE_EVENT_StartSymbolEntry((struct GameSystem *)gameSystem, 9, GAME_DATA_GetSymbolMapFlag(input.gameData));
+            return FIELD_INTRUDE_EVENT_StartSymbolEntry((struct GameSystem *)gameSystem, 9, GAME_DATA_GetSymbolMapFlag(input.gameData));
         if (input.inputEnabled == 1 && INTRUDE_COMM_GetActiveRequestTarget(commWork, (int *)(&commTarget)) == 1) {
             FIELD_PLAYER_ResetMoveWork(input.player);
-            return (sptr)EVENT_COMM_COMMON_CreateTalkedStartEvent(gameSystem, (struct FieldMap *)fieldMap, (struct IntrudeCommSys *)commWork, (struct FldMmdl *)playerMmdl, commTarget, input.heapId);
+            return EVENT_COMM_COMMON_CreateTalkedStartEvent(gameSystem, (struct FieldMap *)fieldMap, (struct IntrudeCommSys *)commWork, (struct FldMmdl *)playerMmdl, commTarget, input.heapId);
         }
         if (input.stepDone) {
             result = INTRUDE_FIELD_TryStartOfferEvent(gameSystem, commWork, input.player);
@@ -697,7 +697,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         }
         if (input.aPressed && INTRUDE_FIELD_FindRemotePlayerAhead(commWork, input.player, (int *)(&commTarget)) == 1) {
             FIELD_PLAYER_ResetMoveWork(input.player);
-            return (sptr)EVENT_COMM_COMMON_CreateTalkStartEvent(gameSystem, (struct FieldMap *)fieldMap, (void *)commWork, (struct FldMmdl *)playerMmdl, commTarget, input.heapId);
+            return EVENT_COMM_COMMON_CreateTalkStartEvent(gameSystem, (struct FieldMap *)fieldMap, (void *)commWork, (struct FldMmdl *)playerMmdl, commTarget, input.heapId);
         }
     }
 
@@ -721,28 +721,28 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
                 *outResetEncount = 1;
-                return (sptr)FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, mmdl, frontMmdl, input.heapId);
+                return FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, mmdl, frontMmdl, input.heapId);
             }
         }
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), &frontPos, facing);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         scriptId = FIELD_EVENT_CHECK_GetFrontTileMessage(&input, fieldMap);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         gridX = frontPos.x >> 12;
         gridY = frontPos.y >> 12;
         gridZ = frontPos.z >> 12;
         mapper = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(input.gameData));
         scriptId = (u32)INTRUDE_FindOfferSlotAt(mapper, (u16)FIELDMAP_GetZoneId(fieldMap), (s16)(gridX / 16), (s16)(gridY / 16), (s16)(gridZ / 16));
         if (scriptId != 0xFF)
-            return (sptr)INTRUDE_StartOfferEvent(gameSystem, input.heapId, (s32)scriptId);
+            return INTRUDE_StartOfferEvent(gameSystem, input.heapId, (s32)scriptId);
         if (FIELD_GetPlayerAreaZoneId(fieldMap, &areaZoneId) == 1)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x271B, 0, input.heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x271B, 0, input.heapId);
         if (ZONEDATA_IsZoneInTableDFB8(input.zoneId)) {
             scriptId = EVENTDATA_SYSTEM_GetAutoPosEventScriptId(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), &frontPos);
             if (scriptId != 0xFFFF)
-                return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
+                return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         }
     }
 
@@ -752,7 +752,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
             return result;
     }
     if (input.pushingFacing) {
-        result = FIELD_EVENT_CHECK_CheckGridConnectFront(&input, (sptr)gameSystem, fieldMap);
+        result = FIELD_EVENT_CHECK_CheckGridConnectFront(&input, gameSystem, fieldMap);
         if (result != 0)
             return result;
         result = FIELD_EVENT_CHECK_CheckFrontTileEvents(&input, gameSystem, fieldMap);
@@ -763,18 +763,18 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
         void *subscreen = (void *)FIELDMAP_GetSubscreen(fieldMap);
 
         if (EVENT_SHORTCUT_MENU_HasShortcuts(gameSystem) && FIELD_SUBSCREEN_IsIdle((struct FieldSubscreen *)subscreen)) {
-            result = (sptr)EVENT_SHORTCUT_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
+            result = EVENT_SHORTCUT_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
             if (result != 0)
                 return result;
         }
     }
     if (GAMESYSTEM_GetFieldMapState(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
-        return (sptr)EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
+        return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (input.xPressed && WIPE_SYS_EndCheck()) {
         if ((int)FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen(fieldMap)) == 6)
             return 0;
         *outMenuRequest = 1;
-        return (sptr)EVENT_FIELD_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
+        return EVENT_FIELD_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
     }
     if (WIPE_SYS_EndCheck()) {
         result = FIELD_SUBSCREEN_CheckModeRequest((void *)FIELDMAP_GetSubscreen(fieldMap), input.noButton);
@@ -782,7 +782,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
             return result;
     }
     if (input.noButton && WIPE_SYS_EndCheck()) {
-        result = (sptr)FIELD_EVENT_CHECK_CreateGPowerExpireEvent(gameSystem);
+        result = FIELD_EVENT_CHECK_CreateGPowerExpireEvent(gameSystem);
         if (result != 0)
             return result;
     }
@@ -792,11 +792,12 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
     return result;
 }
 
-int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_RunGrid(struct GameSystem *gameSystem, void *fieldMapArg)
 {
+    FieldMap *fieldMap = fieldMapArg;
     int resetEncount;
     int menuRequest;
-    int result;
+    struct GameEvent *result;
     FieldMap *curFieldMap;
     void *encount;
     struct CrowdWork *zoneEffectWork;
@@ -819,12 +820,13 @@ int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
     return result;
 }
 
-int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckCommEvents(struct GameSystem *gameSystem, void *fieldMapArg)
 {
+    FieldMap *fieldMap = fieldMapArg;
     FieldEventInput input;
     void *gameComm;
     void *commWork;
-    int result;
+    struct GameEvent *result;
     Mmdl *frontMmdl;
     u32 eventId;
     void *playerMmdl;
@@ -835,10 +837,10 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
     if (commWork == 0) {
         if (GFL_NET_ERR_GetErrorLevel() != 0) {
             if (WIPE_SYS_EndCheck() != 0)
-                return (sptr)EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
+                return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
             return 0;
         }
-        return (sptr)EVENT_MAPCHANGE_CreateSpecialLocationEvent(gameSystem, (u8 *)fieldMap);
+        return EVENT_MAPCHANGE_CreateSpecialLocationEvent(gameSystem, (u8 *)fieldMap);
     }
     if (UNION_MAIN_GetFieldRequest(commWork) == 1) {
         if (UNION_MAIN_IsExitStarted(commWork) == 0)
@@ -859,25 +861,26 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *gameSystem, FieldMap *fieldMap)
                 playerMmdl = FIELD_PLAYER_GetMmdl(input.player);
                 if (UNION_CHARA_IsUnionObjId(FLDMMDL_GetObjId(frontMmdl)) == 0) {
                     FIELD_PLAYER_ResetMoveWork(input.player);
-                    return (sptr)FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, playerMmdl, frontMmdl, input.heapId);
+                    return FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, playerMmdl, frontMmdl, input.heapId);
                 }
             }
         }
     }
     if (GAMESYSTEM_GetFieldMapState(gameSystem) == 1 && WIPE_SYS_EndCheck() != 0)
-        return (sptr)EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
+        return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (UNION_MAIN_IsIdle(gameSystem) == 0)
         return 0;
     if (input.xPressed && WIPE_SYS_EndCheck() != 0)
-        return (sptr)EVENT_FIELD_MENU_CreateForZone((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
+        return EVENT_FIELD_MENU_CreateForZone((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
     return 0;
 }
 
-int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_RunRail(struct GameSystem *gameSystem, void *fieldMapArg)
 {
+    FieldMap *fieldMap = fieldMapArg;
     FieldMap *curFieldMap;
     struct CrowdWork *zoneEffectWork;
-    int result = FIELD_EVENT_CHECK_CheckRailEvents(gameSystem, fieldMap);
+    struct GameEvent *result = FIELD_EVENT_CHECK_CheckRailEvents(gameSystem, fieldMap);
     if (result != 0) {
         curFieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
         FIELD_PLACE_NAME_Cancel((struct FieldPlaceName *)FIELDMAP_GetPlaceName(curFieldMap));
@@ -889,14 +892,14 @@ int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
     return result;
 }
 
-int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
 {
     FieldEventInput input;
     RailLocation frontLocation;
     RailLocation nextLocation;
     RailLocation locationCopy;
     void *playerMmdl;
-    int result;
+    struct GameEvent *result;
     u32 scriptId;
 
     FIELD_EVENT_CHECK_InitInput(&input, gameSystem, fieldMap);
@@ -914,7 +917,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         FLDMMDL_RAIL_GetNextLocation(playerMmdlNow, &nextLocation);
         scriptId = EVENTDATA_SYSTEM_GetRailPosEventScriptId(input.eventData, eventWork, &nextLocation);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
         result = FIELD_EVENT_CHECK_CheckRailConnect(&input, gameSystem, fieldMap);
         if (result != 0)
             return result;
@@ -937,7 +940,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
                 void *mmdl = FIELD_PLAYER_GetMmdl(input.player);
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
-                return (sptr)FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, mmdl, frontMmdl, input.heapId);
+                return FLDMMDL_CreateTalkScriptEvent(gameSystem, fieldMap, eventId, mmdl, frontMmdl, input.heapId);
             }
         }
         eventWork = (void *)GAME_DATA_GetEventWork(input.gameData);
@@ -945,7 +948,7 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         locationCopy = frontLocation;
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(input.eventData, eventWork, &locationCopy, dirDisp);
         if (scriptId != 0xFFFF)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, scriptId, 0, input.heapId);
     }
     if (input.pushingFacing && FIELD_EVENT_CHECK_IsRailFrontFree(FIELDMAP_GetFieldPlayer(fieldMap), &input) == 0) {
         result = FIELD_EVENT_CHECK_CheckRailConnectFront(&input, gameSystem, fieldMap, &frontLocation);
@@ -959,17 +962,17 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
         void *subscreen = (void *)FIELDMAP_GetSubscreen(fieldMap);
 
         if (EVENT_SHORTCUT_MENU_HasShortcuts(gameSystem) && FIELD_SUBSCREEN_IsIdle((struct FieldSubscreen *)subscreen)) {
-            result = (sptr)EVENT_SHORTCUT_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
+            result = EVENT_SHORTCUT_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
             if (result != 0)
                 return result;
         }
     }
     if (GAMESYSTEM_GetFieldMapState(gameSystem) == 1 && WIPE_SYS_EndCheck() && input.inputEnabled)
-        return (sptr)EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
+        return EVENT_COMM_ERROR_Create(gameSystem, fieldMap);
     if (input.xPressed && WIPE_SYS_EndCheck()) {
         if (FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen(fieldMap)) == 6)
             return 0;
-        return (sptr)EVENT_FIELD_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
+        return EVENT_FIELD_MENU_Create((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap, input.heapId);
     }
     {
         u32 noButtonActive = (input.noButton && WIPE_SYS_EndCheck()) ? 1 : 0;
@@ -979,15 +982,16 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
             return result;
     }
     if (input.noButton && WIPE_SYS_EndCheck()) {
-        result = (sptr)FIELD_EVENT_CHECK_CreateGPowerExpireEvent(gameSystem);
+        result = FIELD_EVENT_CHECK_CreateGPowerExpireEvent(gameSystem);
         if (result != 0)
             return result;
     }
     return 0;
 }
 
-int FIELD_EVENT_CHECK_Run(void *gameSystem, FieldMap *fieldMap, u32 unusedC, u32 unusedD)
+struct GameEvent *FIELD_EVENT_CHECK_Run(struct GameSystem *gameSystem, void *fieldMapArg)
 {
+    FieldMap *fieldMap = fieldMapArg;
     if (FIELDMAP_GetMoveKind(fieldMap) == 0)
         return FIELD_EVENT_CHECK_RunGrid(gameSystem, fieldMap);
     return FIELD_EVENT_CHECK_RunRail(gameSystem, fieldMap);
@@ -1003,7 +1007,7 @@ void FIELD_EVENT_CHECK_InitInput(FieldEventInput *input, void *gameSystem, Field
 {
     void *playerMmdl;
 
-    MI_CpuFill8(input, 0, 0x40);
+    MI_CpuFill8(input, 0, sizeof(*input));
     input->heapId = FIELDMAP_GetHeapId(fieldMap);
     input->gameSystem = gameSystem;
     input->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -1086,15 +1090,15 @@ return RECORD_AddOne((void *)GAME_DATA_GetTrainerRecord((struct GameData *)gameD
  * Starts the pending script (field 0x26) through SCRIPT_SYS_CreateScriptEventSimple, or else asks
  * SCRIPT_SYS_CreateSceneChangeEvent for the default one; returns the result.
  */
-int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
+struct GameEvent *FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
 {
-    int r;
+    struct GameEvent *r;
 
     if (input->pendingScriptId != 0) {
         FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(input->gameData), 0);
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, input->pendingScriptId, 0, input->heapId);
+        return SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, input->pendingScriptId, 0, input->heapId);
     }
-    r = (sptr)SCRIPT_SYS_CreateSceneChangeEvent(input->gameSystem, input->heapId);
+    r = SCRIPT_SYS_CreateSceneChangeEvent(input->gameSystem, input->heapId);
     if (r == 0)
         return 0;
     return r;
@@ -1103,9 +1107,9 @@ int FIELD_EVENT_CHECK_StartPendingScript(FieldEventInput *input)
 /*
  * Tries FIELD_EVENT_CHECK_CheckPosEventCenterTile, then FIELD_EVENT_CHECK_CheckPosEventForDir with direction 9.
  */
-int FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input)
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input)
 {
-    int r = FIELD_EVENT_CHECK_CheckPosEventCenterTile(input);
+    struct GameEvent *r = FIELD_EVENT_CHECK_CheckPosEventCenterTile(input);
 
     if (r != 0)
         return r;
@@ -1117,7 +1121,7 @@ int FIELD_EVENT_CHECK_CheckPosEventAtPlayer(FieldEventInput *input)
  * (MAP_ATTR_IsNoInteract), asks ov010 EVENTDATA_SYSTEM_GetPosEventScriptId for a message id and shows it
  * through SCRIPT_SYS_CreateScriptEventSimple; returns 0 otherwise.
  */
-int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
 {
     FieldMap *curFieldMap = GAMESYSTEM_GetFieldMap(input->gameSystem);
     void *eventWork = (void *)GAME_DATA_GetEventWork(input->gameData);
@@ -1129,7 +1133,7 @@ int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
         return 0;
     scriptId = EVENTDATA_SYSTEM_GetPosEventScriptId(input->eventData, eventWork, &playerPos, dir);
     if (scriptId != 0xFFFF)
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, scriptId, 0, input->heapId);
+        return SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, scriptId, 0, input->heapId);
     return 0;
 }
 
@@ -1137,9 +1141,9 @@ int FIELD_EVENT_CHECK_CheckPosEventForDir(FieldEventInput *input, int dir)
  * Tries FIELD_EVENT_CHECK_CheckPosEventForDir for the current facing, then for the direction from
  * FIELD_PLAYER_ChooseMoveDirFromKeys when that differs and is not 9.
  */
-int FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input)
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input)
 {
-    int result = FIELD_EVENT_CHECK_CheckPosEventForDir(input, input->facingDir);
+    struct GameEvent *result = FIELD_EVENT_CHECK_CheckPosEventForDir(input, input->facingDir);
     int inputDir;
 
     if (result != 0)
@@ -1158,7 +1162,7 @@ int FIELD_EVENT_CHECK_CheckPosEventFacing(FieldEventInput *input)
  * it is the current facing, none, or the movement mode is 1 or 2, tries
  * FIELD_EVENT_CHECK_CheckPosEventForDir with it. The two-value mode test is a switch.
  */
-int FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input)
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input)
 {
     u32 keyCont = input->keyCont;
     u32 moveState = input->moveState;
@@ -1188,7 +1192,7 @@ int FIELD_EVENT_CHECK_CheckPosEventHeldDir(FieldEventInput *input)
  * When flag field 0x10 is set and FIELD_PLAYER_ChooseMoveDirFromKeys does not report 9, forwards
  * the object to ov018 INTRUDE_FIELD_CreateEdgeTask; returns 0 otherwise.
  */
-void *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
     int inputDir;
 
@@ -1208,7 +1212,7 @@ void *FIELD_EVENT_CHECK_CheckIntrudeEdge(FieldEventInput *input, void *gameSyste
  * docs/idioms/a-masked-byte-subtract-in-a-range-test-is-an-add-of-the-complement.md)
  * or FIELD_PLAYER_GetFormCode allows it.
  */
-int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
+struct GameEvent *FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
 {
     FieldMap *curFieldMap = GAMESYSTEM_GetFieldMap(input->gameSystem);
     void *player = FIELDMAP_GetFieldPlayer(curFieldMap);
@@ -1232,13 +1236,13 @@ int FIELD_EVENT_CHECK_CheckPosEventCenterTile(FieldEventInput *input)
     centerZ = area[1] + ((u32)area[3] >> 1);
     centerX = posEvent->area.x + ((u32)area[2] >> 1);
     if (centerX == (playerPos.x >> 12) / 16 && centerZ == (playerPos.z >> 12) / 16)
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
+        return SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
     canTrigger = FIELD_PLAYER_GetFormCode(player);
     tileBehavior = FLDMMDL_GetAcmdCode(FIELD_PLAYER_GetMmdl(player));
     if (canTrigger != 0 || tileBehavior == 0x58 || tileBehavior == 0x59 || tileBehavior == 0x5A || tileBehavior == 0x5B || (u16)(tileBehavior + 0xFF5D) <= 3)   /*
 tileBehavior - 0xA3
  */
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
+        return SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, posEvent->scriptId, 0, input->heapId);
     return 0;
 }
 
@@ -1248,11 +1252,11 @@ tileBehavior - 0xA3
  * returns the first non-zero result. Flags come from the u32 bitfield at
  * 0x3C.
  */
-int FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, FieldMap *fieldMap)
 {
     void *gameSystem;
     void *gameData;
-    int result;
+    struct GameEvent *result;
 
     FIELDMAP_GetHeapId(fieldMap);
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
@@ -1360,7 +1364,7 @@ int FIELD_EVENT_CHECK_IsEggReadyToHatch(void *party)
  * (FIELD_EVENT_CHECK_UpdateEggStepCounter) and, when an egg is ready (FIELD_EVENT_CHECK_IsEggReadyToHatch), shows message
  * 0x8CA.
  */
-int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, void *gameSystem, void *gameData)
+struct GameEvent *FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     u16 heapId = FIELDMAP_GetHeapId(fieldMap);
     void *party = GAME_DATA_GetMyParty(gameData);
@@ -1368,7 +1372,7 @@ int FIELD_EVENT_CHECK_CheckEggHatch(FieldEventInput *input, FieldMap *fieldMap, 
     SODATEYA_AddStep((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
     FIELD_EVENT_CHECK_UpdateEggStepCounter(gameData, party);
     if (FIELD_EVENT_CHECK_IsEggReadyToHatch(party))
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x8CA, 0, heapId);
+        return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x8CA, 0, heapId);
     return 0;
 }
 
@@ -1408,22 +1412,22 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
  * (SCRCMD_ShowStepMilestoneMessage) and increments the save block counter; returns the message
  * result.
  */
-int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId)
+struct GameEvent *FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap, u16 zoneId)
 {
     void *stepSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
-    int result = 0;
+    struct GameEvent *result = 0;
 
     if (ZONEDATA_IsZoneInTableDFB8(zoneId)) {
-        result = (sptr)SCRCMD_ShowStepMilestoneMessage(gameSystem, fieldMap);
+        result = SCRCMD_ShowStepMilestoneMessage(gameSystem, fieldMap);
         PLAYER_LOCATION_SetStepMessageCount(stepSave, PLAYER_LOCATION_GetStepMessageCount(stepSave) + 1);
     }
     return result;
 }
 
-int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData)
+struct GameEvent *FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     if ((u8)MOVE_POKEMON_SAVE_TickCooldown(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData))))
-        return (sptr)SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
+        return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
     return 0;
 }
 
@@ -1431,10 +1435,10 @@ int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(FieldMap *fieldMap, void *gameSys
  * Runs EFFECT_ENCOUNT_TriggerSpot on the position's object; when it declines, calls
  * EFFECT_ENCOUNT_OnPlayerStep and returns 0.
  */
-int FIELD_EVENT_CHECK_CheckStepEncount(FieldMap *fieldMap, void *gameSystem, void *gameData)
+struct GameEvent *FIELD_EVENT_CHECK_CheckStepEncount(FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
     void *encount;
-    int result;
+    struct GameEvent *result;
 
     GAME_DATA_GetSaveControl(gameData);
     encount = (void *)FIELDMAP_GetEncount(fieldMap);
@@ -1459,7 +1463,7 @@ struct GameEvent *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *gameSystem)
  * kind 1 or FIELD_EVENT_CHECK_IsConnectOnFootType rejects it, builds its record (FIELD_EVENT_CHECK_SetEntranceFromGridConnect) and
  * dispatches it (FIELD_EVENT_CHECK_StartConnectEvent).
  */
-int FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMap, VecFx32 *pos)
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMap, VecFx32 *pos)
 {
     u32 connectId = FIELD_EVENT_CHECK_FindGridConnectId(input, pos);
     void *connect;
@@ -1477,7 +1481,7 @@ int FIELD_EVENT_CHECK_CheckGridConnect(FieldEventInput *input, FieldMap *fieldMa
  * Looks up the tile attribute under the position and starts the matching tile
  * task (FIELD_TILE_MOVE_StartSpinTask or FIELD_TILE_MOVE_StartSlideTask); returns the task or 0.
  */
-void *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fieldMap)
 {
     VecFx32 playerVec;
     u16 tileAttr;
@@ -1496,7 +1500,7 @@ void *FIELD_EVENT_CHECK_CheckTileMoveTask(FieldEventInput *input, FieldMap *fiel
  * then dispatches to ov020 EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate for kind 6 or EVENT_MAPCHANGE_CreateExitWarpEvent
  * otherwise.
  */
-int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, VecFx32 *pos)
+struct GameEvent *FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, VecFx32 *pos)
 {
     void *connect = EVENTDATA_SYSTEM_GetConnectData(input->eventData, (u16)connectId);
     int exitOffset;
@@ -1506,9 +1510,9 @@ int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldM
     else
         exitOffset = 0;
     if (EVENTDATA_SYSTEM_GetConnectExitType(connect) == 6)
-        return (sptr)EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, exitOffset);
+        return EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, exitOffset);
     else
-        return (sptr)EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, exitOffset);
+        return EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, exitOffset);
 }
 
 /*
@@ -1573,7 +1577,7 @@ int FIELD_EVENT_CHECK_IsConnectExitDir(void *connect, int dir)
     return EVENTDATA_SYSTEM_IsConnectExitDir(connect, dir);
 }
 
-int FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, int unused, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap)
 {
     VecFx32 frontPos;
     int connectId;
@@ -1600,7 +1604,7 @@ int FIELD_EVENT_CHECK_CheckGridConnectFront(FieldEventInput *input, int unused, 
     return 0;
 }
 
-int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
     VecFx32 frontPos;
     VecFx32 aheadPos;
@@ -1610,9 +1614,9 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
 
     FIELD_EVENT_CHECK_GetFrontPos(input, &frontPos);
     if (FIELD_GIMMICK_IsGimmickId(fieldMap, 6))
-        return (sptr)FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(gameSystem, frontPos.x / 0x10000, frontPos.z / 0x10000);
+        return FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(gameSystem, frontPos.x / 0x10000, frontPos.z / 0x10000);
     if (FIELD_GIMMICK_IsGimmickId(fieldMap, 0x19) || FIELD_GIMMICK_IsGimmickId(fieldMap, 0x1A) || FIELD_GIMMICK_IsGimmickId(fieldMap, 0x1B))
-        return (sptr)FIELD_GIMMICK_D06_CheckPushStone((struct FieldMap *)fieldMap, input->facingDir);
+        return FIELD_GIMMICK_D06_CheckPushStone((struct FieldMap *)fieldMap, input->facingDir);
     frontAttr = MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(fieldMap), &frontPos);
     if ((MAP_ATTR_GetFlags(frontAttr) & 1) == 0)
         return 0;
@@ -1622,18 +1626,18 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
         playerMmdl = FIELD_PLAYER_GetMmdl(input->player);
         FLDMMDL_MOVE_AddDirVector(input->facingDir, &aheadPos, 0x10000);
         if (FLDMMDL_MOVE_GetMapHeight(playerMmdl, &aheadPos, &aheadHeight) == 1 && frontPos.y > aheadHeight)
-            return (sptr)SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, 0x271F, 0, input->heapId);
+            return SCRIPT_SYS_CreateScriptEventSimple(input->gameSystem, 0x271F, 0, input->heapId);
     }
     if (FIELD_EVENT_CHECK_FindGridConnectId(input, &frontPos) == 0xFFFF) {
         if (FIELD_GIMMICK_IsGimmickId(fieldMap, 2))
-            return (sptr)FIELD_GIMMICK_CART_LANES_CheckRideEvent(gameSystem);
+            return FIELD_GIMMICK_CART_LANES_CheckRideEvent(gameSystem);
         if (FIELD_GIMMICK_IsGimmickId(fieldMap, 5))
-            return (sptr)FIELD_GIMMICK_CANNONS_CreateLaunchEvent(gameSystem);
+            return FIELD_GIMMICK_CANNONS_CreateLaunchEvent(gameSystem);
     }
     return 0;
 }
 
-int FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, FieldMap *fieldMap)
 {
     RailLocation nextLocation;
     int connectId;
@@ -1650,7 +1654,7 @@ int FIELD_EVENT_CHECK_CheckRailConnect(FieldEventInput *input, void *unused, Fie
     return FIELD_EVENT_CHECK_StartRailConnectEvent(input, fieldMap, connectId, &nextLocation);
 }
 
-int FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap, RailLocation *frontLocation)
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused, FieldMap *fieldMap, RailLocation *frontLocation)
 {
     RailLocation nextLocation;
     int connectId;
@@ -1682,18 +1686,18 @@ int FIELD_EVENT_CHECK_CheckRailConnectFront(FieldEventInput *input, void *unused
  * FIELD_ENCOUNT_CheckWfbcEncount with the map value when ZONEDATA_IsZoneInTableDFC0 accepts field 0x10,
  * else FIELD_ENCOUNT_CheckWildEncount(obj, 0).
  */
-int FIELD_EVENT_CHECK_CheckWildEncount(FieldEventInput *input, void *unused, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckWildEncount(FieldEventInput *input, void *unused, FieldMap *fieldMap)
 {
     void *encount = (void *)FIELDMAP_GetEncount(fieldMap);
 
     if (!input->stepDone)
         return 0;
     if (ZONEDATA_IsZoneInTableDFC0(input->zoneId))
-        return (sptr)FIELD_ENCOUNT_CheckWfbcEncount(encount, FIELD_G3D_MAPPER_GetWfbc((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper(fieldMap)));
-    return (sptr)FIELD_ENCOUNT_CheckWildEncount(encount, 0);
+        return FIELD_ENCOUNT_CheckWfbcEncount(encount, FIELD_G3D_MAPPER_GetWfbc((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper(fieldMap)));
+    return FIELD_ENCOUNT_CheckWildEncount(encount, 0);
 }
 
-int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
     void *player = FIELDMAP_GetFieldPlayer(fieldMap);
     void *playerMmdl = FIELD_PLAYER_GetMmdl(player);
@@ -1704,7 +1708,7 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSyste
         if (moveState == 0 || moveState == 3) {
             if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(input->tileAttr))) {
                 if (FLDMMDL_RAIL_GetHitBitsDirNoAttr(playerMmdl, inputDir) & 3)
-                    return (sptr)RAIL_SLIPDOWN_StartAtPlayer(gameSystem, fieldMap, inputDir);
+                    return RAIL_SLIPDOWN_StartAtPlayer(gameSystem, fieldMap, inputDir);
             }
         }
     }
@@ -1719,10 +1723,10 @@ void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int co
     GAME_DATA_SetEntranceLocation(input->gameData, (struct Location *)locationRec);
 }
 
-int FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location)
+struct GameEvent *FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location)
 {
     void *connect = EVENTDATA_SYSTEM_GetConnectData(input->eventData, (u16)connectId);
-    return (sptr)EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, EVENTDATA_SYSTEM_GetConnectRailExitOffset(connect, location));
+    return EVENT_MAPCHANGE_CreateExitWarpEvent(input->gameSystem, (struct FieldMap *)fieldMap, (void *)connect, EVENTDATA_SYSTEM_GetConnectRailExitOffset(connect, location));
 }
 
 int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input)
@@ -1732,7 +1736,7 @@ int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input)
     return 0;
 }
 
-int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, u32 *seq, void *arg)
+int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, int *seq, void *arg)
 {
     LedgeJumpWork *work = arg;
     void *player = FIELDMAP_GetFieldPlayer(work->fieldMap);
@@ -1771,9 +1775,9 @@ int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, u32 *seq, void *
     return 0;
 }
 
-struct GameEvent *FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles)
+struct GameEvent *FIELD_EVENT_CHECK_CreateLedgeJumpTask(FieldEventInput *unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles)
 {
-    struct GameEvent *h = GAME_EVENT_Create((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, 0x10);
+    struct GameEvent *h = GAME_EVENT_Create((void *)gameSystem, 0, FIELD_EVENT_CHECK_LedgeJumpTaskMain, sizeof(LedgeJumpWork));
     LedgeJumpWork *work = GAME_EVENT_GetWork(h);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1782,7 +1786,7 @@ struct GameEvent *FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSy
     return h;
 }
 
-int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
+struct GameEvent *FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap)
 {
     void *g3dMapper;
     int inputDir;
@@ -1809,7 +1813,7 @@ int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, F
                 jumpTwoTiles = 1;
             }
             if (FIELD_EVENT_CHECK_IsLedgePathClear(input, fieldMap) == 1 && !(frontHitBits & 1) && !(frontHitBits & 2))
-                return (sptr)FIELD_EVENT_CHECK_CreateLedgeJumpTask((sptr)input, gameSystem, fieldMap, inputDir, jumpTwoTiles);
+                return FIELD_EVENT_CHECK_CreateLedgeJumpTask(input, gameSystem, fieldMap, inputDir, jumpTwoTiles);
         }
     }
     return 0;

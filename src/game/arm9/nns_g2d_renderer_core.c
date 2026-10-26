@@ -117,7 +117,7 @@ typedef enum { GX_OAM_SHAPE_8x8 = 0 } GXOamShape;
 
 #include "../sdk_gx.h"
 
-typedef struct {
+typedef struct NNSG2dImageAttr {
     GXTexSizeS sizeS;
     GXTexSizeT sizeT;
     GXTexFmt fmt;
@@ -167,7 +167,7 @@ void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
 void NNS_G2dResetOamSoftEmuAutoZOffset(void);
 void NNS_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step);
 int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
-void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
 void NNSi_G2dDoAffineTransforme(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans);
 void NNSi_G2dDrawCellToSurface2D(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *pCell);
 void NNSi_G2dDrawOam3D(GXOamAttr *oam);
@@ -576,11 +576,11 @@ static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
  * shape-in-ip / size-in-lr assignment (the `[shape][size]` subscript form is
  * the same instructions with those two registers swapped, 10 bytes out).
  */
-void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr)
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr)
 {
     fx32 uv[6];
 
-    NNSi_G2dCalcSpriteParams(oam, (const NNSG2dImageAttr *)pTexImageAttr, texBaseAddr, pltBaseAddr, (SpriteParams *)uv);
+    NNSi_G2dCalcSpriteParams(oam, pTexImageAttr, texBaseAddr, pltBaseAddr, (SpriteParams *)uv);
     if (G2_GetOBJEffect(oam) == GX_OAM_EFFECT_AFFINE_DOUBLE) {
         GXOamShape shape;
         int h;
@@ -943,9 +943,9 @@ void NNSi_G2dDrawOam3D(GXOamAttr *oam)
         oam->attr01 |= hf << 28;
         oam->attr01 &= ~0x20000000;
         oam->attr01 |= vf << 29;
-        NNSi_G2dDrawSoftEmuSprite(x, y, -1, oam, (uptr)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
+        NNSi_G2dDrawSoftEmuSprite(x, y, -1, oam, &sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
     } else {
-        NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, (uptr)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
+        NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, &sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
     }
 }
 
@@ -998,7 +998,7 @@ void NNSi_G2dDrawCellToSurface3D(const NNSG2dRndCoreSurface *pSurface, const NNS
 
 void NNS_G2dInitRndCore(NNSG2dRndCoreInstance *pRnd)
 {
-    MIi_CpuClear16(0, pRnd, 0x70);
+    MIi_CpuClear16(0, pRnd, sizeof(*pRnd));
     pRnd->pCurrentTargetSurface = 0;
     pRnd->affineOverwriteMode = 2;
     pRnd->pImgProxy = 0;

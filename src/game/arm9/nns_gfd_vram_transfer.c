@@ -75,12 +75,12 @@ extern NNSiGfdVramTransferTaskQueue sVramTransferTaskQueue;
  */
 void NNS_GfdDoVramTransfer(void)
 {
-    NNSiGfdVramTransferTask *task = (NNSiGfdVramTransferTask *)NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
+    NNSiGfdVramTransferTask *task = NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
 
     while (NNSi_GfdPopVramTransferTask(&sVramTransferTaskQueue) != 0) {
         NNSi_GfdRunVramTransferTask(task);
         sVramTransferTaskQueue.totalSzByte -= task->szByte;
-        task = (NNSiGfdVramTransferTask *)NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
+        task = NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
     }
 }
 
@@ -114,7 +114,7 @@ s32 NNS_GfdRegisterNewVramTransferTask(u32 type, u32 dstOffset, void *pSrc, s32 
         return 0;
     }
 
-    req = (NNSiGfdVramTransferTask *)NNSi_GfdGetTailVramTransferTask(&sVramTransferTaskQueue);
+    req = NNSi_GfdGetTailVramTransferTask(&sVramTransferTaskQueue);
     req->taskType = type;
     req->pSrc = pSrc;
     req->offset = dstOffset;

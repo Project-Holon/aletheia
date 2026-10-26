@@ -50,7 +50,7 @@ void DWCi_SceneEnd(void)
 {
 	DWCi_EFFlFade(3, 1, 0x3f, 0x14);
 	DWCi_EFFlFade(3, 0, 0x3f, 0x14);
-	DWCi_ChangeScene((uptr)endScene);
+	DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)

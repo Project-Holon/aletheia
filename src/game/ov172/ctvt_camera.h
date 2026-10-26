@@ -10,7 +10,7 @@ struct CtvtCamView;
 #include "../types.h"
 #include "../ov172/ctvt_camera_types.h"
 
-char *CTVT_CAMVIEW_Create(void *work, u16 heapId);
+CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId);
 void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_Update(char *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view);

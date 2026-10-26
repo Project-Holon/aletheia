@@ -46,7 +46,7 @@ u16 UNION_MSG_GetMultiBattleStartMsg(int i);
 u16 UNION_MSG_GetMultiBattleBusyMsg(int i);
 int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int language, int version);
 void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys);
-void UNION_MSG_SetGreetingWordFlag(int gameData, unsigned int language);
+void UNION_MSG_SetGreetingWordFlag(void *gameData, unsigned int language);
 void UNION_MSG_CreateWordSet(UnionRoomWork *unisys);
 void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys);
 int UNION_MSG_GetCategoryTableValue(int i);
@@ -59,7 +59,7 @@ void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, void *fieldmap, u32 msgI
 void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys);
 int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes);
-void UNION_MSG_SetupMenu(UnionRoomWork *unisys, void *fieldmap, u32 listData, u32 listCount, u32 menuHeader);
+void UNION_MSG_SetupMenu(UnionRoomWork *unisys, void *fieldmap, const void *listData, u32 listCount, const void *menuHeader);
 void UNION_MSG_DeleteMenu(UnionRoomWork *unisys);
 int UNION_MSG_SelectMenu(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, void *fieldmap);

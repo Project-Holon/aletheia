@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of viewer_actor.c, prototypes copied from their definitions. */
 
+struct Strbuf;
+
 #include "../ov111/viewer_types.h"
 #include "../types.h"
 
@@ -47,7 +49,7 @@ void VIEWER_ACTOR_SetRowActorDrawEnable(ViewerTextWork *p, int row, int n);
 void VIEWER_ACTOR_RefreshRows(ViewerTextWork *p);
 void VIEWER_ACTOR_HandleScrollRepeat(u8 *p, int value);
 void VIEWER_ACTOR_ResetDragFlags(u8 *p);
-void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx);
+void VIEWER_ACTOR_StepScrollCount(ViewerTextWork *p, int idx);
 void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 /* END mkheaders: generated region */
 

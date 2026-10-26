@@ -122,7 +122,7 @@
  */
 #include "gpiutility.h"
 #include "gpibuffer.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "gpi_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 extern int strcmp(const char *s1, const char *s2);
@@ -177,9 +177,9 @@ extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile
 extern void gsifree(void *ptr);
 extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
-extern int gpiCanFreeProfile(char *p);
+extern int gpiCanFreeProfile(GPIProfile *p);
 extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
-extern int gpiProfileMap(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
+extern int gpiProfileMap(void **connection, int (*func)(void *, GPIProfile *, void *), void *data);
 int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile);
 int gpiProcessRecvBuddyList(void **connection, char *input);
 int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
@@ -187,7 +187,7 @@ int gpiSendBuddyMessage(void **connection, int profileid, int type, char *messag
 int gpiBuddyHandleKeyRequest(void **connection, GPIPeer *peer);
 int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer);
 int gpiAuthBuddyRequest(void **connection, int profile);
-int gpiFixBuddyIndices(int unused, GPIProfile *profile, int baseIndex);
+int gpiFixBuddyIndices(void *unused, GPIProfile *profile, void *baseIndexArg);
 int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
 int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
 extern char gGpiBuddyKeyAuthAdd[];
@@ -248,11 +248,11 @@ int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile)
 
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), gGpiBuddyKeyAuthAdd);
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), gGpiBuddyKeySessKey);
-    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)((char *)iconnection + 0x198));
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), gGpiBuddyKeyFromProfileId);
-    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)profile);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, profile->profileId);
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), gGpiBuddyKeySig);
-    gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), *(char **)((char *)profile + 0x14));
+    gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), profile->authSig);
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     return 0;
 }
@@ -530,12 +530,12 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
     if (profile->blocked == 0 && profile->deletedLocally == 0) {
 
     if (profile->buddyStatusInfo == 0) {
-        profile->buddyStatusInfo = (GPIBuddyStatusInfo *)gsimalloc(0x3c);
+        profile->buddyStatusInfo = (GPIBuddyStatusInfo *)gsimalloc(sizeof(*profile->buddyStatusInfo));
         if (profile->buddyStatusInfo == 0) {
             gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return 1;
         }
-        memset(profile->buddyStatusInfo, 0, 0x3c);
+        memset(profile->buddyStatusInfo, 0, sizeof(*profile->buddyStatusInfo));
         if (profile->buddyStatus != 0) {
             profile->buddyStatusInfo->buddyIndex = profile->buddyStatus->buddyIndex;
             gpiRemoveBuddyStatus((void *)profile->buddyStatus);
@@ -963,7 +963,7 @@ int gpiAuthBuddyRequest(void **connection, int profile)
         && pProfile->requestCount <= 0) {
         gsifree(pProfile->authSig);
         pProfile->authSig = 0;
-        if (gpiCanFreeProfile((char *)pProfile))
+        if (gpiCanFreeProfile(pProfile))
             gpiRemoveProfile(connection, pProfile);
     }
 
@@ -977,8 +977,10 @@ int gpiAuthBuddyRequest(void **connection, int profile)
 /*
  * sdk:      gpiFixBuddyIndices (gpibuddy.o)
  */
-int gpiFixBuddyIndices(int unused, GPIProfile *profile, int baseIndex)
+int gpiFixBuddyIndices(void *unused, GPIProfile *profile, void *baseIndexArg)
 {
+    int baseIndex = (int)(sptr)baseIndexArg;
+
     if (profile->buddyStatus != 0 && profile->buddyStatus->buddyIndex > baseIndex)
         profile->buddyStatus->buddyIndex--;
     else if (profile->buddyStatusInfo != 0 && profile->buddyStatusInfo->buddyIndex > baseIndex)
@@ -1018,7 +1020,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
         gsifree(pProfile->buddyStatus);
         pProfile->buddyStatus = 0;
         iconnection->profileList.numBuddies--;
-        gpiProfileMap(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
+        gpiProfileMap(connection, gpiFixBuddyIndices, (void *)index);
     }
     if (pProfile->buddyStatusInfo) {
         index = pProfile->buddyStatusInfo->buddyIndex;
@@ -1037,7 +1039,7 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
             pProfile->buddyStatusInfo->extendedInfoKeys = 0;
         }
         iconnection->profileList.numBuddies--;
-        gpiProfileMap(connection, (int (*)(void **, GPIProfile *, void *))gpiFixBuddyIndices, (void *)index);
+        gpiProfileMap(connection, gpiFixBuddyIndices, (void *)index);
     }
     return 0;
 }

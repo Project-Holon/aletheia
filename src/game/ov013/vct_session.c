@@ -340,7 +340,7 @@ int VCT_SESSION_HasNoOtherTalker(VctPeer *peer)
     return 1;
 }
 
-static inline s8 lookup(u32 table, int row, u32 column) { return *(s8 *)(row * 11 + table + column); }
+static inline s8 lookup(const s8 *table, int row, u32 column) { return *(row * 11 + table + column); }
 
 /*
  * lever: Calling the indexed inline in each table-selection arm restores the MLA register and independent -1/-2 constants.
@@ -359,9 +359,9 @@ int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet)
     if ((int)column < 0)
         return -1;
     if (gVctSession.mode == 1)
-        next = lookup((uptr)gVctHostAllowTable, peer->phase, column);
+        next = lookup(gVctHostAllowTable, peer->phase, column);
     else
-        next = lookup((uptr)gVctClientAllowTable, peer->phase, column);
+        next = lookup(gVctClientAllowTable, peer->phase, column);
     if (next == -1)
         return 1;
     if (next == -2)

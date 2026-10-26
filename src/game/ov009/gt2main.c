@@ -48,7 +48,7 @@ extern void gti2CloseSocket(struct GTI2Socket *socket);
 extern int gti2ReceiveMessages(struct GTI2Socket *socket);
 extern int gti2SocketConnectionsThink(struct GTI2Socket *socket);
 extern void gti2FreeClosedConnections(struct GTI2Socket *socket);
-extern void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback);
+extern void gti2SetConnectAttemptCallback(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback);
 struct GT2ConnectionCallbacks;
 struct GTI2Connection;
 #include "gt2connection.h"
@@ -57,15 +57,15 @@ extern void gti2FreeSocketConnection(struct GTI2Connection *connection);
 #include "gsplatformutil.h"
 #include "darray.h"
 #include "gt2callback.h"
-int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
+int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void (*callback)(GTI2Socket *));
 void gt2CloseSocket(void *p);
 void gt2Think(struct GTI2Socket *socket);
-void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback);
+void gt2Listen(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback);
 int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
 void gt2Reject(GTI2Connection *connection, unsigned char *message, int len);
-int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
-int gt2Send(void *connection, unsigned char *message, int len, int reliable);
-void gt2CloseConnectionHard(int a);
+int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, GT2ConnectionCallbacks *callbacks, int blocking);
+int gt2Send(void * connectionArg, unsigned char *message, int len, int reliable);
+void gt2CloseConnectionHard(GTI2Connection *a);
 void gt2CloseAllConnectionsHard(GTI2Socket *socket);
 int gt2GetConnectionState(const int *p);
 unsigned int gt2GetRemoteIP(const GTI2Connection *connection);
@@ -75,14 +75,14 @@ unsigned short gt2GetLocalPort(const GTI2Socket *socket);
 int gt2GetOutgoingBufferSize(const GTI2Connection *connection);
 int gt2GetOutgoingBufferFreeSpace(const int *p);
 int gt2GetSocketSOCKET(const GTI2Socket *socket);
-void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback);
+void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, GT2UnrecognizedMessageCallback callback);
 void gt2SetConnectionData(GTI2Connection *connection, void *data);
 void *gt2GetConnectionData(const GTI2Connection *connection);
 
 /*
  * sdk:      gt2CreateSocket (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  */
-int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback)
+int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void (*callback)(GTI2Socket *))
 {
 	return gti2CreateSocket((GTI2Socket **)sock, addr, outSize, inSize, callback, 0);
 }
@@ -115,7 +115,7 @@ void gt2Think(struct GTI2Socket *socket)
  * via `matched`.  Packet renamed from pkt_02155168 so this promotion does
  * not rewrite that packet's shard.
  */
-void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback)
+void gt2Listen(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback)
 {
     gti2SetConnectAttemptCallback(socket, connectAttemptCallback);
 }
@@ -135,12 +135,12 @@ void gt2Reject(GTI2Connection *connection, unsigned char *message, int len)
     gti2RejectConnection(connection, message, len);
 }
 
-static void gti2CloseAllConnectionsHardMap(void **elem);
+static void gti2CloseAllConnectionsHardMap(void * elemArg, void * unused1);
 
 /*
  * sdk:      gt2Connect (libdwcgsgt2.TWL.HYB.a(gt2main.o))
  */
-int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking)
+int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, GT2ConnectionCallbacks *callbacks, int blocking)
 {
     GTI2Connection *connectionTemp;
     int result;
@@ -182,26 +182,27 @@ int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u
     return connectionTemp->connectionResult;
 }
 
-int gt2Send(void *connection, unsigned char *message, int len, int reliable)
+int gt2Send(void * connectionArg, unsigned char *message, int len, int reliable)
 {
+    GTI2Connection * connection = (GTI2Connection *)connectionArg;
     unsigned short vdpDataLength;
 
-    if (*(int *)((char *)connection + 0xc) != 5)
+    if (connection->state != 5)
         return 8;
     gti2MessageCheck(&message, &len);
     if (reliable) {
-        char *p = *(char **)((char *)connection + 8);
+        GTI2Socket *p = connection->socket;
 
-        if (*(int *)(p + 0x40) == 2) {
+        if (p->protocolType == 2) {
             unsigned char *b = (unsigned char *)&vdpDataLength;
 
             b[0] = message[0];
             b[1] = message[1];
-            if (len != vdpDataLength + *(int *)(p + 0x44))
+            if (len != vdpDataLength + p->protocolOffset)
                 return 9;
         }
     }
-    if (ArrayLength(*(void **)((char *)connection + 0x98)) != 0) {
+    if (ArrayLength(connection->sendFilters) != 0) {
         gti2SendFilterCallback(connection, 0, message, len, reliable);
         return 0;
     }
@@ -211,14 +212,15 @@ int gt2Send(void *connection, unsigned char *message, int len, int reliable)
 /*
  * Tail call that supplies the second argument 1.
  */
-void gt2CloseConnectionHard(int a)
+void gt2CloseConnectionHard(GTI2Connection *a)
 {
-    gti2CloseConnection((struct GTI2Connection *)a, 1);
+    gti2CloseConnection(a, 1);
 }
 
-static void gti2CloseAllConnectionsHardMap(void **elem)
+static void gti2CloseAllConnectionsHardMap(void * elemArg, void * unused1)
 {
-    gt2CloseConnectionHard((sptr)*elem);
+    void ** elem = (void **)elemArg;
+    gt2CloseConnectionHard(*elem);
 }
 
 /*
@@ -228,7 +230,7 @@ static void gti2CloseAllConnectionsHardMap(void **elem)
  */
 void gt2CloseAllConnectionsHard(GTI2Socket *socket)
 {
-    TableMapSafe(socket->connections, (void (*)(void *, void *))gti2CloseAllConnectionsHardMap, 0);
+    TableMapSafe(socket->connections, gti2CloseAllConnectionsHardMap, 0);
 }
 
 /*
@@ -301,7 +303,7 @@ int gt2GetSocketSOCKET(const GTI2Socket *socket)
 /*
  * Sets the callback for messages that belong to no connection.
  */
-void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback)
+void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, GT2UnrecognizedMessageCallback callback)
 {
     socket->unrecognizedMessageCallback = callback;
 }

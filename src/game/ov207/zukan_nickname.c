@@ -82,7 +82,7 @@ typedef struct ZukanNicknameWork {
     unsigned char pad2[2];
     void *titleStr;
     void *nameStr;
-    unsigned int textId;
+    void *textId;
     unsigned int textParam;
     struct Unit *display;
     struct GfFont *font;
@@ -91,7 +91,7 @@ typedef struct ZukanNicknameWork {
     void *bmpWin;
     void *printStream;
     void *strbuf;
-    void *lineBuf;
+    unsigned int lineBuf;
     void *tcbl;
     void *bmpWin2;
     int state;
@@ -147,7 +147,7 @@ typedef short s16_p07;
 #include "../arm9/bg_sys.h"
 struct TcblSystem;
 #include "../arm9/tcbl.h"
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 #include "../arm9/ui.h"
 #include "../arm9/gfl_use.h"
 struct TcbTask;
@@ -155,19 +155,16 @@ struct TcbTask;
 struct TextPrinter;
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void PALANM_TransferPalettes(struct PaletteFade *p);
 #include "../arm9/gf_overlay.h"
 #include "../arm9/palanm.h"
-extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 struct BtlvInput;
 #include "../ov094/btlv_input.h"
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h);
+char *ZUKAN_NICKNAME_Create(u16 heap,void *a,void *b,void *c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h);
 void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_GetResult(ZukanNicknameWork *p);
-void ZUKAN_NICKNAME_TransferPalette(void *a, ZukanNicknameWork *p);
+void ZUKAN_NICKNAME_TransferPalette(struct TcbTask *a, void *pArg);
 void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a);
@@ -179,18 +176,18 @@ extern s8 d_0220BBF8[][12];
 /*
  * ABI: 0201CCE4 is a void forwarder in its matched source; caller stores live r0, so declare its observed word return.
  */
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h)
+char *ZUKAN_NICKNAME_Create(u16 heap,void *a,void *b,void *c,u32 d,struct Unit *e,struct GfFont *f,struct PrintQueue *g,void *h)
 {
     ZukanNicknameWork *p;
     struct WordSet *ws;
     struct MsgBank *bank;
     void *str;
     u8 enabled;
-    p=(ZukanNicknameWork *) GFL_HEAP_Alloc(heap,0x5c,0,file_0220BC38,220);
-    MI_CpuFill8(p,0,0x5c);
+    p=(ZukanNicknameWork *) GFL_HEAP_Alloc(heap,sizeof(ZukanNicknameWork),0,file_0220BC38,220);
+    MI_CpuFill8(p,0,sizeof(ZukanNicknameWork));
     p->heapId=heap;
-    *(u32 *)&p->titleStr=a;
-    *(u32 *)&p->nameStr=b;
+    p->titleStr=a;
+    p->nameStr=b;
     p->textId=c;
     p->textParam=d;
     p->display=e;
@@ -218,13 +215,13 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,struct Unit *e,stru
     p->bmpWin=(void *)BMP_WIN_Create(3,1,19,30,4,9,1);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin)),15);
     GF_FONT_SetTextColor(1,2,15);
-    *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
+    p->printStream=PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
     p->lineBuf=BMP_MENUWORK_LoadFrameGfx(3,8,0,p->heapId);
     enabled=1;
     if(UI_GetInputMode()!=0) enabled=0;
     p->soundEnabled=enabled;
     ZUKAN_NICKNAME_InitKeyboard(p);
-    p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZUKAN_NICKNAME_TransferPalette),(void *)((uptr)p),1);
+    p->task=GFL_USE_AddMainTask(ZUKAN_NICKNAME_TransferPalette,(void *)((uptr)p),1);
     return (char *)p;
 }
 
@@ -236,7 +233,7 @@ void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p)
     ZUKAN_NICKNAME_DeleteKeyboard((ZukanNicknameWork *)p);
     TCB_DeleteTask((struct TcbTask *)p->task);
     PRINTSYS_PrintStreamDelete(p->printStream);
-    BG_SYS_FreeTileRun(3, (u16)(uptr)p->lineBuf, (u16)((uptr)p->lineBuf >> 16));
+    BG_SYS_FreeTileRun(3, (u16)p->lineBuf, (u16)(p->lineBuf >> 16));
     BMP_WIN_Delete((struct BmpWin *)p->bmpWin);
     STRBUF_Delete((struct Strbuf *)p->strbuf);
     TCBL_Destroy((struct TcblSystem *)p->tcbl);
@@ -276,17 +273,17 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
     case 2:
         if(p->mode==2) break;
         if(p->mode==0) {
-            if(*(u32 *)&p->nameStr==0) {p->state=5;break;}
+            if(p->nameStr==0) {p->state=5;break;}
             BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin)),15);
             PRINTSYS_PrintStreamDelete(p->printStream);
             STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&p->strbuf));
             ws=WORDSET_CreateDefault(p->heapId);
             WORDSET_SetSlotMonNickname(ws,0,p->titleStr);
-            WORDSET_SetSlotBoxName(ws,1,(void *)p->textId,p->textParam);
+            WORDSET_SetSlotBoxName(ws,1,p->textId,p->textParam);
             p->strbuf=STRBUF_Create(64,p->heapId);
             WORDSET_CopyTaggedText(ws,p->strbuf,p->nameStr);
             WORDSET_Delete(ws);
-            *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
+            p->printStream=PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
             p->state=3;
         } else p->state=5;
         break;
@@ -329,7 +326,8 @@ int ZUKAN_NICKNAME_GetResult(ZukanNicknameWork *p)
     return p->mode;
 }
 
-void ZUKAN_NICKNAME_TransferPalette(void *a, ZukanNicknameWork *p){if(p->palAnm)PALANM_TransferPalettes(p->palAnm);}
+void ZUKAN_NICKNAME_TransferPalette(struct TcbTask *a, void *pArg){
+    ZukanNicknameWork *p = pArg;if(p->palAnm)PALANM_TransferPalettes(p->palAnm);}
 
 void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
 {
@@ -345,7 +343,7 @@ void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
 /*
  * lever: pooled FS overlay ID is the overlay94 linker symbol address, as in matched ov207 0220B048; literal 94 compiles as movs.
  */
-void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p){BTLV_INPUT_Delete((struct BtlvInput *)(*(Obj * *)&p->input));PALANM_FreeSlotBuffers(*(struct PaletteFade * *)&p->palAnm,1);PALANM_FreeSlotBuffers(*(struct PaletteFade * *)&p->palAnm,3);PALANM_Delete(*(struct PaletteFade * *)&p->palAnm);*(unsigned *)&p->palAnm=0;GF_OVERLAY_Unload((sptr)overlay94);}
+void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p){BTLV_INPUT_Delete((struct BtlvInput *)(*(Obj * *)&p->input));PALANM_FreeSlotBuffers(p->palAnm,1);PALANM_FreeSlotBuffers(p->palAnm,3);PALANM_Delete(p->palAnm);p->palAnm=0;GF_OVERLAY_Unload((sptr)overlay94);}
 
 void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
 {

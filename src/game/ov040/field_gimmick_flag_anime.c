@@ -130,7 +130,7 @@ struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSy
 
     if (modelIndex >= 1)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
     work->modelIndex = modelIndex;
     return event;
 }

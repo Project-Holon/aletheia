@@ -64,6 +64,14 @@ typedef struct WifiBattleMatchEventWork {
     u32 hideFieldObjects;
 } WifiBattleMatchEventWork;
 
+/* Launch request built by the script command: the field map and three words. */
+typedef struct WifiBattleMatchRequest {
+    struct FieldMap *fieldMap;
+    s32 entryMode;
+    s32 ratedFlag;
+    s32 matchKind;
+} WifiBattleMatchRequest;
+
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_comm.h"
 #include "../arm9/gfl_use.h"
@@ -72,15 +80,17 @@ struct FieldMap;
 #include "../arm9/game_event.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "../ov021/event_fieldmap_control.h"
-u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
+#include "../arm9/procsys.h"
+int EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, int *seq, void *work);
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, int entryMode, int ratedFlag, int matchKind);
-void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
+struct GameEvent *EVENT_WIFIBATTLEMATCH_Entry(struct GameSystem *gameSystem, WifiBattleMatchRequest *request);
 extern char ov199_id[];
-extern char d_02213C4C[];
+extern const ProcData d_02213C4C;
 extern char d_02154460[];
 
-u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work)
+int EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    WifiBattleMatchEventWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     WifiBattleMatchParam *param;
 
@@ -102,13 +112,13 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         (*seq)++;
         break;
     case 3:
-        param = GFL_HEAP_Alloc(4, 0x14, 1, d_02154460, 0x86);
+        param = GFL_HEAP_Alloc(4, sizeof(WifiBattleMatchParam), 1, d_02154460, 0x86);
         work->param = param;
         param->entryMode = work->entryMode;
         param->gameData = GAMESYSTEM_GetGameData(gameSystem);
         param->matchKind = work->matchKind;
         param->ratedFlag = work->ratedFlag;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov199_id, d_02213C4C, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov199_id, &d_02213C4C, work->param);
         (*seq)++;
         break;
     case 4:
@@ -142,7 +152,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
  */
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_WIFIBATTLEMATCH_Main, 0x20);
+    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFIBATTLEMATCH_Main, sizeof(WifiBattleMatchEventWork));
     WifiBattleMatchEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))
@@ -158,7 +168,7 @@ void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, struct FieldMap *fieldMap, 
 }
 
 /* Overlay entry point: unpacks the four-word request and creates the event. */
-void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request)
+struct GameEvent *EVENT_WIFIBATTLEMATCH_Entry(struct GameSystem *gameSystem, WifiBattleMatchRequest *request)
 {
-    EVENT_WIFIBATTLEMATCH_Create((void *)gameSystem, (struct FieldMap *)request[0], request[1], request[2], request[3]);
+    return EVENT_WIFIBATTLEMATCH_Create(gameSystem, request->fieldMap, request->entryMode, request->ratedFlag, request->matchKind);
 }

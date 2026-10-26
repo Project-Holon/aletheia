@@ -18,22 +18,22 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoom(GameEvent *event, int *seq, EventAppearWork *work);
+int EVENT_APPEAR_RunPlayerDrop(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *work);
 void EVENT_APPEAR_StartZoomOut(EventAppearWork *work);
 void EVENT_APPEAR_EndZoomOut(EventAppearWork *work);
 void EVENT_APPEAR_StartPlayerSpin(EventAppearWork *work);
 GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work);
-void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoomAlt(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEnd(void *workArg);
+int EVENT_APPEAR_RunSpinZoomAlt(struct GameEvent *event, int *seq, void *work);
 void EVENT_APPEAR_StartZoomOutAlt(EventAppearWork *work);
 void EVENT_APPEAR_EndZoomOutAlt(EventAppearWork *work);
 void EVENT_APPEAR_StartPlayerSpinAlt(EventAppearWork *work);
 GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work);
-void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunMoveAnime(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEndAlt(void *workArg);
+int EVENT_APPEAR_RunSpinZoomSmoke(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunDescendingSpin(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunMoveAnime(struct GameEvent *event, int *seq, void *work);
 /* END mkheaders: generated region */
 
 #endif

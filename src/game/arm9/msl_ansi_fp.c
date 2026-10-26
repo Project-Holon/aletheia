@@ -69,22 +69,12 @@
 
 #define isinf(x) (__fpclassifyd(x) == FP_INFINITE)
 
-struct MslDecString {
-    u8  sign;
-    u8  pad01;
-    u16 exp;
-    u8  length;
-    u8  digits[32];
-};
-
 typedef struct {
     u8  reserved00[2];
     s16 key;
     volatile u8 length;
     u8  data[];
 } MslStrRec;
-
-typedef void (*DecFromStr)(decimal2 *d, const char *s, s16 exp);
 
 extern double _dsub(double a, double b);
 
@@ -106,7 +96,7 @@ void __ull2dec(decimal2 *result, u64 val);
 
 void __timesdec(decimal2 *result, const decimal2 *x, const decimal2 *y);
 
-void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent);
+void __str2dec(decimal2 *dec, const u8 *s, s16 exponent);
 
 void __two_exp(decimal2 *result, long exp);
 
@@ -124,51 +114,51 @@ double __dec2num(const decimal2 *d);
 
 extern float __float_huge;
 
-extern const char s_020A8ABC[];
+extern const u8 s_020A8ABC[];
 
-extern const char s_020A8AEC[];
+extern const u8 s_020A8AEC[];
 
-extern const char s_020A8B14[];
+extern const u8 s_020A8B14[];
 
-extern const char s_020A8B2C[];
+extern const u8 s_020A8B2C[];
 
-extern const char s_020A8B3C[];
+extern const u8 s_020A8B3C[];
 
-extern const char s_020A8B44[];
+extern const u8 s_020A8B44[];
 
-extern const char s_020A8B4C[];
+extern const u8 s_020A8B4C[];
 
-extern const char s_020A8B54[];
+extern const u8 s_020A8B54[];
 
-extern const char s_020A8B5C[];
+extern const u8 s_020A8B5C[];
 
-extern const char s_020A8B60[];
+extern const u8 s_020A8B60[];
 
-extern const char s_020A8B64[];
+extern const u8 s_020A8B64[];
 
-extern const char s_020A8B68[];
+extern const u8 s_020A8B68[];
 
-extern const char s_020A8B6C[];
+extern const u8 s_020A8B6C[];
 
-extern const char s_020A8B70[];
+extern const u8 s_020A8B70[];
 
-extern const char s_020A8B74[];
+extern const u8 s_020A8B74[];
 
-extern const char s_020A8B78[];
+extern const u8 s_020A8B78[];
 
-extern const char s_020A8B7C[];
+extern const u8 s_020A8B7C[];
 
-extern const char s_020A8B80[];
+extern const u8 s_020A8B80[];
 
-extern const char s_020A8B84[];
+extern const u8 s_020A8B84[];
 
-extern const char s_020A8B88[];
+extern const u8 s_020A8B88[];
 
-extern const char s_020A8B8C[];
+extern const u8 s_020A8B8C[];
 
 extern const double sMslAnsiFpPow10[8];
 
-extern const char s_020A8B90[];     /* "179769313486231580793728714053034151" */
+extern const u8 s_020A8B90[];     /* "179769313486231580793728714053034151" */
 
 /*
  * MSL __ull2dec: unsigned long long -> decimal record (struct Bcd / DB in the
@@ -330,7 +320,7 @@ void __timesdec(decimal2 *result, const decimal2 *x, const decimal2 *y)
  *       --func __str2dec --addr 0x020968F4 --cc 1.1p1 --arm
  *   EXACT, 156 bytes, 1 relocation site, resolved.
  */
-void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent)
+void __str2dec(decimal2 *dec, const u8 *s, s16 exponent)
 {
     int i;
     u8 c;
@@ -339,10 +329,10 @@ void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent)
     dec->sign = 0;
     i = 0;
     while (i < 32 && *s != 0) {
-        dec->digits[i] = (u8)(*s++ - '0');
+        dec->sig.text[i] = (u8)(*s++ - '0');
         i++;
     }
-    dec->length = (u8)i;
+    dec->sig.length = (u8)i;
     if (*s == 0)
         return;
     if (*s < 5)
@@ -357,10 +347,10 @@ void __str2dec(struct MslDecString *dec, const u8 *s, u16 exponent)
         c = *++s;
     }
 last:
-    if ((dec->digits[i - 1] & 1) == 0)
+    if ((dec->sig.text[i - 1] & 1) == 0)
         return;
 tail:
-    MSL_C_LIB_IncrementDigits((u8 *)dec, dec->length);
+    MSL_C_LIB_IncrementDigits((u8 *)dec, dec->sig.length);
 }
 
 /*
@@ -388,67 +378,67 @@ void __two_exp(decimal2 *result, long exp)
 {
     switch (exp) {
     case -64:
-        ((DecFromStr)__str2dec)(result, s_020A8ABC, -20);
+        __str2dec(result, s_020A8ABC, -20);
         return;
     case -53:
-        ((DecFromStr)__str2dec)(result, s_020A8AEC, -16);
+        __str2dec(result, s_020A8AEC, -16);
         return;
     case -32:
-        ((DecFromStr)__str2dec)(result, s_020A8B14, -10);
+        __str2dec(result, s_020A8B14, -10);
         return;
     case -16:
-        ((DecFromStr)__str2dec)(result, s_020A8B2C, -5);
+        __str2dec(result, s_020A8B2C, -5);
         return;
     case -8:
-        ((DecFromStr)__str2dec)(result, s_020A8B3C, -3);
+        __str2dec(result, s_020A8B3C, -3);
         return;
     case -7:
-        ((DecFromStr)__str2dec)(result, s_020A8B44, -3);
+        __str2dec(result, s_020A8B44, -3);
         return;
     case -6:
-        ((DecFromStr)__str2dec)(result, s_020A8B4C, -2);
+        __str2dec(result, s_020A8B4C, -2);
         return;
     case -5:
-        ((DecFromStr)__str2dec)(result, s_020A8B54, -2);
+        __str2dec(result, s_020A8B54, -2);
         return;
     case -4:
-        ((DecFromStr)__str2dec)(result, s_020A8B5C, -2);
+        __str2dec(result, s_020A8B5C, -2);
         return;
     case -3:
-        ((DecFromStr)__str2dec)(result, s_020A8B60, -1);
+        __str2dec(result, s_020A8B60, -1);
         return;
     case -2:
-        ((DecFromStr)__str2dec)(result, s_020A8B64, -1);
+        __str2dec(result, s_020A8B64, -1);
         return;
     case -1:
-        ((DecFromStr)__str2dec)(result, s_020A8B68, -1);
+        __str2dec(result, s_020A8B68, -1);
         return;
     case 0:
-        ((DecFromStr)__str2dec)(result, s_020A8B6C, 0);
+        __str2dec(result, s_020A8B6C, 0);
         return;
     case 1:
-        ((DecFromStr)__str2dec)(result, s_020A8B70, 0);
+        __str2dec(result, s_020A8B70, 0);
         return;
     case 2:
-        ((DecFromStr)__str2dec)(result, s_020A8B74, 0);
+        __str2dec(result, s_020A8B74, 0);
         return;
     case 3:
-        ((DecFromStr)__str2dec)(result, s_020A8B78, 0);
+        __str2dec(result, s_020A8B78, 0);
         return;
     case 4:
-        ((DecFromStr)__str2dec)(result, s_020A8B7C, 1);
+        __str2dec(result, s_020A8B7C, 1);
         return;
     case 5:
-        ((DecFromStr)__str2dec)(result, s_020A8B80, 1);
+        __str2dec(result, s_020A8B80, 1);
         return;
     case 6:
-        ((DecFromStr)__str2dec)(result, s_020A8B84, 1);
+        __str2dec(result, s_020A8B84, 1);
         return;
     case 7:
-        ((DecFromStr)__str2dec)(result, s_020A8B88, 2);
+        __str2dec(result, s_020A8B88, 2);
         return;
     case 8:
-        ((DecFromStr)__str2dec)(result, s_020A8B8C, 2);
+        __str2dec(result, s_020A8B8C, 2);
         return;
     }
 
@@ -460,9 +450,9 @@ void __two_exp(decimal2 *result, long exp)
         if (exp & 1) {
             temp = *result;
             if (exp > 0)
-                ((DecFromStr)__str2dec)(&x2, s_020A8B70, 0);
+                __str2dec(&x2, s_020A8B70, 0);
             else
-                ((DecFromStr)__str2dec)(&x2, s_020A8B68, -1);
+                __str2dec(&x2, s_020A8B68, -1);
             __timesdec(result, &temp, &x2);
         }
     }
@@ -866,7 +856,7 @@ double __dec2num(const decimal2 *d)
         {
             decimal2 max;
 
-            __str2dec((struct MslDecString *)(&max), (const u8 *)s_020A8B90, 308);
+            __str2dec(&max, s_020A8B90, 308);
             if (__less_dec((MslStrRec *)&max, (MslStrRec *)&dec))
                 return copysign((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
         }

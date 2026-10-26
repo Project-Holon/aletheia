@@ -121,7 +121,7 @@ StaActLightObject *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
     StaActLightObject *p;
     void *q;
     i=0;
-    p=GFL_HEAP_Alloc(heap,184,0,d_021F8408,87);
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_021F8408,87);
     p->heap=heap; p->a=a;
     for(;i<4;i++) p->entries[i].value=0;
     p->flag=0;
@@ -129,8 +129,8 @@ StaActLightObject *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
     CLACT_SetUnitDefaultRenderer(p->bank);
     q=ARC_TOOL_CreateHandle((unsigned int)47,p->heap);
     p->palette=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
-    p->character=CLACT_RegisterCharacter((void *)((uptr)q),10,0,0,p->heap);
-    p->cellAnim=CLACT_RegisterCellAnim((void *)((uptr)q),20,23,p->heap);
+    p->character=CLACT_RegisterCharacter((void *)(q),10,0,0,p->heap);
+    p->cellAnim=CLACT_RegisterCellAnim((void *)(q),20,23,p->heap);
     ARC_TOOL_DeleteHandle(q);
     return p;
 }
@@ -140,20 +140,20 @@ StaActLightObject *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
  */
 void STA_ACT_LIGHT_DeleteUnit(char *p) {CLACT_ReleasePalette(((StaActLightObject *)p)->palette);CLACT_ReleaseCharacter(((StaActLightObject *)p)->character);CLACT_ReleaseCellAnim(((StaActLightObject *)p)->cellAnim);CLACT_DeleteUnit(((StaActLightObject *)p)->bank);GFL_HEAP_Free(p);}
 
-void STA_ACT_LIGHT_UpdateElemActors(char *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*32+8)) STA_ACT_LIGHT_PlaceActor(p,p+8+i*32); if(*(int *)&((StaActLightObject *)p)->a) STA_ACT_LIGHT_UpdateActor(p); }
+void STA_ACT_LIGHT_UpdateElemActors(char *p) { int i; for(i=0;i<4;i++) if(((StaActLightObject *)p)->entries[i].value) STA_ACT_LIGHT_PlaceActor(p,(char *)&((StaActLightObject *)p)->entries[i]); if(((StaActLightObject *)p)->a) STA_ACT_LIGHT_UpdateActor(p); }
 
 void STA_ACT_LIGHT_PlaceActor(char *p, char *q) {
     u16 n;
     int tmp;
     StaActLightVec2 point;
-    if (*(int *)&((StaActLightObject *)p)->a == 0) tmp = 0x80;
-    else tmp = STA_ACTING_GetCameraScrollX((u8 *)(*(int *)&((StaActLightObject *)p)->a));
+    if (((StaActLightObject *)p)->a == 0) tmp = 0x80;
+    else tmp = STA_ACTING_GetCameraScrollX((u8 *)((StaActLightObject *)p)->a);
     n = tmp;
     if (((LightActor *)q)->value == 1) {
         point.x = (short)((float)((LightActor *)q)->x / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((LightActor *)q)->y / 4096.0f);
         CLACT_AddActorSurfacePos((struct ClactActor *)((LightActor *)q)->actor, (const struct ClactVec2 *)((const StaActLightVec2 *)(&point)), 0);
-        if (*(int *)&((StaActLightObject *)p)->a != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((StaActLightObject *)p)->a)) != 4) {
+        if (((StaActLightObject *)p)->a != 0 && STA_ACTING_GetSelection((char *)(((StaActLightObject *)p)->a)) != 4) {
             CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)((LightActor *)q)->actor), 0);
             return;
         }
@@ -192,7 +192,7 @@ void STA_ACT_LIGHT_UpdateActor(char *p)
         ctx=STA_ACTING_GetActorSystem(((StaActLightObject *)p)->a);
         model=STA_ACTING_GetActor(((StaActLightObject *)p)->a,STA_ACTING_GetSelection(*(char * *)&((StaActLightObject *)p)->a));
         n=STA_ACTING_GetCameraScrollX(((StaActLightObject *)p)->a);
-        STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)model,(u32 *)(&v));
+        STA_ACT_LIGHT_CopyActorPos(ctx,(StaActPokeElem *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
         CLACT_AddActorSurfacePos((struct ClactActor *)(((StaActLightObject *)p)->actor),(const struct ClactVec2 *)((const StaActLightVec2 *)(&d.pos)),0);
@@ -204,24 +204,24 @@ void STA_ACT_LIGHT_NoOp(void *unit) { }
 u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v)
 {
     u8 i = 0;
-    u8 *q;
+    LightActor *q;
     StaActLightPos pos;
     struct ClactActor *o;
     do {
-        if (*(u32 *)(p + i * 32 + 8) == 0) break;
+        if (((LightActor *)((char *)((StaActLightObject *)p)->entries + i * (int)sizeof(LightActor)))->value == 0) break;
         i++;
     } while (i < 4);
-    *(u32 *)(p + 8 + i * 32) = v;
-    q = p + 8 + i * 32;
+    ((LightActor *)((char *)((StaActLightObject *)p)->entries + i * (int)sizeof(LightActor)))->value = v;
+    q = ((LightActor *)((char *)((StaActLightObject *)p)->entries + i * (int)sizeof(LightActor)));
     pos.x = 0x80;
     pos.y = 0x60;
     pos.z = 0;
     pos.a = 0;
     pos.b = 2;
-    o = CLACT_CreateActor(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), (const struct ActorInitParam *)&pos, 0, *(u16 *)p);
-    *(struct ClactActor **)(q + 0x1c) = o;
+    o = CLACT_CreateActor(((StaActLightObject *)p)->bank, ((StaActLightObject *)p)->character, ((StaActLightObject *)p)->palette, ((StaActLightObject *)p)->cellAnim, (const struct ActorInitParam *)&pos, 0, ((StaActLightObject *)p)->heap);
+    q->actor = o;
     CLACT_SetActorDrawEnable((struct ClactActor *)o, 1);
-    return q;
+    return (u8 *)q;
 }
 
 void STA_ACT_LIGHT_DeleteActor(void *unused,u8 *p) { CLACT_DeleteActor(((LightActor *)p)->actor); ((LightActor *)p)->value=0; }

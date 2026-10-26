@@ -7,12 +7,14 @@
 #include "../ov107/mb_comm_sys.h"
 #include "../types.h"
 
+struct TcbTask;
+
 void MB_COMM_SYS_Init(MbCommSysWork *p);
 void MB_COMM_SYS_Exit(MbCommSysWork *p);
 int MB_COMM_SYS_Main(MbCommSysWork *p);
-void MB_COMM_SYS_VBlank(void);
-void MB_COMM_SYS_VBlankRefreshBg(void);
-void MB_COMM_SYS_VBlankRefreshBgStandalone(void);
+void MB_COMM_SYS_VBlank(struct TcbTask *unused0, void *unused1);
+void MB_COMM_SYS_VBlankRefreshBg(void *unused0);
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void *unused0);
 void MB_COMM_SYS_InitDisplay(MbCommSysWork *p);
 void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p);
 void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode);
@@ -23,9 +25,9 @@ void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p);
 int MB_COMM_SYS_MainWireless(MbCommSysWork *p);
 void MB_COMM_SYS_StartParent(MbCommSysWork *p);
 void MB_COMM_SYS_MainRecruit(MbCommSysWork *p);
-int MB_COMM_SYS_WmEndCallback(void);
+int MB_COMM_SYS_WmEndCallback(int ok);
 void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode);
-void MB_COMM_SYS_ResetHook(MbCommSysWork *p);
+void MB_COMM_SYS_ResetHook(void *arg);
 void MB_COMM_SYS_FinishReceive(MbCommSysWork *p);
 void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p);
 void MB_COMM_SYS_NoOp(MbCommSysWork *p);

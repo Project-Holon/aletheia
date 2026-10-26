@@ -221,7 +221,7 @@ void OSi_SetNextVAlarm(OSVAlarm *alarm)
 {
     OS_SetIrqFunction(4, OSi_VAlarmHandler);
     GX_SetVCountEqVal(alarm->fire);
-    *(volatile u16 *)0x04000004 = (u16)(*(volatile u16 *)0x04000004 | 0x20);
+    *(volatile u16 *)REG_DISPSTAT_ADDR = (u16)(*(volatile u16 *)REG_DISPSTAT_ADDR | 0x20);
     (void)OS_EnableIrqMask(4);
 }
 

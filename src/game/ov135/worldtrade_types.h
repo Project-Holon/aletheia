@@ -9,9 +9,32 @@ struct BmpWin;
 struct ClactActor;
 #include "../arm9/bmp_menuwork_shared_types.h"
 
+/* One print job slot of a Printer: the window it prints into, whether the
+ * print is still in flight, and whether the slot is in use. */
+typedef struct {
+    void *win;
+    u8 busy;
+    u8 pad5[3];
+    u32 used;
+} PrinterSlot;
+
+/* The adapter's printer object (0x13C bytes).  It is the block embedded at
+ * WorldtradeWork+0xFA0: a font, the TCB task and its argument, the print queue, the
+ * yes/no print stream, 24 print slots and the key cursor. */
+typedef struct {
+    void *font;
+    void *tcb;
+    u32 arg;
+    void *queue;
+    void *yesno;
+    void *yesnoArg;
+    PrinterSlot slots[24];
+    void *cursor;
+} Printer;
+
 typedef struct {
     void **wins;
-    u8 pad4[8 - 4];
+    void *initArg;
     struct ClactActor *cursor;
     struct ClactActor *up;
     struct ClactActor *down;
@@ -21,7 +44,7 @@ typedef struct {
     void *bank;
     void *msg;
     void *listMsg;
-    u32 speciesFlags;
+    uptr speciesFlags;
     BmpMenuWork *items;
     void *num;
     s16 layout;
@@ -42,7 +65,7 @@ typedef struct {
     u8 flags[0x7A - 0x60];
     u8 last;
     u8 pad7B;
-    u8 g[4];
+    Printer g;
 } WorldtradeMenu;
 
 /* ---- canonical work block (generated) ---- */
@@ -90,11 +113,12 @@ typedef struct {
     s8 mode; /* +0x2 */
     s8 key; /* +0x3 */
     s8 val; /* +0x4 */
+    s8 extra; /* +0x5 */
 } WorldtradeRec;
 
 typedef struct {
     u8 pad0[0x14 - 0x0];
-    u32 speciesFlags; /* +0x14 */
+    uptr speciesFlags; /* +0x14 */
 } Aux;
 
 typedef struct {
@@ -108,7 +132,7 @@ typedef struct {
 } Target;
 
 typedef struct {
-    u32 unit; /* +0x0 */
+    struct Unit *unit; /* +0x0 */
     u32 mainChar; /* +0x4 */
     u32 mainPlt; /* +0x8 */
     u32 mainCell; /* +0xC */
@@ -148,7 +172,7 @@ typedef struct {
 } WorldtradeArgs;
 
 typedef struct {
-    u32 unit; /* +0x0 */
+    struct Unit *unit; /* +0x0 */
     u32 mainChar; /* +0x4 */
     u32 mainPlt; /* +0x8 */
     u32 mainCell; /* +0xC */
@@ -156,11 +180,11 @@ typedef struct {
     u32 mainIconChar; /* +0x28 */
     u32 mainIconPlt; /* +0x2C */
     u32 mainIconCell; /* +0x30 */
-    u32 slotCursorObj; /* +0x34 */
-    u32 depositMarkObj; /* +0x38 */
-    u32 boxMarkObj; /* +0x3C */
-    u32 arrA[30]; /* +0x40 */
-    u32 arrB[30]; /* +0xB8 */
+    struct ClactActor *slotCursorObj; /* +0x34 */
+    struct ClactActor *depositMarkObj; /* +0x38 */
+    struct ClactActor *boxMarkObj; /* +0x3C */
+    struct ClactActor *arrA[30]; /* +0x40 */
+    struct ClactActor *arrB[30]; /* +0xB8 */
 } WorldtradeSub;
 
 typedef struct {
@@ -183,6 +207,17 @@ typedef struct {
     int leftRow; /* +0x28 */
     int rightRow; /* +0x2C */
 } WorldtradeState;
+
+/* The leading evolution part of WorldtradeReq: the whole request handed to the evolution proc. */
+typedef struct {
+    void *evoGameData; /* +0x0 */
+    void *list; /* +0x4 */
+    u16 evoSpecies; /* +0x8 */
+    u8 evoPartyPos; /* +0xA */
+    u8 evoCondition; /* +0xB */
+    u32 evoFlag; /* +0xC */
+    u32 evoResult; /* +0x10 */
+} WorldtradeEvoReq;
 
 typedef struct {
     void *evoGameData; /* +0x0 */
@@ -287,28 +322,6 @@ typedef struct {
     u32 reserved24;
 } PokeStatusRequest;
 
-/* One print job slot of a Printer: the window it prints into, whether the
- * print is still in flight, and whether the slot is in use. */
-typedef struct {
-    void *win;
-    u8 busy;
-    u8 pad5[3];
-    u32 used;
-} PrinterSlot;
-
-/* The adapter's printer object (0x13C bytes).  It is the block embedded at
- * WorldtradeWork+0xFA0: a font, the TCB task and its argument, the print queue, the
- * yes/no print stream, 24 print slots and the key cursor. */
-typedef struct {
-    void *font;
-    void *tcb;
-    u32 arg;
-    void *queue;
-    void *yesno;
-    void *yesnoArg;
-    PrinterSlot slots[24];
-    void *cursor;
-} Printer;
 
 struct WorldtradeWork {
     union { /* +0x0 */
@@ -414,7 +427,7 @@ struct WorldtradeWork {
     union { /* +0xB6C */
         void *msg[5];
         struct {
-            u32 bank_u; /* +0xB6C */
+            struct MsgBank *bank_u; /* +0xB6C */
             void *names; /* +0xB70 */
             u8 padB74[0xB7C - 0xB74];
             void *msg_p; /* +0xB7C */
@@ -425,18 +438,23 @@ struct WorldtradeWork {
     void *strs; /* +0xB84 */
     void *str; /* +0xB88 */
     void *titleStr;
-    void *name0; /* +0xB90 */
-    void *name1; /* +0xB94 */
-    u8 padB98[0xBC0 - 0xB98];
+    union { /* +0xB90 */
+        struct {
+            void *name0; /* +0xB90 */
+            void *name1; /* +0xB94 */
+        };
+        void *nameStr[10]; /* +0xB90 */
+    };
+    u8 padBB8[0xBC0 - 0xBB8];
     union { /* +0xBC0 */
         WorldtradeSub sub;
         struct {
             WorldtradeRes res_res; /* +0xBC0 */
-            u32 cursor; /* +0xBF4 */
+            struct ClactActor *cursor; /* +0xBF4 */
             void *mark; /* +0xBF8 */
-            u32 cursor_u; /* +0xBFC */
-            u32 icon[30]; /* +0xC00 */
-            u32 item[30]; /* +0xC78 */
+            struct ClactActor *cursor_u; /* +0xBFC */
+            struct ClactActor *icon[30]; /* +0xC00 */
+            struct ClactActor *item[30]; /* +0xC78 */
         };
         struct {
             void *res; /* +0xBC0 */
@@ -451,10 +469,10 @@ struct WorldtradeWork {
     struct ClactActor *arrC[6]; /* +0xCF0 */
     void *obj; /* +0xD08 */
     union { /* +0xD0C */
-        u32 spr[10];
+        struct ClactActor *spr[10];
         struct {
             u8 padD0C[0xD2C - 0xD0C];
-            u32 arrows[2]; /* +0xD2C */
+            struct ClactActor *arrows[2]; /* +0xD2C */
         };
         struct {
             u8 padD0C_[0xD2C - 0xD0C];
@@ -568,8 +586,7 @@ struct WorldtradeWork {
         Cb every;
         void (*vblank)(WorldtradeWork *);
     };
-    SPos pos_spos8[8]; /* +0xEC4 */
-    u8 padEE4[0xEEC - 0xEE4];
+    SPos pos_spos8[10]; /* +0xEC4 */
     union { /* +0xEEC */
         u8 area[0xFA0 - 0xEEC];
         SelTable selTable; /* +0xEEC */
@@ -625,9 +642,9 @@ struct WorldtradeWork {
         PrintStreamCtx printCtx; /* +0xFA0 */
         Printer printer; /* +0xFA0 */
         struct {
-            u32 uiResA; /* +0xFA0 */
+            struct GfFont *uiResA; /* +0xFA0 */
             u8 padFA4_[8];
-            u32 uiResB; /* +0xFAC */
+            struct PrintQueue *uiResB; /* +0xFAC */
         };
         u8 queue[1];
     };
@@ -635,17 +652,29 @@ struct WorldtradeWork {
     u32 busy_u; /* +0x12F4 */
     u32 checkEvolution; /* +0x12F8 */
     u32 flag; /* +0x12FC */
-    u8 pad1300_[24];
-    unsigned int profanityWords;
-    u8 pad131C[4];
-    union { /* +0x1320 */
-        unsigned int badWordCountU;
-        int nameCheckResult;
+    union { /* +0x1300 */
+        u16 nameBuf[20]; /* name copy handed to the profanity check */
+        struct {
+            u8 pad1300_[24];
+            u16 *profanityWords; /* +0x1318 */
+            u8 pad131C[4];
+            union { /* +0x1320 */
+                unsigned int badWordCountU;
+                int nameCheckResult;
+            };
+            unsigned short reserved1324;
+            u8 pad1326[2];
+        };
     };
-    unsigned short reserved1324;
-    u8 pad1326[2];
     u32 done; /* +0x1328 */
 };
+/* Work of the sub screen cursor animation tasks (12 bytes). */
+typedef struct {
+    int state;
+    int y;
+    WorldtradeWork *p;
+} WorldtradeSubAnim;
+
 
 /* ---- types folded in from the per-file shared headers ---- */
 
@@ -778,54 +807,20 @@ typedef struct {
 
 /* Argument of WORLDTRADE_INPUT_MenuCreate: the objects and data the input menu copies. */
 typedef struct WorldtradeInputInit {
-    u32 w00;
-    u32 w04;
-    struct ClactActor *obj;
-    u32 w0c;
-    u32 w10;
-    u32 w14;
-    u32 w18;
-    u32 w1c;
-    u32 w20;
-    u32 w24;
-    u32 w28;
-    u32 arg;
+    void **wins;
+    void *initArg;
+    struct ClactActor *cursor;
+    struct ClactActor *up;
+    struct ClactActor *down;
+    struct ClactActor *rowCursor;
+    void *bank;
+    void *msg;
+    void *listMsg;
+    void *bag;
+    uptr speciesFlags;
+    uptr arg;
 } WorldtradeInputInit;
 
-/* The input menu object that WORLDTRADE_INPUT_MenuCreate builds from a WorldtradeInputInit. */
-typedef struct InputMenu {
-    u32 w00;
-    u32 w04;
-    struct ClactActor *obj;
-    u32 w0c;
-    u32 w10;
-    u32 w14;
-    void *frm;
-    u32 w24;
-    u32 w18;
-    u32 w1c;
-    u32 w20;
-    u32 w28;
-    u8 pad30[4];
-    void *ctx;
-    u16 h38;
-    u16 h3a;
-    u16 h3c;
-    u16 h3e;
-    u8 b40;
-    u8 b41;
-    u8 pad42[2];
-    u32 w44;
-    u32 w48;
-    u8 pad4c[4];
-    u32 a;
-    u8 pad54[8];
-    u32 b;
-    u8 pad60[0x1a];
-    u8 b7a;
-    u8 pad7b;
-    u8 sub[0x13c];
-} InputMenu;
 
 /* Partner trainer record that the trade demo builds from a WorldtradeEntry. */
 typedef struct TradePartnerInfo {

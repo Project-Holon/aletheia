@@ -1932,7 +1932,7 @@ void AOSS_Memset(void *s, int c, int n)
 int AOSS_Recvfrom(int s, void *buf, int len, int flags, void *from, int *fromlen)
 {
     *(unsigned char *)from = (unsigned char)*fromlen;
-    return SOC_RecvFrom((int)s, (sptr)buf, len, flags, from);
+    return SOC_RecvFrom((int)s, buf, len, flags, from);
 }
 
 int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, struct timeval *timeout)

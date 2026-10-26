@@ -292,6 +292,7 @@
 #include "btl_action_word_types.h"
 #include "hand_tokusei_types.h"
 #include "hand_item_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 #include "btl_event.h"
 
@@ -3562,7 +3563,7 @@ void HAND_ITEM_BlackSludge_HealOrDamage(struct BtlEventFactor *factor, void *flo
             hurt->pokeId = pokeId;
             hurt->amount = BTL_CALC_DivideMaxHpMin1(holder, 8);
             hurt->flags |= 2;
-            hurt->effectId = 0x25f;
+            hurt->effectId = BTLV_EFFECT_MOVE_END + 46;
             hurt->effectParam = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
             hurt->effectKind = 6;
             BTL_SERVER_FLOW_InitMsgRecord(&hurt->message, HANDEX_STR_SET, 0x40e);
@@ -3642,7 +3643,7 @@ void HAND_ITEM_StickyBarb_TurnEndDamage(struct BtlEventFactor *factor, void *flo
         cmd->pokeId = pokeId;
         cmd->amount = BTL_CALC_DivideMaxHpMin1(holder, HAND_ITEM_GetParam(factor, 2));
         cmd->flags |= 2;
-        cmd->effectId = 0x25f;
+        cmd->effectId = BTLV_EFFECT_MOVE_END + 46;
         cmd->effectParam = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
         cmd->effectKind = 6;
         BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_STR_SET, 0x40e);
@@ -3813,7 +3814,7 @@ int *HAND_ITEM_GetSmokeBallHandlers(int *count)
 /* Smoke Ball: guaranteed escape; forwards to the shared escape check (the second handler of the item is in the next file). */
 void HAND_ITEM_SmokeBall_AllowEscape(struct BtlEventFactor *factor, void *flow, int pokeId, void *work)
 {
-    HAND_COMMON_EventSetFlagIfAttacker((sptr)factor, (sptr)flow, (s32)pokeId, (sptr)work);
+    HAND_COMMON_EventSetFlagIfAttacker(factor, flow, (s32)pokeId, work);
 }
 
 /* Smoke Ball (guess): after the escape check passes, show the escape message with its sound. */

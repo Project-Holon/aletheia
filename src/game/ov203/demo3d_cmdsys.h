@@ -7,11 +7,11 @@
 #include "../ov203/demo3d_data_shared_types.h"
 
 Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap);
-void DEMO3D_CMDSYS_Delete(char *p);
+void DEMO3D_CMDSYS_Delete(Demo3dCmdContext *p);
 void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag);
-void DEMO3D_CMDSYS_Init(char *p);
-void DEMO3D_CMDSYS_Release(char *p);
-int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index);
+void DEMO3D_CMDSYS_Init(Demo3dCmdContext *p);
+void DEMO3D_CMDSYS_Release(Demo3dCmdContext *p);
+int DEMO3D_CMDSYS_Seek(Demo3dCmdContext *p,char *owner,int *index);
 /* END mkheaders: generated region */
 
 #endif

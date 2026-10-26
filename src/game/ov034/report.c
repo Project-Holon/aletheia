@@ -221,7 +221,7 @@ void REPORT_InitWindows(ReportWork *work);
 void REPORT_ExitWindows(ReportWork *work);
 void REPORT_InitActors(ReportWork *work);
 void REPORT_ExitActors(ReportWork *work);
-void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work);
+void REPORT_UpdateSaveAnim(struct TcbTask * taskArg, void * workArg);
 extern char sReportAllocSite[];
 extern struct BgTemplate sReportBgTemplate6;
 extern struct BgTemplate sReportBgTemplate5;
@@ -231,7 +231,7 @@ extern const struct ActorInitParam sReportActorPositions[2];
 
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
-    ReportWork *work = GFL_HEAP_Alloc(heapId, 0x130, 0, sReportAllocSite, 0x114);
+    ReportWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, sReportAllocSite, 0x114);
     work->gameSystem = gameSystem;
     work->heapId = heapId;
     work->saveAnimRunning = 0;
@@ -241,7 +241,7 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     REPORT_InitActors(work);
     REPORT_InitWindows(work);
     GFL_NET_RefreshWmIconAtTopRight(0, heapId);
-    work->tcb = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))REPORT_UpdateSaveAnim, work, 0);
+    work->tcb = GFL_USE_AddMainTask(REPORT_UpdateSaveAnim, work, 0);
     return work;
 }
 
@@ -589,8 +589,10 @@ void REPORT_ExitActors(ReportWork *work)
     BG_SYS_SetSubPlaneVisible(0x10, 0);
 }
 
-void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work)
+void REPORT_UpdateSaveAnim(struct TcbTask * taskArg, void * workArg)
 {
+    struct Task * task = (struct Task *)taskArg;
+    ReportWork * work = (ReportWork *)workArg;
     u32 writtenSize;
 
     if (work->saveAnimRunning != 0) {

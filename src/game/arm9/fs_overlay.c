@@ -304,7 +304,7 @@ BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mod
     MI_CpuCopy8(FSiOverlayContext.digest_key, tmp, FSiOverlayContext.digest_key_len);
 
     if (table_mode == 0 && OS_IsRunOnTwl() != 0) {
-        MSL_C_LIB_TwlCall5((uptr)buf, (uptr)src, (u32)len, (uptr)tmp, FSiOverlayContext.digest_key_len);
+        MSL_C_LIB_TwlCall5(buf, src, (u32)len, tmp, FSiOverlayContext.digest_key_len);
     } else {
         handle = 0;
         if (table_mode != 0) {

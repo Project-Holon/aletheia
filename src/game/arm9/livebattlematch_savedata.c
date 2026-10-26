@@ -61,11 +61,11 @@ void LIVEBATTLEMATCH_SAVE_Init(void *record);
 
 void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
 
-int LIVEBATTLEMATCH_SAVE_GetStats(int p);
+void *LIVEBATTLEMATCH_SAVE_GetStats(void *p);
 
-int LIVEBATTLEMATCH_SAVE_GetStats2(int p);
+void *LIVEBATTLEMATCH_SAVE_GetStats2(void *p);
 
-int LIVEBATTLEMATCH_SAVE_GetRecord(int p);
+void *LIVEBATTLEMATCH_SAVE_GetRecord(void *p);
 
 void LIVEBATTLEMATCH_SAVE_InitRecord(void *buffer)
 {
@@ -215,17 +215,17 @@ void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *saveData)
  * Unlabelled leaf accessor matched to give overlay call sites a matched
  * witness.  Addresses are Black-image addresses.
  */
-int LIVEBATTLEMATCH_SAVE_GetStats(int stats)
+void *LIVEBATTLEMATCH_SAVE_GetStats(void *stats)
 {
-    return stats + 0x5a;
+    return (u8 *)stats + 0x5a;
 }
 
-int LIVEBATTLEMATCH_SAVE_GetStats2(int stats)
+void *LIVEBATTLEMATCH_SAVE_GetStats2(void *stats)
 {
-    return stats + 0x5a;
+    return (u8 *)stats + 0x5a;
 }
 
-int LIVEBATTLEMATCH_SAVE_GetRecord(int stats)
+void *LIVEBATTLEMATCH_SAVE_GetRecord(void *stats)
 {
     return stats;
 }

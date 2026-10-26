@@ -40,10 +40,10 @@ struct ManualMenuTable;
 
 /* Archive table object returned by MANUAL_COMMON_CreateMenuTable (0x10). */
 struct ManualMenuTable {
-    u32 base0;      /* 0x00 group table base */
-    u32 offsets0;   /* 0x04 group offset array */
-    u32 base1;      /* 0x08 entry table base */
-    u32 offsets1;   /* 0x0C entry offset array */
+    u8 *base0;      /* 0x00 group table base */
+    u16 *offsets0;  /* 0x04 group offset array */
+    u8 *base1;      /* 0x08 entry table base */
+    u16 *offsets1;  /* 0x0C entry offset array */
 };
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -105,11 +105,11 @@ int MANUAL_COMMON_IsValidKey(char *unused, unsigned key);
 
 int MANUAL_COMMON_GetDefaultId(void *unused);
 
-int MANUAL_COMMON_GetGroupEntry(char *p, int idx);
+u8 *MANUAL_COMMON_GetGroupEntry(char *p, int idx);
 
 unsigned short MANUAL_COMMON_GetGroupOffset(char *p,unsigned i);
 
-int MANUAL_COMMON_GetEntry(char *p, int idx);
+u8 *MANUAL_COMMON_GetEntry(char *p, int idx);
 
 unsigned short MANUAL_COMMON_GetEntryOffset(char *p,unsigned i);
 
@@ -117,7 +117,7 @@ extern char gManualCommonTableAllocFile[];
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
 {
-    void **table = GFL_HEAP_Alloc(heap, 16, 1, gManualCommonTableAllocFile, 0x9c);
+    void **table = GFL_HEAP_Alloc(heap, 4 * sizeof(void *), 1, gManualCommonTableAllocFile, 0x9c);
     u32 size;
     table[0] = ARC_UTIL_LoadHandleMemberWithSize(narc, 11, 0, heap, &size);
     table[1] = ARC_UTIL_LoadHandleMemberWithSize(narc, 12, 0, heap, &size);
@@ -126,7 +126,7 @@ void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
     return table;
 }
 
-void MANUAL_COMMON_DeleteMenuTable(char *table) {GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->offsets1);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->base1);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->offsets0);GFL_HEAP_Free((void *)((struct ManualMenuTable *)table)->base0);GFL_HEAP_Free(table);}
+void MANUAL_COMMON_DeleteMenuTable(char *table) {GFL_HEAP_Free(((struct ManualMenuTable *)table)->offsets1);GFL_HEAP_Free(((struct ManualMenuTable *)table)->base1);GFL_HEAP_Free(((struct ManualMenuTable *)table)->offsets0);GFL_HEAP_Free(((struct ManualMenuTable *)table)->base0);GFL_HEAP_Free(table);}
 
 u16 MANUAL_COMMON_GetEntryValue0(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+6);}
 
@@ -149,7 +149,7 @@ u16 MANUAL_COMMON_GetEntryPair1(char *table, int idx, int pair)
     return ((u16 *)MANUAL_COMMON_GetGroupEntry(table, idx))[(pair << 1) + 8];
 }
 
-u16 MANUAL_COMMON_GetEntryCount(const char *table) {return **(u16 * *)&((struct ManualMenuTable *)table)->offsets0;}
+u16 MANUAL_COMMON_GetEntryCount(const char *table) {return *((struct ManualMenuTable *)table)->offsets0;}
 
 u16 MANUAL_COMMON_GetGroupValue0(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetEntry(table,index)+2);}
 
@@ -188,16 +188,16 @@ int MANUAL_COMMON_IsValidKey(char *unused, unsigned key) {if(key!=65535)return 1
 
 int MANUAL_COMMON_GetDefaultId(void *unused){return 0x48;}
 
-int MANUAL_COMMON_GetGroupEntry(char *table, int idx)
+u8 *MANUAL_COMMON_GetGroupEntry(char *table, int idx)
 {
     return MANUAL_COMMON_GetGroupOffset(table, idx) + ((struct ManualMenuTable *)table)->base0;
 }
 
-unsigned short MANUAL_COMMON_GetGroupOffset(char *table,unsigned index){return *(unsigned short *)(((struct ManualMenuTable *)table)->offsets0+index*2+2);}
+unsigned short MANUAL_COMMON_GetGroupOffset(char *table,unsigned index){return *(unsigned short *)((u8 *)((struct ManualMenuTable *)table)->offsets0+index*2+2);}
 
-int MANUAL_COMMON_GetEntry(char *table, int idx)
+u8 *MANUAL_COMMON_GetEntry(char *table, int idx)
 {
     return MANUAL_COMMON_GetEntryOffset(table, idx) + ((struct ManualMenuTable *)table)->base1;
 }
 
-unsigned short MANUAL_COMMON_GetEntryOffset(char *table,unsigned index){return *(unsigned short *)(((struct ManualMenuTable *)table)->offsets1+index*2+2);}
+unsigned short MANUAL_COMMON_GetEntryOffset(char *table,unsigned index){return *(unsigned short *)((u8 *)((struct ManualMenuTable *)table)->offsets1+index*2+2);}

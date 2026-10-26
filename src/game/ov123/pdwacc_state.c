@@ -201,13 +201,13 @@ void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc);
 
 void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc);
 
-void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc);
+void PDWACC_STATE_DestroyHttpConnection(void *arg, u32 errorCode, u32 errorType, int dwcError);
 
 int PDWACC_STATE_ProcInit(void *procSys, int unused, PdwaccProcParam *param);
 
 int PDWACC_STATE_ProcMain(int unused0, int unused1, PdwaccProcParam *param, PdwaccProc *proc);
 
-int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *proc);
+int PDWACC_STATE_ProcExit(void *procHandle, int unused0, int unused1, PdwaccProc *proc);
 
 extern char ov114_id[];
 
@@ -328,11 +328,11 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc)
 void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
 {
     int workAreaSize;
-    uptr workArea;
+    void *workArea;
     if (GFL_NET_GetRunState()) {
         if (NHTTP_RAP_CreateRequest(9,proc->connection)) {
-            workArea = (uptr)SAVE_CONTROL_GetWorkArea(proc->saveControl,(u32 *)(&workAreaSize));
-            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),(void *)workArea,0x80000);
+            workArea = SAVE_CONTROL_GetWorkArea(proc->saveControl,(u32 *)(&workAreaSize));
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),workArea,0x80000);
             if (!NHTTP_RAP_StartConnection(proc->connection)) {
                 PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1f6);
                 return;
@@ -347,7 +347,7 @@ void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc) { if(WIPE_SYS_EndC
 
 void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,7); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitFadeClearNumbers,0x23c); }
 
-void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc) { if(proc->connection) { NHTTP_RAP_DeleteConnection(proc->connection); NHTTP_RAP_Destroy(proc->connection); proc->connection=0; } }
+void PDWACC_STATE_DestroyHttpConnection(void *arg, u32 errorCode, u32 errorType, int dwcError) { PdwaccProc *proc = arg; if(proc->connection) { NHTTP_RAP_DeleteConnection(proc->connection); NHTTP_RAP_Destroy(proc->connection); proc->connection=0; } }
 
 /*
  * interface: 0203159C retains the allocator result in r0; caller consumes that return.
@@ -356,15 +356,15 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
 {
     PdwaccProc *proc;
     GF_OVERLAY_Load((sptr)ov114_id);
-    proc=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,0x74,param->heap);
-    MI_CpuFill8(proc,0,0x74);
+    proc=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,sizeof(PdwaccProc),param->heap);
+    MI_CpuFill8(proc,0,sizeof(PdwaccProc));
     proc->heap=param->heap;
     proc->saveControl=GAME_DATA_GetSaveControl(param->gameData);
     proc->gameData=param->gameData;
     proc->profileId=MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
         proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,(char *)param->connectionArg);
-        DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((sptr)PDWACC_STATE_DestroyHttpConnection),(sptr)proc);
+        DWC_RAP_SetErrorCallback(PDWACC_STATE_DestroyHttpConnection, proc);
     }
     proc->disp=PDWACC_DISP_Init(proc->heap);
     proc->message=PDWACC_MESSAGE_InitSystem(proc->heap,87);
@@ -408,7 +408,7 @@ int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccP
     return result;
 }
 
-int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *proc)
+int PDWACC_STATE_ProcExit(void *procHandle, int unused0, int unused1, PdwaccProc *proc)
 {
     if (proc->yesNoMenu)
         APP_TASKMENU_CloseMenu(proc->yesNoMenu);
@@ -424,7 +424,7 @@ int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *
     }
     if (GFL_NET_GetRunState())
         DWC_RAP_SetErrorCallback(0, 0);
-    PROCSYS_FreeProcWork((void *)procHandle);
+    PROCSYS_FreeProcWork(procHandle);
     GF_OVERLAY_Unload((sptr)ov114_id);
     return 1;
 }

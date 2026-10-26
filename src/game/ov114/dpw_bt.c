@@ -40,7 +40,7 @@
  *   gDpwBtPathSetProfile 0x021CF78C data a4
  */
 #include "dwc_encsession_2.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #include "../types.h"
 
@@ -155,7 +155,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
             if (len != 0) {
                 gDpwBtWork.result = gDpwBtWork.response.code;
             } else {
@@ -175,7 +175,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = DWCi_EncSessionGetResponse(&len);
             memcpy(gDpwBtWork.resultBuf, resp, 0xa8c);
             if (len == 0xa8c) {
                 gDpwBtWork.result = 0;
@@ -200,7 +200,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwBtWork.response.code) {
             case 1: gDpwBtWork.result = 0; break;
             case 2: gDpwBtWork.result = -3; break;
@@ -222,7 +222,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwBtWork.response.code) {
             case 1: gDpwBtWork.result = 0; break;
             case 3: gDpwBtWork.result = 1; break;
@@ -244,7 +244,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            resp = (const u8 *)DWCi_EncSessionGetResponse(&len);
+            resp = DWCi_EncSessionGetResponse(&len);
             *(DpwBtResponse8 *)gDpwBtWork.resultBuf=*(DpwBtResponse8 *)resp;
             if (len == 8) {
                 gDpwBtWork.result = 0;

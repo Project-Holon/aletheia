@@ -153,7 +153,7 @@ struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct 
 
 struct GameEvent *EVENT_FIELD_MENU_CreateForZone(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
 
-int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_FIELD_MENU_Main(struct GameEvent *event, int *seq, void *workArg);
 
 u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 button);
 
@@ -222,7 +222,7 @@ struct GameEvent *EVENT_FIELD_MENU_CreateForZone(struct GameSystem *gameSystem, 
  * keeps the call arm inside the negated test so the `return 1` block
  * follows it.
  */
-int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg)
+int EVENT_FIELD_MENU_Main(struct GameEvent *event, int *seq, void *workArg)
 {
     FieldMenuWork *work = workArg;
     FieldSkillTarget target;

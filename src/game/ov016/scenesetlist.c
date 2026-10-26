@@ -353,7 +353,7 @@ void drawString(unsigned char *txt, int idx);
 void drawAddress(const unsigned char *addr, int idx);
 int isPush(void);
 void applyForcus(void);
-void taskPushCount(void);
+void taskPushCount(void * unused0, void * unused1);
 void pushButtonYesNo(void);
 bool isCorrect(void);
 void DWCi_SetListReturn(unsigned char v);
@@ -394,9 +394,9 @@ static void endScene2(void);
 static void setOffset(void);
 static int calcColumnIdx(int a);
 static int calcIdxColumn(int a);
-static void taskUp(void *task);
-static void taskDown(void *task);
-static void taskVBlank(void);
+static void taskUp(void *task, void *work);
+static void taskDown(void *task, void *work);
+static void taskVBlank(void *task, void *work);
 static void dispFocus(void);
 static void applyForcus1(int a);
 static void moveFocus(int dir);
@@ -436,11 +436,11 @@ void DWCi_SceneSetList(void)
         G2_SetOBJPriority(scenesetlist_bss.MemSsl->icon, 3);
         break;
     }
-    scenesetlist_bss.MemSsl->taskV = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x6E);
-    scenesetlist_bss.MemSsl->push.task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskPushCount, 0, 0x78);
+    scenesetlist_bss.MemSsl->taskV = DWCi_TSKlForm(1, taskVBlank, 0, 0x6E);
+    scenesetlist_bss.MemSsl->push.task = DWCi_TSKlForm(0, taskPushCount, 0, 0x78);
     drawWindow();
     dispFocus();
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 
@@ -549,7 +549,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x1d, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x1d);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 
@@ -559,7 +559,7 @@ static void procInit1(void)
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 
@@ -581,7 +581,7 @@ static void input(void)
     } else if (DWCi_IPTlCheckTrigger(2)) {
         DWCi_SNDlPlay(7);
         scenesetlist_bss.MemSsl->choose = 13;
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
     } else if (DWCi_IPTlCheckRepeat(0x200)) {
         if (scenesetlist_bss.Pos == 145) {
             if (!scenesetlist_bss.MemSsl->sound[1]) {
@@ -590,7 +590,7 @@ static void input(void)
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
         }
     } else if (DWCi_IPTlCheckRelease(0x200)) {
         scenesetlist_bss.MemSsl->sound[1] = 0;
@@ -602,7 +602,7 @@ static void input(void)
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
         }
     } else if (DWCi_IPTlCheckRelease(0x100)) {
         scenesetlist_bss.MemSsl->sound[1] = 0;
@@ -678,7 +678,7 @@ void pushWinButton(int focus)
         if (!isCorrect()) {
             DWCi_SNDlPlay(9);
             DWCi_WINlInitEx(6, 1, 1, -1, 0);
-            DWCi_ChangeScene((uptr)procError);
+            DWCi_ChangeScene(procError);
             return;
         }
         if (focus == 11)
@@ -694,7 +694,7 @@ void pushWinButton(int focus)
         setOffset();
     }
     DWCi_SBlDisable();
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 
@@ -762,9 +762,9 @@ static void draw(void)
         if (def == 0)
             applyForcus();
         else if (def < 16)
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
         else
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
         break;
     case 4:
         if (scenesetlist_bss.Pos == 0) {
@@ -774,7 +774,7 @@ static void draw(void)
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
         }
         break;
     case 6:
@@ -785,7 +785,7 @@ static void draw(void)
             }
         } else {
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
         }
         break;
     case 5:
@@ -800,7 +800,7 @@ static void endScene(void)
 {
     DWCi_SBlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 
@@ -810,7 +810,7 @@ static void endScene1(void)
         return;
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x1D, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 
@@ -850,7 +850,7 @@ static void endScene2(void)
     case 1:
         DWCi_SetParam2_(scenesetlist_bss.MemSsl->choose, 0);
         DWCi_SetParam_(2, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetEdit32);
+        DWCi_ChangeScene(DWCi_SceneSetEdit32);
         break;
     case 4:
     case 5:
@@ -862,7 +862,7 @@ static void endScene2(void)
             ix -= 2;
         DWCi_SetParam_(2, 0);
         DWCi_SetParam2_(ix, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddress);
+        DWCi_ChangeScene(DWCi_SceneSetEditAddress);
         break;
     case 11:
         info = ((SETTINGINFO *)DWCi_SETTIGNlGet());
@@ -877,20 +877,20 @@ static void endScene2(void)
             MI_CpuFill8(info->ap.dns, 0, 8);
         DWCi_SetParam_(2, 0);
         DWCi_SetParam2_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetTest);
+        DWCi_ChangeScene(DWCi_SceneSetTest);
         break;
     case 12:
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetListSave);
+        DWCi_ChangeScene(DWCi_SceneSetListSave);
         break;
     case 13:
         if (scenesetlist_bss.RetScene == 0) {
             DWCi_SetParam_(2, 1);
-            DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
+            DWCi_ChangeScene(DWCi_SceneSetSelectAp);
         } else {
             DWCi_SETTINGlSetSetting(((SETTINGINFO *)DWCi_SETTIGNlGet())->idx);
             DWCi_SetParam_(0, 1);
-            DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
+            DWCi_ChangeScene(DWCi_SceneSetSelectWay);
         }
         break;
     }
@@ -912,7 +912,7 @@ void drawWindow(void)
     for (idx = 0; idx < 5; idx++, cell++)
         drawColumnObj(cell, idx);
     DWCi_SCREENlRenew();
-    DWCi_FNTlRenewBg((sptr)scenesetlist_bss.MemSsl->canv);
+    DWCi_FNTlRenewBg(scenesetlist_bss.MemSsl->canv);
     setOffset();
 }
 
@@ -1364,7 +1364,7 @@ static int calcIdxColumn(int a)
 }
 
 
-static void taskUp(void *task)
+static void taskUp(void *task, void *work)
 {
     int def;
 
@@ -1394,7 +1394,7 @@ static void taskUp(void *task)
 }
 
 
-static void taskDown(void *task)
+static void taskDown(void *task, void *work)
 {
     int def;
 
@@ -1416,7 +1416,7 @@ static void taskDown(void *task)
 }
 
 
-static void taskVBlank(void)
+static void taskVBlank(void *task, void *work)
 {
     int cell;
     int oft;
@@ -1577,7 +1577,7 @@ static void moveFocus(int dir)
                 break;
             }
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskUp, 0, 0x78);
             return;
         }
         if (dir == 3) {
@@ -1586,7 +1586,7 @@ static void moveFocus(int dir)
                 break;
             }
             DWCi_SNDlPlay(0x13);
-            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
+            scenesetlist_bss.MemSsl->task = DWCi_TSKlForm(0, taskDown, 0, 0x78);
             return;
         }
         move = 2;
@@ -1626,7 +1626,7 @@ static void dispPushButton(void)
 }
 
 
-void taskPushCount(void)
+void taskPushCount(void * unused0, void * unused1)
 {
     int i;
 
@@ -1691,7 +1691,7 @@ static void procError(void)
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
     DWCi_SCREENlSetPalette(scenesetlist_bss.MemSsl->pltt[0]);
-    DWCi_ChangeScene((uptr)procError1);
+    DWCi_ChangeScene(procError1);
 }
 
 static void procInit2(void);
@@ -1703,7 +1703,7 @@ static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 void DWCi_SetListReturn(unsigned char v)

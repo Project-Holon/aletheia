@@ -11,7 +11,7 @@
 GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, u32 ip, u16 port);
 int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void (*callback)(GTI2Socket *), int type);
 void gti2CloseSocket(GTI2Socket *socket);
-void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback);
+void gti2SetConnectAttemptCallback(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback);
 void *gti2CreateConnectionObject(void);
 int gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connection, unsigned int ip, unsigned short port);
 void gti2FreeSocketConnection(GTI2Connection *connection);

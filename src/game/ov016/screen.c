@@ -49,14 +49,14 @@ extern ScreenBss gScreenWork;
  * sdk:      DWCi_SCREENlInit (libdwcutil.TWL.HYB.a(screen.o))
  */
 
-static void taskLoad(void);
-static void taskCopyPltt(void *task);
-static void taskSetPltt(void *task);
+static void taskLoad(void *task, void *work);
+static void taskCopyPltt(void *task, void * unused1);
+static void taskSetPltt(void *task, void * unused1);
 void DWCi_SCREENlInit(void *scr)
 {
-	gScreenWork.scr = (MemScr *)DWCi_HEAPlAllocEx(0x608, 4);
+	gScreenWork.scr = (MemScr *)DWCi_HEAPlAllocEx(sizeof(*gScreenWork.scr), 4);
 	MIi_CpuCopyFast(scr, gScreenWork.scr->buf, 0x600);
-	gScreenWork.scr->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, 0, 0x78);
+	gScreenWork.scr->task = DWCi_TSKlForm(1, taskLoad, 0, 0x78);
 }
 
 
@@ -98,7 +98,7 @@ void DWCi_SCREENlCopy(void *src, int pos, int w, int h)
 }
 
 
-static void taskLoad(void)
+static void taskLoad(void *task, void *work)
 {
     if (!gScreenWork.scr->dirty)
         return;
@@ -118,7 +118,7 @@ void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor)
 {
     gScreenWork.src = (unsigned char *)src + sColor * 32;
     gScreenWork.dst = (unsigned char *)HW_BG_PLTT + dColor * 32;
-    DWCi_TSKlForm(1, (void (*)(void *, void *))taskCopyPltt, 0, 0x78);
+    DWCi_TSKlForm(1, taskCopyPltt, 0, 0x78);
 }
 
 
@@ -128,7 +128,7 @@ void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor)
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/taskCopyPltt.c \n *       --func taskCopyPltt --addr 0x021CE7EC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
-static void taskCopyPltt(void *task)
+static void taskCopyPltt(void *task, void * unused1)
 {
     MIi_CpuCopy16(gScreenWork.src, gScreenWork.dst, 0x20);
     DWCi_TSKlDelete(1, task);
@@ -146,7 +146,7 @@ static void taskCopyPltt(void *task)
 void DWCi_SCREENlSetPalette(void *v)
 {
     gScreenWork.src = v;
-    DWCi_TSKlForm(1, (void (*)(void *, void *))taskSetPltt, 0, 0x78);
+    DWCi_TSKlForm(1, taskSetPltt, 0, 0x78);
 }
 
 
@@ -156,7 +156,7 @@ void DWCi_SCREENlSetPalette(void *v)
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/taskSetPltt.c \n *       --func taskSetPltt --addr 0x021CE844 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
-static void taskSetPltt(void *task)
+static void taskSetPltt(void *task, void * unused1)
 {
     MIi_CpuCopy16(gScreenWork.src, (void *)HW_BG_PLTT, 0x200);
     DWCi_TSKlDelete(1, task);

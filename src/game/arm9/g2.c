@@ -19,11 +19,11 @@
 
 #include "../sdk_gx.h"
 
-void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
+void G2x_SetBGyAffine_(uptr addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
 void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
-void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
+void G2x_SetBlendBrightness_(uptr addr, int plane, int brightness);
+void G2x_SetBlendBrightnessExt_(uptr addr, int plane1, int plane2, int ev1, int ev2, int brightness);
+void DWCi_WindowG2x_ChangeBlendBrightness_(uptr addr, int brightness);
 
 #define reg_GX_VRAMCNT   (*(vu32 *)REG_VRAMCNT_A_ADDR)
 
@@ -41,7 +41,7 @@ void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
  * sdk:      G2x_SetBGyAffine_ (libgx.TWL.HYB.a g2.o)
  * notes:    y2 is computed before the x row, and the x row is folded into its store (DWARF lists dx, dy, y2 and no x2); matrix stores before dx/dy.
  */
-void G2x_SetBGyAffine_(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
+void G2x_SetBGyAffine_(uptr addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
 {
     fx32 dx, dy, y2;
 
@@ -65,7 +65,7 @@ void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b,
 /*
  * sdk:      G2x_SetBlendBrightness_ (libgx.TWL.HYB.a g2.o)
  */
-void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness)
+void G2x_SetBlendBrightness_(uptr addr, int plane, int brightness)
 {
     if (brightness < 0) {
         *(vu16 *)addr = (u16)(plane | 0xc0);
@@ -81,7 +81,7 @@ void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness)
 /*
  * sdk:      G2x_SetBlendBrightnessExt_ (libgx.TWL.HYB.a g2.o)
  */
-void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness)
+void G2x_SetBlendBrightnessExt_(uptr addr, int plane1, int plane2, int ev1, int ev2, int brightness)
 {
     *(vu16 *)(addr + 2) = (u16)(ev1 | (ev2 << 8));
     if (brightness < 0) {
@@ -98,7 +98,7 @@ void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int e
 /*
  * sdk:      G2x_ChangeBlendBrightness_ (libgx.TWL.HYB.a g2.o)
  */
-void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness)
+void DWCi_WindowG2x_ChangeBlendBrightness_(uptr addr, int brightness)
 {
     u16 tmp = *(vu16 *)addr;
 

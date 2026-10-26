@@ -164,7 +164,7 @@ extern int errno;
  * docs/idioms/declaration-position-orders-block-scope-colouring.md and
  * docs/notes/pkt_02094B8C.c.txt.
  */
-double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
+double __strtold(int max_width, int (*ReadProc)(MslStringScan *, u32, u32), void *ReadProcArg,
                      int *chars_scanned, int *overflow)
 {
     int scan_state = start;
@@ -715,7 +715,7 @@ double strtod(const char *s, char **endptr)
 
     st.scan.eof = 0;
     st.scan.cur = s;
-    r = __strtold(0x7FFFFFFF, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st, &st.length, &st.overflow);
+    r = __strtold(0x7FFFFFFF, MSL_C_LIB_StrReadProc, &st, &st.length, &st.overflow);
     if (endptr != 0)
         *endptr = (char *)s + st.length;
     fabs(r);
@@ -772,7 +772,7 @@ double atof(const char *s)
  *       --func __strtoul --addr 0x02095B3C --cc 1.1p1 --arm
  *   EXACT, 880 bytes, 4 relocation sites, all resolved.
  */
-u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int),
+u32 __strtoul(int base, int max_width, int (*ReadProc)(MslStringScan *, u32, u32),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {
@@ -910,7 +910,7 @@ u32 strtoul(const char *s, char **endptr, int base)
 
     scan.cur = s;
     scan.eof = 0;
-    r = __strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &scan, (int *)(&len), (int *)(&sign), (int *)(&err));
+    r = __strtoul(base, 0x7FFFFFFFu, MSL_C_LIB_StrReadProc, &scan, (int *)(&len), (int *)(&sign), (int *)(&err));
     if (endptr != 0)
         *endptr = (char *)s + len;
     if (err != 0) {
@@ -958,7 +958,7 @@ int strtol(const char *s, char **endptr, int base)
 
     st.scan.cur = s;
     st.scan.eof = 0;
-    r = (int)__strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st,
+    r = (int)__strtoul(base, 0x7FFFFFFFu, MSL_C_LIB_StrReadProc, &st,
                            &st.length, &st.negative, &st.overflow);
     if (endptr != 0)
         *endptr = (char *)s + st.length;
@@ -993,7 +993,7 @@ int strtol(const char *s, char **endptr, int base)
  *       --func __strtoull --addr 0x02096004 --cc 1.1p1 --arm
  *   EXACT, 1012 bytes, 4 relocation sites, all resolved.
  */
-u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int),
+u64 __strtoull(int base, int max_width, int (*ReadProc)(MslStringScan *, u32, u32),
                   void *ReadProcArg, int *chars_scanned, int *negative,
                   int *overflow)
 {
@@ -1144,7 +1144,7 @@ s64 strtoll(const char *s, char **endptr, int base)
 
     st.scan.cur = s;
     st.scan.eof = 0;
-    r = (s64)__strtoull(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st,
+    r = (s64)__strtoull(base, 0x7FFFFFFFu, MSL_C_LIB_StrReadProc, &st,
                            &st.length, &st.negative, &st.overflow);
     if (endptr != 0)
         *endptr = (char *)s + st.length;

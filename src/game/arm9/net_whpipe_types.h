@@ -39,7 +39,7 @@ typedef struct WhPipeEntry {
 
 typedef struct WhPipeWork WhPipeWork;
 typedef void (*WhPipeTask)(WhPipeWork *work);
-typedef void (*WhPipeNotifyFunc)(u32 arg, WhPipeEntry *entry, u32 kind, u32 connectedNum);
+typedef void (*WhPipeNotifyFunc)(void *arg, WhPipeEntry *entry, u32 kind, u32 connectedNum);
 
 /* Work block of the wireless pipe; allocated with size 0xCF8 by NET_WHPIPE_Create. */
 struct WhPipeWork {
@@ -48,10 +48,10 @@ struct WhPipeWork {
     WhPipeEntry entry[WHPIPE_ENTRY_MAX];
     u8 entryTail[0x30];
     WhPipeNotifyFunc notifyFn;
-    u32 notifyArg;
+    void *notifyArg;
     u16 entryAge[WHPIPE_ENTRY_MAX];    /* frames left per entry, 0 = free slot */
     void (*onConnected)(void);
-    u32 userData;                      /* argument of the beacon callbacks */
+    void *userData;                    /* argument of the beacon callbacks */
     u16 tgid;
     u16 startTime;                     /* first tick seen after the watch started, 0xFFFF = none */
     u16 joinLockFrames;
@@ -77,9 +77,9 @@ struct WhPipeWork {
     u8 padCF6[2];
 };
 
-typedef int (*WhPipeBeaconCompareFunc)(u8 gameKind, u8 beaconKind, u32 userData);
-typedef int (*WhPipeBeaconSizeFunc)(u32 userData);
-typedef u32 (*WhPipeBeaconDataFunc)(u32 userData);
+typedef int (*WhPipeBeaconCompareFunc)(u8 gameKind, u8 beaconKind, void *userData);
+typedef int (*WhPipeBeaconSizeFunc)(void *userData);
+typedef void *(*WhPipeBeaconDataFunc)(void *userData);
 
 
 #endif

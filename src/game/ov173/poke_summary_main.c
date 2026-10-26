@@ -272,6 +272,7 @@ struct BoxPokemon;
 struct Actor;
 struct BmpMenuWork;
 #include "../arm9/msg_speed.h"
+#include "../sdk_ioreg.h"
 int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input);
 int POKE_SUMMARY_MAIN_Update(void *unused0,u32 *state,void *unused2,u8 *p);
 int POKE_SUMMARY_MAIN_Delete(void *p,u32 a,u32 b,char *ctx);
@@ -315,6 +316,12 @@ unsigned short POKE_SUMMARY_MAIN_GetMoveWord(int *p);
 void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind);
 void POKE_SUMMARY_MAIN_ClearWindow(char *p);
 int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state);
+#ifndef __MWERKS__
+static u8 POKE_SUMMARY_MAIN_SoundStateCallbackU8(u32 state)
+{
+    return (u8)POKE_SUMMARY_MAIN_SoundStateCallback(state);
+}
+#endif
 u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p);
 int POKE_SUMMARY_MAIN_ShowTextKind3(u8 *p);
 int POKE_SUMMARY_MAIN_ClearWindowWaitA(char *p);
@@ -332,8 +339,8 @@ int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input)
 {
     u8 *p;
     GFL_HEAP_CreateChildHeap(1,79,0x50000);
-    p=PROCSYS_AllocProcWork((struct Proc *)obj,0x228,79);
-    MI_CpuFill8(p,0,0x228);
+    p=PROCSYS_AllocProcWork((struct Proc *)obj,sizeof(struct PokeSummaryWork),79);
+    MI_CpuFill8(p,0,sizeof(struct PokeSummaryWork));
     ((struct PokeSummaryWork *)p)->mon=(struct PokeSummaryMon *)input;
     ((struct PokeSummaryWork *)p)->font=(void *)GF_FONT_Create(23,0,0,0,79);
     ((struct PokeSummaryWork *)p)->tcbl=(void *)TCBL_Create(79,79,32,32);
@@ -425,8 +432,8 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
 
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    *(volatile u32 *)0x04000000 &= 0xffffe0ff;
-    *(volatile u32 *)0x04001000 &= 0xffffe0ff;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xffffe0ff;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xffffe0ff;
     q = ARC_TOOL_CreateHandle(0x7c, 0x4f);
     POKE_SUMMARY_MAIN_SetVramBanks();
     POKE_SUMMARY_MAIN_InitDisplay();
@@ -448,7 +455,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
 
 void POKE_SUMMARY_MAIN_ExitScreen(char *work) { POKE_SUMMARY_MAIN_DeleteTaskMenu((u8 *)work); POKE_SUMMARY_ACTOR_UpdateSound((int *)work); POKE_SUMMARY_MAIN_DeleteMoveList(work); POKE_SUMMARY_MAIN_DeleteBmpWindows(work); POKE_SUMMARY_MAIN_DeleteMsgWindow((int *)work); POKE_SUMMARY_MAIN_ExitDisplay(); POKE_SUMMARY_MAIN_DeleteText(work); POKE_SUMMARY_ACTOR_DeleteSystem((u8 *)work); TCB_DeleteTask(((struct PokeSummaryWork *)work)->vblankTask); }
 
-static inline void setShared(u32 base,SharedOffset off) { *(u32 *)(base+off)|=1; }
+static inline void setShared(uptr base,SharedOffset off) { *(u32 *)(base+off)|=1; }
 
 void POKE_SUMMARY_MAIN_VBlankCallback(struct TcbTask *unused, void *workArg) { char * work = workArg; POKE_SUMMARY_ACTOR_FlushPendingTransfers(work); BG_SYS_Update(); CLACT_VBlankSystem(); setShared((uptr)d_02FE0000,FLAGS_OFFSET); }
 
@@ -519,14 +526,14 @@ int POKE_SUMMARY_MAIN_DeleteMsgWindow(int *work)
 void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *work)
 {
     u32 i;
-    uptr h;
+    struct BmpWin *h;
     for (i=0;i<16;i++) {
         ((struct PokeSummaryWork *)work)->bmpWindows[i]=(void *)BMP_WIN_Create((u8)d_021B8420[i].a,(u8)d_021B8420[i].b,(u8)d_021B8420[i].c,(u8)d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,(int)1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)(struct PokeSummaryMainDescriptor *)((struct PokeSummaryWork *)work)->bmpWindows[i])),0);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(struct PokeSummaryMainDescriptor *)((struct PokeSummaryWork *)work)->bmpWindows[i])),0);
     }
-    h=(uptr)((struct PokeSummaryWork *)work)->bmpWindows[9];
-    BMP_WIN_ClearScreen((struct BmpWin *)h);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)h));
+    h=((struct PokeSummaryWork *)work)->bmpWindows[9];
+    BMP_WIN_ClearScreen(h);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(h));
     ((struct PokeSummaryWork *)work)->keyCursor=(void *)APP_KEYCURSOR_CreateDefault(15,1,1,79);
 }
 
@@ -1047,7 +1054,7 @@ void POKE_SUMMARY_MAIN_SetTextByKind(char *work, u32 kind)
     case 8:
         WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
-    case 9: WORDSET_SetSlotMyStatus(((struct PokeSummaryWork *)work)->wordSet, 2, (void *)(((struct PokeSummaryWork *)work)->mon->myStatus)); break;
+    case 9: WORDSET_SetSlotMyStatus(((struct PokeSummaryWork *)work)->wordSet, 2, ((struct PokeSummaryWork *)work)->mon->myStatus); break;
     case 10: WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 0, POKE_SUMMARY_MAIN_GetMoveWord((int *)work)); break;
     }
     str = MSGDATA_AllocString(((struct PokeSummaryWork *)work)->msgBank, d_021B8350[((struct PokeSummaryWork *)work)->mon->messageTableIndex][kind]);
@@ -1066,7 +1073,7 @@ unsigned short POKE_SUMMARY_MAIN_GetMoveWord(int *work)
 {
     struct PokeSummaryMon *q = ((struct PokeSummaryWork *)work)->mon;
 
-    return POKE_TOOL_GetPartyValue((void *)q->party, q->variant + 0x36, 0);
+    return POKE_TOOL_GetPartyValue(q->party, q->variant + 0x36, 0);
 }
 
 void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
@@ -1079,7 +1086,11 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
     BMP_MENUWORK_DrawWindow((struct BmpWin *)(((struct PokeSummaryWork *)work)->bmpWindows[7]), 0, 1, 13);
     POKE_SUMMARY_MAIN_SetTextByKind((char *)work, kind);
     speed = MSG_SPEED_GetWait();
-    ((struct PokeSummaryWork *)work)->printStream = PRINTSYS_PrintStreamCallBack(*(struct BmpWin **)&((struct PokeSummaryWork *)work)->bmpWindows[7], 0, 0, (struct Strbuf *)((uptr)((struct PokeSummaryWork *)work)->strBufA), (struct GfFont *)((uptr)((struct PokeSummaryWork *)work)->font), speed, (struct Tcbl *)((uptr)((struct PokeSummaryWork *)work)->tcbl), zero, 0x4f, 0xffff, (u8 (*)(u32 arg))((uptr)POKE_SUMMARY_MAIN_SoundStateCallback));
+#ifdef __MWERKS__
+    ((struct PokeSummaryWork *)work)->printStream = PRINTSYS_PrintStreamCallBack(*(struct BmpWin **)&((struct PokeSummaryWork *)work)->bmpWindows[7], 0, 0, (struct Strbuf *)(((struct PokeSummaryWork *)work)->strBufA), (struct GfFont *)(((struct PokeSummaryWork *)work)->font), speed, (struct Tcbl *)(((struct PokeSummaryWork *)work)->tcbl), zero, 0x4f, 0xffff, (u8 (*)(u32 arg))(POKE_SUMMARY_MAIN_SoundStateCallback));
+#else
+    ((struct PokeSummaryWork *)work)->printStream = PRINTSYS_PrintStreamCallBack(*(struct BmpWin **)&((struct PokeSummaryWork *)work)->bmpWindows[7], 0, 0, (struct Strbuf *)(((struct PokeSummaryWork *)work)->strBufA), (struct GfFont *)(((struct PokeSummaryWork *)work)->font), speed, (struct Tcbl *)(((struct PokeSummaryWork *)work)->tcbl), zero, 0x4f, 0xffff, POKE_SUMMARY_MAIN_SoundStateCallbackU8);
+#endif
     q = ((struct PokeSummaryWork *)work)->bmpWindows[7];
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
@@ -1088,12 +1099,12 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
 
 void POKE_SUMMARY_MAIN_ClearWindow(char *work)
 {
-    uptr x;
+    struct BmpWin *x;
 
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct PokeSummaryWork *)work)->bmpWindows[7]), 2);
-    x = (uptr)((struct PokeSummaryWork *)work)->bmpWindows[7];
-    BMP_WIN_ClearScreen((struct BmpWin *)x);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)x));
+    x = ((struct PokeSummaryWork *)work)->bmpWindows[7];
+    BMP_WIN_ClearScreen(x);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(x));
 }
 
 int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)

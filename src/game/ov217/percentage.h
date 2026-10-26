@@ -4,13 +4,13 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of percentage.c, prototypes copied from their definitions. */
 
+struct Percentage;
 struct PercentageTemplate;
 struct ClactUnit;
-struct Percentage;
 
 #include "../types.h"
 
-u32 PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit);
+struct Percentage *PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit);
 u32 PERCENTAGE_Destroy(struct Percentage *pct);
 void PERCENTAGE_SetPosition(struct Percentage *pct, u32 x, u32 y);
 void PERCENTAGE_SetValue(struct Percentage *pct, u32 value);

@@ -130,7 +130,7 @@ extern int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, 
 #include "../arm9/mi_memory.h"
 #include "../arm9/std_string.h"
 char *GDS_SOCKET_Alloc(int size);
-void GDS_SOCKET_Free(int ptr);
+void GDS_SOCKET_Free(void *ptr);
 void GDS_SOCKET_Unlock(void);
 int GDS_SOCKET_InitLock(void);
 int GDS_SOCKET_Nop(void *p);
@@ -228,7 +228,7 @@ int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client)
 void GDS_SOCKET_ResetConnection(void) {
  GDS_SOCKET_Close();
  if(gGdsSocket->sendBuffer) {
-  GDS_SOCKET_Free((sptr)gGdsSocket->sendBuffer);
+  GDS_SOCKET_Free(gGdsSocket->sendBuffer);
   gGdsSocket->sendBuffer=0;
  }
  gGdsSocket->connectTimeout=15;
@@ -286,7 +286,7 @@ void GDS_SOCKET_RunConnection(void)
                 finish = 1;
             } else next = 6;
             if (gGdsSocket->sendBuffer) {
-                GDS_SOCKET_Free((sptr)gGdsSocket->sendBuffer);
+                GDS_SOCKET_Free(gGdsSocket->sendBuffer);
                 gGdsSocket->sendBuffer = 0;
             }
             GDS_SOCKET_Lock();
@@ -408,7 +408,7 @@ char *GDS_SOCKET_Alloc(int size)
     return DWC_Alloc(0, size);
 }
 
-void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,(void *)ptr,0);}
+void GDS_SOCKET_Free(void *ptr){if(ptr)DWC_Free(0,ptr,0);}
 
 void GDS_SOCKET_Lock(void)
 {
@@ -438,7 +438,7 @@ void GDS_SOCKET_ThreadEntry(void *p)
 }
 
 int GDS_SOCKET_StartThread(void) {
- OS_CreateThread((OSThread *)gGdsConnectThread, (void (*)(void *))((void (*)(void *))GDS_SOCKET_ThreadEntry), 0, (void *)gGdsConnectThreadStackTop, 0x800, gGdsSocket->threadPriority);
+ OS_CreateThread((OSThread *)gGdsConnectThread, GDS_SOCKET_ThreadEntry, 0, (void *)gGdsConnectThreadStackTop, 0x800, gGdsSocket->threadPriority);
  OS_WakeupThreadDirect((OSThread *)gGdsConnectThread);
  return 1;
 }
@@ -603,7 +603,7 @@ int GDS_SOCKET_Receive(void)
     int ret = 0;
 
     t0 = OS_GetTick();
-    OS_CreateThread((OSThread *)gGdsReceiveThread, (void (*)(void *))GDS_SOCKET_ReceiveThread, 0, (void *)&d_021D9E40b, 0x800, gGdsSocket->threadPriority);
+    OS_CreateThread((OSThread *)gGdsReceiveThread, GDS_SOCKET_ReceiveThread, 0, (void *)&d_021D9E40b, 0x800, gGdsSocket->threadPriority);
     gGdsSocket->receiveResult = -6;
     gGdsSocket->receiveCount = 0;
     gGdsSocket->receiveReady = 0;
@@ -920,6 +920,6 @@ void GDS_SOCKET_FreeSslServerName(CPSSslConnection *con)
     name = con->hostName;
     if (name == 0)
         return;
-    GDS_SOCKET_Free((sptr)name);
+    GDS_SOCKET_Free(name);
     con->hostName = 0;
 }

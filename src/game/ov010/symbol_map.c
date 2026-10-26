@@ -190,7 +190,7 @@ typedef struct ZoneRemapEntry {
 typedef struct PokeEventWork {
     struct GameSystem *gameSystem;  /* 0x00 */
     struct GameData *gameData;      /* 0x04 */
-    u32 transitionArg;              /* 0x08, argument of the field close and open events */
+    struct FieldMap *transitionArg;            /* 0x08, argument of the field close and open events */
     struct Pokemon *poke;           /* 0x0C */
     struct {
         struct GameData *gameData;
@@ -255,11 +255,7 @@ struct ScriptWork;
 
 
 
-#ifdef __MWERKS__
-extern unsigned short SCRIPT_WORK_ReadWorkValue(void *vm, void *work); /* original prototype; the definition differs in pointer type, return type */
-#else
 extern unsigned short SCRIPT_WORK_ReadWorkValue(struct ScriptVm*, struct ScrcmdWork*);
-#endif
 
 #include "../arm9/vm.h"
 
@@ -362,10 +358,6 @@ extern void WEATHER_RequestChangeNoFade(struct WeatherSys *sys, int weatherId); 
 #include "../ov021/weather.h"
 #endif
 
-#ifdef __MWERKS__
-extern void WEATHER_RequestChange(struct WeatherSys *sys, int weatherId); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
 
 u8 SYMBOL_MAP_FindGridIndex();
@@ -396,7 +388,7 @@ void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCom
 
 void SYMBOL_MAP_DeleteLinkRecord(SymbolMapOwner *owner);
 
-int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state);
+int SYMBOL_MAP_RecordTaskMain(struct GameEvent *task, int *state, void *eventWork);
 
 int SYMBOL_MAP_GetLastResult(void *progress);
 
@@ -412,7 +404,7 @@ int SYMBOL_MAP_GetSyncBlockHeader(SaveSyncBlock *block, int sel);
 
 void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 *outValue, u16 *outPicked);
 
-int SYMBOL_MAP_PickerTaskMain(void *task, int *state);
+int SYMBOL_MAP_PickerTaskMain(struct GameEvent *task, int *state, void *eventWork);
 
 int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work);
 
@@ -426,7 +418,7 @@ void SYMBOL_MAP_StartBg2Scale(void);
 
 void SYMBOL_MAP_StopBg2Scale(void);
 
-u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work);
+int SYMBOL_MAP_PokeEventTaskMain(struct GameEvent *task, int *state, void *work);
 
 void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void *poke);
 
@@ -436,7 +428,7 @@ int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId);
 
 int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work);
 
-u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state);
+int SYMBOL_MAP_PmsInputTaskMain(struct GameEvent *task, int *state, void *eventWork);
 
 int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work);
 
@@ -458,7 +450,8 @@ extern float g_Bg2ScaleStep;
 
 extern char ov215_id[];
 
-extern char gEggDemoViewProcData[];
+#include "../arm9/procsys.h"
+extern const ProcData gEggDemoViewProcData;
 
 extern ZoneRemapEntry g_ZoneRemapTable[2];
 
@@ -740,7 +733,7 @@ u32 SYMBOL_MAP_GetEventStateEntryValue(void *entries, u32 index)
 void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCompleted) {
     struct GameEvent *task;
     SymbolMapRecordWork *work;
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_RecordTaskMain, 32);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, sizeof(SymbolMapRecordWork));
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->progress = progress;
     work->outCompleted = outCompleted;
@@ -758,7 +751,7 @@ void SYMBOL_MAP_DeleteLinkRecord(SymbolMapOwner *owner)
 }
 
 /* Task main of SYMBOL_MAP_CreateRecordTask: runs ov203, then stores its result and the completion flag. */
-int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
+int SYMBOL_MAP_RecordTaskMain(struct GameEvent *task, int *state, void *eventWork)
 {
     SymbolMapRecordWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
@@ -913,7 +906,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 
     int count;
     int flagIndex;
 
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PickerTaskMain, 0x128);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, sizeof(SymbolMapPickerWork));
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->mode = mode;
     work->outPicked = (u16 *)outPicked;
@@ -944,7 +937,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u16 *outKind, u16 
  *
  * 2026-10-05 (D8 lane 15): the callback table gUnSelectProcData lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
  */
-int SYMBOL_MAP_PickerTaskMain(void *task, int *state)
+int SYMBOL_MAP_PickerTaskMain(struct GameEvent *task, int *state, void *eventWork)
 {
     SymbolMapPickerWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
@@ -1018,13 +1011,13 @@ int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work)
     unsigned short *outKind;
     unsigned short *outValue;
     unsigned short *outPicked;
-    sptr task;
+    void *task;
     GAME_DATA_GetSaveSyncBlock(GAMESYSTEM_GetGameData(gameSystem));
     mode = SCRIPT_WORK_ReadWorkValue(vm, work);
     outKind = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outPicked = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    task = (sptr)SYMBOL_MAP_CreatePickerTask(gameSystem, mode, outKind, outValue, outPicked);
+    task = SYMBOL_MAP_CreatePickerTask(gameSystem, mode, outKind, outValue, outPicked);
     if (task == 0)
         return 1;
     SCRIPT_SYS_CallEvent(scriptSystem, (void *)task);
@@ -1077,11 +1070,12 @@ void SYMBOL_MAP_StopBg2Scale(void) {
  * ov215; the third, 0x021F7118, lies in its window. Skips straight to the
  * end unless the Pokemon is an egg that is not flagged invalid.
  */
-u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
+int SYMBOL_MAP_PokeEventTaskMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    PokeEventWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = work->gameData;
-    uptr transitionArg = work->transitionArg;
+    struct FieldMap *transitionArg = work->transitionArg;
 
     switch (*state) {
     case 0:
@@ -1105,7 +1099,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
         *state = 4;
         break;
     case 4:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov215_id, gEggDemoViewProcData, &work->procParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov215_id, &gEggDemoViewProcData, &work->procParam);
         *state = 5;
         break;
     case 5:
@@ -1127,10 +1121,10 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
 void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void *poke) {
     struct GameEvent *task;
     PokeEventWork *work;
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PokeEventTaskMain, 24);
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, sizeof(PokeEventWork));
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
-    work->transitionArg = (uptr)transitionArg;
+    work->transitionArg = transitionArg;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->poke = poke;
     return task;
@@ -1221,7 +1215,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     outWord1 = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outResult = SCRIPT_WORK_ReadWorkPointer(vm, work);
     mode = 0;
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
+    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
     inputWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
     inputWork->kind = kind;
@@ -1264,7 +1258,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((uptr)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)))), inputWork->sentenceId, (struct QuadRecord *)sentenceBuf);
+        GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)))), inputWork->sentenceId, (struct QuadRecord *)sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (struct PmsData *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1292,7 +1286,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
+int SYMBOL_MAP_PmsInputTaskMain(struct GameEvent *task, int *state, void *eventWork)
 {
     PmsInputWork *work = GAME_EVENT_GetWork(task);
     void *pmsParam = work->pmsParam;
@@ -1323,7 +1317,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    GREETING_SAVEDATA_SetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((uptr)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task))))), work->sentenceId, (struct QuadRecord *)((&sentence)));
+                    GREETING_SAVEDATA_SetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task))))), work->sentenceId, (struct QuadRecord *)((&sentence)));
                 }
                 *work->outWord0 = sentence.word[0];
                 second = sentence.word[1];
@@ -1347,14 +1341,14 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     void *gameSystem;
     void *gameData;
     void *fieldMap;
-    sptr fieldState;
+    struct WeatherSys *fieldState;
     int modeId;
     int enable;
     SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     gameData = SCRCMD_WORK_GetGameData(work);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    fieldState = (sptr)FIELDMAP_GetWeather(fieldMap);
+    fieldState = FIELDMAP_GetWeather(fieldMap);
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);
     if (modeId == 0xFFFF)

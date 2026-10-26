@@ -74,7 +74,7 @@ void IRC_COMPATIBLE_MENU_SetButtonsEnabled(IrcButtons *buttons, u32 enabled);
 int IRC_COMPATIBLE_MENU_IsButtonPressed(IrcButtons *buttons);
 int IRC_COMPATIBLE_MENU_PollChoice(IrcButtons *buttons, int *out);
 void IRC_COMPATIBLE_MENU_ResetButtonPalettes(IrcButtons *buttons);
-void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, IrcButtons *buttons);
+void IRC_COMPATIBLE_MENU_ButtonCallback(u32 value, s32 flag, void *);
 void IRC_COMPATIBLE_MENU_InitScrollEffect(IrcScrollEffect *effect, u32 unused);
 void IRC_COMPATIBLE_MENU_ExitScrollEffect(IrcScrollEffect *effect);
 void IRC_COMPATIBLE_MENU_UpdateScrollEffect(IrcScrollEffect *effect);

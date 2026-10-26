@@ -239,7 +239,7 @@ void OSi_ArrangeTimer(void)
     OSAlarm *next;
     OSAlarmHandler handler;
 
-    *(volatile u16 *)0x04000106 = 0;
+    *(volatile u16 *)REG_TM1CNT_H_ADDR = 0;
     (void)OS_DisableIrqMask(0x10);
     OSi_IRQ_CHECK_FLAG |= 0x10;
 

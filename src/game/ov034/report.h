@@ -26,7 +26,7 @@ void REPORT_InitWindows(ReportWork *work);
 void REPORT_ExitWindows(ReportWork *work);
 void REPORT_InitActors(ReportWork *work);
 void REPORT_ExitActors(ReportWork *work);
-void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work);
+void REPORT_UpdateSaveAnim(struct TcbTask * taskArg, void * workArg);
 /* END mkheaders: generated region */
 
 #endif

@@ -14,6 +14,6 @@ struct Mmdl;
 
 #include "../sdk_fx.h"
 
-typedef int (*GameEventFunc)(struct GameEvent *event, u32 *state, void *work);
+typedef int (*GameEventFunc)(struct GameEvent *event, int *state, void *work);
 
 #endif

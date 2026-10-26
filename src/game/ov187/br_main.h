@@ -19,7 +19,7 @@ typedef struct BrListSceneWork BrListSceneWork;
 #include "../types.h"
 
 int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch);
-int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work);
+int BR_MAIN_Exit(void *a, int b, int c, BrMainWork *work);
 int BR_MAIN_Main(void *a, int *state, int b, BrMainWork *work);
 void BR_MAIN_InitSceneManager(BrSceneManager *mgr, const BrSceneEntry *scenes, void *owner, u32 heapId);
 int BR_MAIN_RunSceneStep(BrSceneManager *mgr);

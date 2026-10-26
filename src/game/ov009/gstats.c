@@ -87,10 +87,19 @@ typedef struct StatsSocket {
  * this object; they are kept as padding so the used fields keep their vendor
  * offsets.
  */
+/* One game of the stats session; only the fields the value helpers read are named. */
+typedef struct StatsGame {
+    int pad0[3];          /* 0x00 */
+    void *serverData;     /* 0x0C, hash of the server values */
+    int pad10[3];         /* 0x10 */
+    void *playerIndexes;  /* 0x1C, array of player index values */
+    void *teamIndexes;    /* 0x20, array of team index values */
+} StatsGame;
+
 typedef struct StatsConn {
     int pad0[2];      /* 0x00, never read */
     int inLen;        /* 0x08, bytes used in inBuff */
-    int *game;        /* 0x0C, stats game object passed to the value callbacks */
+    StatsGame *game;  /* 0x0C, stats game object passed to the value callbacks */
     int pad10;        /* 0x10, never read */
     void *requests;   /* 0x14, darray of pending serverreq_t */
     int inSize;       /* 0x18, allocated size of inBuff */
@@ -108,7 +117,12 @@ typedef struct {
     int extra0;
     int extra1;
     void *userdata;
-    void *callback;
+    union {
+        void (*getPlayer)(int, int, int, char *, void *);
+        void (*getRecord)(int, int, int, int, int, long, char *, int, void *);
+        void (*setRecord)(int, int, int, int, int, long, void *);
+        void (*result)(int, int, int, void *);
+    } callback;
 } serverreq_t;
 
 #include "gsplatformsocket.h"
@@ -139,17 +153,17 @@ void ProcessStatement(char *buff, int len);
 int ProcessInBuffer(char *buff, int len);
 void CallReqCallback(int reqindex, int success, long modified, char *data, int length);
 void ClosePendingCallbacks(void);
-int GetTeamIndex(int *game, int tnum);
-int GetPlayerIndex(int *game, int pnum);
-int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
-void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
-double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
-void PlayerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+int GetTeamIndex(StatsGame *game, int tnum);
+int GetPlayerIndex(StatsGame *game, int pnum);
+int ServerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double ServerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void *ServerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+void TeamOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double TeamOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void TeamOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
+void PlayerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index);
+double PlayerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index);
+void PlayerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index);
 
 extern struct StatsSocket gGstatsSocket;
 extern struct StatsConn gGstatsConn;
@@ -178,14 +192,14 @@ extern char gGstatsPlayerOpFormat[];
 /*
  * sdk:      PlayerOpString (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void PlayerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void PlayerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
     OS_SPrintf(buf, gGstatsPlayerOpFormat, name, GetPlayerIndex(game, index));
     ServerOpString(game, buf, func, value, index);
 }
 
-double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double PlayerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     char fullname[64];
 
@@ -196,7 +210,7 @@ double PlayerOpFloat(int *game, char *name, double *(*func)(void *, char *, void
 /*
  * sdk:      PlayerOpInt (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+void PlayerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
     OS_SPrintf(buf, gGstatsPlayerOpFormat, name, GetPlayerIndex(game, index));
@@ -206,7 +220,7 @@ void PlayerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), in
 /*
  * sdk:      TeamOpString (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void TeamOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
     OS_SPrintf(buf, gGstatsTeamOpFormat, name, GetTeamIndex(game, index));
@@ -216,7 +230,7 @@ void TeamOpString(int *game, char *name, void *(*func)(void *, char *, void *), 
 /*
  * sdk:      TeamOpFloat (gstats.o)
  */
-double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double TeamOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     char fullname[64];
 
@@ -227,7 +241,7 @@ double TeamOpFloat(int *game, char *name, double *(*func)(void *, char *, void *
 /*
  * sdk:      TeamOpInt (libdwcgsgstats.TWL.HYB.a(gstats.o))
  */
-void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+void TeamOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
     OS_SPrintf(buf, gGstatsTeamOpFormat, name, GetTeamIndex(game, index));
@@ -237,7 +251,7 @@ void TeamOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int 
 /*
  * sdk:      ServerOpString (gstats.o)
  */
-void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
+void *ServerOpString(StatsGame *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     void *ret;
 
@@ -245,16 +259,16 @@ void *ServerOpString(int *game, char *name, void *(*func)(void *, char *, void *
         game = gGstatsConn.game;
     if (game == 0)
         return value;
-    ret = func((void *)game[3], name, value);
+    ret = func(game->serverData, name, value);
     if (ret != 0)
         return ret;
-    return BucketNew((void *)game[3], name, 2, value);
+    return BucketNew(game->serverData, name, 2, value);
 }
 
 /*
  * sdk:      ServerOpFloat (gstats.o)
  */
-double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
+double ServerOpFloat(StatsGame *game, char *name, double *(*func)(void *, char *, void *), double value, int index)
 {
     double *ret;
 
@@ -263,9 +277,9 @@ double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void
     if (game == 0)
         ret = &value;
     else {
-        ret = func((void *)game[3], name, &value);
+        ret = func(game->serverData, name, &value);
         if (ret == 0)
-            ret = BucketNew((void *)game[3], name, 1, &value);
+            ret = BucketNew(game->serverData, name, 1, &value);
     }
     return *ret;
 }
@@ -273,7 +287,7 @@ double ServerOpFloat(int *game, char *name, double *(*func)(void *, char *, void
 /*
  * sdk:      ServerOpInt (gstats.o)
  */
-int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
+int ServerOpInt(StatsGame *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     int *ret;
 
@@ -282,9 +296,9 @@ int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int
     if (game == 0)
         ret = &value;
     else {
-        ret = func((void *)game[3], name, &value);
+        ret = func(game->serverData, name, &value);
         if (ret == 0)
-            ret = BucketNew((void *)game[3], name, 0, &value);
+            ret = BucketNew(game->serverData, name, 0, &value);
     }
     return *ret;
 }
@@ -292,25 +306,25 @@ int ServerOpInt(int *game, char *name, int *(*func)(void *, char *, void *), int
 /*
  * sdk:      GetPlayerIndex (gstats.o)
  */
-int GetPlayerIndex(int *game, int pnum)
+int GetPlayerIndex(StatsGame *game, int pnum)
 {
     if (game == 0)
         game = gGstatsConn.game;
     if (game == 0)
         return pnum;
-    return *(int *)ArrayNth((void *)game[7], pnum);
+    return *(int *)ArrayNth(game->playerIndexes, pnum);
 }
 
 /*
  * sdk:      GetTeamIndex (gstats.o)
  */
-int GetTeamIndex(int *game, int tnum)
+int GetTeamIndex(StatsGame *game, int tnum)
 {
     if (game == 0)
         game = gGstatsConn.game;
     if (game == 0)
         return tnum;
-    return *(int *)ArrayNth((void *)game[8], tnum);
+    return *(int *)ArrayNth(game->teamIndexes, tnum);
 }
 
 /*
@@ -344,19 +358,19 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
     if (reqindex < 0 || reqindex >= ArrayLength(gGstatsConn.requests))
         return;
     req = (serverreq_t *)ArrayNth(gGstatsConn.requests, reqindex);
-    if (req->callback != 0) {
+    if (req->callback.getPlayer != 0) {
         switch (req->type) {
         case 0:
-            ((void (*)(int, int, int, char *, void *))req->callback)(req->localid, req->profileid, success, data, req->userdata);
+            req->callback.getPlayer(req->localid, req->profileid, success, data, req->userdata);
             break;
         case 1:
-            ((void (*)(int, int, int, int, int, long, char *, int, void *))req->callback)(req->localid, req->profileid, req->extra0, req->extra1, success, modified, data, length, req->userdata);
+            req->callback.getRecord(req->localid, req->profileid, req->extra0, req->extra1, success, modified, data, length, req->userdata);
             break;
         case 2:
-            ((void (*)(int, int, int, int, int, long, void *))req->callback)(req->localid, req->profileid, req->extra0, req->extra1, success, modified, req->userdata);
+            req->callback.setRecord(req->localid, req->profileid, req->extra0, req->extra1, success, modified, req->userdata);
             break;
         case 3:
-            ((void (*)(int, int, int, void *))req->callback)(req->localid, req->profileid, success, req->userdata);
+            req->callback.result(req->localid, req->profileid, success, req->userdata);
             break;
         }
     }

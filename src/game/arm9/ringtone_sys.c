@@ -78,9 +78,9 @@ void RINGTONE_SYS_RegisterSleepCallbacks(void);
 
 int RINGTONE_SYS_TickRing(Ringtone *ringtone);
 
-void RINGTONE_SYS_OnSleep(void);
+void RINGTONE_SYS_OnSleep(void *unused0);
 
-void RINGTONE_SYS_OnWake(void);
+void RINGTONE_SYS_OnWake(void *unused0);
 
 void RINGTONE_SYS_StartRing(Ringtone *ringtone);
 
@@ -98,7 +98,7 @@ void RINGTONE_SYS_HandleRingTimeout(Ringtone *ringtone);
  */
 Ringtone *RINGTONE_SYS_Create(u32 heapId, struct Fader *volumeFader)
 {
-    Ringtone *ringtone = GFL_HEAP_Alloc(heapId, 0xc, 1, sRingtoneSysFileName, 0x72);
+    Ringtone *ringtone = GFL_HEAP_Alloc(heapId, sizeof(*ringtone), 1, sRingtoneSysFileName, 0x72);
 
     ringtone->ringFramesLeft = 0;
     ringtone->volumeFader = volumeFader;
@@ -137,7 +137,7 @@ void RINGTONE_SYS_Stop(Ringtone *ringtone)
 void RINGTONE_SYS_RegisterSleepCallbacks(void)
 {
     if (gRingtone != 0) {
-        UI_SetResumeAndSuspendHooks((UiCb)RINGTONE_SYS_OnSleep, (UiCb)RINGTONE_SYS_OnWake, gRingtone);
+        UI_SetResumeAndSuspendHooks(RINGTONE_SYS_OnSleep, RINGTONE_SYS_OnWake, gRingtone);
     }
 }
 
@@ -160,13 +160,13 @@ int RINGTONE_SYS_TickRing(Ringtone *ringtone)
 }
 
 /* Sleep callback: posts the sleep event to the global ringtone (a pool word tail call). */
-void RINGTONE_SYS_OnSleep(void)
+void RINGTONE_SYS_OnSleep(void *unused0)
 {
     RINGTONE_SYS_PostEvent(gRingtone, RINGTONE_EVENT_SLEEP);
 }
 
 /* Wake callback: posts the wake event to the global ringtone (a pool word tail call). */
-void RINGTONE_SYS_OnWake(void)
+void RINGTONE_SYS_OnWake(void *unused0)
 {
     RINGTONE_SYS_PostEvent(gRingtone, RINGTONE_EVENT_WAKE);
 }

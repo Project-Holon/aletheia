@@ -704,7 +704,7 @@ void BTLV_GAUGE_UpdateHpBarPixels(BtlvGaugeSlot *slot)
  */
 void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx)
 {
-    char *slotFlagBase = (char *)work + 0xb0;
+    char *slotFlagBase = (char *)&work->slots[0].flags;
     int slotOffset = slotIdx * sizeof(BtlvGaugeSlot);
     void *task;
 
@@ -716,11 +716,19 @@ void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx)
         BTLV_GAUGE_PlaceSlot(work, slotIdx, &pt);
         ((BtlvGaugeSlotFlags *)(slotFlagBase + slotOffset))->occupied = 0;
     }
+#ifdef __MWERKS__
     task = *(void **)((char *)work + slotOffset + 0xbc);
     if (task != 0) {
         TCB_DeleteTask(task);
         *(void **)((char *)work + slotOffset + 0xbc) = 0;
     }
+#else
+    task = work->slots[slotIdx].slideTask;
+    if (task != 0) {
+        TCB_DeleteTask(task);
+        work->slots[slotIdx].slideTask = 0;
+    }
+#endif
 }
 
 

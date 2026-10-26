@@ -36,7 +36,7 @@ struct WifiloginState {
 
 /* Per-frame state-machine context threaded through the login steps. */
 struct WifiloginWork {
-    unsigned int stateHandler;  /* 0x00: current step callback */
+    void (*stateHandler)(unsigned char *); /* 0x00: current step callback */
     unsigned char pad04[8];     /* 0x04 */
     unsigned short heapId;      /* 0x0C: child heap of the login */
     unsigned char pad0E[0x12];  /* 0x0E */
@@ -52,6 +52,20 @@ struct WifiloginWork {
     void *userdata;             /* 0x44: account/user data block */
 };
 
+/* Palette fade state of the mode 0 display (0x970 bytes at WifiloginDisp + 0x10, also the work of the
+ * per-frame palette task). */
+struct WifiloginPalTask {
+    void *frameTask;            /* 0x000: per-frame task (GFL_USE_AddMainTask) */
+    unsigned int ready;         /* 0x004: set once the palette is uploaded */
+    unsigned short table[15][16]; /* 0x008: colour tables */
+    unsigned short frames[60][16]; /* 0x1E8: blended frames (colours 4 to 10 are uploaded) */
+    short index;                /* 0x968: frame index (0..59) */
+    unsigned char pad96A;       /* 0x96A */
+    unsigned char toggle;       /* 0x96B: toggles the palette upload */
+    unsigned char layer;        /* 0x96C: BG layer scrolled with the upload */
+    unsigned char pad96D[3];    /* 0x96D */
+};
+
 /* Background/actor display object (0x14BC bytes), owned by WifiloginWork.disp. */
 struct WifiloginDisp {
     unsigned int charBank0;     /* 0x0000: obj char handle bank 0 */
@@ -59,16 +73,7 @@ struct WifiloginDisp {
     unsigned int mode;          /* 0x0008: display mode (0 or 1) */
     unsigned short heapId;      /* 0x000C: child heap of the display */
     unsigned char pad0E[2];     /* 0x000E */
-    void *frameTask;            /* 0x0010: per-frame task (GFL_USE_AddMainTask) */
-    unsigned int paletteReady;  /* 0x0014: set once the palette is uploaded */
-    unsigned char pad18[0x950]; /* 0x0018: palette blend buffers and colour tables */
-    short palIndex;             /* 0x0968: palette index (0..59) */
-    unsigned char pad96A;       /* 0x096A */
-    unsigned char palToggle;    /* 0x096B: toggles the palette upload */
-    unsigned char palLayer;     /* 0x096C: BG palette layer id */
-    unsigned char pad96D[0xF];  /* 0x096D */
-    unsigned char palDone;      /* 0x097C: palette upload finished flag */
-    unsigned char pad97D[3];    /* 0x097D */
+    struct WifiloginPalTask pal; /* 0x0010 */
     void *unit;                 /* 0x0980: CLACT unit */
     void *vblankTask;           /* 0x0984: CLACT vblank task */
     void *hblankTask;           /* 0x0988: hblank task */
@@ -87,14 +92,16 @@ struct WifiloginDisp {
 
 /* Task sub-object at WifiloginMsg + 0x54, returned by the dialog creator and
  * kept in WifiloginWork.task. Its 0x1C slot aliases WifiloginMsg.taskMenuRes. */
+/* One task menu entry (12 bytes on the DS). */
+struct WifiloginMsgItem {
+    void *strbuf;               /* 0x00: label buffer */
+    unsigned short color;       /* 0x04: label colour */
+    unsigned char pad06[6];     /* 0x06 */
+};
+
 struct WifiloginMsgTask {
     unsigned int kind;          /* 0x00: 0 = task menu, 1 = yes/no dialog */
-    void *strbufA;              /* 0x04: label buffer A */
-    unsigned short colorA;      /* 0x08: colour of label A */
-    unsigned char pad0A[6];     /* 0x0A */
-    void *strbufB;              /* 0x10: label buffer B */
-    unsigned short colorB;      /* 0x14: colour of label B */
-    unsigned char pad16[6];     /* 0x16 */
+    struct WifiloginMsgItem items[2]; /* 0x04: the two task menu entries (label buffer and colour) */
     void *taskMenuRes;          /* 0x1C: task menu resources (aliases WifiloginMsg.taskMenuRes) */
     void *taskMenu;             /* 0x20: open task menu */
     void *yesNo;                /* 0x24: yes/no dialog */
@@ -113,23 +120,13 @@ struct WifiloginMsg {
     void *window2;              /* 0x30: secondary window */
     void *window3;              /* 0x34: message window */
     void *printStream;          /* 0x38: print stream */
-    unsigned char pad3C[8];     /* 0x3C: print buffer used through raw offsets */
+    unsigned char printCtrl[8]; /* 0x3C: PRINTSYS_CTRL block */
     void *tcbl;                 /* 0x44: text control block list */
     void *printsysQue;          /* 0x48: print queue */
     unsigned short heapId;      /* 0x4C: child heap of the dialog */
     unsigned char pad4E[2];     /* 0x4E */
     unsigned int mode;          /* 0x50: dialog mode */
-    unsigned int taskKind;      /* 0x54: task sub-object kind */
-    void *taskStrbufA;          /* 0x58: task label buffer A */
-    unsigned short taskColorA;  /* 0x5C: task colour A */
-    unsigned char pad5E[6];     /* 0x5E */
-    void *taskStrbufB;          /* 0x64: task label buffer B */
-    unsigned short taskColorB;  /* 0x68: task colour B */
-    unsigned char pad6A[6];     /* 0x6A */
-    void *taskMenuRes;          /* 0x70: task menu resources */
-    void *taskMenu;             /* 0x74: open task menu */
-    void *taskYesNo;            /* 0x78: yes/no dialog */
-    int taskAnswer;             /* 0x7C: task cursor position / answer */
+    struct WifiloginMsgTask task; /* 0x54: task sub-object (kind, entries, menu, yes/no, answer) */
     void *timeIcon;             /* 0x80: time icon */
 };
 
@@ -138,7 +135,7 @@ struct WifiloginMsgWork {
     void *task;                 /* 0x00: WifiloginMsgTask to update */
     void *disp;                 /* 0x04: WifiloginDisp display object */
     void *message;              /* 0x08: WifiloginMsg dialog object */
-    void *stateHandler;         /* 0x0C: current step callback */
+    void (*stateHandler)(unsigned char *); /* 0x0C: current step callback */
     struct WifiloginState *state; /* 0x10: login session object */
     unsigned short heapId;      /* 0x14: child heap of the task */
     unsigned char pad16[2];     /* 0x16 */

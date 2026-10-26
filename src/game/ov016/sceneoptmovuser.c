@@ -107,10 +107,10 @@ void DWCi_SceneOptMovUser(void)
     MIi_CpuClear16(0, buf, sizeof(buf));
     MIi_CpuCopy16(info->name, buf, info->nameLength * 2);
     DWCi_FNTlDrawRect(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
-    DWCi_FNTlRenewBg((sptr)bg);
+    DWCi_FNTlRenewBg(bg);
     DWCi_MOVlChangeCallback(cbMov);
     DWCi_WINlInitEx(0x1D, 4, 0, -1, 0);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
@@ -127,20 +127,20 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene((uptr)procInit2);
+        DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_WINlGet() == -2)
         return;
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 
@@ -163,7 +163,7 @@ static void procScene(void)
     }
     DWCi_MOVlChangeCallback(0);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 /*
@@ -197,7 +197,7 @@ static void endScene(void)
     if (sSceneoptmovuserError[1] == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -210,7 +210,7 @@ static void endScene1(void)
         DWCi_MOVlAdmitChild();
     else
         DWCi_MOVlEnd();
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 static void endScene2(void)
@@ -227,15 +227,15 @@ static void endScene2(void)
     }
     DWCi_SetParam_(0, 1);
     if (sSceneoptmovuserError[0]) {
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMovFailure);
+        DWCi_ChangeScene(DWCi_SceneOptMovFailure);
         return;
     }
     if (sSceneoptmovuserError[1] == 0) {
         DWCi_GXlInvisible(1, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
+        DWCi_ChangeScene(DWCi_SceneOptMenu);
         return;
     }
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMovComm);
+    DWCi_ChangeScene(DWCi_SceneOptMovComm);
 }
 
 static void cbMov(int state)

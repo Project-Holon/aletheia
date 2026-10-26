@@ -34,7 +34,7 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
 void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
 int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work);
-void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work);
+void INTRUDE_COMM_ScanCallback(void *whPipe, void *workArg, u16 linkLevel);
 void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, struct FieldMap *fieldObjectAddr);
 void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work);
 void INTRUDE_COMM_OnSessionStarted(void *userArg);
@@ -51,7 +51,7 @@ IntrudeMemberRecord *INTRUDE_COMM_GetMemberRecord(int index, IntrudeCommSys *wor
 IntrudeStatusRecord *INTRUDE_COMM_GetStatusRecord(int index, IntrudeCommSys *work);
 u8 *INTRUDE_COMM_GetWorkArea(int unused, IntrudeCommSys *work);
 int INTRUDE_COMM_IsLinked(void);
-void INTRUDE_COMM_RecvShutdownRequest(int netId, int size, int data, IntrudeCommSys *work, unsigned int handle);
+void INTRUDE_COMM_RecvShutdownRequest(int netId, int size, int data, IntrudeCommSys *work, void *handle);
 int INTRUDE_COMM_SendShutdownRequest(IntrudeCommSys *work);
 void INTRUDE_COMM_RecvMemberCount(unsigned int netId, int size, u8 *data, IntrudeCommSys *work);
 int INTRUDE_COMM_SendMemberCount(IntrudeCommSys *work, int memberCount, ...);
@@ -98,7 +98,7 @@ int INTRUDE_CMD_SendMemberValue(void *unused, int value, int sendMask);
 void INTRUDE_CMD_RecvProposal(int netId, int size, IntrudeMemberRecord *record, IntrudeCommSys *w);
 int INTRUDE_CMD_SendProposal(IntrudeCommSys *w, IntrudeSession *session);
 void INTRUDE_CMD_RecvProposalReply(int netId, int size, int *value, IntrudeCommSys *w);
-int INTRUDE_CMD_SendProposalReply(int unused, int value, int netId, ...);
+int INTRUDE_CMD_SendProposalReply(IntrudeCommSys *unused, int value, int netId, ...);
 void INTRUDE_CMD_RecvResultRecord(int netId, int size, IntrudeResultRecord *record, IntrudeCommSys *w);
 int INTRUDE_CMD_SendResultRecord(IntrudeCommSys *w, IntrudeSession *session);
 void INTRUDE_CMD_RecvReadyNotice(int netId, int size, int unused, IntrudeCommSys *w);
@@ -127,9 +127,9 @@ void INTRUDE_COMM_RecvUnionInfoRequest(int netId, int size, int data, IntrudeCom
 int INTRUDE_COMM_SendUnionInfoRequest(IntrudeCommSys *work, u8 netId);
 void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys *work);
 int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info);
-void INTRUDE_COMM_RecvReturnResult(int netId, int size, int result, IntrudeCommSys *work);
+void INTRUDE_COMM_RecvReturnResult(int netId, int size, void *result, IntrudeCommSys *work);
 int INTRUDE_COMM_SendReturnResult(void *result, u8 netId);
-void INTRUDE_COMM_RecvReturnPending(int netId, int size, int data, IntrudeCommSys *work);
+void INTRUDE_COMM_RecvReturnPending(int netId, int size, void *data, IntrudeCommSys *work);
 int INTRUDE_COMM_SendReturnPending(const void *pending, u8 netId);
 void INTRUDE_COMM_RecvPageRequest(int netId, int size, const IntrudePageRequest *request, IntrudeCommSys *work);
 int INTRUDE_COMM_SendPageRequest(IntrudeCommSys *work, u8 netId, const void *request);
@@ -247,7 +247,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
 int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param, IntrudePartyWork *work);
 int INTRUDE_LINK_ProcExit(void *procWork, int unused1, int unused2, IntrudeLinkProc *linkProc);
 struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *procArg);
-int INTRUDE_LINK_EventMain(struct GameEvent *event, u32 *state, IntrudeLinkEventWork *eventWork);
+int INTRUDE_LINK_EventMain(struct GameEvent *event, int *state, void *work);
 u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 int INTRUDE_COMM_RequestPartnerSymbolPage(IntrudeCommSys *linkState, u8 value);
 u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(IntrudeCommSys *linkState);

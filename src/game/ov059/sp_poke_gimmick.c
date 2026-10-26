@@ -267,7 +267,7 @@ struct GameEvent *SP_POKE_GIMMICK_StartMove(struct GameSystem *gameSystem, int s
     work->moveFrames = frames;
     work->moveElapsed = 0;
     work->moveBump = bump;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SP_POKE_GIMMICK_MoveEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_MoveEventMain, 0);
     work->side = side;
     return event;
 }
@@ -306,7 +306,7 @@ struct GameEvent *SP_POKE_GIMMICK_StartWaitAnimeProgress(struct GameSystem *game
     struct GameEvent *event;
 
     work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SP_POKE_GIMMICK_WaitAnimeProgressEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeProgressEventMain, 0);
     work->side = side;
     return event;
 }
@@ -318,7 +318,7 @@ struct GameEvent *SP_POKE_GIMMICK_StartWaitAnimeEnd(struct GameSystem *gameSyste
     struct GameEvent *event;
 
     work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SP_POKE_GIMMICK_WaitAnimeEndEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_WaitAnimeEndEventMain, 0);
     work->side = side;
     return event;
 }
@@ -442,7 +442,7 @@ struct GameEvent *SP_POKE_GIMMICK_StartSwapNpc(struct GameSystem *gameSystem, Ve
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 1);
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, SP_POKE_GIMMICK_EFFECT_MODEL, i, 0);
     }
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SP_POKE_GIMMICK_SwapNpcEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, SP_POKE_GIMMICK_SwapNpcEventMain, 0);
 }
 
 /*
@@ -463,7 +463,7 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *ev
     struct EventData *eventData;
     u16 npcCount;
     u32 zoneId;
-    uptr eventFlagWork;
+    void *eventFlagWork;
     struct Mmdl *mmdl;
     int result;
 
@@ -481,7 +481,7 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *ev
         npcCount = EVENTDATA_SYSTEM_GetNpcCount((struct EventDataSystem *)eventData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         if (npcCount != 0) {
-            eventFlagWork = (uptr)GAME_DATA_GetEventWork(gameData);
+            eventFlagWork = GAME_DATA_GetEventWork(gameData);
             mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, (struct MmdlHeader *)(void *)EVENTDATA_SYSTEM_GetNpcHeaders((struct EventDataSystem *)eventData), zoneId, npcCount, (void *)eventFlagWork, addObjectId);
             if (mmdl != 0)
                 FLDMMDL_OnMoveBitMovePause(mmdl);

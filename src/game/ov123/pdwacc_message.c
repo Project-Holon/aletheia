@@ -201,7 +201,7 @@ void PDWACC_MESSAGE_DeleteButtonManager(PdwaccMessageWork *work)
 PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
 {
     PdwaccMessageWork *work;
-    work = GFL_HEAP_Alloc(heap, 0xb4, 1, d_021DABA8, 0x9b);
+    work = GFL_HEAP_Alloc(heap, sizeof(PdwaccMessageWork), 1, d_021DABA8, 0x9b);
     work->heap = heap;
     BMP_WIN_Init(work->heap);
     GF_FONT_InitTextColor();
@@ -213,9 +213,9 @@ PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
     work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)bank, work->heap);
     work->wordSet = WORDSET_CreateDefault(work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heap);
-    work->bg1Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)1, 12, 0, work->heap);
-    work->bg5Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)6, 12, 0, work->heap);
+    work->bg1Frame = BMP_MENUWORK_LoadFrameGfx(1, 12, 0, work->heap);
+    work->bg5Frame = BMP_MENUWORK_LoadFrameGfx(5, 12, 0, work->heap);
+    work->bg6Frame = BMP_MENUWORK_LoadFrameGfx(6, 12, 0, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 352, 32, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 352, 32, work->heap);
     return work;

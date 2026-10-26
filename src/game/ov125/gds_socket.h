@@ -20,7 +20,7 @@ void *GDS_SOCKET_GetReplyUnlocked(void);
 int GDS_SOCKET_GetReplySizeUnlocked(void);
 int GDS_SOCKET_GetErrorUnlocked(void);
 char *GDS_SOCKET_Alloc(int size);
-void GDS_SOCKET_Free(int ptr);
+void GDS_SOCKET_Free(void *ptr);
 void GDS_SOCKET_Lock(void);
 void GDS_SOCKET_Unlock(void);
 int GDS_SOCKET_InitLock(void);

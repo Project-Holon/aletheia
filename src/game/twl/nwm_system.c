@@ -28,21 +28,22 @@
  */
 #include "../types.h"
 #include "../sdk_stdarg.h"
+#include "nwm_system_types.h"
 
 typedef struct Msg {
     u16 type;
     u16 sub;
-    void (*cb)(struct Msg *);
+    NWMCallbackFunc cb;
     u32 w08;
     u32 w0c;
     u32 w10;
 } Msg;
 
-extern void DC_InvalidateRange(u32, u32);
-extern void DC_StoreRange(u32, u32);
+extern void DC_InvalidateRange(void *, u32);
+extern void DC_StoreRange(void *, u32);
 struct PMiGenCallbackInfo;
 extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
-extern void MI_CpuFill8(u32, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 #include "../arm9/os_ownerinfo.h"
 #include "../arm9/pm.h"
 #include "../arm9/os_terminate_processor.h"
@@ -51,7 +52,7 @@ extern u32 NWMi_PostExitInfo[];
 extern u32 NWMi_PreSleepInfo[];
 extern u32 OSi_SystemWorkVblankCount[];
 
-u32 NWMi_GetSystemWork(void);
+struct NwmSystemWork *NWMi_GetSystemWork(void);
 void NWMi_ClearFifoRecvFlag(void);
 void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err);
 u32 NWM_GetState(void);
@@ -63,30 +64,30 @@ void NWMi_DeleteSleepCallback(void);
 void NwmSleepCallback(void);
 #include "nwm_init.h"
 
-u32 NWMi_GetSystemWork(void) {
-    return NWMi_SysWorkPtr[0];
+struct NwmSystemWork *NWMi_GetSystemWork(void) {
+    return *(struct NwmSystemWork **)&NWMi_SysWorkPtr[0];
 }
 
 void NWMi_ClearFifoRecvFlag(void) {
     u8 val;
     u8 *r5;
     u32 r4;
-    uptr base = NWMi_SysWorkPtr[0];
+    struct NwmSystemWork *base = *(struct NwmSystemWork **)&NWMi_SysWorkPtr[0];
     if (base != 0) {
-        r5 = (u8 *)*(u32 *)(base + 0x2274);
+        r5 = base->recvFlag;
         r4 = 1;
-        DC_InvalidateRange((uptr)r5, r4);
+        DC_InvalidateRange(r5, r4);
         val = r5[0];
         if (val & 1) {
             r5[0] = val & 0xFE;
-            DC_StoreRange((uptr)r5, r4);
+            DC_StoreRange(r5, r4);
         }
     }
 }
 
 void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
-    uptr base = NWMi_SysWorkPtr[0];
-    void (*handler)(Msg *);
+    struct NwmSystemWork *base = *(struct NwmSystemWork **)&NWMi_SysWorkPtr[0];
+    NWMCallbackFunc handler;
     u32 type;
     if (base == 0) {
         return;
@@ -100,10 +101,10 @@ void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
     if (msg->type >= 0x14) {
         return;
     }
-    DC_InvalidateRange(*(u32 *)(base + 0x227C), 0x100);
-    DC_InvalidateRange(*(u32 *)(base + 0x2278), 0xC0);
-    if ((uptr)msg != *(u32 *)(base + 0x227C)) {
-        DC_InvalidateRange((uptr)msg, 0x100);
+    DC_InvalidateRange(base->cmdBuf, 0x100);
+    DC_InvalidateRange(base->status, 0xC0);
+    if (msg != base->cmdBuf) {
+        DC_InvalidateRange(msg, 0x100);
     }
     type = msg->type;
     if ((type == 3 && msg->sub != 0) || (type == 4 && msg->sub == 0) || type == 0x13) {
@@ -118,35 +119,35 @@ void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
             PM_DeletePostExitCallback((struct PMiGenCallbackInfo *)NWMi_PostExitInfo);
         }
         type = msg->type;
-        handler = *(void (**)(Msg *))(base + type * 4 + 0x2284);
+        handler = base->callback[type];
         if (type == 7) {
-            DC_InvalidateRange(msg->w10, msg->w0c);
+            DC_InvalidateRange((void *)(uptr)msg->w10, msg->w0c);
         }
         if (handler != 0) {
             handler(msg);
         }
     }
-    MI_CpuFill8((uptr)msg, 0, 0x100);
-    DC_StoreRange((uptr)msg, 0x100);
+    MI_CpuFill8(msg, 0, 0x100);
+    DC_StoreRange(msg, 0x100);
     if (base != 0) {
         NWMi_ClearFifoRecvFlag();
     }
 }
 
 u32 NWM_GetState(void) {
-    u32 base = NWMi_GetSystemWork();
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
     u32 r1 = 0;
     if (base != 0) {
-        u32 ptr = *(u32 *)(base + 0x2278);
+        struct NwmStatus *ptr = base->status;
         DC_InvalidateRange(ptr, 2);
-        r1 = *(u16 *)(ptr + 0x24);
+        r1 = ptr->state;
     }
     return r1;
 }
 
 /* Returns 0 when the current state is one of the n listed values, 3 when it is not. */
 u32 NWMi_CheckState(u32 n, ...) {
-    u32 base = NWMi_GetSystemWork();
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
     u32 st = NWMi_CheckInitialized();
     u32 cur;
     u32 ret;
@@ -154,8 +155,8 @@ u32 NWMi_CheckState(u32 n, ...) {
     if (st != 0 && st != 2) {
         return st;
     }
-    DC_InvalidateRange(*(u32 *)(base + 0x2278) + 0x24, 2);
-    cur = *(u16 *)(*(u32 *)(base + 0x2278) + 0x24);
+    DC_InvalidateRange(&base->status->state, 2);
+    cur = base->status->state;
     ret = 3;
     va_start(ap, n);
     while (n != 0) {
@@ -166,9 +167,9 @@ u32 NWMi_CheckState(u32 n, ...) {
 }
 
 u32 NWM_GetAllowedChannel(void) {
-    u32 base = NWMi_GetSystemWork();
-    u32 ptr = *(u32 *)(base + 0x2278);
-    return *(u16 *)(ptr + 0x9E);
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
+    struct NwmStatus *ptr = base->status;
+    return ptr->allowedChannel;
 }
 
 /*

@@ -9,6 +9,7 @@ struct MsgBank;
 struct GfFont;
 struct PrintSys;
 struct ClactActor;
+struct BmpMenuList;
 typedef struct ShortcutMenu ShortcutMenu;
 
 #include "../types.h"
@@ -28,8 +29,8 @@ void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int 
 void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu);
 int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu);
 int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu);
-void SHORTCUT_MENU_ListMoveCallback(void *list);
-void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1);
+void SHORTCUT_MENU_ListMoveCallback(struct BmpMenuList *list);
+void SHORTCUT_MENU_UpdateCursorBg(struct BmpMenuList *list, int unused0, int unused1);
 void SHORTCUT_MENU_ClampListWindow(u16 *scroll, u16 *cursor, u16 itemCount);
 void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId);
 int SHORTCUT_MENU_DeleteList(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor);

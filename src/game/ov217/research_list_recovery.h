@@ -8,8 +8,8 @@ struct ListViewState;
 
 #include "../types.h"
 
-u32 ListViewState_Create(u32 heapId);
-void ListViewState_Destroy(void *state);
+struct ListViewState *ListViewState_Create(u32 heapId);
+void ListViewState_Destroy(struct ListViewState *state);
 void ListViewState_Reset(struct ListViewState *state);
 u32 ListViewState_GetMode(struct ListViewState *state);
 u32 ListViewState_GetScrollX(struct ListViewState *state);

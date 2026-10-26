@@ -51,6 +51,7 @@ struct SoundSys;
 struct Strbuf;
 
 #include "../types.h"
+#include "../ov186/br_proc_sys_types.h"
 
 /* One screen of the recorder: how to build its work block, which proc to push, how to free it. */
 typedef struct BrSceneEntry {
@@ -75,22 +76,12 @@ typedef struct BrSceneManager {
     unsigned currentScene;
 } BrSceneManager;
 
-/* Parameter block the caller passes in as the proc's argument. */
-typedef struct BrLaunchParam {
-    u32 kind;
-    struct GameData *gameData;
-} BrLaunchParam;
+#include "br_launch_types.h"
 
 /* Work block of the recorder proc, 0x17F4 bytes. */
 typedef struct BrMainWork {
     BrSceneManager sceneManager;        /* 0x0000 */
-    u8 sceneData[0x1758];               /* 0x0028 */
-    struct Strbuf *slotNames[4];        /* 0x1780 */
-    u8 unknown1790[0x34];               /* 0x1790 */
-    u32 hasRecords;                     /* 0x17C4 */
-    u8 unknown17C8[0x1C];               /* 0x17C8 */
-    u32 hidePlayerNames;                /* 0x17E4 */
-    u8 unknown17E8[8];                  /* 0x17E8 */
+    struct BrRecorderData data;         /* 0x0028 */
     BrLaunchParam *launch;              /* 0x17F0 */
 } BrMainWork;
 
@@ -98,7 +89,7 @@ typedef struct BrMainWork {
 typedef struct BrListSceneWork {
     int launchKind;
     int mode;
-    void *data;
+    struct BrRecorderData *data;
     BrLaunchParam *launch;
 } BrListSceneWork;
 
@@ -149,7 +140,7 @@ struct FieldSoundSystem;
 
 int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch);
 
-int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work);
+int BR_MAIN_Exit(void *a, int b, int c, BrMainWork *work);
 
 int BR_MAIN_Main(void *a, int *state, int b, BrMainWork *work);
 
@@ -187,19 +178,19 @@ int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch)
 }
 
 /* Free the saved-record name strings when records exist, then the scene manager and the work. */
-int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
+int BR_MAIN_Exit(void *a, int b, int c, BrMainWork *work)
 {
     int i;
-    if (work->hasRecords != 0) {
+    if (work->data.records.loaded != 0) {
         for (i = 0; i < 4; i++) {
-            struct Strbuf *name = work->slotNames[i];
+            struct Strbuf *name = work->data.records.name[i];
             if (name != 0)
                 STRBUF_Delete((struct Strbuf *)name);
         }
     }
     BR_MAIN_FreeSceneManager(&work->sceneManager);
     BATTLE_REC_FreeWork();
-    PROCSYS_FreeProcWork((void *)a);
+    PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x59);
     return 1;
 }
@@ -276,7 +267,7 @@ BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work
     list = GFL_HEAP_Alloc(heapId, sizeof(BrListSceneWork), 0, d_0220B2E4, 0x1e7);
     MI_CpuFill8(list, 0, sizeof(BrListSceneWork));
     list->launch = work->launch;
-    list->data = work->sceneData;
+    list->data = &work->data;
     if (mode == 1) list->mode = 1;
     else list->mode = 0;
     return list;
@@ -316,7 +307,7 @@ void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
     GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(30);
     if (work->launch->kind == 0) FIELD_SOUND_SYSTEM_FadeVolume(soundSys, 64, 0);
-    work->hidePlayerNames = setup->bits.recordComplete;
+    work->data.hidePlayerNames = setup->bits.recordComplete;
     GFL_HEAP_Free(setup->playerStatus[0]);
     BTL_SETUP_ClearWithSlots(setup);
     GFL_HEAP_Free(setup);

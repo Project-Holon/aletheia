@@ -122,14 +122,14 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
     SoundObj *obj;
 
     iss3dsSys = (void *)ISS_SYS_Get3dsSys((void *)GAMESYSTEM_GetIssSystem((struct GameSystem *)FIELDMAP_GetGameSystem((void *)fieldMap)));
-    obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
+    obj = GFL_HEAP_Alloc(heapId, sizeof(*obj), 0, gSoundObjFileName, 0x3c);
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
     obj->iss3dsSys = iss3dsSys;
     obj->sourceId = sourceId;
     obj->anime = 0;
     obj->target = (G3dObjectStatus *)pos;
-    if (ISS_3DS_SYS_IsSourceActive( (Iss3dsSys *)((sptr)iss3dsSys), sourceId) == 0) {
+    if (ISS_3DS_SYS_IsSourceActive( (Iss3dsSys *)(iss3dsSys), sourceId) == 0) {
         ISS_3DS_SYS_StartSource(iss3dsSys, sourceId, startArg0, startArg1);
     }
     return obj;
@@ -139,7 +139,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
 SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, G3dObjectStatus *target)
 {
     u32 heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap);
-    SoundObj *obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x61);
+    SoundObj *obj = GFL_HEAP_Alloc(heapId, sizeof(*obj), 0, gSoundObjFileName, 0x61);
 
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
@@ -210,7 +210,7 @@ void SOUND_OBJ_ApplyPosition(SoundObj *obj)
     if (obj->anime != 0 && ICA_ANIME_GetTranslate((struct IcaAnime *)obj->anime, (VecFx32 *)&pos) == 1) {
         V3_Set(&obj->target->trans, pos.x, pos.y, pos.z);
         if (obj->iss3dsSys != 0)
-            ISS_3DS_SYS_SetSourcePos( (Iss3dsSys *)((uptr)obj->iss3dsSys), obj->sourceId, (const VecFx32 *)&pos);
+            ISS_3DS_SYS_SetSourcePos( (Iss3dsSys *)(obj->iss3dsSys), obj->sourceId, (const VecFx32 *)&pos);
     }
 }
 

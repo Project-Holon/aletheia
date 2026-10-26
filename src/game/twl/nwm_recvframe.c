@@ -42,11 +42,11 @@ typedef struct TwlWork {
 #include "../arm9/mi_dma.h"
 #include "../arm9/os_cache.h"
 #include "nwm_cmd.h"
-u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, u32 protocol);
-u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol);
-void NWMi_ReceivingFrameCallback(TwlMsg *msg);
+u32 NWM_SetReceivingFrameBuffer(NWMCallbackFunc callback, void *recvBuf, u32 recvBufSize, u32 protocol);
+u32 NWM_UnsetReceivingFrameBuffer(NWMCallbackFunc callback, u32 protocol);
+void NWMi_ReceivingFrameCallback(void *arg);
 
-u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, u32 protocol) {
+u32 NWM_SetReceivingFrameBuffer(NWMCallbackFunc callback, void *recvBuf, u32 recvBufSize, u32 protocol) {
     TwlWork *w;
     u32 r;
 
@@ -57,8 +57,8 @@ u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, 
     }
     MIi_DmaFill32(w->h2280, recvBuf, 0, recvBufSize, 1);
     DC_StoreRange(recvBuf, recvBufSize);
-    NWMi_SetCallbackTable(0xA, (uptr)NWMi_ReceivingFrameCallback);
-    NWMi_SetReceiveCallbackTable(protocol, (uptr)callback);
+    NWMi_SetCallbackTable(0xA, NWMi_ReceivingFrameCallback);
+    NWMi_SetReceiveCallbackTable(protocol, callback);
     r = NWMi_SendCommand(0xA, 3, (uptr)recvBuf, recvBufSize, protocol);
     if (r == 0) {
         r = 2;
@@ -66,7 +66,7 @@ u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, 
     return r;
 }
 
-u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol) {
+u32 NWM_UnsetReceivingFrameBuffer(NWMCallbackFunc callback, u32 protocol) {
     u32 st;
     u32 res;
 
@@ -75,7 +75,7 @@ u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol) {
     if (st != 0 && st != 2) {
         return st;
     }
-    NWMi_SetCallbackTable(0xC, (uptr)callback);
+    NWMi_SetCallbackTable(0xC, callback);
     NWMi_SetReceiveCallbackTable(protocol, 0);
     res = NWMi_SendCommand(0xC, 1, protocol);
     if (res == 0) {
@@ -84,7 +84,8 @@ u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol) {
     return res;
 }
 
-void NWMi_ReceivingFrameCallback(TwlMsg *msg) {
+void NWMi_ReceivingFrameCallback(void *arg) {
+    TwlMsg *msg = arg;
     TwlWork *w;
     u32 first;
 

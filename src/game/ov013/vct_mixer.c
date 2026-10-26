@@ -372,7 +372,7 @@ int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMask
             }
             if (nowTick > packet->playTick + 0x8B4C) {
                 channel->lastPlayedSeq = packet->seq;
-                queuedCount = (sptr)VCT_AUDIO_SetLastPacket(channel, packet);
+                queuedCount = VCT_AUDIO_SetLastPacket(channel, packet);
                 VCT_AUDIO_PeekReadyPacket(channelIndex);
                 isFirstTry = 0;
                 continue;
@@ -384,7 +384,7 @@ int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMask
             }
             channel->lastPlayedSeq = packet->seq;
             if (isFirstTry != 0 && channel->pendingSkips != 0) {
-                queuedCount = (sptr)VCT_AUDIO_SetLastPacket(channel, packet);
+                queuedCount = VCT_AUDIO_SetLastPacket(channel, packet);
                 VCT_AUDIO_PeekReadyPacket(channelIndex);
                 channel->pendingSkips--;
                 continue;

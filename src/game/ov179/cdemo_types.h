@@ -19,13 +19,6 @@ struct CdemoPaletteBlock {
     unsigned int   count;        /* 2000: byte count of data */
 };
 
-/* Loaded palette entry handed back by ARC_UTIL_LoadPaletteBlockFromHandle. */
-struct CdemoPaletteEntry {
-    unsigned char  pad0[8];
-    int            size; /* +08: byte count */
-    int            data; /* +0C: source address */
-};
-
 struct CdemoState {
     struct CdemoScript *script;            /* 0000: current script record */
     void               *arcHandle;         /* 0004: graphics archive handle */

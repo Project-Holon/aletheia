@@ -123,7 +123,7 @@ struct TheEndProcWork {
 struct TheEndGraphic {
     u8 bgData[4];
     void *clactBank;
-    u32 camera;
+    void *camera;
     void *vblankHandle;
 };
 
@@ -170,13 +170,14 @@ struct ClactSysInit;
 struct VecFx32;
 struct G3dCamera;
 #include "../arm9/g3d_camera.h"
+#include "../sdk_ioreg.h"
 int THE_END_GRAPHIC_Init(void *task, int b, int c);
 int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p);
 int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p);
 void THE_END_GRAPHIC_DummyTask(struct TcbTask *unused, void *work);
 void THE_END_GRAPHIC_LoadGraphics(unsigned short *p);
 void THE_END_GRAPHIC_Dummy(void *p);
-void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c);
+void THE_END_GRAPHIC_StartFade(int a, int b, int c);
 void THE_END_GRAPHIC_Setup3d(void);
 char *THE_END_GRAPHIC_Create(int a, u16 heap);
 void THE_END_GRAPHIC_Delete(char *p);
@@ -186,12 +187,12 @@ void THE_END_GRAPHIC_InitWindows(void *p, u16 heap);
 void THE_END_GRAPHIC_ExitWindows(void *p);
 void THE_END_GRAPHIC_Dummy2(void *p);
 void THE_END_GRAPHIC_RefreshDisplay(void *unused);
-void THE_END_GRAPHIC_InitActors(int *p, struct DispVramCfg *b, int c);
+void THE_END_GRAPHIC_InitActors(void **p, struct DispVramCfg *b, int c);
 void THE_END_GRAPHIC_DeleteActors(void *p);
 void THE_END_GRAPHIC_DrawActors(void *unused);
 void THE_END_GRAPHIC_VBlankActors(void *unused);
-void THE_END_GRAPHIC_InitCamera(int *p,u16 heap);
-void THE_END_GRAPHIC_DeleteCamera(unsigned int *p);
+void THE_END_GRAPHIC_InitCamera(void **p,u16 heap);
+void THE_END_GRAPHIC_DeleteCamera(void **p);
 extern const u16 d_021B9B9C;
 extern const TheEndBgLayerRecord d_021B9BAC[1];
 extern const u32 d_021B9C28[][2];
@@ -224,7 +225,7 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)
         GXS_LoadBGPltt(vp, 0, 2);
-    THE_END_GRAPHIC_StartFade((void *)0x10, 0, 0);
+    THE_END_GRAPHIC_StartFade(0x10, 0, 0);
     return 1;
 }
 
@@ -236,8 +237,8 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     int i;
     for (i = 0; i < sizeof(d_021B9BAC) / sizeof(d_021B9BAC[0]); i++)
         BG_SYS_FreeLayerBuf((u8)d_021B9BAC[i].id);
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u32 *)0x04001000 &= ~0xe000;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= ~0xe000;
     THE_END_GRAPHIC_Dummy(p);
     TCB_DeleteTask(((struct TheEndProcWork *)p)->vblankNode);
     PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct TheEndProcWork *)p)->printQueue));
@@ -262,13 +263,13 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
         if (++((struct TheEndProcWork *)p)->counter > 0x384) ready = 1;
         if (ready) {
             *state = 3;
-            THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
+            THE_END_GRAPHIC_StartFade(0, 0x10, 0);
         }
         break;
     case 3:
         if (!FADE_IsActive()) {
             THE_END_GRAPHIC_LoadGraphics((u16 *)p);
-            THE_END_GRAPHIC_StartFade((void *)0x10, 0, 0);
+            THE_END_GRAPHIC_StartFade(0x10, 0, 0);
             *state = 4;
         }
         break;
@@ -281,7 +282,7 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
     case 5:
         if ((KEY_GetTrg() & 0xb) || ++((struct TheEndProcWork *)p)->counter > 0x384) {
             *state = 6;
-            THE_END_GRAPHIC_StartFade(0, (void *)0x10, 0);
+            THE_END_GRAPHIC_StartFade(0, 0x10, 0);
         }
         break;
     case 6:
@@ -314,12 +315,12 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
 
 void THE_END_GRAPHIC_Dummy(void *p){}
 
-void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c)
+void THE_END_GRAPHIC_StartFade(int a, int b, int c)
 {
     if (GPOWER_GetSpecialPowerId() == 0x15)
-        FADE_Start(3, (sptr)a, (sptr)b, (sptr)c);
+        FADE_Start(3, a, b, c);
     else
-        FADE_Start(0xc, (sptr)a, (sptr)b, (sptr)c);
+        FADE_Start(0xc, a, b, c);
 }
 
 /*
@@ -329,15 +330,15 @@ void THE_END_GRAPHIC_Setup3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);
-    *(volatile u16 *)0x04000008 = *(volatile u16 *)0x04000008 & ~3;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3002) | 2;
-    *(volatile u16 *)0x04000060 &= (u16)~0x3010;
-    *(volatile u16 *)0x04000060 &= (u16)~0x3004;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
-    *(volatile u16 *)0x04000060 &= (u16)~0x3020;
+    *(volatile u16 *)REG_BG0CNT_ADDR = *(volatile u16 *)REG_BG0CNT_ADDR & ~3;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3002) | 2;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3010;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3004;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3020;
     G3X_SetFog(0, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7fff, 0x3f, 0);
-    *(volatile u32 *)0x04000580 = 0xbfff0000;
+    *(volatile u32 *)REG_VIEWPORT_ADDR = 0xbfff0000;
     for (i = 0; i < 4; i++)
         G3D_SYSTEM_SetLight((u8)i, (struct G3dLight *)d_021B9C28[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
@@ -346,12 +347,12 @@ void THE_END_GRAPHIC_Setup3d(void)
 char *THE_END_GRAPHIC_Create(int a, u16 heap)
 {
     char *p;
-    p = GFL_HEAP_Alloc(heap, 0x10, 0, d_021B9CE0, 0x1cc);
-    MI_CpuFill8(p, 0, 0x10);
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
-    *(volatile u32 *)0x04000000 &= ~0xe000;
-    *(volatile u32 *)0x04001000 &= ~0xe000;
+    p = GFL_HEAP_Alloc(heap, sizeof(struct TheEndGraphic), 0, d_021B9CE0, 0x1cc);
+    MI_CpuFill8(p, 0, sizeof(struct TheEndGraphic));
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= ~0xe000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B9C48);
     BG_SYS_SetLcdSwap(a);
@@ -360,8 +361,8 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     THE_END_GRAPHIC_InitWindows(p, heap);
-    THE_END_GRAPHIC_InitActors((int *)(p + 4), (struct DispVramCfg *)d_021B9C48, heap);
-    THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
+    THE_END_GRAPHIC_InitActors((void **)&((struct TheEndGraphic *)p)->clactBank, (struct DispVramCfg *)d_021B9C48, heap);
+    THE_END_GRAPHIC_InitCamera((void **)&((struct TheEndGraphic *)p)->camera, heap);
     ((struct TheEndGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
 }
@@ -372,21 +373,21 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
 void THE_END_GRAPHIC_Delete(char *p)
 {
     TCB_DeleteTask(((struct TheEndGraphic *)p)->vblankHandle);
-    THE_END_GRAPHIC_DeleteCamera((unsigned *)(p + 8));
-    THE_END_GRAPHIC_DeleteActors(p + 4);
+    THE_END_GRAPHIC_DeleteCamera((void **)&((struct TheEndGraphic *)p)->camera);
+    THE_END_GRAPHIC_DeleteActors(&((struct TheEndGraphic *)p)->clactBank);
     THE_END_GRAPHIC_ExitWindows(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    MI_CpuFill8(p, 0, 0x10);
+    MI_CpuFill8(p, 0, sizeof(struct TheEndGraphic));
     GFL_HEAP_Free(p);
 }
 
 void THE_END_GRAPHIC_Update(char *p)
 {
-    THE_END_GRAPHIC_DrawActors(p + 4);
+    THE_END_GRAPHIC_DrawActors(&((struct TheEndGraphic *)p)->clactBank);
     THE_END_GRAPHIC_Dummy2(p);
 }
 
@@ -394,7 +395,7 @@ void THE_END_GRAPHIC_VBlankTask(struct TcbTask *unused, void *pArg)
 {
     char * p = pArg;
     THE_END_GRAPHIC_RefreshDisplay(p);
-    THE_END_GRAPHIC_VBlankActors(p + 4);
+    THE_END_GRAPHIC_VBlankActors(&((struct TheEndGraphic *)p)->clactBank);
 }
 
 void THE_END_GRAPHIC_InitWindows(void *p, u16 heap)
@@ -421,12 +422,12 @@ void THE_END_GRAPHIC_Dummy2(void *p){}
 
 void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 
-void THE_END_GRAPHIC_InitActors(int *p, struct DispVramCfg *b, int c)
+void THE_END_GRAPHIC_InitActors(void **p, struct DispVramCfg *b, int c)
 {
-    MI_CpuFill8((void *)((sptr)p), 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);
-    p[0] = (sptr)CLACT_CreateUnit(0x80, 0, c);
-    CLACT_SetUnitDefaultRenderer((void *)p[0]);
+    p[0] = CLACT_CreateUnit(0x80, 0, c);
+    CLACT_SetUnitDefaultRenderer(p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -442,14 +443,14 @@ void THE_END_GRAPHIC_DrawActors(void *unused) { CLACT_DrawSystem(); }
 
 void THE_END_GRAPHIC_VBlankActors(void *unused) { CLACT_VBlankSystem(); }
 
-void THE_END_GRAPHIC_InitCamera(int *p,u16 heap)
+void THE_END_GRAPHIC_InitCamera(void **p,u16 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,THE_END_GRAPHIC_Setup3d);
-    *p=(sptr)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)d_021B9BE4,(struct VecFx32 *)d_021B9BD8,(struct VecFx32 *)d_021B9BF0,heap);
+    *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)d_021B9BE4,(struct VecFx32 *)d_021B9BD8,(struct VecFx32 *)d_021B9BF0,heap);
 }
 
-void THE_END_GRAPHIC_DeleteCamera(unsigned int *p)
+void THE_END_GRAPHIC_DeleteCamera(void **p)
 {
-    G3D_CAMERA_Delete((void *)(*p));
+    G3D_CAMERA_Delete(*p);
     G3D_SYSTEM_Exit();
 }

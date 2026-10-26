@@ -27,7 +27,10 @@ TSV = os.path.join(ROOT, "docs", "ORIGINAL_BUGS.tsv")
 
 # (file relative to the repo root, function or declared name or "*") -> reason.
 # Guards that are not original-bug guards.
-ALLOWLIST = {}
+ALLOWLIST = {
+    ("src/game/types.h", "BW_OFFSETOF"):
+        "definition guard: the same offset value on both builds, no behaviour difference",
+}
 
 # Rows for guards that declare nothing: (file, enclosing function or "*") -> (kind, DS, host, host same?).
 MANUAL = {

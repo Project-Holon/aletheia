@@ -7,15 +7,19 @@
 
 
 
-#include "gsync_download_types.h"
+#include "../ov123/gsync_download_types.h"
 #include "../types.h"
 /*
  * Work area of the Game Sync state proc (gsync_state.c), 0xB0 bytes.
  * GFL_HEAP_CreateChildHeap/PROCSYS_AllocProcWork allocate it in GSYNC_STATE_ProcInit.
  */
+struct GsyncStateWork;
+typedef void (*GsyncStateFunc)(struct GsyncStateWork *state);
+
 typedef struct GsyncStateWork {
     u16 heapId;                 /* 0x000, heap the child work is allocated from */
-    u8 pad_002[6];
+    u8 postData[4];             /* 0x002, four-byte request body (flag, zero) */
+    u8 pad_006[2];
     GsyncDownloadWork *downloadWork;           /* 0x008, GSYNC_DOWNLOAD work pointer, cast when passed */
     void *receivedMon;          /* 0x00C, box mon record built by POKE_TOOL_CreateFromBoxParam */
     void *httpConnection;       /* 0x010, NHTTP_RAP connection handle */
@@ -34,7 +38,7 @@ typedef struct GsyncStateWork {
     void *auxBuffer;            /* 0x044, spare allocation freed on exit */
     int boxIndex;               /* 0x048, box passed to the box save helpers */
     int slotIndex;              /* 0x04C, slot passed to the box save helpers */
-    unsigned int stateHandler;  /* 0x050, address of the next GSYNC_STATE_State* handler */
+    GsyncStateFunc stateHandler; /* 0x050, the next GSYNC_STATE_State* handler */
     u8 pad_054[12];
     int timer;                  /* 0x060, countdown timer used by the animation states */
     int blinkTimer;             /* 0x064, %110 drives the button beep */
@@ -68,22 +72,26 @@ typedef struct GsyncConn {
     int statusWord;             /* 0x000, response status read as a word */
     void *saveData;             /* 0x004, save data handle passed to the save API */
     u8 pad_008[4];
-    u16 rapState;               /* 0x00C, NHTTP RAP state */
-    u8 pad_00E[0x42];
+    union {
+        u16 rapState;           /* 0x00C, NHTTP RAP state */
+        u8 recvList[0x44];      /* 0x00C, received-list header copied from the response */
+    };
     int rapFlags;               /* 0x050, NHTTP RAP flag word */
-    u16 listFlags;              /* 0x054, received-list header flags */
-    u8 pad_056[0x2A];
-    u16 responseCode;           /* 0x080, response code of the received buffer */
-    u8 pad_082[0x146];
+    u8 rapKey[0x2C];            /* 0x054, key bytes passed to NHTTP_RAP_Create */
+    u8 pad_080[0x148];
     int state;                  /* 0x1C8, connection state 0..7 */
     u8 pad_1CC[4];
     u16 boxIndex;               /* 0x1D0, box of the request */
     u16 slotIndex;              /* 0x1D2, slot of the request */
+    u8 pad_1D4[4];
+    u8 recvData[0x80];          /* 0x1D8, file data copied from the response */
 } GsyncConn;
 
-/* Response record of the NHTTP receive buffer. */
+/* Response record of the NHTTP receive buffer (wire data, no pointers). */
 typedef struct GsyncHttpResponse {
     int resultCode;             /* 0x00 */
+    u8 pad_04[0x7C];
+    u16 responseCode;           /* 0x80, response code of the received buffer */
 } GsyncHttpResponse;
 
 /* Header of the received mon in GSYNC_STATE_StateSaveStart. */
@@ -104,6 +112,24 @@ typedef struct GsyncListEntry {
     u8 value;                   /* 0x0A */
     u8 unknown_0B;              /* 0x0B */
 } GsyncListEntry;
+
+/* The received list sent by the server (wire data, no pointers), 0x11C bytes. */
+typedef struct GsyncWireList {
+    union {
+        int statusWord;         /* 0x000, list version compared with the saved value */
+        u8 raw[0x50];           /* 0x000, ten 8-byte entries read through GsyncListEntry */
+    };
+    u8 pad_050[4];
+    u16 listFlags;              /* 0x054, received-list header flags */
+    u8 pad_056;
+    u8 wantExtraSave;           /* 0x057 */
+    u8 wantMusicalSave;         /* 0x058 */
+    u8 wantRecordSave;          /* 0x059 */
+    u8 saveMode;                /* 0x05A */
+    u8 skipUpdate;              /* 0x05B, nonzero: the list changes nothing */
+    u16 iconSpecies[20];        /* 0x05C */
+    u8 iconFlags[20];           /* 0x084 */
+} GsyncWireList;
 
 /* Message id table indexed by the download kind. */
 typedef struct GsyncMessageIdTable {

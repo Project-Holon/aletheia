@@ -67,31 +67,10 @@
  *   LIVEBATTLEMATCH_IRC_Delete   0x0217E058  thumb
  */
 
-typedef struct PartyStatusObj1 {
-    unsigned int state;
-    unsigned char pad4[64];
-    unsigned int selectedIndex;
-    unsigned int exitCode;
-    unsigned char pad4C[28];
-    unsigned short timeLeft;
-    unsigned char pad6A[1];
-    unsigned char closeRequested;
-    unsigned char pad6C[44];
-    unsigned int timerRunning;
-    unsigned char pad9C[19];
-    unsigned char savedPosition;
-    unsigned char padB0[20];
-    unsigned int forceExit;
-    unsigned char tickAccum;
-    unsigned char padC9[3];
-    unsigned int lastTick;
-    void *procSys;
-} PartyStatusObj1;
-
 typedef struct PartyStatusObj2 {
-    int party;
-    int config;
-    int gameData;
+    void *party;
+    void *config;
+    void *gameData;
     signed char ppt;
     signed char mode;
     signed char max;
@@ -108,18 +87,6 @@ typedef struct PartyStatusObj2 {
     int forceExit;
 } PartyStatusObj2;
 
-typedef struct PartyStatusObj3 {
-    unsigned int state;
-    unsigned int party;
-    unsigned char pad8[192];
-    unsigned char tickAccum;
-    unsigned char padC9[3];
-    unsigned int lastTick;
-    void *procSys;
-    unsigned char padD4[36];
-    unsigned short heapId;
-} PartyStatusObj3;
-
 typedef struct PartyStatusObj4 {
     unsigned char pad0[32];
     unsigned int exitReason;
@@ -127,7 +94,7 @@ typedef struct PartyStatusObj4 {
 
 typedef struct PartyStatusObj5 {
     unsigned char pad0[4];
-    unsigned int party;
+    void *party;
     unsigned char pad8[24];
     unsigned int exitReason;
 } PartyStatusObj5;
@@ -139,9 +106,20 @@ typedef struct PartyStatusObj6 {
     void *resultParty;
 } PartyStatusObj6;
 
-typedef struct PartyStatusObj7 {
-    void *netConfig;
-} PartyStatusObj7;
+struct GameData;
+struct WifiBattleMatchReportBlock;
+struct WifiBattleMatchNetCtx;
+struct LiveBattleMatchIrcWork;
+
+/* Argument block of the net sub process (PARTY_STATUS_CreateSub and its siblings). */
+typedef struct PartyStatusNetArgs {
+    struct GameData **gameData;                     /* 0x00 */
+    unsigned mode;                                    /* 0x04: 0 net context exchange, 1 save data exchange */
+    unsigned result;                                   /* 0x08: exit reason written back */
+    void *sendData;                                 /* 0x0C */
+    void *recvData;                                 /* 0x10 */
+    struct WifiBattleMatchReportBlock *reportBlock; /* 0x14 */
+} PartyStatusNetArgs;
 
 struct Proc;
 struct Party;
@@ -158,7 +136,7 @@ typedef struct {unsigned words[9];} Copy;
 
 #include "../types.h"
 
-typedef struct { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } PartyStatusArgs;
+typedef struct PartyStatusArgs { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } PartyStatusArgs;
 
 typedef struct { u8 pad[4]; void *party; } Other;
 
@@ -174,13 +152,29 @@ typedef struct {
     u32 levelUpCursor;
     u16 f54, pad56;
     u32 f58, pad5C;
-    u16 timeLeft, pad62;
+    u16 timeLeft;
+    u8 pad62, closeRequested;
     u32 battleKind;
     u8 pad68[12];
     u32 opponentParty, opponentName;
     u8 opponentGender, pad7D[15];
     u32 timerShown, timerRunning;
 } Output;
+
+/* Work of the party status proc: the PartyList arguments, then the PokeStatus record. */
+typedef struct PartyStatusWork {
+    unsigned int state;                  /* 0x00 */
+    void *party;                         /* 0x04 */
+    Output output;                       /* 0x08 */
+    unsigned char padOutput[(sizeof(void *) == 4) ? 4 : 1]; /* 0x9C, the DS Output ends at 0x9C */
+    PartyStatusObj2 record;              /* 0xA0 */
+    unsigned char tickAccum;             /* 0xC8 */
+    unsigned char padC9[3];
+    unsigned int lastTick;               /* 0xCC */
+    void *procSys;                       /* 0xD0 */
+    Copy args;                           /* 0xD4 */
+    unsigned short heapId;               /* 0xF8 */
+} PartyStatusWork;
 
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
@@ -205,22 +199,21 @@ struct ZukanSave;
 struct GFLNetHandle;
 #include "../arm9/net_handle.h"
 #include "../ov175/wifibattlematch_net.h"
-extern u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32);
 #include "../ov176/livebattlematch_irc.h"
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q);
-int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p);
-int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p);
+int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusWork *p);
+int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,PartyStatusWork *p);
 void PARTY_STATUS_SetupDisplay(PartyStatusArgs *p, Other *o, Output *out);
-void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4);
-int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p);
-int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d);
-int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d);
-void PARTY_STATUS_Noop(int work, int *param, int heapId);
-int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state);
-void PARTY_STATUS_DestroySubWork(void **pp, u32 *c);
-void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u16 v);
-unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state);
-void PARTY_STATUS_ExitSubWork(int *p, void *c);
+void PARTY_STATUS_InitRecord(PartyStatusArgs *r5, PartyStatusWork *r6, PartyStatusObj2 *r4);
+int PARTY_STATUS_CreateSub(struct Proc *a, int b, PartyStatusNetArgs *p);
+int PARTY_STATUS_DestroySub(void *a, u32 b, PartyStatusNetArgs *c, void *d);
+int PARTY_STATUS_UpdateSub(u32 a, u32 *b, PartyStatusNetArgs *c, void *d);
+void PARTY_STATUS_Noop(void *work, PartyStatusNetArgs *param, int heapId);
+int PARTY_STATUS_NetSync(struct WifiBattleMatchNetCtx **out,PartyStatusNetArgs *ctx,u32 *state);
+void PARTY_STATUS_DestroySubWork(struct WifiBattleMatchNetCtx **pp, PartyStatusNetArgs *c);
+void PARTY_STATUS_CreateSubWork(struct LiveBattleMatchIrcWork **out, PartyStatusNetArgs *pp, u16 v);
+unsigned PARTY_STATUS_NetSync2(struct LiveBattleMatchIrcWork **d,PartyStatusNetArgs *c,unsigned *state);
+void PARTY_STATUS_ExitSubWork(struct LiveBattleMatchIrcWork **p, PartyStatusNetArgs *c);
 extern unsigned d_02FFFC3C;
 extern unsigned ov090_id[];
 extern u8 ov091_id[],ov131_id[],gPartyListProcData[],gPokeStatusProcData[];
@@ -232,43 +225,43 @@ extern u8 ov176_id[];
 
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q)
 {
- PartyStatusObj3 *p;
+ PartyStatusWork *p;
  GFL_HEAP_CreateChildHeap(1,0x58,0x30000);
- p=(PartyStatusObj3 *) PROCSYS_AllocProcWork(handle,0xFC,0x58);
- MI_CpuFill8(p,0,0xFC);
- *(Copy *)((char *)p+0xD4)=*(Copy *)q;
+ p=(PartyStatusWork *) PROCSYS_AllocProcWork(handle,sizeof(*p),0x58);
+ MI_CpuFill8(p,0,sizeof(*p));
+ p->args=*(Copy *)q;
  p->heapId=0x58;
  p->procSys=PROCSYS_Create(p->heapId);
  p->party=q->party;
- PARTY_STATUS_SetupDisplay((PartyStatusArgs *)q, (Other *)p, (Output *)((char *)p+8));PARTY_STATUS_InitRecord((int *)q,(int *)p,(PartyStatusObj2 *)((char *)p+0xA0));
+ PARTY_STATUS_SetupDisplay((PartyStatusArgs *)q, (Other *)p, &p->output);PARTY_STATUS_InitRecord((PartyStatusArgs *)q,p,&p->record);
  p->tickAccum=0;
  p->lastTick=d_02FFFC3C;
  p->state=0;q->exitReason=0;
  return 1;
 }
 
-int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p)
+int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusWork *p)
 {
  unsigned char i;
  for(i=0;i<6;i++) {
- unsigned n=*(unsigned char *)((char *)p+i+0x51);
+ unsigned n=p->output.slotOrder[i];
  if(n!=0)POKEPARTY_Add(q->resultParty,POKEPARTY_GetMember(q->party,n-1));
  }
- PLIST_COMM_End((char *)p+8);GF_OVERLAY_Unload((uptr)ov090_id);
+ PLIST_COMM_End((struct PartyListCommWork *)&p->output);GF_OVERLAY_Unload((uptr)ov090_id);
  PROCSYS_Delete(p->procSys);PROCSYS_FreeProcWork(handle);GFL_HEAP_DeleteChecked(0x58);
  return 1;
 }
 
-int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
+int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,PartyStatusWork *p)
 {
-    if(((PartyStatusObj1 *)p)->timerRunning==1 && ((PartyStatusObj1 *)p)->timeLeft!=0) {
+    if(p->output.timerRunning==1 && p->output.timeLeft!=0) {
         u32 now;
         now=d_02FFFC3C;
-        ((PartyStatusObj1 *)p)->tickAccum+=(u8)(now-((PartyStatusObj1 *)p)->lastTick);
-        ((PartyStatusObj1 *)p)->lastTick=now;
-        if(((PartyStatusObj1 *)p)->tickAccum>60) {
-            --((PartyStatusObj1 *)p)->timeLeft;
-            ((PartyStatusObj1 *)p)->tickAccum-=60;
+        p->tickAccum+=(u8)(now-p->lastTick);
+        p->lastTick=now;
+        if(p->tickAccum>60) {
+            --p->output.timeLeft;
+            p->tickAccum-=60;
         }
     }
     if(GFL_NET_GetRunState()) {
@@ -276,39 +269,38 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
             if(GFL_NET_ERR_GetErrorLevel()) {
                 GFL_NET_ERR_RequestScreen();
                 q->exitReason=2;
-                ((PartyStatusObj1 *)p)->closeRequested=1;((PartyStatusObj1 *)p)->forceExit=1;
+                p->output.closeRequested=1;p->record.forceExit=1;
             }
         } else {
             int one;
             one=1;
             switch(DWC_RAPCOMMON_HandleNetError((int)1,(int)1)) {
             case 0:case 3:break;
-            case 4:q->exitReason=3;((PartyStatusObj1 *)p)->closeRequested=one;((PartyStatusObj1 *)p)->forceExit=one;break;
-            case 1:case 2:default:q->exitReason=1;((PartyStatusObj1 *)p)->closeRequested=1;((PartyStatusObj1 *)p)->forceExit=1;break;
+            case 4:q->exitReason=3;p->output.closeRequested=one;p->record.forceExit=one;break;
+            case 1:case 2:default:q->exitReason=1;p->output.closeRequested=1;p->record.forceExit=1;break;
             }
         }
     }
-    switch(((PartyStatusObj1 *)p)->state) {
+    switch(p->state) {
     case 0:GF_OVERLAY_Load((sptr)ov091_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,(const struct ProcData *)gPartyListProcData,p+8);((PartyStatusObj1 *)p)->state=1;break;
-    case 1:if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=2;break;
+        PROCSYS_Push(p->procSys,-1,(const struct ProcData *)gPartyListProcData,&p->output);p->state=1;break;
+    case 1:if(PROCSYS_Main(p->procSys)==0)p->state=2;break;
     case 2:GF_OVERLAY_Unload((sptr)ov091_id);
-        if(((PartyStatusObj1 *)p)->exitCode==1) {((PartyStatusObj1 *)p)->savedPosition=((PartyStatusObj1 *)p)->selectedIndex;((PartyStatusObj1 *)p)->state=3;}
+        if(p->output.exitCode==1) {p->record.pos=p->output.selectedIndex;p->state=3;}
         else return 1;
         break;
     case 3:GF_OVERLAY_Load((sptr)ov131_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,(const struct ProcData *)gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->state=4;break;
+        PROCSYS_Push(p->procSys,-1,(const struct ProcData *)gPokeStatusProcData,&p->record);p->state=4;break;
     case 4:
-        if(((PartyStatusObj1 *)p)->timerRunning==1 && ((PartyStatusObj1 *)p)->timeLeft==0)((PartyStatusObj1 *)p)->forceExit=1;
-        if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=5;break;
+        if(p->output.timerRunning==1 && p->output.timeLeft==0)p->record.forceExit=1;
+        if(PROCSYS_Main(p->procSys)==0)p->state=5;break;
     case 5:GF_OVERLAY_Unload((sptr)ov131_id);
-        if(((PartyStatusObj1 *)p)->closeRequested==0) {((PartyStatusObj1 *)p)->selectedIndex=((PartyStatusObj1 *)p)->savedPosition;((PartyStatusObj1 *)p)->state=0;}
+        if(p->output.closeRequested==0) {p->output.selectedIndex=(u8)p->record.pos;p->state=0;}
         else return 1;
         break;
     }
-    if(((PartyStatusObj1 *)p)->closeRequested==0) {
-        p+=8;
-        PLIST_COMM_Update((struct PartyListCommWork *)p);
+    if(p->output.closeRequested==0) {
+        PLIST_COMM_Update((struct PartyListCommWork *)&p->output);
     }
     return 0;
 }
@@ -386,25 +378,25 @@ void PARTY_STATUS_SetupDisplay(PartyStatusArgs *p, Other *o, Output *out)
 /*
  * Populate the 0x28-byte record from the two source objects.
  */
-void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
+void PARTY_STATUS_InitRecord(PartyStatusArgs *args, PartyStatusWork *work, PartyStatusObj2 *record)
 {
-    sptr saveControl;
-    sptr zukanSave;
-    saveControl = (sptr)GAME_DATA_GetSaveControl((struct GameData *)args[5]);
-    GAME_DATA_GetMyStatus((void *)args[5]);
-    zukanSave = (sptr)ZUKAN_SAVE_GetFromGameData((void *)args[5]);
-    record->party = work[1];
-    record->gameData = args[5];
-    record->config = (sptr)SYSTEM_DATA_GetConfig((void *)saveControl);
+    void *saveControl;
+    void *zukanSave;
+    saveControl = GAME_DATA_GetSaveControl(args->gameData);
+    GAME_DATA_GetMyStatus(args->gameData);
+    zukanSave = ZUKAN_SAVE_GetFromGameData(args->gameData);
+    record->party = work->party;
+    record->gameData = args->gameData;
+    record->config = SYSTEM_DATA_GetConfig(saveControl);
     record->ppt = 1;
     record->mode = 1;
-    record->max = POKEPARTY_GetCount((void *)work[1]);
+    record->max = POKEPARTY_GetCount(work->party);
     record->pos = 0;
     record->page = 0;
     record->retMovePos = 0;
     record->retSel = 0;
     record->newMove = 0;
-    record->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
+    record->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled(zukanSave);
     record->canUseButtons = 0;
     record->forceExit = 0;
 }
@@ -412,29 +404,29 @@ void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
 /*
  * Allocate the 0x58-byte subobject and dispatch on track[1].
  */
-int PARTY_STATUS_CreateSub(struct Proc *proc, int unused, int *param)
+int PARTY_STATUS_CreateSub(struct Proc *proc, int unused, PartyStatusNetArgs *param)
 {
-    sptr work;
+    void *work;
     GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);
-    work = (sptr)PROCSYS_AllocProcWork(proc, 4, 0x58);
-    MI_CpuFill8((void *)work, 0, 4);
-    param[2] = 0;
-    switch (param[1]) {
+    work = PROCSYS_AllocProcWork(proc, 4, 0x58);
+    MI_CpuFill8(work, 0, 4);
+    param->result = 0;
+    switch (param->mode) {
     case 0:
         PARTY_STATUS_Noop(work, param, 0x58);
         break;
     case 1:
-        PARTY_STATUS_CreateSubWork((u32 *)((u32 *)work), (u32 * *)((u32 **)param), 0x58);
+        PARTY_STATUS_CreateSubWork(work, param, 0x58);
         break;
     }
     return 1;
 }
 
-int PARTY_STATUS_DestroySub(void *proc, u32 unused, u32 *param, void *work)
+int PARTY_STATUS_DestroySub(void *proc, u32 unused, PartyStatusNetArgs *param, void *work)
 {
-    switch (param[1]) {
+    switch (param->mode) {
     case 0:
-        PARTY_STATUS_DestroySubWork(work, (u32 *)param);
+        PARTY_STATUS_DestroySubWork(work, param);
         break;
     case 1:
         PARTY_STATUS_ExitSubWork(work, param);
@@ -445,16 +437,16 @@ int PARTY_STATUS_DestroySub(void *proc, u32 unused, u32 *param, void *work)
     return 1;
 }
 
-int PARTY_STATUS_UpdateSub(u32 unused, u32 state, u32 *param, void *work)
+int PARTY_STATUS_UpdateSub(u32 unused, u32 *state, PartyStatusNetArgs *param, void *work)
 {
     u32 r;
 
-    switch (param[1]) {
+    switch (param->mode) {
     case 0:
-        r = PARTY_STATUS_NetSync(work, (u32 *)param, (u32 *)((u32 *)state));
+        r = PARTY_STATUS_NetSync(work, param, state);
         break;
     case 1:
-        r = PARTY_STATUS_NetSync2(work, param, (unsigned int *)state);
+        r = PARTY_STATUS_NetSync2(work, param, state);
         break;
     }
     return r != 0;
@@ -463,29 +455,29 @@ int PARTY_STATUS_UpdateSub(u32 unused, u32 state, u32 *param, void *work)
 /*
  * extent: bx lr followed by two zero alignment bytes.
  */
-void PARTY_STATUS_Noop(int work, int *param, int heapId) {}
+void PARTY_STATUS_Noop(void *work, PartyStatusNetArgs *param, int heapId) {}
 
-int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
+int PARTY_STATUS_NetSync(struct WifiBattleMatchNetCtx **out,PartyStatusNetArgs *ctx,u32 *state)
 {
     if(GFL_NET_GetRunState()) {
         switch(DWC_RAPCOMMON_HandleNetError((int)1,(int)1)) {
         case 0:break;
-        case 1:case 4:ctx[2]=3;return 1;
-        case 2:case 3:default:ctx[2]=1;return 1;
+        case 1:case 4:ctx->result=3;return 1;
+        case 2:case 3:default:ctx->result=1;return 1;
         }
     }
     switch(*state) {
     case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
     case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:GF_OVERLAY_Load((sptr)ov067_id);GF_OVERLAY_Load((sptr)ov114_id);GF_OVERLAY_Load((sptr)ov175_id);
-        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->netConfig,0,88);++*state;break;
+        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx->reportBlock,*ctx->gameData,0,88);++*state;break;
     case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
     case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
-    case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx[3]))++*state;break;
-    case 6:if(WIFIBATTLEMATCH_NET_TakeRegBuffer(*out,ctx[4]))++*state;break;
+    case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx->sendData))++*state;break;
+    case 6:if(WIFIBATTLEMATCH_NET_TakeRegBuffer(*out,ctx->recvData))++*state;break;
     case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
     case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
-    case 9:WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((uptr)*out));*out=0;
+    case 9:WIFIBATTLEMATCH_NET_DeleteNetContext(*out);*out=0;
         GF_OVERLAY_Unload((sptr)ov175_id);GF_OVERLAY_Unload((sptr)ov114_id);GF_OVERLAY_Unload((sptr)ov067_id);++*state;break;
     case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
     case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
@@ -493,38 +485,38 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     return 0;
 }
 
-void PARTY_STATUS_DestroySubWork(void **work, u32 *param)
+void PARTY_STATUS_DestroySubWork(struct WifiBattleMatchNetCtx **work, PartyStatusNetArgs *param)
 {
     if (*work == 0)
         return;
-    WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((uptr)*work));
+    WIFIBATTLEMATCH_NET_DeleteNetContext(*work);
     GF_OVERLAY_Unload((uptr)ov175_id);
     GF_OVERLAY_Unload((uptr)ov114_id);
     GF_OVERLAY_Unload((uptr)ov067_id);
 }
 
-void PARTY_STATUS_CreateSubWork(u32 *work, u32 **param, u16 heapId)
+void PARTY_STATUS_CreateSubWork(struct LiveBattleMatchIrcWork **work, PartyStatusNetArgs *param, u16 heapId)
 {
     GF_OVERLAY_Load((uptr)ov176_id);
-    *work = (uptr)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*param, heapId);
+    *work = LIVEBATTLEMATCH_IRC_Create(*param->gameData, heapId);
 }
 
-unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
+unsigned PARTY_STATUS_NetSync2(struct LiveBattleMatchIrcWork **netWork,PartyStatusNetArgs *ctx,unsigned *state)
 {
- if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();ctx[2]=2;return 1;}
+ if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();ctx->result=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
  case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
  case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
- case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((sptr)(*netWork),ctx[3])!=0)++*state;break;
- case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData((u8 *)(*netWork),(const void *)ctx[4])!=0)++*state;break;
+ case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData(*netWork,ctx->sendData)!=0)++*state;break;
+ case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*netWork,ctx->recvData)!=0)++*state;break;
  case 5:return 1;
  }
  LIVEBATTLEMATCH_IRC_NoOp(*netWork);return 0;
 }
 
-void PARTY_STATUS_ExitSubWork(int *work, void *param)
+void PARTY_STATUS_ExitSubWork(struct LiveBattleMatchIrcWork **work, PartyStatusNetArgs *param)
 {
-    LIVEBATTLEMATCH_IRC_Delete((int *)(*work));
+    LIVEBATTLEMATCH_IRC_Delete(*work);
     GF_OVERLAY_Unload((sptr)ov176_id);
 }

@@ -15,7 +15,7 @@ typedef struct PartyRecoveryWork PartyRecoveryWork;
 #include "../types.h"
 
 GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count);
-int EVENT_RECOVERY_RunBalls(GameEvent *event, int *seq, void *eventWork);
+int EVENT_RECOVERY_RunBalls(struct GameEvent *event, int *seq, void *eventWork);
 void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count);
 void EVENT_RECOVERY_DeleteBalls(RecoveryBallsWork *work);
 void EVENT_RECOVERY_SetBallsStep(RecoveryBallsWork *work, int *seq, int nextStep);
@@ -24,7 +24,7 @@ void EVENT_RECOVERY_StartBallsAnime(RecoveryBallsWork *work);
 void EVENT_RECOVERY_FinishBalls(RecoveryBallsWork *work);
 int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work);
 GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent);
-int EVENT_RECOVERY_RunParty(GameEvent *event, int *seq, void *eventWork);
+int EVENT_RECOVERY_RunParty(struct GameEvent *event, int *seq, void *eventWork);
 void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem);
 void EVENT_RECOVERY_DeleteMachineNode(PartyRecoveryWork *work);
 void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work);

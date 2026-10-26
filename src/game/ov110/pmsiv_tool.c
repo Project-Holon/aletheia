@@ -48,19 +48,19 @@ void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int
 
 int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
 
-void PMSIV_BGSCROLL_Task(void *task, void *arg);
+void PMSIV_BGSCROLL_Task(struct TcbTask *task, void *arg);
 
 void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
 
 int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
 
-void PMSIV_FADE_BlendTask(void *task, void *arg);
+void PMSIV_FADE_BlendTask(struct TcbTask *task, void *arg);
 
 void PMSIV_FADE_StartBrightness(struct PmsivFade *fade, int plane, int start, int end, int frames);
 
 int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade);
 
-void PMSIV_FADE_BrightnessTask(void *task, void *arg);
+void PMSIV_FADE_BrightnessTask(struct TcbTask *task, void *arg);
 
 void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames)
 {
@@ -98,7 +98,7 @@ int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll)
     return 0;
 }
 
-void PMSIV_BGSCROLL_Task(void *task, void *arg)
+void PMSIV_BGSCROLL_Task(struct TcbTask *task, void *arg)
 {
     struct PmsivBgScroll *scroll = arg;
     if (scroll->framesLeft) {
@@ -136,7 +136,7 @@ int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade)
     return 0;
 }
 
-void PMSIV_FADE_BlendTask(void *task, void *arg)
+void PMSIV_FADE_BlendTask(struct TcbTask *task, void *arg)
 {
     struct PmsivFade *fade = arg;
     int level;
@@ -181,7 +181,7 @@ int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade)
 /*
  * follower: callback PMSIV_FADE_BrightnessTask included in unit; function_starts seed.
  */
-void PMSIV_FADE_BrightnessTask(void *task, void *arg)
+void PMSIV_FADE_BrightnessTask(struct TcbTask *task, void *arg)
 {
     struct PmsivFade *fade = arg;
     int value;

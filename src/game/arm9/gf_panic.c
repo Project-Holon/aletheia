@@ -87,7 +87,7 @@ typedef short s16_p07;
 
 void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
 
-void GF_PANIC_SetFailHook(u32 failHook);
+void GF_PANIC_SetFailHook(PanicHookFunc failHook);
 
 void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
@@ -121,9 +121,9 @@ void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc)
 /*
  * Sets the fail hook that the assert functions below call.
  */
-void GF_PANIC_SetFailHook(u32 failHook)
+void GF_PANIC_SetFailHook(PanicHookFunc failHook)
 {
-    _PanicHandlers.fail_hook = (PanicHookFunc)failHook;
+    _PanicHandlers.fail_hook = failHook;
 }
 
 /*

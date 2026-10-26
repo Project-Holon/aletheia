@@ -295,12 +295,12 @@ int FIELD_MSGBG_DeleteInfoMsgWin(FieldMsgWin *msgWin);
 void FIELD_MSGBG_InfoMsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
 void FIELD_MSGBG_ClearInfoMsgWin(FieldMsgWin *msgWin);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
-                             u16 palette, u32 moveCallback, u32 lineCallback, u32 work);
+                             u16 palette, u32 moveCallback, u32 lineCallback, void *work);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncCallback(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
-                             u32 moveCallback, u32 lineCallback, u32 work);
+                             u32 moveCallback, u32 lineCallback, void *work);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPos(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos);
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
-FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work,
+FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, void *work,
                              u16 listPos, u16 cursorPos, u32 cancelable);
 int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
@@ -403,7 +403,7 @@ extern const FieldMsgCursorOffsets sCursorOffsetY;
 
 FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera)
 {
-    FieldMsgBg *msgBg = GFL_HEAP_Alloc(heapId, 0x17c, 1, (char *)d_021DDA50, 0x1a4);
+    FieldMsgBg *msgBg = GFL_HEAP_Alloc(heapId, sizeof(*msgBg), 1, (char *)d_021DDA50, 0x1a4);
 
     msgBg->heapId = heapId;
     msgBg->bgFrame = 0xff;
@@ -712,7 +712,7 @@ FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgBank *
     if (palette == 0xe) {
         frame = msgBg->bgFrameSys;
     }
-    msgWin = GFL_HEAP_Alloc(msgBg->heapId, 0xC, 1, (char *)d_021DDA50, 0x483);
+    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, 0x483);
     msgWin->msgBg = msgBg;
     msgWin->bmpWin = FIELD_MSGBG_CreateWindow(frame, msgBg->heapId, x, y, width, height, palette);
     msgWin->msgPrint = FIELD_MSGBG_AddMsgPrint(msgBg, msgData, msgWin->bmpWin);
@@ -785,7 +785,7 @@ FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgBank *msg
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    msgWin = GFL_HEAP_Alloc(msgBg->heapId, 0xC, 1, (char *)d_021DDA50, 0x560);
+    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, 0x560);
     msgWin->msgBg = msgBg;
     msgWin->bmpWin = FIELD_MSGBG_CreateSysFrameWindow(x, y, width, height, msgBg->heapId);
     msgWin->msgPrint = FIELD_MSGBG_AddMsgPrint(msgBg, msgData, msgWin->bmpWin);
@@ -817,7 +817,7 @@ void FIELD_MSGBG_ClearInfoMsgWin(FieldMsgWin *msgWin)
  * menu->items store.
  */
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
-                             u16 palette, u32 moveCallback, u32 lineCallback, u32 work)
+                             u16 palette, u32 moveCallback, u32 lineCallback, void *work)
 {
     BmpMenuListHeader listHeader;
     u8 frame;
@@ -828,7 +828,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldM
     if (palette == 0xe) {
         frame = msgBg->bgFrameSys;
     }
-    menu = GFL_HEAP_Alloc(msgBg->heapId, 0x14, 1, (char *)d_021DDA50, 0x606);
+    menu = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*menu), 1, (char *)d_021DDA50, 0x606);
     FIELD_MSGBG_MakeListHeader(&listHeader, header);
     menu->msgBg = msgBg;
     menu->items = items;
@@ -855,7 +855,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldM
 }
 
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncCallback(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
-                             u32 moveCallback, u32 lineCallback, u32 work)
+                             u32 moveCallback, u32 lineCallback, void *work)
 {
     msgBg->windowKind = 0xe;
     return FIELD_MSGBG_CreateMenuFuncPalette(msgBg, header, items, listPos, cursorPos, msgBg->windowKind, moveCallback, lineCallback, work);
@@ -871,7 +871,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHead
     return FIELD_MSGBG_CreateMenuFuncPos(msgBg, header, items, 0, 0);
 }
 
-FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work,
+FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, void *work,
                              u16 listPos, u16 cursorPos, u32 cancelable)
 {
     FieldMenuFunc *menu = FIELD_MSGBG_CreateMenuFuncPalette(msgBg, header, items, listPos, cursorPos, msgBg->windowKind, moveCallback, 0, work);
@@ -1012,7 +1012,7 @@ void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu)
 
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header)
 {
-    MI_CpuFill8(listHeader, 0, 0x34);
+    MI_CpuFill8(listHeader, 0, sizeof(*listHeader));
     listHeader->itemCount = header->itemCount;
     listHeader->maxLines = header->maxLines;
     listHeader->labelX = header->labelX;
@@ -1061,7 +1061,7 @@ FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbu
 {
     FieldMsgStream *stream;
 
-    stream = GFL_HEAP_Alloc(msgBg->heapId, 0xc, 1, (char *)d_021DDA50, 0x85e);
+    stream = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*stream), 1, (char *)d_021DDA50, 0x85e);
     stream->msgBg = msgBg;
     stream->wait = wait;
     stream->stream = (struct TextPrinter *)PRINTSYS_PrintStreamCallBack(bmpWin, x, y, str, msgBg->font, wait, msgBg->tcbl, 0, msgBg->heapId, clearColor, FIELD_MSGBG_MsgStreamCallback);
@@ -1125,7 +1125,7 @@ FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    sysWin = GFL_HEAP_Alloc(msgBg->heapId, 0x20, 1, (char *)d_021DDA50, 0x8FF);
+    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, 0x8FF);
     sysWin->msgBg = msgBg;
     sysWin->msgData = msgData;
     sysWin->bmpWin = FIELD_MSGBG_CreateWindow(msgBg->bgFrameSys, msgBg->heapId, x, y, width, height, msgBg->windowKind);
@@ -1213,7 +1213,7 @@ FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgBank *msg
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    sysWin = GFL_HEAP_Alloc(msgBg->heapId, 0x20, 1, (char *)d_021DDA50, 0x9F4);
+    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, 0x9F4);
     sysWin->msgBg = msgBg;
     sysWin->msgData = msgData;
     sysWin->bmpWin = FIELD_MSGBG_CreateSysFrameWindow(1, y, 0x1E, 4, msgBg->heapId);
@@ -1361,7 +1361,7 @@ void FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin)
 int FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin)
 {
     if (TALKMSGWIN_IsFree(talkWin->talkSys, talkWin->index) != 0) {
-        MI_CpuFill8(talkWin, 0, 52);
+        MI_CpuFill8(talkWin, 0, sizeof(*talkWin));
         return 1;
     }
     return 0;
@@ -1374,7 +1374,7 @@ void FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin)
     }
     TALKMSGWIN_Release(talkWin->talkSys, talkWin->index);
     FIELD_MSGBG_ExitCursor(&talkWin->cursor);
-    MI_CpuFill8(talkWin, 0, 52);
+    MI_CpuFill8(talkWin, 0, sizeof(*talkWin));
 }
 
 void FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str)
@@ -1469,7 +1469,7 @@ FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgBank *msg
 {
     FieldPlainWin *plainWin;
 
-    plainWin = GFL_HEAP_Alloc(msgBg->heapId, 0x2C, 1, (char *)d_021DDA50, 0xCA7);
+    plainWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*plainWin), 1, (char *)d_021DDA50, 0xCA7);
     plainWin->msgBg = msgBg;
     plainWin->msgData = msgData;
     plainWin->strBuf = STRBUF_Create(0xA0, msgBg->heapId);
@@ -1626,7 +1626,7 @@ void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgBank *msgData, u32
     FieldSubMsgWin *subMsgWin;
     int slot;
 
-    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, 0x18, 1, (char *)d_021DDA50, 0xE2A);
+    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, 0xE2A);
     slot = FIELD_MSGBG_StoreSubMsgWin(msgBg, subMsgWin);
     subMsgWin->strBuf = STRBUF_Create(0x40, msgBg->heapId);
     MSGDATA_ReadString((struct MsgBank *)msgData, msgId, subMsgWin->strBuf);
@@ -1640,7 +1640,7 @@ void FIELD_MSGBG_AddSubMsgWinStr(FieldMsgBg *msgBg, struct Strbuf *str, u32 id, 
     FieldSubMsgWin *subMsgWin;
     u32 slot;
 
-    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, 0x18, 1, (char *)d_021DDA50, 0xE48);
+    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, 0xE48);
     slot = FIELD_MSGBG_StoreSubMsgWin(msgBg, subMsgWin);
     subMsgWin->strBuf = STRBUF_Create(STRBUF_GetLength(str) + 1, msgBg->heapId);
     STRBUF_Copy(subMsgWin->strBuf, str);
@@ -1721,7 +1721,7 @@ FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct G
     u8 width;
     u8 height;
 
-    bgWin = GFL_HEAP_Alloc(msgBg->heapId, 0x34, 1, (char *)d_021DDA50, 0xee0);
+    bgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*bgWin), 1, (char *)d_021DDA50, 0xee0);
     bgWin->msgBg = msgBg;
     bgWin->font = font;
     bgWin->scrollY = -48;
@@ -2030,7 +2030,7 @@ FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16
 {
     FieldSpWin *spWin;
 
-    spWin = GFL_HEAP_Alloc(msgBg->heapId, 0x18, 1, (char *)d_021DDA50, 0x115D);
+    spWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*spWin), 1, (char *)d_021DDA50, 0x115D);
     spWin->msgBg = msgBg;
     spWin->bmpWin = BMP_WIN_Create((u8)msgBg->bgFrame, (u8)x, (u8)y, (u8)width, (u8)height, 9, 1);
     spWin->frameBmp = BMP_Create(1, 1, 0x20, msgBg->heapId);
@@ -2120,7 +2120,7 @@ u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, struct Strbuf *str, u32 mar
 
 FieldMsgCursor *FIELD_MSGBG_CreateCursor(FieldMsgBg *msgBg)
 {
-    FieldMsgCursor *cursor = GFL_HEAP_Alloc(msgBg->heapId, 8, 1, (char *)d_021DDA50, 0x1202);
+    FieldMsgCursor *cursor = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*cursor), 1, (char *)d_021DDA50, 0x1202);
     FIELD_MSGBG_InitCursor(cursor, msgBg);
     return cursor;
 }
@@ -2133,7 +2133,7 @@ void FIELD_MSGBG_DeleteCursor(FieldMsgCursor *cursor)
 
 void FIELD_MSGBG_InitCursor(FieldMsgCursor *cursor, FieldMsgBg *msgBg)
 {
-    MI_CpuFill8(cursor, 0, 8);
+    MI_CpuFill8(cursor, 0, sizeof(*cursor));
     cursor->bmp = BMP_CreateFromBuffer(msgBg->cursorCharData->pRawData, 1, 1, 0x20, msgBg->heapId);
 }
 

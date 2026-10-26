@@ -119,11 +119,11 @@ extern int PM_VOICE_StopFinished(int a); /* original prototype; the definition d
 #endif
 
 int WIH_DWC_PollSystem(void);
-struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
+struct WihContext *WIH_DWC_Create(int maxBeacons, u32 heapId);
 void WIH_DWC_Delete(struct WihContext *context);
 void WIH_DWC_PauseTimers(void);
 void WIH_DWC_ResumeTimers(void);
-void WIH_DWC_AddBeacon(const void *beacon);
+void WIH_DWC_AddBeacon(void *beacon, void *userArg, u16 linkLevel);
 void WIH_DWC_TickTimers(void);
 int WIH_DWC_IsSsidInFilterList(WMBssDesc *beacon);
 int WIH_DWC_IsOpenTaggedBeacon(const WMBssDesc *beacon);
@@ -204,7 +204,7 @@ int WIH_DWC_PollSystem(void)
  *   python tools/match.py one --src src/pending/WIH_DWC_Create.c \
  *       --func WIH_DWC_Create --addr 0x02010360 --thumb
  */
-struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
+struct WihContext *WIH_DWC_Create(int maxBeacons, u32 heapId)
 {
     struct WihContext *context;
 
@@ -214,10 +214,10 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     if (gWihDwc.context != 0) {
         GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    context = GFL_NET_AllocAligned((uptr)heap, 0x328, (const char *)sWihDwcFile, 0x49);
+    context = GFL_NET_AllocAligned(heapId, sizeof(*context), (const char *)sWihDwcFile, 0x49);
     context->maxBeacons = maxBeacons;
-    context->matchWork = GFL_NET_AllocAligned((uptr)heap, DWC_GetParseWMBssDescWorkSize(), (const char *)sWihDwcFile, 0x4C);
-    WIH_SetBeaconFoundCallback((uptr)WIH_DWC_AddBeacon);
+    context->matchWork = GFL_NET_AllocAligned(heapId, DWC_GetParseWMBssDescWorkSize(), (const char *)sWihDwcFile, 0x4C);
+    WIH_SetBeaconFoundCallback(WIH_DWC_AddBeacon);
     gWihDwc.context = context;
     context->filterBuf = gWihDwc.filterBuf;
     GF_OVERLAY_Load((sptr)ov015_id);
@@ -330,7 +330,7 @@ void WIH_DWC_ResumeTimers(void)
  * index at +0x316.  WIH_DWC_Create hands this function's address to the ov014
  * setter, so it is a receive callback.  MI_CpuCopy8 takes three arguments.
  */
-void WIH_DWC_AddBeacon(const void *beacon)
+void WIH_DWC_AddBeacon(void *beacon, void *userArg, u16 linkLevel)
 {
     struct WihContext *context = gWihDwc.context;
 
@@ -705,7 +705,7 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
         GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (slot = 0; slot < 0x10; slot++) {
-            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && (struct PlayerLookup *)COMM_PLAYER_SUPPORT_FindPeerRecord((void *)GFL_NET_GetScanResult(slot), (struct PlayerLookup *)searchKey, (u8 *)mac) != 0) {
+            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && COMM_PLAYER_SUPPORT_FindPeerRecord(GFL_NET_GetScanResult(slot), (struct PlayerLookup *)searchKey, (u8 *)mac) != 0) {
                 return slot;
             }
         }

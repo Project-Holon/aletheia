@@ -18,7 +18,7 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id);
 void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *dist);
 struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *game_sys, const void *data, u32 size, u32 heap_id);
 u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist);
-u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
+void *MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
 u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist);
 u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 void MUSICAL_DIST_SAVE_NoOp(void);

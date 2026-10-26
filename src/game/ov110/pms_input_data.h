@@ -19,12 +19,12 @@ u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32
 void PMS_INPUT_DATA_BuildInitialWords(struct PmsInputData *d);
 u32 PMS_INPUT_DATA_FilterInitialWords(struct PmsInputData *d, const u16 *src, u16 *out, u32 outIndex);
 u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *d, int category);
-void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, int mode);
+void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int category, unsigned int index, void *mode);
 unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index);
-u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
+u32 PMS_INPUT_DATA_FilterWordList(struct PmsInputData *a, u16 *b, u16 *c);
 const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry);
 u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, int index);
-void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode);
+void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, void *mode);
 int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused);
 /* END mkheaders: generated region */
 

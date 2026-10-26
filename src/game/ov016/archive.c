@@ -90,7 +90,7 @@ extern void CARDi_ReadRom(unsigned int dma, void *src, void *dst, unsigned int l
 #include "../arm9/msl_string_mem.h"
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
-int DWCi_ARClCbWrite(void);
+FSResult DWCi_ARClCbWrite(struct FSArchive *unused0, const void *unused1, u32 unused2, u32 unused3);
 void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 void DWCi_ARClRelease(void *file);
 extern char sArchiveTable1[4];
@@ -106,7 +106,7 @@ extern char sArchiveTable2[];
  */
 
 static int userProc(int unused, unsigned long cmd);
-static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size);
+static FSResult cbRead(struct FSArchive *arc, void *dst, u32 pos, u32 size);
 static void cbReadRom(void *arc);
 static int cmpBack(char *str0, char *str1, int n);
 void DWCi_ARClInit(void)
@@ -131,9 +131,9 @@ void DWCi_ARClInit(void)
     FS_InitArchive(&MemArchive->archive);
     if (!FS_RegisterArchiveName(&MemArchive->archive, sArchiveTable1, 3))
         OS_Terminate();
-    FS_SetArchiveProc(&MemArchive->archive, (uptr)((int (*)(FSFile *, u32))userProc), 0x602);
+    FS_SetArchiveProc(&MemArchive->archive, (uptr)userProc, 0x602);
     if (!FS_LoadArchive(&MemArchive->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
-                       (FS_ARCHIVE_READ_FUNC)cbRead, (FS_ARCHIVE_WRITE_FUNC)DWCi_ARClCbWrite))
+                       cbRead, DWCi_ARClCbWrite))
         OS_Terminate();
     size = FS_LoadArchiveTables(&MemArchive->archive, 0, 0);
     MemArchive->table = DWCi_HEAPlAllocEx(size, 4);
@@ -172,7 +172,7 @@ static int userProc(int unused, unsigned long cmd)
 	}
 }
 
-static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size)
+static FSResult cbRead(struct FSArchive *arc, void *dst, u32 pos, u32 size)
 {
 	uptr base = (uptr)FS_GetArchiveBase(arc);
 	CARDi_ReadRom(-1, (void *)(pos + base), dst, size, cbReadRom, arc, 1);
@@ -184,7 +184,7 @@ static void cbReadRom(void *arc)
     FS_NotifyArchiveAsyncEnd(arc, 0);
 }
 
-int DWCi_ARClCbWrite(void)
+FSResult DWCi_ARClCbWrite(struct FSArchive *unused0, const void *unused1, u32 unused2, u32 unused3)
 {
     return 1;
 }

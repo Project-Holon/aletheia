@@ -1,3 +1,5 @@
+
+struct TcbTask;
 #ifndef GAME_OV222_ZENKOKU_ZUKAN_AWARD_H
 #define GAME_OV222_ZENKOKU_ZUKAN_AWARD_H
 
@@ -9,7 +11,7 @@ struct ZenkokuZukanAwardWork;
 int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p);
 int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
-void ZENKOKU_ZUKAN_AWARD_Task(void);
+void ZENKOKU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1);
 void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(struct ZenkokuZukanAwardWork *p);
 void ZENKOKU_ZUKAN_AWARD_Noop(struct ZenkokuZukanAwardWork *p);
 void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p);

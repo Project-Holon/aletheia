@@ -83,7 +83,6 @@ struct TcbTask;
 
 #define REG(a) (*(volatile u32 *)(a))
 
-#define SLOT (*(char ***)(a+4))[i]
 
 struct AnimBank;
 
@@ -162,7 +161,7 @@ typedef struct { u32 a:1,b:1,c:1,rest:29; } MusicalMcssFlags;
  */
 typedef struct McssRenderPool {
     int count;              /* 0x00 number of child slots */
-    void **children;        /* 0x04 child MC anim pointers */
+    struct McssMcAnim **children; /* 0x04 child MC anim pointers */
     union {
         u32 flags;          /* 0x08 */
         struct {
@@ -181,9 +180,11 @@ typedef struct McssRenderPool {
  * 0x00..0x24 are resource handles, 0x28 is the embedded NNS MC animation,
  * 0x8C is the NNS work area and the tail holds per-child state words.
  */
+#include "../arm9/nns_g2d_anim_types.h"
+
 typedef struct McssMcAnim {
     void *cellBank;         /* 0x00 */
-    int cellBankArg;        /* 0x04 passed to NNS_G2dInitMCAnimation */
+    struct CellDataBank *cellBankArg;        /* 0x04 passed to NNS_G2dInitMCAnimation */
     void *animBank;         /* 0x08 */
     void *cellArg;          /* 0x0C passed to NNS_G2dInitMCAnimation */
     void *multiCellBank;    /* 0x10 */
@@ -192,16 +193,28 @@ typedef struct McssMcAnim {
     void *animSequenceBank; /* 0x1C */
     void *cellTable;        /* 0x20 */
     void *partTable;         /* 0x24 table+4+56*count, MusicalMcssPart records */
-    u8 pad_28[0x64];        /* 0x28 embedded NNS MC animation */
+    struct MultiCellAnim anim; /* 0x28 embedded NNS MC animation (0x5C bytes) */
+    u8 pad_84[8];           /* 0x84 */
     void *workArea;         /* 0x8C NNS MC work area */
-    u8 pad_90[0x38];        /* 0x90 */
-    int posX;                /* 0xC8 MUSICAL_MCSS_SetMCAnimPos[0] */
-    int posY;                /* 0xCC MUSICAL_MCSS_SetMCAnimPos[1] */
-    int posZ;                /* 0xD0 MUSICAL_MCSS_SetMCAnimPos[2] */
-    int scaleX;              /* 0xD4 MUSICAL_MCSS_SetMCAnimScale[0] */
-    int scaleY;              /* 0xD8 MUSICAL_MCSS_SetMCAnimScale[1] */
-    int scaleZ;              /* 0xDC MUSICAL_MCSS_SetMCAnimScale[2] */
-    u8 pad_E0[0x0C];        /* 0xE0 */
+    u32 charVramHandle[9];  /* 0x90 NNSi_G2dInitVramHandle block, also read as TexInfo by DrawMC */
+    u32 plttVramHandle[5];  /* 0xB4 NNSi_G2dInitVramHandleEx block */
+    union {
+        struct MusItemDrawVec3 pos;  /* 0xC8 MUSICAL_MCSS_SetMCAnimPos */
+        struct {
+            int posX;
+            int posY;
+            int posZ;
+        };
+    };
+    union {
+        struct MusItemDrawVec3 scale; /* 0xD4 MUSICAL_MCSS_SetMCAnimScale */
+        struct {
+            int scaleX;
+            int scaleY;
+            int scaleZ;
+        };
+    };
+    struct MusItemDrawVec3 vecC; /* 0xE0 copied by MUSICAL_MCSS_CopyField */
     union {
         u32 flags;          /* 0xEC MC anim state bits */
         struct {
@@ -213,9 +226,12 @@ typedef struct McssMcAnim {
     };
     u32 childIndex;         /* 0xF0 index in the render pool */
     u32 heapTag;            /* 0xF4 heap tag */
-    void *ownerSlot;        /* 0xF8 slot passed to MUSICAL_MCSS_LoadMC */
+    struct MusPokeDrawSlot *ownerSlot; /* 0xF8 slot passed to MUSICAL_MCSS_LoadMC */
     u16 frame;              /* 0xFC MUSICAL_MCSS_SetMCAnimFrame */
-    u8 pad_FE[0x26];        /* 0xFE */
+    u8 pad_FE[2];           /* 0xFE */
+    struct MusItemDrawVec3 vecA; /* 0x100 offset read by DrawMC */
+    struct MusItemDrawVec3 vecB; /* 0x10C offset rotated by the frame angle */
+    u8 pad_118[0xC];        /* 0x118 */
 } McssMcAnim;
 
 /* The multi-cell bank loaded by MUSICAL_MCSS_LoadCellBank: a count at 0x00 and
@@ -223,6 +239,19 @@ typedef struct McssMcAnim {
 typedef struct McssMultiCellBank {
     u32 count;              /* 0x00 */
 } McssMultiCellBank;
+
+/* VRAM upload job of one cell bank (36 bytes, MUSICAL_MCSS_LoadCellBank). */
+typedef struct McssCellBankJob {
+    void *charRes;                 /* 0x00 McssSpindaRes written by ARC_UTIL_LoadBgCharDataFromArchive */
+    void *plttRes;                 /* 0x04 written by ARC_UTIL_LoadPaletteBlockFromArchive */
+    void *charHandle;              /* 0x08 McssMcAnim.charVramHandle */
+    void *plttHandle;              /* 0x0C McssMcAnim.plttVramHandle */
+    void *charAlloc;               /* 0x10 character data block, freed with the job */
+    void *plttAlloc;               /* 0x14 palette block, freed with the job */
+    u32 charVram;                  /* 0x18 destination in character VRAM */
+    u32 plttVram;                  /* 0x1C destination in palette VRAM */
+    struct McssMcAnim *anim;       /* 0x20 */
+} McssCellBankJob;
 
 /* The resource passed to MCSS_TOOL_DrawSpindaSpots (job[0]); a pointer at 0x14. */
 typedef struct McssSpindaRes {
@@ -288,55 +317,55 @@ struct PokemonParam;
 
 #include "../arm9/poke_tool.h"
 
-void *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap);
+McssRenderPool *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap);
 
-void MUSICAL_MCSS_FreeRenderPool(char *p);
+void MUSICAL_MCSS_FreeRenderPool(McssRenderPool *renderPool);
 
-void MUSICAL_MCSS_TickMCAnim(char *p);
+void MUSICAL_MCSS_TickMCAnim(McssRenderPool *renderPool);
 
-void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawBig *));
+void MUSICAL_MCSS_DrawMC(McssRenderPool *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawSlot *));
 
 void MUSICAL_MCSS_DrawSprite(char *p, int offsetX, int offsetY, int width, int height, int texU, int texV, Pose *s, u16 *pa, int entIndex, int flag, int *pz, u8 mode);
 
-char *MUSICAL_MCSS_LoadMC(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g);
+McssMcAnim *MUSICAL_MCSS_LoadMC(McssRenderPool *a,u32 b,u32 c,u32 d,u32 *e,struct MusPokeDrawSlot *f,u32 g);
 
-void MUSICAL_MCSS_FreeMC(char *a, char *p);
+void MUSICAL_MCSS_FreeMC(McssRenderPool *a, McssMcAnim *mcAnim);
 
-void MUSICAL_MCSS_SetCameraBack(void *p);
+void MUSICAL_MCSS_SetCameraBack(McssRenderPool *renderPool);
 
-void MUSICAL_MCSS_SetCellVramBase(char *p,int b);
+void MUSICAL_MCSS_SetCellVramBase(McssRenderPool *renderPool,int b);
 
-void MUSICAL_MCSS_SetAnimVramBase(u8 *p, int a);
+void MUSICAL_MCSS_SetAnimVramBase(McssRenderPool *renderPool, int a);
 
-void MUSICAL_MCSS_SetMCAnimPos(char *p, int *q);
+void MUSICAL_MCSS_SetMCAnimPos(McssMcAnim *mcAnim, int *q);
 
-void MUSICAL_MCSS_SetMCAnimScale(char *p, int *q);
+void MUSICAL_MCSS_SetMCAnimScale(McssMcAnim *mcAnim, int *q);
 
-void MUSICAL_MCSS_SetMCAnimFrame(char *p, unsigned short v);
+void MUSICAL_MCSS_SetMCAnimFrame(McssMcAnim *mcAnim, unsigned short v);
 
-void MUSICAL_MCSS_EnableDrawOffset(u8 *p);
+void MUSICAL_MCSS_EnableDrawOffset(McssMcAnim *p);
 
-void MUSICAL_MCSS_DisableDrawOffset(u8 *p);
+void MUSICAL_MCSS_DisableDrawOffset(McssMcAnim *p);
 
-void MUSICAL_MCSS_PauseMCAnim(u8 *p);
+void MUSICAL_MCSS_PauseMCAnim(McssMcAnim *p);
 
-void MUSICAL_MCSS_ResumeMCAnim(char *p);
+void MUSICAL_MCSS_ResumeMCAnim(McssMcAnim *mcAnim);
 
-void MUSICAL_MCSS_SetMCAnim(char *p,u32 n);
+void MUSICAL_MCSS_SetMCAnim(McssMcAnim *mcAnim,u32 n);
 
-u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *p);
+u32 MUSICAL_MCSS_IsMCAnimHidden(McssMcAnim *mcAnim);
 
-void MUSICAL_MCSS_HideMCAnim(char *p);
+void MUSICAL_MCSS_HideMCAnim(McssMcAnim *mcAnim);
 
-void MUSICAL_MCSS_ShowMCAnim(char *p);
+void MUSICAL_MCSS_ShowMCAnim(McssMcAnim *mcAnim);
 
-void MUSICAL_MCSS_CopyField(MusPokeDrawObject *a,MusPokeDrawObject *b);
+void MUSICAL_MCSS_CopyField(McssMcAnim *a,McssMcAnim *b);
 
-void MUSICAL_MCSS_LoadCellBank(u8 *a,int index,u32 *res,u32 mode);
+void MUSICAL_MCSS_LoadCellBank(McssRenderPool *renderPool,int index,u32 *res,u32 mode);
 
-void MUSICAL_MCSS_FreeCellBank(void *a, void **p);
+void MUSICAL_MCSS_FreeCellBank(struct TcbTask *a, void *pArg);
 
-void MUSICAL_MCSS_InitMCAnim(char *p, int kind);
+void MUSICAL_MCSS_InitMCAnim(McssMcAnim *mcAnim, int kind);
 
 void MUSICAL_MCSS_SetupG3(void);
 
@@ -366,36 +395,40 @@ extern const Mtx43 d_02148B98;
 
 extern const Mtx44 d_02148B54;
 
-void *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap)
+McssRenderPool *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap)
 {
-    char *p;
-    p = GFL_HEAP_Alloc(heap, 28, 1, d_021F83D4, 132);
-    ((McssRenderPool *)p)->count = count;
-    ((McssRenderPool *)p)->heap = heap;
-    ((McssRenderPool *)p)->children = GFL_HEAP_Alloc(heap, count * 4, 1, d_021F83D4, 137);
-    ((McssRenderPool *)p)->lastTick = d_02FFFC3C;
-    ((McssRenderPool *)p)->cellVram = 3 << 16;
-    ((McssRenderPool *)p)->animVram = 1 << 12;
+    McssRenderPool *p;
+    p = GFL_HEAP_Alloc(heap, sizeof(*p), 1, d_021F83D4, 132);
+    p->count = count;
+    p->heap = heap;
+#ifdef __MWERKS__
+    p->children = GFL_HEAP_Alloc(heap, count * sizeof(*p->children), 1, d_021F83D4, 137);
+#else
+    p->children = GFL_HEAP_Alloc(heap, (count + 1) * sizeof(*p->children), 1, d_021F83D4, 137);
+#endif
+    p->lastTick = d_02FFFC3C;
+    p->cellVram = 3 << 16;
+    p->animVram = 1 << 12;
     return p;
 }
 
-void MUSICAL_MCSS_FreeRenderPool(char *renderPool) { int i; char *q; for(i=0;i<((McssRenderPool *)renderPool)->count;i++) { q=(*(char ***)(renderPool+4))[i]; if(q)MUSICAL_MCSS_FreeMC(renderPool,q); } GFL_HEAP_Free(((McssRenderPool *)renderPool)->children); GFL_HEAP_Free(renderPool); }
+void MUSICAL_MCSS_FreeRenderPool(McssRenderPool *renderPool) { int i; McssMcAnim *q; for(i=0;i<renderPool->count;i++) { q=renderPool->children[i]; if(q)MUSICAL_MCSS_FreeMC(renderPool,q); } GFL_HEAP_Free(renderPool->children); GFL_HEAP_Free(renderPool); }
 
-void MUSICAL_MCSS_TickMCAnim(char *renderPool)
+void MUSICAL_MCSS_TickMCAnim(McssRenderPool *renderPool)
 {
     int i;
     u32 now;
     int delta;
-    char *child;
+    McssMcAnim *child;
     i = 0;
     now = d_02FFFC3C;
-    delta = now - ((McssRenderPool *)renderPool)->lastTick;
-    for (; i < ((McssRenderPool *)renderPool)->count; i++) {
-        child = (*(char ***)(renderPool + 4))[i];
-        if (child && !((McssMcAnim *)child)->bits.paused)
-            NNS_G2dTickMCAnimation((struct MultiCellAnim *)(child + 40), delta << 12);
+    delta = now - renderPool->lastTick;
+    for (; i < renderPool->count; i++) {
+        child = renderPool->children[i];
+        if (child && !child->bits.paused)
+            NNS_G2dTickMCAnimation(&child->anim, delta << 12);
     }
-    ((McssRenderPool *)renderPool)->lastTick = now;
+    renderPool->lastTick = now;
 }
 
 static inline int FxMul(s64 a, s64 b)
@@ -410,9 +443,9 @@ static inline int RoundF(int v)
 
 static inline void LoadPose(Pose *r, char *src, int one)
 {
-    switch ((u16)*(u32 *)(*(char **)(src + 0x1c) + 4)) {
+    switch ((u16)((AnimCtrl *)src)->pAnimSequence->animType) {
     case 0: {
-        const PoseSrc *s = **(PoseSrc ***)src;
+        const PoseSrc *s = (const PoseSrc *)((AnimCtrl *)src)->pCurrent->pContent;
         r->id = s->id;
         r->rot = 0;
         r->sx = one;
@@ -422,10 +455,10 @@ static inline void LoadPose(Pose *r, char *src, int one)
         break;
     }
     case 1:
-        *r = ***(Pose ***)src;
+        *r = *(Pose *)((AnimCtrl *)src)->pCurrent->pContent;
         break;
     case 2: {
-        const PoseSrc *s = **(PoseSrc ***)src;
+        const PoseSrc *s = (const PoseSrc *)((AnimCtrl *)src)->pCurrent->pContent;
         r->id = s->id;
         r->rot = 0;
         r->sx = one;
@@ -1190,7 +1223,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   (3) C89-style function-scope declarations: the k-loop ints (ang, fx, ... rz) before `u8 flag`, then `int pr`.
  *   With int pr and the u8 flag named, declaration order places ang/fx/X, flag, pr in the original order.
  */
-void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawBig *))
+void MUSICAL_MCSS_DrawMC(McssRenderPool *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawSlot *))
 {
     Pose pose;
     Pose sub;
@@ -1221,7 +1254,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
     REG(REG_MTX_MODE_ADDR) = 3;
     REG(REG_MTX_IDENTITY_ADDR) = 0;
     REG(REG_MTX_MODE_ADDR) = 2;
-    if ((((McssRenderPool *)p)->bits.cameraBack) == 0)
+    if ((p->bits.cameraBack) == 0)
         G3i_LookAt_((const VecFx32 *)&d_02148D8C, (const VecFx32 *)&d_02148D98, (const VecFx32 *)&d_02148DA4, 1, 0);
     else
         G3i_LookAt_((const VecFx32 *)&d_021F8310, (const VecFx32 *)&d_021F831C, (const VecFx32 *)&d_021F8304, 1, 0);
@@ -1229,20 +1262,20 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
     MI_Copy36B(&m1, &m2);
     MTX_Copy33To44_((const MtxFx33 *)&m2, (MtxFx44 *)&m3);
 
-    for (i = 0; i < p[0]; i++) {
-        if (((char **)p[1])[i] == 0 || ((McssMcAnim *)((char **)p[1])[i])->bits.stopped)
+    for (i = 0; i < p->count; i++) {
+        if (p->children[i] == 0 || p->children[i]->bits.stopped)
             continue;
         REG(REG_MTX_PUSH_ADDR) = 0;
-        obj = ((char **)p[1])[i];
-        attr = (TexInfo *)(obj + 0x90);
-        ctrl = obj + 0x28;
-        srcs = (char **)(obj + 0x68);
+        obj = (char *)p->children[i];
+        attr = (TexInfo *)((McssMcAnim *)obj)->charVramHandle;
+        ctrl = (char *)&((McssMcAnim *)obj)->anim;
+        srcs = (char **)&((McssMcAnim *)obj)->anim.mc.pCellAnimInstasnces;
         cb.z = 0;
         LoadPose(&pose, ctrl, 0x1000);
-        pos.x = *(int *)(obj + 0xC8);
-        pos.y = *(int *)(obj + 0xCC);
-        pos.z = *(int *)(obj + 0xD0);
-        if ((((McssRenderPool *)p)->bits.cameraBack) == 0) {
+        pos.x = ((McssMcAnim *)obj)->posX;
+        pos.y = ((McssMcAnim *)obj)->posY;
+        pos.z = ((McssMcAnim *)obj)->posZ;
+        if ((p->bits.cameraBack) == 0) {
             ox = pose.dx << 8;
             oy = -pose.dz << 8;
         } else {
@@ -1271,12 +1304,12 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
             ox = RoundF(pose.dx);
             oy = RoundF(-pose.dz);
         }
-        pos.z = *(int *)(obj + 0xD0);
+        pos.z = ((McssMcAnim *)obj)->posZ;
         flag = 0;
-        if (*(int *)(obj + 0xD4) < 0)
+        if (((McssMcAnim *)obj)->scaleX < 0)
             flag++;
         G3_Translate(pos.x, pos.y, pos.z);
-        if ((((McssRenderPool *)p)->bits.cameraBack) == 0)
+        if ((p->bits.cameraBack) == 0)
             G3_MultMtx44(&m3);
         G3_Translate(ox, oy, 0);
         {
@@ -1285,38 +1318,38 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
         }
 
         {
-            int sy = FxMul(pose.sy, *(int *)(obj + 0xD8));
-            int sx = FxMul(pose.sx, *(int *)(obj + 0xD4));
+            int sy = FxMul(pose.sy, ((McssMcAnim *)obj)->scaleY);
+            int sx = FxMul(pose.sx, ((McssMcAnim *)obj)->scaleX);
             G3_Scale(sx, sy, 0x1000);
         }
         {
-            u16 a = *(u16 *)(obj + 0xFC);
+            u16 a = ((McssMcAnim *)obj)->frame;
             MTX_RotZ33_((MtxFx33 *)&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
-            MTX_MultVec33((const VecFx32 *)(obj + 0x100), (const MtxFx33 *)&m5, (VecFx32 *)(obj + 0x10C));
-            VEC_Subtract((const VecFx32 *)(obj + 0x100), (const VecFx32 *)(obj + 0x10C), (VecFx32 *)(obj + 0x10C));
-            *(int *)(obj + 0x10C) = FX_Div(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
-            *(int *)(obj + 0x110) = FX_Div(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
+            MTX_MultVec33((const VecFx32 *)&((McssMcAnim *)obj)->vecA, (const MtxFx33 *)&m5, (VecFx32 *)&((McssMcAnim *)obj)->vecB);
+            VEC_Subtract((const VecFx32 *)&((McssMcAnim *)obj)->vecA, (const VecFx32 *)&((McssMcAnim *)obj)->vecB, (VecFx32 *)&((McssMcAnim *)obj)->vecB);
+            ((McssMcAnim *)obj)->vecB.x = FX_Div(((McssMcAnim *)obj)->vecB.x, ((McssMcAnim *)obj)->scaleX);
+            ((McssMcAnim *)obj)->vecB.y = FX_Div(((McssMcAnim *)obj)->vecB.y, ((McssMcAnim *)obj)->scaleY);
         }
         REG(REG_MTX_STORE_ADDR) = 0x1D;
         MUSICAL_MCSS_SetupG3();
         {
             G3_TexImageParam(attr->fmt, GX_TEXGEN_TEXCOORD, attr->s, attr->t, GX_TEXREPEAT_ST, GX_TEXFLIP_ST, attr->pltt0, attr->addr);
         }
-        for (j = 0; j < (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].count; j++) {
+        for (j = 0; j < ((Tab *)((McssMcAnim *)obj)->anim.pMultiCellBank->pArray)[pose.id].count; j++) {
             char *src;
-            src = *srcs + (((*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].h & 0xFF00) >> 8) * 0x5C;
+            src = *srcs + ((((Tab *)((McssMcAnim *)obj)->anim.pMultiCellBank->pArray)[pose.id].ents[j].h & 0xFF00) >> 8) * sizeof(MCCellAnimation);
             LoadPose(&sub, src, 0x1000);
-            ent = (Ent *)(*(char **)(obj + 0x20) + 4 + sub.id * 0x38);
+            ent = (Ent *)((char *)((McssMcAnim *)obj)->cellTable + 4 + sub.id * 0x38);
             if (ent->overlayW != 0) {
                 if (((McssMcAnim *)obj)->bits.drawOffset)
                     MUSICAL_MCSS_DrawSprite(obj, ent->overlayX, ent->overlayY, ent->overlayW, ent->overlayH, ent->overlayU,
-                                  ent->overlayV + ent->overlayH, &sub, (u16 *)(&pose), j, ((McssRenderPool *)p)->bits.cameraBack, &cb.z, flag);
+                                  ent->overlayV + ent->overlayH, &sub, (u16 *)(&pose), j, p->bits.cameraBack, &cb.z, flag);
                 else
                     MUSICAL_MCSS_DrawSprite(obj, ent->overlayX, ent->overlayY, ent->overlayW, ent->overlayH, ent->overlayU,
-                                  ent->overlayV, &sub, (u16 *)(&pose), j, ((McssRenderPool *)p)->bits.cameraBack, &cb.z, flag);
+                                  ent->overlayV, &sub, (u16 *)(&pose), j, p->bits.cameraBack, &cb.z, flag);
             }
             MUSICAL_MCSS_DrawSprite(obj, ent->spriteX, ent->spriteY, ent->spriteW, ent->spriteH, ent->spriteU, ent->spriteV,
-                          &sub, (u16 *)(&pose), j, ((McssRenderPool *)p)->bits.cameraBack, &cb.z, flag);
+                          &sub, (u16 *)(&pose), j, p->bits.cameraBack, &cb.z, flag);
             for (k = 0; k < 8; k++) {
                 u8 b = ent->parts[k];
 
@@ -1325,17 +1358,17 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
                     break;
                 pr = pose.rot;
                 ang = (u16)(pr + sub.rot);
-                fx = (*(MusicalMcssPart **)(obj + 0x24))[b].x;
-                fz = (*(MusicalMcssPart **)(obj + 0x24))[b].z;
+                fx = ((MusicalMcssPart *)((McssMcAnim *)obj)->partTable)[b].x;
+                fz = ((MusicalMcssPart *)((McssMcAnim *)obj)->partTable)[b].z;
                 s = FX_SinCosTable_[(ang >> 4) * 2];
                 c = FX_SinCosTable_[(ang >> 4) * 2 + 1];
                 psx = pose.sx;
                 psy = pose.sy;
                 rx = FxMul(fx * c - fz * s, FxMul(psx, sub.sx));
                 rz = FxMul(fx * s + fz * c, FxMul(psy, sub.sy));
-                X = (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].x;
+                X = ((Tab *)((McssMcAnim *)obj)->anim.pMultiCellBank->pArray)[pose.id].ents[j].x;
                 X += pose.dx;
-                Z = (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].z;
+                Z = ((Tab *)((McssMcAnim *)obj)->anim.pMultiCellBank->pArray)[pose.id].ents[j].z;
                 Z += pose.dz;
                 s2 = FX_SinCosTable_[(pr >> 4) * 2];
                 rx += FxMul(X * FX_SinCosTable_[(pr >> 4) * 2 + 1] - Z * s2, psx);
@@ -1344,16 +1377,16 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
                 rz += RoundF(sub.dz);
                 cb.in.a = pos;
                 cb.in.a.y = -cb.in.a.y;
-                cb.in.b.x = FxMul(rx, *(int *)(obj + 0xD4) / 16);
-                cb.in.b.y = FxMul(rz, *(int *)(obj + 0xD8) / 16);
+                cb.in.b.x = FxMul(rx, ((McssMcAnim *)obj)->scaleX / 16);
+                cb.in.b.y = FxMul(rz, ((McssMcAnim *)obj)->scaleY / 16);
                 cb.in.b.z = cb.z;
-                cb.in.d = *(struct MusItemDrawVec3 *)(obj + 0x100);
-                cb.in.e = *(u16 *)(obj + 0xFC);
-                cb.in.c = *(struct MusItemDrawVec3 *)(obj + 0xD4);
-                cb.in.f = (u16)(ang + ((*(MusicalMcssPart **)(obj + 0x24))[b].rotation << 11));
-                arg((u8)(*(MusicalMcssPart **)(obj + 0x24))[b].kind, &cb.in, *(MusPokeDrawBig **)(obj + 0xF8));
-                if ((*(MusicalMcssPart **)(obj + 0x24))[b].kind == 5) {
-                    VEC_Set((struct MusItemDrawVec3 *)(obj + 0x100), cb.in.b.x, cb.in.b.y, 0);
+                cb.in.d = ((McssMcAnim *)obj)->vecA;
+                cb.in.e = ((McssMcAnim *)obj)->frame;
+                cb.in.c = ((McssMcAnim *)obj)->scale;
+                cb.in.f = (u16)(ang + (((MusicalMcssPart *)((McssMcAnim *)obj)->partTable)[b].rotation << 11));
+                arg((u8)((MusicalMcssPart *)((McssMcAnim *)obj)->partTable)[b].kind, &cb.in, ((McssMcAnim *)obj)->ownerSlot);
+                if (((MusicalMcssPart *)((McssMcAnim *)obj)->partTable)[b].kind == 5) {
+                    VEC_Set(&((McssMcAnim *)obj)->vecA, cb.in.b.x, cb.in.b.y, 0);
                 }
             }
         }
@@ -1365,7 +1398,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
 static inline void G3_TexPlttBase(u32 addr, int fmt)
 {
     u32 param = (u32)(addr >> (4 - (fmt == 2)));
-    *(volatile u32 *)0x040004AC = param;
+    *(volatile u32 *)REG_TEXPLTT_BASE_ADDR = param;
 }
 
 static inline u32 pk(int v)
@@ -1375,13 +1408,13 @@ static inline u32 pk(int v)
 
 static inline void G3_TexCoord(u32 s, u32 t)
 {
-    *(volatile u32 *)0x04000488 = s | (t << 16);
+    *(volatile u32 *)REG_TEXCOORD_ADDR = s | (t << 16);
 }
 
 static inline void G3_Vtx(u32 xy, u32 z)
 {
-    *(volatile u32 *)0x0400048C = xy;
-    *(volatile u32 *)0x0400048C = z;
+    *(volatile u32 *)REG_VTX_16_ADDR = xy;
+    *(volatile u32 *)REG_VTX_16_ADDR = z;
 }
 
 /*
@@ -1401,17 +1434,17 @@ void MUSICAL_MCSS_DrawSprite(char *p, int offsetX, int offsetY, int width, int h
 
     if (flag != 0) {
         G3i_OrthoW_(0x60000, 0xFFFA1000, 0xFFF81000, 0x80000, 0x1000, 0x3E8000, 0x1000, 1, 0);
-        *(volatile u32 *)0x04000440 = 2;
+        *(volatile u32 *)REG_MTX_MODE_ADDR = 2;
     }
-    *(volatile u32 *)0x04000450 = 0x1D;
-    G3_TexPlttBase(*(u32 *)(p + 0xBC), *(int *)(p + 0xB4));
-    *(volatile u32 *)0x040004A4 = 0x001F00C0;
-    x = (s->dx + (*(struct McssSpriteSet **)(p + 0x6C))->tbl[*pa].ents[entIndex].x) << 8;
-    y = -((*(struct McssSpriteSet **)(p + 0x6C))->tbl[*pa].ents[entIndex].z + s->dz) << 8;
+    *(volatile u32 *)REG_MTX_RESTORE_ADDR = 0x1D;
+    G3_TexPlttBase(((McssMcAnim *)p)->plttVramHandle[2], ((McssMcAnim *)p)->plttVramHandle[0]);
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = 0x001F00C0;
+    x = (s->dx + ((struct McssSpriteSet *)((McssMcAnim *)p)->anim.pMultiCellBank)->tbl[*pa].ents[entIndex].x) << 8;
+    y = -(((struct McssSpriteSet *)((McssMcAnim *)p)->anim.pMultiCellBank)->tbl[*pa].ents[entIndex].z + s->dz) << 8;
     if (mode == 0) {
-        ang = *(u16 *)(p + 0xFC);
+        ang = ((McssMcAnim *)p)->frame;
     } else if ((mode & 1) != 0) {
-        ang = (u16)(0x10000 - *(u16 *)(p + 0xFC));
+        ang = (u16)(0x10000 - ((McssMcAnim *)p)->frame);
     }
     G3_RotZ(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
     G3_Translate(x, y, *pz);
@@ -1427,23 +1460,23 @@ void MUSICAL_MCSS_DrawSprite(char *p, int offsetX, int offsetY, int width, int h
         G3_Translate(-0x100, 0, 0);
         texU = 0x200000 - texU - width;
     }
-    *(volatile u32 *)0x04000500 = 1;
+    *(volatile u32 *)REG_BEGIN_VTXS_ADDR = 1;
     t0 = pk(texV) << 16;
     s0 = pk(texU);
-    *(volatile u32 *)0x04000488 = s0 | t0;
+    *(volatile u32 *)REG_TEXCOORD_ADDR = s0 | t0;
     G3_Vtx(0, 0);
     s1 = pk(texU + width);
-    *(volatile u32 *)0x04000488 = s1 | t0;
+    *(volatile u32 *)REG_TEXCOORD_ADDR = s1 | t0;
     G3_Vtx(0x100, 0);
     t1 = pk(texV + height) << 16;
-    *(volatile u32 *)0x04000488 = s1 | t1;
+    *(volatile u32 *)REG_TEXCOORD_ADDR = s1 | t1;
     G3_Vtx(0xFF000100, 0);
-    *(volatile u32 *)0x04000488 = s0 | t1;
+    *(volatile u32 *)REG_TEXCOORD_ADDR = s0 | t1;
     G3_Vtx(0xFF000000, 0);
-    *(volatile u32 *)0x04000504 = 0;
-    *(volatile u32 *)0x04000440 = 0;
-    *(volatile u32 *)0x04000450 = 0;
-    *(volatile u32 *)0x04000440 = 2;
+    *(volatile u32 *)REG_END_VTXS_ADDR = 0;
+    *(volatile u32 *)REG_MTX_MODE_ADDR = 0;
+    *(volatile u32 *)REG_MTX_RESTORE_ADDR = 0;
+    *(volatile u32 *)REG_MTX_MODE_ADDR = 2;
     if (flag == 0) {
         *pz = *pz - 0x100;
     } else {
@@ -1451,97 +1484,97 @@ void MUSICAL_MCSS_DrawSprite(char *p, int offsetX, int offsetY, int width, int h
     }
 }
 
-char *MUSICAL_MCSS_LoadMC(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g)
+McssMcAnim *MUSICAL_MCSS_LoadMC(McssRenderPool *a,u32 b,u32 c,u32 d,u32 *e,struct MusPokeDrawSlot *f,u32 g)
 {
     int i;
-    for(i=0;i<((McssRenderPool *)a)->count;i++) {
-        if(SLOT==0) {
-            SLOT=GFL_HEAP_Alloc((u16)((McssRenderPool *)a)->heap,292,1,d_021F83D4,763);
-            *(u32 *)(SLOT+240)=i;
-            *(u32 *)(SLOT+244)=((McssRenderPool *)a)->heap;
-            *(u32 *)(SLOT+200)=b;
-            *(u32 *)(SLOT+204)=c;
-            *(u32 *)(SLOT+208)=d;
-            *(u16 *)(SLOT+252)=0;
-            *(u32 *)(SLOT+212)=4096;
-            *(u32 *)(SLOT+216)=4096;
-            *(u32 *)(SLOT+220)=4096;
-            *(u32 *)(SLOT+248)=f;
-            MUSICAL_MCSS_LoadCellBank((u8 *)a,i,(u32 *)e,g);
+    for(i=0;i<a->count;i++) {
+        if(a->children[i]==0) {
+            a->children[i]=GFL_HEAP_Alloc((u16)a->heap,sizeof(*a->children[i]),1,d_021F83D4,763);
+            a->children[i]->childIndex=i;
+            a->children[i]->heapTag=a->heap;
+            a->children[i]->posX=b;
+            a->children[i]->posY=c;
+            a->children[i]->posZ=d;
+            a->children[i]->frame=0;
+            a->children[i]->scaleX=4096;
+            a->children[i]->scaleY=4096;
+            a->children[i]->scaleZ=4096;
+            a->children[i]->ownerSlot=f;
+            MUSICAL_MCSS_LoadCellBank(a,i,e,g);
             break;
         }
     }
-    return SLOT;
+    return a->children[i];
 }
 
-void MUSICAL_MCSS_FreeMC(char *a, char *mcAnim)
+void MUSICAL_MCSS_FreeMC(McssRenderPool *a, McssMcAnim *mcAnim)
 {
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->cellBank);
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->multiCellBank);
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->animBank);
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->multiAnimBank);
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->workArea);
-    GFL_HEAP_Free(((McssMcAnim *)mcAnim)->cellTable);
-    (*(u32 **)(a+4))[((McssMcAnim *)mcAnim)->childIndex] = 0;
+    GFL_HEAP_Free(mcAnim->cellBank);
+    GFL_HEAP_Free(mcAnim->multiCellBank);
+    GFL_HEAP_Free(mcAnim->animBank);
+    GFL_HEAP_Free(mcAnim->multiAnimBank);
+    GFL_HEAP_Free(mcAnim->workArea);
+    GFL_HEAP_Free(mcAnim->cellTable);
+    a->children[mcAnim->childIndex] = 0;
     GFL_HEAP_Free(mcAnim);
 }
 
-void MUSICAL_MCSS_SetCameraBack(void *renderPool)
+void MUSICAL_MCSS_SetCameraBack(McssRenderPool *renderPool)
 {
-    unsigned int v = ((McssRenderPool *)renderPool)->flags;
-    ((McssRenderPool *)renderPool)->flags = (v & ~1u) | 1u;
+    unsigned int v = renderPool->flags;
+    renderPool->flags = (v & ~1u) | 1u;
 }
 
 /*
  * note: blocker leaf of MUSICAL_MCSS_SetRenderCellVramBase; following 021F6230 is already matched.
  */
-void MUSICAL_MCSS_SetCellVramBase(char *renderPool,int b) { ((McssRenderPool *)renderPool)->cellVram=b; }
+void MUSICAL_MCSS_SetCellVramBase(McssRenderPool *renderPool,int b) { renderPool->cellVram=b; }
 
-void MUSICAL_MCSS_SetAnimVramBase(u8 *renderPool, int a)
+void MUSICAL_MCSS_SetAnimVramBase(McssRenderPool *renderPool, int a)
 {
-    ((McssRenderPool *)renderPool)->animVram = a;
+    renderPool->animVram = a;
 }
 
-void MUSICAL_MCSS_SetMCAnimPos(char *mcAnim, int *q)
+void MUSICAL_MCSS_SetMCAnimPos(McssMcAnim *mcAnim, int *q)
 {
-    ((McssMcAnim *)mcAnim)->posX = q[0];
-    ((McssMcAnim *)mcAnim)->posY = q[1];
-    ((McssMcAnim *)mcAnim)->posZ = q[2];
+    mcAnim->posX = q[0];
+    mcAnim->posY = q[1];
+    mcAnim->posZ = q[2];
 }
 
-void MUSICAL_MCSS_SetMCAnimScale(char *mcAnim, int *q)
+void MUSICAL_MCSS_SetMCAnimScale(McssMcAnim *mcAnim, int *q)
 {
-    ((McssMcAnim *)mcAnim)->scaleX = q[0];
-    ((McssMcAnim *)mcAnim)->scaleY = q[1];
-    ((McssMcAnim *)mcAnim)->scaleZ = q[2];
+    mcAnim->scaleX = q[0];
+    mcAnim->scaleY = q[1];
+    mcAnim->scaleZ = q[2];
 }
 
-void MUSICAL_MCSS_SetMCAnimFrame(char *mcAnim, unsigned short v)
+void MUSICAL_MCSS_SetMCAnimFrame(McssMcAnim *mcAnim, unsigned short v)
 {
-    ((McssMcAnim *)mcAnim)->frame = v;
+    mcAnim->frame = v;
 }
 
-void MUSICAL_MCSS_EnableDrawOffset(u8 *p) { ((MusicalMcssFlags *)(p+236))->a=1; }
+void MUSICAL_MCSS_EnableDrawOffset(McssMcAnim *p) { p->bits.drawOffset=1; }
 
-void MUSICAL_MCSS_DisableDrawOffset(u8 *p) { ((MusicalMcssFlags *)(p+236))->a=0; }
+void MUSICAL_MCSS_DisableDrawOffset(McssMcAnim *p) { p->bits.drawOffset=0; }
 
-void MUSICAL_MCSS_PauseMCAnim(u8 *p) { ((MusicalMcssFlags *)(p+236))->b=1; }
+void MUSICAL_MCSS_PauseMCAnim(McssMcAnim *p) { p->bits.paused=1; }
 
-void MUSICAL_MCSS_ResumeMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~2u;}
+void MUSICAL_MCSS_ResumeMCAnim(McssMcAnim *mcAnim) {mcAnim->flags&=~2u;}
 
-void MUSICAL_MCSS_SetMCAnim(char *mcAnim,u32 n) {const AnimSequenceData *a; a=NNS_G2dGetAnimSequenceByIdx(((McssMcAnim *)mcAnim)->animSequenceBank,n);MUSICAL_MCSS_InitMCAnim(mcAnim,1);NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(mcAnim+40),a);}
+void MUSICAL_MCSS_SetMCAnim(McssMcAnim *mcAnim,u32 n) {const AnimSequenceData *a; a=NNS_G2dGetAnimSequenceByIdx(mcAnim->animSequenceBank,n);MUSICAL_MCSS_InitMCAnim(mcAnim,1);NNS_G2dSetAnimSequenceToMCAnimation(&mcAnim->anim,a);}
 
-u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *mcAnim) { return (((McssMcAnim *)mcAnim)->flags << 29) >> 31; }
+u32 MUSICAL_MCSS_IsMCAnimHidden(McssMcAnim *mcAnim) { return (mcAnim->flags << 29) >> 31; }
 
-void MUSICAL_MCSS_HideMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags|=4u;}
+void MUSICAL_MCSS_HideMCAnim(McssMcAnim *mcAnim) {mcAnim->flags|=4u;}
 
-void MUSICAL_MCSS_ShowMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~4u;}
+void MUSICAL_MCSS_ShowMCAnim(McssMcAnim *mcAnim) {mcAnim->flags&=~4u;}
 
-void MUSICAL_MCSS_CopyField(MusPokeDrawObject *a,MusPokeDrawObject *b)
+void MUSICAL_MCSS_CopyField(McssMcAnim *a,McssMcAnim *b)
 {
-    b->a=a->a; b->b=a->b; b->c=a->c;
-    b->b0=a->b0; b->b1=a->b1; b->b2=a->b2;
-    b->h=a->h; b->d=a->d; b->e=a->e;
+    b->pos=a->pos; b->scale=a->scale; b->vecC=a->vecC;
+    b->bits.drawOffset=a->bits.drawOffset; b->bits.paused=a->bits.paused; b->bits.stopped=a->bits.stopped;
+    b->frame=a->frame; b->vecA=a->vecA; b->vecB=a->vecB;
 }
 
 /*
@@ -1549,54 +1582,55 @@ void MUSICAL_MCSS_CopyField(MusPokeDrawObject *a,MusPokeDrawObject *b)
  * prototype: 6469C receives the sequence in r1 despite its one-argument matched definition.
  * prototype: 48F60/49F34/30734 heap inputs are narrowed immediately before each original call.
  */
-void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
+void MUSICAL_MCSS_LoadCellBank(McssRenderPool *renderPool,int index,u32 *res,u32 mode)
 {
-    u8 *q=(*(u8 ***)(renderPool+4))[index];
-    void **job;
+    McssMcAnim *q=renderPool->children[index];
+    McssCellBankJob *job;
     struct AnimSequence *sequence;
     u8 *table;
-    ((McssMcAnim *)q)->flags |= 4;
-    NNSi_G2dInitVramHandle((u32 *)(q+144));
-    NNSi_G2dInitVramHandleEx((u32 *)(q+180));
-    ((McssMcAnim *)q)->cellBank=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(struct CellDataBank **)(q+4),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(struct AnimBank **)(q+20),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->animBank=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(struct MultiCellBank **)(q+12),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(struct AnimBank **)(q+28),((McssMcAnim *)q)->heapTag);
-    sequence=(struct AnimSequence *)NNS_G2dGetAnimSequenceByIdx(*(struct AnimBank * *)&((McssMcAnim *)q)->animSequenceBank,0);
-    MUSICAL_MCSS_InitMCAnim((char *)q,1);
-    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(q+40),(struct AnimSequenceData *)sequence);
-    table=ARC_TOOL_LoadMember(res[0],res[7],(u16)(((McssMcAnim *)q)->heapTag));
-    *(u8 * *)&((McssMcAnim *)q)->cellTable=table;
-    *(u8 * *)&((McssMcAnim *)q)->partTable=table+4+56* ((McssMultiCellBank *)table)->count;
-    job=GFL_HEAP_Alloc((u16)((McssMcAnim *)q)->heapTag,36,1,d_021F83D4,1104);
-    job[2]=q+144;
-    job[3]=q+180;
-    job[6]=*(u8 * *)&((McssRenderPool *)renderPool)->cellVram+index*16384;
-    job[7]=*(u8 * *)&((McssRenderPool *)renderPool)->animVram+index*32;
-    job[8]=q;
-    job[4]=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,job,((McssMcAnim *)q)->heapTag);
-    job[5]=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],(job+1),(u16)(((McssMcAnim *)q)->heapTag));
-    if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((McssSpindaRes *)((u8 *)job[0]))->spots,res[8]);
-    if(mode==1) GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MUSICAL_MCSS_FreeCellBank),(void *)((uptr)job),0);
+    q->flags |= 4;
+    NNSi_G2dInitVramHandle(q->charVramHandle);
+    NNSi_G2dInitVramHandleEx(q->plttVramHandle);
+    q->cellBank=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(struct CellDataBank **)&q->cellBankArg,q->heapTag);
+    q->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(struct AnimBank **)&q->cellAnimBankData,q->heapTag);
+    q->animBank=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(struct MultiCellBank **)&q->cellArg,q->heapTag);
+    q->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(struct AnimBank **)&q->animSequenceBank,q->heapTag);
+    sequence=(struct AnimSequence *)NNS_G2dGetAnimSequenceByIdx(*(struct AnimBank * *)&q->animSequenceBank,0);
+    MUSICAL_MCSS_InitMCAnim(q,1);
+    NNS_G2dSetAnimSequenceToMCAnimation(&q->anim,(struct AnimSequenceData *)sequence);
+    table=ARC_TOOL_LoadMember(res[0],res[7],(u16)(q->heapTag));
+    *(u8 * *)&q->cellTable=table;
+    *(u8 * *)&q->partTable=table+4+56* ((McssMultiCellBank *)table)->count;
+    job=GFL_HEAP_Alloc((u16)q->heapTag,sizeof(*job),1,d_021F83D4,1104);
+    job->charHandle=q->charVramHandle;
+    job->plttHandle=q->plttVramHandle;
+    job->charVram=renderPool->cellVram+index*16384;
+    job->plttVram=renderPool->animVram+index*32;
+    job->anim=q;
+    job->charAlloc=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,&job->charRes,q->heapTag);
+    job->plttAlloc=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],&job->plttRes,(u16)(q->heapTag));
+    if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((McssSpindaRes *)job->charRes)->spots,res[8]);
+    if(mode==1) GFL_USE_AddMainTask(MUSICAL_MCSS_FreeCellBank,(void *)job,0);
     else MUSICAL_MCSS_FreeCellBank(0,job);
 }
 
 /*
  * extent: Two zero padding bytes follow the compiled body.
  */
-void MUSICAL_MCSS_FreeCellBank(void *a, void **p)
+void MUSICAL_MCSS_FreeCellBank(struct TcbTask *a, void *pArg)
 {
-    if(p[8]) ((McssMcAnim *)((char *)p[8]))->flags &= ~4u;
-    if(p[4]) { NNSi_G2dLoadVramResourceSub(p[0],(uptr)p[6],0,p[2]); GFL_HEAP_Free(p[4]); }
-    if(p[1]) { NNSi_G2dLoadVramResourceBySel(p[1],(uptr)p[7],0,p[3]); GFL_HEAP_Free(p[5]); }
+    McssCellBankJob *p = pArg;
+    if(p->anim) p->anim->flags &= ~4u;
+    if(p->charAlloc) { NNSi_G2dLoadVramResourceSub(p->charRes,p->charVram,0,p->charHandle); GFL_HEAP_Free(p->charAlloc); }
+    if(p->plttRes) { NNSi_G2dLoadVramResourceBySel(p->plttRes,p->plttVram,0,p->plttHandle); GFL_HEAP_Free(p->plttAlloc); }
     GFL_HEAP_Free(p);
     if(a) TCB_DeleteTask(a);
 }
 
-void MUSICAL_MCSS_InitMCAnim(char *mcAnim, int kind)
+void MUSICAL_MCSS_InitMCAnim(McssMcAnim *mcAnim, int kind)
 {
-    ((McssMcAnim *)mcAnim)->workArea=GFL_HEAP_Alloc((u16)((McssMcAnim *)mcAnim)->heapTag,NNS_G2dGetMCWorkAreaSize(*(struct MultiCellBank **)&((McssMcAnim *)mcAnim)->cellArg,kind),0,d_021F83D4,1216);
-    NNS_G2dInitMCAnimation((struct MultiCellAnim *)(mcAnim+40),*(char * *)&((McssMcAnim *)mcAnim)->workArea,((McssMcAnim *)mcAnim)->cellAnimBankData,(struct CellDataBank *)(((McssMcAnim *)mcAnim)->cellBankArg),((McssMcAnim *)mcAnim)->cellArg,kind);
+    mcAnim->workArea=GFL_HEAP_Alloc((u16)mcAnim->heapTag,NNS_G2dGetMCWorkAreaSize(*(struct MultiCellBank **)&mcAnim->cellArg,kind),0,d_021F83D4,1216);
+    NNS_G2dInitMCAnimation(&mcAnim->anim,*(char * *)&mcAnim->workArea,mcAnim->cellAnimBankData,(struct CellDataBank *)(mcAnim->cellBankArg),mcAnim->cellArg,kind);
 }
 
 /*

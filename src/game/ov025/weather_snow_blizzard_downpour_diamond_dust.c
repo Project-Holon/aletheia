@@ -282,12 +282,23 @@ void WEATHER_SNOW_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
 
 /* ---- Blizzard ---- */
 
+#ifndef __MWERKS__
+static void WEATHER_BLIZZARD_SpawnParticlesFn(WeatherTaskSys *task, s32 count, u32 heapId)
+{
+    WEATHER_BLIZZARD_SpawnParticles(task, count, (u16)heapId);
+}
+#endif
+
 /* Blizzard, stage begin: spawner, fog and light parameters, wind sound. */
 int WEATHER_BLIZZARD_Begin(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherBlizzardWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
+#ifdef __MWERKS__
     WEATHER_TASK_SetupSpawner(task, 1, 6, 1, 2, -2, 2, 1, (WeatherSpawnFunc)WEATHER_BLIZZARD_SpawnParticles);
+#else
+    WEATHER_TASK_SetupSpawner(task, 1, 6, 1, 2, -2, 2, 1, WEATHER_BLIZZARD_SpawnParticlesFn);
+#endif
     WEATHER_TASK_InitFog(task, 4, 0x7FFF, variant);
     work->fadeDelay = 8;
     work->windPhase = 0;
@@ -326,12 +337,20 @@ int WEATHER_BLIZZARD_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherBlizzardWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
+#ifdef __MWERKS__
     WEATHER_TASK_SetupSpawner(task, 1, 2, 1, 2, -2, 2, 1, (WeatherSpawnFunc)WEATHER_BLIZZARD_SpawnParticles);
+#else
+    WEATHER_TASK_SetupSpawner(task, 1, 2, 1, 2, -2, 2, 1, WEATHER_BLIZZARD_SpawnParticlesFn);
+#endif
     WEATHER_TASK_InitFog(task, 4, 0x7B18, variant);
     work->windPhase = 0;
     work->scrollX = 0;
     work->scrollY = 0;
+#ifdef __MWERKS__
     WEATHER_TASK_PrewarmParticles(task, (WeatherSpawnFunc)WEATHER_BLIZZARD_SpawnParticles, 0x14, 2, 2, heapId);
+#else
+    WEATHER_TASK_PrewarmParticles(task, WEATHER_BLIZZARD_SpawnParticlesFn, 0x14, 2, 2, heapId);
+#endif
     WEATHER_TASK_SetBillboardVisible(task, 1, 0);
     WEATHER_TASK_SetLight(task, 0x3E, ZONEDATA_GetLightTableMember(4));
     return 1;

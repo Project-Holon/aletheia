@@ -14,7 +14,7 @@ void DWCi_EncSetError(void);
 int DWCi_EncSessionProcess(void);
 void DWCi_EncSessionCancel(void);
 void DWCi_EncSessionShutdown(void);
-u32 DWCi_EncSessionGetResponse(u32 *outLen);
+void *DWCi_EncSessionGetResponse(u32 *outLen);
 int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, DWCEncResponseCallback callback, int reuseHash);
 int DWCi_EncSessionGetAsync(char *url, long pid, void *data, u32 size, DWCEncResponseCallback callback);
 /* END mkheaders: generated region */

@@ -64,7 +64,7 @@ extern unsigned short *sHeadlineBuffer;
  * sdk:      DWCi_HLlInit (libdwcutil.TWL.HYB.a headline.o)
  */
 
-static void taskLoad(void *task);
+static void taskLoad(void *task, void *work);
 void DWCi_HLlInit(void)
 {
     gHeadlineWork = DWCi_HEAPlAllocEx(0xC0, 4);
@@ -96,7 +96,7 @@ void DWCi_HLlLoad(int idx)
     void *file = DWCi_ARClReadEx(n, 0, 4);
     MIi_CpuCopyFast(file, sHeadlineBuffer, 0xc0);
     DWCi_ARClRelease(file);
-    DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, 0, 0x78);
+    DWCi_TSKlForm(1, taskLoad, 0, 0x78);
 }
 
 
@@ -112,7 +112,7 @@ void DWCi_HLlLoadList(void)
 }
 
 
-static void taskLoad(void *task)
+static void taskLoad(void *task, void *work)
 {
     DC_FlushRange(gHeadlineWork, 0xC0);
     GX_LoadBG1Scr(gHeadlineWork, 0, 0xC0);

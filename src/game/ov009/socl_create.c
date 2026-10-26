@@ -147,7 +147,7 @@ typedef struct {
 
 #include "socl_command.h"
 extern int SOCLi_CreateSocketCallBack(void *arg);
-extern void CPS_SocRegister(int v);
+extern void CPS_SocRegister(void *v);
 extern void CPS_SocDup(char *dst);
 extern void CPS_SocUse(void);
 extern void CPS_SocDatagramMode(void);
@@ -183,7 +183,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     if (socket == 0)
         return -0x31;
     command = SOCLi_CreateCommandPacket(SOCLi_CreateSocketCallBack, socket, 1);
-    SOCLi_ExecCommandPacketInCtrlPipe((int)((int *)socket), (int)command);
+    SOCLi_ExecCommandPacketInCtrlPipe(socket, command);
     {
         int flag = 0;
 
@@ -214,7 +214,7 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	unsigned char *send_pipe;
 
 	socket = ((Cmd *)arg)->socket;
-	CPS_SocRegister((sptr)socket);
+	CPS_SocRegister(socket);
 	send_pipe = socket->send_pipe;
 	switch (socket->flag_mode) {
 	case 0:
@@ -225,7 +225,7 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	case 1:
 		CPS_SocUse();
 		CPS_SocDatagramMode();
-		CPS_SetUdpCallback((int (*)(unsigned char *, unsigned long, struct CPSSoc *))SOCLi_UdpRecvCallback);
+		CPS_SetUdpCallback(SOCLi_UdpRecvCallback);
 		break;
 	case 2:
 		CPS_SocDatagramMode();

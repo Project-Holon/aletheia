@@ -127,23 +127,24 @@ struct GFLNetHandle;
 #include "../arm9/mi_memory.h"
 #include "../arm9/config.h"
 #include "../arm9/game_data.h"
-u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
-void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
-void *EVENT_GTSNEGO_Create(void *gameSystem, int a);
-void *EVENT_GTSNEGO_Entry(void *gameSystem, int a);
+#include "../arm9/net_save.h"
+#include "../arm9/procsys.h"
+int EVENT_GTSNEGO_Main(struct GameEvent *event, int *seq, void *work);
+void *EVENT_GTSNEGO_InitWork(struct GameEvent *event, struct GameSystem *gameSystem, void *arg, int startMode);
+struct GameEvent *EVENT_GTSNEGO_Create(struct GameSystem *gameSystem, void *arg);
+struct GameEvent *EVENT_GTSNEGO_Entry(struct GameSystem *gameSystem, void *arg);
 extern char ov115_id[];
 extern char ov120_id[];
 extern char ov119_id[];
 extern char ov195_id[];
-extern char gNetSaveMainProc[];
-extern char gNetSaveRetryProc[];
-extern char d_021D890C[];
-extern char d_021E759C[];
-extern char d_02208C40[];
+extern const ProcData d_021D890C;
+extern const ProcData d_021E759C;
+extern const ProcData d_02208C40;
 extern char d_021546A0[];
 
-u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
+int EVENT_GTSNEGO_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    GtsNegoEventWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -164,7 +165,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
     case 2:
         work->login.saveData = work->loginSaveData;
         work->login.messageId = 0x33;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveMainProc, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, &gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 3:
@@ -177,7 +178,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         break;
     case 4:
         work->dispParam.result = 0;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov120_id, d_021D890C, &work->dispParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov120_id, &d_021D890C, &work->dispParam);
         (*seq)++;
         break;
     case 5:
@@ -197,7 +198,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         work->tradeParam.gameData = gameData;
         work->tradeParam.dispParam = &work->dispParam;
         work->tradeParam.loginSaveData = work->loginSaveData;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, d_021E759C, &work->tradeParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, &d_021E759C, &work->tradeParam);
         (*seq)++;
         break;
     case 7:
@@ -230,7 +231,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         *seq = 4;
         break;
     case 10:
-        request = GFL_HEAP_Alloc(4, 0x14, 0, d_021546A0, 0xcc);
+        request = GFL_HEAP_Alloc(4, sizeof(EvolutionRequest), 0, d_021546A0, 0xcc);
         request->gameData = work->tradeParam.gameData;
         request->party = work->tradedParty;
         request->targetSpecies = work->tradeParam.partyIndex;
@@ -239,7 +240,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         request->fromTrade = 1;
         request->fromField = 0;
         work->tradeParam.evolutionRequest = request;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, d_02208C40, request);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, &d_02208C40, request);
         (*seq)++;
         break;
     case 11:
@@ -255,7 +256,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         }
         break;
     case 12:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveRetryProc, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, &gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 13:
@@ -285,7 +286,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
  * Fills the event work: game system, party for traded Pokemon, status copies
  * for the negotiation screen and the two login parameter blocks.
  */
-void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode)
+void *EVENT_GTSNEGO_InitWork(struct GameEvent *event, struct GameSystem *gameSystem, void *arg, int startMode)
 {
     GtsNegoEventWork *work;
 
@@ -296,12 +297,12 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
     work->startMode = startMode;
     work->tradedParty = POKEPARTY_Create(4);
     work->tradeParam.party = work->tradedParty;
-    MI_CpuFill8(&work->dispParam, 0, 0x1b4);
+    MI_CpuFill8(&work->dispParam, 0, sizeof(work->dispParam));
     work->dispParam.gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->dispParam.myStatusCopy = GFL_HEAP_Alloc(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     work->dispParam.partnerStatusCopy = GFL_HEAP_Alloc(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
     MI_CpuCopy8((const void *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
-    MI_CpuFill8(&work->login, 0, 0x28);
+    MI_CpuFill8(&work->login, 0, sizeof(work->login));
     work->login.gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->login.loginType = 0;
     work->login.loginOption = 1;
@@ -315,15 +316,15 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
  * Allocator call with a callback, then a two-argument tail setup; returns the
  * allocator result.
  */
-void *EVENT_GTSNEGO_Create(void *gameSystem, int a)
+struct GameEvent *EVENT_GTSNEGO_Create(struct GameSystem *gameSystem, void *arg)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GTSNEGO_Main, 0x3B4);
-    EVENT_GTSNEGO_InitWork(event, gameSystem, a, 0);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_GTSNEGO_Main, sizeof(GtsNegoEventWork));
+    EVENT_GTSNEGO_InitWork(event, gameSystem, arg, 0);
     return event;
 }
 
 /* Overlay entry point: forwards to the event constructor. */
-void *EVENT_GTSNEGO_Entry(void *gameSystem, int a)
+struct GameEvent *EVENT_GTSNEGO_Entry(struct GameSystem *gameSystem, void *arg)
 {
-    return EVENT_GTSNEGO_Create(gameSystem, a);
+    return EVENT_GTSNEGO_Create(gameSystem, arg);
 }

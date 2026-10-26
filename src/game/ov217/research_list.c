@@ -177,6 +177,7 @@ struct ClactVec2;
 struct PaletteFade;
 struct Unit;
 #include "../arm9/arc_tool.h"
+#include "../arm9/gfl_use.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/palanm.h"
 #include "../arm9/bmp_oam.h"
@@ -185,16 +186,16 @@ struct Unit;
 #define GB ((const struct ResearchListEntryDef *)gb)
 
 struct ResearchTop {
-    u32 owner;
-    union { void * listView; u32 listViewU; };
+    struct ResearchCommon *owner;
+    struct ListViewState *listView;
     u16 heapId;
     u8 padA[0x2];
-    union { u32 font; void * fontP; };
+    struct GfFont *font;
     union {
         u32 arr[0x50];
         struct {
-            u32 messageBanks[2];
-            u32 commandQueue;
+            struct MsgBank *messageBanks[2];
+            struct RingQueue *commandQueue;
             u32 state;
             u32 subState;
             u32 stateTimer;
@@ -203,7 +204,7 @@ struct ResearchTop {
             u8 entryCount;
             u8 selectedIndex;
             u8 cursorSlot;
-            u8 pad33;
+            u8 endIndex;
             int scrollY;
             u32 prevScrollY;
             u32 animStart;
@@ -215,30 +216,25 @@ struct ResearchTop {
             u32 keyRepeatTimer;
             u8 touchRects[0x40];
             void * palAnm;
-            u32 paletteAnime[6];
-            void * entryLabels[8];
-            u8 padD4[0x10];
-            u32 nameLabelA;
-            u32 nameLabelB;
-            u32 valueLabelA;
-            u32 valueLabelB;
-            u32 valueLabelC;
-            int cursorCharacter;
-            int cursorPalette;
-            int cursorCell;
-            int cursorEffectPalette;
-            int entryCharacter;
-            int entryPalette;
-            int entryCell;
-            int units[3];
-            void * actorHandles[3];
-            u32 oamSys;
-            void * oamObjects[4];
-            void * bmps[4];
+            struct PaletteAnime *paletteAnime[6];
+            struct BgTextLabel *entryLabels[10];
+            union {
+                struct BgTextLabel *labels[7];
+                struct { struct BgTextLabel *labelPad0, *labelPad1, *nameLabelA, *nameLabelB, *valueLabelA, *valueLabelB, *valueLabelC; };
+            };
+            union {
+                int resources[7];
+                struct { int cursorCharacter, cursorPalette, cursorCell, cursorEffectPalette, entryCharacter, entryPalette, entryCell; };
+            };
+            struct Unit *units[3];
+            struct ClactActor *actorHandles[3];
+            struct BmpOamSys *oamSys;
+            struct BmpOam *oamObjects[4];
+            struct Bmp *bmps[4];
         };
     };
-    union { void * paletteAnimOwner; u32 paletteAnimOwnerU; };
-    u32 vblankNode;
+    struct ResearchCommon *paletteAnimOwner;
+    struct TcbTask *vblankNode;
     u32 commandReady;
     u32 entryPaletteActive;
     u32 cursorVisible;
@@ -246,7 +242,7 @@ struct ResearchTop {
     u32 active;
 };
 
-typedef enum { INDEX_ZERO=0 } Index;
+typedef enum { INDEX_ZERO=0 } ResearchListIndex;
 
 typedef enum { PLANE_NONE=0,PLANE_OUT=31,PLANE_IN=19 } Plane;
 
@@ -315,8 +311,8 @@ struct Param { void *bmp; s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 struct OamDef { s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 
 struct Entry021C3260 {
-    int a;
-    int b;
+    u16 *a;
+    u16 *b;
     unsigned char c;
     unsigned char pad[11];
 };
@@ -432,7 +428,7 @@ struct BgTextLabelConfig;
 
 
 
-extern u32 PALETTE_ANIME_Create(u32 heapId);
+extern struct PaletteAnime *PALETTE_ANIME_Create(u32 heapId);
 
 extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
@@ -520,190 +516,189 @@ struct BmpOamSys;
 
 struct TcbTask;
 
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
 struct TcbTask;
 
 #include "../arm9/tcb_list.h"
 
-u32 RESEARCH_LIST_Create(u32 owner, u32 listView);
+struct ResearchTop *RESEARCH_LIST_Create(struct ResearchCommon *owner, struct ListViewState *listView);
 
-u32 RESEARCH_LIST_Destroy(void *list);
+u32 RESEARCH_LIST_Destroy(struct ResearchTop *list);
 
-void RESEARCH_LIST_Update(void *self);
+void RESEARCH_LIST_Update(struct ResearchTop *self);
 
-u32 RESEARCH_LIST_GetVisible(void *p);
+u32 RESEARCH_LIST_GetVisible(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetActive(void *p);
+u32 RESEARCH_LIST_GetActive(struct ResearchTop *list);
 
-void RESEARCH_LIST_EnterSetup(u8 *p);
+void RESEARCH_LIST_EnterSetup(struct ResearchTop *list);
 
-void RESEARCH_LIST_HandleScrollInput(u8 *p);
+void RESEARCH_LIST_HandleScrollInput(struct ResearchTop *list);
 
-void RESEARCH_LIST_HandleSelectInput(char *p);
+void RESEARCH_LIST_HandleSelectInput(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateOpen(u8 *p);
+void RESEARCH_LIST_UpdateOpen(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateDrag(struct ResearchTop *p);
+void RESEARCH_LIST_UpdateDrag(struct ResearchTop *list);
 
-void RESEARCH_LIST_HandleConfirm(char *p);
+void RESEARCH_LIST_HandleConfirm(struct ResearchTop *list);
 
-void RESEARCH_LIST_HandleCancel(char *p);
+void RESEARCH_LIST_HandleCancel(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateShowEntry(u8 *p);
+void RESEARCH_LIST_UpdateShowEntry(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateHideEntry(u8 *p);
+void RESEARCH_LIST_UpdateHideEntry(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateSaveExit(u8 *p);
+void RESEARCH_LIST_UpdateSaveExit(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateFadeInWait(u8 *p);
+void RESEARCH_LIST_UpdateFadeInWait(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateFadeOutWait(u8 *p);
+void RESEARCH_LIST_UpdateFadeOutWait(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateReturn(struct ResearchTop *p);
+void RESEARCH_LIST_UpdateReturn(struct ResearchTop *list);
 
-void RESEARCH_LIST_EnterExit(u8 *p);
+void RESEARCH_LIST_EnterExit(struct ResearchTop *list);
 
-void RESEARCH_LIST_IncStateTimer(void *p);
+void RESEARCH_LIST_IncStateTimer(struct ResearchTop *list);
 
-void RESEARCH_LIST_PushCommand(u8 *list, u32 command);
+void RESEARCH_LIST_PushCommand(struct ResearchTop *list, u32 command);
 
-void RESEARCH_LIST_SetCommandReady(void *p);
+void RESEARCH_LIST_SetCommandReady(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetEntryHandled(u8 *list);
+u32 RESEARCH_LIST_GetEntryHandled(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetEntryHandled(u8 *list, u32 handled);
+void RESEARCH_LIST_SetEntryHandled(struct ResearchTop *list, u32 handled);
 
-void RESEARCH_LIST_SetActive(void *p, u32 v);
+void RESEARCH_LIST_SetActive(struct ResearchTop *list, u32 active);
 
-u32 RESEARCH_LIST_GetFadeWaitFrames(u8 *list);
+u32 RESEARCH_LIST_GetFadeWaitFrames(struct ResearchTop *list);
 
-void RESEARCH_LIST_ProcessCommand(u32 list);
+void RESEARCH_LIST_ProcessCommand(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetState(void *p);
+u32 RESEARCH_LIST_GetState(struct ResearchTop *list);
 
-int RESEARCH_LIST_SetState(char *p, int state);
+int RESEARCH_LIST_SetState(struct ResearchTop *list, int state);
 
-u32 RESEARCH_LIST_GetSubState(void *p);
+u32 RESEARCH_LIST_GetSubState(struct ResearchTop *list);
 
-void RESEARCH_LIST_IncSubState(void *p);
+void RESEARCH_LIST_IncSubState(struct ResearchTop *list);
 
-void *RESEARCH_LIST_ClearSubState(void *p);
+struct ResearchTop *RESEARCH_LIST_ClearSubState(struct ResearchTop *list);
 
-void RESEARCH_LIST_SelectPrevious(u32 list);
+void RESEARCH_LIST_SelectPrevious(struct ResearchTop *list);
 
-void RESEARCH_LIST_SelectNext(u32 list);
+void RESEARCH_LIST_SelectNext(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetSelectionMode(u32 list, u32 mode);
+void RESEARCH_LIST_SetSelectionMode(struct ResearchTop *list, u32 mode);
 
-void RESEARCH_LIST_ScrollSelectionIntoView(u8 *p);
+void RESEARCH_LIST_ScrollSelectionIntoView(struct ResearchTop *list);
 
-void RESEARCH_LIST_SelectEntry(u32 list, u8 slot);
+void RESEARCH_LIST_SelectEntry(struct ResearchTop *list, u8 slot);
 
-void RESEARCH_LIST_StartEntryPaletteAnime(u32 list);
+void RESEARCH_LIST_StartEntryPaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_ComputeOpenScroll(u8 *p);
+void RESEARCH_LIST_ComputeOpenScroll(struct ResearchTop *list);
 
-void RESEARCH_LIST_ComputeReturnScroll(u8 *p);
+void RESEARCH_LIST_ComputeReturnScroll(struct ResearchTop *list);
 
-void RESEARCH_LIST_ComputeCenterScroll(u8 *p);
+void RESEARCH_LIST_ComputeCenterScroll(struct ResearchTop *list);
 
-u8 RESEARCH_LIST_FindSaveIndex(u8 *p);
+u8 RESEARCH_LIST_FindSaveIndex(struct ResearchTop *list);
 
-void RESEARCH_LIST_StoreSaveValues(u8 *p);
+void RESEARCH_LIST_StoreSaveValues(struct ResearchTop *list);
 
-void RESEARCH_LIST_FlipSelectionMode(void *p, s32 v);
+void RESEARCH_LIST_FlipSelectionMode(struct ResearchTop *list, s32 delta);
 
-void RESEARCH_LIST_SetSelectionModeField(void *p, u32 v);
+void RESEARCH_LIST_SetSelectionModeField(struct ResearchTop *list, u32 mode);
 
-void RESEARCH_LIST_SetEntryPaletteIdle(int a, int b);
+void RESEARCH_LIST_SetEntryPaletteIdle(struct ResearchTop *list, int slot);
 
-void RESEARCH_LIST_SetEntryPaletteActive(int a, int b);
+void RESEARCH_LIST_SetEntryPaletteActive(struct ResearchTop *list, int slot);
 
-void RESEARCH_LIST_SetCursorSlot(void *p, u8 v);
+void RESEARCH_LIST_SetCursorSlot(struct ResearchTop *list, u8 slot);
 
-void RESEARCH_LIST_AdvanceEndIndex(u8 *p, int a);
+void RESEARCH_LIST_AdvanceEndIndex(struct ResearchTop *list, int delta);
 
-void RESEARCH_LIST_ShowCursor(u8 *p);
+void RESEARCH_LIST_ShowCursor(struct ResearchTop *list);
 
-void RESEARCH_LIST_HideCursor(u8 *p);
+void RESEARCH_LIST_HideCursor(struct ResearchTop *list);
 
-void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot);
+void RESEARCH_LIST_ShiftTextRight(struct ResearchTop *object,u32 slot);
 
-void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot);
+void RESEARCH_LIST_ShiftTextLeft(struct ResearchTop *object,u32 slot);
 
-u32 RESEARCH_LIST_GetRowOffset(u32 list, u32 index);
+u32 RESEARCH_LIST_GetRowOffset(struct ResearchTop *list, u32 index);
 
-u32 RESEARCH_LIST_GetRowBase(u32 unused, u32 v);
+u32 RESEARCH_LIST_GetRowBase(struct ResearchTop *unused, u32 v);
 
-int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot);
+int RESEARCH_LIST_GetEntryScreenX(struct ResearchTop *list, unsigned int slot);
 
-int RESEARCH_LIST_GetEntryScreenY(unsigned char *p, unsigned char index);
+int RESEARCH_LIST_GetEntryScreenY(struct ResearchTop *list, unsigned char index);
 
-int RESEARCH_LIST_GetEntryScreenYBottom(unsigned char *p, unsigned int index);
+int RESEARCH_LIST_GetEntryScreenYBottom(struct ResearchTop *list, unsigned int index);
 
-void RESEARCH_LIST_UpdateWindowMask(u8 *p);
+void RESEARCH_LIST_UpdateWindowMask(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateEntryActor(u8 *p);
+void RESEARCH_LIST_UpdateEntryActor(struct ResearchTop *list);
 
-int RESEARCH_LIST_PrintCurrentEntry(char *p);
+int RESEARCH_LIST_PrintCurrentEntry(struct ResearchTop *list);
 
-int RESEARCH_LIST_PrintEntryLabels(u8 *p, u8 index);
+int RESEARCH_LIST_PrintEntryLabels(struct ResearchTop *list, u8 index);
 
-void RESEARCH_LIST_HideEntryLabels(u32 list);
+void RESEARCH_LIST_HideEntryLabels(struct ResearchTop *list);
 
-void RESEARCH_LIST_ShowEntryLabels(u32 list);
+void RESEARCH_LIST_ShowEntryLabels(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateScrollbarActor(u32 list);
+void RESEARCH_LIST_UpdateScrollbarActor(struct ResearchTop *list);
 
-int RESEARCH_LIST_GetScrollbarY(void *p);
+int RESEARCH_LIST_GetScrollbarY(struct ResearchTop *list);
 
-int RESEARCH_LIST_GetScrollYFromPosition(void *p,int position);
+int RESEARCH_LIST_GetScrollYFromPosition(struct ResearchTop *list,int position);
 
-void RESEARCH_LIST_UpdateMomentum(void *p);
+void RESEARCH_LIST_UpdateMomentum(struct ResearchTop *list);
 
-int RESEARCH_LIST_IsMomentumActive(void *p);
+int RESEARCH_LIST_IsMomentumActive(struct ResearchTop *list);
 
-void RESEARCH_LIST_ComputeMomentum(void *p);
+void RESEARCH_LIST_ComputeMomentum(struct ResearchTop *list);
 
-void RESEARCH_LIST_DampMomentum(struct ResearchTop *p);
+void RESEARCH_LIST_DampMomentum(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetMomentumDirection(void *p);
+void RESEARCH_LIST_SetMomentumDirection(struct ResearchTop *list);
 
-void RESEARCH_LIST_StartScrollAnim(void *p, u32 a, u32 b, u32 c);
+void RESEARCH_LIST_StartScrollAnim(struct ResearchTop *list, u32 start, u32 target, u32 frames);
 
-void RESEARCH_LIST_StepScrollAnim(struct ResearchTop *p);
+void RESEARCH_LIST_StepScrollAnim(struct ResearchTop *list);
 
-int RESEARCH_LIST_IsScrollAnimDone(void *p);
+int RESEARCH_LIST_IsScrollAnimDone(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetScrollTarget(struct ResearchTop *p, int v);
+void RESEARCH_LIST_SetScrollTarget(struct ResearchTop *list, int target);
 
-void RESEARCH_LIST_SetScrollValue(void *p, u32 v);
+void RESEARCH_LIST_SetScrollValue(struct ResearchTop *list, u32 scrollY);
 
-void RESEARCH_LIST_ApplyScrollRegs(u8 *p);
+void RESEARCH_LIST_ApplyScrollRegs(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetListScroll(struct ResearchTop *p);
+void RESEARCH_LIST_SetListScroll(struct ResearchTop *list);
 
 int RESEARCH_LIST_GetScrollY(void);
 
-void RESEARCH_LIST_SetScrollY(u32 list);
+void RESEARCH_LIST_SetScrollY(int list);
 
 u32 RESEARCH_LIST_GetScrollMin(void);
 
 u32 RESEARCH_LIST_GetScrollMax(void);
 
-int RESEARCH_LIST_DivideByEntryHeight(u32 list);
+int RESEARCH_LIST_DivideByEntryHeight(int list);
 
 u32 RESEARCH_LIST_EntryIndexToY(u32 v);
 
 u32 RESEARCH_LIST_EntryIndexToYBottom(u32 v);
 
-int RESEARCH_LIST_GetScrollRange(void *p);
+int RESEARCH_LIST_GetScrollRange(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetScrollRangeMax(void *p);
+u32 RESEARCH_LIST_GetScrollRangeMax(struct ResearchTop *list);
 
-int RESEARCH_LIST_NeedsScrollbar(void *p);
+int RESEARCH_LIST_NeedsScrollbar(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateTouchRects(u8 *p);
+void RESEARCH_LIST_UpdateTouchRects(struct ResearchTop *list);
 
 void RESEARCH_LIST_FadeIn(void);
 
@@ -711,189 +706,189 @@ void RESEARCH_LIST_FadeOut(void);
 
 int RESEARCH_LIST_IsFadeDone(void);
 
-void RESEARCH_LIST_ShowEntryPalette(char *p);
+void RESEARCH_LIST_ShowEntryPalette(struct ResearchTop *list);
 
-void RESEARCH_LIST_HideEntryPalette(char *p);
+void RESEARCH_LIST_HideEntryPalette(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_IsPaletteFadeDone(u32 list);
+u32 RESEARCH_LIST_IsPaletteFadeDone(struct ResearchTop *list);
 
 void RESEARCH_LIST_StartPaletteAnime(u8 **p, u32 i);
 
-void RESEARCH_LIST_StartListPaletteAnime(char *p, int i);
+void RESEARCH_LIST_StartListPaletteAnime(struct ResearchTop *list, int slot);
 
-void RESEARCH_LIST_StopListPaletteAnime(u8 *list, int slot);
+void RESEARCH_LIST_StopListPaletteAnime(struct ResearchTop *list, int slot);
 
-u32 RESEARCH_LIST_IsListPaletteAnimeRunning(u32 list, u32 slot);
+u32 RESEARCH_LIST_IsListPaletteAnimeRunning(struct ResearchTop *list, u32 slot);
 
-void RESEARCH_LIST_UpdatePaletteAnimes(int *p);
+void RESEARCH_LIST_UpdatePaletteAnimes(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateCommonPaletteAnime(u8 *list);
+void RESEARCH_LIST_UpdateCommonPaletteAnime(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetKeyRepeatTimer(void *p);
+u32 RESEARCH_LIST_GetKeyRepeatTimer(struct ResearchTop *list);
 
-void RESEARCH_LIST_IncKeyRepeatTimer(void *p);
+void RESEARCH_LIST_IncKeyRepeatTimer(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearKeyRepeatTimer(void *p);
+void RESEARCH_LIST_ClearKeyRepeatTimer(struct ResearchTop *list);
 
-void RESEARCH_LIST_VBlankHandler(u32 unusedArg, u32 list);
+void RESEARCH_LIST_VBlankHandler(struct TcbTask *unusedArg, void *listArg);
 
-u32 RESEARCH_LIST_GetAppResource(u8 *list);
+void *RESEARCH_LIST_GetAppResource(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetHeapId(void *p, u32 v);
+void RESEARCH_LIST_SetHeapId(struct ResearchTop *list, u32 heapId);
 
-void RESEARCH_LIST_SetOwner(void *p, u32 v);
+void RESEARCH_LIST_SetOwner(struct ResearchTop *list, struct ResearchCommon *owner);
 
-u32 RESEARCH_LIST_GetOwner(void *p);
+struct ResearchCommon *RESEARCH_LIST_GetOwner(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetListView(void *p, u32 v);
+void RESEARCH_LIST_SetListView(struct ResearchTop *list, struct ListViewState *listView);
 
-void RESEARCH_LIST_SyncFromListView(struct ResearchTop *p);
+void RESEARCH_LIST_SyncFromListView(struct ResearchTop *list);
 
-void RESEARCH_LIST_SyncToListView(char *p);
+void RESEARCH_LIST_SyncToListView(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetInputFlag(void *p);
+u32 RESEARCH_LIST_GetInputFlag(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetEntryCount(void *p);
+u32 RESEARCH_LIST_GetEntryCount(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_GetSelectedIndex(void *p);
+u32 RESEARCH_LIST_GetSelectedIndex(struct ResearchTop *list);
 
-void RESEARCH_LIST_SetSelectedIndex(void *p, u8 v);
+void RESEARCH_LIST_SetSelectedIndex(struct ResearchTop *list, u8 index);
 
-u32 RESEARCH_LIST_IsValidIndex(u32 list, u32 index);
+u32 RESEARCH_LIST_IsValidIndex(struct ResearchTop *list, u32 index);
 
-u32 RESEARCH_LIST_GetResourceId(void *p, u32 i);
+u32 RESEARCH_LIST_GetResourceId(struct ResearchTop *list, u32 index);
 
-u32 RESEARCH_LIST_GetClactUnit(void *p, u32 i);
+struct Unit *RESEARCH_LIST_GetClactUnit(struct ResearchTop *list, u32 index);
 
-u32 RESEARCH_LIST_GetActor(void *p, u32 i);
+struct ClactActor *RESEARCH_LIST_GetActor(struct ResearchTop *list, u32 index);
 
-void RESEARCH_LIST_SetOamEnabled(u8 *list, u32 index, u8 *enabled);
+void RESEARCH_LIST_SetOamEnabled(struct ResearchTop *list, u32 index, u8 *enabled);
 
-int RESEARCH_LIST_GetOamObject(char *p, int i);
+struct BmpOam *RESEARCH_LIST_GetOamObject(struct ResearchTop *list, int index);
 
-u32 RESEARCH_LIST_Alloc(u32 heapId);
+struct ResearchTop *RESEARCH_LIST_Alloc(u32 heapId);
 
-void RESEARCH_LIST_InitFields(u8 *p);
+void RESEARCH_LIST_InitFields(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_Free(void *list);
+u32 RESEARCH_LIST_Free(struct ResearchTop *list);
 
-void RESEARCH_LIST_CountUnlockedEntries(u8 *p);
+void RESEARCH_LIST_CountUnlockedEntries(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateFont(u32 list);
+void RESEARCH_LIST_CreateFont(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearFont(void *p);
+void RESEARCH_LIST_ClearFont(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteFont(u8 *list);
+void RESEARCH_LIST_DeleteFont(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateMessages(struct ResearchTop *p);
+void RESEARCH_LIST_CreateMessages(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearMessages(void *p);
+void RESEARCH_LIST_ClearMessages(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteMessages(int *p);
+void RESEARCH_LIST_DeleteMessages(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateCommandQueue(u32 list);
+void RESEARCH_LIST_CreateCommandQueue(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearCommandQueue(void *p);
+void RESEARCH_LIST_ClearCommandQueue(struct ResearchTop *list);
 
-void RESEARCH_LIST_DestroyCommandQueue(u8 *list);
+void RESEARCH_LIST_DestroyCommandQueue(struct ResearchTop *list);
 
-void RESEARCH_LIST_InitTables(u8 *p);
+void RESEARCH_LIST_InitTables(struct ResearchTop *list);
 
-void RESEARCH_LIST_InitBackgrounds(char *p);
+void RESEARCH_LIST_InitBackgrounds(struct ResearchTop *list);
 
-void RESEARCH_LIST_ExitBackgrounds(u8 *list);
+void RESEARCH_LIST_ExitBackgrounds(struct ResearchTop *list);
 
-void RESEARCH_LIST_LoadBackground6(char *p);
+void RESEARCH_LIST_LoadBackground6(struct ResearchTop *list);
 
-void RESEARCH_LIST_DummyBg7(u8 *list);
+void RESEARCH_LIST_DummyBg7(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateBackground7(u32 list);
+void RESEARCH_LIST_UpdateBackground7(struct ResearchTop *list);
 
-void RESEARCH_LIST_ShowBackground7(u32 list);
+void RESEARCH_LIST_ShowBackground7(struct ResearchTop *list);
 
-void RESEARCH_LIST_LoadBackground2(char *p);
+void RESEARCH_LIST_LoadBackground2(struct ResearchTop *list);
 
-void RESEARCH_LIST_DummyBg3(u8 *list);
+void RESEARCH_LIST_DummyBg3(struct ResearchTop *list);
 
-void RESEARCH_LIST_LoadListBackground(struct ResearchTop *p);
+void RESEARCH_LIST_LoadListBackground(struct ResearchTop *list);
 
-void RESEARCH_LIST_DummyListBg(u8 *list);
+void RESEARCH_LIST_DummyListBg(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateBackground3(u32 list);
+void RESEARCH_LIST_UpdateBackground3(struct ResearchTop *list);
 
-void RESEARCH_LIST_ShowBackground3(u32 list);
+void RESEARCH_LIST_ShowBackground3(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateLabels(struct ResearchTop *p);
+void RESEARCH_LIST_CreateLabels(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearLabels(void *p);
+void RESEARCH_LIST_ClearLabels(struct ResearchTop *list);
 
-void RESEARCH_LIST_DestroyLabels(u8 *p);
+void RESEARCH_LIST_DestroyLabels(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearResources(void *p);
+void RESEARCH_LIST_ClearResources(struct ResearchTop *list);
 
-void RESEARCH_LIST_RegisterEntryResources(char *p);
+void RESEARCH_LIST_RegisterEntryResources(struct ResearchTop *list);
 
-void RESEARCH_LIST_ReleaseEntryResources(u32 list);
+void RESEARCH_LIST_ReleaseEntryResources(struct ResearchTop *list);
 
-void RESEARCH_LIST_RegisterCursorResources(char *p);
+void RESEARCH_LIST_RegisterCursorResources(struct ResearchTop *list);
 
-void RESEARCH_LIST_ReleaseCursorResources(u32 list);
+void RESEARCH_LIST_ReleaseCursorResources(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearUnits(void *p);
+void RESEARCH_LIST_ClearUnits(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateUnits(struct ResearchTop *p);
+void RESEARCH_LIST_CreateUnits(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteUnits(int *p);
+void RESEARCH_LIST_DeleteUnits(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearActors(void *p);
+void RESEARCH_LIST_ClearActors(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateActors(u8 *p);
+void RESEARCH_LIST_CreateActors(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteActors(int *p);
+void RESEARCH_LIST_DeleteActors(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearBmps(void *p);
+void RESEARCH_LIST_ClearBmps(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateBmps(struct ResearchTop *p);
+void RESEARCH_LIST_CreateBmps(struct ResearchTop *list);
 
-void RESEARCH_LIST_DrawBmps(u8 *p);
+void RESEARCH_LIST_DrawBmps(struct ResearchTop *list);
 
-void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *p);
+void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *list);
 
-void RESEARCH_LIST_DrawBadgeB(struct ResearchTop *p);
+void RESEARCH_LIST_DrawBadgeB(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteBmps(int *p);
+void RESEARCH_LIST_DeleteBmps(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateOamSys(char *p);
+void RESEARCH_LIST_CreateOamSys(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteOamSys(u8 *list);
+void RESEARCH_LIST_DeleteOamSys(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreateOamObjects(u8 *p);
+void RESEARCH_LIST_CreateOamObjects(struct ResearchTop *list);
 
-void RESEARCH_LIST_DeleteOamObjects(int *p);
+void RESEARCH_LIST_DeleteOamObjects(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearPalAnm(void *p);
+void RESEARCH_LIST_ClearPalAnm(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreatePalAnm(u8 *p);
+void RESEARCH_LIST_CreatePalAnm(struct ResearchTop *list);
 
-u32 RESEARCH_LIST_DeletePalAnm(u32 list);
+u32 RESEARCH_LIST_DeletePalAnm(struct ResearchTop *list);
 
-void RESEARCH_LIST_CreatePaletteAnime(char *p);
+void RESEARCH_LIST_CreatePaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_ClearPaletteAnime(void *p);
+void RESEARCH_LIST_ClearPaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_DestroyPaletteAnime(int *p);
+void RESEARCH_LIST_DestroyPaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_BindPaletteAnime(int *p);
+void RESEARCH_LIST_BindPaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_RestorePaletteAnime(int *p);
+void RESEARCH_LIST_RestorePaletteAnime(struct ResearchTop *list);
 
-void RESEARCH_LIST_UpdateCenterActor(void *p);
+void RESEARCH_LIST_UpdateCenterActor(struct ResearchTop *list);
 
-void RESEARCH_LIST_RestartNetwork(u32 list);
+void RESEARCH_LIST_RestartNetwork(struct ResearchTop *list);
 
-void RESEARCH_LIST_RegisterVBlank(char *p);
+void RESEARCH_LIST_RegisterVBlank(struct ResearchTop *list);
 
-void RESEARCH_LIST_UnregisterVBlank(u32 list);
+void RESEARCH_LIST_UnregisterVBlank(struct ResearchTop *list);
 
 extern const u8 d_021C308A[];
 
@@ -947,24 +942,24 @@ extern const struct OamDef d_021C31BC[];
 
 extern const struct Entry021C3260 d_021C3260[];
 
-u32 RESEARCH_LIST_Create(u32 owner, u32 listView)
+struct ResearchTop *RESEARCH_LIST_Create(struct ResearchCommon *owner, struct ListViewState *listView)
 {
-    u32 heapId = RESEARCH_COMMON_GetHeapId((void *)owner);
-    u32 list = RESEARCH_LIST_Alloc(heapId);
-    RESEARCH_LIST_InitFields((u8 *)list);
-    RESEARCH_LIST_SetHeapId((void *)list, heapId);
-    RESEARCH_LIST_SetOwner((void *)list, owner);
-    RESEARCH_LIST_SetListView((void *)list, listView);
+    u32 heapId = RESEARCH_COMMON_GetHeapId(owner);
+    struct ResearchTop *list = RESEARCH_LIST_Alloc(heapId);
+    RESEARCH_LIST_InitFields(list);
+    RESEARCH_LIST_SetHeapId(list, heapId);
+    RESEARCH_LIST_SetOwner(list, owner);
+    RESEARCH_LIST_SetListView(list, listView);
     return list;
 }
 
-u32 RESEARCH_LIST_Destroy(void *list)
+u32 RESEARCH_LIST_Destroy(struct ResearchTop *list)
 {
-    RESEARCH_LIST_DestroyCommandQueue((u8 *)list);
+    RESEARCH_LIST_DestroyCommandQueue(list);
     return RESEARCH_LIST_Free(list);
 }
 
-void RESEARCH_LIST_Update(void *self)
+void RESEARCH_LIST_Update(struct ResearchTop *self)
 {
     switch (RESEARCH_LIST_GetState(self)) {
     case 0: RESEARCH_LIST_EnterSetup(self); break;
@@ -989,12 +984,12 @@ void RESEARCH_LIST_Update(void *self)
         CLACT_DrawSystem();
     }
     RESEARCH_LIST_IncStateTimer(self);
-    RESEARCH_LIST_ProcessCommand((uptr)self);
+    RESEARCH_LIST_ProcessCommand(self);
 }
 
-u32 RESEARCH_LIST_GetVisible(void *list)
+u32 RESEARCH_LIST_GetVisible(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->visible;
+    return list->visible;
 }
 
 /*
@@ -1002,67 +997,67 @@ u32 RESEARCH_LIST_GetVisible(void *list)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetActive(void *list)
+u32 RESEARCH_LIST_GetActive(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->active;
+    return list->active;
 }
 
-void RESEARCH_LIST_EnterSetup(u8 *list)
+void RESEARCH_LIST_EnterSetup(struct ResearchTop *list)
 {
     u8 slot;
-    RESEARCH_LIST_CreateCommandQueue((uptr)list);
-    RESEARCH_LIST_CreateFont((uptr)list);
+    RESEARCH_LIST_CreateCommandQueue(list);
+    RESEARCH_LIST_CreateFont(list);
     RESEARCH_LIST_CreateMessages((struct ResearchTop *)list);
     RESEARCH_LIST_InitTables(list);
     RESEARCH_LIST_UpdateTouchRects(list);
     RESEARCH_LIST_CountUnlockedEntries(list);
-    RESEARCH_LIST_InitBackgrounds((char *)list);
-    RESEARCH_LIST_LoadBackground6((char *)list);
-    RESEARCH_LIST_UpdateBackground7((uptr)list);
-    RESEARCH_LIST_LoadBackground2((char *)list);
+    RESEARCH_LIST_InitBackgrounds(list);
+    RESEARCH_LIST_LoadBackground6(list);
+    RESEARCH_LIST_UpdateBackground7(list);
+    RESEARCH_LIST_LoadBackground2(list);
     RESEARCH_LIST_LoadListBackground((struct ResearchTop *)list);
-    RESEARCH_LIST_UpdateBackground3((uptr)list);
+    RESEARCH_LIST_UpdateBackground3(list);
     RESEARCH_LIST_CreateLabels((struct ResearchTop *)list);
-    RESEARCH_LIST_RegisterEntryResources((char *)list);
-    RESEARCH_LIST_RegisterCursorResources((char *)list);
+    RESEARCH_LIST_RegisterEntryResources(list);
+    RESEARCH_LIST_RegisterCursorResources(list);
     RESEARCH_LIST_CreateUnits((struct ResearchTop *)list);
     RESEARCH_LIST_CreateActors(list);
     RESEARCH_LIST_CreateBmps((struct ResearchTop *)list);
     RESEARCH_LIST_DrawBmps(list);
     RESEARCH_LIST_DrawBadgeA((struct ResearchTop *)list);
     RESEARCH_LIST_DrawBadgeB((struct ResearchTop *)list);
-    RESEARCH_LIST_CreateOamSys((char *)list);
+    RESEARCH_LIST_CreateOamSys(list);
     RESEARCH_LIST_CreateOamObjects(list);
     RESEARCH_LIST_CreatePalAnm(list);
-    RESEARCH_LIST_CreatePaletteAnime((char *)list);
-    RESEARCH_LIST_BindPaletteAnime((int *)list);
-    RESEARCH_LIST_RegisterVBlank((char *)list);
-    RESEARCH_LIST_RestartNetwork((uptr)list);
+    RESEARCH_LIST_CreatePaletteAnime(list);
+    RESEARCH_LIST_BindPaletteAnime(list);
+    RESEARCH_LIST_RegisterVBlank(list);
+    RESEARCH_LIST_RestartNetwork(list);
     RESEARCH_LIST_UpdateCenterActor(list);
-    RESEARCH_LIST_StartListPaletteAnime((char *)list,0);
+    RESEARCH_LIST_StartListPaletteAnime(list,0);
     RESEARCH_LIST_SetOamEnabled(list,0,0);
     RESEARCH_LIST_SetOamEnabled(list,1,0);
     RESEARCH_LIST_SetOamEnabled(list,2,0);
     RESEARCH_LIST_SyncFromListView((struct ResearchTop *)list);
     slot=RESEARCH_LIST_FindSaveIndex(list);
     if(slot!=255) {
-        RESEARCH_LIST_ShiftTextRight((uptr)list,slot);
+        RESEARCH_LIST_ShiftTextRight(list,slot);
         RESEARCH_LIST_SetSelectedIndex(list,slot);
         RESEARCH_LIST_UpdateEntryActor(list);
     }
     RESEARCH_LIST_UpdateTouchRects(list);
-    RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
+    RESEARCH_LIST_UpdateScrollbarActor(list);
     RESEARCH_LIST_UpdateEntryActor(list);
     RESEARCH_LIST_UpdateWindowMask(list);
-    RESEARCH_LIST_PrintCurrentEntry((char *)list);
+    RESEARCH_LIST_PrintCurrentEntry(list);
     if(RESEARCH_LIST_GetEntryHandled(list)==0) {
         RESEARCH_LIST_ShowCursor(list);
-        RESEARCH_LIST_ShowEntryLabels((uptr)list);
+        RESEARCH_LIST_ShowEntryLabels(list);
         RESEARCH_LIST_SetCommandReady(list);
         RESEARCH_LIST_PushCommand(list,2);
     } else {
         RESEARCH_LIST_HideCursor(list);
-        RESEARCH_LIST_HideEntryLabels((uptr)list);
+        RESEARCH_LIST_HideEntryLabels(list);
         RESEARCH_LIST_SetCommandReady(list);
         RESEARCH_LIST_PushCommand(list,1);
     }
@@ -1070,17 +1065,17 @@ void RESEARCH_LIST_EnterSetup(u8 *list)
 }
 
 /* Narrow selection parameters follow the caller's explicit lsls/lsrs #24 pairs. */
-void RESEARCH_LIST_HandleScrollInput(u8 *list)
+void RESEARCH_LIST_HandleScrollInput(struct ResearchTop *list)
 {
     u32 keys=KEY_GetTrg();
-    int sel=TOUCHPANEL_HitTrg((union TouchHitTable *)(list+0x64));
+    int sel=TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[12]);
     int flag;
     u32 a,b;
     flag=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(*(void **)list));
     TOUCHPANEL_GetPointCont(&a,&b);
     if(RESEARCH_LIST_GetInputFlag(list)!=0 || flag==0) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        RESEARCH_LIST_StartEntryPaletteAnime((uptr)list);
+        RESEARCH_LIST_StartEntryPaletteAnime(list);
         RESEARCH_LIST_SetEntryHandled(list,1);
         RESEARCH_LIST_SetCommandReady(list);
         RESEARCH_LIST_PushCommand(list,5);
@@ -1088,7 +1083,7 @@ void RESEARCH_LIST_HandleScrollInput(u8 *list)
     }
     if(keys&2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        RESEARCH_LIST_StartEntryPaletteAnime((uptr)list);
+        RESEARCH_LIST_StartEntryPaletteAnime(list);
         RESEARCH_LIST_SetEntryHandled(list,0);
         RESEARCH_LIST_SetCommandReady(list);
         RESEARCH_LIST_PushCommand(list,5);
@@ -1096,27 +1091,27 @@ void RESEARCH_LIST_HandleScrollInput(u8 *list)
     }
     if((keys&0x40)||(keys&0x80)||(keys&0x20)||(keys&0x10)||(keys&1)) {
         RESEARCH_LIST_ShowCursor(list);
-        RESEARCH_LIST_ShowEntryLabels((uptr)list);
+        RESEARCH_LIST_ShowEntryLabels(list);
         RESEARCH_LIST_SetCommandReady(list);
         RESEARCH_LIST_PushCommand(list,2);
         return;
     }
     if(sel>=0 && sel<=9) {
         if(b>=24 && b<=168) {
-            if(RESEARCH_LIST_IsValidIndex((uptr)list,(u8)sel)==1) {
-                RESEARCH_LIST_SelectEntry((uptr)list,sel);
-                RESEARCH_LIST_SetSelectedIndex(list,list[0x32]);
+            if(RESEARCH_LIST_IsValidIndex(list,(u8)sel)==1) {
+                RESEARCH_LIST_SelectEntry(list,sel);
+                RESEARCH_LIST_SetSelectedIndex(list,list->cursorSlot);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                RESEARCH_LIST_StartListPaletteAnime((char *)list,2);
-                RESEARCH_LIST_PrintCurrentEntry((char *)list);
-                RESEARCH_LIST_ShowEntryLabels((uptr)list);
+                RESEARCH_LIST_StartListPaletteAnime(list,2);
+                RESEARCH_LIST_PrintCurrentEntry(list);
+                RESEARCH_LIST_ShowEntryLabels(list);
                 RESEARCH_LIST_SetCommandReady(list);
                 RESEARCH_LIST_PushCommand(list,7);
                 return;
             }
         }
     } else {
-        if(TOUCHPANEL_HitCont((union TouchHitTable *)(list+0x90))==0 || TOUCHPANEL_HitTrg((union TouchHitTable *)(list+0x90))==0) {
+        if(TOUCHPANEL_HitCont((union TouchHitTable *)&list->touchRects[56])==0 || TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[56])==0) {
             if(RESEARCH_LIST_NeedsScrollbar(list)==1) {
                 RESEARCH_LIST_SetCommandReady(list);
                 RESEARCH_LIST_PushCommand(list,4);
@@ -1126,11 +1121,11 @@ void RESEARCH_LIST_HandleScrollInput(u8 *list)
     }
 }
 
-void RESEARCH_LIST_HandleSelectInput(char *list)
+void RESEARCH_LIST_HandleSelectInput(struct ResearchTop *list)
 {
     u32 trg = KEY_GetCont();
     u32 keys = KEY_GetTrg();
-    int sel = TOUCHPANEL_HitTrg((union TouchHitTable *)(list + 0x64));
+    int sel = TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[12]);
     int flag;
     u32 a;
     u32 b;
@@ -1143,81 +1138,81 @@ void RESEARCH_LIST_HandleSelectInput(char *list)
     }
     if (RESEARCH_LIST_GetInputFlag(list) != 0 || flag == 0) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        RESEARCH_LIST_StartEntryPaletteAnime((uptr)list);
-        RESEARCH_LIST_SetEntryHandled((u8 *)list, (int)1);
+        RESEARCH_LIST_StartEntryPaletteAnime(list);
+        RESEARCH_LIST_SetEntryHandled(list, (int)1);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)6);
+        RESEARCH_LIST_PushCommand(list, (int)6);
         return;
     }
-    if ((keys & 0x40) || ((trg & 0x40) && ((struct ResearchTop *)list)->cursorSlot != 0 && RESEARCH_LIST_GetKeyRepeatTimer(list) > 10)) {
-        RESEARCH_LIST_HideCursor((u8 *)list);
-        RESEARCH_LIST_AdvanceEndIndex((u8 *)list, -1);
+    if ((keys & 0x40) || ((trg & 0x40) && list->cursorSlot != 0 && RESEARCH_LIST_GetKeyRepeatTimer(list) > 10)) {
+        RESEARCH_LIST_HideCursor(list);
+        RESEARCH_LIST_AdvanceEndIndex(list, -1);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)3);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)2);
+        RESEARCH_LIST_PushCommand(list, (int)3);
+        RESEARCH_LIST_PushCommand(list, (int)2);
         return;
     }
-    if ((keys & 0x80) || ((trg & 0x80) && ((struct ResearchTop *)list)->cursorSlot < (int)RESEARCH_LIST_GetEntryCount(list) - 1 && RESEARCH_LIST_GetKeyRepeatTimer(list) > 10)) {
-        RESEARCH_LIST_HideCursor((u8 *)list);
-        RESEARCH_LIST_AdvanceEndIndex((u8 *)list, 1);
+    if ((keys & 0x80) || ((trg & 0x80) && list->cursorSlot < (int)RESEARCH_LIST_GetEntryCount(list) - 1 && RESEARCH_LIST_GetKeyRepeatTimer(list) > 10)) {
+        RESEARCH_LIST_HideCursor(list);
+        RESEARCH_LIST_AdvanceEndIndex(list, 1);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)3);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)2);
+        RESEARCH_LIST_PushCommand(list, (int)3);
+        RESEARCH_LIST_PushCommand(list, (int)2);
         return;
     }
     if (keys & 1) {
         RESEARCH_LIST_StartListPaletteAnime(list, 2);
-        RESEARCH_LIST_SetSelectedIndex(list, ((struct ResearchTop *)list)->cursorSlot);
+        RESEARCH_LIST_SetSelectedIndex(list, list->cursorSlot);
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)9);
+        RESEARCH_LIST_PushCommand(list, (int)9);
         RESEARCH_LIST_SetCommandReady(list);
         return;
     }
     if (sel >= 0 && sel <= 9) {
-        if (b >= 0x18 && b <= 0xa8 && RESEARCH_LIST_IsValidIndex((uptr)list, (u8)sel) == 1) {
-            RESEARCH_LIST_SelectEntry((uptr)list, (u8)sel);
-            RESEARCH_LIST_SetSelectedIndex(list, ((struct ResearchTop *)list)->cursorSlot);
+        if (b >= 0x18 && b <= 0xa8 && RESEARCH_LIST_IsValidIndex(list, (u8)sel) == 1) {
+            RESEARCH_LIST_SelectEntry(list, (u8)sel);
+            RESEARCH_LIST_SetSelectedIndex(list, list->cursorSlot);
             RESEARCH_LIST_StartListPaletteAnime(list, 2);
             GFL_USE_PlaySeDefaultVolume(0x54c);
             RESEARCH_LIST_PrintCurrentEntry(list);
             RESEARCH_LIST_SetCommandReady(list);
-            RESEARCH_LIST_PushCommand((u8 *)list, (int)7);
+            RESEARCH_LIST_PushCommand(list, (int)7);
         }
         return;
     }
     if (keys & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
-        RESEARCH_LIST_StartEntryPaletteAnime((uptr)list);
-        RESEARCH_LIST_SetEntryHandled((u8 *)list, (int)0);
+        RESEARCH_LIST_StartEntryPaletteAnime(list);
+        RESEARCH_LIST_SetEntryHandled(list, (int)0);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((u8 *)list, (int)6);
+        RESEARCH_LIST_PushCommand(list, (int)6);
         return;
     }
-    if (TOUCHPANEL_HitCont((union TouchHitTable *)(list + 0x90)) == 0 || TOUCHPANEL_HitTrg((union TouchHitTable *)(list + 0x90)) == 0) {
+    if (TOUCHPANEL_HitCont((union TouchHitTable *)&list->touchRects[56]) == 0 || TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[56]) == 0) {
         if (RESEARCH_LIST_NeedsScrollbar(list) == 1) {
-            RESEARCH_LIST_HideCursor((u8 *)list);
-            RESEARCH_LIST_HideEntryLabels((uptr)list);
+            RESEARCH_LIST_HideCursor(list);
+            RESEARCH_LIST_HideEntryLabels(list);
             RESEARCH_LIST_SetCommandReady(list);
-            RESEARCH_LIST_PushCommand((u8 *)list, (int)4);
-            RESEARCH_LIST_PushCommand((u8 *)list, (int)1);
+            RESEARCH_LIST_PushCommand(list, (int)4);
+            RESEARCH_LIST_PushCommand(list, (int)1);
         }
     }
 }
 
-void RESEARCH_LIST_UpdateOpen(u8 *list)
+void RESEARCH_LIST_UpdateOpen(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
         RESEARCH_LIST_ComputeOpenScroll(list);
-        RESEARCH_LIST_SelectEntry((uptr)list, list[0x33]);
-        RESEARCH_LIST_PrintCurrentEntry((char *)list);
+        RESEARCH_LIST_SelectEntry(list, list->endIndex);
+        RESEARCH_LIST_PrintCurrentEntry(list);
         RESEARCH_LIST_IncSubState(list);
         break;
     case 1:
         RESEARCH_LIST_StepScrollAnim((struct ResearchTop *)list);
         RESEARCH_LIST_ApplyScrollRegs(list);
         RESEARCH_LIST_UpdateTouchRects(list);
-        RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
+        RESEARCH_LIST_UpdateScrollbarActor(list);
         RESEARCH_LIST_UpdateEntryActor(list);
         RESEARCH_LIST_UpdateWindowMask(list);
         if (RESEARCH_LIST_IsScrollAnimDone(list)) {
@@ -1244,9 +1239,9 @@ void RESEARCH_LIST_UpdateDrag(struct ResearchTop *list)
         } else {
             RESEARCH_LIST_SetScrollTarget((struct ResearchTop *)list, RESEARCH_LIST_GetScrollYFromPosition(list, b));
             RESEARCH_LIST_SetListScroll((struct ResearchTop *)list);
-            RESEARCH_LIST_UpdateTouchRects((u8 *)list);
-            RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
-            RESEARCH_LIST_UpdateEntryActor((u8 *)list);
+            RESEARCH_LIST_UpdateTouchRects(list);
+            RESEARCH_LIST_UpdateScrollbarActor(list);
+            RESEARCH_LIST_UpdateEntryActor(list);
             RESEARCH_LIST_ComputeMomentum(list);
         }
         break;
@@ -1255,109 +1250,109 @@ void RESEARCH_LIST_UpdateDrag(struct ResearchTop *list)
     {
         RESEARCH_LIST_SetScrollTarget((struct ResearchTop *)list, list->scrollY + list->momentum);
         RESEARCH_LIST_SetListScroll((struct ResearchTop *)list);
-        RESEARCH_LIST_UpdateTouchRects((u8 *)list);
-        RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
-        RESEARCH_LIST_UpdateEntryActor((u8 *)list);
+        RESEARCH_LIST_UpdateTouchRects(list);
+        RESEARCH_LIST_UpdateScrollbarActor(list);
+        RESEARCH_LIST_UpdateEntryActor(list);
         RESEARCH_LIST_UpdateMomentum(list);
         if (RESEARCH_LIST_IsMomentumActive(list) == 0) {
-            RESEARCH_LIST_PrintCurrentEntry((char *)list);
+            RESEARCH_LIST_PrintCurrentEntry(list);
             RESEARCH_LIST_SetCommandReady(list);
         }
         break;
     }
     }
-    RESEARCH_LIST_ScrollSelectionIntoView((u8 *)list);
+    RESEARCH_LIST_ScrollSelectionIntoView(list);
 }
 
-void RESEARCH_LIST_HandleConfirm(char *list)
+void RESEARCH_LIST_HandleConfirm(struct ResearchTop *list)
 {
     u32 keys = KEY_GetTrg();
-    int st = TOUCHPANEL_HitTrg((union TouchHitTable *)(list + 0x58));
+    int st = TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[0]);
     if ((keys & 0x40) || (keys & 0x80) || (keys & 0x20) || (keys & 0x10) || (keys & 1)) {
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 9);
+        RESEARCH_LIST_PushCommand(list, 9);
         return;
     }
     if (st == 0) {
-        RESEARCH_LIST_SetSelectionMode((uptr)list, 0);
-        RESEARCH_LIST_StopListPaletteAnime((u8 *)list, 3);
+        RESEARCH_LIST_SetSelectionMode(list, 0);
+        RESEARCH_LIST_StopListPaletteAnime(list, 3);
         RESEARCH_LIST_StartListPaletteAnime(list, 5);
-        RESEARCH_LIST_SetEntryHandled((u8 *)list, 1);
+        RESEARCH_LIST_SetEntryHandled(list, 1);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 12);
+        RESEARCH_LIST_PushCommand(list, 12);
         return;
     }
     if (RESEARCH_LIST_GetInputFlag(list) != 0 || (keys & 2) || st == 1) {
-        RESEARCH_LIST_SetSelectionMode((uptr)list, 1);
-        RESEARCH_LIST_StopListPaletteAnime((u8 *)list, 3);
+        RESEARCH_LIST_SetSelectionMode(list, 1);
+        RESEARCH_LIST_StopListPaletteAnime(list, 3);
         RESEARCH_LIST_StartListPaletteAnime(list, 5);
         GFL_USE_PlaySeDefaultVolume(0x551);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 11);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 2);
+        RESEARCH_LIST_PushCommand(list, 11);
+        RESEARCH_LIST_PushCommand(list, 2);
     }
 }
 
-void RESEARCH_LIST_HandleCancel(char *list)
+void RESEARCH_LIST_HandleCancel(struct ResearchTop *list)
 {
     u32 keys = KEY_GetTrg();
-    int st = TOUCHPANEL_HitTrg((union TouchHitTable *)(list + 0x58));
+    int st = TOUCHPANEL_HitTrg((union TouchHitTable *)&list->touchRects[0]);
     if (keys & 0x40) {
-        RESEARCH_LIST_SelectPrevious((uptr)list);
+        RESEARCH_LIST_SelectPrevious(list);
     }
     if (keys & 0x80) {
-        RESEARCH_LIST_SelectNext((uptr)list);
+        RESEARCH_LIST_SelectNext(list);
     }
     if (keys & 1) {
-        RESEARCH_LIST_StopListPaletteAnime((u8 *)list, 3);
+        RESEARCH_LIST_StopListPaletteAnime(list, 3);
         RESEARCH_LIST_StartListPaletteAnime(list, 5);
-        switch (*(int *)&((struct ResearchTop *)list)->selectionMode) {
+        switch (*(int *)&list->selectionMode) {
         case 0:
-            RESEARCH_LIST_SetEntryHandled((u8 *)list, 0);
+            RESEARCH_LIST_SetEntryHandled(list, 0);
             RESEARCH_LIST_SetCommandReady(list);
-            RESEARCH_LIST_PushCommand((unsigned char *)list, 12);
+            RESEARCH_LIST_PushCommand(list, 12);
             break;
         case 1:
             GFL_USE_PlaySeDefaultVolume(0x551);
             RESEARCH_LIST_SetCommandReady(list);
-            RESEARCH_LIST_PushCommand((unsigned char *)list, 11);
-            RESEARCH_LIST_PushCommand((unsigned char *)list, 2);
+            RESEARCH_LIST_PushCommand(list, 11);
+            RESEARCH_LIST_PushCommand(list, 2);
             break;
         }
         return;
     }
     if (st == 0) {
-        RESEARCH_LIST_SetSelectionMode((uptr)list, 0);
-        RESEARCH_LIST_StopListPaletteAnime((u8 *)list, 3);
+        RESEARCH_LIST_SetSelectionMode(list, 0);
+        RESEARCH_LIST_StopListPaletteAnime(list, 3);
         RESEARCH_LIST_StartListPaletteAnime(list, 5);
-        RESEARCH_LIST_SetEntryHandled((u8 *)list, 1);
+        RESEARCH_LIST_SetEntryHandled(list, 1);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 12);
+        RESEARCH_LIST_PushCommand(list, 12);
         return;
     }
     if (RESEARCH_LIST_GetInputFlag(list) != 0 || (keys & 2) || st == 1) {
-        RESEARCH_LIST_SetSelectionMode((uptr)list, 1);
-        RESEARCH_LIST_StopListPaletteAnime((u8 *)list, 3);
+        RESEARCH_LIST_SetSelectionMode(list, 1);
+        RESEARCH_LIST_StopListPaletteAnime(list, 3);
         RESEARCH_LIST_StartListPaletteAnime(list, 5);
         GFL_USE_PlaySeDefaultVolume(0x551);
         RESEARCH_LIST_SetCommandReady(list);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 11);
-        RESEARCH_LIST_PushCommand((unsigned char *)list, 2);
+        RESEARCH_LIST_PushCommand(list, 11);
+        RESEARCH_LIST_PushCommand(list, 2);
     }
 }
 
-void RESEARCH_LIST_UpdateShowEntry(u8 *list)
+void RESEARCH_LIST_UpdateShowEntry(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
-        RESEARCH_LIST_SetEntryPaletteActive((sptr)list, 1);
-        RESEARCH_LIST_SetEntryPaletteActive((sptr)list, 0);
+        RESEARCH_LIST_SetEntryPaletteActive(list, 1);
+        RESEARCH_LIST_SetEntryPaletteActive(list, 0);
         RESEARCH_LIST_SetOamEnabled(list, 0, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 1, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 2, (u8 *)1);
-        if (((struct ResearchTop *)list)->entryPaletteActive == 0) {
-            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
-            RESEARCH_LIST_ShowEntryPalette((char *)list);
+        if (list->entryPaletteActive == 0) {
+            BgTextLabel_SetPalette(list->entryLabels[list->cursorSlot], 14);
+            RESEARCH_LIST_ShowEntryPalette(list);
         }
         RESEARCH_LIST_ComputeCenterScroll(list);
         RESEARCH_LIST_IncSubState(list);
@@ -1366,7 +1361,7 @@ void RESEARCH_LIST_UpdateShowEntry(u8 *list)
         RESEARCH_LIST_StepScrollAnim((struct ResearchTop *)list);
         RESEARCH_LIST_ApplyScrollRegs(list);
         RESEARCH_LIST_UpdateTouchRects(list);
-        RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
+        RESEARCH_LIST_UpdateScrollbarActor(list);
         RESEARCH_LIST_UpdateEntryActor(list);
         RESEARCH_LIST_UpdateWindowMask(list);
         if (RESEARCH_LIST_IsScrollAnimDone(list)) {
@@ -1377,20 +1372,20 @@ void RESEARCH_LIST_UpdateShowEntry(u8 *list)
     }
 }
 
-void RESEARCH_LIST_UpdateHideEntry(u8 *list)
+void RESEARCH_LIST_UpdateHideEntry(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
         RESEARCH_LIST_SetSelectionModeField(list, 0);
-        RESEARCH_LIST_SetEntryPaletteActive((sptr)list, 1);
-        RESEARCH_LIST_SetEntryPaletteIdle((sptr)list, 0);
-        RESEARCH_LIST_StartListPaletteAnime((char *)((uptr)list), 3);
+        RESEARCH_LIST_SetEntryPaletteActive(list, 1);
+        RESEARCH_LIST_SetEntryPaletteIdle(list, 0);
+        RESEARCH_LIST_StartListPaletteAnime(list, 3);
         RESEARCH_LIST_SetOamEnabled(list, 0, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 1, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 2, (u8 *)1);
-        if (((struct ResearchTop *)list)->entryPaletteActive == 0) {
-            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
-            RESEARCH_LIST_ShowEntryPalette((char *)list);
+        if (list->entryPaletteActive == 0) {
+            BgTextLabel_SetPalette(list->entryLabels[list->cursorSlot], 14);
+            RESEARCH_LIST_ShowEntryPalette(list);
         }
         RESEARCH_LIST_ComputeCenterScroll(list);
         RESEARCH_LIST_IncSubState(list);
@@ -1399,7 +1394,7 @@ void RESEARCH_LIST_UpdateHideEntry(u8 *list)
         RESEARCH_LIST_StepScrollAnim((struct ResearchTop *)list);
         RESEARCH_LIST_ApplyScrollRegs(list);
         RESEARCH_LIST_UpdateTouchRects(list);
-        RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
+        RESEARCH_LIST_UpdateScrollbarActor(list);
         RESEARCH_LIST_UpdateEntryActor(list);
         RESEARCH_LIST_UpdateWindowMask(list);
         if (RESEARCH_LIST_IsScrollAnimDone(list)) {
@@ -1413,32 +1408,32 @@ void RESEARCH_LIST_UpdateHideEntry(u8 *list)
 /*
  * arity: BB910 retains supplied r1=13 through its forwarding chain.
  */
-void RESEARCH_LIST_UpdateSaveExit(u8 *list)
+void RESEARCH_LIST_UpdateSaveExit(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
-        RESEARCH_LIST_ShiftTextLeft((uptr)list, RESEARCH_LIST_FindSaveIndex(list));
+        RESEARCH_LIST_ShiftTextLeft(list, RESEARCH_LIST_FindSaveIndex(list));
         RESEARCH_LIST_StoreSaveValues(list);
-        RESEARCH_LIST_ShiftTextRight((uptr)list, RESEARCH_LIST_GetSelectedIndex(list));
+        RESEARCH_LIST_ShiftTextRight(list, RESEARCH_LIST_GetSelectedIndex(list));
         RESEARCH_LIST_UpdateEntryActor(list);
         RESEARCH_LIST_SetOamEnabled(list, 3, (u8 *)1);
         GFL_USE_PlaySeDefaultVolume(1898);
         RESEARCH_LIST_IncSubState(list);
         break;
     case 1:
-        if (((struct ResearchTop *)list)->stateTimer >= 60) {
+        if (list->stateTimer >= 60) {
             RESEARCH_LIST_FadeOut();
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 2:
         if (RESEARCH_LIST_IsFadeDone()) {
-            RESEARCH_LIST_HideEntryPalette((char *)list);
+            RESEARCH_LIST_HideEntryPalette(list);
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 3:
-        if (RESEARCH_LIST_IsPaletteFadeDone((uptr)list)) {
+        if (RESEARCH_LIST_IsPaletteFadeDone(list)) {
             RESEARCH_LIST_SetCommandReady(list);
             RESEARCH_LIST_PushCommand(list, 13);
         }
@@ -1450,24 +1445,24 @@ void RESEARCH_LIST_UpdateSaveExit(u8 *list)
  * extent: 021BB70E..021BB710 is two zero bytes of alignment padding.
  * arity: BB910 visibly receives r1=13; retain it through the forwarding chain despite its one-argument legacy file.
  */
-void RESEARCH_LIST_UpdateFadeInWait(u8 *list)
+void RESEARCH_LIST_UpdateFadeInWait(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
-        if (RESEARCH_LIST_GetFadeWaitFrames(list) < ((struct ResearchTop *)list)->stateTimer) {
+        if (RESEARCH_LIST_GetFadeWaitFrames(list) < list->stateTimer) {
             RESEARCH_LIST_FadeOut();
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 1:
         if (RESEARCH_LIST_IsFadeDone()) {
-            RESEARCH_LIST_HideEntryPalette((char *)list);
+            RESEARCH_LIST_HideEntryPalette(list);
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 2:
-        if (RESEARCH_LIST_IsPaletteFadeDone((uptr)list)) {
-            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
+        if (RESEARCH_LIST_IsPaletteFadeDone(list)) {
+            BgTextLabel_SetPalette(list->entryLabels[list->cursorSlot], 15);
             RESEARCH_LIST_SetCommandReady(list);
             RESEARCH_LIST_PushCommand(list, 13);
         }
@@ -1479,24 +1474,24 @@ void RESEARCH_LIST_UpdateFadeInWait(u8 *list)
  * extent: 021BB782..021BB784 is two zero bytes of alignment padding.
  * arity: BB910 visibly receives r1=13; retain it through the forwarding chain despite its one-argument legacy file.
  */
-void RESEARCH_LIST_UpdateFadeOutWait(u8 *list)
+void RESEARCH_LIST_UpdateFadeOutWait(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
-        if (RESEARCH_LIST_GetFadeWaitFrames(list) < ((struct ResearchTop *)list)->stateTimer) {
+        if (RESEARCH_LIST_GetFadeWaitFrames(list) < list->stateTimer) {
             RESEARCH_LIST_FadeOut();
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 1:
         if (RESEARCH_LIST_IsFadeDone()) {
-            RESEARCH_LIST_HideEntryPalette((char *)list);
+            RESEARCH_LIST_HideEntryPalette(list);
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 2:
-        if (RESEARCH_LIST_IsPaletteFadeDone((uptr)list)) {
-            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
+        if (RESEARCH_LIST_IsPaletteFadeDone(list)) {
+            BgTextLabel_SetPalette(list->entryLabels[list->cursorSlot], 15);
             RESEARCH_LIST_SetCommandReady(list);
             RESEARCH_LIST_PushCommand(list, 13);
         }
@@ -1508,32 +1503,32 @@ void RESEARCH_LIST_UpdateReturn(struct ResearchTop *list)
 {
     switch (RESEARCH_LIST_GetSubState(list)) {
     case 0:
-        RESEARCH_LIST_ComputeReturnScroll((u8 *)list);
+        RESEARCH_LIST_ComputeReturnScroll(list);
         RESEARCH_LIST_IncSubState(list);
         break;
     case 1:
         RESEARCH_LIST_StepScrollAnim((struct ResearchTop *)list);
-        RESEARCH_LIST_ApplyScrollRegs((u8 *)list);
-        RESEARCH_LIST_UpdateTouchRects((u8 *)list);
-        RESEARCH_LIST_UpdateScrollbarActor((uptr)list);
-        RESEARCH_LIST_UpdateEntryActor((u8 *)list);
-        RESEARCH_LIST_UpdateWindowMask((u8 *)list);
+        RESEARCH_LIST_ApplyScrollRegs(list);
+        RESEARCH_LIST_UpdateTouchRects(list);
+        RESEARCH_LIST_UpdateScrollbarActor(list);
+        RESEARCH_LIST_UpdateEntryActor(list);
+        RESEARCH_LIST_UpdateWindowMask(list);
         if (RESEARCH_LIST_IsScrollAnimDone(list) != 0) {
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 2:
-        if (RESEARCH_LIST_IsListPaletteAnimeRunning((uptr)list, 5) != 0) {
-            RESEARCH_LIST_SetOamEnabled((u8 *)list, 0, 0);
-            RESEARCH_LIST_SetOamEnabled((u8 *)list, 1, 0);
-            RESEARCH_LIST_SetOamEnabled((u8 *)list, 2, 0);
-            RESEARCH_LIST_UpdateWindowMask((u8 *)list);
-            RESEARCH_LIST_HideEntryPalette((char *)list);
+        if (RESEARCH_LIST_IsListPaletteAnimeRunning(list, 5) != 0) {
+            RESEARCH_LIST_SetOamEnabled(list, 0, 0);
+            RESEARCH_LIST_SetOamEnabled(list, 1, 0);
+            RESEARCH_LIST_SetOamEnabled(list, 2, 0);
+            RESEARCH_LIST_UpdateWindowMask(list);
+            RESEARCH_LIST_HideEntryPalette(list);
             RESEARCH_LIST_IncSubState(list);
         }
         break;
     case 3:
-        if (RESEARCH_LIST_IsPaletteFadeDone((uptr)list) != 0) {
+        if (RESEARCH_LIST_IsPaletteFadeDone(list) != 0) {
             BgTextLabel_SetPalette(list->entryLabels[list->cursorSlot], 15);
             RESEARCH_LIST_SetCommandReady(list);
         }
@@ -1545,47 +1540,47 @@ void RESEARCH_LIST_UpdateReturn(struct ResearchTop *list)
  * volatile: DISPCNT read at 021BB8FA and write at 021BB900.
  * arity: C09E0/C09EC overwrite r1 before their indexed targets; BD3A4 overwrites r1=300; BCC58/BCB60 overwrite r1/r2 before 02040DA8. Omit only unused legacy trailing inputs, retain each visibly supplied context and BB910 r1=14.
  */
-void RESEARCH_LIST_EnterExit(u8 *list)
+void RESEARCH_LIST_EnterExit(struct ResearchTop *list)
 {
-    RESEARCH_LIST_SyncToListView((char *)list);
-    RESEARCH_LIST_UnregisterVBlank((uptr)list);
-    RESEARCH_LIST_RestorePaletteAnime((int *)list);
-    RESEARCH_LIST_DestroyPaletteAnime((int *)list);
-    RESEARCH_COMMON_StopPaletteAnime(*(unsigned *)list);
-    RESEARCH_COMMON_RestorePaletteAnime(*(unsigned *)list);
-    RESEARCH_LIST_DeletePalAnm((uptr)list);
-    RESEARCH_LIST_DeleteBmps((int *)list);
-    RESEARCH_LIST_DeleteOamObjects((int *)list);
+    RESEARCH_LIST_SyncToListView(list);
+    RESEARCH_LIST_UnregisterVBlank(list);
+    RESEARCH_LIST_RestorePaletteAnime(list);
+    RESEARCH_LIST_DestroyPaletteAnime(list);
+    RESEARCH_COMMON_StopPaletteAnime(list->owner);
+    RESEARCH_COMMON_RestorePaletteAnime(list->owner);
+    RESEARCH_LIST_DeletePalAnm(list);
+    RESEARCH_LIST_DeleteBmps(list);
+    RESEARCH_LIST_DeleteOamObjects(list);
     RESEARCH_LIST_DeleteOamSys(list);
-    RESEARCH_LIST_DeleteActors((int *)list);
-    RESEARCH_LIST_DeleteUnits((int *)list);
-    RESEARCH_LIST_ReleaseEntryResources((uptr)list);
-    RESEARCH_LIST_ReleaseCursorResources((uptr)list);
+    RESEARCH_LIST_DeleteActors(list);
+    RESEARCH_LIST_DeleteUnits(list);
+    RESEARCH_LIST_ReleaseEntryResources(list);
+    RESEARCH_LIST_ReleaseCursorResources(list);
     RESEARCH_LIST_DestroyLabels(list);
-    RESEARCH_LIST_ShowBackground3((uptr)list);
+    RESEARCH_LIST_ShowBackground3(list);
     RESEARCH_LIST_DummyBg3(list);
     RESEARCH_LIST_DummyListBg(list);
-    RESEARCH_LIST_ShowBackground7((uptr)list);
+    RESEARCH_LIST_ShowBackground7(list);
     RESEARCH_LIST_DummyBg7(list);
     RESEARCH_LIST_ExitBackgrounds(list);
-    RESEARCH_LIST_DeleteMessages((int *)list);
+    RESEARCH_LIST_DeleteMessages(list);
     RESEARCH_LIST_DeleteFont(list);
     RESEARCH_LIST_SetActive(list, 0);
     RESEARCH_LIST_SetCommandReady(list);
     RESEARCH_LIST_PushCommand(list, 14);
-    ((struct ResearchTop *)list)->visible = 1;
+    list->visible = 1;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
 }
 
-void RESEARCH_LIST_IncStateTimer(void *list)
+void RESEARCH_LIST_IncStateTimer(struct ResearchTop *list)
 {
-    u32 *c = (u32 *)((char *)list + 0x24);
+    u32 *c = &list->stateTimer;
     *c += 1;
 }
 
-void RESEARCH_LIST_PushCommand(u8 *list, u32 command)
+void RESEARCH_LIST_PushCommand(struct ResearchTop *list, u32 command)
 {
-    RingQueue_Push((struct RingQueue *)((((struct ResearchTop *)list)->commandQueue)), command);
+    RingQueue_Push((struct RingQueue *)((list->commandQueue)), command);
 }
 
 /*
@@ -1593,9 +1588,9 @@ void RESEARCH_LIST_PushCommand(u8 *list, u32 command)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetCommandReady(void *list)
+void RESEARCH_LIST_SetCommandReady(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->commandReady = 1;
+    list->commandReady = 1;
 }
 
 /*
@@ -1603,14 +1598,14 @@ void RESEARCH_LIST_SetCommandReady(void *list)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetEntryHandled(u8 *list)
+u32 RESEARCH_LIST_GetEntryHandled(struct ResearchTop *list)
 {
-    return RESEARCH_COMMON_GetEntryHandled((void *)((u32)(((struct ResearchTop *)list)->owner)));
+    return RESEARCH_COMMON_GetEntryHandled(list->owner);
 }
 
-void RESEARCH_LIST_SetEntryHandled(u8 *list, u32 handled)
+void RESEARCH_LIST_SetEntryHandled(struct ResearchTop *list, u32 handled)
 {
-    RESEARCH_COMMON_SetEntryHandled((struct ResearchCommon *)(*(u8 * *)&((struct ResearchTop *)list)->owner), handled);
+    RESEARCH_COMMON_SetEntryHandled((struct ResearchCommon *)(*(u8 * *)&list->owner), handled);
 }
 
 /*
@@ -1618,14 +1613,14 @@ void RESEARCH_LIST_SetEntryHandled(u8 *list, u32 handled)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetActive(void *list, u32 active)
+void RESEARCH_LIST_SetActive(struct ResearchTop *list, u32 active)
 {
-    ((struct ResearchTop *)list)->active = active;
+    list->active = active;
 }
 
-u32 RESEARCH_LIST_GetFadeWaitFrames(u8 *list)
+u32 RESEARCH_LIST_GetFadeWaitFrames(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->fadeWaitFrames;
+    return list->fadeWaitFrames;
 }
 
 /*
@@ -1634,37 +1629,36 @@ u32 RESEARCH_LIST_GetFadeWaitFrames(u8 *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ProcessCommand(u32 list)
+void RESEARCH_LIST_ProcessCommand(struct ResearchTop *list)
 {
-    if (((struct ResearchTop *)list)->commandReady != 0) {
-    if (RingQueue_IsEmpty((struct RingQueue *)(((struct ResearchTop *)list)->commandQueue)) == 0) {
-    RESEARCH_LIST_SetState((char *)list, RingQueue_Pop((struct RingQueue *)(((struct ResearchTop *)list)->commandQueue)));
+    if (list->commandReady != 0) {
+    if (RingQueue_IsEmpty((struct RingQueue *)(list->commandQueue)) == 0) {
+    RESEARCH_LIST_SetState(list, RingQueue_Pop((struct RingQueue *)(list->commandQueue)));
     }
     }
 }
 
-u32 RESEARCH_LIST_GetState(void *list)
+u32 RESEARCH_LIST_GetState(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->state;
+    return list->state;
 }
 
-int RESEARCH_LIST_SetState(char *list, int state)
+int RESEARCH_LIST_SetState(struct ResearchTop *list, int state)
 {
-    int off = 0x56;
-    ((struct ResearchTop *)list)->state = state;
-    ((struct ResearchTop *)list)->stateTimer = 0;
-    *(int *)(list + (off << 2)) = 0;
+    list->state = state;
+    list->stateTimer = 0;
+    list->commandReady = 0;
     return (sptr)RESEARCH_LIST_ClearSubState(list);
 }
 
-u32 RESEARCH_LIST_GetSubState(void *list)
+u32 RESEARCH_LIST_GetSubState(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->subState;
+    return list->subState;
 }
 
-void RESEARCH_LIST_IncSubState(void *list)
+void RESEARCH_LIST_IncSubState(struct ResearchTop *list)
 {
-    u32 *c = (u32 *)((char *)list + 0x20);
+    u32 *c = &list->subState;
     *c += 1;
 }
 
@@ -1673,69 +1667,69 @@ void RESEARCH_LIST_IncSubState(void *list)
  *   movs r1,#0; str r1,[r0,#0x20]; bx lr
  * Clears the word at p+0x20.
  */
-void *RESEARCH_LIST_ClearSubState(void *list)
+struct ResearchTop *RESEARCH_LIST_ClearSubState(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->subState = 0;
+    list->subState = 0;
     return list;
 }
 
-void RESEARCH_LIST_SelectPrevious(u32 list)
+void RESEARCH_LIST_SelectPrevious(struct ResearchTop *list)
 {
-    RESEARCH_LIST_SetEntryPaletteActive(list, ((struct ResearchTop *)list)->selectionMode);
-    RESEARCH_LIST_FlipSelectionMode((void *)list, -1);
-    RESEARCH_LIST_SetEntryPaletteIdle(list, ((struct ResearchTop *)list)->selectionMode);
+    RESEARCH_LIST_SetEntryPaletteActive(list, list->selectionMode);
+    RESEARCH_LIST_FlipSelectionMode(list, -1);
+    RESEARCH_LIST_SetEntryPaletteIdle(list, list->selectionMode);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_LIST_StartListPaletteAnime((char *)list, 4);
+    RESEARCH_LIST_StartListPaletteAnime(list, 4);
 }
 
-void RESEARCH_LIST_SelectNext(u32 list)
+void RESEARCH_LIST_SelectNext(struct ResearchTop *list)
 {
-    RESEARCH_LIST_SetEntryPaletteActive(list, ((struct ResearchTop *)list)->selectionMode);
-    RESEARCH_LIST_FlipSelectionMode((void *)list, 1);
-    RESEARCH_LIST_SetEntryPaletteIdle(list, ((struct ResearchTop *)list)->selectionMode);
+    RESEARCH_LIST_SetEntryPaletteActive(list, list->selectionMode);
+    RESEARCH_LIST_FlipSelectionMode(list, 1);
+    RESEARCH_LIST_SetEntryPaletteIdle(list, list->selectionMode);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_LIST_StartListPaletteAnime((char *)list, 4);
+    RESEARCH_LIST_StartListPaletteAnime(list, 4);
 }
 
-void RESEARCH_LIST_SetSelectionMode(u32 list, u32 mode)
+void RESEARCH_LIST_SetSelectionMode(struct ResearchTop *list, u32 mode)
 {
-    RESEARCH_LIST_SetEntryPaletteActive(list, ((struct ResearchTop *)list)->selectionMode);
-    RESEARCH_LIST_SetSelectionModeField((void *)list, mode);
-    RESEARCH_LIST_SetEntryPaletteIdle(list, ((struct ResearchTop *)list)->selectionMode);
+    RESEARCH_LIST_SetEntryPaletteActive(list, list->selectionMode);
+    RESEARCH_LIST_SetSelectionModeField(list, mode);
+    RESEARCH_LIST_SetEntryPaletteIdle(list, list->selectionMode);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_LIST_StartListPaletteAnime((char *)list, 4);
+    RESEARCH_LIST_StartListPaletteAnime(list, 4);
 }
 
 /*
  * arity: BC400 forwards entry r0 into BC3F8, so retain supplied argument despite legacy void. BC3EC overwrites r1 with 24 and tail-calls signed division; legacy trailing a1 neither read nor forwarded.
  */
-void RESEARCH_LIST_ScrollSelectionIntoView(u8 *list)
+void RESEARCH_LIST_ScrollSelectionIntoView(struct ResearchTop *list)
 {
     int low, high, left, right;
     u8 index;
     low = RESEARCH_LIST_GetScrollMin();
     high = RESEARCH_LIST_GetScrollMax();
-    left = RESEARCH_LIST_EntryIndexToY(list[0x32]);
-    right = RESEARCH_LIST_EntryIndexToYBottom(list[0x32]);
+    left = RESEARCH_LIST_EntryIndexToY(list->cursorSlot);
+    right = RESEARCH_LIST_EntryIndexToYBottom(list->cursorSlot);
     if (right <= low) {
         index = RESEARCH_LIST_DivideByEntryHeight(right + 1);
-        if (((struct ResearchTop *)list)->cursorVisible) RESEARCH_LIST_SelectEntry((uptr)list, index);
+        if (list->cursorVisible) RESEARCH_LIST_SelectEntry(list, index);
         else RESEARCH_LIST_SetCursorSlot(list, index);
     }
     if (high <= left) {
         index = RESEARCH_LIST_DivideByEntryHeight(left - 1);
-        if (((struct ResearchTop *)list)->cursorVisible) RESEARCH_LIST_SelectEntry((uptr)list, index);
+        if (list->cursorVisible) RESEARCH_LIST_SelectEntry(list, index);
         else RESEARCH_LIST_SetCursorSlot(list, index);
     }
 }
 
-void RESEARCH_LIST_SelectEntry(u32 list, u8 slot)
+void RESEARCH_LIST_SelectEntry(struct ResearchTop *list, u8 slot)
 {
-    RESEARCH_LIST_HideCursor((u8 *)list);
-    RESEARCH_LIST_SetCursorSlot((void *)list, slot);
-    RESEARCH_LIST_ShowCursor((u8 *)list);
+    RESEARCH_LIST_HideCursor(list);
+    RESEARCH_LIST_SetCursorSlot(list, slot);
+    RESEARCH_LIST_ShowCursor(list);
     GFL_USE_PlaySeDefaultVolume(1352);
-    RESEARCH_LIST_StartListPaletteAnime((char *)list, 1);
+    RESEARCH_LIST_StartListPaletteAnime(list, 1);
 }
 
 /*
@@ -1750,17 +1744,17 @@ void RESEARCH_LIST_SelectEntry(u32 list, u8 slot)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_StartEntryPaletteAnime(u32 list)
+void RESEARCH_LIST_StartEntryPaletteAnime(struct ResearchTop *list)
 {
     RESEARCH_LIST_StartPaletteAnime((u8 **)list, 0);
 }
 
-void RESEARCH_LIST_ComputeOpenScroll(u8 *list)
+void RESEARCH_LIST_ComputeOpenScroll(struct ResearchTop *list)
 {
     int start, end, low, high, step, low2, high2;
-    start = ((struct ResearchTop *)list)->scrollY;
-    if (list[0x32] < list[0x33]) end = RESEARCH_LIST_EntryIndexToYBottom(list[0x33]) + 1;
-    else end = RESEARCH_LIST_EntryIndexToY(list[0x33]);
+    start = list->scrollY;
+    if (list->cursorSlot < list->endIndex) end = RESEARCH_LIST_EntryIndexToYBottom(list->endIndex) + 1;
+    else end = RESEARCH_LIST_EntryIndexToY(list->endIndex);
     low = RESEARCH_LIST_GetScrollMin();
     high = RESEARCH_LIST_GetScrollMax();
     if (end < low || high < end) {
@@ -1774,10 +1768,10 @@ void RESEARCH_LIST_ComputeOpenScroll(u8 *list)
     RESEARCH_LIST_StartScrollAnim(list, start, end, step);
 }
 
-void RESEARCH_LIST_ComputeReturnScroll(u8 *list)
+void RESEARCH_LIST_ComputeReturnScroll(struct ResearchTop *list)
 {
     int start, end, step, low, high, low2, high2;
-    start = ((struct ResearchTop *)list)->scrollY;
+    start = list->scrollY;
     end = start;
     if ((int)RESEARCH_LIST_GetScrollRangeMax(list) < start) end = RESEARCH_LIST_GetScrollRange(list) + 24;
     else if (start < 0) end = 144;
@@ -1794,11 +1788,11 @@ void RESEARCH_LIST_ComputeReturnScroll(u8 *list)
     RESEARCH_LIST_StartScrollAnim(list, start, end, step);
 }
 
-void RESEARCH_LIST_ComputeCenterScroll(u8 *list)
+void RESEARCH_LIST_ComputeCenterScroll(struct ResearchTop *list)
 {
     int center, target, start, end;
     center = (int)(RESEARCH_LIST_GetScrollMin() + RESEARCH_LIST_GetScrollMax()) / 2;
-    target = RESEARCH_LIST_GetRowBase((uptr)list, list[0x32]) * 8;
+    target = RESEARCH_LIST_GetRowBase(list, list->cursorSlot) * 8;
     if (center < target) {
         start = RESEARCH_LIST_GetScrollMax();
         end = (target - center) + RESEARCH_LIST_GetScrollMax();
@@ -1809,7 +1803,7 @@ void RESEARCH_LIST_ComputeCenterScroll(u8 *list)
     RESEARCH_LIST_StartScrollAnim(list, start, end, ((start >= end ? start : end) - (start <= end ? start : end)) / 3);
 }
 
-u8 RESEARCH_LIST_FindSaveIndex(u8 *list)
+u8 RESEARCH_LIST_FindSaveIndex(struct ResearchTop *list)
 {
     u8 values[3];
     int i;
@@ -1829,12 +1823,12 @@ u8 RESEARCH_LIST_FindSaveIndex(u8 *list)
  * blocker C: typedef unsigned char u8; void SYMBOL_SAVE_SetBitDescriptor(u8 *p,int value,int index) { (p+index)[640]=value; }
  * arity: BC628 returns C09B4's +8 pointer; E394 returns 071CC's pointer, both used live despite legacy void declarations.
  */
-void RESEARCH_LIST_StoreSaveValues(u8 *list)
+void RESEARCH_LIST_StoreSaveValues(struct ResearchTop *list)
 {
     u32 index;
     sptr data;
     index=RESEARCH_LIST_GetSelectedIndex(list);
-    data=(sptr)SYMBOL_SAVE_GetBitBlock((void *)((sptr)GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_LIST_GetAppResource(list))));
+    data=(sptr)SYMBOL_SAVE_GetBitBlock((void *)(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_LIST_GetAppResource(list))));
     SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C30A8[index],0);
     SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C3080[index],1);
     SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C308A[index],2);
@@ -1845,9 +1839,9 @@ void RESEARCH_LIST_StoreSaveValues(u8 *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_FlipSelectionMode(void *list, s32 delta)
+void RESEARCH_LIST_FlipSelectionMode(struct ResearchTop *list, s32 delta)
 {
-    *(s32 *)&((struct ResearchTop *)list)->selectionMode = (*(s32 *)&((struct ResearchTop *)list)->selectionMode + delta + 2) % 2;
+    *(s32 *)&list->selectionMode = (*(s32 *)&list->selectionMode + delta + 2) % 2;
 }
 
 /*
@@ -1855,19 +1849,19 @@ void RESEARCH_LIST_FlipSelectionMode(void *list, s32 delta)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetSelectionModeField(void *list, u32 mode)
+void RESEARCH_LIST_SetSelectionModeField(struct ResearchTop *list, u32 mode)
 {
-    ((struct ResearchTop *)list)->selectionMode = mode;
+    list->selectionMode = mode;
 }
 
-void RESEARCH_LIST_SetEntryPaletteIdle(int list, int slot)
+void RESEARCH_LIST_SetEntryPaletteIdle(struct ResearchTop *list, int slot)
 {
-    BMP_OAM_SetPalette((struct BmpOam *)RESEARCH_LIST_GetOamObject((char *)list, slot), 0);
+    BMP_OAM_SetPalette(RESEARCH_LIST_GetOamObject(list, slot), 0);
 }
 
-void RESEARCH_LIST_SetEntryPaletteActive(int list, int slot)
+void RESEARCH_LIST_SetEntryPaletteActive(struct ResearchTop *list, int slot)
 {
-    BMP_OAM_SetPalette((struct BmpOam *)RESEARCH_LIST_GetOamObject((char *)list, slot), 1);
+    BMP_OAM_SetPalette(RESEARCH_LIST_GetOamObject(list, slot), 1);
 }
 
 /*
@@ -1875,52 +1869,52 @@ void RESEARCH_LIST_SetEntryPaletteActive(int list, int slot)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetCursorSlot(void *list, u8 slot)
+void RESEARCH_LIST_SetCursorSlot(struct ResearchTop *list, u8 slot)
 {
-    ((struct ResearchTop *)list)->cursorSlot = slot;
+    list->cursorSlot = slot;
 }
 
-void RESEARCH_LIST_AdvanceEndIndex(u8 *list, int delta)
+void RESEARCH_LIST_AdvanceEndIndex(struct ResearchTop *list, int delta)
 {
-    int base = list[0x32];
+    int base = list->cursorSlot;
     int count = (int)RESEARCH_LIST_GetEntryCount(list);
     int sum = base + delta;
-    list[0x33] = (u8)((sum + count) % (int)RESEARCH_LIST_GetEntryCount(list));
+    list->endIndex = (u8)((sum + count) % (int)RESEARCH_LIST_GetEntryCount(list));
 }
 
-void RESEARCH_LIST_ShowCursor(u8 *list)
+void RESEARCH_LIST_ShowCursor(struct ResearchTop *list)
 {
     u8 slot;
     u32 x;
     u32 y;
-    slot=list[0x32];
-    x=RESEARCH_LIST_GetRowOffset((uptr)list,slot);
-    y=RESEARCH_LIST_GetRowBase((uptr)list,slot);
+    slot=list->cursorSlot;
+    x=RESEARCH_LIST_GetRowOffset(list,slot);
+    y=RESEARCH_LIST_GetRowBase(list,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,10);
     BG_SYS_MarkTileDirty(2);
-    ((struct ResearchTop *)list)->cursorVisible=1;
+    list->cursorVisible=1;
 }
 
-void RESEARCH_LIST_HideCursor(u8 *list)
+void RESEARCH_LIST_HideCursor(struct ResearchTop *list)
 {
     u8 slot;
     u32 x;
     u32 y;
-    slot=list[0x32];
-    x=RESEARCH_LIST_GetRowOffset((uptr)list,slot);
-    y=RESEARCH_LIST_GetRowBase((uptr)list,slot);
+    slot=list->cursorSlot;
+    x=RESEARCH_LIST_GetRowOffset(list,slot);
+    y=RESEARCH_LIST_GetRowBase(list,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,9);
     BG_SYS_MarkTileDirty(2);
-    ((struct ResearchTop *)list)->cursorVisible=0;
+    list->cursorVisible=0;
 }
 
-void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot)
+void RESEARCH_LIST_ShiftTextRight(struct ResearchTop *object,u32 slot)
 {
     u16 *first;
     int row;
     u16 *second;
     int column;
-    Index index;
+    ResearchListIndex index;
     int base,destination;
     first=(u16 *)BG_SYS_GetBuf(2);
     second=(u16 *)BG_SYS_GetBuf(3);
@@ -1944,13 +1938,13 @@ void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot)
     BG_SYS_MarkTileDirty(3);
 }
 
-void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
+void RESEARCH_LIST_ShiftTextLeft(struct ResearchTop *object,u32 slot)
 {
     u16 *first;
     int row;
     u16 *second;
     int column;
-    Index index;
+    ResearchListIndex index;
     int base,destination;
     first=(u16 *)BG_SYS_GetBuf(2);
     second=(u16 *)BG_SYS_GetBuf(3);
@@ -1979,35 +1973,35 @@ void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetRowOffset(u32 list, u32 index)
+u32 RESEARCH_LIST_GetRowOffset(struct ResearchTop *list, u32 index)
 {
     u8 rowOffset = 2;
-    if (index == RESEARCH_LIST_FindSaveIndex((u8 *)list)) {
+    if (index == RESEARCH_LIST_FindSaveIndex(list)) {
     rowOffset -= 1;
     }
     return rowOffset;
 }
 
-u32 RESEARCH_LIST_GetRowBase(u32 unusedArg, u32 row)
+u32 RESEARCH_LIST_GetRowBase(struct ResearchTop *unusedArg, u32 row)
 {
     return (u8)(row * 3);
 }
 
-int RESEARCH_LIST_GetEntryScreenX(unsigned char *list, unsigned int slot)
+int RESEARCH_LIST_GetEntryScreenX(struct ResearchTop *list, unsigned int slot)
 {
-    int t = RESEARCH_LIST_GetRowOffset((uptr)list, slot) << 3;
+    int t = RESEARCH_LIST_GetRowOffset(list, slot) << 3;
     return t - BG_SYS_GetChannelScrollX(2);
 }
 
-int RESEARCH_LIST_GetEntryScreenY(unsigned char *list, unsigned char index)
+int RESEARCH_LIST_GetEntryScreenY(struct ResearchTop *list, unsigned char index)
 {
-    int t = RESEARCH_LIST_GetRowBase((uptr)list, index) << 3;
+    int t = RESEARCH_LIST_GetRowBase(list, index) << 3;
     return t - RESEARCH_LIST_GetScrollY();
 }
 
-int RESEARCH_LIST_GetEntryScreenYBottom(unsigned char *list, unsigned int index)
+int RESEARCH_LIST_GetEntryScreenYBottom(struct ResearchTop *list, unsigned int index)
 {
-    int t = (RESEARCH_LIST_GetRowBase((uptr)list, index) << 3) + 0x17;
+    int t = (RESEARCH_LIST_GetRowBase(list, index) << 3) + 0x17;
     return t - RESEARCH_LIST_GetScrollY();
 }
 
@@ -2027,7 +2021,7 @@ static inline void inside(Plane wnd,Bool effect)
     *(volatile u16 *)0x04000048=(u16)tmp;
 }
 
-void RESEARCH_LIST_UpdateWindowMask(u8 *list)
+void RESEARCH_LIST_UpdateWindowMask(struct ResearchTop *list)
 {
     int active;
     int top,bottom;
@@ -2054,57 +2048,57 @@ void RESEARCH_LIST_UpdateWindowMask(u8 *list)
 /*
  * arity: BF28/BF3C forward entry r0/r1 to BF04/BF1C; preserve both, with observed u8 argument truncation.
  */
-void RESEARCH_LIST_UpdateEntryActor(u8 *list)
+void RESEARCH_LIST_UpdateEntryActor(struct ResearchTop *list)
 {
     struct ResearchVec2 point;
     u32 index;
-    struct Obj *obj;
+    struct ClactActor *obj;
     index=RESEARCH_LIST_FindSaveIndex(list);
-    obj=(struct Obj *)RESEARCH_LIST_GetActor(list,2);
+    obj=RESEARCH_LIST_GetActor(list,2);
     if(index==255) {
-        CLACT_SetActorDrawEnable((struct ClactActor *)obj,0);
+        CLACT_SetActorDrawEnable(obj,0);
         return;
     }
     point.x=RESEARCH_LIST_GetEntryScreenX(list,(u8)index);
     point.y=RESEARCH_LIST_GetEntryScreenY(list,index)+10;
-    CLACT_AddActorSurfacePos((struct ClactActor *)obj,(struct ClactVec2 *)(&point),0);
-    CLACT_SetActorAutoAnim((struct ClactActor *)obj,1);
-    CLACT_SetActorDrawEnable((struct ClactActor *)obj,1);
+    CLACT_AddActorSurfacePos(obj,(struct ClactVec2 *)(&point),0);
+    CLACT_SetActorAutoAnim(obj,1);
+    CLACT_SetActorDrawEnable(obj,1);
 }
 
-int RESEARCH_LIST_PrintCurrentEntry(char *list)
+int RESEARCH_LIST_PrintCurrentEntry(struct ResearchTop *list)
 {
-    return RESEARCH_LIST_PrintEntryLabels((u8 *)list, ((struct ResearchTop *)list)->cursorSlot);
+    return RESEARCH_LIST_PrintEntryLabels(list, list->cursorSlot);
 }
 
 /*
  * arity: original visibly supplies r1 to C0F5C; preserve second argument omitted by legacy source.
  */
-int RESEARCH_LIST_PrintEntryLabels(u8 *list, u8 index)
+int RESEARCH_LIST_PrintEntryLabels(struct ResearchTop *list, u8 index)
 {
-    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA),d_021C309E[index]);
-    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB),d_021C3094[index]);
-    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA),d_021C30D0[d_021C30A8[index]]);
-    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB),d_021C30D0[d_021C3080[index]]);
-    return BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC),d_021C30D0[d_021C308A[index]]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(list->nameLabelA),d_021C309E[index]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(list->nameLabelB),d_021C3094[index]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(list->valueLabelA),d_021C30D0[d_021C30A8[index]]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(list->valueLabelB),d_021C30D0[d_021C3080[index]]);
+    return BgTextLabel_PrintMessage((struct BgTextLabel *)(list->valueLabelC),d_021C30D0[d_021C308A[index]]);
 }
 
-void RESEARCH_LIST_HideEntryLabels(u32 list)
+void RESEARCH_LIST_HideEntryLabels(struct ResearchTop *list)
 {
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA), 0);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB), 0);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA), 0);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB), 0);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->nameLabelA), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->nameLabelB), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelA), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelB), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelC), 0);
 }
 
-void RESEARCH_LIST_ShowEntryLabels(u32 list)
+void RESEARCH_LIST_ShowEntryLabels(struct ResearchTop *list)
 {
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA), 1);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB), 1);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA), 1);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB), 1);
-    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->nameLabelA), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->nameLabelB), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelA), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelB), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(list->valueLabelC), 1);
 }
 
 /*
@@ -2113,24 +2107,24 @@ void RESEARCH_LIST_ShowEntryLabels(u32 list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_UpdateScrollbarActor(u32 list)
+void RESEARCH_LIST_UpdateScrollbarActor(struct ResearchTop *list)
 {
     u8 s[4];
-    u32 scrollbarActor = RESEARCH_LIST_GetActor((void *)list, 0);
-    if (RESEARCH_LIST_NeedsScrollbar((void *)list) == 0) {
-    CLACT_SetActorDrawEnable((struct ClactActor *)scrollbarActor, 0);
+    struct ClactActor *scrollbarActor = RESEARCH_LIST_GetActor(list, 0);
+    if (RESEARCH_LIST_NeedsScrollbar(list) == 0) {
+    CLACT_SetActorDrawEnable(scrollbarActor, 0);
     return;
     }
     ((struct ResearchVec2 *)s)->x = 248;
-    ((struct ResearchVec2 *)s)->y = RESEARCH_LIST_GetScrollbarY((void *)list);
-    CLACT_AddActorSurfacePos((struct ClactActor *)scrollbarActor, (const struct ClactVec2 *)s, 0);
-    CLACT_SetActorDrawEnable((struct ClactActor *)scrollbarActor, 1);
+    ((struct ResearchVec2 *)s)->y = RESEARCH_LIST_GetScrollbarY(list);
+    CLACT_AddActorSurfacePos(scrollbarActor, (const struct ClactVec2 *)s, 0);
+    CLACT_SetActorDrawEnable(scrollbarActor, 1);
 }
 
 /*
  * 021BC40C forwards live r0 to 021BC6DC's +0x30 getter despite legacy void prototype.
  */
-int RESEARCH_LIST_GetScrollbarY(void *list)
+int RESEARCH_LIST_GetScrollbarY(struct ResearchTop *list)
 {
     int scroll;
     int height;
@@ -2149,7 +2143,7 @@ int RESEARCH_LIST_GetScrollbarY(void *list)
     return result;
 }
 
-int RESEARCH_LIST_GetScrollYFromPosition(void *list,int position)
+int RESEARCH_LIST_GetScrollYFromPosition(struct ResearchTop *list,int position)
 {
     float ratio;
     int height;
@@ -2169,15 +2163,15 @@ int RESEARCH_LIST_GetScrollYFromPosition(void *list,int position)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_UpdateMomentum(void *list)
+void RESEARCH_LIST_UpdateMomentum(struct ResearchTop *list)
 {
-    s32 a = *(u32 *)&((struct ResearchTop *)list)->momentum;
-    s32 b = ((struct ResearchTop *)list)->momentumDir;
+    s32 a = *(u32 *)&list->momentum;
+    s32 b = list->momentumDir;
     s32 t = a + b;
     if (a * t <= 0) {
         t = 0;
     }
-    *(u32 *)&((struct ResearchTop *)list)->momentum = t;
+    *(u32 *)&list->momentum = t;
 }
 
 /*
@@ -2185,19 +2179,19 @@ void RESEARCH_LIST_UpdateMomentum(void *list)
  *
  * Addresses are Black-image addresses.
  */
-int RESEARCH_LIST_IsMomentumActive(void *list)
+int RESEARCH_LIST_IsMomentumActive(struct ResearchTop *list)
 {
-    if (((struct ResearchTop *)list)->momentum != 0) {
+    if (list->momentum != 0) {
         return 1;
     }
     return 0;
 }
 
-void RESEARCH_LIST_ComputeMomentum(void *list)
+void RESEARCH_LIST_ComputeMomentum(struct ResearchTop *list)
 {
-    int a = *(u32 *)&((struct ResearchTop *)list)->scrollY;
-    int b = ((struct ResearchTop *)list)->prevScrollY;
-    *(u32 *)&((struct ResearchTop *)list)->momentum = a - b;
+    int a = *(u32 *)&list->scrollY;
+    int b = list->prevScrollY;
+    *(u32 *)&list->momentum = a - b;
 }
 
 void RESEARCH_LIST_DampMomentum(struct ResearchTop *list)
@@ -2214,21 +2208,21 @@ void RESEARCH_LIST_DampMomentum(struct ResearchTop *list)
     }
 }
 
-void RESEARCH_LIST_SetMomentumDirection(void *list)
+void RESEARCH_LIST_SetMomentumDirection(struct ResearchTop *list)
 {
-    if (((struct ResearchTop *)list)->momentum < 0) {
-        ((struct ResearchTop *)list)->momentumDir = 1;
+    if (list->momentum < 0) {
+        list->momentumDir = 1;
     } else {
-        ((struct ResearchTop *)list)->momentumDir = -1;
+        list->momentumDir = -1;
     }
 }
 
-void RESEARCH_LIST_StartScrollAnim(void *list, u32 start, u32 target, u32 frames)
+void RESEARCH_LIST_StartScrollAnim(struct ResearchTop *list, u32 start, u32 target, u32 frames)
 {
-    ((struct ResearchTop *)list)->animStart = start;
-    ((struct ResearchTop *)list)->animTarget = target;
-    *(u32 *)&((struct ResearchTop *)list)->animFrames = frames;
-    *(u32 *)&((struct ResearchTop *)list)->animFrame = 0;
+    list->animStart = start;
+    list->animTarget = target;
+    *(u32 *)&list->animFrames = frames;
+    *(u32 *)&list->animFrame = 0;
 }
 
 void RESEARCH_LIST_StepScrollAnim(struct ResearchTop *list)
@@ -2239,9 +2233,9 @@ void RESEARCH_LIST_StepScrollAnim(struct ResearchTop *list)
     RESEARCH_LIST_SetScrollValue(list, base + (list->animTargetSigned - base) * n / list->animFrames);
 }
 
-int RESEARCH_LIST_IsScrollAnimDone(void *list)
+int RESEARCH_LIST_IsScrollAnimDone(struct ResearchTop *list)
 {
-    if (((struct ResearchTop *)list)->animFrames > ((struct ResearchTop *)list)->animFrame) {
+    if (list->animFrames > list->animFrame) {
         return 0;
     }
     return 1;
@@ -2259,18 +2253,18 @@ void RESEARCH_LIST_SetScrollTarget(struct ResearchTop *list, int target)
     list->scrollY = target;
 }
 
-void RESEARCH_LIST_SetScrollValue(void *list, u32 scrollY)
+void RESEARCH_LIST_SetScrollValue(struct ResearchTop *list, u32 scrollY)
 {
-    ((struct ResearchTop *)list)->prevScrollY = scrollY;
-    ((struct ResearchTop *)list)->scrollY = scrollY;
+    list->prevScrollY = scrollY;
+    list->scrollY = scrollY;
 }
 
-void RESEARCH_LIST_ApplyScrollRegs(u8 *list)
+void RESEARCH_LIST_ApplyScrollRegs(struct ResearchTop *list)
 {
     int position;
     int low;
     int high;
-    position=((struct ResearchTop *)list)->scrollY;
+    position=list->scrollY;
     low=RESEARCH_LIST_GetScrollMin();
     high=RESEARCH_LIST_GetScrollMax();
     if(position<low) {
@@ -2301,7 +2295,7 @@ int RESEARCH_LIST_GetScrollY(void)
     return BG_SYS_GetScrollY(2);
 }
 
-void RESEARCH_LIST_SetScrollY(u32 list)
+void RESEARCH_LIST_SetScrollY(int list)
 {
     BG_SYS_ChangeScrollImmediate(2, 3, list);
     BG_SYS_ChangeScrollImmediate(3, 3, list);
@@ -2322,9 +2316,9 @@ u32 RESEARCH_LIST_GetScrollMax(void)
  *
  * Addresses are Black-image addresses.
  */
-int RESEARCH_LIST_DivideByEntryHeight(u32 list)
+int RESEARCH_LIST_DivideByEntryHeight(int list)
 {
-    return (int)list / 24;
+    return list / 24;
 }
 
 /*
@@ -2342,22 +2336,22 @@ u32 RESEARCH_LIST_EntryIndexToYBottom(u32 index)
     return RESEARCH_LIST_EntryIndexToY(index) + 23;
 }
 
-int RESEARCH_LIST_GetScrollRange(void *list)
+int RESEARCH_LIST_GetScrollRange(struct ResearchTop *list)
 {
     return (int)RESEARCH_LIST_GetEntryCount(list) * 0x18 - 0xa8;
 }
 
-u32 RESEARCH_LIST_GetScrollRangeMax(void *list)
+u32 RESEARCH_LIST_GetScrollRangeMax(struct ResearchTop *list)
 {
     return RESEARCH_LIST_GetScrollRange(list) + 168;
 }
 
-int RESEARCH_LIST_NeedsScrollbar(void *list)
+int RESEARCH_LIST_NeedsScrollbar(struct ResearchTop *list)
 {
     return (int)RESEARCH_LIST_GetEntryCount(list) * 0x18 > 0x90;
 }
 
-void RESEARCH_LIST_UpdateTouchRects(u8 *list)
+void RESEARCH_LIST_UpdateTouchRects(struct ResearchTop *list)
 {
     int i;
     int x;
@@ -2365,10 +2359,10 @@ void RESEARCH_LIST_UpdateTouchRects(u8 *list)
     for(i=0;i<=9;i++) {
         x=RESEARCH_LIST_GetEntryScreenX(list,(u8)i);
         y=RESEARCH_LIST_GetEntryScreenY(list,i);
-        list[i*4+0x66]=x;
-        list[i*4+0x67]=x+0xd8;
-        list[i*4+0x64]=y;
-        list[i*4+0x65]=y+0x18;
+        list->touchRects[i*4 + 14]=x;
+        list->touchRects[i*4 + 15]=x+0xd8;
+        list->touchRects[i*4 + 12]=y;
+        list->touchRects[i*4 + 13]=y+0x18;
     }
 }
 
@@ -2392,23 +2386,23 @@ int RESEARCH_LIST_IsFadeDone(void)
     return FADE_IsActive() == 0;
 }
 
-void RESEARCH_LIST_ShowEntryPalette(char *list)
+void RESEARCH_LIST_ShowEntryPalette(struct ResearchTop *list)
 {
-    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)list)->palAnm, 1, 0xBBFF, 2, 0, 10, 0, ((struct ResearchTop *)list)->paletteAnimOwner);
-    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)list)->palAnm, 4, 0xCF, 2, 0, 10, 0, ((struct ResearchTop *)list)->paletteAnimOwner);
-    ((struct ResearchTop *)list)->entryPaletteActive = 1;
+    PALANM_RequestFade(*(PalAnmObj * *)&list->palAnm, 1, 0xBBFF, 2, 0, 10, 0, list->paletteAnimOwner);
+    PALANM_RequestFade(*(PalAnmObj * *)&list->palAnm, 4, 0xCF, 2, 0, 10, 0, list->paletteAnimOwner);
+    list->entryPaletteActive = 1;
 }
 
-void RESEARCH_LIST_HideEntryPalette(char *list)
+void RESEARCH_LIST_HideEntryPalette(struct ResearchTop *list)
 {
-    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)list)->palAnm, 1, 0xBBFF, 2, 10, 0, 0, ((struct ResearchTop *)list)->paletteAnimOwner);
-    PALANM_RequestFade(*(PalAnmObj * *)&((struct ResearchTop *)list)->palAnm, 4, 0xCF, 2, 10, 0, 0, ((struct ResearchTop *)list)->paletteAnimOwner);
-    ((struct ResearchTop *)list)->entryPaletteActive = 0;
+    PALANM_RequestFade(*(PalAnmObj * *)&list->palAnm, 1, 0xBBFF, 2, 10, 0, 0, list->paletteAnimOwner);
+    PALANM_RequestFade(*(PalAnmObj * *)&list->palAnm, 4, 0xCF, 2, 10, 0, 0, list->paletteAnimOwner);
+    list->entryPaletteActive = 0;
 }
 
-u32 RESEARCH_LIST_IsPaletteFadeDone(u32 list)
+u32 RESEARCH_LIST_IsPaletteFadeDone(struct ResearchTop *list)
 {
-    if (PALANM_GetFadeRequestBits((struct PaletteFade *)(((struct ResearchTop *)list)->palAnm)) == 0) {
+    if (PALANM_GetFadeRequestBits((struct PaletteFade *)(list->palAnm)) == 0) {
     return 1;
     }
     return 0;
@@ -2419,9 +2413,9 @@ void RESEARCH_LIST_StartPaletteAnime(u8 **list, u32 slot)
     RESEARCH_COMMON_StartPaletteAnime((struct ResearchCommon *)(*list), slot);
 }
 
-void RESEARCH_LIST_StartListPaletteAnime(char *list, int slot)
+void RESEARCH_LIST_StartListPaletteAnime(struct ResearchTop *list, int slot)
 {
-    PALETTE_ANIME_Start((struct PaletteAnime *)(*(int *)(list + 0x9c + slot * 4)), d_021C326C[slot].mode, d_021C326C[slot].color);
+    PALETTE_ANIME_Start((struct PaletteAnime *)(list->paletteAnime[slot]), d_021C326C[slot].mode, d_021C326C[slot].color);
 }
 
 /*
@@ -2429,9 +2423,9 @@ void RESEARCH_LIST_StartListPaletteAnime(char *list, int slot)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_StopListPaletteAnime(u8 *list, int slot)
+void RESEARCH_LIST_StopListPaletteAnime(struct ResearchTop *list, int slot)
 {
-    PALETTE_ANIME_Stop((struct PaletteAnime *)((*(u32*)(list + (slot)*4 + 156))));
+    PALETTE_ANIME_Stop((struct PaletteAnime *)((list->paletteAnime[slot])));
 }
 
 /*
@@ -2440,35 +2434,35 @@ void RESEARCH_LIST_StopListPaletteAnime(u8 *list, int slot)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_IsListPaletteAnimeRunning(u32 list, u32 slot)
+u32 RESEARCH_LIST_IsListPaletteAnimeRunning(struct ResearchTop *list, u32 slot)
 {
 #ifdef __MWERKS__
     if (PALETTE_ANIME_IsRunning(*(u32*)(((u8*)list + ((u32)slot << 2) + 156))) == 0) {
     return 1;
     }
 #else
-    if (PALETTE_ANIME_IsRunning((struct PaletteAnime *)(uptr)*(u32*)(((u8*)list + ((u32)slot << 2) + 156)), 0) == 0) {
+    if (PALETTE_ANIME_IsRunning(list->paletteAnime[slot], 0) == 0) {
     return 1;
     }
 #endif
     return 0;
 }
 
-void RESEARCH_LIST_UpdatePaletteAnimes(int *list)
+void RESEARCH_LIST_UpdatePaletteAnimes(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Update((struct PaletteAnime *)(list[i + 0x27]));
+        PALETTE_ANIME_Update(list->paletteAnime[i]);
 }
 
-void RESEARCH_LIST_UpdateCommonPaletteAnime(u8 *list)
+void RESEARCH_LIST_UpdateCommonPaletteAnime(struct ResearchTop *list)
 {
-    RESEARCH_COMMON_UpdatePaletteAnime((u32)(((struct ResearchTop *)list)->owner));
+    RESEARCH_COMMON_UpdatePaletteAnime(list->owner);
 }
 
-u32 RESEARCH_LIST_GetKeyRepeatTimer(void *list)
+u32 RESEARCH_LIST_GetKeyRepeatTimer(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->keyRepeatTimer;
+    return list->keyRepeatTimer;
 }
 
 /*
@@ -2476,9 +2470,9 @@ u32 RESEARCH_LIST_GetKeyRepeatTimer(void *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_IncKeyRepeatTimer(void *list)
+void RESEARCH_LIST_IncKeyRepeatTimer(struct ResearchTop *list)
 {
-    u32 *c = (u32 *)((char *)list + 0x54);
+    u32 *c = &list->keyRepeatTimer;
     *c += 1;
 }
 
@@ -2487,21 +2481,22 @@ void RESEARCH_LIST_IncKeyRepeatTimer(void *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ClearKeyRepeatTimer(void *list)
+void RESEARCH_LIST_ClearKeyRepeatTimer(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->keyRepeatTimer = 0;
+    list->keyRepeatTimer = 0;
 }
 
-void RESEARCH_LIST_VBlankHandler(u32 unusedArg, u32 list)
+void RESEARCH_LIST_VBlankHandler(struct TcbTask *unusedArg, void *listArg)
 {
+    struct ResearchTop *list = listArg;
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes((struct PaletteFade *)(((struct ResearchTop *)list)->palAnm));
+    PALANM_TransferPalettes((struct PaletteFade *)(list->palAnm));
 }
 
-u32 RESEARCH_LIST_GetAppResource(u8 *list)
+void *RESEARCH_LIST_GetAppResource(struct ResearchTop *list)
 {
-    return RESEARCH_COMMON_GetAppResource((void *)((u32)(((struct ResearchTop *)list)->owner)));
+    return RESEARCH_COMMON_GetAppResource(list->owner);
 }
 
 /*
@@ -2509,9 +2504,9 @@ u32 RESEARCH_LIST_GetAppResource(u8 *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetHeapId(void *list, u32 heapId)
+void RESEARCH_LIST_SetHeapId(struct ResearchTop *list, u32 heapId)
 {
-    ((struct ResearchTop *)list)->heapId = heapId;
+    list->heapId = heapId;
 }
 
 /*
@@ -2519,14 +2514,14 @@ void RESEARCH_LIST_SetHeapId(void *list, u32 heapId)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetOwner(void *list, u32 owner)
+void RESEARCH_LIST_SetOwner(struct ResearchTop *list, struct ResearchCommon *owner)
 {
-    ((struct ResearchTop *)list)->owner = owner;
+    list->owner = owner;
 }
 
-u32 RESEARCH_LIST_GetOwner(void *list)
+struct ResearchCommon *RESEARCH_LIST_GetOwner(struct ResearchTop *list)
 {
-    return (u32)((struct ResearchTop *)list)->owner;
+    return list->owner;
 }
 
 /*
@@ -2534,9 +2529,9 @@ u32 RESEARCH_LIST_GetOwner(void *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_SetListView(void *list, u32 listView)
+void RESEARCH_LIST_SetListView(struct ResearchTop *list, struct ListViewState *listView)
 {
-    ((struct ResearchTop *)list)->listViewU = listView;
+    list->listView = listView;
 }
 
 void RESEARCH_LIST_SyncFromListView(struct ResearchTop *list)
@@ -2568,30 +2563,30 @@ void RESEARCH_LIST_SyncFromListView(struct ResearchTop *list)
  * 021BC3AC is void in its source but forwards to 02040804. Original reads
  * r0 as a signed coordinate, so declare int and preserve its visible input.
  */
-void RESEARCH_LIST_SyncToListView(char *list)
+void RESEARCH_LIST_SyncToListView(struct ResearchTop *list)
 {
     int y;
-    if (*(u32 *)&((struct ResearchTop *)list)->listView != 0) {
+    if (list->listView != 0) {
         y = RESEARCH_LIST_GetScrollY();
         if (y < -24) y = -24;
         if (y > 72) y = 72;
-        ListViewState_SetScrollY(((struct ResearchTop *)list)->listView, y);
-        y = ((struct ResearchTop *)list)->scrollY;
+        ListViewState_SetScrollY(list->listView, y);
+        y = list->scrollY;
         if (y < 0) y = 0;
         if (y > 240) y = 240;
-        ListViewState_SetScrollX(((struct ResearchTop *)list)->listView, y);
-        ListViewState_SetMode(((struct ResearchTop *)list)->listView, ((struct ResearchTop *)list)->cursorSlot);
+        ListViewState_SetScrollX(list->listView, y);
+        ListViewState_SetMode(list->listView, list->cursorSlot);
     }
 }
 
-u32 RESEARCH_LIST_GetInputFlag(void *list)
+u32 RESEARCH_LIST_GetInputFlag(struct ResearchTop *list)
 {
     return RESEARCH_COMMON_GetInputFlag((void *)RESEARCH_LIST_GetOwner(list));
 }
 
-u32 RESEARCH_LIST_GetEntryCount(void *list)
+u32 RESEARCH_LIST_GetEntryCount(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->entryCount;
+    return list->entryCount;
 }
 
 /*
@@ -2599,19 +2594,19 @@ u32 RESEARCH_LIST_GetEntryCount(void *list)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetSelectedIndex(void *list)
+u32 RESEARCH_LIST_GetSelectedIndex(struct ResearchTop *list)
 {
-    return ((struct ResearchTop *)list)->selectedIndex;
+    return list->selectedIndex;
 }
 
-void RESEARCH_LIST_SetSelectedIndex(void *list, u8 index)
+void RESEARCH_LIST_SetSelectedIndex(struct ResearchTop *list, u8 index)
 {
-    ((struct ResearchTop *)list)->selectedIndex = index;
+    list->selectedIndex = index;
 }
 
-u32 RESEARCH_LIST_IsValidIndex(u32 list, u32 index)
+u32 RESEARCH_LIST_IsValidIndex(struct ResearchTop *list, u32 index)
 {
-    if (index < RESEARCH_LIST_GetEntryCount((void *)list)) {
+    if (index < RESEARCH_LIST_GetEntryCount(list)) {
     return 1;
     }
     return 0;
@@ -2622,9 +2617,9 @@ u32 RESEARCH_LIST_IsValidIndex(u32 list, u32 index)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetResourceId(void *list, u32 index)
+u32 RESEARCH_LIST_GetResourceId(struct ResearchTop *list, u32 index)
 {
-    return *(u32 *)((char *)list + index * 4 + 0xf8);
+    return list->resources[index];
 }
 
 /*
@@ -2632,58 +2627,58 @@ u32 RESEARCH_LIST_GetResourceId(void *list, u32 index)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_GetClactUnit(void *list, u32 index)
+struct Unit *RESEARCH_LIST_GetClactUnit(struct ResearchTop *list, u32 index)
 {
-    return *(u32 *)((char *)list + index * 4 + 0x114);
+    return list->units[index];
 }
 
-u32 RESEARCH_LIST_GetActor(void *list, u32 index)
+struct ClactActor *RESEARCH_LIST_GetActor(struct ResearchTop *list, u32 index)
 {
-    return *(u32 *)((char *)list + index * 4 + 0x120);
+    return list->actorHandles[index];
 }
 
-void RESEARCH_LIST_SetOamEnabled(u8 *list, u32 index, u8 *enabled)
+void RESEARCH_LIST_SetOamEnabled(struct ResearchTop *list, u32 index, u8 *enabled)
 {
-    BMP_OAM_SetEnabled((struct BmpOam *)((u32)(*(u32*)(list + (index)*4 + 304))), (uptr)(enabled + 0));
+    BMP_OAM_SetEnabled(list->oamObjects[index], (uptr)(enabled + 0));
 }
 
-int RESEARCH_LIST_GetOamObject(char *list, int index)
+struct BmpOam *RESEARCH_LIST_GetOamObject(struct ResearchTop *list, int index)
 {
-    return *(int *)(list + (d_021C3068[index] << 2) + 0x130);
+    return list->oamObjects[d_021C3068[index]];
 }
 
-u32 RESEARCH_LIST_Alloc(u32 heapId)
+struct ResearchTop *RESEARCH_LIST_Alloc(u32 heapId)
 {
-    return (uptr)GFL_HEAP_Alloc(heapId, 364, 0, (const char *)0x21C3FFC, 3687);
+    return GFL_HEAP_Alloc(heapId, sizeof(struct ResearchTop), 0, (const char *)0x21C3FFC, 3687);
 }
 
 /*
  * Extent ends in two zero alignment bytes at 021BC816.
  */
-void RESEARCH_LIST_InitFields(u8 *list)
+void RESEARCH_LIST_InitFields(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->listViewU = 0;
-    ((struct ResearchTop *)list)->state = 0;
-    ((struct ResearchTop *)list)->stateTimer = 0;
-    ((struct ResearchTop *)list)->commandReady = 0;
-    ((struct ResearchTop *)list)->fadeWaitFrames = 15;
-    list[0x32] = 0;
-    list[0x33] = 0;
-    list[0x30] = 0;
-    ((struct ResearchTop *)list)->selectionMode = 0;
-    list[0x31] = 255;
-    ((struct ResearchTop *)list)->paletteAnimOwnerU = (uptr)GFL_USE_GetMainTaskList();
-    ((struct ResearchTop *)list)->scrollY = 0;
-    ((struct ResearchTop *)list)->prevScrollY = 0;
-    ((struct ResearchTop *)list)->animStart = 0;
-    ((struct ResearchTop *)list)->animTarget = 0;
-    ((struct ResearchTop *)list)->animFrames = 0;
-    ((struct ResearchTop *)list)->animFrame = 0;
-    ((struct ResearchTop *)list)->entryPaletteActive = 0;
-    ((struct ResearchTop *)list)->cursorVisible = 0;
-    ((struct ResearchTop *)list)->active = 0;
-    ((struct ResearchTop *)list)->visible = 0;
-    ((struct ResearchTop *)list)->vblankNode = 0;
+    list->listView = 0;
+    list->state = 0;
+    list->stateTimer = 0;
+    list->commandReady = 0;
+    list->fadeWaitFrames = 15;
+    list->cursorSlot = 0;
+    list->endIndex = 0;
+    list->entryCount = 0;
+    list->selectionMode = 0;
+    list->selectedIndex = 255;
+    list->paletteAnimOwner = (struct ResearchCommon *)GFL_USE_GetMainTaskList();
+    list->scrollY = 0;
+    list->prevScrollY = 0;
+    list->animStart = 0;
+    list->animTarget = 0;
+    list->animFrames = 0;
+    list->animFrame = 0;
+    list->entryPaletteActive = 0;
+    list->cursorVisible = 0;
+    list->active = 0;
+    list->visible = 0;
+    list->vblankNode = 0;
     RESEARCH_LIST_ClearCommandQueue(list);
     RESEARCH_LIST_ClearMessages(list);
     RESEARCH_LIST_ClearFont(list);
@@ -2701,12 +2696,12 @@ void RESEARCH_LIST_InitFields(u8 *list)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_Free(void *list)
+u32 RESEARCH_LIST_Free(struct ResearchTop *list)
 {
     return GFL_HEAP_Free(list);
 }
 
-void RESEARCH_LIST_CountUnlockedEntries(u8 *list)
+void RESEARCH_LIST_CountUnlockedEntries(struct ResearchTop *list)
 {
     void *bitmap;
     int n;
@@ -2721,13 +2716,13 @@ void RESEARCH_LIST_CountUnlockedEntries(u8 *list)
     if (ZONEDATA_CheckEventFlag(bitmap, 246) == 1) n++;
     if (ZONEDATA_CheckEventFlag(bitmap, 247) == 1) n++;
     if (ZONEDATA_CheckEventFlag(bitmap, 248) == 1) n++;
-    list[0x30] = n;
+    list->entryCount = n;
 }
 
-void RESEARCH_LIST_CreateFont(u32 list)
+void RESEARCH_LIST_CreateFont(struct ResearchTop *list)
 {
     u8 s[4];
-    *(u32 *)&((struct ResearchTop *)list)->fontP = (uptr)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct ResearchTop *)list)->heapId));
+    list->font = GF_FONT_Create(23, 0, 0, 0, (u32)(list->heapId));
 }
 
 /*
@@ -2735,9 +2730,9 @@ void RESEARCH_LIST_CreateFont(u32 list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ClearFont(void *list)
+void RESEARCH_LIST_ClearFont(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->font = 0;
+    list->font = 0;
 }
 
 /*
@@ -2745,9 +2740,9 @@ void RESEARCH_LIST_ClearFont(void *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_DeleteFont(u8 *list)
+void RESEARCH_LIST_DeleteFont(struct ResearchTop *list)
 {
-    GF_FONT_Delete((void *)((u32)(((struct ResearchTop *)list)->font)));
+    GF_FONT_Delete(list->font);
 }
 
 void RESEARCH_LIST_CreateMessages(struct ResearchTop *list)
@@ -2758,23 +2753,23 @@ void RESEARCH_LIST_CreateMessages(struct ResearchTop *list)
     }
 }
 
-void RESEARCH_LIST_ClearMessages(void *list)
+void RESEARCH_LIST_ClearMessages(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(u32 *)((char *)list + i * 4 + 0x10) = 0;
+        list->messageBanks[i] = 0;
 }
 
-void RESEARCH_LIST_DeleteMessages(int *list)
+void RESEARCH_LIST_DeleteMessages(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 2; i++)
-        MSGDATA_Delete((struct MsgBank *)list[i + 4]);
+        MSGDATA_Delete(list->messageBanks[i]);
 }
 
-void RESEARCH_LIST_CreateCommandQueue(u32 list)
+void RESEARCH_LIST_CreateCommandQueue(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->commandQueue = RingQueue_Create(10, ((struct ResearchTop *)list)->heapId);
+    list->commandQueue = RingQueue_Create(10, list->heapId);
 }
 
 /*
@@ -2782,9 +2777,9 @@ void RESEARCH_LIST_CreateCommandQueue(u32 list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ClearCommandQueue(void *list)
+void RESEARCH_LIST_ClearCommandQueue(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->commandQueue = 0;
+    list->commandQueue = 0;
 }
 
 /*
@@ -2792,39 +2787,39 @@ void RESEARCH_LIST_ClearCommandQueue(void *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_DestroyCommandQueue(u8 *list)
+void RESEARCH_LIST_DestroyCommandQueue(struct ResearchTop *list)
 {
-    RingQueue_Destroy((void *)((u32)(((struct ResearchTop *)list)->commandQueue)));
+    RingQueue_Destroy(list->commandQueue);
 }
 
 /*
  * Pool +94 names 021C3190; no cross-overlay loading proof. Drop contested
  * ov217 token to use the sole-ref/data witness without swapping tables.
  */
-void RESEARCH_LIST_InitTables(u8 *list)
+void RESEARCH_LIST_InitTables(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        list[i * 4 + 0x5A] = d_021C30B2[i * 4];
-        list[i * 4 + 0x5B] = d_021C30B2[i * 4 + 1];
-        list[i * 4 + 0x58] = d_021C30B2[i * 4 + 2];
-        list[i * 4 + 0x59] = d_021C30B2[i * 4 + 3];
+        list->touchRects[i * 4 + 2] = d_021C30B2[i * 4];
+        list->touchRects[i * 4 + 3] = d_021C30B2[i * 4 + 1];
+        list->touchRects[i * 4 + 0] = d_021C30B2[i * 4 + 2];
+        list->touchRects[i * 4 + 1] = d_021C30B2[i * 4 + 3];
     }
     for (i = 0; i < 11; i++) {
-        list[i * 4 + 0x66] = d_021C3190[i * 4];
-        list[i * 4 + 0x67] = d_021C3190[i * 4 + 1];
-        list[i * 4 + 0x64] = d_021C3190[i * 4 + 2];
-        list[i * 4 + 0x65] = d_021C3190[i * 4 + 3];
+        list->touchRects[i * 4 + 14] = d_021C3190[i * 4];
+        list->touchRects[i * 4 + 15] = d_021C3190[i * 4 + 1];
+        list->touchRects[i * 4 + 12] = d_021C3190[i * 4 + 2];
+        list->touchRects[i * 4 + 13] = d_021C3190[i * 4 + 3];
     }
     for (i = 0; i < 2; i++) {
-        list[i * 4 + 0x92] = d_021C3070[i * 4];
-        list[i * 4 + 0x93] = d_021C3070[i * 4 + 1];
-        list[i * 4 + 0x90] = d_021C3070[i * 4 + 2];
-        list[i * 4 + 0x91] = d_021C3070[i * 4 + 3];
+        list->touchRects[i * 4 + 58] = d_021C3070[i * 4];
+        list->touchRects[i * 4 + 59] = d_021C3070[i * 4 + 1];
+        list->touchRects[i * 4 + 56] = d_021C3070[i * 4 + 2];
+        list->touchRects[i * 4 + 57] = d_021C3070[i * 4 + 3];
     }
 }
 
-void RESEARCH_LIST_InitBackgrounds(char *list)
+void RESEARCH_LIST_InitBackgrounds(struct ResearchTop *list)
 {
     BG_SYS_SetGraphicsMode(&d_021C30C0);
     BG_SYS_InitBgLayer(6, &d_021C3110, 0);
@@ -2842,10 +2837,10 @@ void RESEARCH_LIST_InitBackgrounds(char *list)
     BG_SYS_SetPlaneVisible(3, 1);
     G2x_SetBlendAlpha_((volatile unsigned *)REG_DB_BLDCNT_ADDR, 2, 1, 16, 5);
     G2x_SetBlendAlpha_((volatile unsigned *)REG_BLDCNT_ADDR, 4, 2, 16, 5);
-    BMP_WIN_Init(((struct ResearchTop *)list)->heapId);
+    BMP_WIN_Init(list->heapId);
 }
 
-void RESEARCH_LIST_ExitBackgrounds(u8 *list)
+void RESEARCH_LIST_ExitBackgrounds(struct ResearchTop *list)
 {
     BMP_WIN_Exit();
     BG_SYS_FreeLayerBuf(3);
@@ -2858,13 +2853,13 @@ void RESEARCH_LIST_ExitBackgrounds(u8 *list)
 /*
  * Original narrows the heap before 020490F4; its extern takes u16.
  */
-void RESEARCH_LIST_LoadBackground6(char *list)
+void RESEARCH_LIST_LoadBackground6(struct ResearchTop *list)
 {
     void *arc;
     void *buf;
     void *screen;
-    arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)list)->heapId & 0x7FFF) | 0x8000));
-    buf = ARC_TOOL_LoadHandleMember(arc, 13, ((struct ResearchTop *)list)->heapId);
+    arc = ARC_TOOL_CreateHandle(192, (u16)((list->heapId & 0x7FFF) | 0x8000));
+    buf = ARC_TOOL_LoadHandleMember(arc, 13, list->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(6, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_MarkTileDirty(6);
@@ -2872,28 +2867,28 @@ void RESEARCH_LIST_LoadBackground6(char *list)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-void RESEARCH_LIST_DummyBg7(u8 *list)
+void RESEARCH_LIST_DummyBg7(struct ResearchTop *list)
 {
 }
 
-void RESEARCH_LIST_UpdateBackground7(u32 list)
+void RESEARCH_LIST_UpdateBackground7(struct ResearchTop *list)
 {
     BG_SYS_Init(7, 0, 1, 0);
     BG_SYS_ClearSlot(7);
 }
 
-void RESEARCH_LIST_ShowBackground7(u32 list)
+void RESEARCH_LIST_ShowBackground7(struct ResearchTop *list)
 {
     BG_SYS_FreeTiles(7, 1, 0);
 }
 
-void RESEARCH_LIST_LoadBackground2(char *list)
+void RESEARCH_LIST_LoadBackground2(struct ResearchTop *list)
 {
     void *arc;
     void *buf;
     void *screen;
-    arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)list)->heapId & 0x7FFF) | 0x8000));
-    buf = ARC_TOOL_LoadHandleMember(arc, 3, ((struct ResearchTop *)list)->heapId);
+    arc = ARC_TOOL_CreateHandle(192, (u16)((list->heapId & 0x7FFF) | 0x8000));
+    buf = ARC_TOOL_LoadHandleMember(arc, 3, list->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(0, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_MarkTileDirty(0);
@@ -2906,7 +2901,7 @@ void RESEARCH_LIST_LoadBackground2(char *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_DummyBg3(u8 *list)
+void RESEARCH_LIST_DummyBg3(struct ResearchTop *list)
 {
 }
 
@@ -2923,17 +2918,17 @@ void RESEARCH_LIST_LoadListBackground(struct ResearchTop *list)
     ARC_TOOL_DeleteHandle(heap);
 }
 
-void RESEARCH_LIST_DummyListBg(u8 *list)
+void RESEARCH_LIST_DummyListBg(struct ResearchTop *list)
 {
 }
 
-void RESEARCH_LIST_UpdateBackground3(u32 list)
+void RESEARCH_LIST_UpdateBackground3(struct ResearchTop *list)
 {
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_ClearSlot(3);
 }
 
-void RESEARCH_LIST_ShowBackground3(u32 list)
+void RESEARCH_LIST_ShowBackground3(struct ResearchTop *list)
 {
     BG_SYS_FreeTiles(3, 1, 0);
 }
@@ -2956,8 +2951,8 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)
         l1.b9 = e->b9;
         l1.b10 = e->b10;
         l1.w = e->w;
-        list->arr[0xdc / 4 - 4 + i] = (uptr)BgTextLabel_Create((struct BgTextLabelConfig *)(&l1), (u32)list->font, list->arr[e->idx], list->heapId);
-        BgTextLabel_PrintMessage((struct BgTextLabel *)(list->arr[0xdc / 4 - 4 + i]), e->arg);
+        list->labels[i] = BgTextLabel_Create((struct BgTextLabelConfig *)(&l1), list->font, list->messageBanks[e->idx], list->heapId);
+        BgTextLabel_PrintMessage(list->labels[i], e->arg);
     }
     for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(list); i++) {
         const struct LabelEntry *e = &d_021C3520[i];
@@ -2974,8 +2969,8 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)
         l2.b9 = e->b9;
         l2.b10 = e->b10;
         l2.w = e->w;
-        list->arr[0xb4 / 4 - 4 + i] = (uptr)BgTextLabel_Create((struct BgTextLabelConfig *)(&l2), (u32)list->font, list->arr[e->idx], list->heapId);
-        BgTextLabel_PrintMessage((struct BgTextLabel *)(list->arr[0xb4 / 4 - 4 + i]), e->arg);
+        list->entryLabels[i] = BgTextLabel_Create((struct BgTextLabelConfig *)(&l2), list->font, list->messageBanks[e->idx], list->heapId);
+        BgTextLabel_PrintMessage(list->entryLabels[i], e->arg);
     }
 }
 
@@ -2984,129 +2979,128 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ClearLabels(void *list)
+void RESEARCH_LIST_ClearLabels(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 7; i++)
-        *(u32 *)((char *)list + i * 4 + 0xdc) = 0;
+        list->labels[i] = 0;
     for (i = 0; i < 10; i++)
-        *(u32 *)((char *)list + i * 4 + 0xb4) = 0;
+        list->entryLabels[i] = 0;
 }
 
-void RESEARCH_LIST_DestroyLabels(u8 *list)
+void RESEARCH_LIST_DestroyLabels(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        BgTextLabel_Destroy((struct BgTextLabel *)(*(u8 **)(list + i * 4 + 0xDC)));
-        *(u32 *)(list + i * 4 + 0xDC) = 0;
+        BgTextLabel_Destroy(list->labels[i]);
+        list->labels[i] = 0;
     }
     for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(list); i++) {
-        BgTextLabel_Destroy((struct BgTextLabel *)(*(u8 **)(list + i * 4 + 0xB4)));
-        *(u32 *)(list + i * 4 + 0xB4) = 0;
+        BgTextLabel_Destroy(list->entryLabels[i]);
+        list->entryLabels[i] = 0;
     }
 }
 
-void RESEARCH_LIST_ClearResources(void *list)
+void RESEARCH_LIST_ClearResources(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 7; i++)
-        *(u32 *)((char *)list + i * 4 + 0xf8) = 0;
+        list->resources[i] = 0;
 }
 
 /*
  * 0204ABF0 is void in its source but forwards to the int-returning
  * 0204AC18; the original stores its live r0 result. 020490F4 narrows heap.
  */
-void RESEARCH_LIST_RegisterEntryResources(char *list)
+void RESEARCH_LIST_RegisterEntryResources(struct ResearchTop *list)
 {
     u16 heap;
     void *arc;
     int a, b, c;
-    heap = ((struct ResearchTop *)list)->heapId;
+    heap = list->heapId;
     arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7FFF) | 0x8000));
-    a = CLACT_RegisterCharacter((void *)((uptr)arc), 15, 0, 1, heap);
+    a = CLACT_RegisterCharacter((void *)(arc), 15, 0, 1, heap);
     b = CLACT_RegisterPalette((void *)arc, 16, 1, 0, heap);
-    c = CLACT_RegisterCellAnim((void *)((uptr)arc), 14, 17, heap);
-    ((struct ResearchTop *)list)->entryCharacter = a;
-    ((struct ResearchTop *)list)->entryPalette = b;
-    ((struct ResearchTop *)list)->entryCell = c;
+    c = CLACT_RegisterCellAnim((void *)(arc), 14, 17, heap);
+    list->entryCharacter = a;
+    list->entryPalette = b;
+    list->entryCell = c;
     ARC_TOOL_DeleteHandle(arc);
 }
 
-void RESEARCH_LIST_ReleaseEntryResources(u32 list)
+void RESEARCH_LIST_ReleaseEntryResources(struct ResearchTop *list)
 {
-    CLACT_ReleaseCharacter(((struct ResearchTop *)list)->entryCharacter);
-    CLACT_ReleasePalette(((struct ResearchTop *)list)->entryPalette);
-    CLACT_ReleaseCellAnim(((struct ResearchTop *)list)->entryCell);
+    CLACT_ReleaseCharacter(list->entryCharacter);
+    CLACT_ReleasePalette(list->entryPalette);
+    CLACT_ReleaseCellAnim(list->entryCell);
 }
 
-void RESEARCH_LIST_RegisterCursorResources(char *list)
+void RESEARCH_LIST_RegisterCursorResources(struct ResearchTop *list)
 {
     u16 heap;
     void *arc;
     int a, b, c, d;
-    heap = ((struct ResearchTop *)list)->heapId;
+    heap = list->heapId;
     arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7FFF) | 0x8000));
-    a = CLACT_RegisterCharacter((void *)((uptr)arc), 15, 0, 0, heap);
-    b = CLACT_RegisterPaletteEx((void *)((uptr)arc), 16, 0, 192, 0, 4, heap);
-    c = CLACT_RegisterCellAnim((void *)((uptr)arc), 14, 17, heap);
+    a = CLACT_RegisterCharacter((void *)(arc), 15, 0, 0, heap);
+    b = CLACT_RegisterPaletteEx((void *)(arc), 16, 0, 192, 0, 4, heap);
+    c = CLACT_RegisterCellAnim((void *)(arc), 14, 17, heap);
     ARC_TOOL_DeleteHandle(arc);
     arc = ARC_TOOL_CreateHandle(83, (u16)heap);
-    d = CLACT_RegisterPaletteEx((void *)((uptr)arc), 31, 0, 128, 0, 2, heap);
+    d = CLACT_RegisterPaletteEx((void *)(arc), 31, 0, 128, 0, 2, heap);
     ARC_TOOL_DeleteHandle(arc);
-    ((struct ResearchTop *)list)->cursorCharacter = a;
-    ((struct ResearchTop *)list)->cursorPalette = b;
-    ((struct ResearchTop *)list)->cursorCell = c;
-    ((struct ResearchTop *)list)->cursorEffectPalette = d;
+    list->cursorCharacter = a;
+    list->cursorPalette = b;
+    list->cursorCell = c;
+    list->cursorEffectPalette = d;
 }
 
-void RESEARCH_LIST_ReleaseCursorResources(u32 list)
+void RESEARCH_LIST_ReleaseCursorResources(struct ResearchTop *list)
 {
-    CLACT_ReleaseCharacter(((struct ResearchTop *)list)->cursorCharacter);
-    CLACT_ReleasePalette(((struct ResearchTop *)list)->cursorPalette);
-    CLACT_ReleaseCellAnim(((struct ResearchTop *)list)->cursorCell);
-    CLACT_ReleasePalette(((struct ResearchTop *)list)->cursorEffectPalette);
+    CLACT_ReleaseCharacter(list->cursorCharacter);
+    CLACT_ReleasePalette(list->cursorPalette);
+    CLACT_ReleaseCellAnim(list->cursorCell);
+    CLACT_ReleasePalette(list->cursorEffectPalette);
 }
 
-void RESEARCH_LIST_ClearUnits(void *list)
+void RESEARCH_LIST_ClearUnits(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++)
-        *(u32 *)((char *)list + i * 4 + 0x114) = 0;
+        list->units[i] = 0;
 }
 
 void RESEARCH_LIST_CreateUnits(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        list->units[i] = (sptr)CLACT_CreateUnit(d_021C3060[i], d_021C305C[i], list->heapId);
+        list->units[i] = CLACT_CreateUnit(d_021C3060[i], d_021C305C[i], list->heapId);
     }
 }
 
-void RESEARCH_LIST_DeleteUnits(int *list)
+void RESEARCH_LIST_DeleteUnits(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++)
-        CLACT_DeleteUnit((struct Unit *)list[i + 0x45]);
+        CLACT_DeleteUnit(list->units[i]);
 }
 
-void RESEARCH_LIST_ClearActors(void *list)
+void RESEARCH_LIST_ClearActors(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++)
-        *(u32 *)((char *)list + i * 4 + 0x120) = 0;
+        list->actorHandles[i] = 0;
 }
 
 /*
  * Lever: const source table and destination base without the field offset.
  */
-void RESEARCH_LIST_CreateActors(u8 *list)
+void RESEARCH_LIST_CreateActors(struct ResearchTop *list)
 {
     struct Arg arg;
     const struct ActorDef *q;
-    u8 *dest;
     int i;
-    uptr a; u32 b, c, d;
+    struct Unit *a; u32 b, c, d;
     for (i=0;i<3;i++) {
         q=&d_021C320C[i];
         arg.x=q->x; arg.y=q->y; arg.z=q->z; arg.a=q->a; arg.b=q->b;
@@ -3114,24 +3108,23 @@ void RESEARCH_LIST_CreateActors(u8 *list)
         b=RESEARCH_LIST_GetResourceId(list,q->d);
         c=RESEARCH_LIST_GetResourceId(list,q->e);
         d=RESEARCH_LIST_GetResourceId(list,q->f);
-        dest=list+i*4;
-        ((struct ResearchTop *)list)->actorHandles[i]=(void *)CLACT_CreateActor((void *)a,b,c,d,(struct ActorInitParam *)(&arg),q->g,((struct ResearchTop *)list)->heapId);
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ResearchTop *)list)->actorHandles[i],0);
+        list->actorHandles[i]=CLACT_CreateActor(a,b,c,d,(struct ActorInitParam *)(&arg),q->g,list->heapId);
+        CLACT_SetActorDrawEnable(list->actorHandles[i],0);
     }
 }
 
-void RESEARCH_LIST_DeleteActors(int *list)
+void RESEARCH_LIST_DeleteActors(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 3; i++)
-        CLACT_DeleteActor((struct ClactActor *)list[i + 0x48]);
+        CLACT_DeleteActor(list->actorHandles[i]);
 }
 
-void RESEARCH_LIST_ClearBmps(void *list)
+void RESEARCH_LIST_ClearBmps(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 4; i++)
-        *(u32 *)((char *)list + i * 4 + 0x140) = 0;
+        list->bmps[i] = 0;
 }
 
 void RESEARCH_LIST_CreateBmps(struct ResearchTop *list)
@@ -3142,25 +3135,23 @@ void RESEARCH_LIST_CreateBmps(struct ResearchTop *list)
     }
 }
 
-void RESEARCH_LIST_DrawBmps(u8 *list)
+void RESEARCH_LIST_DrawBmps(struct ResearchTop *list)
 {
     const struct BmpDef *q;
     struct Bmp *bmp;
     void *text;
     u16 color;
-    u8 *dest;
     int i;
     for(i=0;i<4;i++) {
         q=&d_021C3470[i];
         if(q->enabled) {
-            bmp=BMP_CreateFromArchive(q->arc,q->member,0,((struct ResearchTop *)list)->heapId);
-            dest=list+i*4;
-            BMP_Blit(bmp,((struct ResearchTop *)list)->bmps[i],0,0,0,0,q->x<<3,q->y<<3,q->b);
+            bmp=BMP_CreateFromArchive(q->arc,q->member,0,list->heapId);
+            BMP_Blit(bmp,list->bmps[i],0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
-            text=MSGDATA_AllocString(*(struct MsgBank **)(list+16+q->bank*4),q->index);
-            PRINTSYS_PrintColor(((struct ResearchTop *)list)->bmps[i],q->px,q->py,text,((struct ResearchTop *)list)->fontP,color);
+            text=MSGDATA_AllocString(list->messageBanks[q->bank],q->index);
+            PRINTSYS_PrintColor(list->bmps[i],q->px,q->py,text,list->font,color);
             GFL_HEAP_Free(text);
-            BMP_Delete((struct Bmp *)((sptr)bmp));
+            BMP_Delete(bmp);
         }
     }
 }
@@ -3170,7 +3161,7 @@ void RESEARCH_LIST_DrawBmps(u8 *list)
  */
 void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *list)
 {
-    u32 gb = (uptr)&d_021C349C;
+    uptr gb = (uptr)&d_021C349C;
     struct Tab tab = d_021C3350;
     int i;
     int j;
@@ -3186,8 +3177,8 @@ void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *list)
     }
     BMP_Delete(heap);
     color = (GB->colorR & 0x1f) | (((GB->colorB & 0x1f) << 10) | ((GB->colorG & 0x1f) << 5));
-    res = MSGDATA_AllocString((void *)list->arr[GB->msgDataIndex], GB->msgId);
-    PRINTSYS_PrintColor(list->bmps[1], (s16)GB->x, (s16)GB->y, res, (void *)list->font, color);
+    res = MSGDATA_AllocString(list->messageBanks[GB->msgDataIndex], GB->msgId);
+    PRINTSYS_PrintColor(list->bmps[1], (s16)GB->x, (s16)GB->y, res, list->font, color);
     GFL_HEAP_Free(res);
 }
 
@@ -3196,7 +3187,7 @@ void RESEARCH_LIST_DrawBadgeA(struct ResearchTop *list)
  */
 void RESEARCH_LIST_DrawBadgeB(struct ResearchTop *list)
 {
-    u32 gb = (uptr)&d_021C34C8;
+    uptr gb = (uptr)&d_021C34C8;
     struct Tab tab = d_021C32D8;
     int i;
     int j;
@@ -3212,75 +3203,66 @@ void RESEARCH_LIST_DrawBadgeB(struct ResearchTop *list)
     }
     BMP_Delete(heap);
     color = (GB->colorR & 0x1f) | (((GB->colorB & 0x1f) << 10) | ((GB->colorG & 0x1f) << 5));
-    res = MSGDATA_AllocString((void *)list->arr[GB->msgDataIndex], GB->msgId);
+    res = MSGDATA_AllocString(list->messageBanks[GB->msgDataIndex], GB->msgId);
     PRINTSYS_PrintColor(list->bmps[2], (s16)GB->x, (s16)GB->y, res, (void *)list->font, color);
     GFL_HEAP_Free(res);
 }
 
-void RESEARCH_LIST_DeleteBmps(int *list)
+void RESEARCH_LIST_DeleteBmps(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 4; i++)
-        BMP_Delete(((struct ResearchTop *)list)->bmps[i]);
+        BMP_Delete(list->bmps[i]);
 }
 
-void RESEARCH_LIST_CreateOamSys(char *list)
+void RESEARCH_LIST_CreateOamSys(struct ResearchTop *list)
 {
-    int i = 0x47;
-    *(void **)(list + (i << 2) + 0x10) =
-        BMP_OAM_CreateSys(((struct ResearchTop *)list)->heapId, *(void **)(list + (i << 2)));
+    list->oamSys = BMP_OAM_CreateSys(list->heapId, list->units[2]);
 }
 
-void RESEARCH_LIST_DeleteOamSys(u8 *list)
+void RESEARCH_LIST_DeleteOamSys(struct ResearchTop *list)
 {
-    BMP_OAM_DeleteSys((void *)((u32)(((struct ResearchTop *)list)->oamSys)));
+    BMP_OAM_DeleteSys(list->oamSys);
 }
 
-void RESEARCH_LIST_CreateOamObjects(u8 *list)
+void RESEARCH_LIST_CreateOamObjects(struct ResearchTop *list)
 {
-    int sysOff,outOff,callOff,uploadOff;
     struct Param param;
     int i;
     const struct OamDef *q;
-    u8 *dest;
-    sysOff=0x12C;
-    outOff=0x130;
-    callOff=0x130;
-    uploadOff=0x130;
     for(i=0;i<4;i++) {
-        dest=list+i*4;
-        param.bmp=((struct ResearchTop *)list)->bmps[i];
+        param.bmp=list->bmps[i];
         q=&d_021C31BC[i];
         param.x=q->x; param.y=q->y;
         param.f8=RESEARCH_LIST_GetResourceId(list,q->f8);
         param.fc=q->fc;
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;
-        *(struct Grid **)(dest+outOff)=(struct Grid *)BMP_OAM_Create(*(struct BmpOamSys **)(list+sysOff),(struct BmpOamParam *)(&param));
-        BMP_OAM_SetEnabled((struct BmpOam *)(*(u8 **)(dest+callOff)),0);
-        BMP_OAM_UploadChars((struct BmpOam *)(*(struct Obj **)(dest+uploadOff)));
+        list->oamObjects[i]=BMP_OAM_Create(list->oamSys,(struct BmpOamParam *)(&param));
+        BMP_OAM_SetEnabled(list->oamObjects[i],0);
+        BMP_OAM_UploadChars(list->oamObjects[i]);
     }
 }
 
-void RESEARCH_LIST_DeleteOamObjects(int *list)
+void RESEARCH_LIST_DeleteOamObjects(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 4; i++)
-        BMP_OAM_Delete((struct BmpOam *)list[i + 0x4C]);
+        BMP_OAM_Delete(list->oamObjects[i]);
 }
 
-void RESEARCH_LIST_ClearPalAnm(void *list)
+void RESEARCH_LIST_ClearPalAnm(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->palAnm = 0;
+    list->palAnm = 0;
 }
 
-void RESEARCH_LIST_CreatePalAnm(u8 *list)
+void RESEARCH_LIST_CreatePalAnm(struct ResearchTop *list)
 {
-    *(struct PaletteFade * *)&((struct ResearchTop *)list)->palAnm = PALANM_Create(((struct ResearchTop *)list)->heapId);
-    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((struct ResearchTop *)list)->palAnm, 0, 512, ((struct ResearchTop *)list)->heapId);
-    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((struct ResearchTop *)list)->palAnm, 2, 512, ((struct ResearchTop *)list)->heapId);
-    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct ResearchTop *)list)->palAnm, 0, 0, 512);
-    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct ResearchTop *)list)->palAnm, 2, 0, 512);
+    *(struct PaletteFade * *)&list->palAnm = PALANM_Create(list->heapId);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&list->palAnm, 0, 512, list->heapId);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&list->palAnm, 2, 512, list->heapId);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&list->palAnm, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&list->palAnm, 2, 0, 512);
 }
 
 /*
@@ -3292,18 +3274,18 @@ void RESEARCH_LIST_CreatePalAnm(u8 *list)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_LIST_DeletePalAnm(u32 list)
+u32 RESEARCH_LIST_DeletePalAnm(struct ResearchTop *list)
 {
-    PALANM_FreeSlotBuffers((struct PaletteFade *)(((struct ResearchTop *)list)->palAnm), 0);
-    PALANM_FreeSlotBuffers((struct PaletteFade *)(((struct ResearchTop *)list)->palAnm), 2);
-    return PALANM_Delete((void *)(((struct ResearchTop *)list)->palAnm));
+    PALANM_FreeSlotBuffers((struct PaletteFade *)(list->palAnm), 0);
+    PALANM_FreeSlotBuffers((struct PaletteFade *)(list->palAnm), 2);
+    return PALANM_Delete((void *)(list->palAnm));
 }
 
-void RESEARCH_LIST_CreatePaletteAnime(char *list)
+void RESEARCH_LIST_CreatePaletteAnime(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        ((int *)(list + 0x9c))[i] = PALETTE_ANIME_Create(((struct ResearchTop *)list)->heapId);
+        list->paletteAnime[i] = PALETTE_ANIME_Create(list->heapId);
 }
 
 /*
@@ -3311,56 +3293,56 @@ void RESEARCH_LIST_CreatePaletteAnime(char *list)
  *
  * Addresses are Black-image addresses.
  */
-void RESEARCH_LIST_ClearPaletteAnime(void *list)
+void RESEARCH_LIST_ClearPaletteAnime(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        *(u32 *)((char *)list + i * 4 + 0x9c) = 0;
+        list->paletteAnime[i] = 0;
 }
 
-void RESEARCH_LIST_DestroyPaletteAnime(int *list)
+void RESEARCH_LIST_DestroyPaletteAnime(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Destroy((void *)list[i + 0x27]);
+        PALETTE_ANIME_Destroy(list->paletteAnime[i]);
 }
 
-void RESEARCH_LIST_BindPaletteAnime(int *list)
+void RESEARCH_LIST_BindPaletteAnime(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Bind((void *)list[i + 0x27], (unsigned short *)d_021C3260[i].a, (unsigned short *)d_021C3260[i].b, d_021C3260[i].c);
+        PALETTE_ANIME_Bind(list->paletteAnime[i], d_021C3260[i].a, d_021C3260[i].b, d_021C3260[i].c);
 }
 
-void RESEARCH_LIST_RestorePaletteAnime(int *list)
+void RESEARCH_LIST_RestorePaletteAnime(struct ResearchTop *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Restore((struct PaletteAnime *)list[i + 0x27]);
+        PALETTE_ANIME_Restore(list->paletteAnime[i]);
 }
 
-void RESEARCH_LIST_UpdateCenterActor(void *list)
+void RESEARCH_LIST_UpdateCenterActor(struct ResearchTop *list)
 {
-    int obj = RESEARCH_LIST_GetActor(list, 1);
+    struct ClactActor *obj = RESEARCH_LIST_GetActor(list, 1);
     ResearchListPos pos;
     pos.x = 0x80;
     pos.y = 0x60;
-    CLACT_AddActorSurfacePos((struct ClactActor *)obj, (const struct ClactVec2 *)(&pos), 0);
-    CLACT_SetActorDrawEnable((struct ClactActor *)obj, 1);
+    CLACT_AddActorSurfacePos(obj, (const struct ClactVec2 *)(&pos), 0);
+    CLACT_SetActorDrawEnable(obj, 1);
 }
 
-void RESEARCH_LIST_RestartNetwork(u32 list)
+void RESEARCH_LIST_RestartNetwork(struct ResearchTop *list)
 {
-    GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchTop *)list)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, list->heapId);
 }
 
-void RESEARCH_LIST_RegisterVBlank(char *list)
+void RESEARCH_LIST_RegisterVBlank(struct ResearchTop *list)
 {
-    ((struct ResearchTop *)list)->vblankNode = (uptr)GFL_USE_AddMainTask((void (*)(void))RESEARCH_LIST_VBlankHandler, list, (unsigned int)0);
+    list->vblankNode = GFL_USE_AddMainTask(RESEARCH_LIST_VBlankHandler, list, (unsigned int)0);
 }
 
-void RESEARCH_LIST_UnregisterVBlank(u32 list)
+void RESEARCH_LIST_UnregisterVBlank(struct ResearchTop *list)
 {
-    TCB_DeleteTask((struct TcbTask *)(((struct ResearchTop *)list)->vblankNode));
-    ((struct ResearchTop *)list)->vblankNode = 0;
+    TCB_DeleteTask((struct TcbTask *)(list->vblankNode));
+    list->vblankNode = 0;
 }

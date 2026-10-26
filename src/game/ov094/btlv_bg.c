@@ -96,7 +96,7 @@ extern char sBtlvBgSiteName[];
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId)
 {
-    BtlvBg *bg = GFL_HEAP_Alloc(heapId, 0xc, 1, sBtlvBgSiteName, 0x48);
+    BtlvBg *bg = GFL_HEAP_Alloc(heapId, sizeof(*bg), 1, sBtlvBgSiteName, 0x48);
     bg->taskSystem = taskSystem;
     bg->heapId = heapId;
     return bg;
@@ -158,7 +158,7 @@ void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, VecFx32 *origin, VecFx32 *amou
                    void (*onTick)(struct TcbTask *, void *))
 {
     BtlvBgScrollJob *job;
-    job = GFL_HEAP_Alloc(bg->heapId, 0x4c, 0, sBtlvBgSiteName, 0xb8);
+    job = GFL_HEAP_Alloc(bg->heapId, sizeof(*job), 0, sBtlvBgSiteName, 0xb8);
     job->bg = bg;
     job->pos.x = origin->x;
     job->pos.y = origin->y;

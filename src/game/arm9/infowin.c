@@ -96,7 +96,7 @@ struct InfoWin {
     u8  blinkCount;
     u8  unusedByte;
     u8  unusedBytes[2];
-    u32 wifiConfig;
+    struct WifiList *wifiConfig;
     u32 wifiMode;
     u32 colonBlink;
     u32 isPm;
@@ -175,8 +175,8 @@ extern const u16 d_0209F830[];
  */
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
 {
-    gInfoWin = GFL_HEAP_Alloc(heap, 0x28, 0, infowin_File, 0x103);
-    MI_CpuFill8(gInfoWin, 0, 0x28);
+    gInfoWin = GFL_HEAP_Alloc(heap, sizeof(*gInfoWin), 0, infowin_File, 0x103);
+    MI_CpuFill8(gInfoWin, 0, sizeof(*gInfoWin));
     gInfoWin->bgFrame = bgFrame;
     gInfoWin->palette = palette;
     INFOWIN_LoadGraphics(bgFrame, palette, heap);
@@ -184,7 +184,7 @@ void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (gameData != 0) {
-        gInfoWin->wifiConfig = (uptr)GAME_DATA_GetWifiList(gameData);
+        gInfoWin->wifiConfig = GAME_DATA_GetWifiList(gameData);
         gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(gameData);
     } else {
         gInfoWin->wifiConfig = 0;
@@ -233,7 +233,7 @@ void INFOWIN_Update(void)
     }
 
     if (n < 2 && flag == 0) {
-        bits = WIH_DWC_PollStatus((void *)gInfoWin->wifiConfig);
+        bits = WIH_DWC_PollStatus(gInfoWin->wifiConfig);
         idx = 0;
         if (gInfoWin->wifiMode == 1 && GAME_BEACON_GetNextNewLogIndex(&idx) != 0x1E) {
             gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x10);

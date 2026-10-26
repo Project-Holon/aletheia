@@ -1,3 +1,5 @@
+
+struct TcbTask;
 #ifndef GAME_OV136_MAILVIEW_H
 #define GAME_OV136_MAILVIEW_H
 
@@ -8,7 +10,7 @@ struct MailEditProc;
 
 void MAILVIEW_HideAllPlanes(void);
 void MAILVIEW_VBlankTask(void *task, struct MailEditProc *proc);
-void MAILVIEW_CursorBlendTask(void *unused, struct MailEditProc *proc);
+void MAILVIEW_CursorBlendTask(struct TcbTask *unused, void *arg);
 int MAILVIEW_SetupStep(struct MailEditProc *proc);
 void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc);
 int MAILVIEW_Teardown(struct MailEditProc *proc);

@@ -5,6 +5,7 @@
 /* Public functions of zenkoku_zukan_award_graphic.c, prototypes copied from their definitions. */
 
 struct TcbTask;
+struct DispVramCfg;
 
 #include "../types.h"
 
@@ -23,7 +24,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Draw(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_VBlank(void *p);
 u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetValue(const u32 *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap);
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p);
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(void **p);
 /* END mkheaders: generated region */
 
 #endif

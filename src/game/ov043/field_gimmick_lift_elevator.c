@@ -130,8 +130,8 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_Exit(u8 *fieldMap);
 void FIELD_GIMMICK_LIFT_ELEVATOR_Update(u8 *fieldMap);
 void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex);
 struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(struct GameSystem *gameSystem, int isRising);
-int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq);
-int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork);
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(struct GameEvent *event, int *seq, void *eventWork);
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(FieldGimmickLiftElevatorWork *work);
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 liftIndex, int tileX, int tileZ);
 void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(FieldGimmickLiftElevatorSave *save, void *expObj, int liftIndex);
@@ -280,7 +280,7 @@ void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex)
         work->stepY = step;
     }
     work->obstacleAnimeState = 0;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
 }
 
 
@@ -314,13 +314,13 @@ struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(struct GameSyste
         step = 0x2000;
     }
     work->stepY = step;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
 }
 
 
 
 
-int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork)
 {
     VecFx32 playerPos;
     VecFx32 mmdlPos;
@@ -453,7 +453,7 @@ int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq)
 
 
 
-int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(struct GameEvent *event, int *seq, void *eventWork)
 {
     void *fieldMap;
     void *expObj;

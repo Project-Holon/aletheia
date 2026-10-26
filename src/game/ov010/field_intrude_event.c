@@ -120,13 +120,13 @@ struct VecFx32;
 
 
 
-int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *state, IntrudeRequestWork *work);
+int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *state, void *work);
 
 void FIELD_INTRUDE_EVENT_GetEdgePosition(FxVec3 *src, int edge, FxVec3 *dst);
 
 struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int playSe, FxVec3 *position, int edge, int cellId);
 
-int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, u32 *state, SymbolEntryWork *work);
+int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, int *state, void *work);
 
 /* Starts the intrude request event: sends requestType and reports 0 or 1 into *result. */
 struct GameEvent *FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(struct GameSystem *gameSystem, u16 *result, int requestType)
@@ -134,16 +134,17 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateIntrudeRequestEvent(struct GameSyste
     struct GameEvent *event;
     IntrudeRequestWork *work;
     GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_INTRUDE_EVENT_IntrudeRequestEventMain, 8);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_IntrudeRequestEventMain, sizeof(IntrudeRequestWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 8);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->result = result;
     work->requestType = requestType;
     return event;
 }
 
-int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *state, IntrudeRequestWork *work)
+int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    IntrudeRequestWork *work = workPtr;
     u8 *intrudeComm;
     u16 *result;
 
@@ -209,9 +210,9 @@ struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *
     SymbolEntryWork *work;
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_INTRUDE_EVENT_SymbolEntryEventMain, 0x24);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_INTRUDE_EVENT_SymbolEntryEventMain, sizeof(SymbolEntryWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 0x24);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->position = *position;
     work->edge = edge;
     work->result = 0;
@@ -238,8 +239,9 @@ struct GameEvent *FIELD_INTRUDE_EVENT_StartSymbolEntry(struct GameSystem *gameSy
  * playing solo), fade out, show the symbol cell's tile, fade back in, and
  * write 0 or 1 to the caller's result word.
  */
-int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, u32 *state, SymbolEntryWork *work)
+int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    SymbolEntryWork *work = workPtr;
     void *gameSystem = GAME_EVENT_GetGameSystem(event);
     void *gameData;
     void *fieldMap;

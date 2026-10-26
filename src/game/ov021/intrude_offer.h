@@ -18,7 +18,7 @@ typedef struct IntrudeOfferSpot IntrudeOfferSpot;
 int INTRUDE_FindOfferSlotAt(IntrudeOfferLog *log, int zoneId, int x, int y, int z);
 void INTRUDE_TakeOfferSlot(IntrudeOfferLog *log, int index, IntrudeOfferSlot *dest);
 const IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(IntrudeOfferLog *log, int *index);
-int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferSlot *offer);
+int INTRUDE_OfferEventMain(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 heapId, int slotIndex);
 /* END mkheaders: generated region */
 

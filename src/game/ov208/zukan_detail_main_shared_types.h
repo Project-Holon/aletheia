@@ -12,7 +12,7 @@
 struct Ov208Args {
     void *src;
     int mode;
-    int extra;
+    unsigned short *extra;
     u16 formNo;
     u16 shiny;
     int speciesStep;

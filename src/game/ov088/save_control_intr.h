@@ -18,7 +18,7 @@ void SAVE_CONTROL_INTR_Resume(SaveControlIntr *intr);
 int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr);
 void SAVE_CONTROL_INTR_NoOp(void *intr);
 int SAVE_CONTROL_INTR_IsFinished(SaveControlIntr *intr);
-void SAVE_CONTROL_INTR_Cancel(SaveControlIntr *intr);
+void SAVE_CONTROL_INTR_Cancel(void *arg);
 /* END mkheaders: generated region */
 
 #endif

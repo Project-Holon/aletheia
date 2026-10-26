@@ -198,7 +198,7 @@ void OSi_DoResetSystem(void)
 {
     while (!OS_IsResetOccurred()) {
     }
-    *(volatile u16 *)0x04000208 = 0;
+    *(volatile u16 *)REG_IME_ADDR = 0;
     if (OS_IsRunOnTwl() == 1) {
         OSi_ReloadRomData(1);
         OSi_VerifyStaticSegments();

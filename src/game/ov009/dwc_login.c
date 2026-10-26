@@ -390,7 +390,11 @@ int DWCi_RemoteLogin(void)
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->loginId, gDwcLoginControl->gamecode, gDwcLoginControl->username);
         userid = 0;
     }
+#ifdef __MWERKS__
     return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, (DWCAuthAlloc)DWC_Alloc, (DWCAuthFree)DWC_Free);
+#else
+    return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, DWC_AllocCallback, DWC_FreeCallback);
+#endif
 }
 
 

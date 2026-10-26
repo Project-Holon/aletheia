@@ -23,24 +23,17 @@ struct TaskMenu;
 struct BgWinFrmWork;
 struct CursorMoveObj; /* the CURSOR_MOVE cursor object */
 struct Sav;
+struct GfFont;
+struct Strbuf;
+struct PrintQueue;
+struct Cursor;
+struct ClactActor;
+struct BmpOamSys;
 
 #include "../types.h"
+#include "../arm9/app_taskmenu.h"
 
-/* Parameters handed to the box application by its parent. */
-typedef struct BoxParam {
-    void * gameData;
-    void * boxSave;
-    void * party;
-    void * config;
-    unsigned char pad_10[0x4];
-    int linkMode;
-    unsigned char pad_18[0x8];
-    void * extra;
-    int mode;
-    unsigned short swapMode;
-    unsigned char savedBox;
-    unsigned char savedSlot;
-} BoxParam;
+#include "box2_param_types.h"
 
 /* The task object (0x30 bytes). */
 typedef struct BoxTask {
@@ -78,10 +71,20 @@ typedef struct BoxObjSlot {
     void * aux;
 } BoxObjSlot;
 
+/* State block of the box UI scene, allocated into BoxWork.seq.entry (0xB8 bytes). */
+typedef struct BoxUiScene {
+    unsigned char pad_00[0xAC];
+    unsigned int savedCursor;            /* cursor slot to restore when the scene closes */
+    unsigned char pad_B0[0x8];
+} BoxUiScene;
+
+/* A step handler the box state machine runs each frame; 0 when none is installed. */
+typedef int (*BoxSeqStepFunc)(struct BoxTask *task);
+
 /* The sequence block at BoxWork + 0x58. */
 typedef struct BoxSeq {
-    int resetValue;
-    int param;
+    BoxSeqStepFunc stepFunc;      /* handler StateRunStep calls until it returns 0 */
+    BoxSeqStepFunc restartFunc;   /* handler BOX2_MAIN_RestartSeq installs again */
     void * entry;
     unsigned short state;
     unsigned short timer;
@@ -129,7 +132,7 @@ typedef struct BoxNameArgs {
 
 /* The BMP_OAM system handle. */
 typedef struct BoxOamSys {
-    int sys;
+    struct BmpOamSys * sys;
 } BoxOamSys;
 
 /* A text list entry: index at +0x4, value at +0x6. */
@@ -139,12 +142,13 @@ typedef struct BoxTextEntry {
     unsigned short value;
 } BoxTextEntry;
 
-/* An actor scale animation state: step at +0x7, scale at +0x8. */
+/* The scroll record: the cursor (index, flags) and the actor scale animation state (step, scale) share it. */
 typedef struct BoxActorScale {
-    void * actor;
-    unsigned char pad_4[0x3];
-    unsigned char step;
-    float scale;
+    void * actor;           /* 0x00 */
+    unsigned short index;   /* 0x04 */
+    unsigned char flags;    /* 0x06 */
+    unsigned char step;     /* 0x07 */
+    float scale;            /* 0x08 */
 } BoxActorScale;
 
 /* The whole flag word at BoxMotor + 0x18 (BoxMotor models it as two bits). */
@@ -162,64 +166,39 @@ typedef struct BoxWork {
     BoxSeq seq;
     int waitFrames;
     void * palAnm;
-    void * cursorMove;
+    struct Cursor * cursorMove;
     struct BgWinFrmWork * winMgr;
-    unsigned int font;
-    void * fontAlt;
+    struct GfFont * font;
+    struct GfFont * fontAlt;
     void * msgBank;
     struct WordSet * wordSet;
-    void * strbuf;
-    void * printQue;
+    struct Strbuf * strbuf;
+    struct PrintQueue * printQue;
     unsigned char pad_90[0x4];
-    BoxObjSlot windows[10];
-    BoxObjSlot iconSlots[10];
-    int portraitWin;
-    unsigned char pad_138[0x4];
-    int nameWin;
-    unsigned char pad_140[0x4];
-    void * infoWin;
-    unsigned char pad_148[0x30];
+    BoxObjSlot windows[28];              /* 0x94: text windows; aux holds the dirty flag byte */
+    unsigned char dirtyBits[4];          /* 0x174: one bit per window */
     int dexFormId;
     unsigned int nationalDexEnabled;
     unsigned short * formTable;
-    unsigned char taskMenuItems[24];
+    struct TaskMenuItem taskMenuItems[2];
     void * taskMenuRes;
     void * taskMenu;
     unsigned short menuSelection;
     BoxFade fade;
     unsigned char pad_1AE[0x2];
     void * arcHandle;
-    unsigned char pad_1B4[0x3C1E];
+    unsigned char iconTiles[30][0x200];  /* 0x1B4 */
+    unsigned char iconPalette[30];       /* 0x3DB4 */
     unsigned char cursorTable[0x24];
     unsigned char cursorActorId;
-    unsigned char pad_3DF7[0x79];
+    unsigned char pad_3DF7[1];
+    int iconLoaded[30];                  /* 0x3DF8 */
     unsigned char charPool[24][0x400];
     void * clactUnit;
-    void * actors[10];
-    void * cursorActor;
-    int cursorActorDrawn;
-    int cursorActorAnim;
-    unsigned char pad_9EA8[0x80];
-    void * partyActors[6];
-    void * boxSlotActors[0x25];
-    void * actorResource;
-    unsigned char pad_9FD8[0xB0];
-    int iconChar[2];
-    unsigned char pad_A090[0x68];
-    void * iconCellRes;
-    unsigned char pad_A0FC[0xC];
-    void * iconAnimRes;
-    int iconCell[2];
-    void * iconPlttRes;
-    unsigned char pad_A118[0x8];
-    unsigned int iconFlags;
-    void * iconCharRes;
-    unsigned char pad_A128[0xC];
-    void * iconPlttImage;
-    int iconAnim[2];
-    unsigned char pad_A140[0x14];
-    void * iconObjects;
-    unsigned char pad_A158[0xC];
+    struct ClactActor * actors[0x60];                 /* 0x9E74: CLACT actor slots */
+    int charRes[0x45];                   /* 0x9FF4: CLACT character resource handles */
+    int palRes[0xB];                     /* 0xA108: CLACT palette resource handles */
+    int cellRes[0xC];                    /* 0xA134: CLACT cell animation resource handles */
     unsigned short toggle;
     unsigned char pad_A166[0x2];
     int heldSlot;
@@ -233,7 +212,7 @@ typedef struct BoxWork {
     signed char scrollOffset;
     unsigned char scrollDir;
     unsigned char busyFlag;
-    unsigned char pad_A17B[0x1];
+    unsigned char wallpaper;
     unsigned char selectKind;
     unsigned char pad_A17D[0x1];
     unsigned char targetBox;

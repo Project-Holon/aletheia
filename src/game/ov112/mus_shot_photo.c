@@ -179,13 +179,10 @@ extern void MUSICAL_SHOT_SYS_DrawCaption(u8 *p);
 #include "sta_act_bg.h"
 
 
-extern void STA_ACT_LIGHT_SetElemFrame(u8 *p, u16 v);
 
 
-extern void STA_ACT_LIGHT_DeleteUnit(char *p);
 
 
-extern void STA_ACT_LIGHT_DeleteBillboardImage(char *p);
 
 #include "mus_poke_draw.h"
 
@@ -197,86 +194,63 @@ struct GfFont;
 
 #include "../arm9/gf_font.h"
 
-extern void STA_ACT_LIGHT_UpdateBillboard(u8 *p);
 
 
-extern void STA_ACT_LIGHT_UpdateElemActors(char *p);
 
 
-extern void STA_ACT_LIGHT_UpdateElem(u8 *p);
 
 
-extern void STA_ACT_LIGHT_UpdateSprite(char *p);
 
 
 extern void MUSICAL_SHOT_SYS_NoOp(u8 *);
 
-extern void G3D_SYSTEM_DrawStart(void);
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
 struct LightSlot;
 struct BbBoard;
 struct G3dCamera;
 
 #include "../arm9/billboard.h"
 
-extern void G3D_SYSTEM_DrawEnd(void);
 
 
-extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 #include "../arm9/g3x.h"
 
 
 
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
 #include "../arm9/arc_tool.h"
 
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-
-extern void BG_SYS_PushTile(u32 index);
-
-
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 
 
-extern void BG_SYS_FreeLayerBuf(u32);
 
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 
-extern void G3D_SYSTEM_Exit(void);
+
+
+
+
 
 struct McssActorPool;
 
 
-extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 
 
 
 
 
 
-extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
 
 extern u32 MUSICAL_SHOT_SYS_GetActorSlotX(void *p, u32 i, u16 c);
 
-extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
 
-extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 
-extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 
 u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
 
@@ -321,33 +295,33 @@ extern const MusShotPhotoVec d_021F824C;
 u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
 {
     u8 i;
-    u8 *o;
+    ShotScene *o;
     u8 j;
-    o = GFL_HEAP_Alloc(heap, 100, 1, d_021F8380, 0x85);
-    *(u16 *)o = heap;
-    *(u8 **)(o + 4) = src;
+    o = GFL_HEAP_Alloc(heap, sizeof(*o), 1, d_021F8380, 0x85);
+    o->heap = heap;
+    o->record = (MusicalShotRecord *)src;
     for (i = 0; i < 4; i++) {
         u32 off = i * 0x58;
         u8 *row;
-        *(u32 *)(o + i * 4 + 8) = (uptr)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((MusicalPerformerBits *)(src + 6 + off))->gender, (u8)((MusicalPerformerBits *)(src + 6 + off))->form, (u8)((MusicalPerformerBits *)(src + 6 + off))->shiny, *(u32 *)(src + off + 8), heap);
+        o->objects[i] = (u8 *)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((MusicalPerformerBits *)(src + 6 + off))->gender, (u8)((MusicalPerformerBits *)(src + 6 + off))->form, (u8)((MusicalPerformerBits *)(src + 6 + off))->shiny, *(u32 *)(src + off + 8), heap);
         row = (u8 *)((uptr)src + off);
         for (j = 0; j < 8; j++) {
             u8 k = row[j * 8 + 0x20];
             if (k != 10) {
-                *(u16 *)(*(u8 **)(o + i * 4 + 8) + k * 6 + 0x14) = *(u16 *)(row + j * 8 + 0x1c);
-                *(s16 *)(*(u8 **)(o + i * 4 + 8) + k * 6 + 0x16) = *(s16 *)(row + j * 8 + 0x1e);
-                *(u8 *)(*(u8 **)(o + i * 4 + 8) + k * 6 + 0x18) = j;
+                ((McssMon *)o->objects[i])->slots[k][0] = *(u16 *)(row + j * 8 + 0x1c);
+                ((McssMon *)o->objects[i])->slots[k][1] = *(s16 *)(row + j * 8 + 0x1e);
+                *(u8 *)&((McssMon *)o->objects[i])->slots[k][2] = j;
             }
         }
     }
     MUSICAL_SHOT_SYS_Init3D((char *)o);
-    MUSICAL_SHOT_SYS_InitActors((ShotScene *)o);
-    MUSICAL_SHOT_SYS_DrawCaption(o);
-    ((ShotScene *)o)->model = STA_ACT_LIGHT_AllocElem(*(u16 *)o, 0);
-    STA_ACT_LIGHT_CreateModel(((ShotScene *)o)->model, (u8)((ShotScene *)o)->record->programId);
-    STA_ACT_LIGHT_SetElemFrame(((ShotScene *)o)->sprite, 0x80);
-    STA_ACT_LIGHT_SetModelFrame(((ShotScene *)o)->model, 0x80);
-    return o;
+    MUSICAL_SHOT_SYS_InitActors(o);
+    MUSICAL_SHOT_SYS_DrawCaption((u8 *)o);
+    o->model = STA_ACT_LIGHT_AllocElem(o->heap, 0);
+    STA_ACT_LIGHT_CreateModel(o->model, (u8)o->record->programId);
+    STA_ACT_LIGHT_SetElemFrame(o->sprite, 0x80);
+    STA_ACT_LIGHT_SetModelFrame(o->model, 0x80);
+    return (u8 *)o;
 }
 
 void MUSICAL_SHOT_SYS_DeleteScene(u8 *scene)
@@ -356,7 +330,7 @@ void MUSICAL_SHOT_SYS_DeleteScene(u8 *scene)
     STA_ACT_LIGHT_DeleteUnit((char *)((ShotScene *)scene)->unit);
     STA_ACT_LIGHT_DeleteModel((u8 *)((ShotScene *)scene)->model);
     STA_ACT_LIGHT_DeleteBillboardImage(((ShotScene *)scene)->sprite);
-    MUSICAL_MCSS_DeleteRenderObj((sptr)((ShotScene *)scene)->renderObj);
+    MUSICAL_MCSS_DeleteRenderObj(((ShotScene *)scene)->renderObj);
     MUSICAL_MCSS_DeleteActorPool(((ShotScene *)scene)->actorPool);
     BMP_WIN_Delete(((ShotScene *)scene)->winB);
     BMP_WIN_Delete(((ShotScene *)scene)->winA);
@@ -372,15 +346,15 @@ void MUSICAL_SHOT_SYS_DeleteScene(u8 *scene)
  */
 void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
 {
-    STA_ACT_LIGHT_UpdateBillboard((u8 *)((ShotScene *)scene)->sprite);
+    STA_ACT_LIGHT_UpdateBillboard(((ShotScene *)scene)->sprite);
     MUSICAL_MCSS_TickAnim(((ShotScene *)scene)->renderObj);
     STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)scene)->unit);
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     STA_ACT_LIGHT_NoOp(((ShotScene *)scene)->unit);
-    STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)scene)->sprite);
-    MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)scene)->renderObj);
-    STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)scene)->sprite);
+    STA_ACT_LIGHT_UpdateElem(((ShotScene *)scene)->sprite);
+    MUSICAL_MCSS_DrawRenderObj(((ShotScene *)scene)->renderObj);
+    STA_ACT_LIGHT_UpdateSprite(((ShotScene *)scene)->sprite);
     STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)scene)->model);
     BILLBOARD_Draw((struct BbBoard *)((ShotScene *)scene)->board,(struct G3dCamera *)((ShotScene *)scene)->camera,0);
     MUSICAL_SHOT_SYS_NoOp(scene);
@@ -392,7 +366,7 @@ static inline void G2_SetWndOBJInsidePlane(int wnd, int effect)
     u32 tmp;
     tmp = (*(volatile u16 *)REG_WINOUT_ADDR & ~0x3F00u) | ((u32)wnd << 8);
     if (effect) tmp |= 0x2000;
-    *(volatile u16 *)0x0400004A = (u16)tmp;
+    *(volatile u16 *)REG_WINOUT_ADDR = (u16)tmp;
 }
 
 static inline void G2_SetWndOutsidePlane(int wnd, int effect)
@@ -400,7 +374,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, int effect)
     u32 tmp;
     tmp = (*(volatile u16 *)REG_WINOUT_ADDR & ~63u) | (u32)wnd;
     if (effect) tmp |= 32;
-    *(volatile u16 *)0x0400004A = (u16)tmp;
+    *(volatile u16 *)REG_WINOUT_ADDR = (u16)tmp;
 }
 
 /*
@@ -431,18 +405,18 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     cam = G3D_CAMERA_Create(2, 0xC000, 0, 0, 0x10000, 0x1000, 0x3E8000, 0,
                         (VecFx32 *)d_021F81AC, (VecFx32 *)d_021F81B8, (VecFx32 *)d_021F81A0, *(u16 *)p);
-    *(void **)(p + 0x18) = cam;
+    ((ShotScene *)p)->camera = cam;
     G3D_CAMERA_Reset(cam);
     G3X_SetEdgeColorTable(d_021F81C4);
-    *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xCFDF;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x10;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8;
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
     a = d_021F8274;
     b = d_021F8258;
     pb = &b;
-    h = BILLBOARD_Create( (unsigned char *)&a, (u32)((void *)(*(u16 *)p)));
-    *(void **)(p + 0x1C) = h;
+    h = BILLBOARD_Create( (unsigned char *)&a, (u32)(*(u16 *)p));
+    ((ShotScene *)p)->board = h;
     BILLBOARD_SetScale(h, (struct Blk3 *)pb);
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
@@ -459,7 +433,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     BG_SYS_PushTile(3);
     ARC_TOOL_DeleteHandle(h);
     G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 8, 1, 0, 0xA);
-    *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x8000;
+    *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & 0xFFFF1FFF) | 0x8000;
     G2_SetWndOBJInsidePlane(0x17, 1);
     G2_SetWndOutsidePlane(0x1F, 1);
 }
@@ -494,19 +468,18 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   p->renderObj = MUSICAL_MCSS_CreateRenderObj(p->heap);
   MUSICAL_MCSS_SetRenderCellVramBase(p->renderObj, 2 << 16);
   p->actorPool = MUSICAL_MCSS_CreateActorPool((uptr) p->board, 36, p->heap);
-  p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (uptr)p->renderObj, (uptr)p->actorPool, (uptr)p->board);
+  p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, p->renderObj, p->actorPool, p->board);
   for (i = 0; i < 4; i++)
     p->models[i] = 0;
 
   for (j = 0; j < 4; j++)
   {
-    row = ((u8 *) p) + (4 * j);
-    q = STA_ACT_LIGHT_AddPokemonElem(p->sprite, *((u8 **) (row + 8)));
+    q = STA_ACT_LIGHT_AddPokemonElem(p->sprite, p->objects[j]);
     if (1)
     {
-      *((void **) (row + 0x30)) = q;
-      STA_ACT_LIGHT_ResetRenderAnim(p->sprite, (StaActPokeElem *)q);
-      STA_ACT_LIGHT_SetElemValue(p->sprite, *((int **) (row + 0x30)), 1);
+      p->models[j] = q;
+      STA_ACT_LIGHT_ResetRenderAnim(p->sprite, q);
+      STA_ACT_LIGHT_SetElemValue(p->sprite, p->models[j], 1);
     }
   }
 
@@ -536,34 +509,28 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   base = d_021F824C;
   for (; i < 4; mask <<= 1, i++)
   {
-    offset = 4 * i;
-    row = (u8 *)(((uptr)p) + offset);
-    scale.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
+    scale.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, ((McssMon *)p->objects[i])->species);
     if (p->record->winnerMask & mask)
     {
-      u8 *actor;
       temp = base;
-      actor = ((u8 *) p) + offset;
-      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, ((McssMon *)p->objects[i])->species);
       pos.y = 155 << 12;
-      pos.z = *((int *) (((uptr) z) + offset));
-      STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
-      STA_ACT_LIGHT_SetActorOffset(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&temp));
+      pos.z = z[i];
+      STA_ACT_LIGHT_SetActorPos(p->sprite, p->models[i], (const u32 *)(&pos));
+      STA_ACT_LIGHT_SetActorOffset(p->sprite, p->models[i], (const u32 *)(&temp));
       scale.y = 22 << 14;
     }
     else
     {
-      u8 *actor;
-      actor = ((u8 *) p) + offset;
-      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, ((McssMon *)p->objects[i])->species);
       pos.y = 155 << 12;
-      pos.z = *((int *) (((uptr) z) + offset));
-      STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
+      pos.z = z[i];
+      STA_ACT_LIGHT_SetActorPos(p->sprite, p->models[i], (const u32 *)(&pos));
       scaleY = 2 << 18;
       scale.y = scaleY;
     }
-    *((void **) (row + 0x44)) = STA_ACT_LIGHT_CreateActor(p->unit, 1);
-    STA_ACT_LIGHT_CopyElemA(p->unit, *((void **) (row + 0x44)), (const u32 *)(&scale));
+    p->effects[i] = STA_ACT_LIGHT_CreateActor(p->unit, 1);
+    STA_ACT_LIGHT_CopyElemA(p->unit, p->effects[i], (const u32 *)(&scale));
   }
 
 }
@@ -581,7 +548,6 @@ typedef short s16_p07;
 #include "../arm9/bmp.h"
 
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
 #include "../arm9/strbuf.h"
 
@@ -600,7 +566,6 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
 
 
-extern void BG_SYS_PushTile(u32);
 
 
 

@@ -4,6 +4,9 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of th_award_graphic.c, prototypes copied from their definitions. */
 
+struct Unit;
+struct DispVramCfg;
+
 #include "../types.h"
 
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap);

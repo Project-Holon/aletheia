@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of effect_encount.c, prototypes copied from their definitions. */
 
+struct GameEvent;
 struct EffectEncountArea;
 typedef struct EffectEncountArea EffectEncountArea;
 
@@ -20,7 +21,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount);
 void EFFECT_ENCOUNT_Reset(FieldEncount *encount);
 void EFFECT_ENCOUNT_UpdateOccupiedSpot(FieldEncount *encount);
 int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, short *pos);
-int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount);
+struct GameEvent *EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount);
 int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out);
 void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount);
 void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused);
@@ -40,7 +41,7 @@ void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effect
 void EFFECT_ENCOUNT_DeleteEffectObj(EffectEncount *effectEncount);
 unsigned short EFFECT_ENCOUNT_PickItemKind4(void);
 u16 EFFECT_ENCOUNT_PickItemKind7(void);
-int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId);
+struct GameEvent *EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId);
 /* END mkheaders: generated region */
 
 #endif

@@ -125,7 +125,7 @@ void DWCi_SceneOptErase(void)
     DWCi_HLlLoad(0x12);
     DWCi_COMMENTlDispEx(0x3b, -1, 0);
     DWCi_CMNlMsgDraw(0x17);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
@@ -144,7 +144,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -154,7 +154,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(3);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -162,7 +162,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)DWCi_SceneOptErase_procScene);
+    DWCi_ChangeScene(DWCi_SceneOptErase_procScene);
 }
 
 void DWCi_SceneOptErase_procScene(void)
@@ -189,13 +189,13 @@ static void button(void)
     switch (DWCi_BTNlGet()) {
     case 0:
         DWCi_SNDlPlay(7);
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
         break;
     case 1:
         DWCi_SNDlPlay(6);
         DWCi_WINlInitEx(0x18, 0, 1, -1, 0);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene((uptr)procConfirm);
+        DWCi_ChangeScene(procConfirm);
         break;
     }
 }
@@ -204,7 +204,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -215,7 +215,7 @@ static void endScene1(void)
     if (sceneopterase_bss.Choose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -239,10 +239,10 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if (((u8 *)&gSceneOptEraseWork)[0] == 0) {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
+        DWCi_ChangeScene(DWCi_SceneOptMenu);
     } else {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptErase1);
+        DWCi_ChangeScene(DWCi_SceneOptErase1);
     }
 }
 
@@ -260,12 +260,12 @@ static void procConfirm(void)
         return;
     }
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)procConfirm1);
+    DWCi_ChangeScene(procConfirm1);
 }
 
 static void procConfirm1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }

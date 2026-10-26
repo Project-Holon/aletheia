@@ -6,6 +6,11 @@
 
 #include "../arm9/net_types.h"
 #include "../arm9/dwc_connectinet_types.h"
+#include "../ov009/dwc_match_ctl_types.h"
+
+/* Error callbacks of the RAP layer: the first argument is the owner's work pointer. */
+typedef void (*DwcRapErrorFunc)(void *arg, u32 errorCode, u32 errorType, int dwcError);
+typedef int (*DwcRapErrorHookFunc)(void *arg, u32 errorCode, u32 errorType, int dwcError);
 
 typedef void (*DwcRapRecvFunc)(u32 aid, u8 *data, u16 size);
 
@@ -27,10 +32,10 @@ typedef struct DwcRapWork {
     DwcRapRecvFunc clientRecvFunc;      /* 0x280 game receive callback while this node is a client */
     void (*connectionClosedFunc)(u32, u32); /* 0x284 (aid, connectionClosedArg) */
     u32 connectionClosedArg;            /* 0x288 */
-    int (*errorFunc)(u32, u32, u32, int);   /* 0x28C (errorArg, errorCode, errorType, dwcError) */
-    u32 errorArg;                       /* 0x290 */
-    int (*errorHookFunc)(u32, u32, u32, int); /* 0x294 runs first; returning 1 swallows the error */
-    u32 errorHookArg;                   /* 0x298 */
+    DwcRapErrorFunc errorFunc;          /* 0x28C (errorArg, errorCode, errorType, dwcError) */
+    void *errorArg;                     /* 0x290 */
+    DwcRapErrorHookFunc errorHookFunc;  /* 0x294 runs first; returning 1 swallows the error */
+    void *errorHookArg;                 /* 0x298 */
     void (*connectEventFunc)(int, int); /* 0x29C (aid, connectEventArg) after a match or a new client */
     int connectEventArg;                /* 0x2A0 */
     int (*acceptFriendFunc)(int, void *);  /* 0x2A4 (friendIndex, userArg); 0 rejects the peer */
@@ -113,12 +118,14 @@ enum {
 };
 
 
+struct ExpHeap;
+
 /* Heap object that _pRapHeap points to (the DWC allocator of this module). */
 typedef struct DwcRapHeap {
-    u32 mainHeap;                       /* 0x00 handle of the main heap */
-    u32 mainMem;                        /* 0x04 its backing block */
-    u32 subHeap;                        /* 0x08 secondary heap, 0 when none */
-    u32 subMem;                         /* 0x0C its backing block */
+    struct ExpHeap *mainHeap;           /* 0x00 handle of the main heap */
+    void *mainMem;                      /* 0x04 its backing block */
+    struct ExpHeap *subHeap;            /* 0x08 secondary heap, 0 when none */
+    void *subMem;                       /* 0x0C its backing block */
     u32 subOwnerId;                     /* 0x10 owner id the secondary heap serves */
     u32 subLiveBlocks;                  /* 0x14 live blocks in the secondary heap */
     u32 subMinRequest;                  /* 0x18 smallest request that is not served from it */

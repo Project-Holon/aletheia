@@ -9,12 +9,12 @@
 
 u32 MIi_GetControlData(u32 type);
 void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, NdmaConfig *cfg, int words, u32 flags);
-void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
+void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), void *arg, NdmaConfig *cfg, int words, u32 flags);
 void MI_InitNDma(void);
 void MI_NDmaFill(int ch, int dst, int data, int size);
 void MI_NDmaCopy(int ch, int src, int dst, int size);
-void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), u32 arg);
-void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), u32 arg);
+void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), void *arg);
+void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), void *arg);
 u32 MI_IsNDmaBusy(int ch);
 void MI_WaitNDma(int ch);
 void MI_StopNDma(int ch);
@@ -24,7 +24,7 @@ void MI_InitNDmaConfig(void);
 void MI_GetNDmaConfig(int ch, const void *src);
 void MIi_CardNDmaRecv32(int ch, const void *src, void *dst);
 void MI_Card_NDmaCopy(int ch, const void *src, void *dst);
-void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int mode, void (*callback)(), u32 arg);
+void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int mode, void (*callback)(), void *arg);
 /* END mkheaders: generated region */
 
 #endif

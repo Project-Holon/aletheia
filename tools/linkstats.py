@@ -549,11 +549,9 @@ def objdiff_report(rows, unitrows, results, rows_in):
 
     def measures(total, matched, complete, nf, mf, nu, cu):
         return dict(fuzzy_match_percent=pct(matched, total), total_code=total, matched_code=matched,
-                    matched_code_percent=pct(matched, total), total_data=0, matched_data=0,
-                    matched_data_percent=0.0, total_functions=nf, matched_functions=mf,
+                    matched_code_percent=pct(matched, total), total_functions=nf, matched_functions=mf,
                     matched_functions_percent=pct(mf, nf), complete_code=complete,
-                    complete_code_percent=pct(complete, total), complete_data=0,
-                    complete_data_percent=0.0, total_units=nu, complete_units=cu)
+                    complete_code_percent=pct(complete, total), total_units=nu, complete_units=cu)
 
     import bisect
     units = []

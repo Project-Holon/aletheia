@@ -12,6 +12,7 @@ struct PartyPokemon;
 
 #include "../types.h"
 #include "../arm9/poke_tool_shared_types.h"
+#include "../arm9/species.h"
 
 void POKE_TOOL_InitSystem(u32 heapId);
 u32 POKE_TOOL_GetBoxParamSize(void);

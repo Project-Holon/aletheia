@@ -114,8 +114,8 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     IrcAppBar *bar;
     void *bank;
     Side choice,first;
-    bar=GFL_HEAP_Alloc(heapId,96,0,gIrcAppBarFileName,125);
-    MI_CpuFill8(bar,0,96);
+    bar=GFL_HEAP_Alloc(heapId,sizeof(*bar),0,gIrcAppBarFileName,125);
+    MI_CpuFill8(bar,0,sizeof(*bar));
     bar->layer=layer;
     bar->result=side-1;
     bar->prevResult=side-1;
@@ -128,7 +128,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     bar->taskMenuRes=(struct TaskMenuState *)APP_TASKMENU_RES_Create(layer,x,(struct GFont *)font,(struct PrintQueue *)printQueue,heapId);
     IRC_APPBAR_CreateActor(bar,clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
     bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
-    MI_CpuFill8(&desc,0,12);
+    MI_CpuFill8(&desc,0,sizeof(desc));
     desc.color=0x39e3;
     desc.str=MSGDATA_AllocString(bank,8);
     desc.flag=1;
@@ -259,7 +259,7 @@ void IRC_APPBAR_DeleteActors(void *bar)
     int i;
 
     for (i = 0; i < 7; i++) {
-        if (*(void **)((char *)bar + i * 4 + 8))
-            CLACT_DeleteActor(*(void **)((char *)bar + i * 4 + 8));
+        if (((IrcAppBar *)bar)->actors[i])
+            CLACT_DeleteActor(((IrcAppBar *)bar)->actors[i]);
     }
 }

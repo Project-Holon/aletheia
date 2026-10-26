@@ -8,12 +8,14 @@ struct GameEvent;
 struct GameSystem;
 struct BsubwayProcArgs;
 typedef struct BsubwayProcArgs BsubwayProcArgs;
+struct BsubwayCommEventWork;
+typedef struct BsubwayCommEventWork BsubwayCommEventWork;
 
 #include "../types.h"
 
 struct GameEvent *EVENT_BSUBWAY_COMM_Start(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *EVENT_BSUBWAY_COMM_CreateEvent(struct GameSystem *gameSystem, int value, int *resultPtr);
-u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work);
+int EVENT_BSUBWAY_COMM_EventMain(struct GameEvent *event, int *stage, void *work);
 /* END mkheaders: generated region */
 
 #endif

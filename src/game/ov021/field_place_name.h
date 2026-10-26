@@ -20,7 +20,7 @@ void FIELD_PLACE_NAME_Draw(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_OnZoneChange(FieldPlaceName *placeName, int zoneId);
 void FIELD_PLACE_NAME_ShowForZone(FieldPlaceName *placeName, int zoneId);
 void FIELD_PLACE_NAME_ForceShowForZone(FieldPlaceName *placeName, int zoneId);
-int FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName);
+FieldPlaceName *FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_RestoreWindow(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_ReleaseWindow(FieldPlaceName *placeName);

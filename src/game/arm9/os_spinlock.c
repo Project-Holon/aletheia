@@ -139,8 +139,8 @@ void OS_InitLock(void)
     ((u32 *)lockp)[1] = 0xFFFF0000;
     MIi_CpuClear32(0, (void *)(0x02FFFFB0 + 0x10), 0x28);
 
-    *(volatile u16 *)0x04000204 = (u16)(*(volatile u16 *)0x04000204 | 0x800);
-    *(volatile u16 *)0x04000204 = (u16)(*(volatile u16 *)0x04000204 | 0x80);
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = (u16)(*(volatile u16 *)REG_EXMEMCNT_ADDR | 0x800);
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = (u16)(*(volatile u16 *)REG_EXMEMCNT_ADDR | 0x80);
 
     OSi_SyncWithOtherProc(0, (void *)(0x02FFFFB0 + 0x40));
     OSi_SyncWithOtherProc(1, (void *)(0x02FFFFB0 + 0x40));
@@ -309,9 +309,9 @@ s32 OS_TryLockCard(u16 lockID)
 void OSi_AllocateCardBus(void)
 {
     if (((*(volatile u16 *)REG_SCFG_MC_ADDR & 0xC) >> 2) == 2) {
-        *(volatile u32 *)0x040001A4 |= 0x20000000;
+        *(volatile u32 *)REG_MCCNT1_ADDR |= 0x20000000;
     }
-    *(volatile u16 *)0x04000204 = (u16)(*(volatile u16 *)0x04000204 & ~0x800);
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = (u16)(*(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x800);
 }
 
 /*

@@ -158,22 +158,19 @@ struct Renderer;
 #define G3D_CAMERA_Create G3D_CAMERA_Create_hdr
 #endif
 #include "../arm9/g3d_camera.h"
+#include "../sdk_ioreg.h"
 #ifdef __MWERKS__
 #undef G3D_CAMERA_Create
 void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, u32);
 #endif
 
 
-extern void G3D_SYSTEM_Exit(void);
 
-extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
 
 
-extern void G3D_SYSTEM_DrawEnd(void);
 
 u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap);
 
@@ -185,13 +182,13 @@ void MYSTERY_GRAPHIC_DrawScene(char *p);
 
 void MYSTERY_GRAPHIC_DrawEnd(char *p);
 
-unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
+void *MYSTERY_GRAPHIC_GetClactUnit(char *p);
 
 void MYSTERY_GRAPHIC_StartRender(u8 *p);
 
 void MYSTERY_GRAPHIC_StopRender(char *p);
 
-void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q);
+void MYSTERY_GRAPHIC_VBlank(struct TcbTask *a, void *qArg);
 
 void MYSTERY_GRAPHIC_InitBg(void *p, u32 a);
 
@@ -201,23 +198,23 @@ void MYSTERY_GRAPHIC_Dummy(void *work);
 
 void MYSTERY_GRAPHIC_UpdateBg(void *work);
 
-void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap);
+void MYSTERY_GRAPHIC_InitClact(MysteryGraphicClact *p, const struct DispVramCfg *a, u32 heap);
 
-void MYSTERY_GRAPHIC_ExitClact(u8 *p);
+void MYSTERY_GRAPHIC_ExitClact(MysteryGraphicClact *p);
 
 void MYSTERY_GRAPHIC_DrawClact(void *work);
 
 void MYSTERY_GRAPHIC_VBlankClact(void *work);
 
-unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p);
+void *MYSTERY_GRAPHIC_GetFirstWord(MysteryGraphicClact *p);
 
-void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap);
+void MYSTERY_GRAPHIC_InitCamera(MysteryGraphicCamera *p, u32 heap);
 
 void MYSTERY_GRAPHIC_ExitCamera(char *p);
 
-void MYSTERY_GRAPHIC_RenderScene(void **p);
+void MYSTERY_GRAPHIC_RenderScene(MysteryGraphicCamera *p);
 
-void MYSTERY_GRAPHIC_FinishScene(void **p);
+void MYSTERY_GRAPHIC_FinishScene(MysteryGraphicCamera *p);
 
 extern const char d_021DFB8C[];
 
@@ -246,8 +243,8 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     p=GFL_HEAP_Alloc(heap,28,0,(char *)d_021DFB8C,448);
     MI_CpuFill8(p,0,28);
     ((MysteryGraphicWork *)p)->heapId=heap;
-    *(volatile u16 *)0x04000050=0;
-    *(volatile u16 *)0x04001050=0;
+    *(volatile u16 *)REG_BLDCNT_ADDR=0;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
@@ -258,8 +255,8 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     MYSTERY_GRAPHIC_InitBg(p,heap);
-    MYSTERY_GRAPHIC_InitClact((void **)(p+4),(uptr)d_021DF604,heap);
-    ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))MYSTERY_GRAPHIC_VBlank,(void *)p,0);
+    MYSTERY_GRAPHIC_InitClact(&((MysteryGraphicWork *)p)->clact,(const struct DispVramCfg *)d_021DF604,heap);
+    ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask(MYSTERY_GRAPHIC_VBlank,(void *)p,0);
     return p;
 }
 
@@ -269,7 +266,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
 void MYSTERY_GRAPHIC_Delete(u8 *p)
 {
     TCB_DeleteTask(((MysteryGraphicWork *)p)->updateTask);
-    MYSTERY_GRAPHIC_ExitClact(p+4);
+    MYSTERY_GRAPHIC_ExitClact(&((MysteryGraphicWork *)p)->clact);
     MYSTERY_GRAPHIC_ExitBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
@@ -285,15 +282,15 @@ void MYSTERY_GRAPHIC_Delete(u8 *p)
  */
 void MYSTERY_GRAPHIC_Draw(u8 *p)
 {
-    MYSTERY_GRAPHIC_DrawClact(p + 4);
+    MYSTERY_GRAPHIC_DrawClact(&((MysteryGraphicWork *)p)->clact);
     MYSTERY_GRAPHIC_Dummy(p);
 }
 
-void MYSTERY_GRAPHIC_DrawScene(char *p) { MYSTERY_GRAPHIC_RenderScene((void **)(p+12)); }
+void MYSTERY_GRAPHIC_DrawScene(char *p) { MYSTERY_GRAPHIC_RenderScene(&((MysteryGraphicWork *)p)->camera); }
 
-void MYSTERY_GRAPHIC_DrawEnd(char *p) { MYSTERY_GRAPHIC_FinishScene((void **)(p+12)); }
+void MYSTERY_GRAPHIC_DrawEnd(char *p) { MYSTERY_GRAPHIC_FinishScene(&((MysteryGraphicWork *)p)->camera); }
 
-unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p) { return MYSTERY_GRAPHIC_GetFirstWord((unsigned *)(p+4)); }
+void *MYSTERY_GRAPHIC_GetClactUnit(char *p) { return MYSTERY_GRAPHIC_GetFirstWord(&((MysteryGraphicWork *)p)->clact); }
 
 void MYSTERY_GRAPHIC_StartRender(u8 *p)
 {
@@ -302,16 +299,17 @@ void MYSTERY_GRAPHIC_StartRender(u8 *p)
     c=d_021DF598;
     c.d=1;
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&c));
-    MYSTERY_GRAPHIC_InitCamera((u32 *)(p+12),((MysteryGraphicWork *)p)->heapId);
+    MYSTERY_GRAPHIC_InitCamera(&((MysteryGraphicWork *)p)->camera,((MysteryGraphicWork *)p)->heapId);
     PARTICLE_InitManager(((MysteryGraphicWork *)p)->heapId);
 }
 
-void MYSTERY_GRAPHIC_StopRender(char *p) { BG_SYS_SetPlaneVisible(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((struct DispConfig *)&d_021DF598); }
+void MYSTERY_GRAPHIC_StopRender(char *p) { BG_SYS_SetPlaneVisible(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera((char *)&((MysteryGraphicWork *)p)->camera);BG_SYS_SetGraphicsMode((struct DispConfig *)&d_021DF598); }
 
-void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q)
+void MYSTERY_GRAPHIC_VBlank(struct TcbTask *a, void *qArg)
 {
+    u8 *q = qArg;
     MYSTERY_GRAPHIC_UpdateBg(q);
-    MYSTERY_GRAPHIC_VBlankClact(q + 4);
+    MYSTERY_GRAPHIC_VBlankClact(&((MysteryGraphicWork *)q)->clact);
 }
 
 void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
@@ -352,22 +350,22 @@ void MYSTERY_GRAPHIC_Dummy(void *work) {}
 
 void MYSTERY_GRAPHIC_UpdateBg(void *work) { BG_SYS_Update(); }
 
-void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
+void MYSTERY_GRAPHIC_InitClact(MysteryGraphicClact *p, const struct DispVramCfg *a, u32 heap)
 {
     void *q;
     MI_CpuFill8(p, 0, 8);
-    CLACT_InitSystem((const struct ClactSysInit *)d_021DF5A8, (const struct DispVramCfg *)a, heap);
-    p[0] = CLACT_CreateUnit(128, 0, heap);
+    CLACT_InitSystem((const struct ClactSysInit *)d_021DF5A8, a, heap);
+    p->unit = CLACT_CreateUnit(128, 0, heap);
     q = CLACT_CreateRenderer((struct SurfaceInit *)d_021DF5C4, 2, heap);
-    p[1] = q;
-    CLACT_SetUnitRenderer(p[0], q);
+    p->renderer = q;
+    CLACT_SetUnitRenderer(p->unit, q);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
-void MYSTERY_GRAPHIC_ExitClact(u8 *p) {
-    CLACT_DeleteRenderer(((MysteryGraphicClact *)p)->renderer);
-    CLACT_DeleteUnit(((MysteryGraphicClact *)p)->unit);
+void MYSTERY_GRAPHIC_ExitClact(MysteryGraphicClact *p) {
+    CLACT_DeleteRenderer(p->renderer);
+    CLACT_DeleteUnit(p->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(p,0,8);
 }
@@ -379,14 +377,14 @@ void MYSTERY_GRAPHIC_DrawClact(void *work) { CLACT_DrawSystem(); }
  */
 void MYSTERY_GRAPHIC_VBlankClact(void *work) { CLACT_VBlankSystem(); }
 
-unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p) { return *p; }
+void *MYSTERY_GRAPHIC_GetFirstWord(MysteryGraphicClact *p) { return p->unit; }
 
-void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
+void MYSTERY_GRAPHIC_InitCamera(MysteryGraphicCamera *p, u32 heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, MYSTERY_SetupDisplay3d);
-    p[0] = (uptr)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
+    p->handle = G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
                          (VecFx32 *)d_021DF574, (VecFx32 *)d_021DF58C, (VecFx32 *)d_021DF580, heap);
-    p[1] = 1;
+    p->enabled = 1;
 }
 
 void MYSTERY_GRAPHIC_ExitCamera(char *p)
@@ -396,17 +394,17 @@ void MYSTERY_GRAPHIC_ExitCamera(char *p)
     G3D_SYSTEM_Exit();
 }
 
-void MYSTERY_GRAPHIC_RenderScene(void **p) {
-    if(((MysteryGraphicCamera *)p)->enabled) {
+void MYSTERY_GRAPHIC_RenderScene(MysteryGraphicCamera *p) {
+    if(p->enabled) {
         G3D_SYSTEM_DrawStart();
-        G3D_CAMERA_Reset(((MysteryGraphicCamera *)p)->handle);
+        G3D_CAMERA_Reset(p->handle);
         G3D_SYSTEM_ApplyLookAt();
         PARTICLE_Main();
     }
 }
 
-void MYSTERY_GRAPHIC_FinishScene(void **p)
+void MYSTERY_GRAPHIC_FinishScene(MysteryGraphicCamera *p)
 {
-    if (p[1])
+    if (p->enabled)
         G3D_SYSTEM_DrawEnd();
 }

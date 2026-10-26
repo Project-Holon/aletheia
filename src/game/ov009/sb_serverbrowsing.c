@@ -86,7 +86,7 @@ extern void SBServerListClear(SBServerList *slist);
 extern SBServer *SBServerListNth(SBServerList *slist, int index);
 extern int SBServerListCount(void *list);
 static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance);
-void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst);
+void EngineCallback(struct SBQueryEngine *unused, int reason, SBServer *server, void *inst);
 ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, SBBrowserCB callback, void *instance);
 void ServerBrowserFree(ServerBrowser *sb);
 int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int updateOptions, int maxServers);
@@ -178,7 +178,7 @@ static void ListCallback(SBServerList *serverlist, int reason, SBServer *server,
 /*
  * sdk:      EngineCallback (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverbrowsing.o))
  */
-void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst)
+void EngineCallback(struct SBQueryEngine *unused, int reason, SBServer *server, void *inst)
 {
     ServerBrowser *sb = inst;
 
@@ -215,7 +215,7 @@ ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename
 
     if (lanBrowse == 0 && gGsAvailabilityState != 1)
         return 0;
-    sb = gsimalloc(0x858);
+    sb = gsimalloc(sizeof(*sb));
     if (sb == 0)
         return 0;
     sb->BrowserCallback = callback;
@@ -224,7 +224,7 @@ ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename
     sb->dontUpdateList = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, ListCallback, sb);
-    SBQueryEngineInit(&sb->engine, maxConcUpdates, queryVersion, lanBrowse, (SBEngineCB)(EngineCallback), sb);
+    SBQueryEngineInit(&sb->engine, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
     return sb;
 }
 

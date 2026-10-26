@@ -47,67 +47,66 @@ typedef struct { u8 a, b, c, d, e, f; } WinSpec;
 struct BmpWin;
 #include "../arm9/bmp_win.h"
 #include "b_plist_draw.h"
-void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src);
-void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src);
+void B_PLIST_ANM_CopyMonSpriteTiles(struct B_PlistWork *p,u16 *src);
+void B_PLIST_ANM_CopySubSpriteTiles(struct B_PlistWork *p,u16 *src);
 void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 height);
-void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which);
-void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which);
-void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode);
-void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state);
-void B_PLIST_ANM_StepPaletteAnim(u8 *p);
-void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode);
-void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused);
-u8 B_PLIST_ANM_CountActiveRecords(u8 *p);
-void B_PLIST_ANM_UpdateSelectedTile(u8 *p);
-void B_PLIST_ANM_CreateTileWindows(u8 *p);
+void *B_PLIST_ANM_GetTileBuffer(struct B_PlistWork *p,u32 kind,u32 i,int which);
+void B_PLIST_ANM_ApplyTilePalette(struct B_PlistWork *p,void *dst,u8 kind,u8 index,u8 which);
+void B_PLIST_ANM_UploadTileBuffer(struct B_PlistWork *p,u8 state,u8 flag,u8 mode);
+void B_PLIST_ANM_StartPaletteAnim(struct B_PlistWork *p,unsigned int state);
+void B_PLIST_ANM_StepPaletteAnim(struct B_PlistWork *p);
+void B_PLIST_ANM_UpdateByMode(struct B_PlistWork *p,u32 mode);
+void B_PLIST_ANM_CopyPaletteSlot(struct B_PlistWork *p, u32 unused);
+u8 B_PLIST_ANM_CountActiveRecords(struct B_PlistWork *p);
+void B_PLIST_ANM_UpdateSelectedTile(struct B_PlistWork *p);
+void B_PLIST_ANM_CreateTileWindows(struct B_PlistWork *p);
 extern const TileDim d_02211A74[];
 extern char d_02212540[];
 extern WinSpec d_02211B14[];
 
-void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src)
+void B_PLIST_ANM_CopyMonSpriteTiles(struct B_PlistWork *p,u16 *src)
 {
- int tileOff0=0x1dc,tileOff1=0x35c,tileOff2=0x4dc,tileOff3=0x65c;
- B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff0),src,0,0,16,6);
- tileOff0+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff0),src,0,6,16,6);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff1),src,0,12,16,6);
- tileOff1+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff1),src,0,18,16,6);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff2),src,16,0,16,6);
- tileOff2+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff2),src,16,6,16,6);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff3),src,16,12,16,6);
- tileOff3+=0xc0;B_PLIST_ANM_BlitTileRect((u16 *)(p+tileOff3),src,16,18,16,6);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x7dc),src,0,39,13,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x85e),src,0,44,13,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x8e0),src,13,39,13,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x962),src,13,44,13,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x9e4),src,0,49,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa16),src,5,49,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa48),src,10,49,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xa7a),src,15,49,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xaac),src,0,54,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xade),src,5,54,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb10),src,10,54,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb42),src,15,54,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xb74),src,26,24,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xba6),src,26,29,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xbd8),src,26,34,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0xc0a),src,26,39,5,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1b30),src,0,24,26,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1c34),src,0,29,26,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1d38),src,0,34,26,5);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e3c),src,0,59,5,2);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e50),src,5,59,5,2);
- B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1e64),src,10,59,5,2);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[0][0],src,0,0,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[0][1],src,0,6,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[0][2],src,0,12,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[0][3],src,0,18,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[1][0],src,16,0,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[1][1],src,16,6,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[1][2],src,16,12,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet0to5[1][3],src,16,18,16,6);
+ B_PLIST_ANM_BlitTileRect(p->tileSet8to11[0],src,0,39,13,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet8to11[1],src,0,44,13,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet8to11[2],src,13,39,13,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet8to11[3],src,13,44,13,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet12[0],src,0,49,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet12[1],src,5,49,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet12[2],src,10,49,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet12[3],src,15,49,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet13[0],src,0,54,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet13[1],src,5,54,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet13[2],src,10,54,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet13[3],src,15,54,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet6[0],src,26,24,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet6[1],src,26,29,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet6[2],src,26,34,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet6[3],src,26,39,5,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet27[0],src,0,24,26,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet27[1],src,0,29,26,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet27[2],src,0,34,26,5);
+ B_PLIST_ANM_BlitTileRect(p->tileSet28to31[0],src,0,59,5,2);
+ B_PLIST_ANM_BlitTileRect(p->tileSet28to31[1],src,5,59,5,2);
+ B_PLIST_ANM_BlitTileRect(p->tileSet28to31[2],src,10,59,5,2);
 }
 
-void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src)
+void B_PLIST_ANM_CopySubSpriteTiles(struct B_PlistWork *p,u16 *src)
 {
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0xC3C),src,0,0,30,17);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1038),src,0,17,30,17);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1434),src,0,34,30,17);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1830),src,0,51,16,6);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x18F0),src,16,51,16,6);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x19B0),src,0,57,16,6);
-    B_PLIST_ANM_BlitTileRect((u16 *)(p+0x1A70),src,16,57,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet7[0],src,0,0,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet7[1],src,0,17,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet7[2],src,0,34,30,17);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet14to26[0],src,0,51,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet14to26[1],src,16,51,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet14to26[2],src,0,57,16,6);
+    B_PLIST_ANM_BlitTileRect((u16 *)p->tileSet14to26[3],src,16,57,16,6);
 }
 
 /*
@@ -123,21 +122,21 @@ void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 hei
     }
 }
 
-void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which)
+void *B_PLIST_ANM_GetTileBuffer(struct B_PlistWork *p,u32 kind,u32 i,int which)
 {
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
-  if(which==0) return (void *)((uptr)p+0x1dc+i*0xc0);
-  else return (void *)((uptr)p+0x4dc+i*0xc0);
- case 6:return (void *)((uptr)p+0xb74+i*0x32);
- case 7:return (void *)((uptr)p+0xc3c+i*0x3fc);
- case 8:case 9:case 10:case 11:return (void *)((uptr)p+0x7dc+i*0x82);
- case 12:return (void *)((uptr)p+0x9e4+i*0x32);
- case 13:return (void *)((uptr)p+0xaac+i*0x32);
+  if(which==0) return p->tileSet0to5[0][i];
+  else return p->tileSet0to5[1][i];
+ case 6:return p->tileSet6[i];
+ case 7:return p->tileSet7[i];
+ case 8:case 9:case 10:case 11:return p->tileSet8to11[i];
+ case 12:return p->tileSet12[i];
+ case 13:return p->tileSet13[i];
  case 14:case 15:case 16:case 17:case 18:case 19:case 20:case 21:case 22:case 23:case 24:case 25:case 26:
-  return (void *)((uptr)p+0x1830+i*0xc0);
- case 27:return (void *)((uptr)p+0x1b30+i*0x104);
- case 28:case 29:case 30:case 31:return (void *)((uptr)p+0x1e3c+i*0x14);
+  return p->tileSet14to26[i];
+ case 27:return p->tileSet27[i];
+ case 28:case 29:case 30:case 31:return p->tileSet28to31[i];
  default:return 0;
  }
 }
@@ -145,7 +144,7 @@ void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which)
 /*
  * lever: expand the inner-loop value use to pair[i]; the bounded permuter baseline was DIFF 7 and this mutation reached EXACT.
  */
-void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
+void B_PLIST_ANM_ApplyTilePalette(struct B_PlistWork *p,void *dst,u8 kind,u8 index,u8 which)
 {
  void *src;
  int count,orderIndex;
@@ -160,21 +159,21 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
   orderIndex=B_PLIST_MAIN_GetOrderIndex(p,kind);
-  rec=(u8 *)((uptr)p+(u32)orderIndex*0x4c);
-  if(((struct B_PlistSlot *)rec)->active==0) break;
-  if(((struct B_PlistSlot *)rec)->u1A.bits.flags.high){
-   pair[0]=*(u16 *)((uptr)dst+(width*2+5)*2);
-   pair[1]=*(u16 *)((uptr)dst+(width*3+5)*2);
+  rec=(u8 *)p+(u32)orderIndex*sizeof(struct B_PlistSlot);
+  if(((struct B_PlistWork *)rec)->slot[0].species==0) break;
+  if(((struct B_PlistWork *)rec)->slot[0].statusFlags.high){
+   pair[0]=*(u16 *)((char *)dst+(width*2+5)*2);
+   pair[1]=*(u16 *)((char *)dst+(width*3+5)*2);
    for(i=0;i<2;i++){
     u16 value=pair[i];
-    for(j=0;j<9;j++) (((u16 *)((uptr)dst+(i+2)*width*2))+j)[6]=pair[i];
+    for(j=0;j<9;j++) (((u16 *)((char *)dst+(i+2)*width*2))+j)[6]=pair[i];
    }
    return;
-  }else if(((struct B_PlistSlot *)rec)->hpRawBase==0){
-   for(i=0;i<count;i++) *(u16 *)((uptr)dst+i*2)=(*(u16 *)((uptr)dst+i*2)&0xfff)|(((index&1)+7)<<12);
+  }else if(((struct B_PlistWork *)rec)->slot[0].hp==0){
+   for(i=0;i<count;i++) *(u16 *)((char *)dst+i*2)=(*(u16 *)((char *)dst+i*2)&0xfff)|(((index&1)+7)<<12);
    return;
-  }else if(B_PLIST_MAIN_IsBattleSlot((uptr)p,orderIndex)==1){
-   for(i=0;i<count;i++) *(u16 *)((uptr)dst+i*2)=(*(u16 *)((uptr)dst+i*2)&0xfff)|(((index&1)+5)<<12);
+  }else if(B_PLIST_MAIN_IsBattleSlot(p,orderIndex)==1){
+   for(i=0;i<count;i++) *(u16 *)((char *)dst+i*2)=(*(u16 *)((char *)dst+i*2)&0xfff)|(((index&1)+5)<<12);
   }
   break;
  }
@@ -183,49 +182,49 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
 /*
  * lever: byte parameters, u32 dimensions and unsigned long byte-table offset.
  */
-void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
+void B_PLIST_ANM_UploadTileBuffer(struct B_PlistWork *p,u8 state,u8 flag,u8 mode)
 {
     unsigned long tableOffset=state*4;
     u32 height=((const u8 *)d_02211A74)[tableOffset+3];
     u32 width=((const u8 *)d_02211A74)[tableOffset+2];
-    void *buf=GFL_HEAP_Alloc((u16)((((struct B_PlistWork *)p)->owner->heapId&0x7FFF)|0x8000),width*height*2,0,d_02212540,0x205);
+    void *buf=GFL_HEAP_Alloc((u16)((p->owner->heapId&0x7FFF)|0x8000),width*height*2,0,d_02212540,0x205);
     B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
     BG_SYS_DrawTile(6,buf,((const u8 *)d_02211A74)[tableOffset],((const u8 *)d_02211A74)[tableOffset+1],width,height);
     BG_SYS_MarkTileDirty(6);
     GFL_HEAP_Free(buf);
 }
 
-void B_PLIST_ANM_StartPaletteAnim(u8 *p,unsigned int state)
+void B_PLIST_ANM_StartPaletteAnim(struct B_PlistWork *p,unsigned int state)
 {
-    ((struct B_PlistWork *)p)->animFlags.mode=0;
-    if (state<=5 && B_PLIST_MAIN_GetSlotState(p,state)==2) ((struct B_PlistWork *)p)->animFlags.mode=1;
-    ((struct B_PlistWork *)p)->animStep=0;
-    ((struct B_PlistWork *)p)->animTimer=0;
-    ((struct B_PlistWork *)p)->animKind=state;
-    ((struct B_PlistWork *)p)->animFlags.active=1;
+    p->animFlags.mode=0;
+    if (state<=5 && B_PLIST_MAIN_GetSlotState(p,state)==2) p->animFlags.mode=1;
+    p->animStep=0;
+    p->animTimer=0;
+    p->animKind=state;
+    p->animFlags.active=1;
 }
 
-void B_PLIST_ANM_StepPaletteAnim(u8 *p)
+void B_PLIST_ANM_StepPaletteAnim(struct B_PlistWork *p)
 {
-    if (((struct B_PlistWork *)p)->animFlags.active != 0) {
-        switch (((struct B_PlistWork *)p)->animStep) {
+    if (p->animFlags.active != 0) {
+        switch (p->animStep) {
         case 0:
-            B_PLIST_ANM_UploadTileBuffer(p,((struct B_PlistWork *)p)->animKind,1,((struct B_PlistWork *)p)->animFlags.mode);
-            ((struct B_PlistWork *)p)->animStep++;
+            B_PLIST_ANM_UploadTileBuffer(p,p->animKind,1,p->animFlags.mode);
+            p->animStep++;
             break;
         case 1:
-            if (((struct B_PlistWork *)p)->animTimer==4) {
-                B_PLIST_ANM_UploadTileBuffer(p,((struct B_PlistWork *)p)->animKind,0,((struct B_PlistWork *)p)->animFlags.mode);
-                ((struct B_PlistWork *)p)->animTimer=0;
-                ((struct B_PlistWork *)p)->animStep++;
-            } else ((struct B_PlistWork *)p)->animTimer++;
+            if (p->animTimer==4) {
+                B_PLIST_ANM_UploadTileBuffer(p,p->animKind,0,p->animFlags.mode);
+                p->animTimer=0;
+                p->animStep++;
+            } else p->animTimer++;
             break;
         case 2:
-            if (((struct B_PlistWork *)p)->animTimer==1) {
-                ((struct B_PlistWork *)p)->animTimer=0;
-                ((struct B_PlistWork *)p)->animStep=0;
-                ((struct B_PlistWork *)p)->animFlags.active=0;
-            } else ((struct B_PlistWork *)p)->animTimer++;
+            if (p->animTimer==1) {
+                p->animTimer=0;
+                p->animStep=0;
+                p->animFlags.active=0;
+            } else p->animTimer++;
             break;
         }
     }
@@ -235,7 +234,7 @@ void B_PLIST_ANM_StepPaletteAnim(u8 *p)
  * trailing: 0220BB92..0220BB93 is two-byte alignment padding.
  * lever: the inline byte range guard adds 255 before its u8 narrowing.
  */
-void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
+void B_PLIST_ANM_UpdateByMode(struct B_PlistWork *p,u32 mode)
 {
  switch(mode){
  case 0:{
@@ -246,7 +245,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
    else if(slotState==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)slot,0,0);
    else if(slotState==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)slot,0,1);
   }
-  if((u8)(((struct B_PlistWork *)p)->owner->listType+255)<=1) B_PLIST_ANM_UpdateSelectedTile(p);
+  if((u8)(p->owner->listType+255)<=1) B_PLIST_ANM_UpdateSelectedTile(p);
   else B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   break;
  }
@@ -263,7 +262,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  }
  case 1:{
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);B_PLIST_ANM_UploadTileBuffer(p,7,0,0);
-  if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->u1A.bits.flags.high){
+  if((&p->slot[(u32)B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)])->statusFlags.high){
    B_PLIST_ANM_UploadTileBuffer(p,8,3,0);B_PLIST_ANM_UploadTileBuffer(p,10,3,0);
   }else{
    B_PLIST_ANM_UploadTileBuffer(p,8,0,0);B_PLIST_ANM_UploadTileBuffer(p,10,0,0);
@@ -285,7 +284,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
    B_PLIST_ANM_UploadTileBuffer(p,12,3,0);B_PLIST_ANM_UploadTileBuffer(p,13,3,0);
   }
   for(slot=0;slot<4;slot++){
-   if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),0,0);
+   if((&p->slot[(u32)B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)])->move[slot].id!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,9,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
@@ -294,7 +293,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
   u16 slot;
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   for(slot=0;slot<4;slot++){
-   if(((struct B_PlistWork *)p)->owner->moveKind==slot) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+28),2,0);
+   if(p->owner->order[3]==slot) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+28),2,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+28),0,0);
   }
   break;
@@ -302,7 +301,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  case 5:{
   u16 slot;
   for(slot=0;slot<4;slot++){
-   if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),0,0);
+   if((&p->slot[(u32)B_PLIST_MAIN_GetOrderIndex(p,p->owner->orderIndex)])->move[slot].id!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
@@ -315,34 +314,33 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 }
 
 
-void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused)
+void B_PLIST_ANM_CopyPaletteSlot(struct B_PlistWork *p, u32 unused)
 {
-    PALANM_CopyToSlot((struct PaletteFade *)(((struct B_PlistWork *)p)->palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
+    PALANM_CopyToSlot((struct PaletteFade *)(p->palAnm), p->palette, 1, 0xc0, 0x20);
 }
 
 /*
  * leaf: sole unresolved blocker of B_PLIST_ANM_UpdateByMode.
  */
-u8 B_PLIST_ANM_CountActiveRecords(u8 *p)
+u8 B_PLIST_ANM_CountActiveRecords(struct B_PlistWork *p)
 {
  u16 slot,count=0;
  for(slot=0;slot<6;slot++){
-  u8 *rec=(u8 *)((uptr)p+slot*0x4c);
-  if(((struct B_PlistSlot *)rec)->active!=0 && !((struct B_PlistSlot *)rec)->u1A.bits.flags.high) count++;
+  if(p->slot[slot].species!=0 && !p->slot[slot].statusFlags.high) count++;
  }
  return count>=2;
 }
 
-void B_PLIST_ANM_UpdateSelectedTile(u8 *p){u8 pair[2];if(B_PLIST_MAIN_PopSelectionPair(p,pair+1,pair,0)==1)B_PLIST_ANM_UploadTileBuffer(p,6,0,0);else B_PLIST_ANM_UploadTileBuffer(p,6,3,0);}
+void B_PLIST_ANM_UpdateSelectedTile(struct B_PlistWork *p){u8 pair[2];if(B_PLIST_MAIN_PopSelectionPair(p,pair+1,pair,0)==1)B_PLIST_ANM_UploadTileBuffer(p,6,0,0);else B_PLIST_ANM_UploadTileBuffer(p,6,3,0);}
 
 /*
  * lever: a nonconst table pointer preserves the original load/store schedule.
  */
-void B_PLIST_ANM_CreateTileWindows(u8 *p)
+void B_PLIST_ANM_CreateTileWindows(struct B_PlistWork *p)
 {
     WinSpec *spec = d_02211B14;
     u32 winIndex;
     for (winIndex=0;winIndex<2;winIndex++,spec++)
-        ((struct B_PlistWork *)p)->win[winIndex].handle=(void *)BMP_WIN_Create(spec->a,spec->b,spec->c,spec->d,spec->e,spec->f,1);
-    B_PLIST_DRAW_CreateStateWindows(p,((struct B_PlistWork *)p)->mode);
+        p->win[winIndex].handle=(void *)BMP_WIN_Create(spec->a,spec->b,spec->c,spec->d,spec->e,spec->f,1);
+    B_PLIST_DRAW_CreateStateWindows(p,p->mode);
 }

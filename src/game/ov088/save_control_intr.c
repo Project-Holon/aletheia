@@ -46,6 +46,7 @@ struct Sub02007168;
 #include "../arm9/gfl_heap_wrap.h"
 struct SaveControl;
 #include "../arm9/ui.h"
+void SAVE_CONTROL_INTR_Cancel(void *arg);
 #include "../arm9/system_data.h"
 #include "../arm9/backup_system.h"
 
@@ -66,12 +67,12 @@ typedef struct SaveControlIntr {
  */
 void *SAVE_CONTROL_INTR_Create(int heapId, struct SaveControl *saveControl)
 {
-    SaveControlIntr *intr = (SaveControlIntr *)GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
+    SaveControlIntr *intr = (SaveControlIntr *)GFL_HEAP_Alloc(heapId, sizeof(SaveControlIntr), 1, (const char *)0x021BDA0C, 0x45);
     intr->saveControl = (void *)saveControl;
     if (SAVE_CONTROL_HasFlashSave((const struct SaveControl *)saveControl) == 1) {
         intr->cancelled = 1;
     } else {
-        UI_SetIntrDataGlobal(0x021BD3B9, (sptr)intr);
+        UI_SetIntrDataGlobal(SAVE_CONTROL_INTR_Cancel, intr);
     }
     return intr;
 }
@@ -85,7 +86,7 @@ void SAVE_CONTROL_INTR_Delete(void *p)
 void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr)
 {
     if (intr->cancelled != 1) {
-        SAVE_CONTROL_StartSave((struct SaveControl *)((sptr)intr->saveControl));
+        SAVE_CONTROL_StartSave((struct SaveControl *)(intr->saveControl));
         if (intr->cancelled == 0) {
             SYSTEM_DATA_SetActive(intr->saveControl);
             intr->outsideSaveLoaded = SAVE_CONTROL_GetOutsideSaveLoaded(intr->saveControl);
@@ -167,8 +168,9 @@ int SAVE_CONTROL_INTR_IsFinished(SaveControlIntr *intr)
     return 0;
 }
 
-void SAVE_CONTROL_INTR_Cancel(SaveControlIntr *intr)
+void SAVE_CONTROL_INTR_Cancel(void *arg)
 {
+    SaveControlIntr *intr = arg;
     if (intr->cancelled == 0 && intr->state != 3) {
         SAVE_CONTROL_CancelSave(intr->saveControl);
         intr->cancelled = 1;

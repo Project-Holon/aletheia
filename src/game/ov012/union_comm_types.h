@@ -201,7 +201,7 @@ typedef struct UnionChatLog {
 typedef struct UnionSubEvent {
     int active;     /* 0x00 */
     int id;         /* 0x04 index in the sub-event table */
-    int param;      /* 0x08 */
+    void *param;    /* 0x08 parameter block of the pending scene */
     u8  seq;        /* 0x0C */
 } UnionSubEvent;
 

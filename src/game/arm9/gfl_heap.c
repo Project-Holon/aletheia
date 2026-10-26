@@ -227,7 +227,7 @@ int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heap
         OS_AllocFromArenaLo(0, extraSize, 4);
     }
 
-    gHeapManager.records = OS_AllocFromArenaLo(0, recordTotal * 16, 4);
+    gHeapManager.records = OS_AllocFromArenaLo(0, recordTotal * sizeof(*gHeapManager.records), 4);
     for (recordIndex = 0; recordIndex < recordTotal; recordIndex++) {
         gHeapManager.records[recordIndex].heap = 0;
         gHeapManager.records[recordIndex].parentHeap = 0;

@@ -26,7 +26,7 @@ typedef struct CGearPowerOnOffWork {
     void *beacon;                  /* communication state, from the game system */
     FieldSubscreen *subscreen;     /* sub-screen that owns this panel */
     u32 bgCharAlloc;               /* BG 6 character area: offset in the low half, size in the high half */
-    void *bmpMenuWork;
+    u32 bmpMenuWork;
     struct BmpWin *messageWindow;  /* upper window: question and result message */
     struct BmpWin *menuWindow;     /* lower window: note next to the menu */
     void *tcbl;

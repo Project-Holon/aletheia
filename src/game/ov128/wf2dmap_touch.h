@@ -31,7 +31,7 @@ void WF2DMAP_TOUCH_InitEditScreen(u8 *p,u8 *q,u8 *r,u16 heap);
 void WF2DMAP_TOUCH_CloseEditScreen(u8 *p,u8 *q);
 void WF2DMAP_TOUCH_ReleaseEditWidgets(char *p,u8 *q);
 void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap);
-void WF2DMAP_TOUCH_ClearTrainerScreens(u32 p);
+void WF2DMAP_TOUCH_ClearTrainerScreens(Wf2dmapTouchEdit *p);
 void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value, int unused);
 void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx);
 void WF2DMAP_TOUCH_DrawCursorBg(void *unused,u8 *p);
@@ -41,9 +41,9 @@ void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *p,u8 *q,u16 heap);
 void WF2DMAP_TOUCH_DeleteWidgetHandles(u8 *p);
 void WF2DMAP_TOUCH_CreateTileWidgets(u8 *p,void *q);
 void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *unused);
-void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 heap);
+void WF2DMAP_TOUCH_InitTileRecord(Wf2dmapTouchTileRecord *p,int unused,const u16 *q,u32 value,u16 heap);
 void WF2DMAP_TOUCH_Noop(void *unused);
-void WF2DMAP_TOUCH_SetTileRecordField(u32 p,int unused,u32 index,u32 value,u32 unused5,u16 heap);
+void WF2DMAP_TOUCH_SetTileRecordField(Wf2dmapTouchTileRecord *p,int unused,u32 index,u32 value,u32 unused5,u16 heap);
 void WF2DMAP_TOUCH_ClearTileRecord(Wf2dmapTouchTileRecord *p,u32 index);
 void WF2DMAP_TOUCH_ClearScreenAt(char *p,u32 index);
 void WF2DMAP_TOUCH_ClearAllScreens(char *p,void *q);
@@ -74,7 +74,7 @@ void WF2DMAP_TOUCH_ClearSlotArray(char *p);
 void WF2DMAP_TOUCH_AddSlot(char *p,void *q);
 void WF2DMAP_TOUCH_UpdateSlots(char *p);
 void WF2DMAP_TOUCH_TransferScreen(char *p);
-void WF2DMAP_TOUCH_ReleaseActor(int *p);
+void WF2DMAP_TOUCH_ReleaseActor(Wf2dmapTouchEdit *p);
 /* END mkheaders: generated region */
 
 #endif

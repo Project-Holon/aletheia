@@ -118,7 +118,7 @@ struct FieldEffectSys;
 
 TileSpinEntry *FIELD_TILE_MOVE_FindSpinEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSpinEntry(u16 attr);
-int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *work);
+int FIELD_TILE_MOVE_SpinTaskMain(struct GameEvent *event, int *state, void *work);
 GameEvent *FIELD_TILE_MOVE_StartSpinTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 int FIELD_TILE_MOVE_IsSpinTile(u16 attr);
 u16 FIELD_TILE_MOVE_GetSpinStepAcmd(TileSpinWork *work);
@@ -133,7 +133,7 @@ void FIELD_TILE_MOVE_SpinFinish(TileSpinWork *work);
 const TileSlideEntry *FIELD_TILE_MOVE_FindSlideEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSlideEntry(u16 attr);
 TileBumpEntry *FIELD_TILE_MOVE_FindBumpEntry(u16 attr);
-int FIELD_TILE_MOVE_SlideTaskMain(GameEvent *event, int *state, TileSlideWork *work);
+int FIELD_TILE_MOVE_SlideTaskMain(struct GameEvent *event, int *state, void *work);
 GameEvent *FIELD_TILE_MOVE_StartSlideTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 int FIELD_TILE_MOVE_IsSlideTile(u16 attr);
 u16 FIELD_TILE_MOVE_GetSlideStepAcmd(TileSlideWork *work);
@@ -172,8 +172,9 @@ int FIELD_TILE_MOVE_HasSpinEntry(u16 attr)
 }
 
 /* Spin task: 0 checks the tile, 1 turns the player every interval until blocked, 2 ends. */
-int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *work)
+int FIELD_TILE_MOVE_SpinTaskMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    TileSpinWork *work = workPtr;
     switch (*state) {
     case 0:
         if (FIELD_TILE_MOVE_HasSpinEntry(FIELD_TILE_MOVE_GetSpinTileAttr(work)) == 0) {
@@ -204,7 +205,7 @@ int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *wor
 /* Creates the spin task with a 0x1C byte work area and fills it from the field map. */
 GameEvent *FIELD_TILE_MOVE_StartSpinTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)FIELD_TILE_MOVE_SpinTaskMain, 0x1C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SpinTaskMain, sizeof(TileSpinWork));
     TileSpinWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -336,8 +337,9 @@ TileBumpEntry *FIELD_TILE_MOVE_FindBumpEntry(u16 attr)
 }
 
 /* Slide task: 0 checks the tile, 1 slides step by step until no slide or bump tile is left, 2 ends. */
-int FIELD_TILE_MOVE_SlideTaskMain(GameEvent *event, int *state, TileSlideWork *work)
+int FIELD_TILE_MOVE_SlideTaskMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    TileSlideWork *work = workPtr;
     switch (*state) {
     case 0:
         if (FIELD_TILE_MOVE_HasSlideEntry(FIELD_TILE_MOVE_GetSlideTileAttr(work)) == 0) {
@@ -373,7 +375,7 @@ int FIELD_TILE_MOVE_SlideTaskMain(GameEvent *event, int *state, TileSlideWork *w
 GameEvent *FIELD_TILE_MOVE_StartSlideTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
     FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)FIELD_TILE_MOVE_SlideTaskMain, 0x28);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SlideTaskMain, sizeof(TileSlideWork));
     TileSlideWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;

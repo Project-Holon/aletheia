@@ -9,11 +9,12 @@ struct ProcOwner;
 struct UiScene;
 struct CommBtlDemoMain;
 struct CommBtlDemoActorRow;
+struct BmpWin;
 struct CommBtlDemoRow;
 struct CommBtlDemoBattleContext;
 
-#include "../arm9/g3d_system_types.h"
 #include "../types.h"
+#include "../arm9/g3d_system_types.h"
 
 int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *args);
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p);
@@ -41,11 +42,11 @@ void COMM_BTL_DEMO_MAIN_UpdateActorRow(struct CommBtlDemoActorRow *p, u32 time);
 void COMM_BTL_DEMO_MAIN_UpdateRowDelay(struct CommBtlDemoActorRow *p,unsigned limit);
 void COMM_BTL_DEMO_MAIN_MarkRowDone(struct CommBtlDemoActorRow *p);
 void COMM_BTL_DEMO_MAIN_SetRowActorAnim(struct CommBtlDemoActorRow *p,void *list,const u8 *flags,int index);
-unsigned COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index);
-void COMM_BTL_DEMO_MAIN_InitRowContext(struct CommBtlDemoRow *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,int c);
+struct BmpWin *COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index);
+void COMM_BTL_DEMO_MAIN_InitRowContext(struct CommBtlDemoRow *p,unsigned char kind,unsigned char index,const char *owner,void *a,void *b,void *c);
 void COMM_BTL_DEMO_MAIN_RefreshRowText(struct CommBtlDemoRow *a);
 void COMM_BTL_DEMO_MAIN_DeleteRowContext(struct CommBtlDemoRow *p);
-void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, int a);
+void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, void *a);
 void COMM_BTL_DEMO_MAIN_InitRows(struct CommBtlDemoMain *p);
 void COMM_BTL_DEMO_MAIN_DeleteRows(char *p);
 void COMM_BTL_DEMO_MAIN_UpdateRows(char *p);
@@ -56,6 +57,7 @@ void COMM_BTL_DEMO_MAIN_InitBattleContext(struct CommBtlDemoBattleContext *p,con
 void COMM_BTL_DEMO_MAIN_DeleteBattleContext(struct CommBtlDemoBattleContext *p);
 void COMM_BTL_DEMO_MAIN_UpdateBattleActors(char *p);
 void COMM_BTL_DEMO_MAIN_ShowBattleActor(struct CommBtlDemoBattleContext *p,unsigned i,int kind);
+struct SPLEmitter;
 void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, int heap);
 void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p);
 void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c);
@@ -64,10 +66,10 @@ void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap);
 void COMM_BTL_DEMO_MAIN_DeleteGraphics(char *p);
 void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p);
 void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code);
-void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object);
+void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, void *object);
 void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p);
-int COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,int c);
-void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v);
+struct SPLEmitter *COMM_BTL_DEMO_MAIN_StartEffect(char *p,int b,const void *c);
+void COMM_BTL_DEMO_MAIN_StartEffects(char *p,const void *v);
 int COMM_BTL_DEMO_MAIN_BindModelPalette(G3dObject *p,u32 b,u32 c);
 void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index);
 void COMM_BTL_DEMO_MAIN_UnloadObject(char *p);

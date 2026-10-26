@@ -143,7 +143,7 @@ struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId)
     wk->heapId = heapId;
     wk->transMode = transMode;
     wk->moving = 0;
-    wk->frames = GFL_HEAP_Alloc(heapId, frameMax << 4, 1, BgWinFrmFileName, 0x5d);
+    wk->frames = GFL_HEAP_Alloc(heapId, frameMax * sizeof(*wk->frames), 1, BgWinFrmFileName, 0x5d);
 
     return wk;
 }

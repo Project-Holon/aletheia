@@ -109,19 +109,18 @@ struct CtvtCamView;
 /* The DS code passes a stale register value to OS_IsRunOnTwl; the host build calls it without an argument. */
 #ifdef __MWERKS__
 extern int OS_IsRunOnTwl(int);
-#define CTVT_IS_RUN_ON_TWL(v) OS_IsRunOnTwl(v)
 #else
 #include "../arm9/os_emulator.h"
-#define CTVT_IS_RUN_ON_TWL(v) OS_IsRunOnTwl()
 #endif
 #include "../twl/camera_api.h"
+
 extern const char d_021C71E0[];
 extern const char d_021C71F0[];
 extern u32 gCtvtWindowHeightTable[];
 extern u32 gCtvtWindowWidthTable[];
 extern u32 gCtvtSlotStepTable[];
 
-char *CTVT_CAMVIEW_Create(void *work, u16 heapId);
+CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId);
 void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_Update(char *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view);
@@ -150,15 +149,15 @@ void CTVT_CAMVIEW_RequestShutterSound1(struct CtvtWork *unused, CtvtCamView *vie
 
 /* Allocates the view; with the DSi camera present it also opens the camera,
  * three work buffers and the placeholder pictures in a private heap. */
-char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
+CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId)
 {
     CtvtCamView *view;
-    uptr arcHandle;
+    void *arcHandle;
     void *halfPicture;
     u8 i;
 
-    view = GFL_HEAP_Alloc(heapId, 0xB4, 1, d_021C71E0, 0x67);
-    arcHandle = (uptr)COMM_TVT_SYS_GetArc(work);
+    view = GFL_HEAP_Alloc(heapId, sizeof(CtvtCamView), 1, d_021C71E0, 0x67);
+    arcHandle = COMM_TVT_SYS_GetArc(work);
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         view->heapId = 0x6E;
         GFL_HEAP_CreateChildHeap(1, 0x6E, 0x80000);
@@ -166,16 +165,16 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         CTVT_CAMERA_SetSize((Camera *)view->camera, 5);
         CTVT_CAMERA_SelectCamera((Camera *)view->camera, 1);
         CTVT_CAMERA_AllocFrames((Camera *)view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
-        CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))((uptr)((void *)CTVT_CAMVIEW_OnCameraFrame)), (uptr)work);
+        CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))(((void *)CTVT_CAMVIEW_OnCameraFrame)), (uptr)work);
         CTVT_CAMERA_StartCapture(view->camera);
         view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
         view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
         view->cropBuf = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x78);
-        view->noSignalFull = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x19, 0, view->heapId);
-        halfPicture = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x1A, 0, view->heapId);
+        view->noSignalFull = ARC_UTIL_LoadHandleMember(arcHandle, 0x19, 0, view->heapId);
+        halfPicture = ARC_UTIL_LoadHandleMember(arcHandle, 0x1A, 0, view->heapId);
     } else {
-        view->noSignalFull = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x19, 0, heapId);
-        halfPicture = ARC_UTIL_LoadHandleMember((void *)arcHandle, 0x1A, 0, heapId);
+        view->noSignalFull = ARC_UTIL_LoadHandleMember(arcHandle, 0x19, 0, heapId);
+        halfPicture = ARC_UTIL_LoadHandleMember(arcHandle, 0x1A, 0, heapId);
     }
     view->noSignalHalf = halfPicture;
     i = 0;
@@ -197,7 +196,7 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         view->window[i].animate = 1;
         view->window[i].seOnArrive = 1;
     }
-    return (char *)view;
+    return view;
 }
 
 /* Frees the buffers and, when the camera exists, the camera and its heap; also
@@ -225,14 +224,14 @@ void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view)
 
 static inline void setWindow0(int x1, int y1, int x2, int y2)
 {
-    *(volatile u16 *)0x04000040 = ((x1 << 8) & 0xff00) | (x2 & 255);
-    *(volatile u16 *)0x04000044 = ((y1 << 8) & 0xff00) | (y2 & 255);
+    *(volatile u16 *)REG_WIN0H_ADDR = ((x1 << 8) & 0xff00) | (x2 & 255);
+    *(volatile u16 *)REG_WIN0V_ADDR = ((y1 << 8) & 0xff00) | (y2 & 255);
 }
 
 static inline void setWindow1(int x1, int y1, int x2, int y2)
 {
-    *(volatile u16 *)0x04000042 = ((x1 << 8) & 0xff00) | (x2 & 255);
-    *(volatile u16 *)0x04000046 = ((y1 << 8) & 0xff00) | (y2 & 255);
+    *(volatile u16 *)REG_WIN1H_ADDR = ((x1 << 8) & 0xff00) | (x2 & 255);
+    *(volatile u16 *)REG_WIN1V_ADDR = ((y1 << 8) & 0xff00) | (y2 & 255);
 }
 
 /* Per frame: steps the window slides, runs the shutter sound state and opens
@@ -263,7 +262,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
 {
     int screenSplit;
     u32 halfRes;
-    uptr members;
+    void *members;
     uptr dst;
     int h;
     int bit;
@@ -272,7 +271,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
 
     screenSplit = COMM_TVT_SYS_GetLayoutMode(work);
     halfRes = COMM_TVT_SYS_GetHalfRes(work);
-    members = (uptr)COMM_TVT_SYS_GetComm(work);
+    members = COMM_TVT_SYS_GetComm(work);
     if (COMM_TVT_SYS_GetMemberCount(work) < 2)
         return;
     if (screenSplit == 0) {
@@ -305,10 +304,10 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 view->revealY = 0;
                 view->revealing = 1;
                 view->revealPending = 0;
-                *(volatile u16 *)0x04000040 = 0xFF;
-                *(volatile u16 *)0x04000044 = 0;
-                *(volatile u16 *)0x04000042 = 0x8000;
-                *(volatile u16 *)0x04000046 = 0;
+                *(volatile u16 *)REG_WIN0H_ADDR = 0xFF;
+                *(volatile u16 *)REG_WIN0V_ADDR = 0;
+                *(volatile u16 *)REG_WIN1H_ADDR = 0x8000;
+                *(volatile u16 *)REG_WIN1V_ADDR = 0;
             }
             if (view->clearPending == 1) {
                 view->clearPending = 0;
@@ -328,6 +327,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 m[1] = 0;
                 m[2] = 0;
                 G2x_SetBGyAffine_(REG_BG3PA_ADDR, (union MtxFx22 *)m, 0, 0, 0, 0);
+#ifdef __MWERKS__
                 for (i = 0; i < 4; i++) {
                     if (view->halfRes == 1) {
                         *(u16 *)((u8 *)view + 0x48 + i * 0x1C) = (u32)*(u16 *)((u8 *)view + 0x48 + i * 0x1C) >> 1;
@@ -349,6 +349,29 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                         view->window[i].curH <<= 1;
                     }
                 }
+#else
+                for (i = 0; i < 4; i++) {
+                    if (view->halfRes == 1) {
+                        view->window[i].tgtX = (u32)view->window[i].tgtX >> 1;
+                        view->window[i].tgtY = (u32)view->window[i].tgtY >> 1;
+                        view->window[i].tgtW = (u32)view->window[i].tgtW >> 1;
+                        view->window[i].tgtH = (u32)view->window[i].tgtH >> 1;
+                        view->window[i].curX = (u32)view->window[i].curX >> 1;
+                        view->window[i].curY = (u32)view->window[i].curY >> 1;
+                        view->window[i].curW = (u32)view->window[i].curW >> 1;
+                        view->window[i].curH = (u32)view->window[i].curH >> 1;
+                    } else {
+                        view->window[i].tgtX <<= 1;
+                        view->window[i].tgtY <<= 1;
+                        view->window[i].tgtW <<= 1;
+                        view->window[i].tgtH <<= 1;
+                        view->window[i].curX <<= 1;
+                        view->window[i].curY <<= 1;
+                        view->window[i].curW <<= 1;
+                        view->window[i].curH <<= 1;
+                    }
+                }
+#endif
             }
             view->revealing = 0;
         }
@@ -702,7 +725,11 @@ void CTVT_CAMVIEW_SetCameraEffect(struct CtvtWork *unused, struct CtvtCamView *u
     if (r != 1) {
         return;
     }
-    r = CTVT_IS_RUN_ON_TWL(r);
+#ifdef __MWERKS__
+    r = OS_IsRunOnTwl(r);
+#else
+    r = OS_IsRunOnTwl();
+#endif
     if (r != 1) {
         return;
     }

@@ -105,7 +105,7 @@ extern const s16 FX_SinCosTable_[];
 
 BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap)
 {
-    BtlvCamera *camera = GFL_HEAP_Alloc(heap, 0xb8, 1, gBtlvCameraFileName, 0x56);
+    BtlvCamera *camera = GFL_HEAP_Alloc(heap, sizeof(*camera), 1, gBtlvCameraFileName, 0x56);
 
     camera->heap = heap;
     camera->owner = owner;

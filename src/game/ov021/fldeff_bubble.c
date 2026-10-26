@@ -175,7 +175,7 @@ void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect)
 /* Loads the resources of the bubble effect. */
 BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    BubbleRes *res = GFL_HEAP_Alloc(heapId, 0x20, 1, d_021DE664, 0xd5);
+    BubbleRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, d_021DE664, 0xd5);
 
     res->fieldEffect = fieldEffect;
     FLDEFF_BUBBLE_LoadResources(res);

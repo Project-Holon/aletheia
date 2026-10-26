@@ -84,7 +84,6 @@
 
 
 
-#define OFFSETOF(type, field) ((uptr)&((type *)0)->field)
 
 #include "../types.h"
 
@@ -139,13 +138,13 @@
 
 void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task);
 
-int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening);
+int NET_WHPIPE_Create(int heapId, int wmParam, void *userData, int forListening);
 
 void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c));
 
 int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry);
 
-int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry);
+int NET_WHPIPE_StoreScannedEntry(void *arg);
 
 int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags);
 
@@ -153,7 +152,7 @@ void NET_WHPIPE_ClearEntries(void);
 
 void NET_WHPIPE_ResetState(WhPipeWork *work);
 
-int NET_WHPIPE_ForwardEvent(int a, int b, int c);
+int NET_WHPIPE_ForwardEvent(u32 a, u32 b, u32 c);
 
 int NET_WHPIPE_StartScan(int clearEntries);
 
@@ -165,7 +164,7 @@ int NET_WHPIPE_RequestFinalize(void);
 
 void NET_WHPIPE_Destroy(void);
 
-int NET_WHPIPE_NotifyEntryAcceptable(WhPipeEntry *entry);
+int NET_WHPIPE_NotifyEntryAcceptable(void *arg);
 
 void NET_WHPIPE_TickEntryAges(void);
 
@@ -211,7 +210,7 @@ int NET_WHPIPE_HasBeaconBeenSent(void *unused);
 
 int NET_WHPIPE_IsStateScanning(void);
 
-int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg);
+int NET_WHPIPE_SendData(u16 *data, unsigned int size, WihResultCallback callbackArg);
 
 unsigned int NET_WHPIPE_GetConnectBitmap(void);
 
@@ -231,11 +230,11 @@ int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnec
 
 void NET_WHPIPE_TaskFinishEnd(WhPipeWork *work);
 
-int NET_WHPIPE_RequestEnd(int endCallback);
+int NET_WHPIPE_RequestEnd(WihEndCallback endCallback);
 
-int NET_WHPIPE_AcceptChild(void);
+int NET_WHPIPE_AcceptChild(void *startParentCb, void *userArg);
 
-int NET_WHPIPE_RejectChild(void);
+int NET_WHPIPE_RejectChild(void *startParentCb, void *userArg);
 
 void NET_WHPIPE_SetAcceptChild(int acceptChild);
 
@@ -259,7 +258,7 @@ void NET_WHPIPE_StartJoinLock(int a);
 
 void NET_WHPIPE_SetBeaconStatus(u8 value);
 
-void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
+void NET_WHPIPE_SetNotifyCallback(WhPipeNotifyFunc callback, void *value);
 
 extern WhPipeWork *g_pWhPipeWork;
 
@@ -278,7 +277,7 @@ void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task)
     work->task = task;
 }
 
-int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
+int NET_WHPIPE_Create(int heapId, int wmParam, void *userData, int forListening)
 {
     GFLNetSession *init;
     WhPipeWork *work;
@@ -287,7 +286,7 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     init = GFL_NET_GetInitParam();
     if (g_pWhPipeWork != 0)
         return 0;
-    work = GFL_HEAP_Alloc(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
+    work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sFileNetWhPipe, 0xed);
     g_pWhPipeWork = work;
     work->channel = 0xff;
     if (WIH_Initialize(heapId, wmParam, forListening) == 0)
@@ -343,8 +342,9 @@ int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
 }
 
 /* Scan callback: files an acceptable parent in the entry table, refreshing the slot of a known bssid. */
-int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
+int NET_WHPIPE_StoreScannedEntry(void *arg)
 {
+    WhPipeEntry *entry = arg;
     int i;
     WhPipeWork *work = g_pWhPipeWork;
 
@@ -427,7 +427,7 @@ void NET_WHPIPE_ResetState(WhPipeWork *work)
  * indirect callback target; legacy void(void) callers omit those inputs.
  * void(void) callback spelling changes the target register to r0 (run 2).
  */
-int NET_WHPIPE_ForwardEvent(int a, int b, int c)
+int NET_WHPIPE_ForwardEvent(u32 a, u32 b, u32 c)
 {
     return g_pWhPipeWork->eventCallback(a, b, c);
 }
@@ -444,7 +444,7 @@ int NET_WHPIPE_StartScan(int clearEntries)
         NET_WHPIPE_ClearEntries();
     DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
     work->running = 1;
-    if (WIH_GetSysState() == 1 && DWCi_MOV_WH_StartScan((uptr)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
+    if (WIH_GetSysState() == 1 && DWCi_MOV_WH_StartScan(NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
         return 1;
     return 0;
 }
@@ -502,8 +502,9 @@ void NET_WHPIPE_Destroy(void)
     }
 }
 
-int NET_WHPIPE_NotifyEntryAcceptable(WhPipeEntry *entry)
+int NET_WHPIPE_NotifyEntryAcceptable(void *arg)
 {
+    WhPipeEntry *entry = arg;
     WhPipeWork *work = g_pWhPipeWork;
     void (*onConnected)(void);
 
@@ -526,11 +527,11 @@ void NET_WHPIPE_TickEntryAges(void)
     int i;
 
     for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
-        u16 age = *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge));
+        u16 age = *(volatile u16 *)(work + i * 2 + BW_OFFSETOF(WhPipeWork, entryAge));
         if (age != 0 && age != 0) {
-            *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) = *(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) - 1;
-            if (*(volatile u16 *)(work + i * 2 + OFFSETOF(WhPipeWork, entryAge)) == 0)
-                work[OFFSETOF(WhPipeWork, entryListChanged)] = 1;
+            *(volatile u16 *)(work + i * 2 + BW_OFFSETOF(WhPipeWork, entryAge)) = *(volatile u16 *)(work + i * 2 + BW_OFFSETOF(WhPipeWork, entryAge)) - 1;
+            if (*(volatile u16 *)(work + i * 2 + BW_OFFSETOF(WhPipeWork, entryAge)) == 0)
+                work[BW_OFFSETOF(WhPipeWork, entryListChanged)] = 1;
         }
     }
 }
@@ -541,7 +542,7 @@ void NET_WHPIPE_PublishBeacon(void)
     WhPipeBeacon *beacon;
     GFLNetSession *init;
     WhPipeWork *work;
-    void *(*getSize)(void *);
+    int (*getSize)(void *);
     int size;
 
     if (GFL_NET_GetRunState() == 0)
@@ -551,7 +552,7 @@ void NET_WHPIPE_PublishBeacon(void)
     getSize = init->init.getBeaconSizeFunc;
     if (getSize == 0)
         return;
-    size = (sptr)getSize((void *)work->userData);
+    size = getSize(work->userData);
     if (size >= WHPIPE_BEACON_DATA_SIZE) {
         OS_Terminate();
         return;
@@ -561,7 +562,7 @@ void NET_WHPIPE_PublishBeacon(void)
     beacon->ggid = init->init.ggid;
     beacon->reserved = 0;
     beacon->status = work->beaconStatus;
-    MI_CpuCopy8((void *)init->init.getBeaconDataFunc((void *)work->userData), beacon->data, size);
+    MI_CpuCopy8(init->init.getBeaconDataFunc(work->userData), beacon->data, size);
     NET_WHPIPE_SetBeaconGameInfo((u8 *)&work->beacon, 0x70);
 }
 
@@ -571,14 +572,14 @@ void NET_WHPIPE_RefreshBeacon(void)
     WhPipeWork *work = g_pWhPipeWork;
     WhPipeBeacon *beacon = &work->beacon;
     GFLNetSession *init = GFL_NET_GetInitParam();
-    void *(*getSize)(void *) = init->init.getBeaconSizeFunc;
+    int (*getSize)(void *) = init->init.getBeaconSizeFunc;
     int size;
 
     if (getSize != 0) {
-        size = (sptr)getSize((void *)work->userData);
+        size = getSize(work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
             GF_PANIC_Fail((const char *)sEmptyString, 0, (const char *)sEmptyString);
-        MI_CpuCopy8((void *)init->init.getBeaconDataFunc((void *)work->userData), beacon->data, size);
+        MI_CpuCopy8(init->init.getBeaconDataFunc(work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {
         work->beaconRefreshCountdown = 0;
@@ -722,9 +723,9 @@ void NET_WHPIPE_SetWatchDisconnect(u8 watch)
  * lever: integer address sum preserves base+0x58 and the final pointer+8;
  * plain pointer additions fold these into base+0x60 (r1 DIFF, r2 EXACT).
  */
-u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && g_pWhPipeWork->entryAge[index] != 0) return (u8 *)((uptr)(base + 0x58) + index * 0xC0) + 8; return 0; }
+u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && g_pWhPipeWork->entryAge[index] != 0) return (u8 *)((base + 0x58) + index * 0xC0) + 8; return 0; }
 
-u8 *NET_WHPIPE_GetEntryBssid(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return base + 0xC + index * 0xC0; return 0; }
+u8 *NET_WHPIPE_GetEntryBssid(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + BW_OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return base + 0xC + index * 0xC0; return 0; }
 
 /*
  * Recursive MATCH unblocker: the unlabelled ov014 leaf that the arm9
@@ -806,7 +807,7 @@ int NET_WHPIPE_HasBeaconBeenSent(void *unused)
  */
 int NET_WHPIPE_IsStateScanning(void) { if (WIH_GetSysState() == 2) return 1; return 0; }
 
-int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg) { return DWCi_MOV_WH_SendData((unsigned short *)data, size, (int)((void *)callbackArg)); }
+int NET_WHPIPE_SendData(u16 *data, unsigned int size, WihResultCallback callbackArg) { return DWCi_MOV_WH_SendData(data, size, callbackArg); }
 
 unsigned int NET_WHPIPE_GetConnectBitmap(void) { return WIH_GetBitmap(); }
 
@@ -867,7 +868,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
             DWCi_MOV_WH_SetUserGameInfo(buf, (u16)len);
             return;
         }
-        WIH_SetBeaconGameInfo((int)((u16 *)buf), len, net->init.ggid, work->tgid);
+        WIH_SetBeaconGameInfo((u16 *)buf, len, net->init.ggid, work->tgid);
     }
 }
 
@@ -879,7 +880,7 @@ void NET_WHPIPE_TaskConnectChild(WhPipeWork *work)
     connectModeTable[1] = g_ChildConnectModes[1];
     if (WIH_GetSysState() == 1 || WIH_GetSysState() == 2) {
         DWCi_MOV_WH_ChildConnectAuto(connectModeTable[net->init.bMPMode], (const u16 *)g_pWhPipeWork->targetBssid, 0);
-        WIH_SetJudgeScanFunc((uptr)NET_WHPIPE_NotifyEntryAcceptable);
+        WIH_SetJudgeScanFunc(NET_WHPIPE_NotifyEntryAcceptable);
         DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
         g_pWhPipeWork->running = 1;
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
@@ -906,11 +907,11 @@ int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnec
 
 void NET_WHPIPE_TaskFinishEnd(WhPipeWork *work) { if (WIH_GetSysState() == 0) { WIH_FreeWork(); NET_WHPIPE_Destroy(); } }
 
-int NET_WHPIPE_RequestEnd(int endCallback) { if (WIH_End((void (*)(int))endCallback) != 0) { NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskFinishEnd); return 1; } return 0; }
+int NET_WHPIPE_RequestEnd(WihEndCallback endCallback) { if (WIH_End(endCallback) != 0) { NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskFinishEnd); return 1; } return 0; }
 
-int NET_WHPIPE_AcceptChild(void) { return 1; }
+int NET_WHPIPE_AcceptChild(void *startParentCb, void *userArg) { return 1; }
 
-int NET_WHPIPE_RejectChild(void) { return 0; }
+int NET_WHPIPE_RejectChild(void *startParentCb, void *userArg) { return 0; }
 
 /*
  * evidence: WIH_SetJudgeAcceptFunc stores its argument unchanged; the caller passes a function pointer.
@@ -952,7 +953,7 @@ void NET_WHPIPE_TaskChildScanWait(WhPipeWork *work) { work->searchTimer--; if (w
 void NET_WHPIPE_TaskChildScanStart(WhPipeWork *work)
 {
     if (WIH_GetSysState() == 1) {
-        if (DWCi_MOV_WH_StartScan((uptr)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0) {
+        if (DWCi_MOV_WH_StartScan(NET_WHPIPE_StoreScannedEntry, 0, 0) != 0) {
             work->searchTimer = GFL_USE_GetRandom(0x28) + 0x3C;
             NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskChildScanWait);
         }
@@ -1008,10 +1009,10 @@ void NET_WHPIPE_SetBeaconStatus(u8 value)
     }
 }
 
-void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value)
+void NET_WHPIPE_SetNotifyCallback(WhPipeNotifyFunc callback, void *value)
 {
     if (g_pWhPipeWork) {
-        g_pWhPipeWork->notifyFn = (void *)callback;
+        g_pWhPipeWork->notifyFn = callback;
         g_pWhPipeWork->notifyArg = value;
     }
 }

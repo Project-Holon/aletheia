@@ -100,14 +100,6 @@
 #include "../sdk_ioreg_reg.h"
 #include "shinka_demo_view_shared_types.h"
 
-#define W(n) (*(u32 *)(p+(n)))
-
-#define P(n) (*(void **)(p+(n)))
-
-#define B(n) (*(u8 *)(p+(n)))
-
-#define NODE(i) (*(void **)(p+0x50+(u32)(i)*4))
-
 
 
 
@@ -124,14 +116,6 @@
 #define REG_TEXPLTT_BASE   (*(vu32 *)REG_TEXPLTT_BASE_ADDR)
 
 
-
-#define G(n) (*(u32 *)(p+(n)))
-
-#define Q(n) (*(int *)(q+(n)))
-
-#define H(n) (*(s16 *)(p+(n)))
-
-#define V(n) (*(ShinkaDemoViewVec *)(q+(n)))
 
 
 struct RecDC;
@@ -202,7 +186,7 @@ typedef struct Grid {
     s16 fcount;
     s16 x0, y0, x1, y1;
     u8 pad62[2];
-    s32 f64, f68, f6c, f70;
+    u32 f64, f68, f6c, f70;
     Row row[0x12];
     u8 rows;
 } Grid;
@@ -372,25 +356,25 @@ void SHINKA_DEMO_VIEW_Main(char *p);
 
 void SHINKA_DEMO_VIEW_Draw(Owner *o);
 
-void SHINKA_DEMO_VIEW_RequestStart(int *p);
+void SHINKA_DEMO_VIEW_RequestStart(Owner *p);
 
-int SHINKA_DEMO_VIEW_IsStartDone(int *p);
+int SHINKA_DEMO_VIEW_IsStartDone(Owner *p);
 
-void SHINKA_DEMO_VIEW_RequestConfirm(int *p);
+void SHINKA_DEMO_VIEW_RequestConfirm(Owner *p);
 
-int SHINKA_DEMO_VIEW_IsConfirmDone(int *p);
+int SHINKA_DEMO_VIEW_IsConfirmDone(Owner *p);
 
-void SHINKA_DEMO_VIEW_RequestEvolve(int *p);
+void SHINKA_DEMO_VIEW_RequestEvolve(Owner *p);
 
-void SHINKA_DEMO_VIEW_RequestFadeOut(int *p);
+void SHINKA_DEMO_VIEW_RequestFadeOut(Owner *p);
 
-int SHINKA_DEMO_VIEW_IsEvolveReady(int *p);
+int SHINKA_DEMO_VIEW_IsEvolveReady(Owner *p);
 
-int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p);
+int SHINKA_DEMO_VIEW_IsEvolveStarted(Owner *p);
 
-int SHINKA_DEMO_VIEW_IsEvolveDone(int *p);
+int SHINKA_DEMO_VIEW_IsEvolveDone(Owner *p);
 
-int SHINKA_DEMO_VIEW_TrySecondForm(int *p);
+int SHINKA_DEMO_VIEW_TrySecondForm(Owner *p);
 
 void SHINKA_DEMO_VIEW_InitMcss(char *a);
 
@@ -418,9 +402,9 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o);
 
 void SHINKA_DEMO_VIEW_BeginIntro(Owner *o);
 
-int SHINKA_DEMO_VIEW_IsMenuReady(int *p);
+int SHINKA_DEMO_VIEW_IsMenuReady(Owner *p);
 
-void SHINKA_DEMO_VIEW_ShowMenu(int *p);
+void SHINKA_DEMO_VIEW_ShowMenu(Owner *p);
 
 void SHINKA_DEMO_VIEW_SetModelsPos(char *a, u32 x, u32 y, u32 z);
 
@@ -444,7 +428,7 @@ void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap);
 
 void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o);
 
-void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap);
+void SHINKA_DEMO_VIEW_InitGridFromPokemon(Grid *p,u16 heap);
 
 void SHINKA_DEMO_VIEW_StartGridFade(Grid *p, int unused, u16 color, s16 cur, s16 end, s16 wait, s16 step);
 
@@ -454,15 +438,15 @@ void SHINKA_DEMO_VIEW_StepGridFade(Grid *p, int x);
 
 void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x);
 
-int SHINKA_DEMO_VIEW_IsGridState0(char *p, u16 unused);
+int SHINKA_DEMO_VIEW_IsGridState0(Grid *p, u16 unused);
 
-int SHINKA_DEMO_VIEW_IsGridState1(char *p, u16 heap);
+int SHINKA_DEMO_VIEW_IsGridState1(Grid *p, u16 heap);
 
 void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x);
 
-int SHINKA_DEMO_VIEW_IsGridState3(char *p, u16 heap);
+int SHINKA_DEMO_VIEW_IsGridState3(Grid *p, u16 heap);
 
-int SHINKA_DEMO_VIEW_IsGridState4(char *p, u16 heap);
+int SHINKA_DEMO_VIEW_IsGridState4(Grid *p, u16 heap);
 
 void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *p, int x);
 
@@ -497,7 +481,7 @@ extern const u8 d_02208E38[];
 
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies)
 {
-    Owner *o = GFL_HEAP_Alloc(heap, 0x60, 1, d_02208F68, 0x201);
+    Owner *o = GFL_HEAP_Alloc(heap, sizeof(*o), 1, d_02208F68, 0x201);
 
     o->heap = heap;
     o->mode = mode;
@@ -537,93 +521,93 @@ void SHINKA_DEMO_VIEW_Destroy(char *owner){SHINKA_DEMO_VIEW_DeleteWork(owner);SH
 
 void SHINKA_DEMO_VIEW_Main(char *p)
 {
-    switch(W(0x14)) {
+    switch(((Owner *)p)->state) {
     case 0:
-        if(W(0x1c)) {
+        if(((Owner *)p)->startRequested) {
             u32 a,b;
-            W(0x14)=1;
-            a=POKE_TOOL_GetPartyValue(P(4),5,0);
-            b=POKE_TOOL_GetPartyValue(P(4),0x6f,0);
+            ((Owner *)p)->state=1;
+            a=POKE_TOOL_GetPartyValue(((Owner *)p)->res0,5,0);
+            b=POKE_TOOL_GetPartyValue(((Owner *)p)->res0,0x6f,0);
             PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
     case 1:
-        if(!PM_VOICE_IsAnyActive()){W(0x14)=2;W(0x20)=1;}
+        if(!PM_VOICE_IsAnyActive()){((Owner *)p)->state=2;((Owner *)p)->startDone=1;}
         break;
-    case 2:if(W(0x24))W(0x14)=3;break;
+    case 2:if(((Owner *)p)->confirmRequested)((Owner *)p)->state=3;break;
     case 3:
-        W(0x14)=4;
-        MCSS_SetPaletteFade((struct McssWork *)NODE(B(0x48)),0,16,0,0x7fff);
-        MCSS_SetPaletteFade((struct McssWork *)NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))),16,16,0,0x7fff);
-        MCSS_SetAnmStopFlag(NODE(B(0x48)));
+        ((Owner *)p)->state=4;
+        MCSS_SetPaletteFade((struct McssWork *)((Owner *)p)->obj[((Owner *)p)->slot],0,16,0,0x7fff);
+        MCSS_SetPaletteFade((struct McssWork *)((Owner *)p)->obj[SHINKA_DEMO_VIEW_OtherSlot(((Owner *)p)->slot)],16,16,0,0x7fff);
+        MCSS_SetAnmStopFlag(((Owner *)p)->obj[((Owner *)p)->slot]);
         break;
-    case 4:if(!MCSS_CheckPaletteFade(NODE(B(0x48))))W(0x14)=5;break;
+    case 4:if(!MCSS_CheckPaletteFade(((Owner *)p)->obj[((Owner *)p)->slot]))((Owner *)p)->state=5;break;
     case 5:
-        if(W(0x18)>=8){W(0x14)=6;W(0x18)=0;}
-        else W(0x18)++;
+        if(((Owner *)p)->wait>=8){((Owner *)p)->state=6;((Owner *)p)->wait=0;}
+        else ((Owner *)p)->wait++;
         break;
     case 6:
-        W(0x14)=8;
+        ((Owner *)p)->state=8;
         SHINKA_DEMO_VIEW_SetModelPosX(p,0x100000);
         SHINKA_DEMO_VIEW_SetModelsPos(p,0,0xfffff800,0);
-        W(0x5c)=0;
-        NNS_G2dRestartMCAnimation((struct MultiCellAnim *)MCSS_GetAnimCtrl(NODE(B(0x48))));
+        ((Owner *)p)->useMcss=0;
+        NNS_G2dRestartMCAnimation((struct MultiCellAnim *)MCSS_GetAnimCtrl(((Owner *)p)->obj[((Owner *)p)->slot]));
         break;
     case 7:
-        if(W(0x18)>=1){W(0x14)=8;W(0x18)=0;}
-        else W(0x18)++;
+        if(((Owner *)p)->wait>=1){((Owner *)p)->state=8;((Owner *)p)->wait=0;}
+        else ((Owner *)p)->wait++;
         break;
-    case 8:W(0x14)=9;SHINKA_DEMO_VIEW_StartFadeOut((Owner *)((struct Owner *)p));break;
+    case 8:((Owner *)p)->state=9;SHINKA_DEMO_VIEW_StartFadeOut((Owner *)((struct Owner *)p));break;
     case 9:
-        if(SHINKA_DEMO_VIEW_AreModelsState0(p)){W(0x14)=10;W(0x38)=1;SHINKA_DEMO_VIEW_BeginIntro((Owner *)((struct Owner *)p));}
+        if(SHINKA_DEMO_VIEW_AreModelsState0(p)){((Owner *)p)->state=10;((Owner *)p)->evolveStarted=1;SHINKA_DEMO_VIEW_BeginIntro((Owner *)((struct Owner *)p));}
         break;
-    case 10:if(SHINKA_DEMO_VIEW_AreModelsState4(p))W(0x14)=11;break;
+    case 10:if(SHINKA_DEMO_VIEW_AreModelsState4(p))((Owner *)p)->state=11;break;
     case 11:
-        if(W(0x18)>=30){W(0x14)=13;W(0x18)=0;W(0x3c)=1;W(0x28)=1;}
-        else W(0x18)++;
+        if(((Owner *)p)->wait>=30){((Owner *)p)->state=13;((Owner *)p)->wait=0;((Owner *)p)->evolveDone=1;((Owner *)p)->confirmDone=1;}
+        else ((Owner *)p)->wait++;
         break;
-    case 12:if(SHINKA_DEMO_VIEW_AreModelsState4(p)){W(0x14)=13;W(0x3c)=1;W(0x28)=1;}break;
-    case 13:if(W(0x2c))W(0x14)=14;break;
+    case 12:if(SHINKA_DEMO_VIEW_AreModelsState4(p)){((Owner *)p)->state=13;((Owner *)p)->evolveDone=1;((Owner *)p)->confirmDone=1;}break;
+    case 13:if(((Owner *)p)->evolveRequested)((Owner *)p)->state=14;break;
     case 14:
-        W(0x14)=15;
-        if(W(0x40))W(0x18)=0;
+        ((Owner *)p)->state=15;
+        if(((Owner *)p)->secondForm)((Owner *)p)->wait=0;
         else {
-            B(0x48)=SHINKA_DEMO_VIEW_OtherSlot(B(0x48));
-            MCSS_ResetVanishFlag(NODE(B(0x48)));
-            MCSS_SetVanishFlag(NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))));
-            W(0x18)=30;
+            ((Owner *)p)->slot=SHINKA_DEMO_VIEW_OtherSlot(((Owner *)p)->slot);
+            MCSS_ResetVanishFlag(((Owner *)p)->obj[((Owner *)p)->slot]);
+            MCSS_SetVanishFlag(((Owner *)p)->obj[SHINKA_DEMO_VIEW_OtherSlot(((Owner *)p)->slot)]);
+            ((Owner *)p)->wait=30;
         }
         SHINKA_DEMO_VIEW_SetModelPosX(p,0);
         SHINKA_DEMO_VIEW_SetModelsPos(p,0x100000,0xfffff800,0);
-        W(0x5c)=1;
+        ((Owner *)p)->useMcss=1;
         break;
-    case 15:if(W(0x30))W(0x14)=16;break;
+    case 15:if(((Owner *)p)->fadeOutRequested)((Owner *)p)->state=16;break;
     case 16:
-        W(0x14)=17;
-        MCSS_SetPaletteFade((struct McssWork *)NODE(B(0x48)),16,0,1,0x7fff);
+        ((Owner *)p)->state=17;
+        MCSS_SetPaletteFade((struct McssWork *)((Owner *)p)->obj[((Owner *)p)->slot],16,0,1,0x7fff);
         break;
     case 17:
-        if(!MCSS_CheckPaletteFade(NODE(B(0x48)))){W(0x14)=18;MCSS_ResetAnmStopFlag(NODE(B(0x48)));}
+        if(!MCSS_CheckPaletteFade(((Owner *)p)->obj[((Owner *)p)->slot])){((Owner *)p)->state=18;MCSS_ResetAnmStopFlag(((Owner *)p)->obj[((Owner *)p)->slot]);}
         break;
     case 18:
-        if(!W(0x18)){W(0x14)=19;W(0x18)=0;}
-        else W(0x18)--;
+        if(!((Owner *)p)->wait){((Owner *)p)->state=19;((Owner *)p)->wait=0;}
+        else ((Owner *)p)->wait--;
         break;
     case 19:
         {
             void *obj;
             u32 a,b;
-            W(0x14)=20;
-            if(W(0x40))obj=P(4);else obj=P(0x10);
+            ((Owner *)p)->state=20;
+            if(((Owner *)p)->secondForm)obj=((Owner *)p)->res0;else obj=((Owner *)p)->res1;
             a=POKE_TOOL_GetPartyValue(obj,5,0);
             b=POKE_TOOL_GetPartyValue(obj,0x6f,0);
             PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
-    case 20:if(!PM_VOICE_IsAnyActive()){W(0x14)=21;W(0x18)=0;W(0x34)=1;}break;
+    case 20:if(!PM_VOICE_IsAnyActive()){((Owner *)p)->state=21;((Owner *)p)->wait=0;((Owner *)p)->evolveReady=1;}break;
     case 21:case 22:break;
     }
-    if(W(0x5c))MCSS_Main(P(0x4c));
+    if(((Owner *)p)->useMcss)MCSS_Main(((Owner *)p)->sys);
     SHINKA_DEMO_VIEW_Update((Owner *)((struct Owner *)p));
 }
 
@@ -640,73 +624,73 @@ void SHINKA_DEMO_VIEW_Draw(Owner *o)
  * SHINKA_DEMO_Main.  Unlabelled in the listing (a leaf that saves no lr, so it
  * prints inside a .word run); region-qualified because ov094 overlaps.
  */
-void SHINKA_DEMO_VIEW_RequestStart(int *p)
+void SHINKA_DEMO_VIEW_RequestStart(Owner *p)
 {
-    p[7] = 1;
+    p->startRequested = 1;
 }
 
 /*
  * Getter for the +0x20 word of the ov195 scene object (unlabelled leaf).
  */
-int SHINKA_DEMO_VIEW_IsStartDone(int *p)
+int SHINKA_DEMO_VIEW_IsStartDone(Owner *p)
 {
-    return p[8];
+    return p->startDone;
 }
 
 /*
  * Setter for the +0x24 flag word of the ov195 scene object (unlabelled leaf).
  */
-void SHINKA_DEMO_VIEW_RequestConfirm(int *p)
+void SHINKA_DEMO_VIEW_RequestConfirm(Owner *p)
 {
-    p[9] = 1;
+    p->confirmRequested = 1;
 }
 
 /*
  * Getter for the +0x28 word of the ov195 scene object (unlabelled leaf).
  */
-int SHINKA_DEMO_VIEW_IsConfirmDone(int *p)
+int SHINKA_DEMO_VIEW_IsConfirmDone(Owner *p)
 {
-    return p[10];
+    return p->confirmDone;
 }
 
 /*
  * Setter for the +0x2c flag word of the ov195 scene object (unlabelled leaf).
  */
-void SHINKA_DEMO_VIEW_RequestEvolve(int *p)
+void SHINKA_DEMO_VIEW_RequestEvolve(Owner *p)
 {
-    p[11] = 1;
+    p->evolveRequested = 1;
 }
 
 /*
  * Setter for the +0x30 flag word of the ov195 scene object (unlabelled leaf).
  */
-void SHINKA_DEMO_VIEW_RequestFadeOut(int *p)
+void SHINKA_DEMO_VIEW_RequestFadeOut(Owner *p)
 {
-    p[12] = 1;
+    p->fadeOutRequested = 1;
 }
 
 /*
  * Getter for the +0x34 word of the ov195 scene object (unlabelled leaf).
  */
-int SHINKA_DEMO_VIEW_IsEvolveReady(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveReady(Owner *p)
 {
-    return p[13];
+    return p->evolveReady;
 }
 
 /*
  * Getter for the +0x38 word of the ov195 scene object (unlabelled leaf).
  */
-int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveStarted(Owner *p)
 {
-    return p[14];
+    return p->evolveStarted;
 }
 
 /*
  * Getter for the +0x3c word of the ov195 scene object (unlabelled leaf).
  */
-int SHINKA_DEMO_VIEW_IsEvolveDone(int *p)
+int SHINKA_DEMO_VIEW_IsEvolveDone(Owner *p)
 {
-    return p[15];
+    return p->evolveDone;
 }
 
 /*
@@ -714,14 +698,14 @@ int SHINKA_DEMO_VIEW_IsEvolveDone(int *p)
  * probe it sets the +0x40 word and the +0x14 state word of the scene object
  * and notifies SHINKA_DEMO_VIEW_ShowMenu; returns 1, else 0.
  */
-int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
+int SHINKA_DEMO_VIEW_TrySecondForm(Owner *p)
 {
-    int SHINKA_DEMO_VIEW_IsMenuReady(int *);
-    void SHINKA_DEMO_VIEW_ShowMenu(int *);
+    int SHINKA_DEMO_VIEW_IsMenuReady(Owner *);
+    void SHINKA_DEMO_VIEW_ShowMenu(Owner *);
 
     if (SHINKA_DEMO_VIEW_IsMenuReady(p) != 0) {
-        p[0x10] = 1;
-        p[5] = 0xc;
+        p->secondForm = 1;
+        p->state = 0xc;
         SHINKA_DEMO_VIEW_ShowMenu(p);
         return 1;
     }
@@ -735,7 +719,7 @@ int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
  */
 void SHINKA_DEMO_VIEW_InitMcss(char *owner)
 {
-    ((Owner *)owner)->sys = (void *)(uptr)MCSS_Init((unsigned int)2, (unsigned int)(((Owner *)owner)->heap));
+    ((Owner *)owner)->sys = (void *)MCSS_Init((unsigned int)2, (unsigned int)(((Owner *)owner)->heap));
     MCSS_SetTextureTransAdrs((void *)(((Owner *)owner)->sys), 0x30000);
     MCSS_SetOrthoMode((void *)(((Owner *)owner)->sys));
 }
@@ -870,7 +854,7 @@ void SHINKA_DEMO_VIEW_SetModelPosX(char *a, u32 v)
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        char *p = a + i * 4;
+        char *p = (char *)((void **)a + i);
         if (((Owner *)p)->obj[0] != 0) {
             MCSS_GetPosition((void *)(((Owner *)p)->obj[0]), buf);
             buf[0] = v;
@@ -950,7 +934,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void SHINKA_DEMO_VIEW_DeleteWork(char *owner){char *q;u8 i;q=*(char * *)&((Owner *)owner)->work;G3D_CAMERA_Delete((void *)(((ShinkaDemoViewWork *)q)->camera));if(((ShinkaDemoViewWork *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((ShinkaDemoViewWork *)q)->quad,((Owner *)owner)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)owner)->heap);}GFL_HEAP_Free(q);}
+void SHINKA_DEMO_VIEW_DeleteWork(char *owner){char *q;u8 i;q=*(char * *)&((Owner *)owner)->work;G3D_CAMERA_Delete((void *)(((ShinkaDemoViewWork *)q)->camera));if(((ShinkaDemoViewWork *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((ShinkaDemoViewWork *)q)->quad,((Owner *)owner)->heap);for(i=0;i<2;i++){if((char *)((ShinkaDemoViewWork *)((void **)q+i))->grid[0])SHINKA_DEMO_VIEW_DeleteGrid((char *)((ShinkaDemoViewWork *)((void **)q+i))->grid[0],((Owner *)owner)->heap);}GFL_HEAP_Free(q);}
 
 void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
@@ -972,7 +956,7 @@ void SHINKA_DEMO_VIEW_Update(Owner *o)
     for (i = 0; i < 2; i++) {
         g = w->grid[i];
         if (g != 0) {
-            if (o->secondForm != 0 && SHINKA_DEMO_VIEW_IsGridState3((char *)g, heap))
+            if (o->secondForm != 0 && SHINKA_DEMO_VIEW_IsGridState3(g, heap))
                 g->state = 4;
             SHINKA_DEMO_VIEW_UpdateGridFade((Grid *)((struct Fade *)g), heap);
         }
@@ -1030,23 +1014,23 @@ void SHINKA_DEMO_VIEW_BeginIntro(Owner *o)
         w->phase = 1;
 }
 
-int SHINKA_DEMO_VIEW_IsMenuReady(int *owner)
+int SHINKA_DEMO_VIEW_IsMenuReady(Owner *owner)
 {
-    int v = **(int * *)&((Owner *)owner)->work;
+    int v = owner->work->phase;
 
     return v != 0 && v != 4;
 }
 
-void SHINKA_DEMO_VIEW_ShowMenu(int *owner)
+void SHINKA_DEMO_VIEW_ShowMenu(Owner *owner)
 {
-    char *q = *(char * *)&((Owner *)owner)->work;
-    int *r = *(int * *)&((ShinkaDemoViewWork *)q)->grid[0];
-    int v = r[0x28 / 4];
+    ShinkaDemoViewWork *q = owner->work;
+    Grid *r = q->grid[0];
+    int v = r->state;
 
     if (v == 1) return;
     if (v == 2) return;
     if (v == 3) return;
-    r[0x28 / 4] = 1;
+    r->state = 1;
 }
 
 void SHINKA_DEMO_VIEW_SetModelsPos(char *owner, u32 x, u32 y, u32 z)
@@ -1055,8 +1039,8 @@ void SHINKA_DEMO_VIEW_SetModelsPos(char *owner, u32 x, u32 y, u32 z)
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        if (*(void **)(t + i * 4 + 8) != 0)
-            SHINKA_DEMO_VIEW_SetModelOffset(*(void **)(t + i * 4 + 8), ((Owner *)owner)->heap, x, y, z);
+        if (((ShinkaDemoViewWork *)t)->grid[i] != 0)
+            SHINKA_DEMO_VIEW_SetModelOffset((char *)((ShinkaDemoViewWork *)t)->grid[i], ((Owner *)owner)->heap, x, y, z);
     }
     if (((ShinkaDemoViewWork *)t)->quad != 0)
         SHINKA_DEMO_VIEW_SetQuadOffset((char *)((ShinkaDemoViewWork *)t)->quad, ((Owner *)owner)->heap, x, y, z);
@@ -1088,12 +1072,12 @@ void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
 int SHINKA_DEMO_VIEW_AreModelsState0(char *owner)
 {
     u16 id = ((Owner *)owner)->heap;
-    char *t = *(char * *)&((Owner *)owner)->work;
+    ShinkaDemoViewWork *t = ((Owner *)owner)->work;
     int r = 1;
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        if (*(char **)(t + i * 4 + 8) != 0 && SHINKA_DEMO_VIEW_IsGridState0(*(char **)(t + i * 4 + 8), id) == 0)
+        if (t->grid[i] != 0 && SHINKA_DEMO_VIEW_IsGridState0(t->grid[i], id) == 0)
             r = 0;
     }
     return r;
@@ -1102,12 +1086,12 @@ int SHINKA_DEMO_VIEW_AreModelsState0(char *owner)
 int SHINKA_DEMO_VIEW_AreModelsState4(char *owner)
 {
     u16 id = ((Owner *)owner)->heap;
-    char *t = *(char * *)&((Owner *)owner)->work;
+    ShinkaDemoViewWork *t = ((Owner *)owner)->work;
     int r = 1;
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        if (*(char **)(t + i * 4 + 8) != 0 && SHINKA_DEMO_VIEW_IsGridState4(*(char **)(t + i * 4 + 8), id) == 0)
+        if (t->grid[i] != 0 && SHINKA_DEMO_VIEW_IsGridState4(t->grid[i], id) == 0)
             r = 0;
     }
     return r;
@@ -1413,7 +1397,7 @@ void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
     if (w->phase != 1)
         return;
 
-    SHINKA_DEMO_VIEW_InitGridFromPokemon((char *)w->grid[0], heap);
+    SHINKA_DEMO_VIEW_InitGridFromPokemon(w->grid[0], heap);
     s = w->grid[0];
     d = w->grid[1];
     d->f68 = s->f68;
@@ -1466,11 +1450,11 @@ void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
     s = w->grid[0];
     d = w->grid[1];
     d->state = s->state;
-    if (SHINKA_DEMO_VIEW_IsGridState1((char *)s, heap)) {
+    if (SHINKA_DEMO_VIEW_IsGridState1(s, heap)) {
         SHINKA_DEMO_VIEW_StartGridFadeOut(s, heap);
         SHINKA_DEMO_VIEW_StartGridFadeOut(d, heap);
     }
-    SHINKA_DEMO_VIEW_IsGridState4((char *)s, heap);
+    SHINKA_DEMO_VIEW_IsGridState4(s, heap);
     if (w->quad != 0) {
         w->quad->rowCount = w->grid[0]->rows;
         SHINKA_DEMO_VIEW_UpdateQuadVerts((Quad *)w->quad, heap);
@@ -1498,7 +1482,7 @@ static inline int add(int a,int b){return (int)((u32)a+(u32)b);}
  *   loop block list, so LICM hoists the 2048 constants in text order (K1..K5).
  * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  */
-void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
+void SHINKA_DEMO_VIEW_InitGridFromPokemon(Grid *p,u16 heap)
 {
     int first,second,done;
     int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
@@ -1515,116 +1499,116 @@ void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
     int horiz1,horiz2,vert1,vert2;
     int nx,ny,nz;
     s16 i,j;
-    G(0x68)+=G(0x6c);
-    if((int)G(0x68)>=65536)G(0x68)-=65536;
+    p->f68+=p->f6c;
+    if((int)p->f68>=65536)p->f68-=65536;
     for(i=0;i<18;i++)for(j=0;j<18;j++){
-        char *q=p+0x74+i*0x900+j*0x80;
-        V(0x74)=V(0x68);
+        ShinkaDemoViewCell *q=&p->row[i].cell[j];
+        q->org=q->cur;
     }
-    switch(G(0x64)){
+    switch(p->f64){
     case 0:
-        G(0x64)=1;G(0x70)=0;G(0x6c)=0x600;return;
+        p->f64=1;p->f70=0;p->f6c=0x600;return;
     case 1:
         done=1;first=1;second=1;
         for(i=0;i<18;i++)for(j=0;j<18;j++){
-            char *q=p+0x74+i*0x900+j*0x80;
-            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
+            ShinkaDemoViewCell *q=&p->row[i].cell[j];
+            angle=add(q->angle,p->f68);if(angle>=65536)angle-=65536;
             MTX_RotY43_((union MtxFx43 *)&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
-            source1.x=Q(0x50);source1.y=0;source1.z=0;
-            MTX_MultVec43((struct VecFx32 *)(&source1),(union MtxFx43 *)(&m1),(struct VecFx32 *)(&goal));goal.y=Q(0x54);
-            if(Q(0x64)==0){
-                if(first||second){Q(0x30)=0;Q(0x64)=1;if(first)first=0;else second=0;}
+            source1.x=q->radius;source1.y=0;source1.z=0;
+            MTX_MultVec43((struct VecFx32 *)(&source1),(union MtxFx43 *)(&m1),(struct VecFx32 *)(&goal));goal.y=q->height;
+            if(q->progress==0){
+                if(first||second){q->reserved30=0;q->progress=1;if(first)first=0;else second=0;}
                 done=0;
-            }else if(Q(0x64)==1){
-                if(Q(0x30)==0){
-                    Q(0x68)=add(Q(0x68),Q(0x40));Q(0x6c)=add(Q(0x6c),Q(0x44));Q(0x70)=add(Q(0x70),Q(0x48));
-                    Q(0x30)++;*(u8 *)(p+0xa274)=(u8)(i+1);
+            }else if(q->progress==1){
+                if(q->reserved30==0){
+                    q->cur.x=add(q->cur.x,q->velX);q->cur.y=add(q->cur.y,q->velY);q->cur.z=add(q->cur.z,q->velZ);
+                    q->reserved30++;p->rows=(u8)(i+1);
                 }else{
-                    dy=sub(Q(0x5c),Q(0x6c));dz=sub(Q(0x60),Q(0x70));dx=sub(Q(0x58),Q(0x68));
+                    dy=sub(q->targetY,q->cur.y);dz=sub(q->targetZ,q->cur.z);dx=sub(q->targetX,q->cur.x);
                     horiz=mul(dx,dx)+mul(dz,dz);vert=mul(dy,dy);
                     if(horiz<0x11ac&&vert<0x11ac){
-                        Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);Q(0x6c)=Q(0x5c);
-                        Q(0x68)=goal.x;Q(0x70)=goal.z;Q(0x6c)=goal.y;Q(0x30)=0;Q(0x64)=2;
+                        q->cur.x=q->targetX;q->cur.z=q->targetZ;q->cur.y=q->targetY;
+                        q->cur.x=goal.x;q->cur.z=goal.z;q->cur.y=goal.y;q->reserved30=0;q->progress=2;
                     }else{
                         smallH=0;smallV=0;if(horiz<0x11ac)smallH=1;else if(vert<0x11ac)smallV=1;
-                        if(smallH){Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);}
+                        if(smallH){q->cur.x=q->targetX;q->cur.z=q->targetZ;}
                         else{
                             inv=FX_InvSqrt(horiz);
-                            Q(0x68)=add(add(Q(0x68),mul(sub(Q(0x68),Q(0x74)),409)),mul(mul(dx,inv),3584));
-                            Q(0x70)=add(add(Q(0x70),mul(sub(Q(0x70),Q(0x7c)),409)),mul(mul(dz,inv),3584));
+                            q->cur.x=add(add(q->cur.x,mul(sub(q->cur.x,q->org.x),409)),mul(mul(dx,inv),3584));
+                            q->cur.z=add(add(q->cur.z,mul(sub(q->cur.z,q->org.z),409)),mul(mul(dz,inv),3584));
                         }
-                        if(smallV)Q(0x6c)=Q(0x5c);
-                        else{vy=dy>=0?4096:-4096;Q(0x6c)=add(add(Q(0x6c),mul(sub(Q(0x6c),Q(0x78)),409)),mul(vy,3584));}
-                        Q(0x30)++;
+                        if(smallV)q->cur.y=q->targetY;
+                        else{vy=dy>=0?4096:-4096;q->cur.y=add(add(q->cur.y,mul(sub(q->cur.y,q->org.y),409)),mul(vy,3584));}
+                        q->reserved30++;
                     }
                 }
                 done=0;
-            }else if(Q(0x64)==2){Q(0x68)=goal.x;Q(0x70)=goal.z;Q(0x6c)=goal.y;}
+            }else if(q->progress==2){q->cur.x=goal.x;q->cur.z=goal.z;q->cur.y=goal.y;}
         }
-        if(done){G(0x64)=2;if(G(0x28)!=1&&G(0x28)!=2)G(0x28)=1;}return;
+        if(done){p->f64=2;if(p->state!=1&&p->state!=2)p->state=1;}return;
     case 2:
-        if(G(0x70)<100)G(0x6c)+=32;
-        if(G(0x70)>=200&&G(0x70)<240)G(0x6c)-=32;
+        if(p->f70<100)p->f6c+=32;
+        if(p->f70>=200&&p->f70<240)p->f6c-=32;
         for(i=0;i<18;i++)for(j=0;j<18;j++){
-            char *q=p+0x74+i*0x900+j*0x80;
-            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
+            ShinkaDemoViewCell *q=&p->row[i].cell[j];
+            angle=add(q->angle,p->f68);if(angle>=65536)angle-=65536;
             MTX_RotY43_((union MtxFx43 *)&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
-            source2.x=Q(0x50);source2.y=0;source2.z=0;
-            MTX_MultVec43((struct VecFx32 *)(&source2),(union MtxFx43 *)(&m2),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
+            source2.x=q->radius;source2.y=0;source2.z=0;
+            MTX_MultVec43((struct VecFx32 *)(&source2),(union MtxFx43 *)(&m2),(struct VecFx32 *)(&q->cur));q->cur.y=q->height;
         }
-        if(SHINKA_DEMO_VIEW_IsGridState3(p,heap)&&G(0x70)>=30){
-            j=H(0x5a);i=H(0x5c);
+        if(SHINKA_DEMO_VIEW_IsGridState3(p,heap)&&p->f70>=30){
+            j=p->x0;i=p->y0;
             if(i>=0&&j>=0){
-                *(u8 *)(p+i*0x900+0x88+j*0x80)=0;
-                if(j-1<0){H(0x5a)=18;H(0x5c)--;}else H(0x5a)--;
+                p->row[i].cell[j].visible=0;
+                if(j-1<0){p->x0=18;p->y0--;}else p->x0--;
             }
-            j=H(0x5e);i=H(0x60);
+            j=p->x1;i=p->y1;
             if(i<18&&j<18){
-                *(u8 *)(p+i*0x900+0x88+j*0x80)=0;
-                if(j+1>=18){H(0x5e)=0;H(0x60)++;}else H(0x5e)++;
+                p->row[i].cell[j].visible=0;
+                if(j+1>=18){p->x1=0;p->y1++;}else p->x1++;
             }
         }
-        if(H(0x5c)<0&&H(0x60)>=18&&G(0x70)>=240){G(0x64)=3;G(0x70)=0;return;}
-        G(0x70)++;return;
+        if(p->y0<0&&p->y1>=18&&p->f70>=240){p->f64=3;p->f70=0;return;}
+        p->f70++;return;
     case 3:
         done3=1;first3=1;second3=1;
         for(i=17;i>=0;i--)for(j=17;j>=0;j--){
-            char *q=p+0x74+i*0x900+j*0x80;
-            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            if(Q(0x64)==2){
-                if(first3||second3){Q(0x30)=0;Q(0x64)=3;if(first3)first3=0;else second3=0;}
+            ShinkaDemoViewCell *q=&p->row[i].cell[j];
+            angle=add(q->angle,p->f68);if(angle>=65536)angle-=65536;
+            if(q->progress==2){
+                if(first3||second3){q->reserved30=0;q->progress=3;if(first3)first3=0;else second3=0;}
                 else{
                     MTX_RotY43_((union MtxFx43 *)&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
-                    source3.x=Q(0x50);source3.y=0;source3.z=0;
-                    MTX_MultVec43((struct VecFx32 *)(&source3),(union MtxFx43 *)(&m3),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
+                    source3.x=q->radius;source3.y=0;source3.z=0;
+                    MTX_MultVec43((struct VecFx32 *)(&source3),(union MtxFx43 *)(&m3),(struct VecFx32 *)(&q->cur));q->cur.y=q->height;
                 }
                 done3=0;
-            }else if(Q(0x64)==3){
-                if(Q(0x30)==0){
+            }else if(q->progress==3){
+                if(q->reserved30==0){
                     MTX_RotY43_((union MtxFx43 *)&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
-                    source4.x=Q(0x50);source4.y=0;source4.z=0;
-                    MTX_MultVec43((struct VecFx32 *)(&source4),(union MtxFx43 *)(&m4),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
-                    vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
+                    source4.x=q->radius;source4.y=0;source4.z=0;
+                    MTX_MultVec43((struct VecFx32 *)(&source4),(union MtxFx43 *)(&m4),(struct VecFx32 *)(&q->cur));q->cur.y=q->height;
+                    vx=sub(q->cur.x,q->org.x);vy=sub(q->cur.y,q->org.y);vz=sub(q->cur.z,q->org.z);
                     horiz1=mul(vx,vx)+mul(vz,vz);vert1=(int)(((long long)vy*vy+2048)>>12);
                     if(horiz1>4096){inv=FX_InvSqrt(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}
                     else{nx=vx;nz=vz;}
                     if(vert1>4096)ny=vy>=0?4096:-4096;
                     else ny=vy;
-                    Q(0x68)=add(Q(0x68),nx);Q(0x6c)=add(Q(0x6c),ny);Q(0x70)=add(Q(0x70),nz);Q(0x30)++;
+                    q->cur.x=add(q->cur.x,nx);q->cur.y=add(q->cur.y,ny);q->cur.z=add(q->cur.z,nz);q->reserved30++;
                 }else{
-                    dx=sub(Q(0x34),Q(0x68));dy=sub(Q(0x38),Q(0x6c));dz=sub(Q(0x3c),Q(0x70));
+                    dx=sub(q->start.x,q->cur.x);dy=sub(q->start.y,q->cur.y);dz=sub(q->start.z,q->cur.z);
                     horiz2=mul(dx,dx)+mul(dz,dz);vert2=(int)(((long long)dy*dy+2048)>>12);
-                    if(horiz2<0x11ac&&vert2<0x11ac){Q(0x68)=Q(0x34);Q(0x70)=Q(0x3c);Q(0x6c)=Q(0x38);Q(0x30)=0;Q(0x64)=4;}
+                    if(horiz2<0x11ac&&vert2<0x11ac){q->cur.x=q->start.x;q->cur.z=q->start.z;q->cur.y=q->start.y;q->reserved30=0;q->progress=4;}
                     else{
                         if(horiz2>4096){inv=FX_InvSqrt(horiz2);dx=mul(dx,inv);dz=mul(dz,inv);}
                         if(vert2>4096)dy=dy>=0?4096:-4096;
-                        Q(0x68)=add(Q(0x68),dx);Q(0x6c)=add(Q(0x6c),dy);Q(0x70)=add(Q(0x70),dz);
+                        q->cur.x=add(q->cur.x,dx);q->cur.y=add(q->cur.y,dy);q->cur.z=add(q->cur.z,dz);
                     }
                 }
                 done3=0;
             }
         }
-        if(done3){G(0x64)=4;G(0x28)=4;}return;
+        if(done3){p->f64=4;p->state=4;}return;
     case 4: return;
     }
 }
@@ -1741,14 +1725,14 @@ void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
     NNS_GfdRegisterNewVramTransferTask(1, p->plttAddr, p->pal, 0x20);
 }
 
-int SHINKA_DEMO_VIEW_IsGridState0(char *grid, u16 unused)
+int SHINKA_DEMO_VIEW_IsGridState0(Grid *grid, u16 unused)
 {
-    return ((Grid *)grid)->state == 0;
+    return grid->state == 0;
 }
 
-int SHINKA_DEMO_VIEW_IsGridState1(char *grid, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState1(Grid *grid, u16 heap)
 {
-    return ((Grid *)grid)->state == 1;
+    return grid->state == 1;
 }
 
 void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x)
@@ -1757,14 +1741,14 @@ void SHINKA_DEMO_VIEW_StartGridFadeOut(Grid *p, int x)
     SHINKA_DEMO_VIEW_StartGridFade(p, x, 0x7fff, 0, 31, 0, 1);
 }
 
-int SHINKA_DEMO_VIEW_IsGridState3(char *grid, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState3(Grid *grid, u16 heap)
 {
-    return ((Grid *)grid)->state == 3;
+    return grid->state == 3;
 }
 
-int SHINKA_DEMO_VIEW_IsGridState4(char *grid, u16 heap)
+int SHINKA_DEMO_VIEW_IsGridState4(Grid *grid, u16 heap)
 {
-    return ((Grid *)grid)->state == 4;
+    return grid->state == 4;
 }
 
 void SHINKA_DEMO_VIEW_UpdateGridFade(Grid *grid, int x)

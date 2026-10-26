@@ -54,7 +54,7 @@ StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board)
     StaActObjObject *o;
     u8 i;
     i=0;
-    o=GFL_HEAP_Alloc(heap,148,0,d_021F83F8,79);
+    o=GFL_HEAP_Alloc(heap,sizeof(*o),0,d_021F83F8,79);
     o->heap=heap;
     o->board=board;
     o->count=0;

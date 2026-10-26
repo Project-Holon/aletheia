@@ -76,7 +76,7 @@ unsigned long SOCL_Resolve(char *hostname)
     soc.buf_size = 0xb68;
     soc.work_end = buffers + 0xb68;
     soc.work = 0xb9e;
-    CPS_SocRegister((sptr)(&soc));
+    CPS_SocRegister(&soc);
     hostip = CPS_Resolve(hostname);
     CPS_SocUnRegister();
     gSoclConfig->free(buffers);

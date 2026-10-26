@@ -173,6 +173,7 @@ typedef struct BattleEndCtx {
 
 struct GameData;
 #include "../ov011/intrude_comm_types.h"
+struct TcbTask;
 #include "../arm9/gamesystem.h"
 struct BattleSetupParam;
 #include "../arm9/btl_setup.h"
@@ -207,7 +208,6 @@ extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u3
 #include "../arm9/field_status.h"
 #include "../arm9/field_sound_system.h"
 #include "../arm9/gf_overlay.h"
-struct TcbTask;
 #include "../arm9/gfl_use.h"
 struct BattleSetupParam;
 struct BtlInstRecord;
@@ -226,15 +226,15 @@ struct Ctx;
 #include "../arm9/mi_memory.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/game_event.h"
-int EVENT_BATTLE_CallAndInvert(void (*fn)(void));
-int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, ScriptedBattleArgs *args);
+u32 EVENT_BATTLE_CallAndInvert(void (*fn)(void));
+int EVENT_BATTLE_ProcScriptedBattle(struct GameEvent *evt, int *state, void *work);
 struct GameEvent *EVENT_BATTLE_CreateScriptedBattle(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup, int returnImmediately, int effectId);
 struct GameEvent *EVENT_BATTLE_CreateEncounterTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options);
 struct GameEvent *EVENT_BATTLE_CreateResultOnlyTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup);
 struct GameEvent *EVENT_BATTLE_CreateForcedWinTask(struct GameSystem *gameSystem, struct FieldMap *battleSrc, struct BattleSetupParam *btlSetup);
 struct GameEvent *EVENT_BATTLE_CreateCatchTutorial(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 heapId);
 struct GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(struct GameSystem *gameSystem, struct FieldMap *battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
-int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, BattleTask *work);
+int EVENT_BATTLE_ProcBattleTask(struct GameEvent *evt, int *state, void *work);
 int EVENT_BATTLE_GetBattleKindClass(u32 trainerId);
 void EVENT_BATTLE_DispatchBattleKindNotify(u16 id, int col);
 void EVENT_BATTLE_NotifyLeadSpecies(void *btlSetup, int which);
@@ -246,9 +246,9 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task);
 void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem);
 void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetup);
 void EVENT_BATTLE_FreeBtlSetup(BattleTask *task);
-int EVENT_BATTLE_IntegrityProbeA(int unused);
-int EVENT_BATTLE_IntegrityProbeB(int unused);
-int EVENT_BATTLE_IntegrityDecoyC(int unused);
+void EVENT_BATTLE_IntegrityProbeA(void);
+void EVENT_BATTLE_IntegrityProbeB(void);
+void EVENT_BATTLE_IntegrityDecoyC(void);
 extern const char d_02172B54[];
 extern u8 ov093_id[];
 extern u8 ov092_id[];
@@ -260,7 +260,7 @@ extern const BattleKindHandler d_021725C0[][2];
 extern u8 d_021725D8[][5];
 extern u8 d_021725B8[];
 
-int EVENT_BATTLE_CallAndInvert(void (*fn)(void))
+u32 EVENT_BATTLE_CallAndInvert(void (*fn)(void))
 {
     if (fn != 0)
         fn();
@@ -278,8 +278,9 @@ int EVENT_BATTLE_CallAndInvert(void (*fn)(void))
  *
  * 2026-10-05: byte-identical; the two wildcards resolve once shards exist for arm9 BTL_SETUP_GetParty (matched file exists, no shard) and COMM_PLAYER_SUPPORT_HasSavedMode (new matched/arm9 file, EXACT, this lane).
  */
-int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs *args)
+int EVENT_BATTLE_ProcScriptedBattle(struct GameEvent *event, int *state, void *workPtr)
 {
+    ScriptedBattleArgs *args = workPtr;
     void *gameSystem = args->gameSystem;
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *taskEvent;
@@ -289,7 +290,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
 
     switch (*state) {
     case 0:
-        taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
+        taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, sizeof(BattleTask));
         work = GAME_EVENT_GetWork(taskEvent);
         EVENT_BATTLE_InitTaskWork(work, gameSystem, args->btlSetup);
         hasWildOpponent = 1;
@@ -339,7 +340,7 @@ struct GameEvent *EVENT_BATTLE_CreateScriptedBattle(struct GameSystem *gameSyste
     struct GameEvent *taskEvent;
     ScriptedBattleArgs *args;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcScriptedBattle, 0x10);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcScriptedBattle, sizeof(ScriptedBattleArgs));
     args = GAME_EVENT_GetWork(taskEvent);
     args->gameSystem = gameSystem;
     args->btlSetup = btlSetup;
@@ -355,15 +356,15 @@ struct GameEvent *EVENT_BATTLE_CreateEncounterTask(struct GameSystem *gameSystem
 {
     struct GameEvent *taskEvent;
     BattleTask *task;
-    sptr battleObj;
-    sptr records;
-    sptr btlSetup;
+    struct FieldEncount *battleObj;
+    void *records;
+    struct BattleSetupParam *btlSetup;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, sizeof(BattleTask));
     task = GAME_EVENT_GetWork(taskEvent);
-    battleObj = (sptr)FIELDMAP_GetEncount(battleSrc);
-    records = (sptr)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(gameSystem));
-    btlSetup = (sptr)BTL_SETUP_Create(4);
+    battleObj = FIELDMAP_GetEncount(battleSrc);
+    records = GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(gameSystem));
+    btlSetup = BTL_SETUP_Create(4);
     FIELD_ENCOUNT_SetupTrainerBattle((struct FieldEncount *)battleObj, (void *)btlSetup, (unsigned int)battleMode, (unsigned int)battleFlags, (unsigned int)battleKind, fieldEffect, 4);
     EVENT_BATTLE_DispatchBattleKindNotify(battleKind, 0);
     RECORD_AddOne((struct RecordBlock *)records, 6);
@@ -384,7 +385,7 @@ struct GameEvent *EVENT_BATTLE_CreateResultOnlyTask(struct GameSystem *gameSyste
     struct GameEvent *taskEvent;
     BattleTask *task;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, sizeof(BattleTask));
     task = GAME_EVENT_GetWork(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, gameSystem, btlSetup);
     task->isScripted = 0;
@@ -400,7 +401,7 @@ struct GameEvent *EVENT_BATTLE_CreateForcedWinTask(struct GameSystem *gameSystem
     struct GameEvent *taskEvent;
     BattleTask *task;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, sizeof(BattleTask));
     task = GAME_EVENT_GetWork(taskEvent);
     EVENT_BATTLE_InitTaskWork(task, gameSystem, btlSetup);
     task->isScripted = 0;
@@ -453,7 +454,7 @@ struct GameEvent *EVENT_BATTLE_CreateCatchTutorial(struct GameSystem *gameSystem
     GFL_HEAP_Free(pokemon);
     GFL_HEAP_Free(opponentParty);
     GFL_HEAP_Free(playerParty);
-    battleTask = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
+    battleTask = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_ProcBattleTask, sizeof(BattleTask));
     work = GAME_EVENT_GetWork(battleTask);
     EVENT_BATTLE_InitTaskWork(work, gameSystem, btlSetup);
     work->isScripted = 1;
@@ -545,8 +546,9 @@ struct GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(struct GameSystem *gam
  *           refreshes the manifest. Callee arity conflicts (matched definitions
  *           over-declare, callers pass less): EVENT_BATTLE_FreeBtlSetup and GAME_DATA_GetPmsWork.
  */
-int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
+int EVENT_BATTLE_ProcBattleTask(struct GameEvent *event, int *state, void *workPtr)
 {
+    BattleTask *work = workPtr;
     void *gameSystem = work->gameSystem;
     void *gameData = work->gameData;
     void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -586,7 +588,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 6: {
         int probeOk = 0;
 
-        if (OV230_CallSealedBody1((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeA, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeA)
+        if (OV230_CallSealedBody1(EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_IntegrityProbeA, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeA)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x3D1;
         EVENT_BATTLE_FinishBattleTask(work, gameData);
@@ -594,7 +596,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
             FLD_BTL_INST_TOOL_AddBattleTally(*(void **)GAME_DATA_GetListCursor(gameData), (struct BattleSetupParam *)work->btlSetup);
         (*state)++;
         probeOk = 0;
-        if (OV230_CallSealedBody3((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeB)
+        if (OV230_CallSealedBody3(EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_IntegrityProbeB, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeB)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x5D1;
         break;
@@ -602,7 +604,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 7: {
         int probeOk;
 
-        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityDecoyC, 0) == ~(uptr)EVENT_BATTLE_IntegrityDecoyC)
+        if (OV230_CallSealedBody4(EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_IntegrityDecoyC, 0) == ~(uptr)EVENT_BATTLE_IntegrityDecoyC)
             probeOk = 1;
         else
             probeOk = 0;
@@ -634,7 +636,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         break;
     case 10:
         if (work->isScripted == 0)
-            GAME_EVENT_CallEvent(event, (void *)(sptr)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (void *)((sptr)fieldMap), 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent(event, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (void *)(fieldMap), 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 11:
@@ -642,7 +644,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         return 1;
     }
     if (integritySum % 0x1933 != 0) {
-        GFL_USE_AddMainTask((TcbFunc)GAMESYSTEM_RandTwice, 0, 0x7F);
+        GFL_USE_AddMainTask(GAMESYSTEM_RandTwice, 0, 0x7F);
         g_0214624C++;
     }
     return 0;
@@ -657,7 +659,7 @@ int EVENT_BATTLE_GetBattleKindClass(u32 trainerId)
     int r = 1;
     int v;
 
-    v = TPOKE_DATA_GetTrainerKind(TPOKE_DATA_GetRecordField((void *)(uptr)trainerId, 1));
+    v = TPOKE_DATA_GetTrainerKind(TPOKE_DATA_GetRecordField(trainerId, 1));
 
     if (v == 0xC || v == 9)
         return 0;
@@ -822,7 +824,7 @@ void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetu
 {
     int zero = 0;
 
-    MIi_CpuClear32(0, task, 40);
+    MIi_CpuClear32(0, task, sizeof(*task));
     task->gameSystem = gameSystem;
     task->gameData = GAMESYSTEM_GetGameData(gameSystem);
     task->btlSetup = btlSetup;
@@ -837,20 +839,20 @@ void EVENT_BATTLE_FreeBtlSetup(BattleTask *task)
         BTL_SETUP_Delete(task->btlSetup);
 }
 
-int EVENT_BATTLE_IntegrityProbeA(int unused)
+void EVENT_BATTLE_IntegrityProbeA(void)
 {
     GF_STANDARD_Rand();
-    return GF_STANDARD_Rand();
+    GF_STANDARD_Rand();
 }
 
-int EVENT_BATTLE_IntegrityProbeB(int unused)
+void EVENT_BATTLE_IntegrityProbeB(void)
 {
     GF_STANDARD_Rand();
-    return GF_STANDARD_Rand();
+    GF_STANDARD_Rand();
 }
 
-int EVENT_BATTLE_IntegrityDecoyC(int unused)
+void EVENT_BATTLE_IntegrityDecoyC(void)
 {
     GF_STANDARD_Rand();
-    return GF_STANDARD_Rand();
+    GF_STANDARD_Rand();
 }

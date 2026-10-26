@@ -55,7 +55,7 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(struct BmpMenuList *listMenu, int row, u8 y
 void SCRCMD_PROC_FLD_PrintUniqueItemEntry(struct BmpMenuList *listMenu, int row, u8 y);
 void SCRCMD_PROC_FLD_OnListCursorMove(struct BmpMenuList *listMenu, u32 row);
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop);
-int SCRCMD_PROC_FLD_ReturnZero(void);
+u8 SCRCMD_PROC_FLD_ReturnZero(u32 arg);
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural);
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop);
 void SCRCMD_PROC_FLD_PrepareMessageWindow(struct BmpWin *window);

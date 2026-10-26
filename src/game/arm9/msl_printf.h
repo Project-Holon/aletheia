@@ -8,7 +8,7 @@
 
 #include "../types.h"
 
-u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n);
+void *MSL_C_LIB_SprintfWriteProc(void *sb, const u8 *src, size_t n);
 u32 sprintf(char *dst, char *fmt, ...);
 /* END mkheaders: generated region */
 

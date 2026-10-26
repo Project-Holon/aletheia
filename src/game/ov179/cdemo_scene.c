@@ -84,10 +84,10 @@ int CDEMO_SCENE_Step(char *p);
 void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e);
 int CDEMO_SCENE_DispatchCommand(char *p);
 int CDEMO_SCENE_CmdCount(char *p,int *q);
-int CDEMO_SCENE_CmdStartWipe0(int a, int *q);
-int CDEMO_SCENE_CmdStartWipe1(int a, int *q);
-int CDEMO_SCENE_CmdStartWipe2(int a, int *q);
-int CDEMO_SCENE_CmdStartWipe3(int a, int *q);
+int CDEMO_SCENE_CmdStartWipe0(char *a, int *q);
+int CDEMO_SCENE_CmdStartWipe1(char *a, int *q);
+int CDEMO_SCENE_CmdStartWipe2(char *a, int *q);
+int CDEMO_SCENE_CmdStartWipe3(char *a, int *q);
 int CDEMO_SCENE_CmdSetDone(char *p);
 int CDEMO_SCENE_CmdLoadBg(char *p,const int *q);
 int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q);
@@ -204,15 +204,15 @@ int CDEMO_SCENE_Step(char *p)
 
 void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 {
-    int t = (sptr)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
+    void *t = ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
 
-    DC_FlushRange((void *)t, d);
+    DC_FlushRange(t, d);
     if (e == 0) {
-        GX_LoadBG2Scr((void *)t, c, d);
+        GX_LoadBG2Scr(t, c, d);
     } else {
-        GX_LoadBG3Scr((void *)t, c, d);
+        GX_LoadBG3Scr(t, c, d);
     }
-    GFL_HEAP_Free((void *)t);
+    GFL_HEAP_Free(t);
 }
 
 extern int (*d_021B6A40[])(char *,int *);
@@ -232,27 +232,27 @@ int CDEMO_SCENE_CmdCount(char *p,int *q) {
  ((struct CdemoState *)p)->count=((struct CdemoState *)p)->count+1; return 0;
 }
 
-int CDEMO_SCENE_CmdStartWipe0(int a, int *q)
+int CDEMO_SCENE_CmdStartWipe0(char *a, int *q)
 {
-    CDEMO_WIPE_StartFadeOut((char *)a, q[1], q[2], 5);
+    CDEMO_WIPE_StartFadeOut(a, q[1], q[2], 5);
     return 1;
 }
 
-int CDEMO_SCENE_CmdStartWipe1(int a, int *q)
+int CDEMO_SCENE_CmdStartWipe1(char *a, int *q)
 {
-    CDEMO_WIPE_StartFadeIn((char *)a, q[1], q[2], 5);
+    CDEMO_WIPE_StartFadeIn(a, q[1], q[2], 5);
     return 1;
 }
 
-int CDEMO_SCENE_CmdStartWipe2(int a, int *q)
+int CDEMO_SCENE_CmdStartWipe2(char *a, int *q)
 {
-    CDEMO_WIPE_StartFadeOutWhite((char *)a, q[1], q[2], 5);
+    CDEMO_WIPE_StartFadeOutWhite(a, q[1], q[2], 5);
     return 1;
 }
 
-int CDEMO_SCENE_CmdStartWipe3(int a, int *q)
+int CDEMO_SCENE_CmdStartWipe3(char *a, int *q)
 {
-    CDEMO_WIPE_StartFadeInWhite((char *)a, q[1], q[2], 5);
+    CDEMO_WIPE_StartFadeInWhite(a, q[1], q[2], 5);
     return 1;
 }
 

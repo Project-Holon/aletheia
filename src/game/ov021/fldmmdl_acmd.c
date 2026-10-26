@@ -450,7 +450,7 @@ extern const VecFx32 d_021D4C04;
 extern const VecFx32 d_021D4C10;
 
 int FLDMMDL_ACMD_RunCmdStep(Mmdl *mmdl, u32 code, u32 seq);
-void FLDMMDL_ACMD_ListTaskMain(void *tcb, MmdlAcmdListWork *work);
+void FLDMMDL_ACMD_ListTaskMain(struct TcbTask *tcb, void *arg);
 
 void FLDMMDL_ACMD_DeleteDrawSys(MmdlSys *mmdlSys)
 {
@@ -513,7 +513,7 @@ struct TcbTask *FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *lis
     mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
     work = GFL_HEAP_Alloc((u16)(0x8000 | (FLDMMDL_SysGetHeapId(mmdlSys) & 0x7fff)), sizeof(MmdlAcmdListWork), 1, (const char *)&d_021DDBE0, 0x115);
     priority = FLDMMDL_SysGetTcbPriority(FLDMMDL_GetMmdlSys(mmdl)) - 2;
-    tcb = TCB_AddTask(FLDMMDL_SysGetTcbSys(mmdlSys), (TcbFunc)FLDMMDL_ACMD_ListTaskMain, work, priority);
+    tcb = TCB_AddTask(FLDMMDL_SysGetTcbSys(mmdlSys), FLDMMDL_ACMD_ListTaskMain, work, priority);
     work->mmdl = mmdl;
     work->list = list;
     return tcb;
@@ -534,8 +534,9 @@ void FLDMMDL_ACMD_ListDelete(void *tcb)
     TCB_DeleteTask(tcb);
 }
 
-void FLDMMDL_ACMD_ListTaskMain(void *tcb, MmdlAcmdListWork *work)
+void FLDMMDL_ACMD_ListTaskMain(struct TcbTask *tcb, void *arg)
 {
+    MmdlAcmdListWork *work = arg;
     while (d_021D4A50[work->state](work) == 1) {
     }
 }

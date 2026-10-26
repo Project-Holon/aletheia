@@ -44,7 +44,7 @@ MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
 MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 u32 MICEXi_StopLimitedSampling(void);
 u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg);
-void MicexSyncCallback(u32 result, u32 queue);
+void MicexSyncCallback(MICResult result, void *queue);
 u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags);
 u32 MicexStopLimitedSampling(void);
 
@@ -57,7 +57,7 @@ MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param) {
         return 5;
     }
     OS_InitMessageQueue((struct OSMessageQueue *)queue, (void **)(&buf), 1);
-    res = MICEXi_StartLimitedSamplingAsync(param, (MICCallback)MicexSyncCallback, queue);
+    res = MICEXi_StartLimitedSamplingAsync(param, MicexSyncCallback, queue);
     if (res == 0) {
         OS_ReceiveMessage((struct OSMessageQueue *)queue, (void **)(&res), 1);
     }
@@ -173,7 +173,7 @@ u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg) {
     return 0;
 }
 
-void MicexSyncCallback(u32 result, u32 queue) {
+void MicexSyncCallback(MICResult result, void *queue) {
     OS_SendMessage((struct OSMessageQueue *)queue, (void *)result, 0);
 }
 

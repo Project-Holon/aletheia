@@ -150,7 +150,7 @@ void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32
 
 u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
+void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
@@ -228,7 +228,7 @@ u32 ARC_UTIL_UploadBgCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, u32
  */
 u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags)
 {
-    return ARC_UTIL_UploadBgChar((void *)((uptr)ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, allocFlags)), bgId, tileOffset, size, heapID);
+    return ARC_UTIL_UploadBgChar((void *)(ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, allocFlags)), bgId, tileOffset, size, heapID);
 }
 
 /*
@@ -516,10 +516,10 @@ u32 ARC_UTIL_UploadBgPaletteAddFromArchive(u32 archiveID, u32 memberIdx, u32 cha
     return ARC_UTIL_UploadBgPalette(res, channel, offset, add, size, 0);
 }
 
-u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
+void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
-    return ARC_UTIL_UploadBgPalette(res, channel, offset, add, size, 0);
+    ARC_UTIL_UploadBgPalette(res, channel, offset, add, size, 0);
 }
 
 u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags)

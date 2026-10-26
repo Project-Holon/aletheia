@@ -117,7 +117,7 @@ u8 DWCi_AC_Start(void)
         config.nbdbuffer = 0;
         config.nbdmode = 0;
         DWCi_AC_MakeSearchList(0);
-        result = WCM_StartupAsync(&config, (void (*)(void *))DWCi_AC_CallBackWCM);
+        result = WCM_StartupAsync(&config, DWCi_AC_CallBackWCM);
         if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
             return 0x11;

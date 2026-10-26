@@ -178,7 +178,7 @@ extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
 extern int gsUdpEngineNoMoreMsgHandlers(void);
 extern int gsUdpEngineNoApp(void);
 extern int gsUdpEngineShutdown(void);
-extern int gpiProfileMap(void **connection, int (*func)(void **, void *, void *), void *data);
+extern int gpiProfileMap(void **connection, int (*func)(void *, GPIProfile *, void *), void *data);
 void randomString(char *buffer, int numChars);
 int gpiStartConnect(void **connection, GPIOperation *operation);
 int gpiConnect(void **connection, char *nick, char *uniquenick, char *email, char *password, char *authtoken, char *partnerchallenge, char *cdkey, int firewall, int newuser, int blocking, void (*callback)(void **, void *, void *), void *param);
@@ -186,7 +186,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data);
 int gpiSendNewuser(void **connection, GPIConnectData *data);
 int gpiProcessConnect(void **connection, GPIOperation *operation, char *input);
 int gpiCheckConnect(void **connection);
-int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile);
+int gpiDisconnectCleanupProfile(void * connectionArg, GPIProfile * profile, void * unused2);
 void gpiDisconnect(void **connection, int tellServer);
 int gpiProcessRemoteAuthResponse(void **connection, char *input);
 extern char g_021A4618[];
@@ -313,8 +313,8 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     }
 
     anError = gsUdpEngineAddMsgHandler(iconnection->mHeader, iconnection->mHeader, 0,
-                            (void *)gpiPeerAcceptedCallback, (void *)gpiPeerLeftCallback,
-                            (void *)gpiPeerPingReplyCallback, (void *)gpiPeerMessageCallback, connection);
+                            gpiPeerAcceptedCallback, gpiPeerLeftCallback,
+                            gpiPeerPingReplyCallback, gpiPeerMessageCallback, connection);
     if (anError != 0) {
         gpiSetError(connection, 8, g_021A4734);
         gpiCallErrorCallback((void **)connection, 3, 1);
@@ -812,8 +812,9 @@ int gpiCheckConnect(void **connection)
 /*
  * sdk:      gpiDisconnectCleanupProfile (libdwcgsgp.TWL.HYB.a gpiconnect.o)
  */
-int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile)
+int gpiDisconnectCleanupProfile(void * connectionArg, GPIProfile * profile, void * unused2)
 {
+    GPIConnection ** connection = (GPIConnection **)connectionArg;
     GPIConnection *iconnection;
 
     iconnection = *connection;
@@ -917,7 +918,7 @@ void gpiDisconnect(void **connection, int tellServer)
     }
     iconnection->peerList = 0;
 
-    while (!gpiProfileMap(connection, (int (*)(void **, void *, void *))gpiDisconnectCleanupProfile, 0)) {
+    while (!gpiProfileMap(connection, gpiDisconnectCleanupProfile, 0)) {
     }
 }
 

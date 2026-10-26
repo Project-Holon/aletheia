@@ -159,7 +159,6 @@ enum {
 #define BREED_SCORE_MID 0x32
 #define BREED_SCORE_HIGH 0x46
 
-#define SPECIES_COUNT 0x289
 #include "../types.h"
 
 #define DAYCARE_SLOT_COUNT 2
@@ -353,7 +352,7 @@ extern const MoveSlotIdTable d_021DA8C8;
  */
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare)
 {
-    SodateyaWork *work = GFL_HEAP_Alloc(heapId, 0x10, 0, d_021DE458, 0x6A);
+    SodateyaWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, d_021DE458, 0x6A);
     work->heapId = heapId;
     work->fieldMap = fieldMap;
     work->dayCare = dayCare;
@@ -426,7 +425,7 @@ void SODATEYA_RegisterCaughtIfNew(SodateyaWork *work, void *mon)
 void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
 {
     struct PokemonParam *egg = POKE_TOOL_Create(1, 1, 1, work->heapId);
-    uptr gameData;
+    struct GameData *gameData;
     if (DAYCARE_GetEggReady(work->dayCare) == 1) {
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag(work->fieldMap);
@@ -434,7 +433,7 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         POKEPARTY_Add(party, egg);
         DAYCARE_ClearEggReady(work->dayCare);
         GFL_HEAP_Free(egg);
-        gameData = (uptr)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
+        gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
         FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
     }
 }
@@ -521,7 +520,7 @@ int SODATEYA_GetCurrentLevel(SodateyaWork *work, u32 slot)
  */
 int SODATEYA_GetLevelsGained(SodateyaWork *work, int slot)
 {
-    int level = POKE_TOOL_GetPartyValue((void *)DAYCARE_GetSlotMon(work->dayCare, slot), 0x9E, 0);
+    int level = POKE_TOOL_GetPartyValue((struct PokemonParam *)DAYCARE_GetSlotMon(work->dayCare, slot), 0x9E, 0);
     return SODATEYA_GetCurrentLevel(work, slot) - level;
 }
 
@@ -1487,7 +1486,7 @@ int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
 {
     u32 tmIndex; struct PersonalData *personal; u32 mask;
 
-    if (species >= SPECIES_COUNT)
+    if (species >= SPECIES_LAST)
         return 0;
     if (FILE_UTIL_IsMachineItem(tmItem) == 0)
         return 0;
@@ -1517,7 +1516,7 @@ u16 SODATEYA_GetBaseSpecies(u16 species)
 {
     u16 baseSpecies;
 
-    if (species >= SPECIES_COUNT)
+    if (species >= SPECIES_LAST)
         return species;
     ARC_TOOL_ReadMemberRange(&baseSpecies, (u32)0x14, (u32)species, (u32)0, (u32)2);
     return baseSpecies;

@@ -73,7 +73,7 @@ int WF2DMAP_MAP_IsEmpty(char *p)
     return ((Wf2dmapMapGrid *)p)->entries == 0;
 }
 
-Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p;p=GFL_HEAP_Alloc(heap,8,1,sWf2dmapMapFileName,76);p->width=w;p->height=h;p->entries=GFL_HEAP_Alloc(heap,p->width*p->height*4,1,sWf2dmapMapFileName,83);return p; }
+Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 w,u32 h,u32 heap) { Wf2dmapMapGrid *p;p=GFL_HEAP_Alloc(heap,sizeof(Wf2dmapMapGrid),1,sWf2dmapMapFileName,76);p->width=w;p->height=h;p->entries=GFL_HEAP_Alloc(heap,p->width*p->height*4,1,sWf2dmapMapFileName,83);return p; }
 
 /*
  * Extent remainder: 2-byte zero padding, filed getters 021C47F8/47FC,

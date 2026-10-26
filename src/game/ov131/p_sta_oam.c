@@ -62,7 +62,7 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
 void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid);
 void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y);
 void P_STA_OAM_SwapInts(int *a, int *b);
-int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc);
+int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, void *arc);
 void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr);
 u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field);
 unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
@@ -70,7 +70,7 @@ extern const char P_STA_OAM_FileName[];
 extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
 
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, struct Unit *clunit) {
-    struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
+    struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, sizeof(StaOamManager), 1, P_STA_OAM_FileName, 0x5d);
     int i;
     mgr->heapId = heapId;
     mgr->clunit = (void *)clunit;
@@ -95,7 +95,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     void *arc;
     int mode;
     struct Bmp *bmp;
-    grid = GFL_HEAP_Alloc(mgr->heapId, 0x24, 1, P_STA_OAM_FileName, 0x8a);
+    grid = GFL_HEAP_Alloc(mgr->heapId, sizeof(StaOamBitmapActors), 1, P_STA_OAM_FileName, 0x8a);
     bmp = desc->bmp;
     grid->bmp = bmp;
     cols = ((u32)BMP_GetWidth(bmp) >> 6) & 0xff;
@@ -109,7 +109,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     arc = ARC_TOOL_CreateHandle(0x4e, mgr->heapId);
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
-            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (u32)arc);
+            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, arc);
             grid->charRes[i * cols + j] = CLACT_RegisterCharacter(arc, 7, 0, desc->screen, mgr->heapId);
             pos.x = desc->x + (j << 6);
             pos.y = desc->y + (i << 5);
@@ -152,7 +152,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     u32 off, seg, edge;
     int rem;
     u32 wt;
-    u8 *src;
+    u32 src;
     u8 k;
     void (*copy)(const void *, u32, u32);
     dst0 = BMP_GetPixels(grid->bmp);
@@ -167,10 +167,10 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     for (r = 0; r < grid->rows; r++) {
         for (c = 0; c < grid->cols; c++) {
             if (c == grid->cols - 1) seg = edge; else seg = 256;
-            src = (u8 *)CLACT_GetCharacterVramAddress((u32)grid->charRes[c + r * grid->cols], grid->screen);
+            src = CLACT_GetCharacterVramAddress((u32)grid->charRes[c + r * grid->cols], grid->screen);
             for (k = 0; k < 4; k++) {
                 if (r == grid->rows - 1 && rem != 0 && k >= rem) continue;
-                copy(dst0 + (off + k * (wt * 32)), (uptr)src, seg);
+                copy(dst0 + (off + k * (wt * 32)), src, seg);
                 src += 256;
             }
             off += seg;
@@ -201,7 +201,7 @@ void P_STA_OAM_SwapInts(int *a, int *b) {
 /*
  * volatile: hardware register read at 021DBEB4
  */
-int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc)
+int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, void *arc)
 {
     int mode;
     u32 bits;
@@ -213,7 +213,7 @@ int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc)
     default: mode = 0; break;
     }
     if (mgr->cellRes[mode] != -1) return mode;
-    mgr->cellRes[mode] = CLACT_RegisterCellAnim((void *)arc, 0x4d, 0x80, mgr->heapId);
+    mgr->cellRes[mode] = CLACT_RegisterCellAnim(arc, 0x4d, 0x80, mgr->heapId);
     return mode;
 }
 

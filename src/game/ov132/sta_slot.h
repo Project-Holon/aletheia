@@ -4,8 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of sta_slot.c, prototypes copied from their definitions. */
 
-struct StaSlotOwner;
-typedef struct StaSlotOwner StaSlotOwner;
+struct ActingHost;
 
 #include "../types.h"
 
@@ -15,9 +14,9 @@ unsigned char STA_SLOT_GetStateByKey(unsigned char *p, unsigned char key);
 void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key);
 int STA_SLOT_GetCurrentKey(char *p);
 void STA_SLOT_ClearCurrent(unsigned char *p);
-void STA_SLOT_PushRecord(StaSlotOwner *p, u32 player, u32 action, u32 result);
+void STA_SLOT_PushRecord(struct ActingHost *p, u32 player, u32 action, u32 result);
 unsigned char *STA_SLOT_GetRecordTable(void *unused);
-void STA_SLOT_Noop(int buffer, int size, int kind);
+void STA_SLOT_Noop(void *buffer, int size, int kind);
 /* END mkheaders: generated region */
 
 #endif

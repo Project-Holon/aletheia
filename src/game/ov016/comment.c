@@ -54,7 +54,7 @@ int DWCi_COMMENTlDispEx(int messageId, int n, int num)
     canvas = DWCi_FNTlFormBgEx(1, 0);
     msg = DWCi_MSGlGetEx(gCommentWork, messageId, n, num);
     DWCi_FNTlDrawRect(canvas, 0x14, 0, 0xd8, 0x40, 2, DWCi_CMNlFontFlag(), msg);
-    DWCi_FNTlRenewBg((sptr)canvas);
+    DWCi_FNTlRenewBg(canvas);
     sCommentFlag = 1;
     return 1;
 }

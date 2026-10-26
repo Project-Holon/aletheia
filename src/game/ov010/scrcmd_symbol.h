@@ -29,7 +29,7 @@ void SCRCMD_SYMBOL_GetTargetObjectKey(ScrcmdWork *cmdWork, SymbolKey *outKey);
 struct PokemonParam *SCRCMD_SYMBOL_CreateObjectPokemon(ScrcmdWork *cmdWork, struct Mmdl *mmdl, int heapId, SymbolKey *outKey);
 void SCRCMD_SYMBOL_SendEntryFlag(ScrcmdWork *cmdWork);
 struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct PokemonParam *mon, SymbolKey key, u16 *resultOut, u16 heapId);
-int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procWork);
+int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, int *state, void *procWork);
 /* END mkheaders: generated region */
 
 #endif

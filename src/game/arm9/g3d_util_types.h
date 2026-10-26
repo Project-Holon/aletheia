@@ -37,7 +37,10 @@ typedef struct G3dUtilObjSetup {
 } G3dUtilObjSetup;
 
 typedef struct G3dUtilResSetup {
-    u32 arc;
+    union {
+        u32 id;              /* archive id (types 0 and 2) */
+        const char *path;    /* file path (types 1 and 3) */
+    } arc;
     u16 dat;
     u16 pad_06;
     u32 type;

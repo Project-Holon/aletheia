@@ -108,7 +108,7 @@ int STA_ACT_SCRIPT_RunScript(void *unused, char *p);
 
 u8 STA_ACT_SCRIPT_CountScripts(char *p);
 
-void *STA_ACT_SCRIPT_AddTask(char *p, u32 fn, u32 arg, u32 key);
+void *STA_ACT_SCRIPT_AddTask(char *p, TcbFunc fn, void *arg, u32 key);
 
 void STA_ACT_SCRIPT_RemoveTask(char *p, char *q);
 
@@ -139,13 +139,13 @@ void *STA_ACT_SCRIPT_Create(u32 heap, void *owner)
     u8 i;
     char *p;
     i = 0;
-    p = GFL_HEAP_Alloc(heap, 0x44, 0, d_021FDCEC, 0x3f);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct ScriptSystem), 0, d_021FDCEC, 0x3f);
     ((struct ScriptSystem *)p)->heapId = heap;
     ((struct ScriptSystem *)p)->scene = owner;
     ((struct ScriptSystem *)p)->tcbBuffer = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, TCB_GetTaskOffset(16), 0, d_021FDCEC, 0x43);
     ((struct ScriptSystem *)p)->tcb = TCB_Init(16, ((struct ScriptSystem *)p)->tcbBuffer);
-    NNS_FndInitList((sptr)(p + 0x38), 0);
-    for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
+    NNS_FndInitList(&((struct ScriptSystem *)p)->taskList, 0);
+    for (; i < 10; i++) ((struct ScriptSystem *)p)->scripts[i] = 0;
     return p;
 }
 
@@ -165,9 +165,9 @@ void STA_ACT_SCRIPT_Delete(char *p)
             slot[3] = 0;
         }
     }
-    cur = NNS_FndGetNextListObject((struct DList *)(p + 0x38), 0);
+    cur = NNS_FndGetNextListObject((struct DList *)((u8 *)&((struct ScriptSystem *)p)->taskList), 0);
     while (cur != 0) {
-        next = NNS_FndGetNextListObject((struct DList *)(p + 0x38), cur);
+        next = NNS_FndGetNextListObject((struct DList *)((u8 *)&((struct ScriptSystem *)p)->taskList), cur);
         STA_ACT_SCRIPT_RemoveTask(p, cur);
         cur = next;
     }
@@ -202,7 +202,7 @@ void STA_ACT_SCRIPT_Update(char *p)
         if (ready == 1) {
             for (i = 0; i < 10; i++) {
                 char *q;
-                q = *(char **)(p + 0xc + i * 4);
+                q = ((struct ScriptSystem *)p)->scripts[i];
                 if (q != 0 && (((struct ScriptEntry *)q)->flags & 2) && (((struct ScriptEntry *)q)->flags & 4)) ((struct ScriptEntry *)q)->flags ^= 4;
             }
         }
@@ -214,21 +214,21 @@ void STA_ACT_SCRIPT_Update(char *p)
 void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag)
 {
     u8 i;
-    for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) == 0) break;
-    ((char **)(p + 0xc))[i] = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 0x1c, 0, d_021FDCEC, 0xc4);
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->script = arg;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->table = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->waitFrames = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->elapsed = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->flags = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->actorMask = 0;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->slotIndex = i;
-    if (flag == 1) ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->flags |= 2;
-    *(char **)((char **)(p + 0xc))[i] = p;
-    ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm = VM_Create(((struct ScriptSystem *)p)->heapId, (const struct ScriptVmParams *)d_021FDC2C);
-    VM_Init(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm, ((char **)(p + 0xc))[i]);
-    VM_Start(((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->vm, ((struct ScriptEntry *)(((char **)(p + 0xc))[i]))->script);
-    return ((char **)(p + 0xc))[i];
+    for (i = 0; i < 10; i++) if (((struct ScriptSystem *)p)->scripts[i] == 0) break;
+    ((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i] = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, sizeof(struct ScriptEntry), 0, d_021FDCEC, 0xc4);
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->script = arg;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->table = 0;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->waitFrames = 0;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->elapsed = 0;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->flags = 0;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->actorMask = 0;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->slotIndex = i;
+    if (flag == 1) ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->flags |= 2;
+    *(char **)((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i] = p;
+    ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->vm = VM_Create(((struct ScriptSystem *)p)->heapId, (const struct ScriptVmParams *)d_021FDC2C);
+    VM_Init(((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->vm, ((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]);
+    VM_Start(((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->vm, ((struct ScriptEntry *)(((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i]))->script);
+    return ((char **)((u8 *)&((struct ScriptSystem *)p)->scripts))[i];
 }
 
 char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag)
@@ -264,18 +264,18 @@ u8 STA_ACT_SCRIPT_CountScripts(char *p)
     u8 i;
     u8 count;
     count = 0;
-    for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) != 0) count++;
+    for (i = 0; i < 10; i++) if (((struct ScriptSystem *)p)->scripts[i] != 0) count++;
     return count;
 }
 
-void *STA_ACT_SCRIPT_AddTask(char *p, u32 taskFunc, u32 arg, u32 key)
+void *STA_ACT_SCRIPT_AddTask(char *p, TcbFunc taskFunc, void *arg, u32 key)
 {
     char *q;
-    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 16, 0, (const char *)d_021FDCEC, 0x115);
-    ((struct ScriptTaskNode *)q)->task = TCB_AddTask((struct TcbSystem *)(((struct ScriptSystem *)p)->tcb), (TcbFunc)taskFunc, (void *)arg, key);
+    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, sizeof(struct ScriptTaskNode), 0, (const char *)d_021FDCEC, 0x115);
+    ((struct ScriptTaskNode *)q)->task = TCB_AddTask((struct TcbSystem *)(((struct ScriptSystem *)p)->tcb), taskFunc, arg, key);
     if (((struct ScriptTaskNode *)q)->task != 0) {
-        ((struct ScriptTaskNode *)q)->arg = (void *)arg;
-        NNS_FndAppendListObject((struct NNSFndList *)(p + 0x38), q);
+        ((struct ScriptTaskNode *)q)->arg = arg;
+        NNS_FndAppendListObject((struct NNSFndList *)((u8 *)&((struct ScriptSystem *)p)->taskList), q);
         return q;
     }
     GFL_HEAP_Free(q);
@@ -286,7 +286,7 @@ void STA_ACT_SCRIPT_RemoveTask(char *p, char *node)
 {
     GFL_HEAP_Free(((struct ScriptTaskNode *)node)->arg);
     TCB_DeleteTask(((struct ScriptTaskNode *)node)->task);
-    NNS_FndRemoveListObject((volatile struct DList *)(p + 0x38), node);
+    NNS_FndRemoveListObject((volatile struct DList *)&((struct ScriptSystem *)p)->taskList, node);
     GFL_HEAP_Free(node);
 }
 
@@ -317,7 +317,7 @@ int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
     }
     if (((struct ScriptVecTask *)p)->counter != 0) v = (int)(0.5f + (float)(((struct ScriptVecTask *)p)->counter << 12));
     else v = (int)((float)(((struct ScriptVecTask *)p)->counter << 12) - 0.5f);
-    VEC_MultAdd(v, (const VecFx32 *)(p + 0x1c), (const VecFx32 *)(p + 4), (VecFx32 *)out);
+    VEC_MultAdd(v, (const VecFx32 *)((u8 *)&((struct ScriptVecTask *)p)->step), (const VecFx32 *)((u8 *)&((struct ScriptVecTask *)p)->start), (VecFx32 *)out);
     return 0;
 }
 
@@ -327,8 +327,8 @@ int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
 int STA_ACT_SCRIPT_StepTaskActor(char *p, void *out)
 {
     int v[3];
-    STA_ACT_LIGHT_CopyActorPos(STA_ACTING_GetActorSystem(((struct ScriptFollowStep *)p)->scene), (u32 *)(((struct ScriptFollowStep *)p)->actor), (u32 *)v);
-    VEC_Add((const VecFx32 *)v, (const VecFx32 *)((const StaActingVec *)(p + 8)), (VecFx32 *)out);
+    STA_ACT_LIGHT_CopyActorPos(STA_ACTING_GetActorSystem(((struct ScriptFollowStep *)p)->scene), ((struct ScriptFollowStep *)p)->actor, (u32 *)v);
+    VEC_Add((const VecFx32 *)v, (const VecFx32 *)((const StaActingVec *)((u8 *)&((struct ScriptFollowStep *)p)->dx)), (VecFx32 *)out);
     (((struct ScriptFollowStep *)p)->counter)++;
     if (((struct ScriptFollowStep *)p)->counter >= ((struct ScriptFollowStep *)p)->duration) return 1;
     return 0;

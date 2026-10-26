@@ -651,7 +651,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
     int position;
 
     count = 0;
-    MI_CpuFill8(out, 0, 0x58);
+    MI_CpuFill8(out, 0, sizeof(*out));
     out->teamMode = 3;
     for (i = 0; i < 4; i++) {
         if (work->partyReceived[i] == 0) {
@@ -688,7 +688,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
  */
 void COLOSSEUM_ClearBattleInfo(ColosseumBattleInfo *out)
 {
-    MI_CpuFill8(out, 0, 0x58);
+    MI_CpuFill8(out, 0, sizeof(*out));
 }
 
 void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, u8 playerIndex, int heapId)

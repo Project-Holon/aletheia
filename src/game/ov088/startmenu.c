@@ -549,7 +549,6 @@ extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBia
 #undef GFL_USE_AddMainTask
 extern struct TcbTask *GFL_USE_AddMainTask(void *, void *, int);
 #undef GFL_USE_SetVBlankHook
-extern u32 GFL_USE_SetVBlankHook(void (*)(struct TcbTask *, void *), void *);
 #endif
 extern int  FADE_IsActive(void);
 extern u32  PM_VOICE_IsSlotActive(u32 a);
@@ -924,7 +923,7 @@ extern void TIME_ICON_Update(struct TimeIcon *icon);
 struct TcbList;
 extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 extern void SAVE_OUTSIDE_ClearFlash(u32 heap);
-extern void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
+extern int SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 extern void SAVE_CONTROL_EraseExtraSave(struct SaveControl *saveControl, u32 slot, u32 heapId);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
@@ -932,7 +931,6 @@ extern void OS_ResetSystem(u32 parameter);
 extern u8 MSGDATA_GetLanguage(void);
 extern void MSGDATA_SetLanguage(u8);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
-extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 int SAVE_CONTROL_StartSave(struct SaveControl *saveControl);
 void SYSTEM_DATA_SetActive(void *);
 u8 SAVE_CONTROL_GetOutsideSaveBroken(struct SaveControl *saveControl);
@@ -967,7 +965,7 @@ void STARTMENU_SaveEraseStepOpenFirstYesNo(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepFirstConfirm(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepOpenSecondYesNo(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepSecondConfirm(SaveEraseWork *work, int *seq);
-void STARTMENU_SaveEraseUpdateTimeIcon(struct TcbTask *unused, void *unused2);
+void STARTMENU_SaveEraseUpdateTimeIcon(void *unused);
 void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepTeardown(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseClearVram(void);
@@ -977,7 +975,7 @@ void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work);
 void STARTMENU_SaveEraseFreeResources(SaveEraseWork *work);
 void STARTMENU_SaveEraseCreateWindow(SaveEraseWork *work);
 void STARTMENU_SaveEraseDeleteWindow(SaveEraseWork *work);
-void STARTMENU_SaveEraseVblankTask(void);
+void STARTMENU_SaveEraseVblankTask(struct TcbTask *unused0, void *unused1);
 void STARTMENU_SaveEraseStartVblankTask(SaveEraseWork *work);
 void STARTMENU_SaveEraseStopVblankTask(SaveEraseWork *work);
 void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId);
@@ -1037,8 +1035,8 @@ int STARTMENU_TitleDemoInit(struct Proc *allocator)
     TitleDemoWork *work;
 
     GFL_HEAP_CreateChildHeap(1, 0x16, 0x120000);
-    work = PROCSYS_AllocProcWork(allocator, 0x98, 0x16);
-    MI_CpuFill8(work, 0, 0x98);
+    work = PROCSYS_AllocProcWork(allocator, sizeof(TitleDemoWork), 0x16);
+    MI_CpuFill8(work, 0, sizeof(TitleDemoWork));
     work->heapId = 0x16;
     return 1;
 }
@@ -1125,7 +1123,7 @@ int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, Titl
         STARTMENU_TitleDemoUpdateTimer(work);
         break;
     case 4:
-        if (PM_VOICE_IsSlotActive((uptr)work->fanfareHandle) == 0) {
+        if (PM_VOICE_IsSlotActive(work->fanfareHandle) == 0) {
             work->state = 5;
         }
         STARTMENU_TitleDemoUpdateParts(work);
@@ -1317,7 +1315,7 @@ static inline void G3X_AlphaTest(BOOL enable, int ref)
         reg_G3X_DISP3DCNT = (u16)(reg_G3X_DISP3DCNT &
                                   ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK) |
                                   REG_G3X_DISP3DCNT_ATE_MASK);
-        *(volatile u16 *)0x04000340 = (u16)ref;
+        *(volatile u16 *)REG_ALPHA_TEST_REF_ADDR = (u16)ref;
     } else {
         reg_G3X_DISP3DCNT &= (u16)~(REG_G3X_DISP3DCNT_ATE_MASK |
                                     REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
@@ -1481,8 +1479,8 @@ int STARTMENU_MenuInit(struct Proc *allocator)
 {
     StartMenuWork *work;
     GFL_HEAP_CreateChildHeap(1, 0xb, 0x80000);
-    work = PROCSYS_AllocProcWork(allocator, 0x150, 0xb);
-    MI_CpuFill8(work, 0, 0x150);
+    work = PROCSYS_AllocProcWork(allocator, sizeof(StartMenuWork), 0xb);
+    MI_CpuFill8(work, 0, sizeof(StartMenuWork));
     work->saveData = (void *)SAVE_CONTROL_Get();
     work->playerData = (void *)SYSTEM_DATA_GetMyStatus(work->saveData);
     work->unlockData = (void *)MISC_GetBlock(work->saveData);
@@ -1925,8 +1923,8 @@ int STARTMENU_StateInfoMessage(StartMenuWork *work)
 }
 
 /*
- * 0x021BA984 is an unlabelled tail-call stub (function_starts seed);
- * verified with tu over 0x021BA880..0x021BA990 (272 bytes).
+ * The unit runs 0x021BA880..0x021BA990 (272 bytes) and ends with the tail-call stub
+ * STARTMENU_StateBeginFadeIn (0x021BA984, defined below); verified with tu over that range.
  */
 int STARTMENU_StateUnlockNotices(StartMenuWork *work)
 {
@@ -1978,7 +1976,7 @@ int STARTMENU_StateBeginFadeIn(StartMenuWork *work)
 }
 
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
-#define OSi_IRQ_CHECK_FLAG (*(volatile OsIrqWord *)((OsIrqWord)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
+#define OSi_IRQ_CHECK_FLAG (*(volatile OsIrqWord *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
 void STARTMENU_VblankTask(void)
 {
@@ -2477,10 +2475,10 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
 {
     u8 tileYByte = tileY;
     u16 rowHeight = gStartMenuRowInfo[rowId].height;
-    uptr frameBuffer;
+    void *frameBuffer;
     BG_SYS_DrawTileEx(2, 3, tileYByte, 0x1a, rowHeight, (work->rowBuffers[rowId]), 0, 0, 0x1a, rowHeight);
-    frameBuffer = (uptr)BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
-    BG_SYS_DrawTileEx(1, 3, tileYByte, 0x1a, rowHeight, ((void *)frameBuffer), 0, 0, 0x1a, rowHeight);
+    frameBuffer = BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
+    BG_SYS_DrawTileEx(1, 3, tileYByte, 0x1a, rowHeight, (frameBuffer), 0, 0, 0x1a, rowHeight);
     BG_SYS_MarkTileDirty(1);
     BG_SYS_MarkTileDirty(2);
 }
@@ -2689,15 +2687,15 @@ void STARTMENU_CloseInfoWindow(StartMenuWork *work)
 void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
 {
     struct MsgBank *noticeBank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x800b);
-    uptr msgStr;
-    uptr printSys;
+    struct Strbuf *msgStr;
+    void *printSys;
 
     work->descWindow = (void *)BMP_WIN_Create(0, 2, 2, 0x1e, 0x14, 5, 1);
-    msgStr = (uptr)MSGDATA_AllocString((struct MsgBank *)noticeBank, 0x20);
-    printSys = (uptr)work->printSys;
-    PRINTSYS_PrintQueColor((void *)printSys, BMP_WIN_GetBmp((struct BmpWin *)work->descWindow), 0, 0, (struct Strbuf *)msgStr, work->font, 0x440);
+    msgStr = MSGDATA_AllocString((struct MsgBank *)noticeBank, 0x20);
+    printSys = work->printSys;
+    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp((struct BmpWin *)work->descWindow), 0, 0, msgStr, work->font, 0x440);
     work->descWindowOpen = 1;
-    STRBUF_Delete((struct Strbuf *)msgStr);
+    STRBUF_Delete(msgStr);
     MSGDATA_Delete((struct MsgBank *)noticeBank);
 
     BMP_WIN_MakeScreen((struct BmpWin *)(work->descWindow));
@@ -2839,7 +2837,7 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
     void *nameInOverlayId;
 
     saveControl = SAVE_CONTROL_Get();
-    work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
+    work = PROCSYS_AllocProcWork(proc, sizeof(NewGameIntroWork), 1);
     work->saveIntr = SAVE_CONTROL_INTR_Create((s32)1, saveControl);
     SAVE_CONTROL_ResetToNewGame(saveControl);
     work->myStatus = MYSTATUS_Create(1);
@@ -2957,7 +2955,7 @@ int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGa
 
 int STARTMENU_BattleFlagProcInit(struct Proc *proc)
 {
-    NewGameIntroWork *work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
+    NewGameIntroWork *work = PROCSYS_AllocProcWork(proc, sizeof(NewGameIntroWork), 1);
 
     work->startArg.startMode = 1;
     work->startArg.config = (struct Config *)SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get());
@@ -3025,7 +3023,7 @@ int STARTMENU_ConfigPromptInit(struct Proc *proc, int seq, int *procWork)
 {
     ConfigPromptWork *work;
     GFL_HEAP_CreateChildHeap(1, 0x39, 0x80000);
-    work = PROCSYS_AllocProcWork(proc, 0x1c, 0x39);
+    work = PROCSYS_AllocProcWork(proc, sizeof(ConfigPromptWork), 0x39);
     if (*procWork == 0)
         work->question = 0;
     else
@@ -3140,30 +3138,30 @@ void STARTMENU_InitBgLayer(const void *bgTemplate, int bgId)
 
 void STARTMENU_ConfigPromptDrawQuestion(ConfigPromptWork *work)
 {
-    uptr msgArc;
-    uptr text;
+    struct MsgBank *msgArc;
+    struct Strbuf *text;
     u8 i;
 
-    msgArc = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xab, 0x39);
+    msgArc = MSGDATA_CreateFromArchive(0, 2, 0xab, 0x39);
     work->selectedChoice = 0;
     work->questionWin = (void *)BMP_WIN_Create((int)5, (int)1, (u8)0x13, (int)0x1d, (int)4, (int)0, (int)1);
     BMP_WIN_MakeScreen((struct BmpWin *)work->questionWin);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 0xf);
-    text = (uptr)MSGDATA_AllocString((struct MsgBank *)msgArc, work->question);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 0xf);
+    text = MSGDATA_AllocString(msgArc, work->question);
     BMP_MENUWORK_DrawWindow(work->questionWin, 0, 1, 1);
-    PRINTSYS_Print((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 2, 2, (void *)text, work->font);
-    STRBUF_Delete((struct Strbuf *)text);
+    PRINTSYS_Print((void *)(BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 2, 2, (void *)text, work->font);
+    STRBUF_Delete(text);
     BMP_WIN_TransferChars((struct BmpWin *)work->questionWin);
     for (i = 0; i < 2; i++) {
         work->choiceWin[i] = (void *)BMP_WIN_Create((int)1, (int)6, (u8)(i * 4 + 0xc), (int)0x14, (int)2, (int)0, (int)1);
         BMP_WIN_MakeScreen((struct BmpWin *)work->choiceWin[i]);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 0xf);
-        text = (uptr)MSGDATA_AllocString((struct MsgBank *)msgArc, i + 5 + work->question * 2);
-        PRINTSYS_Print((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
-        STRBUF_Delete((struct Strbuf *)text);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 0xf);
+        text = MSGDATA_AllocString(msgArc, i + 5 + work->question * 2);
+        PRINTSYS_Print((void *)(BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
+        STRBUF_Delete(text);
         BMP_WIN_TransferChars((struct BmpWin *)work->choiceWin[i]);
     }
-    MSGDATA_Delete((struct MsgBank *)msgArc);
+    MSGDATA_Delete(msgArc);
     STARTMENU_ConfigPromptHighlightChoice(work);
 }
 
@@ -3512,7 +3510,7 @@ void STARTMENU_SaveEraseStepSecondConfirm(SaveEraseWork *work, int *seq)
     }
 }
 
-void STARTMENU_SaveEraseUpdateTimeIcon(struct TcbTask *unused, void *unused2)
+void STARTMENU_SaveEraseUpdateTimeIcon(void *unused)
 {
     TIME_ICON_Update(d_021BDA20);
 }
@@ -3525,11 +3523,7 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
     if (STARTMENU_SaveEraseUpdateMessage(work) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, work->window, 0xf, 0x10, 0x81);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(work->window));
-#ifdef __MWERKS__
         GFL_USE_SetVBlankHook(STARTMENU_SaveEraseUpdateTimeIcon, 0);
-#else
-        GFL_USE_SetVBlankHook((void (*)(void *))STARTMENU_SaveEraseUpdateTimeIcon, 0);
-#endif
         saveControl = SAVE_CONTROL_Get();
         GF_OVERLAY_Load((uptr)ov228_id);
         SAVE_OUTSIDE_ClearFlash(0x81);
@@ -3623,7 +3617,7 @@ void STARTMENU_SaveEraseDeleteWindow(SaveEraseWork *work)
     BMP_WIN_Exit();
 }
 
-void STARTMENU_SaveEraseVblankTask(void)
+void STARTMENU_SaveEraseVblankTask(struct TcbTask *unused0, void *unused1)
 {
     BG_SYS_Update();
     *(volatile unsigned int *)((char *)&SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
@@ -3631,11 +3625,7 @@ void STARTMENU_SaveEraseVblankTask(void)
 
 void STARTMENU_SaveEraseStartVblankTask(SaveEraseWork *work)
 {
-#ifdef __MWERKS__
     work->vblankTask = GFL_USE_AddMainTask(STARTMENU_SaveEraseVblankTask, work, 0);
-#else
-    work->vblankTask = GFL_USE_AddMainTask((TcbFunc)STARTMENU_SaveEraseVblankTask, work, 0);
-#endif
 }
 
 void STARTMENU_SaveEraseStopVblankTask(SaveEraseWork *work)
@@ -3648,7 +3638,7 @@ void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId)
     void *window;
 
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, messageId, work->stringBuf);
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)work->window)), 15);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->window)), 15);
     BMP_MENUWORK_DrawWindow(work->window, 2, 1, 14);
     work->printJob = (void *)PRINTSYS_PrintStream(work->window, 0, 0, work->stringBuf, work->font, MSG_SPEED_GetWaitForSpeed(0), work->taskList, 10, 0x81, 15);
     work->printAdvanceLatched = 0;

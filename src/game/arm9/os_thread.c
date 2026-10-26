@@ -66,13 +66,11 @@
 
 #include "../sdk_os_thread.h"
 
-typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
-
 /* os_thread.o .bss from 0x02150FD0, addressed section-relative from one pool
    word.  +0x14 is the destructor stack (OSi_ExitThread_ArgSpecified passes it
    to OS_InitContext as the new sp); +0x10 is the one 4-byte local left. */
 typedef struct OsThreadBss {
-    void *OSi_SystemCallbackInSwitchThread;
+    OSSwitchThreadCallback OSi_SystemCallbackInSwitchThread;
     u32 OSi_RescheduleCount;
     OSThread **OSi_CurrentThreadPtr;
     BOOL OSi_IsThreadInitialized;
@@ -90,7 +88,7 @@ typedef struct OsThreadBss {
 extern OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callback);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
                             u32 stackSize, u32 prio);
-void OSi_IdleThreadProc(void);
+void OSi_IdleThreadProc(void * unused0);
 extern int OSi_GetUnusedThreadId(void);
 extern void OSi_InsertThreadToList(OSThread *thread);
 #include "mi_memory.h"
@@ -317,11 +315,11 @@ void OSi_RescheduleThread(void)
             }
 
             if (gOsThreadBss.OSi_SystemCallbackInSwitchThread) {
-                ((OSSwitchThreadCallback)gOsThreadBss.OSi_SystemCallbackInSwitchThread)(currentThread, nextThread);
+                gOsThreadBss.OSi_SystemCallbackInSwitchThread(currentThread, nextThread);
             }
 
             if (info->switchCallback) {
-                ((OSSwitchThreadCallback)info->switchCallback)(currentThread, nextThread);
+                info->switchCallback(currentThread, nextThread);
             }
 
             gOsThreadBss.OSi_ThreadInfo.current = nextThread;
@@ -382,7 +380,7 @@ void OS_InitThread(void)
 
     (void)OS_SetSwitchThreadCallback(0);
 
-    OS_CreateThread(&OSi_IdleThread, (void (*)(void *))OSi_IdleThreadProc, 0,
+    OS_CreateThread(&OSi_IdleThread, OSi_IdleThreadProc, 0,
                     OSi_IdleThreadStack + 50, 200, 31);
     OSi_IdleThread.priority = 32;
     OSi_IdleThread.state = OS_THREAD_STATE_READY;
@@ -810,13 +808,13 @@ OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callbac
     OSSwitchThreadCallback prev;
 
     enabled = OS_DisableInterrupts();
-    prev = (OSSwitchThreadCallback)gOsThreadBss.OSi_ThreadInfo.switchCallback;
-    gOsThreadBss.OSi_ThreadInfo.switchCallback = (void *)callback;
+    prev = gOsThreadBss.OSi_ThreadInfo.switchCallback;
+    gOsThreadBss.OSi_ThreadInfo.switchCallback = callback;
     (void)OS_RestoreInterrupts(enabled);
     return prev;
 }
 
-void OSi_IdleThreadProc(void)
+void OSi_IdleThreadProc(void * unused0)
 {
     (void)OS_EnableInterrupts();
     while (1) {

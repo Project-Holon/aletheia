@@ -77,7 +77,7 @@ struct SndFader;
 #include "fs_file.h"
 struct NNSSndHeap;
 #include "nns_snd_arc.h"
-void NNSi_SndStrmStart(NNSSndStrm *strm);
+void NNSi_SndStrmStart(void *arg);
 void NNSi_SndMainReset(void);
 void NNS_SndMain(void);
 void NNSi_SndShutdown(void);
@@ -92,7 +92,8 @@ extern u8   gNNSSndMessageQueue[];
 extern NNSSndArc *gNNSSndCurrentArc;
 
 /* Drains the pending frames of a stream, then starts its channel timer. */
-void NNSi_SndStrmStart(NNSSndStrm *strm) {
+void NNSi_SndStrmStart(void *arg) {
+    NNSSndStrm *strm = arg;
     u32 savedIrq;
     if (!strm->isStarted) return;
     while (strm->pendingFrames != 0) {
@@ -174,7 +175,7 @@ void NNSi_SndShutdown(void)
         SND_FlushCommand(1);
         SND_WaitForCommandProc(commandTag);
         zero = 0;
-        while ((void **)OS_ReceiveMessage((struct OSMessageQueue *)gNNSSndMessageQueue, (void **)zero, zero) != 0)
+        while (OS_ReceiveMessage((struct OSMessageQueue *)gNNSSndMessageQueue, 0, zero) != 0)
             ;
     }
 
@@ -221,10 +222,10 @@ void NNSi_SndCaptureReset(void)
 
     if (sndSystem->initialized == 0) return;
     sndSystem->captureActive = 0;
-    MIi_CpuClear32(0, (void *)(sndSystem->effectBufferL), sndSystem->effectBufferSize);
-    MIi_CpuClear32(0, (void *)(sndSystem->effectBufferR), sndSystem->effectBufferSize);
-    DC_FlushRange((void *)(sndSystem->effectBufferL), sndSystem->effectBufferSize);
-    DC_FlushRange((void *)(sndSystem->effectBufferR), sndSystem->effectBufferSize);
+    MIi_CpuClear32(0, sndSystem->effectBufferL, sndSystem->effectBufferSize);
+    MIi_CpuClear32(0, sndSystem->effectBufferR, sndSystem->effectBufferSize);
+    DC_FlushRange(sndSystem->effectBufferL, sndSystem->effectBufferSize);
+    DC_FlushRange(sndSystem->effectBufferR, sndSystem->effectBufferSize);
     if (sndSystem->timerAlarmNo >= 0) alarmMask = 1u << sndSystem->timerAlarmNo;
     else alarmMask = 0;
     SND_StartTimer(sndSystem->timerChannelMask, sndSystem->timerCaptureMask, alarmMask, 0);
@@ -268,20 +269,20 @@ u32 NNSi_SndArcLoadTables(NNSSndArc *arc, u32 *heap, u32 loadSymbols)
     if (FS_SeekFile(&arc->file, 0, 0) == 0) return 0;
     if (FS_ReadFile(&arc->file, arc, 0x30) != 0x30) return 0;
     if (heap != 0) {
-        arc->infoBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->infoSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeInfo, (uptr)arc, 0);
+        arc->infoBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->infoSize, NNSi_SndArcDisposeInfo, (uptr)arc, 0);
         if (arc->infoBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->infoOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->infoBlock, arc->infoSize);
         if (bytesRead != arc->infoSize) return 0;
 
-        arc->fatBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->fatSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeFat, (uptr)arc, 0);
+        arc->fatBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->fatSize, NNSi_SndArcDisposeFat, (uptr)arc, 0);
         if (arc->fatBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->fatOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->fatBlock, arc->fatSize);
         if (bytesRead != arc->fatSize) return 0;
 
         if (loadSymbols != 0 && arc->symbolSize != 0) {
-            arc->symbolBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->symbolSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSymbol, (uptr)arc, 0);
+            arc->symbolBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->symbolSize, NNSi_SndArcDisposeSymbol, (uptr)arc, 0);
             if (arc->symbolBlock == 0) return 0;
             if (FS_SeekFile(&arc->file, arc->symbolOffset, 0) == 0) return 0;
             bytesRead = FS_ReadFile(&arc->file, arc->symbolBlock, arc->symbolSize);

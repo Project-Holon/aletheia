@@ -523,15 +523,7 @@ extern void MYITEM_SAVEDATA_CompactAllPockets();
 #include "../arm9/myitem_savedata.h"
 #endif
 extern void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *p, int i, s16 *a, s16 *b);
-#ifdef __MWERKS__
-#define BUTTON_MAN_Create BUTTON_MAN_CreateHeader
-#endif
 #include "../arm9/button_man.h"
-#ifdef __MWERKS__
-/* original prototypes: the DS code declares these with other argument or return types than the definitions */
-#undef BUTTON_MAN_Create
-extern struct ButtonMan *BUTTON_MAN_Create();
-#endif
 #ifdef __MWERKS__
 #define GFL_USE_AddMainTask GFL_USE_AddMainTaskHeader
 #endif
@@ -545,7 +537,7 @@ struct GFont;
 #include "../arm9/net.h"
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work);
-void ITEMMENU_TaskBagMain(ItemMenuWork *work);
+void ITEMMENU_TaskBagMain(struct ItemMenuWork *work);
 void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work);
 void ITEMMENU_TaskOpenActionMenu(ItemMenuWork *work);
 void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work);
@@ -582,8 +574,8 @@ void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *rec, u16 *p, u8 *out);
 void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *q);
 void ITEMMENU_OpenActionMenu(ItemMenuWork *work);
 int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value);
-void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work);
-void ITEMMENU_VBlankCallback(int u, ItemMenuWork *work);
+void ITEMMENU_HandleTouchTarget(u32 idx, s32 flag, void *);
+void ITEMMENU_VBlankCallback(struct TcbTask *unusedArg, void *arg);
 void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work);
 void ITEMMENU_TaskWaitFadeIn(ItemMenuWork *work);
 int ITEMMENU_Init(void *proc, int st, ItemMenuArgs *a);
@@ -609,7 +601,7 @@ int ITEMMENU_IsCheckModeAllowed(ItemMenuWork *work, int value);
 void ITEMMENU_ReturnToBagMainAlias(ItemMenuWork *work);
 void ITEMMENU_InitDisplayBanks(void);
 void ITEMMENU_ResetDisplayLayers(void);
-void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int bg);
+void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, void *archive);
 void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *bg);
 void ITEMMENU_SetupGraphics(ItemMenuWork *work);
 void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work);
@@ -659,7 +651,7 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int mode);
 void ITEMMENU_SetBackButtonAnim(ItemMenuWork *work, int v);
 void ITEMMENU_UpdateInputGuardAnim(ItemMenuWork *work);
 void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode);
-int ITEMMENU_MoveActorToPoint(const char *p);
+int ITEMMENU_MoveActorToPoint(ItemMenuWork *work);
 void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str, u16 x, TextCoord y, u16 color);
 void ITEMMENU_FlushWindowAt(ItemMenuWindow *slot);
 extern ItemmenuTouchHitTable sQuantityTouchRects;
@@ -1512,7 +1504,7 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
     }
 }
 
-void ITEMMENU_TaskBagMain(ItemMenuWork *work)
+void ITEMMENU_TaskBagMain(struct ItemMenuWork *work)
 {
     unsigned int keys;
     int previousPocket;
@@ -1523,7 +1515,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         work->isTouchActive = 0;
     BUTTON_MAN_UpdateSlots(work->taskSys);
     BLINK_PALANM_Update(work->blinkPalAnm);
-    if (work->taskFn != (ItemMenuTaskFn)ITEMMENU_TaskBagMain)
+    if (work->taskFn != ITEMMENU_TaskBagMain)
         return;
     if (ITEMMENU_HandleScrollbarTouch(work) != 0) {
         work->shownItemId = 0xFFFF;
@@ -2027,8 +2019,8 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     SortEntry *ents;
     BagSlot *items;
     int itemCount;
-    sptr itemArchive;
-    sptr itemData;
+    struct ArcFile *itemArchive;
+    struct ItemRecord *itemData;
     u32 iconKind;
     SortEntry *entry;
 
@@ -2036,16 +2028,16 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     items = GFL_HEAP_Alloc(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 1);
     itemCount = ITEMMENU_GetItemCount(work);
-    itemArchive = (sptr)FILE_UTIL_CreateItemArcHandle(work->heapId);
+    itemArchive = FILE_UTIL_CreateItemArcHandle(work->heapId);
     for (i = 0; i < itemCount; i++) {
-        itemData = (sptr)FILE_UTIL_LoadArcMember((struct ArcFile *)itemArchive, items[i].itemId, work->heapId);
+        itemData = FILE_UTIL_LoadArcMember(itemArchive, items[i].itemId, work->heapId);
         entry = &ents[i];
-        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0xF);
-        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0x11) << 16) + items[i].itemId;
+        iconKind = FILE_UTIL_GetItemRecordParam(itemData, 0xF);
+        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam(itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
-        GFL_HEAP_Free((void *)itemData);
+        GFL_HEAP_Free(itemData);
     }
-    ARC_TOOL_DeleteHandle((void *)itemArchive);
+    ARC_TOOL_DeleteHandle(itemArchive);
     MATH_QSort(ents, itemCount, 8, ITEMMENU_CompareSortEntries, 0);
     for (i = 0; i < itemCount; i++) {
         items[i] = ents[i].item;
@@ -2198,8 +2190,9 @@ int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value)
  * select, exit and back buttons, 11-16 pick a list row, 17+ pick a slot.
  * Touch twin of ITEMMENU_TaskBagMain's key handling.
  */
-void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
+void ITEMMENU_HandleTouchTarget(u32 idx, s32 flag, void *arg)
 {
+    ItemMenuWork *work = arg;
     int tab;
     int count;
     int previousPocket;
@@ -2261,7 +2254,7 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
         ITEMMENU_StartSideButtonPress(work, 4, 0);
         UI_SetInputMode(1);
     } else if (idx >= 11 && idx < 17) {
-        if (work->taskFn != (ItemMenuTaskFn)ITEMMENU_TaskBagMain)
+        if (work->taskFn != ITEMMENU_TaskBagMain)
             return;
         savedRow = work->cursorRow;
         cursorIndex = ITEMMENU_GetCursorIndex(work);
@@ -2299,8 +2292,9 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work)
     }
 }
 
-void ITEMMENU_VBlankCallback(int unusedArg, ItemMenuWork *work)
+void ITEMMENU_VBlankCallback(struct TcbTask *unusedArg, void *arg)
 {
+    ItemMenuWork *work = arg;
     int state = work->screenState;
     if (state == 1) {
         ITEMMENU_SetLayersVisible(work, 1);
@@ -2328,7 +2322,7 @@ void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work)
 void ITEMMENU_TaskWaitFadeIn(ItemMenuWork *work)
 {
     int isWipeDone = WIPE_SYS_EndCheck();
-    int isActorMoving = ITEMMENU_MoveActorToPoint((const char *)work);
+    int isActorMoving = ITEMMENU_MoveActorToPoint(work);
     if (isWipeDone == 1 && isActorMoving == 0) {
         CLACT_SetActorAutoAnim((struct ClactActor *)work->cursorActor, 1);
         ITEMMENU_ReturnToBagMain(work);
@@ -2339,8 +2333,8 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
 {
     ItemMenuWork *work; u16 i; s16 scrollPos, cursorPos;
     GFL_HEAP_CreateChildHeap(1, 0xe, 0x34000);
-    work = PROCSYS_AllocProcWork(proc, 0x874, 0xe);
-    MI_CpuFill8(work, 0, 0x874);
+    work = PROCSYS_AllocProcWork(proc, sizeof(ItemMenuWork), 0xe);
+    MI_CpuFill8(work, 0, sizeof(ItemMenuWork));
     KEY_GetRepeatSpeed(&work->keyRepeatDelay, &work->keyRepeatInterval);
     work->heapId = 0xe;
     work->currentPage = 1;
@@ -2381,18 +2375,10 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     ITEMMENU_CreateTabActors(work);
     ITEMMENU_ForceRedrawList(work);
     ITEMMENU_CreateCursorActors(work);
-#ifdef __MWERKS__
-    work->taskSys = BUTTON_MAN_Create(sButtonHitTable, ITEMMENU_HandleTouchTarget, work, work->heapId);
-#else
-    work->taskSys = BUTTON_MAN_Create((u8 *)sButtonHitTable, (void (*)(s32, s32, s32))ITEMMENU_HandleTouchTarget, (sptr)work, work->heapId);
-#endif
+    work->taskSys = BUTTON_MAN_Create((u8 *)sButtonHitTable, ITEMMENU_HandleTouchTarget, work, work->heapId);
     ITEMMENU_CreateBlinkPalAnm(work);
     ITEMMENU_AllocPalAnmSlots(work);
-#ifdef __MWERKS__
     work->unitList = GFL_USE_AddMainTask(ITEMMENU_VBlankCallback, work, 0);
-#else
-    work->unitList = GFL_USE_AddMainTask((TcbFunc)ITEMMENU_VBlankCallback, work, 0);
-#endif
     work->touchTask = (struct Tcbl *)TCBL_Create(work->heapId, work->heapId, 1, 0);
     ITEMMENU_PrintPocketName(work);
     work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, (struct GFont *)work->menuTaskArg, (struct PrintQueue *)work->printSys, work->heapId);
@@ -2778,7 +2764,7 @@ void ITEMMENU_ResetDisplayLayers(void)
     BG_SYS_SetPlaneVisible(6, 1);
 }
 
-void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
+void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, void *archive)
 {
     int paletteFileId, charFileId, screenFileId, charBase;
     int gender = MYSTATUS_GetSex(work->myStatus);
@@ -2791,10 +2777,10 @@ void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
         charFileId = 0;
         screenFileId = 2;
     }
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)archive, paletteFileId, 0, 0, 0x20, work->heapId);
-    charBase = ARC_UTIL_RegisterObjCharFromHandle((void *)archive, charFileId, 0, 0, 0, work->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(archive, paletteFileId, 0, 0, 0x20, work->heapId);
+    charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, charFileId, 0, 0, 0, work->heapId);
     work->frameCounter = charBase;
-    ARC_UTIL_UploadBgPaletteAddFromHandle((void *)archive, screenFileId, 0, 0, (unsigned short)charBase, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archive, screenFileId, 0, 0, (unsigned short)charBase, 0, 0, work->heapId);
 }
 
 void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive)
@@ -2812,8 +2798,8 @@ void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive)
         cellFileId = 0xa;
         animFileId = 9;
     }
-    work->tabCharRes = CLACT_RegisterPaletteEx((void *)archive, paletteFileId, 0, 0xc0, 0, 4, work->heapId);
-    work->tabPaletteRes = CLACT_RegisterCharacter((void *)archive, charFileId, 0, 0, work->heapId);
+    work->tabCharRes = CLACT_RegisterPaletteEx(archive, paletteFileId, 0, 0xc0, 0, 4, work->heapId);
+    work->tabPaletteRes = CLACT_RegisterCharacter(archive, charFileId, 0, 0, work->heapId);
     work->tabCellRes = CLACT_RegisterCellAnim((void *)archive, cellFileId, animFileId, work->heapId);
 }
 
@@ -2844,7 +2830,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     u32 charBase;
     u32 i;
 
-    *(volatile u16 *)0x04000050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     GF_FONT_InitTextColor();
@@ -2856,7 +2842,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     ITEMMENU_InitDisplayBanks();
     GF_FONT_SetDefaultTextColor();
-    work->keyRepeatPacked = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)3, 13, 0, work->heapId);
+    work->keyRepeatPacked = BMP_MENUWORK_LoadFrameGfx(3, 13, 0, work->heapId);
     archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(archive, 8, 4, 0, 0, work->heapId);
     if (MYSTATUS_GetSex(work->myStatus) == 0)
@@ -2864,7 +2850,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 6, 4, 0, 0, work->heapId);
     work->bgPaletteA = charBase;
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 7, 4, 0, (u16)charBase, 0, 0, work->heapId);
-    ITEMMENU_LoadBagGraphics(work, (int)archive);
+    ITEMMENU_LoadBagGraphics(work, archive);
     charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 0x11, 5, 0, 0, work->heapId);
     work->bgPaletteB = charBase;
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 0x17, 5, 0, (u16)charBase, 0, 0, work->heapId);
@@ -3126,16 +3112,8 @@ void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
 
 void ITEMMENU_FreeActionMenuResources(ItemMenuWork *work) { CLACT_DrawSystem(); if (work->menuList) APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)work->menuList); }
 
-/*
- * lever:    the loop's array slots are spelled `p + i * 4 + 0x614` (index
- *           before offset), which keeps `p + i*4` in one register across both
- *           calls; `p + 0x614 + i * 4` and `((int *)(p + 0x614))[i]` both DIFF.
- */
 void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
 {
-    /* Byte view of the work area: the slot arrays below stay spelled
-     * workBytes + i * 4 + offset, because the array form does not share the base. */
-    char *workBytes = (char *)work;
     void *archive;
     int i;
 
@@ -3147,8 +3125,8 @@ void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
     work->bagPaletteRes = CLACT_RegisterCharacter(archive, 0x1b, 0, 0, work->heapId);
     work->bagCellRes = CLACT_RegisterCellAnim(archive, 0x1a, 0x19, work->heapId);
     for (i = 0; i < 8; i++) {
-        *(int *)(workBytes + i * 4 + 0x614) = (sptr)BMP_Create(0xc, 2, 0x20, work->heapId);
-        *(int *)(workBytes + i * 4 + 0x5F4) =CLACT_RegisterCharacter(archive, 0x14, 0, 0, work->heapId);
+        work->slotBitmap[i] = BMP_Create(0xc, 2, 0x20, work->heapId);
+        work->slotPaletteRes[i] =CLACT_RegisterCharacter(archive, 0x14, 0, 0, work->heapId);
     }
     MYSTATUS_GetSex(work->myStatus);
     work->barCharRes = CLACT_RegisterPaletteEx(archive, 0x15, 0, 0, 0, 3, work->heapId);
@@ -3158,9 +3136,6 @@ void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
 
 void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
 {
-    /* Byte view of the work area: the slot arrays below stay spelled
-     * workBytes + i * 4 + offset, because the array form does not share the base. */
-    char *workBytes = (char *)work;
     ActorTemplate cursorTemplate;
     ActorTemplate selectorTemplate;
     ActorTemplate slotTemplate;
@@ -3189,12 +3164,12 @@ void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
         slotTemplate.softPriority = 0xa;
         slotTemplate.bgPriority = 3;
         slotTemplate.animSeq = 0;
-        *(struct Actor **)(workBytes + i * 4 + 0x634) = (struct Actor *)CLACT_CreateActor(work->clactSys, *(int *)(workBytes + i * 4 + 0x5F4), work->barCharRes, work->bagAnimRes, (struct ActorInitParam *)(&slotTemplate), 0, work->heapId);
+        work->slotActorA[i] = (struct Actor *)CLACT_CreateActor(work->clactSys, work->slotPaletteRes[i], work->barCharRes, work->bagAnimRes, (struct ActorInitParam *)(&slotTemplate), 0, work->heapId);
         slotTemplate.x -= 0x18;
         slotTemplate.animSeq = 1;
-        *(struct Actor **)(workBytes + i * 4 + 0x674) = (struct Actor *)CLACT_CreateActor(work->clactSys, work->pocketPaletteRes, work->pocketCharRes, work->pocketCellRes, (struct ActorInitParam *)(&slotTemplate), 0, work->heapId);
-        CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x634), 0);
-        CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 0);
+        work->slotActorC[i] = (struct Actor *)CLACT_CreateActor(work->clactSys, work->pocketPaletteRes, work->pocketCharRes, work->pocketCellRes, (struct ActorInitParam *)(&slotTemplate), 0, work->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorA[i], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 0);
     }
 }
 
@@ -3216,11 +3191,11 @@ int ITEMMENU_GetRowColorKind(u16 itemId)
 
 void ITEMMENU_PrintItemList(ItemMenuWork *work)
 {
-    sptr itemArchive;
+    struct ArcFile *itemArchive;
     int i;
     int itemIndex;
     u16 *itemIdPtr;
-    sptr itemData;
+    struct ItemRecord *itemData;
     u32 iconKind;
     u16 color;
     u16 moveId;
@@ -3236,7 +3211,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     if (work->shownItemId == work->scrollOffset) {
         return;
     }
-    itemArchive = (sptr)FILE_UTIL_CreateItemArcHandle(work->heapId);
+    itemArchive = FILE_UTIL_CreateItemArcHandle(work->heapId);
     for (i = 0; i < 8; i++) {
         work->slotAnimIndex[i] = 0;
         itemIndex = work->scrollOffset + i;
@@ -3247,8 +3222,8 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         if (itemIdPtr == 0 || *itemIdPtr == 0) {
             continue;
         }
-        itemData = (sptr)FILE_UTIL_LoadArcMember((struct ArcFile *)itemArchive, *itemIdPtr, work->heapId);
-        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0xf);
+        itemData = FILE_UTIL_LoadArcMember(itemArchive, *itemIdPtr, work->heapId);
+        iconKind = FILE_UTIL_GetItemRecordParam(itemData, 0xf);
         if (sRowStyleFlags[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*itemIdPtr) == 1) {
                 color = 0x18AD;
@@ -3282,16 +3257,16 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             work->slotAnimIndex[i] = 8;
         } else if (FILE_UTIL_GetId(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 7;
-        } else if (FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 4) == 0) {
+        } else if (FILE_UTIL_GetItemRecordParam(itemData, 4) == 0) {
             work->slotAnimIndex[i] = 3;
         } else if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 0) {
             work->slotAnimIndex[i] = 2;
         } else {
             work->slotAnimIndex[i] = 1;
         }
-        GFL_HEAP_Free((void *)itemData);
+        GFL_HEAP_Free(itemData);
     }
-    ARC_TOOL_DeleteHandle((void *)itemArchive);
+    ARC_TOOL_DeleteHandle(itemArchive);
     work->busyCount = 1;
 }
 
@@ -3313,42 +3288,39 @@ void ITEMMENU_SnapSelectorToCursor(ItemMenuWork *work)
 
 void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
 {
-    /* Byte view of the work area: the slot arrays below stay spelled
-     * workBytes + i * 4 + offset, because the array form does not share the base. */
-    char *workBytes = (char *)work;
     int i;
     u8 *srcChars;
     u8 *dstPixels;
 
     for (i = 0; i < 8; i++) {
-        srcChars = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(workBytes + i * 4 + 0x5F4), 0);
-        dstPixels = BMP_GetPixels(*(void **)(workBytes + i * 4 + 0x614));
-        DC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
+        srcChars = (u8 *)CLACT_GetCharacterVramAddress(work->slotPaletteRes[i], 0);
+        dstPixels = BMP_GetPixels((void *)work->slotBitmap[i]);
+        DC_FlushRange(dstPixels, BMP_GetByteSize((void *)work->slotBitmap[i]));
         GX_LoadOBJ(dstPixels + 0x100, (uptr)(srcChars + 0x80), 0x80);
         GX_LoadOBJ(dstPixels + 0x280, (uptr)(srcChars + 0x100), 0x80);
         GX_LoadOBJ(dstPixels, (uptr)(srcChars + 0x300), 0x100);
         GX_LoadOBJ(dstPixels + 0x180, (uptr)(srcChars + 0x400), 0x100);
-        if (*(u32 *)(workBytes + i * 4 + 0x654) != 0) {
+        if (work->slotAnimIndex[i] != 0) {
             if (work->currentPocket == 4) {
-                if (ITEMMENU_IsBrowseMode(work) == 1 && *(u32 *)(workBytes + i * 4 + 0x654) != 3) {
-                    CLACT_SetActorAnimSeq(*(struct ClactActor **)(workBytes + i * 4 + 0x674), *(u32 *)(workBytes + i * 4 + 0x654) - 1);
-                    CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 1);
+                if (ITEMMENU_IsBrowseMode(work) == 1 && work->slotAnimIndex[i] != 3) {
+                    CLACT_SetActorAnimSeq((struct ClactActor *)work->slotActorC[i], work->slotAnimIndex[i] - 1);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 1);
                 } else {
-                    CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 0);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 0);
                 }
-            } else if (work->currentPocket == 0 && *(u32 *)(workBytes + i * 4 + 0x654) >= 4) {
-                CLACT_SetActorAnimSeq(*(struct ClactActor **)(workBytes + i * 4 + 0x674), *(u32 *)(workBytes + i * 4 + 0x654) - 1);
-                CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 1);
-            } else if (work->currentPocket == 2 && *(u32 *)(workBytes + i * 4 + 0x654) >= 7) {
-                CLACT_SetActorAnimSeq(*(struct ClactActor **)(workBytes + i * 4 + 0x674), *(u32 *)(workBytes + i * 4 + 0x654) - 1);
-                CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 1);
+            } else if (work->currentPocket == 0 && work->slotAnimIndex[i] >= 4) {
+                CLACT_SetActorAnimSeq((struct ClactActor *)work->slotActorC[i], work->slotAnimIndex[i] - 1);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 1);
+            } else if (work->currentPocket == 2 && work->slotAnimIndex[i] >= 7) {
+                CLACT_SetActorAnimSeq((struct ClactActor *)work->slotActorC[i], work->slotAnimIndex[i] - 1);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 1);
             } else {
-                CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 0);
             }
-            CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x634), 1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorA[i], 1);
         } else {
-            CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x674), 0);
-            CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x634), 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorC[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->slotActorA[i], 0);
         }
     }
 }
@@ -3383,9 +3355,6 @@ void ITEMMENU_MoveCursorToRow(ItemMenuWork *work)
 
 void ITEMMENU_CreateSideButtonActors(ItemMenuWork *work)
 {
-    /* Byte view of the work area: the slot arrays below stay spelled
-     * workBytes + i * 4 + offset, because the array form does not share the base. */
-    char *workBytes = (char *)work;
     ActorTemplate actorTemplate;
     ByteTable5 sideAnimSeqs;
     ByteTable5 sideXPositions;
@@ -3404,8 +3373,8 @@ void ITEMMENU_CreateSideButtonActors(ItemMenuWork *work)
         if (i == 2) {
             actorTemplate.y += 4;
         }
-        *(struct Actor **)(workBytes + i * 4 + 0x710) = (struct Actor *)CLACT_CreateActor(work->clactSys, work->iconPaletteRes, work->iconCharRes, work->iconCellRes, (struct ActorInitParam *)(&actorTemplate), 0, work->heapId);
-        CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + i * 4 + 0x710), 1);
+        work->sideActor[i] = (struct Actor *)CLACT_CreateActor(work->clactSys, work->iconPaletteRes, work->iconCharRes, work->iconCellRes, (struct ActorInitParam *)(&actorTemplate), 0, work->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[i], 1);
     }
     CLACT_SetActorAutoAnim((struct ClactActor *)work->sideActor[0], 1);
     CLACT_SetActorAutoAnim((struct ClactActor *)work->sideActor[1], 1);
@@ -3422,9 +3391,9 @@ void ITEMMENU_CreateSideButtonActors(ItemMenuWork *work)
         actorTemplate.y = arrowYPositions.values[i];
         actorTemplate.animSeq = arrowAnimSeqs.values[i];
         actorTemplate.bgPriority = 0;
-        *(struct Actor **)(workBytes + (u8)(i + 5) * 4 + 0x710) = (struct Actor *)CLACT_CreateActor(work->clactSys, work->iconPaletteRes, work->iconCharRes, work->iconCellRes, (struct ActorInitParam *)(&actorTemplate), 0, work->heapId);
-        CLACT_SetActorAutoAnim(*(struct ClactActor **)(workBytes + (u8)(i + 5) * 4 + 0x710), 1);
-        CLACT_SetActorDrawEnable(*(struct ClactActor **)(workBytes + (u8)(i + 5) * 4 + 0x710), 0);
+        work->sideActor[(u8)(i + 5)] = (struct Actor *)CLACT_CreateActor(work->clactSys, work->iconPaletteRes, work->iconCharRes, work->iconCellRes, (struct ActorInitParam *)(&actorTemplate), 0, work->heapId);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->sideActor[(u8)(i + 5)], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[(u8)(i + 5)], 0);
     }
 }
 
@@ -3486,7 +3455,7 @@ void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
         /* rowView is the work area shifted by one row (0xC bytes) per entry, so its
          * listEntries[0] is entry i: the byte address is formed before the
          * row offset, as the array form listEntries[i] does not match. */
-        rowView = (ItemMenuWork *)((char *)work + i * 0xC);
+        rowView = (ItemMenuWork *)((char *)work + i * sizeof(ItemMenuListEntry));
         labelString = STRBUF_Create(0x64, work->heapId);
         rowView->listEntries[0].text = labelString;
         MSGDATA_ReadString(work->msgBank, msgIds[i], labelString);
@@ -3510,7 +3479,7 @@ void ITEMMENU_LoadBgPaletteMode(ItemMenuWork *work, int mode)
     } else {
         ARC_UTIL_UploadBgPaletteAddFromHandleExt(archive, 0x18, 5, 0, (u16)work->bgPaletteB, 0, 0, work->heapId);
     }
-    ARC_TOOL_DeleteHandle((void *)((sptr)archive));
+    ARC_TOOL_DeleteHandle(archive);
 }
 
 void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
@@ -3706,16 +3675,16 @@ void ITEMMENU_CloseYesNoList(ItemMenuWork *work) { APP_TASKMENU_CloseMenu((struc
 void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
 {
     void *archive;
-    sptr screenData;
+    void *screenData;
     ScreenImage *screenImage;
     int i;
     u16 *tiles;
     int tileCount;
 
     archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
-    screenData = (sptr)ARC_UTIL_LoadHandleMember(archive, 0x23, 0, work->heapId);
+    screenData = ARC_UTIL_LoadHandleMember(archive, 0x23, 0, work->heapId);
     i = 0;
-    if (NNS_G2dGetUnpackedScreenData((void *)screenData, (void **)(&screenImage))) {
+    if (NNS_G2dGetUnpackedScreenData(screenData, (void **)(&screenImage))) {
         tiles = screenImage->data;
         tileCount = ((unsigned)screenImage->width >> 3) * ((unsigned)screenImage->height >> 3);
         for (; i < tileCount; i++) {
@@ -3724,7 +3693,7 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
         BG_SYS_DrawTile(3, (void *)screenImage->data, 0x10, 0xC, (unsigned)screenImage->width >> 3, (unsigned)screenImage->height >> 3);
         BG_SYS_MarkTileDirty(3);
     }
-    GFL_HEAP_Free((void *)screenData);
+    GFL_HEAP_Free(screenData);
     ARC_TOOL_DeleteHandle(archive);
 }
 
@@ -3797,8 +3766,8 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
     work->currentPage = page;
     isSortFlagSet = GAME_DATA_ContainsRecentId((struct GameData *)work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
     if (page == 1) {
-        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, (void *)((uptr)GFL_USE_GetMainTaskList()));
-        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 1, 1, 0, 0, 0, 0, (void *)((uptr)GFL_USE_GetMainTaskList()));
+        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
+        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 1, 1, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
         G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 6, 0);
         ITEMMENU_UpdateInputGuardAnim(work);
         CLACT_SetActorAnimSeq((struct ClactActor *)work->sideActor[0], 4);
@@ -3812,8 +3781,8 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
         ITEMMENU_SetBackButtonAnim(work, 1);
     } else {
         PALANM_CopyHwPaletteToSlot(work->palAnmSlot, 2, 0, 0x200);
-        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 4, 0x23CF, 0, 8, 8, 0, (void *)((uptr)GFL_USE_GetMainTaskList()));
-        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 1, 1, 0, 8, 8, 0, (void *)((uptr)GFL_USE_GetMainTaskList()));
+        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 4, 0x23CF, 0, 8, 8, 0, GFL_USE_GetMainTaskList());
+        PALANM_RequestFade((PaletteFade *)work->palAnmSlot, 1, 1, 0, 8, 8, 0, GFL_USE_GetMainTaskList());
         if (work->bagMode == 4 && CLACT_GetActorDrawEnable((struct ClactActor *)work->sideActor[0]) == 0) {
             G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 2, -8);
         } else {
@@ -3865,8 +3834,10 @@ void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode)
 /*
  * lever: expand q at the first call but retain q for the second call.
  */
-int ITEMMENU_MoveActorToPoint(const char *workBytes)
+#ifdef __MWERKS__
+int ITEMMENU_MoveActorToPoint(ItemMenuWork *work)
 {
+    const char *workBytes = (const char *)work;
     unsigned i;
     short actorPos[2];
     const char *actorBytes;
@@ -3874,7 +3845,7 @@ int ITEMMENU_MoveActorToPoint(const char *workBytes)
     for (i = 0; i < 5; i++) {
         off = i * 4;
         actorBytes = workBytes + off;
-        CLACT_GetActorSurfacePos(*(struct ClactActor **)((workBytes + off) + 0x6AC), (struct ClactVec2 *)actorPos, 0xFFFF);
+        CLACT_GetActorSurfacePos(*(struct ClactActor **)(workBytes + off + 0x6AC), (struct ClactVec2 *)actorPos, 0xFFFF);
         if (actorPos[0] == *((short *)(((char *)sTabPositions) + off))) {
             return 0;
         }
@@ -3883,6 +3854,24 @@ int ITEMMENU_MoveActorToPoint(const char *workBytes)
     }
     return 1;
 }
+#else
+int ITEMMENU_MoveActorToPoint(ItemMenuWork *work)
+{
+    unsigned i;
+    short actorPos[2];
+    int off;
+    for (i = 0; i < 5; i++) {
+        off = i * 4;
+        CLACT_GetActorSurfacePos((struct ClactActor *)work->tabActor[i], (struct ClactVec2 *)actorPos, 0xFFFF);
+        if (actorPos[0] == *((short *)(((char *)sTabPositions) + off))) {
+            return 0;
+        }
+        actorPos[0] = actorPos[0] + 4;
+        CLACT_AddActorSurfacePos((struct ClactActor *)work->tabActor[i], (const struct ClactVec2 *)actorPos, 0xFFFF);
+    }
+    return 1;
+}
+#endif
 
 void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str, u16 x, TextCoord y, u16 color)
 {

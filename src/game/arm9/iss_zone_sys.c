@@ -102,7 +102,7 @@ void ISS_ZONE_SYS_StepFade(struct IssZone *zone);
  */
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId)
 {
-    struct IssZone *zone = (struct IssZone *)GFL_HEAP_Alloc(heapId, 0x18, 0,
+    struct IssZone *zone = (struct IssZone *)GFL_HEAP_Alloc(heapId, sizeof(struct IssZone), 0,
                                                            (const void *)0x020A7748, 0x55);
 
     zone->active = 0;

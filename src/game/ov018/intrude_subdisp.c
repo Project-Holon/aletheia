@@ -268,7 +268,7 @@
 /* Work of the brightness fade event (12 bytes, allocated by INTRUDE_SUBDISP_CreateBrightFadeEvent). */
 typedef struct IntrudeBrightFadeWork {
     struct FieldMap *fieldMap;  /* 0x00 */
-    void *subscreen;            /* 0x04: sub screen that is switched back to mode 0 */
+    struct FieldSubscreen *subscreen;            /* 0x04: sub screen that is switched back to mode 0 */
     int frame;                  /* 0x08: frames since the fade started */
 } IntrudeBrightFadeWork;
 
@@ -387,24 +387,24 @@ struct IntrudeRequestHead;
 void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind, u8 flag, u16 idx, int place);
 int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
-void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
-void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem);
+struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
+struct GameEvent *INTRUDE_SUBDISP_CreateReturnPalaceEvent(struct GameSystem *gameSystem);
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
-int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, IntrudeDisconnectWork *work);
-void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p);
-int INTRUDE_SUBDISP_GuideScriptEventMain(void *p, int *state);
-void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);
-void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
-void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
-int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *o);
+int INTRUDE_SUBDISP_DisconnectEventMain(struct GameEvent *a, int *seq, void *work);
+struct GameEvent *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *p);
+int INTRUDE_SUBDISP_GuideScriptEventMain(struct GameEvent *p, int *state, void *eventWork);
+struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);
+struct GameEvent *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
+struct GameEvent *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, struct FieldMap *fieldMap, struct FieldSubscreen *subscreen);
+int INTRUDE_SUBDISP_BrightFadeEventMain(struct GameEvent *event, int *state, void *work);
 int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *p);
-int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork);
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(void *unused, void *scriptWork);
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode);
 void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work);
-void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int param);
-void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork);
+struct GameEvent *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, struct FieldSubscreen *param);
+void INTRUDE_SUBDISP_VBlankTask(struct TcbTask *tcb, void *taskWork);
 void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg);
@@ -486,13 +486,13 @@ struct EventCommCommonWork;
 void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
-    sptr sys;
+    void *sys;
     void *obj;
     int zone;
     int x;
     int y;
 
-    MI_CpuFill8(spinWork, 0, 0x18);
+    MI_CpuFill8(spinWork, 0, sizeof(PlayerSpinWork));
     spinWork->gameSystem = gameSystem;
     spinWork->fieldMap = fieldMap;
     spinWork->objCode = id;
@@ -502,7 +502,7 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem,
     spinWork->shownStep = spinWork->stepFrames;
     spinWork->copyIndex = idx;
     if (place != 0) {
-        sys = (sptr)GAME_DATA_GetOccupyInfo(GAMESYSTEM_GetGameData(gameSystem));
+        sys = GAME_DATA_GetOccupyInfo(GAMESYSTEM_GetGameData(gameSystem));
         obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
         zone = FIELDMAP_GetZoneId(fieldMap);
         d_02183AF0.objCode = FLDMMDL_GetObjCode(obj);
@@ -632,28 +632,28 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWor
     return 0;
 }
 
-void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem)
+struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem)
 {
     VecFx32 v;
     INTRUDE_FIELD_GetZoneAnchor(0x117, &v);
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, 0x117, (&v));
 }
 
-void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem)
+struct GameEvent *INTRUDE_SUBDISP_CreateReturnPalaceEvent(struct GameSystem *gameSystem)
 {
     void *gameComm;
     void *gameData;
     IntrudeCommSys *sys;
 
-    gameComm = (void *)GAMESYSTEM_GetGameComm((void *)gameSystem);
-    gameData = GAMESYSTEM_GetGameData((void *)gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys != 0) {
         INTRUDE_COMM_SetIntrudeId(sys, GAME_DATA_GetOwnNetId(gameData));
     } else {
         GAME_DATA_SetIntrudeId(gameData, GAME_DATA_GetOwnNetId(gameData));
     }
-    return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)gameSystem);
+    return INTRUDE_SUBDISP_CreatePalaceWarpEvent(gameSystem);
 }
 
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
@@ -664,7 +664,7 @@ struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int ca
     unsigned char *x;
 
     sys = (void *)GAMESYSTEM_GetGameComm(gameSystem);
-    ret = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
+    ret = GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_DisconnectEventMain, sizeof(IntrudeDisconnectWork));
     work = GAME_EVENT_GetWork((void *)ret);
     work->cause = cause;
     if (GAME_COMM_GetKind(sys) == 2) {
@@ -683,8 +683,9 @@ struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int ca
     return ret;
 }
 
-int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnectWork *work)
+int INTRUDE_SUBDISP_DisconnectEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    IntrudeDisconnectWork *work = workPtr;
     void *x;
     void *s2;
     void *s1;
@@ -701,7 +702,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
     s1 = (void *)GAMESYSTEM_GetGameComm(x);
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, INTRUDE_SUBDISP_CreateReturnPalaceEvent((int)x));
+        GAME_EVENT_CallEvent(event, INTRUDE_SUBDISP_CreateReturnPalaceEvent(x));
         (*seq)++;
         break;
     case 1:
@@ -857,12 +858,12 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
     return 0;
 }
 
-void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem)
+struct GameEvent *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem)
 {
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_GuideScriptEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_GuideScriptEventMain, 0);
 }
 
-int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
+int INTRUDE_SUBDISP_GuideScriptEventMain(struct GameEvent *event, int *state, void *eventWork)
 {
     switch (*state) {
     case 0:
@@ -875,7 +876,7 @@ int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
     return 0;
 }
 
-void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode)
+struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode)
 {
     void *gameComm;
     void *c;
@@ -891,7 +892,7 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 
     return EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(gameSystem, zoneId, &v);
 }
 
-void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId)
+struct GameEvent *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId)
 {
     IntrudeCommSys *sys;
     IntrudeZonePos *q;
@@ -910,19 +911,20 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, in
     return EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, s, &v, 0, 0);
 }
 
-void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int subscreen)
+struct GameEvent *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, struct FieldMap *fieldMap, struct FieldSubscreen *subscreen)
 {
     void *task;
-    int *work;
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_BrightFadeEventMain, 12);
+    IntrudeBrightFadeWork *work;
+    task = GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_BrightFadeEventMain, sizeof(IntrudeBrightFadeWork));
     work = GAME_EVENT_GetWork(task);
-    work[0] = fieldMap;
-    work[1] = subscreen;
+    work->fieldMap = fieldMap;
+    work->subscreen = subscreen;
     return task;
 }
 
-int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *work)
+int INTRUDE_SUBDISP_BrightFadeEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    IntrudeBrightFadeWork *work = workPtr;
     switch (*state) {
     case 0:
         work->frame += 1;
@@ -932,7 +934,7 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFade
         }
         break;
     case 1:
-        FIELD_SUBSCREEN_ChangeModeNow((struct FieldSubscreen *)work->subscreen, 0);
+        FIELD_SUBSCREEN_ChangeModeNow(work->subscreen, 0);
         *state += 1;
         break;
     case 2:
@@ -956,22 +958,22 @@ int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *scriptWork)
     return 0;
 }
 
-int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork)
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(void *unused, void *scriptWork)
 {
     void *w;
     void *c;
-    sptr h;
-    sptr v;
+    void *h;
+    void *v;
 
-    w = SCRCMD_WORK_GetGameSystem((void *)scriptWork);
+    w = SCRCMD_WORK_GetGameSystem(scriptWork);
     GAMESYSTEM_GetGameData(w);
-    c = GAMESYSTEM_GetFieldMap((void *)w);
-    h = (sptr)GAMESYSTEM_GetGameComm(w);
+    c = GAMESYSTEM_GetFieldMap(w);
+    h = GAMESYSTEM_GetGameComm(w);
     v = 0;
-    if (GAME_COMM_GetKind((void *)h) == 2)
-        v = (sptr)GAME_COMM_GetWork((void *)h);
+    if (GAME_COMM_GetKind(h) == 2)
+        v = GAME_COMM_GetWork(h);
     if (v != 0) {
-        INTRUDE_FIELD_ResetExtraAreaCount((sptr)c, (sptr)w, (struct IntrudeCommSys *)v);
+        INTRUDE_FIELD_ResetExtraAreaCount(c, w, (struct IntrudeCommSys *)v);
         INTRUDE_FIELD_AddAreaMaps((struct FieldMap *)c, (struct GameSystem *)w, (struct IntrudeCommSys *)v);
     } else {
         INTRUDE_FIELD_AddAreaMapCount((struct FieldMap *)c, 1);
@@ -992,7 +994,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     u32 tmp;
 
     gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
-    work = GFL_HEAP_Alloc(0x70, 0x170, 1, (char *)str_02183B14, 0x240);
+    work = GFL_HEAP_Alloc(0x70, sizeof(IntrudeSubdispWork), 1, (char *)str_02183B14, 0x240);
     work->gameSystem = gameSystem;
     work->lastBgPalette = 0xFF;
     work->cursorActor = 0xFF;
@@ -1025,7 +1027,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     tmp |= 0x20;
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
-    work->vblankTask = (struct TcbTask *)GFL_USE_AddMainTask((TcbFunc)INTRUDE_SUBDISP_VBlankTask, work, 10);
+    work->vblankTask = (struct TcbTask *)GFL_USE_AddMainTask(INTRUDE_SUBDISP_VBlankTask, work, 10);
     zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     INTRUDE_SUBDISP_PrintTitle(work, zoneId);
@@ -1185,12 +1187,12 @@ void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
     }
 }
 
-void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int param)
+struct GameEvent *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, struct FieldSubscreen *param)
 {
     void *gameComm;
     void *gameData;
     void *fieldMap;
-    void *event;
+    struct GameEvent *event;
 
     gameComm = (void *)GAMESYSTEM_GetGameComm(work->gameSystem);
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
@@ -1202,7 +1204,7 @@ void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int para
     if (work->noIntrude == 1 || (GAME_DATA_GetIntrudeCount(gameData) == 0 && INTRUDE_COMM_GetWorkIfRunning(gameComm) == 0)) {
         GFL_USE_PlaySeDefaultVolume(0x551);
         INTRUDE_SUBDISP_StartButtonBlink(work);
-        return INTRUDE_SUBDISP_CreateBrightFadeEvent(work->gameSystem, (sptr)fieldMap, param);
+        return INTRUDE_SUBDISP_CreateBrightFadeEvent(work->gameSystem, fieldMap, param);
     }
     switch (work->selectionKind) {
     case 1:
@@ -1222,7 +1224,7 @@ void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int para
     return 0;
 }
 
-void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork)
+void INTRUDE_SUBDISP_VBlankTask(struct TcbTask *tcb, void *taskWork)
 {
     IntrudeSubdispWork *work = taskWork;
 
@@ -1554,7 +1556,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
         CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[8], 1);
     }
     for (i = 6; i <= 8; i++) {
-        MIi_CpuCopy16((void *)(0x05000602 + (work->town.homeSlot + 1) * 32), (void *)(0x0500060C + i * 32), 2);
+        MIi_CpuCopy16((void *)(HW_DB_OBJ_PLTT + 2 + (work->town.homeSlot + 1) * 32), (void *)(HW_DB_OBJ_PLTT + 0xC + i * 32), 2);
     }
     if (work->blinkActive == 1) {
         if (work->blinkCount % 2 == 0) {
@@ -2128,7 +2130,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             done = 1;
             for (i = 0; i < 2; i++) {
                 if (req.words[i] != 0) {
-                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], (struct Strbuf *)req.words[i], req.param[i], 1, 2);
+                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], req.words[i], req.param[i], 1, 2);
                 }
             }
             WORDSET_CopyTaggedText(work->wordSet, work->strbufText, work->strbufMsg);
@@ -2214,7 +2216,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     u32 touchX;
     u32 touchY;
     IntrudeSubdispPos pt;
-    sptr fieldObj;
+    struct FieldSubscreen *fieldObj;
     int sel;
     void *gameData;
     int i;
@@ -2223,10 +2225,10 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     const IntrudeTownEntry *entry;
     IntrudeZonePos *town;
 
-    fieldObj = (sptr)FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(work->gameSystem));
+    fieldObj = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(work->gameSystem));
     GAMESYSTEM_GetGameComm(work->gameSystem);
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
-    if (work->selectionKind != 0 || work->warpPending == 1 || !TOUCHPANEL_GetPointTrg(&touchX, &touchY) || (struct FieldSubscreen *)FIELD_SUBSCREEN_GetPanelResult((struct FieldSubscreen *)fieldObj) != 0) {
+    if (work->selectionKind != 0 || work->warpPending == 1 || !TOUCHPANEL_GetPointTrg(&touchX, &touchY) || FIELD_SUBSCREEN_GetPanelResult(fieldObj) != 0) {
         return;
     }
     sel = GAME_DATA_GetOwnNetId(gameData);
@@ -2385,18 +2387,18 @@ void INTRUDE_SUBDISP_InitTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys
 void INTRUDE_SUBDISP_UpdateTownState(IntrudeSubdispWork *work, IntrudeCommSys *sys)
 {
     IntrudeSubdispTownState *state;
-    sptr gameData;
+    void *gameData;
     int n;
     int i;
 
     state = &work->town;
-    gameData = (sptr)GAMESYSTEM_GetGameData(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (sys == 0) {
-        MI_CpuFill8(&work->town, 0, 0x14);
+        MI_CpuFill8(&work->town, 0, sizeof(work->town));
         work->lastPeerCount = 1;
         return;
     }
-    n = GAME_DATA_GetOwnNetId((void *)gameData);
+    n = GAME_DATA_GetOwnNetId(gameData);
     state->homeSlot = sys->localPeer.intrudeId;
     state->peerMask = sys->peerMask;
     state->peerCount = MATH_CountPopulation(state->peerMask);

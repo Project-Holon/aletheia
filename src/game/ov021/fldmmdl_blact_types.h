@@ -23,7 +23,7 @@
 #define FLDMMDL_BLACT_SLOT_VRAM (-1)
 
 /* Called when a reserved actor is added. */
-typedef void (*BlactAddActorHook)(u32 blactId, u32 arg);
+typedef void (*BlactAddActorHook)(u32 blactId, void *arg);
 
 /* Object code to image slot (8 bytes). */
 typedef struct BlactResIndex {
@@ -72,7 +72,7 @@ typedef struct BlactEntry {
     u8 pad_0E[2];
     void *resHandle;        /* 0x10: own image of the actor, or 0 */
     BlactAddActorHook hook; /* 0x14 */
-    u32 hookArg;            /* 0x18 */
+    void *hookArg;          /* 0x18 */
     VecFx32 pos;            /* 0x1C */
 } BlactEntry;
 

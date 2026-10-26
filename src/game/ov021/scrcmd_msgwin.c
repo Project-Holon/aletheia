@@ -277,10 +277,10 @@ struct OccupyInfo;
 #include "../arm9/tpoke_data.h"
 #include "../arm9/gf_font.h"
 #include "../arm9/key.h"
-int SCRCMD_MSGWIN_YesNoEventMain(GameEvent *event, int *seq, void *work);
+int SCRCMD_MSGWIN_YesNoEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *SCRCMD_MSGWIN_CreateYesNoEvent(GameSystem *gameSystem, ScrcmdWork *cmdWork, u16 *result);
 int SCRCMD_MSGWIN_CmdYesNoWin(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_MSGWIN_MenuEventMain(GameEvent *event, int *seq, void *work);
+int SCRCMD_MSGWIN_MenuEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *SCRCMD_MSGWIN_CreateMenuEvent(GameSystem *gameSystem, ScrcmdWork *cmdWork, int allowCancel);
 int SCRCMD_MSGWIN_CmdInitMenu(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_MSGWIN_CmdInitMenuMsgData(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -360,7 +360,7 @@ extern const VecFx32 sBalloonOffsetTable[2][4];
  * bytes of padding.
  * Addresses are Black-image addresses.
  */
-int SCRCMD_MSGWIN_YesNoEventMain(GameEvent *event, int *seq, void *work)
+int SCRCMD_MSGWIN_YesNoEventMain(struct GameEvent *event, int *seq, void *work)
 {
     YesNoEventWork *yesNo = work;
 
@@ -402,7 +402,7 @@ GameEvent *SCRCMD_MSGWIN_CreateYesNoEvent(GameSystem *gameSystem, ScrcmdWork *cm
     GameEvent *event;
     YesNoEventWork *yesNo;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_MSGWIN_YesNoEventMain, 0xc);
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MSGWIN_YesNoEventMain, sizeof(YesNoEventWork));
     yesNo = GAME_EVENT_GetWork(event);
     yesNo->cmdWork = cmdWork;
     yesNo->result = result;
@@ -420,7 +420,7 @@ int SCRCMD_MSGWIN_CmdYesNoWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 }
 
 
-int SCRCMD_MSGWIN_MenuEventMain(GameEvent *event, int *seq, void *work)
+int SCRCMD_MSGWIN_MenuEventMain(struct GameEvent *event, int *seq, void *work)
 {
     MenuEventWork *menu = work;
     int done;
@@ -453,7 +453,7 @@ GameEvent *SCRCMD_MSGWIN_CreateMenuEvent(GameSystem *gameSystem, ScrcmdWork *cmd
     GameEvent *event;
     MenuEventWork *menu;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_MSGWIN_MenuEventMain, 8);
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MSGWIN_MenuEventMain, sizeof(MenuEventWork));
     menu = GAME_EVENT_GetWork(event);
     menu->cmdWork = cmdWork;
     menu->allowCancel = allowCancel;

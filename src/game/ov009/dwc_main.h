@@ -10,14 +10,15 @@ struct GTI2Connection;
 #include "../types.h"
 #include "../ov009/dwc_match_ctl_types.h"
 #include "../ov009/gpi_types.h"
+#include "../ov009/gt2main_types.h"
 
 void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID, char *secretKey, int sendBufSize, int recvBufSize, void *friendList, int friendListLen);
 void DWC_ShutdownFriendsMatch(void);
 void DWC_ProcessFriendsMatch(void);
 int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param);
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
-int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
-int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
+int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, MatchedCallback matchedCallback, void *matchedParam, DWCMatchedSCCallback newClientCallback, void *newClientParam, DWCEvalCallback evalCallback, void *evalParam, int (*attemptCallback)(unsigned char *, void *), void *connectionUserData, void *attemptParam);
+int DWC_SetupGameServer(int topology, unsigned char maxEntry, MatchedCallback matchedCallback, void *matchedParam, DWCMatchedSCCallback newClientCallback, void *newClientParam, int (*attemptCallback)(unsigned char *, void *), void *connectionUserData, void *attemptParam);
 int DWC_ConnectToGameServerAsync(int topology, int serverIndex, void (*matchedCallback)(int, int, int, int, int, void *), void *matchedParam, void (*newClientCallback)(int, void *), void *newClientParam, int (*attemptCallback)(unsigned char *, void *), unsigned char *connectionUserData, void *attemptParam);
 int DWC_SetConnectionClosedCallback(MatchedCallback callback, void *param);
 int DWC_CloseAllConnectionsHard(void);
@@ -44,15 +45,15 @@ int DWCi_DeleteAID(unsigned char aid);
 int DWCi_GetAIDBitmapFromList(unsigned char *p, int n);
 int DWCi_CloseConnectionHard(unsigned char aid);
 void DWCi_LoginCallback(int error, int profileID, void *param);
-void DWCi_UpdateServersCallback(int error, int isChanged);
+void DWCi_UpdateServersCallback(int error, u8 isChanged, int unused);
 void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index, void *param);
 void DWCi_GPErrorCallback(void **pconnection, void *arg, void *param);
-void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *arg);
+void DWCi_GPRecvBuddyMessageCallback(void **pconnection, void * argArg, void * unused2);
 void DWCi_GT2ReceivedCallback(void *connection, unsigned char *message, int size, int reliable);
 void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 void DWCi_GT2ClosedCallback(void *connection, int reason);
 void DWCi_GT2PingCallback(void *connection, int latency);
-void DWCi_GT2SocketErrorCallback(void *socket);
+void DWCi_GT2SocketErrorCallback(GTI2Socket *socket);
 void DWCi_CustomCommonInit(unsigned char v);
 unsigned char DWCi_GetServerOrSubServerAID(void);
 int DWCi_IsGetAIDValid(void);

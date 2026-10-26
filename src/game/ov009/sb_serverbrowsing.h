@@ -7,7 +7,7 @@
 #include "../ov009/sb_server_types.h"
 
 ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, SBBrowserCB callback, void *instance);
-void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst);
+void EngineCallback(struct SBQueryEngine *unused, int reason, SBServer *server, void *inst);
 void ServerBrowserFree(ServerBrowser *sb);
 int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int updateOptions, int maxServers);
 int ServerBrowserLimitUpdateA(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);

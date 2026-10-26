@@ -121,15 +121,15 @@ void *BILLBOARD_Create(u8 *src, u32 heap)
     file = sBillboard;
     h = (struct BbBoard *)GFL_HEAP_Alloc(heap, sizeof(struct BbBoard), 1, file, 153);
     h->heapId = (u16)heap;
-    *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->images = (struct BbImage *)GFL_HEAP_Alloc(heap, h->imageCount * 0x28, 1, file, 159);
-    h->elems = (struct BbElem *)GFL_HEAP_Alloc(heap, h->elemCount * 0x1c, 1, file, 161);
+    *(struct Blob28 *)&h->imageCount = *(struct Blob28 *)src;
+    h->images = (struct BbImage *)GFL_HEAP_Alloc(heap, h->imageCount * sizeof(struct BbImage), 1, file, 159);
+    h->elems = (struct BbElem *)GFL_HEAP_Alloc(heap, h->elemCount * sizeof(struct BbElem), 1, file, 161);
     for (i = 0; i < h->imageCount; i++) {
         h->images[i].handle = 0;
         h->images[i].texFmt = 5;
     }
     for (i = 0; i < h->elemCount; i++) {
-        u16 *q = (u16 *)((u8 *)h->elems + i * 0x1c);
+        u16 *q = (u16 *)&h->elems[i];
         *q = (u16)((*q & ~0x3FFFu) | 0x3FFFu);
     }
     h->useFixedNormal = 0;
@@ -702,13 +702,13 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
  */
 void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
 {
-    u32 off = index * 0x28;
-    if (*(u32 *)((u8 *)board->images + off) != 0) {
-        G3D_SYSTEM_FreeVramTexture(*(struct G3dResource **)((u8 *)board->images + off));
-        G3D_SYSTEM_DeleteResource(*(struct G3dResource **)((u8 *)board->images + off));
-        *(u32 *)((u8 *)board->images + off) = 0;
+    u32 off = index * sizeof(struct BbImage);
+    if (((struct BbImage *)((u8 *)board->images + off))->handle != 0) {
+        G3D_SYSTEM_FreeVramTexture(((struct BbImage *)((u8 *)board->images + off))->handle);
+        G3D_SYSTEM_DeleteResource(((struct BbImage *)((u8 *)board->images + off))->handle);
+        ((struct BbImage *)((u8 *)board->images + off))->handle = 0;
     }
-    *(u32 *)((u8 *)board->images + off + 0x14) = 5;
+    ((struct BbImage *)((u8 *)board->images + off))->texFmt = 5;
 }
 
 /*
@@ -739,13 +739,13 @@ void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
  */
 void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
 {
-    u32 off = index * 0x28;
-    if (*(u32 *)(((struct BbBoardBytes *)board)->images + off) != 0) {
-        NNS_GfdDefaultFuncFreeTexVram(*(u32 *)((char *)board->images + off + 0x20));
-        NNS_GfdDefaultFuncFreePlttVram(*(u32 *)((char *)board->images + off + 0x24));
-        *(u32 *)((char *)board->images + off) = 0;
+    u32 off = index * sizeof(struct BbImage);
+    if (*(struct G3dResource **)(((struct BbBoardBytes *)board)->images + off) != 0) {
+        NNS_GfdDefaultFuncFreeTexVram(((struct BbImage *)((char *)board->images + off))->texKey);
+        NNS_GfdDefaultFuncFreePlttVram(((struct BbImage *)((char *)board->images + off))->plttKey);
+        ((struct BbImage *)((char *)board->images + off))->handle = 0;
     }
-    *(u32 *)((char *)board->images + off + 0x14) = 5;
+    ((struct BbImage *)((char *)board->images + off))->texFmt = 5;
 }
 
 /*
@@ -761,11 +761,11 @@ void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
  */
 void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index)
 {
-    u32 off = index * 0x28;
-    NNS_GfdDefaultFuncFreeTexVram(*(u32 *)((u8 *)board->images + off + 0x20));
-    NNS_GfdDefaultFuncFreePlttVram(*(u32 *)((u8 *)board->images + off + 0x24));
-    *(u32 *)((u8 *)board->images + off) = 0;
-    *(u32 *)((u8 *)board->images + off + 0x14) = 5;
+    u32 off = index * sizeof(struct BbImage);
+    NNS_GfdDefaultFuncFreeTexVram(((struct BbImage *)((u8 *)board->images + off))->texKey);
+    NNS_GfdDefaultFuncFreePlttVram(((struct BbImage *)((u8 *)board->images + off))->plttKey);
+    ((struct BbImage *)((u8 *)board->images + off))->handle = 0;
+    ((struct BbImage *)((u8 *)board->images + off))->texFmt = 5;
 }
 
 /*
@@ -783,10 +783,10 @@ void BILLBOARD_DeleteAllImages(struct BbBoard *board)
 }
 
 /* Texture VRAM byte offset of one record, through an out-parameter. */
-void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (sptr)board->images) + 12)); }
+void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)board->images[index].vramAddr; }
 
 /* Palette VRAM byte offset of one record, through an out-parameter. */
-int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ return *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (sptr)board->images) + 16)); }
+int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ return *outPlttVramOffset = (int)board->images[index].plttAddr; }
 
 /*
  * Texture VRAM key getter through an out-parameter on one 0x28-byte record;

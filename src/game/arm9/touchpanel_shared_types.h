@@ -97,7 +97,7 @@ typedef void (*UiCb)(void *);
 
 typedef int  (*UiPred)(void *);
 
-typedef void (*UiIntrFunc)(u32);
+typedef void (*UiIntrFunc)(void *arg);
 
 /* The UI context pointed at by gUiState.ctx (0x021469BC).  touchpanel.c and the
  * areaman tick UI_Main are all views of this one object; the fields
@@ -106,7 +106,7 @@ typedef struct UiCtx {
     KeyWork *keyWork;        /* 0x00 KEY_Create result */
     TouchPanelWork *tpWork;         /* 0x04 TOUCHPANEL_Create result */
     UiIntrFunc intrData;      /* 0x08 per-frame interrupt callback */
-    u32     intrArg;          /* 0x0C its argument */
+    void   *intrArg;          /* 0x0C its argument */
     UiCb    onWake;           /* 0x10 */
     UiCb    onSleep;          /* 0x14 */
     UiCb    onResume;         /* 0x18 */

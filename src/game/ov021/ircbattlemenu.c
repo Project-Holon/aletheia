@@ -383,8 +383,7 @@ struct PartyInfo;
 #include "../arm9/gx_load2d.h"
 struct TcblList;
 struct ButtonMan;
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*callback)(u32 index, int event, IrcBattleMenuWork *work), s32 arg, s32 heap);
+#include "../arm9/button_man.h"
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 struct GameComm;
 #include "../arm9/game_comm.h"
@@ -433,7 +432,7 @@ void IRCBATTLEMENU_ClearMessageWindow(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_DeleteMsgWin(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork *work, IrcBattleWinDesc *descs, int *centerX, int *centerY);
 void IRCBATTLEMENU_DeleteButtonWindows(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_TouchCallback(u32 index, int event, IrcBattleMenuWork *work);
+void IRCBATTLEMENU_TouchCallback(u32 index, s32 event, void *);
 void IRCBATTLEMENU_BrightenPalette(u16 (*pltt)[16], const u16 *rowOffsets, int rows);
 void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_LoadSubBgScreen(IrcBattleMenuWork *work, u32 screenId);
@@ -441,28 +440,28 @@ void IRCBATTLEMENU_SeqSetupTopMenu(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_FreeMenuGraphics(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqWaitFadeEnd(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_HookTopMenuPressed(IrcBattleMenuWork *work);
+void IRCBATTLEMENU_HookTopMenuPressed(void *param, u32 frame);
 void IRCBATTLEMENU_SeqIdleTop(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqWaitNotEnoughMsg(IrcBattleMenuWork *work);
 int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqUpdateTouchTop(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSetupKindMenu(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_HookKindMenuPressed(IrcBattleMenuWork *work);
+void IRCBATTLEMENU_HookKindMenuPressed(void *param, u32 frame);
 void IRCBATTLEMENU_SeqIdleKind(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_HookKindBackPressed(IrcBattleMenuWork *work);
+void IRCBATTLEMENU_HookKindBackPressed(void *param, u32 frame);
 void IRCBATTLEMENU_SeqIdleKindBack(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work);
 int IRCBATTLEMENU_TouchKindMenu(u32 index, IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSetupRuleMenu(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_HookPartyMenuPressed(IrcBattleMenuWork *work);
+void IRCBATTLEMENU_HookPartyMenuPressed(void *param, u32 frame);
 void IRCBATTLEMENU_SeqIdleParty(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqUpdateTouchParty(IrcBattleMenuWork *work);
 int IRCBATTLEMENU_TouchPartyMenu(u32 index, IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSetupPartyMenu(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_HookRuleMenuPressed(IrcBattleMenuWork *work);
+void IRCBATTLEMENU_HookRuleMenuPressed(void *param, u32 frame);
 void IRCBATTLEMENU_SeqIdleRule(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work);
 int IRCBATTLEMENU_TouchRuleMenu(u32 index, IrcBattleMenuWork *work);
@@ -678,8 +677,9 @@ void IRCBATTLEMENU_DeleteButtonWindows(IrcBattleMenuWork *work)
 }
 
 /* Touch switch callback: for event 0 forwards the button index to work->touchFunc. */
-void IRCBATTLEMENU_TouchCallback(u32 index, int event, IrcBattleMenuWork *work)
+void IRCBATTLEMENU_TouchCallback(u32 index, s32 event, void *arg)
 {
+    IrcBattleMenuWork *work = arg;
     if (event == 0 && work->touchFunc != 0 && work->touchFunc(index, work) != 0) {
         return;
     }
@@ -746,7 +746,7 @@ void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 0xB, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    work->winFrameChar = (uptr)BMP_MENUWORK_LoadFrameGfx(5, 0xC, 0, work->heapId);
+    work->winFrameChar = BMP_MENUWORK_LoadFrameGfx(5, 0xC, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, work->heapId);
 }
 
@@ -769,7 +769,7 @@ void IRCBATTLEMENU_SeqSetupTopMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xB);
     IRCBATTLEMENU_CreateTopMenuActors(work);
     IRCBATTLEMENU_CreateButtonWindows(4, msgIds.id, work, sTopMenuWinDescs, sTopMenuTextCenterX, sTopMenuTextCenterY);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sTopMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sTopMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchTopMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, 0x340);
 }
@@ -819,8 +819,9 @@ void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work)
 }
 
 /* Animation end hook of the top menu: picks the next sequence from the chosen mode. */
-void IRCBATTLEMENU_HookTopMenuPressed(IrcBattleMenuWork *work)
+void IRCBATTLEMENU_HookTopMenuPressed(void *param, u32 frame)
 {
+    IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 0xC) {
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, 0x38C);
         return;
@@ -849,8 +850,8 @@ void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work)
 
     i = work->touchIndex;
     hook.op = 0;
-    hook.param = (uptr)work;
-    hook.func = (uptr)IRCBATTLEMENU_HookTopMenuPressed;
+    hook.param = work;
+    hook.func = IRCBATTLEMENU_HookTopMenuPressed;
     if (i == 5) {
         i = 0;
     } else if (i == 6) {
@@ -938,14 +939,15 @@ void IRCBATTLEMENU_SeqSetupKindMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateKindMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xC);
     IRCBATTLEMENU_CreateButtonWindows(2, msgIds.id, work, sKindMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sKindMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sKindMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchKindMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, 0x432);
 }
 
 /* Animation end hook of the kind menu: picks the next menu from the mode and the party check. */
-void IRCBATTLEMENU_HookKindMenuPressed(IrcBattleMenuWork *work)
+void IRCBATTLEMENU_HookKindMenuPressed(void *param, u32 frame)
 {
+    IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 5) {
         if (BATTLE_BOX_HasMon((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(work->param->saveControl)) != 0) {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, 0x443);
@@ -973,8 +975,8 @@ void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
         i = 1;
     }
     hook.op = 0;
-    hook.param = (uptr)work;
-    hook.func = (uptr)IRCBATTLEMENU_HookKindMenuPressed;
+    hook.param = work;
+    hook.func = IRCBATTLEMENU_HookKindMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -982,8 +984,9 @@ void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
 }
 
 /* Animation end hook of the kind menu back button: returns to the top menu. */
-void IRCBATTLEMENU_HookKindBackPressed(IrcBattleMenuWork *work)
+void IRCBATTLEMENU_HookKindBackPressed(void *param, u32 frame)
 {
+    IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, 0x47A);
 }
 
@@ -998,8 +1001,8 @@ void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work)
     struct ClactAnimCommand hook;
 
     hook.op = 0;
-    hook.param = (uptr)work;
-    hook.func = (uptr)IRCBATTLEMENU_HookKindBackPressed;
+    hook.param = work;
+    hook.func = IRCBATTLEMENU_HookKindBackPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[work->touchIndex], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[work->touchIndex], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[work->touchIndex]);
@@ -1042,14 +1045,15 @@ void IRCBATTLEMENU_SeqSetupRuleMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateMainMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xD);
     IRCBATTLEMENU_CreateButtonWindows(4, msgIds.id, work, sRuleMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sRuleMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sRuleMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchRuleMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, 0x4CC);
 }
 
 /* Animation end hook of the party menu: picks the next menu from the party mode. */
-void IRCBATTLEMENU_HookPartyMenuPressed(IrcBattleMenuWork *work)
+void IRCBATTLEMENU_HookPartyMenuPressed(void *param, u32 frame)
 {
+    IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->partyMode == 2) {
         if (work->mode == 5) {
             work->mode = 1;
@@ -1076,8 +1080,8 @@ void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work)
 
     i = actorIndex.v[work->partyMode];
     hook.op = 0;
-    hook.param = (uptr)work;
-    hook.func = (uptr)IRCBATTLEMENU_HookPartyMenuPressed;
+    hook.param = work;
+    hook.func = IRCBATTLEMENU_HookPartyMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -1126,14 +1130,15 @@ void IRCBATTLEMENU_SeqSetupPartyMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateSubMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xD);
     IRCBATTLEMENU_CreateButtonWindows(2, msgIds.id, work, sKindMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sPartyMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sPartyMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchPartyMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchParty, 0x54D);
 }
 
 /* Animation end hook of the rule menu: picks the next menu from the mode and the party check. */
-void IRCBATTLEMENU_HookRuleMenuPressed(IrcBattleMenuWork *work)
+void IRCBATTLEMENU_HookRuleMenuPressed(void *param, u32 frame)
 {
+    IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 0xC) {
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, 0x558);
     } else {
@@ -1174,8 +1179,8 @@ void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
         break;
     }
     hook.op = 0;
-    hook.param = (uptr)work;
-    hook.func = (uptr)IRCBATTLEMENU_HookRuleMenuPressed;
+    hook.param = work;
+    hook.func = IRCBATTLEMENU_HookRuleMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -1562,8 +1567,8 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     IrcBattleMenuWork *work;
 
     GFL_HEAP_CreateChildHeap(1, 0x1f, 0x18000);
-    work = PROCSYS_AllocProcWork((struct Proc *)proc, 0x308, 0x1f);
-    MI_CpuFill8(work, 0, 0x308);
+    work = PROCSYS_AllocProcWork((struct Proc *)proc, sizeof(*work), 0x1f);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->heapId = 0x1f;
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);

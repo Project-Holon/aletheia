@@ -74,7 +74,7 @@ WMErrCode WM_SetWEPKey(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey)
     }
 
     WMi_SetCallbackTable(20, callback);
-    result = WMi_SendCommand(20, 2, (u32)wepmode, (uptr)wepkey);
+    result = WMi_SendCommand(20, 2, (u32)wepmode, wepkey);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }
@@ -105,7 +105,7 @@ WMErrCode WM_SetWEPKeyEx(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, con
     }
 
     WMi_SetCallbackTable(39, callback);
-    result = WMi_SendCommand(39, 3, (u32)wepmode, (uptr)wepkey, (u32)wepkeyid);
+    result = WMi_SendCommand(39, 3, (u32)wepmode, wepkey, (u32)wepkeyid);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }
@@ -137,7 +137,7 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
     DC_StoreRange(sWmEtcTmpUserGameInfoBuf, userGameInfoSize);
 
     WMi_SetCallbackTable(24, callback);
-    result = WMi_SendCommand(24, 5, (uptr)sWmEtcTmpUserGameInfoBuf, (u32)userGameInfoSize, ggid, (u32)tgid, (u32)attr);
+    result = WMi_SendCommand(24, 5, sWmEtcTmpUserGameInfoBuf, (u32)userGameInfoSize, ggid, (u32)tgid, (u32)attr);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }

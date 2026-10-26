@@ -97,7 +97,7 @@ void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *mmdlSys)
 }
 struct FieldG3dObjCtrl *FLDMMDL_G3DOBJ_GetObjCtrl(Mmdl *mmdl)
 {
-    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)((uptr)FLDMMDL_GetMmdlSys(mmdl))))->objCtrl;
+    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)(FLDMMDL_GetMmdlSys(mmdl))))->objCtrl;
 }
 /* Allocates resMax entries and marks every entry free (code 0xFFFF). */
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId)

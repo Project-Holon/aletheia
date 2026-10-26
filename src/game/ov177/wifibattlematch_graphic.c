@@ -65,16 +65,16 @@ struct Unit;
 
 typedef struct { unsigned id; unsigned template[8]; unsigned type; unsigned enable; } WifibattlematchBgEntry;
 
-struct WifibattlematchGraphic {
-    u8 bgData[4];
-    struct Unit *clactUnit;
-    u8 pad8[4];
-    struct TcbTask *vblankHandle;
-};
-
-/* offset-0 view of the clact slot: the clact helpers receive work + 4 */
+/* The clact slot at +4 of the graphics object. */
 struct WifibattlematchClact {
     struct Unit *bank;
+};
+
+struct WifibattlematchGraphic {
+    u8 bgData[4];
+    struct WifibattlematchClact clact;
+    u8 pad8[4];
+    struct TcbTask *vblankHandle;
 };
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -91,7 +91,7 @@ struct WifibattlematchClact {
 #include "../arm9/gf_font.h"
 struct TcbTask;
 
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(int, int *), void *work, unsigned int priority);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
 #include "../arm9/tcb_list.h"
@@ -122,15 +122,15 @@ struct ClactSysInit;
 
 
 
-int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap);
+struct WifibattlematchGraphic *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap);
 
-void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
+void WIFIBATTLEMATCH_GRAPHIC_Delete(struct WifibattlematchGraphic *p);
 
-void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p);
+void WIFIBATTLEMATCH_GRAPHIC_Draw(struct WifibattlematchGraphic *p);
 
-int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
+struct Unit *WIFIBATTLEMATCH_GRAPHIC_GetCamera(struct WifibattlematchGraphic *p);
 
-void WIFIBATTLEMATCH_GRAPHIC_VBlank(int a, int *p);
+void WIFIBATTLEMATCH_GRAPHIC_VBlank(struct TcbTask *task, void *work);
 
 void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap);
 
@@ -140,15 +140,15 @@ void WIFIBATTLEMATCH_GRAPHIC_Noop(void *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused);
 
-void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, struct DispVramCfg *b, int c);
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(struct WifibattlematchClact *p, struct DispVramCfg *b, int c);
 
-void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p);
+void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(struct WifibattlematchClact *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p);
 
 void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused);
 
-int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p);
+struct Unit *WIFIBATTLEMATCH_GRAPHIC_GetClactBank(struct WifibattlematchClact *p);
 
 extern const char d_021E8DA0[];
 
@@ -160,10 +160,10 @@ extern const WifibattlematchBgEntry d_021E8B5C[];
 
 extern unsigned char d_021E8B10[];
 
-int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
+struct WifibattlematchGraphic *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
 {
-    int *p = GFL_HEAP_Alloc(heap, 16, 0, d_021E8DA0, 0x1BB);
-    MI_CpuFill8(p, 0, 16);
+    struct WifibattlematchGraphic *p = GFL_HEAP_Alloc(heap, sizeof(*p), 0, d_021E8DA0, 0x1BB);
+    MI_CpuFill8(p, 0, sizeof(*p));
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -176,31 +176,31 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
-    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (struct DispVramCfg *)d_021E8B2C, heap);
-    ((struct WifibattlematchGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
+    WIFIBATTLEMATCH_GRAPHIC_InitClact(&p->clact, (struct DispVramCfg *)d_021E8B2C, heap);
+    p->vblankHandle = GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
     return p;
 }
 
 /*
  * volatile: display registers 04000050/04001050 cleared; DISPCNT 04000000/04001000 read-modify-write at 021E5506-021E5514.
  */
-void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
+void WIFIBATTLEMATCH_GRAPHIC_Delete(struct WifibattlematchGraphic *p)
 {
-    TCB_DeleteTask(((struct WifibattlematchGraphic *)p)->vblankHandle);
-    WIFIBATTLEMATCH_GRAPHIC_DeleteClact((int *)(p + 4));
+    TCB_DeleteTask(p->vblankHandle);
+    WIFIBATTLEMATCH_GRAPHIC_DeleteClact(&p->clact);
     WIFIBATTLEMATCH_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    MI_CpuFill8(p, 0, 0x10);
+    MI_CpuFill8(p, 0, sizeof(*p));
     GFL_HEAP_Free(p);
 }
 
-void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p)
+void WIFIBATTLEMATCH_GRAPHIC_Draw(struct WifibattlematchGraphic *p)
 {
-    WIFIBATTLEMATCH_GRAPHIC_DrawClact(p + 4);
+    WIFIBATTLEMATCH_GRAPHIC_DrawClact(&p->clact);
     WIFIBATTLEMATCH_GRAPHIC_Noop(p);
 }
 
@@ -209,15 +209,17 @@ void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p)
  * its pointer argument advanced by one word.  Matched to supply the `matched`
  * witness for the pending ov176 caller BATTLE_CHAMPIONSHIP_FLOW_CreateView.
  */
-int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p)
+struct Unit *WIFIBATTLEMATCH_GRAPHIC_GetCamera(struct WifibattlematchGraphic *p)
 {
-    return WIFIBATTLEMATCH_GRAPHIC_GetClactBank(p + 1);
+    return WIFIBATTLEMATCH_GRAPHIC_GetClactBank(&p->clact);
 }
 
-void WIFIBATTLEMATCH_GRAPHIC_VBlank(int a, int *p)
+void WIFIBATTLEMATCH_GRAPHIC_VBlank(struct TcbTask *task, void *work)
 {
-    WIFIBATTLEMATCH_GRAPHIC_TickDisplay(p);
-    WIFIBATTLEMATCH_GRAPHIC_VBlankClact((int *)((char *)p + 4));
+    struct WifibattlematchGraphic *p = work;
+
+    WIFIBATTLEMATCH_GRAPHIC_TickDisplay((int *)p);
+    WIFIBATTLEMATCH_GRAPHIC_VBlankClact((int *)&p->clact);
 }
 
 void WIFIBATTLEMATCH_GRAPHIC_InitBg(void *p, unsigned short heap)
@@ -259,21 +261,21 @@ void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
  * Bring up the graphics object: clear four words, submit the table and
  *   latch the 0x80-byte handle.
  */
-void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, struct DispVramCfg *b, int c)
+void WIFIBATTLEMATCH_GRAPHIC_InitClact(struct WifibattlematchClact *p, struct DispVramCfg *b, int c)
 {
-    MI_CpuFill8((void *)((sptr)p), 0, 4);
+    MI_CpuFill8(p, 0, sizeof(*p));
     CLACT_InitSystem((struct ClactSysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
-    p[0] = (sptr)CLACT_CreateUnit(0x80, 0, c);
-    CLACT_SetUnitDefaultRenderer((void *)p[0]);
+    p->bank = CLACT_CreateUnit(0x80, 0, c);
+    CLACT_SetUnitDefaultRenderer(p->bank);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(int *p)
+void WIFIBATTLEMATCH_GRAPHIC_DeleteClact(struct WifibattlematchClact *p)
 {
-    CLACT_DeleteUnit(((struct WifibattlematchClact *)p)->bank);
+    CLACT_DeleteUnit(p->bank);
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(*p));
 }
 
 void WIFIBATTLEMATCH_GRAPHIC_DrawClact(void *p)
@@ -290,7 +292,7 @@ void WIFIBATTLEMATCH_GRAPHIC_VBlankClact(int *unused)
  * Unlabelled ov177 leaf: loads the word its argument points at.  Matched as
  * the bottom-up dependency of the ov177 thunk WIFIBATTLEMATCH_GRAPHIC_GetCamera.
  */
-int WIFIBATTLEMATCH_GRAPHIC_GetClactBank(int *p)
+struct Unit *WIFIBATTLEMATCH_GRAPHIC_GetClactBank(struct WifibattlematchClact *p)
 {
-    return (int)(*(void **)p);
+    return p->bank;
 }

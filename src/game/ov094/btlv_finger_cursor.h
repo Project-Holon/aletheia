@@ -15,7 +15,7 @@ void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor);
 int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, int x, int y, u32 startDelay, u32 loopCount, u32 hideTimer);
 void BTLV_FINGER_CURSOR_DeleteActor(BtlvFingerCursor *cursor);
 int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor);
-void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor);
+void BTLV_FINGER_CURSOR_AnimCallback(void *param, u32 frame);
 void BTLV_FINGER_CURSOR_TaskHideAfterDelay(struct TcbTask *task, void *work);
 /* END mkheaders: generated region */
 

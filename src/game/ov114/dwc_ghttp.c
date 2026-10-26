@@ -317,7 +317,7 @@ DWCGHTTPParamEntry *DWCi_AppendDWCGHTTPParam(DWCGHTTPParam *param)
 {
     DWCGHTTPParamEntry *entry;
 
-    entry = DWC_Alloc(6, 0x20);
+    entry = DWC_Alloc(6, sizeof(*entry));
     if (entry == 0) {
         return 0;
     }

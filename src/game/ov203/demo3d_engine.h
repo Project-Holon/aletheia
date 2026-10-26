@@ -9,6 +9,7 @@ struct Demo3dGraphicCfg;
 struct Light;
 struct Demo3dEngineConfig;
 struct Demo3dEngineRecord;
+struct Cam;
 
 #include "../types.h"
 

@@ -167,17 +167,17 @@ void gpiRemovePeer(void **connection, GPIPeer *peer);
 int gpiProcessPeers(void **connection);
 GPIPeer *gpiGetPeerByProfile(void **connection, int profileid);
 GPIPeer *gpiGetPeerByAddr(void **connection, unsigned int ip, unsigned short port);
-void gpiFreeMessage(void **p);
+void gpiFreeMessage(void * pArg);
 GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate);
 int gpiPeerGetSig(void **connection, GPIPeer *peer);
 int gpiPeerStartConnect(void **connection, GPIPeer *peer);
 int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
 int gpiPeerStartTransferMessage(void **connection, GPIPeer *peer, int type, GPITransferID *transferID);
 int gpiPeerFinishTransferMessage(void **connection, GPIPeer *peer, char *message, int len);
-void gpiPeerLeftCallback(unsigned int ip, unsigned short port, void *unused, void **connection);
-void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
+void gpiPeerLeftCallback(unsigned int ip, unsigned short port, int unused, void *connectionArg);
+void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message, unsigned int messageLength, int unused, void *userData);
 void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
-void gpiPeerPingReplyCallback(void);
+void gpiPeerPingReplyCallback(unsigned int ip, unsigned short port, unsigned int unused, void *userData);
 void gpiPeerAddOp(GPIPeer *peer, GPIPeerOp *operation);
 void gpiPeerRemoveOp(GPIPeer *peer, GPIPeerOp *operation);
 extern char gGpiPeerDebugSignature[];
@@ -279,7 +279,7 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
             if (freePeerSig) {
                 gsifree(pProfile->peerSig);
                 pProfile->peerSig = 0;
-                if (gpiCanFreeProfile((char *)pProfile))
+                if (gpiCanFreeProfile(pProfile))
                     gpiRemoveProfile((void **)connection, pProfile);
             }
 
@@ -782,8 +782,9 @@ GPIPeer *gpiGetPeerByAddr(void **connection, unsigned int ip, unsigned short por
 
 
 
-void gpiFreeMessage(void **p)
+void gpiFreeMessage(void * pArg)
 {
+    void ** p = (void **)pArg;
     gsifree(*p);
     *p = 0;
 }
@@ -812,7 +813,7 @@ GPIPeer *gpiAddPeer(void **connection, int profileid, int initiate)
     peer->profile = profileid;
     peer->timeout = gsiTimeNitro(0) + 10000;
     peer->pnext = iconnection->peerList;
-    peer->messages = ArrayNew(0x18, 0, (void (*)(void *))gpiFreeMessage);
+    peer->messages = ArrayNew(0x18, 0, gpiFreeMessage);
     iconnection->peerList = peer;
     peer->firstOp = 0;
     peer->lastOp = 0;
@@ -1029,14 +1030,14 @@ int gpiPeerFinishTransferMessage(void **connection, GPIPeer *peer, char *message
 
 
 
-void gpiPeerLeftCallback(unsigned int ip, unsigned short port, void *unused,
-                         void **connection)
+void gpiPeerLeftCallback(unsigned int ip, unsigned short port, int unused,
+                         void *connectionArg)
 {
     SOCInAddr anAddr;
     GPIPeer *aPeer;
 
     anAddr.addr = ip;
-    aPeer = gpiGetPeerByAddr(connection, ip, port);
+    aPeer = gpiGetPeerByAddr((void **)connectionArg, ip, port);
     if (aPeer == 0)
         return;
     gsDebugFormat(1, 0, 8, gGpiPeerDebugLeft, SOC_InetNtoA(anAddr), port,
@@ -1052,8 +1053,9 @@ void gpiPeerLeftCallback(unsigned int ip, unsigned short port, void *unused,
  * sdk:      gpiPeerMessageCallback (libdwcgsgp.TWL.HYB.a gpipeer.o)
  */
 void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message,
-                   int messageLength, int unused, void *userData)
+                   unsigned int messageLengthArg, int unused, void *userData)
 {
+    int messageLength = (int)messageLengthArg;
     void **connection;
     GPIPeer *aPeer;
     char *buff;
@@ -1117,7 +1119,7 @@ void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, i
     gsDebugFormat(1, 0, 8, gGpiPeerDebugConnAccepted, SOC_InetNtoA(anAddr), port);
 }
 
-void gpiPeerPingReplyCallback(void)
+void gpiPeerPingReplyCallback(unsigned int ip, unsigned short port, unsigned int unused, void *userData)
 {
 }
 

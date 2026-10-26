@@ -7,6 +7,8 @@
 #include "../ov111/viewer_types.h"
 #include "../types.h"
 
+struct TcbTask;
+
 int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args);
 void VIEWER_MAIN_InitInfo(ViewerInfo *info);
 void VIEWER_MAIN_PlaySe(ViewerWork *p, int speed);
@@ -46,7 +48,7 @@ void VIEWER_MAIN_HandlePageInput(ViewerWork *p);
 int VIEWER_MAIN_HandleInput(ViewerWork *p);
 int VIEWER_MAIN_UpdateInput(ViewerWork *p);
 void VIEWER_MAIN_DrawSelected(ViewerWork *p, int sel, int *seq);
-void VIEWER_MAIN_VBlank(void *task, ViewerWork *p);
+void VIEWER_MAIN_VBlank(struct TcbTask *task, void *pArg);
 void VIEWER_MAIN_InitLcdBrightness(void);
 void VIEWER_MAIN_UploadBg(ViewerWork *p);
 void VIEWER_MAIN_SetWindowRect(void *p);

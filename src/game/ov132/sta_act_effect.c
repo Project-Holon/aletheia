@@ -94,18 +94,18 @@ extern const char d_021FDCB0[];
 char *STA_ACT_EFFECT_Create(unsigned heap)
 {
     u8 i = 0;
-    char *p = GFL_HEAP_Alloc(heap, 0x24244, 0, d_021FDCB0, 76);
+    char *p = GFL_HEAP_Alloc(heap, sizeof(ActEffectManager), 0, d_021FDCB0, 76);
     ((ActEffectManager *)p)->heapId = heap;
     PARTICLE_InitManager(heap);
     for (; i < 8; i++)
-        *(int *)(p + i * 0x4848 + 4) = 0;
+        ((ActEffectManager *)p)->systems[i].active.s = 0;
     return p;
 }
 
 /*
  * lever: the load uses p+index*0x4848+4, while the outgoing pointer uses p+4+index*0x4848; the latter keeps p+4 hoisted in r6. Using the load's grouping for both gave 49 concrete byte differences.
  */
-void STA_ACT_EFFECT_Delete(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) STA_ACT_EFFECT_KillSystem(p,p+4+i*0x4848); } PARTICLE_ExitManager(); GFL_HEAP_Free(p); }
+void STA_ACT_EFFECT_Delete(u8 *p) { u8 i; for(i=0;i<8;i++) { if(((ActEffectManager *)p)->systems[i].active.u==1) STA_ACT_EFFECT_KillSystem(p,(u8 *)&((ActEffectManager *)p)->systems[i]); } PARTICLE_ExitManager(); GFL_HEAP_Free(p); }
 
 int STA_ACT_EFFECT_Update(u8 *manager) { return PARTICLE_UpdateAllSystems(); }
 
@@ -117,17 +117,17 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex)
     void *v;
     u8 i;
     u8 j;
-    for (i = 0; i < 8; i++) if (*(int *)(p + i * 0x4848 + 4) == 0) q = (p + 4) + i * 0x4848;
+    for (i = 0; i < 8; i++) if (((ActEffectManager *)p)->systems[i].active.s == 0) q = (char *)&((ActEffectManager *)p)->systems[i];
     j = 0;
-    ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((sptr)(q + 4), 0x4800, 0, ((ActEffectManager *)p)->heapId);
+    ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault(((ActEffectSystem *)q)->particleWork, 0x4800, 0, ((ActEffectManager *)p)->heapId);
     v = (void *)PARTICLE_LoadArchiveMember(47, memberIndex, ((ActEffectManager *)p)->heapId);
-    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, (uptr)GFL_USE_GetMainTaskList());
-    for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
+    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, GFL_USE_GetMainTaskList());
+    for (; j < 4; j++) ((ActEffectSystem *)q)->part[j].a = 0;
     ((ActEffectSystem *)q)->active.s = 1;
     return q;
 }
 
-void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); PARTICLE_DeleteSystem((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); }
+void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects((struct ParticleSys *)(((ActEffectSystem *)p)->system.p)); PARTICLE_DeleteSystem((struct ParticleSys *)(((ActEffectSystem *)p)->system.p)); }
 
 static inline void set(StaActingVec *p, int x, int y, int z)
 {
@@ -143,7 +143,7 @@ static inline void set(StaActingVec *p, int x, int y, int z)
  */
 void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos)
 {
-    int a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, index, (sptr)pos);
+    struct SPLEmitter *a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, index, (const Vec3 *)pos);
     if (a == 0 || index < 4) {
         ((ActEffectSystem *)p)->part[index].a = a;
         set(&((ActEffectSystem *)p)->part[index].v, pos->x, pos->y, pos->z);
@@ -159,10 +159,10 @@ void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos)
  */
 void STA_ACT_EFFECT_KillEffect(char *p, int index)
 {
-    int v = *(int *)(p + index * 16 + 0x4808);
+    struct SPLEmitter *v = ((ActEffectSystem *)p)->part[index].a;
 
     if (v != 0)
-        PARTICLE_KillEffect(((ActEffectSystem *)p)->system.p, (void *)v);
+        PARTICLE_KillEffect(((ActEffectSystem *)p)->system.p, v);
 }
 
 /*

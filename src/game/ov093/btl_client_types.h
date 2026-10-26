@@ -65,6 +65,11 @@ typedef struct {
     u16 tick; /* replay step counter */
 } BtlClientCounter;
 
+typedef struct BtlClientRecvMon {
+    struct BtlPokeParam *mon;
+    u32 aux;
+} BtlClientRecvMon;
+
 struct BtlClient {
     struct BtlMain *main; /* 0x000 battle main object */
     struct BtlSide *side; /* 0x004 battle side data */
@@ -83,7 +88,7 @@ struct BtlClient {
     struct BtlvMessage messageA; /* 0x058 message parameters, first set */
     struct BtlvMessage messageB; /* 0x07C message parameters, second set */
     struct BtlServer *requestParam; /* 0x0A0 parameter of the pending request */
-    u8 recvEntry[0x18]; /* 0x0A4 entry received from the remote */
+    BtlClientRecvMon recvEntry[3]; /* 0x0A4 party member entries received from the remote */
     u32 recordKey; /* 0x0BC key of the record being played */
     u32 actionKey; /* 0x0C0 key of the action being sent */
     u8 windowMode; /* 0x0C4 message window mode */

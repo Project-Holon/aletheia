@@ -8,7 +8,7 @@
 #include "../types.h"
 #include "../arm9/nns_snd_arc_types.h"
 
-void NNSi_SndStrmStart(NNSSndStrm *strm);
+void NNSi_SndStrmStart(void *arg);
 void NNSi_SndMainReset(void);
 void NNS_SndMain(void);
 void NNSi_SndShutdown(void);

@@ -9,10 +9,12 @@ struct ManualListWork;
 
 #include "../types.h"
 
+struct TcbTask;
+
 void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
 void MANUAL_COMMON_DeleteListWork(char *work);
 int MANUAL_COMMON_UpdateListWork(char *work);
-void MANUAL_COMMON_ListWorkTaskNoop(void);
+void MANUAL_COMMON_ListWorkTaskNoop(struct TcbTask *unused0, void *unused1);
 void MANUAL_COMMON_LoadListWorkAssets(char *work);
 void MANUAL_COMMON_CreateListWorkMenu(char *work);
 void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work);

@@ -370,7 +370,7 @@ int NHTTP_RAP_RecordList_GetCount(NHTTPRapRecordList *list_p) { return list_p->c
 
 u32 NHTTP_RAP_RecordList_GetValue(NHTTPRapRecordList *list_p, u32 index)
 {
-    u32 recordsAddr = (uptr)list_p + 1;
+    uptr recordsAddr = (uptr)list_p + 1;
 
     return (((NHTTPRapRecord *)recordsAddr)[index].a<<24)|(((NHTTPRapRecord *)recordsAddr)[index].b<<16)|(((NHTTPRapRecord *)recordsAddr)[index].c<<8)|((NHTTPRapRecord *)recordsAddr)[index].d;
 }

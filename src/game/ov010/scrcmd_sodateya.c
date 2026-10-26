@@ -45,7 +45,7 @@ typedef struct PartyMenuParam {
 typedef struct PartyMenuState {
     void *party;        /* 0x00 */
     u32 listWork;       /* 0x04 */
-    u32 gameData;       /* 0x08 */
+    void *gameData;       /* 0x08 */
     u8 enabled;         /* 0x0C */
     u8 cursor;          /* 0x0D */
     u8 partyCount;      /* 0x0E */
@@ -111,7 +111,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)work->menuParam, (sptr)work->menuState));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, work->menuParam, work->menuState));
         *seq = 3;
         break;
     case 3:
@@ -135,7 +135,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
 {
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
-    u32 zukanSave = (uptr)ZUKAN_SAVE_GetFromGameData(gameData);
+    struct ZukanSave *zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     PartyMenuParam *menuParam = GFL_HEAP_Alloc(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
     PartyMenuState *menuState;
     DaycareEventWork *work;
@@ -147,14 +147,14 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState = GFL_HEAP_Alloc(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
     menuState->party = menuParam->party;
     menuState->listWork = menuParam->listWork;
-    menuState->gameData = (uptr)gameData;
+    menuState->gameData = gameData;
     menuState->enabled = 1;
     menuState->partyCount = POKEPARTY_GetCount(party);
     menuState->cursor = 0;
     menuState->reserved10 = 0;
     menuState->selectedPos = 0;
-    menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
-    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
+    menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled(zukanSave);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, sizeof(DaycareEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

@@ -331,7 +331,11 @@ typedef struct Object Object;
 struct Bytes { u8 a, b, c, d; };
 
 typedef struct {
+#ifdef __MWERKS__
     u8 pad[0x168];
+#else
+    u8 pad[BW_OFFSETOF(struct ActingScene, fadeWork)];
+#endif
     u16 phase;
     u16 base[16];
     s8 dr[16];
@@ -421,7 +425,6 @@ struct TcblSystem;
 
 #include "../arm9/g3d_camera.h"
 
-extern void G3D_SYSTEM_Exit(void);
 
 
 
@@ -457,11 +460,8 @@ struct TcbTask;
 
 
 
-extern void G3D_SYSTEM_DrawStart(void);
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void G3D_SYSTEM_DrawEnd(void);
 
 
 struct LightSlot;
@@ -480,7 +480,6 @@ struct G3dCamera;
 
 
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned int,unsigned int);
 
 struct G3dCamera;
 
@@ -597,7 +596,7 @@ void STA_ACTING_Delete(char *p);
 
 int STA_ACTING_Update(u8 *p);
 
-void STA_ACTING_VBlankCallback(void);
+void STA_ACTING_VBlankCallback(struct TcbTask * unused0, void * unused1);
 
 void STA_ACTING_InitDisplay(u8 *p);
 
@@ -711,7 +710,7 @@ u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 void STA_ACTING_SetCameraTarget(u8 *p,u16 v);
 
-u32 STA_ACTING_GetActorCount(u8 *p);
+void *STA_ACTING_GetActorCount(u8 *p);
 
 int STA_ACTING_GetSelection(char *p);
 
@@ -763,64 +762,64 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
 {
     u8 *p;
     u8 i;
-    p=GFL_HEAP_Alloc(heap,0x1f0,1,d_021FDCA0,0x11a);
-    *(u16 *)p=heap;
-    *(void **)(p+0x30)=input;
+    p=GFL_HEAP_Alloc(heap,sizeof(struct ActingScene),1,d_021FDCA0,0x11a);
+    ((struct ActingScene *)p)->heapId=heap;
+    ((struct ActingScene *)p)->input=(struct ActingInput *)input;
     i=0;
-    *(u16 *)(p+2)=0;
-    *(u16 *)(p+4)=127;
-    *(u16 *)(p+6)=128;
-    *(u16 *)(p+8)=0;
-    *(unsigned int *)(p+0xb4)=0;
-    *(unsigned int *)(p+0x1c)=0;
-    *(unsigned int *)(p+0x164)=0;
-    *(unsigned int *)(p+0xc)=1;
-    *(unsigned int *)(p+0x14)=0;
-    *(unsigned int *)(p+0x10)=0;
-    *(unsigned int *)(p+0x24)=0;
-    *(unsigned int *)(p+0x28)=0;
-    *(unsigned int *)(p+0x2c)=0;
-    *(void **)(p+0x20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))STA_ACTING_VBlankCallback,(void *)p,64);
-    if(**(unsigned int **)(p+0x30)==0){
+    ((struct ActingScene *)p)->introTimer=0;
+    ((struct ActingScene *)p)->scrollX=127;
+    ((struct ActingScene *)p)->scrollTargetX=128;
+    ((struct ActingScene *)p)->scrollY=0;
+    ((struct ActingScene *)p)->charAnimTable.u=0;
+    ((struct ActingScene *)p)->phase=0;
+    ((struct ActingScene *)p)->abortRequested=0;
+    ((struct ActingScene *)p)->cameraHoldIntro=1;
+    ((struct ActingScene *)p)->cameraHoldScript=0;
+    ((struct ActingScene *)p)->cameraHoldScore=0;
+    ((struct ActingScene *)p)->bgmBuffersInstalled.u=0;
+    ((struct ActingScene *)p)->seqPlaying.u=0;
+    ((struct ActingScene *)p)->bgmPlaying.u=0;
+    ((struct ActingScene *)p)->vblankTask=GFL_USE_AddMainTask(STA_ACTING_VBlankCallback,(void *)p,64);
+    if(((struct ActingScene *)p)->input->comm==0){
         for(;i<4;i++){
-            if(**(unsigned int **)(*(u8 **)(p+0x30)+4+i*4)==0){p[0xa]=i;break;}
+            if(((struct ActingScene *)p)->input->players[i]->state==0){((struct ActingScene *)p)->localPlayer=i;break;}
         }
-        if(i==4)p[0xa]=1;
-    }else p[0xa]=STA_NET_GetCurrentSlotValue((void *)**(unsigned int **)(p+0x30));
-    for(i=0;i<4;i++)p[0xf7+i]=0;
+        if(i==4)((struct ActingScene *)p)->localPlayer=1;
+    }else ((struct ActingScene *)p)->localPlayer=STA_NET_GetCurrentSlotValue(((struct ActingScene *)p)->input->comm);
+    for(i=0;i<4;i++)((struct ActingScene *)p)->bonus[i]=0;
     STA_ACTING_RankScores(p);
-    *(unsigned int *)(p+0xec)=1;
-    p[0xf0]=4;
-    p[0xf1]=4;
-    p[0xf2]=4;
-    p[0x11c]=4;
-    *(u16 *)(p+0x11e)=0;
-    *(unsigned int *)(p+0x15c)=0;
-    *(u16 *)(p+0x168)=0;
+    ((struct ActingScene *)p)->selectionDirty=1;
+    ((struct ActingScene *)p)->forcedSelection=4;
+    ((struct ActingScene *)p)->selectedPlayer=4;
+    ((struct ActingScene *)p)->highlightActor=4;
+    ((struct ActingScene *)p)->lastActor=4;
+    ((struct ActingScene *)p)->actionDelay=0;
+    ((struct ActingScene *)p)->netActionPending=0;
+    *(u16 *)((struct ActingScene *)p)->fadeWork=0;
     for(i=0;i<4;i++){
-        *(unsigned int *)(p+0xfc+i*4)=0;
-        *(u16 *)(p+0x124+i*2)=0;
-        *(unsigned int *)(p+0x13c+i*8)=0;
-        *(unsigned int *)(p+0x140+i*8)=0;
+        ((struct ActingScene *)p)->actionRequest[i]=0;
+        ((struct ActingScene *)p)->actionTimer[i]=0;
+        *(unsigned int *)((char *)((struct ActingScene *)p)->actionUsed+i*8)=0;
+        *(unsigned int *)((char *)&((struct ActingScene *)p)->actionUsed[1]+i*8)=0;
     }
-    *(void **)(p+0x18)=ARC_TOOL_CreateHandle(47,*(u16 *)p);
+    ((struct ActingScene *)p)->arcHandle.p=ARC_TOOL_CreateHandle(47,*(u16 *)p);
     STA_ACTING_InitDisplay(p);
     STA_ACTING_UploadPalettes(p);
     STA_ACTING_CreateText(p);
     STA_ACTING_CreateActors(p);
     STA_ACTING_CreateActObj((char *)p);
     STA_ACTING_CreateActorSys((char *)p);
-    *(void **)(p+0x90)=STA_ACT_LIGHT_CreateUnit(*(u16 *)p,p);
-    *(void **)(p+0xb8)=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,(unsigned int)(*(char **)(p+0x30)));
-    *(void **)(p+0xa4)=STA_ACT_BUTTON_Create(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
-    *(void **)(p+0xb0)=STA_ACT_SCRIPT_Create(*(u16 *)p,p);
+    ((struct ActingScene *)p)->charSystem=STA_ACT_LIGHT_CreateUnit(*(u16 *)p,p);
+    ((struct ActingScene *)p)->audience=STA_ACT_AUDIENCE_Create(*(u16 *)p,p,(char *)((struct ActingScene *)p)->input);
+    ((struct ActingScene *)p)->button=STA_ACT_BUTTON_Create(*(u16 *)p,p,(char *)((struct ActingScene *)p)->input->players[((struct ActingScene *)p)->localPlayer]);
+    ((struct ActingScene *)p)->scriptSystem=STA_ACT_SCRIPT_Create(*(u16 *)p,p);
     STA_ACTING_CreateAnimHandle((char *)p);
     GFL_NET_RefreshWmIconAtTopRight(0,*(u16 *)p);
     STA_ACTING_SetBaseProgram(p,0);
-    *(unsigned int *)(p+0x1dc)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x14);
-    *(unsigned int *)(p+0x1e0)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x18);
-    *(unsigned int *)(p+0x1e4)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x1c);
-    *(unsigned int *)(p+0x1ec)=g_02FFFC3C;
+    ((struct ActingScene *)p)->seqAddr=((struct ActingScene *)p)->input->resources->seqAddr;
+    ((struct ActingScene *)p)->bankAddr=((struct ActingScene *)p)->input->resources->bankAddr;
+    ((struct ActingScene *)p)->srcWaveArc=((struct ActingScene *)p)->input->resources->srcWaveArc;
+    ((struct ActingScene *)p)->lastTick.u=g_02FFFC3C;
     return p;
 }
 
@@ -845,14 +844,14 @@ void STA_ACTING_Delete(char *p)
     BMP_WIN_Delete(((struct ActingScene *)p)->bmpWin.p);
     GF_FONT_Delete(((struct ActingScene *)p)->font.p);
     TCBL_Destroy(((struct ActingScene *)p)->textTcbl.p);
-    STA_ACT_BUTTON_Delete(*(char * *)&((struct ActingScene *)p)->button);
+    STA_ACT_BUTTON_Delete(((struct ActingScene *)p)->button);
     STA_ACT_AUDIENCE_Delete(((struct ActingScene *)p)->audience);
     STA_ACT_LIGHT_DeleteModel(((struct ActingScene *)p)->model);
     STA_ACT_LIGHT_DeleteUnit(((struct ActingScene *)p)->charSystem);
     STA_ACT_EFFECT_Delete(((struct ActingScene *)p)->effectSystem);
     STA_ACT_OBJ_Delete(((struct ActingScene *)p)->actObj);
     STA_ACT_LIGHT_DeleteBillboardImage(((struct ActingScene *)p)->actorSystem);
-    MUSICAL_MCSS_DeleteRenderObj((sptr)(((struct ActingScene *)p)->mcssRender));
+    MUSICAL_MCSS_DeleteRenderObj(((struct ActingScene *)p)->mcssRender);
     MUSICAL_MCSS_DeleteActorPool(((struct ActingScene *)p)->actorPool);
     CLACT_ExitSystem();
     BILLBOARD_Delete(((struct ActingScene *)p)->billboard.p);
@@ -888,9 +887,9 @@ int STA_ACTING_Update(u8 *p)
         break;
     case 1:
         if(WIPE_SYS_EndCheck()==1) {
-            if(**(unsigned int * *)&((struct ActingScene *)p)->input!=0) {
+            if(((struct ActingScene *)p)->input->comm!=0) {
                 ((struct ActingScene *)p)->phase=7;
-                MUS_COMM_FUNC_SetTimingSync(**(int * *)&((struct ActingScene *)p)->input,200);
+                MUS_COMM_FUNC_SetTimingSync((sptr)((struct ActingScene *)p)->input->comm,200);
             } else ((struct ActingScene *)p)->phase=4;
         }
         break;
@@ -908,55 +907,55 @@ int STA_ACTING_Update(u8 *p)
         break;
     case 5:
         if(((struct ActingScene *)p)->abortRequested==0) {
-            ((struct ActingScene *)p)->charAnimTable.u=((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->input))->resources))->charAnims;
+            ((struct ActingScene *)p)->charAnimTable.u=(((struct ActingScene *)p)->input->resources)->charAnims;
             STA_ACTING_LoadCharAnims(p);
             ((struct ActingScene *)p)->phase=6;
         }
         break;
     case 6:
-        if(STA_ACT_SCRIPT_CountScripts(*(char * *)&((struct ActingScene *)p)->scriptSystem)==0) {
-            ((struct ActingScene *)p)->charAnimTable.u=0;
+        if(STA_ACT_SCRIPT_CountScripts(((struct ActingScene *)p)->scriptSystem)==0) {
+            ((struct ActingScene *)p)->charAnimTable.p=0;
             if(((struct ActingScene *)p)->abortRequested==0) ((struct ActingScene *)p)->phase=2;
             else ((struct ActingScene *)p)->phase=255;
         }
         break;
     case 7:
-        if(MUS_COMM_FUNC_CheckTimingSync(*(void **)*(u8 * *)&((struct ActingScene *)p)->input,200)==1)
+        if(MUS_COMM_FUNC_CheckTimingSync(((struct ActingScene *)p)->input->comm,200)==1)
             ((struct ActingScene *)p)->phase=4;
         break;
     }
     STA_ACTING_UpdateCamera(p);
-    STA_ACT_BUTTON_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->button));
+    STA_ACT_BUTTON_Update((char *)(((struct ActingScene *)p)->button));
     STA_ACTING_ProcessRecords((char *)p);
-    if(d_021FDE80==0) STA_ACT_SCRIPT_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->scriptSystem));
-    STA_ACT_LIGHT_StepModelAnim(*(u8 * *)&((struct ActingScene *)p)->model);
-    STA_ACT_LIGHT_UpdateBillboard(*(u8 * *)&((struct ActingScene *)p)->actorSystem);
-    STA_ACT_OBJ_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->actObj));
-    STA_ACT_EFFECT_Update(*(u8 * *)&((struct ActingScene *)p)->effectSystem);
+    if(d_021FDE80==0) STA_ACT_SCRIPT_Update((char *)(((struct ActingScene *)p)->scriptSystem));
+    STA_ACT_LIGHT_StepModelAnim(((struct ActingScene *)p)->model);
+    STA_ACT_LIGHT_UpdateBillboard(((struct ActingScene *)p)->actorSystem);
+    STA_ACT_OBJ_Update((char *)(((struct ActingScene *)p)->actObj));
+    STA_ACT_EFFECT_Update(((struct ActingScene *)p)->effectSystem);
     STA_ACTING_UpdateText(p);
-    MUSICAL_MCSS_TickAnim(*(u8 * *)&((struct ActingScene *)p)->mcssRender);
-    STA_ACT_LIGHT_UpdateElemActors((char *)(*(u8 * *)&((struct ActingScene *)p)->charSystem));
+    MUSICAL_MCSS_TickAnim(((struct ActingScene *)p)->mcssRender);
+    STA_ACT_LIGHT_UpdateElemActors((char *)(((struct ActingScene *)p)->charSystem));
     STA_ACTING_UpdateSelection((char *)p);
-    STA_ACT_AUDIENCE_Update((char *)(*(u8 * *)&((struct ActingScene *)p)->audience));
+    STA_ACT_AUDIENCE_Update((char *)(((struct ActingScene *)p)->audience));
     STA_ACTING_FadePalette((StaActingFade *)p);
     G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
-    STA_ACT_LIGHT_NoOp(*(u8 * *)&((struct ActingScene *)p)->charSystem);
-    STA_ACT_LIGHT_UpdateElem(*(u8 * *)&((struct ActingScene *)p)->actorSystem);
-    MUSICAL_MCSS_DrawRenderObj((void **)(*(u8 * *)&((struct ActingScene *)p)->mcssRender));
-    STA_ACT_LIGHT_UpdateSprite((char *)(*(u8 * *)&((struct ActingScene *)p)->actorSystem));
-    STA_ACT_LIGHT_DrawModel(*(u8 * *)&((struct ActingScene *)p)->model);
+    STA_ACT_LIGHT_NoOp(((struct ActingScene *)p)->charSystem);
+    STA_ACT_LIGHT_UpdateElem(((struct ActingScene *)p)->actorSystem);
+    MUSICAL_MCSS_DrawRenderObj(((struct ActingScene *)p)->mcssRender);
+    STA_ACT_LIGHT_UpdateSprite(((struct ActingScene *)p)->actorSystem);
+    STA_ACT_LIGHT_DrawModel(((struct ActingScene *)p)->model);
     BILLBOARD_Draw(((struct ActingScene *)p)->billboard.p,((struct ActingScene *)p)->camera,0);
-    STA_ACT_EFFECT_Draw(*(u8 * *)&((struct ActingScene *)p)->effectSystem);
+    STA_ACT_EFFECT_Draw(((struct ActingScene *)p)->effectSystem);
     STA_ACT_EFFECT_Noop(p);
     G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
-    if(**(unsigned int * *)&((struct ActingScene *)p)->input!=0 && ((struct ActingScene *)p)->phase!=0 &&
+    if(((struct ActingScene *)p)->input->comm!=0 && ((struct ActingScene *)p)->phase!=0 &&
        ((struct ActingScene *)p)->phase!=1 && ((struct ActingScene *)p)->phase!=2 &&
        ((struct ActingScene *)p)->phase!=3 && GFL_NET_ERR_GetErrorLevel()!=0)
         ((struct ActingScene *)p)->phase=2;
     return 0;
 }
 
-void STA_ACTING_VBlankCallback(void) { CLACT_VBlankSystem(); }
+void STA_ACTING_VBlankCallback(struct TcbTask * unused0, void * unused1) { CLACT_VBlankSystem(); }
 
 static inline void GX_SetVisiblePlane(int plane) { *(volatile unsigned int *)REG_DISPCNT_ADDR=(*(volatile unsigned int *)REG_DISPCNT_ADDR&~0x1F00u)|((unsigned int)plane<<8); }
 
@@ -984,7 +983,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
     WIPE_SetBrightnessFadeOut(0,0); WIPE_SetBrightnessFadeOut(1,0);
-    WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(0); WIPE_ResetWndMask(1);
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
     BG_SYS_Create(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
@@ -1001,15 +1000,15 @@ void STA_ACTING_InitDisplay(u8 *p)
     BG_SYS_EnableBg0WithPriority(3);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,(VecFx32 *)&d_021FDA7C.c,(VecFx32 *)&d_021FDA7C.a,(VecFx32 *)&d_021FDA7C.b,*(u16 *)p);
-    *(void **)(p+0xA8)=light;
+    ((struct ActingScene *)p)->camera=light;
     G3D_CAMERA_Reset(light);
     G3X_SetEdgeColorTable(d_021FDAB0);
     G3X_EdgeMarking(0); G3X_AntiAlias(1); G3X_AlphaBlend(1);
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
-    board=BILLBOARD_Create( (unsigned char *)&big,(u32)((void *)(unsigned int)*(u16 *)p));
-    *(void **)(p+0xAC)=board;
+    board=BILLBOARD_Create( (unsigned char *)&big,*(u16 *)p);
+    ((struct ActingScene *)p)->billboard.p=board;
     BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam,(const struct DispVramCfg *)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
@@ -1024,26 +1023,26 @@ void STA_ACTING_UploadPalettes(u8 *p)
     u16 palette[16];
     u8 i=0;
     u16 old,new;
-    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),2,0,32,32,32,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),8,3,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),14,3,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),3,0,0,0,32,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),9,2,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),15,2,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ActingScene *)p)->arcHandle.u),5,4,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),13,5,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),17,5,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),12,6,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),16,6,0,0,0,((struct ActingScene *)p)->heapId);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.u),11,4,0,0,0,((struct ActingScene *)p)->heapId);
-    MIi_CpuCopy16((void *)HW_DB_BG_PLTT,p+0x16a,32);
+    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),2,0,32,32,32,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),8,3,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),14,3,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),3,0,0,0,32,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),9,2,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),15,2,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ActingScene *)p)->arcHandle.p),5,4,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),13,5,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),17,5,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),12,6,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),16,6,0,0,0,((struct ActingScene *)p)->heapId);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ActingScene *)p)->arcHandle.p),11,4,0,0,0,((struct ActingScene *)p)->heapId);
+    MIi_CpuCopy16((void *)HW_DB_BG_PLTT,((struct ActingScene *)p)->fadeWork+2,32);
     MIi_CpuCopy16((void *)0x05000420,palette,32);
     for(i=0;i<16;i++){
-        old=*(u16 *)(p+0x16a+i*2);
+        old=*(u16 *)(((struct ActingScene *)p)->fadeWork+2+i*2);
         new=palette[i];
-        p[0x18a+i]=(u8)(new&31)-(u8)(old&31);
-        p[0x19a+i]=(u8)((new&0x3e0)>>5)-(u8)((old&0x3e0)>>5);
-        p[0x1aa+i]=(u8)((new&0x7c00)>>10)-(u8)((old&0x7c00)>>10);
+        ((struct ActingScene *)p)->fadeWork[0x22+i]=(u8)(new&31)-(u8)(old&31);
+        ((struct ActingScene *)p)->fadeWork[0x32+i]=(u8)((new&0x3e0)>>5)-(u8)((old&0x3e0)>>5);
+        ((struct ActingScene *)p)->fadeWork[0x42+i]=(u8)((new&0x7c00)>>10)-(u8)((old&0x7c00)>>10);
     }
     BG_SYS_PushTile(3);
     BG_SYS_PushTile(5);
@@ -1060,7 +1059,7 @@ void STA_ACTING_UploadPalettes(u8 *p)
  */
 void STA_ACTING_SetBaseProgram(u8 *p, u32 unused)
 {
-    int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct ActingPartA *)((u8 *)((struct ActingScene *)p)->input))->program);
+    int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct ActingScene *)p)->input->program);
     STA_ACT_LIGHT_CreateModel(((struct ActingScene *)p)->model, v);
 }
 
@@ -1074,18 +1073,18 @@ void STA_ACTING_CreateActors(u8 *p)
     ((struct ActingScene *)p)->mcssRender=MUSICAL_MCSS_CreateRenderObj(((struct ActingScene *)p)->heapId);
     MUSICAL_MCSS_SetRenderCellVramBase(((struct ActingScene *)p)->mcssRender,0x20000);
     ((struct ActingScene *)p)->actorPool=MUSICAL_MCSS_CreateActorPool(((struct ActingScene *)p)->billboard.u,36,((struct ActingScene *)p)->heapId);
-    ((struct ActingScene *)p)->actorSystem=STA_ACT_LIGHT_AddBillboardImage(((struct ActingScene *)p)->heapId,(uptr)p,(uptr)(((struct ActingScene *)p)->mcssRender),(uptr)(((struct ActingScene *)p)->actorPool),((struct ActingScene *)p)->billboard.u);
-    for (i=0;i<4;i++) *(u32 *)(p+0x44+i*4)=0;
+    ((struct ActingScene *)p)->actorSystem=STA_ACT_LIGHT_AddBillboardImage(((struct ActingScene *)p)->heapId,p,((struct ActingScene *)p)->mcssRender,((struct ActingScene *)p)->actorPool,((struct ActingScene *)p)->billboard.p);
+    for (i=0;i<4;i++) ((struct ActingScene *)p)->actors[i]=0;
     for (i=0;i<4;i++) {
-        ((struct Slots *)p)->slots[i]=STA_ACT_LIGHT_AddPokemonElem(((struct ActingScene *)p)->actorSystem,*(void **)(*(u8 * *)&((struct ActingScene *)p)->input+4+i*4));
+        ((struct Slots *)p)->slots[i]=STA_ACT_LIGHT_AddPokemonElem(((struct ActingScene *)p)->actorSystem,(u8 *)((struct ActingScene *)p)->input->players[i]);
         STA_ACT_LIGHT_SetActorPos(((struct ActingScene *)p)->actorSystem,((struct Slots *)p)->slots[i],(const u32 *)(&pos));
         pos.z-=0x1e000;
     }
 }
 
-void STA_ACTING_CreateActObj(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)*(int *)((uptr)p+i*4+0x58)=0;*(StaActObjObject * *)&((struct ActingScene *)p)->actObj=STA_ACT_OBJ_Create(((struct ActingScene *)p)->heapId,((struct ActingScene *)p)->billboard.p);}
+void STA_ACTING_CreateActObj(char *p){int tmp[3]={0};int i;for(i=0;i<5;i++)((struct ActingScene *)p)->objSlots[i]=0;*(StaActObjObject * *)&((struct ActingScene *)p)->actObj=STA_ACT_OBJ_Create(((struct ActingScene *)p)->heapId,((struct ActingScene *)p)->billboard.p);}
 
-void STA_ACTING_CreateActorSys(char *p){int i;*(char * *)&((struct ActingScene *)p)->effectSystem=STA_ACT_EFFECT_Create(((struct ActingScene *)p)->heapId);for(i=0;i<8;i++)*(int *)((uptr)p+i*4+0x70)=0;}
+void STA_ACTING_CreateActorSys(char *p){int i;((struct ActingScene *)p)->effectSystem=STA_ACT_EFFECT_Create(((struct ActingScene *)p)->heapId);for(i=0;i<8;i++)((struct ActingScene *)p)->animSlots[i]=0;}
 
 /*
  * blocker C (read-only root show):
@@ -1098,52 +1097,52 @@ void STA_ACTING_UpdateCamera(u8 *p)
     signed short target;
     u8 index;
     if (KEY_GetCont() & 16) {
-        if (*(u16 *)(p + 6) + 2 < 256) *(u16 *)(p + 6) = *(u16 *)(p + 6) + 2;
-        else *(u16 *)(p + 6) = 256;
+        if (((struct ActingScene *)p)->scrollTargetX + 2 < 256) ((struct ActingScene *)p)->scrollTargetX = ((struct ActingScene *)p)->scrollTargetX + 2;
+        else ((struct ActingScene *)p)->scrollTargetX = 256;
     }
     if (KEY_GetCont() & 32) {
-        if (*(u16 *)(p + 6) - 2 > 0) *(u16 *)(p + 6) = *(u16 *)(p + 6) - 2;
-        else *(u16 *)(p + 6) = 0;
+        if (((struct ActingScene *)p)->scrollTargetX - 2 > 0) ((struct ActingScene *)p)->scrollTargetX = ((struct ActingScene *)p)->scrollTargetX - 2;
+        else ((struct ActingScene *)p)->scrollTargetX = 0;
     }
-    if (!(KEY_GetCont() & 48) && !*(int *)(p + 0x14) && !*(int *)(p + 0x10) && !*(int *)(p + 0xC)) {
-        if (*(u8 *)(p + 0xF2) == 4) {
-            index = *(u8 *)(p + 0xF1);
-            if (index == 4) index = *(u8 *)(p + 0xA);
-            if (*(void **)(p + 0x44 + index * 4)) {
-                STA_ACT_LIGHT_CopyActorPos(*(void **)(p + 0x40), *(void **)(p + 0x44 + index * 4), (u32 *)(&v));
+    if (!(KEY_GetCont() & 48) && !((struct ActingScene *)p)->cameraHoldScript && !((struct ActingScene *)p)->cameraHoldScore && !((struct ActingScene *)p)->cameraHoldIntro) {
+        if (((struct ActingScene *)p)->highlightActor == 4) {
+            index = ((struct ActingScene *)p)->selectedPlayer;
+            if (index == 4) index = ((struct ActingScene *)p)->localPlayer;
+            if (((struct ActingScene *)p)->actors[index]) {
+                STA_ACT_LIGHT_CopyActorPos(((struct ActingScene *)p)->actorSystem, ((struct ActingScene *)p)->actors[index], (u32 *)(&v));
                 target = (float)v.x / 4096.0f - 128.0f;
             }
         } else {
-            STA_ACT_LIGHT_GetElemPos((void *)(*(void **)(p + 0x90)), (char *)(*(void **)(p + 0x94 + *(u8 *)(p + 0xF2) * 4)), (StaActLightVec3 *)&v);
+            STA_ACT_LIGHT_GetElemPos((void *)(((struct ActingScene *)p)->charSystem), (char *)(((struct ActingScene *)p)->charSlots[((struct ActingScene *)p)->highlightActor]), (StaActLightVec3 *)&v);
             target = (float)v.x / 4096.0f - 128.0f;
         }
         if (target > 256) target = 256;
         else if (target < 0) target = 0;
-        if (target != *(u16 *)(p + 4)) *(u16 *)(p + 6) = target;
+        if (target != ((struct ActingScene *)p)->scrollX) ((struct ActingScene *)p)->scrollTargetX = target;
     }
-    if (*(u16 *)(p + 6) != *(u16 *)(p + 4)) {
+    if (((struct ActingScene *)p)->scrollTargetX != ((struct ActingScene *)p)->scrollX) {
         StaActingVec scale = d_021FDBEC;
         StaActingVec translation = {0, 0, 0};
-        if (*(u16 *)(p + 4) > *(u16 *)(p + 6)) {
-            if (*(u16 *)(p + 4) > 4 && *(u16 *)(p + 4) - 4 > *(u16 *)(p + 6)) *(u16 *)(p + 4) -= 4;
-            else *(u16 *)(p + 4) = *(u16 *)(p + 6);
-        } else if (*(u16 *)(p + 4) < *(u16 *)(p + 6)) {
-            if (*(u16 *)(p + 4) + 4 < *(u16 *)(p + 6)) *(u16 *)(p + 4) += 4;
-            else *(u16 *)(p + 4) = *(u16 *)(p + 6);
+        if (((struct ActingScene *)p)->scrollX > ((struct ActingScene *)p)->scrollTargetX) {
+            if (((struct ActingScene *)p)->scrollX > 4 && ((struct ActingScene *)p)->scrollX - 4 > ((struct ActingScene *)p)->scrollTargetX) ((struct ActingScene *)p)->scrollX -= 4;
+            else ((struct ActingScene *)p)->scrollX = ((struct ActingScene *)p)->scrollTargetX;
+        } else if (((struct ActingScene *)p)->scrollX < ((struct ActingScene *)p)->scrollTargetX) {
+            if (((struct ActingScene *)p)->scrollX + 4 < ((struct ActingScene *)p)->scrollTargetX) ((struct ActingScene *)p)->scrollX += 4;
+            else ((struct ActingScene *)p)->scrollX = ((struct ActingScene *)p)->scrollTargetX;
         }
-        scale.x = FX((float)*(u16 *)(p + 4) / 16.0f);
-        translation.x = FX((float)*(u16 *)(p + 4) / 16.0f);
-        G3D_CAMERA_SetEye((struct G3dCamera *)(*(void **)(p + 0xA8)), (const VecFx32 *)&scale);
-        G3D_CAMERA_SetCamTarget((struct G3dCamera *)(*(void **)(p + 0xA8)), (const VecFx32 *)&translation);
-        G3D_CAMERA_Reset(*(void **)(p + 0xA8));
-        BG_SYS_ChangeScrollImmediate(2, 0, *(u16 *)(p + 4));
-        STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
-        STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
-        STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
-        STA_ACT_AUDIENCE_SetBgScroll(*(void **)(p + 0xB8), *(u16 *)(p + 4));
+        scale.x = FX((float)((struct ActingScene *)p)->scrollX / 16.0f);
+        translation.x = FX((float)((struct ActingScene *)p)->scrollX / 16.0f);
+        G3D_CAMERA_SetEye((struct G3dCamera *)(((struct ActingScene *)p)->camera), (const VecFx32 *)&scale);
+        G3D_CAMERA_SetCamTarget((struct G3dCamera *)(((struct ActingScene *)p)->camera), (const VecFx32 *)&translation);
+        G3D_CAMERA_Reset(((struct ActingScene *)p)->camera);
+        BG_SYS_ChangeScrollImmediate(2, 0, ((struct ActingScene *)p)->scrollX);
+        STA_ACT_LIGHT_SetModelFrame(((struct ActingScene *)p)->model, ((struct ActingScene *)p)->scrollX);
+        STA_ACT_LIGHT_SetElemFrame(((struct ActingScene *)p)->actorSystem, ((struct ActingScene *)p)->scrollX);
+        STA_ACT_OBJ_SetCount(((struct ActingScene *)p)->actObj, ((struct ActingScene *)p)->scrollX);
+        STA_ACT_AUDIENCE_SetBgScroll(((struct ActingScene *)p)->audience, ((struct ActingScene *)p)->scrollX);
     }
-    if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
-    BG_SYS_ChangeScrollImmediate(2, 3, *(u16 *)(p + 8));
+    if (((struct ActingScene *)p)->scrollY == 224) ((struct ActingScene *)p)->cameraHoldIntro = 0;
+    BG_SYS_ChangeScrollImmediate(2, 3, ((struct ActingScene *)p)->scrollY);
 }
 
 void STA_ACTING_LoadCharAnims(u8 *p)
@@ -1165,8 +1164,8 @@ void STA_ACTING_LoadRankAnim(u8 *p, u8 setIndex, u8 player)
 {
     void *table;
     u16 score;
-    table = ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->arcHandle.u), setIndex + 0x37, 0, ((struct ActingScene *)p)->heapId);
-    score = *(u16 *)(*(u8 **)(*(u8 * *)&((struct ActingScene *)p)->input + player * 4 + 4) + 0x4a);
+    table = ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->arcHandle.p), setIndex + 0x37, 0, ((struct ActingScene *)p)->heapId);
+    score = ((struct ActingScene *)p)->input->players[player]->score;
     if (score >= 70) {
         STA_ACT_SCRIPT_AddScriptFromTable(((struct ActingScene *)p)->scriptSystem, table, 0, (u8)(1 << player));
     } else if (score >= 40) {
@@ -1176,7 +1175,7 @@ void STA_ACTING_LoadRankAnim(u8 *p, u8 setIndex, u8 player)
     }
 }
 
-void STA_ACTING_LoadAnimMember(char *p, u8 setIndex, u8 mask){void *table;table=ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->arcHandle.u),setIndex+0x4b,0,((struct ActingScene *)p)->heapId);STA_ACT_SCRIPT_AddScriptFromTable(((struct ActingScene *)p)->scriptSystem,table,0,mask);}
+void STA_ACTING_LoadAnimMember(char *p, u8 setIndex, u8 mask){void *table;table=ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->arcHandle.p),setIndex+0x4b,0,((struct ActingScene *)p)->heapId);STA_ACT_SCRIPT_AddScriptFromTable(((struct ActingScene *)p)->scriptSystem,table,0,mask);}
 
 /*
  * Palette fade, 16 colours. The object holds a u16 phase at +0x168 (advanced by 0x160, wrapped at
@@ -1215,12 +1214,12 @@ void STA_ACTING_CreateText(u8 *p)
 {
     int zero;
     ((struct ActingScene *)p)->bmpWin.u=(uptr)BMP_WIN_Create((unsigned int)1,(unsigned int)4,(unsigned int)20,24,4,15,1);
-    BMP_WIN_TransferChars((struct BmpWin *)((struct ActingScene *)p)->bmpWin.u);
-    BMP_WIN_MakeScreen((struct BmpWin *)(((struct ActingScene *)p)->bmpWin.u));
+    BMP_WIN_TransferChars((struct BmpWin *)((struct ActingScene *)p)->bmpWin.p);
+    BMP_WIN_MakeScreen((struct BmpWin *)(((struct ActingScene *)p)->bmpWin.p));
     BG_SYS_PushTile(1);
     zero=0;
     ((struct ActingScene *)p)->font.u=(uptr)GF_FONT_Create(23,0,0,0,((struct ActingScene *)p)->heapId);
-    ((struct ActingScene *)p)->msgData.u=(uptr)MSGDATA_CreateFromMemory(((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->input))->resources))->messages,((struct ActingScene *)p)->heapId);
+    ((struct ActingScene *)p)->msgData.u=(uptr)MSGDATA_CreateFromMemory((((struct ActingScene *)p)->input->resources)->messages,((struct ActingScene *)p)->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,480,32,((struct ActingScene *)p)->heapId);
     ((struct ActingScene *)p)->textTcbl.u=(uptr)TCBL_Create(((struct ActingScene *)p)->heapId,((struct ActingScene *)p)->heapId,3,256);
     ((struct ActingScene *)p)->printStream.u=zero;
@@ -1267,7 +1266,7 @@ void STA_ACTING_PrintText(u8 *p, u16 index, u32 speed)
             ((struct ActingScene *)p)->strBuf.p, ((struct ActingScene *)p)->font.p, speed,
             ((struct ActingScene *)p)->textTcbl.p, 2, ((struct ActingScene *)p)->heapId, zero);
     } else {
-        PRINTSYS_PrintQue(((struct ActingScene *)p)->printQueue.p, (struct Bmp *)(uptr)BMP_WIN_GetBmp(((struct ActingScene *)p)->bmpWin.p),
+        PRINTSYS_PrintQue(((struct ActingScene *)p)->printQueue.p, (struct Bmp *)BMP_WIN_GetBmp(((struct ActingScene *)p)->bmpWin.p),
             zero, zero, ((struct ActingScene *)p)->strBuf.p, *(struct GfFont **)&((struct ActingScene *)p)->font);
         ((struct ActingScene *)p)->queuePending.s = 1;
         STRBUF_Delete(((struct ActingScene *)p)->strBuf.p);
@@ -1292,36 +1291,36 @@ void STA_ACTING_ClearText(u8 *p)
 void STA_ACTING_UpdateSelection(char *p)
 {
     u8 count, i, j, selected, index;
-    if (*(int *)(p + 0xEC) != 1) return;
+    if (((struct ActingScene *)p)->selectionDirty != 1) return;
     count = 0;
     i = 0;
-    for (; i < 4; i++) STA_ACT_AUDIENCE_SetSlotValue(*(char **)(p + 0xB8), i, 0);
-    STA_ACT_AUDIENCE_SetHighlight(*(char **)(p + 0xB8), 255);
-    *(u8 *)(p + 0xF1) = 4;
-    *(u8 *)(p + 0xF2) = 4;
+    for (; i < 4; i++) STA_ACT_AUDIENCE_SetSlotValue(((struct ActingScene *)p)->audience, i, 0);
+    STA_ACT_AUDIENCE_SetHighlight(((struct ActingScene *)p)->audience, 255);
+    ((struct ActingScene *)p)->selectedPlayer = 4;
+    ((struct ActingScene *)p)->highlightActor = 4;
     for (j = count; j < 4; j = (u8)(j + 1)) {
-        if (*(int *)(p + 0x94 + j * 4) != 0) {
+        if (((struct ActingScene *)p)->charSlots[j] != 0) {
             selected = j;
             count = (u8)(count + 1);
         }
     }
-    index = *(u8 *)(p + 0x11C);
+    index = ((struct ActingScene *)p)->lastActor;
     if (index < 4) {
-        *(u8 *)(p + 0xF1) = index;
-        STA_ACT_AUDIENCE_SetSlotValue(*(char **)(p + 0xB8), index, 1);
-    } else if ((index = *(u8 *)(p + 0xF0)) < 4) {
-        *(u8 *)(p + 0xF1) = index;
-        STA_ACT_AUDIENCE_SetSlotValue(*(char **)(p + 0xB8), index, 1);
+        ((struct ActingScene *)p)->selectedPlayer = index;
+        STA_ACT_AUDIENCE_SetSlotValue(((struct ActingScene *)p)->audience, index, 1);
+    } else if ((index = ((struct ActingScene *)p)->forcedSelection) < 4) {
+        ((struct ActingScene *)p)->selectedPlayer = index;
+        STA_ACT_AUDIENCE_SetSlotValue(((struct ActingScene *)p)->audience, index, 1);
     } else if (count == 1) {
-        *(u8 *)(p + 0xF2) = selected;
-        STA_ACT_AUDIENCE_SetHighlight(*(char **)(p + 0xB8), selected);
+        ((struct ActingScene *)p)->highlightActor = selected;
+        STA_ACT_AUDIENCE_SetHighlight(((struct ActingScene *)p)->audience, selected);
     } else {
         for (j = 0; j < 4; j = (u8)(j + 1)) {
-            if (*(u8 *)(p + 0xF3 + j) == 0)
-                STA_ACT_AUDIENCE_SetSlotValue(*(char **)(p + 0xB8), j, 1);
+            if (((struct ActingScene *)p)->rank[j] == 0)
+                STA_ACT_AUDIENCE_SetSlotValue(((struct ActingScene *)p)->audience, j, 1);
         }
     }
-    *(int *)(p + 0xEC) = 0;
+    ((struct ActingScene *)p)->selectionDirty = 0;
 }
 
 /*
@@ -1348,10 +1347,10 @@ void STA_ACTING_RankScores(u8 *p)
     u16 score;
     for (i = 0; i < 4; i++) p[0xf3 + i] = 0;
     for (i = 0; i < 4; i++) {
-        score = (u16)(*(u16 *)((*(u8 ***)(p + 0x30))[i + 1] + 0x4a) + p[0xf7 + i]);
+        score = (u16)(*(u16 *)((((u8 **)((struct ActingScene *)p)->input))[i + 1] + 0x4a) + p[0xf7 + i]);
         for (j = 0; j < 4; j++) {
             if (i != j) {
-                if ((u16)(*(u16 *)((*(u8 ***)(p + 0x30))[j + 1] + 0x4a) + p[0xf7 + j]) > score) p[0xf3 + i]++;
+                if ((u16)(*(u16 *)((((u8 **)((struct ActingScene *)p)->input))[j + 1] + 0x4a) + p[0xf7 + j]) > score) p[0xf3 + i]++;
             }
         }
     }
@@ -1397,9 +1396,9 @@ void STA_ACTING_PlayRankSe(char *p)
 {
     u8 i;
     u8 min = 255;
-    char *a = *(char * *)&((struct ActingScene *)p)->input;
+    struct ActingInput *a = ((struct ActingScene *)p)->input;
     for (i = 0; i < 4; i++) {
-        u16 v = *(u16 *)(*(char **)(a + i * 4 + 4) + 0x4a) + *(u8 *)(p + i + 0xf7);
+        u16 v = a->players[i]->score + ((struct ActingScene *)p)->bonus[i];
         if (min > v) min = v;
     }
     if (min >= 70) GFL_USE_PlaySeDefaultVolume(1578);
@@ -1407,20 +1406,19 @@ void STA_ACTING_PlayRankSe(char *p)
     else if (min >= 1) GFL_USE_PlaySeDefaultVolume(1580);
 }
 
-void STA_ACTING_RequestAction(char *p,int value){if(!**(int * *)&((struct ActingScene *)p)->input)STA_ACTING_ApplyAction(p,((struct ActingScene *)p)->localPlayer,value);else{((struct ActingScene *)p)->netActionPending=1;((struct ActingScene *)p)->netActionValue=value;}}
+void STA_ACTING_RequestAction(char *p,int value){if(!((struct ActingScene *)p)->input->comm)STA_ACTING_ApplyAction(p,((struct ActingScene *)p)->localPlayer,value);else{((struct ActingScene *)p)->netActionPending=1;((struct ActingScene *)p)->netActionValue=value;}}
 
 void STA_ACTING_ApplyAction(char *p, u32 player, int action)
 {
     Enabled one;
     one = ENABLED;
-    player = (uptr)p + player * 4;
-    ((struct ScriptOwner *)player)->actionRequest = one;
-    ((struct ScriptOwner *)player)->actionValue = action;
+    ((struct ActingScene *)p)->actionRequest[player] = one;
+    ((struct ActingScene *)p)->actionValue[player] = action;
 }
 
 int STA_ACTING_GetCurrentAction(char *p){return STA_ACTING_GetActionByIndex(p,((struct ActingScene *)p)->localPlayer);}
 
-int STA_ACTING_GetActionByIndex(char *p,u32 player){if(STA_ACT_LIGHT_IsElemActive(*(char * *)&((struct ActingScene *)p)->actorSystem,*(char **)((uptr)p+player*4+0x44))==1)return 1;return *(int *)((uptr)p+0xfc+player*4);}
+int STA_ACTING_GetActionByIndex(char *p,u32 player){if(STA_ACT_LIGHT_IsElemActive(((struct ActingScene *)p)->actorSystem,*(void **)((char *)((struct ActingScene *)p)->actors+player*sizeof(void *)))==1)return 1;return *(int *)((char *)((struct ActingScene *)p)->actionRequest+player*sizeof(int));}
 
 /*
  * lever: slots[count] = i; count++; keeps the byte store before the increment; if/else field stores preserve the shared flag-store block.
@@ -1434,19 +1432,19 @@ void STA_ACTING_ProcessRecords(char *p)
     int index;
     int result;
     STA_ACTING_TickActionTimers(p);
-    if (**(void ** *)&((struct ActingScene *)p)->input && ((struct ActingScene *)p)->netActionPending == 1) {
-        if (STA_NET_SendKindA(**(void ** *)&((struct ActingScene *)p)->input, (u8)((struct ActingScene *)p)->netActionValue) == 1)
+    if (((struct ActingScene *)p)->input->comm && ((struct ActingScene *)p)->netActionPending == 1) {
+        if (STA_NET_SendKindA(((struct ActingScene *)p)->input->comm, (u8)((struct ActingScene *)p)->netActionValue) == 1)
             ((struct ActingScene *)p)->netActionPending = 0;
     }
-    if (!**(void ** *)&((struct ActingScene *)p)->input) {
+    if (!((struct ActingScene *)p)->input->comm) {
         for (i = 0; i < 4; i++) {
-            if (*(int *)(p + i * 4 + 0xFC) == 1) {
-                STA_ACT_LIGHT_HandleElemAnim(*(char * *)&((struct ActingScene *)p)->actorSystem, *(char **)(p + i * 4 + 0x44), *(int *)(p + i * 4 + 0x10C));
+            if (((struct ActingScene *)p)->actionRequest[i] == 1) {
+                STA_ACT_LIGHT_HandleElemAnim(((struct ActingScene *)p)->actorSystem, ((struct ActingScene *)p)->actors[i], ((struct ActingScene *)p)->actionValue[i]);
                 slots[count] = i;
                 count++;
-                *(int *)(p + i * 4 + 0xFC) = 0;
-                if (*(int *)(p + i * 4 + 0x10C) == 7) *(int *)(p + i * 8 + 0x13C) = 1;
-                else if (*(int *)(p + i * 4 + 0x10C) == 8) *(int *)(p + i * 8 + 0x140) = 1;
+                ((struct ActingScene *)p)->actionRequest[i] = 0;
+                if (((struct ActingScene *)p)->actionValue[i] == 7) ((struct ActingScene *)p)->actionUsed[i * 2] = 1;
+                else if (((struct ActingScene *)p)->actionValue[i] == 8) ((struct ActingScene *)p)->actionUsed[i * 2 + 1] = 1;
                 STA_ACTING_ScheduleActions(p, 2, i);
             }
         }
@@ -1455,27 +1453,27 @@ void STA_ACTING_ProcessRecords(char *p)
             else ((struct ActingScene *)p)->scoreOnFinish = 0;
             ((struct ActingScene *)p)->actionDelay = 180;
             ((struct ActingScene *)p)->lastActor = slots[GFL_USE_GetRandomBelow(count)];
-            ((struct ActingScene *)p)->lastAction = *(int *)(p + ((struct ActingScene *)p)->lastActor * 4 + 0x10C);
+            ((struct ActingScene *)p)->lastAction = ((struct ActingScene *)p)->actionValue[((struct ActingScene *)p)->lastActor];
             ((struct ActingScene *)p)->selectionDirty = 1;
         }
     } else {
-        index = STA_SLOT_GetCurrentKey(**(void ** *)&((struct ActingScene *)p)->input);
+        index = STA_SLOT_GetCurrentKey(((struct ActingScene *)p)->input->comm);
         if ((unsigned)index < 4) {
             if (((struct ActingScene *)p)->lastActor == 4) ((struct ActingScene *)p)->scoreOnFinish = 1;
             else ((struct ActingScene *)p)->scoreOnFinish = 0;
             ((struct ActingScene *)p)->actionDelay = 180;
             ((struct ActingScene *)p)->lastActor = index;
-            ((struct ActingScene *)p)->lastAction = STA_SLOT_GetStateByKey(**(void ** *)&((struct ActingScene *)p)->input, index);
+            ((struct ActingScene *)p)->lastAction = STA_SLOT_GetStateByKey(((struct ActingScene *)p)->input->comm, index);
             ((struct ActingScene *)p)->selectionDirty = 1;
-            STA_SLOT_ClearCurrent(**(void ** *)&((struct ActingScene *)p)->input);
+            STA_SLOT_ClearCurrent(((struct ActingScene *)p)->input->comm);
         }
         for (i = 0; i < 4; i++) {
-            action = STA_SLOT_GetStateByKey(**(void ** *)&((struct ActingScene *)p)->input, i);
+            action = STA_SLOT_GetStateByKey(((struct ActingScene *)p)->input->comm, i);
             if (action != 10) {
-                STA_ACT_LIGHT_HandleElemAnim(*(char * *)&((struct ActingScene *)p)->actorSystem, *(char **)(p + i * 4 + 0x44), action);
-                STA_SLOT_ResetStateByKey(**(void ** *)&((struct ActingScene *)p)->input, i);
-                if (action == 7) *(int *)(p + i * 8 + 0x13C) = 1;
-                else if (action == 8) *(int *)(p + i * 8 + 0x140) = 1;
+                STA_ACT_LIGHT_HandleElemAnim(((struct ActingScene *)p)->actorSystem, ((struct ActingScene *)p)->actors[i], action);
+                STA_SLOT_ResetStateByKey(((struct ActingScene *)p)->input->comm, i);
+                if (action == 7) ((struct ActingScene *)p)->actionUsed[i * 2] = 1;
+                else if (action == 8) ((struct ActingScene *)p)->actionUsed[i * 2 + 1] = 1;
                 STA_ACTING_ScheduleActions(p, 2, i);
             }
         }
@@ -1487,14 +1485,14 @@ void STA_ACTING_ProcessRecords(char *p)
         }
         ((struct ActingScene *)p)->actionDelay = 0;
         if (((struct ActingScene *)p)->scoreOnFinish == 1) {
-            if (!**(void ** *)&((struct ActingScene *)p)->input) {
+            if (!((struct ActingScene *)p)->input->comm) {
                 result = STA_ACTING_AddScore(p, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction);
-                *(int *)(*(char **)(*(char * *)&((struct ActingScene *)p)->input + ((struct ActingScene *)p)->lastActor * 4 + 4) + ((struct ActingScene *)p)->lastAction * 4 + 0x54) = 1;
+                ((struct ActingScene *)p)->input->players[((struct ActingScene *)p)->lastActor]->actionDone[((struct ActingScene *)p)->lastAction] = 1;
                 GFL_USE_PlaySeDefaultVolume(result);
             } else if (GFL_NET_IsParentAid() == 1) {
                 result = STA_ACTING_AddScore(p, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction);
-                if (result == 1580) STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->input, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction, 1);
-                else STA_SLOT_PushRecord(**(void ** *)&((struct ActingScene *)p)->input, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction, 2);
+                if (result == 1580) STA_SLOT_PushRecord(((struct ActingScene *)p)->input->comm, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction, 1);
+                else STA_SLOT_PushRecord(((struct ActingScene *)p)->input->comm, ((struct ActingScene *)p)->lastActor, ((struct ActingScene *)p)->lastAction, 2);
             }
         }
         ((struct ActingScene *)p)->lastActor = 4;
@@ -1506,9 +1504,9 @@ int STA_ACTING_AddScore(char *p, unsigned player, unsigned actionIndex)
 {
     u16 v;
     u8 old;
-    v = MUSICAL_PROGRAM_GetCategoryShare((((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->input))->program), (u8)(int)MUSICAL_MCSS_GetElemA((void *)STA_ACTING_GetActorCount((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->input + player * 4 + 4) + actionIndex * 6 + 0x14))));
-    old = *(u8 *)(p + 0xf7 + player);
-    *(u8 *)(p + 0xf7 + player) = old + v;
+    v = MUSICAL_PROGRAM_GetCategoryShare((((struct ActingScene *)p)->input->program), (u8)(int)MUSICAL_MCSS_GetElemA(STA_ACTING_GetActorCount((u8 *)p), (u16)(((struct ActingScene *)p)->input->players[player]->slots[actionIndex].id)));
+    old = *((u8 *)((struct ActingScene *)p)->bonus + player);
+    *((u8 *)((struct ActingScene *)p)->bonus + player) = old + v;
     STA_ACTING_RankScores((u8 *)p);
     return (unsigned)v >= 7 ? 1579 : 1580;
 }
@@ -1516,13 +1514,13 @@ int STA_ACTING_AddScore(char *p, unsigned player, unsigned actionIndex)
 void STA_ACTING_TickActionTimers(char *p)
 {
     u8 i;
-    if (**(void ** *)&((struct ActingScene *)p)->input != 0 && GFL_NET_IsParentAid() != 1) return;
+    if (((struct ActingScene *)p)->input->comm != 0 && GFL_NET_IsParentAid() != 1) return;
     for (i = 0; i < 4; i++) {
-        if (*(u16 *)(p + i * 2 + 0x124) != 0) {
-            *(u16 *)(p + i * 2 + 0x124) -= 1;
-            if (*(u16 *)(p + i * 2 + 0x124) == 0) {
-                if (**(void ** *)&((struct ActingScene *)p)->input == 0) STA_ACTING_ApplyAction(p, (u32)((struct ScriptOwner *)i), *(int *)(p + i * 4 + 0x12c));
-                else STA_SLOT_SetValueByKey(**(void ** *)&((struct ActingScene *)p)->input, i, *(int *)(p + i * 4 + 0x12c));
+        if (((struct ActingScene *)p)->actionTimer[i] != 0) {
+            ((struct ActingScene *)p)->actionTimer[i] -= 1;
+            if (((struct ActingScene *)p)->actionTimer[i] == 0) {
+                if (((struct ActingScene *)p)->input->comm == 0) STA_ACTING_ApplyAction(p, i, ((struct ActingScene *)p)->pendingAction[i]);
+                else STA_SLOT_SetValueByKey(((struct ActingScene *)p)->input->comm, i, ((struct ActingScene *)p)->pendingAction[i]);
             }
         }
     }
@@ -1542,15 +1540,15 @@ static inline u32 random_below(u32 bound)
 void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ** *)&((struct ActingScene *)p)->input && GFL_NET_IsParentAid() != 1) return;
+    if (((struct ActingScene *)p)->input->comm && GFL_NET_IsParentAid() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
-        char *record = *(char **)(*(char * *)&((struct ActingScene *)p)->input + i * 4 + 4);
+        char *record = *(char **)((char *)&((struct ActingScene *)p)->input->players[0] + i * (int)sizeof(char *));
         StaActingAction action;
         int value;
-        if (((struct ActingRecord *)record)->state != 2 || STA_ACTING_GetActionByIndex(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
-        if (((struct ActingRecord *)record)->leftActorId != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
-        if (((struct ActingRecord *)record)->rightActorId != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
+        if (((struct ActingRecord *)record)->state != 2 || STA_ACTING_GetActionByIndex(p, i) == 1 || ((struct ActingScene *)p)->actionTimer[i] != 0) continue;
+        if (((struct ActingRecord *)record)->leftActorId != 255 && !*(int *)((char *)&((struct ActingScene *)p)->actionUsed + i * 8)) eligible[0] = 1;
+        if (((struct ActingRecord *)record)->rightActorId != 255 && !*(int *)((char *)&((struct ActingScene *)p)->actionUsed[1] + i * 8)) eligible[1] = 1;
         if (!eligible[0] && !eligible[1]) continue;
         if (eligible[0] == 1 && eligible[1] == 0) action = ACTION7;
         else if (eligible[1] == 1 && eligible[0] == 0) action = ACTION8;
@@ -1560,26 +1558,26 @@ void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot)
         switch (mode) {
         case 1:
             if (((struct ActingRecord *)record)->actionTiming == 65533 && i == slot) {
-                *(u16 *)(p + i * 2 + 0x124) = random_below(30) + 30;
-                *(int *)(p + i * 4 + 0x12C) = action;
+                ((struct ActingScene *)p)->actionTimer[i] = random_below(30) + 30;
+                (*(int *)((char *)((struct ActingScene *)p)->pendingAction + (i) * (int)sizeof(int))) = action;
             }
             break;
         case 2:
             if (((struct ActingRecord *)record)->actionTiming == 65535 && random_below(100) < 50) {
-                *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
-                *(int *)(p + i * 4 + 0x12C) = action;
+                ((struct ActingScene *)p)->actionTimer[i] = random_below(60) + 60;
+                (*(int *)((char *)((struct ActingScene *)p)->pendingAction + (i) * (int)sizeof(int))) = action;
             }
             if (((struct ActingRecord *)record)->actionTiming == 65534 && random_below(100) < 25) {
-                *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
-                *(int *)(p + i * 4 + 0x12C) = action;
+                ((struct ActingScene *)p)->actionTimer[i] = random_below(60) + 60;
+                (*(int *)((char *)((struct ActingScene *)p)->pendingAction + (i) * (int)sizeof(int))) = action;
             }
             break;
         case 0:
             if (((struct ActingRecord *)record)->actionTiming != 0 && ((struct ActingRecord *)record)->actionTiming < 65533) {
                 value = ((struct ActingRecord *)record)->actionTiming + (s8)(random_below(121) - 60);
-                if (value < 0) *(u16 *)(p + i * 2 + 0x124) = 0;
-                else *(u16 *)(p + i * 2 + 0x124) = value;
-                *(int *)(p + i * 4 + 0x12C) = action;
+                if (value < 0) ((struct ActingScene *)p)->actionTimer[i] = 0;
+                else ((struct ActingScene *)p)->actionTimer[i] = value;
+                (*(int *)((char *)((struct ActingScene *)p)->pendingAction + (i) * (int)sizeof(int))) = action;
             }
             break;
         }
@@ -1600,11 +1598,11 @@ void STA_ACTING_PositionAnim(char *p, unsigned player)
 {
     StaActingVec v;
     u8 j;
-    STA_ACT_LIGHT_CopyActorPos(((struct ActingScene *)p)->actorSystem, *(void **)(p + player * 4 + 0x44), (unsigned int *)(&v));
+    STA_ACT_LIGHT_CopyActorPos(((struct ActingScene *)p)->actorSystem, ((struct ActingScene *)p)->actors[player], (unsigned int *)(&v));
     v.x /= 16;
     v.y = (0xc0000 - (v.y - 0x20000)) / 16;
     v.z = 0xb4000;
-    for (j = 0; j < 3; j++) STA_ACT_EFFECT_StartEffect((char *)(*(char * *)&((struct ActingScene *)p)->animHandle), j, (StaActingVec *)&v.x);
+    for (j = 0; j < 3; j++) STA_ACT_EFFECT_StartEffect((char *)(((struct ActingScene *)p)->animHandle), j, (StaActingVec *)&v.x);
     GFL_USE_PlaySeDefaultVolume(1961);
 }
 
@@ -1617,25 +1615,25 @@ void STA_ACTING_HideButton(char *p){STA_ACT_BUTTON_SetVisible(((struct ActingSce
 
 void *STA_ACTING_GetActorSystem(char *p){return ((struct ActingScene *)p)->actorSystem;}
 
-void *STA_ACTING_GetActor(char *p,u32 player){return *(void **)((uptr)p+4*player+0x44);}
+void *STA_ACTING_GetActor(char *p,u32 player){return ((struct ActingScene *)p)->actors[player];}
 
 void *STA_ACTING_GetActObj(void *p){return ((struct ActingScene *)p)->actObj;}
 
-u32 *STA_ACTING_GetSlot(void *p,u8 index){return *(u32 **)((u8 *)p+(u32)index*4+0x58);}
+u32 *STA_ACTING_GetSlot(void *p,u8 index){return ((struct ActingScene *)p)->objSlots[(u32)index];}
 
-void STA_ACTING_SetSlot(void *p,void *value,u32 index){*(void **)((u8 *)p+index*4+0x58)=value;}
+void STA_ACTING_SetSlot(void *p,void *value,u32 index){((struct ActingScene *)p)->objSlots[index]=value;}
 
 void *STA_ACTING_GetEffectSystem(void *p){return ((struct ActingScene *)p)->effectSystem;}
 
-void *STA_ACTING_GetAnimSlot(void *p,u8 index){return *(void **)((u8 *)p+(u32)index*4+0x70);}
+void *STA_ACTING_GetAnimSlot(void *p,u8 index){return ((struct ActingScene *)p)->animSlots[(u32)index];}
 
-void STA_ACTING_SetAnimSlot(void *p,void *value,u32 index){*(void **)((u8 *)p+index*4+0x70)=value;}
+void STA_ACTING_SetAnimSlot(void *p,void *value,u32 index){((struct ActingScene *)p)->animSlots[index]=value;}
 
 void *STA_ACTING_GetCharSystem(void *p){return ((struct ActingScene *)p)->charSystem;}
 
-void *STA_ACTING_GetCharSlot(void *p,u8 index){return *(void **)((u8 *)p+(u32)index*4+0x94);}
+void *STA_ACTING_GetCharSlot(void *p,u8 index){return ((struct ActingScene *)p)->charSlots[(u32)index];}
 
-void STA_ACTING_SetCharSlot(void *p,void *value,u8 index){*(void **)((u8 *)p+(u32)index*4+0x94)=value;}
+void STA_ACTING_SetCharSlot(void *p,void *value,u8 index){((struct ActingScene *)p)->charSlots[(u32)index]=value;}
 
 void *STA_ACTING_GetAudience(void *p){return ((struct ActingScene *)p)->audience;}
 
@@ -1647,15 +1645,15 @@ u16 STA_ACTING_GetCameraScrollX(u8 *p) { return ((struct ActingScene *)p)->scrol
 
 void STA_ACTING_SetCameraTarget(u8 *p,u16 target) { ((struct ActingScene *)p)->scrollTargetX=target; }
 
-u32 STA_ACTING_GetActorCount(u8 *p) { return MUSICAL_MCSS_GetActorPoolResource(*(u8 * *)&((struct ActingScene *)p)->actorPool); }
+void *STA_ACTING_GetActorCount(u8 *p) { return MUSICAL_MCSS_GetActorPoolResource(((struct ActingScene *)p)->actorPool); }
 
 /*
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
 int STA_ACTING_GetSelection(char *p) { return ((struct ActingScene *)p)->lastActor; }
 
-unsigned char STA_ACTING_GetRecordScore(char *p, unsigned int player) { return *(unsigned short *)(((char **)(*(char **)(p + 0x30) + player * 4))[1] + 0x4A); }
+unsigned char STA_ACTING_GetRecordScore(char *p, unsigned int player) { return *(unsigned short *)(((char **)(((char *)((struct ActingScene *)p)->input) + player * 4))[1] + 0x4A); }
 
-unsigned char STA_ACTING_GetBonus(char *p, unsigned int player) { return *(unsigned char *)(p + player + 0xF7); }
+unsigned char STA_ACTING_GetBonus(char *p, unsigned int player) { return ((struct ActingScene *)p)->bonus[player]; }
 
-void STA_ACTING_SetCameraHoldScore(char *p, unsigned int hold) { *(unsigned int *)(p + 0x10) = hold; }
+void STA_ACTING_SetCameraHoldScore(char *p, unsigned int hold) { ((struct ActingScene *)p)->cameraHoldScore = hold; }

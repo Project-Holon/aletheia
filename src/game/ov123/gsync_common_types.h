@@ -9,7 +9,6 @@ struct ClactActor;
 
 #include "../arm9/bg_sys.h"
 
-typedef struct { u16 value; char *object; void (*callback)(char *); } NotifyCallback;
 
 /* Position record passed to CLACT_CreateActor (8 bytes). */
 struct GsyncCommonActorSpawnPos {
@@ -80,13 +79,13 @@ typedef struct GsyncDispParticle {
     u16 finished;           /* 0x16, set when the actor is gone */
 } GsyncDispParticle;
 
-/* CLACT resource handles of the display work (20 pointers). */
+/* CLACT resource handles of the display work (20 int ids). */
 typedef union GsyncDispResources {
-    void *all[20];              /* 0x00 */
+    int all[20];                /* 0x00 */
     struct {
-        void *palettes[6];      /* 0x00 */
-        void *characters[7];    /* 0x18 */
-        void *cellAnims[7];     /* 0x34 */
+        int palettes[6];        /* 0x00 */
+        int characters[7];      /* 0x18 */
+        int cellAnims[7];       /* 0x34 */
     } byKind;
 } GsyncDispResources;
 

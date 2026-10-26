@@ -422,11 +422,11 @@ extern unsigned char ov220_id[];
 
 GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int listArg, int listMode, int regulationId, Party *party, u8 *resultOrder, u32 *resultSlot, u32 *resultCommand, Party *resultParty);
 
-int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectEventWork *work);
+int FLD_BTL_INST_TOOL_PokeListEventMain(struct GameEvent *event, int *seq, void *work);
 
 GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
 
-int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsgEventWork *work);
+int FLD_BTL_INST_TOOL_TrainerMsgEventMain(struct GameEvent *event, int *seq, void *work);
 
 struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount);
 
@@ -452,15 +452,15 @@ int FLD_BTL_INST_TOOL_HasBattleMsgs(BtlInstTrainer *trainer);
 
 u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 key);
 
-void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag);
+void FLD_BTL_INST_TOOL_SetDoneFlag(void * doneFlagArg);
 
-int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work);
+int FLD_BTL_INST_TOOL_CommResetEventMain(struct GameEvent *event, int *step, void *work);
 
 GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int restoreAutoComm);
 
 GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, BtlInstBattleRequest *request, int regulationId, int useTempParty, u16 *resultOk);
 
-int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, PartySelectStepWork *work);
+int FLD_BTL_INST_TOOL_PartySelectStepEventMain(struct GameEvent *event, int *step, void *work);
 
 GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBattleRequest *request);
 
@@ -468,7 +468,7 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, struct BattleSetupP
 
 GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
 
-int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step);
+int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(struct GameEvent *event, int *step, void *eventWork);
 
 /*
  * Creates the party select event: a Pokemon list screen followed by the
@@ -496,7 +496,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     u8 maxCount;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_BTL_INST_TOOL_PokeListEventMain, sizeof(PartySelectEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -515,7 +515,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     statusParam = &work->statusParam;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     zukan = ZUKAN_SAVE_GetFromGameData(gameData);
-    MI_CpuFill8(statusParam, 0, 0x28);
+    MI_CpuFill8(statusParam, 0, sizeof(*statusParam));
     statusParam->ppd = party;
     statusParam->ppt = 1;
     maxCount = POKEPARTY_GetCount(party);
@@ -537,8 +537,9 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
  * fix-up, so a reset slot still passes its old index (the image does not
  * reload it).
  */
-int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectEventWork *work)
+int FLD_BTL_INST_TOOL_PokeListEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    PartySelectEventWork *work = workPtr;
     int count;
     int i;
     int slot;
@@ -555,7 +556,7 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectE
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)(&work->listParam), (sptr)(&work->statusParam)));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->listParam, &work->statusParam));
         (*seq)++;
         break;
     case 3:
@@ -601,7 +602,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     balloonSys = (struct FieldMsgBg *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_BTL_INST_TOOL_TrainerMsgEventMain, sizeof(TrainerMsgEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     if (trainers->introMsg.sentenceType == 0xFFFF) {
@@ -622,8 +623,9 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
  * Message balloon state machine: wait until the balloon is up, wait for a
  * confirm or cancel press, close the balloon and free the text.
  */
-int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsgEventWork *work)
+int FLD_BTL_INST_TOOL_TrainerMsgEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    TrainerMsgEventWork *work = workPtr;
     switch (*seq) {
     case 0:
         if (FIELD_MSGBG_TalkWinMain((struct FieldTalkWin *)work->balloon) == 1)
@@ -670,7 +672,7 @@ struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem
     int i;
     BtlInstClient client;
     int playerPos;
-    NetHandle *netHandle;
+    struct GFLNetHandle *netHandle;
     PokemonParam *srcMon;
     MyStatus *myStatus;
     BtlInstTrainer *trainerC;
@@ -695,11 +697,11 @@ struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem
         break;
     case 3:
     case 8:
-        netHandle = (struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle();
+        netHandle = GFL_NET_HANDLE_GetCurrentHandle();
         playerPos = 0;
         if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             playerPos = 2;
-        BTL_SETUP_SetupCommAiMulti(bs, gameData, (uptr)netHandle, 1, playerPos, 0, 0, 4);
+        BTL_SETUP_SetupCommAiMulti(bs, gameData, netHandle, 1, playerPos, 0, 0, 4);
         break;
     }
     BTL_SETUP_AllocRecordBuffer(bs, 4);
@@ -1179,8 +1181,9 @@ u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 key)
  * Unlabelled leaf callback (movs r1,#1; str r1,[r0]; bx lr); filed as the
  * sole blocker of FLD_BTL_INST_TOOL_CommResetEventMain (its pool word). Sets the done flag.
  */
-void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag)
+void FLD_BTL_INST_TOOL_SetDoneFlag(void * doneFlagArg)
 {
+    int * doneFlag = (int *)doneFlagArg;
     *doneFlag = 1;
 }
 
@@ -1190,8 +1193,9 @@ void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag)
  *
  * lever: 02026454 reads the live 02012138 result in r0 in cases 0 and 1.
  */
-int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work)
+int FLD_BTL_INST_TOOL_CommResetEventMain(struct GameEvent *event, int *step, void *workPtr)
 {
+    CommResetWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     struct FieldSubscreen *subscreen = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
     GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
@@ -1216,7 +1220,7 @@ int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetW
         (*step)++;
         break;
     case COMM_RESET_REQUEST_FIELD_RESET:
-        FIELD_SUBSCREEN_RequestModeWithCallback(subscreen, 8, (void (*)(int))FLD_BTL_INST_TOOL_SetDoneFlag, (uptr)work);
+        FIELD_SUBSCREEN_RequestModeWithCallback(subscreen, 8, FLD_BTL_INST_TOOL_SetDoneFlag, work);
         (*step)++;
         break;
     case COMM_RESET_WAIT_DONE:
@@ -1237,9 +1241,9 @@ GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int re
     GameEvent *event;
     CommResetWork *work;
     GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_BTL_INST_TOOL_CommResetEventMain, sizeof(CommResetWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 0xc);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->gameSystem = gameSystem;
     work->restoreAutoComm = restoreAutoComm;
     return event;
@@ -1258,7 +1262,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
     int listArg;
     Party *party;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_PartySelectStepEventMain, 0x34);
+    event = GAME_EVENT_Create(gameSystem, 0, FLD_BTL_INST_TOOL_PartySelectStepEventMain, sizeof(PartySelectStepWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -1294,8 +1298,9 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
  * and a slot other than 7 and 8). The flag store is written in each arm of the if/else
  * (2026-10-05 recoup), which keeps the store before the epilogue add sp.
  */
-int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, PartySelectStepWork *work)
+int FLD_BTL_INST_TOOL_PartySelectStepEventMain(struct GameEvent *event, int *step, void *workPtr)
 {
+    PartySelectStepWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     switch (*step) {
     case 0: {
@@ -1338,8 +1343,8 @@ GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBa
     BtlInstRequestOffset off;
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     off = BTL_INST_REQUEST_MODE_OFFSET;
-    mode = (BtlInstRequestOffset)*(int *)((u8 *)request + off);
-    return (GameEvent *)EVENT_BATTLE_CreateForcedWinTask(gameSystem, fieldMap, FLD_BTL_INST_TOOL_CreateBtlSetup(gameSystem, *(Party *const *)((u8 *)request + (off - 4)), mode, (BtlInstTrainer *)request, 0, *(int *)((u8 *)request + (off - 8))));
+    mode = request->mode;
+    return (GameEvent *)EVENT_BATTLE_CreateForcedWinTask(gameSystem, fieldMap, FLD_BTL_INST_TOOL_CreateBtlSetup(gameSystem, request->playerParty, mode, (BtlInstTrainer *)request, 0, request->monCount));
 }
 
 /*
@@ -1379,7 +1384,7 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, struct BattleSetupP
 GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm)
 {
     GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, 0x18);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, FLD_BTL_INST_TOOL_TrialHouseAwardEventMain, sizeof(TrialHouseAwardEventWork));
     TrialHouseAwardEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -1399,7 +1404,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, 
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step)
+int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(struct GameEvent *event, int *step, void *eventWork)
 {
     TrialHouseAwardEventWork *work;
     work = GAME_EVENT_GetWork(event);

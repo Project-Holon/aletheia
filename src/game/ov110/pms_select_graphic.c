@@ -320,7 +320,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
 void PMS_SELECT_GRAPHIC_DeleteScene(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateScene(struct PmsSelectGraphicScene *scene);
 void *PMS_SELECT_GRAPHIC_GetSceneActorUnit(struct PmsSelectGraphicScene *scene);
-void PMS_SELECT_GRAPHIC_SceneTask(int taskId, void *work);
+void PMS_SELECT_GRAPHIC_SceneTask(struct TcbTask *taskId, void *work);
 void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 heap);
 void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene);
 void PMS_SELECT_GRAPHIC_UpdateSceneNothing(struct PmsSelectGraphicScene *scene);
@@ -741,7 +741,7 @@ void PMS_SELECT_GRAPHIC_CreateRows(struct PmsSelectGraphic *p)
 {
     int i;
     unsigned v;
-    p->pmsDraw = PMS_DRAW_Create((uptr)PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), (int)0, (uptr)p->printQueue, (uptr)p->font, (int)8, (int)4, p->heapId);
+    p->pmsDraw = PMS_DRAW_Create(PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), (int)0, p->printQueue, p->font, (int)8, (int)4, p->heapId);
     p->filledCount = 0;
     for (i = 0; i < PMS_SELECT_GRAPHIC_MAX_ENTRIES; i++) {
         if (!PMSI_PARAM_IsComplete(PMS_WORD_GetSaveEntry(p->saveData, i), (u16)p->heapId)) break;
@@ -1020,7 +1020,7 @@ void PMS_SELECT_GRAPHIC_DrawSavedRow(struct PmsSelectGraphic *p, u8 row, u8 whic
         PMS_DRAW_SetNullColorPalette(p->pmsDraw, 13);
     }
     if (PMSI_PARAM_IsComplete((struct PmsData *)item, p->heapId) == 1) {
-        PMS_DRAW_Print((uptr)p->pmsDraw, (uptr)p->rowWindows[row], (struct BeaconDetailGraQuad *)item, row);
+        PMS_DRAW_Print(p->pmsDraw, p->rowWindows[row], (struct BeaconDetailGraQuad *)item, row);
         p->rowPending[row] = 1;
     }
 }
@@ -1194,7 +1194,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);
     PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (struct DispVramCfg *)gPmsSelectGraphicVramBanks, heap);
-    scene->drawTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMS_SELECT_GRAPHIC_SceneTask, (void *)scene, 0);
+    scene->drawTask = GFL_USE_AddMainTask(PMS_SELECT_GRAPHIC_SceneTask, (void *)scene, 0);
     return scene;
 }
 
@@ -1221,7 +1221,7 @@ void PMS_SELECT_GRAPHIC_UpdateScene(struct PmsSelectGraphicScene *scene) { PMS_S
 void *PMS_SELECT_GRAPHIC_GetSceneActorUnit(struct PmsSelectGraphicScene *scene) { return PMS_SELECT_GRAPHIC_ReadPointer(&scene->actorUnit); }
 
 /* Task of the scene: runs the draw and the vblank part of the actor system. */
-void PMS_SELECT_GRAPHIC_SceneTask(int taskId, void *work)
+void PMS_SELECT_GRAPHIC_SceneTask(struct TcbTask *taskId, void *work)
 {
     struct PmsSelectGraphicScene *scene = work;
     PMS_SELECT_GRAPHIC_TransferSceneBgs(scene);

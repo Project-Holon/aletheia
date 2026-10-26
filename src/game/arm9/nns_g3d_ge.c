@@ -180,7 +180,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsyncFast((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (uptr)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsyncFast((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsyncFast(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {
@@ -191,7 +191,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsync((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (uptr)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsync((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsync(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {

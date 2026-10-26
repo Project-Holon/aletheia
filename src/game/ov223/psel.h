@@ -4,13 +4,13 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of psel.c, prototypes copied from their definitions. */
 
+struct IcaAnime;
 struct PselRecord;
-struct Main;
-typedef struct Main Main;
+struct PselWork;
 
 #include "../types.h"
 
-void PSEL_SetAnimFrame(int anime, int frame);
+void PSEL_SetAnimFrame(struct IcaAnime *anime, int frame);
 struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count);
 void PSEL_DeleteRecords(void *p);
 int PSEL_Init(void *a,int unused,void *c);
@@ -36,7 +36,7 @@ void PSEL_UpdateUnitAnime(char *p);
 void PSEL_CreateUnits(char *p);
 void PSEL_DeleteUnits(char *p);
 int PSEL_InterpolateCurve(s16 *pos,int *size,u16 a,u16 b,u8 c,u8 d,u8 e,u8 f,u32 duration,u8 amplitude,u32 time);
-void PSEL_UpdateUnitPositions(Main *p);
+void PSEL_UpdateUnitPositions(struct PselWork *p);
 void PSEL_SetUnitVisible(char *p,unsigned selected);
 void PSEL_UpdateFadeUnit(char *p);
 int PSEL_IsUnitAnimDone(char *p);

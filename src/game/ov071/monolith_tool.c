@@ -296,8 +296,8 @@ struct PaletteFadeWork;
 #include "monolith_tool_types.h"
 
 typedef struct {
-    int topProc;
-    int subProc;
+    const struct ProcData *topProc;
+    const struct ProcData *subProc;
 } MonolithToolPair;
 
 /* CLACT system init config, same layout as arm9 struct SysInit. */
@@ -485,7 +485,7 @@ void MONOLITH_TOOL_InitActors(MonolithToolWork *work);
 void MONOLITH_TOOL_FreeActors(MonolithToolWork *work);
 void MONOLITH_TOOL_LoadActorResources(MonolithToolWork *work);
 void MONOLITH_TOOL_FreeActorResources(MonolithToolWork *work);
-void MONOLITH_TOOL_VBlankTask(void *unused, MonolithToolWork *work);
+void MONOLITH_TOOL_VBlankTask(struct TcbTask *unused, void *workArg);
 void MONOLITH_TOOL_LoadSlotRecords(MonolithToolWork *work, MonolithToolSetup *setup);
 void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *button, int resIndex, int sizeClass, int x, int y, int msgId, void *wordSet);
 void MONOLITH_TOOL_FreeButton(MonolithToolButton *button);
@@ -520,9 +520,9 @@ int MONOLITH_TOOL_IsBlinkActive(MonolithToolBlink *blink);
 struct Actor *MONOLITH_TOOL_CreateActorAt(MonolithToolWork *work, int x, int y, int animSeq);
 void MONOLITH_TOOL_DeleteActorAt(void *p);
 void MONOLITH_TOOL_Noop(void *a);
-struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap);
+struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(MonolithToolWork *p, int a, u16 heap);
 void MONOLITH_TOOL_DeleteTaskMenuRes(void *p);
-void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *res, u32 heap);
+void *MONOLITH_TOOL_OpenTaskMenu(MonolithToolWork *p, void *res, u32 heap);
 void MONOLITH_TOOL_CloseTaskMenu(void *p);
 int MONOLITH_TOOL_UpdateTaskMenu(MonolithToolWork *work, int unused, void *p, int *q);
 void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg);
@@ -635,7 +635,7 @@ void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWor
 int MONOLITH_TOOL_ScrollBy(MonolithListWork *work, int delta);
 void MONOLITH_TOOL_UpdateBgScroll(MonolithListWork *work);
 void MONOLITH_TOOL_UpdateRows(MonolithListWork *work);
-void MONOLITH_TOOL_TaskUploadRows(void *task, MonolithListWork *work);
+void MONOLITH_TOOL_TaskUploadRows(struct TcbTask *task, void *workArg);
 int MONOLITH_TOOL_GetRowAtY(MonolithListWork *work, unsigned y);
 int MONOLITH_TOOL_InitInfoScreen(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
 int MONOLITH_TOOL_MainInfoScreen(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
@@ -698,10 +698,10 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
-    *(volatile u32 *)0x04001000 &= 0xFFFFE0FF;
-    *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-    *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xFFFFE0FF;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xFFFFE0FF;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= 0xFFFF1FFF;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xFFFF1FFF;
     G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 4, 8, 0xF, 0xF);
     G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR, 4, 8, 0xF, 0xF);
     BG_SYS_SetLcdSwap(1);
@@ -723,7 +723,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     work->topProcSys = PROCSYS_Create(0x61);
     work->subProcSys = PROCSYS_Create(0x61);
     PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->scratchList, 6);
-    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_VBlankTask), (void *)work, (unsigned int)0xA);
+    work->vblankTask = GFL_USE_AddMainTask(MONOLITH_TOOL_VBlankTask, (void *)work, (unsigned int)0xA);
     GFL_NET_RefreshWmIconAtTopRight(0, 0x61);
     work->procArgs.setup = setup;
     work->procArgs.work = work;
@@ -761,12 +761,12 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
             work->procArgs.abortRequested = 1;
         if (work->procArgs.abortRequested == 0) {
             if (work->topProcStarted == 0) {
-                PROCSYS_Push(work->topProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].topProc, (void *)&work->procArgs);
+                PROCSYS_Push(work->topProcSys, -1, d_021BA774[work->currentScreen].topProc, (void *)&work->procArgs);
                 work->topProcStarted = 1;
             }
             if (work->subProcStarted == 0) {
                 GF_FONT_SetTextColor(0xF, 2, 0);
-                PROCSYS_Push(work->subProcSys, -1, (const ProcData *)d_021BA774[work->currentScreen].subProc, (void *)&work->procArgs);
+                PROCSYS_Push(work->subProcSys, -1, d_021BA774[work->currentScreen].subProc, (void *)&work->procArgs);
                 work->subProcStarted = 1;
             }
         }
@@ -1049,8 +1049,9 @@ void MONOLITH_TOOL_FreeActorResources(MonolithToolWork *work)
     } while (i < SLOT_COUNT);
 }
 
-void MONOLITH_TOOL_VBlankTask(void *unused, MonolithToolWork *work)
+void MONOLITH_TOOL_VBlankTask(struct TcbTask *unused, void *workArg)
 {
+    MonolithToolWork *work = workArg;
     CLACT_VBlankSystem();
     PALANM_TransferPalettes(work->palAnm);
 }
@@ -1506,9 +1507,9 @@ void MONOLITH_TOOL_Noop(void *a)
 {
 }
 
-struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap)
+struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(MonolithToolWork *p, int a, u16 heap)
 {
-    return APP_TASKMENU_RES_Create((u8)a, 14, (struct GFont *)p[3], (struct PrintQueue *)p[2], heap);
+    return APP_TASKMENU_RES_Create((u8)a, 14, (struct GFont *)p->font, (struct PrintQueue *)p->printSys, heap);
 }
 
 /*
@@ -1519,14 +1520,14 @@ void MONOLITH_TOOL_DeleteTaskMenuRes(void *p)
     APP_TASKMENU_RES_Delete(p);
 }
 
-void *MONOLITH_TOOL_OpenTaskMenu(int *work, void *res, u32 heap)
+void *MONOLITH_TOOL_OpenTaskMenu(MonolithToolWork *work, void *res, u32 heap)
 {
     MonolithToolItem it[2];
     struct MonolithToolTaskMenuTmpl t;
     void *menu;
 
-    it[0].text = MSGDATA_AllocString((void *)work[0x28 / 4], 0x1e);
-    it[1].text = MSGDATA_AllocString((void *)work[0x28 / 4], 0x1f);
+    it[0].text = MSGDATA_AllocString(work->msgBank[3], 0x1e);
+    it[1].text = MSGDATA_AllocString(work->msgBank[3], 0x1f);
     it[0].color = 0x39E0;
     it[1].color = 0x39E0;
     it[0].flags = 0;
@@ -1899,17 +1900,17 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
     MonolithToolTitle *screen;
     void *monsterName;
     void *name;
-    sptr species;
+    struct MyStatus *species;
     switch (*state) {
     case 0:
         screen = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolTitle), 0x61);
         MI_CpuFill8(screen, 0, sizeof(MonolithToolTitle));
         MONOLITH_TOOL_TITLE_InitBackgrounds();
         MONOLITH_TOOL_TITLE_LoadGraphics(args, args->work);
-        species = (sptr)MONOLITH_TOOL_GetTitleSpecies(args);
+        species = MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(name, MYSTATUS_GetName((const void *)species), 8);
-        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex((struct MyStatus *)species), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex(species), 1, 2);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);
@@ -2158,7 +2159,7 @@ void MONOLITH_TOOL_MENU_CreateWindow(MonolithToolMenu *screen, MonolithToolWork 
     BMP_MENUWORK_LoadChar(5, 1, 0, 0x61);
     PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     screen->window = (void *)BMP_WIN_Create(5, 1, 0x13, 0x1e, 4, 0xd, 1);
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)screen->window)), 0xff);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)screen->window)), 0xff);
     BMP_WIN_MakeScreen(screen->window);
     BMP_MENUWORK_DrawWindow(screen->window, 0, 1, 0xb);
 }
@@ -2227,7 +2228,7 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Proc *ctx, int *state, MonolithToolProcA
         for (i = 0; i < 2; i++) {
             void *printSys = args->work->printSys;
             if (screen->text[i].on != 0) {
-                if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)((uptr)BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)(BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
                     BMP_WIN_TransferChars(screen->text[i].window);
                     screen->text[i].on = 0;
                 }
@@ -2253,11 +2254,11 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Proc *ctx, int *state, MonolithToolProcA
  */
 int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen)
 {
-    sptr saveData;
+    void *saveData;
     int idleCount;
     int i;
 
-    saveData = (sptr)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
+    saveData = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
     idleCount = 0;
     if (args->topProcDone == 1) {
         return 1;
@@ -2266,7 +2267,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *a
     for (i = 0; i < 2; i++) {
         void *printSys = args->work->printSys;
         if (screen->text[i].on != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)((uptr)BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)(BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
                 BMP_WIN_TransferChars(screen->text[i].window);
                 screen->text[i].on = 0;
             }
@@ -2370,7 +2371,7 @@ void MONOLITH_TOOL_SUMMARY_Draw(MonolithToolProcArgs *args, MonolithToolWork *wo
             slot = 0;
         }
         info = (MonolithToolSlotInfo *)&work->slotRecord[d_021BAA4C[slot]];
-        src = (u8 *)args->setup + 0x18;
+        src = (u8 *)args->setup->playerName;
     }
     detailId = info->detailId;
     labelText = MSGDATA_AllocString(work->msgBank[0], info->labelId);
@@ -2413,7 +2414,7 @@ int MONOLITH_TOOL_STATS_Create(struct Proc *ctx, int *state, MonolithToolProcArg
         for (i = 0; i < 6; i++) {
             void *printSys = args->work->printSys;
             if (screen->text[i].on != 0) {
-                if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)((uptr)BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)(BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
                     BMP_WIN_TransferChars(screen->text[i].window);
                     screen->text[i].on = 0;
                 }
@@ -2450,7 +2451,7 @@ int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *arg
     for (i = 0; i < 6; i++) {
         void *printSys = args->work->printSys;
         if (screen->text[i].on != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)((uptr)BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)(BMP_WIN_GetBmp(screen->text[i].window))) == 0) {
                 BMP_WIN_TransferChars(screen->text[i].window);
                 screen->text[i].on = 0;
             }
@@ -2660,9 +2661,9 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         MONOLITH_TOOL_CreateBackButton(args, work);
         MONOLITH_TOOL_CreateScrollArrows(args, work);
         MONOLITH_TOOL_LIST_DrawTitle(args, work);
-        work->taskMenuUnit = MONOLITH_TOOL_CreateTaskMenuRes((u32 *)args->work, 4, 0x61);
+        work->taskMenuUnit = MONOLITH_TOOL_CreateTaskMenuRes(args->work, 4, 0x61);
         args->param->selected = MONOLITH_ENTRY_NONE;
-        work->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))MONOLITH_TOOL_TaskUploadRows), (void *)work, (unsigned int)3);
+        work->task = GFL_USE_AddMainTask(MONOLITH_TOOL_TaskUploadRows, (void *)work, (unsigned int)3);
         MONOLITH_TOOL_LIST_BuildEntryList(args, work, args->work);
         MONOLITH_TOOL_LIST_FitBackground(work);
         *state = *state + 1;
@@ -2790,7 +2791,7 @@ selected:
     case 6:
         if (MONOLITH_TOOL_LIST_IsMessageDone(args->work, work) == 1) {
             if (work->yesNoMenu != 0) GF_PANIC_Fail((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
-            work->yesNoMenu = MONOLITH_TOOL_OpenTaskMenu((int *)args->work, work->taskMenuUnit, 0x61);
+            work->yesNoMenu = MONOLITH_TOOL_OpenTaskMenu(args->work, work->taskMenuUnit, 0x61);
             ++*state;
         }
         break;
@@ -3446,8 +3447,9 @@ void MONOLITH_TOOL_UpdateRows(MonolithListWork *work)
     }
 }
 
-void MONOLITH_TOOL_TaskUploadRows(void *task, MonolithListWork *work)
+void MONOLITH_TOOL_TaskUploadRows(struct TcbTask *task, void *workArg)
 {
+    MonolithListWork *work = workArg;
     int i;
 
     if (work->uploadPending == 1) {
@@ -3476,8 +3478,8 @@ int MONOLITH_TOOL_InitInfoScreen(struct Proc *proc, int *state, MonolithToolProc
 
     switch (*state) {
     case 0:
-        newWork = PROCSYS_AllocProcWork(proc, 0x28, 0x61);
-        MI_CpuFill8(newWork, 0, 0x28);
+        newWork = PROCSYS_AllocProcWork(proc, sizeof(MonolithInfoWork), 0x61);
+        MI_CpuFill8(newWork, 0, sizeof(MonolithInfoWork));
         newWork->shownEntry = MONOLITH_ENTRY_NONE;
         MONOLITH_TOOL_SetupInfoBgs();
         MONOLITH_TOOL_LoadInfoPalette(args->work);

@@ -108,6 +108,18 @@ void DWC_Free(int name, void *ptr, unsigned long size)
     s_mem.free(name, header, header->size + 32);
 }
 
+#ifndef __MWERKS__
+void *DWC_AllocCallback(unsigned long name, long size)
+{
+    return DWC_Alloc((int)name, (unsigned long)size);
+}
+
+void DWC_FreeCallback(unsigned long name, void *ptr, long size)
+{
+    DWC_Free((int)name, ptr, (unsigned long)size);
+}
+#endif
+
 
 
 

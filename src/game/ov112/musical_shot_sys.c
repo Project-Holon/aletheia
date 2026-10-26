@@ -75,7 +75,7 @@ struct DispVram;
 
 typedef struct {u32 x,y,z,week;} Options;
 
-typedef struct {u32 a,b;u8 *config;u32 c,d;} Save;
+typedef struct {u32 a,b;u8 *config;struct MusicalSave *c;void *d;} Save;
 
 typedef struct {u16 heap,pad;void *task;Save *save;void *scene,*actors;} MusicalShotSysState;
 
@@ -142,7 +142,7 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p);
 
 int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p);
 
-void MUSICAL_SHOT_SYS_VBlank(void);
+void MUSICAL_SHOT_SYS_VBlank(struct TcbTask *unused0, void *unused1);
 
 void MUSICAL_SHOT_SYS_InitGraphics(u8 *p);
 
@@ -164,10 +164,10 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
 {
  MusicalShotSysState *p;u8 *cfg;u8 i,j;Options options;u32 length;
  GFL_HEAP_CreateChildHeap(1,74,1<<19);
- p=PROCSYS_AllocProcWork(owner,20,74);p->heap=74;
+ p=PROCSYS_AllocProcWork(owner,sizeof(*p),74);p->heap=74;
  if(save==0){
   GF_OVERLAY_Load((uptr)ov132_id);
-  p->save=GFL_HEAP_Alloc(74,20,0,d_021F836C,110);
+  p->save=GFL_HEAP_Alloc(74,sizeof(*p->save),0,d_021F836C,110);
   length=ConfigSize;
   p->save->config=GFL_HEAP_Alloc(74,length,1,d_021F836C,111);
   p->save->b=0;
@@ -175,19 +175,19 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   GF_STANDARD_GetCachedDate((RTCDate *)(&options));
   ((MusicalShotRecord *)cfg)->programId=3;((MusicalShotRecord *)cfg)->winnerMask=(u8)2;
   ((MusicalShotRecord *)cfg)->year=options.x;((MusicalShotRecord *)cfg)->month=options.y;((MusicalShotRecord *)cfg)->day=options.z;
-  *(u16 *)((uptr)cfg+(length-0x4C))=0x30DD;
-  *(u16 *)((uptr)cfg+(length-0x4A))=0x30B1;
-  *(u16 *)((uptr)cfg+(length-0x48))=0x30C3;
-  *(u16 *)((uptr)cfg+(length-0x46))=0x30BF;
-  *(u16 *)((uptr)cfg+(length-0x44))=0x30FC;
-  *(u16 *)((uptr)cfg+(length-0x42))=0x30EA;
-  *(u16 *)((uptr)cfg+(length-0x40))=0x30E2;
-  *(u16 *)((uptr)cfg+(length-0x3E))=0x30F3;
-  *(u16 *)((uptr)cfg+(length-0x3C))=0x30B9;
-  *(u16 *)((uptr)cfg+(length-0x3A))=0x30BF;
-  *(u16 *)((uptr)cfg+(length-0x38))=0x30FC;
-  *(u16 *)((uptr)cfg+(length-0x36))=0x30EA;
-  *(u16 *)((uptr)cfg+(length-0x34))=STRBUF_GetEosChar();
+  *(u16 *)(cfg+(length-0x4C))=0x30DD;
+  *(u16 *)(cfg+(length-0x4A))=0x30B1;
+  *(u16 *)(cfg+(length-0x48))=0x30C3;
+  *(u16 *)(cfg+(length-0x46))=0x30BF;
+  *(u16 *)(cfg+(length-0x44))=0x30FC;
+  *(u16 *)(cfg+(length-0x42))=0x30EA;
+  *(u16 *)(cfg+(length-0x40))=0x30E2;
+  *(u16 *)(cfg+(length-0x3E))=0x30F3;
+  *(u16 *)(cfg+(length-0x3C))=0x30B9;
+  *(u16 *)(cfg+(length-0x3A))=0x30BF;
+  *(u16 *)(cfg+(length-0x38))=0x30FC;
+  *(u16 *)(cfg+(length-0x36))=0x30EA;
+  *(u16 *)(cfg+(length-0x34))=STRBUF_GetEosChar();
   ((MusicalShotRecord *)cfg)->performers[0].monsNo=643;((MusicalShotRecord *)cfg)->performers[1].monsNo=643;((MusicalShotRecord *)cfg)->performers[2].monsNo=643;((MusicalShotRecord *)cfg)->performers[3].monsNo=643;
   for(i=0;i<4;i++){
    u8 *q;
@@ -207,10 +207,10 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   p->save->c=0;
  }else p->save=(Save *)save;
  if(p->save->b==1)GF_OVERLAY_Load((uptr)ov132_id);
- p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MUSICAL_SHOT_SYS_VBlank),(void *)((uptr)p),64);
+ p->task=GFL_USE_AddMainTask(MUSICAL_SHOT_SYS_VBlank,p,64);
  MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
  p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
- p->actors=MUSICAL_SHOT_INFO_Create((uptr)p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
+ p->actors=MUSICAL_SHOT_INFO_Create(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
  WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }
 
@@ -249,7 +249,7 @@ int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p)
 /*
  * follower: tail stub at 0x021F3A4C; function_starts seed.
  */
-void MUSICAL_SHOT_SYS_VBlank(void) { CLACT_VBlankSystem(); }
+void MUSICAL_SHOT_SYS_VBlank(struct TcbTask *unused0, void *unused1) { CLACT_VBlankSystem(); }
 
 /*
  * volatile: hardware read-modify-writes at 0x021F3A64, 0x021F3A6E,
@@ -264,7 +264,7 @@ void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
     WIPE_SetBrightnessFadeOut(0,0);
     WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0);
-    WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
     BG_SYS_Create(((MusicalShotSysState *)p)->heap);

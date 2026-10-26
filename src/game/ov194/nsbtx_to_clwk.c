@@ -87,7 +87,7 @@ void NAMEIN_GRAPHIC_BlitTexture(const char *src, int width, int x, int y, int w,
 
 void NAMEIN_GRAPHIC_CopyRows(const char *src, char *dst, unsigned *a, unsigned *b, unsigned n, unsigned step);
 
-void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 height,int pos,int mode,u16 heap);
+void NAMEIN_GRAPHIC_LoadIconMember(struct ClactActor *dst,unsigned arc,u32 member,u32 index,u16 width,u16 height,int pos,int mode,u16 heap);
 
 extern const char d_021F57A8[];
 
@@ -134,7 +134,7 @@ static inline u8 *entry(u8 *p,u32 i) {
     return 0;
 }
 
-void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 height,int pos,int mode,u16 heap)
+void NAMEIN_GRAPHIC_LoadIconMember(struct ClactActor *dst,unsigned arc,u32 member,u32 index,u16 width,u16 height,int pos,int mode,u16 heap)
 {
     Palette pal;
     u32 size=width*height*32;

@@ -6,9 +6,10 @@
 
 #include "../types.h"
 #include "../ov013/vct_types.h"
+#include "../arm9/mic.h"
 
 void VCT_MAIN_InitAudio(void);
-void VCT_MAIN_MicRestartDone(void);
+void VCT_MAIN_MicRestartDone(MICResult unused0, void * unused1);
 void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 length, int format, VctWork *work);
 int VCT_MAIN_RequestConnection(int peerType);
 int VCT_MAIN_AcceptPendingPeer(int unused);
@@ -17,7 +18,7 @@ void VCT_MAIN_OnEventPair(int aid, int event, VctPeer *peer, int arg);
 void VCT_MAIN_ReleasePeer(VctPeer *peer);
 void VCT_MAIN_Update(int sendPaused);
 int VCT_MAIN_HandlePacket(int aid, u8 *data, int size);
-void VCT_MAIN_Start(void *heap, int codecMode, int peerCount);
+void VCT_MAIN_Start(int heapId, int codecMode, int peerCount);
 void VCT_MAIN_StartStream(void);
 void VCT_MAIN_HangUp(void);
 void VCT_MAIN_SetExitCallback(void (*callback)(void));

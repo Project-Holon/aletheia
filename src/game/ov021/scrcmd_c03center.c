@@ -74,7 +74,7 @@ struct TcbSystem;
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
-void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, CameraTurnTask *turn);
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, void *arg);
 extern const char sScrcmdC03centerFileName[];
 extern u16 gCameraTurnAngle;
 /* Second name for the same object: the pool needs a separate literal for the address handed to the map model system. */
@@ -90,7 +90,7 @@ extern u16 g_021EE724_ref;
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
     void *gameSystem;
-    uptr tcbSys;
+    struct TcbSystem *tcbSys;
     u32 heapId;
     u8 *camera;
     u8 *mmdlSys;
@@ -105,7 +105,7 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     SCRCMD_WORK_GetGameData(work);
     gameSystem = GAMESYSTEM_GetFieldMap(gameSystem);
-    tcbSys = (uptr)FIELDMAP_GetTcblSys(gameSystem);
+    tcbSys = FIELDMAP_GetTcblSys(gameSystem);
     heapId = FIELDMAP_GetHeapId(gameSystem);
     camera = (u8 *)FIELDMAP_GetCamera(gameSystem);
     mmdlSys = (u8 *)FIELDMAP_GetMmdlSys(gameSystem);
@@ -134,13 +134,14 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     }
     turn->frame = 0;
     turn->frameCount = frameCount;
-    TCB_AddTask((struct TcbSystem *)tcbSys, (TcbFunc)SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
+    TCB_AddTask((struct TcbSystem *)tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
     return 0;
 }
 
 /* TCB function: advances the camera angle by one step of the turn. */
-void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, CameraTurnTask *turn)
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, void *arg)
 {
+    CameraTurnTask *turn = arg;
     turn->frame++;
     gCameraTurnAngle = (turn->angleDelta * turn->frame) / turn->frameCount;
     gCameraTurnAngle = gCameraTurnAngle + (u16)turn->startAngle;

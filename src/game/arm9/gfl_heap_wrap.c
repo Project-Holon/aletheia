@@ -129,7 +129,7 @@ void GFL_HEAP_NotifyFree(void *payload);
 
 void GFL_HEAP_DumpIfLive(u32 heapId);
 
-void GFL_HEAP_WalkBlocksCallback(void *block, int *heap, u32 userParam);
+void GFL_HEAP_WalkBlocksCallback(void *block, void * heapArg, int userParam);
 
 void GFL_HEAP_DumpReport(u32 heapId);
 
@@ -770,8 +770,9 @@ void GFL_HEAP_DumpIfLive(u32 heapId)
  *   python tools/match.py one --src src/pending/GFL_HEAP_WalkBlocksCallback.c \
  *       --func GFL_HEAP_WalkBlocksCallback --addr 0x02030A7C --cc 1.1p1 --arm
  */
-void GFL_HEAP_WalkBlocksCallback(void *block, int *heap, u32 userParam)
+void GFL_HEAP_WalkBlocksCallback(void *block, void * heapArg, int userParam)
 {
+    int * heap = (int *)heapArg;
     u8 nameBuf[0x14];
     u8 *payload = (u8 *)block + 0x1c;
     void *siteRecord = GFL_HEAP_GetBlockName(payload);
@@ -848,7 +849,7 @@ void GFL_HEAP_DumpReport(u32 heapId)
     GFL_HEAP_GetAllocatableSize(heapId);
     GFL_HEAP_GetAllocCountById(heapId);
     MSL_C_LIB_SetTwlFlag(1);
-    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle(heapId), (void (*)(void *, void *, int))GFL_HEAP_WalkBlocksCallback, 0);
+    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle(heapId), GFL_HEAP_WalkBlocksCallback, 0);
     MSL_C_LIB_SetTwlFlag(0);
 }
 

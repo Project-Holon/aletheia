@@ -70,16 +70,16 @@ u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned id) { return id + 5000; }
 
 int EVENT_TRAINER_IsSecondaryScriptId(unsigned id) { if (id >= 5000) return 1; return 0; }
 
-int EVENT_TRAINER_IsDoubleBattle(int saveData)
+int EVENT_TRAINER_IsDoubleBattle(int trainerId)
 {
-    if (TPOKE_DATA_GetRecordField((void *)saveData, 2) == 1)
+    if (TPOKE_DATA_GetRecordField(trainerId, 2) == 1)
         return 1;
     return 0;
 }
 
-int EVENT_TRAINER_GetBattleType(int saveData)
+int EVENT_TRAINER_GetBattleType(int trainerId)
 {
-    return (u8)TPOKE_DATA_GetRecordField((void *)saveData, 2);
+    return (u8)TPOKE_DATA_GetRecordField(trainerId, 2);
 }
 
 /*

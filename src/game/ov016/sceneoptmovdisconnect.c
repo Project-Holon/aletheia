@@ -67,7 +67,7 @@ void DWCi_SceneOptMovDisconnect(void)
     *(unsigned char *)0x021DE5BC = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(0x21);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 
@@ -87,7 +87,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 
@@ -97,7 +97,7 @@ static void procInit1(void)
         return;
     if (!DWCi_MOVlIsEnd())
         return;
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMovDisconnect_procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovDisconnect_procScene);
 }
 
 
@@ -133,7 +133,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 
@@ -148,12 +148,12 @@ static void endScene1(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
+    DWCi_ChangeScene(DWCi_SceneOptMenu);
 }
 
 
 static void wait(void)
 {
     if (++sSceneoptmovdisconnectCount >= 120)
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
 }

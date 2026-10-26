@@ -11,13 +11,13 @@ typedef struct GameClearWork GameClearWork;
 
 #include "../types.h"
 
-int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_GAMECLEAR_Main(struct GameEvent *event, int *seq, void *workArg);
 struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode);
 void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work);
 int EVENT_GAMECLEAR_InitStaffRollParam(GameClearWork *work);
 void EVENT_GAMECLEAR_InitStepSequence(GameClearWork *work);
 int EVENT_GAMECLEAR_GetCommExitKind(void);
-void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq);
+void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, int *seq);
 void EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work);
 /* END mkheaders: generated region */
 

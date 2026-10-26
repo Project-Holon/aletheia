@@ -144,7 +144,7 @@ void MANUAL_CATEGORY_DeleteOption(char *p);
 
 int MANUAL_CATEGORY_UpdateOption(char *p);
 
-void MANUAL_CATEGORY_OptionTaskNoop(void *p);
+void MANUAL_CATEGORY_OptionTaskNoop(struct TcbTask *p, void *unused1);
 
 void MANUAL_CATEGORY_LoadOptionAssets(char *p);
 
@@ -170,18 +170,18 @@ extern const ManualSlotRecord gManualCategorySlotRecords[];
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
 {
     char *q;
-    q = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, 64, 1, gManualCategoryOptionAllocFile, 156);
+    q = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, sizeof(struct ManualOptionWork), 1, gManualCategoryOptionAllocFile, 156);
     *(char * *)&((struct ManualOptionWork *)q)->owner = p;
     ((struct ManualOptionOwner *)p)->closeFlag = 0;
     *(char * *)&((struct ManualOptionWork *)q)->data = data;
-    q[8] = 0;
+    ((struct ManualOptionWork *)q)->cursor = 0;
     ((struct ManualOptionWork *)q)->dirty = 0;
     MANUAL_CATEGORY_LoadOptionAssets(q);
     MANUAL_CATEGORY_SetOptionBgMode(q);
     MANUAL_CATEGORY_CreateOptionSlots((u8 *)q);
-    ((struct ManualOptionWork *)q)->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_CATEGORY_OptionTaskNoop), (void *)((uptr)q), 1);
+    ((struct ManualOptionWork *)q)->task = GFL_USE_AddMainTask(MANUAL_CATEGORY_OptionTaskNoop, (void *)((uptr)q), 1);
     ((struct ManualOptionWork *)q)->state = 0;
-    q[0x3c] = -1;
+    ((struct ManualOptionWork *)q)->timer = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
     MANUAL_COMMON_SetTouchbarSelection(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)q)->owner, ((struct ManualOptionWork *)q)->cursor);
     MANUAL_CATEGORY_DrawOption(q);
@@ -248,7 +248,7 @@ done:
 /*
  * leaf: sole unresolved BA74 callback; parent clearance. Thumb bx lr, then two zero alignment bytes.
  */
-void MANUAL_CATEGORY_OptionTaskNoop(void *p)
+void MANUAL_CATEGORY_OptionTaskNoop(struct TcbTask *p, void *unused1)
 {
 }
 
@@ -266,21 +266,19 @@ void MANUAL_CATEGORY_OptionNoop(char *work) {}
 void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
 {
     u8 index;
-    u8 *slot;
     const ManualSlotRecord *record;
     u8 *owner;
     struct U16Vec *string;
     for(index=0;index<3;index++) {
         record=&gManualCategorySlotRecords[index];
-        slot=p+index*4;
-        *(u32 *)&((struct ManualOptionWork *)slot)->bg=(uptr)BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
-        BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg)),0);
-        BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg));
-        ((struct ManualOptionWork *)slot)->flag[0]=0;
+        ((struct ManualOptionWork *)p)->bg[index]=(void *)BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)(((struct ManualOptionWork *)p)->bg[index])),0);
+        BMP_WIN_TransferChars((struct BmpWin *)(((struct ManualOptionWork *)p)->bg[index]));
+        ((struct ManualOptionWork *)p)->flag[index]=0;
     }
     owner=*(u8 * *)&((struct ManualOptionWork *)p)->data;
     ((struct ManualOptionWork *)p)->que[0]=(struct PrintSys *)((struct ManualData *)owner)->printQue[0];
-    *(u32 *)&((struct ManualOptionWork *)p)->que[1]=(u32)((struct ManualData *)owner)->printQue[0];
+    ((struct ManualOptionWork *)p)->que[1]=(struct PrintSys *)((struct ManualData *)owner)->printQue[0];
     ((struct ManualOptionWork *)p)->que[2]=(struct PrintSys *)((struct ManualData *)owner)->printQue[1];
     string=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
     PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[1]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1])),0,1,(struct Strbuf *)string,(struct GfFont *)((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
@@ -294,17 +292,15 @@ void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((str
 void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
 {
     u8 index;
-    u8 *slot;
     struct Descriptor *descriptor;
     for(index=0;index<3;index++) {
-        slot=p+index*4;
-        if(((struct ManualOptionWork *)slot)->flag[0]!=0) {
-            if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct ManualOptionWork *)slot)->que[0]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg)))==0) {
-                descriptor=*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg;
+        if(((struct ManualOptionWork *)p)->flag[index]!=0) {
+            if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[index]),BMP_WIN_GetBmp((struct BmpWin *)(((struct ManualOptionWork *)p)->bg[index])))==0) {
+                descriptor=(struct Descriptor *)((struct ManualOptionWork *)p)->bg[index];
                 BMP_WIN_TransferChars((struct BmpWin *)descriptor);
                 BMP_WIN_MakeScreen((struct BmpWin *)descriptor);
                 BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)descriptor));
-                ((struct ManualOptionWork *)slot)->flag[0]=0;
+                ((struct ManualOptionWork *)p)->flag[index]=0;
             }
         }
     }

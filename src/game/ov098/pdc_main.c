@@ -140,7 +140,15 @@ struct TcblSystem;
 struct BtlvInput;
 #include "../arm9/bg_sys.h"
 #include "../arm9/bmp_win.h"
+/* The DS call passes the heap id wide where the header takes a signed halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
 #include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, u32 heapId, void (*setUpFunc)(void));
+#endif
 #include "../arm9/g3x.h"
 struct DispVramCfg;
 struct SysInit;
@@ -186,7 +194,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     void *screen;
     struct GameData *gameData;
 
-    sys = GFL_HEAP_Alloc(heapId, 0x78, 1, gPdcMainSrcName, 0x5e);
+    sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, gPdcMainSrcName, 0x5e);
     sys->heapId = heapId;
     sys->args = args;
     PDC_MAIN_InitGraphics(sys->heapId);
@@ -244,7 +252,7 @@ void PDC_MAIN_InitGraphics(u16 heapId)
     POWCNT = (u16)(POWCNT | 0x8000);
     BG_SYS_SetGraphicsMode(&gPdcDispConfig);
     /* likely original mismatch: the call site passes the heap id wide, the ARM9 definition takes s16 */
-    ((void (*)(u32, u32, u32, u32, u16, u32, void (*)(void)))G3D_SYSTEM_Init)(0, 1, 0, 1, 0, heapId, 0);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, 0);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);
     DISP3DCNT &= (u16)~0x3020;

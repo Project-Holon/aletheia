@@ -21,7 +21,7 @@ struct RailWork;
 FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId);
 int FIELD_PLAYER_Delete(FieldPlayer *player);
 void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player);
-int FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c);
+GameEvent *FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c);
 void FIELD_PLAYER_StartFormChange(FieldPlayer *player, u32 mask);
 int FIELD_PLAYER_StepFormChange(FieldPlayer *player);
 void FIELD_PLAYER_FinishFormChange(FieldPlayer *player);

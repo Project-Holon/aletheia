@@ -10,11 +10,11 @@ struct WihContext;
 #include "../types.h"
 
 int WIH_DWC_PollSystem(void);
-struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
+struct WihContext *WIH_DWC_Create(int maxBeacons, u32 heapId);
 void WIH_DWC_Delete(struct WihContext *context);
 void WIH_DWC_PauseTimers(void);
 void WIH_DWC_ResumeTimers(void);
-void WIH_DWC_AddBeacon(const void *beacon);
+void WIH_DWC_AddBeacon(void *beacon, void *userArg, u16 linkLevel);
 void WIH_DWC_TickTimers(void);
 int WIH_DWC_IsSsidInFilterList(WMBssDesc *beacon);
 int WIH_DWC_IsOpenTaggedBeacon(const WMBssDesc *beacon);

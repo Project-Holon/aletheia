@@ -245,7 +245,7 @@ struct DrawCanvas;
 
 
 
-char *CTVT_COMM_Create(void *work, u16 heapId);
+struct CtvtComm *CTVT_COMM_Create(void *work, u16 heapId);
 
 void CTVT_COMM_Delete(void *work, char *comm);
 
@@ -271,7 +271,7 @@ int CTVT_COMM_GetStatusBlockSize(void);
 
 int CTVT_COMM_IsModeSupported(int mode, int kind);
 
-int CTVT_COMM_MatchPeerName(void *probe, u8 *comm);
+int CTVT_COMM_MatchPeerName(void *probe, void *commArg);
 
 void CTVT_COMM_Update(void *work, char *comm);
 
@@ -321,7 +321,7 @@ int CTVT_COMM_IsPostBusy(void *unused, u8 *comm);
 
 u8 *CTVT_COMM_GetMyStatusPtr(void *unused, u8 *comm);
 
-u32 CTVT_COMM_GetVoiceRecord(void *unused, char *comm);
+void *CTVT_COMM_GetVoiceRecord(void *unused, char *comm);
 
 u32 CTVT_COMM_GetSlotConnected(void *unused, char *comm, int slot);
 
@@ -333,7 +333,7 @@ u32 CTVT_COMM_IsSlotActive(void *unused, char *comm, int slot);
 
 u8 CTVT_COMM_GetSlotReady(void *unused, char *comm, int slot);
 
-int CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full);
+struct CtvtStroke *CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full);
 
 void CTVT_COMM_AdvanceWriteCursor(struct CtvtWork *unused, struct CtvtComm *comm);
 
@@ -349,12 +349,12 @@ extern NetCommandEntry gCtvtCommCommandTable[];
 
 extern const CtvtFreqTable gCtvtCommFreqTable;
 
-char *CTVT_COMM_Create(void *work, u16 heapId)
+struct CtvtComm *CTVT_COMM_Create(void *work, u16 heapId)
 {
     char *comm;
     u8 slot;
     u8 digit;
-    comm = GFL_HEAP_Alloc(heapId, 0x3e0, 1, gCtvtCommAllocSite, 0xf4);
+    comm = GFL_HEAP_Alloc(heapId, sizeof(CtvtComm), 1, gCtvtCommAllocSite, 0xf4);
     ((CtvtComm *)comm)->work = work;
     ((CtvtComm *)comm)->netState = 0;
     ((CtvtComm *)comm)->memberCount = 1;
@@ -391,18 +391,18 @@ char *CTVT_COMM_Create(void *work, u16 heapId)
     ((CtvtComm *)comm)->voiceStatePending = 1;
     ((CtvtComm *)comm)->cmd5Pending = 0;
     ((CtvtComm *)comm)->currentSlot = 0xff;
-    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work))))), (struct MyStatus *)(((CtvtComm *)comm)->myStatus));
+    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus((void *)(COMM_TVT_SYS_GetLaunchParams(work)->gameData))), (struct MyStatus *)(((CtvtComm *)comm)->myStatus));
     ((CtvtComm *)comm)->prevMemberCount = 1;
     for (slot = 0; slot < 3; slot++)
         for (digit = 0; digit < 6; digit++)
             ((CtvtComm *)comm)->peerName[slot * 6 + digit] = 0xff;
     ((CtvtComm *)comm)->flags.netIdle = COMM_TVT_SYS_IsNetIdle();
     ((CtvtComm *)comm)->flags.nameMatchActive = 0;
-    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus((void *)(*((u32 *)COMM_TVT_SYS_GetLaunchParams(work))))), (struct MyStatus *)(((CtvtComm *)comm)->peerStatus));
+    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus((void *)(COMM_TVT_SYS_GetLaunchParams(work)->gameData))), (struct MyStatus *)(((CtvtComm *)comm)->peerStatus));
     ((CtvtComm *)comm)->netIdle = COMM_TVT_SYS_IsNetIdle();
     ((CtvtComm *)comm)->state = 1;
     GFL_NET_LOWER_DATA_Init(heapId, 0);
-    return comm;
+    return (CtvtComm *)comm;
 }
 
 void CTVT_COMM_Delete(void *work, char *comm)
@@ -423,7 +423,7 @@ void CTVT_COMM_Delete(void *work, char *comm)
 
 void CTVT_COMM_Main(void *work, char *comm)
 {
-    uptr handle;
+    struct GFLNetHandle *handle;
     u8 slot;
     u8 digit;
     COMM_TVT_SYS_GetHeapId(work);
@@ -478,9 +478,9 @@ void CTVT_COMM_Main(void *work, char *comm)
             ((CtvtComm *)comm)->netState = 8;
         break;
     case 5:
-        handle = (uptr)GFL_NET_HANDLE_GetCurrentHandle();
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
         GFL_NET_COMMAND_AddCommandTable(0x2000, gCtvtCommCommandTable, 4, comm);
-        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)handle, 8, 0x20);
+        GFL_NET_HANDLE_SetTimingSyncRange(handle, 8, 0x20);
         ((CtvtComm *)comm)->netState = 6;
         break;
     case 6:
@@ -629,8 +629,9 @@ int CTVT_COMM_IsModeSupported(int mode, int kind)
  *
  * Addresses are Black-image addresses.
  */
-int CTVT_COMM_MatchPeerName(void *probe, u8 *comm)
+int CTVT_COMM_MatchPeerName(void *probe, void *commArg)
 {
+    u8 *comm = commArg;
     if ((((u32)*(u8 *)&((CtvtComm *)comm)->flags << 30) >> 31) == 0)
         return 1;
     return CTVT_COMM_FindPeerName(((CtvtComm *)comm)->myStatus, (u8 *)probe + 0xa);
@@ -654,7 +655,7 @@ void CTVT_COMM_Update(void *work, char *comm)
     busy = GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle());
     if (((CtvtComm *)comm)->netMode == 2) {
         if (((CtvtComm *)comm)->peers[0].active == 0) {
-            u32 v = (uptr)COMM_TVT_SYS_GetCamView(work);
+            struct CtvtCamView *v = COMM_TVT_SYS_GetCamView(work);
             ((CtvtComm *)comm)->peers[0].active = 1;
             ((CtvtComm *)comm)->peers[0].connected = 1;
             ((CtvtComm *)comm)->peers[0].reported = 1;
@@ -665,7 +666,7 @@ void CTVT_COMM_Update(void *work, char *comm)
             *(PeerStatusBlock *)&((CtvtComm *)comm)->peers[0].peerParam = *(PeerStatusBlock *)&((CtvtComm *)comm)->peerStatus;
             ((CtvtComm *)comm)->prevMemberCount = 1;
             ((CtvtComm *)comm)->memberCount = 1;
-            CTVT_CAMVIEW_StartLayoutChange(work, (struct CtvtCamView *)v, 0, 0);
+            CTVT_CAMVIEW_StartLayoutChange(work, v, 0, 0);
         }
     } else {
         count = GFL_NET_GetNegotiationNum();
@@ -700,7 +701,7 @@ void CTVT_COMM_Update(void *work, char *comm)
                         winWidth = CTVT_CAMVIEW_GetWindowWidth((void *)work, camView);
                         encSize = SSP_StartJpegEncoder((void *)((CtvtComm *)comm)->frameBuf, (unsigned char *)((CtvtComm *)comm)->jpegOut, bufStep, (unsigned char *)((CtvtComm *)comm)->jpegWork, winHeight, winWidth, 0x46, 1, 4);
                         if (encSize != 0) {
-                            GFL_NET_LOWER_DATA_SetSendData((sptr)((CtvtComm *)comm)->jpegOut, encSize, ((CtvtComm *)comm)->sendMask, 0);
+                            GFL_NET_LOWER_DATA_SetSendData((void *)((CtvtComm *)comm)->jpegOut, encSize, ((CtvtComm *)comm)->sendMask, 0);
                             ((CtvtComm *)comm)->voiceMask = 0;
                             ((CtvtComm *)comm)->sendBusy = 1;
                         }
@@ -796,7 +797,7 @@ void CTVT_COMM_UpdateMembers(void *work, char *comm)
                     for (bufIdx = 0; bufIdx < 3; bufIdx++) {
                         u32 bit = 1 << bufIdx;
                         if (!(bit & ((CtvtComm *)comm)->postWorkMask)) {
-                            GFL_NET_LOWER_DATA_CreatePostWork(0xC000, slot, heapId, (uptr)((CtvtComm *)comm)->postWork[bufIdx]);
+                            GFL_NET_LOWER_DATA_CreatePostWork(0xC000, slot, heapId, (void *)((CtvtComm *)comm)->postWork[bufIdx]);
                             ((CtvtComm *)comm)->postWorkMask |= (u8)bit;
                             ((CtvtComm *)comm)->peers[slot].postIndex = bufIdx;
                             break;
@@ -873,7 +874,8 @@ void CTVT_COMM_ClearPeerSlot(int unused, int unused2, void *slot)
 void CTVT_COMM_UpdatePeerSlot(void *work, void *comm, int *slot, int slotIdx)
 {
     CtvtCamView *camView;
-    sptr buf, post;
+    sptr buf;
+    void *post;
     short dims[2];
     camView = COMM_TVT_SYS_GetCamView(work);
     if (slot[0] != 0 && slot[3] != 1) {
@@ -928,11 +930,11 @@ void CTVT_COMM_SendSlotHit(void *work, u32 *comm, u32 value)
 u32 CTVT_COMM_SendCommand(void *work, void *comm, u8 command, u32 value)
 {
     struct { u32 w; u8 comm; } msg;
-    uptr handle;
-    handle = (uptr)GFL_NET_HANDLE_GetCurrentHandle();
+    struct GFLNetHandle *handle;
+    handle = GFL_NET_HANDLE_GetCurrentHandle();
     msg.comm = command;
     msg.w = value;
-    return GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2000, 8, &msg, 1, 0, 0);
+    return GFL_NET_SendData(handle, 255, 0x2000, 8, &msg, 1, 0, 0);
 }
 
 void CTVT_COMM_HandleMessage(int sender, int size, u32 *msg, char *comm)
@@ -941,7 +943,7 @@ void CTVT_COMM_HandleMessage(int sender, int size, u32 *msg, char *comm)
     void *talk;
     CtvtCamView *camView;
     u32 value;
-    selfSlot = GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()));
+    selfSlot = GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()));
     switch (((CtvtCommMsg *)msg)->command) {
     case 0:
         if (sender == selfSlot)
@@ -1014,10 +1016,10 @@ void CTVT_COMM_HandleMessage(int sender, int size, u32 *msg, char *comm)
 
 int CTVT_COMM_SendVoiceData(void *work, char *comm, u16 *packet)
 {
-    uptr handle;
+    struct GFLNetHandle *handle;
     int result;
-    handle = (uptr)GFL_NET_HANDLE_GetCurrentHandle();
-    result = GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2001, *packet + 8, packet, 1, 0, 1);
+    handle = GFL_NET_HANDLE_GetCurrentHandle();
+    result = GFL_NET_SendData(handle, 255, 0x2001, *packet + 8, packet, 1, 0, 1);
     if (result != 0)
         ((CtvtComm *)comm)->postBusy = 1;
     return result;
@@ -1043,12 +1045,12 @@ void CTVT_COMM_ReceiveVoicePacket(int unused1, int unused2, int unused3, char *c
     talk = (void *)COMM_TVT_SYS_GetTalkStatus(((CtvtComm *)comm)->work);
     packet = (char *)((CtvtComm *)comm)->voiceRec;
     payload = packet + 8;
-    GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()));
+    GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()));
     if (((CtvtTalkPacket *)packet)->index == 0) {
         CTVT_ADPCM_ResetDecoder();
-        MIi_CpuClear32(0, (void *)((sptr)(((CtvtComm *)comm)->decodeBuf)), 0xc800);
+        MIi_CpuClear32(0, (void *)((((CtvtComm *)comm)->decodeBuf)), 0xc800);
     }
-    CTVT_MIC_DecodeAdpcm((sptr)talk, (sptr)payload, ((CtvtComm *)comm)->decodeBuf + (((CtvtTalkPacket *)packet)->index << 11), ((CtvtTalkPacket *)packet)->length);
+    CTVT_MIC_DecodeAdpcm((void *)talk, (char *)payload, ((CtvtComm *)comm)->decodeBuf + (((CtvtTalkPacket *)packet)->index << 11), ((CtvtTalkPacket *)packet)->length);
     if (((CtvtTalkPacket *)packet)->last == 1) {
         freqTable = gCtvtCommFreqTable;
         ((CtvtComm *)comm)->playFreq = freqTable.value[((CtvtTalkPacket *)packet)->level];
@@ -1060,16 +1062,16 @@ void CTVT_COMM_ReceiveVoicePacket(int unused1, int unused2, int unused3, char *c
 
 u32 CTVT_COMM_SendStrokeQueue(int unused, char *comm)
 {
-    uptr handle; u32 result;
+    struct GFLNetHandle *handle; u32 result;
     u8 available, writeCursor, readCursor;
-    handle = (uptr)GFL_NET_HANDLE_GetCurrentHandle();
+    handle = GFL_NET_HANDLE_GetCurrentHandle();
     writeCursor = ((CtvtComm *)comm)->writeCursor;
     readCursor = ((CtvtComm *)comm)->readCursor;
     if (readCursor > writeCursor) available = 64 - readCursor;
     else available = writeCursor - readCursor;
     if (available > 8) available = 8;
     if (available != 0) {
-        result = GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2002, available * 8, (((CtvtComm *)comm)->slotBuf + readCursor * 8), 1, 1, 0);
+        result = GFL_NET_SendData(handle, 255, 0x2002, available * 8, (((CtvtComm *)comm)->slotBuf + readCursor * 8), 1, 1, 0);
         if (result != 0) {
             ((CtvtComm *)comm)->readCursor += available;
             if (((CtvtComm *)comm)->readCursor >= 64) ((CtvtComm *)comm)->readCursor -= 64;
@@ -1085,7 +1087,7 @@ void CTVT_COMM_PushStrokes(int work, u32 size, char *strokes, char *comm)
     u8 count, idx;
     sprites = (char *)COMM_TVT_SYS_GetSprites(((CtvtComm *)comm)->work);
     count = (size >> 3) & 0xff;
-    GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()));
+    GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()));
     for (idx = 0; idx < count; idx++)
         DRAW_SYSTEM_PushStroke((struct DrawCanvas *)sprites, strokes + idx * 8);
 }
@@ -1133,7 +1135,7 @@ int CTVT_COMM_IsTimingSync(struct CtvtWork *work, struct CtvtComm *unused, u32 c
 
 u32 CTVT_COMM_GetHandleNetId(void *unused, char *unused2)
 {
-    return GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle()));
+    return GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()));
 }
 
 /*
@@ -1161,9 +1163,9 @@ u8 *CTVT_COMM_GetMyStatusPtr(void *unused, u8 *comm)
  *
  * Addresses are Black-image addresses.
  */
-u32 CTVT_COMM_GetVoiceRecord(void *unused, char *comm)
+void *CTVT_COMM_GetVoiceRecord(void *unused, char *comm)
 {
-    return (uptr)((CtvtComm *)comm)->voiceRec;
+    return ((CtvtComm *)comm)->voiceRec;
 }
 
 /*
@@ -1216,7 +1218,7 @@ u8 CTVT_COMM_GetSlotReady(void *unused, char *comm, int slot)
  *
  * Addresses are Black-image addresses.
  */
-int CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full)
+struct CtvtStroke *CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full)
 {
     unsigned char next = (unsigned char)(((CtvtComm *)comm)->writeCursor + 1);
 
@@ -1229,7 +1231,7 @@ int CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *ful
         return 0;
     }
     *full = 0;
-    return (sptr)(((CtvtComm *)comm)->slotBuf + ((CtvtComm *)comm)->writeCursor * 8);
+    return (struct CtvtStroke *)(((CtvtComm *)comm)->slotBuf + ((CtvtComm *)comm)->writeCursor * 8);
 }
 
 void CTVT_COMM_AdvanceWriteCursor(struct CtvtWork *unused, struct CtvtComm *comm)

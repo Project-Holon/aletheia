@@ -28,21 +28,21 @@
 #include "../sdk_os.h"
 
 #include "../arm9/os_message.h"
-extern void MI_CpuCopy8(u32, u16 *, u32);
-void NWMi_SetCallbackTable(u32 index, u32 callback);
-void NWMi_SetReceiveCallbackTable(u32 index, u32 callback);
+extern void MI_CpuCopy8(const void *, void *, u32);
+void NWMi_SetCallbackTable(u32 index, NWMCallbackFunc callback);
+void NWMi_SetReceiveCallbackTable(u32 index, NWMCallbackFunc callback);
 u32 NWMi_SendCommand(u16 apiid, u16 argc, ...);
-u32 NWMi_SendCommandDirect(u32 command, u32 length);
+u32 NWMi_SendCommandDirect(void *command, u32 length);
 u16 *NwmGetCommandBuffer4Arm7(void);
 
-void NWMi_SetCallbackTable(u32 index, u32 callback) {
-    u32 base = NWMi_GetSystemWork();
-    *(u32 *)(base + (index << 2) + 0x2284) = callback;
+void NWMi_SetCallbackTable(u32 index, NWMCallbackFunc callback) {
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
+    base->callback[index] = callback;
 }
 
-void NWMi_SetReceiveCallbackTable(u32 index, u32 callback) {
-    u32 base = NWMi_GetSystemWork();
-    *(u32 *)(base + (index << 2) + 0x22D4) = callback;
+void NWMi_SetReceiveCallbackTable(u32 index, NWMCallbackFunc callback) {
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
+    base->recvCallback[index] = callback;
 }
 
 u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
@@ -52,7 +52,7 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
     s32 i;
     s32 n;
     u16 *msg;
-    uptr base;
+    struct NwmSystemWork *base;
 
     base = NWMi_GetSystemWork();
     msg = NwmGetCommandBuffer4Arm7();
@@ -67,7 +67,7 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
     }
     DC_StoreRange(msg, 0x100);
     res = PXI_SendWordByFifo(0x16, (uptr)msg, 0);
-    OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
+    OS_SendMessage((struct OSMessageQueue *)base->cmdQueue, msg, 1);
     ret = 6;
     if (res >= 0) {
         ret = 2;
@@ -75,8 +75,8 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
     return ret;
 }
 
-u32 NWMi_SendCommandDirect(u32 command, u32 length) {
-    u32 base = NWMi_GetSystemWork();
+u32 NWMi_SendCommandDirect(void *command, u32 length) {
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
     u16 *msg = NwmGetCommandBuffer4Arm7();
     s32 res;
     u32 ret;
@@ -87,7 +87,7 @@ u32 NWMi_SendCommandDirect(u32 command, u32 length) {
     MI_CpuCopy8(command, msg, length);
     DC_StoreRange(msg, length);
     res = PXI_SendWordByFifo(0x16, (uptr)msg, 0);
-    OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
+    OS_SendMessage((struct OSMessageQueue *)base->cmdQueue, msg, 1);
     ret = 6;
     if (res >= 0) {
         ret = 2;
@@ -97,16 +97,16 @@ u32 NWMi_SendCommandDirect(u32 command, u32 length) {
 
 u16 *NwmGetCommandBuffer4Arm7(void) {
     u16 *msg = 0;
-    u32 base = NWMi_GetSystemWork();
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
 
     do {
-        if (OS_ReceiveMessage((struct OSMessageQueue *)(base + 0x2000), (void **)(&msg), 0) == 0) {
+        if (OS_ReceiveMessage((struct OSMessageQueue *)base->cmdQueue, (void **)(&msg), 0) == 0) {
             return 0;
         }
-        DC_InvalidateRange((void *)base, 0x2000);
+        DC_InvalidateRange(base, 0x2000);
         DC_InvalidateRange(msg, 2);
         if (!(*msg & 0x8000)) {
-            OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
+            OS_SendMessage((struct OSMessageQueue *)base->cmdQueue, msg, 1);
             msg = 0;
         }
     } while (msg == 0);

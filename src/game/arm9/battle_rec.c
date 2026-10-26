@@ -40,6 +40,7 @@
  */
 #include "battle_rec_types.h"
 #include "../types.h"
+#include "species.h"
 
 #define BATTLE_REC_MAGIC 0xE281
 
@@ -51,7 +52,7 @@
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap); /* original prototype; the definition differs in argument width */
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size); /* original prototype; the definition differs in argument width */
-extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize);
+extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, void *work, u32 workSize);
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *save, u32 id);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 #else
@@ -447,7 +448,7 @@ u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32
 
     switch (*seq) {
     case 0:
-        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, (u32)id, (u32)heap, (uptr)pBattleRec, 0x2000);
+        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, (u32)id, (u32)heap, pBattleRec, 0x2000);
         GAME_DATA_PartSaveStart(gameData, id);
         (*seq)++;
         break;
@@ -770,7 +771,7 @@ u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int
     switch (param) {
     case 0:
         value = head->species[index];
-        if (value > 0x289)
+        if (value > SPECIES_LAST)
             return 0;
         return value;
     case 1:

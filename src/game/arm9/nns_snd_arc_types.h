@@ -25,14 +25,14 @@
 #include "../sdk_fs.h"
 
 /* Callback run when a sound heap block is released. */
-typedef void (*NNSSndHeapDisposeCallback)(void *buffer, u32 size, u32 data1, u32 data2);
+typedef void (*NNSSndHeapDisposeCallback)(void *buffer, u32 size, uptr data1, u32 data2);
 
 /* Header of one allocation in a sound heap; the buffer follows at +0x20. */
 typedef struct NNSiSndHeapBlock {
     NNSFndLink                link;
     u32                       size;
     NNSSndHeapDisposeCallback callback;
-    u32                       data1;
+    uptr                      data1;
     u32                       data2;
     u8                        pad18[8];
 } NNSiSndHeapBlock;
@@ -128,7 +128,7 @@ typedef struct NNSSndArcPlayerInfo {
     u8    playableSeqCount;
     u8    pad01;
     u16   allocatableChannel;
-    void *heapSize;
+    u32   heapSize;
 } NNSSndArcPlayerInfo;
 
 typedef struct NNSSndArcGroupItem {

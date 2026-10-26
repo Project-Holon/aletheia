@@ -51,6 +51,8 @@ ACCEPTED = [
     ("src/game/arm9/tp.h", "x0", "SDK TPCalibrateParam field (the struct now lives in tp.h)"),
     ("src/game/ov009/gsplatformsocket.c", "fd", "POSIX pollfd member"),
     ("src/game/ov009/soc.c", "fd", "POSIX pollfd member"),
+    ("src/game/ov009/soc.h", "fd", "POSIX pollfd member"),
+    ("src/game/ov010/script_work.h", "param0 param1 param2 param3", "SCRIPT_WORK_SetParams prototype: SCRIPT_PARAM0..3"),
     ("src/game/ov016/aoss.c", "fd", "POSIX pollfd member"),
     ("src/game/ov016/graphics.c", "x1 x2", "rectangle coordinates"),
     ("src/game/ov172/camera_system.c", "x0 x1", "rectangle coordinates"),

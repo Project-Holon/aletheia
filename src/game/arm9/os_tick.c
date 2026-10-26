@@ -83,6 +83,9 @@ BOOL OS_IsTickAvailable(void)
 /*
  * sdk:      OSi_CountUpTick (os_tick.o)
  */
+#ifndef __MWERKS__
+static void OSi_CountUpTickTimer(void *arg);
+#endif
 void OSi_CountUpTick(void)
 {
     g_02151330.OSi_TickCounter++;
@@ -94,8 +97,20 @@ void OSi_CountUpTick(void)
         g_02151330.OSi_NeedResetTimer = 0;
     }
 
+#ifdef __MWERKS__
     OSi_EnterTimerCallback(0, (void (*)(void *))OSi_CountUpTick, 0);
+#else
+    OSi_EnterTimerCallback(0, OSi_CountUpTickTimer, 0);
+#endif
 }
+
+#ifndef __MWERKS__
+static void OSi_CountUpTickTimer(void *arg)
+{
+    (void)arg;
+    OSi_CountUpTick();
+}
+#endif
 
 OSTick OS_GetTick(void)
 {

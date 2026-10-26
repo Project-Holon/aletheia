@@ -68,7 +68,7 @@ extern const char d_021DE5D4[];
 /* Opens archive 0xAF for the billboard color sets. */
 FieldBbdColor *FIELD_BBD_COLOR_Create(u32 heapId)
 {
-    FieldBbdColor *bbdColor = GFL_HEAP_Alloc(heapId, 0x28, 1, d_021DE5D4, 0x5b);
+    FieldBbdColor *bbdColor = GFL_HEAP_Alloc(heapId, sizeof(*bbdColor), 1, d_021DE5D4, 0x5b);
     bbdColor->arc = ARC_TOOL_CreateHandle(0xaf, heapId);
     return bbdColor;
 }

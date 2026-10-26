@@ -59,12 +59,12 @@ extern void MIi_CpuCopy32(void *dst, const void *src, u32 n);
 
 u32 MIi_GetControlData(u32 type);
 void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, NdmaConfig *cfg, int words, u32 flags);
-void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
+void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), void *arg, NdmaConfig *cfg, int words, u32 flags);
 void MI_InitNDma(void);
 void MI_NDmaFill(int ch, int dst, int data, int size);
 void MI_NDmaCopy(int ch, int src, int dst, int size);
-void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), u32 arg);
-void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), u32 arg);
+void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), void *arg);
+void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), void *arg);
 u32 MI_IsNDmaBusy(int ch);
 void MI_WaitNDma(int ch);
 void MI_StopNDma(int ch);
@@ -75,7 +75,7 @@ void MI_InitNDmaConfig(void);
 void MI_GetNDmaConfig(int ch, const void *src);
 void MIi_CardNDmaRecv32(int ch, const void *src, void *dst);
 void MI_Card_NDmaCopy(int ch, const void *src, void *dst);
-void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int s0, void (*s1)(), u32 s2);
+void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int s0, void (*s1)(), void *s2);
 
 u32 MIi_GetControlData(u32 type)
 {
@@ -142,7 +142,7 @@ void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 s
     OS_RestoreInterrupts(irq);
 }
 
-void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags)
+void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), void *arg, NdmaConfig *cfg, int words, u32 flags)
 {
     u32 irq;
     u32 ctrl;
@@ -156,7 +156,7 @@ void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, 
     irq = OS_DisableInterrupts();
     MIi_Wait(ch);
     if (cb != 0) {
-        OSi_EnterNDmaCallback(ch, cb, (void *)arg);
+        OSi_EnterNDmaCallback(ch, cb, arg);
     }
     if (mode != 0) {
         NDMA[ch].src = src;
@@ -202,12 +202,12 @@ void MI_NDmaCopy(int ch, int src, int dst, int size)
     MIi_NDma_withConfig_Dev(1, ch, src, dst, 0, size, (void *)(((char *)data_02732EFC) + (ch << 4)), -1, 0x80000000);
 }
 
-void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), u32 arg)
+void MI_NDmaFillAsync(int ch, u32 dst, u32 data, u32 size, void (*cb)(), void *arg)
 {
     MIi_NDmaAsync_withConfig_Dev(0, ch, 0, dst, data, size, cb, arg, (void *)(((char *)data_02732EFC) + (ch << 4)), -1, 0x80000000);
 }
 
-void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), u32 arg)
+void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), void *arg)
 {
     MIi_NDmaAsync_withConfig_Dev(1, ch, src, dst, 0, size, cb, arg, (void *)(((char *)data_02732EFC) + (ch << 4)), -1, 0x80000000);
 }
@@ -250,9 +250,9 @@ static void MIi_Wait(int ch) {
 
 void MI_SetNDmaArbitrament(u32 arbitrament, u32 roundRobin) {
     if (arbitrament == 0x80000000) {
-        *(volatile u32 *)0x04004100 = roundRobin | 0x80000000;
+        *(volatile u32 *)REG_MI_NDMA_GLOBAL_CNT_ADDR = roundRobin | 0x80000000;
     } else {
-        *(volatile u32 *)0x04004100 = 0;
+        *(volatile u32 *)REG_MI_NDMA_GLOBAL_CNT_ADDR = 0;
     }
 }
 
@@ -295,7 +295,7 @@ void MI_Card_NDmaCopy(int ch, const void *src, void *dst)
     MIi_CardNDmaRecv32(ch, src, dst);
 }
 
-void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int mode, void (*callback)(), u32 arg)
+void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int mode, void (*callback)(), void *arg)
 {
     NdmaConfig buf;
     u32 n = 10;

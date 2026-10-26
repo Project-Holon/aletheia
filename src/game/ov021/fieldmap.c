@@ -592,7 +592,7 @@ extern struct DispConfig sBgModeSetup;
 #include "../arm9/g2.h"
 #include "../arm9/nns_g3d_ge.h"
 #include "../arm9/g3x.h"
-extern struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, void (*transCallback)(int, int, void *, int), int heapId);
+extern struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, u32 (*transCallback)(int, int, void *, int), int heapId);
 struct BbBoard;
 struct Blk3;
 struct LightSetDesc;
@@ -681,7 +681,7 @@ void FIELDMAP_DrawStart(FieldMap *fieldMap);
 void FIELDMAP_DrawEnd(FieldMap *fieldMap);
 void FIELDMAP_DeleteG3dResources(FieldMap *fieldMap);
 void FIELDMAP_VBlankTask(struct TcbTask *tcb, void *work);
-void FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size);
+u32 FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size);
 void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId);
 void FIELDMAP_SetupBbdColor(FieldMap *fieldMap);
 void FIELDMAP_SetupMmdlSys(FieldMap *fieldMap);
@@ -694,7 +694,7 @@ void FIELDMAP_AddZoneNpcs(struct GameData *gameData, struct MmdlSys *mmdlSys, vo
 void FIELDMAP_ChangeZoneSound(FieldMap *fieldMap, unsigned int zoneId);
 void FIELDMAP_ChangeZoneWeather(FieldMap *fieldMap, int zoneId);
 void FIELDMAP_ChangeZoneFog(FieldMap *fieldMap, int zoneId);
-int FIELDMAP_SetPlayerZoneId(struct GameData *gameData, u32 zoneId);
+struct PlayerWork *FIELDMAP_SetPlayerZoneId(struct GameData *gameData, u32 zoneId);
 void FIELDMAP_ChangeZoneCamera(FieldMap *fieldMap, u32 zoneId);
 FieldMap *FIELDMAP_ClearCtrlWork(FieldMap *fieldMap);
 void FIELDMAP_SetupCameraArea(FieldMap *fieldMap, int zoneId, int heapId);
@@ -901,7 +901,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         fieldMap->nogridMapper = FIELD_NOGRID_MAPPER_Create((u32)fieldMap->heapId, fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
         fieldMap->palaceSys = FIELD_PALACE_SYS_Create(fieldMap->heapId, gameSystem, fieldMap, fieldMap->zoneId);
         buildModel = FIELD_G3D_MAPPER_GetBuildModel(fieldMap->g3dMapper);
-        FIELDMAP_SetupMapperParam(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData));
+        FIELDMAP_SetupMapperParam(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, GAME_DATA_GetFieldWork(fieldMap->gameData));
         GAMESYSTEM_GetGameComm(fieldMap->gameSystem);
         palTable = FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys);
         FIELD_BUILDMODEL_LoadArea(buildModel, (s32)fieldMap->zoneId, fieldMap->areaData, palTable);
@@ -1021,13 +1021,13 @@ int FIELDMAP_SeqStart(struct GameSystem *gameSystem, FieldMap *fieldMap)
         FIELD_STATUS_SetContinueFlag(GAME_DATA_GetMoveModelSys(fieldMap->gameData), 0);
         FIELD_G3D_MAPPER_UpdateBlocking(fieldMap->g3dMapper);
         if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
-            GAMESYSTEM_SetEventCreator(gameSystem, (GameEventCreatorFn)FIELD_EVENT_CHECK_CheckCommEvents, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_CheckCommEvents, fieldMap);
         else if (FIELDMAP_GetCtrlType(fieldMap) == 1)
-            GAMESYSTEM_SetEventCreator(gameSystem, (GameEventCreatorFn)FIELD_EVENT_CHECK_RunRail, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_RunRail, fieldMap);
         else if (FIELDMAP_GetCtrlType(fieldMap) == 2)
-            GAMESYSTEM_SetEventCreator(gameSystem, (GameEventCreatorFn)FIELD_EVENT_CHECK_Run, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_Run, fieldMap);
         else
-            GAMESYSTEM_SetEventCreator(gameSystem, (GameEventCreatorFn)FIELD_EVENT_CHECK_RunGrid, fieldMap);
+            GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_RunGrid, fieldMap);
         fieldMap->mainState = 1;
         GAME_DATA_SetWalkCountEnabled(GAMESYSTEM_GetGameData(gameSystem), 1);
         break;
@@ -1062,9 +1062,9 @@ int FIELDMAP_SeqUpdate(struct GameSystem *gameSystem, FieldMap *fieldMap)
         INTRUDE_FIELD_Update(fieldMap, fieldMap->gameSystem, fieldMap->player);
     FIELD_SUBSCREEN_Main(fieldMap->subscreen);
     if (fieldMap->mmdlSys != 0) {
-        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+        *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
         FLDMMDL_UpdateSysProc(fieldMap->mmdlSys);
-        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+        *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     }
     FIELD_GIMMICK_RunMapCallback(fieldMap);
     FIELD_EFFECT_Update((struct FieldEffectSys *)fieldMap->effect);
@@ -1102,17 +1102,17 @@ int FIELDMAP_SeqUpdateTop(struct GameSystem *gameSystem, FieldMap *fieldMap)
         GAME_DATA_ResetWalkCount(GAMESYSTEM_GetGameData(gameSystem));
         return 0;
     }
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
     FIELD_G3D_MAPPER_StepBlocks(fieldMap->g3dMapper);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     FIELD_SUBSCREEN_MainNoTransition(fieldMap->subscreen);
     if (fieldMap->msgBg != 0)
         FIELD_MSGBG_Main(fieldMap->msgBg);
     if (fieldMap->placeName != 0)
         FIELD_PLACE_NAME_Draw(fieldMap->placeName);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
     FIELDMAP_DrawEnd(fieldMap);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     GAME_DATA_ResetWalkCount(GAMESYSTEM_GetGameData(gameSystem));
     return 0;
 }
@@ -1480,17 +1480,17 @@ void FIELDMAP_ExitBgSystem(FieldMap *fieldMap)
 
 void FIELDMAP_SetupG3d(void)
 {
-    *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xFFFFCFFD;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 0x10;
-    *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFFB;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 8;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xFFFFCFFD;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & 0xFFFFCFFF) | 0x10;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xCFFB;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & 0xFFFFCFFF) | 8;
     G3X_SetFog(0, 0, 5, 0xE00);
-    *(volatile u32 *)0x04000358 = 0x7FFF;
+    *(volatile u32 *)REG_FOG_COLOR_ADDR = 0x7FFF;
     G3X_SetFogTable(sFogTable);
     G3X_SetClearColor(0, 0x1F, 0x7FFF, 0, 0);
     G3X_SetEdgeColorTable(sEdgeColorTable);
-    *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
-    *(volatile u32 *)0x04000580 = 0xBFFF0000;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xCFDF;
+    *(volatile u32 *)REG_VIEWPORT_ADDR = 0xBFFF0000;
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
 }
 
@@ -1537,9 +1537,9 @@ void FIELDMAP_UpdateG3d(FieldMap *fieldMap)
     WEATHER_Update(fieldMap->weather, 0x92);
     FIELD_FOG_Main(fieldMap->fog);
     FIELD_LIGHT_Main(fieldMap->light, GF_STANDARD_GetSecondsOfDay());
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
     mapperBusy = FIELD_G3D_MAPPER_UpdateStep(fieldMap->g3dMapper);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     if (mapperBusy != 0)
         GFL_NET_SetDeviceModeIfRunning(2);
 }
@@ -1584,9 +1584,9 @@ void FIELDMAP_VBlankTask(struct TcbTask *tcb, void *work)
         FLD_VREQ_VBlank(fieldMap->vreq);
 }
 
-void FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size)
+u32 FIELDMAP_BbdActTransCallback(int vramTransfer, int destAddr, void *src, int size)
 {
-    NNS_GfdRegisterNewVramTransferTask(vramTransfer == 0 ? B_FALSE : B_TRUE, destAddr, src, size);
+    return NNS_GfdRegisterNewVramTransferTask(vramTransfer == 0 ? B_FALSE : B_TRUE, destAddr, src, size);
 }
 
 void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId)
@@ -1594,13 +1594,13 @@ void FIELDMAP_SetupEdgeMarking(struct AreaData *areaData, u32 zoneId)
     u32 edgeMarkType = ZONEDATA_GetAreaEdgeMarkType(areaData);
 
     if (edgeMarkType == 0xFF) {
-        *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
+        *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xCFDF;
         return;
     }
     if (ZONEDATA_IsRawZoneGroup121To13C(zoneId) != 0)
-        *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
+        *(volatile u16 *)REG_DISP3DCNT_ADDR = *(volatile u16 *)REG_DISP3DCNT_ADDR & 0xCFDF;
     else
-        *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 0x20;
+        *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & 0xFFFFCFFF) | 0x20;
     ARC_TOOL_ReadMember(data_021EE700, 0xF, edgeMarkType);
     data_021EE700b[7] = 0x4210;
     G3X_SetEdgeColorTable(data_021EE700);
@@ -1663,9 +1663,9 @@ u32 FIELDMAP_UpdateZoneChange(FieldMap *fieldMap)
     }
     eventData = GAME_DATA_GetEventData(fieldMap->gameData);
     if (EVENTDATA_SYSTEM_IsEncountDataLoaded(eventData) == 0) {
-        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+        *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
         EVENTDATA_SYSTEM_LoadEncountData(eventData, fieldMap->location.zoneId, GAME_DATA_GetSeason(fieldMap->gameData));
-        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+        *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     }
     return 0;
 }
@@ -1694,7 +1694,7 @@ u32 FIELDMAP_CheckZoneBoundary(FieldMap *fieldMap)
     int zoneId;
 
     location = &fieldMap->location;
-    mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
+    mapMatrix = GAME_DATA_GetFieldWork(fieldMap->gameData);
     ZONEDATA_GetLocationVec((Location *)location, &pos);
     if (MAP_MATRIX_IsInRangeByPos(mapMatrix, pos.x, pos.z) == 1) {
         zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos.x, pos.z);
@@ -1717,16 +1717,16 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     gameData = GAMESYSTEM_GetGameData(fieldMap->gameSystem);
     eventData = GAME_DATA_GetEventData(gameData);
     mmdlSys = fieldMap->mmdlSys;
-    mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
+    mapMatrix = GAME_DATA_GetFieldWork(fieldMap->gameData);
     GFL_NET_SetDeviceModeIfRunning(2);
     EFFECT_ENCOUNT_Reset(fieldMap->encount);
     ZONEDATA_GetLocationVec((Location *)location, &pos);
     zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos.x, pos.z);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
     FLDMMDL_SysDeleteZoneChangeMmdl(mmdlSys);
     EVENTDATA_SYSTEM_Clear(eventData);
     EVENTDATA_SYSTEM_LoadEventData(eventData, zoneId, GAME_DATA_GetSeason(gameData));
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     FIELD_MAP_CHANGE_ApplyZoneHeader(gameData, fieldMap);
     FIELDMAP_ChangeZoneSound(fieldMap, zoneId);
     FIELDMAP_ChangeZoneFog(fieldMap, zoneId);
@@ -1737,21 +1737,21 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     if (fieldMap->placeName != 0 && GAMESYSTEM_IsEventActive(fieldMap->gameSystem) == 0)
         FIELD_PLACE_NAME_OnZoneChange(fieldMap->placeName, zoneId);
     location->zoneId = (s16)zoneId;
-    GAME_BEACON_SetZone((u16)zoneId, (uptr)gameData);
+    GAME_BEACON_SetZone((u16)zoneId, gameData);
     MAP_REPLACE_SetArriveFlag(gameData, zoneId);
     SCRIPT_SYS_RunZoneChangeScript(fieldMap->gameSystem, (s32)4);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR & ~0x8000;
     FIELDMAP_AddZoneNpcs(gameData, mmdlSys, eventData, zoneId);
-    *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR = *(volatile u16 *)REG_EXMEMCNT_ADDR | 0x8000;
     INTRUDE_COMM_ClearHoldMode(GAMESYSTEM_GetGameComm(fieldMap->gameSystem));
 }
 
 void FIELDMAP_AddZoneNpcs(struct GameData *gameData, struct MmdlSys *mmdlSys, void *eventData, int zoneId)
 {
     int npcCount = EVENTDATA_SYSTEM_GetNpcCount(eventData);
-    sptr eventWork;
+    void *eventWork;
     if (npcCount != 0) {
-        eventWork = (sptr)GAME_DATA_GetEventWork(gameData);
+        eventWork = GAME_DATA_GetEventWork(gameData);
         FLDMMDL_AddMmdlHeaderList(mmdlSys, (struct MmdlHeader *)EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, npcCount, (void *)eventWork);
     }
 }
@@ -1790,9 +1790,9 @@ void FIELDMAP_ChangeZoneFog(FieldMap *fieldMap, int zoneId)
     FIELD_ZONEFOG_SetUp(fieldMap->zoneFog, fogId, ZONEDATA_GetLightId(zoneId), 1);
 }
 
-int FIELDMAP_SetPlayerZoneId(struct GameData *gameData, u32 zoneId)
+struct PlayerWork *FIELDMAP_SetPlayerZoneId(struct GameData *gameData, u32 zoneId)
 {
-    return (sptr)GAME_DATA_SetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData), ((zoneId << 16) >> 16));
+    return GAME_DATA_SetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData), ((zoneId << 16) >> 16));
 }
 
 void FIELDMAP_ChangeZoneCamera(FieldMap *fieldMap, u32 zoneId)

@@ -4,16 +4,18 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gsync_disp.c, prototypes copied from their definitions. */
 
+struct ClactAnimCommand;
+
 #include "../types.h"
 #include "../ov123/gsync_common_types.h"
 
-struct ClactAnimCommand;
+struct TcbTask;
 
 u8 *GSYNC_DISP_Init(u32 heap);
 void GSYNC_DISP_Draw(GsyncDispWork *disp);
 void GSYNC_DISP_Exit(GsyncDispWork *disp);
 void GSYNC_DISP_InitBgLayers(GsyncDispWork *disp);
-void GSYNC_DISP_VBlankTask(void *unused, GsyncDispWork *disp);
+void GSYNC_DISP_VBlankTask(struct TcbTask * unusedArg, void * dispArg);
 void GSYNC_DISP_LoadResources(GsyncDispWork *disp);
 void GSYNC_DISP_CreateEffectActorDefault(GsyncDispWork *disp);
 void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex);
@@ -28,7 +30,7 @@ void GSYNC_DISP_LoadEffectResources(GsyncDispWork *disp);
 void GSYNC_DISP_CreateMonIconActor(GsyncDispWork *disp, void *mon, int slotIndex);
 void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *disp);
 void GSYNC_DISP_RestartActorAnim(GsyncDispWork *disp);
-void GSYNC_DISP_PaletteWaveTask(void *unused, GsyncDispWork *disp);
+void GSYNC_DISP_PaletteWaveTask(struct TcbTask *unused, void *dispArg);
 void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp);
 void GSYNC_DISP_SetFadeDirection(GsyncDispWork *disp,int flag);
 void GSYNC_DISP_UpdateBlendFade(GsyncDispWork *disp);

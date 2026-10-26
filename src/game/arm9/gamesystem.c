@@ -200,9 +200,9 @@ struct CGearSave;
 
 
 
-u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
+u32 GAMESYSTEM_CallIfSet(void (*func)(void));
 
-void GAMESYSTEM_RandTwice(void);
+void GAMESYSTEM_RandTwice(struct TcbTask * unused0, void * unused1);
 
 void GAMESYSTEM_ApplyTamperPenalty(void);
 
@@ -210,21 +210,21 @@ void GAMESYSTEM_ProbeHeapCreate(void);
 
 void GAMESYSTEM_ApplyTamperPenaltyRepeat(void);
 
-u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam);
+u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, struct GameInitWork *initParam);
 
-u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, struct GameInitWork *initParam, struct GameSystem *gameSystem);
 
-u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, struct GameInitWork *initParam, struct GameSystem *gameSystem);
 
 struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct VecFx32 *position, int direction);
 
 u32 GAMESYSTEM_GetWorkSize(void);
 
-void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, struct GameInitWork *initParam);
 
 void GAMESYSTEM_Exit(struct GameSystem *gameSystem);
 
-void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, struct GameInitWork *initParam);
 
 int GAMESYSTEM_Main(struct GameSystem *gameSystem);
 
@@ -232,7 +232,7 @@ void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, GameEventCreatorF
 
 void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem);
 
-void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const ProcData *procData, void *param);
 
 void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
 
@@ -278,13 +278,13 @@ u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
 
 void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem);
 
-void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem);
+void GAMESYSTEM_OnSleep(void *arg);
 
 void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem);
 
 void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem);
 
-int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem);
+int GAMESYSTEM_IsSleepBlocked(void *arg);
 
 void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem);
 
@@ -303,7 +303,7 @@ extern u8 ov230_id[];
 
 extern u8 SDK_OVERLAY_ov021_ID[];
 
-extern u8 FieldMapProcData;
+extern const ProcData FieldMapProcData;
 struct FieldMap;
 
 /*
@@ -337,7 +337,7 @@ struct FieldMap;
  *   python tools/match.py tu --src src/matched/unit_02011D28.c \
  *       --addr 0x02011D28 --thumb
  */
-u32 GAMESYSTEM_CallIfSet(u32 (*func)(void))
+u32 GAMESYSTEM_CallIfSet(void (*func)(void))
 {
     if (func != 0) {
         func();
@@ -345,7 +345,7 @@ u32 GAMESYSTEM_CallIfSet(u32 (*func)(void))
     return ~(uptr)func;
 }
 
-void GAMESYSTEM_RandTwice(void)
+void GAMESYSTEM_RandTwice(struct TcbTask * unused0, void * unused1)
 {
     GF_STANDARD_Rand();
     GF_STANDARD_Rand();
@@ -365,7 +365,7 @@ void GAMESYSTEM_RandTwice(void)
  */
 void GAMESYSTEM_ApplyTamperPenalty(void)
 {
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask(GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -394,7 +394,7 @@ void GAMESYSTEM_ProbeHeapCreate(void)
  */
 void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
 {
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask(GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -432,7 +432,7 @@ void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
  * that listing: 25 of 25 sites (ov230_id as overlay_id, EVENT_WIFI_PROC_CreateOv020Event
  * sole-ref/code with the ov010 hint).
  */
-u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
+u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, struct GameInitWork *initParam)
 {
     u32 workSize;
     u32 checkSum;
@@ -441,32 +441,32 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     struct GameSystem *gameSystem;
     s32 penaltyCount;
     s32 i;
-    u32 checkCaller;
+    u32 (*checkCaller)(void (*)(void));
 
     workSize = GAMESYSTEM_GetWorkSize();
-    checkCaller = (uptr)GAMESYSTEM_CallIfSet;
+    checkCaller = GAMESYSTEM_CallIfSet;
     checkSum = 0xc35ffb;
     GF_OVERLAY_Load((sptr)ov230_id);
     intact = 0;
-    if (OV230_CallSealedBody0((void (*)(void))checkCaller, GAMESYSTEM_ApplyTamperPenalty, 0) == ~(uptr)GAMESYSTEM_ApplyTamperPenalty)
+    if (OV230_CallSealedBody0(checkCaller, GAMESYSTEM_ApplyTamperPenalty, 0) == ~(uptr)GAMESYSTEM_ApplyTamperPenalty)
         intact = 1;
     checkSum += intact * 0x47;
     GFL_HEAP_CreateChildHeap(1, 3, 0xa << 12);
     intact = 1;
-    if (OV230_CallSealedBody3((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(uptr)GAMESYSTEM_ProbeHeapCreate)
+    if (OV230_CallSealedBody3(checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(uptr)GAMESYSTEM_ProbeHeapCreate)
         intact = 0;
     checkPenalty = 0;
     if (intact == 0)
         checkPenalty = 0x191;
     GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
-    OV230_CallSealedBody4((void (*)(void))checkCaller, GAMESYSTEM_ApplyTamperPenaltyRepeat, 0);
+    OV230_CallSealedBody4(checkCaller, GAMESYSTEM_ApplyTamperPenaltyRepeat, 0);
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
     GF_OVERLAY_Unload((sptr)ov230_id);
     gameSystem = PROCSYS_AllocProcWork(proc, workSize, 3);
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
     GAMESYSTEM_Setup(gameSystem, 3, initParam);
-    GAMESYSTEM_SetEvent(gameSystem, EVENT_WIFI_PROC_CreateOv020Event(gameSystem, (struct GameInitWork *)initParam));
+    GAMESYSTEM_SetEvent(gameSystem, EVENT_WIFI_PROC_CreateOv020Event(gameSystem, initParam));
     if ((checkSum + checkPenalty) % 0x12af != 0) {
         penaltyCount = MISC_CountBadges(GAME_DATA_GetMiscSave(GAMESYSTEM_GetGameData(gameSystem)));
         for (i = 0; i < penaltyCount; i++)
@@ -491,7 +491,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
  *   python tools/match.py one --src src/pending/GAMESYSTEM_ProcMain.c \
  *       --func GAMESYSTEM_ProcMain --addr 0x02011EAC --cc 1.1p1 --thumb
  */
-u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
+u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, struct GameInitWork *initParam, struct GameSystem *gameSystem)
 {
     if (GAMESYSTEM_Main(gameSystem) != 0)
         return 1;
@@ -509,7 +509,7 @@ u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameS
  *   python tools/match.py one --src src/matched/GAMESYSTEM_ProcEnd.c \
  *       --func GAMESYSTEM_ProcEnd --addr 0x02011EC0 --cc 1.1p1 --thumb
  */
-u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
+u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, struct GameInitWork *initParam, struct GameSystem *gameSystem)
 {
     GAMESYSTEM_Delete(gameSystem);
     PROCSYS_FreeProcWork(proc);
@@ -579,7 +579,7 @@ u32 GAMESYSTEM_GetWorkSize(void)
  * struct, not raw pointer casts.  EXACT* only because the 2-byte pad at
  * 0x02011F8E runs the extent to 0x02011F90.
  */
-void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
+void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, struct GameInitWork *initParam)
 {
     gameSystem->heapId = heapId;
     gameSystem->initParam = initParam;
@@ -634,7 +634,7 @@ void GAMESYSTEM_Exit(struct GameSystem *gameSystem)
  *   python tools/match.py one --src src/pending/GAMESYSTEM_Setup.c \
  *       --func GAMESYSTEM_Setup --addr 0x02011FB8 --cc 1.1p1 --thumb
  */
-void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
+void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, struct GameInitWork *initParam)
 {
     GAMESYSTEM_Init(gameSystem, heapId, initParam);
     GAME_BEACON_Setup(gameSystem->gameData);
@@ -768,9 +768,9 @@ void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem)
  *   python tools/match.py one --src src/matched/GAMESYSTEM_CallProc.c \
  *       --func GAMESYSTEM_CallProc --addr 0x020120B4 --cc 1.1p1 --thumb
  */
-void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param)
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const ProcData *procData, void *param)
 {
-    PROCSYS_Push(gameSystem->procSys, overlayId, (const ProcData *)procData, param);
+    PROCSYS_Push(gameSystem->procSys, overlayId, procData, param);
 }
 
 /*
@@ -1034,8 +1034,9 @@ void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem)
  *   python tools/match.py one --src src/matched/GAMESYSTEM_OnSleep.c \
  *       --func GAMESYSTEM_OnSleep --addr 0x02012220 --cc 1.1p1 --thumb
  */
-void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem)
+void GAMESYSTEM_OnSleep(void *arg)
 {
+    struct GameSystem *gameSystem = arg;
     if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) != 0) {
         GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
         gameSystem->netOffBySleep = 1;
@@ -1061,7 +1062,7 @@ void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem)
 {
-    UI_SetWakePoweredHookGlobal((UiCb)GAMESYSTEM_OnSleep, gameSystem);
+    UI_SetWakePoweredHookGlobal(GAMESYSTEM_OnSleep, gameSystem);
 }
 
 void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
@@ -1069,8 +1070,9 @@ void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
     UI_SetWakePoweredHookGlobal(0, 0);
 }
 
-int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
+int GAMESYSTEM_IsSleepBlocked(void *arg)
 {
+    struct GameSystem *gameSystem = arg;
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)) != 0) {
         return 1;
     }
@@ -1101,7 +1103,7 @@ int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem)
 {
-    UI_SetKeepAwakePred((UiPred)GAMESYSTEM_IsSleepBlocked, gameSystem);
+    UI_SetKeepAwakePred(GAMESYSTEM_IsSleepBlocked, gameSystem);
 }
 
 void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem)

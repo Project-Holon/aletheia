@@ -36,7 +36,7 @@ typedef struct ElLampPaletteRef {
 } ElLampPaletteRef;
 
 /* Called once when the scoreboard event ends (ELSCOREBOARD_CallFinishCallback). */
-typedef void (*ElScoreboardCallback)(int arg);
+typedef void (*ElScoreboardCallback)(void *arg);
 
 /* Work of the season scoreboard event (0x28 bytes). */
 typedef struct ElScoreboardWork {
@@ -52,7 +52,7 @@ typedef struct ElScoreboardWork {
     u32 stateTimer;
     u32 stateDuration;
     ElScoreboardCallback finishCallback;
-    int finishCallbackArg;
+    void *finishCallbackArg;
 } ElScoreboardWork;
 
 #endif

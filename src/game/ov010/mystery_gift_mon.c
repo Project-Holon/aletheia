@@ -199,7 +199,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         result = 0;
         goto out;
     }
-    if (species > 649) {
+    if (species > SPECIES_LAST) {
         result = 0;
         goto out;
     }

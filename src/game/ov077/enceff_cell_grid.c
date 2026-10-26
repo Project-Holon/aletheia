@@ -62,10 +62,10 @@ extern void MTX_RotY33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
 extern void MTX_RotZ33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
 #include "../arm9/g3imm.h"
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork);
+int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state, void *eventWork);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
 void ENCEFF_UpdateCellGrid(struct EncEffWork *eff);
-void ENCEFF_DrawCellGrid(EncEffGridWork *work);
+void ENCEFF_DrawCellGrid(void *workArg);
 extern s16 FX_SinCosTable_[];
 
 
@@ -132,7 +132,7 @@ void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int u
 /*
  * Addresses are Black-image addresses.
  */
-int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork)
+int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state, void *eventWork)
 {
     EncEffGridWork *work;
 
@@ -197,8 +197,9 @@ void ENCEFF_UpdateCellGrid(struct EncEffWork *eff) {
 }
 
 
-void ENCEFF_DrawCellGrid(EncEffGridWork *work)
+void ENCEFF_DrawCellGrid(void *workArg)
 {
+    EncEffGridWork *work = workArg;
     REG_MTX_PUSH = 0;
     REG_DIF_AMB = 0x7FFF7FFF;
     REG_SPE_EMI = 0x4210;

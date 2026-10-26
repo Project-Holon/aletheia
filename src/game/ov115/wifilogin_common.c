@@ -28,19 +28,19 @@
 #include "../arm9/net_handle.h"
 #include "../arm9/net_system.h"
 int WIFILOGIN_COMMON_IsCancelInput(u8 *p);
-void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler);
-void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle);
+void WIFILOGIN_COMMON_SetStateHandler(u8 *p, void (*handler)(u8 *));
+void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, void *handle);
 
 /* True when the pad or the touch panel asks the login to move on. */
 int WIFILOGIN_COMMON_IsCancelInput(u8 *p) { if(KEY_GetTrg()&3) return 1; if(((struct WifiloginWork *)p)->state->mode && TOUCHPANEL_GetTrg()) return 1; return 0; }
 
 /* Install the callback the login state machine runs each frame. */
-void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler) { ((struct WifiloginWork *)p)->stateHandler = handler; }
+void WIFILOGIN_COMMON_SetStateHandler(u8 *p, void (*handler)(u8 *)) { ((struct WifiloginWork *)p)->stateHandler = handler; }
 
 /* Flag the state when this console's aid is not the one the handle reports. */
-void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle)
+void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, void *handle)
 {
-    if (handle == (uptr)GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
+    if (handle == GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
         ((struct WifiloginState *)state)->aidMismatch = 1;
     }
 }

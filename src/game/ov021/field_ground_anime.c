@@ -340,10 +340,10 @@ extern void * GFL_HEAP_Alloc(u16, u32, u32, const char *, u32);
 #include "field_nogrid_mapper.h"
 #include "field_g3d_mapper.h"
 #include "event_fieldmap_control.h"
-int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_MainA(struct GameEvent *task, int *state, void *work);
 void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args);
 void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work);
-int FIELD_GROUND_ANIME_MainB(void *task, int *state, GroundAnimeWork *work);
+int FIELD_GROUND_ANIME_MainB(struct GameEvent *task, int *state, void *work);
 int FIELD_GROUND_ANIME_GetPlayerMoveMode(void *fieldMap);
 void FIELD_GROUND_ANIME_GetPlayerPos(void *fieldMap, VecFx32 *out);
 void FIELD_GROUND_ANIME_GetEntryPosByMapKind(void *fieldMap, VecFx32 *out);
@@ -407,7 +407,7 @@ extern const u8 gTexPixelsPerByteTable[];
 FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId)
 {
     FieldGroundAnime *ground;
-    ground = GFL_HEAP_Alloc(heapId, 0x41c, 1, &_FieldGroundAnimeFileName, 0xd6);
+    ground = GFL_HEAP_Alloc(heapId, sizeof(*ground), 1, &_FieldGroundAnimeFileName, 0xd6);
     if (desc->hasAnmSet != 0) {
         u32 count = desc->anmCount;
         u32 arcId = desc->anmArcId;
@@ -472,7 +472,7 @@ void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u
     i = 0;
     set->file = (void *)ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
     pResAnm = (struct NNSG3dAnmFmtHeader *)NNS_G3dGetAnmByIdx(set->file, 0);
-    set->entries = GFL_HEAP_Alloc(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
+    set->entries = GFL_HEAP_Alloc(heapId, count * sizeof(*set->entries), 1, &_FieldGroundAnimeFileName, 0x196);
     set->count = count;
     for (i = 0; i < set->count; i++)
         FIELD_GROUND_ANIME_AnmEntryInit(&set->entries[i], pResAnm, heapId);
@@ -541,7 +541,7 @@ static inline NNSG3dResMdl *ModelSetGetFirstModel(ModelSetRes *set)
     if (set != 0) {
         slot = ModelSetGetOffsetSlot(set, 0);
         if (slot != 0)
-            return (NNSG3dResMdl *)((uptr)set + *slot);
+            return (NNSG3dResMdl *)((u8 *)set + *slot);
     }
     return 0;
 }
@@ -905,7 +905,7 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *w;
 
-    task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainA, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, sizeof(GroundAnimeWork));
     w = GAME_EVENT_GetWork(task);
     w->args = args;
     w->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
@@ -997,8 +997,9 @@ void FIELD_GROUND_ANIME_SetupStepsA(GroundAnimeWork *w)
  * next step (GetNextStep) and advances the index (AdvanceStep). Returns 1
  * once the current step is GROUND_A_END and the field proc reports ready.
  */
-int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_MainA(struct GameEvent *task, int *state, void *workPtr)
 {
+    GroundAnimeWork *work = workPtr;
     GroundAnimeArgs *args;
     void *gameSystem;
     void *fieldMap;
@@ -1103,7 +1104,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *work;
 
-    task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainB, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, sizeof(GroundAnimeWork));
     work = GAME_EVENT_GetWork(task);
     work->args = args;
     work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
@@ -1154,8 +1155,9 @@ void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work)
  * work->steps like MainA, returning 0x21 to run again in the same frame when
  * work->chainSteps is set, 1 when the last step finishes, 0 otherwise.
  */
-int FIELD_GROUND_ANIME_MainB(void *task, int *state, GroundAnimeWork *work)
+int FIELD_GROUND_ANIME_MainB(struct GameEvent *task, int *state, void *workPtr)
 {
+    GroundAnimeWork *work = workPtr;
     GroundAnimeArgs *args;
     void *gameSystem;
     void *gameData;

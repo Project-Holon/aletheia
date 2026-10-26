@@ -285,9 +285,9 @@ void GAME_BEACON_SetPlayTime(u32 playHours);
 
 void GAME_BEACON_SetItemUse(u16 itemNo);
 
-void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource);
+void GAME_BEACON_SetZone(u32 zoneId, struct GameData *zoneSource);
 
-void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource);
+void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, struct GameData *zoneSource);
 
 void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u16 monsNo);
 
@@ -735,7 +735,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
     misc = MISC_GetBlock(save);
-    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk((uptr)save);
+    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk(save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
@@ -1099,21 +1099,17 @@ static void GAME_BEACON_WriteItemUse(GameBeaconRecord *own, u16 itemNo)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource)
+void GAME_BEACON_SetZone(u32 zoneId, struct GameData *zoneSource)
 {
     GAME_BEACON_SetInfoZone(&GAME_BEACON_Work->own.info, zoneId, zoneSource);
     GAME_BEACON_Work->own.sendRequest = 1;
 }
 
-void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource)
+void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, struct GameData *zoneSource)
 {
     info->zoneId = zoneId;
-#ifdef __MWERKS__
-    info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(zoneSource);
-#else
     /* the DS call passes only zoneSource; r1 still holds zoneId */
-    info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId((void *)(uptr)zoneSource, zoneId);
-#endif
+    info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(zoneSource, zoneId);
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 5;
     GAME_BEACON_ResetDetails(info);
 }

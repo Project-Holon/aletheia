@@ -26,9 +26,9 @@ int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save);
 void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save);
 int MANUAL_COMMON_IsValidKey(char *unused, unsigned key);
 int MANUAL_COMMON_GetDefaultId(void *unused);
-int MANUAL_COMMON_GetGroupEntry(char *table, int idx);
+u8 *MANUAL_COMMON_GetGroupEntry(char *table, int idx);
 unsigned short MANUAL_COMMON_GetGroupOffset(char *table,unsigned index);
-int MANUAL_COMMON_GetEntry(char *table, int idx);
+u8 *MANUAL_COMMON_GetEntry(char *table, int idx);
 unsigned short MANUAL_COMMON_GetEntryOffset(char *table,unsigned index);
 /* END mkheaders: generated region */
 

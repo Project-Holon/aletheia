@@ -11,6 +11,8 @@ struct TaskMenuRes;
 #include "../ov071/monolith_tool_types.h"
 #include "../types.h"
 
+struct TcbTask;
+
 int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup);
 int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work);
 int MONOLITH_TOOL_Exit(struct Proc *a, int b, int c, MonolithToolWork *work);
@@ -30,7 +32,7 @@ void MONOLITH_TOOL_InitActors(MonolithToolWork *work);
 void MONOLITH_TOOL_FreeActors(MonolithToolWork *work);
 void MONOLITH_TOOL_LoadActorResources(MonolithToolWork *work);
 void MONOLITH_TOOL_FreeActorResources(MonolithToolWork *work);
-void MONOLITH_TOOL_VBlankTask(void *unused, MonolithToolWork *work);
+void MONOLITH_TOOL_VBlankTask(struct TcbTask *unused, void *workArg);
 void MONOLITH_TOOL_LoadSlotRecords(MonolithToolWork *work, MonolithToolSetup *setup);
 void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *button, int resIndex, int sizeClass, int x, int y, int msgId, void *wordSet);
 void MONOLITH_TOOL_FreeButton(MonolithToolButton *button);
@@ -65,9 +67,9 @@ int MONOLITH_TOOL_IsBlinkActive(MonolithToolBlink *blink);
 struct Actor *MONOLITH_TOOL_CreateActorAt(MonolithToolWork *work, int x, int y, int animSeq);
 void MONOLITH_TOOL_DeleteActorAt(void *p);
 void MONOLITH_TOOL_Noop(void *a);
-struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap);
+struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(MonolithToolWork *p, int a, u16 heap);
 void MONOLITH_TOOL_DeleteTaskMenuRes(void *p);
-void *MONOLITH_TOOL_OpenTaskMenu(int *work, void *res, u32 heap);
+void *MONOLITH_TOOL_OpenTaskMenu(MonolithToolWork *work, void *res, u32 heap);
 void MONOLITH_TOOL_CloseTaskMenu(void *menu);
 int MONOLITH_TOOL_UpdateTaskMenu(MonolithToolWork *work, int unused, void *menu, int *outConfirmed);
 void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg);
@@ -180,7 +182,7 @@ void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWor
 int MONOLITH_TOOL_ScrollBy(MonolithListWork *work, int delta);
 void MONOLITH_TOOL_UpdateBgScroll(MonolithListWork *work);
 void MONOLITH_TOOL_UpdateRows(MonolithListWork *work);
-void MONOLITH_TOOL_TaskUploadRows(void *task, MonolithListWork *work);
+void MONOLITH_TOOL_TaskUploadRows(struct TcbTask *task, void *workArg);
 int MONOLITH_TOOL_GetRowAtY(MonolithListWork *work, unsigned y);
 int MONOLITH_TOOL_InitInfoScreen(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);
 int MONOLITH_TOOL_MainInfoScreen(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work);

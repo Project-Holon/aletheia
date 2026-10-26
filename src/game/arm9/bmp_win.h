@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_BMP_WIN_H
 #define GAME_ARM9_BMP_WIN_H
 
+#include "../arm9/bmp_win_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of bmp_win.c, prototypes copied from their definitions. */
 

@@ -68,7 +68,7 @@ int WEATHER_RequestChangeNoFade(WeatherSys *sys, u16 weatherId);
 u16 WEATHER_GetWeatherId(WeatherSys *sys);
 void WEATHER_LoadOverlay(WeatherSys *sys, u32 overlayId);
 void WEATHER_UnloadOverlay(WeatherSys *sys);
-void WEATHER_ReleaseBillboardVramTask(int taskId, void *work);
+void WEATHER_ReleaseBillboardVramTask(struct TcbTask *task, void *work);
 int WEATHER_StartTransition(WeatherSys *sys, u16 weatherId);
 void WEATHER_UpdateSequential(WeatherSys *sys, int frames);
 void WEATHER_UpdateCrossfade(WeatherSys *sys, int frames);
@@ -114,7 +114,7 @@ WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light,
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, camera, light, fog, zoneFog, sys, soundSys, zoneId, heapId);
     }
-    sys->updateTaskId = GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
+    sys->updateTaskId = GFL_USE_AddMainTask( WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
     return sys;
 }
 
@@ -239,7 +239,7 @@ void WEATHER_UnloadOverlay(WeatherSys *sys)
 }
 
 /* Per-frame task: release the VRAM copy of both billboard textures. */
-void WEATHER_ReleaseBillboardVramTask(int taskId, void *work)
+void WEATHER_ReleaseBillboardVramTask(struct TcbTask *task, void *work)
 {
     WeatherSys *sys = work;
     int i;

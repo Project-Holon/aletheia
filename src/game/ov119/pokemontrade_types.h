@@ -9,6 +9,7 @@ typedef struct { int a, b; } PokemontradeIntPair;
 typedef struct { int a, b, c; } PokemontradeIntTriple;
 
 /* Fixed-point position used by the icon flight path. */
+#include "../types.h"
 #include "../sdk_fx.h"
 #include "../arm9/g3d_util_types.h"
 #include "../ov114/nhttp_rap_types.h"
@@ -41,13 +42,13 @@ struct TradeRequest {
     char * httpParam;           /* 0x24: third argument of NHTTP_RAP_Create (profile data) */
     unsigned short box;         /* 0x28 */
     unsigned short slot;        /* 0x2A */
-    unsigned char pad_2C[2];
+    unsigned short count;       /* 0x2C */
     unsigned short setupParam;  /* 0x2E: second argument of SetupGameData (unused) */
     void * gameDataSource;      /* 0x30: gameData for the McssPokemon request types */
     void * monA;                /* 0x34: first party mon data */
     void * monB;                /* 0x38: second party mon data */
-    int trainerValue;           /* 0x3C: copied to TradeWork::f830 */
-    int playerStatus;           /* 0x40: copied to TradeWork::f834 */
+    struct MyStatus *trainerValue;           /* 0x3C: copied to TradeWork::f830 */
+    struct MyStatus *playerStatus;           /* 0x40: copied to TradeWork::f834 */
 };
 
 /* Trade context pointed to by TradeRequest::context. */
@@ -68,25 +69,76 @@ struct GfxLoadResult {
     void * data;                /* 0x14 */
 };
 
-/* Work area of the Pokemon trade scene (overlay 119). One object, fields by byte offset. */
-typedef struct TradeWork {
-    NHTTPRapSession * httpRap;
-    unsigned char pad_4[4];
-    struct TradeRequest * request;
-    struct ParticleManager * particleManager;
-    unsigned char pad_10[1452];
-    int  statusWin0;
-    int  statusWin1;
-    unsigned char pad_5C4[16];
-    int  nameRowWin;
-    int  valueRowWin;
-    void * monABuf;
-    void * monBBuf;
-    unsigned char pad_5E4[8];
-    int  stepFunc;
-    void * timeIcon;
-    unsigned short  heapId;
-    unsigned char pad_5F6[22];
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/playtime_shared_types.h"
+#include "../ov067/ui_scene_types.h"
+
+struct Bmp;
+
+/* Trade record of one party or box slot (4 bytes). */
+typedef struct PokemontradeProcRecord {
+    u16 value;
+    u8 a;
+    u8 b;
+} PokemontradeProcRecord;
+
+/* Timed slide of one MCSS sprite from its current position to a target (heap block of 0x38 bytes). */
+struct NetSaveTask;
+
+typedef struct McssSlideVec {
+    int x;
+    int y;
+    int z;
+} McssSlideVec;
+
+typedef struct McssSlide {
+    void * mcss;
+    int frameCount;
+    int frame;
+    int reserved0C;
+    int reserved10;
+    unsigned short wobblePhase;
+    unsigned short wobbleEnabled;
+    int reserved18;
+    McssSlideVec start;
+    McssSlideVec target;
+    McssSlideVec * offsetTable;
+} McssSlide;
+
+/* Summary page icons: the graphics set, a loaded flag and the eight actors (0x34 bytes on the DS). */
+typedef struct TradeSummaryIcons {
+    ActorGfxSet gfx;
+    int loaded;
+    struct ClactActor *actor[8];
+} TradeSummaryIcons;
+
+typedef struct {
+    int x, y, z;
+} PokemontradeDemoVec;
+
+/*
+ * Particle and ICA animation manager owned by TradeWork.particleManager.
+ * Allocated and released by the caller; holds nine particle systems with
+ * their backing heap blocks, the four ICA animation streams and the shared
+ * particle archive member.
+ */
+typedef struct ParticleManager {
+    void *system[9];          /* 0x000 particle systems */
+    void *buffer[9];          /* 0x024 heap block backing each system */
+    PokemontradeDemoVec position;       /* 0x048 */
+    PokemontradeDemoVec scale;          /* 0x054 */
+    PokemontradeDemoVec slotScale[4];   /* 0x060 per-mcss-slot scales */
+    void *icaStream[4];       /* 0x090 ICA animation streams */
+    void *emitter[2];         /* 0x0A0 emitters that follow stream 2 and stream 3 */
+    int streamFrame[2];       /* 0x0A8 loop frame of stream 0 and stream 1 */
+    void *actor;              /* 0x0B0 CLACT actor handle */
+    void *archiveMember;      /* 0x0B4 shared particle archive member */
+    unsigned char pad_B8[2];  /* 0x0B8 */
+    u16 heap;                 /* 0x0BA owning heap id */
+} ParticleManager;
+
+/* Save data copies kept while a trade is written (0x24 bytes on the DS). */
+typedef struct TradeSaveBackup {
     void * saveControlBackup;
     void * trainerRecordBackup;
     void * savedSaveControl;
@@ -94,8 +146,50 @@ typedef struct TradeWork {
     void * savedBlock1F;
     void * partyBackup;
     void * boxBackup;
-    unsigned char pad_628[4];
+    struct PlayTimeStamp playTimeStamp;         /* 0x1C */
     int  boxSaveDirty;
+} TradeSaveBackup;
+
+/* One icon slot of the trade scene: actor graphics set plus its actor (0x14 bytes on the DS). */
+typedef struct TradeIconSlot {
+    ActorGfxSet gfx;            /* 0x00 */
+    struct ClactActor *actor;   /* 0x10 */
+} TradeIconSlot;
+
+/* Work area of the Pokemon trade scene (overlay 119). */
+typedef struct TradeWork {
+    NHTTPRapSession * httpRap;
+    unsigned char pad_4[4];
+    struct TradeRequest * request;
+    struct ParticleManager * particleManager;
+    unsigned char boxMarking[24][30];           /* 0x010: marking icons of the 24 boxes, sent to the partner */
+    unsigned char partyMarking[6];              /* 0x2E0 */
+    unsigned char texSource[0x2D0];             /* 0x2E6: source cells of the cube textures */
+    unsigned char texHeader[6];                 /* 0x5B6 */
+    union {
+        struct BmpWin *statusWin[2];            /* 0x5BC */
+        struct {
+            struct BmpWin *statusWin0;
+            struct BmpWin *statusWin1;
+        };
+    };
+    struct BmpWin *levelWin[2];                 /* 0x5C4 */
+    struct BmpWin *itemWin[2];                  /* 0x5CC */
+    struct BmpWin *nameRowWin;
+    struct BmpWin *valueRowWin;
+    union {
+        void *monBuf[2];                        /* 0x5DC */
+        struct {
+            void * monABuf;
+            void * monBBuf;
+        };
+    };
+    int sideValue[2];                           /* 0x5E4 */
+    void (*stepFunc)(struct TradeWork *);        /* current step function */
+    void * timeIcon;
+    unsigned short  heapId;
+    unsigned char pad_5F6[22];
+    TradeSaveBackup backup;                     /* 0x60C */
     int  partyBoxId;
     int  slotCount;
     int  columnWrap;
@@ -104,96 +198,108 @@ typedef struct TradeWork {
     unsigned int  fontBgHandle;
     void * taskMenuWindow;
     void * taskMenu;
-    void * messageBuffer;
-    unsigned short  magicValue;
-    unsigned char pad_656[2];
-    int  magicValue2;
-    unsigned char pad_65C[84];
+    TaskMenuItem taskMenuItems[8];              /* 0x650 */
     void * taskMenuRes;
     struct BmpWin *subWin;
-    unsigned char pad_6B8[100];
-    int  messageWin;
+    struct BmpWin *boxNameWin[25];              /* 0x6B8 */
+    struct BmpWin *messageWin;
     struct MsgBank *messageBank;
-    int  wordSet;
-    void * font;
-    int  printStream;
-    int  infoTextOut;
-    int  infoTextIn;
-    int  messageText;
-    void * messageTemplate;
-    void * printQueue;
+    struct WordSet *wordSet;
+    struct GfFont *font;
+    struct TextPrinter *printStream;
+    struct Strbuf *infoTextOut;
+    struct Strbuf *infoTextIn;
+    struct Strbuf *messageText;
+    struct Strbuf *messageTemplate;
+    struct PrintQueue *printQueue;
     void * tcbl;
     unsigned char pad_748[4];
     void * keyCursor;
-    unsigned char pad_750[176];
+    struct BmpWin *subScreenWin[26];            /* 0x750 */
+    unsigned char pad_7B8[72];
     int  filterIndex;
     unsigned char pad_804[12];
     struct G3dCamera * camera;
     unsigned char pad_814[4];
-    void * gfxWorkBuf;
+    signed char *fade;                          /* 0x818 four fade parameters (heap block) */
     unsigned char pad_81C[4];
     G3dUtil * g3dUtil;
     unsigned short  g3dUnitHandle;
     unsigned char pad_826[2];
-    int  boxManager;
+    struct GameData *boxManager;
     void * gameData;
-    int  trainerRecord;
-    int  playerStatus;
+    struct MyStatus *trainerRecord;
+    struct MyStatus *playerStatus;
     void * partyData;
     void * subCamera;
     void * mcssSystem;
     void * mcssPokemon[4];
     unsigned int  mcssAnimStopped;
-    unsigned char pad_858[4];
-    void * sceneBuf;
-    unsigned char pad_860[12];
+    unsigned int  peerSceneStarted;
+    McssSlide *slide[4];                        /* 0x85C own, peer, extra and current mcss slide */
     int  subBgHandle;
-    unsigned int  mainBgHandle;
-    unsigned int  boxBgHandle;
+    unsigned int mainBgHandle;
+    unsigned int boxBgHandle;
     unsigned char pad_878[4];
-    void * iconPalette;
-    int  actorPalette;
-    int  paletteB;
-    int  iconPaletteEx;
-    unsigned int  paletteSpare;
-    void * iconPaletteComp;
-    int  actorChar;
-    int  charA;
-    int  charB;
-    int  charC;
-    int  charD;
-    unsigned int  cellAnimB;
-    void * cellAnimC;
-    int  actorCellAnim;
-    int  cellAnimD;
-    int  cellAnimE;
-    unsigned int  cellAnimSpare;
-    void * cellAnimF;
-    unsigned char pad_8C4[216];
-    int  subScreenActive;
-    unsigned char pad_9A0[32];
+    union {
+        int resourceHandle[18];                 /* 0x87C: palettes, characters, then cell animations */
+        struct {
+            int iconPalette;
+            int  actorPalette;
+            int  paletteB;
+            int  iconPaletteEx;
+            unsigned int  paletteSpare;
+            int iconPaletteComp;
+            int  actorChar;
+            int  charA;
+            int charB;
+            int charC;
+            int  charD;
+            unsigned int  cellAnimB;
+            int cellAnimC;
+            int  actorCellAnim;
+            int  cellAnimD;
+            int  cellAnimE;
+            unsigned int  cellAnimSpare;
+            int cellAnimF;
+        };
+    };
+    TradeIconSlot statusIcon[3];                /* 0x8C4 */
+    TradeIconSlot typeIcon[4];                  /* 0x900 */
+    TradeIconSlot markingIcon[3];               /* 0x950 */
+    TradeSummaryIcons summary;                  /* 0x98C */
     void * touchbar;
     struct Unit *clactSystem;
     void * nodeA;
-    void * charE;
-    unsigned char pad_9D0[240];
-    struct ClactActor * boxIconActor;
-    unsigned char pad_AC4[236];
-    struct ClactActor * boxIconActorAlt;
-    unsigned char pad_BB4[536];
-    short  iconX;
-    short  iconY;
-    unsigned char pad_DD0[296];
-    int  netSave;
-    unsigned char pad_EFC[8];
-    struct ClactActor * cursorActor;
-    struct ClactActor * actorF08;
-    struct ClactActor *actorF0C;
-    int  iconActorA;
-    int  iconActorB;
-    struct ClactActor *actorF18;
-    unsigned char pad_F1C[4];
-    struct ClactActor *iconActorC;
+    int iconChar[12][5];                        /* 0x9CC */
+    unsigned char pad_ABC[4];
+    struct ClactActor *boxIconActors[12][5];    /* 0xAC0 */
+    struct ClactActor *boxIconAlt[12][5];       /* 0xBB0 */
+    unsigned short boxIconId[12][5];            /* 0xCA0 */
+    unsigned char boxIconB2[12][5];             /* 0xD18 */
+    unsigned char boxIconB3[12][5];             /* 0xD54 */
+    unsigned char boxIconSlot[12][5];           /* 0xD90 */
+    struct {
+        short x;
+        short y;
+    } boxIconPos[12][5];                        /* 0xDCC */
+    unsigned char boxIconShown[12][5];          /* 0xEBC */
+    struct NetSaveTask *netSave;
+    union {
+        struct ClactActor *uiActor[10];         /* 0xEFC */
+        struct {
+            struct ClactActor *actorEFC;
+            struct ClactActor *actorF00;
+            struct ClactActor * cursorActor;
+            struct ClactActor * actorF08;
+            struct ClactActor *actorF0C;
+            struct ClactActor *iconActorA;
+            struct ClactActor *iconActorB;
+            struct ClactActor *actorF18;
+            struct ClactActor *actorF1C;
+            struct ClactActor *iconActorC;
+        };
+    };
     struct ClactActor *iconActorD;
     unsigned char pad_F28[4];
     int  waitCounter;
@@ -230,15 +336,18 @@ typedef struct TradeWork {
     int offerReceivedValue[2][3];
     struct ClactActor * offerIconActor[2][3];
     int offerIconCharRes[2][3];
-    void * windowF;
-    unsigned char pad_103C[12];
-    int  peerMsgIndex;
-    unsigned char pad_104C[4];
-    int  ownMsgIndex;
-    unsigned char pad_1054[12];
+    struct BmpWin *offerListWin[4];             /* 0x1038 */
+    int peerMsgIndex[2];                        /* 0x1048 */
+    int ownMsgIndex[2];                         /* 0x1050 */
+    unsigned char pad_1058[8];
     int  netFlag;
-    unsigned char pad_1064[8];
-    void * sendBuf;
+    union {
+        void * tradeBuf[3];                     /* 0x1064 */
+        struct {
+            unsigned char pad_1064[8];
+            void * sendBuf;
+        };
+    };
     unsigned char pad_1070[4];
     int  redrawFlag;
     short  dragX;
@@ -258,41 +367,71 @@ typedef struct TradeWork {
     int  cursorIndex;
     void * subObjPaletteCopy;
     void * subBgPaletteCopy;
-    struct ClactActor * markerActor[8];
-    unsigned char pad_10CC[32];
+    union {
+        struct ClactActor * markerActor[8];     /* 0x10AC */
+        struct {
+            struct ClactActor *markerButtonActor[4];
+            struct ClactActor *markerIconActor[4];  /* 0x10BC */
+        };
+    };
+    struct ClactActor *windowActor[8];          /* 0x10CC */
     int  paletteE;
-    unsigned int  cellAnimG;
-    unsigned char pad_10F4[40];
-    int  cellAnimH;
-    unsigned char pad_1120[20];
-    unsigned short  colorBitsA;
-    unsigned char pad_1136[30];
-    unsigned short  colorBitsB;
-    unsigned char pad_1156[30];
-    void * tilemapE;
-    void * tilemapF;
-    void * tilemap19;
-    void * tilemap1A;
+    int  cellAnimG;
+    struct Bmp *windowBmp[8];                   /* 0x10F4 */
+    int windowChar[8];                          /* 0x1114 */
+    unsigned short palettePageA[16];            /* 0x1134 */
+    unsigned short palettePageB[16];            /* 0x1154 */
+    union {
+        void *tilemap[4];                       /* 0x1174 */
+        struct {
+            void * tilemapE;
+            void * tilemapF;
+            void * tilemap19;
+            void * tilemap1A;
+        };
+    };
     void * vramBuf;
     unsigned char pad_1188[4];
     int  tradeState;
     BezierCurve bezierCurve;
-    unsigned char pad_11D4[8];
+    u32 printCtrl[2];                           /* 0x11D4 */
     short  flightTimer;
     short  fadeLevel;
-    unsigned char  peerChoiceA;
-    unsigned char  peerChoiceB;
-    unsigned char pad_11E2[4];
-    unsigned char  peerStateA;
-    unsigned char  peerStateByte;
-    unsigned char  labelStateA;
-    unsigned char  labelStateB;
-    unsigned char  labelsReady;
-    unsigned char  markerHandled;
-    unsigned char  summaryActive;
-    unsigned char pad_11ED[1];
-    unsigned char  offlineFlag;
-    unsigned char pad_11EF[2];
+    union {
+        unsigned char choice[2];                /* 0x11E0 */
+        struct {
+            unsigned char peerChoiceA;
+            unsigned char peerChoiceB;
+        };
+    };
+    unsigned char slotTimer[2];                 /* 0x11E2 */
+    unsigned char holdTimer[2];                 /* 0x11E4 */
+    union {
+        unsigned char peerState[2];             /* 0x11E6 */
+        struct {
+            unsigned char peerStateA;
+            unsigned char peerStateByte;
+        };
+    };
+    union {
+        unsigned char labelState[2];            /* 0x11E8 */
+        struct {
+            unsigned char labelStateA;
+            unsigned char labelStateB;
+        };
+    };
+    unsigned char labelsReady;
+    unsigned char markerHandled;
+    unsigned char summaryActive;
+    union {
+        unsigned char compareResult[4];         /* 0x11ED */
+        struct {
+            unsigned char enemySameMon;
+            unsigned char ownSameMon;
+            unsigned char enemySpecialMon;
+            unsigned char ownSpecialMon;
+        };
+    };
     unsigned char  cancelTimer;
     unsigned char  storedBoxIndex;
     unsigned char  sideMonSent;
@@ -310,34 +449,13 @@ typedef struct TradeWork {
             unsigned char replyPending:4;
         } bits;
     } stateFlags;
+    PokemontradeProcRecord records[24 * 30 + 6]; /* 0x11FC */
 } TradeWork;
 
-/* Timed slide of one MCSS sprite from its current position to a target (heap block of 0x38 bytes). */
-typedef struct McssSlideVec {
-    int x;
-    int y;
-    int z;
-} McssSlideVec;
-
-typedef struct McssSlide {
-    void * mcss;
-    int frameCount;
-    int frame;
-    int reserved0C;
-    int reserved10;
-    unsigned short wobblePhase;
-    unsigned short wobbleEnabled;
-    int reserved18;
-    McssSlideVec start;
-    McssSlideVec target;
-    McssSlideVec * offsetTable;
-} McssSlide;
 
 /* shared with pokemontrade_proc */
 struct Sub02008F80Obj;
 
-/* Particle and ICA animation manager, allocated separately and owned by TradeWork. */
-struct ParticleManager;
 
 
 struct ClactVec2;

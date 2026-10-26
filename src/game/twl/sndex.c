@@ -88,7 +88,7 @@ u32 SNDEXi_SetIirFilterAsync(u32 target, u16 *coefficients, Cb callback, void *u
 u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
 u32 SNDEXi_PreProcessForShutterSound(void);
 u32 SNDEXi_PostProcessForShutterSound(Cb callback, void *userData);
-void CommonCallback(u32 tag, u32 data, u32 err);
+void CommonCallback(int tag, u32 data, BOOL err);
 void SyncCallback(u32 result, void *queue);
 u32 SendCommand(u32 command, u8 data);
 u32 SendCommandEx(u32 command, u32 data);
@@ -113,7 +113,7 @@ void SNDEXi_Init(void) {
     while (PXI_IsCallbackReady(0x18, 1) == 0) {
         SVC_WaitByLoop(10);
     }
-    PXI_SetFifoRecvCallback(0x18, (PXIFifoCallback)CommonCallback);
+    PXI_SetFifoRecvCallback(0x18, CommonCallback);
     SNDEXi_Work.postExitCallback = SndexSleepAndExitCallback;
     SNDEXi_Work.postExitArg = 0;
     PMi_InsertPostExitCallbackEx((struct PMiGenCallbackInfo *)SNDEXi_PostExitInfo, 0xfffd);
@@ -275,7 +275,7 @@ u32 SNDEXi_PostProcessForShutterSound(Cb callback, void *userData) {
     return r;
 }
 
-void CommonCallback(u32 tag, u32 data, u32 err) {
+void CommonCallback(int tag, u32 data, BOOL err) {
     u8 b2 = (data & 0xff0000) >> 16;
     u8 b1 = (data & 0xff00) >> 8;
     u8 b0 = data & 0xff;

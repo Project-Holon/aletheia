@@ -106,7 +106,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo);
 void BTLV_INPUT_PrepareCommandSelect(BtlvInput *input);
 void BTLV_INPUT_ClearSlotEvents(BtlvInput *input);
 void BTLV_INPUT_RegisterTask(BtlvInput *input, void *taskFunc, void (*taskEnd)(void *));
-int BTLV_INPUT_FindTask(BtlvInput *input, int task);
+int BTLV_INPUT_FindTask(BtlvInput *input, void *task);
 void BTLV_INPUT_DeleteTask(BtlvInput *input, void *task);
 int BTLV_INPUT_AllocTaskSlot(BtlvInput *input);
 void BTLV_INPUT_DeleteAllTasks(BtlvInput *input);

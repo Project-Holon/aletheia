@@ -6,6 +6,7 @@
 
 #include "../types.h"
 #include "../ov132/sta_acting_shared_types.h"
+#include "../arm9/billboard_act_shared_types.h"
 
 void STA_ACTING_SetCameraHoldScript(u8 *p,u32 hold);
 u32 STA_ACTING_GetElapsedTicks(u8 *p);
@@ -18,8 +19,7 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex);
 void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p);
 void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos);
 void STA_ACT_EFFECT_KillEffect(char *p, int index);
-struct VecFx32;
-void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, struct VecFx32 *position);
+void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, Vec3 *position);
 /* END mkheaders: generated region */
 
 #endif

@@ -244,8 +244,8 @@ void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int 
 void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu);
 int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu);
 int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu);
-void SHORTCUT_MENU_ListMoveCallback(void *list);
-void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1);
+void SHORTCUT_MENU_ListMoveCallback(struct BmpMenuList *list);
+void SHORTCUT_MENU_UpdateCursorBg(struct BmpMenuList *list, int unused0, int unused1);
 void SHORTCUT_MENU_ClampListWindow(u16 *scroll, u16 *cursor, u16 itemCount);
 void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId);
 int SHORTCUT_MENU_DeleteList(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor);
@@ -275,8 +275,8 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     int i;
 
     i = 0;
-    menu = GFL_HEAP_Alloc(heapId, 0x88, 0, gShortcutMenuFileName, 0xFC);
-    MI_CpuFill8(menu, 0, 0x88);
+    menu = GFL_HEAP_Alloc(heapId, sizeof(*menu), 0, gShortcutMenuFileName, 0xFC);
+    MI_CpuFill8(menu, 0, sizeof(*menu));
     menu->resultKind = 0;
     menu->resultValue = 25;
     menu->savedState = savedState;
@@ -331,7 +331,7 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
 {
     int i = 0;
 
-    *(volatile u16 *)0x04000050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
     BG_SYS_SetPlaneVisible(1, 0);
     SHORTCUT_MENU_FreeList(menu, (u16 *)menu->savedState);
     for (i = 0; i < 3; i++) {
@@ -631,7 +631,7 @@ int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
     int finished;
 
     if (menu->printBusy != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)menu->printWindow))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)(BMP_WIN_GetBmp((struct BmpWin *)menu->printWindow))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)menu->printWindow);
             menu->printBusy = 0;
         }
@@ -668,12 +668,16 @@ int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu)
  * Raises the redraw flag on the menu stored as the list's user pointer
  * (EXACT*: pad).
  */
-void SHORTCUT_MENU_ListMoveCallback(void *list)
+void SHORTCUT_MENU_ListMoveCallback(struct BmpMenuList *list)
 {
-    *(u32 *)(BMP_MENULIST_GetAttr(list, 0x13) + 0x44) = 1;
+#ifdef __MWERKS__
+    ((ShortcutMenu *)BMP_MENULIST_GetAttr(list, 0x13))->redrawBg = 1;
+#else
+    ((ShortcutMenu *)BMP_MENULIST_GetUserData(list))->redrawBg = 1;
+#endif
 }
 
-void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
+void SHORTCUT_MENU_UpdateCursorBg(struct BmpMenuList *list, int unused0, int unused1)
 {
     u16 listPos[2];
     ShortcutMenu *menu;
@@ -684,7 +688,11 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
     u32 cursorOffset;
     u16 row;
 
+#ifdef __MWERKS__
     menu = (ShortcutMenu *)BMP_MENULIST_GetAttr(list, 0x13);
+#else
+    menu = (ShortcutMenu *)BMP_MENULIST_GetUserData(list);
+#endif
     cursorRow = BMP_MENULIST_GetCursorY(list) >> 3;
     rowHeightTiles = BMP_MENULIST_GetAttr(list, 9) >> 3;
     if (menu->moveMode == 0) {

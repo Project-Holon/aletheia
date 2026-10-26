@@ -65,7 +65,7 @@ struct BmpMenuList {
     u8 shadowColor : 4;
     u8 reserved19;
     struct MenuFlags flags;
-    u32 userData;
+    void *userData;
     u16 cursorW;
     u16 rowH;
     u8 reserved24[0x28 - 0x24];
@@ -91,6 +91,7 @@ struct BmpMenuList {
     u8 moveDir;
     u16 heapId;
     u8 noCancel;
+    u32 reserved4C;
 };
 
 #include "gfl_heap_wrap.h"
@@ -176,7 +177,7 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
 
 void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
 
-u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
+void *BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 
 void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 
@@ -191,7 +192,7 @@ struct BmpMenuList *BMP_MENULIST_Create(struct BmpMenuListTemplate *menuTemplate
 {
     struct BmpMenuList *menu;
 
-    menu = (struct BmpMenuList *)GFL_HEAP_Alloc(heap, 0x50, 1, BMP_MENULIST_FILE_NAME, 0x69);
+    menu = (struct BmpMenuList *)GFL_HEAP_Alloc(heap, sizeof(struct BmpMenuList), 1, BMP_MENULIST_FILE_NAME, 0x69);
     *(struct BmpMenuListTemplate *)menu = *menuTemplate;
     menu->cursor = BMP_CURSOR_Create(heap);
     menu->scroll = scroll;
@@ -430,7 +431,7 @@ u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
     case 16: return menu->flags.mode6;
     case 17: return menu->flags.cursorOff;
     case 18: return (uptr)menu->win;
-    case 19: return menu->userData;
+    case 19: return (uptr)menu->userData;
     }
     return -1;
 }
@@ -989,7 +990,7 @@ void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap)
     BMP_MENULIST_DrawCursor(menu);
 }
 
-u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu)
+void *BMP_MENULIST_GetUserData(struct BmpMenuList *menu)
 {
     return menu->userData;
 }

@@ -28,7 +28,7 @@ int SHINKA_DEMO_EFFECT_IsCameraReady(int *model);
 Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable);
 void SHINKA_DEMO_EFFECT_DeleteParticle(char *particle);
 void SHINKA_DEMO_EFFECT_UpdateParticle(EffectParticle *particle);
-void SHINKA_DEMO_EFFECT_DrawParticle(int unused);
+void SHINKA_DEMO_EFFECT_DrawParticle(void *unused);
 void SHINKA_DEMO_EFFECT_SetParticleActive(char *particle);
 void SHINKA_DEMO_EFFECT_SetParticleTimer(char *particle,u32 timer);
 void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(EffectParticle *particle, s32 timer);

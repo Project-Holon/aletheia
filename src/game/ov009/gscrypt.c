@@ -30,7 +30,7 @@
  *   @13307  0x021A19D8  data
  */
 
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "../types.h"
 
 #include "../ov175/auth_types.h"

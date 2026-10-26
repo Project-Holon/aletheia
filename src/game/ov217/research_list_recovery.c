@@ -36,8 +36,8 @@ struct ListViewState {
 
 #include "../arm9/gfl_heap_wrap.h"
 
-u32 ListViewState_Create(u32 heapId);
-void ListViewState_Destroy(void *state);
+struct ListViewState *ListViewState_Create(u32 heapId);
+void ListViewState_Destroy(struct ListViewState *state);
 void ListViewState_Reset(struct ListViewState *state);
 u32 ListViewState_GetMode(struct ListViewState *state);
 u32 ListViewState_GetScrollX(struct ListViewState *state);
@@ -47,12 +47,12 @@ void ListViewState_SetScrollX(struct ListViewState *state, u32 scrollX);
 void ListViewState_SetScrollY(struct ListViewState *state, u32 scrollY);
 
 /* Allocates a zero-filled state record. */
-u32 ListViewState_Create(u32 heapId)
+struct ListViewState *ListViewState_Create(u32 heapId)
 {
-    return (uptr)GFL_HEAP_Alloc(heapId, 12, 1, (const char *)0x21C4034, 32);
+    return GFL_HEAP_Alloc(heapId, sizeof(struct ListViewState), 1, (const char *)0x21C4034, 32);
 }
 
-void ListViewState_Destroy(void *state)
+void ListViewState_Destroy(struct ListViewState *state)
 {
     GFL_HEAP_Free(state);
 }

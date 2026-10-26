@@ -16,4 +16,26 @@ typedef struct ShinkaDemoGraphicNode {
     u8 pad40[4];
 } ShinkaDemoGraphicNode;
 
+struct Unit;
+struct G3dCamera;
+struct TcbTask;
+
+/* The actor system handle of the evolution screen (one CLACT unit). */
+typedef struct ShinkaClact {
+    struct Unit *unit;
+} ShinkaClact;
+
+/* The 3D system handle of the evolution screen (one camera). */
+typedef struct ShinkaG3d {
+    struct G3dCamera *camera;
+} ShinkaG3d;
+
+/* The graphic system of the evolution screen, 16 bytes. */
+typedef struct ShinkaGraphic {
+    u32 mainBg;
+    ShinkaClact clact;
+    ShinkaG3d g3d;
+    struct TcbTask *vblank;
+} ShinkaGraphic;
+
 #endif

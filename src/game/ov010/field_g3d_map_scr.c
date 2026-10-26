@@ -44,46 +44,28 @@ struct MovePokemonSave;
 struct MyStatus;
 #include "../arm9/mystatus.h"
 #include "../arm9/beacon.h"
-int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx);
+int FIELD_G3D_MAP_ScrCmdReadSaveByte(ScriptVm *vm, ScrcmdWork *cmdWork);
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec);
 int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec);
 extern const u32 g_BeaconTrainerKeys[];
 
 /* Script command: copy byte [index] of the 0x38-byte save block into a script variable. */
-int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
+int FIELD_G3D_MAP_ScrCmdReadSaveByte(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    /* The register copies below are kept: they decide the original's register allocation. */
-    int index;
-    sptr cmdStateCopy;
-    int scriptCtxCopy;
     void *saveBlock;
-    void *chain;
+    u8 index;
+    u16 *dest;
 
-    scriptCtxCopy = scriptCtx;
-    cmdStateCopy = cmdState;
-    cmdState = scriptCtxCopy;
-    chain = SCRCMD_WORK_GetGameData((void *)cmdState);
-    chain = GAME_DATA_GetSaveControl((struct GameData *)chain);
-    saveBlock = MOVE_POKEMON_SAVE_GetBlock(chain);
-    cmdState = cmdStateCopy;
-    scriptCtx = scriptCtxCopy;
-    cmdState = SCRIPT_WORK_ReadWorkValue((void *)cmdState, (void *)scriptCtx);
-    cmdState = cmdState << 0x18;
-    index = (unsigned)cmdState >> 0x18;
-    cmdState = cmdStateCopy;
-    scriptCtx = scriptCtxCopy;
-    cmdState = (sptr)SCRIPT_WORK_ReadWorkPointer((void *)cmdState, (void *)scriptCtx); /* int-typed on purpose: pointer local changes codegen */
-    cmdStateCopy = cmdState;
-    scriptCtx = index;
-    cmdState = MOVE_POKEMON_SAVE_GetEntryState(saveBlock, scriptCtx);
-    *(u16 *)cmdStateCopy = cmdState;
-    cmdState = 0;
-    return cmdState;
+    saveBlock = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    dest = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *dest = MOVE_POKEMON_SAVE_GetEntryState(saveBlock, index);
+    return 0;
 }
 
 /* Store the trainer ID of trainerRec, xored with the slot key, in the beacon save. */
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec) {
-    if(slot<8) MISC_SetHashedId(beaconSave,slot,MYSTATUS_GetId(trainerRec)^*(const u32 *)((uptr)g_BeaconTrainerKeys+(u32)slot*4));
+    if(slot<8) MISC_SetHashedId(beaconSave,slot,MYSTATUS_GetId(trainerRec)^*(const u32 *)((u8 *)g_BeaconTrainerKeys+(u32)slot*4));
 }
 
 /*
@@ -94,6 +76,6 @@ int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *beaconSave, int slot, void *traine
     if(slot>=8) return 0;
     trainerId=MYSTATUS_GetId(trainerRec);
     storedId=MISC_GetHashedId(beaconSave,slot);
-    if((storedId^trainerId)==*(const u32 *)((uptr)g_BeaconTrainerKeys+(u32)slot*4)) return 1;
+    if((storedId^trainerId)==*(const u32 *)((u8 *)g_BeaconTrainerKeys+(u32)slot*4)) return 1;
     return 0;
 }

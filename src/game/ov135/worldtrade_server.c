@@ -343,7 +343,7 @@ struct HistoryOwner;
 
 int WORLDTRADE_SERVER_Init(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_CallStateHandler(u8 *p);
+int WORLDTRADE_SERVER_CallStateHandler(u8 *p);
 
 int WORLDTRADE_SERVER_Exit(WorldtradeWork *p);
 
@@ -477,7 +477,7 @@ int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p);
 
 
 
-extern void (*g_02203E94[])(u8 *);
+extern int (*g_02203E94[])(u8 *);
 
 extern struct DispConfig g_02203A04;
 
@@ -489,14 +489,14 @@ extern struct BgTemplate g_02203A34;
 
 extern const char str_02203F58[];
 
-int WORLDTRADE_SERVER_Init(WorldtradeWork *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->keepBgLayers=0; return 1; }
+int WORLDTRADE_SERVER_Init(WorldtradeWork *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->keepBgLayers=0; return 1; }
 
 /*
  * WorldtradeState-table dispatch through the table at 0x02203E94.
  */
-void WORLDTRADE_SERVER_CallStateHandler(u8 *p)
+int WORLDTRADE_SERVER_CallStateHandler(u8 *p)
 {
-    g_02203E94[*(u32 *)(p + 0x28)](p);
+    return g_02203E94[((struct WorldtradeWork *)p)->state](p);
 }
 
 int WORLDTRADE_SERVER_Exit(WorldtradeWork *p) { if(GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_AdvanceScreenId(p); return 0; }
@@ -565,7 +565,7 @@ void WORLDTRADE_SERVER_CreateWindows(WorldtradeWork *p)
 {
     struct BmpWin *w;
     p->frame = BMP_WIN_Create((unsigned int)0, (unsigned int)2, (unsigned int)0x13, 0x1b, 4, 0xd, 1);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0);
     w = p->frame;
     BMP_WIN_TransferChars((struct BmpWin *)w);
     BMP_WIN_MakeScreen((struct BmpWin *)w);
@@ -577,7 +577,7 @@ void WORLDTRADE_SERVER_CreateWindows(WorldtradeWork *p)
  */
 void WORLDTRADE_SERVER_DeleteWindows(WorldtradeWork *p)
 {
-    WORLDTRADE_ADAPTER_DeletePrintStream((struct WorldtradeObj *)((u8 *)p + 0xfa0));
+    WORLDTRADE_ADAPTER_DeletePrintStream((struct WorldtradeObj *)((u8 *)&((struct WorldtradeWork *)p)->printer));
     BMP_WIN_Delete((struct BmpWin *)p->d40);
 }
 
@@ -594,39 +594,39 @@ void WORLDTRADE_SERVER_CreateStrings(WorldtradeWork *p)
  */
 void WORLDTRADE_SERVER_DeleteStrings(WorldtradeWork *p)
 {
-    STRBUF_Delete((struct Strbuf *)((*(unsigned int *)&p->str)));
+    STRBUF_Delete((struct Strbuf *)((p->str)));
 }
 
 int WORLDTRADE_SERVER_StartRequest(WorldtradeWork *p)
 {
     switch (p->kind) {
     case 7:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 2);
         p->done = 0;
         p->next = 6;
         break;
     case 8:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0xB);
         break;
     case 9:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 2);
         p->done = 0;
         p->next = 0x10;
         break;
     case 10:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0x16);
         p->eb4 = 1;
         break;
     case 11:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0x1C);
         break;
     case 12:
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x9A, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x9A, 1, 0xF0F);
         p->state = 0x21;
         p->nextScreenId = 1;
         GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
@@ -641,16 +641,16 @@ int WORLDTRADE_SERVER_StartRequest(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_SendUploadRequest(WorldtradeWork *p)
 {
-    u8 *mon=(u8 *)p+0xE4;
+    u8 *mon=(u8 *)&((struct WorldtradeWork *)p)->ent;
     int ready;
     POKE_TOOL_CopyPartyPokemon((struct PartyPokemon *)mon, (struct PartyPokemon *)(*(struct RecDC * *)&p->tradeMon));
     ((u8 *)p)[0x204]=NATION_AREA_SanitizeNation(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     ((u8 *)p)[0x205]=NATION_AREA_SanitizeArea(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
-    *(u8 * *)&p->wm=(unsigned char *)NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(char *)(((u8 *)p+0x116C)));
+    *(u8 * *)&p->wm=(unsigned char *)NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(char *)(((u8 *)&((struct WorldtradeWork *)p)->netBuf)));
     NHTTP_RAP_AllocPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),0x48,POKE_TOOL_GetPartyParamSize(),1);
     NHTTP_RAP_AppendPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),mon,POKE_TOOL_GetPartyParamSize());
     if(NHTTP_RAP_CreatePostRequest((struct _NHTTPRapSession *)(*(u8 * *)&p->wm))==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
-    ready=NHTTP_RAP_StartConnection((struct _NHTTPRapSession *)(*(u8 **)((u8 *)p+0x10E0)))==0;
+    ready=NHTTP_RAP_StartConnection((struct _NHTTPRapSession *)(((struct WorldtradeWork *)p)->wm))==0;
     if(ready==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
     p->state=3;
     return 2;
@@ -744,6 +744,7 @@ int WORLDTRADE_SERVER_PollUploadResponse(WorldtradeWork *p)
     return 2;
 }
 
+#ifdef __MWERKS__
 int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
 {
     struct U16Vec *s;
@@ -751,23 +752,49 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     u32 i;
     u16 c;
     s=(struct U16Vec *)STRBUF_Create(8,0x48);
-    STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
-    MI_CpuFill8(p+0x1300,0,0x28);
+    STRBUF_SetStringN((struct Strbuf *)s,(u16 *)((WorldtradeWork *)p)->ent[0].name,8);
+    MI_CpuFill8(((WorldtradeWork *)p)->nameBuf,0,sizeof(((WorldtradeWork *)p)->nameBuf));
     ((WorldtradeWork *)p)->reserved1324=0x48;
     text=STRBUF_GetChars((struct Strbuf *)s);
     for(i=0;i<STRBUF_GetLength((struct Strbuf *)s)+1;i++) {
         c=*(u16 *)((uptr)text+i*2);
-        if(c==STRBUF_GetEosChar()) *(u16 *)((uptr)p+i*2+0x1300)=0;
-        else *(u16 *)((uptr)p+i*2+0x1300)=c;
+        if(c==STRBUF_GetEosChar()) *(u16 *)(p+i*2+0x1300)=0;
+        else *(u16 *)(p+i*2+0x1300)=c;
     }
-    ((WorldtradeWork *)p)->profanityWords=(uptr)(p+0x1300);
+    ((WorldtradeWork *)p)->profanityWords=(u16 *)(p+0x1300);
     ((WorldtradeWork *)p)->badWordCountU=0;
-    DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
+    DWC_CheckProfanityExAsync((short unsigned int **)((u8 *)&((struct WorldtradeWork *)p)->profanityWords),1,0,0,(char *)((WorldtradeWork *)p)->pad131C,(int *)((u8 *)&((struct WorldtradeWork *)p)->badWordCountU),0x80);
     STRBUF_Delete((struct Strbuf *)s);
     ((WorldtradeWork *)p)->state=5;
     ((WorldtradeWork *)p)->timer=0;
     return 2;
 }
+#else
+int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
+{
+    struct U16Vec *s;
+    u16 *text;
+    u32 i;
+    u16 c;
+    s=(struct U16Vec *)STRBUF_Create(8,0x48);
+    STRBUF_SetStringN((struct Strbuf *)s,(u16 *)((WorldtradeWork *)p)->ent[0].name,8);
+    MI_CpuFill8(((WorldtradeWork *)p)->nameBuf,0,sizeof(((WorldtradeWork *)p)->nameBuf));
+    ((WorldtradeWork *)p)->reserved1324=0x48;
+    text=STRBUF_GetChars((struct Strbuf *)s);
+    for(i=0;i<STRBUF_GetLength((struct Strbuf *)s)+1;i++) {
+        c=*(u16 *)((uptr)text+i*2);
+        if(c==STRBUF_GetEosChar()) ((WorldtradeWork *)p)->nameBuf[i]=0;
+        else ((WorldtradeWork *)p)->nameBuf[i]=c;
+    }
+    ((WorldtradeWork *)p)->profanityWords=((WorldtradeWork *)p)->nameBuf;
+    ((WorldtradeWork *)p)->badWordCountU=0;
+    DWC_CheckProfanityExAsync((short unsigned int **)((u8 *)&((struct WorldtradeWork *)p)->profanityWords),1,0,0,(char *)((WorldtradeWork *)p)->pad131C,(int *)((u8 *)&((struct WorldtradeWork *)p)->badWordCountU),0x80);
+    STRBUF_Delete((struct Strbuf *)s);
+    ((WorldtradeWork *)p)->state=5;
+    ((WorldtradeWork *)p)->timer=0;
+    return 2;
+}
+#endif
 
 int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
 {
@@ -782,7 +809,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
     if (done) positive = ((WorldtradeWork *)p)->nameCheckResult > 0;
     if (done) {
         if (positive) {
-            dst = (u16 *)(p + 0x1f4);
+            dst = (u16 *)((WorldtradeWork *)p)->ent[0].name;
             bank = MSGDATA_CreateFromArchive(0, 2, 0x51, 0x48);
             str = MSGDATA_AllocString(bank, MSG_PROFANITY_NOTICE);
             MSGDATA_Delete(bank);
@@ -810,7 +837,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
  */
 int WORLDTRADE_SERVER_StartDataTransfer(WorldtradeWork *p)
 {
-    DPW_TR_UploadAsync((u8 *)p + 0xe4, (u8 *)p + 0x10ec, 0x80);
+    DPW_TR_UploadAsync((u8 *)&((struct WorldtradeWork *)p)->ent, (u8 *)&((struct WorldtradeWork *)p)->buf_b128, 0x80);
     p->state = 7;
     p->wait = 0;
     WORLDTRADE_ADAPTER_SetPair((WorldtradeWork *)p, 8, 0xa);
@@ -852,7 +879,7 @@ int WORLDTRADE_SERVER_WaitUploadResult(WorldtradeWork *p)
             p->state = 0x22;
             break;
         case 14:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -866,18 +893,18 @@ int WORLDTRADE_SERVER_WaitUploadResult(WorldtradeWork *p)
         case 8:
         case 9:
         case 10:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2d;
             break;
         case 3:
         case 11:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2d;
             break;
         case 0:
         case 1:
         case 13:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -943,7 +970,7 @@ int WORLDTRADE_SERVER_WaitUploadFinish(WorldtradeWork *p)
             break;
         case 3:
         case 11:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2d;
             break;
         case 0:
@@ -971,7 +998,7 @@ int WORLDTRADE_SERVER_WaitUploadFinish(WorldtradeWork *p)
  */
 int WORLDTRADE_SERVER_StartDownload(WorldtradeWork *p)
 {
-    DPW_TR_DownloadAsync((u8 *)p + 0xe4);
+    DPW_TR_DownloadAsync((u8 *)&((struct WorldtradeWork *)p)->ent);
     p->state = 0xc;
     p->timer = 0;
     WORLDTRADE_ADAPTER_SetPair(p, 0xd, 0xf);
@@ -1002,8 +1029,8 @@ int WORLDTRADE_SERVER_WaitDownload(WorldtradeWork *p)
             if (v != 0) {
                 p->state = 0x1c;
             } else {
-                WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)(WORLDTRADE_NoOp(*(void **)((*(unsigned int *)&p->ctx)))),
-                              WORLDTRADE_GetReturnBox((struct WorldTradeData *)((struct RegB *)(*(u32 *)((*(unsigned int *)&p->ctx))))), v);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)(WORLDTRADE_NoOp(*(void **)((p->ctx)))),
+                              WORLDTRADE_GetReturnBox((struct WorldTradeData *)(*(struct RegB **)((p->ctx)))), v);
                 p->state = 0x22;
             }
             break;
@@ -1022,13 +1049,13 @@ int WORLDTRADE_SERVER_WaitDownload(WorldtradeWork *p)
             GFL_NET_STATE_ClearErrorMode();
             break;
         case 3:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2d;
             break;
         case 0:
         case 1:
         case 13:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -1115,7 +1142,7 @@ int WORLDTRADE_SERVER_WaitUploadFinishB(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StartTrade(WorldtradeWork *p)
 {
-    DPW_TR_TradeAsync(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, ((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
+    DPW_TR_TradeAsync(*(u32 *)((u8 *)&p->ent[1].profileId + (p->cur) * (int)sizeof(WorldtradeEntry)), (u8 *)&((struct WorldtradeWork *)p)->ent, (u8 *)&p->ent[8], (u8 *)&((struct WorldtradeWork *)p)->buf_b128, 0x80);
     WORLDTRADE_ADAPTER_SetPair(p, 0x12, 0x14);
     p->state = 0x11;
     p->timer = 0;
@@ -1132,9 +1159,9 @@ int WORLDTRADE_SERVER_WaitTrade(WorldtradeWork *p)
         case 0:
             p->state=0x22;
             WORLDTRADE_ADAPTER_RemovePartyMon((WorldtradeWork *)p,0);
-            WORLDTRADE_ADAPTER_RegisterReceivedMonB((WorldtradeWork *)p,(void *)((u8 *)p+0xA24),(void *)((u8 *)p+0xE4),(void *)((u8 *)p+0xA24),p->box);
-            WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory,(WorldtradeEntry *)((u8 *)p+0xA24));
-            WORLDTRADE_SERVER_RecordTradeResult(p,(u8 *)p+0xA24,&p->ent[8],(u8 *)p+0xE4);
+            WORLDTRADE_ADAPTER_RegisterReceivedMonB((WorldtradeWork *)p,(void *)&p->ent[8],(void *)((u8 *)&((struct WorldtradeWork *)p)->ent),(void *)&p->ent[8],p->box);
+            WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory,&p->ent[8]);
+            WORLDTRADE_SERVER_RecordTradeResult(p,(u8 *)&p->ent[8],&p->ent[8],(u8 *)&((struct WorldtradeWork *)p)->ent);
             break;
         case -5:
             p->err=r;
@@ -1208,7 +1235,7 @@ int WORLDTRADE_SERVER_WaitTradeFinish(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StartReturn(WorldtradeWork *p)
 {
-    DPW_TR_ReturnAsync((u8 *)p + 0xe4);
+    DPW_TR_ReturnAsync((u8 *)&((struct WorldtradeWork *)p)->ent);
     p->state = 0x1d;
     p->timer = 0x0;
     return 0x2;
@@ -1231,12 +1258,12 @@ int WORLDTRADE_SERVER_WaitReturn(WorldtradeWork *p)
             switch (WORLDTRADE_ADAPTER_CheckPartyHasOther((WorldtradeWork *)p, p->ent)) {
             case 1:
                 WORLDTRADE_DeleteTimeIcon(p);
-                WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x23, 1, 0xF0F);
+                WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x23, 1, 0xF0F);
                 WORLDTRADE_SetNextState(p, 0x2A, 0x20);
                 break;
             case 2:
                 WORLDTRADE_DeleteTimeIcon(p);
-                WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x29, 1, 0xF0F);
+                WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x29, 1, 0xF0F);
                 WORLDTRADE_SetNextState(p, 0x2A, 0x20);
                 break;
             case 0:
@@ -1308,7 +1335,7 @@ int WORLDTRADE_SERVER_StateShowResultA(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StartDownloadB(WorldtradeWork *p)
 {
-    DPW_TR_DownloadAsync((u8 *)p + 0xe4);
+    DPW_TR_DownloadAsync((u8 *)&((struct WorldtradeWork *)p)->ent);
     p->state = 0x1f;
     p->timer = 0x0;
     return 0x2;
@@ -1354,7 +1381,7 @@ int WORLDTRADE_SERVER_WaitDownloadB(WorldtradeWork *p)
         case 1:
         case 3:
         case 13:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -1502,9 +1529,9 @@ int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StateFinishTrade(WorldtradeWork *p)
 {
-    WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox((struct WorldTradeData *)(**(void ** *)(void **)&p->ctx)), p->receivedEgg);
-    WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory, (WorldtradeEntry *)((u8 *)p + 0xe4));
-    WORLDTRADE_SERVER_RecordTradeResult(p, (u8 *)p + 0xe4, &p->ent[0], 0);
+    WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)((u8 *)&((struct WorldtradeWork *)p)->ent), WORLDTRADE_GetReturnBox((struct WorldTradeData *)(**(void ** *)(void **)&p->ctx)), p->receivedEgg);
+    WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory, (WorldtradeEntry *)((u8 *)&((struct WorldtradeWork *)p)->ent));
+    WORLDTRADE_SERVER_RecordTradeResult(p, (u8 *)&((struct WorldtradeWork *)p)->ent, &p->ent[0], 0);
     WORLDTRADE_SetIsDeposited(**(void ** *)(void **)&p->ctx, 0);
     p->state = 0x22;
     WORLDTRADE_ADAPTER_SetPair(p, 0x17, 0xf);
@@ -1549,7 +1576,7 @@ int WORLDTRADE_SERVER_WaitDelete(WorldtradeWork *p)
             p->state = 0x25;
             break;
         case 12:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -1558,7 +1585,7 @@ int WORLDTRADE_SERVER_WaitDelete(WorldtradeWork *p)
             break;
         case 3:
         case 11:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
         case 0:
         case 1:
         case 13:
@@ -1661,7 +1688,7 @@ int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(WorldtradeWork *p)
         case 11:
             WORLDTRADE_SERVER_ShowResultByMode(p);
         case 10:
-            (*(unsigned int *)&p->err) = n;
+            (p->err) = n;
             p->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
@@ -1688,7 +1715,7 @@ int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StateShowRetryMessage(WorldtradeWork *p)
 {
-    WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)(p->bank), 0x99, 1, 0xf0f);
+    WORLDTRADE_INPUT_PrintStringPlain(p, (p->bank), 0x99, 1, 0xf0f);
     WORLDTRADE_SetNextState(p, 0x2a, 0x28);
     WORLDTRADE_SetStateAndReturn(p, 1, 0);
     WORLDTRADE_DeleteTimeIcon(p);
@@ -1705,7 +1732,7 @@ void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p)
 {
     u32 v;
 
-    switch ((*(unsigned int *)&p->err) + 15) {
+    switch ((p->err) + 15) {
     case 14:
         v = 0x9d;
         break;
@@ -1755,7 +1782,7 @@ void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p)
         v = 0x9f;
         break;
     }
-    WORLDTRADE_INPUT_PrintStringTop((uptr)p, *(u32 *)&p->bank, v, 1, 0x0f0f);
+    WORLDTRADE_INPUT_PrintStringTop(p, p->bank, v, 1, 0x0f0f);
 }
 
 int WORLDTRADE_SERVER_StateShowErrorMessage(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); if(DPW_TR_IsAsyncEnd()) WORLDTRADE_SetNextState(p,41,48); else WORLDTRADE_SetNextState(p,41,46); WORLDTRADE_SetStateAndReturn(p,0,21); WORLDTRADE_DeleteTimeIcon(p); return 2; }
@@ -1806,9 +1833,9 @@ int WORLDTRADE_SERVER_StateOpenSavePrompt(WorldtradeWork *p)
  */
 int WORLDTRADE_SERVER_StartSave(WorldtradeWork *p)
 {
-    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData));
     p->state = 0x23;
-    (*(unsigned int *)&p->cnt) = GFL_USE_GetRandom(0x3c) + 2;
+    (p->cnt) = GFL_USE_GetRandom(0x3c) + 2;
     return 2;
 }
 
@@ -1823,7 +1850,7 @@ int WORLDTRADE_SERVER_StateCountdown(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_WaitSave(WorldtradeWork *p)
 {
-    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)) == 1) {
         p->state = p->stateAfterSaveWait;
     }
     return 2;
@@ -1834,7 +1861,7 @@ int WORLDTRADE_SERVER_WaitSave(WorldtradeWork *p)
  */
 int WORLDTRADE_SERVER_StateSaveGame(WorldtradeWork *p)
 {
-    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)) == 2) {
         p->state = p->stateAfterSave;
         WORLDTRADE_DeleteTimeIcon(p);
     }
@@ -1846,7 +1873,7 @@ int WORLDTRADE_SERVER_StateSaveGame(WorldtradeWork *p)
  */
 int WORLDTRADE_SERVER_StartSaveB(WorldtradeWork *p)
 {
-    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData));
     p->state = 0x27;
     return 2;
 }
@@ -1856,7 +1883,7 @@ int WORLDTRADE_SERVER_WaitSaveB(WorldtradeWork *p)
     if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(p->ctx->gameData))) == 2) {
         WORLDTRADE_SetStateAndReturn(p, 1, 0);
         WORLDTRADE_DeleteTimeIcon(p);
-        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, (p->bank), (p->mode), 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x2A, 0x20);
     }
     return 2;
@@ -1882,10 +1909,10 @@ int WORLDTRADE_SERVER_StateStartWipeOutRestore(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StateWaitMessage(WorldtradeWork *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)&((struct WorldtradeWork *)p)->printer)) == 0) {
         p->state = p->returnState;
     }
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p) { if((WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)p + 0xfa0))==0 && (KEY_GetTrg()&1)) || TOUCHPANEL_GetTrg()) { GFL_USE_PlaySeDefaultVolume(0x547); p->state=p->returnState; } return 2; }
+int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p) { if((WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)&((struct WorldtradeWork *)p)->printer))==0 && (KEY_GetTrg()&1)) || TOUCHPANEL_GetTrg()) { GFL_USE_PlaySeDefaultVolume(0x547); p->state=p->returnState; } return 2; }

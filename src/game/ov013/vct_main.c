@@ -136,9 +136,15 @@ struct VctInitParams;
 
 void VCT_MAIN_InitAudio(void);
 
-void VCT_MAIN_MicRestartDone(void);
+void VCT_MAIN_MicRestartDone(MICResult unused0, void * unused1);
 
 void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 length, int format, VctWork *work);
+#ifndef __MWERKS__
+static void VCT_MAIN_StreamCallbackNns(u32 status, s32 channelCount, u32 *buffers, u32 length, u32 format, u32 work)
+{
+    VCT_MAIN_StreamCallback((int)status, channelCount, (void **)buffers, length, (int)format, (VctWork *)(uptr)work);
+}
+#endif
 
 int VCT_MAIN_RequestConnection(int peerType);
 
@@ -154,7 +160,7 @@ void VCT_MAIN_Update(int sendPaused);
 
 int VCT_MAIN_HandlePacket(int aid, u8 *data, int size);
 
-void VCT_MAIN_Start(void *heap, int codecMode, int peerCount);
+void VCT_MAIN_Start(int heapId, int codecMode, int peerCount);
 
 void VCT_MAIN_StartStream(void);
 
@@ -199,7 +205,7 @@ void VCT_MAIN_InitAudio(void)
  * Unlabelled leaf (no lr save, so disasm.py never labels it); its address
  * is taken as a completion callback by VCT_MAIN_StreamCallback.
  */
-void VCT_MAIN_MicRestartDone(void)
+void VCT_MAIN_MicRestartDone(MICResult unused0, void * unused1)
 {
 }
 
@@ -227,12 +233,12 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
     }
     if (APP_ENV_IsRunOnTwl() == 0) {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartAutoSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), (void (*)(MICResult, void *))VCT_MAIN_MicRestartDone, 0);
+            MIC_StartAutoSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     } else {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartLimitedSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), (void (*)(MICResult, void *))VCT_MAIN_MicRestartDone, 0);
+            MIC_StartLimitedSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     }
@@ -437,15 +443,15 @@ int VCT_MAIN_HandlePacket(int aid, u8 *data, int size)
  * start the engine with the matching event handler, then set the codec mode.
  * peerCount sizes the receive queue memory.
  */
-void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
+void VCT_MAIN_Start(int heapId, int codecMode, int peerCount)
 {
     VctInitParams param;
     u8 channelNumbers[3] = {0, 0, 0};
 
     if (gVctWork == 0) {
-        gVctWork = (struct VctWork *)DWC_RAPCOMMON_Alloc((uptr)heap, sizeof(VctWork), 0x20);
+        gVctWork = (struct VctWork *)DWC_RAPCOMMON_Alloc(heapId, sizeof(VctWork), 0x20);
         MI_CpuFill8(gVctWork, 0, sizeof(VctWork));
-        gVctWork->frameMemory = (void *)DWC_RAPCOMMON_Alloc((uptr)heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
+        gVctWork->frameMemory = (void *)DWC_RAPCOMMON_Alloc(heapId, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
         gVctWork->exitCallback = 0;
         VCT_MAIN_InitAudio();
     }
@@ -463,11 +469,19 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->micRestartPending = 1;
     NNS_SndStrmAllocChannel((struct SndStrm *)gVctWork->audioStream, 1, channelNumbers);
     NNS_SndStrmSetVolume((struct SndStrm *)gVctWork->audioStream, 0);
+#ifdef __MWERKS__
     if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (uptr)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
                       (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, (NNSSndStrmCallback)VCT_MAIN_StreamCallback,
                       (uptr)gVctWork) == 0) {
         GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
+#else
+    if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (uptr)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
+                      (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, VCT_MAIN_StreamCallbackNns,
+                      (uptr)gVctWork) == 0) {
+        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+    }
+#endif
     gVctWork->linkState = 0;
     gVctWork->pendingPeer = 0;
     gVctWork->mode = param.mode = 1;

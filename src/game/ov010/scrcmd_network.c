@@ -221,7 +221,7 @@ int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB)
 
 Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
 
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *workArg);
+int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg);
 
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 
@@ -266,7 +266,7 @@ int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 
     slot = (struct CommWaitWork **)SCRIPT_WORK_GetUserWorkPtr((struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork));
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    waitWork = GFL_HEAP_Alloc(4, 4, 1, SCRCMD_NETWORK_sFileName, 0x63);
+    waitWork = GFL_HEAP_Alloc(4, sizeof(*waitWork), 1, SCRCMD_NETWORK_sFileName, 0x63);
     *slot = waitWork;
     waitWork->resultVar = resultVar;
     *resultVar = 0;
@@ -531,7 +531,7 @@ Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData)
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *workArg)
+int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg)
 {
     CommProcEventWork *work = workArg;
 

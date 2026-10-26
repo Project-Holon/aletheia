@@ -58,8 +58,7 @@ typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
 struct GameSystem;
 struct GameEvent;
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventMainFunc main, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_event.h"
 #include "../arm9/mi_memory.h"
 #include "../sdk_gx.h"
 #include "../arm9/g3x.h"
@@ -80,11 +79,11 @@ struct TcbTask;
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
-int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, void *workArg);
 void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
 void ENCEFF_ScreenCaptureTask(struct TcbTask *task, void *captureDone);
 u32 ENCEFF_GetScreenTexParam(void);
-int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, void *workArg);
 extern const s16 d_020A1EB8[];
 extern VecFx32 d_021F55F8;
 
@@ -99,9 +98,9 @@ struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_ScreenTexFlashEventMain, sizeof(EncEffScreenTexWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 48);
+    MI_CpuFill8(work, 0, sizeof(EncEffScreenTexWork));
     work->cameraPos = *cameraPos;
     work->start = start;
     work->draw = draw;
@@ -115,9 +114,9 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
+    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_ScreenTexEventMain, sizeof(EncEffScreenTexWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 0x30);
+    MI_CpuFill8(work, 0, sizeof(EncEffScreenTexWork));
     work->cameraPos = *cameraPos;
     work->start = start;
     work->draw = draw;
@@ -159,8 +158,9 @@ void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work)
  * states as ENCEFF_ScreenTexEventMain (its 0 to 3 are states 3 to 6 here).  EXACT* only
  * because the listing extent holds the 2-byte alignment pad at 0x021F549E.
  */
-int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work)
+int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, void *workArg)
 {
+    EncEffScreenTexWork *work = workArg;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
     u32 texBanks;
@@ -265,8 +265,9 @@ u32 ENCEFF_GetScreenTexParam(void)
 }
 
 
-int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work)
+int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, void *workArg)
 {
+    EncEffScreenTexWork *work = workArg;
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
     u32 texBanks;

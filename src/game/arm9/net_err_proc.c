@@ -41,33 +41,38 @@ struct ProcSysParent;
 
 #include "../types.h"
 
-/* The 0x28-byte argument block a save proc is pushed with (record +0x180). */
-typedef struct NetSaveRequest {
-    u32   source0;        /* 0x00: value copied from the caller's data */
-    u32   source1;        /* 0x04: second value copied from the caller's data */
-    void *dataPtr;        /* 0x08: the save proc's data, or 1 while retrying */
-    u32   state;          /* 0x0C: 0x21 while a save runs, 2 when it finished */
-    void *workPtr;        /* 0x10: work block handed to the pushed proc */
-    u32   retryFlag;      /* 0x14: 1 on the first retry pass */
-    u32   pad18;          /* 0x18 */
-    u32   cancelled;      /* 0x1C: nonzero once the save was cancelled */
+#include "net_save_types.h"
+
+#include "../ov187/br_launch_types.h"
+
+/* The 0x28-byte argument block a save proc is pushed with (record +0x180): the ov115 login block or the ov187 launch block. */
+typedef union NetSaveRequest {
+    WifiLoginParam login;
+    BrLaunchParam br;
 } NetSaveRequest;
+
+/* The proc argument of GFL_NET_SAVE_CreateScreenWork. */
+typedef struct NetSaveScreenInput {
+    struct GameData *gameData;  /* 0x00 */
+    u32 kind;                   /* 0x04 */
+} NetSaveScreenInput;
 
 /* The 0x1A8-byte save-screen work record (GFL_NET_SAVE_CreateScreenWork). */
 typedef struct NetSaveScreenWork {
-    u32           data;             /* 0x00: the constructor's argument (a pointer, see ScreenMain) */
+    NetSaveScreenInput *input;      /* 0x00: the constructor's argument */
     u32           updateConnection; /* 0x04: nonzero while a connection update is owed */
-    struct ProcSys *proc;          /* 0x08: PROCSYS proc handle of heap 0x5b */
-    u8            pad0C[0x180 - 0x0C]; /* 0x0C: argument block of the pushed save procs */
+    struct ProcSys *proc;           /* 0x08: PROCSYS proc handle of heap 0x5b */
+    u8            saveBuf[0x174];   /* 0x0C: save buffer handed to the pushed procs */
     NetSaveRequest request;         /* 0x180: pushed-proc argument block */
 } NetSaveScreenWork;
 
-/* The caller's argument of GFL_NET_SAVE_DeleteScreenWork (game data at +0x44). */
-typedef struct NetSaveDeleteWork {
-    u8  pad00[0x44];
-    u32 gameData;   /* 0x44: GameData pointer, released before the reset */
-} NetSaveDeleteWork;
-struct GameData;
+/* Fill and allocation sizes of the work record: DS byte counts, host struct sizes. */
+#ifdef __MWERKS__
+enum { NET_SAVE_WORK_SIZE = 0x1a8, NET_SAVE_REQUEST_SIZE = 0x28 };
+#else
+enum { NET_SAVE_WORK_SIZE = sizeof(NetSaveScreenWork), NET_SAVE_REQUEST_SIZE = sizeof(NetSaveRequest) };
+#endif
+enum { NET_SAVE_CLEAR_TO_WORK_PTR = BW_OFFSETOF(WifiLoginParam, saveData), NET_SAVE_CLEAR_TO_CANCELLED = BW_OFFSETOF(WifiLoginParam, result) };
 
 #include "game_data.h"
 
@@ -90,9 +95,9 @@ struct Proc;
 
 #include "dwc_connectinet.h"
 
-int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work);
+int GFL_NET_SAVE_DeleteScreenWork(struct Proc *proc, int seq, int pwork, struct NetSaveProcWork *work);
 
-int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork);
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, NetSaveScreenInput *pwork);
 
 int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx);
 
@@ -100,14 +105,13 @@ extern u8 ov115_id[];
 
 extern u8 ov187_id[];
 
-extern u8 gNetSaveMainProc[];
+#include "net_save.h"
 
 extern u8 d_0220B294[];
 
-extern u8 gNetSaveRetryProc[];
 
 #include "os_reset.h"
-int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ GAME_DATA_Delete((struct GameData *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct Proc *)((proc + 0) + 0)); GFL_HEAP_DeleteChecked(0x67); OS_ResetSystem(0); return 1; }
+int GFL_NET_SAVE_DeleteScreenWork(struct Proc *proc, int seq, int pwork, struct NetSaveProcWork *work){ GAME_DATA_Delete(work->gameData); PROCSYS_FreeProcWork(proc); GFL_HEAP_DeleteChecked(0x67); OS_ResetSystem(0); return 1; }
 
 /*
  * The save-screen constructor of the net_save.c family (see
@@ -129,7 +133,7 @@ int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ GAME_
  *   python tools/match.py one --src src/matched/GFL_NET_SAVE_CreateScreenWork.c \
  *       --func GFL_NET_SAVE_CreateScreenWork --addr 0x02010BB8 --cc 1.1p1 --thumb
  */
-int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork)
+int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, NetSaveScreenInput *pwork)
 {
     u8 *p;
 
@@ -142,9 +146,9 @@ int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork)
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
     GFL_HEAP_CreateChildHeap(1, 0x5b, 0x800);
-    p = PROCSYS_AllocProcWork(ctx, 0x1a8, 0x5b);
-    MI_CpuFill8(p, 0, 0x1a8);
-    ((NetSaveScreenWork *)p)->data = (u32)pwork;
+    p = PROCSYS_AllocProcWork(ctx, NET_SAVE_WORK_SIZE, 0x5b);
+    MI_CpuFill8(p, 0, NET_SAVE_WORK_SIZE);
+    ((NetSaveScreenWork *)p)->input = pwork;
     ((NetSaveScreenWork *)p)->proc = (struct ProcSys *)PROCSYS_Create(0x5b);
     return 1;
 }
@@ -196,28 +200,28 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         break;
     case 1:
         flag = 1;
-        if (((NetSaveScreenWork *)ctx)->request.state != 2) {
+        if (((NetSaveScreenWork *)ctx)->request.login.messageId != 2) {
             flag = 0;
         }
-        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, 0x28);
-        ((NetSaveScreenWork *)ctx)->request.source0 = **(u32 * *)&((NetSaveScreenWork *)ctx)->data;
-        ((NetSaveScreenWork *)ctx)->request.source1 = 0;
-        *(u32 *)&((NetSaveScreenWork *)ctx)->request.dataPtr = 1;
-        *(u8 * *)&((NetSaveScreenWork *)ctx)->request.workPtr = ctx + 0xc;
-        ((NetSaveScreenWork *)ctx)->request.state = 0x21;
+        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, NET_SAVE_REQUEST_SIZE);
+        ((NetSaveScreenWork *)ctx)->request.login.gameData = ((NetSaveScreenWork *)ctx)->input->gameData;
+        ((NetSaveScreenWork *)ctx)->request.login.loginType = 0;
+        ((NetSaveScreenWork *)ctx)->request.login.loginOption = 1;
+        ((NetSaveScreenWork *)ctx)->request.login.saveData = ((NetSaveScreenWork *)ctx)->saveBuf;
+        ((NetSaveScreenWork *)ctx)->request.login.messageId = 0x21;
         if (flag) {
-            ((NetSaveScreenWork *)ctx)->request.retryFlag = 1;
+            ((NetSaveScreenWork *)ctx)->request.login.useSaveData = 1;
         } else {
-            ((NetSaveScreenWork *)ctx)->request.retryFlag = 0;
+            ((NetSaveScreenWork *)ctx)->request.login.useSaveData = 0;
         }
-        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, (const ProcData *)gNetSaveMainProc, &((NetSaveScreenWork *)ctx)->request);
+        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, &gNetSaveMainProc, &((NetSaveScreenWork *)ctx)->request);
         (*seq)++;
         break;
     case 2:
         if (st != 0) {
             break;
         }
-        if (((NetSaveScreenWork *)ctx)->request.cancelled == 0) {
+        if (((NetSaveScreenWork *)ctx)->request.login.result == 0) {
             ((NetSaveScreenWork *)ctx)->updateConnection = 1;
             (*seq)++;
             break;
@@ -225,10 +229,10 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         *seq = 7;
         break;
     case 3:
-        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, 0x10);
-        ((NetSaveScreenWork *)ctx)->request.source0 = (*(u32 **)ctx)[1];
-        ((NetSaveScreenWork *)ctx)->request.source1 = (*(u32 **)ctx)[0];
-        *(u8 * *)&((NetSaveScreenWork *)ctx)->request.dataPtr = ctx + 0xc;
+        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, NET_SAVE_CLEAR_TO_WORK_PTR);
+        ((NetSaveScreenWork *)ctx)->request.br.kind = ((NetSaveScreenWork *)ctx)->input->kind;
+        ((NetSaveScreenWork *)ctx)->request.br.gameData = ((NetSaveScreenWork *)ctx)->input->gameData;
+        ((NetSaveScreenWork *)ctx)->request.br.netArg = ((NetSaveScreenWork *)ctx)->saveBuf;
         PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov187_id, (const ProcData *)d_0220B294, &((NetSaveScreenWork *)ctx)->request);
         (*seq)++;
         break;
@@ -236,18 +240,18 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         if (st != 0) {
             break;
         }
-        if (((NetSaveScreenWork *)ctx)->request.state == 2) {
+        if (((NetSaveScreenWork *)ctx)->request.login.messageId == 2) {
             *seq = 1;
             break;
         }
         (*seq)++;
         break;
     case 5:
-        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, 0x1c);
-        ((NetSaveScreenWork *)ctx)->request.source0 = **(u32 * *)&((NetSaveScreenWork *)ctx)->data;
-        ((NetSaveScreenWork *)ctx)->request.source1 = 0;
-        *(u32 *)&((NetSaveScreenWork *)ctx)->request.dataPtr = 1;
-        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, (const ProcData *)gNetSaveRetryProc, &((NetSaveScreenWork *)ctx)->request);
+        MI_CpuFill8(&((NetSaveScreenWork *)ctx)->request, 0, NET_SAVE_CLEAR_TO_CANCELLED);
+        ((NetSaveScreenWork *)ctx)->request.login.gameData = ((NetSaveScreenWork *)ctx)->input->gameData;
+        ((NetSaveScreenWork *)ctx)->request.login.loginType = 0;
+        ((NetSaveScreenWork *)ctx)->request.login.loginOption = 1;
+        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, &gNetSaveRetryProc, &((NetSaveScreenWork *)ctx)->request);
         ((NetSaveScreenWork *)ctx)->updateConnection = 0;
         (*seq)++;
         break;

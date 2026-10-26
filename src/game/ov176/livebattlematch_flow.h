@@ -4,24 +4,28 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of livebattlematch_flow.c, prototypes copied from their definitions. */
 
-#include "../types.h"
-#include "../ov176/livebattlematch_shared_types.h"
+struct LiveBattleMatchWork;
+struct WifibattlematchCallback;
+typedef struct WifibattlematchCallback WifibattlematchCallback;
 
-u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u16 heap);
-void LIVEBATTLEMATCH_FLOW_Delete(int *p);
-void LIVEBATTLEMATCH_FLOW_Release(int *p);
-int LIVEBATTLEMATCH_FLOW_GetResult(int *p);
-void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q);
-void LIVEBATTLEMATCH_FLOW_End(int p);
-void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p);
-void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,unsigned int *state,u8 *p);
-void LIVEBATTLEMATCH_FLOW_Battle(int *sys,unsigned int *state,u8 *p);
-void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p);
-void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p);
-void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p);
-void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode);
-void LIVEBATTLEMATCH_FLOW_HideWindow(int *p);
-int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p);
+#include "../ov176/livebattlematch_shared_types.h"
+#include "../types.h"
+
+struct LiveBattleMatchWork *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u16 heap);
+void LIVEBATTLEMATCH_FLOW_Delete(struct LiveBattleMatchWork *p);
+void LIVEBATTLEMATCH_FLOW_Release(struct LiveBattleMatchWork *p);
+int LIVEBATTLEMATCH_FLOW_GetResult(struct LiveBattleMatchWork *p);
+void LIVEBATTLEMATCH_FLOW_SelectPhase(WifibattlematchCallback *p, int *state, void *qArg);
+void LIVEBATTLEMATCH_FLOW_End(WifibattlematchCallback *p, int *unusedState, void *unusedWork);
+void LIVEBATTLEMATCH_FLOW_Main(WifibattlematchCallback *sys, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_Confirm(WifibattlematchCallback *sys, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_Battle(WifibattlematchCallback *sys, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_Result(WifibattlematchCallback *sys, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_Card(WifibattlematchCallback *sys, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_Sub(WifibattlematchCallback *a, int *state, void *pArg);
+void LIVEBATTLEMATCH_FLOW_DrawMenu(struct LiveBattleMatchWork *p, int mode);
+void LIVEBATTLEMATCH_FLOW_HideWindow(struct LiveBattleMatchWork *p);
+int LIVEBATTLEMATCH_FLOW_GetWindowResult(struct LiveBattleMatchWork *p);
 /* END mkheaders: generated region */
 
 #endif

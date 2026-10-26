@@ -131,7 +131,7 @@ u32 DENDOU_SAVEDATA_GetHallNumber(char *o, u32 n);
 
 int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx);
 
-void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, void *recordIndex, void *target);
+void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, int memberIndex, void *target);
 
 void DENDOU_SAVEDATA_GetRingRecordDate(u8 *o, int idx, void *out);
 
@@ -387,13 +387,13 @@ int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx)
     return DENDOU_SAVEDATA_GetMemberCount(o + n * 0x16c);
 }
 
-void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, void *recordIndex, void *target)
+void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, int memberIndex, void *target)
 {
     int slot = ((struct PartyRingSave *)ring)->writeIndex - 1 - (int)index;
 
     if (slot < 0)
         slot += 0xf;
-    DENDOU_SAVEDATA_ExportMember((const struct DendouEntry *)((u8 *)ring + slot * 0x16c), (sptr)recordIndex, target);
+    DENDOU_SAVEDATA_ExportMember((const struct DendouEntry *)((u8 *)ring + slot * 0x16c), memberIndex, target);
 }
 
 /*

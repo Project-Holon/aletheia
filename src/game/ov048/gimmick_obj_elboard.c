@@ -896,7 +896,7 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     int i;
     GimmickObjElboard *board;
 
-    board = GFL_HEAP_Alloc(config->heapId, 0x1c, 0, gElboardFileName, 0x60);
+    board = GFL_HEAP_Alloc(config->heapId, sizeof(*board), 0, gElboardFileName, 0x60);
     i = 0;
     board->heapId = config->heapId;
     board->lineCount = i;
@@ -905,7 +905,7 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     board->trailChars = config->trailChars;
     board->render = config->render;
     board->scroll = i;
-    board->lines = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6d);
+    board->lines = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * sizeof(*board->lines), 0, gElboardFileName, 0x6d);
     board->startRequest = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6f);
     for (i = 0; i < config->lineCapacity; i++) {
         board->lines[i] = 0;
@@ -1049,7 +1049,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     int textAndTrail;
     fx32 animFrames;
 
-    line = GFL_HEAP_Alloc(board->heapId, 0x24, 0, gElboardFileName, 0x180);
+    line = GFL_HEAP_Alloc(board->heapId, sizeof(*line), 0, gElboardFileName, 0x180);
     msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
     if (msg->wordSet != 0) {
         str = STRBUF_Create(0xC0, board->heapId);
@@ -1250,7 +1250,7 @@ struct GameEvent *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(struct GameSystem *gameS
     struct GameEvent *event;
     GateCameraEventWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
+    event = GAME_EVENT_Create(gameSystem, 0, GIMMICK_OBJ_ELBOARD_CameraEventMain, sizeof(GateCameraEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

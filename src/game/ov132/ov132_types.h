@@ -1,6 +1,12 @@
 #ifndef OV132_TYPES_H
 #define OV132_TYPES_H
 
+#include "../arm9/mystatus_types.h"
+#include "../arm9/nns_fnd_types.h"
+#include "../arm9/snd_bank.h"
+#include "../ov112/sta_act_types.h"
+#include "../ov112/mus_poke_draw_shared_types.h"
+
 /* Object layouts for the ov132 sources, merged from the per-function views. */
 
 /* One 0x30-byte player row inside ActingHost at +0x60 (also viewed as
@@ -31,9 +37,12 @@ struct ActingHost {
     int isInitialized;
     int useExistingSession;        /* 1: skip GFL_NET_StartSession */
     int netReady;                  /* set by the GFL_NET_StartSession callback */
-    unsigned char pad_14[8];
-    unsigned char pad_1C;
-    unsigned char pad_1D[41];
+    unsigned int word14;           /* 0x14 cleared by the init */
+    unsigned int startFlag;        /* 0x18 set by packet 0 */
+    unsigned char byte1C;          /* 0x1C cleared by the init */
+    unsigned char pad_1D[3];
+    struct MyStatus ownStatus;     /* 0x20 copy of the local player's status */
+    unsigned char macAddress[6];   /* 0x40 */
     unsigned short sessionId;      /* 0x46, follows the MAC address at +0x40 */
     int role;                      /* 1 parent, 2 child */
     int state;                     /* MUS_COMM_FUNC_Update state machine */
@@ -42,7 +51,7 @@ struct ActingHost {
     void * gameData;
     void * myStatus;               /* 0x5C */
     struct StaActRecord rec[4];
-    unsigned int statusSource;     /* 0x120 source of the status block (state 18) */
+    uptr statusSource;             /* 0x120 source of the status block (state 18), an address */
     void * statusSendBuf;
     void * partyRecordBuf;         /* 4 party blocks */
     unsigned short fanPoints;
@@ -69,7 +78,7 @@ struct ActingHost {
     int chunkSending;
     int boxesReceived;
     unsigned int recordsReceived;
-    unsigned char pad_160[4];
+    unsigned int word160;          /* 0x160 cleared by the init */
     unsigned int kind4Received;
     unsigned int kind5Received;
     unsigned int kind6Received;
@@ -78,10 +87,23 @@ struct ActingHost {
     unsigned int slot3Done;
     int transferState;
     unsigned char chosenPlayer;
+    unsigned char pad_181[3];
+    int orderSendPending;          /* 0x184 the player order nibbles must be broadcast */
+    int pickSendPending;           /* 0x188 the pick commands must be broadcast */
+    unsigned int pickCommand[8];   /* 0x18C pick commands to broadcast, 0xFFFF when sent */
 };
 
-/* Input block of STA_ACTING_Create. Word 0 is the comm host (0 offline),
-   words 1..4 the player records. */
+/* Input block of STA_ACTING_Create: the comm host (0 offline), the four player
+   records, the program and the resource block. */
+struct ActingRecord;
+struct ActingPartB;
+struct ActingInput {
+    void * comm;                       /* 0x00 comm host, 0 offline */
+    struct ActingRecord * players[4];  /* 0x04 player records */
+    void * program;                    /* 0x14 */
+    struct ActingPartB * resources;    /* 0x18 */
+};
+
 struct ActingPartA {
     unsigned char pad_0[20];
     void * program;
@@ -92,20 +114,36 @@ struct ActingPartB {
     unsigned char pad_0[8];
     void * messages;
     unsigned int charAnims;
+    unsigned char pad_10[4];
+    void *seqAddr;                  /* 0x14 */
+    void *bankAddr;                 /* 0x18 */
+    SNDWaveArc *srcWaveArc;         /* 0x1C */
+};
+
+/* One outfit slot of a player record (6 bytes). */
+struct ActingItemSlot {
+    unsigned short id;
+    short rotation;
+    unsigned char flag;
+    unsigned char pad_5;
 };
 
 struct ActingRecord {
     int state;                     /* 2 when the player performs */
-    unsigned char pad_4[4];
-    unsigned char pad_8[14];
-    unsigned char pad_16[2];
-    unsigned char pad_18[38];
-    unsigned short leftActorId;    /* 0x3E, 255 when none */
-    unsigned char pad_40[4];
-    unsigned short rightActorId;   /* 0x44, 255 when none */
-    unsigned char pad_46[4];
-    unsigned short score;          /* 0x4A */
-    unsigned char pad_4C[44];
+    unsigned char pad_4[0x10];
+    union {
+        struct ActingItemSlot slots[9]; /* 0x14 */
+        struct {
+            unsigned char pad_14[0x2A];
+            unsigned short leftActorId;    /* 0x3E, 255 when none */
+            unsigned char pad_40[4];
+            unsigned short rightActorId;   /* 0x44, 255 when none */
+            unsigned char pad_46[4];
+            unsigned short score;          /* 0x4A */
+        };
+    };
+    unsigned char pad_4C[8];
+    int actionDone[9];             /* 0x54 */
     unsigned short actionTiming;   /* 0x78, frames; 0xFFFD..0xFFFF select random timing */
 };
 
@@ -139,11 +177,11 @@ struct ActingScene {
         int s;
         unsigned int u;
     } bgmPlaying;
-    void * input;
-    void * mcssRender;
+    struct ActingInput * input;
+    MusPokeDrawScene * mcssRender;
     void * actorPool;
     void * model;
-    void * actorSystem;
+    StaActBillboardImage * actorSystem;
     void * actors[4];
     void * actObj;
     void * objSlots[5];
@@ -217,9 +255,9 @@ struct ActingScene {
     int netActionValue;
     unsigned int abortRequested;
     unsigned char fadeWork[116];
-    int seqAddr;
-    int bankAddr;
-    unsigned int srcWaveArc;
+    void *seqAddr;
+    void *bankAddr;
+    SNDWaveArc *srcWaveArc;
     unsigned int elapsedTicks;
     union {
         int s;
@@ -229,14 +267,14 @@ struct ActingScene {
 
 /* Transfer buffers announced by the host (kinds 4 to 7). */
 struct HostEntry {
-    unsigned char slotBuffers[16];  /* 0x00..0x0F, buffers of kinds 4, 5, 6 at +0x04, +0x08, +0x0C */
+    unsigned char pad_0[4];
+    void * slotBuffer[3];           /* 0x04 buffers of kinds 4, 5, 6 */
     void * chunkBuffer;             /* 0x10 chunked transfer data */
     void * body;
     void * section2;
-    unsigned int section3;
-    void * slot1Size;               /* 0x20 */
-    unsigned char slot23Sizes[8];
-    unsigned int chunkSize;
+    void * section3;
+    unsigned int slotSize[3];       /* 0x20 sizes of the kind 4, 5, 6 buffers */
+    unsigned int chunkSize;         /* 0x2C */
 };
 
 /* One 8-byte audience member record in STA_ACT_AUDIENCE's +0x204 array. */
@@ -311,7 +349,7 @@ struct ScriptSystem {
     void * tcbBuffer;          /* +0x08 node */
     void * scripts[10];        /* +0x0C script slots */
     void * scene;              /* +0x34 scene owner */
-    unsigned char taskList[12];/* +0x38 NNS list head */
+    NNSFndList taskList;       /* +0x38 NNS list head */
 };
 
 /* 16-byte task list node created by STA_ACT_SCRIPT_AddTask. */
@@ -337,7 +375,7 @@ struct ScriptOwner {
 
 /* Vector interpolation seen by STA_ACT_SCRIPT_StepTaskVec; it starts at +0x04 of a move task. */
 struct ScriptVecTask {
-    unsigned char pad_0[4];
+    void * owner;               /* +0x00, the scene field of the move task */
     int start[3];
     int end[3];
     int step[3];

@@ -36,7 +36,7 @@
  *   sUsbApZeroBssid  0x021DA948  data
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
-#include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "../libc/memcmp/string.h"
 #include "task.h"
 
 #include "../types.h"
@@ -123,7 +123,7 @@ struct WMScanExParam;
 #include "../arm9/os_cache.h"
 int DWCi_USBAPlBegin(void (*callback)(int));
 int DWCi_USBAPlEnd(void);
-void DWCi_USBAPlSetCallback(unsigned int v);
+void DWCi_USBAPlSetCallback(void (*v)(int));
 extern MemUsbT *gUsbapWork;
 extern ScanParamT sUsbApScanParam;
 extern char sUsbApSsid[9];
@@ -150,7 +150,7 @@ static int startScan(void);
 static void cbWm(void *arg);
 static void scanFirst(ScanCbT *prm);
 static void scanWait(ScanCbT *prm);
-static void taskFirst(void *task);
+static void taskFirst(void *task, void * unused1);
 int DWCi_USBAPlBegin(void (*callback)(int))
 {
     OwnerT owner;
@@ -176,7 +176,7 @@ int DWCi_USBAPlBegin(void (*callback)(int))
     MI_CpuCopy8(owner.nickName, &gUsbapWork->param.ssid[12], owner.nickNameLength * 2);
     if (!startScan())
         goto fail;
-    gUsbapWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskFirst, 0, 0x78);
+    gUsbapWork->task = DWCi_TSKlForm(0, taskFirst, 0, 0x78);
     return 1;
 fail:
     DWCi_HEAPlFree_((void *)0x021DE654);
@@ -274,9 +274,9 @@ int DWCi_USBAPlEnd(void)
  *   python tools/match.py one --src src/matched/DWCi_USBAPlSetCallback.c \
  *       --func DWCi_USBAPlSetCallback --addr 0x021D0DC8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_USBAPlSetCallback(unsigned int v)
+void DWCi_USBAPlSetCallback(void (*v)(int))
 {
-    *(unsigned int *)(*(char **)0x021DE654 + 0x1370) = v;
+    *(void (**)(int))(*(char **)0x021DE654 + 0x1370) = v;
 }
 
 /*
@@ -399,7 +399,7 @@ static void scanWait(ScanCbT *prm)
 /*
  * sdk:      taskFirst (libdwcutil.TWL.HYB.a usbap.o)
  */
-static void taskFirst(void *task)
+static void taskFirst(void *task, void * unused1)
 {
     u64 tick;
     int i;

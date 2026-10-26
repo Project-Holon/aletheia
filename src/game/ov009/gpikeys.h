@@ -7,7 +7,7 @@
 void gpiStatusInfoKeyFree(void *element);
 int gpiStatusInfoKeysInit(void **connection);
 void gpiStatusInfoKeysDestroy(void **connection);
-int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2);
+int gpiStatusInfoKeyCompFunc(void * elem1Arg, void * elem2Arg);
 int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *theKeyValue);
 int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newKeyValue);
 int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue);

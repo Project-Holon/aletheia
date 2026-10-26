@@ -5,8 +5,9 @@
 /* Public functions of nwm_loaddev.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_LoadDevice(u32 callback);
+u32 NWM_LoadDevice(NWMCallbackFunc callback);
 /* END mkheaders: generated region */
 
 #endif

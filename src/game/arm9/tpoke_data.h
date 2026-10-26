@@ -15,8 +15,8 @@ u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtyp
 int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e);
 u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
 u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
-int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
-u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+u8 *TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
+u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 idx);
 u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u16 heap);
 void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap);
 void TPOKE_DATA_ReadRecord(u32 memberIdx, void *dest);

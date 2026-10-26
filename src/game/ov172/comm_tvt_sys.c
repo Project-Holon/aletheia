@@ -183,9 +183,9 @@ struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work)
 }
 
 /* Tail call into the talk module with the talk record. */
-int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
+struct CtvtMic *COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
 {
-    return CTVT_TALK_GetMic((sptr)work, (int *)work->talk);
+    return CTVT_TALK_GetMic(work, work->talk);
 }
 
 struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work)
@@ -243,7 +243,7 @@ struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work)
     return work->printQue;
 }
 
-struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work)
+struct TaskMenuRes *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work)
 {
     return work->taskMenu;
 }
@@ -513,10 +513,10 @@ int COMM_TVT_SYS_ProcInit(struct ProcSys *proc, int unused, CtvtLaunchParams *la
     CtvtWork *work;
     if (launch && launch->mode == 3) GFL_HEAP_CreateChildHeap(1, 109, 0xd0000);
     else GFL_HEAP_CreateChildHeap(1, 109, 0xe8000);
-    work = PROCSYS_AllocProcWork((struct Proc *)proc, 0x1fc, 109);
+    work = PROCSYS_AllocProcWork((struct Proc *)proc, sizeof(CtvtWork), 109);
     work->heapId = 109;
     if (launch == 0) {
-        work->launch = GFL_HEAP_Alloc(1, 16, 1, (const char *)d_021C724C, 1357);
+        work->launch = GFL_HEAP_Alloc(1, sizeof(CtvtLaunchParams), 1, (const char *)d_021C724C, 1357);
         work->launch->gameData = GAME_DATA_Create(1);
         work->launch->mode = 0;
         if (KEY_GetCont() & 0x100) work->launch->mode = 1;

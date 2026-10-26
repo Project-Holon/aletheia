@@ -85,7 +85,7 @@ struct PokemonParam;
 
 void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
-void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
+void *MAILTOOL_CreateArgsFromMail(void *a, u32 design, unsigned heap);
 u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 void MAILTOOL_DeleteArgs(struct MailArgs *args);
@@ -104,8 +104,8 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
     struct MailArgs *args;
     struct MailData *mailData;
     mailData = (struct MailData *)MAIL_GetBox(a);
-    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
-    MIi_CpuClearFast(0, args, 0x1C);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), sizeof(*args), 0, d_021C7EE0, 0x43);
+    MIi_CpuClearFast(0, args, sizeof(*args));
     args->designId = d;
     args->monIndex = c;
     args->mailData = mailData;
@@ -122,8 +122,8 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
 {
     struct MailArgs *args;
-    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);
-    MIi_CpuClearFast(0, args, 0x1C);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), sizeof(*args), 0, d_021C7EE0, 0x97);
+    MIi_CpuClearFast(0, args, sizeof(*args));
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
     args->mail = MAIL_Create((unsigned)((u16)heap));
@@ -131,15 +131,15 @@ void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
     return args;
 }
 
-void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap)
+void *MAILTOOL_CreateArgsFromMail(void *a, u32 design, unsigned heap)
 {
     struct MailArgs *args;
-    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0xB9);
-    MIi_CpuClearFast(0, args, 0x1C);
+    args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), sizeof(*args), 0, d_021C7EE0, 0xB9);
+    MIi_CpuClearFast(0, args, sizeof(*args));
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
     args->mail = MAIL_Create((unsigned)((u16)heap));
-    MAIL_SetDesign(args->mail, (uptr)b);
+    MAIL_SetDesign(args->mail, design);
     return args;
 }
 
@@ -172,8 +172,8 @@ int MAILTOOL_ProcInit(void *a, void *b, struct MailArgs *args)
 {
     struct MailToolProc *proc;
     GFL_HEAP_CreateChildHeap(1, 0x63, 0x1000);
-    proc = PROCSYS_AllocProcWork(a, 0x20, 0x63);
-    MIi_CpuClearFast(0, proc, 0x20);
+    proc = PROCSYS_AllocProcWork(a, sizeof(*proc), 0x63);
+    MIi_CpuClearFast(0, proc, sizeof(*proc));
     proc->heapId = 0x63;
     proc->draft = MAILSYS_CreateMessage(args->mail, 0x63);
     if (args->mode == 1) proc->draft->design = args->designId;

@@ -277,7 +277,7 @@ void GAME_BEACON_SEARCH_OnSessionStarted(void *arg)
     GameBeaconSearchWork *work = arg;
 
     work->state = 1;
-    work->wihDwc = (unsigned char *)WIH_DWC_Create(4, (void *)0x8005);
+    work->wihDwc = (unsigned char *)WIH_DWC_Create(4, 0x8005);
 }
 
 int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work)
@@ -347,7 +347,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                         request = GFL_HEAP_Alloc(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
-                        GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)GAME_BEACON_SEARCH_StartConnectEvent, (uptr)request);
+                        GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, request);
                         goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }
@@ -420,14 +420,14 @@ GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWo
         if (scanState == 2 && work->scanDelay != 0) {
             continue;
         }
-        beacon = (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(i);
+        beacon = GFL_NET_GetScanResult(i);
         if (beacon == 0) {
             continue;
         }
         if (beacon->header.memberNum < beacon->header.memberMax) {
             if (best == none) {
                 best = i;
-            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(beacon, (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(best)) == beacon) {
+            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(beacon, GFL_NET_GetScanResult(best)) == beacon) {
                 best = i;
             }
         } else {
@@ -436,7 +436,7 @@ GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWo
     }
     if (best != -1) {
         *index = best;
-        return (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(best);
+        return GFL_NET_GetScanResult(best);
     }
     return 0;
 }

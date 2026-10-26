@@ -11,7 +11,7 @@ struct RingQueue {
     int writeIndex;
 };
 
-int RingQueue_Create(int capacity, int heapId);
+struct RingQueue *RingQueue_Create(int capacity, int heapId);
 void RingQueue_Destroy(struct RingQueue *queue);
 void RingQueue_Push(struct RingQueue *queue, int value);
 u32 RingQueue_Pop(struct RingQueue *queue);

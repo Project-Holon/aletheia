@@ -268,14 +268,14 @@ void VIEWER_TEXT_PrintWrapped(ViewerWork *p, void *a, int x, int dx, int y, void
 void VIEWER_TEXT_Print(ViewerWork *p, void *a, int x, int dx, int y, void *s);
 void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info, void *s, int idx);
 void VIEWER_TEXT_NoOp(void *work, void *bg, u32 flag, void *str);
-void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x);
+void VIEWER_TEXT_InitActors(ViewerAnim *a, const struct DispVramCfg *x);
 void VIEWER_TEXT_CreateActor(ViewerAnim *a);
 void VIEWER_TEXT_DeleteActors(ViewerAnim *a);
 void VIEWER_TEXT_SetActorAnim(ViewerAnim *p, int idx, u8 a, u8 b);
 int VIEWER_TEXT_Create(void *proc, int *seq, void *parent);
 int VIEWER_TEXT_Main(void *a, void *b, int c, ViewerTextWork *p);
 int VIEWER_TEXT_Delete(void *proc, void *seq, int c, ViewerTextWork *p);
-void VIEWER_TEXT_VBlank(void *unused, ViewerTextWork *p);
+void VIEWER_TEXT_VBlank(struct TcbTask *unused, void *pArg);
 void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent);
 void VIEWER_TEXT_FreeResources(ViewerTextWork *p);
 void VIEWER_TEXT_InitVram(void);
@@ -363,7 +363,7 @@ void VIEWER_TEXT_Draw(ViewerWork *p, void **bg, const ViewerInfo *info)
     VIEWER_TEXT_DrawList((ViewerWork *)p, info->listIndex, 0);
     VIEWER_TEXT_PrintDigits((ViewerWork *)p, bg[4], 0xD8, 8, 0, s, info->topValue, 7, 1, 1, 0);
     PMS_DRAW_SetNullColorPalette(p->pmsDraw, 0);
-    PMS_DRAW_Print((uptr)p->pmsDraw, (uptr)bg[5], (struct BeaconDetailGraQuad *)p->info->decoData, 0);
+    PMS_DRAW_Print(p->pmsDraw, bg[5], (struct BeaconDetailGraQuad *)p->info->decoData, 0);
     if (p->decoVisible != 0) {
         PMS_DRAW_SetVisible(p->pmsDraw, 0, 0);
     }
@@ -657,7 +657,7 @@ void VIEWER_TEXT_PrintDigits(ViewerWork *p, void *a, int x, int dx, int y, void 
     u32 w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, digits, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[k]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[k]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -673,7 +673,7 @@ void VIEWER_TEXT_PrintString(ViewerWork *p, void *a, int x, int dx, int y, void 
     WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year1 + 2000, 4, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 1, p->info->month1, 2, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[2]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[2]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -707,7 +707,7 @@ void VIEWER_TEXT_PrintStringPad(ViewerWork *p, void *a, int x, int dx, int y, vo
     u32 w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, 3, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[4]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[4]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -775,12 +775,12 @@ void VIEWER_TEXT_NoOp(void *work, void *bg, u32 flag, void *str) { }
 
 
 
-void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x)
+void VIEWER_TEXT_InitActors(ViewerAnim *a, const struct DispVramCfg *x)
 {
     void *h;
 
     h = ARC_TOOL_CreateHandle(0x28, a->heap);
-    CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVramCfg *)x, a->heap);
+    CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, x, a->heap);
     a->unit = CLACT_CreateUnit(0x23, 0, a->heap);
     a->res[0].palette = CLACT_RegisterPaletteEx(h, 0xC, 1, 0, 0, 5, a->heap);
     a->res[0].chr = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
@@ -838,7 +838,7 @@ void VIEWER_TEXT_DeleteActors(ViewerAnim *a)
     }
     CLACT_DeleteUnit(a->unit);
     CLACT_ExitSystem();
-    *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x300010) | 0x10;
+    *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x300010) | 0x10;
 }
 
 
@@ -863,8 +863,8 @@ int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
     ViewerTextWork *p;
 
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x20000);
-    p = PROCSYS_AllocProcWork(proc, 0x1C8, 0x27);
-    MIi_CpuClearFast(0, p, 0x1C8);
+    p = PROCSYS_AllocProcWork(proc, sizeof(*p), 0x27);
+    MIi_CpuClearFast(0, p, sizeof(*p));
     VIEWER_TEXT_LoadResources((ViewerTextWork *)p, (ViewerArgs *)parent);
     VIEWER_TEXT_InitVram();
     VIEWER_TEXT_InitBg((ViewerTextWork *)p);
@@ -925,8 +925,9 @@ int VIEWER_TEXT_Delete(void *proc, void *seq, int c, ViewerTextWork *p)
 
 
 
-void VIEWER_TEXT_VBlank(void *unused, ViewerTextWork *p)
+void VIEWER_TEXT_VBlank(struct TcbTask *unused, void *pArg)
 {
+    ViewerTextWork *p = pArg;
     int v = -(p->vblankCount / 2);
 
     BG_SYS_ChangeScrollImmediate(6, 0, v);
@@ -955,7 +956,7 @@ void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent)
     }
     p->strbuf = STRBUF_Create(0x68, 0x27);
     p->wordSet = WORDSET_Create(8, 0x40, 0x27);
-    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))VIEWER_TEXT_VBlank, (void *)p, 0);
+    p->vblankTask = GFL_USE_AddMainTask(VIEWER_TEXT_VBlank, (void *)p, 0);
     p->rowCount = 8;
     p->snap = -1;
     VIEWER_ACTOR_SetPageCount(p);
@@ -987,7 +988,7 @@ void VIEWER_TEXT_FreeResources(ViewerTextWork *p)
 
 static inline void GX_SetDispSelect(GXDispSelect sel)
 {
-    *(volatile u16 *)0x04000304 = (u16)((*(volatile u16 *)0x04000304 & ~0x8000) | (sel << 15));
+    *(volatile u16 *)REG_POWCNT1_ADDR = (u16)((*(volatile u16 *)REG_POWCNT1_ADDR & ~0x8000) | (sel << 15));
 }
 
 
@@ -1022,7 +1023,7 @@ void VIEWER_TEXT_InitBg(ViewerTextWork *p)
         BG_SYS_SetPlaneVisible(v, 1);
     }
     BG_SYS_SetPlaneVisible(7, 0);
-    *(volatile u16 *)0x04000050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
     G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 2, 4, 7, 0x10);
 }
 
@@ -1038,8 +1039,8 @@ void VIEWER_TEXT_ExitBg(ViewerTextWork *p)
         BG_SYS_FreeLayerBuf((u8)d_021C885C[i]);
     }
     BG_SYS_Delete();
-    *(volatile u16 *)0x04000050 = 0;
-    *(volatile u16 *)0x04001050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
 }
 
 
@@ -1116,11 +1117,11 @@ void VIEWER_TEXT_InitClact(ViewerTextWork *p)
     p->unit = CLACT_CreateUnit(0x24, 1, 0x27);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
-    p->resSet.named.chr = (void *)(s32)CLACT_RegisterCharacter(p->arc, 0x1B, 0, 0, 0x27);
-    p->resSet.named.palette = (void *)(s32)CLACT_RegisterPalette(p->arc, 2, 0, 0, 0x27);
-    p->resSet.named.cellAnim = (void *)(s32)CLACT_RegisterCellAnim(p->arc, 0x2D, 0x2F, 0x27);
-    p->resSet.named.chr2 = (void *)(s32)CLACT_RegisterCharacter(arc, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x27);
-    p->resSet.named.palette2 = (void *)(s32)CLACT_RegisterPaletteEx(arc, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x160, 0, 3, 0x27);
-    p->resSet.named.cellAnim2 = (void *)(s32)CLACT_RegisterCellAnim(arc, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), 0x27);
+    p->resSet.named.chr = CLACT_RegisterCharacter(p->arc, 0x1B, 0, 0, 0x27);
+    p->resSet.named.palette = CLACT_RegisterPalette(p->arc, 2, 0, 0, 0x27);
+    p->resSet.named.cellAnim = CLACT_RegisterCellAnim(p->arc, 0x2D, 0x2F, 0x27);
+    p->resSet.named.chr2 = CLACT_RegisterCharacter(arc, APP_ICON_GetMoveKindAnimFileId(), 0, 0, 0x27);
+    p->resSet.named.palette2 = CLACT_RegisterPaletteEx(arc, APP_ICON_GetMoveKindPaletteFileId(), 0, 0x160, 0, 3, 0x27);
+    p->resSet.named.cellAnim2 = CLACT_RegisterCellAnim(arc, APP_ICON_GetStatusCellFileId(0), APP_ICON_GetStatusPaletteFileId(0), 0x27);
     ARC_TOOL_DeleteHandle(arc);
 }

@@ -194,7 +194,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
 void DOWSING_Delete(DowsingWork *work);
 void DOWSING_Update(DowsingWork *work, int isOn);
 void DOWSING_UpdateDisplay(DowsingWork *work, int draw);
-void DOWSING_TaskTransferPalettes(int taskId, DowsingWork *work);
+void DOWSING_TaskTransferPalettes(struct TcbTask *task, void *taskWork);
 void DOWSING_InitBgsAndActorUnit(DowsingWork *work);
 void DOWSING_ExitBgsAndActorUnit(DowsingWork *work);
 void DOWSING_LoadBackground(DowsingWork *work);
@@ -320,7 +320,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     DOWSING_CreateParts(work);
     DOWSING_CreateCloseButton(work);
     work->levelGrid = (u8 *)ARC_UTIL_LoadMemberWithSize(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
-    work->task = (struct Task *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))DOWSING_TaskTransferPalettes, work, 1);
+    work->task = (struct Task *)GFL_USE_AddMainTask(DOWSING_TaskTransferPalettes, work, 1);
     work->tick = 0;
     work->isOn = 1;
     DOWSING_InitFade(work);
@@ -371,7 +371,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     int playLevelSound;
     int levelChanged;
     int prevX;
-    uptr mapId;
+    struct MapMatrix *mapMatrix;
     struct FieldSystem *fieldSystem;
     int gridX, gridY, gridZ;
     int zoneId;
@@ -415,11 +415,11 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     gridX = (pos->x >> 4) / 4096;
     gridY = (pos->y >> 4) / 4096;
     gridZ = (pos->z >> 4) / 4096;
-    mapId = GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData((struct GameSystem *)fieldSystem));
+    mapMatrix = GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData((struct GameSystem *)fieldSystem));
     zoneId = DOWSING_ZONE_NONE;
     zoneFlag = 0;
-    if (MAP_MATRIX_IsInRangeByPos((struct MapMatrix *)mapId, pos->x, pos->z) == 1) {
-        zoneId = MAP_MATRIX_GetZoneIdByPos((struct MapMatrix *)mapId, pos->x, pos->z);
+    if (MAP_MATRIX_IsInRangeByPos(mapMatrix, pos->x, pos->z) == 1) {
+        zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos->x, pos->z);
         zoneFlag = (int)ZONEDATA_IsFieldMatrix((u16)zoneId);
     }
     /* Both branches scan; the flag only records that a scan happened. */
@@ -618,8 +618,9 @@ void DOWSING_UpdateDisplay(DowsingWork *work, int draw)
 }
 
 /* Task that transfers the palettes every frame and ticks the counter. */
-void DOWSING_TaskTransferPalettes(int taskId, DowsingWork *work)
+void DOWSING_TaskTransferPalettes(struct TcbTask *task, void *taskWork)
 {
+    DowsingWork *work = taskWork;
     PALANM_TransferPalettes(work->palAnm);
     if (work->isOn != 0) {
         if (work->tick >= 4)

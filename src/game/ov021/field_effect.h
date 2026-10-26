@@ -13,6 +13,8 @@ struct TcbSystem;
 #include "../types.h"
 #include "../sdk_fx.h"
 
+struct TcbTask;
+
 FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapId);
 int FIELD_EFFECT_Delete(FieldEffectSys *sys);
 void FIELD_EFFECT_Update(FieldEffectSys *sys);
@@ -39,7 +41,7 @@ FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, struct TcbSystem *ta
 void FIELD_EFFECT_DeleteObjectMgr(FieldEffectObjMgr *mgr);
 void FIELD_EFFECT_DrawObjectMgr(FieldEffectObjMgr *mgr);
 FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void FIELD_EFFECT_ObjectTask(u32 task, FieldEffectObj *obj);
+void FIELD_EFFECT_ObjectTask(struct TcbTask *task, void *arg);
 void FIELD_EFFECT_InitObject(FieldEffectObj *obj);
 void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
 void FIELD_EFFECT_UpdateObject(FieldEffectObj *obj);

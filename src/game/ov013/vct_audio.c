@@ -138,7 +138,7 @@ int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot);
 
 void *VCT_AUDIO_PeekReadyPacket(unsigned int slot);
 
-VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot);
+int VCT_AUDIO_PopReadyPacket(u32 slot);
 
 int VCT_AUDIO_GetReadyCount(unsigned int slot);
 
@@ -146,7 +146,7 @@ void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int p
 
 void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source);
 
-VctRxPacket *VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet);
+int VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet);
 
 void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq);
 
@@ -768,7 +768,7 @@ void *VCT_AUDIO_PeekReadyPacket(unsigned int slot)
     return 0;
 }
 
-VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
+int VCT_AUDIO_PopReadyPacket(u32 slot)
 {
     VctRxPacket *packet;
     u32 irq = OS_DisableInterrupts();
@@ -785,7 +785,7 @@ VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
             gVctReadyTail[slot] = 0;
     }
     OS_RestoreInterrupts(irq);
-    return (VctRxPacket *)gVctReadyCount[slot];
+    return gVctReadyCount[slot];
 }
 
 int VCT_AUDIO_GetReadyCount(unsigned int slot) { return gVctReadyCount[slot]; }
@@ -826,7 +826,7 @@ void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source)
     source->peerAid = -1;
 }
 
-VctRxPacket *VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
+int VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
 {
     if (source->lastPacket)
         VCT_POOL_FreeFrame(source->lastPacket);

@@ -198,9 +198,9 @@ typedef struct DWCstMatchControl {
     u8 cancelFromConnection;        /* +0x7B5 */
     u8 retryCountMax;               /* +0x7B6 */
     u8 pad7B7;
-    int (*attemptCallback)(unsigned char *, int); /* +0x7B8 */
+    int (*attemptCallback)(unsigned char *, void *); /* +0x7B8 */
     u8 connUserData[4];             /* +0x7BC */
-    int attemptParam;                      /* +0x7C0 */
+    void *attemptParam;                    /* +0x7C0 */
     int isFirstServer;                    /* +0x7C4 */
     u32 matchSessionID;                    /* +0x7C8 */
     u64 suspendRetryDelayMs;                      /* +0x7CC */

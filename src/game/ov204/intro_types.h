@@ -57,8 +57,8 @@ typedef struct IntroCommand {
     IntroCommandTail tail;          /* 0x14: fifth word; bit 0 is the flag */
 } IntroCommand;
 
-/* An opaque CLACT handle: created as a void pointer, released as an id. */
-typedef union IntroHandle { void *ptr; unsigned int id; } IntroHandle;
+/* A CLACT resource id. */
+typedef unsigned int IntroHandle;
 
 /*
  * The intro command work (0x10D8 allocated). Created by INTRO_CMD_Create

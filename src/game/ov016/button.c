@@ -104,19 +104,19 @@ extern struct tagMEMBTN *gMemButton;
  */
 
 static void disp(int y);
-static void taskStart(void *task);
-static void taskStart1(void *task);
-static void taskMain(void);
-static void DWCi_ButtonTaskEnd(void *task);
-static void taskEnd1(void *task);
-static void taskRelease(void *task);
+static void taskStart(void *task, void * unused1);
+static void taskStart1(void *task, void *work);
+static void taskMain(void * unused0, void * unused1);
+static void DWCi_ButtonTaskEnd(void *task, void * unused1);
+static void taskEnd1(void *task, void * unused1);
+static void taskRelease(void *task, void * unused1);
 void DWCi_BTNlInit(int kind)
 {
     int btnNum;
     int i;
 
     btnNum = sButtonCountByKind[kind];
-    gButtonWork = DWCi_HEAPlAllocEx(0x1c, 4);
+    gButtonWork = DWCi_HEAPlAllocEx(sizeof(*gButtonWork), 4);
     gButtonWork->input = -2;
     gButtonWork->kind = kind;
     for (i = 0; i < btnNum; i++) {
@@ -126,13 +126,13 @@ void DWCi_BTNlInit(int kind)
     gButtonWork->cellBack = DWCi_CEINlSetExCell(0, 1, 1);
     DWCi_CELLlSetPriority(gButtonWork->cellBack, -1, 1);
     disp(0xc0);
-    gButtonWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskStart, 0, 0x78);
+    gButtonWork->task = DWCi_TSKlForm(0, taskStart, 0, 0x78);
 }
 
 void DWCi_BTNlEnd(void)
 {
     MemBtn->ended = 1;
-    DWCi_TSKlChangeFunc(MemBtn->task, (void (*)(void *, void *))DWCi_ButtonTaskEnd);
+    DWCi_TSKlChangeFunc(MemBtn->task, DWCi_ButtonTaskEnd);
 }
 
 signed char DWCi_BTNlGet(void)
@@ -194,7 +194,7 @@ static void disp(int y)
 /*
  * sdk:      taskStart (libdwcutil.TWL.HYB.a(button.o))
  */
-static void taskStart(void *task)
+static void taskStart(void *task, void * unused1)
 {
     int x, y;
 
@@ -204,23 +204,23 @@ static void taskStart(void *task)
     if (y > 168)
         return;
     disp(168);
-    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart1);
+    DWCi_TSKlChangeFunc(task, taskStart1);
 }
 
 /*
  * sdk:      taskStart1 (libdwcutil.TWL.HYB.a(button.o))
  */
-static void taskStart1(void *task)
+static void taskStart1(void *task, void *work)
 {
     gButtonWork->input = -1;
     gButtonWork->count++;
     if (gButtonWork->count >= 4) {
         gButtonWork->count = 0;
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMain);
+        DWCi_TSKlChangeFunc(task, taskMain);
     }
 }
 
-static void taskMain(void)
+static void taskMain(void * unused0, void * unused1)
 {
     Rect r;
     int btnNum;
@@ -243,7 +243,7 @@ static void taskMain(void)
                               sButtonPositions[sButtonPositionIndex[gButtonWork->kind][i]].x,
                               sButtonPositions[sButtonPositionIndex[gButtonWork->kind][i]].y);
                 DWCi_CELLlSetPriority(gButtonWork->cellButton[i], -1, 1);
-                gButtonWork->release = DWCi_TSKlForm(0, (void (*)(void *, void *))taskRelease, 0, 0x6e);
+                gButtonWork->release = DWCi_TSKlForm(0, taskRelease, 0, 0x6e);
                 gButtonWork->input = i;
                 return;
             }
@@ -252,7 +252,7 @@ static void taskMain(void)
     gButtonWork->input = -1;
 }
 
-static void DWCi_ButtonTaskEnd(void *task)
+static void DWCi_ButtonTaskEnd(void *task, void * unused1)
 {
     int x, y;
 
@@ -260,13 +260,13 @@ static void DWCi_ButtonTaskEnd(void *task)
     y += 4;
     disp(y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
+        DWCi_TSKlChangeFunc(task, taskEnd1);
 }
 
 /*
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a(button.o))
  */
-static void taskEnd1(void *task)
+static void taskEnd1(void *task, void * unused1)
 {
     int i;
 
@@ -284,7 +284,7 @@ static void taskEnd1(void *task)
 /*
  * sdk:      taskRelease (libdwcutil.TWL.HYB.a(button.o))
  */
-static void taskRelease(void *task)
+static void taskRelease(void *task, void * unused1)
 {
     int btnNum;
     int i;

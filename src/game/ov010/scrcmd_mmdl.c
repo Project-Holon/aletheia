@@ -80,11 +80,11 @@ extern const s16 FX_SinCosTable_[];
 
 int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, u32 *state, void *work);
+int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, int *state, void *work);
 
 int SCRCMD_MMDL_StartOrbit(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work);
+int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, int *mode, void *work);
 
 #define MMDL_MOVE_BIT_RISE 0x8000
 
@@ -119,7 +119,7 @@ int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 1;
 }
 
-int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, u32 *state, void *work)
+int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, int *state, void *work)
 {
     MmdlRiseWork *rise = work;
     VecFx32 pos;
@@ -169,7 +169,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * inline function with the table value first (the macro, or the radius
  * first, puts the radius in r0:r1 and spills its sign word: 368 out).
  */
-int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work)
+int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, int *mode, void *work)
 {
     MmdlOrbitWork *orbit = work;
     VecFx32 pos;

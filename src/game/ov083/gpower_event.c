@@ -81,7 +81,7 @@ struct GPowerSave;
 struct MsgBank;
 struct Strbuf;
 struct InfoMsgWin;
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/game_event.h"
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 struct GPowerData;
@@ -116,7 +116,6 @@ extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, u16 powerId, u16
 #undef GAME_BEACON_SEARCH_SetHalfwordValue
 extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int powerId);
 #endif
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 #include "../ov021/fieldmap.h"
 struct MmdlSys;
@@ -137,7 +136,7 @@ struct FieldMsgWin;
 #include "../arm9/key.h"
 struct IntrudeSave;
 #include "../arm9/intrude.h"
-struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
+struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *paramArg);
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
@@ -145,12 +144,13 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
 void GPOWER_EVENT_FreeListWork(GPowerListWork *work);
 int GPOWER_EVENT_FlashMain(struct GameEvent *event, int *seq, void *work);
 void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wordSet, int powerType);
-int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *work);
+int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, void *work);
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
 void GPOWER_EVENT_PrintPowerList(GPowerListWork *work);
 
-struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param)
+struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *paramArg)
 {
+    GPowerActivateParam *param = paramArg;
     struct GameEvent *event;
     struct ScriptWork *scriptWork;
     struct GameData *gameData;
@@ -206,7 +206,7 @@ struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem)
 
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)GPOWER_EVENT_ListMain, sizeof(GPowerListWork));
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, GPOWER_EVENT_ListMain, sizeof(GPowerListWork));
     GPOWER_EVENT_InitListWork(GAME_EVENT_GetWork(event), gameSystem, fieldMap);
     return event;
 }
@@ -277,8 +277,9 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
     }
 }
 
-int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *work)
+int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    GPowerListWork *work = workPtr;
     struct InfoSysWin *openWin;
     switch (*seq) {
     case 0:

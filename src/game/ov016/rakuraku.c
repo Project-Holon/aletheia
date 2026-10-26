@@ -44,7 +44,7 @@ typedef struct {
     int info0;
     int info1;
 } RakuStatus;
-void cbConfig(RakuStatus *status);
+void cbConfig(struct _ATERMApConfigState * statusArg);
 extern RakuStatus *gRakuStatus;
 
 /*
@@ -55,7 +55,7 @@ static void *memAlloc(unsigned long size);
 void DWCi_RAKUlInit(void)
 {
 	gRakuStatus = DWCi_HEAPlAllocEx(sizeof(RakuStatus), -4);
-	if (DWCi_RakurakuATERMi_ApConfigStart(0xf, 0x40, (void (*)(struct _ATERMApConfigState *))cbConfig, memAlloc, DWCi_RAKUl_memFree, 0x800) != 1)
+	if (DWCi_RakurakuATERMi_ApConfigStart(0xf, 0x40, cbConfig, memAlloc, DWCi_RAKUl_memFree, 0x800) != 1)
 		OS_Terminate();
 	OS_Sleep(10);
 }
@@ -89,7 +89,7 @@ int DWCi_RAKUlGetState(void)
 	case 4:
 		return 2;
 	case 6:
-		if (DWCi_RakurakuATERMi_ApConfigGetResult((sptr)aossResult) != 1)
+		if (DWCi_RakurakuATERMi_ApConfigGetResult(aossResult) != 1)
 			OS_Terminate();
 		if (aossResult[8] >= 0 && aossResult[8] <= 3 && aossResult[9] == 1)
 			return 3;
@@ -110,13 +110,14 @@ void DWCi_RAKUlSetResult(void)
 {
 	char aossResult[0xe8];
 
-	if (DWCi_RakurakuATERMi_ApConfigGetResult((sptr)aossResult) != 1)
+	if (DWCi_RakurakuATERMi_ApConfigGetResult(aossResult) != 1)
 		OS_Terminate();
 	DWCi_SETTINGlSetRaku(aossResult);
 }
 
-void cbConfig(RakuStatus *status)
+void cbConfig(struct _ATERMApConfigState * statusArg)
 {
+    RakuStatus * status = (RakuStatus *)statusArg;
     *gRakuStatus = *status;
 }
 

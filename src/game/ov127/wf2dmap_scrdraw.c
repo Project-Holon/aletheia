@@ -95,9 +95,9 @@ int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p);
 Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const u8 *res, u32 heap);
 void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *desc);
 void WF2DMAP_SCRDRAW_UpdatePosition(char *surface,void *point);
-void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res);
+void WF2DMAP_SCRDRAW_LoadPalette(u32 unused, u32 id, u8 *res);
 void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y);
-void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,unsigned int charRes,s16 x,s16 y);
+void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,uptr charRes,s16 x,s16 y);
 void WF2DMAP_SCRDRAW_DrawTilesWrapped(void *surface, u8 layer, u8 x, u8 y, u8 w, u8 h, void *tiles, u8 sx, u8 sy, int width, int height);
 int WF2DMAP_SCRDRAW_GetMode(unsigned int width, unsigned int height);
 char *WF2DMAP_SCRDRAW_GetTileSource(char *tiles, u8 x, u8 y, unsigned mode, int w, int h, u16 *out);
@@ -112,12 +112,12 @@ int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p) { return p->x; }
 
 Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const u8 *res, u32 heap)
 {
-    Wf2dmapBitmapDesc *desc = GFL_HEAP_Alloc((u16)heap, 28, 1, sWf2dmapScrdrawFileName, 104);
+    Wf2dmapBitmapDesc *desc = GFL_HEAP_Alloc((u16)heap, sizeof(Wf2dmapBitmapDesc), 1, sWf2dmapScrdrawFileName, 104);
     desc->src = src;
     desc->count = count;
     desc->type = res[0];
     desc->resourceId = res[1];
-    WF2DMAP_SCRDRAW_LoadPalette((void *)count, res[1], (u8 *)res);
+    WF2DMAP_SCRDRAW_LoadPalette(count, res[1], (u8 *)res);
     desc->palette = ARC_UTIL_LoadPaletteDataFromArchive(res[8], res[9], res[10], (&desc->paletteOut), heap);
     return desc;
 }
@@ -151,7 +151,7 @@ void WF2DMAP_SCRDRAW_UpdatePosition(char *surface,void *point)
     WF2DMAP_SCRDRAW_SetScroll(surface,x,y);
 }
 
-void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res)
+void WF2DMAP_SCRDRAW_LoadPalette(u32 unused, u32 id, u8 *res)
 {
     Wf2dmapResourceDesc desc;
     desc=sWf2dmapPaletteDesc;
@@ -179,7 +179,7 @@ void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
  * extent: Two bytes of zero alignment padding precede WF2DMAP_SCRDRAW_DrawTilesWrapped.
  * lever: Integer address q spills; a pointer q consumes the clipping register.
  */
-void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,unsigned int charRes,s16 x,s16 y)
+void WF2DMAP_SCRDRAW_DrawTilesClipped(void *surface,int layer,uptr charRes,s16 x,s16 y)
 {
     s16 width=((Wf2dmapCharSize *)charRes)->widthPx/8;
     s16 height=((Wf2dmapCharSize *)charRes)->heightPx/8;

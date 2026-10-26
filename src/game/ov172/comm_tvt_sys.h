@@ -20,7 +20,7 @@ struct ProcSys;
 
 CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);
 struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work);
-int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work);
+struct CtvtMic *COMM_TVT_SYS_GetTalkStatus(CtvtWork *work);
 struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work);
 CtvtLaunchParams *COMM_TVT_SYS_GetLaunchParams(CtvtWork *work);
 u16 COMM_TVT_SYS_GetHeapId(CtvtWork *work);
@@ -32,7 +32,7 @@ void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value);
 struct GfFont *COMM_TVT_SYS_GetFont(CtvtWork *work);
 struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
 struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
-struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);
+struct TaskMenuRes *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);
 u8 COMM_TVT_SYS_GetMemberCount(CtvtWork *work);
 void COMM_TVT_SYS_SetMemberCount(CtvtWork *work, u32 count);
 int COMM_TVT_SYS_GetLayoutMode(CtvtWork *work);

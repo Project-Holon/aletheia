@@ -40,7 +40,7 @@ int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(EventSlots *slots, int unused);
 u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(EventSlots *slots);
 void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries);
-int EVENT_FIELD_PROCLINK_IsNetConnected(int unused);
+int EVENT_FIELD_PROCLINK_IsNetConnected(void *unused);
 void EVENT_FIELD_PROCLINK_RunReturnSlots(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
 int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
 int EVENT_FIELD_PROCLINK_HandlerCheckEntryRail(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);

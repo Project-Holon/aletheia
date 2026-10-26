@@ -142,18 +142,18 @@ struct Ov208ActorSystem {
 struct Ov208Icon {
     u16 heap;
     u16 pad2;
-    unsigned font;
+    struct GfFont *font;
     unsigned state;
     int kind;
     unsigned char count;
     unsigned char pad11[3];
-    unsigned window;
-    void *bmp;
+    struct BmpWin *window;
+    struct Bmp *bmp;
     unsigned tile;
     unsigned size;
     struct MsgBank *msg;
-    void *task;
-    unsigned queue;
+    struct TcbTask *task;
+    struct PrintQueue *queue;
     unsigned dirty;
 };
 
@@ -174,30 +174,5 @@ struct ZukanDetailPtS { s16 x, y; };
 /* Unsigned point/actor stand-ins of the touch bar actors. */
 struct ZukanDetailPt { u16 x,y; };
 
-struct Actor { char pad[0xc]; struct ZukanDetailPt pos; };
-
-/*
- * Screen state tail shared by the info and area screens (0x438 bytes, read
- * from +0x424). mode selects what the D-pad does, keyFlag records a handled
- * key and overlayPending/overlayReady/overlayCommitted drive the town overlay
- * transition.
- */
-struct Ov208AreaState {
-    u8 pad0[0x424];
-    int mode;
-    u32 keyFlag;
-    u32 overlayPending;
-    u32 overlayReady;
-    u32 overlayCommitted;
-};
-
-/*
- * Town marker table of the area screen: 0x3d entries from +0x1e0, each a
- * state word and the CLACT actor pointer.
- */
-typedef struct {
-    u8 pad0[0x1e0];
-    struct { int state; int obj; } markers[0x3d];
-} Ov208MarkerTable;
 
 #endif

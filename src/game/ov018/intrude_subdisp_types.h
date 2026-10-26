@@ -105,8 +105,9 @@ typedef struct IntrudeSubdispRect {
 } IntrudeSubdispRect;
 
 /* Message request filled by the session: the message ID and up to two words for the word set. */
+struct Strbuf;
 typedef struct IntrudeSubdispMsgReq {
-    u32 words[2];
+    struct Strbuf *words[2];
     u8 slot[2];
     u8 param[2];
     u16 msgId;

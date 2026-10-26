@@ -178,9 +178,9 @@ struct ZukanSave;
 #include "../arm9/net.h"
 
 
-void WORLDTRADE_INPUT_PrintStringTop(u32 a, u32 b, u32 c, u32 d, u16 e);
+void WORLDTRADE_INPUT_PrintStringTop(WorldtradeWork *a, void *b, u32 c, u32 d, u16 e);
 
-void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
+void WORLDTRADE_INPUT_PrintStringPlain(WorldtradeWork *a, void *b, u32 c, u32 d, u16 e);
 
 void WORLDTRADE_INPUT_PrintBankString(WorldtradeWork *p, void *bank, u32 index, int unused1, int unused2, int slow);
 
@@ -211,17 +211,17 @@ extern const u8 data_022032AE[9][2];
 /*
  * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 1.
  */
-void WORLDTRADE_INPUT_PrintStringTop(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
+void WORLDTRADE_INPUT_PrintStringTop(WorldtradeWork *work, void *bank, u32 msgId, u32 unused1, u16 unused2)
 {
-    WORLDTRADE_INPUT_PrintBankString((WorldtradeWork *)work, (void *)bank, msgId, unused1, unused2, 1);
+    WORLDTRADE_INPUT_PrintBankString(work, bank, msgId, unused1, unused2, 1);
 }
 
 /*
  * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 0.
  */
-void WORLDTRADE_INPUT_PrintStringPlain(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
+void WORLDTRADE_INPUT_PrintStringPlain(WorldtradeWork *work, void *bank, u32 msgId, u32 unused1, u16 unused2)
 {
-    WORLDTRADE_INPUT_PrintBankString((WorldtradeWork *)work, (void *)bank, msgId, unused1, unused2, 0);
+    WORLDTRADE_INPUT_PrintBankString(work, bank, msgId, unused1, unused2, 0);
 }
 
 void WORLDTRADE_INPUT_PrintBankString(WorldtradeWork *p, void *bank, u32 index, int unused1, int unused2, int slow)
@@ -301,69 +301,69 @@ void WORLDTRADE_INPUT_CreateModeWindows(WorldtradeMenu *p, u32 mode)
     switch (mode) {
     case 4:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 9; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 5:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, 2, 2, 3, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[0])), 7);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[0])), 7);
         for (i = 1; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i - 1][0], data_022032AE[i - 1][1], 2, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 0:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_0220322A[i][0], data_0220322A[i][1], 8, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[4])), 8);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[4])), 8);
         break;
     case 6:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 9; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         p->wins[15] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[15])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[15])), 10);
         break;
     case 3:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 5; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203242[i][0], data_02203242[i][1], 23, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         p->wins[5] = (void *)BMP_WIN_Create((u8)p->layer, 14, 16, 5, 1, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[5])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[5])), 10);
         break;
     case 1:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 3; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], 9, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 2:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203206[i][0], data_02203206[i][1], 11, 2, 1, 1);
-            BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
+            BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->wins[4])), 8);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[4])), 8);
         break;
     }
 }
@@ -428,7 +428,7 @@ struct BgWinFrmWork;
 
 void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode);
 
-InputMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 a, u32 b);
+WorldtradeMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 a, u32 b);
 
 void WORLDTRADE_INPUT_MenuSetMode(WorldtradeMenu *p, int mode);
 
@@ -506,9 +506,9 @@ int WORLDTRADE_INPUT_StateSubCategorySelected(WorldtradeMenu *p);
 
 int WORLDTRADE_INPUT_StateRestoreCursor(WorldtradeMenu *p);
 
-int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
+int WORLDTRADE_INPUT_CountSeenSpecies(uptr unused, struct ZukanSave *item, u32 c, u16 *list, int start, int end);
 
-int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
+int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, uptr x, u32 kind, void *bag);
 
 void WORLDTRADE_INPUT_PrintPageNumberA(WorldtradeMenu *m, int page, int total);
 
@@ -715,41 +715,41 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
     BG_SYS_FreeTiles(p->layer, 1, 0);
 }
 
-InputMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer, u32 listKind)
+WorldtradeMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer, u32 listKind)
 {
-    InputMenu *m;
+    WorldtradeMenu *m;
 
-    m = GFL_HEAP_Alloc(0x48, 0x1b8, 0, (const char *)g_02203CD8, 0x336);
-    m->w00 = init->w00;
-    m->w04 = init->w04;
-    m->obj = init->obj;
-    m->w0c = init->w0c;
-    m->w10 = init->w10;
-    m->w14 = init->w14;
-    m->w18 = init->w18;
-    m->w1c = init->w1c;
-    m->w20 = init->w20;
-    m->w24 = init->w24;
-    m->w28 = init->w28;
-    m->a = layer;
-    m->b = listKind;
-    m->h38 = 0;
-    m->h3a = 0;
-    m->h3c = 0;
-    m->h3e = 0;
-    m->b40 = 0;
-    m->b41 = 0;
-    m->w44 = 0;
-    m->b7a = 0;
-    m->w48 = 0;
-    m->frm = BGWINFRM_Create(2, 1, 0x48);
-    BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
-    WORLDTRADE_SetActorPos(m->obj, 0x90, 0x28);
-    CLACT_SetActorAnimSeq((struct ClactActor *)m->obj, 4);
-    CLACT_SetActorAutoAnim((struct ClactActor *)m->obj, 1);
-    CLACT_SetActorDrawEnable((struct ClactActor *)m->obj, 0);
-    m->ctx = WORLDTRADE_ADAPTER_InitMessageSystem(0xf, 0xe, 2, 0x48);
-    WORLDTRADE_ADAPTER_InitPrinter((Printer *)m->sub, init->arg);
+    m = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeMenu), 0, (const char *)g_02203CD8, 0x336);
+    m->wins = init->wins;
+    m->initArg = init->initArg;
+    m->cursor = init->cursor;
+    m->up = init->up;
+    m->down = init->down;
+    m->rowCursor = init->rowCursor;
+    m->bank = init->bank;
+    m->msg = init->msg;
+    m->listMsg = init->listMsg;
+    m->bag = init->bag;
+    m->speciesFlags = init->speciesFlags;
+    m->layer = layer;
+    m->listKind = listKind;
+    m->layout = 0;
+    m->start = 0;
+    m->speciesResult = 0;
+    m->conditionResult = 0;
+    m->optionResult = 0;
+    m->genderResult = 0;
+    m->pos = 0;
+    m->last = 0;
+    m->state = 0;
+    m->mgr = BGWINFRM_Create(2, 1, 0x48);
+    BGWINFRM_AddFrame(m->mgr, 0, 2, 0x20, 0x14);
+    WORLDTRADE_SetActorPos(m->cursor, 0x90, 0x28);
+    CLACT_SetActorAnimSeq((struct ClactActor *)m->cursor, 4);
+    CLACT_SetActorAutoAnim((struct ClactActor *)m->cursor, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)m->cursor, 0);
+    m->num = WORLDTRADE_ADAPTER_InitMessageSystem(0xf, 0xe, 2, 0x48);
+    WORLDTRADE_ADAPTER_InitPrinter(&m->g, init->arg);
     return m;
 }
 
@@ -792,10 +792,10 @@ void WORLDTRADE_INPUT_MenuSetMode(WorldtradeMenu *p, int mode)
  */
 void WORLDTRADE_INPUT_MenuDelete(WorldtradeMenu *p)
 {
-    WORLDTRADE_ADAPTER_ExitPrinter((Printer *)((u8 *)p + 0x7c));
+    WORLDTRADE_ADAPTER_ExitPrinter(&p->g);
     WORLDTRADE_ADAPTER_ExitMessageSystem(p->num);
     BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct WinMgr * *)&p->mgr));
-    GFL_HEAP_Free((void *)((uptr)p));
+    GFL_HEAP_Free((void *)(p));
 }
 
 extern int (*const tbl_02203C48[])(WorldtradeMenu *p);
@@ -805,7 +805,7 @@ int WORLDTRADE_INPUT_MenuUpdate(WorldtradeMenu *p)
     int r = tbl_02203C48[p->state](p);
 
     BGWINFRM_UpdateMoves(p->mgr);
-    WORLDTRADE_ADAPTER_UpdatePrinter((Printer *)p->g);
+    WORLDTRADE_ADAPTER_UpdatePrinter(&p->g);
     WORLDTRADE_ADAPTER_UpdateMessageSystem(p->num);
     return r;
 }
@@ -1611,8 +1611,8 @@ void WORLDTRADE_INPUT_DrawFrame(WorldtradeMenu *p, int mode, int pos)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 96, mode == 6 ? 27 : 28, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, mode);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
-    MI_CpuFill8((u8 *)p + 96, 1, 26);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
+    MI_CpuFill8(p->flags, 1, 26);
     g = (u8 *)p;
     g += 124;
     for (i = 0; i < 9; i++) {
@@ -1634,12 +1634,12 @@ void WORLDTRADE_INPUT_DrawFrame(WorldtradeMenu *p, int mode, int pos)
                 ((u8 *)p)[i + 96] = 0;
             }
         }
-        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[i], str, 2, color, g);
+        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[i], str, 2, color, g);
         STRBUF_Delete(str);
     }
     if (mode == 6) {
         str = MSGDATA_AllocString(p->bank, 188);
-        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[15], str, 2, 0x3dc2, (u8 *)p + 124);
+        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[15], str, 2, 0x3dc2, &p->g);
         STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(p->mgr, 0, pos, 0);
@@ -1655,10 +1655,10 @@ void WORLDTRADE_INPUT_DrawThreeOptionScreen(WorldtradeMenu *p)
     WORLDTRADE_INPUT_CreateModeWindows(p, 1);
     for (i = 0; i < 3; i++) {
         str = MSGDATA_AllocString(p->bank, i + 130);
-        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[i], str, 2, 0x3dc2, (u8 *)p + 124);
+        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[i], str, 2, 0x3dc2, &p->g);
         STRBUF_Delete(str);
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 32, 0);
     BGWINFRM_ShowFrame(p->mgr, 0);
     BGWINFRM_StartMove(p->mgr, 0, -4, 0, 4);
@@ -1670,13 +1670,13 @@ void WORLDTRADE_INPUT_DrawGenderListScreen(WorldtradeMenu *p)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 2);
     if (p->listKind == 1)
-        p->total = WORLDTRADE_DEPOSIT_CreateGenderMenu((void **)((u8 *)p + 48), p->bank, 1);
+        p->total = WORLDTRADE_DEPOSIT_CreateGenderMenu((void **)((u8 *)&((struct WorldtradeWork *)p)->titleEntered), p->bank, 1);
     else if (p->listKind == 0)
-        p->total = WORLDTRADE_DEPOSIT_CreateGenderMenu((void **)((u8 *)p + 48), p->bank, 0);
+        p->total = WORLDTRADE_DEPOSIT_CreateGenderMenu((void **)((u8 *)&((struct WorldtradeWork *)p)->titleEntered), p->bank, 0);
     WORLDTRADE_INPUT_PrintPageNumberA((WorldtradeMenu *)p, 0, p->total);
     p->page = 0;
-    WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->num, (*(void ***)p)[4], p->page, WORLDTRADE_INPUT_GetPageCount(p->total, 4));
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->num, p->wins[4], p->page, WORLDTRADE_INPUT_GetPageCount(p->total, 4));
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 32, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 6);
     p->last = 0;
@@ -1730,7 +1730,7 @@ int WORLDTRADE_INPUT_StateWaitFrameIn(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateWaitFrameMove(WorldtradeMenu *p)
 {
     if (BGWINFRM_IsMoving((struct BgWinFrmWork *)(*(struct WinMgr * *)&p->mgr), 0) == 0) {
-        (*(unsigned int *)&p->state) = (*(unsigned int *)&p->nextState);
+        (p->state) = (p->nextState);
     }
     return -1;
 }
@@ -1759,7 +1759,7 @@ int WORLDTRADE_INPUT_StateWaitFrameHide(WorldtradeMenu *p)
 {
     if (BGWINFRM_IsMoving((struct BgWinFrmWork *)(*(struct WinMgr * *)&p->mgr), 0) == 0) {
         BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&p->mgr), 0);
-        (*(unsigned int *)&p->state) = (*(unsigned int *)&p->nextState);
+        (p->state) = (p->nextState);
     }
     return -1;
 }
@@ -1775,11 +1775,11 @@ int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p)
     return -1;
 }
 
-void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(*(unsigned int *)&p->state)=1;(*(unsigned int *)&p->nextState)=7;p->layout=-1;}
+void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;}
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
 {
-    u32 sel = WORLDTRADE_INPUT_UpdateCategoryGrid((WorldtradeMenu *)p, (u8 *)p + 96);
+    u32 sel = WORLDTRADE_INPUT_UpdateCategoryGrid((WorldtradeMenu *)p, p->flags);
     if (sel != -2) {
         if (sel <= 8) {
             CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
@@ -1822,9 +1822,9 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(WorldtradeMenu *p)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 96, 28, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 4);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
-    MI_CpuFill8((u8 *)p + 96, 1, 26);
-    g = (u8 *)p + 124;
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
+    MI_CpuFill8(p->flags, 1, 26);
+    g = (u8 *)&p->g;
     for (i = 0; i < 9; i++) {
         str = MSGDATA_AllocString(p->bank, i + 116);
         if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
@@ -1834,7 +1834,7 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(WorldtradeMenu *p)
             color = 0x2122;
             ((u8 *)p)[i + 96] = 0;
         }
-        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, (*(void ***)p)[i], str, 2, color, g);
+        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[i], str, 2, color, g);
         STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(p->mgr, 0, 16, 0);
@@ -1861,7 +1861,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu)
     BGWINFRM_GetFrameBuffer(menu->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(menu, 5);
     MI_CpuFill8(menu->flags, 1, 0x1A);
-    WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[0], menu->layout + 0x74, 2, 0x3DC2, menu->g);
+    WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[0], menu->layout + 0x74, 2, 0x3DC2, &menu->g);
     for (i = 1; i < tbl_022033F8[menu->layout].count + 1; i++) {
         if (WORLDTRADE_INPUT_CountSpeciesInList(menu, (sptr)tbl_02203324[menu->layout] + i - 1) > 0) {
             color = 0x3DC2;
@@ -1870,9 +1870,9 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu)
             color = 0x2122;
             menu->flags[(sptr)tbl_02203324[menu->layout] + i - 1] = 0;
         }
-        WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[i], tbl_02203440[i + tbl_022033F8[menu->layout].first - 1], 5, color, menu->g);
+        WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[i], tbl_02203440[i + tbl_022033F8[menu->layout].first - 1], 5, color, &menu->g);
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(menu->mgr, menu->bank, menu->wins[14], 0x4A, menu->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(menu->mgr, menu->bank, menu->wins[14], 0x4A, &menu->g);
     BGWINFRM_PutFrame(menu->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)menu->cursor, 4);
     if (menu->start < 0) {
@@ -1893,7 +1893,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu)
 int WORLDTRADE_INPUT_StateSubCategoryInput(WorldtradeMenu *p)
 {
     int r;
-    r = WORLDTRADE_INPUT_UpdateButtonRow((WorldtradeMenu *)p, (sptr)((u8 *)p + 0x60));
+    r = WORLDTRADE_INPUT_UpdateButtonRow((WorldtradeMenu *)p, (sptr)p->flags);
     switch ((u32)r) {
     case 0: case 1: case 2: case 3: case 4:
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
@@ -1911,7 +1911,7 @@ int WORLDTRADE_INPUT_StateSubCategoryInput(WorldtradeMenu *p)
     return -1;
 }
 
-int WORLDTRADE_INPUT_StateSubCategorySelected(WorldtradeMenu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 5);if(p->start>=0)*(u32 *)&p->state=14;else *(u32 *)&p->state=9;return -1; }
+int WORLDTRADE_INPUT_StateSubCategorySelected(WorldtradeMenu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 5);if(p->start>=0)p->state=14;else p->state=9;return -1; }
 
 /*
  * WorldtradeState select before the notify call.
@@ -1929,27 +1929,27 @@ int WORLDTRADE_INPUT_StateRestoreCursor(WorldtradeMenu *p)
         n = 1;
     }
     CLACT_SetActorDrawEnable(v, n);
-    (*(unsigned int *)&p->state) = 0xa;
+    (p->state) = 0xa;
     return -1;
 }
 
 /*
  * Count the entries of a u16 table that the query accepts.
  */
-int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 count, u16 *list, int start, int end)
+int WORLDTRADE_INPUT_CountSeenSpecies(uptr unused, struct ZukanSave *item, u32 count, u16 *list, int start, int end)
 {
     int i;
     int n = 0;
 
     for (i = start; i < end; i++) {
-        if (ZUKAN_SAVE_IsSeen((struct ZukanSave *)item, list[i]) != 0) {
+        if (ZUKAN_SAVE_IsSeen(item, list[i]) != 0) {
             n++;
         }
     }
     return n;
 }
 
-int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, u32 speciesFlags, u32 kind, void *bag)
+int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, uptr speciesFlags, u32 kind, void *bag)
 {
     u32 count;
     int start;
@@ -1961,11 +1961,11 @@ int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank
     list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &count);
     WORLDTRADE_DEPOSIT_GetSpeciesRange(kind, &start, &end);
     count = end - start;
-    n = WORLDTRADE_INPUT_CountSeenSpecies(speciesFlags, (uptr)bag, count, list, start, end);
+    n = WORLDTRADE_INPUT_CountSeenSpecies(speciesFlags, bag, count, list, start, end);
     *menu = BMP_MENUWORK_Create(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (ZUKAN_SAVE_IsSeen((struct ZukanSave *)bag, list[i]) != 0) {
-            BMP_MENUWORK_AddMsgItem(*menu, (struct MsgBank *)((uptr)msg), list[i], list[i], 0x48);
+            BMP_MENUWORK_AddMsgItem(*menu, (struct MsgBank *)(msg), list[i], list[i], 0x48);
         }
     }
     GFL_HEAP_Free(list);
@@ -1979,7 +1979,7 @@ void WORLDTRADE_INPUT_PrintPageNumberA(WorldtradeMenu *menu, int page, int total
     for (i = 0; i < 4; i++) {
         BMP_Clear(BMP_WIN_GetBmp(menu->wins[i]), 0xA);
         if (i + page * 4 < total) {
-            WORLDTRADE_INPUT_PutBmpWinString(menu->mgr, menu->wins[i], menu->items[page * 4 + i].u.handle, 0, 0x3DC2, menu->g);
+            WORLDTRADE_INPUT_PutBmpWinString(menu->mgr, menu->wins[i], menu->items[page * 4 + i].u.handle, 0, 0x3DC2, &menu->g);
         } else {
             BMP_WIN_TransferChars(menu->wins[i]);
             BGWINFRM_PutBmpWin(menu->mgr, 0, menu->wins[i]);
@@ -1994,7 +1994,7 @@ void WORLDTRADE_INPUT_PrintPageNumberB(WorldtradeMenu *menu, int page, int total
     for (i = 0; i < 5; i++) {
         BMP_Clear(BMP_WIN_GetBmp(menu->wins[i]), 0xA);
         if (i + page * 5 < total) {
-            WORLDTRADE_INPUT_PutBmpWinString(menu->mgr, menu->wins[i], menu->items[page * 5 + i].u.handle, 0, 0x3DC2, menu->g);
+            WORLDTRADE_INPUT_PutBmpWinString(menu->mgr, menu->wins[i], menu->items[page * 5 + i].u.handle, 0, 0x3DC2, &menu->g);
         } else {
             BMP_WIN_TransferChars(menu->wins[i]);
             BGWINFRM_PutBmpWin(menu->mgr, 0, menu->wins[i]);
@@ -2014,7 +2014,7 @@ int WORLDTRADE_INPUT_DrawSpeciesListScreen(WorldtradeMenu *p)
     WORLDTRADE_INPUT_PrintPageNumberA((WorldtradeMenu *)p, 0, p->total);
     pages = WORLDTRADE_INPUT_GetPageCount(p->total, 4);
     WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->num, p->wins[4], p->page, pages);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 6);
     p->pos = 0;
@@ -2070,15 +2070,15 @@ int WORLDTRADE_INPUT_StateSpeciesListInput(WorldtradeMenu *p)
  */
 int WORLDTRADE_INPUT_StateSpeciesListSelected(WorldtradeMenu *p)
 {
-    if (CLACT_IsActorAnimActive((struct ClactActor *)((struct Actor *)(*(u32 *)(void * *)&p->cursor))) != 0) {
+    if (CLACT_IsActorAnimActive(p->cursor) != 0) {
         return -1;
     }
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable(p->cursor, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->up, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->down, 0);
     WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 0x0);
-    BMP_MENUWORK_Delete((void *)(*(u32 *)(void **)&p->items));
-    *(u32 *)&p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0xd : 0x9;
+    BMP_MENUWORK_Delete(p->items);
+    p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0xd : 0x9;
     return -1;
 }
 
@@ -2101,7 +2101,7 @@ int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateCategoryInputAlt(WorldtradeMenu *p)
 {
     int r;
-    r = WORLDTRADE_INPUT_UpdateCategoryGridAlt((WorldtradeMenu *)p, (u8 *)p + 0x60);
+    r = WORLDTRADE_INPUT_UpdateCategoryGridAlt((WorldtradeMenu *)p, p->flags);
     switch ((u32)r) {
     case -2:
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
@@ -2131,7 +2131,7 @@ int WORLDTRADE_INPUT_StateCategoryInputAlt(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateCategorySelectedAlt(WorldtradeMenu *p)
 {
     if (CLACT_IsActorAnimActive((struct ClactActor *)((*(void * *)&p->cursor))) != 0) return -1;
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable(p->cursor, 0);
     WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 6);
     if (p->layout < 0) {
         if (p->layout == -1) return -2;
@@ -2143,7 +2143,7 @@ int WORLDTRADE_INPUT_StateCategorySelectedAlt(WorldtradeMenu *p)
             p->start = 0;
             BGWINFRM_StartMove(p->mgr, 0, -4, 0, 3);
             if (p->rowCursor != 0) CLACT_SetActorDrawEnable((struct ClactActor *)p->rowCursor, 0);
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)(void * *)&p->cursor)), 7);
+            CLACT_SetActorAnimSeq(p->cursor, 7);
             p->state = 2;
             BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x18, 1);
             p->nextState = 26;
@@ -2174,7 +2174,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(WorldtradeMenu *p)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 5);
     MI_CpuFill8(p->flags, 1, 0x1A);
-    WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[0], p->layout + 0x74, 2, 0x3DC2, p->g);
+    WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[0], p->layout + 0x74, 2, 0x3DC2, &p->g);
     for (i = 1; i < 4; i++) {
         if (WORLDTRADE_INPUT_GetListRangeCount(p, (sptr)tbl_02203324[p->layout] + i - 1) > 0) {
             color = 0x3DC2;
@@ -2183,9 +2183,9 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(WorldtradeMenu *p)
             color = 0x2122;
             p->flags[(sptr)tbl_02203324[p->layout] + i - 1] = 0;
         }
-        WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[i], tbl_02203440[tbl_022033F8[p->layout].first + i - 1], 5, color, p->g);
+        WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[i], tbl_02203440[tbl_022033F8[p->layout].first + i - 1], 5, color, &p->g);
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 4);
     if (p->start < 0) {
@@ -2209,7 +2209,7 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateSubCategoryInputAlt(WorldtradeMenu *p)
 {
     int r;
-    r = WORLDTRADE_INPUT_UpdateButtonRow(p, (sptr)((u8 *)p + 0x60));
+    r = WORLDTRADE_INPUT_UpdateButtonRow(p, (sptr)p->flags);
     switch ((u32)r) {
     case 0: case 1: case 2: case 3: case 4:
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
@@ -2233,14 +2233,14 @@ int WORLDTRADE_INPUT_StateSubCategoryInputAlt(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateSubCategorySelectedAlt(WorldtradeMenu *p)
 {
     if (CLACT_IsActorAnimActive((struct ClactActor *)((*(void * *)&p->cursor))) != 0) return -1;
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable(p->cursor, 0);
     WORLDTRADE_INPUT_MenuFinish(p, 5);
     if (p->start < 0) {
         p->state = 21;
     } else {
             BGWINFRM_StartMove(p->mgr, 0, -4, 0, 3);
             if (p->rowCursor != 0) CLACT_SetActorDrawEnable((struct ClactActor *)p->rowCursor, 0);
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(u32 *)(void * *)&p->cursor)), 7);
+            CLACT_SetActorAnimSeq(p->cursor, 7);
             p->state = 2;
             BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x18, 1);
             p->nextState = 26;
@@ -2279,7 +2279,7 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(WorldtradeMenu *p)
     p->page=0;
     pages=WORLDTRADE_INPUT_GetPageCount(p->total,5);
     WORLDTRADE_INPUT_PrintPageLabel(p->mgr,p->num,p->wins[5],p->page,pages);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,p->wins[14],0x4A,(u8 *)p+0x7C);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,p->wins[14],0x4A,&p->g);
     BGWINFRM_PutFrame(p->mgr,0,1,0);
     p->pos=0;
     WORLDTRADE_SetActorPos(p->cursor,tbl_02203236[p->pos].x,tbl_02203236[p->pos].y);
@@ -2333,22 +2333,22 @@ int WORLDTRADE_INPUT_StateConditionListInput(WorldtradeMenu *p)
  */
 int WORLDTRADE_INPUT_StateConditionListSelected(WorldtradeMenu *p)
 {
-    if (CLACT_IsActorAnimActive((struct ClactActor *)((struct Actor *)(*(u32 *)(void * *)&p->cursor))) != 0) {
+    if (CLACT_IsActorAnimActive(p->cursor) != 0) {
         return -1;
     }
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable(p->cursor, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->up, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->down, 0);
     WORLDTRADE_INPUT_MenuFinish(p, 0x3);
-    BMP_MENUWORK_Delete((void *)(*(u32 *)&p->items));
-    *(u32 *)&p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0x19 : 0x15;
+    BMP_MENUWORK_Delete((void *)(p->items));
+    p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0x19 : 0x15;
     return -1;
 }
 
 int WORLDTRADE_INPUT_StateConditionListClose(WorldtradeMenu *p)
 {
     if (CLACT_IsActorAnimActive((struct ClactActor *)((*(void * *)&p->cursor))) != 0) return -1;
-    CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)*(u32 *)(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable(p->cursor, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->up, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->down, 0);
     WORLDTRADE_INPUT_MenuFinish(p, 3);
@@ -2481,7 +2481,7 @@ int WORLDTRADE_INPUT_CountSpeciesInList(WorldtradeMenu *menu, u32 idx)
     list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &n);
     WORLDTRADE_DEPOSIT_GetSpeciesRange(idx, &start, &end);
     n = end - start;
-    r = WORLDTRADE_INPUT_CountSeenSpecies(menu->speciesFlags, (uptr)menu->bag, n, list, start, end);
+    r = WORLDTRADE_INPUT_CountSeenSpecies(menu->speciesFlags, menu->bag, n, list, start, end);
     GFL_HEAP_Free(list);
     return r;
 }

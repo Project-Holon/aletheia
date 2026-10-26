@@ -8,7 +8,7 @@ struct PaletteAnime;
 
 #include "../types.h"
 
-u32 PALETTE_ANIME_Create(u32 heapId);
+struct PaletteAnime *PALETTE_ANIME_Create(u32 heapId);
 u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 void PALETTE_ANIME_Bind(struct PaletteAnime *anime, u16 *palette, u16 *original, int colorCount);
 void PALETTE_ANIME_Update(struct PaletteAnime *anime);

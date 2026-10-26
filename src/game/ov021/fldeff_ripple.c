@@ -123,7 +123,7 @@ extern u8 gRippleBoardCommands[];
  */
 RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    RippleWork *work = GFL_HEAP_Alloc(heapId, 0xC, 1, sFldeffRippleFileName, 0x56);
+    RippleWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sFldeffRippleFileName, 0x56);
 
     work->fieldEffect = fieldEffect;
     work->bbActSys = FIELDMAP_GetGroundBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap(fieldEffect));
@@ -195,7 +195,7 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
     desc.color = 1;
     desc.pos = param->pos;
     desc.hook = 0;
-    desc.hookArg = (uptr)work;
+    desc.hookArg = work;
     work->entryId = BILLBOARD_ACT_CreateEntries(actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);

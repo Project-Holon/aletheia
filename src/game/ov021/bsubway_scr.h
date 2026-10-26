@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of bsubway_scr.c, prototypes copied from their definitions. */
 
+struct GameData;
 struct GameSystem;
 struct SaveControl;
 struct PokemonParam;
@@ -18,7 +19,7 @@ struct BattleSetupParam;
 #include "../types.h"
 #include "../ov010/fld_btl_inst_tool_shared_types.h"
 
-int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
+struct GameData *BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode);
 void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work);
 void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work);
@@ -32,7 +33,7 @@ void BSUBWAY_SCR_DrawTrainerNos(BsubwayScrWork *work);
 u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, struct GameSystem *gameSystem);
 int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, struct GameSystem *gameSystem);
-int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem);
+BsubwayScrWork *BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem);
 void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work);
 u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i);
 int BSUBWAY_SCR_UpdateStageRank(void *scoreData, struct GameSystem *gameSystem, int mode);
@@ -41,7 +42,7 @@ void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work);
 u16 BSUBWAY_SCR_GetWinCount(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetWinCount(BsubwayScrWork *work, u16 winCount);
 void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work);
-int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work);
+BsubwayScrWork *BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round);
 int BSUBWAY_SCR_GetMemberNum(u16 playMode);
 int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count);
@@ -59,9 +60,9 @@ int BSUBWAY_SCR_WaitTimingSync(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommEntryMenu(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommEntryMenuSimple(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommRecvEnd(struct ScriptVm *vm, void *script);
-int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, u32 *state, void *eventWork);
+int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, int *state, void *eventWork);
 void *BSUBWAY_SCR_CreateCommShutdownTask(struct GameSystem *gameSystem, BsubwayScrWork *work);
-int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, u32 *state, void *eventWork);
+int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, int *state, void *eventWork);
 void *BSUBWAY_SCR_CreateYesNoMenuTask(struct GameSystem *gameSystem, struct ScrcmdWork *script, u16 *resultDst, u32 arg);
 void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void *fieldMmdlSys, void *fieldMap);
 u32 BSUBWAY_SCR_GetMmdlParam(struct Mmdl *mapObj);

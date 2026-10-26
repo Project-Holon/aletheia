@@ -399,7 +399,7 @@ void DELIVERY_IRC_StepWaitInit(DeliveryIrcWork *work)
 void *DELIVERY_IRC_Create(const DeliveryIrcParam *param)
 {
     void *work = GFL_HEAP_Alloc(param->heapId, 0x684, 1, d_02172878, 0x1CD);
-    MI_CpuCopy8((void *)param, work, 0x7C);
+    MI_CpuCopy8((void *)param, work, sizeof(*param));
     return work;
 }
 

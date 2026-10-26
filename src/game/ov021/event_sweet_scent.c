@@ -136,13 +136,13 @@ void *SWEET_SCENT_CreateEventNoPokemon(void *fieldMap, void *gameSys);
 
 void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx);
 
-int SWEET_SCENT_EventMain(void *task, int *state, SweetScentWork *w);
+int SWEET_SCENT_EventMain(struct GameEvent *task, int *state, void *work);
 
 int SWEET_SCENT_CheckWeatherClear(SweetScentWork *w);
 
 void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap);
 
-int SWEET_SCENT_FadeMain(void *task, int *state, SweetScentFade *fade);
+int SWEET_SCENT_FadeMain(struct GameEvent *task, int *state, void *work);
 
 void SWEET_SCENT_FadeSetup(SweetScentFade *fade);
 
@@ -155,7 +155,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     void *task;
     SweetScentWork *w;
 
-    task = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)SWEET_SCENT_EventMain, sizeof(SweetScentWork));
+    task = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
     w = GAME_EVENT_GetWork(task);
     MI_CpuFill8(w, 0, sizeof(SweetScentWork));
     w->partyIdx = partyIdx;
@@ -166,8 +166,9 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     return task;
 }
 
-int SWEET_SCENT_EventMain(void *task, int *state, SweetScentWork *w)
+int SWEET_SCENT_EventMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    SweetScentWork *w = workPtr;
     void *sub;
 
     switch (*state) {
@@ -245,7 +246,7 @@ void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap)
     void *fadeTask;
     SweetScentFade *fade;
 
-    fadeTask = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
+    fadeTask = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
     fade = GAME_EVENT_GetWork(fadeTask);
     fade->bgLayer = 3;
     fade->level = 0;
@@ -255,8 +256,9 @@ void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap)
     GAME_EVENT_CallEvent(task, fadeTask);
 }
 
-int SWEET_SCENT_FadeMain(void *task, int *state, SweetScentFade *fade)
+int SWEET_SCENT_FadeMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    SweetScentFade *fade = workPtr;
     switch (*state) {
     case 0:
         SWEET_SCENT_FadeSetup(fade);

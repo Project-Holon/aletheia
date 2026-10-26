@@ -16,7 +16,7 @@ typedef struct CgHelpArgs CgHelpArgs;
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
 int CG_HELP_Main(CgHelpWork *work);
-void CG_HELP_VBlank(void);
+void CG_HELP_VBlank(struct TcbTask * unused0, void * unused1);
 void CG_HELP_InitDisplay(CgHelpWork *work);
 void CG_HELP_ExitDisplay(CgHelpWork *work);
 void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int type);

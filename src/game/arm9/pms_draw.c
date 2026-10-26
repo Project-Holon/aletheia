@@ -129,13 +129,21 @@ struct PmsElem {
     u32   isDeco[2];
 };
 
+struct PmsDrawRes {
+    struct Unit *clunit;
+    u32 drawType;
+    u32 plttIndex;
+    u32 cgrIndex;
+    u32 cellAnmIndex;
+};
+
 struct PmsDraw {
     u16   heapId;
     u8    pad02[2];
-    u32   font;
+    struct GfFont *font;
     void *printQue;
     struct PmsElem *elems;
-    u32   res[5];      /* struct PmsDrawRes, kept as words: DB0C and DF68 index it */
+    struct PmsDrawRes res;
     u16   printColor;
     u8    pad26[2];
     u32   printEnd;
@@ -155,14 +163,6 @@ struct PmsPos {
 };
 
 struct DecoActorInit { u16 x; u16 y; u16 anmSeq; u16 softPri; };
-
-struct PmsDrawRes {
-    u32 clunit;
-    u32 drawType;
-    u32 plttIndex;
-    u32 cgrIndex;
-    u32 cellAnmIndex;
-};
 
 struct DecoPos  { u16 x; u16 y; };
 
@@ -248,14 +248,14 @@ struct GfFont;
 
 
 
-struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId);
+struct PmsDraw *PMS_DRAW_Create(struct Unit *clunit, u32 drawType, struct PrintQueue *printQue, struct GfFont *font, u8 plttOffset, u8 elemMax, u16 heapId);
 
 void PMS_DRAW_Main(struct PmsDraw *wk);
 
 void PMS_DRAW_Delete(struct PmsDraw *wk);
 struct BeaconDetailGraQuad;
 
-void PMS_DRAW_Print(u32 wk, u32 bmpWin, struct BeaconDetailGraQuad *pms, u32 id);
+void PMS_DRAW_Print(struct PmsDraw *wk, void *bmpWin, struct BeaconDetailGraQuad *pms, u32 id);
 
 void PMS_DRAW_PrintOffset(struct PmsDraw *wk, void *bmpWin, void *pms, u32 id, const void *offset);
 
@@ -279,7 +279,7 @@ void PMS_DRAW_SetPrintColor(struct PmsDraw *wk, u16 color);
 
 void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *wk, u32 follow);
 
-void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *offset, struct PmsPos *out);
+void PMS_DRAW_CalcDecoPos(struct BmpWin *bmpWin, u32 charX, u32 line, const struct PmsPos *offset, struct PmsPos *out);
 
 u32 PMS_DRAW_GetDecoCgrIndex(u32 engine);
 
@@ -287,7 +287,7 @@ u32 PMS_DRAW_GetDecoCelIndex(u32 engine);
 
 u32 PMS_DRAW_GetDecoAnmIndex(u32 engine);
 
-void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u16 heapId);
+void PMS_DRAW_LoadResources(struct PmsDrawRes *res, u32 plttOffset, u16 heapId);
 
 void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res);
 
@@ -301,7 +301,7 @@ void PMS_DRAW_DeleteElem(struct PmsElem *elem);
 
 int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll);
 
-void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct Descriptor *bmpWin, const PmsData *param, const PmsOffset *offset, u16 color, u8 nullColorPalette, u16 heapId);
+void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, struct GfFont *font, struct Descriptor *bmpWin, const PmsData *param, const PmsOffset *offset, u16 color, u8 nullColorPalette, u16 heapId);
 
 void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans);
 
@@ -330,32 +330,32 @@ extern const struct ItemValueEntry ItemValueTable[];
  *     was wrong.
  * The allocator result still has to go through a named local before p.
  */
-struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId)
+struct PmsDraw *PMS_DRAW_Create(struct Unit *clunit, u32 drawType, struct PrintQueue *printQue, struct GfFont *font, u8 plttOffset, u8 elemMax, u16 heapId)
 {
     struct PmsDraw *wk;
     u32 size;
     u16 heap;
     int i;
-    struct PmsDraw *alloc = GFL_HEAP_Alloc(heapId, 0x34, 1, PmsDrawFileName, 0x81);
+    struct PmsDraw *alloc = GFL_HEAP_Alloc(heapId, sizeof(*alloc), 1, PmsDrawFileName, 0x81);
 
     wk = alloc;
-    MI_CpuFill8(wk, 0, 0x34);
+    MI_CpuFill8(wk, 0, sizeof(*wk));
     wk->heapId = heapId;
     heap = wk->heapId;
-    wk->printQue = (void *)printQue;
+    wk->printQue = printQue;
     wk->font = font;
     wk->elemMax = elemMax;
     wk->nullColorPalette = 0xf;
     wk->followBgScroll = 0;
-    size = elemMax * 0x28;
+    size = elemMax * sizeof(*wk->elems);
     wk->elems = GFL_HEAP_Alloc(heap, size, 1, PmsDrawFileName, 0x8c);
     MI_CpuFill8(wk->elems, 0, size);
-    wk->res[0] = clunit;
-    wk->res[1] = drawType;
+    wk->res.clunit = clunit;
+    wk->res.drawType = drawType;
     wk->printColor = 0x11 << 6;
-    PMS_DRAW_LoadResources(wk->res, plttOffset, wk->heapId);
+    PMS_DRAW_LoadResources(&wk->res, plttOffset, wk->heapId);
     for (i = 0; i < wk->elemMax; i++) {
-        PMS_DRAW_InitElem(&wk->elems[i], (struct PmsDrawRes *)wk->res, wk->heapId);
+        PMS_DRAW_InitElem(&wk->elems[i], &wk->res, wk->heapId);
     }
     return wk;
 }
@@ -394,15 +394,15 @@ void PMS_DRAW_Delete(struct PmsDraw *wk)
     }
 
     GFL_HEAP_Free(wk->elems);
-    PMS_DRAW_ReleaseResources((struct PmsDrawRes *)wk->res);
+    PMS_DRAW_ReleaseResources(&wk->res);
     GFL_HEAP_Free(wk);
 }
 
-void PMS_DRAW_Print(u32 wk, u32 bmpWin, struct BeaconDetailGraQuad *pms, u32 id)
+void PMS_DRAW_Print(struct PmsDraw *wk, void *bmpWin, struct BeaconDetailGraQuad *pms, u32 id)
 {
     u32 offset[2] = { 0, 0 };
 
-    PMS_DRAW_PrintOffset((struct PmsDraw *)wk, (void *)bmpWin, (void *)pms, id, offset);
+    PMS_DRAW_PrintOffset(wk, bmpWin, (void *)pms, id, offset);
 }
 
 /*
@@ -549,11 +549,11 @@ void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *wk, u32 follow)
     wk->followBgScroll = follow;
 }
 
-void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *offset,
+void PMS_DRAW_CalcDecoPos(struct BmpWin *bmpWin, u32 charX, u32 line, const struct PmsPos *offset,
                   struct PmsPos *out)
 {
-    out->x = offset->x + (charX + BMP_WIN_GetPosX((struct BmpWin *)bmpWin) * 8);
-    out->y = offset->y + ((line << 4) + BMP_WIN_GetPosY((struct BmpWin *)bmpWin) * 8);
+    out->x = offset->x + (charX + BMP_WIN_GetPosX(bmpWin) * 8);
+    out->y = offset->y + ((line << 4) + BMP_WIN_GetPosY(bmpWin) * 8);
 }
 
 u32 PMS_DRAW_GetDecoCgrIndex(u32 engine)
@@ -627,20 +627,20 @@ u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
  * unequal shift pair lsls #0x15 / lsrs #0x10 -- a narrowing cast folded
  * with the shift, not an 11-bit bitfield.
  */
-void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u16 heapId)
+void PMS_DRAW_LoadResources(struct PmsDrawRes *res, u32 plttOffset, u16 heapId)
 {
     u32 cgrDatId;
     u32 celDatId;
     u32 anmDatId;
     void *handle;
 
-    cgrDatId = PMS_DRAW_GetDecoCgrIndex(res[1]);
-    celDatId = PMS_DRAW_GetDecoCelIndex(res[1]);
-    anmDatId = PMS_DRAW_GetDecoAnmIndex(res[1]);
+    cgrDatId = PMS_DRAW_GetDecoCgrIndex(res->drawType);
+    celDatId = PMS_DRAW_GetDecoCelIndex(res->drawType);
+    anmDatId = PMS_DRAW_GetDecoAnmIndex(res->drawType);
     handle = ARC_TOOL_CreateHandle(0x2b, heapId);
-    res[2] = CLACT_RegisterPaletteEx(handle, 1, res[1], (u16)(plttOffset << 5), 0, 5, heapId);
-    res[3] = CLACT_RegisterCharacter(handle, anmDatId, 0, res[1], heapId);
-    res[4] = CLACT_RegisterCellAnim(handle, cgrDatId, celDatId, heapId);
+    res->plttIndex = CLACT_RegisterPaletteEx(handle, 1, res->drawType, (u16)(plttOffset << 5), 0, 5, heapId);
+    res->cgrIndex = CLACT_RegisterCharacter(handle, anmDatId, 0, res->drawType, heapId);
+    res->cellAnmIndex = CLACT_RegisterCellAnim(handle, cgrDatId, celDatId, heapId);
     ARC_TOOL_DeleteHandle(handle);
 }
 
@@ -685,7 +685,7 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     void *actor;
     u32 one;
 
-    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, (const struct ActorInitParam *)&init, (u16)res->drawType, heapId);
+    actor = CLACT_CreateActor(res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, (const struct ActorInitParam *)&init, (u16)res->drawType, heapId);
     CLACT_SetActorDrawEnable(actor, 0);
     one = 1;
     CLACT_SetActorAutoAnim(actor, 1);
@@ -709,7 +709,7 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     struct DecoPos pt;
     u32 frame;
 
-    PMS_DRAW_CalcDecoPos((uptr)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
+    PMS_DRAW_CalcDecoPos((struct BmpWin *)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     frame = BMP_WIN_GetBgLayer((struct BmpWin *)bmpWin);
@@ -824,7 +824,7 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
  *   python3 tools/match.py one --src src/matched/PMS_DRAW_PrintElem.anmSeq \
  *       --func PMS_DRAW_PrintElem --addr 0x0202E1F0 --cc 1.1p1 --thumb
  */
-void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct Descriptor *bmpWin,
+void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, struct GfFont *font, struct Descriptor *bmpWin,
                    const PmsData *param, const PmsOffset *offset,
                    u16 color, u8 nullColorPalette, u16 heapId)
 {
@@ -853,15 +853,15 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     }
     word = PMSI_PARAM_ToStringWords((const struct PmsData *)param, heapID, wordCount);
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), nullColorPalette);
-    PRINTSYS_PrintQueColor(printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (struct Strbuf *)word, (struct GfFont *)font, color);
+    PRINTSYS_PrintQueColor(printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (struct Strbuf *)word, font, color);
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
-            u32 x = PRINTSYS_MeasureText(word, i, (void *)font, 0);
+            u32 x = PRINTSYS_MeasureText(word, i, font, 0);
             u32 y = PRINTSYS_SearchIndex(word, i);
             PMS_DRAW_PlaceDecoActor(elem->decoActor[i], bmpWin, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct PmsPos *)offset);
         } else if (isBlank[i] == 1) {
-            u32 x = PRINTSYS_MeasureText(word, i, (void *)font, 0);
+            u32 x = PRINTSYS_MeasureText(word, i, font, 0);
             u32 y = PRINTSYS_SearchIndex(word, i);
             BMP_FillRect((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)bmpWin), x, (s16)(y << 4), 0x54, 0x10, nullColorPalette);
         }

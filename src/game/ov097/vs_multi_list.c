@@ -199,7 +199,7 @@ struct VsMultiList {
     struct GfFont *fontSmall;
     struct MsgBank *msgBank;
     struct WordSet *wordSet;
-    struct PrintSys *printQue;
+    struct PrintQueue *printQue;
     struct VsMultiListWindow windows[6];
     struct Unit *clactUnit;
     union {
@@ -325,8 +325,8 @@ int VS_MULTI_LIST_ProcInit(struct Proc *proc, int seq, struct VsMultiListArgs *a
 {
     struct VsMultiList *work;
     GFL_HEAP_CreateChildHeap(1, 0x71, 0x18000);
-    work = PROCSYS_AllocProcWork(proc, 0x120, 0x71);
-    MI_CpuFill8(work, 0, 0x120);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x71);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->args = args;
     return 1;
 }
@@ -403,7 +403,7 @@ int VS_MULTI_LIST_StateSlideIn(struct VsMultiList *work)
     u32 i;
     switch (work->slidePhase) {
     case 0:
-        if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQue) == 0) break;
+        if (PRINTSYS_QUE_IsFinished(work->printQue) == 0) break;
         if (work->args->swapSides == 0) {
             for (i = 0; i < 3; i++) {
                 BGWINFRM_StartMove((struct BgWinFrmWork *)work->bgFrames, i + 3, -1, 0, 16);
@@ -516,7 +516,7 @@ void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
     work->fontSmall = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
     work->wordSet = WORDSET_CreateDefault(0x71);
-    work->printQue = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x800, 0x71);
+    work->printQue = PRINTSYS_QUE_CreateEx(0x800, 0x71);
 }
 
 void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
@@ -525,7 +525,7 @@ void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
     GF_FONT_Delete(work->font);
     GF_FONT_Delete(work->fontSmall);
     WORDSET_Delete(work->wordSet);
-    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue);
+    PRINTSYS_QUE_Delete(work->printQue);
 }
 
 void VS_MULTI_LIST_AddVBlankTask(struct VsMultiList *work)
@@ -605,9 +605,9 @@ void VS_MULTI_LIST_DeleteWindows(struct VsMultiList *work) { u32 i; for(i=0; i<6
 void VS_MULTI_LIST_UpdatePrintQueue(struct VsMultiList *work)
 {
     unsigned i;
-    struct PrintSys *printQue;
+    struct PrintQueue *printQue;
 
-    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQue);
+    PRINTSYS_QUE_Main(work->printQue);
     for (i = 0; i < 6; i++) {
         printQue = work->printQue;
         if (work->windows[i].dirty != 0) {
@@ -621,7 +621,7 @@ void VS_MULTI_LIST_UpdatePrintQueue(struct VsMultiList *work)
 
 static inline void PrintLeft(struct VsMultiList *work, int slot, struct Strbuf *str, int x, int y, u16 color)
 {
-    struct PrintSys *printQue = work->printQue;
+    struct PrintQueue *printQue = work->printQue;
     PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, y, str, work->font, color);
     work->windows[slot].dirty = 1;
 }
@@ -632,7 +632,7 @@ static inline void PrintRight(struct VsMultiList *work, int slot, struct BmpWin 
     struct GfFont *font = work->font;
     u32 width = BMP_WIN_GetWidth(window);
     short x = (short)(width * 8 - PRINTSYS_MeasureWidestLine(str, work->font, 0));
-    struct PrintSys *printQue = work->printQue;
+    struct PrintQueue *printQue = work->printQue;
     PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, 7, str, font, color);
     work->windows[slot].dirty = 1;
     STRBUF_Delete(str);
@@ -677,7 +677,7 @@ void VS_MULTI_LIST_PrintName(struct VsMultiList *work, int slot)
 
 static inline void PrintLevel(struct VsMultiList *work, u32 slot, struct Strbuf *str)
 {
-    struct PrintSys *printQue = work->printQue;
+    struct PrintQueue *printQue = work->printQue;
     PRINTSYS_PrintQueColor((struct PrintQueue *)printQue,
                   BMP_WIN_GetBmp(work->windows[slot].bmpWin), 8, 0x20, str,
                   work->fontSmall, 0x3dc0);
@@ -728,21 +728,21 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     struct Strbuf *maxHpFormat;
     u8 labelWidth;
     u8 labelX;
-    uptr printQue1;
-    uptr printQue2;
+    struct PrintQueue *printQue1;
+    struct PrintQueue *printQue2;
     short x;
-    uptr printQue3;
-    uptr font;
+    struct PrintQueue *printQue3;
+    struct GfFont *font;
 
     buf = STRBUF_Create(0x20, 0x8071);
     hpLabel = MSGDATA_AllocString(work->msgBank, 0xc);
     labelWidth = PRINTSYS_MeasureWidestLine(hpLabel, work->fontSmall, 0);
     labelX = CenterX(labelWidth);
     {
-        uptr bmp;
-        printQue1 = (uptr)work->printQue;
-        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue1, (struct Bmp *)bmp, (short)labelX, 0x20, hpLabel, work->fontSmall, 0x3dc0);
+        struct Bmp *bmp;
+        printQue1 = work->printQue;
+        bmp = BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        PRINTSYS_PrintQueColor(printQue1, bmp, (short)labelX, 0x20, hpLabel, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(hpLabel);
@@ -751,12 +751,12 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, hpFormat);
     {
-        uptr bmp;
-        font = (uptr)work->fontSmall;
-        x = labelX - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0);
-        printQue2 = (uptr)work->printQue;
-        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue2, (struct Bmp *)bmp, x, 0x20, buf, (struct GfFont *)font, 0x3dc0);
+        struct Bmp *bmp;
+        font = work->fontSmall;
+        x = labelX - PRINTSYS_MeasureWidestLine(buf, font, 0);
+        printQue2 = work->printQue;
+        bmp = BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        PRINTSYS_PrintQueColor(printQue2, bmp, x, 0x20, buf, font, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(hpFormat);
@@ -765,10 +765,10 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, maxHpFormat);
     {
-        uptr bmp;
-        printQue3 = (uptr)work->printQue;
-        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue3, (struct Bmp *)bmp, (short)(labelX + labelWidth), 0x20, buf, work->fontSmall, 0x3dc0);
+        struct Bmp *bmp;
+        printQue3 = work->printQue;
+        bmp = BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        PRINTSYS_PrintQueColor(printQue3, bmp, (short)(labelX + labelWidth), 0x20, buf, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(maxHpFormat);

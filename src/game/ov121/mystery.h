@@ -4,65 +4,45 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of mystery.c, prototypes copied from their definitions. */
 
+struct MysteryClactActor;
+struct MysteryCardView;
+struct GameData;
+struct MysteryScroll;
+typedef struct MysteryClactActor MysteryClactActor;
+typedef struct MysteryCardView MysteryCardView;
+typedef struct MysteryScroll MysteryScroll;
+
 #include "../types.h"
 
 int MYSTERY_Create(void *owner, u32 unused, u32 arg);
-int MYSTERY_Delete(void *a, int b, int c, char *p);
-int MYSTERY_Main(int a, int b, int c, char *p);
 void MYSTERY_InitBgHeap(u16 *p,u16 heap);
 void MYSTERY_ExitBgHeap(void *work);
 void MYSTERY_SetupBg(u16 *p,int mode);
-void MYSTERY_CreateClact(char *p, void *owner, u16 heap);
-void MYSTERY_DeleteClact(u8 *p);
-void *MYSTERY_GetClactActor(u8 *p,int i);
-void MYSTERY_TransferPalette(u8 *p,int heap);
-void MYSTERY_RotateActors(u8 *p);
-void MYSTERY_ResetActorAngle(u8 *p);
-void MYSTERY_CreateParticle(int *p, int heap);
-void MYSTERY_DeleteParticle(void *p);
-void MYSTERY_LoadParticle(int *p, int a, int b, int c);
-int MYSTERY_StartParticle(void **p, int x);
-void *MYSTERY_IsParticleCreated(u8 *p);
-void MYSTERY_TaskInitSave(void *a,int b,u8 *p);
-void MYSTERY_TaskFadeToMenu(void *a, int *state);
-void MYSTERY_TaskExitAlbum(void *a, int *state);
-void MYSTERY_TaskMenu(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskMenuAction(void *a, int *state, char *p);
-void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p);
-void MYSTERY_TaskCleanup(void *p,int n,char *q);
-void MYSTERY_TaskMessage(void *a, int *state, u8 *p);
-void MYSTERY_CreateSaveMenu(u8 *p, int unused, int heap);
-void MYSTERY_DeleteSaveMenu(char *p);
-void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap);
-void MYSTERY_DeleteCardMenu(char *p);
-int MYSTERY_PollCardMenu(char *p);
-void MYSTERY_CardMenuCallback(char *p);
-void MYSTERY_CreatePartyMenu(u8 *p,int heap);
-void MYSTERY_DeletePartyMenu(char *p);
-void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *bgHeap,void *scroll,u16 heap);
-void MYSTERY_InitCardView(u8 *p,int mode);
-void MYSTERY_DeleteCardView(u8 *p);
-void MYSTERY_StepCardView(char *p);
-int MYSTERY_IsCardViewDone(char *p);
-void MYSTERY_CardViewAnimScroll(u8 *p);
-void MYSTERY_CardViewAnimReveal(u8 *p);
-void MYSTERY_CardViewAnimFade(u8 *p);
-void MYSTERY_InitScroll(u8 *p,void *q,u16 h);
-void MYSTERY_ClearScroll(void *p);
-void MYSTERY_StepScroll(char *p);
-void MYSTERY_StartScroll(char *p,int n);
-void MYSTERY_SetScrollParam(unsigned *p,unsigned v);
-void MYSTERY_UpdateScrollA(u8 *p);
-void MYSTERY_UpdateScrollB(u8 *p);
-void MYSTERY_CreateOamSprite(u8 *p,const void *q,int n,int k,int x,int y,int z,u16 heap);
-void MYSTERY_DeleteOamSprite(void **p);
-int MYSTERY_PollOamSprite(char *p);
-unsigned MYSTERY_MeasureGraChar(int id,int heap);
-int MYSTERY_IsCardValid(char *p,int n);
+void MYSTERY_CreateClact(MysteryClactActor *p, void *owner, u16 heap);
+void MYSTERY_DeleteClact(MysteryClactActor *p);
+void *MYSTERY_GetClactActor(const MysteryClactActor *p,int i);
+void MYSTERY_TransferPalette(MysteryClactActor *p,int heap);
+void MYSTERY_RotateActors(MysteryClactActor *p);
+void MYSTERY_ResetActorAngle(MysteryClactActor *p);
+void MYSTERY_TaskFadeToMenu(void *a, int *state, void *unused2);
+void MYSTERY_TaskExitAlbum(void *a, int *state, void *unused2);
+void MYSTERY_CardMenuCallback(void *p);
+void MYSTERY_CreateReceivedMon(MysteryCardView *out,void *owner,const u8 *desc,struct GameData *save,MysteryClactActor *list,u16 *bgHeap,MysteryScroll *scroll,u16 heap);
+void MYSTERY_InitCardView(MysteryCardView *p,int mode);
+void MYSTERY_DeleteCardView(MysteryCardView *p);
+void MYSTERY_StepCardView(MysteryCardView *p);
+int MYSTERY_IsCardViewDone(MysteryCardView *p);
+void MYSTERY_CardViewAnimScroll(MysteryCardView *p);
+void MYSTERY_CardViewAnimReveal(MysteryCardView *p);
+void MYSTERY_CardViewAnimFade(MysteryCardView *p);
+void MYSTERY_InitScroll(MysteryScroll *p,MysteryClactActor *q,u16 h);
+void MYSTERY_ClearScroll(MysteryScroll *p);
+void MYSTERY_StepScroll(MysteryScroll *p);
+void MYSTERY_StartScroll(MysteryScroll *p,int n);
+void MYSTERY_SetScrollParam(MysteryScroll *p,unsigned v);
+void MYSTERY_UpdateScrollA(MysteryScroll *p);
+void MYSTERY_UpdateScrollB(MysteryScroll *p);
+unsigned MYSTERY_MeasureGraChar(void *id,int heap);
 void MYSTERY_SetupDisplay3d(void);
 /* END mkheaders: generated region */
 

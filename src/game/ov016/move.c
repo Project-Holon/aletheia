@@ -70,7 +70,7 @@ int DWCi_MOVlIsEnd(void);
 void DWCi_MOVlChangeCallback(void (*callback)(int));
 void DWCi_MOVlAdmitChild(void);
 char *DWCi_MOVlGetChild(void);
-void taskFramework(void *task);
+void taskFramework(void *task, void * unused1);
 extern MoveWork *gMoveWork;
 extern MovData sMoveTable;
 extern struct MsgPrm *gCommentWork;
@@ -81,12 +81,12 @@ extern void *MemMovFree;
  * sdk:      DWCi_MOVlInit (libdwcutil.TWL.HYB.a(move.o))
  */
 
-static void DWCi_MoveTaskEnd(void *task);
+static void DWCi_MoveTaskEnd(void *task, void * unused1);
 void DWCi_MOVlInit(void (*callback)(int))
 {
 	MovData dat;
 
-	gMoveWork = DWCi_HEAPlAllocEx(0x1e2a4, 0x20);
+	gMoveWork = DWCi_HEAPlAllocEx(sizeof(*gMoveWork), 0x20);
 	gMoveWork->callback = callback;
 	gMoveWork->reportPending = 0;
 	gMoveWork->ended = 0;
@@ -97,20 +97,20 @@ void DWCi_MOVlInit(void (*callback)(int))
 	DWCi_MOVInit((Wk *)gMoveWork, &dat);
 	if (DWCi_MOVStartAdmitChild() == 0)
 		OS_Terminate();
-	gMoveWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskFramework, 0, 0x78);
+	gMoveWork->task = DWCi_TSKlForm(0, taskFramework, 0, 0x78);
 }
 
 
 void DWCi_MOVlEnd(void)
 {
-    DWCi_TSKlForm(0, (void (*)(void *, void *))DWCi_MoveTaskEnd, 0, 0x78);
+    DWCi_TSKlForm(0, DWCi_MoveTaskEnd, 0, 0x78);
 }
 
 
 /*
  * sdk:      DWCi_MoveTaskEnd (libdwcutil.TWL.HYB.a(move.o))
  */
-static void DWCi_MoveTaskEnd(void *task)
+static void DWCi_MoveTaskEnd(void *task, void * unused1)
 {
 	if (DWCi_MOVFinalize() == 0)
 		return;
@@ -159,7 +159,7 @@ char *DWCi_MOVlGetChild(void)
 }
 
 
-void taskFramework(void *task)
+void taskFramework(void *task, void * unused1)
 {
 	unsigned char state;
 	unsigned char change;

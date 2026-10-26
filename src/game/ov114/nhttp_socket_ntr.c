@@ -185,7 +185,7 @@ int NHTTPi_SocSSLConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInf
 
     sslCon_p = req_p->sslCon_p;
     if (sslCon_p == 0) {
-        sslCon_p = NHTTPi_alloc(0x830, 4);
+        sslCon_p = NHTTPi_alloc(sizeof(*sslCon_p), 4);
         req_p->sslCon_p = sslCon_p;
         NHTTPi_memclr(sslCon_p, 0x830);
     }

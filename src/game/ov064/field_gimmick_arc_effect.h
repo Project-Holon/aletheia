@@ -13,14 +13,14 @@ void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Update(void *fieldMap);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem);
-int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq);
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(struct GameEvent *event, int *seq, void *eventWork);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
 void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
-int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
-int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
-int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq);
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(struct GameEvent *event, int *unusedSeq, void *eventWork);
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(struct GameEvent *event, int *unusedSeq, void *eventWork);
+int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(struct GameEvent *event, int *unusedSeq, void *eventWork);
 /* END mkheaders: generated region */
 
 #endif

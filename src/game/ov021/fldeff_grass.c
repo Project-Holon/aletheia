@@ -286,7 +286,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     desc.color = 1;
     desc.pos = param->pos;
     desc.hook = 0;
-    desc.hookArg = (uptr)work;
+    desc.hookArg = work;
     billboards = work->param.grass->billboardAct;
     work->entry = BILLBOARD_ACT_CreateEntries(billboards, 0, &desc, 1, 0);
     if (work->entry == 0xFFFF) {

@@ -54,7 +54,7 @@ extern u8 gIrcNetHandlerTable[];
 #include "../arm9/net_handle.h"
 #include "irc.h"
 
-void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);
+void IRCNET_OnRecv(u8 *pkt, u8 len, u8 type, u8 id);
 int IRCNET_IsLinkAlive(void);
 int IRCNET_IsLinkLost(void);
 void IRCNET_Update(void);
@@ -72,8 +72,8 @@ void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b);
 void IRCNET_InitWork(u32 a, u8 b);
 void IRCNET_SetTimeoutLimit(int v);
 void IRCNET_Stop(void);
-void IRCNET_SetRecvCallback(unsigned v);
-void IRCNET_SetFilter(int a);
+void IRCNET_SetRecvCallback(IRCNetRecvFn v);
+void IRCNET_SetFilter(IRCNetFilterFn a);
 void IRCNET_Start(void);
 unsigned char IRCNET_IsRunning(void);
 extern unsigned char IRCNET_GetSenderFlag(void);
@@ -132,7 +132,7 @@ int IRCNET_SendAndNotify(void *dst, int a, int unused, void (*cb)(int))
     return 1;
 }
 
-int IRCNET_CbSetRecvCallback(int v)
+int IRCNET_CbSetRecvCallback(IRCNetRecvFn v)
 {
     IRCNET_SetRecvCallback(v);
     return 1;
@@ -207,7 +207,7 @@ void IRCNET_CbSetTimeoutLimit(int v)
     IRCNET_SetTimeoutLimit(v);
 }
 
-void IRCNET_CbSetFilter(int a)
+void IRCNET_CbSetFilter(IRCNetFilterFn a)
 {
     IRCNET_SetFilter(a);
 }
@@ -233,11 +233,11 @@ void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
 
 void IRCNET_InitWork(u32 a, u8 b)
 {
-    MI_CpuFill8(&gIrcNetWork, 0, 0xE8);
+    MI_CpuFill8(&gIrcNetWork, 0, sizeof(gIrcNetWork));
     gIrcNetWork.timeoutLimit = a;
     gIrcNetWork.randomByte = WM_GetNextTgid();
     IRC_Init(3);
-    IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
+    IRC_SetRecvCallback(IRCNET_OnRecv);
     gIrcNetWork.packet.senderId = GFL_USE_GetRandom(0);
     if (gIrcNetWork.packet.senderId == 0)
         gIrcNetWork.packet.senderId = 1;
@@ -256,14 +256,14 @@ void IRCNET_Stop(void)
     gIrcNetWork.isRunning = 0;
 }
 
-void IRCNET_SetRecvCallback(unsigned v)
+void IRCNET_SetRecvCallback(IRCNetRecvFn v)
 {
-    gIrcNetWork.recvCallback = (IRCNetRecvFn)v;
+    gIrcNetWork.recvCallback = v;
 }
 
-void IRCNET_SetFilter(int a)
+void IRCNET_SetFilter(IRCNetFilterFn a)
 {
-    gIrcNetWork.filter = (IRCNetFilterFn)a;
+    gIrcNetWork.filter = a;
 }
 
 void IRCNET_Start(void)
@@ -336,7 +336,7 @@ int IRCNET_IsReceiver(void)
  * on the group id (through the optional hook), tracks the two session ids, then hands the payload
  * to the receive callback once per new sequence number.
  */
-void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type)
+void IRCNET_OnRecv(u8 *rawPacket, u8 len, u8 type, u8 id)
 {
     IRCNetPacket *pkt = (IRCNetPacket *)rawPacket;
     u8 unused[6] = {0, 0, 0, 0, 0, 0};
@@ -499,7 +499,7 @@ void IRCNET_Update(void)
             }
             if (w->linkTimer == 5) {
                 IRC_Init(3);
-                IRC_SetRecvCallback((void (*)(void))IRCNET_OnRecv);
+                IRC_SetRecvCallback(IRCNET_OnRecv);
                 w->linkTimer++;
                 return;
             }

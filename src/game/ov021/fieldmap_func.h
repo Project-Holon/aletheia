@@ -16,8 +16,8 @@ FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capaci
 void FIELD_SUBPROC_MGR_Delete(FieldSubprocMgr *mgr);
 void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr);
 void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr);
-void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, FieldSubproc *proc);
-void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, FieldSubproc *proc);
+void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, void *arg);
+void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, void *arg);
 FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl);
 void FIELD_SUBPROC_End(FieldSubproc *proc);
 void *FIELD_SUBPROC_GetWork(const FieldSubproc *proc);

@@ -51,7 +51,7 @@ typedef short s16_p07;
 #include "strbuf.h"
   /* string terminator code */
 #include "gfl_heap_wrap.h"
-void TEXTPRINT_Init(u32 fontId);
+void TEXTPRINT_Init(const char *fontFile);
 void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
 void TEXTPRINT_PrintText(const char *text, TextParam *console);
 void TEXTPRINT_SjisToGlyphCodes(const char *text, u16 *out, int maxCodes);
@@ -93,10 +93,10 @@ extern u16 g_TextPrintSymbolGlyphs[];   /* symbol key table: same records, glyph
  *   python tools/match.py one --src src/pending/TEXTPRINT_Init.c \
  *       --func TEXTPRINT_Init --addr 0x0204E130 --cc 1.1p1 --arm
  */
-void TEXTPRINT_Init(u32 fontId)
+void TEXTPRINT_Init(const char *fontFile)
 {
     if (g_TextPrintWork == 0) {
-        SYSTEMFONT_Load(fontId);
+        SYSTEMFONT_Load(fontFile);
         g_TextPrintWork = GFL_HEAP_Alloc(0, 0x26, 0, s_textprint_c, 51);
     }
 }

@@ -141,10 +141,10 @@ void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value)
 
 Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count, void *palette, int animData, u32 mode, u32 heap)
 {
-    Wf2dmapAnimSeq *seq = GFL_HEAP_Alloc(heap, 12, 1, sWf2dmapObjdrawFileName, 161);
+    Wf2dmapAnimSeq *seq = GFL_HEAP_Alloc(heap, sizeof(Wf2dmapAnimSeq), 1, sWf2dmapObjdrawFileName, 161);
     seq->sprite = WIFI_2DCHAR_Create(srcA, srcB, count, heap);
     seq->frameCount = count;
-    seq->frames = GFL_HEAP_Alloc(heap, 20 * seq->frameCount, 1, sWf2dmapObjdrawFileName, 168);
+    seq->frames = GFL_HEAP_Alloc(heap, sizeof(Wf2dmapActor) * seq->frameCount, 1, sWf2dmapObjdrawFileName, 168);
     seq->state = 2;
     seq->mode = mode;
     WIFI_2DCHAR_SetupBmpCell(seq->sprite, (sptr)palette, seq->mode, animData, heap);
@@ -159,7 +159,7 @@ void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *p)
 {
     int i;
     for (i = 0; i < ((Wf2dmapAnimSeq *)p)->frameCount; i++) {
-        int offset = i * 20;
+        int offset = i * (int)sizeof(Wf2dmapActor);
         if (!WF2DMAP_OBJDRAW_IsActorFree((char *)(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset)))
             WF2DMAP_OBJDRAW_RemoveActor(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset);
     }
@@ -188,13 +188,13 @@ u8 *WF2DMAP_OBJDRAW_AddActor(u8 *seq, void *resource, int variant, u32 heap)
     ((Wf2dmapActor *)o)->value6 = WF2DMAP_OBJ_GetSlot(resource, 6);
     ((Wf2dmapActor *)o)->value4 = WF2DMAP_OBJ_GetSlot(resource, 4);
     ((Wf2dmapActor *)o)->owner = resource;
-    o[18] = variant;
-    o[19] = 1;
+    ((Wf2dmapActor *)o)->variant = variant;
+    ((Wf2dmapActor *)o)->active = 1;
     ((Wf2dmapActor *)o)->prevActor = 0;
     ((Wf2dmapActor *)o)->prevValue5 = 0;
     pos[0] = WF2DMAP_OBJ_GetSlot(resource, 0);
     pos[1] = WF2DMAP_OBJ_GetSlot(resource, 1);
-    pos[2] = WF2DMAP_OBJDRAW_GetDepth(pos[1], o[18]);
+    pos[2] = WF2DMAP_OBJDRAW_GetDepth(pos[1], ((Wf2dmapActor *)o)->variant);
     pos[3] = ((Wf2dmapAnimSeq *)seq)->state;
     ((Wf2dmapActor *)o)->actor = WIFI_2DCHAR_SpawnActor(((Wf2dmapAnimSeq *)seq)->sprite, pos, WF2DMAP_OBJ_GetSlot(resource, 7), heap);
     WF2DMAP_OBJDRAW_UpdateActor(o);
@@ -204,14 +204,14 @@ u8 *WF2DMAP_OBJDRAW_AddActor(u8 *seq, void *resource, int variant, u32 heap)
 void WF2DMAP_OBJDRAW_RemoveActor(u8 *p)
 {
     WIFI_2DCHAR_DeleteActor(((Wf2dmapActor *)p)->actor);
-    MI_CpuFill8(p, 0, 0x14);
+    MI_CpuFill8(p, 0, sizeof(Wf2dmapActor));
 }
 
-void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *p) { int i,offset; for(i=0;i<((Wf2dmapAnimSeq *)p)->frameCount;i++) { offset=i*20; if(WF2DMAP_OBJDRAW_IsActorFree(*(char * *)&((Wf2dmapAnimSeq *)p)->frames+offset)==0) WF2DMAP_OBJDRAW_UpdateActor(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset); } }
+void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *p) { int i,offset; for(i=0;i<((Wf2dmapAnimSeq *)p)->frameCount;i++) { offset=i*(int)sizeof(Wf2dmapActor); if(WF2DMAP_OBJDRAW_IsActorFree(*(char * *)&((Wf2dmapAnimSeq *)p)->frames+offset)==0) WF2DMAP_OBJDRAW_UpdateActor(*(u8 * *)&((Wf2dmapAnimSeq *)p)->frames+offset); } }
 
 void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
 {
-    if (p[19]) {
+    if (((Wf2dmapActor *)p)->active) {
         int a = WF2DMAP_OBJ_GetSlot(((Wf2dmapActor *)p)->owner, 5);
         int b = WF2DMAP_OBJ_GetSlot(((Wf2dmapActor *)p)->owner, 6);
         s16 c = WF2DMAP_OBJ_GetSlot(((Wf2dmapActor *)p)->owner, 8);
@@ -224,7 +224,7 @@ void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
         }
         WF2DMAP_OBJDRAW_GetOwnerPos((char *)p, &x, &y);
         WIFI_2DCHAR_SetActorPos(((Wf2dmapActor *)p)->actor, x, y);
-        d = WF2DMAP_OBJDRAW_GetDepth(y, p[18]);
+        d = WF2DMAP_OBJDRAW_GetDepth(y, ((Wf2dmapActor *)p)->variant);
         WIFI_2DCHAR_SetActorDrawPriority(((Wf2dmapActor *)p)->actor, d);
         WIFI_2DCHAR_StepActorAnim(((Wf2dmapActor *)p)->actor);
     }
@@ -235,7 +235,7 @@ void WF2DMAP_OBJDRAW_UpdateActor(u8 *p)
  */
 void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v)
 {
-    p[0x13] = v;
+    ((Wf2dmapActor *)p)->active = v;
 }
 
 /*
@@ -325,7 +325,7 @@ int WF2DMAP_OBJDRAW_IsActorFree(char *p)
     return ((Wf2dmapActor *)p)->actor == 0;
 }
 
-char *WF2DMAP_OBJDRAW_AllocActor(u8 *seq) { int i,offset; for(i=0;i<((Wf2dmapAnimSeq *)seq)->frameCount;i++) { offset=i*20; if(WF2DMAP_OBJDRAW_IsActorFree(*(char * *)&((Wf2dmapAnimSeq *)seq)->frames+offset)==1) return *(char * *)&((Wf2dmapAnimSeq *)seq)->frames+offset; } return 0; }
+char *WF2DMAP_OBJDRAW_AllocActor(u8 *seq) { int i,offset; for(i=0;i<((Wf2dmapAnimSeq *)seq)->frameCount;i++) { offset=i*(int)sizeof(Wf2dmapActor); if(WF2DMAP_OBJDRAW_IsActorFree(*(char * *)&((Wf2dmapAnimSeq *)seq)->frames+offset)==1) return *(char * *)&((Wf2dmapAnimSeq *)seq)->frames+offset; } return 0; }
 
 int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b)
 {

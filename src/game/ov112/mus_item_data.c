@@ -80,11 +80,11 @@ extern char d_021F83B4[];
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap)
 {
-    u32 *p = GFL_HEAP_Alloc(heap, 8, 0, d_021F83B4, 0x47);
+    McssActorData *p = GFL_HEAP_Alloc(heap, sizeof(*p), 0, d_021F83B4, 0x47);
     void *r = ARC_UTIL_LoadMember(45, 0x65, 0, heap);
-    p[0] = (uptr)r;
-    p[1] = (uptr)r;
-    return p;
+    p->handle = r;
+    p->table = r;
+    return (u32 *)p;
 }
 
 void MUSICAL_MCSS_FreeActorData(void **p) { GFL_HEAP_Free(*p); GFL_HEAP_Free(p); }

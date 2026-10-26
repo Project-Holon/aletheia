@@ -107,6 +107,7 @@ struct Obj;
 struct GameSystem;
 struct ProcHandle;
 #include "../types.h"
+#include "../ov010/event_ircbattle_shared_types.h"
 
 typedef struct {
     int trainerId;
@@ -114,34 +115,22 @@ typedef struct {
     u8 name[6];
 } BattlePlayerSlot;
 
-typedef struct {
+typedef struct BattleSlotTable {
     BattlePlayerSlot slot[4];
     int formatId;
     int modeId;
 } BattleSlotTable;
 
-typedef struct {
-    char pad0[0x21];
-    u8 playerIndex;
-    u8 isMulti;
-    char pad23[0x8C - 0x23];
-    int battleType;
-    char pad90[0x91 - 0x90];
-    u8 recordVersion;
-    char pad92[0x94 - 0x92];
-    int hasRecord;
-    char pad98[0xC8 - 0x98];
-    u8 names[4][6];
-} BattleInfo;
+#include "../arm9/btl_setup_types.h"
 
 typedef struct {
-    int gameSystem;
-    BattleInfo *info;
+    struct GameData *gameData;
+    struct BattleSetupParam *info;
     BattleSlotTable *slots;
     int flag;
     int extraFlag;
     int pad14;
-    int resultGameSystem;
+    struct GameData *resultGameData;
     int recordSupported;
     int isCommBattle;
     int saveEnabled;
@@ -158,6 +147,15 @@ typedef struct {
     int cmdTableAdded;
     int recordWorkAllocated;
 } BattleRecordCtx;
+
+/* Event work (0x40 bytes): the creation arguments, then the argument block of the record task. */
+typedef struct BattleRecSaveEventWork {
+    struct GameSystem *gameSystem;
+    struct BattleSetupParam *info;
+    BattleSlotTable *slots;
+    int flag;
+    BattleRecordWork rec;
+} BattleRecSaveEventWork;
 
 /* The procsys proc work made by EVENT_BATTLE_REC_SAVE_ProcInit (0x1c bytes). */
 typedef struct EventBattleRecSaveProc {
@@ -189,11 +187,11 @@ struct GameEvent;
 struct GameData;
 #include "../arm9/gamesystem.h"
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner);
-int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys);
+int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, EventBattleRecSaveProc *proc);
 u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx);
-void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args);
-void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag);
-int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work);
+struct GameEvent *EVENT_BATTLE_REC_SAVE_Start(struct GameSystem *gameSystem, void *argsArg);
+void *EVENT_BATTLE_REC_SAVE_CreateEvent(struct GameSystem *gameSystem, struct BattleSetupParam *info, BattleSlotTable *slots, int flag);
+int EVENT_BATTLE_REC_SAVE_EventMain(struct GameEvent *unused, int *stage, void *work);
 extern char ov093_id[];
 extern char ov097_id[];
 extern char ov213_id[];
@@ -203,25 +201,25 @@ extern char d_021F75EC[];
 extern NetCommandEntry d_021F03C4[];
 extern char d_021EFDAC[];
 extern char d_021BB474[];
-extern char d_0215513C[];
+extern const ProcData d_0215513C;
 
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 {
     EventBattleRecSaveProc *procWork;
 
     GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
-    procWork = PROCSYS_AllocProcWork(procsysOwner, 0x1c, 0x76);
+    procWork = PROCSYS_AllocProcWork(procsysOwner, sizeof(EventBattleRecSaveProc), 0x76);
     procWork->procsys = PROCSYS_Create(0x76);
     return 1;
 }
 
-int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys)
+int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, EventBattleRecSaveProc *proc)
 {
     if (((EventBattleRecSaveTask *)taskWork)->commBattleActive == 1) {
         if (GFL_NET_ERR_GetErrorLevel() != 0)
             GFL_NET_ERR_RequestScreen();
     }
-    PROCSYS_Delete((struct ProcSys *)*procsys);
+    PROCSYS_Delete(proc->procsys);
     PROCSYS_FreeProcWork(procWork);
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
@@ -256,7 +254,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
 
     switch (*stage) {
     case 0:
-        if (work->info->isMulti == 0)
+        if (work->info->multiMode == 0)
             work->slots->modeId = 1;
         else
             work->slots->modeId = 3;
@@ -266,7 +264,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     case 1:
         if (procsysBusy == 1)
             break;
-        if (work->info->isMulti == 0)
+        if (work->info->multiMode == 0)
             *stage = 6;
         else
             *stage = 2;
@@ -281,7 +279,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 4;
         break;
     case 4:
-        if (work->info->playerIndex <= 1) {
+        if (work->info->netId <= 1) {
             ctx->swapped = 0;
             ctx->playerIdFirst = work->slots->slot[0].trainerId;
             ctx->playerIdSecond = work->slots->slot[1].trainerId;
@@ -342,11 +340,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 13;
         break;
     case 13:
-        if (work->info->isMulti == 0)
+        if (work->info->multiMode == 0)
             work->slots->modeId = 2;
         else
             work->slots->modeId = 4;
-        switch (work->info->battleType) {
+        switch (work->info->outcome) {
         case 1:
         case 4:
             work->slots->formatId = 0;
@@ -364,7 +362,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             work->slots->formatId = 2;
             break;
         }
-        if (work->info->isMulti == 0) {
+        if (work->info->multiMode == 0) {
             lastPlayer = 1;
             firstTeamBase = 0;
             secondTeamBase = 1;
@@ -373,7 +371,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             firstTeamBase = 0;
             secondTeamBase = 2;
         }
-        playerIndexBit = work->info->playerIndex;
+        playerIndexBit = work->info->netId;
         for (i = 0; i <= lastPlayer; i++) {
             if ((i & 1) == (playerIndexBit & 1)) {
                 if (playerIndexBit & 1)
@@ -381,17 +379,17 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
                 else
                     nameRow = i & 2;
                 for (j = 0; j < 6; j++)
-                    work->slots->slot[firstTeamBase + (i >> 1)].name[j] = work->info->names[nameRow][j];
+                    work->slots->slot[firstTeamBase + (i >> 1)].name[j] = work->info->memberStatus[nameRow][j];
             } else {
                 if (playerIndexBit & 1)
                     nameRow = i & 2;
                 else
                     nameRow = (i & 2) + 1;
                 for (j = 0; j < 6; j++)
-                    work->slots->slot[secondTeamBase + (i >> 1)].name[j] = work->info->names[nameRow][j];
+                    work->slots->slot[secondTeamBase + (i >> 1)].name[j] = work->info->memberStatus[nameRow][j];
             }
         }
-        if (work->info->battleType == 6) {
+        if (work->info->outcome == 6) {
             *stage = 16;
             break;
         }
@@ -404,14 +402,14 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 15;
         break;
     case 15:
-        if (work->info->hasRecord == 0) nameRow = 0; else { versionOk = BATTLE_REC_IsVersionSupported(work->info->recordVersion); nameRow = 1; if (versionOk == 0) nameRow = 0; }
+        if (work->info->recordBuffer == 0) nameRow = 0; else { versionOk = BATTLE_REC_IsVersionSupported(work->info->resultValue[1]); nameRow = 1; if (versionOk == 0) nameRow = 0; }
         work->recordSupported = nameRow;
-        work->resultGameSystem = work->gameSystem;
+        work->resultGameData = work->gameData;
         work->isCommBattle = 1;
         work->saveEnabled = 1;
         work->resultFlag = work->flag;
         work->resultExtraFlag = work->extraFlag;
-        PROCSYS_Push(ctx->procsys, (uptr)ov214_id, (const struct ProcData *)d_021BB474, &work->resultGameSystem);
+        PROCSYS_Push(ctx->procsys, (uptr)ov214_id, (const struct ProcData *)d_021BB474, &work->resultGameData);
         *stage = 16;
         break;
     case 16:
@@ -427,38 +425,40 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     return 0;
 }
 
-void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
+struct GameEvent *EVENT_BATTLE_REC_SAVE_Start(struct GameSystem *gameSystem, void *argsArg)
 {
-    return EVENT_BATTLE_REC_SAVE_CreateEvent(gameSystem, args[0], args[1], args[2]);
+    const BattleRecSaveArgs *args = argsArg;
+    return EVENT_BATTLE_REC_SAVE_CreateEvent(gameSystem, (struct BattleSetupParam *)args->setup, (BattleSlotTable *)args->slotData, args->flag);
 }
 
-void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
+void *EVENT_BATTLE_REC_SAVE_CreateEvent(struct GameSystem *gameSystem, struct BattleSetupParam *info, BattleSlotTable *slots, int flag)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, (void *)((sptr)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
-    u32 *work = GAME_EVENT_GetWork(event);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_BATTLE_REC_SAVE_EventMain, sizeof(BattleRecSaveEventWork));
+    BattleRecSaveEventWork *work = GAME_EVENT_GetWork(event);
 
-    work[0] = (uptr)gameSystem;
-    work[1] = info;
-    work[2] = slots;
-    work[3] = flag;
+    work->gameSystem = gameSystem;
+    work->info = info;
+    work->slots = slots;
+    work->flag = flag;
     return event;
 }
 
-int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work)
+int EVENT_BATTLE_REC_SAVE_EventMain(struct GameEvent *unused, int *stage, void *workPtr)
 {
-    void *gameSystem = (void *)work[0];
-    int *procArgs;
+    BattleRecSaveEventWork *work = workPtr;
+    struct GameSystem *gameSystem = work->gameSystem;
+    BattleRecordWork *procArgs;
 
     switch (*stage) {
     case 0:
-        procArgs = work + 4;
-        work[4] = (sptr)GAMESYSTEM_GetGameData(gameSystem);
-        procArgs[1] = work[1];
-        procArgs[2] = work[2];
-        procArgs[3] = *(int *)(work[2] + 0x48);
-        procArgs[4] = *(int *)(work[2] + 0x4c);
-        procArgs[5] = work[3];
-        GAMESYSTEM_CallProc(gameSystem, -1, d_0215513C, procArgs);
+        procArgs = &work->rec;
+        procArgs->gameData = GAMESYSTEM_GetGameData(gameSystem);
+        procArgs->info = work->info;
+        procArgs->slots = work->slots;
+        procArgs->flag = *(int *)((u8 *)work->slots + 0x48);
+        procArgs->extraFlag = *(int *)((u8 *)work->slots + 0x4c);
+        procArgs->pad14 = work->flag;
+        GAMESYSTEM_CallProc(gameSystem, -1, &d_0215513C, procArgs);
         (*stage)++;
         break;
     case 1:

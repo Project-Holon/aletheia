@@ -41,7 +41,15 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "../types.h"
+/* Original DS prototype: this file passes the coordinates as ints; the header and the definition take s16. */
+#ifdef __MWERKS__
+#define BMP_OAM_SetPos BMP_OAM_SetPos_header
+#endif
 #include "../arm9/bmp_oam.h"
+#ifdef __MWERKS__
+#undef BMP_OAM_SetPos
+extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, int x, int y);
+#endif
 
 #include "field_place_name_types.h"
 
@@ -200,7 +208,7 @@ u32 PLACE_NAME_LETTER_FreeWork(PlaceNameLetter *letter)
 
 void PLACE_NAME_LETTER_InitWork(PlaceNameLetter *letter)
 {
-    MI_CpuFill8(letter, 0, 0x4C);
+    MI_CpuFill8(letter, 0, sizeof(*letter));
     letter->active = 0;
     letter->ch = STRBUF_GetEosChar();
 }
@@ -480,12 +488,7 @@ void PLACE_NAME_LETTER_UpdateOamPos(PlaceNameLetter *letter)
     PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
     int x = (int)motion->x;
     int y = (int)motion->y;
-#ifdef __MWERKS__
-    /* The original prototype took int coordinates; the definition takes s16. */
-    ((void (*)(BmpOam *, int, int))BMP_OAM_SetPos)(letter->bmpOam, x, y);
-#else
     BMP_OAM_SetPos(letter->bmpOam, x, y);
-#endif
 }
 
 void PLACE_NAME_LETTER_SetVisibleRaw(PlaceNameLetter *letter, unsigned int visible)

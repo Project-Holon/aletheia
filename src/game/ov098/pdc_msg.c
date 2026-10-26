@@ -127,7 +127,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     struct PdcMsg *msg;
     u32 frameIndex;
 
-    msg = GFL_HEAP_Alloc(heapId, 0x48, 1, gPdcMsgSrcName, 0x82);
+    msg = GFL_HEAP_Alloc(heapId, sizeof(*msg), 1, gPdcMsgSrcName, 0x82);
     BG_SYS_InitBgLayer(1, &gPdcMsgBgTemplate, 0);
     msg->heapId = heapId;
     msg->tcbl = tcbl;

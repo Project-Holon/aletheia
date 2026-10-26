@@ -93,7 +93,7 @@ typedef struct CGearWork {
     u8 unused00E[2];
     struct ButtonTask *buttonTask;  /* 0x010 */
     u32 bgCharBlock;                /* 0x014, low half: base, high half: size */
-    int parentWork;                 /* 0x018 */
+    void *parentWork;              /* 0x018 */
     struct GameSystem *gameSystem;  /* 0x01C */
     struct HexMap *hexMap;          /* 0x020 */
     void *archive;                  /* 0x024 */
@@ -108,8 +108,8 @@ typedef struct CGearWork {
     struct ClactActor *barActors[3];     /* 0x164 */
     struct ClactActor *splashActors[18]; /* 0x170 */
     u32 beaconColors[17];           /* 0x1B8, [16]: no beacon */
-    void (*endCallback)(int);       /* 0x1FC */
-    int endCallbackArg;             /* 0x200 */
+    void (*endCallback)(void *);     /* 0x1FC */
+    void *endCallbackArg;           /* 0x200 */
     struct FadeCtx *fadeCtx;        /* 0x204 */
     struct VBlankTask *palTransferTask;     /* 0x208 */
     void *fadeMem;                  /* 0x20C */

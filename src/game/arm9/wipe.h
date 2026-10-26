@@ -16,7 +16,7 @@ void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 col
 void WIPE_SYS_Main(void);
 u32 WIPE_SYS_EndCheck(void);
 void WIPE_SYS_ExeEnd(void);
-void WIPE_ResetWndMask(void *win);
+void WIPE_ResetWndMask(u32 screen);
 void WIPE_ResetBrightness(u32 which);
 void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 void WIPE_SetMstBrightColor(u32 color);
@@ -27,15 +27,15 @@ u32 WIPE_SYS_MainPanels(struct WipeSys *p, void *top, void *bottom);
 void WIPE_SYS_MainPanel(u32 *obj, void *arg);
 u32 WIPE_SYS_CallPattern(void *p);
 void WIPE_SYS_SetDivision(u32 mode, struct WipeSys *p);
-void WIPE_SYS_InitPanel(struct WipePanel *panel, u32 pattern, u32 frames, s32 wait, u32 phase, u32 work, u32 screen, void *windowRequests, void *hblank, u32 heapId, u16 color);
+void WIPE_SYS_InitPanel(struct WipePanel *panel, u32 pattern, u32 frames, s32 wait, u32 phase, void *work, u32 screen, void *windowRequests, struct WipeHBlankSlots *hblank, u32 heapId, u16 color);
 void WIPE_InitHBlankSlots(struct WipeHBlankSlots *p);
-void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p);
+void WIPE_HBlankSlotsTask(struct TcbTask * taskArg, void * pArg);
 void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 idx);
 void WIPE_ClearHBlankSlot(struct WipeHBlankSlots *p, u32 idx);
-void WIPE_RequestSetHBlankSlot(u32 slots, u32 ctx, u32 fn, u32 slotIdx, u32 heapId);
-void WIPE_RequestClearHBlankSlot(u32 slots, u32 slotIdx, u32 heapId);
-void WIPE_SetHBlankSlotTask(void *task, u32 *args);
-void WIPE_ClearHBlankSlotTask(struct Node *task, u32 *args);
+void WIPE_RequestSetHBlankSlot(struct WipeHBlankSlots *slots, void *ctx, Handler fn, u32 slotIdx, u32 heapId);
+void WIPE_RequestClearHBlankSlot(struct WipeHBlankSlots *slots, u32 slotIdx, u32 heapId);
+void WIPE_SetHBlankSlotTask(void *task, struct WipeSetSlotReq *args);
+void WIPE_ClearHBlankSlotTask(struct Node *task, struct WipeClearSlotReq *args);
 void WIPE_DummyHBlank(void *ctx);
 /* END mkheaders: generated region */
 

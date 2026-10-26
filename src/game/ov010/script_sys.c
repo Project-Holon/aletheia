@@ -123,10 +123,6 @@ struct GameSystem;
 struct GameData;
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_data.h"
-#ifdef __MWERKS__
-int GFL_NET_IsSessionNull();    /* the original has no parameter list and is called with the Main result */
-#else
-#endif
 #include "../arm9/game_event.h"
 #include "../arm9/vm.h"
 struct PlayerWork;
@@ -167,7 +163,7 @@ void SCRIPT_SYS_SetNextEvent(ScriptSys *sys, void *nextEvent);
 void SCRIPT_SYS_CallEndCallback(ScriptSys *sys, void *event);
 int SCRIPT_SYS_HasEndCallback(ScriptSys *sys);
 u16 SCRIPT_SYS_GetZoneId(void *fieldSys);
-int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *work);
+int SCRIPT_SYS_EventMain(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork);
 void SCRIPT_SYS_CallEvent(void *vm, void *task);
 void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
@@ -252,7 +248,7 @@ int SCRIPT_SYS_HasVm(void *scriptWork, int index)
  */
 ScriptSys *SCRIPT_SYS_Create(u32 heapId)
 {
-    ScriptSys *sys = GFL_HEAP_Alloc(heapId, 0x18, 1, d_02172888, 0xEF);
+    ScriptSys *sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, d_02172888, 0xEF);
     sys->heapId = heapId;
     return sys;
 }
@@ -358,8 +354,9 @@ u16 SCRIPT_SYS_GetZoneId(void *fieldSys)
 }
 
 
-int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
+int SCRIPT_SYS_EventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ScriptEventWork *eventWork = workPtr;
     void *scriptWork;
     ScriptSys *sys;
 
@@ -381,10 +378,10 @@ int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
 
 struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
 {
-    struct GameEvent *event = GAME_EVENT_Create(fieldSys, 0, (GameEventFunc)SCRIPT_SYS_EventMain, 8);
+    struct GameEvent *event = GAME_EVENT_Create(fieldSys, 0, SCRIPT_SYS_EventMain, sizeof(ScriptEventWork));
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
-    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (sptr)parentWork, 0);
+    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, parentWork, 0);
     SCRIPT_WORK_SetTargetObj(eventWork->scriptWork, target);
     SCRIPT_SYS_AddScript(eventWork->scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId);
     return event;
@@ -458,7 +455,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
     void *tempWork = 0;
     ScriptVm *vm;
     if (scriptWork == 0) {
-        tempWork = SCRIPT_WORK_Create(4, fieldSys, (struct GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)(uptr)mode);
+        tempWork = SCRIPT_WORK_Create(4, fieldSys, (struct GameEvent *)tempWork, scriptId, tempWork, (struct ScriptWork *)(uptr)mode);
         scriptWork = tempWork;
     }
     vm = SCRIPT_SYS_CreateVm(4, scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId, mode);
@@ -696,12 +693,8 @@ void SCRIPT_SYS_ForceExitNet(void)
         GFL_NET_Exit(0);
         GFL_NET_IRC_WIRELESS_Exit();
         for (;;) {
-#ifdef __MWERKS__
-            session = GFL_NET_IsSessionNull(GFL_NET_Main());
-#else
             GFL_NET_Main();
             session = GFL_NET_IsSessionNull();
-#endif
             if (session != 0)
                 break;
         }

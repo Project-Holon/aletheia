@@ -84,9 +84,7 @@ struct MyStatus;
 
 
 
-typedef int (*BrNetErrorHook)(struct BrNet *net, int unused, int errorKind, int unused2);
-
-extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, unsigned int hookArg);
+#include "../ov009/dwc_rap.h"
 
 #include "../arm9/gf_panic.h"
 
@@ -204,7 +202,7 @@ void BR_NET_SetStep(struct BrNetTask *task, BrNetStepFunc step);
 
 int BR_NET_IsStep(struct BrNetTask *task, BrNetStepFunc step);
 
-int BR_NET_OnRapError(struct BrNet *net, int unused, int errorKind, int unused2);
+int BR_NET_OnRapError(void *arg, u32 errorCode, u32 errorKind, int dwcError);
 
 typedef char BrNetCheckSize[sizeof(struct BrNet) == 0x5E4 ? 1 : -1];
 typedef char BrNetCheckRequest[sizeof(union BrNetRequest) == 8 ? 1 : -1];
@@ -238,7 +236,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 
     net->profile=GDS_PROFILE_Create(heapId);
     GDS_PROFILE_Init(net->profile,gameData);
     net->task=BR_NET_CreateTask(net,BR_NET_StepIdle,heapId);
-    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError,(uptr)net);
+    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError, net);
     return net;
 }
 
@@ -561,10 +559,11 @@ int BR_NET_IsStep(struct BrNetTask *task, BrNetStepFunc step)
     return 0;
 }
 
-int BR_NET_OnRapError(struct BrNet *net, int unused, int errorKind, int unused2)
+int BR_NET_OnRapError(void *arg, u32 errorCode, u32 errorKind, int dwcError)
 {
+    struct BrNet *net = arg;
     if (GAME_DATA_IsSaving(net->gameData)) return 1;
-    GDS_RAP_ReleaseSession(&net->rap, unused, errorKind, unused2);
+    GDS_RAP_ReleaseSession(&net->rap, errorCode, errorKind, dwcError);
     if (errorKind == 3 || errorKind == 6) {
         if (net->rapActive) {
             GDS_RAP_Exit(&net->rap);

@@ -4,9 +4,9 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of br_codein_socl.c, prototypes copied from their definitions. */
 
-#include "../ov183/soc_types.h"
+struct CodeinStoredFns;
 
-void BR_CODEIN_SOCL_InitDefault(SOCLResource *resource);
+void BR_CODEIN_SOCL_InitDefault(struct CodeinStoredFns *resource);
 /* END mkheaders: generated region */
 
 #endif

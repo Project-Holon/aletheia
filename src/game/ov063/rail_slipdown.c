@@ -116,7 +116,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
 {
     RailSlipdown *slipdown;
 
-    slipdown = GFL_HEAP_Alloc(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, gRailSlipdownSourceFile, 0x80);
+    slipdown = GFL_HEAP_Alloc(FIELDMAP_GetHeapId(fieldMap), sizeof(*slipdown), 1, gRailSlipdownSourceFile, 0x80);
     slipdown->nogridMapper = FIELDMAP_GetNogridMapper(fieldMap);
     slipdown->mmdl = mmdl;
     slipdown->railWork = FLDMMDL_RAIL_GetRailWork(mmdl);

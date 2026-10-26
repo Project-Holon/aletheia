@@ -138,7 +138,7 @@ struct Ov016Bits8 {
 #include "../arm9/pm.h"
 int DWC_StartUtility(void *work, int language, int param);
 void initGraph(void);
-void DWCi_ChangeScene(unsigned int v);
+void DWCi_ChangeScene(void (*v)(void));
 void DWCi_SetParam_(unsigned int a, unsigned int b);
 void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
 void DWCi_SetParam2_(unsigned int a, unsigned int b);
@@ -174,7 +174,7 @@ int DWC_StartUtility(void *work, int language, int param)
     initGame();
     initGraph();
     DWCi_SNDlInit();
-    DWCi_ChangeScene((uptr)DWCi_SceneInit);
+    DWCi_ChangeScene(DWCi_SceneInit);
     result = 0;
     do {
         DWCi_IPTlUpdate();
@@ -336,10 +336,10 @@ static void procEnd(void)
  *   python tools/match.py one --src src/matched/DWCi_ChangeScene.c \
  *       --func DWCi_ChangeScene --addr 0x021C0E40 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_ChangeScene(unsigned int v)
+void DWCi_ChangeScene(void (*v)(void))
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
-    p[3] = v;
+    p[3] = (uptr)v;
 }
 
 /*

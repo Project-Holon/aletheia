@@ -98,7 +98,7 @@
 #include "sb_serverlist.h"
 #include "hashtable.h"
 #include "sb_server.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "sb_server_types.h"
 #include "../arm9/msl_string_mem.h"
 
@@ -191,10 +191,10 @@ extern void SBServerSetState(SBServer *server, unsigned char state);
 extern SBServer *SBAllocServer(struct SBServerList *unused, u32 publicip, u16 publicport);
 extern int SBIsNullServer(int v);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
-int IntKeyCompare(void *entry1, void *entry2);
-int FloatKeyCompare(void *entry1, void *entry2);
-int StrCaseKeyCompare(void *entry1, void *entry2);
-int StrNoCaseKeyCompare(void *entry1, void *entry2);
+int IntKeyCompare(const void *entry1, const void *entry2);
+int FloatKeyCompare(const void *entry1, const void *entry2);
+int StrCaseKeyCompare(const void *entry1, const void *entry2);
+int StrNoCaseKeyCompare(const void *entry1, const void *entry2);
 void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo);
 void SBServerListAppendServer(SBServerList *slist, SBServer *server);
 int SBServerListFindServer(SBServerList *slist, void *findserver);
@@ -297,14 +297,14 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
 /*
  * sdk:      IntKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int IntKeyCompare(void *entry1, void *entry2)
+int IntKeyCompare(const void *entry1, const void *entry2)
 {
 	char *currsortkey;
 	int diff;
 	void *server1;
 	void *server2;
-	server1 = *(void **)entry1;
-	server2 = *(void **)entry2;
+	server1 = *(void * const *)entry1;
+	server2 = *(void * const *)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 	diff = SBServerGetIntValueA(server1, currsortkey, 0) - SBServerGetIntValueA(server2, currsortkey, 0);
 	if (diff == 0)
@@ -320,7 +320,7 @@ int IntKeyCompare(void *entry1, void *entry2)
  * _d2f (0x0209B64C) is a recorded MSL runtime row (layout/runtime_arm9.txt), matched in
  * src/matched/arm9/d2f.c, so its call sites are attested.
  */
-int FloatKeyCompare(void *entry1, void *entry2)
+int FloatKeyCompare(const void *entry1, const void *entry2)
 {
     SBServer *server1 = *(SBServer **)entry1;
     SBServer *server2 = *(SBServer **)entry2;
@@ -342,14 +342,14 @@ int FloatKeyCompare(void *entry1, void *entry2)
 /*
  * sdk:      StrCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int StrCaseKeyCompare(void *entry1, void *entry2)
+int StrCaseKeyCompare(const void *entry1, const void *entry2)
 {
 	char *currsortkey;
 	int diff;
 	void *server1;
 	void *server2;
-	server1 = *(void **)entry1;
-	server2 = *(void **)entry2;
+	server1 = *(void * const *)entry1;
+	server2 = *(void * const *)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 	diff = strcmp(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString), SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString));
 	if (diff == 0)
@@ -362,14 +362,14 @@ int StrCaseKeyCompare(void *entry1, void *entry2)
 /*
  * sdk:      StrNoCaseKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  */
-int StrNoCaseKeyCompare(void *entry1, void *entry2)
+int StrNoCaseKeyCompare(const void *entry1, const void *entry2)
 {
 	char *currsortkey;
 	int diff;
 	void *server1;
 	void *server2;
-	server1 = *(void **)entry1;
-	server2 = *(void **)entry2;
+	server1 = *(void * const *)entry1;
+	server2 = *(void * const *)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
 	diff = strcmp_nocase((SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString)), (SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString)));
 	if (diff == 0)
@@ -384,7 +384,7 @@ int StrNoCaseKeyCompare(void *entry1, void *entry2)
  */
 void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
 {
-    int (*comparator)(void *, void *);
+    int (*comparator)(const void *, const void *);
 
     switch (sortinfo.comparemode) {
     case 0:
@@ -411,7 +411,7 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
     gSBSortContext.slist = slist;
-    ArraySort(slist->servers, (int (*)(const void *, const void *))comparator);
+    ArraySort(slist->servers, comparator);
 }
 
 /*
@@ -857,9 +857,9 @@ SBError SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *
 void FreePopularValues(char *list)
 {
 	int i;
-	for (i = 0; i < *(int *)(list + 0x480); i++)
-		SBReleaseStr(list, *(char **)(list + 0x84 + i * 4));
-	*(int *)(list + 0x480) = 0;
+	for (i = 0; i < ((SBServerList *)list)->numpopularvalues; i++)
+		SBReleaseStr(list, ((SBServerList *)list)->popularvalues[i]);
+	((SBServerList *)list)->numpopularvalues = 0;
 }
 
 /*

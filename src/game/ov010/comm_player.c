@@ -188,7 +188,7 @@ void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *
 int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out);
 int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, s16 gridX, int gridY, s16 gridZ, int *outId, u32 *searchIndex);
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index);
-u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
+struct Mmdl *COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index);
 void COMM_PLAYER_CreateSys(void *gameSystem, CommPlayerWork *work);
 extern u8 d_02171F5F[];
@@ -249,9 +249,9 @@ u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, in
     int i;
 
     i = 0;
-    MI_CpuFill8(out, 0, cap * 4);
+    MI_CpuFill8(out, 0, cap * sizeof(*out));
     SYMBOL_SAVE_FinalizeChecksum((struct SymbolSave *)list);
-    MI_CpuCopy8(&list[start], out, count * 4);
+    MI_CpuCopy8(&list[start], out, count * sizeof(*out));
     SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)list);
     for (i = 0; i < count; i++) {
         if (out[i].id == 0)
@@ -309,7 +309,7 @@ u16 SYMBOL_MAP_GetEntryPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *
     u16 start;
 
     more = 0;
-    MI_CpuFill8(out, 0, cap * 4);
+    MI_CpuFill8(out, 0, cap * sizeof(*out));
     if (page == 0) {
         start = SYMBOL_MAP_GetEntryPage0First(list, out, cap, n);
         out += 10;
@@ -370,8 +370,13 @@ void COMM_PLAYER_Add(CommPlayerWork *work, int index, int objCode, CommPlayerPac
     if (work->playerSys != 0 && work->entries[index].used != 1) {
         CopyPos(&work->entries[index].pos, (CommPlayerPos *)&package->pos);
         /* row view as in COMM_PLAYER_SetPackage: entries[index] here changes the bytes */
+#ifdef __MWERKS__
         ((CommPlayerWork *)((char *)work + index * 0x1C))->entries[0].zoneId = package->zoneId;
         ((CommPlayerWork *)((char *)work + index * 0x1C))->entries[0].vanish = package->vanish;
+#else
+        work->entries[index].zoneId = package->zoneId;
+        work->entries[index].vanish = package->vanish;
+#endif
         work->entries[index].objCode = objCode;
         work->entries[index].pending = 0;
         work->entries[index].used = 1;
@@ -386,30 +391,34 @@ void COMM_PLAYER_Add(CommPlayerWork *work, int index, int objCode, CommPlayerPac
  * address lever: separate flags base and off locals preserve the original base/offset registers; a combined raw address folds i+1, while the CommPlayerFlagView accesses share the scaled pointer.
  */
 void COMM_PLAYER_Del(CommPlayerWork *work, int index) {
-    CommPlayerFlagView *flags;
-    u32 offset;
-    flags = (CommPlayerFlagView *)((uptr)work + 28u);
-    offset = (u32)index * 28u;
-    if (((CommPlayerFlagView *)((uptr)flags + offset))->used && work->playerSys != 0) {
-        *(u32 *)((uptr)work + offset + 32u) = 0;
+    if (work->entries[index].used && work->playerSys != 0) {
+        work->entries[index].effect = 0;
         FIELD_COMM_ACTOR_CTRL_DeleteActor(work->playerSys, index);
-        ((CommPlayerFlagView *)((uptr)flags + offset))->used = 0;
+        work->entries[index].used = 0;
     }
 }
 
 void COMM_PLAYER_Suspend(CommPlayerWork *work)
 {
+#ifdef __MWERKS__
     CommPlayerFlagView *flags;
+#else
+    CommPlayerEntry *flags;
+#endif
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0) {
         i = 0;
+#ifdef __MWERKS__
         flags = (CommPlayerFlagView *)((char *)work + 0x1C);
+#else
+        flags = work->entries;
+#endif
         for (; i < 4; i++) {
             if (flags[i].used == 1) {
                 COMM_PLAYER_Del(work, i);
-                *(u8 *)&flags[i] |= 2;
+                flags[i].pending = 1;
             }
         }
         FIELD_COMM_ACTOR_CTRL_Delete(work->playerSys);
@@ -420,7 +429,11 @@ void COMM_PLAYER_Suspend(CommPlayerWork *work)
 void COMM_PLAYER_Resume(CommPlayerWork *work)
 {
     CommPlayerPackage package;
+#ifdef __MWERKS__
     CommPlayerFlagView *flags;
+#else
+    CommPlayerEntry *flags;
+#endif
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
@@ -428,8 +441,12 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(work->gameSystem)), work->heapId, work->sysOption);
     MI_CpuFill8(&package, 0, 0x14);
+#ifdef __MWERKS__
     flags = (CommPlayerFlagView *)work;
     flags = (CommPlayerFlagView *)((char *)flags + 0x1C);
+#else
+    flags = work->entries;
+#endif
     for (i = 0; i < 4; i++) {
         if (flags[i].pending == 1) {
             package.pos = *(VecFx32 *)&work->entries[i].pos;
@@ -443,14 +460,22 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
 
 void COMM_PLAYER_ClearPending(CommPlayerWork *work)
 {
+#ifdef __MWERKS__
     CommPlayerFlagView *flags;
+#else
+    CommPlayerEntry *flags;
+#endif
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     i = 0;
+#ifdef __MWERKS__
     flags = (CommPlayerFlagView *)((char *)work + 0x1C);
+#else
+    flags = work->entries;
+#endif
     for (; i < 4; i++) {
         if (flags[i].pending == 1)
             flags[i].pending = 0;
@@ -463,7 +488,7 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
  */
 int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index) {
     if (work == 0 || index >= 4) GF_PANIC_Fail(d_02172A28, 0, d_02172A28);
-    return ((CommPlayerRowView *)((uptr)work + (u32)index * 28u))->flags.used;
+    return work->entries[index].used;
 }
 
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index)
@@ -493,10 +518,9 @@ void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *
 {
     /* row = the work shifted by index entries, so entries[0] of row is entry
      * index; &work->entries[index] folds the +8 and changes the bytes. */
-    CommPlayerWork *row = (CommPlayerWork *)((char *)work + index * 0x1C);
-    row->entries[0].pos = *(CommPlayerPos *)&package->pos;
-    row->entries[0].zoneId = package->zoneId;
-    row->entries[0].vanish = package->vanish;
+    work->entries[index].pos = *(CommPlayerPos *)&package->pos;
+    work->entries[index].zoneId = package->zoneId;
+    work->entries[index].vanish = package->vanish;
 }
 
 /*
@@ -580,13 +604,13 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
     return 1;
 }
 
-u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
+struct Mmdl *COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
 {
     if (work->playerSys == 0)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->entries[index].used != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return (uptr)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
+    return FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
 }
 
 /*
@@ -594,7 +618,7 @@ u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
  */
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index)
 {
-    if (work == 0 || work->playerSys == 0 || !((CommPlayerFlagView *)((char *)work + index * 0x1c + 0x1c))->used) {
+    if (work == 0 || work->playerSys == 0 || !work->entries[index].used) {
         return 0;
     }
     return 1;

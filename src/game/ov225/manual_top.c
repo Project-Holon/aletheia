@@ -130,7 +130,7 @@ void MANUAL_COMMON_DeleteDialog(char *p);
 
 int MANUAL_COMMON_UpdateDialog(char *p);
 
-void MANUAL_COMMON_DialogTaskNoop(void *p);
+void MANUAL_COMMON_DialogTaskNoop(struct TcbTask *unused, void *unused1);
 
 void MANUAL_COMMON_LoadDialogAssets(char *p);
 
@@ -151,15 +151,15 @@ extern const u8 gManualCommonDialogHitRects[];
 char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
 {
     char *dialog;
-    dialog = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, 32, 1, gManualCommonDialogAllocFile, 157);
+    dialog = GFL_HEAP_Alloc(((struct ManualData *)data)->heap, sizeof(struct ManualDialog), 1, gManualCommonDialogAllocFile, 157);
     *(char * *)&((struct ManualDialog *)dialog)->owner = owner;
     ((struct ManualListBuffer *)owner)->choice = 1;
     *(char * *)&((struct ManualDialog *)dialog)->data = data;
     MANUAL_COMMON_LoadDialogAssets(dialog);
     MANUAL_COMMON_SetDialogBgMode(dialog);
-    ((struct ManualDialog *)dialog)->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_COMMON_DialogTaskNoop), (void *)((uptr)dialog), 1);
+    ((struct ManualDialog *)dialog)->task = GFL_USE_AddMainTask(MANUAL_COMMON_DialogTaskNoop, (void *)((uptr)dialog), 1);
     ((struct ManualDialog *)dialog)->state = 0;
-    dialog[0x1c] = -1;
+    ((struct ManualDialog *)dialog)->timer = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group, 0);
     return dialog;
 }
@@ -201,11 +201,11 @@ int MANUAL_COMMON_UpdateDialog(char *dialog)
         }
     }
     if (((struct ManualDialog *)dialog)->state==0 || ((struct ManualDialog *)dialog)->state==3) {
-        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(char **)(dialog+0xc+i*4)));
+        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)((struct ManualDialog *)dialog)->win[i]);
         if (((struct ManualDialog *)dialog)->state==0) {
             if (MANUAL_COMMON_UpdateDialogInput(dialog)) ((struct ManualDialog *)dialog)->state=3;
         } else {
-            if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(*(char **)(dialog+0xc+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4)))) {
+            if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner])) {
                 unsigned value;
                 if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) value=2;
                 else if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) value=3;
@@ -220,7 +220,7 @@ finish:
     return done;
 }
 
-void MANUAL_COMMON_DialogTaskNoop(void *unused)
+void MANUAL_COMMON_DialogTaskNoop(struct TcbTask *unused, void *unused1)
 {
 }
 
@@ -247,17 +247,17 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(dialog + i * 4 + 0xc) = (uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct ManualDialog *)dialog)->resource), (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+        ((struct ManualDialog *)dialog)->win[i] = APP_TASKMENU_WIN_Create((struct TaskMenuRes *)((struct ManualDialog *)dialog)->resource, (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
-    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc)), 1);
+    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(((struct ManualDialog *)dialog)->win[*(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner]), 1);
 }
 
 void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_COMMON_DeleteDialogStep(char *dialog) { MANUAL_COMMON_DeleteDialogWindows(dialog); }
 
-void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue[1]); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(dialog+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource)); BG_SYS_MarkTileDirty(5); }
+void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue[1]); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(((struct ManualDialog *)dialog)->win[i])); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource)); BG_SYS_MarkTileDirty(5); }
 
 /*
  * Lever: unhinted BF9C data uses this function's own overlay region.
@@ -268,50 +268,50 @@ int MANUAL_COMMON_UpdateDialogInput(char *dialog)
     if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<=1) {
             UI_SetInputMode(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&0x402)) {
             UI_SetInputMode(0);
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
     }
     if(UI_GetInputMode()==0) {
         if(KEY_GetTrg()&1) {
-            APP_TASKMENU_WIN_SetDecide(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
         } else if(KEY_GetRepeat()&0x40) {
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],0);
             if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) **(u8 * *)&((struct ManualDialog *)dialog)->owner=1; else **(u8 * *)&((struct ManualDialog *)dialog)->owner=0;
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if(KEY_GetRepeat()&0x80) {
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],0);
             if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) **(u8 * *)&((struct ManualDialog *)dialog)->owner=0; else **(u8 * *)&((struct ManualDialog *)dialog)->owner=1;
-            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if(KEY_GetRepeat()&0x220) {
             if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],0);
                 **(u8 * *)&((struct ManualDialog *)dialog)->owner=0;
-                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else if(KEY_GetRepeat()&0x110) {
             if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],0);
                 **(u8 * *)&((struct ManualDialog *)dialog)->owner=1;
-                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         }
     } else if(hit>=0 && hit<=1) {
         **(u8 * *)&((struct ManualDialog *)dialog)->owner=hit;
-        APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
-        APP_TASKMENU_WIN_SetDecide(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
+        APP_TASKMENU_WIN_SetDecide(((struct ManualDialog *)dialog)->win[**(u8 * *)&((struct ManualDialog *)dialog)->owner],1);
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }

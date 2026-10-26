@@ -108,11 +108,11 @@ extern NameInArgs * NAMEIN_SETUP_CreateArgs(int, int, int, int, int, Strbuf *, v
 struct NameInArgs;
 
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
-int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work);
+int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, void *work);
 struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode);
 int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventWork *work);
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result);
-int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, SubProcEventWork *work);
+int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, void *work);
 
 /* Name entry proc table (ov194, proc id 0xC2) and the sub proc table of ov171. */
 extern char gNameInProcData;
@@ -125,7 +125,7 @@ extern char ov171_id[];
  */
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode)
 {
-    void *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_NameInEventMain, 0x10);
+    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NameInEventMain, sizeof(NameInEventWork));
     NameInEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -138,8 +138,9 @@ void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nam
  * Event: starts the name entry proc (overlay 0xC2, table gNameInProcData in
  * ov194), with a fade unless mode is 0, and ends when it returns.
  */
-int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work)
+int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    NameInEventWork *work = workPtr;
     sptr childEvent;
 
     switch (*state) {
@@ -172,7 +173,7 @@ struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int 
     if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
     }
-    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, sizeof(NicknameEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -223,7 +224,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
  */
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result)
 {
-    void *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_SubProcEventMain, 0x14);
+    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SubProcEventMain, sizeof(SubProcEventWork));
     SubProcEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -237,8 +238,9 @@ void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result)
  * Event: runs a sub proc of overlay 171 (table gSubProcTable) and copies its
  * result code (0 or 1) to the script result.
  */
-int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, SubProcEventWork *work)
+int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    SubProcEventWork *work = workPtr;
     int value;
 
     switch (*state) {

@@ -400,7 +400,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg);
 
 int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p);
 
-int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d);
+int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, u8 *d);
 
 #include "local_tvt_chara.h"
 
@@ -460,12 +460,12 @@ void LOCAL_TVT_SYS_Delete(u8 *p)
 
 static inline void G2_SetBG2Control256x16Affine(GXBGScrSize256x16Pltt size,GXBGAreaOver over,GXBGScrBase scr,GXBGCharBase chr)
 {
-    *(volatile u16 *)0x0400000C=(u16)((*(volatile u16 *)0x0400000C &0x43)|(size<<14)|(chr<<2)|(scr<<8)|(over<<13));
+    *(volatile u16 *)REG_BG2CNT_ADDR=(u16)((*(volatile u16 *)REG_BG2CNT_ADDR &0x43)|(size<<14)|(chr<<2)|(scr<<8)|(over<<13));
 }
 
 static inline void G2_SetBG3Control256x16Affine(GXBGScrSize256x16Pltt size,GXBGAreaOver over,GXBGScrBase scr,GXBGCharBase chr)
 {
-    *(volatile u16 *)0x0400000E=(u16)((*(volatile u16 *)0x0400000E &0x43)|(size<<14)|(chr<<2)|(scr<<8)|(over<<13));
+    *(volatile u16 *)REG_BG3CNT_ADDR=(u16)((*(volatile u16 *)REG_BG3CNT_ADDR &0x43)|(size<<14)|(chr<<2)|(scr<<8)|(over<<13));
 }
 
 int LOCAL_TVT_SYS_Main(u8 *p)
@@ -549,10 +549,10 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     WIPE_SetBrightnessFadeOut(0,0);
     WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0);
-    WIPE_ResetWndMask((void *)1);
-    *(volatile u16 *)0x04000050=0;
-    *(volatile u16 *)0x04001050=0;
-    *(volatile u16 *)0x04000304 |=0x8000;
+    WIPE_ResetWndMask(1);
+    *(volatile u16 *)REG_BLDCNT_ADDR=0;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR=0;
+    *(volatile u16 *)REG_POWCNT1_ADDR |=0x8000;
     BG_SYS_SetVramBanks((const struct DispVram *)d_021B7450);
     BG_SYS_Create(((struct LocalTvtSys *)p)->heapId);
     BMP_WIN_Init(((struct LocalTvtSys *)p)->heapId);
@@ -642,8 +642,8 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct LocalTvtSys *)p)->window.value = 0;
     ((struct LocalTvtSys *)p)->textBuf.value = 0;
     ((struct LocalTvtSys *)p)->wordSet.value = 0;
-    ((struct LocalTvtSys *)p)->printQueue.value = (uptr)PRINTSYS_QUE_Create((unsigned int)(((struct LocalTvtSys *)p)->heapId));
-    ((struct LocalTvtSys *)p)->keyCursor.value = (uptr)APP_KEYCURSOR_CreateDefault((unsigned int)0xf, (unsigned int)1, (unsigned int)1, ((struct LocalTvtSys *)p)->heapId);
+    ((struct LocalTvtSys *)p)->printQueue.ptr = PRINTSYS_QUE_Create((unsigned int)(((struct LocalTvtSys *)p)->heapId));
+    ((struct LocalTvtSys *)p)->keyCursor.ptr = APP_KEYCURSOR_CreateDefault((unsigned int)0xf, (unsigned int)1, (unsigned int)1, ((struct LocalTvtSys *)p)->heapId);
     GF_FONT_SetTextColor(1, 2, 0xf);
 }
 
@@ -716,7 +716,7 @@ void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
  }
  if(((struct LocalTvtSys *)p)->printStream.ptr){PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);((struct LocalTvtSys *)p)->printStream.ptr=0;}
  if(((struct LocalTvtSys *)p)->textBuf.ptr){STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);((struct LocalTvtSys *)p)->textBuf.ptr=0;}
- for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) if(((struct LocalTvtSys *)p)->chara[i]) LOCAL_TVT_CHARA_ShowWindow((sptr)p,((struct LocalTvtSys *)p)->chara[i]);
+ for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) if(((struct LocalTvtSys *)p)->chara[i]) LOCAL_TVT_CHARA_ShowWindow((u8 *)p,((struct LocalTvtSys *)p)->chara[i]);
 }
 
 /*
@@ -735,7 +735,7 @@ void LOCAL_TVT_SYS_PrintMessage(u8 *p, int message)
  STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);((struct LocalTvtSys *)p)->textBuf.ptr=tmp;
  }
  speed=MSG_SPEED_GetWait();
- ((struct LocalTvtSys *)p)->printStream.value=(uptr)PRINTSYS_PrintStream((struct BmpWin *)((uptr)((struct LocalTvtSys *)p)->window.ptr),0,0,(struct Strbuf *)((uptr)((struct LocalTvtSys *)p)->textBuf.ptr),(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),speed,(struct Tcbl *)(((struct LocalTvtSys *)p)->textCtl.value),2,((struct LocalTvtSys *)p)->heapId,15);
+ ((struct LocalTvtSys *)p)->printStream.ptr=PRINTSYS_PrintStream((struct BmpWin *)(((struct LocalTvtSys *)p)->window.ptr),0,0,(struct Strbuf *)(((struct LocalTvtSys *)p)->textBuf.ptr),((struct LocalTvtSys *)p)->font.ptr,speed,((struct LocalTvtSys *)p)->textCtl.ptr,2,((struct LocalTvtSys *)p)->heapId,15);
 }
 
 void LOCAL_TVT_SYS_RunStep(struct LocalTvtSys *o)
@@ -808,7 +808,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,0x55,0x40000);
-    p=PROCSYS_AllocProcWork(ctx,0x8c,0x55);
+    p=PROCSYS_AllocProcWork(ctx,sizeof(struct LocalTvtSys),0x55);
     if(arg==0) {
         arg=GFL_HEAP_Alloc(0x55,8,0,d_021B74AC,0x3b8);
         ((struct LocalTvtSysMode *)arg)->gameData=GAME_DATA_Create(1);
@@ -823,7 +823,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
 
 int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete((struct GameData *)((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);GFL_HEAP_Free(((struct LocalTvtSys *)p)->modeData);}PROCSYS_FreeProcWork(a);GFL_HEAP_DeleteChecked(85);return 1;}
 
-int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d)
+int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, u8 *d)
 {
-    return LOCAL_TVT_SYS_Main((u8 *)d) == 1;
+    return LOCAL_TVT_SYS_Main(d) == 1;
 }

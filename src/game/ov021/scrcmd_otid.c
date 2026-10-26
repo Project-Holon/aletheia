@@ -139,7 +139,7 @@ extern char d_021F3900[];
 
 int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, OtCountTask *task);
+int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, void *work);
 
 int SCRCMD_CountPartyOtherOtIds(u32 playerId, struct GameData *gameData, OtIdList *list);
 
@@ -170,7 +170,7 @@ int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     struct MyStatus *myStatus;
     OtCountTask *task;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, SCRCMD_CountOtherOtIdsTaskMain, sizeof(OtCountTask));
     myStatus = GAME_DATA_GetMyStatus(gameData);
     task = GAME_EVENT_GetWork(taskEvent);
     task->playerId = MYSTATUS_GetId(myStatus);
@@ -185,8 +185,9 @@ int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdW
  * Task body: scans the party, then two PC boxes per frame, then the battle
  * box. Ends when all are scanned or the list is full.
  */
-int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, OtCountTask *task)
+int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    OtCountTask *task = workPtr;
     OtIdList *list;
     int finished = 0;
     struct GameData *gameData;

@@ -5,14 +5,15 @@
 /* Public functions of msl_strtod.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../arm9/msl_stdlib.h"
 
-double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *overflow);
+double __strtold(int max_width, int (*ReadProc)(MslStringScan *, u32, u32), void *ReadProcArg, int *chars_scanned, int *overflow);
 double strtod(const char *s, char **endptr);
 double atof(const char *s);
-u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+u32 __strtoul(int base, int max_width, int (*ReadProc)(MslStringScan *, u32, u32), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
 u32 strtoul(const char *s, char **endptr, int base);
 int strtol(const char *s, char **endptr, int base);
-u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
+u64 __strtoull(int base, int max_width, int (*ReadProc)(MslStringScan *, u32, u32), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
 s64 strtoll(const char *s, char **endptr, int base);
 int atoi(const char *s);
 long long atoll(const char *s);

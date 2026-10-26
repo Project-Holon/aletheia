@@ -79,7 +79,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
 int FIELD_WFBC_DATA_LOCAL_ScrCmdGetFacingPersonMessageIndex(ScriptVm *vm, struct ScrcmdWork *work);
 int FIELD_WFBC_DATA_LOCAL_ScrCmdCallPersonTalkEvent(ScriptVm *vm, struct ScrcmdWork *work);
 struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem *gameSystem, void *fieldSystem);
-int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, WfbcTalkEvent *talk);
+int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, void *work);
 void FIELD_WFBC_DATA_LOCAL_StartTalkMessage(WfbcTalkEvent *talk, int messageSlot, int *state, int nextState);
 void FIELD_WFBC_DATA_LOCAL_StartTalkMessageWithChoice(WfbcTalkEvent *talk, int messageSlot, int *state, int yesStateId, u16 noStateId);
 int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(WfbcTalkEvent *talk);

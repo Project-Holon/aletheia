@@ -47,31 +47,11 @@ extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo); /* original prototype; the 
 
 
 
-#ifdef __MWERKS__
-extern void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u32 monsNo); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
 
-#ifdef __MWERKS__
-extern void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u32 monsNo); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
-#ifdef __MWERKS__
-extern void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
-#ifdef __MWERKS__
-extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
-#ifdef __MWERKS__
-extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
-#else
-#endif
 
 struct MiscSave;
 

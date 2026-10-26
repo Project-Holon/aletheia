@@ -265,12 +265,6 @@ typedef struct IrcBattleMatchParam {
 typedef void (*IrcBattleMatchStep)(struct IrcBattleMatchWork *work);
 
 /* Actor list slots of the animated icons. */
-typedef struct ActorTask {
-    u16 state, pad;
-    struct IrcBattleMatchWork *context;
-    void (*callback)(struct IrcBattleMatchWork *work);
-} ActorTask;
-
 /* Actor creation parameter: surface position, animation, slot. */
 typedef struct ActorParam { s16 x, y; u16 animSeq; u8 slot, mode; } ActorParam;
 
@@ -344,6 +338,7 @@ typedef struct IrcBattleMatchWork {
 #include "../arm9/os_cache.h"
 #include "../arm9/gx_load2d.h"
 #include "../arm9/mi_memory.h"
+#include "../arm9/nns_g2d_res_types.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/clact.h"
 #include "../arm9/math.h"
@@ -480,8 +475,8 @@ void IRCBATTLEMATCH_StepCountdownThenExit(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepShowErrorMessage(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepWaitErrorChoice(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepOpenErrorConfirm(IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_IconAnimLeft(IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_IconAnimRight(IrcBattleMatchWork *work);
+void IRCBATTLEMATCH_IconAnimLeft(void *param, u32 frame);
+void IRCBATTLEMATCH_IconAnimRight(void *param, u32 frame);
 void IRCBATTLEMATCH_StepShowDisconnectMessage(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepAnimateIcons(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work);
@@ -606,7 +601,13 @@ void IRCBATTLEMATCH_NudgeActor(IrcBattleMatchWork *work,int dx,int dy,int slot)
 }
 
 /* stand-in: the address is written as (int)work + 0x2c8 + slot * 4; work->actors[slot] compiles four bytes shorter. */
-void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot) { struct Vec2Short { s16 x,y; } pos; struct ClactActor *actor; actor=*(struct ClactActor **)((sptr)work+0x2c8+slot*4); if(actor){pos.x=x;pos.y=y;CLACT_AddActorSurfacePos(actor,(const struct ClactVec2 *)(&pos),0);} }
+void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot) { struct Vec2Short { s16 x,y; } pos; struct ClactActor *actor;
+#ifdef __MWERKS__
+ actor=*(struct ClactActor **)((sptr)work+0x2c8+slot*4);
+#else
+ actor=work->actors[slot];
+#endif
+ if(actor){pos.x=x;pos.y=y;CLACT_AddActorSurfacePos(actor,(const struct ClactVec2 *)(&pos),0);} }
 
 void IRCBATTLEMATCH_SetPlayerReady(IrcBattleMatchWork *work,int aid)
 {
@@ -1021,7 +1022,7 @@ void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *wor
   BMP_WIN_MakeScreen((struct BmpWin *)win);
   BMP_MENUWORK_DrawWindow((struct BmpWin *)work->messageWin,0,(unsigned short)(work->windowPalette),14);
  }
- BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp(work->messageWin)),255);
+ BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(work->messageWin)),255);
  work->lastMessageId=message->msgId;
  MSGDATA_ReadString(work->msgData,message->msgId,(struct Strbuf *)work->msgStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->messageWin),4,4,(struct Strbuf *)work->msgStr,work->font);
@@ -1035,7 +1036,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
   BMP_WIN_MakeScreen((struct BmpWin *)win);
   BMP_MENUWORK_DrawWindow((struct BmpWin *)work->infoWin,0,(unsigned short)(work->windowPalette),14);
  }
- BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp(work->infoWin)),255);
+ BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(work->infoWin)),255);
  MSGDATA_ReadString(work->msgData,msgId,(struct Strbuf *)work->tempStr);
  WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)work->param->gameData)),2,1,1);
  WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
@@ -1103,7 +1104,7 @@ void IRCBATTLEMATCH_PrintWaitingMessage(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  void *arc;
  void *rawData;
- void *resource;
+ NNSG2dPaletteData *resource;
  int i;
  GF_FONT_SetDefaultTextColor();
  work->wordSet=WORDSET_Create(11,200,work->heapId);
@@ -1122,7 +1123,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,4,0,0,work->heapId);
  work->bgScreenId=(int)ARC_UTIL_RegisterObjCharFromHandle(arc,4,4,0,0,work->heapId);
  ARC_UTIL_UploadBgPaletteAddFromHandle(arc,9,4,0,(u16)(work->bgScreenId),0,0,work->heapId);ARC_TOOL_DeleteHandle(arc);
- work->windowPalette=(int)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5,14,0,work->heapId);
+ work->windowPalette=BMP_MENUWORK_LoadFrameGfx(5,14,0,work->heapId);
  FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage(work);
  CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam,(struct DispVramCfg *)gIrcBattleMatchVramBanks,work->heapId);
  work->clactUnit=CLACT_CreateUnit(40,0,work->heapId);
@@ -1139,7 +1140,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  work->heapIdCopy=work->heapId;
  arc=ARC_TOOL_CreateHandle(28,work->heapIdCopy);
  rawData=ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,2,(&resource),work->heapIdCopy);
- MI_CpuCopy8(*(void **)((u8 *)resource+12),work,0x120);
+ MI_CpuCopy8(resource->pRawData,work,0x120);
  for(i=0;i<9;i++) MI_CpuCopy8(work->palette[8-i],work->palette[i+9],32);
  GFL_HEAP_Free(rawData);ARC_TOOL_DeleteHandle(arc);IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitFadeIn);
 }
@@ -1226,12 +1227,12 @@ void IRCBATTLEMATCH_StepStartSession(IrcBattleMatchWork *work)
     GFL_NET_StartSession((struct GFLNetInitializeStruct *)&req,0,work);
     switch(work->mode) {
     case 10:
-        GFL_NET_IRC_WIRELESS_SetSessionParam((uptr)IRCBATTLEMATCH_IsCompatibleGameKind);
+        GFL_NET_IRC_WIRELESS_SetSessionParam(IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(1);
         GFL_NET_SetGameKindOverride(17);
         break;
     case 9:
-        GFL_NET_IRC_WIRELESS_SetSessionParam((uptr)IRCBATTLEMATCH_IsCompatibleGameKind);
+        GFL_NET_IRC_WIRELESS_SetSessionParam(IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(zero);
         GFL_NET_SetGameKindOverride(17);
         break;
@@ -1268,7 +1269,7 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
  */
 void IRCBATTLEMATCH_StepStartChangeover(IrcBattleMatchWork *work) {
  if(GFL_NET_GetRunState()==1) {
-  switch(work->mode) { case 9: case 10: IRCNET_SetFilter((sptr)IRCBATTLEMATCH_IsCompatibleGameKind); break; }
+  switch(work->mode) { case 9: case 10: IRCNET_SetFilter(IRCBATTLEMATCH_IsCompatibleGameKind); break; }
   GFL_NET_StartChangeoverEx(IRCBATTLEMATCH_CollectMacAddresses,IRCBATTLEMATCH_OnChangeoverResult,IRCBATTLEMATCH_OnChangeoverConnected);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitSession);
  }
@@ -1423,7 +1424,8 @@ void IRCBATTLEMATCH_StepOpenErrorConfirm(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitErrorChoice);
 }
 
-void IRCBATTLEMATCH_IconAnimLeft(IrcBattleMatchWork *work) {
+void IRCBATTLEMATCH_IconAnimLeft(void *param, u32 frame) {
+ IrcBattleMatchWork *work = (IrcBattleMatchWork *)param;
  switch(CLACT_GetActorAnimSeq((struct ClactActor *)work->actors[0])) {
  case 8:
   CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[0],11);
@@ -1435,7 +1437,8 @@ void IRCBATTLEMATCH_IconAnimLeft(IrcBattleMatchWork *work) {
  }
 }
 
-void IRCBATTLEMATCH_IconAnimRight(IrcBattleMatchWork *work) {
+void IRCBATTLEMATCH_IconAnimRight(void *param, u32 frame) {
+ IrcBattleMatchWork *work = (IrcBattleMatchWork *)param;
  switch(CLACT_GetActorAnimSeq((struct ClactActor *)work->actors[2])) {
  case 9:
   CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[2],10);
@@ -1462,7 +1465,7 @@ void IRCBATTLEMATCH_StepShowDisconnectMessage(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepAnimateIcons(IrcBattleMatchWork *work)
 {
     MessageRef messageB,messageA;
-    ActorTask task;
+    struct ClactAnimCommand task;
     IRCBATTLEMATCH_FreeMessageWindows(work);
     if(work->iconsDirty==1) {
         if(work->changeoverRole) {
@@ -1481,12 +1484,12 @@ void IRCBATTLEMATCH_StepAnimateIcons(IrcBattleMatchWork *work)
         IRCBATTLEMATCH_DeleteActor(work,1);
         IRCBATTLEMATCH_DeleteActor(work,3);
         if(work->changeoverRole) {
-            task.state=0;
-            task.context=work;
-            task.callback=IRCBATTLEMATCH_IconAnimLeft;
-            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[0],(const struct ClactAnimCommand *)&task);
-            task.callback=IRCBATTLEMATCH_IconAnimRight;
-            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[2],(const struct ClactAnimCommand *)&task);
+            task.op=0;
+            task.param=work;
+            task.func=IRCBATTLEMATCH_IconAnimLeft;
+            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[0],&task);
+            task.func=IRCBATTLEMATCH_IconAnimRight;
+            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[2],&task);
         }
         work->iconsDirty=0;
     }
@@ -1562,7 +1565,7 @@ int IRCBATTLEMATCH_ProcInit(struct Proc *proc, int seq, IrcBattleMatchParam *par
     int workSize;
 
     GFL_HEAP_CreateChildHeap(1, 0x1f, 0x20000);
-    workSize = 0xcf0;
+    workSize = sizeof(IrcBattleMatchWork);
     work = PROCSYS_AllocProcWork(proc, workSize, 0x1f);
     MI_CpuFill8((void *)work, 0, workSize);
     work->param = param;

@@ -92,7 +92,7 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     int (*table)[4][4];
     int i, j;
     int bytes;
-    field = GFL_HEAP_Alloc(heap, 0x70, 1, gBtlvFieldFileName, 0x56);
+    field = GFL_HEAP_Alloc(heap, sizeof(*field), 1, gBtlvFieldFileName, 0x56);
     table = ARC_TOOL_LoadMember(0x98, 1, (u16)((heap & 0x7fff) | 0x8000));
     field->heap = heap;
     if (table[group][0][variant] != -1)
@@ -106,8 +106,8 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->render = G3D_SYSTEM_CreateRender(field->resource, 0, field->resource);
     j = 0;
     if (field->animCount != 0) {
-        field->animResource = GFL_HEAP_Alloc(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7e);
-        field->anime = GFL_HEAP_Alloc(field->heap, field->animCount * 4, 0, gBtlvFieldFileName, 0x7f);
+        field->animResource = GFL_HEAP_Alloc(field->heap, field->animCount * sizeof(*field->animResource), 0, gBtlvFieldFileName, 0x7e);
+        field->anime = GFL_HEAP_Alloc(field->heap, field->animCount * sizeof(*field->anime), 0, gBtlvFieldFileName, 0x7f);
         field->animState = GFL_HEAP_Alloc(field->heap, field->animCount * 16, 1, gBtlvFieldFileName, 0x80);
         for (i = 1; i < 4; i++) {
             if (table[group][i][variant] != -1) {
@@ -130,8 +130,8 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->status.scale.z = 0x1000;
     MTX_Identity33_(&field->status.rotate);
     bytes = ((NNSG3dResTex *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource)))->plttInfo.sizePltt * 8;
-    field->palFade.resources = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
-    field->palFade.palettes = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
+    field->palFade.resources = GFL_HEAP_Alloc(field->heap, sizeof(*field->palFade.resources), 0, gBtlvFieldFileName, 0xaa);
+    field->palFade.palettes = GFL_HEAP_Alloc(field->heap, sizeof(*field->palFade.palettes), 0, gBtlvFieldFileName, 0xab);
     *field->palFade.resources = field->resource;
     *field->palFade.palettes = GFL_HEAP_Alloc(field->heap, bytes, 0, gBtlvFieldFileName, 0xae);
     field->palFade.enabled = 0;

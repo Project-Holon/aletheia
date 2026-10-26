@@ -40,7 +40,7 @@ typedef struct WCMWork {
     WCMPrivacy privacyDesc;         /* +0x1240 */
     unsigned char alarm[0x2C];      /* +0x1294 keep-alive alarm */
     WCMConfig config;               /* +0x12C0 */
-    void (*notify)(void *);         /* +0x12D0 */
+    void (*notify)(WCMNotice *);         /* +0x12D0 */
     unsigned long option;           /* +0x12D4 */
     unsigned short maxScanTime;     /* +0x12D8 */
     short notifyId;                 /* +0x12DA */

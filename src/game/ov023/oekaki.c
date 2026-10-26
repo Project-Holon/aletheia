@@ -237,17 +237,12 @@ struct DispVram;
 #include "../arm9/net_handle.h"
 #include "../arm9/net_command.h"
 #include "../arm9/mi_memory.h"
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *window);
-extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
 #include "../ov022/union_app.h"
 #include "../arm9/math.h"
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 #include "../arm9/gf_font.h"
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 #include "../arm9/wipe.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/net_err.h"
@@ -259,13 +254,8 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fi
 #include "../arm9/touchpanel.h"
 #include "../arm9/wordset.h"
 #include "../arm9/gfl_use.h"
-extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
 #include "../arm9/gfl_heap_wrap.h"
-void CLACT_VBlankSystem(void);
-extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, StrBuf *dest);
-extern void STRBUF_Delete(StrBuf *vec);
+#include "../arm9/strbuf.h"
 #include "../arm9/gx.h"
 #include "../arm9/arc_util.h"
 #include "../arm9/bmp_menuwork.h"
@@ -339,23 +329,13 @@ typedef struct MenuItemInit {
     u32 result;
 } MenuItemInit;
 
-extern void BMP_WIN_Init(u32 heapId);
-extern void BMP_Clear(struct Bmp *bmp, u8 color);
-extern u32 BMP_WIN_Delete(struct BmpWin *d);
-extern void BMP_WIN_Exit(void);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int  TOUCHPANEL_GetCont(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 #include "../arm9/g2.h"
 #include "../arm9/app_taskmenu.h"
-extern void BMP_Delete(struct Bmp *p);
 #include "../arm9/gf_standard.h"
 #include "../arm9/gx_load2d.h"
 #include "../arm9/mystatus.h"
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 #include "../arm9/key.h"
-extern StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 #include "../arm9/game_data.h"
 #include "../arm9/met_trainers_savedata.h"
@@ -509,6 +489,7 @@ void OEKAKI_RecvStrokes(int netId, int size, const u8 *strokes, OekakiWork *work
     const u8 *src;
 
     if (work != 0 && netId == 0) {
+#ifdef __MWERKS__
         for (i = 0; i < OEKAKI_MEMBER_MAX; i++) {
             dst = (u8 *)work + i * 6;
             src = strokes + i * 6;
@@ -519,6 +500,18 @@ void OEKAKI_RecvStrokes(int netId, int size, const u8 *strokes, OekakiWork *work
             dst[0x4216] = src[4];
             dst[0x4217] = src[5];
         }
+#else
+        for (i = 0; i < OEKAKI_MEMBER_MAX; i++) {
+            dst = (u8 *)&work->remoteStroke[i];
+            src = strokes + i * 6;
+            dst[0] = src[0];
+            dst[1] = src[1];
+            dst[2] = src[2];
+            dst[3] = src[3];
+            dst[4] = src[4];
+            dst[5] = src[5];
+        }
+#endif
     }
 }
 
@@ -1301,7 +1294,7 @@ int OEKAKI_StepHideCursors(OekakiWork *p, int procState)
  */
 int OEKAKI_StepEnterDraw(OekakiWork *p, int procState)
 {
-    *(volatile u16 *)0x04000050 = 0;
+    *(volatile u16 *)REG_BLDCNT_ADDR = 0;
     OEKAKI_HostOpenGroupLimited(p, 1);
     OEKAKI_SetNextScene(p, 4);
     OEKAKI_ApplyRemoteStrokes(p);
@@ -1824,7 +1817,7 @@ void OEKAKI_DrawStrokes(struct BmpWin *canvas, StrokeRec *strokes, LastPoint *la
  * element address is recomputed (muls) at each use. A local pointer, or a
  * `char *` parameter with the same cast, CSEs the element pointer instead.
  */
-#define REMOTE_STROKES(p) ((StrokeRec *)((char *)(p) + ((sptr)&((OekakiWork *)0)->remoteStroke)))
+#define REMOTE_STROKES(p) ((StrokeRec *)((char *)(p) + (sptr)BW_OFFSETOF(OekakiWork, remoteStroke)))
 void OEKAKI_UpdateRemoteCursors(OekakiWork *p)
 {
     int i;
@@ -2182,7 +2175,7 @@ void OEKAKI_EnableDisplays(void)
     BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_SetPlaneVisible(5, 1);
-    *(volatile u16 *)0x04000304 = *(volatile u16 *)0x04000304 & 0xFFFF7FFF;
+    *(volatile u16 *)REG_POWCNT1_ADDR = *(volatile u16 *)REG_POWCNT1_ADDR & 0xFFFF7FFF;
 }
 
 TaskMenu *OEKAKI_OpenYesNoMenu(OekakiWork *p)

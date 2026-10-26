@@ -170,7 +170,7 @@ struct CircleWork {
     u32 heapId;                 /* 0x28 */
     u32 closing;                /* 0x2C */
     struct WindowRequests *windowRequests; /* 0x30 */
-    u32 hblank;                 /* 0x34 */
+    struct WipeHBlankSlots *hblank; /* 0x34 */
 };
 
 /* Circle wipe parameter table (rodata, 12 bytes). */
@@ -232,7 +232,7 @@ struct ShutterWork {
     u32 closing;                /* 0x324 */
     u32 heapId;                 /* 0x328 */
     struct WindowRequests *windowRequests; /* 0x32C */
-    u32 hblank;                 /* 0x330 */
+    struct WipeHBlankSlots *hblank; /* 0x330 */
 };
 
 /* Zero for the Box tick counter; an enum-typed zero keeps its own register web. */
@@ -269,34 +269,34 @@ void WIPE_SUB_FadeStart(struct WipePanel *panel, u32 closing);
 u32 WIPE_SUB_FadeMain(struct WipePanel *panel);
 int WIPE_SUB_FadeStep(struct FadeState *fade);
 void WIPE_SUB_FadeVTask(void *task, struct FadeState *fade);
-void WIPE_SUB_WindowRectHBlank(struct LineBuffers *lines);
+void WIPE_SUB_WindowRectHBlank(void *linesArg);
 void WIPE_SUB_CreateLineBuffers(struct LineBuffers *lines, u32 windowSelect, u32 screen, u32 heapId);
 void WIPE_SUB_DeleteLineBuffers(struct LineBuffers *lines);
 void WIPE_SUB_FreeLineBuffers(struct LineBuffers *lines);
 struct LineBuffer *WIPE_SUB_GetLineBuffer(struct LineBuffers *lines, u32 index);
-void WIPE_SUB_FlipLineBuffersTask(void *task, struct LineBuffers *lines);
+void WIPE_SUB_FlipLineBuffersTask(struct TcbTask * taskArg, void * linesArg);
 void WIPE_SUB_RequestWindowEnd(u32 closing, struct WindowRequests *requests, u32 screen);
 void WIPE_SUB_SetupWindow(struct WindowRequests *requests, u32 insidePlanes, u32 outsidePlanes, u32 window, u32 screen, u32 left, u32 top, u32 right, u32 bottom, u32 queued);
 void WIPE_SUB_SetWindowVisibleMode(struct WindowRequests *requests, u32 value, u32 screen, u32 queued);
 void WIPE_SUB_InitLineMask(struct LineMask *mask, u32 screen, u32 halfCount, u32 window0, u32 window1);
 void *WIPE_SUB_RequestLineMaskFlip(struct LineMask *mask);
-void WIPE_SUB_RequestLineMaskHBlank(u32 hblank, struct LineMask *mask, u32 heapId);
-void WIPE_SUB_RequestLineMaskHBlankEnd(u32 hblank, struct LineMask *mask, u32 heapId);
-void WIPE_SUB_FlipLineMaskTask(void *task, struct LineMask *mask);
-void WIPE_SUB_LineMaskHBlank(struct LineMask *mask);
+void WIPE_SUB_RequestLineMaskHBlank(struct WipeHBlankSlots *hblank, struct LineMask *mask, u32 heapId);
+void WIPE_SUB_RequestLineMaskHBlankEnd(struct WipeHBlankSlots *hblank, struct LineMask *mask, u32 heapId);
+void WIPE_SUB_FlipLineMaskTask(struct TcbTask * taskArg, void * maskArg);
+void WIPE_SUB_LineMaskHBlank(void *maskArg);
 void WIPE_SUB_BoxStart(struct WipePanel *panel, const struct WipeBoxParam *param);
 u32 WIPE_SUB_BoxMain(struct WipePanel *panel);
 void WIPE_SUB_BoxInit(struct WipeBoxWork *box, const struct WipeBoxParam *param, u32 frames, u32 wait, u32 screen, struct WindowRequests *windowRequests);
 u32 WIPE_SUB_BoxStep(struct WipeBoxWork *box);
 void WIPE_SUB_CircleStart(struct WipePanel *panel, const struct CircleParam *param);
 u32 WIPE_SUB_CircleMain(struct WipePanel *panel);
-void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *param, u32 frames, u32 wait, u32 screen, struct WindowRequests *windowRequests, u32 hblank, u32 heapId);
+void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *param, u32 frames, u32 wait, u32 screen, struct WindowRequests *windowRequests, struct WipeHBlankSlots *hblank, u32 heapId);
 u32 WIPE_SUB_CircleStep(struct CircleWork *circle);
 void WIPE_SUB_CalcCircleSpan(s32 radius, s32 centerX, s32 centerY, s32 y, s32 *left, s32 *right);
 void WIPE_SUB_CalcCircleLines(struct CircleWork *circle);
 void WIPE_SUB_ShutterStart(struct WipePanel *panel, struct ShutterDesc *desc);
 u32 WIPE_SUB_ShutterMain(struct WipePanel *panel);
-void WIPE_SUB_ShutterInit(struct ShutterWork *shutter, struct ShutterDesc *desc, u32 frames, u32 wait, u32 screen, struct WindowRequests *windowRequests, u32 hblank, u32 heapId);
+void WIPE_SUB_ShutterInit(struct ShutterWork *shutter, struct ShutterDesc *desc, u32 frames, u32 wait, u32 screen, struct WindowRequests *windowRequests, struct WipeHBlankSlots *hblank, u32 heapId);
 u32 WIPE_SUB_ShutterStep(struct ShutterWork *shutter);
 void WIPE_SUB_ShutterExit(struct ShutterWork *shutter);
 void WIPE_SUB_CalcShutterRows(struct ShutterWork *shutter);
@@ -309,10 +309,10 @@ void WIPE_SUB_RequestWindowVisible(struct WindowRequests *requests, u32 value, u
 void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u32 effect, u32 window, u32 screen);
 void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, u32 effect, u32 screen);
 void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 top, u32 right, u32 bottom, u32 window, u32 screen);
-void WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request);
-void WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request);
-void WIPE_SUB_WindowOutsideTask(void *task, struct WindowOutsideRequest *request);
-void WIPE_SUB_WindowRectTask(void *task, struct WindowRectRequest *request);
+void WIPE_SUB_WindowVisibleTask(struct TcbTask * taskArg, void * requestArg);
+void WIPE_SUB_WindowInsideTask(struct TcbTask * taskArg, void * requestArg);
+void WIPE_SUB_WindowOutsideTask(struct TcbTask * taskArg, void * requestArg);
+void WIPE_SUB_WindowRectTask(struct TcbTask * taskArg, void * requestArg);
 
 extern const struct ShutterBand d_0209F570[];
 extern struct ShutterDescTable g_020A73D0;
@@ -495,7 +495,7 @@ void WIPE_SUB_ApplyEndBrightness(struct WipePanel *panel)
 {
     if (panel->fadeOut == 1 && (panel->color == 0x7FFF || panel->color == 0) && panel->usesBrightness == 0) {
         WIPE_SetBrightnessFadeOut(panel->screen, panel->color);
-        WIPE_ResetWndMask((void *)panel->screen);
+        WIPE_ResetWndMask(panel->screen);
     }
 }
 
@@ -537,9 +537,9 @@ void WIPE_SUB_ApplyEndBrightness(struct WipePanel *panel)
 void WIPE_SUB_ClearSys(struct WipeSys *sys)
 {
     MI_CpuFill8(sys, 0, 0x14);
-    MI_CpuFill8(&sys->mainPanel, 0, 0x30);
-    MI_CpuFill8(&sys->subPanel, 0, 0x30);
-    MI_CpuFill8(&sys->hblank, 0, 0x18);
+    MI_CpuFill8(&sys->mainPanel, 0, sizeof(sys->mainPanel));
+    MI_CpuFill8(&sys->subPanel, 0, sizeof(sys->subPanel));
+    MI_CpuFill8(&sys->hblank, 0, sizeof(sys->hblank));
     MI_CpuFill8(&sys->windowRequests, 0, 0xC0);
 }
 
@@ -1100,8 +1100,9 @@ void WIPE_SUB_FadeVTask(void *task, struct FadeState *fade)
  * early and the y[] address lands in r0 instead of r1; with sel first
  * the block is byte-identical to its two neighbours.
  */
-void WIPE_SUB_WindowRectHBlank(struct LineBuffers *lines)
+void WIPE_SUB_WindowRectHBlank(void *linesArg)
 {
+    struct LineBuffers *lines = linesArg;
     s32 line;
     s32 next;
 
@@ -1192,8 +1193,10 @@ struct LineBuffer *WIPE_SUB_GetLineBuffer(struct LineBuffers *lines, u32 index)
     return &lines->buffers[index];
 }
 
-void WIPE_SUB_FlipLineBuffersTask(void *task, struct LineBuffers *lines)
+void WIPE_SUB_FlipLineBuffersTask(struct TcbTask * taskArg, void * linesArg)
 {
+    void * task = (void *)taskArg;
+    struct LineBuffers * lines = (struct LineBuffers *)linesArg;
     s32 i;
 
     for (i = 0; i < lines->count; i++) {
@@ -1278,21 +1281,23 @@ void WIPE_SUB_InitLineMask(struct LineMask *mask, u32 screen, u32 halfCount, u32
 
 void *WIPE_SUB_RequestLineMaskFlip(struct LineMask *mask)
 {
-    return GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
+    return GFL_USE_AddMainTask(WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
 }
 
-void WIPE_SUB_RequestLineMaskHBlank(u32 hblank, struct LineMask *mask, u32 heapId)
+void WIPE_SUB_RequestLineMaskHBlank(struct WipeHBlankSlots *hblank, struct LineMask *mask, u32 heapId)
 {
-    WIPE_RequestSetHBlankSlot(hblank, (uptr)mask, (uptr)WIPE_SUB_LineMaskHBlank, mask->screen, heapId);
+    WIPE_RequestSetHBlankSlot(hblank, mask, WIPE_SUB_LineMaskHBlank, mask->screen, heapId);
 }
 
-void WIPE_SUB_RequestLineMaskHBlankEnd(u32 hblank, struct LineMask *mask, u32 heapId)
+void WIPE_SUB_RequestLineMaskHBlankEnd(struct WipeHBlankSlots *hblank, struct LineMask *mask, u32 heapId)
 {
     WIPE_RequestClearHBlankSlot(hblank, mask->screen, heapId);
 }
 
-void WIPE_SUB_FlipLineMaskTask(void *task, struct LineMask *mask)
+void WIPE_SUB_FlipLineMaskTask(struct TcbTask * taskArg, void * maskArg)
 {
+    void * task = (void *)taskArg;
+    struct LineMask * mask = (struct LineMask *)maskArg;
     int i;
 
     for (i = 0; i < 2; i++) {
@@ -1328,8 +1333,9 @@ void WIPE_SUB_FlipLineMaskTask(void *task, struct LineMask *mask)
  *    blt/b pair; and the window-1 mask is `~0x3F00` (pool word
  *    0xFFFFC0FF), not 0xC0FF.
  */
-void WIPE_SUB_LineMaskHBlank(struct LineMask *mask)
+void WIPE_SUB_LineMaskHBlank(void *maskArg)
 {
+    struct LineMask *mask = maskArg;
     int line;
     struct LineMaskHalf *half;
 
@@ -1369,7 +1375,7 @@ void WIPE_SUB_BoxStart(struct WipePanel *panel, const struct WipeBoxParam *param
 {
     struct WipeBoxWork *box;
 
-    box = GFL_HEAP_Alloc((u16)panel->heapId, 0x4c, 0, func_02023464_File, 0xc7c);
+    box = GFL_HEAP_Alloc((u16)panel->heapId, sizeof(*box), 0, func_02023464_File, 0xc7c);
     panel->work = box;
 
     WIPE_SUB_BoxInit(box, param, panel->frames, panel->wait, panel->screen, panel->windowRequests);
@@ -1590,7 +1596,7 @@ u32 WIPE_SUB_CircleMain(struct WipePanel *panel)
 }
 
 void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *param, u32 frames, u32 wait,
-                   u32 screen, struct WindowRequests *windowRequests, u32 hblank, u32 heapId)
+                   u32 screen, struct WindowRequests *windowRequests, struct WipeHBlankSlots *hblank, u32 heapId)
 {
     s32 radiusStep;
     struct LineBuffer *buffer;
@@ -1611,7 +1617,7 @@ void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *pa
     circle->heapId = heapId;
     circle->closing = param->closing;
     WIPE_SUB_CalcCircleLines(circle);
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
+    GFL_USE_AddMainTask(WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
     buffer = WIPE_SUB_GetLineBuffer(&circle->lines, 0);
     leftEdge = buffer->stagedLeft[0];
     rightEdge = buffer->stagedRight[0];
@@ -1622,7 +1628,7 @@ void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *pa
     } else {
         WIPE_SUB_SetWindowVisibleMode(windowRequests, 2, screen, circle->closing);
     }
-    WIPE_RequestSetHBlankSlot(circle->hblank, (uptr)circle, (uptr)WIPE_SUB_WindowRectHBlank, screen, heapId);
+    WIPE_RequestSetHBlankSlot(circle->hblank, circle, WIPE_SUB_WindowRectHBlank, screen, heapId);
 }
 
 /*
@@ -1883,7 +1889,7 @@ u32 WIPE_SUB_ShutterMain(struct WipePanel *panel)
  * corrected the rest of the note's body compiles byte for byte.
  */
 void WIPE_SUB_ShutterInit(struct ShutterWork *shutter, struct ShutterDesc *desc, u32 frames, u32 wait, u32 screen,
-                   struct WindowRequests *windowRequests, u32 hblank, u32 heapId)
+                   struct WindowRequests *windowRequests, struct WipeHBlankSlots *hblank, u32 heapId)
 {
     WIPE_SUB_InitLineMask(&shutter->mask, screen, 1, 0, 0);
 
@@ -2158,7 +2164,7 @@ void WIPE_SUB_RequestWindowVisible(struct WindowRequests *requests, u32 value, u
 
     request->value = value;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowVisibleTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowVisibleTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u32 effect, u32 window, u32 screen)
@@ -2169,7 +2175,7 @@ void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u
     request->effect = effect;
     request->window = window;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowInsideTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowInsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, u32 effect, u32 screen)
@@ -2179,7 +2185,7 @@ void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, 
     request->planes = planes;
     request->effect = effect;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowOutsideTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowOutsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 top, u32 right, u32 bottom, u32 window, u32 screen)
@@ -2192,7 +2198,7 @@ void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 t
     request->bottom = (u16)bottom;
     request->window = window;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowRectTask, request, 1);
+    GFL_USE_AddMainTask(WIPE_SUB_WindowRectTask, request, 1);
 }
 
 /*
@@ -2208,8 +2214,10 @@ void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 t
  *   python tools/match.py one --src src/matched/WIPE_SUB_WindowVisibleTask.c \
  *       --func WIPE_SUB_WindowVisibleTask --addr 0x02023D94 --cc 1.1p1 --thumb
  */
-void WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request)
+void WIPE_SUB_WindowVisibleTask(struct TcbTask * taskArg, void * requestArg)
 {
+    void * task = (void *)taskArg;
+    struct WindowVisibleRequest * request = (struct WindowVisibleRequest *)requestArg;
     WIPE_SUB_SetWindowVisible(request->value, request->screen);
     TCB_DeleteTask(task);
 }
@@ -2224,8 +2232,10 @@ void WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request
  *   python tools/match.py one --src src/matched/WIPE_SUB_WindowInsideTask.c \
  *       --func WIPE_SUB_WindowInsideTask --addr 0x02023DA8 --cc 1.1p1 --thumb
  */
-void WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request)
+void WIPE_SUB_WindowInsideTask(struct TcbTask * taskArg, void * requestArg)
 {
+    void * task = (void *)taskArg;
+    struct WindowInsideRequest * request = (struct WindowInsideRequest *)requestArg;
     WIPE_SUB_SetWindowInside(request->planes, request->effect, request->window, request->screen);
     TCB_DeleteTask(task);
 }
@@ -2240,14 +2250,18 @@ void WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request)
  *   python tools/match.py one --src src/matched/WIPE_SUB_WindowOutsideTask.c \
  *       --func WIPE_SUB_WindowOutsideTask --addr 0x02023DC4 --cc 1.1p1 --thumb
  */
-void WIPE_SUB_WindowOutsideTask(void *task, struct WindowOutsideRequest *request)
+void WIPE_SUB_WindowOutsideTask(struct TcbTask * taskArg, void * requestArg)
 {
+    void * task = (void *)taskArg;
+    struct WindowOutsideRequest * request = (struct WindowOutsideRequest *)requestArg;
     WIPE_SUB_SetWindowOutside(request->planes, request->effect, request->screen);
     TCB_DeleteTask(task);
 }
 
-void WIPE_SUB_WindowRectTask(void *task, struct WindowRectRequest *request)
+void WIPE_SUB_WindowRectTask(struct TcbTask * taskArg, void * requestArg)
 {
+    void * task = (void *)taskArg;
+    struct WindowRectRequest * request = (struct WindowRectRequest *)requestArg;
     WIPE_SUB_SetWindowRect(request->left, request->top, request->right, request->bottom, request->window, request->screen);
     TCB_DeleteTask(task);
 }

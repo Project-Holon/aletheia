@@ -5,9 +5,10 @@
 /* Public functions of nwm_sendframe.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length);
-void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length);
+u32 NWM_SendFrame(NWMCallbackFunc callback, u8 *destMac, u8 *frame, u32 length);
+void NWMi_AddMACHeader(u8 *destMac, u8 *srcMac, u8 *frame, u32 length);
 /* END mkheaders: generated region */
 
 #endif

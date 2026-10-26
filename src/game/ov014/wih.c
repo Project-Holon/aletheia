@@ -71,18 +71,7 @@ struct WMDataSet;
 struct WMDataSharingInfo;
 #include "../types.h"
 
-/* Callback types of the work block (what the SDK calls back into). */
-typedef int (*WihJudgeAcceptFunc)(void *startParentCb, void *userArg);
-
-typedef void (*WihSlotCallback)(u16 aid);
-
-typedef void (*WihBeaconFoundCallback)(void *bssDesc, void *userArg, u16 linkLevel);
-
-typedef int (*WihJudgeScanFunc)(void *bssDesc);
-
-typedef void (*WihResultCallback)(int ok);
-
-typedef void (*WihRecvCallback)(u32 aid, u32 data, u32 length);
+#include "wih_types.h"
 
 /* Common head of every WM completion callback argument. */
 typedef struct { u16 apiid; u16 errcode; } WihCallback;
@@ -177,7 +166,7 @@ typedef struct WihWork {
     WihScanParam scanParam;             /* +0x1400 */
     u8 dataSharingInfo[0x820];          /* +0x1444, the WMDataSharingInfo */
     u8 dataSet[0x200];                  /* +0x1C64, the WMDataSet */
-    WihResultCallback initCallback;     /* +0x1E64, user callback of init, reset and end */
+    WihEndCallback initCallback;        /* +0x1E64, user callback of init, reset and end */
     void *sendBuf;                      /* +0x1E68, MP send buffer */
     void *recvBuf;                      /* +0x1E6C, MP receive buffer */
     int sysState;                       /* +0x1E70 */
@@ -231,9 +220,9 @@ typedef struct WihWork {
 void WIH_ChangeSysState(int state);
 void WIH_SetError(int error);
 int WIH_StateInSetParentParam(void);
-void WIH_StateOutSetParentParam(WihCallback *arg);
+void WIH_StateOutSetParentParam(void *argArg);
 int WIH_StateInStartParent(void);
-void WIH_StateOutStartParent(WMStartParentCallback *arg);
+void WIH_StateOutStartParent(void *argArg);
 /*
  * Twin of DWCi_MOV_WH_StateInStartChildMP (the DWC copy of the NitroSDK wh.c MP start), with a
  * state guard in front: states 4 and 5 (sysState) already run MP, else the
@@ -241,9 +230,9 @@ void WIH_StateOutStartParent(WMStartParentCallback *arg);
  * WIH_StateOutStartParentMP.
  */
 BOOL WIH_StateInStartParentMP(void);
-void WIH_StateOutStartParentMP(WMStartMPCallback *arg);
+void WIH_StateOutStartParentMP(void * argArg);
 int WIH_StateInEndParentMP(void);
-void WIH_StateOutEndParentMP(WihCallback *arg);
+void WIH_StateOutEndParentMP(void *argArg);
 int DWCi_MOV_WH_StateInEndParent(void);
 static void DWCi_MOV_WH_StateOutEndParent(void *arg);
 /*
@@ -251,7 +240,7 @@ static void DWCi_MOV_WH_StateOutEndParent(void *arg);
  * the strh of bssid[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md).
  */
 int DWCi_MOV_WH_ChildConnectAuto(u32 mode, const u16 *macAddr, u32 channel);
-int DWCi_MOV_WH_StartScan(u32 judgeScanFunc, u16 *macAddr, u32 channel);
+int DWCi_MOV_WH_StartScan(WihJudgeScanFunc judgeScanFunc, u16 *macAddr, u32 channel);
 /*
  * The DWC copy of the NitroSDK demo wh.c's scan start: checks
  * WM_GetAllowedChannel (0x8000 -> error 3, 0 -> error 0x16), picks the next
@@ -270,18 +259,18 @@ void DWCi_MOV_WH_StateOutEndScan(WihCallback *arg);
 int DWCi_MOV_WH_StateInStartChild(void);
 void DWCi_MOV_WH_StateOutStartChild(WMStartConnectCallback *arg);
 BOOL DWCi_MOV_WH_StateInStartChildMP(void);
-void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg);
+void DWCi_MOV_WH_StateOutStartChildMP(void * argArg);
 int WIH_StateInEndChildMP(void);
-void WIH_StateOutEndChildMP(WihCallback *arg);
+void WIH_StateOutEndChildMP(void *argArg);
 int WIH_StateInEndChild(void);
 static void DWCi_MOV_WH_StateOutEndChild(void *arg);
 int WIH_StateInReset(void);
-void WIH_StateOutReset(WihCallback *arg);
-int DWCi_MOV_WH_StateInSetMPData(u32 data, u16 size, u32 userCallback);
+void WIH_StateOutReset(void *argArg);
+int DWCi_MOV_WH_StateInSetMPData(u16 *data, u16 size, WihResultCallback userCallback);
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void WIH_StateOutSetMPData(WihPortSendCallback *arg);
-void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg);
-void WIH_StateOutEnd(WihCallback *arg);
+void WIH_StateOutSetMPData(void *argArg);
+void DWCi_MOV_WH_PortReceiveCallback(void *argArg);
+void WIH_StateOutEnd(void *argArg);
 void WIH_SetGgid(u32 ggid);
 void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, unsigned short length);
 u16 WIH_GetBitmap(void);
@@ -303,7 +292,7 @@ int WIH_PickRandomChannel(u16 channelBitmap);
 BOOL WIH_Initialize(u32 heapId, int unused, int listening);
 void WIH_FreeWork(void);
 /* extent: two zero alignment bytes at 0217919E precede labelled 021791A0. */
-void WIH_IndicateHandler(WihCallback *arg);
+void WIH_IndicateHandler(void *argArg);
 /*
  * The DWC copy of WH_Initialize's WM start: WM_Initialize (0208F370) or, when
  * listening is set, WM_InitializeForListening (0208F380), on the WM system
@@ -317,27 +306,27 @@ BOOL WIH_StateInInitialize(int unused, int listening);
  * Unlabelled leaf: sets state 1 by tail-calling WIH_ChangeSysState.  Used as the
  * callback of WIH_StateOutInitialize's call to WM_SetLifeTime.
  */
-void DWCi_MOV_WH_StateOutSetLifeTime(void);
-void WIH_StateOutInitialize(WihCallback *arg);
+void DWCi_MOV_WH_StateOutSetLifeTime(void *unused0);
+void WIH_StateOutInitialize(void * argArg);
 BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
-void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc);
-void DWCi_MOV_WH_SetReceiver(void *recvCallback);
+void WIH_SetJudgeAcceptFunc(WihJudgeAcceptFunc judgeAcceptFunc);
+void DWCi_MOV_WH_SetReceiver(WihRecvCallback recvCallback);
 /*
  * Guard wrapper: forwards to DWCi_MOV_WH_StateInSetMPData when WIH_GetOwnAid is nonzero or
  * one of bits 1-7 of WIH_GetBitmap is set, else returns 0.  The unlabelled
  * follower at 02179394 (adds the block's dataSet / dataSharingInfo offsets to
  * gWihWork, tail calls a thumb function) is why the extent runs long.
  */
-BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, int userCallback);
+BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, WihResultCallback userCallback);
 /* extent: existing matched 021793B8 follows the 36-byte leaf. */
-int WIH_GetSharedDataAdr(u16 aid);
+u16 *WIH_GetSharedDataAdr(u16 aid);
 /*
  * Calls the arm9 function at 0x020902D8 with the data-sharing info and the
  * data set of the work block behind gWihWork; result 7 or 5 counts as
  * failure without the error setter, other nonzero results call WIH_SetError
  * and fail, zero succeeds.
  */
-BOOL WIH_StepDS(int sendData);
+BOOL WIH_StepDS(const u16 *sendData);
 /*
  * lever: final counter store uses unsigned address arithmetic rather than
  * pointer arithmetic, so its offset is reloaded independently of the flag.
@@ -354,23 +343,23 @@ void DWCi_MOV_WH_StateInEndKeyShare(void);
  * latch and the endScanPending flag.
  */
 BOOL WIH_Finalize(void);
-int WIH_End(void (*callback)(int));
+int WIH_End(WihEndCallback callback);
 unsigned short WIH_GetOwnAid(void);
-void WIH_SetJudgeScanFunc(unsigned judgeScanFunc);
+void WIH_SetJudgeScanFunc(WihJudgeScanFunc judgeScanFunc);
 /*
  * When the state word (sysState) of the work block behind gWihWork is 4 or
  * 5, forwards the arguments to the arm9 function at 0x02090CD4 with
  * (0, userGameInfo, size, ggid, tgid, 1) and the halfword arguments truncated.
  */
-void WIH_SetBeaconGameInfo(int userGameInfo, int size, int ggid, int tgid);
+void WIH_SetBeaconGameInfo(const u16 *userGameInfo, int size, int ggid, int tgid);
 unsigned short WIH_GetBeaconSendCount(void);
-void WIH_SetConnectCallback(unsigned connectCallback);
+void WIH_SetConnectCallback(WihSlotCallback connectCallback);
 /*
  * Recursive MATCH unblocker: the unlabelled ov014 setter that WIH_DWC_Delete
  * (+001A) and WIH_DWC_Create (+0056) call: store the callback into
  * beaconFoundCallback of the object behind the pointer at gWihWork.
  */
-void WIH_SetBeaconFoundCallback(u32 beaconFoundCallback);
+void WIH_SetBeaconFoundCallback(WihBeaconFoundCallback beaconFoundCallback);
 void WIH_SetScanWaitFrames(u16 scanWaitFrames);
 extern WihWork *gWihWork;
 extern char sWihFileName[];
@@ -391,7 +380,7 @@ int WIH_StateInSetParentParam(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_SetParentParameter((WMCallbackFunc)WIH_StateOutSetParentParam, (WMParentParam *)gWihWork);
+    result = WM_SetParentParameter(WIH_StateOutSetParentParam, (WMParentParam *)gWihWork);
     if (result != 2) {
         WIH_SetError(result);
         WIH_ChangeSysState(9);
@@ -400,8 +389,9 @@ int WIH_StateInSetParentParam(void)
     return 1;
 }
 
-void WIH_StateOutSetParentParam(WihCallback *arg)
+void WIH_StateOutSetParentParam(void *argArg)
 {
+    WihCallback *arg = argArg;
     int result = arg->errcode;
     if (result != 0) {
         WIH_SetError(result);
@@ -418,7 +408,7 @@ int WIH_StateInStartParent(void)
 
     if ((u32)(gWihWork->sysState - 4) <= 1)
         return 1;
-    result = WM_StartParent((WMCallbackFunc)WIH_StateOutStartParent);
+    result = WM_StartParent(WIH_StateOutStartParent);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -428,8 +418,9 @@ int WIH_StateInStartParent(void)
     return 1;
 }
 
-void WIH_StateOutStartParent(WMStartParentCallback *arg)
+void WIH_StateOutStartParent(void *argArg)
 {
+    WMStartParentCallback *arg = argArg;
     int accepted = 1;
     u16 aidMask = 1 << arg->aid;
     WihSlotCallback slotCallback;
@@ -507,7 +498,7 @@ BOOL WIH_StateInStartParentMP(void)
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
-    result = WM_StartMP((void (*)(void *))WIH_StateOutStartParentMP,
+    result = WM_StartMP(WIH_StateOutStartParentMP,
                         gWihWork->recvBuf,
                         (u16)gWihWork->recvBufSize,
                         gWihWork->sendBuf,
@@ -520,8 +511,9 @@ BOOL WIH_StateInStartParentMP(void)
     return 1;
 }
 
-void WIH_StateOutStartParentMP(WMStartMPCallback *arg)
+void WIH_StateOutStartParentMP(void * argArg)
 {
+    WMStartMPCallback * arg = (WMStartMPCallback *)argArg;
     u16 errcode = arg->errcode;
     u16 aidBitmap;
     u32 myAid;
@@ -564,7 +556,7 @@ int WIH_StateInEndParentMP(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_EndMP((WMCallbackFunc)WIH_StateOutEndParentMP);
+    result = WM_EndMP(WIH_StateOutEndParentMP);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -572,8 +564,9 @@ int WIH_StateInEndParentMP(void)
     return 1;
 }
 
-void WIH_StateOutEndParentMP(WihCallback *arg)
+void WIH_StateOutEndParentMP(void *argArg)
 {
+    WihCallback *arg = argArg;
     int result = arg->errcode;
     if (result != 0) {
         WIH_SetError(result);
@@ -627,10 +620,10 @@ int DWCi_MOV_WH_ChildConnectAuto(u32 mode, const u16 *macAddr, u32 channel)
     return 1;
 }
 
-int DWCi_MOV_WH_StartScan(u32 judgeScanFunc, u16 *macAddr, u32 channel)
+int DWCi_MOV_WH_StartScan(WihJudgeScanFunc judgeScanFunc, u16 *macAddr, u32 channel)
 {
     WIH_ChangeSysState(2);
-    gWihWork->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
+    gWihWork->judgeScanFunc = judgeScanFunc;
     gWihWork->fixedScanChannel = channel;
     gWihWork->scanParam.channelList = 1;
     gWihWork->autoConnect = 0;
@@ -918,7 +911,7 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
-    result = WM_StartMP((void (*)(void *))DWCi_MOV_WH_StateOutStartChildMP,
+    result = WM_StartMP(DWCi_MOV_WH_StateOutStartChildMP,
                         gWihWork->recvBuf,
                         (u16)gWihWork->recvBufSize,
                         gWihWork->sendBuf,
@@ -931,8 +924,9 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
     return 1;
 }
 
-void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
+void DWCi_MOV_WH_StateOutStartChildMP(void * argArg)
 {
+    WMStartMPCallback * arg = (WMStartMPCallback *)argArg;
     u32 errcode = arg->errcode;
     u16 aidBitmap;
     u32 myAid;
@@ -978,7 +972,7 @@ int WIH_StateInEndChildMP(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_EndMP((WMCallbackFunc)WIH_StateOutEndChildMP);
+    result = WM_EndMP(WIH_StateOutEndChildMP);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -986,8 +980,9 @@ int WIH_StateInEndChildMP(void)
     return 1;
 }
 
-void WIH_StateOutEndChildMP(WihCallback *arg)
+void WIH_StateOutEndChildMP(void *argArg)
 {
+    WihCallback *arg = argArg;
     int result = arg->errcode;
     if (result != 0) {
         WIH_SetError(result);
@@ -1026,7 +1021,7 @@ int WIH_StateInReset(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_Reset((WMCallbackFunc)WIH_StateOutReset);
+    result = WM_Reset(WIH_StateOutReset);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -1034,8 +1029,9 @@ int WIH_StateInReset(void)
     return 1;
 }
 
-void WIH_StateOutReset(WihCallback *arg)
+void WIH_StateOutReset(void *argArg)
 {
+    WihCallback *arg = argArg;
     if (arg->errcode != 0) {
         WIH_ChangeSysState(9);
         WIH_SetError(arg->errcode);
@@ -1044,17 +1040,18 @@ void WIH_StateOutReset(WihCallback *arg)
     }
 }
 
-int DWCi_MOV_WH_StateInSetMPData(u32 data, u16 size, u32 userCallback)
+int DWCi_MOV_WH_StateInSetMPData(u16 *data, u16 size, WihResultCallback userCallback)
 {
     DC_FlushRange(gWihWork->sendBuf, gWihWork->sendBufSize);
-    if (WM_SetMPDataToPortEx((WMCallbackFunc)WIH_StateOutSetMPData, (void *)userCallback, (u16 *)data, size, 0xFFFF, 0xE, 2) == 2)
+    if (WM_SetMPDataToPortEx(WIH_StateOutSetMPData, (void *)userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;
 }
 
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void WIH_StateOutSetMPData(WihPortSendCallback *arg)
+void WIH_StateOutSetMPData(void *argArg)
 {
+    WihPortSendCallback *arg = argArg;
     int errcode = arg->errcode;
     if (errcode != 0 && errcode != 15) {
         WIH_SetError(errcode);
@@ -1065,8 +1062,9 @@ void WIH_StateOutSetMPData(WihPortSendCallback *arg)
     }
 }
 
-void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg)
+void DWCi_MOV_WH_PortReceiveCallback(void *argArg)
 {
+    WihPortRecvCallback *arg = argArg;
     WihRecvCallback recvCallback;
     if (arg->errcode != 0) {
         WIH_SetError(arg->errcode);
@@ -1081,9 +1079,10 @@ void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg)
     }
 }
 
-void WIH_StateOutEnd(WihCallback *arg)
+void WIH_StateOutEnd(void *argArg)
 {
-    WihResultCallback callback = gWihWork->initCallback;
+    WihCallback *arg = argArg;
+    WihEndCallback callback = gWihWork->initCallback;
     if (callback != 0)
         callback(arg->errcode == 0 ? 1 : 0);
     if (arg->errcode != 0)
@@ -1255,7 +1254,7 @@ BOOL WIH_Initialize(u32 heapId, int unused, int listening)
     if (gWihWork != 0)
         return 0;
     gWihWork = GFL_NET_AllocAligned(heapId, 0x1F00, sWihFileName, 0xC33);
-    MI_CpuFill8(gWihWork, 0, 0x1EE0);
+    MI_CpuFill8(gWihWork, 0, sizeof(*gWihWork));
     gWihWork->scanWaitFrames = 1;
     gWihWork->aidBitmap = 1;
     gWihWork->lastError = 0;
@@ -1276,8 +1275,9 @@ void WIH_FreeWork(void)
     }
 }
 
-void WIH_IndicateHandler(WihCallback *arg)
+void WIH_IndicateHandler(void *argArg)
 {
+    WihCallback *arg = argArg;
     if (arg->errcode == 8) {
         WIH_ChangeSysState(9);
         WIH_SetError(25);
@@ -1289,9 +1289,9 @@ BOOL WIH_StateInInitialize(int unused, int listening)
     int result;
     WIH_ChangeSysState(3);
     if (listening == 0)
-        result = WM_Initialize(gWihWork->wmSystemBuf, (void (*)(void *))WIH_StateOutInitialize, 2);
+        result = WM_Initialize(gWihWork->wmSystemBuf, WIH_StateOutInitialize, 2);
     else
-        result = WM_InitializeForListening(gWihWork->wmSystemBuf, (void (*)(void *))WIH_StateOutInitialize, 2, 0);
+        result = WM_InitializeForListening(gWihWork->wmSystemBuf, WIH_StateOutInitialize, 2, 0);
     if (result != 2) {
         WIH_SetError(result);
         WIH_ChangeSysState(10);
@@ -1300,7 +1300,7 @@ BOOL WIH_StateInInitialize(int unused, int listening)
     return 1;
 }
 
-void DWCi_MOV_WH_StateOutSetLifeTime(void)
+void DWCi_MOV_WH_StateOutSetLifeTime(void *unused0)
 {
     WIH_ChangeSysState(1);
 }
@@ -1312,9 +1312,10 @@ void DWCi_MOV_WH_StateOutSetLifeTime(void)
  * 0; otherwise it sets state 1, calls WM_SetLifeTime with the unlabelled leaf
  * DWCi_MOV_WH_StateOutSetLifeTime and calls the user callback with 1.
  */
-void WIH_StateOutInitialize(WihCallback *arg)
+void WIH_StateOutInitialize(void * argArg)
 {
-    WihResultCallback callback;
+    WihCallback * arg = (WihCallback *)argArg;
+    WihEndCallback callback;
     int result;
     if (arg->errcode != 0) {
         WIH_SetError(arg->errcode);
@@ -1324,7 +1325,7 @@ void WIH_StateOutInitialize(WihCallback *arg)
             callback(0);
         return;
     }
-    result = WM_SetIndCallback((WMCallbackFunc)WIH_IndicateHandler);
+    result = WM_SetIndCallback(WIH_IndicateHandler);
     if (result != 0) {
         WIH_SetError(result);
         WIH_ChangeSysState(10);
@@ -1334,7 +1335,7 @@ void WIH_StateOutInitialize(WihCallback *arg)
         return;
     }
     WIH_ChangeSysState(1);
-    WM_SetLifeTime((WMCallbackFunc)DWCi_MOV_WH_StateOutSetLifeTime, 0xFFFF, 0x28, 5, 0x28);
+    WM_SetLifeTime(DWCi_MOV_WH_StateOutSetLifeTime, 0xFFFF, 0x28, 5, 0x28);
     callback = gWihWork->initCallback;
     if (callback != 0)
         callback(1);
@@ -1364,34 +1365,34 @@ BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry)
     return 0;
 }
 
-void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc)
+void WIH_SetJudgeAcceptFunc(WihJudgeAcceptFunc judgeAcceptFunc)
 {
-    gWihWork->judgeAcceptFunc = (WihJudgeAcceptFunc)judgeAcceptFunc;
+    gWihWork->judgeAcceptFunc = judgeAcceptFunc;
 }
 
-void DWCi_MOV_WH_SetReceiver(void *recvCallback)
+void DWCi_MOV_WH_SetReceiver(WihRecvCallback recvCallback)
 {
-    gWihWork->recvCallback = (WihRecvCallback)recvCallback;
-    if (WM_SetPortCallback(14, (WMCallbackFunc)DWCi_MOV_WH_PortReceiveCallback, 0) != 0)
+    gWihWork->recvCallback = recvCallback;
+    if (WM_SetPortCallback(14, DWCi_MOV_WH_PortReceiveCallback, 0) != 0)
         WIH_ChangeSysState(9);
 }
 
-BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, int userCallback)
+BOOL DWCi_MOV_WH_SendData(short unsigned int *data, u16 size, WihResultCallback userCallback)
 {
     if (WIH_GetOwnAid() == 0 && (WIH_GetBitmap() & 0xFE) == 0)
         return 0;
-    return DWCi_MOV_WH_StateInSetMPData((u32)data, size, userCallback);
+    return DWCi_MOV_WH_StateInSetMPData(data, size, userCallback);
 }
 
-int WIH_GetSharedDataAdr(u16 aid)
+u16 *WIH_GetSharedDataAdr(u16 aid)
 {
-    return (sptr)WM_GetSharedDataAddress((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (struct WMDataSet *)gWihWork->dataSet, aid);
+    return WM_GetSharedDataAddress((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (struct WMDataSet *)gWihWork->dataSet, aid);
 }
 
-BOOL WIH_StepDS(int sendData)
+BOOL WIH_StepDS(const u16 *sendData)
 {
     int result;
-    result = WM_StepDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (const u16 *)sendData, (struct WMDataSet *)gWihWork->dataSet);
+    result = WM_StepDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, sendData, (struct WMDataSet *)gWihWork->dataSet);
     if (result == 7)
         return 0;
     if (result == 5)
@@ -1403,6 +1404,7 @@ BOOL WIH_StepDS(int sendData)
     return 1;
 }
 
+#ifdef __MWERKS__
 void WIH_UpdateScanTimer(void)
 {
     if (gWihWork != 0 && *(s16 *)((u8 *)gWihWork + 0x1EBE) > 0) {
@@ -1418,6 +1420,23 @@ void WIH_UpdateScanTimer(void)
         }
     }
 }
+#else
+void WIH_UpdateScanTimer(void)
+{
+    if (gWihWork != 0 && gWihWork->scanWait > 0) {
+        gWihWork->scanWait =
+            (gWihWork->sysState != 2) ? 0 : gWihWork->scanWait - 1;
+        if (gWihWork->scanWait == 0) {
+            if (gWihWork->sysState == 2 && gWihWork->scanPaused == 0) {
+                if (DWCi_MOV_WH_StateInStartScan() == 0)
+                    WIH_ChangeSysState(9);
+            } else {
+                gWihWork->scanWait = 1;
+            }
+        }
+    }
+}
+#endif
 
 void DWCi_MOV_WH_StateInEndKeyShare(void)
 {
@@ -1481,11 +1500,11 @@ BOOL WIH_Finalize(void)
     return 1;
 }
 
-int WIH_End(void (*callback)(int))
+int WIH_End(WihEndCallback callback)
 {
     gWihWork->initCallback = callback;
     WIH_ChangeSysState(3);
-    if (WM_End((WMCallbackFunc)WIH_StateOutEnd) != 2) {
+    if (WM_End(WIH_StateOutEnd) != 2) {
         WIH_ChangeSysState(9);
         return 0;
     }
@@ -1499,15 +1518,15 @@ unsigned short WIH_GetOwnAid(void)
     return 0;
 }
 
-void WIH_SetJudgeScanFunc(unsigned judgeScanFunc)
+void WIH_SetJudgeScanFunc(WihJudgeScanFunc judgeScanFunc)
 {
-    gWihWork->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
+    gWihWork->judgeScanFunc = judgeScanFunc;
 }
 
-void WIH_SetBeaconGameInfo(int userGameInfo, int size, int ggid, int tgid)
+void WIH_SetBeaconGameInfo(const u16 *userGameInfo, int size, int ggid, int tgid)
 {
     if (gWihWork != 0 && (unsigned)(gWihWork->sysState - 4) <= 1)
-        WM_SetGameInfo(0, (const u16 *)userGameInfo, (u16)size, ggid, (u16)tgid, 1);
+        WM_SetGameInfo(0, userGameInfo, (u16)size, ggid, (u16)tgid, 1);
 }
 
 unsigned short WIH_GetBeaconSendCount(void)
@@ -1515,14 +1534,14 @@ unsigned short WIH_GetBeaconSendCount(void)
     return gWihWork->beaconSendCount;
 }
 
-void WIH_SetConnectCallback(unsigned connectCallback)
+void WIH_SetConnectCallback(WihSlotCallback connectCallback)
 {
-    gWihWork->connectCallback = (WihSlotCallback)connectCallback;
+    gWihWork->connectCallback = connectCallback;
 }
 
-void WIH_SetBeaconFoundCallback(u32 beaconFoundCallback)
+void WIH_SetBeaconFoundCallback(WihBeaconFoundCallback beaconFoundCallback)
 {
-    gWihWork->beaconFoundCallback = (WihBeaconFoundCallback)beaconFoundCallback;
+    gWihWork->beaconFoundCallback = beaconFoundCallback;
 }
 
 void WIH_SetScanWaitFrames(u16 scanWaitFrames)

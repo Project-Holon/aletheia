@@ -16,7 +16,7 @@ u8 BMP_MENUWORK_GetPlttFileId(int index);
 void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u16 heapId);
 void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
-void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+u32 BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 void BMP_MENUWORK_FreeTileRun(int layer, u32 packedOffsets);
 void BMP_MENUWORK_DrawFrame(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 tileBase);
 void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);

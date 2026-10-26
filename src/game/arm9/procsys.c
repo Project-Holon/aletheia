@@ -127,7 +127,7 @@ void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procW
  */
 ProcSys *PROCSYS_CreateInternal(int heapId)
 {
-    ProcSys *sys = GFL_HEAP_Alloc(heapId, 0x20, 0, (const char *)((sptr)ProcSys_AllocSiteName), 0xc5);
+    ProcSys *sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 0, (const char *)(ProcSys_AllocSiteName), 0xc5);
 
     sys->heapId = heapId;
     sys->unused04 = -1;
@@ -271,7 +271,7 @@ Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 h
 {
     Proc *proc;
 
-    proc = (Proc *)GFL_HEAP_Alloc(heapId, 0x20, 0,
+    proc = (Proc *)GFL_HEAP_Alloc(heapId, sizeof(*proc), 0,
                                  ProcNew_AllocSiteName, 0x162);
     proc->overlayId = overlayId;
     proc->data = data;

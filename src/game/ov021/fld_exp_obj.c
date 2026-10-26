@@ -41,7 +41,7 @@
  */
 #include "fld_exp_obj_types.h"
 
-typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
+#include "../arm9/game_event.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/fx_mtx33.h"
@@ -394,7 +394,7 @@ void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *cnt, const G3dUtilSetup *setup
     FldExpObjModel *models;
     u16 modelIdx;
 
-    archive = ARC_TOOL_CreateHandle(setup->resTbl->arc, (u16)(((u16)cnt->heapId & 0x7FFF) | 0x8000));
+    archive = ARC_TOOL_CreateHandle(setup->resTbl->arc.id, (u16)(((u16)cnt->heapId & 0x7FFF) | 0x8000));
     unitId = G3D_UTIL_AddUnitFromArchive(cnt->util, setup, archive);
     ARC_TOOL_DeleteHandle(archive);
     modelCount = setup->objCount;

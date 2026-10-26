@@ -521,7 +521,7 @@ void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
  */
 void PMSIV_MENU_SetItemAnim(struct PmsivMenu *menu,int i,int flag)
 {
-    CLACT_SetActorAnimSeq((struct ClactActor *)menu->items[i], *(u8 *)((uptr)gPmsivMenuItemAnimSeq+i*2+flag));
+    CLACT_SetActorAnimSeq((struct ClactActor *)menu->items[i], *(u8 *)(gPmsivMenuItemAnimSeq+i*2+flag));
 }
 
 void PMSIV_MENU_CreateExtraItems(struct PmsivMenu *menu) {

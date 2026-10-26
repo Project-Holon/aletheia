@@ -77,7 +77,7 @@
  *   DWCi_IsReverseBuddyFriendData  0x02059194  arm
  *   _ll_udiv                     0x0209C00C  arm
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 extern int strcmp(const char *s1, const char *s2);
 #include "../arm9/msl_string_mem.h"
 
@@ -196,7 +196,7 @@ static int s_bReverseBuddiesBusy = 0;
 
 u8 DWC_GetFriendStatus(sptr a, sptr b);
 u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString);
-unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b);
+unsigned char DWC_GetFriendStatusData(void *p, char *a, int *b);
 unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
 int DWC_SetOwnStatusData(char *statusData, unsigned long size);
 int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param);
@@ -205,9 +205,9 @@ void DWCi_FriendProcess(void);
 int DWCi_IsServerUpdating(void);
 void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*a2)(int, u8, int), int finishParam, void (*a4)(int, u8, char *, void *), void *statusParam, void (*a6)(int, int, int), int deleteParam);
 void DWCi_StopFriendProcess(int error, int errorCode);
-void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg);
-int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg);
-void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg);
+void DWCi_GPRecvBuddyRequestCallback(void **connection, void *arg, void *param);
+int DWCi_GPRecvBuddyAuthCallback(void **connection, void *arg, void *param);
+void DWCi_GPRecvBuddyStatusCallback(void **connection, void *arg, void *param);
 int DWCi_GetProfileIDFromList(int index);
 int DWCi_GetFriendListIndex(int pid);
 void DWCi_InitGPProcessCount(void);
@@ -289,10 +289,10 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
 /*
  * Calls DWC_GetFriendStatusDataSC with two zeroed arguments between the tail arguments.
  */
-unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b)
+unsigned char DWC_GetFriendStatusData(void *p, char *a, int *b)
 {
     unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
-    return DWC_GetFriendStatusDataSC(p, 0, 0, (char *)a, (int *)b);
+    return DWC_GetFriendStatusDataSC(p, 0, 0, a, b);
 }
 
 /*
@@ -534,26 +534,27 @@ void DWCi_StopFriendProcess(int error, int errorCode)
 /*
  * sdk:      DWCi_GPRecvBuddyRequestCallback (dwc_friend.o)
  */
-void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg)
+void DWCi_GPRecvBuddyRequestCallback(void **connection, void *arg, void *param)
 {
     if (stpFriendCnt->friendList == 0) return;
-    gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
+    gpGetInfo(connection, *(int *)arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
 }
 
 /*
  * sdk:      DWCi_GPRecvBuddyAuthCallback (dwc_friend.o)
  */
-int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg)
+int DWCi_GPRecvBuddyAuthCallback(void **connection, void *arg, void *param)
 {
-    gpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
+    gpGetInfo(connection, *(int *)arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
     return 1;
 }
 
 /*
  * sdk:      DWCi_GPRecvBuddyStatusCallback (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  */
-void DWCi_GPRecvBuddyStatusCallback(void **connection, RecvArg *arg)
+void DWCi_GPRecvBuddyStatusCallback(void **connection, void *argArg, void *param)
 {
+	RecvArg *arg = argArg;
 	GPBuddyStatus status;
 	int friendIdx;
 

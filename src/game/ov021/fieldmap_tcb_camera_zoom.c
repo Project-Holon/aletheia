@@ -67,7 +67,7 @@ extern double _dsqrt(double x);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta);
 
-void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w);
+void FIELDMAP_TCB_CAMERA_ZOOM_Main(struct TcbTask *task, void *arg);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w);
 
@@ -87,11 +87,12 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
     w->startZoom = FIELD_CAMERA_GetDistance(camera);
     w->endZoom = zoomDelta + FIELD_CAMERA_GetDistance(camera);
     w->fieldMap = fieldMap;
-    TCB_AddTask( priority, (TcbFunc)FIELDMAP_TCB_CAMERA_ZOOM_Main, (void *)w, 0);
+    TCB_AddTask( priority, FIELDMAP_TCB_CAMERA_ZOOM_Main, (void *)w, 0);
 }
 
-void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w)
+void FIELDMAP_TCB_CAMERA_ZOOM_Main(struct TcbTask *task, void *arg)
 {
+    CameraZoomWork *w = arg;
     FIELDMAP_TCB_CAMERA_ZOOM_Step(w);
     w->frame++;
     if (w->frameMax < w->frame) {

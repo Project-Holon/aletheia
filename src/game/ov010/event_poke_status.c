@@ -98,35 +98,36 @@ struct FieldMap;
 
 #include "../arm9/field_status.h"
 #include "../arm9/game_event.h"
+#include "../arm9/procsys.h"
 
 
 
 
-int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
+int EVENT_POKE_STATUS_PokeSelectEvent(struct GameEvent *event, int *seq, void *work);
 
 /*
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
  * see docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  */
-int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work);
+int EVENT_POKE_STATUS_MoveSelectEvent(struct GameEvent *event, int *seq, void *work);
 
 extern const char d_021728CC[];
 
 extern u8 ov131_id[];
 
-extern u8 gPokeStatusProcData[];
+extern const ProcData gPokeStatusProcData;
 
 void *EVENT_POKE_STATUS_CreatePokeSelectEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot)
 {
     void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
-    PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x40);
+    PokeListParam *listParam = GFL_HEAP_Alloc(4, sizeof(*listParam), 1, d_021728CC, 0x40);
     void *event;
     PokeListEventWork *work;
     listParam->party = party;
     listParam->listMode = 3;
     listParam->listArg = 0;
     listParam->selectedSlot = 0;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, sizeof(PokeListEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -140,7 +141,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectEvent(struct GameSystem *gameSystem, u16
 void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot, int fieldIndex, unsigned short moveId)
 {
     void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
-    PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x66);
+    PokeListParam *listParam = GFL_HEAP_Alloc(4, sizeof(*listParam), 1, d_021728CC, 0x66);
     void *event;
     PokeListEventWork *work;
     listParam->party = party;
@@ -149,7 +150,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem,
     listParam->selectedSlot = 0;
     listParam->fieldIndex = fieldIndex;
     listParam->argValue2 = moveId;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, sizeof(PokeListEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -165,7 +166,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSyste
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
     struct ZukanSave *zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
-    PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x90);
+    PokeListParam *listParam = GFL_HEAP_Alloc(4, sizeof(*listParam), 1, d_021728CC, 0x90);
     PStatusProcParam *statusParam;
     void *event;
     PokeListEventWork *work;
@@ -173,7 +174,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSyste
     listParam->listMode = 0x19;
     listParam->listArg = 0;
     listParam->selectedSlot = 0;
-    statusParam = GFL_HEAP_Alloc(4, 0x28, 1, d_021728CC, 0x97);
+    statusParam = GFL_HEAP_Alloc(4, sizeof(*statusParam), 1, d_021728CC, 0x97);
     statusParam->ppd = party;
     statusParam->config = gameData;
     statusParam->ppt = 1;
@@ -182,7 +183,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSyste
     statusParam->page = 0;
     statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled(zukanSave);
     statusParam->canUseButtons = 0;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, sizeof(PokeListEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -193,8 +194,9 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSyste
     return event;
 }
 
-int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work)
+int EVENT_POKE_STATUS_PokeSelectEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    PokeListEventWork *work = workPtr;
     u32 step = *seq;
     void *gameSystem = work->gameSystem;
     int slot;
@@ -208,7 +210,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)work->listParam, (sptr)work->statusParam));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, work->listParam, work->statusParam));
         *seq = 3;
         break;
     case 3:
@@ -253,7 +255,7 @@ void *EVENT_POKE_STATUS_CreateMoveSelectEvent(struct GameSystem *gameSystem, str
     param->mode = (mode == 1) ? 3 : 2;
     param->canUseButtons = 0;
     param->config = gameData;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_POKE_STATUS_MoveSelectEvent, sizeof(MoveSelectEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -267,8 +269,9 @@ void *EVENT_POKE_STATUS_CreateMoveSelectEvent(struct GameSystem *gameSystem, str
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
  * see docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  */
-int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work)
+int EVENT_POKE_STATUS_MoveSelectEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MoveSelectEventWork *work = workPtr;
     u32 step = *seq;
     void *gameSystem = work->gameSystem;
     switch (step) {
@@ -281,7 +284,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
         *seq = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, gPokeStatusProcData, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, &gPokeStatusProcData, work->param);
         *seq = 3;
         break;
     case 3:

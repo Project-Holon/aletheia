@@ -97,11 +97,14 @@ struct SubProcCallbackWork {
 };
 
 /* Work of FIELD_STATUS_SubProcListEvent: two process calls on one parameter block. */
+#include "../ov091/pokelist_types.h"
+#include "../ov131/p_status_types.h"
+
 struct ProcPairWork {
     struct GameSystem *gameSystem;  /* 0x00 */
-    u32 unused04;
-    u8 *firstParam;                 /* 0x08 */
-    u8 *secondParam;                /* 0x0c */
+    void *fieldMap;                 /* 0x04 */
+    PokelistArg *firstParam;        /* 0x08: party list parameter */
+    PStatusProcParam *secondParam;  /* 0x0c: status screen parameter */
 };
 
 #include "gfl_heap_wrap.h"
@@ -162,31 +165,31 @@ u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *fs, u8 seasonDispFlag);
 
 u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs);
 
-int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
 struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *gameSystem);
 
-int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcEvent(struct GameEvent *event, int *seq, void *work);
 
-int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
 
 struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
 
-int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, int *seq, void *work);
 
-int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
 
@@ -346,7 +349,7 @@ u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs)
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
-int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct FieldCloseWork *wk = work;
     struct GameData *gameData = wk->gameData;
@@ -417,7 +420,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSyst
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
-int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct FieldCloseWork *wk = work;
     struct GameSystem *gameSystem = wk->gameSystem;
@@ -480,7 +483,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSyste
  *   python tools/match.py one --src src/pending/FIELD_STATUS_FieldOpenEvent.c \
  *       --func FIELD_STATUS_FieldOpenEvent --addr 0x02014584 --cc 1.1p1 --thumb
  */
-int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct FieldOpenWork *wk = work;
     struct GameSystem *gameSystem = wk->gameSystem;
@@ -547,7 +550,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *g
  * 0x02014692.  `u32 a0 = p[0];` before the switch is load-bearing: without it
  * each arm reloads p[0] and the whole dispatch shifts.
  */
-int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_SubProcEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct SubProcWork *wk = work;
     struct GameSystem *gameSystem = wk->gameSystem;
@@ -583,7 +586,7 @@ int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work)
  * the repeated increments itself, and that leaves case 2's tail jump on
  * case 1's `b inc` block exactly as the image has it.
  */
-int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct SubProcWork *wk = work;
     struct GameSystem *gameSystem = wk->gameSystem;
@@ -656,7 +659,7 @@ struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameS
  *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcCallbackEvent.c \
  *       --func FIELD_STATUS_SubProcCallbackEvent --addr 0x02014758 --cc 1.1p1 --thumb
  */
-int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct SubProcCallbackWork *wk = work;
 
@@ -694,7 +697,7 @@ int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *w
  *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcNoFadeCallbackEvent.c \
  *       --func FIELD_STATUS_SubProcNoFadeCallbackEvent --addr 0x020147B0 --cc 1.1p1 --thumb
  */
-int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, void *work)
+int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, int *seq, void *work)
 {
     struct SubProcCallbackWork *wk = work;
 
@@ -805,12 +808,12 @@ int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
         *seq = 2;
         break;
     case 2:
-        if (*(u32 *)(wk->firstParam + 0x40) == 0) {
+        if (wk->firstParam->exitCode == 0) {
             *seq = 5;
             break;
         }
-        if (*(u32 *)(wk->firstParam + 0x40) == 1) {
-            wk->secondParam[0xf] = (u8)*(u32 *)(wk->firstParam + 0x3c);
+        if (wk->firstParam->exitCode == 1) {
+            wk->secondParam->pos = (u8)wk->firstParam->selectedIndex;
             *seq = 3;
             break;
         }
@@ -823,7 +826,7 @@ int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
     case 4:
         if (GAMESYSTEM_GetProcStatus(gameSystem) != 0)
             break;
-        *(u32 *)(wk->firstParam + 0x3c) = wk->secondParam[0xf];
+        wk->firstParam->selectedIndex = wk->secondParam->pos;
         *seq = 0;
         break;
     case 5:
@@ -836,7 +839,7 @@ int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
 
 
 
-void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
+void *FIELD_STATUS_CreateSubProcListEvent(void *anime, void *fieldMap, void *listParam, void *statusParam);
 
 /*
  *           Closed at the bottom, not unfiled: no branch anywhere in the image
@@ -846,14 +849,14 @@ void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int
  *           exactly once in arm9, inside its own compared range).  See
  *           docs/notes/pkt_02014808.c.txt.
  */
-void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target)
+void *FIELD_STATUS_CreateSubProcListEvent(void *anime, void *fieldMap, void *listParam, void *statusParam)
 {
-    void *task = GAME_EVENT_Create(anime, 0, (void *)((sptr)FIELD_STATUS_SubProcListEvent), 0x10);
-    u32 *taskWork = GAME_EVENT_GetWork(task);
+    void *task = GAME_EVENT_Create(anime, 0, (void *)(FIELD_STATUS_SubProcListEvent), sizeof(struct ProcPairWork));
+    struct ProcPairWork *taskWork = GAME_EVENT_GetWork(task);
 
-    taskWork[0] = (uptr)anime;
-    taskWork[1] = slot;
-    taskWork[2] = config;
-    taskWork[3] = target;
+    taskWork->gameSystem = anime;
+    taskWork->fieldMap = fieldMap;
+    taskWork->firstParam = listParam;
+    taskWork->secondParam = statusParam;
     return task;
 }

@@ -57,7 +57,7 @@ void BTLV_CORE_AbortInput(struct BtlvCore *core);
 void BTLV_CORE_CloseMenu(struct BtlvCore *core);
 void BTLV_CORE_CloseMenuToReselect(struct BtlvCore *core);
 int BTLV_CORE_IsMenuClosed(struct BtlvCore *core);
-void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mode, u8 slot, int modeParam);
+void BTLV_CORE_InitPartyWork(struct BtlvCore *core, struct B_PlistHost *plist, int mode, u8 slot, int modeParam);
 void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const BtlSlotChoices *slotChoices, int slot, int canCancel, BtlPickList *choiceFlags);
 void BTLV_CORE_LockPartyChoice(struct BtlvCore *core);
 int BTLV_CORE_PollPartyMenu(struct BtlvCore *core);

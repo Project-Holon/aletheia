@@ -199,7 +199,7 @@ int ghttpSetRequestEncryptionEngine(int request, int engine)
     connection->encryptor.mInterface = 0;
     connection->encryptor.initFunc = ghiEncryptorSslInitFunc;
     connection->encryptor.startFunc = ghiEncryptorSslStartFunc;
-    connection->encryptor.cleanupFunc = (void (*)(GHIConnection *, void *))ghiEncryptorSslCleanupFunc;
+    connection->encryptor.cleanupFunc = ghiEncryptorSslCleanupFunc;
     connection->encryptor.encryptFunc = ghiEncryptorSslEncryptFunc;
     connection->encryptor.decryptFunc = ghiEncryptorSslDecryptFunc;
     connection->encryptor.interfaceCreated = 0;
@@ -406,7 +406,7 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
         if (rootCaList->certs != 0 && rootCaList->count > 0) {
             OS_GetLowEntropyData(gGhttpSslRandomSeed);
             CPS_SslAddRandomSeed(gGhttpSslRandomSeed, 0x20);
-            sslCon = gsimalloc(0x830);
+            sslCon = gsimalloc(sizeof(*sslCon));
             if (sslCon != 0) {
                 MSL_C_LIB_MemsetPtr(sslCon, 0, 0x830);
                 sslCon->hostName = 0;
@@ -432,7 +432,7 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
     GsTwlSslInterface *sslInterface;
 
     gsDebugFormat(8, 4, 0xf, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x417);
-    theEncryptor->mInterface = gsimalloc(8);
+    theEncryptor->mInterface = gsimalloc(sizeof(*theEncryptor->mInterface));
     if (theEncryptor->mInterface == 0) {
         gsDebugFormat(8, 2, 2, sGhttpFailedToAllocateSslInterface, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x425, 8);
         return 3;

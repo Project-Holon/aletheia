@@ -209,8 +209,6 @@ struct LightSetDesc;
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, const G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode);
 #include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/bmp_win.h"
@@ -229,11 +227,7 @@ struct G3dCamera;
 struct LightSetDesc;
 struct LightSlotValue;
 #include "../arm9/g3d_light.h"
-extern void G3D_SYSTEM_Exit(void);
                                                                         
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawEnd(void);
 struct IntroCommand;
 #include "intro_msg.h"
 #include "../arm9/arc_tool.h"
@@ -247,8 +241,8 @@ void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p);
 void INTRO_GRAPHIC_UpdateDisplay(u8 *p);
 void INTRO_GRAPHIC_Draw3d(char *p);
 void INTRO_GRAPHIC_Draw3dEnd(char *p);
-unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
-void INTRO_GRAPHIC_VBlank(u32 a, u8 *b);
+void *INTRO_GRAPHIC_GetClactOwner(char *p);
+void INTRO_GRAPHIC_VBlank(struct TcbTask *a, void *arg);
 void INTRO_GRAPHIC_InitBg(IntroDisplay *disp, u16 heap);
 void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp);
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp);
@@ -258,7 +252,7 @@ void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b);
 void INTRO_GRAPHIC_DeleteClact(IntroClact *clact);
 void INTRO_GRAPHIC_DrawClact(void *unused);
 void INTRO_GRAPHIC_VBlankClact(void *unused);
-unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact);
+void *INTRO_GRAPHIC_GetClactBank(IntroClact *clact);
 void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap);
 void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap);
 void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam);
@@ -292,8 +286,8 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     IntroGraphicWork *work;
     GF_OVERLAY_Load((sptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
-    work = PROCSYS_AllocProcWork(owner, 0x24, 111);
-    MI_CpuFill8(work, 0, 0x24);
+    work = PROCSYS_AllocProcWork(owner, sizeof(IntroGraphicWork), 111);
+    MI_CpuFill8(work, 0, sizeof(IntroGraphicWork));
     work->heapId = 111;
     work->args = args;
     work->display = INTRO_GRAPHIC_CreateDisplay(1, ((IntroArgs *)args)->mode, work->heapId);
@@ -302,7 +296,7 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     work->mcss = INTRO_MCSS_Create(work->heapId, ((IntroArgs *)work->args)->mode);
     work->g3d = INTRO_G3D_Create(work->display, ((IntroArgs *)work->args)->mode, work->heapId);
     work->particle = INTRO_PARTICLE_Create(work->display, work->heapId);
-    work->cmdWork = INTRO_CMD_Create(work->g3d, (unsigned int)work->particle, (unsigned int)work->mcss, work->args, (unsigned int)work->display, work->heapId);
+    work->cmdWork = INTRO_CMD_Create(work->g3d, work->particle, work->mcss, work->args, work->display, work->heapId);
     return 1;
 }
 
@@ -373,8 +367,8 @@ void INTRO_GRAPHIC_Setup3d(void)
 void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
 {
     IntroDisplay *disp;
-    disp=GFL_HEAP_Alloc(heap,20,0,gIntroGraphicSite,406);
-    MI_CpuFill8(disp,0,20);
+    disp=GFL_HEAP_Alloc(heap,sizeof(IntroDisplay),0,gIntroGraphicSite,406);
+    MI_CpuFill8(disp,0,sizeof(IntroDisplay));
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
@@ -396,7 +390,7 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
         INTRO_GRAPHIC_InitCamera(&disp->camera,heap);
     }
     GF_FONT_InitTextColor();
-    disp->vblank=GFL_USE_AddMainTask((TcbFunc)((uptr)INTRO_GRAPHIC_VBlank),(void *)((uptr)disp),0);
+    disp->vblank=GFL_USE_AddMainTask(INTRO_GRAPHIC_VBlank,(void *)((uptr)disp),0);
     return disp;
 }
 
@@ -415,7 +409,7 @@ void INTRO_GRAPHIC_DeleteDisplay(unsigned char *p)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    MI_CpuFill8(disp, 0, 0x14);
+    MI_CpuFill8(disp, 0, sizeof(IntroDisplay));
     GFL_HEAP_Free(disp);
 }
 
@@ -433,10 +427,11 @@ void INTRO_GRAPHIC_Draw3d(char *p){INTRO_GRAPHIC_DrawCamera(&((IntroDisplay *)p)
 
 void INTRO_GRAPHIC_Draw3dEnd(char *p){INTRO_GRAPHIC_DrawEnd(&((IntroDisplay *)p)->camera);}
 
-unsigned INTRO_GRAPHIC_GetClactOwner(char *p){return INTRO_GRAPHIC_GetClactBank(&((IntroDisplay *)p)->clact);}
+void *INTRO_GRAPHIC_GetClactOwner(char *p){return INTRO_GRAPHIC_GetClactBank(&((IntroDisplay *)p)->clact);}
 
-void INTRO_GRAPHIC_VBlank(u32 a, u8 *b)
+void INTRO_GRAPHIC_VBlank(struct TcbTask *a, void *arg)
 {
+    u8 *b = arg;
     IntroDisplay *disp = (IntroDisplay *)b;
     INTRO_GRAPHIC_UpdateBg(disp);
     INTRO_GRAPHIC_VBlankClact(&disp->clact);
@@ -503,7 +498,7 @@ void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
 
 void INTRO_GRAPHIC_InitClact(IntroClact *clact, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(clact, 0, 4);
+    MI_CpuFill8(clact, 0, sizeof(IntroClact));
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021BFD90), (const struct DispVramCfg *)a, b);
     clact->bank = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(clact->bank);
@@ -515,14 +510,14 @@ void INTRO_GRAPHIC_DeleteClact(IntroClact *clact)
 {
     CLACT_DeleteUnit((struct Unit *)clact->bank);
     CLACT_ExitSystem();
-    MI_CpuFill8(clact, 0, 4);
+    MI_CpuFill8(clact, 0, sizeof(IntroClact));
 }
 
 void INTRO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
 void INTRO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact){return (uptr)clact->bank;}
+void *INTRO_GRAPHIC_GetClactBank(IntroClact *clact){return clact->bank;}
 
 /*
  * lever: the fourth 02048A24 argument is the pooled 0x1555 (earlier notes

@@ -122,8 +122,8 @@ extern struct DispConfig d_021BA3FC;
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 {
     unsigned char *p;
-    p=GFL_HEAP_Alloc(heap,16,0,d_021BA4F8,0x1CA);
-    MI_CpuFill8(p,0,16);
+    p=GFL_HEAP_Alloc(heap,sizeof(struct ThAwardGraphic),0,d_021BA4F8,0x1CA);
+    MI_CpuFill8(p,0,sizeof(struct ThAwardGraphic));
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -136,7 +136,7 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     TH_AWARD_GRAPHIC_SetupBg(p,heap);
-    TH_AWARD_GRAPHIC_SetupClact(p+4,(struct DispVramCfg *)&d_021BA428,heap);
+    TH_AWARD_GRAPHIC_SetupClact((unsigned char *)&((struct ThAwardGraphic *)p)->clact,(struct DispVramCfg *)&d_021BA428,heap);
     ((struct ThAwardGraphic *)p)->proc=(struct Node *)GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }
@@ -144,29 +144,29 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
 {
     TCB_DeleteTask((struct TcbTask *)(((struct ThAwardGraphic *)p)->proc));
-    TH_AWARD_GRAPHIC_DeleteClact((char *)p+4);
+    TH_AWARD_GRAPHIC_DeleteClact((char *)&((struct ThAwardGraphic *)p)->clact);
     TH_AWARD_GRAPHIC_CleanupBg(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    MI_CpuFill8(p,0,16);
+    MI_CpuFill8(p,0,sizeof(struct ThAwardGraphic));
     GFL_HEAP_Free(p);
 }
 
 void TH_AWARD_GRAPHIC_Update(char *p)
 {
-    TH_AWARD_GRAPHIC_Draw(p + 4);
+    TH_AWARD_GRAPHIC_Draw((char *)&((struct ThAwardGraphic *)p)->clact);
     TH_AWARD_GRAPHIC_Noop(p);
 }
 
-struct Unit *TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)(p+4));}
+struct Unit *TH_AWARD_GRAPHIC_GetActor(u8*p){return TH_AWARD_GRAPHIC_GetValue((u32*)&((struct ThAwardGraphic *)p)->clact);}
 
 void TH_AWARD_GRAPHIC_Task(void *unused, char *p)
 {
     TH_AWARD_GRAPHIC_DrawObjects(p);
-    TH_AWARD_GRAPHIC_VBlank(p + 4);
+    TH_AWARD_GRAPHIC_VBlank((char *)&((struct ThAwardGraphic *)p)->clact);
 }
 
 void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap)
@@ -194,7 +194,7 @@ void TH_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 
 void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
     CLACT_InitSystem((struct ClactSysInit *)0x021BA40C, (struct DispVramCfg *)a, b);
     ((struct ClactCtx *)p)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct ClactCtx *)p)->unit));
@@ -206,7 +206,7 @@ void TH_AWARD_GRAPHIC_DeleteClact(char *p)
 {
     CLACT_DeleteUnit((struct Unit *)(((struct ClactCtx *)p)->unit));
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(struct ClactCtx));
 }
 
 void TH_AWARD_GRAPHIC_Draw(void *p){CLACT_DrawSystem();}

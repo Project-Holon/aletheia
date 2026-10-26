@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_MCSS_H
 #define GAME_ARM9_MCSS_H
 
+#include "../arm9/nns_g2d_anim_types.h"
+
 typedef struct McssSys McssSys;
 typedef struct McssWork McssWork;
 typedef struct McssAddWork McssAddWork;
@@ -81,7 +83,7 @@ u16 MCSS_GetSizeY(McssWork *work);
 s16 MCSS_GetOfsX(McssWork *work);
 s16 MCSS_GetOfsY(McssWork *work);
 u8 MCSS_GetStopCellFlags(McssWork *work);
-int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
+int MCSS_SetAnimCallback(McssWork *work, void *arg, AnimCallBackFunc func, u32 unusedArg);
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, int (*callback)(void *, void *, void *, int));
 void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 u8 MCSS_GetAlpha(McssWork *work);
@@ -119,13 +121,13 @@ void MCSS_MulVecMtx44(const VecFx32 *v, const MtxFx44 *mtx, VecFx32 *dst, s32 *w
 void MCSS_TOOL_MakeAddWorkFromPP(void *pp, McssAddWork *out, u32 direction);
 void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction);
 void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out, u32 direction);
-void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender);
+void MCSS_TOOL_MakeAddWorkFromTrainer(u32 trainerClass, McssAddWork *out, u32 isBack);
 McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z);
 void MCSS_TOOL_SetSpindaSpotHook(McssSys *sys, u32 personality);
 u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u32 personality);
 void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
-void MCSS_TOOL_AnimeStopCallback(McssWork *work);
+void MCSS_TOOL_AnimeStopCallback(void *param, u32 frame);
 /* END mkheaders: generated region */
 
 #endif

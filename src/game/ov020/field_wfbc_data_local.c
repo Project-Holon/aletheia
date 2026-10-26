@@ -333,7 +333,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
 int FIELD_WFBC_DATA_LOCAL_ScrCmdGetFacingPersonMessageIndex(ScriptVm *vm, struct ScrcmdWork *work);
 int FIELD_WFBC_DATA_LOCAL_ScrCmdCallPersonTalkEvent(ScriptVm *vm, struct ScrcmdWork *work);
 struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem *gameSystem, void *fieldSystem);
-int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, WfbcTalkEvent *talk);
+int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, void *work);
 void FIELD_WFBC_DATA_LOCAL_StartTalkMessage(WfbcTalkEvent *talk, int messageSlot, int *state, int nextState);
 void FIELD_WFBC_DATA_LOCAL_StartTalkMessageWithChoice(WfbcTalkEvent *talk, int messageSlot, int *state, int yesStateId, u16 noStateId);
 int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(WfbcTalkEvent *talk);
@@ -627,9 +627,9 @@ void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u8 *data)
     int i;
     for (i = 0; i < 10; i++) {
         if (WFBC_IsReturnEntryValid((WfbcPerson *)(data + 8 + i * 0x18)) &&
-            (*(u8 *)((uptr)data + i * 0x18 + 0xb) & 2)) {
+            (*(u8 *)((u8 *)data + i * 0x18 + 0xb) & 2)) {
             FIELD_WFBC_DATA_LOCAL_AddMood((WfbcPerson *)(data + 8 + i * 0x18), 3);
-            FIELD_WFBC_DATA_LOCAL_ClearFlagBits((u8 *)((uptr)data + i * 0x18 + 0xb), 2);
+            FIELD_WFBC_DATA_LOCAL_ClearFlagBits((u8 *)((u8 *)data + i * 0x18 + 0xb), 2);
         }
     }
 }
@@ -806,7 +806,7 @@ int FIELD_WFBC_DATA_LOCAL_IsMoodLow(const WfbcPerson *person)
 
 WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int fileId, int heapId)
 {
-    WfbcNpcData *npcData = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)&d_02187EB4, 0x448);
+    WfbcNpcData *npcData = GFL_HEAP_Alloc(heapId, sizeof(*npcData), 1, (const char *)&d_02187EB4, 0x448);
 
     npcData->arc = ARC_TOOL_CreateHandle(0x9a, heapId);
     ARC_TOOL_ReadHandleMember(npcData->arc, fileId, &npcData->record);
@@ -1240,7 +1240,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
     s = (void *)SCRCMD_WORK_GetGameData((struct ScrcmdWork *)(((void *)work)));
     GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
-    w = (void *)(sptr)GAME_DATA_GetMusicalShotExtraData((struct GameData *)((sptr)s));
+    w = (void *)GAME_DATA_GetMusicalShotExtraData((struct GameData *)(s));
     b = GAME_DATA_GetMyParty(s);
     outFound = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     outDateMatch = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
@@ -1338,7 +1338,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     if (returnList == 0)
         return 0;
     returnList = INTRUDE_COMM_GetReturnSlots(returnList);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, sizeof(WfbcTalkEvent));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldSystem = fieldSystem;
@@ -1372,8 +1372,9 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
  * The step callback FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent registers (GAME_EVENT_Create's third
  * argument) for the 0x58-byte work block it fills.
  */
-int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, WfbcTalkEvent *talk)
+int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    WfbcTalkEvent *talk = workPtr;
     if (INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(talk->gameSystem)) == 0 && talk->firstTalk != 0)
         *state = 0x11;
 

@@ -1,3 +1,5 @@
+
+struct TcbTask;
 #ifndef GAME_OV225_MANUAL_TOP_H
 #define GAME_OV225_MANUAL_TOP_H
 
@@ -7,7 +9,7 @@
 char *MANUAL_COMMON_CreateDialog(char *owner, char *data);
 void MANUAL_COMMON_DeleteDialog(char *dialog);
 int MANUAL_COMMON_UpdateDialog(char *dialog);
-void MANUAL_COMMON_DialogTaskNoop(void *unused);
+void MANUAL_COMMON_DialogTaskNoop(struct TcbTask *unused, void *unused1);
 void MANUAL_COMMON_LoadDialogAssets(char *dialog);
 void MANUAL_COMMON_CreateDialogWindows(char *dialog);
 void MANUAL_COMMON_SetDialogBgMode(char *dialog);

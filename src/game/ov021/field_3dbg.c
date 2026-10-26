@@ -112,7 +112,7 @@ extern const s16 FX_SinCosTable_[];
 /* Allocate a billboard and copy its size, distance and polygon id from desc. */
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId)
 {
-    Field3dbgBillboard *billboard = GFL_HEAP_Alloc((u16)heapId, 0x70, 1, g_Field3dbgSourceName, 0x95);
+    Field3dbgBillboard *billboard = GFL_HEAP_Alloc((u16)heapId, sizeof(*billboard), 1, g_Field3dbgSourceName, 0x95);
     billboard->width = desc->width;
     billboard->height = desc->height;
     billboard->distance = desc->distance;

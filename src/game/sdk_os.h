@@ -94,12 +94,14 @@ struct _OSThread {
     int systemErrno;
 };
 
+typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
+
 typedef struct OSThreadInfo {
     u16 isNeedRescheduling;
     u16 irqDepth;
     OSThread *current;
     OSThread *list;
-    void *switchCallback;
+    OSSwitchThreadCallback switchCallback;
 } OSThreadInfo;
 
 typedef void *OSMessage;

@@ -62,6 +62,7 @@
  *   GAME_BEACON_ACCESSOR_GetActionCheckIndex  0x02165FB4  thumb  ov010
  */
 #include "../arm9/game_beacon_types.h"
+#include "../arm9/species.h"
 #include "game_beacon_search_shared_types.h"
 
 #include "../arm9/gf_standard_types.h"
@@ -584,7 +585,7 @@ u16 GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const GameBeaconInfo *info)
     switch (type) {
     case 0:
     case 1:
-        if (monsNo == 0 || monsNo > 649)
+        if (monsNo == 0 || monsNo > SPECIES_LAST)
             monsNo = 504;
         return monsNo;
     default:
@@ -829,7 +830,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
     switch (printKind) {
     case BEACON_PRINT_TRAINER_NO:
         value = GAME_BEACON_ACCESSOR_GetActionTrainerNo(info);
-        WORDSET_SetSlotPokeData(wordSet, 1, (void *)value);
+        WORDSET_SetSlotPokeData(wordSet, 1, value);
         WORDSET_SetSlotFromMsgBE(wordSet, 2, value);
         break;
     case BEACON_PRINT_MONS_NO:
@@ -898,7 +899,7 @@ int GAME_BEACON_ACCESSOR_IsActionTrainerNoInvalid(GameBeaconInfo *info)
 /* Pokemon number at +0x32 must be 1..0x289. */
 int GAME_BEACON_ACCESSOR_IsActionMonsNoInvalid(GameBeaconInfo *info)
 {
-    if (info->actionArg == 0 || info->actionArg > 0x289)
+    if (info->actionArg == 0 || info->actionArg > SPECIES_LAST)
         return 1;
     return 0;
 }
@@ -912,7 +913,7 @@ int GAME_BEACON_ACCESSOR_IsNoValueInvalid(GameBeaconInfo *info)
 /* Pokemon number at +0x32 must be 1..0x289 (actions that also carry a nickname). */
 int GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid(GameBeaconInfo *info)
 {
-    if (info->actionArg == 0 || info->actionArg > 0x289)
+    if (info->actionArg == 0 || info->actionArg > SPECIES_LAST)
         return 1;
     return 0;
 }
@@ -944,7 +945,7 @@ int GAME_BEACON_ACCESSOR_IsActionCountValueInvalid(GameBeaconInfo *info)
 /* Distributed pokemon number at +0x34 must be 1..0x289. */
 int GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid(GameBeaconInfo *info)
 {
-    if (info->actionData.value == 0 || info->actionData.value > 0x289)
+    if (info->actionData.value == 0 || info->actionData.value > SPECIES_LAST)
         return 1;
     return 0;
 }

@@ -16,7 +16,7 @@ The project is **100% matched** and links byte-identically to the original ROM u
 | TWL (DSi) | 8 game + 331 SDK | 582 game + 46,600 SDK | 100.0% |
 | **Total** | **35,197** | **3,396,468** | **100.0%** |
 
-Decompiled C source code is located in `src/game/` across 1,367 files.
+Decompiled C source code is located in `src/game/` across 1,374 files.
 
 ### Coverage Maps
 
@@ -35,9 +35,10 @@ Decompiled C source code is located in `src/game/` across 1,367 files.
 - [x] **Milestone 3**: Decompilation to matching C (`src/game/`)
 - [x] **Milestone 4**: Pokémon White support (`tools/romlink.py --version white`)
 - [ ] **Milestone 5**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
-  - [ ] 64-bit ready source (real pointer types)
-  - [ ] Recovered structs for code that still reads fields by offset
-  - [ ] Repository cleanup (tool data out of the source, leftover casts and includes)
+  - [x] 64-bit ready source (real pointer types)
+    - The 71 pointer-width hits that remain are original integer use (SDK handles, hardware addresses).
+  - [x] Recovered structs for code that still reads fields by offset
+  - [x] Repository cleanup (tool data out of the source, leftover casts and includes)
   - [ ] Fixes for issues the port finds
 
 ## Requirements

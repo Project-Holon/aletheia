@@ -60,7 +60,7 @@
 
 typedef struct Demo3dArg {
     unsigned char pad0[4];
-    void *data;
+    unsigned data;              /* demo id */
     int limit;
     unsigned char padC[4];
     int frame;
@@ -106,7 +106,7 @@ struct Proc;
 #include "../arm9/mi_memory.h"
 /* The DS code was built against other parameter widths for DEMO3D_GRAPHIC_Create (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
-extern struct Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
+extern struct Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned, u32, unsigned);
 #else
 #include "demo3d_graphic.h"
 #endif
@@ -119,9 +119,7 @@ struct PrintQueue;
 #include "../arm9/brightness.h"
 struct Demo3dGraphic;
 #include "demo3d_graphic_shared_types.h"
-extern void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx);
 #include "../arm9/gfl_heap_wrap.h"
-extern void DEMO3D_GRAPHIC_Draw(Demo3dGraphic *p);
 #include "../arm9/wipe.h"
 #include "../arm9/fade.h"
 #include "../arm9/key.h"
@@ -131,7 +129,7 @@ struct G3dLight;
 int DEMO3D_Init(void *manager, int unused, Demo3dArg *p);
 int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work);
 int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work);
-int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap);
+int DEMO3D_StartWipe(u32 id, unsigned mode, unsigned heap);
 int DEMO3D_CheckSkip(Demo3dWork *p);
 Demo3dContext *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap);
 void DEMO3D_DeleteContext(Demo3dContext *a);
@@ -167,10 +165,10 @@ int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
     BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
     w->model = DEMO3D_ENGINE_Create(w->view, (struct Demo3dGraphicCfg *)p, w->heapId);
-    w->ctx = DEMO3D_CreateContext(*(int *)&p->data, w->view, w->model, w->heapId);
+    w->ctx = DEMO3D_CreateContext(p->data, w->view, w->model, w->heapId);
     delta = DEMO3D_ENGINE_GetFrameNum(w->model) - p->limit;
     DEMO3D_DATA_GetTextureSize(p->data, 0, &width, &height);
-    if (delta > height) DEMO3D_StartWipe((void *)(u8)*(unsigned *)&p->data, one, w->heapId);
+    if (delta > height) DEMO3D_StartWipe((u8)p->data, one, w->heapId);
     return 1;
 }
 
@@ -214,7 +212,7 @@ int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work)
         break;
     case 1:
         if (WIPE_SYS_EndCheck() == 1) {
-            if (DEMO3D_StartWipe((void *)(unsigned char)*(unsigned *)&work->arg->data, 0, work->heapId))
+            if (DEMO3D_StartWipe((unsigned char)work->arg->data, 0, work->heapId))
                 return 1;
             (*state)++;
         }
@@ -227,12 +225,12 @@ int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work)
     return 0;
 }
 
-int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
+int DEMO3D_StartWipe(u32 id, unsigned mode, unsigned heap)
 {
     unsigned char width, height;
     unsigned char factor;
     u16 color;
-    DEMO3D_DATA_GetTextureSize(ctx, (unsigned char)(mode == 0), &width, &height);
+    DEMO3D_DATA_GetTextureSize(id, (unsigned char)(mode == 0), &width, &height);
     color = 0;
     if (width) color = 32767;
     WIPE_SetMstBrightColor(color);
@@ -249,7 +247,7 @@ int DEMO3D_CheckSkip(Demo3dWork *p){if(p->arg->phase!=0||!WIPE_SYS_EndCheck())re
 Demo3dContext *DEMO3D_CreateContext(int mode, void *a, void *b, unsigned heap)
 {
     Demo3dContext *ctx;
-    ctx = GFL_HEAP_Alloc(heap, 24, 1, d_021C3CC0, 0x1e1);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(Demo3dContext), 1, d_021C3CC0, 0x1e1);
     ctx->view = a;
     ctx->model = b;
     ctx->heapId = heap;

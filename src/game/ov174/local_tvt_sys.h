@@ -35,7 +35,7 @@ void LOCAL_TVT_SYS_ResetTimer(char *p);
 int LOCAL_TVT_SYS_TickTimer(char *p);
 int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg);
 int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p);
-int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d);
+int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, u8 *d);
 /* END mkheaders: generated region */
 
 #endif

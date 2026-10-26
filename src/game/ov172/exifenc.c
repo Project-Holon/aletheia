@@ -75,20 +75,6 @@
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   OS_Terminate  0x02088234  arm  arm9
  */
-struct ExifMakerNoteConfig {
-    unsigned short tag;
-    unsigned short type;
-    unsigned int count;
-    signed char f8;
-    unsigned char pad9;
-    signed short fa;
-    unsigned int fc;
-    unsigned int f10;
-    unsigned int f14;
-    unsigned char field18[30];
-    char str[30];
-    unsigned int field54;
-};
 
 #define PUT(v)  (sExifencDst[encode_file_size++] = (unsigned char)(v))
 #include "../sdk_rtc.h"
@@ -220,7 +206,7 @@ extern const char gExifMake[];
 extern const char gExifModel[];
 extern const char gExifVersion[];
 extern const char gExifFlashpixVersion[];
-extern struct ExifMakerNoteConfig gExifMakerNoteConfig;
+extern struct ExifencSlot gExifMakerNoteConfig;
 extern char gExifMakerNoteConfigData[];
 extern const char gExifInteropIndex[];
 extern const char gExifRelatedImageFormat[];
@@ -900,11 +886,11 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s->tag = gExifMakerNoteConfig.tag;
   s->type = gExifMakerNoteConfig.type;
   s->count = gExifMakerNoteConfig.count;
-  s->byteData = gExifMakerNoteConfig.f8;
-  s->shortData = gExifMakerNoteConfig.fa;
-  s->longData = gExifMakerNoteConfig.fc;
-  s->rationalNumerator = gExifMakerNoteConfig.f10;
-  s->rationalDenominator = gExifMakerNoteConfig.f14;
+  s->byteData = gExifMakerNoteConfig.byteData;
+  s->shortData = gExifMakerNoteConfig.shortData;
+  s->longData = gExifMakerNoteConfig.longData;
+  s->rationalNumerator = gExifMakerNoteConfig.rationalNumerator;
+  s->rationalDenominator = gExifMakerNoteConfig.rationalDenominator;
   STD_CopyLString(s->str, gExifMakerNoteConfigData, s->count);
   s->offset = 0;
   sb->count2++;
@@ -1161,11 +1147,11 @@ u32 SSP_ExifEncode(int dstBuffer, int width, int height, u8 *thumbSrc, u32 thumb
     gExifMakerNoteConfig.count = 0x1C;
     if (gExifMakerNoteConfig.count > 0x1E)
         gExifMakerNoteConfig.count = 0x1E;
-    gExifMakerNoteConfig.f8 = 0;
-    gExifMakerNoteConfig.fa = 0;
-    gExifMakerNoteConfig.fc = 0;
-    gExifMakerNoteConfig.f10 = 0;
-    gExifMakerNoteConfig.f14 = 0;
+    gExifMakerNoteConfig.byteData = 0;
+    gExifMakerNoteConfig.shortData = 0;
+    gExifMakerNoteConfig.longData = 0;
+    gExifMakerNoteConfig.rationalNumerator = 0;
+    gExifMakerNoteConfig.rationalDenominator = 0;
     MI_CpuFill8(gExifMakerNoteConfigData, 0, gExifMakerNoteConfig.count);
 
     local = 0;

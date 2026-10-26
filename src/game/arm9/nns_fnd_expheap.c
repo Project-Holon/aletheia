@@ -124,7 +124,7 @@ struct Heap {
 
 #include "mi_memory.h"
 #include "msl_crt.h"
-void NNS_FndInitList(int list, int offset);
+void NNS_FndInitList(NNSFndList *list, int offset);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
 void NNS_FndAppendListObject(NNSFndList *list, void *object);
 void NNS_FndPrependListObject(NNSFndList *list, void *object);
@@ -160,7 +160,7 @@ u8 NNSi_FndGetMBlockAttribute(char *p);
 extern BOOL sRootListInitialized;
 extern NNSFndList sRootList;
 
-void NNS_FndInitList(int list, int offset){ ((NNSFndList *)list)->headObject = 0; ((NNSFndList *)list)->tailObject = 0; ((NNSFndList *)list)->numObjects = (unsigned short)0; ((NNSFndList *)list)->offset = (unsigned short)offset; }
+void NNS_FndInitList(NNSFndList *list, int offset){ list->headObject = 0; list->tailObject = 0; list->numObjects = (unsigned short)0; list->offset = (unsigned short)offset; }
 
 /*
  * DList: seed an empty list with its first element.  The list header is the
@@ -393,10 +393,10 @@ struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 void *NNSi_FndFindListContainHeap(u32 a)
 {
     void *r = &sRootList;
-    u32 v = (uptr)NNSi_FndFindElem((struct DList *)(&sRootList), a);
+    struct Elem *v = NNSi_FndFindElem((struct DList *)(&sRootList), a);
 
     if (v != 0) {
-        r = (void *)(v + 0xc);
+        r = &v->sublist;
     }
     return r;
 }
@@ -428,10 +428,10 @@ void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapSta
     pHeapHd->attribute = 0;
     SetOptForHeap(pHeapHd, optFlag);
 
-    NNS_FndInitList((sptr)(&pHeapHd->childList), 4);
+    NNS_FndInitList(&pHeapHd->childList, 4);
 
     if (!sRootListInitialized) {
-        NNS_FndInitList((sptr)(&sRootList), 4);
+        NNS_FndInitList(&sRootList, 4);
         sRootListInitialized = 1;
     }
 
@@ -469,46 +469,49 @@ void NNSi_FndGetMBlockRegion(int *out, int *blk)
 
 void *NNSi_FndRemoveMBlock(int *p, int *node)
 {
-    int *a = (int *)node[2];
-    int *b = (int *)node[3];
+    struct MBlockList *list = (struct MBlockList *)p;
+    struct MBlock *a = ((struct MBlock *)node)->prev;
+    struct MBlock *b = ((struct MBlock *)node)->next;
     if (a != 0)
-        a[3] = (sptr)b;
+        a->next = b;
     else
-        p[0] = (sptr)b;
+        list->head = b;
     if (b != 0)
-        b[2] = (sptr)a;
+        b->prev = a;
     else
-        p[1] = (sptr)a;
+        list->tail = a;
     return a;
 }
 
 void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
 {
-    int *b;
-    ((struct MBlock *)node)->prev = (struct MBlock *)a;
-    if (a != 0) {
-        b = (int *)a[3];
-        a[3] = (sptr)node;
+    struct MBlockList *list = (struct MBlockList *)p;
+    struct MBlock *prev = (struct MBlock *)a;
+    struct MBlock *b;
+    ((struct MBlock *)node)->prev = prev;
+    if (prev != 0) {
+        b = prev->next;
+        prev->next = (struct MBlock *)node;
     } else {
-        b = (int *)p[0];
-        p[0] = (sptr)node;
+        b = list->head;
+        list->head = (struct MBlock *)node;
     }
-    ((struct MBlock *)node)->next = (struct MBlock *)b;
+    ((struct MBlock *)node)->next = b;
     if (b != 0)
-        b[2] = (sptr)node;
+        b->prev = (struct MBlock *)node;
     else
-        p[1] = (sptr)node;
+        list->tail = (struct MBlock *)node;
     return node;
 }
 
 void *NNSi_FndInitMBlock(int *p, int v)
 {
-    int *q = (int *)p[0];
-    ((struct MBlock *)q)->signature = (unsigned short)v;
-    ((struct MBlock *)q)->attr = 0;
-    ((struct MBlock *)q)->size = (int)((char *)p[1] - ((char *)q + 0x10));
-    ((struct MBlock *)q)->prev = 0;
-    ((struct MBlock *)q)->next = 0;
+    struct MBlock *q = (struct MBlock *)(uptr)p[0];
+    q->signature = (unsigned short)v;
+    q->attr = 0;
+    q->size = (int)((char *)(uptr)p[1] - ((char *)q + 0x10));
+    q->prev = 0;
+    q->next = 0;
     return q;
 }
 
@@ -1035,13 +1038,13 @@ void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block)
 
 int NNSi_FndGetListTotalSize(int *p)
 {
-    int *q = (int *)p[9];
+    struct MBlock *q = ((struct ExpHeap *)p)->freeList.head;
     int total = 0;
     if (q == 0)
         return 0;
     do {
-        total += q[1];
-        q = (int *)q[3];
+        total += q->size;
+        q = q->next;
     } while (q != 0);
     return total;
 }
@@ -1141,11 +1144,11 @@ u16 NNSi_FndSetGroupId(char *p, u16 v)
 
 void NNSi_FndWalkHeapBlocks(int *p, void (*fn)(void *, void *, int), int ctx)
 {
-    int *q = (int *)p[0xb];
+    struct MBlock *q = ((struct ExpHeap *)p)->usedList.head;
     if (q == 0)
         return;
     do {
-        int *next = (int *)q[3];
+        struct MBlock *next = q->next;
         fn((char *)q + 0x10, p, ctx);
         q = next;
     } while (q != 0);

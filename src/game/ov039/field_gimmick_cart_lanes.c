@@ -222,7 +222,7 @@ void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, model, leverStateB, FLD_EXP_OBJ_GetAnimeLastFrame(FLD_EXP_OBJ_GetAnime(expObj, 0, model, leverStateB)));
     }
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    work->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), (TcbFunc)FIELD_GIMMICK_CART_LANES_UpdateTask, fieldMap, 0);
+    work->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), FIELD_GIMMICK_CART_LANES_UpdateTask, fieldMap, 0);
     for (n = 0; n < FIELD_GIMMICK_CART_LANES_LANE_COUNT; n++) {
         work->switchRequest[n] = 0;
         work->activeCart[n] = n * 2 + save->laneState[n];
@@ -252,8 +252,9 @@ void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
  * `cartAnimeIndex = work->activeCart[lane] + 1` a CSE temporary takes the
  * first slot instead). sStopDocks and sRideAnimeOrigin need the ov039 token.
  */
-void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, void *arg)
 {
+    struct FieldMap *fieldMap = arg;
     u8 i;
     int lane;
     FldExpObjCnt *expObj;
@@ -304,7 +305,11 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *f
     }
     for (i = 0; i < FIELD_GIMMICK_CART_LANES_LANE_COUNT; i++) {
         lane = i;
+#ifdef __MWERKS__
         parkedRow = (s8 *)work + lane;
+#else
+        parkedRow = &work->parkedDock[lane];
+#endif
         cart = work->activeCart[lane];
         cartAnimeIndex = cart + 1;
         laneModel = lane;
@@ -319,7 +324,11 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *f
                     FIELD_SOUND_SYSTEM_TransferSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP, 0x7f);
                     NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(seSlot), 0);
                 }
+#ifdef __MWERKS__
                 parkedRow[FIELD_GIMMICK_CART_LANES_WORK_PARKED_DOCK] = -1;
+#else
+                *parkedRow = -1;
+#endif
             }
         } else if (FIELD_GIMMICK_CART_LANES_FindStopAtFrame(cart, FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, laneModel, cartAnimeIndex), stopIndex)) {
             FLD_EXP_OBJ_SetAnimePaused(cartAnime, 1);
@@ -328,7 +337,11 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *f
                 GFL_USE_StopAllSe();
             }
             work->dockTimer[lane] = FIELD_GIMMICK_CART_LANES_DOCK_TIMER;
+#ifdef __MWERKS__
             parkedRow[FIELD_GIMMICK_CART_LANES_WORK_PARKED_DOCK] = sStopDocks[cart][stopIndex[0]];
+#else
+            *parkedRow = sStopDocks[cart][stopIndex[0]];
+#endif
         }
     }
     if (work->rideActive != 0) {
@@ -438,7 +451,7 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *
     if (lane >= FIELD_GIMMICK_CART_LANES_LANE_COUNT) {
         return 0;
     }
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_CART_LANES_SwitchEventMain, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_SwitchEventMain, 0);
     work->switchLane = lane;
     return event;
 }
@@ -552,9 +565,9 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gam
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)lane, cartAnimeIndex), 1);
         work->rideLane = lane;
         if (FIELD_GIMMICK_CART_LANES_IsLaneLocked(save, lane)) {
-            return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_CART_LANES_RideRefusedEventMain, 0);
+            return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideRefusedEventMain, 0);
         }
-        return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_CART_LANES_RideEventMain, 0);
+        return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CART_LANES_RideEventMain, 0);
     }
     return 0;
 }

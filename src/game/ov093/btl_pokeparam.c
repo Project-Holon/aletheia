@@ -327,7 +327,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heap
     BtlPokeParam *pp;
     u32 statusCondition;
 
-    pp = GFL_HEAP_Alloc(heapId, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
+    pp = GFL_HEAP_Alloc(heapId, sizeof(*pp), 1, gBtlPokeparamFileName, 0xe3);
     pp->partyIndex = pokeId;
     pp->species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     pp->mon = mon;

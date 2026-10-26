@@ -57,6 +57,10 @@ typedef struct
   u8 valid;
 } MusicalShotRecord;
 
+struct MusPokeDrawScene;
+struct StaActBillboardImage;
+struct StaActPokeElem;
+
 /* The scene record owned by musical_shot_sys (allocated 100 bytes). */
 typedef struct
 {
@@ -66,11 +70,11 @@ typedef struct
   u8 *objects[4];
   void *camera;
   void *board;
-  void *renderObj;
+  struct MusPokeDrawScene *renderObj;
   void *actorPool;
   void *model;
-  void *sprite;
-  void *models[4];
+  struct StaActBillboardImage *sprite;
+  struct StaActPokeElem *models[4];
   void *unit;
   void *effects[4];
   void *winA;

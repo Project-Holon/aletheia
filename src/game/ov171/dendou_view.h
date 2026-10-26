@@ -31,7 +31,7 @@ void DENDOU_VIEW_ExitText(DendouViewWork *work);
 void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work);
 void DENDOU_VIEW_FreeHallOfFame(DendouViewWork *work);
 int DENDOU_VIEW_RunState(DendouViewWork *work);
-void DENDOU_VIEW_StateInit(DendouViewWork *work);
+int DENDOU_VIEW_StateInit(DendouViewWork *work);
 int DENDOU_VIEW_StateExit(DendouViewWork *work);
 int DENDOU_VIEW_StateWaitWipe(DendouViewWork *work);
 u32 DENDOU_VIEW_StateWaitButton(DendouViewWork *work);

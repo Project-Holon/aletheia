@@ -251,7 +251,7 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
         y = 0x18;
     }
     work->bmpWin = BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
     BMP_WIN_TransferChars((struct BmpWin *)work->bmpWin);
     FIELD_SAVEANIME_DrawFrame(work, 0);
 }
@@ -282,11 +282,11 @@ void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
 {
     u32 charBase = BMP_WIN_GetCharOffset((struct BmpWin *)work->bmpWin);
     struct Bmp *bmp = BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
-    uptr chars;
+    void *chars;
     u32 size;
 
     BMP_Blit(work->charData, bmp, 0, frame << 5, work->ofsX, work->ofsY, 0x20, 0x20, 0xFFFF);
-    chars = (uptr)BMP_GetPixels(bmp);
+    chars = BMP_GetPixels(bmp);
     size = BMP_GetByteSize(bmp);
     BG_SYS_LoadTileData(_SAVEANIME_BG_FRAME, (const void *)chars, size, charBase);
 }

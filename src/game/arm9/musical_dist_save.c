@@ -114,7 +114,7 @@ struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *game_sys, const void 
 
 u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist);
 
-u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
+void *MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
 
 u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist);
 
@@ -146,7 +146,7 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
     u8 *block;
 
     save_ctrl = GAME_DATA_GetSaveControl(game_sys);
-    dist = GFL_HEAP_Alloc(heap_id, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
+    dist = GFL_HEAP_Alloc(heap_id, sizeof(*dist), 1, g_MusicalDistSaveFileName, 0x4A);
     dist->block = GFL_HEAP_Alloc(heap_id, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
     load_result = SAVE_CONTROL_LoadExtraSaveWithBuffer(save_ctrl, 6, heap_id, dist->block, 0x20000);
     dist->heap_id = heap_id;
@@ -332,9 +332,9 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist)
  * block and the `bls` jumps **past** it, which is the short-circuit `||` of
  * one `if`, not two statements.
  */
-u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist)
+void *MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist)
 {
-    return (uptr)dist->payload;
+    return dist->payload;
 }
 
 u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist)

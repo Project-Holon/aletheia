@@ -187,7 +187,7 @@ typedef struct BmpMenuListHeader {
     u16 lineSpacing : 4;
     u16 pageSkip : 2;
     u16 reserved1A : 7;
-    u32 work;                     /* 0x1C */
+    void *work;                   /* 0x1C */
     u16 fontId;                   /* 0x20 */
     u16 fontHeight;               /* 0x22 */
     u32 reserved24;               /* 0x24, set to 0 here, read by the arm9 list code */

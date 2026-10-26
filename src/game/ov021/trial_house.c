@@ -219,14 +219,14 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
 u16 TRIAL_HOUSE_GetTrainerObjCode(TrialHouseWork *work);
 GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
 GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
-int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work);
+int TRIAL_HOUSE_DeliveryTaskMain(struct GameEvent *event, int *seq, void *work);
 void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
 int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *unused, TrialHouseWork *work);
 GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseWork *unused, int mode);
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem);
 u8 TRIAL_HOUSE_IsDeliveryIdReceived(TrialHouseSave *save, u32 id);
 void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id);
-int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work);
+int TRIAL_HOUSE_SaveTaskMain(struct GameEvent *event, int *seq, void *work);
 
 extern char d_021DE674[];                              /* source file name for the heap allocator */
 extern u8 GAME_LANGUAGE_Code;                                  /* game version of this ROM */
@@ -412,7 +412,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
     GameEvent *event;
     TrialHouseDeliveryTaskWork *task;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
     task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->result = result;
@@ -437,7 +437,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
  *
  * Addresses are Black-image addresses.
  */
-int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
+int TRIAL_HOUSE_DeliveryTaskMain(struct GameEvent *event, int *seq, void *work)
 {
     TrialHouseDeliveryTaskWork *task = work;
     GameSystem *gameSystem;
@@ -642,7 +642,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseW
     TrialHouseSaveTaskWork *task;
     FieldSaveAnime *saveAnime;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
     task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->buffer = 0;
@@ -692,7 +692,7 @@ void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id)
 }
 
 /* Save task: writes save block 5 and shows the save animation until it is done. */
-int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
+int TRIAL_HOUSE_SaveTaskMain(struct GameEvent *event, int *seq, void *work)
 {
     TrialHouseSaveTaskWork *task = work;
     GameData *gameData = GAMESYSTEM_GetGameData(task->gameSystem);

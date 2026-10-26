@@ -284,11 +284,7 @@ extern void FLDMMDL_SetGridOldY(struct Mmdl *mmdl, s16 y);
 extern void FLDMMDL_SetAttrOffset(struct Mmdl *mmdl, struct VecFx32 *offset);
 extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct VecFx32 *out);
 extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct VecFx32 *pos);
-#ifdef __MWERKS__
-extern short FLDMMDL_GetGridNowY(Mmdl *mmdl); /* original prototype; the definition differs in return type */
-#else
 extern short FLDMMDL_GetGridNowY(struct Mmdl*);
-#endif
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
 #ifdef __MWERKS__
 extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
@@ -300,18 +296,10 @@ extern void FLDMMDL_SetGridOldZ(Mmdl *mmdl, int b); /* original prototype; the d
 #else
 extern void FLDMMDL_SetGridOldZ(struct Mmdl*, s16);
 #endif
-#ifdef __MWERKS__
-extern void FLDMMDL_AddGridNowX(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
-#else
 extern void FLDMMDL_AddGridNowX(struct Mmdl*, s16);
-#endif
 extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_SetMoveBitSplash(Mmdl *mmdl, u32 flag);
-#ifdef __MWERKS__
-extern void FLDMMDL_AddGridNowZ(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
-#else
 extern void FLDMMDL_AddGridNowZ(struct Mmdl*, s16);
-#endif
 extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int v);
 extern void FLDMMDL_SetOldAttr(Mmdl *mmdl, u32 v);
 extern void FLDMMDL_SetNowAttr(Mmdl *mmdl, u32 v);
@@ -515,7 +503,7 @@ void FLDMMDL_MOVE_InitAttrInfo(Mmdl *mmdl, EventInfo *info)
     int oldAttr;
     struct FieldEffectSys *effectCtrl;
 
-    MI_CpuFill(info, 0, 0x1c);
+    MI_CpuFill(info, 0, sizeof(*info));
     info->nowAttr = FLDMMDL_GetOldAttr(mmdl);
     oldAttr = FLDMMDL_GetNowAttr(mmdl);
     info->oldAttr = oldAttr;
@@ -1373,13 +1361,13 @@ void FLDMMDL_MOVE_StopAcmdWalkCodes(Mmdl *mmdl) { if ((u16)(FLDMMDL_GetMoveCode(
  * contract: ROM table at 0x02171480 holds {0,0,-1,1}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-s16 FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((uptr)d_02171480+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((u8 *)d_02171480+((unsigned)dir<<2)); }
 
 /*
  * contract: ROM table at 0x02171470 holds {-1,1,0,0}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((uptr)d_02171470+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((u8 *)d_02171470+((unsigned)dir<<2)); }
 
 void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount)
 {

@@ -19,13 +19,13 @@ void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 int GAME_EVENT_Control(struct GameSystem *gameSystem);
 int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
 int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
-int GAME_EVENT_CallProcSeq(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_CallProcSeq(struct GameEvent *event, int *seq, void *work);
 void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
-int GAME_EVENT_OverlaySeq(struct GameEvent *event, u32 *seq, void *work);
+int GAME_EVENT_OverlaySeq(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
-u32 *GAME_EVENT_GetSeq(struct GameEvent *event);
+int *GAME_EVENT_GetSeq(struct GameEvent *event);
 struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
 /* END mkheaders: generated region */
 

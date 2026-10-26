@@ -5,11 +5,9 @@
 /* Public functions of mb_util_msg.c, prototypes copied from their definitions. */
 
 struct MbMsgWork;
-struct MbMsgWork;
 struct MsgBank;
 struct WordSet;
 struct GfFont;
-typedef struct MbMsgWork MbMsgWork;
 typedef struct MbMsgWork MbMsgWork;
 
 #include "../types.h"

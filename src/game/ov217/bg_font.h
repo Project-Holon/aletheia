@@ -6,10 +6,12 @@
 
 struct BgTextLabel;
 struct BgTextLabelConfig;
+struct GfFont;
+struct MsgBank;
 
 #include "../types.h"
 
-struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
+struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, struct GfFont *font, struct MsgBank *msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
 u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, u32 msgIndex);
 void BgTextLabel_PrintText(struct BgTextLabel *label, void *text);

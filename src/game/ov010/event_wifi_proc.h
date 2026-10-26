@@ -16,7 +16,7 @@ struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem
 struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem);
 void EVENT_WIFI_PROC_LoadOv020(void);
 void EVENT_WIFI_PROC_UnloadOv020(void);
-int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, int *seq, void *workArg);
 struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
 /* END mkheaders: generated region */
 

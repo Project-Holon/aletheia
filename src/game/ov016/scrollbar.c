@@ -92,7 +92,7 @@ extern unsigned char sScrollBarStep[];
  * sdk:      DWCi_SBlInit (libdwcutil.TWL.HYB.a(scrollbar.o))
  */
 
-static void taskMain(void);
+static void taskMain(void *task, void *work);
 static void moveBar(void);
 static void playSound(int pos);
 static void stepBar(int idx);
@@ -103,7 +103,7 @@ static void calcRect(int idx, RECT *r);
 static void disp(int pos);
 void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
 {
-	gScrollBar = (ScrollBar *)DWCi_HEAPlAllocEx(0x20, 4);
+	gScrollBar = (ScrollBar *)DWCi_HEAPlAllocEx(sizeof(*gScrollBar), 4);
 	gScrollBar->bar = kind;
 	gScrollBar->len = max;
 	gScrollBar->pos = pos;
@@ -111,7 +111,7 @@ void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
 	gScrollBar->cell = DWCi_CEINlSetExCell(0, sScrollBarCellIds[kind], 1);
 	DWCi_CELLlSetPosition(gScrollBar->cell, -1, x, y + pos);
 	DWCi_CELLlSetPriority(gScrollBar->cell, -1, 1);
-	gScrollBar->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain, 0, 0x80);
+	gScrollBar->task = DWCi_TSKlForm(0, taskMain, 0, 0x80);
 }
 
 /*
@@ -176,7 +176,7 @@ void DWCi_SBlDisable(void)
 /*
  * sdk:      taskMain (libdwcutil.TWL.HYB.a scrollbar.o)
  */
-static void taskMain(void)
+static void taskMain(void *task, void *work)
 {
     gScrollBar->b = 0;
     switch (gScrollBar->a) {

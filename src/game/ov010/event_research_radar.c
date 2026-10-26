@@ -80,7 +80,7 @@ typedef struct ResearchTopParam {
 /* Work of the ov217 task (close field, run ov217, open field). */
 typedef struct ResearchTopTaskWork {
     struct GameSystem *gameSystem;  /* 0x00 */
-    int transitionArg;              /* 0x04, argument of the field close and open events */
+    struct FieldMap *transitionArg;            /* 0x04, argument of the field close and open events */
     ResearchTopParam *param;        /* 0x08 */
 } ResearchTopTaskWork;
 
@@ -160,21 +160,28 @@ struct MiscSave;
 
 #include "../arm9/beacon.h"
 #include "../arm9/game_event.h"
+#include "../arm9/procsys.h"
 
 
 
 
-int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work);
+int EVENT_RESEARCH_RADAR_TopTaskMain(struct GameEvent *task, int *state, void *work);
 
 void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg);
 
 int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWork *work, int extra);
+#ifndef __MWERKS__
+static int EVENT_RESEARCH_RADAR_ReportTaskMainEvent(struct GameEvent *event, int *state, void *work)
+{
+    return EVENT_RESEARCH_RADAR_ReportTaskMain(event, state, (ResearchReportWork *)work, 0);
+}
+#endif
 
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem);
 
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem);
 
-struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int stateRef, ResearchReportWork *workCopy, int extra);
+struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int *stateRef, ResearchReportWork *workCopy, int extra);
 
 int EVENT_RESEARCH_RADAR_DeleteReportMsgData(ResearchReportWork *work);
 
@@ -200,7 +207,7 @@ int EVENT_RESEARCH_RADAR_GetReportMessageId(unsigned int kind);
 
 extern char ov217_id[];
 
-extern char gResearchTopProcData[];
+extern const ProcData gResearchTopProcData;
 
 extern const char g_ResearchRadarFileName[];
 
@@ -208,10 +215,11 @@ extern const char g_ResearchRadarFileName[];
  * Task main of EVENT_RESEARCH_RADAR_CreateTopTask: closes the field, runs ov217 (pooled 0xD9)
  * on the heap block, opens the field and frees the block.
  */
-int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work)
+int EVENT_RESEARCH_RADAR_TopTaskMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    ResearchTopTaskWork *work = workPtr;
     struct GameSystem *gameSystem = work->gameSystem;
-    sptr transitionArg = work->transitionArg;
+    struct FieldMap *transitionArg = work->transitionArg;
     switch (*state) {
     case 0:
         GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)transitionArg, 0, 0));
@@ -222,11 +230,11 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
         *state = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov217_id, gResearchTopProcData, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov217_id, &gResearchTopProcData, work->param);
         *state = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)((sptr)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)(FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
         *state = 4;
         break;
     case 4:
@@ -245,11 +253,11 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     struct GameTask *task;
     ResearchTopTaskWork *work;
     ResearchTopParam *param;
-    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_TopTaskMain, 12);
+    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, sizeof(FieldMsgWin));
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
-    work->transitionArg = (sptr)transitionArg;
-    param = GFL_HEAP_Alloc(4, 4, 0, g_ResearchRadarFileName, 117);
+    work->transitionArg = transitionArg;
+    param = GFL_HEAP_Alloc(4, sizeof(*param), 0, g_ResearchRadarFileName, 117);
     work->param = param;
     param->gameSystem = gameSystem;
     return task;
@@ -263,7 +271,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 {
     switch (*state) {
     case 0:
-        EVENT_RESEARCH_RADAR_LoadReportMsgData(work, (sptr)state, work, extra);
+        EVENT_RESEARCH_RADAR_LoadReportMsgData(work, state, work, extra);
         EVENT_RESEARCH_RADAR_CreateInfoWindow(work);
         EVENT_RESEARCH_RADAR_CreateWordSet(work);
         EVENT_RESEARCH_RADAR_PrintReport(work);
@@ -289,7 +297,11 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
     struct GameTask *task;
-    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
+#ifdef __MWERKS__
+    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_ReportTaskMain, sizeof(ResearchReportWork));
+#else
+    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMainEvent, sizeof(ResearchReportWork));
+#endif
     EVENT_RESEARCH_RADAR_InitReportWork(GAME_EVENT_GetWork((struct GameEvent *)task), gameSystem);
     return task;
 }
@@ -300,7 +312,7 @@ void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem) {
     void *fieldMap;
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    MI_CpuFill8(work, 0, 32);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -309,7 +321,7 @@ void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSys
 }
 
 /* Loads the report message bank. */
-struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int stateRef, ResearchReportWork *workCopy, int extra)
+struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(ResearchReportWork *work, int *stateRef, ResearchReportWork *workCopy, int extra)
 {
     struct MsgBank *bank;
 

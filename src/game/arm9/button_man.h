@@ -32,7 +32,7 @@ struct ButtonSlot;
 #include "../types.h"
 #include "../sdk_fx.h"
 
-struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
+struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(u32, s32, void *), void *arg, int heap);
 void BUTTON_MAN_ClearSlot(struct ButtonSlot *slot);
 void BUTTON_MAN_Delete(struct ButtonMan *bm);
 s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);

@@ -13,7 +13,7 @@ typedef struct NNSiGfdVramTransferTask {
 
 /* Ring buffer of transfer tasks, with the running byte total of the queued tasks. */
 typedef struct NNSiGfdVramTransferTaskQueue {
-    u32 pTaskArray;
+    struct NNSiGfdVramTransferTask *pTaskArray;
     u32 numTasks;
     u16 head;
     u16 tail;
@@ -50,8 +50,8 @@ void NNSi_GfdLoadSubObjChar(const void *pSrc, u32 offset, u32 szByte);
 void NNSi_GfdRunVramTransferTask(NNSiGfdVramTransferTask *pTask);
 void NNSi_GfdResetVramTransferTaskQueue(NNSiGfdVramTransferTaskQueue *pQueue);
 int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
-u32 NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
-u32 NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
+NNSiGfdVramTransferTask *NNSi_GfdGetHeadVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
+NNSiGfdVramTransferTask *NNSi_GfdGetTailVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
 u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue);
 void NNS_GfdInitVramTransferTaskQueue(void *pTaskArray, u32 numTasks);
 void NNS_GfdResetVramTransferTaskQueue(void);

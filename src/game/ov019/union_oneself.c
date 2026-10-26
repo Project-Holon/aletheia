@@ -239,7 +239,7 @@ struct FieldPlayer;
 #include "../ov021/fieldmap.h"
 struct UnionRoomWork;
 
-extern void UNION_COMM_SetSituationParam(struct UnionRoomWork *work, unsigned int id, unsigned int value);
+extern void UNION_COMM_SetSituationParam(struct UnionRoomWork *work, unsigned int id, uptr value);
 struct GameSystem;
 struct GameComm;
 
@@ -304,9 +304,9 @@ extern void UNION_COMM_RequestStart(struct UnionRoomWork *work);
 
 
 
-int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
+struct GameEvent *UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
 
-int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos);
+struct GameEvent *UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos);
 
 int UNION_ONESELF_RunPlayCategory(UnionRoomWork *work, void *fieldMap);
 
@@ -355,15 +355,15 @@ extern const char gUnionEmptyString1[];
 /*
  * extent: follower 0217B83C already has its own source and shard.
  */
-int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap)
+struct GameEvent *UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap)
 {
     UnionRoomWork *work;
     UnionSubEvent *subEvent;
-    int result;
+    struct GameEvent *result;
     work = (UnionRoomWork *)GAME_COMM_GetWork((void *)GAMESYSTEM_GetGameComm(gameSystem));
     result = 0;
     subEvent = &work->subEvent;
-    if (subEvent->id != 0 && subEvent->active == 0) result = (sptr)UNION_SCENE_CreateSubEvent(gameSystem, fieldMap, work);
+    if (subEvent->id != 0 && subEvent->active == 0) result = UNION_SCENE_CreateSubEvent(gameSystem, fieldMap, work);
     return result;
 }
 
@@ -372,7 +372,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
  * Callee of ov021 FIELD_EVENT_CHECK_CheckCommEvents, which passes (sys, pos).
  * Addresses are Black-image addresses.
  */
-int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos)
+struct GameEvent *UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos)
 {
     return 0;
 }
@@ -610,10 +610,10 @@ int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, voi
         }
         situation->connect.requestId = objId;
         beaconIndex = UNION_CHARA_GetBeaconIndex(objId);
-        UNION_COMM_SetSituationParam(work, 0, ((unsigned int)((UnionBeacon *)&work->beaconPc[beaconIndex])));
+        UNION_COMM_SetSituationParam(work, 0, (uptr)&work->beaconPc[beaconIndex]);
         if (UNION_CHARA_IsChildObjId(objId) == 0) {
             if (work->beaconPc[beaconIndex].beacon.status == 0) {
-                UNION_COMM_SetSituationParam(work, 1, ((unsigned int)((UnionBeacon *)&work->beaconPc[beaconIndex])));
+                UNION_COMM_SetSituationParam(work, 1, (uptr)&work->beaconPc[beaconIndex]);
                 UNION_ONESELF_SetNextPlayCategory(work, 5);
             } else {
                 UNION_ONESELF_SetNextPlayCategory(work, 0xB);
@@ -715,6 +715,7 @@ typedef struct UnionTradeParam {
     int pad18;
     struct Party *party;                /* 0x1C */
     UnionTradeSetup *setup;   /* 0x20 */
+    u8 pad24[0x0C];           /* 0x24 */
 } UnionTradeParam;
 
 /* One opponent of the colosseum battle (0x0C bytes). */
@@ -1028,9 +1029,9 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
 
 int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 
-void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
+void UNION_ONESELF_EntryMenuAddMember(void *unisysArg, const void *myStatus, const u8 *mac);
 
-void UNION_ONESELF_EntryMenuRemoveMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
+void UNION_ONESELF_EntryMenuRemoveMember(void *unisysArg, const void *myStatus, const u8 *mac);
 
 int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 
@@ -1068,10 +1069,10 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
             return 1;
         unisys->talkCancel = 0;
         GFL_USE_PlaySeDefaultVolume(0x54B);
-        param = GFL_HEAP_Alloc(4, 12, 1, (char *)d_021807E8, 0x41A);
+        param = GFL_HEAP_Alloc(4, sizeof(UnionChatInputParam), 1, (char *)d_021807E8, 0x41A);
         param->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
         unisys->sceneParam = param;
-        UNION_SCENE_RequestScene(unisys, 0x1d, (int)((int *)param));
+        UNION_SCENE_RequestScene(unisys, 0x1d, param);
         (*seq)++;
         break;
     case 1:
@@ -1913,7 +1914,7 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
             (*seq)++;
         break;
     case 6:
-        UNION_SCENE_RequestScene(unisys, 1, (sptr)(unisys->partnerCard));
+        UNION_SCENE_RequestScene(unisys, 1, unisys->partnerCard);
         (*seq)++;
         break;
     case 7:
@@ -1971,10 +1972,10 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         }
         break;
     case 3:
-        param = GFL_HEAP_Alloc(0x41, 0x30, 1, (char *)d_021807E8, 0xA54);
+        param = GFL_HEAP_Alloc(0x41, sizeof(UnionTradeParam), 1, (char *)d_021807E8, 0xA54);
         param->gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
         param->party = POKEPARTY_Create(0x41);
-        setup = GFL_HEAP_Alloc(4, 0x14, 0, (char *)d_021807E8, 0xA5B);
+        setup = GFL_HEAP_Alloc(4, sizeof(UnionTradeSetup), 0, (char *)d_021807E8, 0xA5B);
         setup->gameData = param->gameData;
         setup->party = param->party;
         setup->tradeMode = 0;
@@ -1985,7 +1986,7 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         param->setup = setup;
         param->result = 0;
         unisys->sceneParam = param;
-        UNION_SCENE_RequestScene(unisys, 2, (int)((int *)param));
+        UNION_SCENE_RequestScene(unisys, 2, param);
         (*seq)++;
         break;
     case 4:
@@ -2040,7 +2041,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
             if (requiredCount <= (int)GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
                 *seq = 4;
             } else {
-                UNION_COMM_SetSituationParam(unisys, 3, (unsigned int)((UnionBeacon *)&unisys->beaconPc[beaconIndex]));
+                UNION_COMM_SetSituationParam(unisys, 3, (uptr)&unisys->beaconPc[beaconIndex]);
                 situation->connect.serviceFlag = 1;
                 switch (situation->connect.partnerSelectA) {
                 case 0x14:
@@ -2172,18 +2173,18 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
     case 3:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
             if (situation->playCategory == 0xe) {
-                paramThree = GFL_HEAP_Alloc(0x41, 8, 1, (char *)d_021807E8, 0xB9A);
+                paramThree = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneThreeParam), 1, (char *)d_021807E8, 0xB9A);
                 paramThree->gameData = unisys->parent->gameData;
                 unisys->sceneParam = paramThree;
-                UNION_SCENE_RequestScene(unisys, 3, (int)((int *)paramThree));
+                UNION_SCENE_RequestScene(unisys, 3, paramThree);
             } else {
-                paramFour = GFL_HEAP_Alloc(0x41, 0x18, 1, (char *)d_021807E8, 0xBA2);
+                paramFour = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneFourParam), 1, (char *)d_021807E8, 0xBA2);
                 paramFour->gameData = unisys->parent->gameData;
                 paramFour->party = GAME_DATA_GetMyParty(unisys->parent->gameData);
                 paramFour->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
                 paramFour->bag = GAME_DATA_GetTrainerRecord(unisys->parent->gameData);
                 unisys->sceneParam = paramFour;
-                UNION_SCENE_RequestScene(unisys, 4, (int)((int *)paramFour));
+                UNION_SCENE_RequestScene(unisys, 4, paramFour);
             }
             (*seq)++;
         }
@@ -2360,7 +2361,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
             colosseum->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(unisys->parent->gameData), fieldMap,
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA),
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), 0x41, 0, 0, 0);
-            COMM_ENTRY_MENU_SetCallbacks(colosseum->entryMenu, unisys, (CommEntryMemberFunc)UNION_ONESELF_EntryMenuAddMember, (CommEntryMemberFunc)UNION_ONESELF_EntryMenuRemoveMember);
+            COMM_ENTRY_MENU_SetCallbacks(colosseum->entryMenu, unisys, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember);
         } else if (situation->connect.serviceFlag == 0) {
             colosseum->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(unisys->parent->gameData), fieldMap,
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA),
@@ -2441,15 +2442,17 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
     return 0;
 }
 
-void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
+void UNION_ONESELF_EntryMenuAddMember(void *unisysArg, const void *myStatus, const u8 *mac)
 {
+    UnionRoomWork *unisys = unisysArg;
     int gender = MYSTATUS_GetTrainerView((struct MyStatus *)myStatus);
     int trainerView = MYSTATUS_GetSex((struct MyStatus *)myStatus);
     UNION_COMM_AddMember(&unisys->mySituation.connect, mac, gender, (u8)trainerView);
 }
 
-void UNION_ONESELF_EntryMenuRemoveMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
+void UNION_ONESELF_EntryMenuRemoveMember(void *unisysArg, const void *myStatus, const u8 *mac)
 {
+    UnionRoomWork *unisys = unisysArg;
     UNION_COMM_RemoveMember(&unisys->mySituation.connect, (u8 *)mac);
 }
 
@@ -2964,7 +2967,7 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         }
         break;
     case 3:
-        battle = GFL_HEAP_Alloc(0x41, 0xc4, 1, (char *)d_021807E8, 0x10c4);
+        battle = GFL_HEAP_Alloc(0x41, sizeof(UnionBattleParam), 1, (char *)d_021807E8, 0x10c4);
         battle->party = colosseum->party[myIndex];
         battle->myStatus = GAME_DATA_GetMyItem(unisys->parent->gameData);
         battle->config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(unisys->parent->gameData));
@@ -2998,7 +3001,7 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         battle->recordMode = 0;
         battle->result = 0;
         unisys->sceneParam = battle;
-        UNION_SCENE_RequestScene(unisys, 0x1a, (int)((int *)battle));
+        UNION_SCENE_RequestScene(unisys, 0x1a, battle);
         (*seq)++;
         break;
     case 4:
@@ -3212,7 +3215,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
             ((u8 *)colosseum->trainerCard[colosseum->talkPlayer])[4] |= 0x20;
             partnerCard = TRCARD_SYS_CreateEditWork(unisys->parent->gameData, (u8 *)colosseum->trainerCard[colosseum->talkPlayer], 0x41);
             unisys->sceneParam = partnerCard;
-            UNION_SCENE_RequestScene(unisys, 0x1c, (int)partnerCard);
+            UNION_SCENE_RequestScene(unisys, 0x1c, partnerCard);
             (*seq)++;
         }
         break;

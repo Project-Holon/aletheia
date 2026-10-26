@@ -223,7 +223,7 @@ int SCRCMD_StartWaitPokeVoice(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IssSwitchOff(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IsIssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_PokeVoiceEvent(GameEvent *event, u32 *seq, PokeVoiceWork *work);
+int SCRCMD_PokeVoiceEvent(struct GameEvent *event, int *seq, void *work);
 int SCRCMD_AddItem(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_RemoveItem(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_CanAddItem(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -435,7 +435,7 @@ int SCRCMD_PlayTrainerEncounterBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     SCRCMD_WORK_GetGameData(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(TPOKE_DATA_GetRecordField((void *)(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)), 1))));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(TPOKE_DATA_GetRecordField(SCRIPT_WORK_ReadWorkValue(vm, cmdWork), 1))));
     return 1;
 }
 
@@ -452,15 +452,15 @@ int SCRCMD_FadeInField(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: store 1 or 2 when the trainer id has trainer data flag 9 or 11, else 0. */
 int SCRCMD_ClassifyTrainer(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    uptr trainerId;
+    u32 trainerId;
     u16 *result;
     u32 kind;
 
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    if (TPOKE_DATA_GetRecordField((void *)trainerId, 9)) {
+    if (TPOKE_DATA_GetRecordField(trainerId, 9)) {
         kind = 1;
-    } else if (TPOKE_DATA_GetRecordField((void *)trainerId, 11)) {
+    } else if (TPOKE_DATA_GetRecordField(trainerId, 11)) {
         kind = 2;
     } else {
         kind = 0;
@@ -474,7 +474,7 @@ int SCRCMD_GetTrainerBattleParam(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = TPOKE_DATA_GetRecordField((void *)trainerId, 0xb);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = TPOKE_DATA_GetRecordField(trainerId, 0xb);
     return 0;
 }
 
@@ -907,7 +907,7 @@ int SCRCMD_PlayPokeVoice(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_PokeVoiceEvent, 12);
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_PokeVoiceEvent, sizeof(PokeVoiceWork));
     voiceWork = GAME_EVENT_GetWork(event);
     voiceWork->species = species;
     voiceWork->form = form;
@@ -930,7 +930,7 @@ int SCRCMD_PlayPerapVoice(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_PokeVoiceEvent, 12);
+    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_PokeVoiceEvent, sizeof(PokeVoiceWork));
     voiceWork = GAME_EVENT_GetWork(event);
     voiceWork->species = species;
     voiceWork->form = form;
@@ -999,8 +999,9 @@ int SCRCMD_IsIssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork)
 }
 
 /* Event function: start the Pokemon voice once the loader is free, and hand the voice handle to the script command work. */
-int SCRCMD_PokeVoiceEvent(GameEvent *event, u32 *seq, PokeVoiceWork *work)
+int SCRCMD_PokeVoiceEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    PokeVoiceWork *work = workPtr;
     void *voiceSave;
     u32 voiceHandle;
 

@@ -19,7 +19,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc);
 int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc);
 void MAILSYS_ResetCursorBlend(struct MailEditProc *proc);
 int MAILSYS_OnTouchMode(struct MailEditProc *proc);
-int MAILSYS_OnKeyModeNoOp(void);
+int MAILSYS_OnKeyModeNoOp(struct MailEditProc *proc);
 int MAILSYS_UpdateInputMode(struct MailEditProc *proc);
 int MAILSYS_SwitchInputModeOnTrigger(struct MailEditProc *proc);
 int MAILSYS_HandleKeyInput(struct MailEditProc *proc);

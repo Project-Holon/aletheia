@@ -44,7 +44,7 @@ extern unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *, int, int);
 
 
 
-void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n);
+void DUP_FITTING_ITEM_NoOp(struct DupFittingWork *p, u8 n);
 
 u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int n);
 
@@ -68,15 +68,15 @@ void DUP_FITTING_ITEM_DeleteElem(u8*p,u8*q);
 
 void DUP_FITTING_ITEM_FreeElemImage(u8*p,u8*q,u8*r);
 
-u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
+u8 *DUP_FITTING_ITEM_ElemGetNext(u8 *p);
 
-u32 DUP_FITTING_ITEM_ElemGetData(u8 *p);
+struct DupFittingItemData *DUP_FITTING_ITEM_ElemGetData(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 value);
+void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u8 *value);
 
-u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p);
+u8 *DUP_FITTING_ITEM_ElemGetSprite(u8 *p);
 
-u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
+struct McssActorElem *DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 
 void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src);
 
@@ -110,9 +110,9 @@ extern const char d_021BA610[];
 
 extern u32 (*d_020A8148)(u32, u32, u32);
 
-void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n){}
+void DUP_FITTING_ITEM_NoOp(struct DupFittingWork *p, u8 n){}
 
-u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int max){u8 *list;list=GFL_HEAP_Alloc(heap,16,0,d_021BA610,76);((struct DupFittingItemList *)list)->heapId=heap;((struct DupFittingItemList *)list)->count=0;((struct DupFittingItemList *)list)->max=max;((struct DupFittingItemList *)list)->head=0;((struct DupFittingItemList *)list)->tail=0;return list;}
+u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int max){u8 *list;list=GFL_HEAP_Alloc(heap,sizeof(struct DupFittingItemList),0,d_021BA610,76);((struct DupFittingItemList *)list)->heapId=heap;((struct DupFittingItemList *)list)->count=0;((struct DupFittingItemList *)list)->max=max;((struct DupFittingItemList *)list)->head=0;((struct DupFittingItemList *)list)->tail=0;return list;}
 
 void DUP_FITTING_ITEM_DeleteList(void *list){GFL_HEAP_Free(list);}
 
@@ -131,35 +131,35 @@ int DUP_FITTING_ITEM_ListIsFull(char *list)
     return ((struct DupFittingItemList *)list)->count == ((struct DupFittingItemList *)list)->max;
 }
 
-u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*pool, u8*data, int*pos){u8*elem;elem=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)elem)->next=0;*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;*(u8 **)&((struct DupFittingItemElem *)elem)->renderElem=(unsigned char *)MUSICAL_MCSS_AddImageNoVram((struct McssActorPool *)pool,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId,(int *)pos);((struct DupFittingItemElem *)elem)->animFrames=0;((struct DupFittingItemElem *)elem)->frameIndex=10;return elem;}
+u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*pool, u8*data, int*pos){u8*elem;elem=GFL_HEAP_Alloc(heap,sizeof(struct DupFittingItemElem),0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)elem)->next=0;*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;*(u8 **)&((struct DupFittingItemElem *)elem)->renderElem=(unsigned char *)MUSICAL_MCSS_AddImageNoVram((struct McssActorPool *)pool,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId,(int *)pos);((struct DupFittingItemElem *)elem)->animFrames=0;((struct DupFittingItemElem *)elem)->frameIndex=10;return elem;}
 
 void DUP_FITTING_ITEM_DeleteElem(u8*elem,u8*pool){MUSICAL_MCSS_FreeElem(pool,*(u8* *)&((struct DupFittingItemElem *)elem)->renderElem);GFL_HEAP_Free(elem);}
 
 void DUP_FITTING_ITEM_FreeElemImage(u8*elem,u8*pool,u8*data){*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;MUSICAL_MCSS_FreeElemImage(pool,*(u8* *)&((struct DupFittingItemElem *)elem)->renderElem,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId);}
 
-u32 DUP_FITTING_ITEM_ElemGetNext(u8 *elem)
+u8 *DUP_FITTING_ITEM_ElemGetNext(u8 *elem)
 {
-    return (uptr)((struct DupFittingItemElem *)elem)->next;
+    return ((struct DupFittingItemElem *)elem)->next;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetData(u8 *elem)
+struct DupFittingItemData *DUP_FITTING_ITEM_ElemGetData(u8 *elem)
 {
-    return (uptr)((struct DupFittingItemElem *)elem)->data;
+    return ((struct DupFittingItemElem *)elem)->data;
 }
 
-void DUP_FITTING_ITEM_ElemSetSprite(u8 *elem, u32 value)
+void DUP_FITTING_ITEM_ElemSetSprite(u8 *elem, u8 *value)
 {
     ((struct DupFittingItemElem *)elem)->sprite=value;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *elem)
+u8 *DUP_FITTING_ITEM_ElemGetSprite(u8 *elem)
 {
     return ((struct DupFittingItemElem *)elem)->sprite;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *elem)
+struct McssActorElem *DUP_FITTING_ITEM_ElemGetRenderElem(u8 *elem)
 {
-    return (uptr)((struct DupFittingItemElem *)elem)->renderElem;
+    return ((struct DupFittingItemElem *)elem)->renderElem;
 }
 
 void DUP_FITTING_ITEM_ElemSetPos(u8 *elem, const u8 *src)

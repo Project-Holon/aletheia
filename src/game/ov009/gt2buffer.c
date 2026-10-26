@@ -24,9 +24,9 @@
 #include "../arm9/msl_string_str.h"
 #include "../arm9/msl_string_mem.h"
 int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
-int gti2GetBufferFreeSpace(const int *p);
-void gti2BufferWriteByte(int *p, int v);
-void gti2BufferWriteUShort(int *p, int v);
+int gti2GetBufferFreeSpace(const GTI2Buffer *p);
+void gti2BufferWriteByte(GTI2Buffer *p, int v);
+void gti2BufferWriteUShort(GTI2Buffer *p, int v);
 void gti2BufferWriteData(GTI2Buffer *buffer, unsigned char *data, int len);
 void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy);
 
@@ -46,30 +46,30 @@ int gti2AllocateBuffer(GTI2Buffer *buffer, int size)
 /*
  * Difference of the words at +4 and +8.
  */
-int gti2GetBufferFreeSpace(const int *p)
+int gti2GetBufferFreeSpace(const GTI2Buffer *p)
 {
-    return p[1] - p[2];
+    return p->size - p->len;
 }
 
 /*
  * Appends a byte through the count at +8 of the object.
  */
-void gti2BufferWriteByte(int *p, int v)
+void gti2BufferWriteByte(GTI2Buffer *p, int v)
 {
-    int n = p[2];
+    int n = p->len;
 
-    p[2] = n + 1;
-    *(char *)(p[0] + n) = v;
+    p->len = n + 1;
+    *(char *)(p->buffer + n) = v;
 }
 
 /*
  * Appends a 16-bit big-endian value to the byte buffer at *p, advancing the
  * length word at +8 for each half.
  */
-void gti2BufferWriteUShort(int *p, int v)
+void gti2BufferWriteUShort(GTI2Buffer *p, int v)
 {
-    ((unsigned char *)p[0])[p[2]++] = v >> 8;
-    ((unsigned char *)p[0])[p[2]++] = v;
+    p->buffer[p->len++] = v >> 8;
+    p->buffer[p->len++] = v;
 }
 
 

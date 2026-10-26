@@ -86,7 +86,8 @@ struct FieldSubscreen;
 
 extern u8 ov216_id[];
 
-extern const u8 d_021BDB40[];
+#include "../arm9/procsys.h"
+extern const ProcData d_021BDB40;
 
 
 /*
@@ -121,7 +122,7 @@ int BEACON_VIEW_EVENT_Sequence(struct GameEvent *event, u32 *seq, BeaconSearchEv
         work->procArgs.gameSystem = work->gameSystem;
         work->procArgs.gameData = work->gameData;
         work->procArgs.mode = work->mode;
-        GAMESYSTEM_CallProc(gameSystem, OVERLAY_ID_216, (void *)d_021BDB40, &work->procArgs);
+        GAMESYSTEM_CallProc(gameSystem, OVERLAY_ID_216, &d_021BDB40, &work->procArgs);
         (*seq)++;
         break;
     case 4:

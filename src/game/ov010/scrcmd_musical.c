@@ -185,7 +185,7 @@ typedef struct MusicalProcBox {
 typedef struct MusicalSystemArgs {
     u32 startMode;                        /* 0x00 */
     void *musicalSystem;                  /* 0x04: result of MUSICAL_SYSTEM_Create */
-    u32 musicalSave;                      /* 0x08 */
+    struct MusicalSave *musicalSave;                      /* 0x08 */
 } MusicalSystemArgs;
 
 typedef struct MusicalSystemTask {
@@ -210,10 +210,6 @@ struct ScriptVm;
                        
 
 
-#ifdef __MWERKS__
-extern unsigned short SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *scriptWork); /* original prototype; the definition differs in return type */
-#else
-#endif
 struct ScriptVm;
 
 
@@ -387,13 +383,13 @@ void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *g
 
 void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLink *link, struct GameData *gameData);
 
-void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg);
+void SCRCMD_MUSICAL_BeginCommSession(void *link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg);
 
 void SCRCMD_MUSICAL_CloseCommSession(MusicalLink *link);
 
-int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *work);
+int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, int *state, void *work);
 
-int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void *work);
+int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, int *state, void *work);
 
 void SCRCMD_MUSICAL_FreeProcArgs(void *callbackArg);
 
@@ -427,7 +423,8 @@ extern u8 ov100_id[];
 
 extern u8 ov132_id[];
 
-extern const char MUSICAL_DRESSUP_SYS_ProcTable[];
+#include "../arm9/procsys.h"
+extern const ProcData MUSICAL_DRESSUP_SYS_ProcTable;
 
 /*
  * Script command: start the ov010 musical link sequence (MUSICAL_EVENT_Create) for
@@ -501,18 +498,18 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScrcmdWork *scriptWo
     struct GameSystem *gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(scriptWork);
     int partyIndex;
-    u32 musicalSave; void *musicalSystem;
+    struct MusicalSave *musicalSave; void *musicalSystem;
     struct GameEvent *task;
     MusicalSystemTask *systemTask;
 
     GAMESYSTEM_GetFieldMap(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    musicalSave = (uptr)(struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
+    musicalSave = (struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
     musicalSystem = MUSICAL_MCSS_CreateMon((void *)(struct Pokemon *)POKEPARTY_GetMember((void *)(struct PokeParty *)GAME_DATA_GetMyParty(gameData), partyIndex), 4);
     task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = GAME_EVENT_GetWork(task);
-    MI_CpuFill8(systemTask, 0, 4);
-    systemTask->args = GFL_HEAP_Alloc(4, 0xc, 1, d_02172914, 0xd7);
+    MI_CpuFill8(systemTask, 0, sizeof(*systemTask));
+    systemTask->args = GFL_HEAP_Alloc(4, sizeof(*systemTask->args), 1, d_02172914, 0xd7);
     systemTask->args->musicalSystem = musicalSystem;
     systemTask->args->musicalSave = musicalSave;
     systemTask->args->startMode = 0;
@@ -992,7 +989,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         SCRCMD_MUSICAL_DeleteLinkWork(link, gameData);
         break;
     case 10:
-        SCRCMD_MUSICAL_BeginCommSession((sptr)link, gameSys, GAMESYSTEM_GetGameComm(gameSys), arg);
+        SCRCMD_MUSICAL_BeginCommSession(link, gameSys, GAMESYSTEM_GetGameComm(gameSys), arg);
         break;
     case 11:
         SCRCMD_MUSICAL_CloseCommSession(link);
@@ -1029,13 +1026,13 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitSessionFinish);
         return 1;
     case 18: {
-        MusicalLinkWait *wait = GFL_HEAP_Alloc(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
+        MusicalLinkWait *wait = GFL_HEAP_Alloc(0x8004, sizeof(*wait), (u32)1, d_02172914, (u32)0x3C8);
 
         wait->scriptWork = scriptWork;
         wait->link = link;
         link->resultOut = resultVar;
         link->gameData = gameData;
-        link->procWork = (uptr)STA_SLOT_GetRecordTable(gameData);
+        link->procWork = STA_SLOT_GetRecordTable(gameData);
         link->procMode = arg == 0 ? 9 : 10;
         SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (uptr)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
         return 1;
@@ -1072,7 +1069,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
  */
 void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *gameData)
 {
-    MusicalLink *link = GFL_HEAP_Alloc(4, 0x38, 1, d_02172914, 0x413);
+    MusicalLink *link = GFL_HEAP_Alloc(4, sizeof(*link), 1, d_02172914, 0x413);
 
     link->owner = 0;
     link->session = 0;
@@ -1096,7 +1093,7 @@ void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLink *link, struct GameData *gameData)
  * tail call is impossible (bx would spend an argument register on the
  * target), which is why the image keeps a frame and emits a direct bl.
  */
-void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg)
+void SCRCMD_MUSICAL_BeginCommSession(void *link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg)
 {
     MUS_COMM_FUNC_Create(4, (void *)gameSys, (void *)gameComm, arg);
 }
@@ -1116,7 +1113,7 @@ void SCRCMD_MUSICAL_CloseCommSession(MusicalLink *link)
  * Lever: the game data pointer stays live in r0 across the switch for
  * GAME_DATA_GetBgmInfo. Two zero alignment bytes follow the 150-byte function.
  */
-int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *work)
+int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, int *state, void *work)
 {
     MusicalStartTask *startTask = work;
     struct GameData *gameData;
@@ -1161,7 +1158,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
  * Event task of ShowPartyMonMusical: runs the proc MUSICAL_DRESSUP_SYS_ProcTable on the musical
  * system arguments, then frees the system and the argument block.
  */
-int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void *work)
+int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, int *state, void *work)
 {
     MusicalSystemTask *systemTask = work;
     struct GameSystem *gameSys = GAME_EVENT_GetGameSystem(task);
@@ -1179,7 +1176,7 @@ int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void 
         (*state)++;
         break;
     case 3:
-        GAMESYSTEM_CallProc(gameSys, -1, (void *)MUSICAL_DRESSUP_SYS_ProcTable, systemTask->args);
+        GAMESYSTEM_CallProc(gameSys, -1, &MUSICAL_DRESSUP_SYS_ProcTable, systemTask->args);
         (*state)++;
         break;
     case 4:

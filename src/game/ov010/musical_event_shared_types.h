@@ -44,7 +44,7 @@ typedef struct MusicalStage {
     void *session;                      /* 0x00 */
     MusicalPerformer *performers[MUSICAL_PERFORMERS]; /* 0x04 */
     struct MusicalShowProgram *program; /* 0x14 */
-    void *musicalSystem;                /* 0x18 */
+    struct MusicalSystemHead *musicalSystem; /* 0x18 */
     u8 pad1C[4];
 } MusicalStage;
 
@@ -59,11 +59,21 @@ typedef struct MusicalProgramEntry {
     u8 pad16[0x2C - 0x16];
 } MusicalProgramEntry;
 
-/* Head of the ov112 musical system object. */
+/* The MUSICAL_MCSS_LoadDistSave object: four loaded ARC members at 0x04..0x10. */
 typedef struct MusicalSystemHead {
-    u32 reserved00;                     /* 0x00 */
-    MusicalProgramEntry *programs;      /* 0x04 */
-    const void *msgFile;                /* 0x08 */
+    u8 kind;                            /* 0x00 */
+    u8 pad_1[3];                        /* 0x01 */
+    MusicalProgramEntry *programs;      /* 0x04 member 0 */
+    void *msgFile;                      /* 0x08 member 1 */
+    void *member2;                      /* 0x0C */
+    u8 *payload;                        /* 0x10 packed copy: three counts, then the members 4, 3 and 5 */
+    u8 *section0;                       /* 0x14 member 4 inside payload */
+    u8 *section1;                       /* 0x18 member 3 inside payload */
+    u8 *section2;                       /* 0x1C member 5 inside payload */
+    u32 size0;                          /* 0x20 size of member 0 */
+    u32 size1;                          /* 0x24 size of member 1 */
+    u32 size2;                          /* 0x28 size of member 2 */
+    u32 payloadSize;                    /* 0x2C size of payload */
 } MusicalSystemHead;
 
 /* One prop slot of an NPC template. */

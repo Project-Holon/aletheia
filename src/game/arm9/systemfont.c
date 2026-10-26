@@ -46,7 +46,7 @@ struct SystemFont {
 #include "gfl_heap_wrap.h"
 #include "fs_file.h"
 #include "os_terminate_processor.h"
-void SYSTEMFONT_Load(u32 fontFile);
+void SYSTEMFONT_Load(const char *fontFile);
 void SYSTEMFONT_GetGlyph(int idx, u8 *out);
 u32 SYSTEMFONT_ExpandRowBits(u32 rowBits);
 int SYSTEMFONT_GetGlyphHeight(void);
@@ -96,7 +96,7 @@ extern struct SystemFont *gSystemFont;
  *   python tools/match.py one --src src/pending/SYSTEMFONT_Load.c \
  *       --func SYSTEMFONT_Load --addr 0x020461F4 --cc 1.1p1 --arm
  */
-void SYSTEMFONT_Load(u32 fontFile)
+void SYSTEMFONT_Load(const char *fontFile)
 {
     struct FSFile file;
     u32 size;
@@ -105,11 +105,11 @@ void SYSTEMFONT_Load(u32 fontFile)
         return;
     }
 
-    gSystemFont = GFL_HEAP_Alloc(0, 0x10, 0, systemfont_File, 68);
+    gSystemFont = GFL_HEAP_Alloc(0, sizeof(*gSystemFont), 0, systemfont_File, 68);
 
     if (fontFile != 0) {
         FS_InitFile(&file);
-        if (FS_OpenFile(&file, (const char *)fontFile) == 1) {
+        if (FS_OpenFile(&file, fontFile) == 1) {
             size = FS_GetLength(&file);
             gSystemFont->data = GFL_HEAP_Alloc(0, size, 0, systemfont_File,
                                               77);

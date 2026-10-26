@@ -236,7 +236,7 @@ void FLDEFF_SHADOW_Init(FieldEffectObj *obj, FldeffShadowWork *work)
         desc.pos = zero;
     }
     desc.hook = 0;
-    desc.hookArg = (uptr)work;
+    desc.hookArg = work;
     work->entryId = BILLBOARD_ACT_CreateEntries(work->shadow->billboardAct, (u16)work->shadow->slotId, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);

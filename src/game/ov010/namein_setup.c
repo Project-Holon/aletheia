@@ -269,6 +269,14 @@ typedef struct NameBalloonWork {
     Strbuf *name;               /* 0x18 */
     u16 npcId;                  /* 0x1C */
 } NameBalloonWork;
+/* The balloon the history variant shows: the same first 0x1C bytes without the npc id (allocated 0x1C bytes). */
+typedef struct NameBalloonWaitWork {
+    GameSystem *gameSystem;     /* 0x00 */
+    u32 reserved04;
+    VecFx32 pos;                /* 0x08 */
+    void *balloon;              /* 0x14 */
+    Strbuf *name;               /* 0x18 */
+} NameBalloonWaitWork;
 /* One 0x22-byte entry of the history table; the name balloon shows its name. */
 typedef struct NameinHistoryEntry {
     u8 reserved00[0x18];
@@ -395,13 +403,7 @@ extern void SCRCMD_MSGWIN_GetBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out,
 extern void SCRCMD_MSGWIN_GetBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out, struct G3dCamera *camera, struct FieldCamera *fieldCamera, u8 windowKind);
 #define BALLOON_WINDOW_KIND(dir) ((u8)(dir))
 #endif
-#ifdef __MWERKS__
-/* The original declares the function without a prototype; one call passes three more arguments that the callee ignores. */
-extern int FIELD_MSGBG_WaitTalkWinClose();
-#define WAIT_TALK_WIN_CLOSE(talkWin, state, work, extra) FIELD_MSGBG_WaitTalkWinClose(talkWin, state, work, extra)
-#else
 #define WAIT_TALK_WIN_CLOSE(talkWin, state, work, extra) FIELD_MSGBG_WaitTalkWinClose(talkWin)
-#endif
 struct MmdlSys;
 NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, Strbuf *initialName, void *pokedex);
 NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, void *pokedex);
@@ -409,29 +411,29 @@ NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, void *mon, int
 void NAMEIN_SETUP_FreeArgs(NameInArgs *args);
 void NAMEIN_SETUP_CopyName(NameInArgs *args, Strbuf *dest);
 int NAMEIN_SETUP_IsCanceled(NameInArgs *args);
-int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work);
+int NAMEIN_SETUP_RunFallEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMap);
 int NAMEIN_SETUP_StepLandAnim(LandEventWork *work);
 void *NAMEIN_SETUP_SyncObjHeightToAnim(LandEventWork *work);
 void NAMEIN_SETUP_SnapObjToGrid(LandEventWork *work);
-int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work);
+int NAMEIN_SETUP_RunLandEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMap);
-int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *work);
+int NAMEIN_SETUP_RunPartyPickEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *gameSystem, u8 useOwnParty);
 GameEvent *NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *gameSystem, FieldMap *fieldMap);
-int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWork *work, u32 extra);
+int NAMEIN_SETUP_RunNameBalloonEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, GameSystem *gameSystem, u32 recordIndex, u16 npcId, u8 dir);
-int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScreenWork *work);
+int NAMEIN_SETUP_RunHistoryScreenEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem);
 int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk);
 int NAMEIN_SETUP_ExitHostProc(void *proc, int *seq, void *pwk, void **mywk);
 int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, void **pwk, struct ProcSys **mywk);
-int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *work);
+int NAMEIN_SETUP_RunProcCallEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInfo *transitionInfo, void *extra);
-int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *work);
+int NAMEIN_SETUP_RunSceneEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldMap, TransitionInfo *transitionInfo, void *extra);
 GameEvent *NAMEIN_SETUP_StartEncounterTransition(EncounterContext *ctx, GameSystem *gameSystem, FieldMap *fieldMap);
-int NAMEIN_SETUP_RunNameBalloonWaitEvent(GameEvent *event, int *state, NameBalloonWork *work);
+int NAMEIN_SETUP_RunNameBalloonWaitEvent(struct GameEvent *event, int *state, void *work);
 GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int recordIndex, u8 npcId);
 int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork);
 void NAMEIN_SETUP_SetFieldSaveFlag(GameSystem *gameSystem);
@@ -442,7 +444,7 @@ extern char id_00000045[];
 extern char id_0000005D[];
 extern NetCommandEntry d_021F03C4[];
 extern const struct ProcData d_021EFDAC;
-extern char d_02172548[];
+extern const ProcData d_02172548;
 
 /*
  * The heap id is a u16: as an int its entry spill (str r0,[sp,#4]) sinks
@@ -518,8 +520,9 @@ int NAMEIN_SETUP_IsCanceled(NameInArgs *args)
  * ov021 camera move, animate the actor to the ground, then push the next
  * screens. First draft.
  */
-int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
+int NAMEIN_SETUP_RunFallEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    FallEventWork *work = workPtr;
     VecFx32 cur;
     VecFx32 v;
     VecFx32 pos;
@@ -581,7 +584,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
 
 GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunFallEvent, 0x64);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunFallEvent, sizeof(FallEventWork));
     FallEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -667,8 +670,9 @@ void NAMEIN_SETUP_SnapObjToGrid(LandEventWork *work)
  * First draft; the 0x021F37xx callees are declared ov050, the only
  * overlay that labels all six.
  */
-int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work)
+int NAMEIN_SETUP_RunLandEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    LandEventWork *work = workPtr;
     ScreenChangeParam param;
     VecFx32 playerPos;
     fx32 groundY;
@@ -747,7 +751,7 @@ GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMa
     GameEvent *event;
     LandEventWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunLandEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunLandEvent, sizeof(LandEventWork));
     work = GAME_EVENT_GetWork(event);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
@@ -757,8 +761,9 @@ GameEvent *NAMEIN_SETUP_StartLandEvent(GameSystem *gameSystem, FieldMap *fieldMa
     return event;
 }
 
-int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *work)
+int NAMEIN_SETUP_RunPartyPickEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    PartyTaskWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     switch (*state) {
     case 0:
@@ -770,7 +775,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         (*state)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)(&work->partyScreen), (sptr)(&work->summary)));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->partyScreen, &work->summary));
         (*state)++;
         break;
     case 3:
@@ -819,7 +824,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -883,8 +888,9 @@ GameEvent *NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *g
     return EVENT_BATTLE_CreateResultOnlyTask(gameSystem, fieldMap, transitionInfo);
 }
 
-int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWork *work, u32 extra)
+int NAMEIN_SETUP_RunNameBalloonEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    NameBalloonWork *work = workPtr;
     switch (*state) {
     case 0:
         if (!FIELD_MSGBG_TalkWinMain(work->balloon))
@@ -992,14 +998,14 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonEvent, 0xD8);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->npcId = npcId;
     if (*(u16 *)((uptr)records + 0xA0 + recordIndex * 0x120) == 0xFFFF) {
         work->name = STRBUF_Create(0x300, 4);
         bank = MSGDATA_CreateFromArchive(0, 2, 0xB8, 4);
-        msgIndex = *(u16 *)((uptr)records + 0xA2 + recordIndex * 0x120);
+        msgIndex = *(u16 *)((u8 *)records + 0xA2 + recordIndex * 0x120);
         if (msgIndex >= 0x3AE)
             msgIndex = 0;
         MSGDATA_ReadString(bank, msgIndex, work->name);
@@ -1024,8 +1030,9 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
  *
  * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
  */
-int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScreenWork *work)
+int NAMEIN_SETUP_RunHistoryScreenEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    HistoryScreenWork *work = workPtr;
     void *history;
     switch (*state) {
     case 0:
@@ -1049,7 +1056,7 @@ GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(GameSystem *gameSystem)
     HistoryScreenWork *work;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunHistoryScreenEvent, 0x14);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunHistoryScreenEvent, sizeof(HistoryScreenWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1062,7 +1069,7 @@ int NAMEIN_SETUP_InitHostProc(void *proc, int *seq, void *pwk, void *mywk)
     void **work;
 
     GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
-    work = PROCSYS_AllocProcWork(proc, 4, 0x76);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x76);
     *work = PROCSYS_Create(0x76);
     return 1;
 }
@@ -1123,8 +1130,9 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, void **pwk, struct ProcSys *
     return 0;
 }
 
-int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *work)
+int NAMEIN_SETUP_RunProcCallEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    ProcCallWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     ProcCallParam *param;
     switch (*state) {
@@ -1133,7 +1141,7 @@ int NAMEIN_SETUP_RunProcCallEvent(GameEvent *event, int *state, ProcCallWork *wo
         param->gameData = GAMESYSTEM_GetGameData(gameSystem);
         param->transitionInfo = work->transitionInfo;
         param->extra = work->extra;
-        GAMESYSTEM_CallProc(gameSystem, ~0, d_02172548, param);
+        GAMESYSTEM_CallProc(gameSystem, ~0, &d_02172548, param);
         (*state)++;
         break;
     case 1:
@@ -1148,7 +1156,7 @@ GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInf
 {
     GameEvent *event;
     ProcCallWork *work;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunProcCallEvent, 0x3c);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunProcCallEvent, 0x3c);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
@@ -1156,8 +1164,9 @@ GameEvent *NAMEIN_SETUP_StartProcCallEvent(GameSystem *gameSystem, TransitionInf
     return event;
 }
 
-int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *work)
+int NAMEIN_SETUP_RunSceneEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    SceneEventWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
     switch (*state) {
@@ -1210,7 +1219,7 @@ GameEvent *NAMEIN_SETUP_StartSceneEvent(GameSystem *gameSystem, FieldMap *fieldM
 {
     GameEvent *event;
     SceneEventWork *work;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunSceneEvent, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunSceneEvent, sizeof(SceneEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->transitionInfo = transitionInfo;
@@ -1234,8 +1243,9 @@ GameEvent *NAMEIN_SETUP_StartEncounterTransition(EncounterContext *ctx, GameSyst
     return NAMEIN_SETUP_StartSceneEvent(gameSystem, fieldMap, (TransitionInfo *)ctx->transitionInfo, extra);
 }
 
-int NAMEIN_SETUP_RunNameBalloonWaitEvent(GameEvent *event, int *state, NameBalloonWork *work)
+int NAMEIN_SETUP_RunNameBalloonWaitEvent(struct GameEvent *event, int *state, void *workPtr)
 {
+    NameBalloonWaitWork *work = workPtr;
     switch (*state) {
     case 0:
         if (FIELD_MSGBG_TalkWinMain(work->balloon) == 1)
@@ -1274,7 +1284,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     FieldMap *fieldMap;
     void *balloonManager;
     GameEvent *event;
-    NameBalloonWork *work;
+    NameBalloonWaitWork *work;
     void *occupyInfo;
     void *mmdlSys;
     void *camera;
@@ -1287,7 +1297,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     balloonManager = FIELDMAP_GetMsgBg(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)NAMEIN_SETUP_RunNameBalloonWaitEvent, 0x1C);
+    event = GAME_EVENT_Create(gameSystem, 0, NAMEIN_SETUP_RunNameBalloonWaitEvent, sizeof(NameBalloonWaitWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     occupyInfo = GAME_DATA_GetOccupyInfo(gameData);

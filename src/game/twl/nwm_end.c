@@ -21,6 +21,7 @@
  *   DAT_027341a4                 0x027341A4  data
  */
 #include "../types.h"
+#include "nwm_system_types.h"
 
 #ifdef __MWERKS__
 extern u32 NWMi_CheckState(u32, ...);
@@ -39,7 +40,7 @@ u32 NWM_End(void) {
         return st;
     }
     irq = OS_DisableInterrupts();
-    *(u16 *)(*(u32 *)(DAT_027341a4[0] + 0x2278) + 0x24) = 0;
+    (*(struct NwmSystemWork **)DAT_027341a4)->status->state = 0;
     NWMi_ClearFifoRecvFlag();
     PXI_SetFifoRecvCallback(0x16, 0);
     DAT_027341a4[0] = 0;

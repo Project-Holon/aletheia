@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of intrude_subdisp.c, prototypes copied from their definitions. */
 
+struct FieldMap;
+struct FieldSubscreen;
 struct IntrudeBrightFadeWork;
 typedef struct IntrudeBrightFadeWork IntrudeBrightFadeWork;
 
@@ -13,26 +15,28 @@ typedef struct IntrudeBrightFadeWork IntrudeBrightFadeWork;
 #include "../ov018/event_comm_common_types.h"
 #include "../ov018/intrude_subdisp_types.h"
 
+struct TcbTask;
+
 void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind, u8 flag, u16 idx, int place);
 int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *spinWork);
 int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *state);
-void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem);
-void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int gameSystem);
+struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem);
+struct GameEvent *INTRUDE_SUBDISP_CreateReturnPalaceEvent(struct GameSystem *gameSystem);
 struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause);
-void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem);
-int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state);
-void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);
-void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
-void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int subscreen);
-int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *work);
+struct GameEvent *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem);
+int INTRUDE_SUBDISP_GuideScriptEventMain(struct GameEvent *event, int *state, void *eventWork);
+struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, int mode);
+struct GameEvent *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
+struct GameEvent *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, struct FieldMap *fieldMap, struct FieldSubscreen *subscreen);
+int INTRUDE_SUBDISP_BrightFadeEventMain(struct GameEvent *event, int *state, void *work);
 int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *scriptWork);
-int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork);
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(void *unused, void *scriptWork);
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode);
 void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work);
-void *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, int param);
-void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork);
+struct GameEvent *INTRUDE_SUBDISP_EventCheck(IntrudeSubdispWork *work, int touched, struct FieldSubscreen *param);
+void INTRUDE_SUBDISP_VBlankTask(struct TcbTask *tcb, void *taskWork);
 void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg);

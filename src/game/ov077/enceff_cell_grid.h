@@ -11,10 +11,10 @@ struct EncEffWork;
 #include "../types.h"
 
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-int ENCEFF_CellGridEventMain(struct GameEvent *event, u32 *state, void *eventWork);
+int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state, void *eventWork);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
 void ENCEFF_UpdateCellGrid(struct EncEffWork *eff);
-void ENCEFF_DrawCellGrid(EncEffGridWork *work);
+void ENCEFF_DrawCellGrid(void *workArg);
 /* END mkheaders: generated region */
 
 #endif

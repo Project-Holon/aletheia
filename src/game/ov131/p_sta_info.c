@@ -127,7 +127,15 @@ struct StaInfoStatRows { u8 row[6][6]; };
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
 #include "../arm9/msgdata.h"
+/* Original DS prototype: the OT name is passed as a pointer here; the header takes PokeToolArg. */
+#ifdef __MWERKS__
+#define POKE_TOOL_GetBoxValue POKE_TOOL_GetBoxValue_header
+#endif
 #include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_GetBoxValue
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, void *arg);
+#endif
 #include "../arm9/strbuf.h"
 struct GfFont;
 struct PrintQueue;
@@ -169,7 +177,7 @@ extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
 
 PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk) {
- PStaInfoWork *work=GFL_HEAP_Alloc(wk->heapId,0x6c,0,d_021DC824,0xc1);
+ PStaInfoWork *work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaInfoWork),0,d_021DC824,0xc1);
  work->isDrawn=0;
  work->isWinActive=0;
  work->dexTable=POKE_PERSONAL_LoadFormTable(wk->heapId,0);
@@ -221,7 +229,7 @@ void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *work)
     unsigned char i;
     for(i=0;i<10;i++) {
         unsigned int winOffset=i*4;
-        *(struct BmpWin **)((u8 *)work->win+winOffset)=BMP_WIN_Create(1,d_021DC288[winOffset],d_021DC288[winOffset+1],d_021DC288[winOffset+2],d_021DC288[winOffset+3],14,1);
+        *(struct BmpWin **)((u8 *)work->win+i*(int)sizeof(struct BmpWin *))=BMP_WIN_Create(1,d_021DC288[winOffset],d_021DC288[winOffset+1],d_021DC288[winOffset+2],d_021DC288[winOffset+3],14,1);
     }
     work->win[STA_INFO_WIN_MEMO]=BMP_WIN_Create(4,4,5,24,20,14,1);
     P_STA_INFO_DrawStats(wk,work,mon);
@@ -351,12 +359,15 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=WORDSET_CreateDefault(wk->heapId);
+#ifdef __MWERKS__
+        tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,otName);
+#else
         tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,(uptr)otName);
+#endif
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
 #ifdef __MWERKS__
-        /* The original prototype took the third argument as a pointer. */
-        ((u32 (*)(void *, int, void *))POKE_TOOL_GetBoxValue)(mon,0x8d,otName);
+        POKE_TOOL_GetBoxValue(mon,0x8d,otName);
 #else
         POKE_TOOL_GetBoxValue(mon,0x8d,(uptr)otName);
 #endif

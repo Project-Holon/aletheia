@@ -50,8 +50,8 @@ extern u8 OV230_CallSealedBody17[];
 
 u32 OV230_IntegrityChain0(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[2] = 0;
@@ -70,8 +70,8 @@ u32 OV230_IntegrityChain0(u32 (*hook)(u32), u32 hookArg)
 
 u32 OV230_IntegrityChain1(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[2] = 0;
@@ -90,8 +90,8 @@ u32 OV230_IntegrityChain1(u32 (*hook)(u32), u32 hookArg)
 
 u32 OV230_IntegrityChain2(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[2] = 0;
@@ -110,8 +110,8 @@ u32 OV230_IntegrityChain2(u32 (*hook)(u32), u32 hookArg)
 
 u32 OV230_IntegrityChain3(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[2] = 0;
@@ -130,8 +130,8 @@ u32 OV230_IntegrityChain3(u32 (*hook)(u32), u32 hookArg)
 
 u32 OV230_IntegrityChain4(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[0] = (uptr)&OV230_CallSealedBody16[0x1600] + 0x320;
@@ -149,8 +149,8 @@ u32 OV230_IntegrityChain4(u32 (*hook)(u32), u32 hookArg)
 
 u32 OV230_IntegrityChain5(u32 (*hook)(u32), u32 hookArg)
 {
-    u32 table[32];
-    u32 *p;
+    uptr table[32];
+    uptr *p;
     u32 sum;
 
     table[0] = (uptr)&OV230_CallSealedBody17[0x1600] + 0x320;

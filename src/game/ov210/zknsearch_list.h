@@ -4,8 +4,10 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zknsearch_list.c, prototypes copied from their definitions. */
 
-void ZKNSEARCH_LIST_InitFrameList(char *ctx);
-void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
+#include "../ov210/zknsearch_types.h"
+
+void ZKNSEARCH_LIST_InitFrameList(ZknSearchWork *ctx);
+void ZKNSEARCH_LIST_InitFrameList2(ZknSearchWork *ctx);
 /* END mkheaders: generated region */
 
 #endif

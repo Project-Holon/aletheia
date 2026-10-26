@@ -181,7 +181,7 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work);
 
 void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work);
 
-void GFL_NET_STATE_DeviceInitialize(void *heapId, GFLNetUserFunc initCallback);
+void GFL_NET_STATE_DeviceInitialize(u32 heapId, GFLNetUserFunc initCallback);
 
 void GFL_NET_STATE_ConnectMacDone(void);
 
@@ -261,7 +261,7 @@ void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 hasMac, u8 *mac);
 
 void GFL_NET_STATE_WaitDisconnect(void);
 
-void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle);
+void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, void *data, void *work, struct GFLNetHandle *handle);
 
 u32 GFL_NET_STATE_ExitIfChild(void);
 
@@ -269,7 +269,7 @@ void GFL_NET_STATE_ExitWait(struct NetStateWork *work);
 
 void GFL_NET_STATE_ExitStopDevice(void);
 
-void GFL_NET_STATE_Exit(u32 exitCallback);
+void GFL_NET_STATE_Exit(NetStateExitFunc exitCallback);
 
 void GFL_NET_STATE_ClearExitFlag(void);
 
@@ -321,7 +321,7 @@ void GFL_NET_STATE_WifiLogoutWait(struct NetStateWork *work);
 
 void GFL_NET_STATE_WifiLogoutStop(void);
 
-void GFL_NET_STATE_WifiLogout(u32 exitCallback);
+void GFL_NET_STATE_WifiLogout(NetStateExitFunc exitCallback);
 
 void GFL_NET_STATE_WifiMatchWait(struct NetStateWork *work);
 
@@ -345,7 +345,7 @@ void GFL_NET_STATE_SetError(int errorCode, u32 errorArg1, u32 errorArg2, u32 err
 
 void GFL_NET_STATE_SetWifiError(void);
 
-u32 GFL_NET_STATE_GetError(void);
+NetErrorInfo *GFL_NET_STATE_GetError(void);
 
 void GFL_NET_STATE_FatalError(void);
 
@@ -424,7 +424,7 @@ void GFL_NET_STATE_InitWork(u32 heapId)
     if (_pNetState != 0) {
         GF_PANIC_Fail(_FileName, 0xb8, _AssertNetStateNull);
     }
-    _pNetState = GFL_HEAP_Alloc(heapId, 0x64, 1, _FileName, 0xb9);
+    _pNetState = GFL_HEAP_Alloc(heapId, sizeof(struct NetStateWork), 1, _FileName, 0xb9);
     _pNetState->timer = 0x32;
     _pNetState->parentRetry = 1;
     GFL_NET_STATE_InitRandom(&_pNetState->random);
@@ -548,10 +548,10 @@ void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x12f);
 }
 
-void GFL_NET_STATE_DeviceInitialize(void *heapId, GFLNetUserFunc initCallback)
+void GFL_NET_STATE_DeviceInitialize(u32 heapId, GFLNetUserFunc initCallback)
 {
     UI_SetKeepAwakeFlagsGlobal(4);
-    GFL_NET_STATE_InitWork((uptr)heapId);
+    GFL_NET_STATE_InitWork(heapId);
     _pNetState->initCallback = initCallback;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }
@@ -1289,9 +1289,9 @@ void GFL_NET_STATE_WaitDisconnect(void)
  *   python tools/match.py one --src src/matched/GFL_NET_STATE_RecvExitCommand.c \
  *       --func GFL_NET_STATE_RecvExitCommand --addr 0x0203BE5C --cc 1.1p1 --arm
  */
-void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle)
+void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, void *data, void *work, struct GFLNetHandle *handle)
 {
-    GFL_NET_SendToHandle((void *)handle, 2, 0, 0);
+    GFL_NET_SendToHandle(handle, 2, 0, 0);
 
     if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
         return;
@@ -1386,14 +1386,14 @@ void GFL_NET_STATE_ExitStopDevice(void)
  *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
  *       --addr 0x0203BF9C --arm --cc 1.1p1
  */
-void GFL_NET_STATE_Exit(u32 exitCallback)
+void GFL_NET_STATE_Exit(NetStateExitFunc exitCallback)
 {
     struct NetStateWork *work = _pNetState;
 
     if (work != 0 && work->exitRequested != 0)
         return;
 
-    work->exitCallback = (void (*)(void))exitCallback;
+    work->exitCallback = exitCallback;
     _pNetState->exitRequested = 1;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, ((void *)GFL_NET_STATE_ExitStopDevice), 5, 0x4B7);
 }
@@ -1852,7 +1852,7 @@ void GFL_NET_STATE_WifiLogoutStop(void)
  *   python tools/match.py one --src src/matched/GFL_NET_STATE_WifiLogout.c \
  *       --func GFL_NET_STATE_WifiLogout --addr 0x0203C774 --cc 1.1p1 --arm
  */
-void GFL_NET_STATE_WifiLogout(u32 exitCallback)
+void GFL_NET_STATE_WifiLogout(NetStateExitFunc exitCallback)
 {
     GFLNetSession *session;
 
@@ -1861,7 +1861,7 @@ void GFL_NET_STATE_WifiLogout(u32 exitCallback)
 
     session = GFL_NET_GetSession();
     UI_ClearSoftResetInhibitGlobal(1);
-    _pNetState->exitCallback = (void (*)(void))exitCallback;
+    _pNetState->exitCallback = exitCallback;
     session->ops->pollDisconnect(1, 0);
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiLogoutStop, 5, 0x719);
@@ -2081,11 +2081,11 @@ void GFL_NET_STATE_SetWifiError(void)
  *   python tools/match.py one --src src/matched/GFL_NET_STATE_GetError.c \
  *       --func GFL_NET_STATE_GetError --addr 0x0203CA98 --cc 1.1p1 --arm
  */
-u32 GFL_NET_STATE_GetError(void)
+NetErrorInfo *GFL_NET_STATE_GetError(void)
 {
     if (_pNetState == 0)
         GF_PANIC_Fail(_FileName, 0x8CA, _AssertNetState);
-    return (uptr)&_pNetState->errorInfo;
+    return &_pNetState->errorInfo;
 }
 
 /*

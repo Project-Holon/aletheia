@@ -14,7 +14,7 @@ void drawString(unsigned char *txt, int idx);
 void drawAddress(const unsigned char *addr, int idx);
 int isPush(void);
 void applyForcus(void);
-void taskPushCount(void);
+void taskPushCount(void * unused0, void * unused1);
 void pushButtonYesNo(void);
 void DWCi_SetListReturn(unsigned char v);
 /* END mkheaders: generated region */

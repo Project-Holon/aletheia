@@ -5,13 +5,14 @@
 /* Public functions of worldtrade_input.c, prototypes copied from their definitions. */
 
 struct Strbuf;
+struct ZukanSave;
 
-#include "../types.h"
 #include "../ov135/worldtrade_types.h"
+#include "../types.h"
 #include "../arm9/bmp_menuwork_shared_types.h"
 
-void WORLDTRADE_INPUT_PrintStringTop(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2);
-void WORLDTRADE_INPUT_PrintStringPlain(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2);
+void WORLDTRADE_INPUT_PrintStringTop(WorldtradeWork *work, void *bank, u32 msgId, u32 unused1, u16 unused2);
+void WORLDTRADE_INPUT_PrintStringPlain(WorldtradeWork *work, void *bank, u32 msgId, u32 unused1, u16 unused2);
 void WORLDTRADE_INPUT_PrintBankString(WorldtradeWork *p, void *bank, u32 index, int unused1, int unused2, int slow);
 int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx);
 void WORLDTRADE_INPUT_PrintStringAlignedLine(void *win, struct Strbuf *str, u32 x, u32 y, u32 align, u16 color, Printer *printer);
@@ -20,7 +21,7 @@ void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *printe
 void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p);
 void WORLDTRADE_INPUT_CreateModeWindows(WorldtradeMenu *p, u32 mode);
 void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode);
-InputMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer, u32 listKind);
+WorldtradeMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer, u32 listKind);
 void WORLDTRADE_INPUT_MenuSetMode(WorldtradeMenu *p, int mode);
 void WORLDTRADE_INPUT_MenuDelete(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_MenuUpdate(WorldtradeMenu *p);
@@ -59,8 +60,8 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu);
 int WORLDTRADE_INPUT_StateSubCategoryInput(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateSubCategorySelected(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateRestoreCursor(WorldtradeMenu *p);
-int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 count, u16 *list, int start, int end);
-int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, u32 speciesFlags, u32 kind, void *bag);
+int WORLDTRADE_INPUT_CountSeenSpecies(uptr unused, struct ZukanSave *item, u32 count, u16 *list, int start, int end);
+int WORLDTRADE_INPUT_CreateSpeciesMenu(BmpMenuWork **menu, void *msg, void *bank, uptr speciesFlags, u32 kind, void *bag);
 void WORLDTRADE_INPUT_PrintPageNumberA(WorldtradeMenu *menu, int page, int total);
 void WORLDTRADE_INPUT_PrintPageNumberB(WorldtradeMenu *menu, int page, int total);
 int WORLDTRADE_INPUT_DrawSpeciesListScreen(WorldtradeMenu *p);

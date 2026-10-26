@@ -9,8 +9,8 @@
 
 void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
 void NNS_G2dSetCellAnimationBank(CellAnim *anim, void *bank);
-void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func);
-void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, u32 param, u32 func, u16 frameIdx);
+void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, void *param, AnimCallBackFunc func);
+void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, void *param, AnimCallBackFunc func, u16 frameIdx);
 s32 NNS_G2dIsCellAnimationBoundingBox(CellAnim *anim);
 /* END mkheaders: generated region */
 

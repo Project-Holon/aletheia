@@ -112,9 +112,9 @@ void FISHING_ShowBiteMark(FishingWork *w);
 void FISHING_HideBiteMark(FishingWork *w);
 void FISHING_StartRodEffect(FishingWork *w);
 void FISHING_EndRodEffect(FishingWork *w);
-int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos);
+int FISHING_CheckFacingWater(void *unused, void *fieldMap, VecFx32 *outPos);
 void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem);
-int FISHING_EventMain(void *task, int *state, FishingWork *work);
+int FISHING_EventMain(struct GameEvent *task, int *state, void *work);
 extern unsigned char abs_id_C2[];
 #include "../arm9/key.h"
 struct FieldEffectSys;
@@ -122,7 +122,7 @@ struct FieldEffectSys;
 struct FieldEffectObj;
 #include "fldeff_fishing.h"
 #include "field_effect.h"
-int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos)
+int FISHING_CheckFacingWater(void *unused, void *fieldMap, VecFx32 *outPos)
 {
     VecFx32 facingPos;
     u32 tileInfo[4];
@@ -162,7 +162,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     FishingWork *work;
     int hasEncounter;
 
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FISHING_EventMain, sizeof(FishingWork));
+    task = GAME_EVENT_Create(gameSystem, 0, FISHING_EventMain, sizeof(FishingWork));
     work = GAME_EVENT_GetWork(task);
     MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;
@@ -176,7 +176,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     work->playerDir = FLDMMDL_GetDirDisp(work->mmdl);
     FIELD_PLAYER_GetPos(work->fieldPlayer, &work->playerPos);
     work->playerState = FIELD_PLAYER_GetFormSlot(work->fieldPlayer);
-    if (FISHING_CheckFacingWater((uptr)work->gameData, work->fieldMap, &work->targetPos) == 0)
+    if (FISHING_CheckFacingWater(work->gameData, work->fieldMap, &work->targetPos) == 0)
         work->noTarget = 1;
     work->targetGrid[0] = (work->targetPos.x >> 4) / 4096;
     work->targetGrid[1] = (work->targetPos.y >> 4) / 4096;
@@ -196,8 +196,9 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
  * 6 and 7 fish got away or nothing came, 8 and 9 give the player back,
  * 10 start the wild battle.
  */
-int FISHING_EventMain(void *task, int *state, FishingWork *work)
+int FISHING_EventMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    FishingWork *work = workPtr;
     int result;
 
     switch (*state) {

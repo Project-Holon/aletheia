@@ -67,7 +67,7 @@ int SCRCMD_StartWaitPokeVoice(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IssSwitchOff(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_IsIssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_PokeVoiceEvent(GameEvent *event, u32 *seq, PokeVoiceWork *work);
+int SCRCMD_PokeVoiceEvent(struct GameEvent *event, int *seq, void *work);
 int SCRCMD_AddItem(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_RemoveItem(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_CanAddItem(ScriptVm *vm, ScrcmdWork *cmdWork);

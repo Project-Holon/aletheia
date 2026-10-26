@@ -193,14 +193,7 @@ struct ButtonMan;
 
 
 
-#ifdef __MWERKS__
-#define PMSI_PARAM_GetUiInputMode PMSI_PARAM_GetUiInputMode_hdr
-#endif
 #include "../arm9/pmsi_param.h"
-#ifdef __MWERKS__
-#undef PMSI_PARAM_GetUiInputMode
-u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *);
-#endif
 
 
 
@@ -285,7 +278,7 @@ int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, voi
 
 int PMS_INPUT_ProcMain(struct Proc *proc, int unused, int args, PmsInput *input);
 
-void PMS_INPUT_OnButton(int value, unsigned int event, PmsInput *input);
+void PMS_INPUT_OnButton(u32 value, s32 event, void *);
 
 int PMS_INPUT_ProcExit(struct Proc *proc, int unused, int args, PmsInput *input);
 
@@ -372,8 +365,9 @@ int PMS_INPUT_ProcMain(struct Proc *proc, int unused, int args, struct PmsInput 
 }
 
 /* Touch button callback: records which button was hit. */
-void PMS_INPUT_OnButton(int value, unsigned int event, struct PmsInput *input)
+void PMS_INPUT_OnButton(u32 value, s32 event, void *arg)
 {
+    struct PmsInput *input = arg;
     switch (event) {
     case 0: input->lastButton = value; break;
     case 1:
@@ -398,14 +392,10 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
 {
     struct PmsInput *input;
     void *taskBuf;
-    input = PROCSYS_AllocProcWork(proc, 128, 41);
+    input = PROCSYS_AllocProcWork(proc, sizeof(*input), 41);
     input->param = param;
     input->inputMode = PMSI_PARAM_GetInputMode(param);
-#ifdef __MWERKS__
     input->uiInputMode = PMSI_PARAM_GetUiInputMode(input->param);
-#else
-    input->uiInputMode = UI_GetInputMode(); /* PMSI_PARAM_GetUiInputMode is a thunk to it */
-#endif
     PMSI_PARAM_GetResult(input->param, input->words, (u16 *)&input->sentence);
     if (input->inputMode == PMS_INPUT_MODE_SENTENCE) PMS_INPUT_InitSentenceCursor(&input->sentenceCursor, &input->sentence);
     taskBuf = GFL_HEAP_Alloc(41, TCB_GetTaskOffset(5), 0, gPmsInputFileName, 579);
@@ -413,7 +403,7 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
-    input->buttonMan = BUTTON_MAN_Create((u8 *)gPmsInputButtonRects, (void (*)(s32, s32, s32))PMS_INPUT_OnButton, (sptr)input, 41);
+    input->buttonMan = BUTTON_MAN_Create((u8 *)gPmsInputButtonRects, PMS_INPUT_OnButton, input, 41);
     input->browseMode = PMS_BROWSE_CATEGORY;
     input->subHandler = 0;
     input->subState = 0;
@@ -471,7 +461,7 @@ void PMS_INPUT_SelectSentenceType(struct PmsSentenceCursor *cursor, struct PmsDa
 /* Frees everything the work object owns and ends the process. */
 void PMS_INPUT_Destroy(struct PmsInput *input, struct Proc *proc)
 {
-    PMSI_PARAM_SetUiInputMode((void *)input->param, (void *)input->uiInputMode);
+    PMSI_PARAM_SetUiInputMode(input->param, input->uiInputMode);
     BUTTON_MAN_Delete(input->buttonMan);
     PMS_INPUT_VIEW_Delete(input->view);
     TCB_Noop(input->tasks);
@@ -1378,7 +1368,7 @@ u8 PMS_INPUT_GetInitialCount(PmsInput *input);
 
 int PMS_INPUT_GetSearchState(PmsInput *input);
 
-void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b);
+void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,void *b);
 
 int PMS_INPUT_CanConfirm(PmsInput *input);
 
@@ -1913,7 +1903,7 @@ u32 PMS_INPUT_GetListItemCount(PmsInput *input) {
 
 /* Writes the text of one list word to a buffer. */
 void PMS_INPUT_GetListWord(PmsInput *input,u32 a,struct U16Vec *b) {
-    if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,(int)b);
+    if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,b);
     else PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,b);
 }
 
@@ -1957,7 +1947,7 @@ u8 PMS_INPUT_GetInitialCount(PmsInput *input) { return PMSI_SEARCH_HasResults((s
 int PMS_INPUT_GetSearchState(PmsInput *input) { return PMSI_SEARCH_GetInputCount((struct PmsiSearch *)input->search); }
 
 /* Writes the text of one word of the selected initial letter to a buffer. */
-void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b) { PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,((void *)b)); }
+void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,void *b) { PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,(b)); }
 
 /* Whether the input can be confirmed. */
 int PMS_INPUT_CanConfirm(PmsInput *input) { return PMS_INPUT_IsComplete(input); }

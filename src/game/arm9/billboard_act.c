@@ -76,7 +76,7 @@ struct BbActBoardInit {
 struct BbActSlot {
     u16 boardId;             /* 0xFFFF: unused */
     u16 pad02;
-    u32 payload;             /* struct PayloadBlock *, 0 when none */
+    struct G3dResource *payload; /* loaded resource behind the slot, 0 when none */
 };
 
 /* Request record for BILLBOARD_ACT_CreateSlots (create slots). */
@@ -111,7 +111,7 @@ struct BbActEntry {
     u16 lastCommand;               /* 0x1C: frame field of the last command read */
     u16 pad1E;
     BbActEntryHook hook;           /* 0x20: called every update when set */
-    u32 hookArg;                   /* 0x24 */
+    void *hookArg;                 /* 0x24 */
 };
 
 /* Creation record for one entry (0x24 bytes). */
@@ -182,7 +182,7 @@ void BILLBOARD_ACT_InitEntry(struct BbActEntry *entry);
 
 u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
 
-u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, u32 payload);
+u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, struct G3dResource *payload);
 
 void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count);
 
@@ -295,7 +295,7 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     int i;
     int j;
 
-    sys = GFL_HEAP_Alloc(heapId, 0x24, 1, file, 94);
+    sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, file, 94);
     sys->heapId = (u16)heapId;
     sys->uploadFn = uploadFn;
     sys->slotCount = slotCount;
@@ -306,9 +306,9 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     init.entryCount = sys->entryCount;
     sys->board = BILLBOARD_Create((u8 *)(&init), heapId);
 
-    sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * 8, 1, file, 119);
+    sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * sizeof(*sys->slots), 1, file, 119);
     sys->slotPool = AREAMAN_Create(sys->slotCount, heapId);
-    sys->entries = GFL_HEAP_Alloc(heapId, sys->entryCount * 0x28, 1, file, 123);
+    sys->entries = GFL_HEAP_Alloc(heapId, sys->entryCount * sizeof(*sys->entries), 1, file, 123);
     sys->entryPool = AREAMAN_Create(sys->entryCount, heapId);
 
     for (i = 0; i < sys->slotCount; i++) {
@@ -412,7 +412,7 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
 #ifdef __MWERKS__
             sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
 #else
-            sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, (struct G3dResource *)(uptr)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, (struct G3dResource *)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
 #endif
             sys->slots[base + i].payload = 0;
             break;
@@ -420,7 +420,7 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
 #ifdef __MWERKS__
             id = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
 #else
-            id = BILLBOARD_AddImage(sys->board, (struct G3dResource *)(uptr)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            id = BILLBOARD_AddImage(sys->board, (struct G3dResource *)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
 #endif
             BILLBOARD_TrimImageResource(sys->board, id);
             sys->slots[base + i].boardId = id;
@@ -428,7 +428,7 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
             break;
         case 2:
             sys->slots[base + i].boardId = 0xFFFF;
-            sys->slots[base + i].payload = rec->resource;
+            sys->slots[base + i].payload = (struct G3dResource *)rec->resource;
             break;
         }
     }
@@ -453,7 +453,7 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
  *       --func BILLBOARD_ACT_AddSlot --addr 0x02050238 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, 1 relocation site, resolved [label].
  */
-u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, u32 payload)
+u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 boardId, struct G3dResource *payload)
 {
     int index = AREAMAN_Alloc(sys->slotPool, 1);
 
@@ -478,7 +478,7 @@ void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count)
             BILLBOARD_DeleteImage(sys->board, sys->slots[first + i].boardId);
         }
         if (sys->slots[first + i].payload != 0) {
-            G3D_SYSTEM_DeleteResource((struct G3dResource *)sys->slots[first + i].payload);
+            G3D_SYSTEM_DeleteResource(sys->slots[first + i].payload);
         }
         BILLBOARD_ACT_InitSlot(&sys->slots[first + i]);
     }
@@ -639,7 +639,11 @@ void BILLBOARD_ACT_UpdateEntry(struct BbActSys *sys, struct BbActEntry *entry)
     frame = cmd->frame;
     duration = cmd->arg;
 
-    slot = (struct BbActSlot *)((u8 *)(entry->slotIndex * 8) + (uptr)sys->slots);
+#ifdef __MWERKS__
+    slot = (struct BbActSlot *)((entry->slotIndex << 3) + (uptr)sys->slots);
+#else
+    slot = &sys->slots[entry->slotIndex];
+#endif
     if (slot->payload != 0) {
         BILLBOARD_ACT_UploadSlotFrame(sys, slot, frame);
     } else {
@@ -674,7 +678,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
     u32 payloadBase;
     u32 zero;
 
-    payloadBase = (uptr)G3D_SYSTEM_GetTexDataAddr((struct G3dResource *)slot->payload);
+    payloadBase = (uptr)G3D_SYSTEM_GetTexDataAddr(slot->payload);
     BILLBOARD_GetImageVramAddr(sys->board, slot->boardId, (s32 *)(&texDst));
     zero = 0;
     BILLBOARD_CalcImageFrameRange(sys->board, slot->boardId, frame, (s32 *)(&frameOffset), (s32 *)(&frameSize), zero);
@@ -698,7 +702,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
  */
 u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot)
 {
-    u32 paletteSrc = (uptr)G3D_SYSTEM_GetPlttDataAddr((G3dResource *)(slot->payload));
+    u32 paletteSrc = (uptr)G3D_SYSTEM_GetPlttDataAddr(slot->payload);
     u32 paletteDst;
     u32 result = BILLBOARD_GetImagePlttVramOffset(sys->board, slot->boardId, &paletteDst);
     BbActUploadFn uploadFn = sys->uploadFn;
@@ -841,7 +845,7 @@ int BILLBOARD_ACT_SetEntryPaletteFromSlot(struct BbActSys *sys, int entryIndex, 
     struct BbActSlot *slots = sys->slots;
     struct BbActEntry *entries = sys->entries;
     u16 dstSlot = entries[entryIndex].slotIndex;
-    u32 payload = slots[srcSlot].payload;
+    struct G3dResource *payload = slots[srcSlot].payload;
 
     slots[dstSlot].payload = payload;
     return BILLBOARD_ACT_UploadSlotPalette(sys, &slots[dstSlot]);

@@ -8,10 +8,10 @@ struct SOCLSocket;
 
 void SOCLi_SocketRegister(void *a);
 void SOCLi_SocketRegisterList(void **next, char *socket);
-void SOCLi_SocketRegisterTrash(int a);
-void SOCLi_SocketUnregister(int a);
+void SOCLi_SocketRegisterTrash(struct SOCLSocket *a);
+void SOCLi_SocketUnregister(struct SOCLSocket *a);
 struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next, struct SOCLSocket *socket);
-void SOCLi_SocketUnregisterTrash(int a);
+void SOCLi_SocketUnregisterTrash(struct SOCLSocket *a);
 int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 int SOCL_SocketIsInTrash(void *b);
 /* END mkheaders: generated region */

@@ -20,8 +20,8 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(FieldGimmickSwitchToggleSave *save, int requirementIndex);
 void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObjCnt *expObj, int switchOn, int switchIndex, int usePrimaryModel);
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, int switchIndex);
-int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state);
-int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state, void *eventWork);
+int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state, void *eventWork);
 /* END mkheaders: generated region */
 
 #endif

@@ -37,7 +37,7 @@ void UNION_COMM_StateChangeCallback(void);
 void UNION_COMM_ConnectEndCallback(void);
 void UNION_COMM_ClearBeaconPcs(UnionRoomWork *work);
 void UNION_COMM_ReleaseWorks(UnionRoomWork *work);
-void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value);
+void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, uptr value);
 void UNION_COMM_InitSituation(UnionRoomWork *work);
 void UNION_COMM_ClearPartnerSelects(UnionConnectInfo *connect);
 void UNION_COMM_InitConnectInfo(UnionRoomWork *work, UnionConnectInfo *connect);

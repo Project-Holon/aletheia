@@ -105,7 +105,7 @@ FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, struct TcbSystem *ta
 void FIELD_EFFECT_DeleteObjectMgr(FieldEffectObjMgr *mgr);
 void FIELD_EFFECT_DrawObjectMgr(FieldEffectObjMgr *mgr);
 FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void FIELD_EFFECT_ObjectTask(u32 task, FieldEffectObj *obj);
+void FIELD_EFFECT_ObjectTask(struct TcbTask *task, void *arg);
 void FIELD_EFFECT_InitObject(FieldEffectObj *obj);
 void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
 void FIELD_EFFECT_UpdateObject(FieldEffectObj *obj);
@@ -124,11 +124,11 @@ extern FieldEffectResourceDef gFieldEffectResourceDefs[];
 FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapId)
 {
     FieldEffectSys *sys;
-    sptr billboard;
+    struct BbBoard *billboard;
     VecFx32 vec;
     u8 zero;
 
-    sys = GFL_HEAP_Alloc(heapId, 0x28, 1, d_021DE018, 0x7e);
+    sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, d_021DE018, 0x7e);
     sys->resourceCount = resourceCount;
     sys->heapId = heapId;
     sys->fieldmap = fieldmap;
@@ -137,7 +137,7 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     sys->modelBaseOffset = COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)FIELDMAP_GetGameSystem(fieldmap));
     sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((struct FieldMap *)fieldmap));
     FIELD_EFFECT_InitResourceTable(sys);
-    billboard = (sptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)FIELDMAP_GetEffectBbdAct((struct FieldMap *)sys->fieldmap));
+    billboard = BILLBOARD_ACT_GetBoard((struct BbActSys *)FIELDMAP_GetEffectBbdAct((struct FieldMap *)sys->fieldmap));
     BILLBOARD_SetQuadShape((u8 *)billboard, 0);
     vec = d_021D8F04;
     BILLBOARD_SetScale((u8 *)billboard, (struct Blk3 *)(&vec));
@@ -234,7 +234,7 @@ void FIELD_EFFECT_InitResourceTable(FieldEffectSys *sys)
     FieldEffectResource *slot;
     int i;
 
-    slot = sys->resources = GFL_HEAP_Alloc(sys->heapId, sys->resourceCount * 8, 1, d_021DE018, 0x174);
+    slot = sys->resources = GFL_HEAP_Alloc(sys->heapId, sys->resourceCount * sizeof(*slot), 1, d_021DE018, 0x174);
     i = 0;
     if (sys->resourceCount > 0) {
         for (; i < sys->resourceCount; i++) {
@@ -333,10 +333,10 @@ FieldEffectObjMgr *FIELD_EFFECT_CreateObjectMgr(u16 heapId, struct TcbSystem *ta
 {
     FieldEffectObjMgr *mgr;
 
-    mgr = GFL_HEAP_Alloc(heapId, 0x10, 1, d_021DE018, 0x23a);
+    mgr = GFL_HEAP_Alloc(heapId, sizeof(*mgr), 1, d_021DE018, 0x23a);
     mgr->count = objectCount;
     mgr->heapId = heapId;
-    mgr->objs = GFL_HEAP_Alloc(heapId, objectCount * 0xd4, 1, d_021DE018, 0x23e);
+    mgr->objs = GFL_HEAP_Alloc(heapId, objectCount * sizeof(*mgr->objs), 1, d_021DE018, 0x23e);
     mgr->taskSys = taskSys;
     return mgr;
 }
@@ -379,7 +379,7 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
             if (pos != 0)
                 obj->pos = *pos;
             obj->mgr = mgr;
-            obj->task = TCB_AddTask(mgr->taskSys, (TcbFunc)FIELD_EFFECT_ObjectTask, obj, priority);
+            obj->task = TCB_AddTask(mgr->taskSys, FIELD_EFFECT_ObjectTask, obj, priority);
             break;
         }
         i++;
@@ -392,8 +392,9 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
     return 0;
 }
 
-void FIELD_EFFECT_ObjectTask(u32 task, FieldEffectObj *obj)
+void FIELD_EFFECT_ObjectTask(struct TcbTask *task, void *arg)
 {
+    FieldEffectObj *obj = arg;
     FIELD_EFFECT_UpdateObject(obj);
 }
 

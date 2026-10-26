@@ -145,7 +145,7 @@ void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y);
 
 void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode);
 
-void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u32 drawPriority);
+void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u8 drawPriority);
 
 void BMP_OAM_SetBgPriority(struct BmpOam *bmpOam, u32 bgPriority);
 
@@ -210,7 +210,7 @@ struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact)
     struct BmpOamSys *sys;
     int modeIdx;
 
-    sys = GFL_HEAP_Alloc(heapId, 0x18, 1, (const char *)g_020A7494, 0x73);
+    sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, (const char *)g_020A7494, 0x73);
     sys->heapId = heapId;
     sys->clact = clact;
     for (modeIdx = 0; modeIdx < 3; modeIdx++) {
@@ -245,8 +245,6 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
     u8 colIdx;
     uptr arcTool;
     u8 cols;
-    u8 *cellRow;
-    struct BmpOam *cell;
     u32 yOffset;
     u32 animResId;
 
@@ -258,7 +256,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
         zero[3] = 0;
     }
 
-    bmpOam = GFL_HEAP_Alloc(sys->heapId, 0xcc, 1, (const char *)g_020A7494, 0xa3);
+    bmpOam = GFL_HEAP_Alloc(sys->heapId, sizeof(struct BmpOam), 1, (const char *)g_020A7494, 0xa3);
     bmpOam->bmp = param->bmp;
     cols = (u8)(BMP_GetWidth(bmpOam->bmp) >> 5);
     rows = (u8)(BMP_GetHeight(param->bmp) >> 4);
@@ -276,24 +274,22 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
     arcTool = (uptr)sys->arcTool;
     for (rowIdx = 0; rowIdx < rows; rowIdx++) {
         for (colIdx = 0; colIdx < cols; colIdx++) {
-            cellRow = (u8 *)bmpOam + rowIdx * cols * 4;
             yOffset = rowIdx << 4;
             mapMode = BMP_OAM_AcquireModeSlot(sys, param->engine, (void *)arcTool);
-            cell = (struct BmpOam *)(cellRow + colIdx * 4);
-            cell->res[0] = CLACT_RegisterEmptyCharacter(gModeTable[mapMode].size, param->engine, sys->heapId);
+            bmpOam->res[rowIdx * cols + colIdx] = CLACT_RegisterEmptyCharacter(gModeTable[mapMode].size, param->engine, sys->heapId);
             actorParam.x = (s16)(param->x + (colIdx << 5));
             actorParam.y = (s16)(param->y + yOffset);
             animResId = param->animResId;
             actorParam.draw_priority = param->drawPriority;
             actorParam.bg_priority = param->bgPriority;
             {
-                struct ClactActor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], &actorParam,
+                struct ClactActor *actor = CLACT_CreateActor(sys->clact, bmpOam->res[rowIdx * cols + colIdx], animResId, sys->slot[mapMode], &actorParam,
                                                   param->space, sys->heapId);
                 u32 palette = (u8)param->palette;
-                cell->act[0] = actor;
+                bmpOam->act[rowIdx * cols + colIdx] = actor;
                 CLACT_SetActorPaletteOffset(actor, palette, 0);
             }
-            CLACT_SetActorVisible(cell->act[0], 0);
+            CLACT_SetActorVisible(bmpOam->act[rowIdx * cols + colIdx], 0);
         }
     }
     return bmpOam;
@@ -451,7 +447,7 @@ void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode)
     }
 }
 
-void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u32 drawPriority)
+void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u8 drawPriority)
 {
     int rowIdx;
     int colIdx;

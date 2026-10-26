@@ -30,29 +30,6 @@ struct Entry;
 struct Link;
 #include "../types.h"
 
-struct StaNetRec {
-    u8 pad00[4];
-    int state;
-    u8 pad08[0x0A];
-    u8 id;
-    u8 pad13[9];
-    u32 partyBuffer;
-    u8 pad20[0x10];
-};
-
-struct StaNetCtx {
-    u8 pad00[0x60];
-    struct StaNetRec rec[4];
-};
-
-typedef struct StaNetWork {
-    u8 pad00[0x14C];
-    u8 chunkIndex;
-    int transferActive;
-    int chunkSending;
-    u8 pad158[0x24];
-    int transferState;
-} StaNetWork;
 
 #include "mus_comm_func.h"
 struct GFLNetHandle;
@@ -60,8 +37,8 @@ struct GFLNetHandle;
 #include "../arm9/net.h"
 #include "sta_slot.h"
 #include "../arm9/gf_standard.h"
-u32 STA_NET_FindRecValueByKey(struct StaNetCtx *p, u8 key);
-void STA_NET_BeginTransfer(StaNetWork *s);
+void *STA_NET_FindRecValueByKey(struct ActingHost *p, u8 key);
+void STA_NET_BeginTransfer(struct ActingHost *s);
 void STA_NET_UpdateTransferState(char *p);
 int STA_NET_SendChunk(char *p,u32 i);
 void STA_NET_AdvanceChunk(int a,int b,int c,char *p);
@@ -72,20 +49,20 @@ int STA_NET_NotifyHostKind5(char *p);
 int STA_NET_NotifyHostKind6(char *p);
 int STA_NET_SendSlot1Command(u8 *p);
 void STA_NET_SetSlot1Done(void *a, void *b, void *c, u8 *p);
-u32 STA_NET_GetSlot1Value(void *a, u8 *p);
+void *STA_NET_GetSlot1Value(void *a, u8 *p);
 int STA_NET_SendSlot2Command(u8 *p);
 void STA_NET_SetSlot2Done(void *a, void *b, void *c, u8 *p);
-u32 STA_NET_GetSlot2Value(void *a, u8 *p);
+void *STA_NET_GetSlot2Value(void *a, u8 *p);
 int STA_NET_SendSlot3Command(u8 *p);
 void STA_NET_SetSlot3Done(void *a, void *b, void *c, u8 *p);
-u32 STA_NET_GetSlot3Value(void *a, u8 *p);
+void *STA_NET_GetSlot3Value(void *a, u8 *p);
 u32 STA_NET_GetSlot1Done(char *p);
 int STA_NET_GetSlot3Done(int *p);
 int STA_NET_SendRandomOrder(u8 *p);
 u32 STA_NET_SendKindA(char *p, int a);
 u32 STA_NET_GetCurrentSlotValue(char *p);
 u8 STA_NET_GetSlotValueByIndex(char *p, int index);
-u32 STA_NET_GetSlotWordByIndex(char *p,u32 index);
+void *STA_NET_GetSlotWordByIndex(char *p,u32 index);
 int STA_NET_GetRole(int *p);
 u32 STA_NET_GetBoxesReceived(u8 *p);
 int STA_NET_GetRecordsReceived(int *p);
@@ -100,12 +77,12 @@ u32 STA_NET_GetPairB(char *p);
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
  * and whose state word (+4) is 1; returns its word at +0x1C, else 0.
  */
-u32 STA_NET_FindRecValueByKey(struct StaNetCtx *p, u8 key)
+void *STA_NET_FindRecValueByKey(struct ActingHost *p, u8 key)
 {
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        if (key == p->rec[i].id && p->rec[i].state == 1)
+        if (key == p->rec[i].key && p->rec[i].partyReceived == 1)
             return p->rec[i].partyBuffer;
     }
     return 0;
@@ -115,7 +92,7 @@ u32 STA_NET_FindRecValueByKey(struct StaNetCtx *p, u8 key)
  * Unlabelled leaf hidden in a .word run; helper whose address is the
  * witness for the call in ov010 MUSICAL_DRESSUP_SYS_Main.
  */
-void STA_NET_BeginTransfer(StaNetWork *work)
+void STA_NET_BeginTransfer(struct ActingHost *work)
 {
     if (work->transferActive == 0) {
         work->transferActive = 1;
@@ -128,10 +105,10 @@ void STA_NET_BeginTransfer(StaNetWork *work)
 void STA_NET_UpdateTransferState(char *p)
 {
     if(((struct ActingHost *)p)->transferActive==1) {
-        switch(*(u32 *)&((struct ActingHost *)p)->transferState) {
+        switch(((struct ActingHost *)p)->transferState) {
         case 0: break;
         case 1:
-            if(MUS_COMM_FUNC_SendCommandWait((sptr)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize,0xff)==1) ((struct ActingHost *)p)->transferState=2;
+            if(MUS_COMM_FUNC_SendCommandWait((sptr)p,7,((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->chunkSize,0xff)==1) ((struct ActingHost *)p)->transferState=2;
             break;
         case 2: break;
         case 3:
@@ -142,7 +119,7 @@ void STA_NET_UpdateTransferState(char *p)
             break;
         case 4:
             if(((struct ActingHost *)p)->chunkSending==0) {
-                if((u32)(((struct ActingHost *)p)->chunkIndex*0x3800)>=((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize) ((struct ActingHost *)p)->transferActive=0;
+                if((u32)(((struct ActingHost *)p)->chunkIndex*0x3800)>=((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->chunkSize) ((struct ActingHost *)p)->transferActive=0;
                 else ((struct ActingHost *)p)->transferState=3;
             }
             break;
@@ -155,43 +132,43 @@ void STA_NET_UpdateTransferState(char *p)
  */
 int STA_NET_SendChunk(char *p,u32 chunk)
 {
-    char *q;
+    struct HostEntry *q;
     char *s;
     u16 n;
-    q=*(char * *)&((struct ActingHost *)p)->hostEntry;
+    q=(struct HostEntry *)((struct ActingHost *)p)->hostEntry.p;
     n=0x3800;
-    s=*(char * *)&((struct HostEntry *)q)->chunkBuffer+chunk*0x3800;
+    s=(char *)q->chunkBuffer+chunk*0x3800;
     if((chunk+1)*0x3800>((struct HostEntry *)q)->chunkSize) n=((struct HostEntry *)q)->chunkSize%0x3800U;
     return GFL_NET_SendData(GFL_NET_HANDLE_GetNetHandle(0xff),0xff,0x1105,n,s,0,1,1);
 }
 
 void STA_NET_AdvanceChunk(int unused,int unused1,int unused2,char *p)
 {
-    char *q;
+    struct HostEntry *q;
     char *s;
     u32 v;
     (((struct ActingHost *)p)->chunkIndex)++;
     ((struct ActingHost *)p)->chunkSending=0;
-    q=*(char * *)&((struct ActingHost *)p)->hostEntry;
-    if((u32)(((struct ActingHost *)p)->chunkIndex*0x3800)>=((struct HostEntry *)q)->chunkSize) {
-        s=*(char * *)&((struct HostEntry *)q)->chunkBuffer;
-        ((struct HostEntry *)q)->body=s+0xc;
-        q=*(char * *)&((struct ActingHost *)p)->hostEntry;
-        ((struct HostEntry *)q)->section2=*(char * *)&((struct HostEntry *)q)->chunkBuffer+0xc+((struct StaNetChunkHeader *)s)->size;
-        q=*(char * *)&((struct ActingHost *)p)->hostEntry;
+    q=(struct HostEntry *)((struct ActingHost *)p)->hostEntry.p;
+    if((u32)(((struct ActingHost *)p)->chunkIndex*0x3800)>=q->chunkSize) {
+        s=(char *)q->chunkBuffer;
+        q->body=s+0xc;
+        q=(struct HostEntry *)((struct ActingHost *)p)->hostEntry.p;
+        q->section2=(char *)q->chunkBuffer+0xc+((struct StaNetChunkHeader *)s)->size;
+        q=(struct HostEntry *)((struct ActingHost *)p)->hostEntry.p;
         v=((struct StaNetChunkHeader *)s)->offset;
-        ((struct HostEntry *)q)->section3=v+(*(u32 *)&((struct HostEntry *)q)->chunkBuffer+0xc+((struct StaNetChunkHeader *)s)->size);
+        q->section3=(void *)(v+((uptr)q->chunkBuffer+0xc+((struct StaNetChunkHeader *)s)->size));
     }
 }
 
 void *STA_NET_GetChunkPtr(int unused,char *p)
 {
-    char *q;
-    q=*(char * *)&((struct ActingHost *)p)->hostEntry;
-    return *(char * *)&((struct HostEntry *)q)->chunkBuffer+((struct ActingHost *)p)->chunkIndex*0x3800;
+    struct HostEntry *q;
+    q=(struct HostEntry *)((struct ActingHost *)p)->hostEntry.p;
+    return (char *)q->chunkBuffer+((struct ActingHost *)p)->chunkIndex*0x3800;
 }
 
-int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize/0x3800u<((struct ActingHost *)p)->chunkIndex)return 1;return 0;}
+int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->chunkSize/0x3800u<((struct ActingHost *)p)->chunkIndex)return 1;return 0;}
 
 /*
  * Addresses are Black-image addresses.
@@ -199,83 +176,83 @@ int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((stru
 int STA_NET_NotifyHostKind4(u8 *p)
 {
     void *q = ((struct ActingHost *)p)->hostEntry.p;
-    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 4, (uptr)(((struct HostEntry *)q)->slot1Size), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 4, ((struct HostEntry *)q)->slotSize[0], 0xff);
 }
 
 int STA_NET_NotifyHostKind5(char *p)
 {
-    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 5, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x24), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 5, ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotSize[1], 0xff);
 }
 
 int STA_NET_NotifyHostKind6(char *p)
 {
-    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 6, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x28), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 6, ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotSize[2], 0xff);
 }
 
 int STA_NET_SendSlot1Command(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    uptr id;
-    STA_SLOT_Noop(q[1], q[8], 2);
-    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (void *)((*(u32 **)(p + 0x140))[1]), 1, 0, 1);
+    struct HostEntry *q = ((struct ActingHost *)p)->hostEntry.p;
+    struct GFLNetHandle *id;
+    STA_SLOT_Noop(q->slotBuffer[0], q->slotSize[0], 2);
+    id = GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1106, ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotSize[0], ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[0], 1, 0, 1);
 }
 
 void STA_NET_SetSlot1Done(void *unused, void *unused1, void *unused2, u8 *p)
 {
-    u32 *q;
+    struct HostEntry *q;
     ((struct ActingHost *)p)->slot1Done = 1;
-    q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    STA_SLOT_Noop(q[1], q[8], 12);
+    q = ((struct ActingHost *)p)->hostEntry.p;
+    STA_SLOT_Noop(q->slotBuffer[0], q->slotSize[0], 12);
 }
 
-u32 STA_NET_GetSlot1Value(void *unused, u8 *p)
+void *STA_NET_GetSlot1Value(void *unused, u8 *p)
 {
-    return (*(u32 **)(p + 0x140))[1];
+    return ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[0];
 }
 
 int STA_NET_SendSlot2Command(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    uptr id;
-    STA_SLOT_Noop(q[2], q[9], 1);
-    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (void *)((*(u32 **)(p + 0x140))[2]), 1, 0, 1);
+    struct HostEntry *q = ((struct ActingHost *)p)->hostEntry.p;
+    struct GFLNetHandle *id;
+    STA_SLOT_Noop(q->slotBuffer[1], q->slotSize[1], 1);
+    id = GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1107, ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotSize[1], ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[1], 1, 0, 1);
 }
 
 void STA_NET_SetSlot2Done(void *unused, void *unused1, void *unused2, u8 *p)
 {
-    u32 *q;
+    struct HostEntry *q;
     ((struct ActingHost *)p)->slot2Done = 1;
-    q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    STA_SLOT_Noop(q[2], q[9], 11);
+    q = ((struct ActingHost *)p)->hostEntry.p;
+    STA_SLOT_Noop(q->slotBuffer[1], q->slotSize[1], 11);
 }
 
-u32 STA_NET_GetSlot2Value(void *unused, u8 *p)
+void *STA_NET_GetSlot2Value(void *unused, u8 *p)
 {
-    return (*(u32 **)(p + 0x140))[2];
+    return ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[1];
 }
 
 int STA_NET_SendSlot3Command(u8 *p)
 {
-    u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    uptr id;
-    STA_SLOT_Noop(q[3], q[10], 0);
-    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (void *)((*(u32 **)(p + 0x140))[3]), 1, 0, 1);
+    struct HostEntry *q = ((struct ActingHost *)p)->hostEntry.p;
+    struct GFLNetHandle *id;
+    STA_SLOT_Noop(q->slotBuffer[2], q->slotSize[2], 0);
+    id = GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1108, ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotSize[2], ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[2], 1, 0, 1);
 }
 
 void STA_NET_SetSlot3Done(void *unused, void *unused1, void *unused2, u8 *p)
 {
-    u32 *q;
+    struct HostEntry *q;
     ((struct ActingHost *)p)->slot3Done = 1;
-    q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    STA_SLOT_Noop(q[3], q[10], 10);
+    q = ((struct ActingHost *)p)->hostEntry.p;
+    STA_SLOT_Noop(q->slotBuffer[2], q->slotSize[2], 10);
 }
 
-u32 STA_NET_GetSlot3Value(void *unused, u8 *p)
+void *STA_NET_GetSlot3Value(void *unused, u8 *p)
 {
-    return (*(u32 **)(p + 0x140))[3];
+    return ((struct HostEntry *)((struct ActingHost *)p)->hostEntry.p)->slotBuffer[2];
 }
 
 u32 STA_NET_GetSlot1Done(char *p) {return ((struct ActingHost *)p)->slot1Done;}
@@ -325,11 +302,11 @@ u32 STA_NET_SendKindA(char *p, int value)
     return MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
 }
 
-u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((uptr)p+GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
+u32 STA_NET_GetCurrentSlotValue(char *p) {return ((struct ActingHost *)p)->rec[GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())].key;}
 
-u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((uptr)p+index*0x30+0x72);}
+u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return ((struct ActingHost *)p)->rec[index].key;}
 
-u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((uptr)p+index*0x30+0x80);}
+void *STA_NET_GetSlotWordByIndex(char *p,u32 index){return ((struct ActingHost *)p)->rec[index].fanPoints;}
 
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns the word at +0x48.
@@ -346,7 +323,7 @@ int STA_NET_GetRole(int *p)
  */
 u32 STA_NET_GetBoxesReceived(u8 *p)
 {
- return *(u32 *)(p+0x158);
+ return ((struct ActingHost *)p)->boxesReceived;
 }
 
 /*

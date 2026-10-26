@@ -16,23 +16,26 @@ struct WifiBsubwayParent {
     int state;    /* 0x08: state the parent drives */
 };
 
-/* Embedded graphic context (0x9AC bytes at work+4). Every field is reached
- * both as work+4+off (the screen functions) and, for the two animation
- * fields, through the anim view at work+0x10. */
+/* Palette animation state (0x970 bytes at WifiBsubwayGraphic + 0xC); the work of the per-frame task. */
+struct WifiBsubwayAnim {
+    void *callback;                  /* 0x000 (graphic 0x00C): callback handle for the palette anim */
+    unsigned int enabled;            /* 0x004 (graphic 0x010): palette anim running */
+    unsigned short table[15][16];    /* 0x008 (graphic 0x014): blend source rows */
+    unsigned short frames[60][16];   /* 0x1E8 (graphic 0x1F4): blended frames (colours 4 to 10 are uploaded) */
+    short frame;                     /* 0x968 (graphic 0x974): frame index (0..59) */
+    unsigned char pad96A[1];         /* 0x96A */
+    unsigned char toggle;            /* 0x96B: toggles each frame */
+    unsigned char phase;             /* 0x96C: two-phase draw select, BG layer scrolled with the upload */
+    unsigned char pad96D[3];         /* 0x96D */
+};
+
+/* Embedded graphic context (0x9AC bytes at work+4). */
 struct WifiBsubwayGraphic {
     int active;                      /* 0x000: window/context created */
     unsigned short heapId;           /* 0x004: heap the context was built on */
     unsigned char pad006[2];         /* 0x006 */
     void *bg;                        /* 0x008: BG/draw object (WifiBsubwayBg) */
-    void *animCallback;              /* 0x00C: callback handle for the palette anim */
-    unsigned int animEnabled;        /* 0x010: palette anim running */
-    unsigned char pad014[0x1E0];     /* 0x014: blend source rows */
-    unsigned char palette[0x780];    /* 0x1F4: palette/blend buffer */
-    short frame;                     /* 0x974: palette frame index (0..59) */
-    unsigned char pad976[1];         /* 0x976 */
-    unsigned char animToggle;        /* 0x977: toggles each frame */
-    unsigned char animPhase;         /* 0x978: two-phase draw select */
-    unsigned char pad979[3];         /* 0x979 */
+    struct WifiBsubwayAnim anim;     /* 0x00C */
     void *window;                    /* 0x97C: BMP window */
     void *yesNoMenu;                 /* 0x980: BMP yes/no menu */
     unsigned int frameGfxA;          /* 0x984: loaded frame gfx handle A */
@@ -47,25 +50,11 @@ struct WifiBsubwayGraphic {
     void *tcbl;                      /* 0x9A8: TCBL text control */
 };
 
-/* Palette animation view. The callback context handed to GFL_USE_AddMainTask is
- * work+0x10, that is graphic+0xC, so this view starts at animCallback. */
-struct WifiBsubwayAnim {
-    void *callback;                  /* 0x000 (graphic 0x00C) */
-    unsigned int enabled;            /* 0x004 (graphic 0x010) */
-    unsigned char pad008[0x1E8];     /* 0x008 (graphic 0x014) */
-    unsigned char palette[0x778];    /* 0x1F0 (graphic 0x1FC) */
-    short frame;                     /* 0x968 (graphic 0x974) */
-    unsigned char pad96A[1];         /* 0x96A (graphic 0x976) */
-    unsigned char toggle;            /* 0x96B (graphic 0x977) */
-    unsigned char phase;             /* 0x96C (graphic 0x978) */
-};
-
 /* BG/draw object allocated by WIFI_BSUBWAY_GRAPHIC_Create (0x1BC bytes). */
 struct WifiBsubwayBg {
     unsigned int visible;            /* 0x000 */
     unsigned char pad004[8];         /* 0x004 */
     void *redrawCallback;            /* 0x00C: OnRedraw callback handle */
-    unsigned char pad010[0x1AC];     /* 0x010 */
 };
 
 /* Code-in parameter object returned by CODEIN_PARAM_Create. */
@@ -143,21 +132,31 @@ struct WifiBsubwayAsync {
 };
 
 /* Per-screen work object (0x185C bytes). */
+/* Arguments of the net save proc (the first 0x14 bytes of its work). */
+struct WifiBsubwayNetSaveArgs {
+    void *gameData;                         /* 0x00 */
+    unsigned int mode;                      /* 0x04 */
+    unsigned int enable;                    /* 0x08 */
+    unsigned int waitFrames;                /* 0x0C */
+    void *saveBuf;                          /* 0x10: the save payload buffer */
+};
+
+/* Arguments of the net save retry proc. */
+struct WifiBsubwayNetRetryArgs {
+    void *gameData;                         /* 0x00 */
+    unsigned int mode;                      /* 0x04 */
+    unsigned int enable;                    /* 0x08 */
+};
+
 struct WifiBsubwayWork {
     struct WifiBsubwayParent *parent;       /* 0x0000 */
     struct WifiBsubwayGraphic graphic;      /* 0x0004 (0x9AC bytes) */
-    unsigned int saveControl0;              /* 0x09B0: GAME_DATA save arg block */
-    unsigned int saveValue0;                /* 0x09B4 */
-    unsigned int saveValue1;                /* 0x09B8 */
-    unsigned int saveSize;                  /* 0x09BC */
-    void *saveBuffer;                       /* 0x09C0: &work+0x9F4 */
+    struct WifiBsubwayNetSaveArgs saveArgs; /* 0x09B0: arguments of the net save proc */
     unsigned int pad09C4;                   /* 0x09C4 */
     unsigned int saveFlag;                  /* 0x09C8 */
     int saveState;                          /* 0x09CC */
     unsigned char pad09D0[8];               /* 0x09D0 */
-    unsigned int retryControl0;             /* 0x09D8: GAME_DATA retry arg block */
-    unsigned int retryValue0;               /* 0x09DC */
-    unsigned int retryValue1;               /* 0x09E0 */
+    struct WifiBsubwayNetRetryArgs retryArgs; /* 0x09D8: arguments of the net save retry proc */
     unsigned int retryValue2;               /* 0x09E4 */
     unsigned char pad09E8[12];              /* 0x09E8 */
     unsigned char saveData[44];             /* 0x09F4: save payload buffer */

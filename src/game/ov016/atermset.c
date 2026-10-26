@@ -20,9 +20,9 @@
  * the object, called from rakuraku.c) and soAlloc / soFree, which the vendor object
  * reaches through its own AtermSOConfig initializer; that data is defined outside this
  * file here, so they stay global or -ipa file drops them.
- * AtermApc_callback and GetMacEncKey (GetMacEncKey) are defined K&R style: DWARF gives
- * them one parameter, and their callers (alarmCallback, AutoConfigThreadEx) pass a second
- * argument, which a prototyped definition would reject.
+ * GetMacEncKey is defined K&R style: DWARF gives it one parameter, and its caller
+ * (AutoConfigThreadEx) passes a second argument, which a prototyped definition would reject.
+ * AtermApc_callback takes the APC_Init callback signature (event, arg); the arg is unused.
  *
  * symbols:
  *   OS_GetMacAddress               0x02087C6C  arm  arm9
@@ -116,7 +116,7 @@
  *   _ull_mul                     0x0209C054  arm
  */
 #define GAME_TYPES_U32_LONG
-#include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "../libc/memcmp/string.h"
 #include "../ov009/wcm_system.h"
 #include "../ov009/wcm_aplist.h"
 #include "../ov009/soc.h"
@@ -348,12 +348,12 @@ typedef struct _ATERMApConfigState {
 
 void *soAlloc(unsigned long name, long size);
 void soFree(unsigned long name, void *ptr, long size);
-static void AtermApc_callback();
+static void AtermApc_callback(int event, void *arg);
 static int GetMacEncKey();
 int DWCi_RakurakuATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
 int ATERMi_ApConfigEnd(void);
 int ATERMi_ApConfigGetState(ATERMApConfigState *state);
-int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
+int DWCi_RakurakuATERMi_ApConfigGetResult(void *a);
 
 extern ATERMSET_BSS atermset_bss;
 extern unsigned char sAtermsetBtAutoResult;
@@ -611,7 +611,7 @@ static int APCi_MoveIdleState(void)
             return 0;
         break;
     case 1:
-        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, (void (*)(void *))APCi_Notify) != 3)
+        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, APCi_Notify) != 3)
             return 0;
         break;
     case 0:
@@ -770,7 +770,7 @@ static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int wo
         atermset_bss.apci_state = 1;
     }
     if (atermset_bss.apci_state == 1) {
-        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, (void (*)(void *))APCi_Notify) != 3) {
+        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, APCi_Notify) != 3) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }
@@ -840,8 +840,7 @@ static int AtermApc_GetEvent(void)
     return event;
 }
 
-static void AtermApc_callback(event)
-    int event;
+static void AtermApc_callback(int event, void *arg)
 {
     if (atermset_bss.event_set_ptr + 1 == atermset_bss.event_get_ptr)
         return;
@@ -855,7 +854,7 @@ static void AtermApc_callback(event)
 
 static void alarmCallback(void *event)
 {
-    AtermApc_callback((sptr)event, 0);
+    AtermApc_callback((int)(uptr)event, 0);
 }
 
 static int InitAtermApcNetwork(int maxap)
@@ -871,7 +870,7 @@ static int InitAtermApcNetwork(int maxap)
         return -1;
     atermset_bss.apc_work = (u8 *)ROUNDUP32((uptr)atermset_bss.atermapc_work);
     atermset_bss.ap_list = (struct WMBssDesc *)ROUNDUP32((uptr)atermset_bss.apc_work + APC_WORK_SIZE(maxap));
-    if (APC_Init((void (*)(int, void *))AtermApc_callback, atermset_bss.apc_work, APC_WORK_SIZE(maxap)) == 0)
+    if (APC_Init(AtermApc_callback, atermset_bss.apc_work, APC_WORK_SIZE(maxap)) == 0)
         return -2;
     do {
         int event;
@@ -1758,7 +1757,7 @@ static int AutoConfigThreadEx(void)
             }
             target.len = sizeof(target);
             GetMacEncKey(gAtermsetBlock7, &target);
-            n = SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
+            n = SOC_RecvFrom((int)sock, gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (IsSearchCommand(gAtermsetBlock10, &gAtermsetBlock1)) {
                     atermset_data.gAtermApTimeout = GetTickCount() + 30000;
@@ -1782,7 +1781,7 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            n = SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
+            n = SOC_RecvFrom((int)sock, gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (GetCommandElement(gAtermsetBlock10, 3, ElementData, gAtermsetBlock7)) {
                     lpe = GetFirstElement(ElementData, &eid, &esize);
@@ -1815,7 +1814,7 @@ static int AutoConfigThreadEx(void)
             atermset_bss.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target)) > 0
+            if (SOC_RecvFrom((int)sock, gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target)) > 0
                 && (atermset_bss.cbElementData = GetCommandElement(gAtermsetBlock10, 5, ElementData, gAtermsetBlock8)) != 0
                 && GetWLanSetElement(ElementData)) {
                 if (gAtermsetBlock5[0x14] != 0)
@@ -2611,9 +2610,9 @@ int ATERMi_ApConfigGetState(ATERMApConfigState *state)
     return 1;
 }
 
-int DWCi_RakurakuATERMi_ApConfigGetResult(int a)
+int DWCi_RakurakuATERMi_ApConfigGetResult(void *a)
 {
-    memcpy((void *)a, &gAtermsetBlock2, 0xe8);
+    memcpy(a, &gAtermsetBlock2, 0xe8);
     return 1;
 }
 

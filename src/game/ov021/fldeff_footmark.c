@@ -108,7 +108,7 @@ FootmarkEffectWork *FLDEFF_FOOTMARK_Init(void *fieldEffectCtrl, u32 heapId)
 {
     FootmarkEffectWork *effWork;
 
-    effWork = GFL_HEAP_Alloc(heapId, 0x40, 1, d_021DE30C, 0x9d);
+    effWork = GFL_HEAP_Alloc(heapId, sizeof(*effWork), 1, d_021DE30C, 0x9d);
     effWork->fieldEffectCtrl = fieldEffectCtrl;
     effWork->bbActSys = FIELDMAP_GetEffectBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap(fieldEffectCtrl));
     FLDEFF_FOOTMARK_InitResource(effWork);
@@ -307,7 +307,7 @@ void FLDEFF_FOOTMARK_DeleteTask(FieldEffectObj *task, FootmarkTaskWork *work)
 void FLDEFF_FOOTMARK_UpdateTask(FieldEffectObj *task, FootmarkTaskWork *work)
 {
     u8 alpha;
-    sptr board;
+    struct BbBoard *board;
     struct BbActSys *bbActSys;
     u16 elem;
 
@@ -326,7 +326,7 @@ void FLDEFF_FOOTMARK_UpdateTask(FieldEffectObj *task, FootmarkTaskWork *work)
         }
         alpha = work->alpha;
         bbActSys = work->head.effWork->bbActSys;
-        board = (sptr)BILLBOARD_ACT_GetBoard(bbActSys);
+        board = BILLBOARD_ACT_GetBoard(bbActSys);
         elem = (int)BILLBOARD_ACT_GetEntryElemId(bbActSys, (u16)work->actId);
         BILLBOARD_SetElemAlpha((struct BbBoard *)board, elem, &alpha);
         break;

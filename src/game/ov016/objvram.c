@@ -67,7 +67,7 @@ void DWCi_OVRlInit(void)
 {
 	int i;
 
-	gObjvramWork = DWCi_HEAPlAllocEx(0x340, 4);
+	gObjvramWork = DWCi_HEAPlAllocEx(sizeof(*gObjvramWork), 4);
 	for (i = 0; i < 2; i++) {
 		gObjvramWork->lcd[i].queue = DWCi_QUElFormEx(0x20, &gObjvramWork->lcd[i], 0xc);
 		gObjvramWork->lcd[i].list = DWCi_LSTlForm();

@@ -285,7 +285,7 @@ void HAND_TOKUSEI_FlashFireAbsorbFire(struct BtlEventFactor *factor, struct BtlS
 BtlEventHandler *HAND_TOKUSEI_GetFlashFireHandlers(int *handlerCount);
 void HAND_TOKUSEI_BadDreamsHurtSleepers(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 BtlEventHandler *HAND_TOKUSEI_GetBadDreamsHandlers(int *handlerCount);
-void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg);
+void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *unusedArg);
 void HAND_TOKUSEI_RunAway_ShowEscapeMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 const BtlEventHandler *HAND_TOKUSEI_GetRunAwayHandlers(int *handlerCount);
 void HAND_TOKUSEI_MoldBreaker_ShowAbilityMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
@@ -414,7 +414,7 @@ void HAND_TOKUSEI_PranksterRaiseStatusPriority(struct BtlEventFactor *factor, st
 BtlEventHandler *HAND_TOKUSEI_GetPranksterHandlers(u32 *handlerCount);
 void HAND_TOKUSEI_MagicBounceReflectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work);
 void HAND_TOKUSEI_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work);
-void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work);
+void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandlerEntry *HAND_TOKUSEI_AddMagicBounce(int *count);
 void HAND_TOKUSEI_HarvestRestoreBerry(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 const BtlEventHandlerEntry *HAND_TOKUSEI_AddHarvest(int *count);

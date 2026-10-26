@@ -193,17 +193,17 @@ extern u8 d_02208C40[];
 FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
 {
     FldTradeHolder *holder;
-    sptr otName;
+    void *otName;
     char nameBuf[0x100];
 
-    holder = GFL_HEAP_Alloc((u16)heapId, 0x14, 1, d_021DE59C, 0x5d);
+    holder = GFL_HEAP_Alloc((u16)heapId, sizeof(*holder), 1, d_021DE59C, 0x5d);
     holder->heapId = (u16)heapId;
     holder->tradeId = tradeId;
     holder->data = ARC_TOOL_LoadMemberRange((unsigned int)0xa5, (unsigned int)tradeId, (u16)heapId, (unsigned int)0, (unsigned int)0x6c);
     holder->mon = GFL_HEAP_Alloc((u16)heapId, 0xdc, 0, d_021DE59C, 0x65);
     holder->traderStatus = (void *)MYSTATUS_Create(heapId);
     MYSTATUS_Init((struct MyStatus *)holder->traderStatus);
-    otName = (sptr)FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
+    otName = FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
     STRBUF_ToChars((struct Strbuf *)otName, (u16 *)nameBuf, 0x80);
     STRBUF_Delete((struct Strbuf *)otName);
     MYSTATUS_CopyName((u16 *)holder->traderStatus, (u16 *)nameBuf);
@@ -242,7 +242,7 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
 {
     u32 personalRnd;
     uptr str;
-    uptr personal;
+    struct PersonalData *personal;
     u32 ability[3];
 
     personalRnd = POKE_TOOL_AdjustPersonalRnd(data->otId, data->species, data->formNo, data->gender, 0, 0);
@@ -258,7 +258,7 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SPEED, data->iv[3]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_ATTACK, data->iv[4]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_DEFENSE, data->iv[5]);
-    personal = (uptr)POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
+    personal = POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
     ability[0] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1A);
     ability[1] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1B);
     ability[2] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1C);
@@ -385,7 +385,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
     case 3:
         newSpecies = SHINKA_CHECK_CheckEvolution(party, sentMon, 1, 0, GAME_DATA_GetSeason(gameData), &evolveMethod, 4);
         if (newSpecies != 0) {
-            evolveParam = GFL_HEAP_Alloc(4, 0x14, 0, d_021DE59C, 0x1F0);
+            evolveParam = GFL_HEAP_Alloc(4, sizeof(*evolveParam), 0, d_021DE59C, 0x1F0);
             evolveParam->gameData = gameData;
             evolveParam->party = party;
             evolveParam->newSpecies = newSpecies;
@@ -417,7 +417,7 @@ void *FLD_TRADE_CreateEvent(void *gsys, u32 tradeId, u32 partyIndex)
 
     gameData = GAMESYSTEM_GetGameData(gsys);
     party = GAME_DATA_GetMyParty(gameData);
-    event = GAME_EVENT_Create(gsys, 0, (void *)FLD_TRADE_EventMain, 0x5c);
+    event = GAME_EVENT_Create(gsys, 0, (void *)FLD_TRADE_EventMain, sizeof(FldTradeEvent));
     work = GAME_EVENT_GetWork(event);
     work->gsys = gsys;
     work->gameData = gameData;

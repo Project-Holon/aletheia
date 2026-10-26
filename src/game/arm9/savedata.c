@@ -32,7 +32,7 @@
 #include "../types.h"
 
 typedef u32 (*BlockSizeFunc)(void);
-typedef void (*BlockInitFunc)(u32 block_addr);
+typedef void (*BlockInitFunc)(void *block);
 typedef void (*PanicHookFunc)(void);
 
 /* ---- savedata.c: block table of the save area ---- */
@@ -68,7 +68,7 @@ struct SaveDataTable {
 struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size);
 void SAVEDATA_DeleteTable(struct SaveDataTable *svdt);
-void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt);
+void SAVEDATA_InitBuffer(u8 *buffer, struct SaveDataTable *svdt);
 u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id);
 void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead);
 u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid);
@@ -86,14 +86,14 @@ extern const u8 savedata_AssertGmdataidInRange[];
 struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size)
 {
-    struct SaveDataTable *svdt = GFL_HEAP_Alloc(heap_id, 0x1c, 0, savedata_File, 0x49);
+    struct SaveDataTable *svdt = GFL_HEAP_Alloc(heap_id, sizeof(*svdt), 0, savedata_File, 0x49);
 
-    MIi_CpuClear32(0, svdt, 0x1c);
+    MIi_CpuClear32(0, svdt, sizeof(*svdt));
     svdt->table = table;
     svdt->table_max = table_max;
     svdt->size_limit = size_limit;
     svdt->header_size = header_size;
-    svdt->layout = GFL_HEAP_Alloc(heap_id, table_max * 12, 1, savedata_File, 0x4f);
+    svdt->layout = GFL_HEAP_Alloc(heap_id, table_max * sizeof(*svdt->layout), 1, savedata_File, 0x4f);
     svdt->footer_size = footer_size;
     SAVEDATA_BuildLayout(svdt, block_overhead);
     return svdt;
@@ -112,17 +112,17 @@ void SAVEDATA_DeleteTable(struct SaveDataTable *svdt)
  * SAVEDATA_InitBuffer: clear the whole save buffer, then clear every block
  * at its computed offset and run the block's init function on it.
  */
-void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt)
+void SAVEDATA_InitBuffer(u8 *buffer, struct SaveDataTable *svdt)
 {
     struct SaveBlockDef *table = svdt->table;
     u32 table_max = svdt->table_max;
     int i;
 
-    MIi_CpuClear32(0, (void *)buffer_addr, svdt->size_limit);
+    MIi_CpuClear32(0, buffer, svdt->size_limit);
     for (i = 0; i < table_max; i++) {
         u32 offset = svdt->layout[i].offset;
-        MIi_CpuClear32(0, (void *)(buffer_addr + offset), svdt->layout[i].size);
-        table[i].init_func(buffer_addr + offset);
+        MIi_CpuClear32(0, buffer + offset, svdt->layout[i].size);
+        table[i].init_func(buffer + offset);
     }
 }
 

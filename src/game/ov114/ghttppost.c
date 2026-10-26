@@ -74,7 +74,7 @@
  */
 #include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 extern char *strchr(const char *s, int c);
 
 #define GHI_DIME_PAD(total, len)                \
@@ -117,16 +117,12 @@ struct DArrayImplementation;
 #include "ghttpconnection.h"
 extern void ghiPostCleanupState(GHIConnection *connection);
 #include "../ov009/gsplatformutil.h"
-extern int fseek(u32 stream, u32 pos, u32 whence);
-extern s32 ftell(u32 stream);
-extern int rewind(void *);
-extern int fclose(u8 *stream);
+#include "../arm9/msl_stdio.h"
 static void ghiPostStateCleanup(GHIPostState *state);
 extern int ghiPostGetContentLength(GHIConnection *);
 extern void ghiFreePost(GHIPost *post);
 #include "ghttpbuffer.h"
 #include "ghttpcommon.h"
-extern s32 fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
 #include "../ov009/gsstringutil.h"
 #include "../arm9/os_printf.h"
 static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
@@ -452,9 +448,9 @@ int ghiPostStateInit(GHIPostState *state)
     } else if (type == 1) {
         if (state->state.fileDisk.file == 0)
             return 0;
-        if (fseek((uptr)state->state.fileDisk.file, 0, 2) != 0)
+        if (fseek(state->state.fileDisk.file, 0, 2) != 0)
             return 0;
-        state->state.fileDisk.len = ftell((uptr)state->state.fileDisk.file);
+        state->state.fileDisk.len = ftell(state->state.fileDisk.file);
         if (state->state.fileDisk.len == -1)
             return 0;
         rewind(state->state.fileDisk.file);
@@ -577,7 +573,7 @@ GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection 
             } else {
                 hex.c[1] = sGhttpHexDigits[c / 16];
                 hex.c[2] = sGhttpHexDigits[c % 16];
-                result = ghiAppendDataToBuffer(writeBuffer, hex.c, (int)((void *)3));
+                result = ghiAppendDataToBuffer(writeBuffer, hex.c, 3);
             }
         }
     } else {
@@ -641,7 +637,7 @@ int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection
     int result;
 
     do {
-        len = fread(buffer, 1, 4096, (uptr)state->state.fileDisk.file);
+        len = fread(buffer, 1, 4096, state->state.fileDisk.file);
         if (len <= 0) {
             connection->result = 14;
             connection->completed = 1;
@@ -706,7 +702,7 @@ int ghiPostFileMemoryStateDoPosting(GHIPostState *state, GHIConnection *connecti
         do {
             int len = state->data->data.fileMemory.len - state->pos;
             if (len >= 0x3f01)
-                len = (int)((void *)0x3f01);
+                len = 0x3f01;
             result = ghiTrySendThenBuffer(connection, state->data->data.fileMemory.buffer + state->pos, len);
             if (!result)
                 return 0;

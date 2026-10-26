@@ -146,8 +146,8 @@ extern unsigned short sSceneSetSearchPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetSearchPathXb4MultiScr[];
 extern struct SearchBss gSceneSetSearchWork;
 extern unsigned char sScenesetsearchChoose;
-extern int DWCi_SceneSetSelectWay;
-extern int DWCi_SceneSetApList;
+extern void DWCi_SceneSetSelectWay(void);
+extern void DWCi_SceneSetApList(void);
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 static void initGraphics(void);
@@ -177,7 +177,7 @@ void DWCi_SceneSetSearch(void)
     DWCi_SEARCHlInit();
     DWCi_SEARCHlBegin();
     DWCi_SNDlPlay(0xa);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -189,9 +189,9 @@ static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetSearchPathJbBgStep3Char), GX_LoadBG2Char);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetSearchPathYbBgStep3Pltt), GX_LoadBGPltt);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetSearchPathXb4MultiScr), GX_LoadBG2Scr);
+    DWCi_CMNlLoadResource((char *)(sSceneSetSearchPathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)(sSceneSetSearchPathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)(sSceneSetSearchPathXb4MultiScr), GX_LoadBG2Scr);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -209,7 +209,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -219,7 +219,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(1);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -228,7 +228,7 @@ static void procInit2(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 /*
@@ -263,7 +263,7 @@ static void isEnd(void)
         DWCi_WINlInitEx(15, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene((uptr)procError);
+        DWCi_ChangeScene(procError);
         return;
     }
     for (i = 0; i < num; i++) {
@@ -275,12 +275,12 @@ static void isEnd(void)
         DWCi_WINlInitEx(14, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene((uptr)procError);
+        DWCi_ChangeScene(procError);
         return;
     }
     gSceneSetSearchWork.Choose = 1;
     DWCi_SNDlPlay(15);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 static void input(void)
@@ -302,14 +302,14 @@ static void button(void)
         return;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -319,7 +319,7 @@ static void endScene1(void)
     DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 static void endScene2(void)
@@ -341,11 +341,11 @@ static void endScene2(void)
         DWCi_SEARCHlEnd();
         DWCi_SETTINGlSetSetting(((SETTINGINFO *)DWCi_SETTIGNlGet())->setting);
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((uptr)((void (*)())&DWCi_SceneSetSelectWay));
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 1);
         DWCi_SetParam2_(0, 0);
-        DWCi_ChangeScene((uptr)((void (*)())&DWCi_SceneSetApList));
+        DWCi_ChangeScene(DWCi_SceneSetApList);
     }
 }
 
@@ -356,7 +356,7 @@ static void procError(void)
     }
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)procError1);
+    DWCi_ChangeScene(procError1);
 }
 
 static void procConfirm(void);
@@ -365,5 +365,5 @@ static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }

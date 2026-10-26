@@ -43,6 +43,7 @@ struct VecSet {
     void *owner;
     u8 reserved04[0x38];
     struct VecSetItem items[6];
+    u32 reserved84;
 };
 
 struct GameData;
@@ -75,7 +76,7 @@ typedef struct GameCommKindFuncs {
 } GameCommKindFuncs;
 
 /* Called when the comm kind has exited. */
-typedef void (*GameCommExitFunc)(u32 arg0, u32 arg1);
+typedef void (*GameCommExitFunc)(void *arg, int result);
 
 /* What each connected player is doing, one entry per net id. */
 typedef struct GameCommPlayerStatus {
@@ -126,7 +127,7 @@ typedef struct GameComm {
     GameCommSeq seq;            /* 0x0C */
     u32 param;                  /* 0x14: the start request argument */
     void *work;                 /* 0x18: the start callback's result */
-    u32 exitArg;                /* 0x1C */
+    void *exitArg;              /* 0x1C */
     GameCommExitFunc exitFunc;  /* 0x20 */
     GameCommPlayerStatus playerStatus[3];   /* 0x24 */
     GameCommInfoQueue infoQueue;            /* 0x3C */
@@ -175,7 +176,7 @@ struct VecSet *GAME_COMM_Create(u32 heapId, void *gameData)
     struct VecSetItem *e;
     struct MyStatus *q;
 
-    p = (struct VecSet *)GFL_HEAP_Alloc(heapId, 0x88, 1, (const char *)g_020A74B0, 0xe0);
+    p = (struct VecSet *)GFL_HEAP_Alloc(heapId, sizeof(struct VecSet), 1, (const char *)g_020A74B0, 0xe0);
     p->owner = gameData;
     q = GAME_DATA_GetMyStatus(gameData);
     base = p->items;
@@ -278,8 +279,8 @@ void GAME_COMM_Update(GameComm *p)
     case 5:
     {
       GameCommExitFunc cb;
-      u32 a;
-      u32 b;
+      void *a;
+      int b;
       E z;
       z = Z0;
       cb = p->exitFunc;
@@ -288,7 +289,7 @@ void GAME_COMM_Update(GameComm *p)
       p->work = (void *)z;
       p->kind = z;
       p->exitFunc = 0;
-      p->exitArg = z;
+      p->exitArg = (void *)z;
       p->exitPending = 0;
       if (cb != 0)
         cb(a, b);
@@ -299,12 +300,11 @@ void GAME_COMM_Update(GameComm *p)
 
 }
 
-extern u8 gGameCommHandlers[];
 
 void GAME_COMM_CallHandler(GameComm *comm, u32 arg)
 {
     if (comm->seq.state != 5) {
-        GameCommNotifyFunc handler = *(GameCommNotifyFunc *)(gGameCommHandlers + comm->kind * 0x1C);
+        GameCommNotifyFunc handler = GAME_COMM_KindTable[comm->kind].update;
 
         if (handler != 0) {
             handler(comm->param, comm->work, arg);
@@ -325,7 +325,7 @@ void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param);
 
 void GAME_COMM_RequestExitNoCallback(GameComm *comm);
 
-void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg);
+void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, void *exitArg);
 
 u32 GAME_COMM_GetKind(const GameComm *comm);
 
@@ -409,7 +409,7 @@ void GAME_COMM_RequestExitNoCallback(GameComm *comm)
     GAME_COMM_RequestExit(comm, 0, 0);
 }
 
-void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg)
+void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, void *exitArg)
 {
     if (comm->seq.state == 2) {
         GAME_COMM_SetSeqState(&comm->seq, 3);

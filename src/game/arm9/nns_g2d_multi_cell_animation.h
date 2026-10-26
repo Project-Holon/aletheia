@@ -12,7 +12,7 @@ struct AnimBank;
 void NNSi_G2dInitMCNode(Node *pNode, u32 type);
 void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim);
 void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank);
-void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq, CellDataBank *pCellDataBank, u32 stateIdx, u32 a, u32 b, u32 c, const void *d, const void *e, u32 f);
 void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq);
 void NNS_G2dTickCellAnimation(CellAnim *pCellAnim, fx32 frames);
 void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx);

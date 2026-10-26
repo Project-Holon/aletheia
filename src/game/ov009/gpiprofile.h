@@ -18,13 +18,13 @@ void gpiRemoveProfileByID(void ** connection, int profileid);
 void gpiRemoveProfile(void ** connection, GPIProfile * profile);
 int gpiCheckProfileForUser(void * unused, GPIProfile * profile, void * udata);
 int gpiFindProfileByUser(void ** connection, char * nick, char * email, GPIProfile ** profile);
-void gpiProfileMapCallback(int a, int *p);
+int gpiProfileMapCallback(void *elem, void *mapDataArg);
 int gpiProfileMap(void ** connection, int (*func)(void *, GPIProfile *, void *), void * data);
 int gpiCheckForBuddy(void * unused, GPIProfile * profile, void * udata);
 GPIProfile *gpiFindBuddy(void ** connection, int blockIndex);
 void gpiRemoveBuddyStatus(GPIBuddyStatus * buddyStatus);
 void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo * buddyStatusInfo);
-int gpiCanFreeProfile(char *p);
+int gpiCanFreeProfile(GPIProfile *p);
 int gpiProcessRecvBlockedList(void **connection, char *input);
 /* END mkheaders: generated region */
 

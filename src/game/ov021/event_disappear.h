@@ -18,19 +18,19 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant);
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunWalkFall(struct GameEvent *event, int *seq, void *work);
+int EVENT_DISAPPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *work);
 void EVENT_DISAPPEAR_StartSpin(EventDisappearWork *work);
 void EVENT_DISAPPEAR_StartZoomIn(EventDisappearWork *work);
 void EVENT_DISAPPEAR_EndZoomIn(EventDisappearWork *work);
 GameEvent *EVENT_DISAPPEAR_CreateFadeOut(EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinZoomEffect(struct GameEvent *event, int *seq, void *work);
 void EVENT_DISAPPEAR_StartSpinAndEffect(EventDisappearWork *work);
 void EVENT_DISAPPEAR_StartZoomInAlt(EventDisappearWork *work);
 void EVENT_DISAPPEAR_EndZoomInAlt(EventDisappearWork *work);
 GameEvent *EVENT_DISAPPEAR_CreateFadeOutAlt(EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *work);
-int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinFade(struct GameEvent *event, int *seq, void *work);
+int EVENT_DISAPPEAR_RunRisingSpin(struct GameEvent *event, int *seq, void *work);
 /* END mkheaders: generated region */
 
 #endif

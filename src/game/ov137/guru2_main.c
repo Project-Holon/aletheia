@@ -396,7 +396,7 @@ typedef struct { int active, state, x, y, z, key; } EntryB;
 
 typedef struct {unsigned state;int active,other,timer,speed;} PlayerState;
 
-typedef struct { int v[4]; } Table;
+typedef struct { int v[4]; } Guru2SoundTable;
 
 typedef struct { u16 state, flag; int count; } ModeState;
 
@@ -527,9 +527,6 @@ struct G3dCamera;
 
 
 
-extern void NNS_G3dGlbLightColor(int,u32);
-extern void NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32);
-extern void NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
 
 
 
@@ -646,9 +643,9 @@ int GURU2_MAIN_StateWaitBranch(struct Guru2Game *p);
 
 int GURU2_MAIN_StateBuildPlayerSlots(struct Guru2Game *p);
 
-int GURU2_MAIN_StateAnimateSlots(char *p);
+int GURU2_MAIN_StateAnimateSlots(struct Guru2Game *p);
 
-int GURU2_MAIN_StateWaitAllSlotsReady(char *p);
+int GURU2_MAIN_StateWaitAllSlotsReady(struct Guru2Game *p);
 
 int GURU2_MAIN_StateDelayRole(struct Guru2Game *p);
 
@@ -720,7 +717,7 @@ int GURU2_MAIN_StateWaitWipeOut(struct Guru2Game *p);
 
 int GURU2_MAIN_StateFinished(void);
 
-void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p);
+void GURU2_MAIN_VBlank(struct TcbTask *arg, void *pArg);
 
 void GURU2_MAIN_SetupAll(struct Guru2Game *p);
 
@@ -830,9 +827,11 @@ void GURU2_MAIN_ActivateCardUnit(struct Guru2Game *p, struct Guru2Player *q);
 
 void GURU2_MAIN_UpdateCardUnitAnim(struct Guru2Game *p,struct Guru2Marker *q,int i);
 
-void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int a,int b,int c,int d,int e,int *q);
+struct Guru2DropEffect;
 
-void GURU2_MAIN_DropEffectTask(struct Node *task,char *p);
+void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,int angle,int speed,struct Guru2Player *player);
+
+void GURU2_MAIN_DropEffectTask(struct TcbTask *taskArg, void *pArg);
 
 /* Work of one drop effect task (24 bytes), allocated by GURU2_MAIN_StartDropEffect. */
 struct Guru2DropEffect {
@@ -846,47 +845,47 @@ struct Guru2DropEffect {
 
 int GURU2_MAIN_DropEffectStateInit(struct Guru2DropEffect *p);
 
-int GURU2_MAIN_DropEffectStateFall(int *p);
+int GURU2_MAIN_DropEffectStateFall(struct Guru2DropEffect *p);
 
-int GURU2_MAIN_DropEffectStateLand(int *p);
+int GURU2_MAIN_DropEffectStateLand(struct Guru2DropEffect *p);
 
-void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *q);
+void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,struct Guru2BounceEffect *effect);
 
-void GURU2_MAIN_BounceEffectTask(void *unused,struct Guru2Game *p);
+void GURU2_MAIN_BounceEffectTask(struct TcbTask *unused,void *work);
 
 void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_AddBounceEffect(struct Guru2Game *p,int value);
+void GURU2_MAIN_AddBounceEffect(struct Guru2Game *p,struct Guru2Player *value);
 
 void GURU2_MAIN_AddBounceEffectsForActivePlayers(struct Guru2Game *p);
 
 int GURU2_MAIN_IsBounceEffectActive(struct Guru2Game *p);
 
-void GURU2_MAIN_UpdateSettleEffect(int *p);
+void GURU2_MAIN_UpdateSettleEffect(struct Guru2SettleEffect *p);
 
-void GURU2_MAIN_SettleEffectTask(void *unused,struct Guru2Game *p);
+void GURU2_MAIN_SettleEffectTask(struct TcbTask *unused,void *work);
 
 void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, int key);
+void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, struct Guru2Player *key);
 
-void GURU2_MAIN_UpdateWobbleEffect(int *p);
+void GURU2_MAIN_UpdateWobbleEffect(struct Guru2WobbleEffect *p);
 
-void GURU2_MAIN_WobbleEffectTask(void *unused,struct Guru2Game *p);
+void GURU2_MAIN_WobbleEffectTask(struct TcbTask *unused,void *work);
 
 void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p);
 
-void GURU2_MAIN_AddWobbleEffect(struct Guru2Game *p, int key);
+void GURU2_MAIN_AddWobbleEffect(struct Guru2Game *p, struct Guru2Player *key);
 
-void GURU2_MAIN_UpdateEntranceEffect(u8 *p,PlayerState *s);
+void GURU2_MAIN_UpdateEntranceEffect(struct Guru2Game *p,PlayerState *s);
 
-void GURU2_MAIN_EntranceEffectTask(void *unused,u8 *p);
+void GURU2_MAIN_EntranceEffectTask(struct TcbTask *unused, void *pArg);
 
 void GURU2_MAIN_CreateEntranceEffectTask(struct Guru2Game *p);
 
@@ -898,13 +897,13 @@ int GURU2_MAIN_GetEntranceEffectState(struct Guru2Game *p);
 
 int GURU2_MAIN_GetEntranceEffectActive(struct Guru2Game *p);
 
-void GURU2_MAIN_CenterActorTask(void *task, int *p);
+void GURU2_MAIN_CenterActorTask(struct TcbTask *task, void *pArg);
 
-void GURU2_MAIN_CreateCenterActorTask(char *p);
+void GURU2_MAIN_CreateCenterActorTask(struct Guru2Game *p);
 
 void GURU2_MAIN_UpdateScreenFlash(void *task, ModeState *p);
 
-void GURU2_MAIN_ScreenFlashTask(void *unused, char *p);
+void GURU2_MAIN_ScreenFlashTask(struct TcbTask *unused, void *pArg);
 
 void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p);
 
@@ -914,26 +913,20 @@ u16 GURU2_MAIN_GetScreenFlashFlag(struct Guru2Game *p);
 
 void GURU2_MAIN_StartScreenFlash(struct Guru2Game *p);
 
-void GURU2_MAIN_UpdatePulseEffect(void *unused, int *p);
+void GURU2_MAIN_UpdatePulseEffect(void *unused, struct Guru2PulseEffect *p);
 
-void GURU2_MAIN_PulseEffectTask(void *unused, char *p);
+void GURU2_MAIN_PulseEffectTask(struct TcbTask *unused, void *pArg);
 
 void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p);
 
 void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p);
 
-/* One pulse effect slot, array of 5 at Guru2Game.fx5 (16 bytes each). */
-struct Guru2PulseSlot {
-    int active;                       /* 0x00 */
-    unsigned char pad_04[8];
-    struct Guru2Player *owner;        /* 0x0C player piece the pulse follows */
-};
 
-void GURU2_MAIN_AddPulseEffect(char *p, char *q);
+void GURU2_MAIN_AddPulseEffect(struct Guru2Game *p, struct Guru2Player *q);
 
-void GURU2_MAIN_AddPulseEffectsForMask(const char *p);
+void GURU2_MAIN_AddPulseEffectsForMask(struct Guru2Game *p);
 
-void GURU2_MAIN_BlendFadeTask(void *task, int *p);
+void GURU2_MAIN_BlendFadeTask(struct TcbTask *task, void *pArg);
 
 void GURU2_MAIN_StartBlendFade(struct Guru2Game *p, int flag);
 
@@ -973,7 +966,7 @@ void GURU2_MAIN_SetPlayerSelectedSlot(struct Guru2Game *p,int a,int b);
 
 void GURU2_MAIN_StoreAngles(struct Guru2Game *p,u16 *q);
 
-int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index);
+int GURU2_MAIN_IsAngleInRangeList(struct Guru2Game *p, int angle, int index);
 
 int GURU2_MAIN_PartyHasEligiblePokemon(void *p);
 
@@ -1023,7 +1016,7 @@ extern const struct Setup gGuru2BackgroundUnitSetup;
 
 extern const char gGuru2MarkerUnitSetupA[],gGuru2MarkerUnitSetupB[],gGuru2CardUnitSetupTable[];
 
-extern const Table gGuru2CountSeTable;
+extern const Guru2SoundTable gGuru2CountSeTable;
 
 extern const int gGuru2PulseScaleTable[];
 
@@ -1039,16 +1032,16 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *session)
     int i,n,player;
     GFL_NET_SetAutoExit(1);
     GFL_HEAP_CreateChildHeap(1,114,0x80000);
-    p=PROCSYS_AllocProcWork(obj,0xdac,114);
+    p=PROCSYS_AllocProcWork(obj,sizeof(*p),114);
     i=0;
-    MI_CpuFill8(p,0,0xdac);
+    MI_CpuFill8(p,0,sizeof(*p));
     session->gameWork=p;
     p->session=session;
     p->comm=session->comm;
     p->party=GAME_DATA_GetMyParty(p->session->param->gameData);
     p->arcHandle=ARC_TOOL_CreateHandle(183,114);
     GURU2_MAIN_SetupAll(p);
-    p->taskMain=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(int,  void *))GURU2_MAIN_VBlank),(void *)p,1);
+    p->taskMain=GFL_USE_AddMainTask(GURU2_MAIN_VBlank,(void *)p,1);
     p->g3dUtil=G3D_UTIL_Create(20,11,114);
     GURU2_MAIN_AddBackgroundUnit(p);GURU2_MAIN_AddPlayerUnits(p);GURU2_MAIN_AddCenterUnit(p);
     n=0;
@@ -1186,7 +1179,7 @@ int GURU2_MAIN_StateStartSync1(struct Guru2Game *p) {void *v;v=GFL_NET_HANDLE_Ge
 
 int GURU2_MAIN_StateWaitSync1(struct Guru2Game *p) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),202,40))p->state=12;return 0;}
 
-int GURU2_MAIN_StateSendSelectedSlot(struct Guru2Game *p) {if(GURU2_COMM_Send(p->comm,0x280B,(char *)p->session+4,4))p->state=13;return 0;}
+int GURU2_MAIN_StateSendSelectedSlot(struct Guru2Game *p) {if(GURU2_COMM_Send(p->comm,0x280B,&p->session->selectedSlot,4))p->state=13;return 0;}
 
 int GURU2_MAIN_StateBroadcastPlayerData(struct Guru2Game *p)
 {
@@ -1241,39 +1234,39 @@ int GURU2_MAIN_StateBuildPlayerSlots(struct Guru2Game *p)
  * extent: unlabelled follower at 021DEED8, filed separately.
  * lever: raw unsigned byte-table address and a named row byte offset restore r6.
  */
-int GURU2_MAIN_StateAnimateSlots(char *p)
+int GURU2_MAIN_StateAnimateSlots(struct Guru2Game *p)
 {
     int *sendBuffer;
     int value, aid, row;
-    if (--((struct Guru2Game *)p)->timer>0) return 0;
-    ((struct Guru2Game *)p)->timer=15;
-    sendBuffer=(int *)GURU2_MAIN_GetSendBuffer((struct Guru2Game *)p);
+    if (--p->timer>0) return 0;
+    p->timer=15;
+    sendBuffer=(int *)GURU2_MAIN_GetSendBuffer(p);
     row=sendBuffer[5]*10;
-    value=*(const u16 *)((uptr)gGuru2PointerAngleTable+row+sendBuffer[4]*2);
-    aid=*(u16 *)(p+0x7e + sendBuffer[4]*4);
-    *(u16 *)(p+0x60+sendBuffer[4]*2)=value;
-    GURU2_MAIN_StartDropEffect((struct Guru2Game *)p,aid,sendBuffer[4],sendBuffer[0],value,sendBuffer[1],(int *)(p+0x2e0+sendBuffer[4]*0xb4));
+    value=*(const u16 *)((const u8 *)gGuru2PointerAngleTable+row+sendBuffer[4]*2);
+    aid=p->recvEntry[sendBuffer[4]].aid;
+    *(u16 *)((char *)p->angle+sendBuffer[4]*2)=value;
+    GURU2_MAIN_StartDropEffect(p,aid,sendBuffer[4],sendBuffer[0],value,sendBuffer[1],&p->players[sendBuffer[4]]);
     sendBuffer[4]++;
     sendBuffer[4]%=sendBuffer[5];
     if (++sendBuffer[0]==sendBuffer[5]) {
-        ((struct Guru2Game *)p)->timer=0;
-        ((struct Guru2Game *)p)->state=18;
+        p->timer=0;
+        p->state=18;
     }
     return 0;
 }
 
-int GURU2_MAIN_StateWaitAllSlotsReady(char *p)
+int GURU2_MAIN_StateWaitAllSlotsReady(struct Guru2Game *p)
 {
-    char *q=p+0x1a0;
+    struct Guru2PlayerBlock *q=(struct Guru2PlayerBlock *)p->unknown_1A0;
     int i,n,count;
-    count=((struct Guru2Game *)p)->playerCount;
+    count=p->playerCount;
     i=0;
     n=0;
     do {
-        if (*(int *)(q+i*0xb4+0x148)==1) n++;
+        if (q->players[i].ready==1) n++;
         i++;
     } while(i<count);
-    if (n==count) {((struct Guru2Game *)p)->state=19;return 1;}
+    if (n==count) {p->state=19;return 1;}
     return 0;
 }
 
@@ -1301,7 +1294,7 @@ int GURU2_MAIN_StateStartSync2(struct Guru2Game *p) { GFL_NET_HANDLE_SetTimingSy
 
 int GURU2_MAIN_StateWaitSync2(struct Guru2Game *p) { if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),203,40)) p->state=24; return 0; }
 
-int GURU2_MAIN_StateShowRound(struct Guru2Game *p) { GURU2_MAIN_StartBlendFade(p,1); GURU2_MAIN_CreateCenterActorTask((char *)p); p->state=25; return 0; }
+int GURU2_MAIN_StateShowRound(struct Guru2Game *p) { GURU2_MAIN_StartBlendFade(p,1); GURU2_MAIN_CreateCenterActorTask(p); p->state=25; return 0; }
 
 int GURU2_MAIN_StateRoundDelay(struct Guru2Game *p) { int i; p->timer+=1; if(p->timer<95) return 0; for(i=0;i<p->playerCount;i++) GURU2_MAIN_ClearNameWindow(p,i); p->timer=0; p->state=26; return 0; }
 
@@ -1343,7 +1336,7 @@ int GURU2_MAIN_StatePlayRound(struct Guru2Game *p)
     if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
         msg.a=p->spinner.angle;
         msg.flag=p->unknown_20;
-        msg.b=*(int *)&p->players[0].unknown_5C[0];
+        msg.b=p->players[0].bounceOffset;
         for(i=0;i<p->playerCount;i++) msg.values[i]=p->players[i].angle/4096;
         GURU2_COMM_Send(p->comm,0x2808,&msg,20);
     }
@@ -1430,7 +1423,7 @@ int GURU2_MAIN_SendAngles(struct Guru2Game *p)
         int angle;
         angle = p->angle[i];
         buf.entries[q->slot] = angle;
-        if (GURU2_MAIN_IsAngleInRangeList((char *)p, angle << 12, p->playerCount) == 1)
+        if (GURU2_MAIN_IsAngleInRangeList(p, angle << 12, p->playerCount) == 1)
             p->resultMask |= 1 << q->aid;
         }
     }
@@ -1500,7 +1493,7 @@ int GURU2_MAIN_StateComputeReward(struct Guru2Game *p)
 {
     u32 low, high, value;
     int count;
-    GURU2_MAIN_AddPulseEffectsForMask((const char *)p);
+    GURU2_MAIN_AddPulseEffectsForMask(p);
     if ((p->resultMask & (1 << p->current->aid)) == 0) {
         p->state = 42;
         return 0;
@@ -1550,7 +1543,7 @@ int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 205, 40)) {
         GURU2_MAIN_CopyMemberPokemon(p, p->current->aid);
-        p->errScreen = GFL_NET_SAVE_Create(114, (uptr)p->session->param->gameData);
+        p->errScreen = GFL_NET_SAVE_Create(114, p->session->param->gameData);
         p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
         p->state = 44;
     }
@@ -1622,7 +1615,8 @@ int GURU2_MAIN_StateWaitWipeOut(struct Guru2Game *p){if(WIPE_SYS_EndCheck()){p->
 
 int GURU2_MAIN_StateFinished(void){return 2;}
 
-void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p){PALANM_TransferPalettes((PaletteFade *)(*(struct S02021D50 * *)&p->palAnm));CLACT_VBlankSystem();BG_SYS_Update();}
+void GURU2_MAIN_VBlank(struct TcbTask *arg, void *pArg){
+    struct Guru2Game *p = pArg;PALANM_TransferPalettes((PaletteFade *)(*(struct S02021D50 * *)&p->palAnm));CLACT_VBlankSystem();BG_SYS_Update();}
 
 void GURU2_MAIN_SetupAll(struct Guru2Game *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem(p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem(p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows(p);GURU2_MAIN_LoadActorResources(p);GURU2_MAIN_ShowPlanes(p);}
 
@@ -1672,7 +1666,7 @@ void GURU2_MAIN_SetupVram(struct Guru2Game *p){BG_SYS_SetVramBanks(&gGuru2GameVr
 
 static inline void G2_SetBG0Priority(int priority)
 {
-    *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | priority);
+    *(volatile u16 *)REG_BG0CNT_ADDR = (u16)((*(volatile u16 *)REG_BG0CNT_ADDR & ~3) | priority);
 }
 
 /*
@@ -1723,7 +1717,7 @@ static inline void G3X_AlphaTest(int enable, int ref)
 {
     if (enable) {
         DISP3D = (u16)((DISP3D & ~0x3000) | 4);
-        *(volatile u16 *)0x04000340 = (u16)ref;
+        *(volatile u16 *)REG_ALPHA_TEST_REF_ADDR = (u16)ref;
     } else DISP3D &= (u16)~0x3004;
 }
 
@@ -1751,19 +1745,22 @@ void GURU2_MAIN_Setup3dState(void)
     G3X_EdgeMarking(1);
     G3X_SetEdgeColorTable((void *)gGuru2ToonTable);
     G3X_SetClearColor(0x7fff, 0, 0x7fff, 63, 0);
-    *(volatile u32 *)0x04000580 = 0xbfff0000;
+    *(volatile u32 *)REG_VIEWPORT_ADDR = 0xbfff0000;
 }
 
+/*
+ * lever: the base pointer 0x14 bytes before the light field stays a register across the calls.
+ */
 void GURU2_MAIN_Setup3dSystem(struct Guru2Game *p)
 {
-    u8 *section;
+    void **section;
     Guru2MainVec3 position;
-    section = (u8 *)p + 3392;
+    section = &p->light - 5;
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, 114, GURU2_MAIN_Setup3dState);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
     position = gGuru2CameraTarget;
-    *(void **)(section + 0x14) = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, (VecFx32 *)&gGuru2CameraEye, (VecFx32 *)&position, (VecFx32 *)&gGuru2CameraUp, 114);
-    G3D_CAMERA_Reset(*(void **)(section + 0x14));
+    section[5] = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, (VecFx32 *)&gGuru2CameraEye, (VecFx32 *)&position, (VecFx32 *)&gGuru2CameraUp, 114);
+    G3D_CAMERA_Reset(section[5]);
 }
 
 /*
@@ -1772,7 +1769,7 @@ void GURU2_MAIN_Setup3dSystem(struct Guru2Game *p)
 void GURU2_MAIN_SetupBg(struct Guru2Game *p)
 {
     BG_SYS_Create(114);
-    *(volatile u16 *)0x04000304 |= 0x8000;
+    *(volatile u16 *)REG_POWCNT1_ADDR |= 0x8000;
     {struct DispConfig t=gGuru2GameDispConfig; BG_SYS_SetGraphicsMode((struct DispConfig *)&t);}
     {struct BgTemplate t=gGuru2GameBg1Template; BG_SYS_InitBgLayer(1, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(1); BG_SYS_InitRun(1,32,0,114);}
     {struct BgTemplate t=gGuru2GameBg2Template; BG_SYS_InitBgLayer(2, (const struct BgTemplate *)&t, 0); BG_SYS_ClearSlot(2);}
@@ -1797,17 +1794,17 @@ void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p)
     buf=GURU2_MAIN_LoadArcMember(p,16,0);
     NNS_G2dGetUnpackedCharacterData(buf,&p->res60);
     data=(u8 *)p->res60;
-    BG_SYS_LoadTileData(3,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
+    BG_SYS_LoadTileData(3,((NNSG2dCharacterData *)data)->pRawData,((NNSG2dCharacterData *)data)->szByte,0);
     GFL_HEAP_Free(buf);
     buf=GURU2_MAIN_LoadArcMember(p,22,0);
     NNS_G2dGetUnpackedCharacterData(buf,&p->res60);
     data=(u8 *)p->res60;
-    BG_SYS_LoadTileData(6,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
+    BG_SYS_LoadTileData(6,((NNSG2dCharacterData *)data)->pRawData,((NNSG2dCharacterData *)data)->szByte,0);
     GFL_HEAP_Free(buf);
     buf=GURU2_MAIN_LoadArcMember(p,21,0);
     NNS_G2dGetUnpackedCharacterData(buf,&p->res60);
     data=(u8 *)p->res60;
-    BG_SYS_LoadTileData(7,*(void **)(data+0x14),*(u32 *)(data+0x10),0);
+    BG_SYS_LoadTileData(7,((NNSG2dCharacterData *)data)->pRawData,((NNSG2dCharacterData *)data)->szByte,0);
     GFL_HEAP_Free(buf);
     buf=GURU2_MAIN_LoadArcMember(p,19,0);
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
@@ -1994,21 +1991,19 @@ void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Guru2ReceiptDescr
 void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count)
 {
     int i;
-    u8 *s=(u8 *)&p->windows;
+    struct Guru2Windows *s=&p->windows;
     const Guru2MainDesc *table;
-    u32 obj;
-    u32 *slot;
+    void *obj;
     const Guru2MainDesc *entry;
     i=0;
     table=gGuru2SlotDescTable[count];
-    ((struct Guru2Windows *)s)->count=count;
+    s->count=count;
     for(;i<count;i++) {
         entry=&table[i];
-        slot=(u32 *)(s+i*4);
-        slot[5]=(uptr)BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
-        obj=slot[5];
-        *(u32 *)(s+48+i*8)=obj;
-        *(u8 *)(s+52+i*8)=0;
+        s->window[i]=BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
+        obj=s->window[i];
+        s->slot[i].window=obj;
+        s->slot[i].printed=0;
     }
 }
 
@@ -2124,19 +2119,19 @@ void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p)
 void GURU2_MAIN_AddPlayerUnits(struct Guru2Game *p)
 {
     int i;
-    u8 *q=(u8 *)p+0x1a0;
-    *(int *)(q+0x938)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupA);
-    *(int *)(q+0x93C)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupB);
-    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)(gGuru2CardUnitSetupTable+i*16));
+    struct Guru2PlayerBlock *q=(struct Guru2PlayerBlock *)p->unknown_1A0;
+    q->shadowUnit=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupA);
+    q->markerUnit=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupB);
+    for (i=0;i<5;i++) q->playerUnit[i]=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)(gGuru2CardUnitSetupTable+i*16));
 }
 
 void GURU2_MAIN_RemovePlayerUnits(struct Guru2Game *p)
 {
     int i;
-    u8 *q = (u8 *)p+0x1a0;
-    for (i=0;i<5;i++) G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x940+i*4)));
-    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x938)));
-    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(*(int *)(q+0x93C)));
+    struct Guru2PlayerBlock *q = (struct Guru2PlayerBlock *)p->unknown_1A0;
+    for (i=0;i<5;i++) G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(q->playerUnit[i]));
+    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(q->shadowUnit));
+    G3D_UTIL_RemoveUnit(p->g3dUtil,(u16)(q->markerUnit));
 }
 
 void GURU2_MAIN_ActivatePlayerRecord(struct Guru2Game *p,struct Guru2Player *player) { player->visible=1; GURU2_MAIN_ActivatePlayerUnit(p,player); GURU2_MAIN_ActivateCardUnit(p,player); }
@@ -2145,51 +2140,53 @@ void GURU2_MAIN_UpdatePlayerRecords(struct Guru2Game *p)
 {
     Count count;
     int i=0;
-    PlayerBlock *base;
-    count=((struct Guru2Game *)p)->playerCount;
-    base=(PlayerBlock *)((char *)p+0x1a0);
+    struct Guru2PlayerBlock *base;
+    count=p->playerCount;
+    base=(struct Guru2PlayerBlock *)p->unknown_1A0;
     for (;i<count;i++) {
-        if (base->a[i].active)
-            GURU2_MAIN_UpdateRecordPosition((struct Guru2Player *)&base->a[i],(struct Guru2Vec3 *)((char *)p+0x110),(*(u16 *)((char *)p+0x60+i*2))<<12,p->turnSpeed);
-        if (base->b[i].active)
-            GURU2_MAIN_InitPlayerUnit(p,(struct Guru2Shadow *)&base->b[i],p->turnSpeed);
-        if (base->c[i].active)
-            GURU2_MAIN_UpdateCardUnitAnim(p,(struct Guru2Marker *)&base->c[i],i);
+        if (base->players[i].active)
+            GURU2_MAIN_UpdateRecordPosition(&base->players[i],&p->spinner.offset,(p->angle[i])<<12,p->turnSpeed);
+        if (base->shadows[i].active)
+            GURU2_MAIN_InitPlayerUnit(p,&base->shadows[i],p->turnSpeed);
+        if (base->markers[i].active)
+            GURU2_MAIN_UpdateCardUnitAnim(p,&base->markers[i],i);
     }
 }
 
 void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
 {
     int i=0;
-    int count=((struct Guru2Game *)p)->playerCount;
-    u8 *base=(u8 *)p+0x1a0;
-    u8 *first=base+0x140,*second=base+0x4c4,*third=base+0x730;
+    int count=p->playerCount;
+    struct Guru2PlayerBlock *base=(struct Guru2PlayerBlock *)p->unknown_1A0;
+    struct Guru2Player *first=base->players;
+    struct Guru2Shadow *second=base->shadows;
+    struct Guru2Marker *third=base->markers;
     for(;i<count;i=i+1) {
-        if(((struct Guru2Player *)first)->visible) {
+        if(first->visible) {
             Transform t;
-            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->shadowUnit));
-            VecSet(&t.pos,((struct Guru2Player *)first)->pos.x,((struct Guru2Player *)first)->pos.y,((struct Guru2Player *)first)->pos.z);
-            VecSet(&t.scale,((struct Guru2Player *)first)->scale.x,((struct Guru2Player *)first)->scale.y,((struct Guru2Player *)first)->scale.z);
-            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Player *)first)->rotX,((struct Guru2Player *)first)->rotY,((struct Guru2Player *)first)->rotZ,(MtxFx33 *)&t.rot);
+            void *object=G3D_UTIL_GetObject(p->g3dUtil,(u16)(base->shadowUnit));
+            VecSet(&t.pos,first->pos.x,first->pos.y,first->pos.z);
+            VecSet(&t.scale,first->scale.x,first->scale.y,first->scale.z);
+            BUTTON_MAN_MakeRotMtxXYZ(first->rotX,first->rotY,first->rotZ,(MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
-        if(((struct Guru2Shadow *)second)->active) {
+        if(second->active) {
             Transform t;
-            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->markerUnit));
-            VecSet(&t.pos,((struct Guru2Shadow *)second)->pos.x,((struct Guru2Shadow *)second)->pos.y,((struct Guru2Shadow *)second)->pos.z);
-            VecSet(&t.scale,((struct Guru2Shadow *)second)->scale.x,((struct Guru2Shadow *)second)->scale.y,((struct Guru2Shadow *)second)->scale.z);
-            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Shadow *)second)->rotX,((struct Guru2Shadow *)second)->rotY,((struct Guru2Shadow *)second)->rotZ,(MtxFx33 *)&t.rot);
+            void *object=G3D_UTIL_GetObject(p->g3dUtil,(u16)(base->markerUnit));
+            VecSet(&t.pos,second->pos.x,second->pos.y,second->pos.z);
+            VecSet(&t.scale,second->scale.x,second->scale.y,second->scale.z);
+            BUTTON_MAN_MakeRotMtxXYZ(second->rotX,second->rotY,second->rotZ,(MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
-        if(((struct Guru2Marker *)third)->active) {
+        if(third->active) {
             Transform t;
-            void *object=G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->playerUnit[i]));
-            VecSet(&t.pos,((struct Guru2Marker *)third)->pos.x,((struct Guru2Marker *)third)->pos.y,((struct Guru2Marker *)third)->pos.z);
+            void *object=G3D_UTIL_GetObject(p->g3dUtil,(u16)(base->playerUnit[i]));
+            VecSet(&t.pos,third->pos.x,third->pos.y,third->pos.z);
             VecSet(&t.scale,4096,4096,4096);
             MTX_Identity33_((MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
-        first+=0xb4;second+=0x7c;third+=0x68;
+        first++;second++;third++;
     }
 }
 
@@ -2197,10 +2194,10 @@ void GURU2_MAIN_RotatePlayerRecords(struct Guru2Game *p,int amount)
 {
     int count = p->playerCount;
     int i = 0;
-    char *base = (char *)p+0x1a0;
+    struct Guru2PlayerBlock *base = (struct Guru2PlayerBlock *)p->unknown_1A0;
     for (;i<count;i++) {
-        if (*(int *)(base+0x140+i*0xb4))
-            GURU2_MAIN_AddAngleWrapped((int *)(base+0x15c+i*0xb4),amount);
+        if (base->players[i].active)
+            GURU2_MAIN_AddAngleWrapped(&base->players[i].angle,amount);
     }
 }
 
@@ -2245,13 +2242,13 @@ void *GURU2_MAIN_FindNearestPlayerRecord(struct Guru2Game *p)
     int distance[5],indices[5];
     int angle,i,j,key,value,delta,dist,row;
     long count=p->playerCount;
-    const u8 *base=(const u8 *)p+0x1a0;
+    const struct Guru2PlayerBlock *base=(const struct Guru2PlayerBlock *)p->unknown_1A0;
     i=0;
     row=count*10;
-    angle=*(const u16 *)((uptr)gGuru2PointerAngleTable+row+p->seat*2)<<12;
+    angle=*(const u16 *)((const u8 *)gGuru2PointerAngleTable+row+p->seat*2)<<12;
     do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
     for(i=0;i<count;i++) {
-        value=*(int *)(base+i*0xb4+0x15c);
+        value=base->players[i].angle;
         delta=angle-value;
         if(delta<0)delta=angle+0x168000-value;
         distance[i]=delta/4096;
@@ -2262,7 +2259,7 @@ void *GURU2_MAIN_FindNearestPlayerRecord(struct Guru2Game *p)
         while(j>=0 && distance[indices[j]]>dist) {indices[j+1]=indices[j];j--;}
         indices[j+1]=key;
     }
-    return (void *)(base+0x140+indices[0]*0xb4);
+    return (void *)&base->players[indices[0]];
 }
 
 void GURU2_MAIN_ActivatePlayerUnit(struct Guru2Game *p,struct Guru2Player *player) { struct Guru2Shadow *shadow; shadow=&p->shadows[player->slot]; shadow->active=1; shadow->owner=player; GURU2_MAIN_InitPlayerUnit(p,shadow,0); }
@@ -2303,41 +2300,43 @@ void GURU2_MAIN_UpdateCardUnitAnim(struct Guru2Game *p,struct Guru2Marker *marke
     G3D_SYSTEM_LoopObjectAnimeFrame(object,0,0x1000);
 }
 
-void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,int angle,int speed,int *player)
+void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,int angle,int speed,struct Guru2Player *player)
 {
-    int *dropEffect;
-    player[3]=aid;
-    player[4]=slot;
-    player[5]=order;
-    player[6]=slot;
-    player[7]=angle<<12;
-    player[8]=speed<<12;
-    player[0]=1;
-    player[2]=0;
-    dropEffect=GFL_HEAP_Alloc(0x8072,24,0,gGuru2MainAllocFileName,0x130e);
-    MI_CpuFill8(dropEffect,0,24);
-    dropEffect[5]=(sptr)p;
-    dropEffect[4]=(sptr)player;
-    TCB_AddTask((struct TcbSystem *)p->taskMgr,(TcbFunc)((void (*)(void *, void *))GURU2_MAIN_DropEffectTask),(void *)dropEffect,0);
+    struct Guru2DropEffect *dropEffect;
+    player->aid=aid;
+    player->slot=slot;
+    player->order=order;
+    player->slotCopy=slot;
+    player->angle=angle<<12;
+    player->speed=speed<<12;
+    player->active=1;
+    player->ready=0;
+    dropEffect=GFL_HEAP_Alloc(0x8072,sizeof(struct Guru2DropEffect),0,gGuru2MainAllocFileName,0x130e);
+    MI_CpuFill8(dropEffect,0,sizeof(struct Guru2DropEffect));
+    dropEffect->game=p;
+    dropEffect->player=player;
+    TCB_AddTask((struct TcbSystem *)p->taskMgr,GURU2_MAIN_DropEffectTask,(void *)dropEffect,0);
 }
 
-extern int (*const gGuru2DropEffectStateTable[])(char *);
+extern int (*const gGuru2DropEffectStateTable[])(struct Guru2DropEffect *);
 
-void GURU2_MAIN_DropEffectTask(struct Node *task,char *p) { int result; do { result=gGuru2DropEffectStateTable[*(int *)p](p); } while(result==1); if(result==2) { ((struct Guru2DropEffect *)p)->player->ready=1; GFL_HEAP_Free(p); TCB_DeleteTask((struct TcbTask *)task); } }
+void GURU2_MAIN_DropEffectTask(struct TcbTask *taskArg, void *pArg) {
+    struct Node * task = (struct Node *)taskArg;
+    struct Guru2DropEffect * p = (struct Guru2DropEffect *)pArg; int result; do { result=gGuru2DropEffectStateTable[p->state](p); } while(result==1); if(result==2) { p->player->ready=1; GFL_HEAP_Free(p); TCB_DeleteTask((struct TcbTask *)task); } }
 
 int GURU2_MAIN_DropEffectStateInit(struct Guru2DropEffect *p) { struct Guru2Player *player; player=p->player; player->scale.x=4096; player->scale.y=4096; player->scale.z=4096; player->basePos.y=0xc0000; GURU2_MAIN_ActivatePlayerRecord(p->game,player); p->fallSpeed=0x8000; p->state=1; return 0; }
 
-int GURU2_MAIN_DropEffectStateFall(int *p)
+int GURU2_MAIN_DropEffectStateFall(struct Guru2DropEffect *p)
 {
-    int *q = (int *)p[4];
-    q[21] -= p[3];
-    if (p[2] == 0 && q[21] <= 0x68000) {
-        p[2] = 1;
+    struct Guru2Player *q = p->player;
+    q->basePos.y -= p->fallSpeed;
+    if (p->landSePlayed == 0 && q->basePos.y <= 0x68000) {
+        p->landSePlayed = 1;
         GFL_USE_PlaySeDefaultVolume(0x725);
     }
-    if (q[21] <= 0x20000) {
-        q[21] = 0x20000;
-        p[0] = 2;
+    if (q->basePos.y <= 0x20000) {
+        q->basePos.y = 0x20000;
+        p->state = 2;
     }
     return 0;
 }
@@ -2345,68 +2344,68 @@ int GURU2_MAIN_DropEffectStateFall(int *p)
 /*
  * extent: two-byte alignment padding at 0x021E0D4E.
  */
-int GURU2_MAIN_DropEffectStateLand(int *p)
+int GURU2_MAIN_DropEffectStateLand(struct Guru2DropEffect *p)
 {
-    int *q = (int *)p[4];
-    char *r;
-    if (p[3] > 0x1000) {
-        p[3] -= 0x1000;
-        if (p[3] < 0x1000) p[3] = 0x1000;
+    struct Guru2Player *q = p->player;
+    struct Guru2Game *r;
+    if (p->fallSpeed > 0x1000) {
+        p->fallSpeed -= 0x1000;
+        if (p->fallSpeed < 0x1000) p->fallSpeed = 0x1000;
     }
-    q[21] -= p[3];
-    if (q[21] <= 0) {
-        q[21] = 0;
-        r = (char *)p[5];
-        GURU2_MAIN_PrintPlayerName((struct Guru2Game *)r, *(void **)(r + 0xa4 + q[3]*4), q[5], q[3]);
+    q->basePos.y -= p->fallSpeed;
+    if (q->basePos.y <= 0) {
+        q->basePos.y = 0;
+        r = p->game;
+        GURU2_MAIN_PrintPlayerName(r, r->nameBuf[q->aid], q->order, q->aid);
         return 2;
     }
     return 0;
 }
 
-void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *effect)
+void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,struct Guru2BounceEffect *effect)
 {
-    int *player=(int *)effect[7];
-    switch(effect[1]) {
+    struct Guru2Player *player=effect->player;
+    switch(effect->state) {
     case 0:
-        GURU2_MAIN_AddSettleEffect(p,(sptr)player);
-        effect[4]=0x4000;
-        effect[5]=-1092;
-        effect[1]++;
+        GURU2_MAIN_AddSettleEffect(p,player);
+        effect->lift=0x4000;
+        effect->liftDelta=-1092;
+        effect->state++;
     case 1:
-        player[23]+=effect[4];
-        effect[4]+=effect[5];
-        effect[2]++;
-        if(effect[2]>=15) {
-            effect[2]=0;
-            effect[4]=0;
-            if(effect[3]==0) { effect[3]=1; return; }
-            player[23]=0;
-            GURU2_MAIN_AddWobbleEffect(p,(sptr)player);
-            MI_CpuFill8(effect,0,32);
+        player->bounceOffset+=effect->lift;
+        effect->lift+=effect->liftDelta;
+        effect->timer++;
+        if(effect->timer>=15) {
+            effect->timer=0;
+            effect->lift=0;
+            if(effect->rebounded==0) { effect->rebounded=1; return; }
+            player->bounceOffset=0;
+            GURU2_MAIN_AddWobbleEffect(p,player);
+            MI_CpuFill8(effect,0,sizeof(struct Guru2BounceEffect));
         }
         break;
     }
 }
 
-void GURU2_MAIN_BounceEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx0; for(i=0;i<5;i++,effect+=8) if(*effect!=0) GURU2_MAIN_UpdateBounceEffect(p,effect); }
+void GURU2_MAIN_BounceEffectTask(struct TcbTask *unused,void *work) { struct Guru2Game *p=work; int i; struct Guru2BounceEffect *effect; effect=p->fx0; for(i=0;i<5;i++,effect++) if(effect->active!=0) GURU2_MAIN_UpdateBounceEffect(p,effect); }
 
-void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx0,0,160); p->taskFx0=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_BounceEffectTask)), (void *)p, 256); }
+void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx0,0,sizeof(p->fx0)); p->taskFx0=TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_BounceEffectTask, (void *)p, 256); }
 
 void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p)
 {
     TCB_DeleteTask(p->taskFx0);
 }
 
-void GURU2_MAIN_AddBounceEffect(struct Guru2Game *p,int value) { int i; int *q; q=(int *)p->fx0; for(i=0;i<5;i++,q+=8) { if(*q==0) { *q=1; q[7]=value; return; } } }
+void GURU2_MAIN_AddBounceEffect(struct Guru2Game *p,struct Guru2Player *value) { int i; struct Guru2BounceEffect *q; q=p->fx0; for(i=0;i<5;i++,q++) { if(q->active==0) { q->active=1; q->player=value; return; } } }
 
 void GURU2_MAIN_AddBounceEffectsForActivePlayers(struct Guru2Game *p)
 {
-    Guru2MainRecordBlock *base=(Guru2MainRecordBlock *)((char *)p+0x1a0);
-    int count=((struct Guru2Game *)p)->playerCount;
+    Guru2MainRecordBlock *base=(Guru2MainRecordBlock *)p->unknown_1A0;
+    int count=p->playerCount;
     int i;
     i=0;
     do {
-        if (base->records[i].active) GURU2_MAIN_AddBounceEffect(p,(sptr)((char *)&base->records[i]));
+        if (base->records[i].active) GURU2_MAIN_AddBounceEffect(p,(struct Guru2Player *)&base->records[i]);
         i++;
     } while (i<count);
 }
@@ -2417,57 +2416,57 @@ void GURU2_MAIN_AddBounceEffectsForActivePlayers(struct Guru2Game *p)
 int GURU2_MAIN_IsBounceEffectActive(struct Guru2Game *p)
 {
     int i;
-    char *q=(char *)p->fx0;
-    for (i=0;i<5;i++,q+=0x20) if (*(int *)q) return 1;
+    struct Guru2BounceEffect *q=p->fx0;
+    for (i=0;i<5;i++,q++) if (q->active) return 1;
     return 0;
 }
 
-void GURU2_MAIN_UpdateSettleEffect(int *p)
+void GURU2_MAIN_UpdateSettleEffect(struct Guru2SettleEffect *p)
 {
-    int *q = (int *)p[4];
-    switch (p[1]) {
+    struct Guru2Player *q = p->player;
+    switch (p->state) {
     case 0:
-        p[3] = 0x18000;
-        q[12] = 0;
-        p[1]++;
+        p->speed = 0x18000;
+        q->rotYFixed = 0;
+        p->state++;
     case 1:
-        GURU2_MAIN_AddAngleWrapped(q + 12, p[3]);
-        if (q[12] < 0x4000) {
-            p[3] = (unsigned)p[3] >> 1;
-            if (p[3] < 0x4000) {
-                q[12] = 0;
-                MI_CpuFill8(p, 0, 20);
+        GURU2_MAIN_AddAngleWrapped(&q->rotYFixed, p->speed);
+        if (q->rotYFixed < 0x4000) {
+            p->speed = (unsigned)p->speed >> 1;
+            if (p->speed < 0x4000) {
+                q->rotYFixed = 0;
+                MI_CpuFill8(p, 0, sizeof(struct Guru2SettleEffect));
             }
         }
         break;
     }
 }
 
-void GURU2_MAIN_SettleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx1; for(i=0;i<5;i++,effect+=5) if(*effect!=0) GURU2_MAIN_UpdateSettleEffect(effect); }
+void GURU2_MAIN_SettleEffectTask(struct TcbTask *unused,void *work) { struct Guru2Game *p=work; int i; struct Guru2SettleEffect *effect; effect=p->fx1; for(i=0;i<5;i++,effect++) if(effect->active!=0) GURU2_MAIN_UpdateSettleEffect(effect); }
 
-void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx1,0,100); p->taskFx1=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_SettleEffectTask)), (void *)p, 257); }
+void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx1,0,sizeof(p->fx1)); p->taskFx1=TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_SettleEffectTask, (void *)p, 257); }
 
 void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p)
 {
     TCB_DeleteTask(p->taskFx1);
 }
 
-void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, int key)
+void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, struct Guru2Player *key)
 {
     int i;
-    int *entry;
-    int *base = (int *)p->fx1;
+    struct Guru2SettleEffect *entry;
+    struct Guru2SettleEffect *base = p->fx1;
     entry = base;
-    for (i = 0; i < 5; i++, entry += 5) {
-        if (entry[0] == 1 && entry[4] == key) {
-            entry[1] = 0;
+    for (i = 0; i < 5; i++, entry++) {
+        if (entry->active == 1 && entry->player == key) {
+            entry->state = 0;
             return;
         }
     }
-    for (i = 0; i < 5; i++, base += 5) {
-        if (base[0] == 0) {
-            base[0] = 1;
-            base[4] = key;
+    for (i = 0; i < 5; i++, base++) {
+        if (base->active == 0) {
+            base->active = 1;
+            base->player = key;
             return;
         }
     }
@@ -2481,95 +2480,95 @@ void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, int key)
  *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
  */
-void GURU2_MAIN_UpdateWobbleEffect(int *p)
+void GURU2_MAIN_UpdateWobbleEffect(struct Guru2WobbleEffect *p)
 {
-    int *q = (int *)p[5];
+    struct Guru2Player *q = p->player;
     int old;
     int amount;
-    switch (p[1]) {
+    switch (p->state) {
     case 0:
-        q[13] = 0;
-        p[4] = 0;
-        p[2] = 0x1e000;
-        p[3] = 0x14000;
-        p[1]++;
+        q->rotZFixed = 0;
+        p->phase = 0;
+        p->amplitude = 0x1e000;
+        p->step = 0x14000;
+        p->state++;
     case 1:
-        amount = GF_STANDARD_SinFromDegrees((u16)(p[4] / 4096)) * (p[2] / 4096);
-        q[13] = 0;
-        GURU2_MAIN_AddAngleWrapped(q + 13, amount);
-        old = p[4];
-        GURU2_MAIN_AddAngleWrapped(p + 4, p[3]);
-        if (p[4] < old) {
-            p[2] = (unsigned)p[2] >> 1;
-            if (p[2] == 0) {
-                q[13] = 0;
-                MI_CpuFill8(p, 0, 24);
+        amount = GF_STANDARD_SinFromDegrees((u16)(p->phase / 4096)) * (p->amplitude / 4096);
+        q->rotZFixed = 0;
+        GURU2_MAIN_AddAngleWrapped(&q->rotZFixed, amount);
+        old = p->phase;
+        GURU2_MAIN_AddAngleWrapped(&p->phase, p->step);
+        if (p->phase < old) {
+            p->amplitude = (unsigned)p->amplitude >> 1;
+            if (p->amplitude == 0) {
+                q->rotZFixed = 0;
+                MI_CpuFill8(p, 0, sizeof(struct Guru2WobbleEffect));
             }
         }
         break;
     }
 }
 
-void GURU2_MAIN_WobbleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx2; for(i=0;i<5;i++,effect+=6) if(*effect!=0) GURU2_MAIN_UpdateWobbleEffect(effect); }
+void GURU2_MAIN_WobbleEffectTask(struct TcbTask *unused,void *work) { struct Guru2Game *p=work; int i; struct Guru2WobbleEffect *effect; effect=p->fx2; for(i=0;i<5;i++,effect++) if(effect->active!=0) GURU2_MAIN_UpdateWobbleEffect(effect); }
 
-void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx2,0,120); p->taskFx2=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_WobbleEffectTask)), (void *)p, 258); }
+void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx2,0,sizeof(p->fx2)); p->taskFx2=TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_WobbleEffectTask, (void *)p, 258); }
 
 void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p)
 {
     TCB_DeleteTask(p->taskFx2);
 }
 
-void GURU2_MAIN_AddWobbleEffect(struct Guru2Game *p, int key)
+void GURU2_MAIN_AddWobbleEffect(struct Guru2Game *p, struct Guru2Player *key)
 {
     int i;
-    int *entry;
-    int *base = (int *)p->fx2;
+    struct Guru2WobbleEffect *entry;
+    struct Guru2WobbleEffect *base = p->fx2;
     entry = base;
-    for (i = 0; i < 5; i++, entry += 6) {
-        if (entry[0] == 1 && entry[5] == key) {
-            entry[1] = 0;
+    for (i = 0; i < 5; i++, entry++) {
+        if (entry->active == 1 && entry->player == key) {
+            entry->state = 0;
             return;
         }
     }
-    for (i = 0; i < 5; i++, base += 6) {
-        if (base[0] == 0) {
-            base[0] = 1;
-            base[5] = key;
+    for (i = 0; i < 5; i++, base++) {
+        if (base->active == 0) {
+            base->active = 1;
+            base->player = key;
             return;
         }
     }
 }
 
-void GURU2_MAIN_UpdateEntranceEffect(u8 *p,PlayerState *effect)
+void GURU2_MAIN_UpdateEntranceEffect(struct Guru2Game *p,PlayerState *effect)
 {
-    u8 *spinner=p+0xe0;
+    struct Guru2Spinner *spinner=&p->spinner;
     switch(effect->state) {
     case 1:
         effect->speed=0x4000;effect->timer=0;effect->state++;
     case 2:
-        ((struct Guru2Spinner *)spinner)->offset.y-=4096;
-        if(((struct Guru2Spinner *)spinner)->offset.y<=-32768)effect->state++;
+        spinner->offset.y-=4096;
+        if(spinner->offset.y<=-32768)effect->state++;
         break;
     case 3:
-        ((struct Guru2Spinner *)spinner)->offset.y+=8192;
-        if(((struct Guru2Spinner *)spinner)->offset.y>=0) {
-            ((struct Guru2Spinner *)spinner)->offset.y=0;
-            GURU2_MAIN_AddBounceEffectsForActivePlayers((struct Guru2Game *)p);
+        spinner->offset.y+=8192;
+        if(spinner->offset.y>=0) {
+            spinner->offset.y=0;
+            GURU2_MAIN_AddBounceEffectsForActivePlayers(p);
             effect->active=1;effect->state++;
             GFL_USE_PlaySeDefaultVolume(0x55e);
         }
         break;
     case 4:
-        ((struct Guru2Spinner *)spinner)->shakeOffset.y=effect->speed;
+        spinner->shakeOffset.y=effect->speed;
         effect->speed=-effect->speed;
         effect->timer++;
         if(!(effect->timer&3)) {
-            if(effect->speed<=4096) {((struct Guru2Spinner *)spinner)->shakeOffset.y=0;effect->state++;}
+            if(effect->speed<=4096) {spinner->shakeOffset.y=0;effect->state++;}
             else effect->speed>>=1;
         }
         break;
     case 5:
-        if(!GURU2_MAIN_IsBounceEffectActive((struct Guru2Game *)p)) {
+        if(!GURU2_MAIN_IsBounceEffectActive(p)) {
             effect->other=0;effect->active=0;effect->state=0;
             GFL_USE_PlaySeDefaultVolume(0x76d);
         }
@@ -2578,15 +2577,16 @@ void GURU2_MAIN_UpdateEntranceEffect(u8 *p,PlayerState *effect)
     }
 }
 
-void GURU2_MAIN_EntranceEffectTask(void *unused,u8 *p)
+void GURU2_MAIN_EntranceEffectTask(struct TcbTask *unused, void *pArg)
 {
-    GURU2_MAIN_UpdateEntranceEffect(p,(PlayerState *)(p+0xc74));
+    struct Guru2Game * p = (struct Guru2Game *)pArg;
+    GURU2_MAIN_UpdateEntranceEffect(p,(PlayerState *)p->fx3);
 }
 
 void GURU2_MAIN_CreateEntranceEffectTask(struct Guru2Game *p)
 {
     MI_CpuFill8((void *)p->fx3, 0, 20);
-    p->taskFx3 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_EntranceEffectTask), (void *)p, 255);
+    p->taskFx3 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_EntranceEffectTask, (void *)p, 255);
 }
 
 void GURU2_MAIN_DeleteEntranceEffectTask(struct Guru2Game *p)
@@ -2611,44 +2611,45 @@ int GURU2_MAIN_GetEntranceEffectActive(struct Guru2Game *p)
     return p->fx3[2];
 }
 
-void GURU2_MAIN_CenterActorTask(void *task, int *p)
+void GURU2_MAIN_CenterActorTask(struct TcbTask *task, void *pArg)
 {
-    switch (p[0]) {
+    struct Guru2CenterActor * p = (struct Guru2CenterActor *)pArg;
+    switch (p->state) {
     case 0:
-        if (p[3] < 4) {
-            Table sounds = gGuru2CountSeTable;
-            p[1]--;
-            if (p[1] <= 0) {
-                p[1] = 30;
-                GFL_USE_PlaySeDefaultVolume(sounds.v[p[3]]);
-                p[3]++;
+        if (p->count < 4) {
+            Guru2SoundTable sounds = gGuru2CountSeTable;
+            p->wait--;
+            if (p->wait <= 0) {
+                p->wait = 30;
+                GFL_USE_PlaySeDefaultVolume(sounds.v[p->count]);
+                p->count++;
             }
         }
-        CLACT_AddActorAnimFrame((struct ClactActor *)p[5], 0x1800);
-        if (CLACT_IsActorAnimActive((struct ClactActor *)p[5]) == 0) p[0]++;
+        CLACT_AddActorAnimFrame(p->actor, 0x1800);
+        if (CLACT_IsActorAnimActive(p->actor) == 0) p->state++;
         break;
     case 1:
-        CLACT_DeleteActor((struct ClactActor *)p[5]);
+        CLACT_DeleteActor(p->actor);
         GFL_HEAP_Free(p);
         TCB_DeleteTask(task);
         break;
     }
 }
 
-void GURU2_MAIN_CreateCenterActorTask(char *p)
+void GURU2_MAIN_CreateCenterActorTask(struct Guru2Game *p)
 {
     struct { u16 x, y, z; u8 a, b; } pos;
-    int *q = GFL_HEAP_Alloc(0x8072, 24, 0, gGuru2MainAllocFileName, 5638);
-    MI_CpuFill8(q, 0, 24);
+    struct Guru2CenterActor *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2CenterActor), 0, gGuru2MainAllocFileName, 5638);
+    MI_CpuFill8(q, 0, sizeof(struct Guru2CenterActor));
     pos.x = 128;
     pos.y = 100;
     pos.z = 0;
     pos.b = 0;
     pos.a = 0;
-    q[5] = (sptr)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)((struct Guru2Game *)p)->clactUnit), ((struct Guru2Game *)p)->clactChar, ((struct Guru2Game *)p)->clactPal, ((struct Guru2Game *)p)->clactCell, (const struct ActorInitParam *)&pos, 0, 114);
-    CLACT_AddActorAnimFrame((struct ClactActor *)q[5], 4096);
-    q[4] = (sptr)p;
-    TCB_AddTask((struct TcbSystem *)(((struct Guru2Game *)p)->taskMgr), (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_CenterActorTask), (void *)q, 0);
+    q->actor = CLACT_CreateActor((struct Unit *)((void *)p->clactUnit), p->clactChar, p->clactPal, p->clactCell, (const struct ActorInitParam *)&pos, 0, 114);
+    CLACT_AddActorAnimFrame(q->actor, 4096);
+    q->game = p;
+    TCB_AddTask((struct TcbSystem *)(p->taskMgr), GURU2_MAIN_CenterActorTask, (void *)q, 0);
 }
 
 void GURU2_MAIN_UpdateScreenFlash(void *task, ModeState *p)
@@ -2690,9 +2691,10 @@ void GURU2_MAIN_UpdateScreenFlash(void *task, ModeState *p)
 /*
  * follower: 021E13A8 tail-forwards r1 and r1+0xC88 to this callback.
  */
-void GURU2_MAIN_ScreenFlashTask(void *unused, char *p)
+void GURU2_MAIN_ScreenFlashTask(struct TcbTask *unused, void *pArg)
 {
-    GURU2_MAIN_UpdateScreenFlash(p, (ModeState *)(p + 0xc88));
+    struct Guru2Game * p = (struct Guru2Game *)pArg;
+    GURU2_MAIN_UpdateScreenFlash(p, (ModeState *)&p->fx4State);
 }
 
 void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p)
@@ -2700,7 +2702,7 @@ void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p)
     unsigned n = 8;
     MI_CpuFill8((void *)&p->fx4State, 0, n);
     n += 251;
-    p->taskFx4 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_ScreenFlashTask), (void *)p, n);
+    p->taskFx4 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_ScreenFlashTask, (void *)p, n);
 }
 
 void GURU2_MAIN_DeleteScreenFlashTask(struct Guru2Game *p)
@@ -2720,33 +2722,34 @@ void GURU2_MAIN_StartScreenFlash(struct Guru2Game *p)
     q[0] = 1;
 }
 
-void GURU2_MAIN_UpdatePulseEffect(void *unused, int *p)
+void GURU2_MAIN_UpdatePulseEffect(void *unused, struct Guru2PulseEffect *p)
 {
-    switch (p[0]) {
+    switch (p->state) {
     case 0: break;
     case 1:
-        *(int *)(p[3] + 0x54) = gGuru2PulseScaleTable[p[1]] << 12;
-        p[1]++;
-        if (p[1] >= 16) {
-            p[1] = 0;
-            p[0]++;
+        p->owner->basePos.y = gGuru2PulseScaleTable[p->frame] << 12;
+        p->frame++;
+        if (p->frame >= 16) {
+            p->frame = 0;
+            p->state++;
         }
         break;
     case 2:
-        p[2]++;
-        if (p[2] >= 15) {
-            p[2] = 0;
-            p[0] = 1;
+        p->wait++;
+        if (p->wait >= 15) {
+            p->wait = 0;
+            p->state = 1;
         }
         break;
     }
 }
 
-void GURU2_MAIN_PulseEffectTask(void *unused, char *p)
+void GURU2_MAIN_PulseEffectTask(struct TcbTask *unused, void *pArg)
 {
+    struct Guru2Game * p = (struct Guru2Game *)pArg;
     int i;
-    int *q = (int *)(p + 0xc90);
-    for (i = 0; i < 5; i++, q += 4) GURU2_MAIN_UpdatePulseEffect(p, q);
+    struct Guru2PulseEffect *q = p->fx5;
+    for (i = 0; i < 5; i++, q++) GURU2_MAIN_UpdatePulseEffect(p, q);
 }
 
 void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p)
@@ -2754,7 +2757,7 @@ void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p)
     unsigned n = 80;
     MI_CpuFill8((void *)p->fx5, 0, n);
     n += 180;
-    p->taskFx5 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_PulseEffectTask), (void *)p, n);
+    p->taskFx5 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_PulseEffectTask, (void *)p, n);
 }
 
 void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p)
@@ -2762,47 +2765,48 @@ void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p)
     TCB_DeleteTask(p->taskFx5);
 }
 
-void GURU2_MAIN_AddPulseEffect(char *p, char *player)
+void GURU2_MAIN_AddPulseEffect(struct Guru2Game *p, struct Guru2Player *player)
 {
-    char *slot = p + 0xC90 + ((struct Guru2Player *)player)->aid * 0x10;
+    struct Guru2PulseEffect *slot = &p->fx5[player->aid];
 
-    ((struct Guru2PulseSlot *)slot)->active = 1;
-    *(char * *)&((struct Guru2PulseSlot *)slot)->owner = player;
+    slot->state = 1;
+    slot->owner = player;
 }
 
-void GURU2_MAIN_AddPulseEffectsForMask(const char *p)
+void GURU2_MAIN_AddPulseEffectsForMask(struct Guru2Game *p)
 {
-  int mask = *((int *) (p + 28));
-  const Block *base;
+  int mask = p->resultMask;
+  const struct Guru2PlayerBlock *base;
   int i;
   int count;
   i = 0;
-  base = (const Block *) (p + 0x1a0);
-  count = *((int *) (p + 48));
+  base = (const struct Guru2PlayerBlock *) p->unknown_1A0;
+  count = p->playerCount;
   for (; i < count; i++)
   {
-    if ((base->records[i].active != 0) && (mask & (1 << base->records[i].key)))
-      GURU2_MAIN_AddPulseEffect((char *) p, (char *) (&base->records[i]));
+    if ((base->players[i].active != 0) && (mask & (1 << base->players[i].aid)))
+      GURU2_MAIN_AddPulseEffect(p, (struct Guru2Player *) (&base->players[i]));
   }
 }
 
-void GURU2_MAIN_BlendFadeTask(void *task, int *p)
+void GURU2_MAIN_BlendFadeTask(struct TcbTask *task, void *pArg)
 {
+    struct Guru2BlendFade * p = (struct Guru2BlendFade *)pArg;
     int done = 0;
-    if (p[1] == 1) {
-        p[2]--;
-        if (p[2] <= 0) {
-            p[2] = 0;
+    if (p->dir == 1) {
+        p->level--;
+        if (p->level <= 0) {
+            p->level = 0;
             done = 1;
         }
     } else {
-        p[2]++;
-        if (p[2] >= 8) {
-            p[2] = 8;
+        p->level++;
+        if (p->level >= 8) {
+            p->level = 8;
             done = 1;
         }
     }
-    GURU2_MAIN_BlendPalette((void *)p[0], p[2]);
+    GURU2_MAIN_BlendPalette(p->game, p->level);
     if (done == 1) {
         GFL_HEAP_Free(p);
         TCB_DeleteTask(task);
@@ -2812,11 +2816,11 @@ void GURU2_MAIN_BlendFadeTask(void *task, int *p)
 void GURU2_MAIN_StartBlendFade(struct Guru2Game *p, int flag)
 {
     IntPair values = gGuru2FadeValues;
-    int *q = GFL_HEAP_Alloc(0x8072, 12, 0, gGuru2MainAllocFileName, 5992);
-    q[0] = (sptr)p;
-    q[1] = flag;
-    q[2] = ((int *)&values)[flag];
-    TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_BlendFadeTask), (void *)q, 0);
+    struct Guru2BlendFade *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2BlendFade), 0, gGuru2MainAllocFileName, 5992);
+    q->game = p;
+    q->dir = flag;
+    q->level = ((int *)&values)[flag];
+    TCB_AddTask((struct TcbSystem *)p->taskMgr, GURU2_MAIN_BlendFadeTask, (void *)q, 0);
 }
 
 void GURU2_MAIN_AddAngleWrapped(int *angle, int amount)
@@ -2946,7 +2950,7 @@ void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int member)
     ownPokemon = POKEPARTY_GetMember(party, p->session->selectedSlot);
     otherPokemon = POKEPARTY_GetMember((struct Party *)other, slot);
     unionApp = GURU2_MAIN_GetUnionApp(p);
-    SAVE_EVENT_Write((void *)otherPokemon, (int)6, (const struct MyStatus *)((uptr)UNION_APP_GetMemberEntry((UnionAppWork *)unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid())), (int)30002, (int)114);
+    SAVE_EVENT_Write((void *)otherPokemon, (int)6, (const struct MyStatus *)(UNION_APP_GetMemberEntry((UnionAppWork *)unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid())), (int)30002, (int)114);
     POKE_TOOL_CopyPartyPokemon(otherPokemon, ownPokemon);
 }
 
@@ -2971,7 +2975,7 @@ void GURU2_MAIN_StoreAngles(struct Guru2Game *p,u16 *src)
     p->received=1;
 }
 
-int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index)
+int GURU2_MAIN_IsAngleInRangeList(struct Guru2Game *p, int angle, int index)
 {
     int shifted;
     unsigned probeLow;
@@ -2979,8 +2983,8 @@ int GURU2_MAIN_IsAngleInRangeList(char *p, int angle, int index)
     unsigned probeHigh;
     struct RangeU16 *range;
     struct RangeList *list;
-    GURU2_MAIN_AddAngleWrapped(&angle, -((struct Guru2Game *)p)->spinner.angle);
-    GURU2_MAIN_AddAngleWrapped(&angle, -((struct Guru2Game *)p)->spinner.speedDelta);
+    GURU2_MAIN_AddAngleWrapped(&angle, -p->spinner.angle);
+    GURU2_MAIN_AddAngleWrapped(&angle, -p->spinner.speedDelta);
     shifted = angle;
     GURU2_MAIN_AddAngleWrapped(&shifted, -0x4000);
     probeLow = shifted / 0x1000;
@@ -3053,7 +3057,7 @@ void GURU2_MAIN_BroadcastResult(struct Guru2Game *p, int amount)
         return;
     GURU2_MAIN_RotateAll(p, amount);
     buf.a = p->spinner.angle;
-    buf.b = *(int *)&p->players[0].unknown_5C[0];
+    buf.b = p->players[0].bounceOffset;
     for (i = 0; i < p->playerCount; i++) {
         int v = p->players[i].angle;
         buf.h[i] = (short)(v / 4096);

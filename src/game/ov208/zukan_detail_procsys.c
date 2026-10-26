@@ -44,7 +44,7 @@ extern const char d_021C8D80[];
 
 struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap)
 {
-    struct Ov208Fsm *p = GFL_HEAP_Alloc(heap, 20, 0, d_021C8D80, 0x4f);
+    struct Ov208Fsm *p = GFL_HEAP_Alloc(heap, sizeof(struct Ov208Fsm), 0, d_021C8D80, 0x4f);
     p->callbacks = (Ov208FsmCallback *)owner;
     p->state = 0;
     p->counter = 0;
@@ -88,7 +88,7 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int ctx, int buttonId)
 
     fn = (void (*)(char *, char *, int, int, int, int))((struct Ov208Fsm *)p)->callbacks[3];
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx, buttonId);
+        fn(p, (char *)&((struct Ov208Fsm *)p)->counter, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx, buttonId);
 }
 
 void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int ctx)
@@ -96,7 +96,7 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int ctx)
     Vfn fn = (Vfn)((struct Ov208Fsm *)p)->callbacks[4];
 
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx);
+        fn(p, (char *)&((struct Ov208Fsm *)p)->counter, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx);
 }
 
 void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap)

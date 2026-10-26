@@ -5,8 +5,9 @@
 /* Public functions of nwm_open.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_Open(void *callback);
+u32 NWM_Open(NWMCallbackFunc callback);
 /* END mkheaders: generated region */
 
 #endif

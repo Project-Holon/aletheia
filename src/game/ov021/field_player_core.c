@@ -192,7 +192,7 @@ FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMa
     int objCodeOverride;
     Mmdl *mmdl;
 
-    core = GFL_HEAP_Alloc(heapId, 0x34, 1, gFieldPlayerCoreFileName, 0x97);
+    core = GFL_HEAP_Alloc(heapId, sizeof(*core), 1, gFieldPlayerCoreFileName, 0x97);
     core->playerWork = playerWork;
     core->fieldMap = fieldMap;
     core->gameSystem = FIELDMAP_GetGameSystem(fieldMap);
@@ -430,14 +430,14 @@ int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core)
 int FIELD_PLAYER_CORE_CheckAnimePaused(FieldPlayerCore *core)
 {
     u16 lastCommand;
-    uptr bbActSys;
+    struct BbActSys *bbActSys;
     u32 drawAnimeId;
 
-    bbActSys = (uptr)FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
+    bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
     if (FLDMMDL_ACMD_CheckAnimePaused(core->mmdl) == 1 && FLDMMDL_BLACT_GetEntryHookFlag(core->mmdl) == 1)
         return 1;
     drawAnimeId = FLDMMDL_CallDrawGetProc(core->mmdl, 0);
-    if (drawAnimeId != 0xFFFF && (struct BbActSys *)BILLBOARD_ACT_GetEntryLastCommand((struct BbActSys *)bbActSys, (u16)drawAnimeId, &lastCommand) != 0 && lastCommand == (0xFFFF >> 2))
+    if (drawAnimeId != 0xFFFF && BILLBOARD_ACT_GetEntryLastCommand(bbActSys, (u16)drawAnimeId, &lastCommand) != 0 && lastCommand == (0xFFFF >> 2))
         return 1;
     return 0;
 }

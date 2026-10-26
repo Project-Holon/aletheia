@@ -8,10 +8,14 @@
 
 struct ChihouZukanAwardWork;
 
+#include "../types.h"
+
+struct TcbTask;
+
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p);
 int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
-void CHIHOU_ZUKAN_AWARD_Task(void);
+void CHIHOU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1);
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_Noop(char *p);
 void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p);

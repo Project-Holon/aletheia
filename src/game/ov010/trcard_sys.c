@@ -158,14 +158,7 @@ typedef struct SaveClock {
     s64 clearSec;        /* 0x2C */
 } SaveClock;
 
-typedef struct ViewWork {
-    void *bmpWin;                   /* 0x00 */
-    void *cardData;                 /* 0x04 */
-    void *profile;                  /* 0x08 */
-    u32 phase;                      /* 0x0C */
-    u32 reserved10;                 /* 0x10 */
-    u32 reserved14;                 /* 0x14 */
-} ViewWork;
+#include "trcard_view_types.h"
 
 typedef struct EditWork {
     u8 *profile;                    /* 0x00 */
@@ -268,8 +261,8 @@ int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param)
     TrainerCardWork *work;
 
     GFL_HEAP_CreateChildHeap(1, 0x26, 0x18000);
-    work = PROCSYS_AllocProcWork(proc, 0x20, 0x26);
-    MI_CpuFill8(work, 0, 0x20);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 0x26);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->heapId = 0x26;
     work->param = GFL_HEAP_Alloc((u16)work->heapId, 0x18, 1, d_02172B64, 0x9f);
     *work->param = *param;
@@ -284,8 +277,8 @@ int TRCARD_SYS_InitMinimal(void *proc, int state, void *param)
     MinimalWork *work;
 
     GFL_HEAP_CreateChildHeap(1, 38, 0x18000);
-    work = PROCSYS_AllocProcWork(proc, 32, 38);
-    MI_CpuFill8(work, 0, 32);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 38);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->heapId = 38;
     work->param = param;
     return 1;
@@ -426,12 +419,12 @@ int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
 {
     TrainerCardProfile *profile;
     u16 *beacon;
-    sptr beaconSave;
+    void *beaconSave;
 
     if (TRCARD_SYS_RunChildProc(&work->childProc) == 0)
         return 4;
     if (work->editedBeacon != 0) {
-        beaconSave = (sptr)GREETING_SAVEDATA_GetFromSave((uptr)GAME_DATA_GetSaveControl(work->param->saveData));
+        beaconSave = GREETING_SAVEDATA_GetFromSave(GAME_DATA_GetSaveControl(work->param->saveData));
         profile = work->param->profile;
         beacon = work->editedBeacon;
         profile->beaconRecord[0] = beacon[0];
@@ -536,7 +529,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     badges = GAME_DATA_GetMiscSave(save);
     saveClock = (SaveClock *)CONSOLE_STAMP_GetDailyClock(playerSave);
     records = RECORD_GetFromSave(playerSave);
-    beaconData = GREETING_SAVEDATA_GetFromSaveThunk((uptr)playerSave);
+    beaconData = GREETING_SAVEDATA_GetFromSaveThunk(playerSave);
     zukan = ZUKAN_SAVE_GetFromGameData(save);
 
     if (MYSTATUS_IsNameEmpty(myStatus) == 0) {
@@ -572,7 +565,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     } else {
         out->outfit = (u32)MYSTATUS_GetTrainerView(myStatus);
         out->isLinkMode = 1;
-        out->playTimeSource = (uptr)GAME_DATA_GetPlayTime((struct GameData *)save);
+        out->playTimeSource = GAME_DATA_GetPlayTime((struct GameData *)save);
     }
     out->signatureColor = (u32)TRCARD_SIGN_GetColor(signature);
     out->signatureStyle = (u32)TRCARD_SIGN_GetStyle(signature);
@@ -640,8 +633,8 @@ ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile)
 {
     ViewWork *view;
 
-    view = GFL_HEAP_Alloc(heapId, 24, 1, d_02172B64, 0x321);
-    MI_CpuFill8(view, 0, 24);
+    view = GFL_HEAP_Alloc(heapId, sizeof(*view), 1, d_02172B64, 0x321);
+    MI_CpuFill8(view, 0, sizeof(*view));
     view->bmpWin = 0;
     view->cardData = cardData;
     view->phase = 0;
@@ -653,7 +646,7 @@ EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId)
 {
     EditWork *edit;
 
-    edit = GFL_HEAP_Alloc(heapId, 24, 1, d_02172B64, 0x33a);
+    edit = GFL_HEAP_Alloc(heapId, sizeof(*edit), 1, d_02172B64, 0x33a);
     edit->profile = profile;
     edit->cardData = cardData;
     edit->phase = 0;

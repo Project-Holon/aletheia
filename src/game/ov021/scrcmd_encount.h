@@ -21,7 +21,7 @@ int SCRCMD_PROC_FLD_StartCameraMoveToSetting(struct ScriptVm *vm, struct ScrcmdW
 int SCRCMD_PROC_FLD_WaitCameraIdle(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_PROC_FLD_StartCameraShake(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_PROC_FLD_PollCameraSaveReady(void *event);
-int SCRCMD_PROC_FLD_PollCameraIdle(void *event);
+int SCRCMD_PROC_FLD_PollCameraIdle(struct GameEvent *event, int *seq, void *work);
 int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_PROC_FLD_StartFkDemoSubProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);

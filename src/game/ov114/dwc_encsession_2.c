@@ -52,7 +52,7 @@
  *   DWCi_EncSessionValidateResponse 0x021C99D0 arm ov114
  *   DWCi_EncSessionProgressCallback 0x021C9B60 arm ov114
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "dwc_encsession_types.h"
 #include "dwc_ghttp.h"
 #include "dwc_ghttp_types.h"
@@ -93,7 +93,7 @@ void DWCi_EncSessionInitialize(int server, char *initData);
 int DWCi_EncSessionProcess(void);
 void DWCi_EncSessionCancel(void);
 void DWCi_EncSessionShutdown(void);
-u32 DWCi_EncSessionGetResponse(u32 *outLen);
+void *DWCi_EncSessionGetResponse(u32 *outLen);
 int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, DWCEncResponseCallback callback, int reuseHash);
 int DWCi_EncSessionGetAsync(char *url, long pid, void *data, u32 size, DWCEncResponseCallback callback);
 
@@ -347,10 +347,10 @@ void DWCi_EncSessionShutdown(void)
 /*
  * Returns the decoded response body and stores its length in *outLen.
  */
-u32 DWCi_EncSessionGetResponse(u32 *outLen)
+void *DWCi_EncSessionGetResponse(u32 *outLen)
 {
     *outLen = gDwcEncSession.decodedBufferLen;
-    return (unsigned int)gDwcEncSession.decodedBuffer;
+    return gDwcEncSession.decodedBuffer;
 }
 
 /*

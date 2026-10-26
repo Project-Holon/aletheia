@@ -255,7 +255,7 @@ NamipokeRes *FLDEFF_NAMIPOKE_Create(FieldEffectSys *fieldEffect, int heapId)
 {
     NamipokeRes *res;
 
-    res = GFL_HEAP_Alloc(heapId, 0xc, 1, sFldeffNamipokeFileName, 0xac);
+    res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffNamipokeFileName, 0xac);
     res->fieldEffect = fieldEffect;
     FLDEFF_NAMIPOKE_LoadResources(res);
     return res;
@@ -686,7 +686,7 @@ NamipokeSplashRes *FLDEFF_NAMIPOKE_SPLASH_Create(FieldEffectSys *fieldEffect, in
 {
     NamipokeSplashRes *res;
 
-    res = GFL_HEAP_Alloc(heapId, 0x10, 1, sFldeffNamipokeFileName, 0x3cf);
+    res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffNamipokeFileName, 0x3cf);
     res->fieldEffect = fieldEffect;
     FLDEFF_NAMIPOKE_SPLASH_LoadResources(res);
     return res;

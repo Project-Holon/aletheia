@@ -517,7 +517,7 @@ void ISS_3DS_SYS_RampVolumeDown(Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 void ISS_3DS_SYS_ApplySourceVolume(Iss3dsSys *sys, u32 sourceIndex)
 {
     u8 *slot = (u8 *)sys + sourceIndex * 4;
-    int volume = ISS_3DS_SYS_ScaleVolume(sys, (u8)*(int *)(slot + 0x1E4), slot);
+    int volume = ISS_3DS_SYS_ScaleVolume(sys, (u8)sys->volumeLevel[sourceIndex], slot);
 
     GFL_USE_SetBgmTrackVolume(sys->sources[sourceIndex].trackMask, volume);
 }

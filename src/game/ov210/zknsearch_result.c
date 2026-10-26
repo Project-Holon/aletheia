@@ -48,23 +48,23 @@ struct FrameListParams;
 struct Strbuf;
 #include "../arm9/strbuf.h"
 #include "zknsearch_main.h"
-void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
-void ZKNSEARCH_RESULT_DeleteFrameList(u8 *p);
-void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_InitFrameList(ZknSearchWork *ctx);
+void ZKNSEARCH_RESULT_DeleteFrameList(ZknSearchWork *work);
+void ZKNSEARCH_RESULT_SetRow1(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop1(void);
 void ZKNSEARCH_RESULT_Noop2(void);
-void ZKNSEARCH_RESULT_SetRow2(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_SetRow2(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop3(void);
-void ZKNSEARCH_RESULT_MoveRow1(int p, int v);
-void ZKNSEARCH_RESULT_SetRowMulti(char *p,int index,void *data,int value,int flag);
+void ZKNSEARCH_RESULT_MoveRow1(ZknSearchWork *work, int delta);
+void ZKNSEARCH_RESULT_SetRowMulti(ZknSearchWork *work,int index,void *data,int value,int flag);
 void ZKNSEARCH_RESULT_Noop4(void);
-void ZKNSEARCH_RESULT_MoveRow2(int p, int v);
-void ZKNSEARCH_RESULT_SetRow3(int p, unsigned a, int b, int c, int d);
+void ZKNSEARCH_RESULT_MoveRow2(ZknSearchWork *work, int delta);
+void ZKNSEARCH_RESULT_SetRow3(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop5(void);
-void ZKNSEARCH_RESULT_MoveRow3(int p, int v);
-void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *p, unsigned a, unsigned *b, int c, int d);
+void ZKNSEARCH_RESULT_MoveRow3(ZknSearchWork *work, int delta);
+void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag);
 void ZKNSEARCH_RESULT_Noop6(void);
-void ZKNSEARCH_RESULT_MoveRow4(int a, int b);
+void ZKNSEARCH_RESULT_MoveRow4(ZknSearchWork *work, int delta);
 extern const Template d_021C0CC0;
 
 
@@ -72,7 +72,7 @@ extern const Template d_021C0CC0;
 
 
 
-void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
+void ZKNSEARCH_RESULT_InitFrameList(ZknSearchWork *ctx)
 {
     void *archive = ARC_TOOL_CreateHandle(159, 0x807b);
     Template config;
@@ -81,12 +81,12 @@ void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    ((ZknSearchWork *)ctx)->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
-    ((ZknSearchWork *)ctx)->entryCount = config.count;
-    FRAME_LIST_CopyMapToBuffer(((ZknSearchWork *)ctx)->frameList, archive, 98, 0, 0);
-    FRAME_LIST_LoadPalettes(((ZknSearchWork *)ctx)->frameList, archive, 73, 2, 3);
+    ctx->frameList = FRAME_LIST_Create((struct FrameListParams *)(&config), 123);
+    ctx->entryCount = config.count;
+    FRAME_LIST_CopyMapToBuffer(ctx->frameList, archive, 98, 0, 0);
+    FRAME_LIST_LoadPalettes(ctx->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i < 14; i++) FRAME_LIST_AddItem(((ZknSearchWork *)ctx)->frameList, 0, i);
+    for (i = 0; i < 14; i++) FRAME_LIST_AddItem(ctx->frameList, 0, i);
 }
 
 
@@ -98,18 +98,16 @@ void ZKNSEARCH_RESULT_InitFrameList(char *ctx)
 /*
  * Addresses are Black-image addresses.
  */
-void ZKNSEARCH_RESULT_DeleteFrameList(u8 *work)
+void ZKNSEARCH_RESULT_DeleteFrameList(ZknSearchWork *work)
 {
     unsigned i;
 
-    FRAME_LIST_Delete((struct FrameList *)(((ZknSearchWork *)work)->frameList));
-    ((ZknSearchWork *)work)->frameList = 0;
+    FRAME_LIST_Delete((struct FrameList *)(work->frameList));
+    work->frameList = 0;
     for (i = 0; i < 0x32; i++) {
-        int *q = (int *)(work + i * 4);
-
-        if (q[0x79] != 0) {
-            STRBUF_Delete((struct Strbuf *)q[0x79]);
-            q[0x79] = 0;
+        if (work->entries[i] != 0) {
+            STRBUF_Delete(work->entries[i]);
+            work->entries[i] = 0;
         }
     }
 }
@@ -119,11 +117,11 @@ void ZKNSEARCH_RESULT_DeleteFrameList(u8 *work)
 
 
 
-void ZKNSEARCH_RESULT_SetRow1(int work, unsigned row, int window, int y, int flag)
+void ZKNSEARCH_RESULT_SetRow1(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[1] == row)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
+    ZKNSEARCH_MAIN_PrintListRow(work, window, work->entries[row]);
+    if (work->save->record[1] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor(work, 0, y, flag);
 }
 
 
@@ -150,11 +148,11 @@ void ZKNSEARCH_RESULT_Noop2(void)
 
 
 
-void ZKNSEARCH_RESULT_SetRow2(int work, unsigned row, int window, int y, int flag)
+void ZKNSEARCH_RESULT_SetRow2(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[2] == row)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
+    ZKNSEARCH_MAIN_PrintListRow(work, window, work->entries[row]);
+    if (work->save->record[2] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor(work, 0, y, flag);
 }
 
 
@@ -172,10 +170,10 @@ void ZKNSEARCH_RESULT_Noop3(void)
 
 
 
-void ZKNSEARCH_RESULT_MoveRow1(int work, int delta)
+void ZKNSEARCH_RESULT_MoveRow1(ZknSearchWork *work, int delta)
 {
     ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
+    ZKNSEARCH_MAIN_UpdateCursorActors(work, 1);
 }
 
 
@@ -187,11 +185,11 @@ void ZKNSEARCH_RESULT_MoveRow1(int work, int delta)
  * trailing: unit aligns the bx-lr follower at 021C065C after zero pad
  * 021C065A; two additional zero alignment bytes at 021C065E follow the unit.
  */
-void ZKNSEARCH_RESULT_SetRowMulti(char *work,int index,void *data,int value,int flag)
+void ZKNSEARCH_RESULT_SetRowMulti(ZknSearchWork *work,int index,void *data,int value,int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow(work,data,(*(struct Strbuf **)(work+484+index*4)));
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
+    ZKNSEARCH_MAIN_PrintListRow(work,data,work->entries[index]);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB(work,work->save->record[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB(work,work->save->record[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
 }
 
 
@@ -207,21 +205,21 @@ void ZKNSEARCH_RESULT_Noop4(void){}
 
 
 
-void ZKNSEARCH_RESULT_MoveRow2(int work, int delta)
+void ZKNSEARCH_RESULT_MoveRow2(ZknSearchWork *work, int delta)
 {
     ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
+    ZKNSEARCH_MAIN_UpdateCursorActors(work, 1);
 }
 
 
 
 
 
-void ZKNSEARCH_RESULT_SetRow3(int work, unsigned row, int window, int y, int flag)
+void ZKNSEARCH_RESULT_SetRow3(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag)
 {
-    ZKNSEARCH_MAIN_PrintListRow((char *)work, (int *)window, *(struct Strbuf **)(work + row * 4 + 0x1e4));
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[5] == row)
-        ZKNSEARCH_MAIN_PlaceColumnActor((char *)work, 0, y, flag);
+    ZKNSEARCH_MAIN_PrintListRow(work, window, work->entries[row]);
+    if (work->save->record[5] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor(work, 0, y, flag);
 }
 
 
@@ -241,21 +239,21 @@ void ZKNSEARCH_RESULT_Noop5(void)
 
 
 
-void ZKNSEARCH_RESULT_MoveRow3(int work, int delta)
+void ZKNSEARCH_RESULT_MoveRow3(ZknSearchWork *work, int delta)
 {
     ZKNSEARCH_MAIN_MoveColumnActors(work, (signed char)(-delta));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
+    ZKNSEARCH_MAIN_UpdateCursorActors(work, 1);
 }
 
 
 
 
-void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *work, unsigned row, unsigned *window, int y, int flag)
+void ZKNSEARCH_RESULT_SetRow4(ZknSearchWork *work, unsigned row, ZknSearchBmpWin *window, int y, int flag)
 {
     ZKNSEARCH_MAIN_TransferRowChars(work, window);
-    if ((*(u8 **)(*(int * *)&((ZknSearchWork *)work)->save + 2))[6] == row)
-        ZKNSEARCH_MAIN_PlaceColumnActor3((char *)work, y, flag);
-    ZKNSEARCH_MAIN_PlacePageActor((char *)work, (unsigned short)row, y, flag);
+    if (work->save->record[6] == row)
+        ZKNSEARCH_MAIN_PlaceColumnActor3(work, y, flag);
+    ZKNSEARCH_MAIN_PlacePageActor(work, (unsigned short)row, y, flag);
 }
 
 
@@ -265,8 +263,8 @@ void ZKNSEARCH_RESULT_Noop6(void)
 }
 
 
-void ZKNSEARCH_RESULT_MoveRow4(int work, int delta)
+void ZKNSEARCH_RESULT_MoveRow4(ZknSearchWork *work, int delta)
 {
-    ZKNSEARCH_MAIN_MoveScrollActors((char *)work, (signed char)(-delta));
-    ZKNSEARCH_MAIN_UpdateCursorActors((u8 *)work, 1);
+    ZKNSEARCH_MAIN_MoveScrollActors(work, (signed char)(-delta));
+    ZKNSEARCH_MAIN_UpdateCursorActors(work, 1);
 }

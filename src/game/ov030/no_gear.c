@@ -194,7 +194,7 @@ NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct Ga
 {
     NoGearWork *work;
 
-    work = GFL_HEAP_Alloc(0x15, 0x20, 1, str_021F01C0, 0x17A);
+    work = GFL_HEAP_Alloc(0x15, sizeof(*work), 1, str_021F01C0, 0x17A);
     work->heapId = 0x15;
     work->gameSystem = gameSystem;
     NO_GEAR_Init(work);

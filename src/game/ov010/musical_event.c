@@ -378,13 +378,14 @@ struct WordSet;
 
 
 
-extern u8 d_021F8360[];
+#include "../arm9/procsys.h"
+extern const ProcData d_021F8360;
 
 extern const char sMusicalEventFileName[];
 
-extern u8 MUSICAL_DRESSUP_SYS_ProcTable[];
+extern const ProcData MUSICAL_DRESSUP_SYS_ProcTable;
 
-extern u8 MUSICAL_STAGE_SYS_ProcTable[];
+extern const ProcData MUSICAL_STAGE_SYS_ProcTable;
 
 extern const u16 d_0216FF14[10];
 
@@ -400,11 +401,11 @@ extern const Float3 d_0216FF08;
 
 struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link);
 
-int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work);
+int MUSICAL_EVENT_Main(struct GameEvent *event, int *unused, void *work);
 
 void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work);
 
-int MUSICAL_EVENT_Free(MusicalEventWork *work);
+MusicalLink *MUSICAL_EVENT_Free(MusicalEventWork *work);
 
 MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work);
 
@@ -501,7 +502,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     void *nickname;
 
     GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
-    event = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
+    event = GAME_EVENT_Create(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSys = gameSys;
     work->gameData = gameData;
@@ -524,7 +525,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
     work->musicalSystem = MUSICAL_MCSS_AllocDistSave(4);
     if (work->linkMode == 0 || STA_NET_GetRole(work->link->session) == 1)
-        MUSICAL_MCSS_LoadDistSave((unsigned char *)work->musicalSystem, (uptr)work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
+        MUSICAL_MCSS_LoadDistSave(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
@@ -558,8 +559,9 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
  * Task callback of the musical show event: the whole show flow, from the
  * wireless handshake through dress-up, stage, result screen and cleanup.
  */
-int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
+int MUSICAL_EVENT_Main(struct GameEvent *event, int *unused, void *workPtr)
 {
+    MusicalEventWork *work = workPtr;
     MUSICAL_EVENT_CheckNetError(work);
     switch (work->state) {
     case MUSICAL_EVENT_STATE_LINK_WAIT_PEERS:
@@ -623,7 +625,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         break;
     case MUSICAL_EVENT_STATE_START_DRESSUP:
         MUSICAL_EVENT_CreateDressupParam(work);
-        GAMESYSTEM_CallProc(work->gameSys, ~0u, MUSICAL_DRESSUP_SYS_ProcTable, work->dressup);
+        GAMESYSTEM_CallProc(work->gameSys, ~0u, &MUSICAL_DRESSUP_SYS_ProcTable, work->dressup);
         work->state = MUSICAL_EVENT_STATE_WAIT_DRESSUP;
         break;
     case MUSICAL_EVENT_STATE_WAIT_DRESSUP:
@@ -654,7 +656,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         break;
     case MUSICAL_EVENT_STATE_START_STAGE:
         MUSICAL_EVENT_CreateStage(work);
-        GAMESYSTEM_CallProc(work->gameSys, ~0u, MUSICAL_STAGE_SYS_ProcTable, work->stage);
+        GAMESYSTEM_CallProc(work->gameSys, ~0u, &MUSICAL_STAGE_SYS_ProcTable, work->stage);
         work->state = MUSICAL_EVENT_STATE_WAIT_STAGE;
         break;
     case MUSICAL_EVENT_STATE_WAIT_STAGE:
@@ -667,7 +669,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         break;
     case MUSICAL_EVENT_STATE_START_SHOW:
         MUSICAL_EVENT_CreateShowRecord(work);
-        GAMESYSTEM_CallProc(work->gameSys, ~0u, d_021F8360, work->result);
+        GAMESYSTEM_CallProc(work->gameSys, ~0u, &d_021F8360, work->result);
         work->state = MUSICAL_EVENT_STATE_WAIT_SHOW;
         break;
     case MUSICAL_EVENT_STATE_WAIT_SHOW:
@@ -749,7 +751,7 @@ void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
  * record, musical system, local performer and program, then clears the
  * owner back pointer in the link. Returns the link (r0 left as is).
  */
-int MUSICAL_EVENT_Free(MusicalEventWork *work)
+MusicalLink *MUSICAL_EVENT_Free(MusicalEventWork *work)
 {
     MusicalLink *link;
 
@@ -762,14 +764,14 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
         GFL_HEAP_Free(work->result);
     }
     if (work->musicalSystem != 0)
-        MUSICAL_MCSS_FreeDistSave((char *)work->musicalSystem);
+        MUSICAL_MCSS_FreeDistSave(work->musicalSystem);
     if (work->localPerformer != 0)
         GFL_HEAP_Free(work->localPerformer);
     if (work->program != 0)
         MUSICAL_PROGRAM_Delete(work->program);
     link = work->link;
     link->owner = 0;
-    return (sptr)link;
+    return link;
 }
 
 /*
@@ -893,7 +895,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
     u8 right;
     u8 k;
 
-    work->result = GFL_HEAP_Alloc(4, 0x14, 0, sMusicalEventFileName, 0x312);
+    work->result = GFL_HEAP_Alloc(4, sizeof(*work->result), 0, sMusicalEventFileName, 0x312);
     work->result->record = GFL_HEAP_Alloc(4, 0x1b0, 1, sMusicalEventFileName, 0x313);
     work->result->state = 0;
     work->result->session = work->session;

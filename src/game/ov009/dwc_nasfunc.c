@@ -165,12 +165,12 @@ int DWC_NASLoginAsync(void)
 {
     if (gDwcNasCnt != 0)
         OS_Terminate();
-    gDwcNasCnt = DWC_Alloc(4, 0x1E5C);
+    gDwcNasCnt = DWC_Alloc(4, sizeof(*gDwcNasCnt));
     if (gDwcNasCnt == 0) {
         DWCi_SetError(9, -20100);
         return 0;
     }
-    MI_CpuFill8(gDwcNasCnt, 0, 0x1E5C);
+    MI_CpuFill8(gDwcNasCnt, 0, sizeof(*gDwcNasCnt));
     MI_CpuCopy8(gDwcNasInitialId, gDwcNasCnt->id, 9);
     gDwcNasCnt->alloc = DWC_Alloc;
     gDwcNasCnt->free = DWC_Free;

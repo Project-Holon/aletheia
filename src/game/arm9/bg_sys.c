@@ -458,8 +458,8 @@ void BG_SYS_Create(u16 heapId)
 {
     s32 i;
 
-    g_02146A44 = GFL_HEAP_Alloc(heapId, 0x1d0, 0, g_020A7E5C, 134);
-    MI_CpuFill8(g_02146A44, 0, 0x1d0);
+    g_02146A44 = GFL_HEAP_Alloc(heapId, sizeof(*g_02146A44), 0, g_020A7E5C, 134);
+    MI_CpuFill8(g_02146A44, 0, sizeof(*g_02146A44));
     g_02146A44->heapId = heapId;
     g_02146A44->scrollDirtyMask = 0;
     g_02146A44->tileDirtyMask = 0;
@@ -1013,7 +1013,7 @@ void BG_SYS_FreeLayerBuf(u32 i)
 void BG_SYS_EnableBg0WithPriority(u32 mode)
 {
     BG_SYS_SetMainPlaneVisible(1, 1);
-    *(volatile u16 *)0x04000008 =
+    *(volatile u16 *)REG_BG0CNT_ADDR =
         (*(volatile u16 *)REG_BG0CNT_ADDR & ~3) | mode;
 }
 
@@ -1815,6 +1815,7 @@ void BG_SYS_DrawTileSub(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, 
  */
 void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
 {
+#ifdef __MWERKS__
     u32 offset = layer * 0x2C;
     struct BgConfigLayer *bg = (struct BgConfigLayer *)((u8 *)g_02146A44 + offset);
 
@@ -1825,6 +1826,17 @@ void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode
     } else {
         BG_SYS_BlitTileMapEx((struct BgLayer *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     }
+#else
+    struct BgLayer *bg = &g_02146A44->bgs[layer];
+
+    if (bg->type == 0) {
+        BG_SYS_BlitTileMap(bg, value, x0, y0, w, h, mode);
+    } else if (bg->type == 1) {
+        BG_SYS_BlitPixelsEx(bg, (u8)value, x0, y0, w, h);
+    } else {
+        BG_SYS_BlitTileMapEx(bg, value, x0, y0, w, h, mode);
+    }
+#endif
 }
 
 /*
@@ -2271,8 +2283,8 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
-                          (sptr)SLOT(2).scaleX,
-                          (sptr)SLOT(2).scaleY, 2);
+                          SLOT(2).scaleX,
+                          SLOT(2).scaleY, 2);
             G2x_SetBGyAffine_(REG_BG2PA_ADDR, &t,
                           SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
@@ -2285,8 +2297,8 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
-                          (sptr)SLOT(3).scaleX,
-                          (sptr)SLOT(3).scaleY, 2);
+                          SLOT(3).scaleX,
+                          SLOT(3).scaleY, 2);
             G2x_SetBGyAffine_(REG_BG3PA_ADDR, &t,
                           SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
@@ -2307,8 +2319,8 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
-                          (sptr)SLOT(6).scaleX,
-                          (sptr)SLOT(6).scaleY, 2);
+                          SLOT(6).scaleX,
+                          SLOT(6).scaleY, 2);
             G2x_SetBGyAffine_(REG_DB_BG2PA_ADDR, &t,
                           SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
@@ -2321,8 +2333,8 @@ void BG_SYS_CommitScroll(void)
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
-                          (sptr)SLOT(7).scaleX,
-                          (sptr)SLOT(7).scaleY, 2);
+                          SLOT(7).scaleX,
+                          SLOT(7).scaleY, 2);
             G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, &t,
                           SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
@@ -3571,14 +3583,14 @@ void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
     }
 
     gVisiblePlanes[1] ^= mask;
-    *(volatile u32 *)0x04000000 =
+    *(volatile u32 *)REG_DISPCNT_ADDR =
         (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x1f00) | (gVisiblePlanes[1] << 8);
 }
 
 void BG_SYS_SetMainVisiblePlanes(u32 planes)
 {
     gVisiblePlanes[1] = planes;
-    *(volatile u32 *)0x04000000 =
+    *(volatile u32 *)REG_DISPCNT_ADDR =
         (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x1f00) | (planes << 8);
 }
 
@@ -3644,7 +3656,7 @@ void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
     }
 
     gVisiblePlanes[0] ^= mask;
-    *(volatile u32 *)0x04001000 =
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR =
         (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | (gVisiblePlanes[0] << 8);
 }
 
@@ -3655,7 +3667,7 @@ void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
 void BG_SYS_SetSubVisiblePlanes(u32 planes)
 {
     gVisiblePlanes[0] = planes;
-    *(volatile u32 *)0x04001000 =
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR =
         (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | (planes << 8);
 }
 
@@ -3680,12 +3692,12 @@ void BG_SYS_SetSubVisiblePlanes(u32 planes)
 void BG_SYS_ResetSubDisplay(void)
 {
     GX_DispOn();
-    *(volatile u32 *)0x04001000 |= 0x10000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR |= 0x10000;
 }
 
 void BG_SYS_SetLcdSwap(u32 swap)
 {
-    *(volatile u16 *)0x04000304 =
+    *(volatile u16 *)REG_POWCNT1_ADDR =
         (*(volatile u16 *)REG_POWCNT1_ADDR & ~0x8000) | (swap << 15);
 }
 

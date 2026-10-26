@@ -71,10 +71,10 @@ int WF2DMAP_OBJCMD_Dispatch(void *a, void *b, const u8 *desc, int *out);
 int WF2DMAP_OBJCMD_SpawnIdle04(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_SpawnIdleNew(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t);
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk(int a, int b, int c, int d, int e);
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk(void *a, void *b, void *c, const u8 *d, void *e);
 int WF2DMAP_OBJCMD_SpawnIdle(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_StepNoop3(void);
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk2(int a, int b, int c, int d, int e);
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk2(void *a, void *b, void *c, const u8 *d, void *e);
 int WF2DMAP_OBJCMD_SpawnIdle2(u8 *p,int a,int b,const u8 *desc,u8 *out);
 int WF2DMAP_OBJCMD_IsTileOccupied(void *p, void *q, int n);
 extern const Wf2dmapSpawnCallback sWf2dmapSpawnCmdTable[];
@@ -285,18 +285,18 @@ int WF2DMAP_OBJCMD_SpawnIfFree(void *p, void *q, void *r, const u8 *s, void *t)
 /*
  * Addresses are Black-image addresses.
  */
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk(int a, int b, int c, int d, int e)
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk(void *a, void *b, void *c, const u8 *d, void *e)
 {
-    WF2DMAP_OBJCMD_SpawnIfFree((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
+    return WF2DMAP_OBJCMD_SpawnIfFree(a, b, c, d, e);
 }
 
 int WF2DMAP_OBJCMD_SpawnIdle(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }
 
 int WF2DMAP_OBJCMD_StepNoop3(void) { return 0; }
 
-void WF2DMAP_OBJCMD_SpawnIfFreeThunk2(int a, int b, int c, int d, int e)
+int WF2DMAP_OBJCMD_SpawnIfFreeThunk2(void *a, void *b, void *c, const u8 *d, void *e)
 {
-    WF2DMAP_OBJCMD_SpawnIfFree((void *)a, (void *)b, (void *)c, (const u8 *)d, (void *)e);
+    return WF2DMAP_OBJCMD_SpawnIfFree(a, b, c, d, e);
 }
 
 int WF2DMAP_OBJCMD_SpawnIdle2(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=WF2DMAP_OBJ_GetSlot(p,5);  if(v==0) { WF2DMAP_OBJDRAW_FillSpawnDesc(out,p,((Wf2dmapSpawnCmd *)desc)->kind,desc[3],desc[2]); return 1; } return 0; }

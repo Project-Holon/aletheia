@@ -6,8 +6,12 @@
 
 struct BtlRecSel;
 struct BtlRecSelMgr;
+struct ClactActor;
+struct Unit;
 
 #include "../types.h"
+
+struct TcbTask;
 
 int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr);
 int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work);
@@ -15,9 +19,9 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work);
 void BTL_REC_SEL_StartFade(char *state, int unused, char *work, int nextState, int fadeType, int fadeStart, int fadeEnd, int fadeSpeed, int fadeInstant);
 void BTL_REC_SEL_StartEntryA(unsigned *state,void *unused,char *work,unsigned nextStateA,unsigned entryA,unsigned flag3C);
 void BTL_REC_SEL_SetEntryA(void *unused,char *work,unsigned nextStateA,unsigned entryA,unsigned flag3C);
-void BTL_REC_SEL_StartEntryB(int *state, int unused, int work, int nextStateB, int entryB);
-void BTL_REC_SEL_SetEntryB(int unused, char *work, int nextStateB, int entryB);
-void BTL_REC_SEL_VBlank(void *unused, char *work);
+void BTL_REC_SEL_StartEntryB(int *state, void *unused, char *work, int nextStateB, int entryB);
+void BTL_REC_SEL_SetEntryB(void *unused, char *work, int nextStateB, int entryB);
+void BTL_REC_SEL_VBlank(struct TcbTask *unused, void *work);
 void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work);
 void BTL_REC_SEL_DeleteWindows(int unused,char*work);
 void BTL_REC_SEL_MainTcbl(int unused,char *work);
@@ -44,7 +48,7 @@ void BTL_REC_SEL_ResetTimer(void*mgr,char*work);
 void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsigned int v);
 void BTL_REC_SEL_InitCells(void *unused,struct BtlRecSel *work);
 void BTL_REC_SEL_DeleteCellActors(int unused, struct BtlRecSel *workAddr);
-int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u32 gfxId1,u32 gfxId2,u32 gfxId3,void*sceneWork,u8 x,u8 y,u8 flag,u8 bgPriority,u8 drawPriority);
+struct ClactActor *BTL_REC_SEL_CreateActor(struct Unit *sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u32 gfxId1,u32 gfxId2,u32 gfxId3,void*sceneWork,u8 x,u8 y,u8 flag,u8 bgPriority,u8 drawPriority);
 void BTL_REC_SEL_DeleteActor(void*scene,void*actor);
 void BTL_REC_SEL_SetMode(int unused,char*work);
 void BTL_REC_SEL_InitBgRun(int unused, char *work);

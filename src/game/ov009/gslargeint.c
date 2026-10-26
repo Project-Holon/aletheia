@@ -42,7 +42,7 @@ typedef struct GslTimer {
     unsigned int entries;
     unsigned int started;
 } GslTimer;
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length, unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
 extern void *__builtin__clear(void *dest, unsigned long size);
 
@@ -83,7 +83,7 @@ extern char gGsLargeIntHexFormatByte[];
 #include "../arm9/msl_crt.h"
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
-void *gsiMemoryRealloc(unsigned long block, unsigned long size);
+void *gsiMemoryRealloc(void *block, unsigned long size);
 
 static void gsiLargeIntTimerEnter(int id)
 {
@@ -854,10 +854,10 @@ void *gsiMemoryMalloc(unsigned long size)
 
 void gsiMemoryFree(void *p)
 {
-    CRT_Free((uptr)p);
+    CRT_Free(p);
 }
 
-void *gsiMemoryRealloc(unsigned long block, unsigned long size)
+void *gsiMemoryRealloc(void *block, unsigned long size)
 {
     return MSL_C_LIB_ReallocResource(block, size);
 }

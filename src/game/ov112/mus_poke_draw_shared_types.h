@@ -6,7 +6,6 @@
 
 typedef struct { struct MusItemDrawVec3 a,b,c,d; u16 e,f; } McssMatrixInput;
 
-typedef struct { int pad[5]; u32 tracks[126]; /* 9 tracks of 0x38 bytes */ struct MusItemDrawVec3 t[2]; int flag[2]; } MusPokeDrawBig;
 
 typedef struct { int x,y,z; } MusPokeDrawVec;
 
@@ -24,24 +23,34 @@ typedef struct McssMon {
     u32 personalRnd;        /* 0x10 param 0 */
     u16 slots[9][3];        /* 0x14 9 records of 6 bytes */
     u16 reserved4A;            /* 0x4A */
-    u8 pad_4C[8];           /* 0x4C */
+    u16 reserved4C[4];      /* 0x4C */
     u32 values[9];          /* 0x54 */
     u16 reserved78;            /* 0x78 */
     u8 pad_7A[2];           /* 0x7A */
 } McssMon;
 
-typedef struct { u32 value; u8 pad[52]; } MusPokeDrawTrack;
-
+/* One track of a render slot (0x38 bytes). */
 typedef struct {
+    u32 value;                      /* 0x00 */
+    struct MusItemDrawVec3 a;       /* 0x04 */
+    struct MusItemDrawVec3 b;       /* 0x10 */
+    struct MusItemDrawVec3 c;       /* 0x1C */
+    struct MusItemDrawVec3 d;       /* 0x28 */
+    u16 e;                          /* 0x34 */
+    u16 f;                          /* 0x36 */
+} MusPokeDrawTrack;
+
+typedef struct MusPokeDrawSlot {
     u32 active, enabled;
-    u8 *object;
-    char *primary, *secondary;
+    struct McssMcAnim *object;
+    struct McssMcAnim *primary, *secondary;
     MusPokeDrawTrack tracks[9];
-    u32 f524, f528, f532, f536, f540, f544, f548, f552;
+    struct MusItemDrawVec3 t[2];    /* 0x20C: 0x218 is the matrix returned by GetRenderMatrix */
+    int flag[2];                    /* 0x224 */
 } MusPokeDrawSlot;
 
 /* The render object (allocated 4456 bytes by CreateRenderObj): a halfword heap
    id, then the render pool pointer and 8 slots. heap is stored as a u16. */
-typedef struct MusPokeDrawScene { u16 heap; u16 pad_2; char *main; MusPokeDrawSlot slots[8]; } MusPokeDrawScene;
+typedef struct MusPokeDrawScene { u16 heap; u16 pad_2; struct McssRenderPool *main; MusPokeDrawSlot slots[8]; } MusPokeDrawScene;
 
 #endif

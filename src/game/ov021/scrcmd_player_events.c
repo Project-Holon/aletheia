@@ -112,11 +112,11 @@ struct RailSlipdown;
 
 
 
-int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork);
+int SCRCMD_PLAYER_GRID_EVENT_WaitHop(struct ScriptVm *vm, void *scriptWork);
 
 u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(struct ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *vm, void *scriptWork);
+int SCRCMD_PLAYER_GRID_EVENT_WaitJump(struct ScriptVm *vm, void *scriptWork);
 
 u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(struct ScriptVm *vm, void *scriptWork);
 
@@ -128,7 +128,7 @@ struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct Field
 
 void *RAIL_SLIPDOWN_Start(void *a, struct FieldMap *b, struct Mmdl *c);
 
-int RAIL_SLIPDOWN_UpdateTask(void *task);
+int RAIL_SLIPDOWN_UpdateTask(struct GameEvent *task, int *seq, void *work);
 
 extern unsigned char ov063_id[];
 
@@ -136,7 +136,7 @@ extern unsigned char ov063_id[];
  * Script wait callback of the first grid event command: done once
  * FIELD_PLAYER_GRID_EVENT_IsHopDone reports 1.
  */
-int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork)
+int SCRCMD_PLAYER_GRID_EVENT_WaitHop(struct ScriptVm *vm, void *scriptWork)
 {
     void *gridEvent = SCRCMD_WORK_GetTargetObject(scriptWork);
 
@@ -169,14 +169,14 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(struct ScriptVm *vm, void *scriptWork)
     result = MAP_ATTR_GetAt(fieldMap, &pos);
     task = FIELD_PLAYER_GRID_EVENT_CreateHopTask(player, playerWork, result, effectId);
     SCRCMD_WORK_SetTargetObject((void *)scriptWork, task);
-    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitHop);
+    VM_SetWait(vm, SCRCMD_PLAYER_GRID_EVENT_WaitHop);
     return 1;
 }
 
 /*
  * Script wait callback of the second grid event command.
  */
-int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *vm, void *scriptWork)
+int SCRCMD_PLAYER_GRID_EVENT_WaitJump(struct ScriptVm *vm, void *scriptWork)
 {
     void *gridEvent = SCRCMD_WORK_GetTargetObject(scriptWork);
 
@@ -204,7 +204,7 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(struct ScriptVm *vm, void *scriptWork)
     result = SCRIPT_WORK_ReadWorkValue(vm, (void *)scriptWork);
     task = FIELD_PLAYER_GRID_EVENT_CreateJumpTask(player, playerWork, result, effectId);
     SCRCMD_WORK_SetTargetObject((void *)scriptWork, task);
-    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PLAYER_GRID_EVENT_WaitJump);
+    VM_SetWait(vm, SCRCMD_PLAYER_GRID_EVENT_WaitJump);
     return 1;
 }
 
@@ -252,8 +252,8 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
  */
 struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct FieldMap *b, u32 c)
 {
-    struct GameEvent *task = GAME_EVENT_Create(a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
-    u32 *effectSlot = GAME_EVENT_GetWork(task);
+    struct GameEvent *task = GAME_EVENT_Create(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
+    void **effectSlot = GAME_EVENT_GetWork(task);
     struct FieldPlayer *fieldMap;
     struct Mmdl *player;
 
@@ -261,7 +261,7 @@ struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct Field
     fieldMap = FIELDMAP_GetFieldPlayer(b);
     player = FIELD_PLAYER_GetMmdl(fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
-    *effectSlot = (uptr)RAIL_SLIPDOWN_Create(a, b, player, 1);
+    *effectSlot = RAIL_SLIPDOWN_Create(a, b, player, 1);
     return task;
 }
 
@@ -270,7 +270,7 @@ struct GameEvent *RAIL_SLIPDOWN_StartAtPlayer(struct GameSystem *a, struct Field
  */
 void *RAIL_SLIPDOWN_Start(void *a, struct FieldMap *b, struct Mmdl *c)
 {
-    void *task = GAME_EVENT_Create(a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
+    void *task = GAME_EVENT_Create(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     void **effectSlot = GAME_EVENT_GetWork(task);
 
     GF_OVERLAY_Load((uptr)ov063_id);
@@ -282,7 +282,7 @@ void *RAIL_SLIPDOWN_Start(void *a, struct FieldMap *b, struct Mmdl *c)
  * Task callback: when the ov063 effect reports done, frees it and unloads
  * ov063.
  */
-int RAIL_SLIPDOWN_UpdateTask(void *task)
+int RAIL_SLIPDOWN_UpdateTask(struct GameEvent *task, int *seq, void *work)
 {
     void **effectSlot = GAME_EVENT_GetWork(task);
 

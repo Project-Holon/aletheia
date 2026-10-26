@@ -14,6 +14,7 @@ struct SndWaveSetHeader;
 
 #include "../arm9/tcb_list.h"
 #include "../types.h"
+#include "../arm9/snd_bank.h"
 
 void NitroMain(void);
 int GFL_USE_IsNetQuiet(void);
@@ -121,8 +122,8 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode);
 void GFL_USE_StopLoaderThread(void);
 int GFL_USE_IsLoaderDone(void);
 u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort);
-int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo);
-int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex);
+int GFL_USE_InstallBgmBuffers(void *seqAddr, void *bankAddr, u32 bgmNo);
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, SNDWaveArc *srcWaveArc, u32 srcWaveIndex);
 void GFL_USE_StartSeq(u32 seqNo);
 void GFL_USE_StopSeqAndUnload(void);
 void GFL_USE_ClearPreloadedBgmBuffers(void);

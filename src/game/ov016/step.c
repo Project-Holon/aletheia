@@ -90,18 +90,18 @@ extern const COORD C_POS[5];
 /* step.o .data */
 extern char *FILE_NAME[5];
 
-static void taskBegin0(void *task);
-static void taskBegin1(void *task);
-static void taskBegin2(void *task);
-static void taskBegin3(void *task);
-static void taskBegin4(void *task);
-static void taskBegin5(void *task);
-static void taskEnd0(void *task);
-static void taskEnd1(void *task);
-static void taskEnd2(void *task);
-static void taskEnd3(void *task);
-static void taskEnd4(void *task);
-static void taskChange(void *task);
+static void taskBegin0(void *task, void * unused1);
+static void taskBegin1(void *task, void * unused1);
+static void taskBegin2(void *task, void * unused1);
+static void taskBegin3(void *task, void * unused1);
+static void taskBegin4(void *task, void * unused1);
+static void taskBegin5(void *task, void * unused1);
+static void taskEnd0(void *task, void *work);
+static void taskEnd1(void *task, void *work);
+static void taskEnd2(void *task, void *work);
+static void taskEnd3(void *task, void *work);
+static void taskEnd4(void *task, void *work);
+static void taskChange(void *task, void * unused1);
 
 
 void DWCi_STEPlBegin(int step)
@@ -115,13 +115,13 @@ void DWCi_STEPlBegin(int step)
         DWCi_CELLlSetPosition(MemStep->cell[i], -1, -42, C_POS[i].y);
         DWCi_CELLlSetPalette(MemStep->cell[i], -1, 0, PL_CELL[step][i]);
     }
-    MemStep->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskBegin0, 0, 0x78);
+    MemStep->task = DWCi_TSKlForm(0, taskBegin0, 0, 0x78);
     DWCi_STEPlChangeScr(step);
     DWCi_SNDlPlay(13);
 }
 
 
-static void taskBegin0(void *task)
+static void taskBegin0(void *task, void * unused1)
 {
     int i;
     int x;
@@ -136,12 +136,12 @@ static void taskBegin0(void *task)
         x = 32;
         for (i = 0; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskBegin1);
+        DWCi_TSKlChangeFunc(task, taskBegin1);
     }
 }
 
 
-static void taskBegin1(void *task)
+static void taskBegin1(void *task, void * unused1)
 {
     int i;
     int x;
@@ -156,12 +156,12 @@ static void taskBegin1(void *task)
         x = 80;
         for (i = 1; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskBegin2);
+        DWCi_TSKlChangeFunc(task, taskBegin2);
     }
 }
 
 
-static void taskBegin2(void *task)
+static void taskBegin2(void *task, void * unused1)
 {
     int i;
     int x;
@@ -176,12 +176,12 @@ static void taskBegin2(void *task)
         x = 104;
         for (i = 2; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskBegin3);
+        DWCi_TSKlChangeFunc(task, taskBegin3);
     }
 }
 
 
-static void taskBegin3(void *task)
+static void taskBegin3(void *task, void * unused1)
 {
     int i;
     int x;
@@ -196,12 +196,12 @@ static void taskBegin3(void *task)
         x = 152;
         for (i = 3; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskBegin4);
+        DWCi_TSKlChangeFunc(task, taskBegin4);
     }
 }
 
 
-static void taskBegin4(void *task)
+static void taskBegin4(void *task, void * unused1)
 {
     int x;
     int y;
@@ -213,12 +213,12 @@ static void taskBegin4(void *task)
     } else {
         x = 176;
         DWCi_CELLlSetPosition(MemStep->cell[4], -1, x, 33);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskBegin5);
+        DWCi_TSKlChangeFunc(task, taskBegin5);
     }
 }
 
 
-static void taskBegin5(void *task)
+static void taskBegin5(void *task, void * unused1)
 {
     DWCi_TSKlDelete(0, task);
     MemStep->task = 0;
@@ -228,7 +228,7 @@ static void taskBegin5(void *task)
 void DWCi_STEPlEnd(void)
 {
     MemStep->end = 1;
-    MemStep->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskEnd0, 0, 0x78);
+    MemStep->task = DWCi_TSKlForm(0, taskEnd0, 0, 0x78);
 }
 
 
@@ -261,7 +261,7 @@ int DWCi_STEPlGet(void)
 }
 
 
-static void taskEnd0(void *task)
+static void taskEnd0(void *task, void *work)
 {
     int x;
     int y;
@@ -273,12 +273,12 @@ static void taskEnd0(void *task)
     } else {
         x = 152;
         DWCi_CELLlSetPosition(MemStep->cell[4], -1, x, 33);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
+        DWCi_TSKlChangeFunc(task, taskEnd1);
     }
 }
 
 
-static void taskEnd1(void *task)
+static void taskEnd1(void *task, void *work)
 {
     int i;
     int x;
@@ -293,12 +293,12 @@ static void taskEnd1(void *task)
         x = 104;
         for (i = 3; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
+        DWCi_TSKlChangeFunc(task, taskEnd2);
     }
 }
 
 
-static void taskEnd2(void *task)
+static void taskEnd2(void *task, void *work)
 {
     int i;
     int x;
@@ -313,12 +313,12 @@ static void taskEnd2(void *task)
         x = 80;
         for (i = 2; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
+        DWCi_TSKlChangeFunc(task, taskEnd3);
     }
 }
 
 
-static void taskEnd3(void *task)
+static void taskEnd3(void *task, void *work)
 {
     int i;
     int x;
@@ -333,12 +333,12 @@ static void taskEnd3(void *task)
         x = 32;
         for (i = 1; i < 5; i++)
             DWCi_CELLlSetPosition(MemStep->cell[i], -1, x, C_POS[i].y);
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd4);
+        DWCi_TSKlChangeFunc(task, taskEnd4);
     }
 }
 
 
-static void taskEnd4(void *task)
+static void taskEnd4(void *task, void *work)
 {
     int i;
     int x;
@@ -370,11 +370,11 @@ void DWCi_STEPlChangeScr(int step)
     char *n = (char *)DWCi_Char((unsigned char *)FILE_NAME[step]);
 
     sStepFile = DWCi_ARClReadEx(n, 0, 4);
-    DWCi_TSKlForm(1, (void (*)(void *, void *))taskChange, 0, 0x78);
+    DWCi_TSKlForm(1, taskChange, 0, 0x78);
 }
 
 
-static void taskChange(void *task)
+static void taskChange(void *task, void * unused1)
 {
     DC_FlushRange(sStepFile, 0x600);
     GXS_LoadBG1Scr(sStepFile, 0, 0x600);

@@ -55,9 +55,7 @@
 #include "../arm9/net.h"
 #include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_NET_GetWifiUserData(void);
 
-extern u32 GFL_NET_GetFriendList(void);
 
 #include "dwc_main.h"
 
@@ -85,9 +83,9 @@ int GFL_NET_DEVWIFI_StartFriendMatch(int friendIndex, int maxPlayers, int limitT
 
 int GFL_NET_DEVWIFI_PollDisconnect(int requestClose);
 
-int GFL_NET_DEVWIFI_SendMessage(int data, int size, int unused, void (*doneCallback)(int));
+int GFL_NET_DEVWIFI_SendMessage(void *data, int size, int unused, void (*doneCallback)(int));
 
-int GFL_NET_DEVWIFI_SetRecvCallback(int callback);
+int GFL_NET_DEVWIFI_SetRecvCallback(DwcRapRecvFunc callback);
 
 int GFL_NET_DEVWIFI_IsActive(void);
 
@@ -149,7 +147,7 @@ int GFL_NET_DEVWIFI_Setup(int heapId, int param)
 
 int GFL_NET_DEVWIFI_Begin(void (*doneCallback)(int))
 {
-    u32 userData;
+    void *userData;
     int result;
     userData = GFL_NET_GetWifiUserData();
     result = DWC_RAP_CreateWork(userData, GFL_NET_GetFriendList());
@@ -218,7 +216,7 @@ int GFL_NET_DEVWIFI_PollDisconnect(int requestClose)
     return 0;
 }
 
-int GFL_NET_DEVWIFI_SendMessage(int data, int size, int unused, void (*doneCallback)(int))
+int GFL_NET_DEVWIFI_SendMessage(void *data, int size, int unused, void (*doneCallback)(int))
 {
     if (DWC_RAP_SendMessage(data, size)) {
         if (doneCallback) doneCallback(1);
@@ -230,7 +228,7 @@ int GFL_NET_DEVWIFI_SendMessage(int data, int size, int unused, void (*doneCallb
 /*
  * Calls DWC_RAP_SetRecvCallbacks on the argument twice and returns 1.
  */
-int GFL_NET_DEVWIFI_SetRecvCallback(int callback)
+int GFL_NET_DEVWIFI_SetRecvCallback(DwcRapRecvFunc callback)
 {
     DWC_RAP_SetRecvCallbacks(callback, callback);
 
@@ -299,7 +297,7 @@ int GFL_NET_DEVWIFI_GetLastErrorCode(void)
         return 0;
     if (errorCode == 0)
         return -10000;
-    dwcError = ((int *)GFL_NET_STATE_GetError())[3];
+    dwcError = GFL_NET_STATE_GetError()->gameCode;
     if (dwcError == 0)
         dwcError = errorCode;
     return dwcError;

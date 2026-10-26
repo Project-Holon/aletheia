@@ -45,7 +45,7 @@
  *   SOC_Send  0x0215F590  arm
  */
 #include "soc.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #include "../sdk_soc.h"
 
@@ -56,7 +56,7 @@ extern int SOC_Shutdown(int s, int how);
 extern int SOC_Bind(int s, void * sockAddr);
 extern int SOC_Connect(int s, void * sockAddr);
 extern int SOC_Recv(int s, void *buf, int len, int flags);
-extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
+extern int SOC_RecvFrom(int s, void *buf, int len, int flags, unsigned char *sockFrom);
 extern int SOC_Send(int s, void *buf, int len, int flags);
 extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
@@ -214,7 +214,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
     int rcode;
 
     addr->len = (unsigned char)*fromlen;
-    rcode = SOC_RecvFrom((int)sock, (sptr)buf, len, flags, (unsigned char *)addr);
+    rcode = SOC_RecvFrom((int)sock, buf, len, flags, (unsigned char *)addr);
     *fromlen = addr->len;
     return CheckRcode(rcode, -1);
 }

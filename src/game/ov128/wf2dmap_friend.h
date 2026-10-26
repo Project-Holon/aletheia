@@ -10,15 +10,15 @@
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
 int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p);
 int Wf2dmapFriend_Delete(void *p,int a,int b,char *q);
-void Wf2dmapFriend_Proc(void *p,char *q);
+void Wf2dmapFriend_Proc(struct TcbTask * pArg, void * qArg);
 void Wf2dmapFriend_Setup(char *p,u16 heap);
 void Wf2dmapFriend_Teardown(u8 *p);
-void Wf2dmapFriend_CreateWindow(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g);
+void Wf2dmapFriend_CreateWindow(void *p,void **out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g);
 void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap);
 void Wf2dmapFriend_DeleteText(u8 *p, void *unused);
 void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 void Wf2dmapFriend_CopyText(u8 *p,void *a,void *b);
-int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg);
+int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,void *arg);
 void Wf2dmapFriend_SetNameEntry(char *p,int x);
 void Wf2dmapFriend_SetIndex(char *p,int x);
 void Wf2dmapFriend_BuildEntryList(char *p);

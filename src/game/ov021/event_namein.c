@@ -91,7 +91,7 @@ struct BeaconStatus;
 #include "../ov010/game_beacon_set.h"
 
 struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, u32 mode, u16 *resultVar);
-int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work);
+int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param);
 
 /* Maximum name length per mode 5..7. */
@@ -108,7 +108,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     struct GameEvent *event;
     NameInEvent *work;
 
-    event = GAME_EVENT_Create(gameSystem, parentEvent, (GameEventFunc)EVENT_NAMEIN_Main, 0x50);
+    event = GAME_EVENT_Create(gameSystem, parentEvent, EVENT_NAMEIN_Main, sizeof(NameInEvent));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -118,7 +118,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->param.heapId = 4;
     work->nameSave = (struct NameSave *)MISC_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     work->myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->beaconSave = (void *)GAME_DATA_GetItemUseWork(work->gameData);
+    work->beaconSave = GAME_DATA_GetItemUseWork(work->gameData);
     work->param.mode = mode;
     work->param.gender = MYSTATUS_GetSex(work->myStatus);
     work->param.nameSave = work->nameSave;
@@ -141,8 +141,9 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
  * Event: runs the name-input process (overlay 0xC2, abs_id_C2), then stores
  * the result.
  */
-int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work)
+int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    NameInEvent *work = workPtr;
     sptr proc;
 
     switch (*seq) {

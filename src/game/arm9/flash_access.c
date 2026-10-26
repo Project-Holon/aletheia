@@ -122,7 +122,7 @@ int FLASH_ACCESS_Read(u32 flash_addr, void *ram_dst, u32 size, void (*on_error)(
  * FLASH_ACCESS_StartWrite; raises the flag that StartWrite lowers before the
  * asynchronous request and that FLASH_ACCESS_PollWrite tests.
  */
-void FLASH_ACCESS_OnWriteDone(void)
+void FLASH_ACCESS_OnWriteDone(void * unused0)
 {
     _WriteDone = 1;
 }
@@ -151,7 +151,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, const void *ram_src, u32 size, Flash
     }
 
     _WriteDone = 0;
-    CARDi_RequestStreamCommand((uptr)ram_src, flash_addr, size, (void (*)(void *))FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand((uptr)ram_src, flash_addr, size, FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
     return (u16)lock_id;
 }
 

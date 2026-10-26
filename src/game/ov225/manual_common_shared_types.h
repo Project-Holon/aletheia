@@ -15,8 +15,8 @@ struct ManualData {
     u16 heap;           /* 0x04 */
     u16 pad06;
     void *screen;       /* 0x08 */
-    u32 font;           /* 0x0C */
-    u32 printQue[3];    /* 0x10 */
+    struct GfFont *font;           /* 0x0C */
+    struct PrintQueue *printQue[3];    /* 0x10 */
     void *bank[2];      /* 0x1C */
     void *arc[2];       /* 0x24 */
     void *assets;       /* 0x2C */

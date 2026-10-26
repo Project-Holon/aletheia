@@ -17,6 +17,8 @@ struct PrintQueue;
 struct MsgBank;
 struct Strbuf;
 struct TaskMenu;
+struct TaskMenuRes;
+struct TaskMenuWin;
 struct TimeIcon;
 struct ArcHandle;
 struct Unit;
@@ -93,14 +95,14 @@ typedef struct CtvtWork {
     u32 resId[11];              /* cell actor resource ids: 3 groups of char, palette, cell, anim */
     struct Unit *clactUnit;
     struct ClactActor *marker;     /* slot marker sprite */
-    signed char slotFlagA;
-    signed char slotFlagB;
+    u8 slotFlagA;
+    u8 slotFlagB;
     u8 pad1B6[2];               /* alignment before the window array */
     struct BmpWin *bmpWin[4];   /* one name window per member slot */
     struct GfFont *font;
     struct MsgBank *msgData;
     struct PrintQueue *printQue;
-    struct TaskMenu *taskMenu;
+    struct TaskMenuRes *taskMenu;
     void *timeIconSrc;          /* source handed to TIME_ICON_CreateNode */
     struct TimeIcon *timeIcon;
     CtvtCamView *camView;
@@ -365,12 +367,12 @@ typedef struct CtvtCall {
     u8 prevRowCount;            /* +0x15: row count at the last slider update */
     u8 pad16[2];
     u32 substate;               /* +0x18: prompt and leave substate */
-    u32 menuWin;                /* +0x1C: task menu window */
+    struct TaskMenuWin *menuWin; /* +0x1C: task menu window */
     u32 msgDirty;               /* +0x20: 1: the message window must transfer */
     u32 timeDirty;              /* +0x24: 1: the time window must transfer */
     u32 soundPlayed;            /* +0x28: 1: the join sound was played */
-    u32 msgWin;                 /* +0x2C: message window */
-    u32 timeWin;                /* +0x30: time icon window */
+    struct BmpWin *msgWin;      /* +0x2C: message window */
+    struct BmpWin *timeWin;     /* +0x30: time icon window */
     u16 timerA;                 /* +0x34: connect wait timer */
     u16 timerB;                 /* +0x36: slot timer display */
     u32 timePending;            /* +0x38: 1: the time icon must be created */
@@ -386,7 +388,7 @@ typedef char CtvtCallSizeCheck[(sizeof(CtvtCall) == 0x408) ? 1 : -1];
 /* Accessors of CtvtWork fields and helpers (comm_tvt_sys.c). */
 extern CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);
 extern struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work);
-extern int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work);
+extern struct CtvtMic *COMM_TVT_SYS_GetTalkStatus(CtvtWork *work);
 extern struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work);
 extern CtvtLaunchParams *COMM_TVT_SYS_GetLaunchParams(CtvtWork *work);
 extern u16 COMM_TVT_SYS_GetHeapId(CtvtWork *work);
@@ -398,7 +400,7 @@ extern void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value);
 extern struct GfFont *COMM_TVT_SYS_GetFont(CtvtWork *work);
 extern struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
 extern struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
-extern struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);
+extern struct TaskMenuRes *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);
 extern u8 COMM_TVT_SYS_GetMemberCount(CtvtWork *work);
 extern void COMM_TVT_SYS_SetMemberCount(CtvtWork *work, u32 count);
 extern int COMM_TVT_SYS_GetLayoutMode(CtvtWork *work);

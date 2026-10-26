@@ -15,7 +15,7 @@ int gti2PingCallback(GTI2Connection *c, int latency);
 int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
-int gti2UnrecognizedMessageCallback(char *socket, int ip, int port, int message, int len, int *handled);
+int gti2UnrecognizedMessageCallback(GTI2Socket *socket, unsigned int ip, unsigned short port, unsigned char *message, int len, int *handled);
 /* END mkheaders: generated region */
 
 #endif

@@ -51,6 +51,7 @@ typedef struct FieldFog {
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/g3x.h"
+#include "../sdk_ioreg.h"
 void FIELD_FOG_InitFogTable(FieldFog *fog);
 int FIELD_FOG_FadeIsRunning(FieldFogFade *fade);
 void FIELD_FOG_FadeStart(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames);
@@ -86,7 +87,7 @@ void FIELD_FOG_Main(FieldFog *fog)
 
 static inline void SetFogColor(u16 color, int alpha)
 {
-    *(volatile u32 *)0x04000358 = (u32)(color | (alpha << 16));
+    *(volatile u32 *)REG_FOG_COLOR_ADDR = (u32)(color | (alpha << 16));
 }
 
 void FIELD_FOG_Reflect(FieldFog *fog)

@@ -12,7 +12,7 @@ typedef struct EventGameManualWork EventGameManualWork;
 #include "../types.h"
 
 struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut);
-u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
+int EVENT_GAME_MANUAL_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work);
 /* END mkheaders: generated region */
 

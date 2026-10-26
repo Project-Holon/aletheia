@@ -9,7 +9,7 @@
 void CARD_InitPulledOutCallback(void);
 void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
 void CARD_SetPulledOutCallback(int (*callback)(void));
-void *CARD_IsPulledOut(void);
+BOOL CARD_IsPulledOut(void);
 void CARD_TerminateForPulledOut(void);
 void CARDi_CheckPulledOutCore(u32 id);
 void CARDi_SendtoPxi(u32 data, u32 wait);

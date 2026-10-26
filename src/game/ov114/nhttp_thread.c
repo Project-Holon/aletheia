@@ -127,7 +127,7 @@
  *   NHTTPi_ThreadRecvBodyProc 0x021BDFF8 arm ov114
  */
 #include "nhttp_types.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #include "nhttp_stdlib_ntr.h"
 #include "nhttp_socket_ntr.h"
@@ -1662,9 +1662,9 @@ static int NHTTPi_ThreadRecvHeaderProc(NHTTPThreadData *threadData_p)
             wp = threadData_p->recvBufwp & 0x1ff;
             if (wp == 0) {
                 if (headerBuf_p) {
-                    headerBuf_p = headerBuf_p->next_p = NHTTPi_alloc(0x204, 4);
+                    headerBuf_p = headerBuf_p->next_p = NHTTPi_alloc(sizeof(*headerBuf_p), 4);
                 } else {
-                    headerBuf_p = NHTTPi_alloc(0x204, 4);
+                    headerBuf_p = NHTTPi_alloc(sizeof(*headerBuf_p), 4);
                     res_p->hdrBufBlock_p = headerBuf_p;
                 }
                 if (headerBuf_p == 0) {

@@ -116,6 +116,7 @@ struct MyStatus;
 
 
 #include "worldtrade.h"
+#include "../sdk_ioreg.h"
 
 
 
@@ -154,8 +155,8 @@ int WORLDTRADE_DEMO_Init(WorldtradeWork *p)
     void *tmpl;
 
     WORLDTRADE_ExitPlanes(p);
-    p->req = GFL_HEAP_Alloc(0x48, 0x44, 0, str_02203B6C, 0x5E);
-    MI_CpuFill8(p->req, 0, 0x44);
+    p->req = GFL_HEAP_Alloc(0x48, sizeof(*p->req), 0, str_02203B6C, 0x5E);
+    MI_CpuFill8(p->req, 0, sizeof(*p->req));
     d = p->req;
     p->monCopy = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
     d->tradeGameData = GAMESYSTEM_GetGameData(p->ctx->gameData);
@@ -239,8 +240,8 @@ int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
                     GFL_HEAP_Free(p->req);
                     p->req = 0;
                 }
-                p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0xEB);
-                MI_CpuFill8(p->req, 0, 0x14);
+                p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, str_02203B6C, 0xEB);
+                MI_CpuFill8(p->req, 0, sizeof(WorldtradeEvoReq));
                 w = p->req;
                 w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
                 w->list = POKEPARTY_Create(0x48);
@@ -279,8 +280,8 @@ int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
                         GFL_HEAP_Free(p->req);
                         p->req = 0;
                     }
-                    p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0x130);
-                    MI_CpuFill8(p->req, 0, 0x14);
+                    p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, str_02203B6C, 0x130);
+                    MI_CpuFill8(p->req, 0, sizeof(WorldtradeEvoReq));
                     w = p->req;
                     w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
                     w->list = POKEPARTY_Create(0x48);
@@ -321,7 +322,7 @@ int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
             p->req = 0;
         }
         WORLDTRADE_DEMO_InitSlotRecord((WorldtradeWork *)p);
-        *(volatile u32 *)0x04000000 &= ~0xE000;
+        *(volatile u32 *)REG_DISPCNT_ADDR &= ~0xE000;
         GF_OVERLAY_Load((uptr)ov067_id);
         WORLDTRADE_SetStateAndReturn(p, 7, 0xC);
         ret = 3;
@@ -395,7 +396,7 @@ WorldtradeEntry *WORLDTRADE_DEMO_GetSlotRecord(WorldtradeWork *p, int kind)
  */
 void WORLDTRADE_DEMO_InitSlotRecord(WorldtradeWork *p)
 {
-    u32 e = (uptr)WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
+    WorldtradeEntry *e = WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
     if (p->box_u == 0xff) {
         WORLDTRADE_ADAPTER_CopyMon(e, POKEPARTY_GetMember(p->ctx->party, p->pos));
@@ -405,8 +406,8 @@ void WORLDTRADE_DEMO_InitSlotRecord(WorldtradeWork *p)
 
         a = 0;
         b = 0;
-        BOX_SAVEDATA_ClearPokemon((void *)p->ctx->box, p->box_u, p->pos);
-        BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
-        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, a, (struct BoxPokemon *)((uptr)POKE_TOOL_GetBoxParam((void *)e)));
+        BOX_SAVEDATA_ClearPokemon((struct GameData *)p->ctx->save, p->box_u, p->pos);
+        BOX_SAVEDATA_FindFreeSlot((struct GameData *)p->ctx->save, (int *)(&a), (int *)(&b));
+        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->save, a, (struct BoxPokemon *)(POKE_TOOL_GetBoxParam((struct PokemonParam *)e)));
     }
 }

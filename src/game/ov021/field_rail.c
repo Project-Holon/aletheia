@@ -249,7 +249,7 @@ extern int FIELD_RAIL_WORK_Advance(RailWork *work, int key, int step);
 RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fieldCamera);
 void FIELD_RAIL_Delete(RailManager *manager);
 void FIELD_RAIL_SetSetting(RailManager *manager, FieldRailSetting *setting);
-u32 FIELD_RAIL_ClearSetting(RailManager *manager);
+RailClosedLines *FIELD_RAIL_ClearSetting(RailManager *manager);
 RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager);
 int FIELD_RAIL_ReleaseWork(RailManager *manager, RailWork *work);
 void FIELD_RAIL_SetFocusWork(RailManager *manager, RailWork *work);
@@ -386,17 +386,17 @@ RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fiel
     u32 i;
     RailManager *manager;
 
-    manager = GFL_HEAP_Alloc(heapId, 0x74, 1, sRailFileName, 302);
+    manager = GFL_HEAP_Alloc(heapId, sizeof(*manager), 1, sRailFileName, 302);
     manager->heapId = heapId;
     manager->dataLoaded = 0;
     manager->running = 1;
     manager->fieldCamera = fieldCamera;
     manager->focusWork = 0;
-    manager->works = GFL_HEAP_Alloc(heapId, 0x7c * workMax, 1, sRailFileName, 311);
+    manager->works = GFL_HEAP_Alloc(heapId, sizeof(*manager->works) * workMax, 1, sRailFileName, 311);
     manager->workCount = workMax;
     for (i = 0; i < workMax; i++)
         FIELD_RAIL_WORK_Init(&manager->works[i], &manager->setting, manager);
-    manager->probeWork = GFL_HEAP_Alloc(heapId, 0x7c, 1, sRailFileName, 319);
+    manager->probeWork = GFL_HEAP_Alloc(heapId, sizeof(*manager->probeWork), 1, sRailFileName, 319);
     FIELD_RAIL_WORK_Init(manager->probeWork, &manager->setting, manager);
     manager->probeWork->inUse = 1;
     return manager;
@@ -416,11 +416,11 @@ void FIELD_RAIL_SetSetting(RailManager *manager, FieldRailSetting *setting)
     FIELD_RAIL_SETTING_Copy(&manager->setting, setting);
 }
 
-u32 FIELD_RAIL_ClearSetting(RailManager *manager)
+RailClosedLines *FIELD_RAIL_ClearSetting(RailManager *manager)
 {
     manager->dataLoaded = 0;
     FIELD_RAIL_SETTING_Clear(&manager->setting);
-    return (uptr)FIELD_RAIL_CLOSED_Clear(&manager->closedLines);
+    return FIELD_RAIL_CLOSED_Clear(&manager->closedLines);
 }
 
 RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager)
@@ -1270,12 +1270,12 @@ void FIELD_RAIL_GetNeighbourLimits(FieldRailSetting *setting, const RailLine *li
 
 void FIELD_RAIL_SETTING_Clear(FieldRailSetting *setting)
 {
-    MI_CpuFill8(setting, 0, 48);
+    MI_CpuFill8(setting, 0, sizeof(*setting));
 }
 
 void FIELD_RAIL_SETTING_Copy(FieldRailSetting *dst, const FieldRailSetting *src)
 {
-    MI_CpuCopy8(src, dst, 0x30);
+    MI_CpuCopy8(src, dst, sizeof(*src));
 }
 
 RailPoint *FIELD_RAIL_SETTING_GetPoint(FieldRailSetting *setting, u32 pointIndex)

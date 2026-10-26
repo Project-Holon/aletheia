@@ -104,7 +104,7 @@ int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperat
     GPIConnection *ic = (GPIConnection *)*connection;
     GPICallbackData *data;
 
-    data = (GPICallbackData *)gsimalloc(0x18);
+    data = (GPICallbackData *)gsimalloc(sizeof(*data));
     if (data == 0) {
         gpiSetErrorString(connection, gGpiCallbackErrorOutOfMemory);
         return 1;

@@ -763,10 +763,10 @@ void NNSi_G2dLoadVramResourceMain(struct VramResource *r, u32 dst, int mode, str
     case 0:
         break;
     case 1:
-        *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     case 2:
-        *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     }
     DC_FlushRange(r->src, r->size);
@@ -824,10 +824,10 @@ void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, stru
     case 0:
         break;
     case 1:
-        *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     case 2:
-        *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     }
     DC_FlushRange(r->src, r->size);
@@ -901,10 +901,10 @@ void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct
     case 0:
         break;
     case 1:
-        *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DISPCNT_ADDR = (*(volatile u32 *)REG_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     case 2:
-        *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
+        *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & 0xFFCFFFEF) | bank;
         break;
     }
     if (r->bank == 0) {

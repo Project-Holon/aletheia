@@ -39,8 +39,8 @@ typedef struct {
     u32 ch;
     u32 src;
     u32 remaining;
-    void (*callback)(u32);
-    u32 arg;
+    void (*callback)(void *);
+    void *arg;
     u32 savedFifoIrqMode;
     IrqHandler savedIrqHandler;
 } GxState;
@@ -53,13 +53,13 @@ extern NdmaConfig data_02732EFC[];
 extern IrqHandler OS_GetIrqFunction(u32);
 extern void OS_SetIrqFunction(u32, IrqHandler);
 
-void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
+void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg);
 static void MIi_FIFOCallback(void);
 void MIi_NDMACallback(void);
-void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
+void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg);
 void MIi_NDMAFastCallback(void);
 
-void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg)
+void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg)
 {
     u32 irq;
     GxState *s;
@@ -84,7 +84,7 @@ void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 a
     irq = OS_DisableInterrupts();
     s->savedFifoIrqMode = (*(volatile u32 *)REG_GXSTAT_ADDR & 0xc0000000) >> 0x1e;
     s->savedIrqHandler = OS_GetIrqFunction(0x200000);
-    *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
+    *(volatile u32 *)REG_GXSTAT_ADDR = (*(volatile u32 *)REG_GXSTAT_ADDR & ~0xc0000000) | 0x40000000;
     OS_SetIrqFunction(0x200000, MIi_FIFOCallback);
     OS_EnableIrqMask(0x200000);
     MIi_FIFOCallback();
@@ -124,8 +124,8 @@ static void MIi_FIFOCallback(void)
 void MIi_NDMACallback(void)
 {
     GxState *s = &data_02732F3C;
-    void (*cb)(u32);
-    u32 arg;
+    void (*cb)(void *);
+    void *arg;
     volatile u32 *reg = (volatile u32 *)REG_GXSTAT_ADDR;
     OS_DisableIrqMask(0x200000);
     *reg = (s->savedFifoIrqMode << 30) | (*reg & ~0xC0000000);
@@ -138,7 +138,7 @@ void MIi_NDMACallback(void)
     }
 }
 
-void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg)
+void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(void *), void *arg)
 {
     GxState *s;
     if (size == 0) {
@@ -161,8 +161,8 @@ void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(u32), u
 void MIi_NDMAFastCallback(void)
 {
     GxState *s = &data_02732F3C;
-    void (*cb)(u32);
-    u32 arg;
+    void (*cb)(void *);
+    void *arg;
     s->busy = 0;
     cb = s->callback;
     arg = s->arg;

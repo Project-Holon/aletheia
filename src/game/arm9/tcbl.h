@@ -7,8 +7,8 @@ typedef void (*TcblFunc)(struct TcblTask *task, void *work);
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of tcbl.c, prototypes copied from their definitions. */
 
-struct TcblSystem;
 struct TcblTask;
+struct TcblSystem;
 
 #include "../types.h"
 

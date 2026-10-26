@@ -6,6 +6,7 @@
 
 struct TcbTask;
 struct DispVram;
+struct DispVramCfg;
 struct ClactActor;
 
 #include "../ov135/worldtrade_types.h"
@@ -19,7 +20,7 @@ void WORLDTRADE_SetupVramBanks(const struct DispVram *vram);
 void WORLDTRADE_CallStateHandler(WorldtradeWork *p, WorldtradeArgs *args);
 void WORLDTRADE_Nop(WorldtradeWork *p);
 void WORLDTRADE_SetupWindowPlanes(void);
-void WORLDTRADE_InitClactSystem(WorldtradeWork *p, u32 mode);
+void WORLDTRADE_InitClactSystem(WorldtradeWork *p, const struct DispVramCfg *mode);
 void WORLDTRADE_SetPlaneVisibleAll(WorldtradeWork *p);
 void WORLDTRADE_OpenTaskMenuYesNoDefault(WorldtradeWork *work, u32 y, u32 unused, u32 plttIdx, u8 flag);
 void WORLDTRADE_OpenTaskMenuYesNo(WorldtradeWork *p,int y,int unused,int plttIdx,int bgLayer,u8 flag);

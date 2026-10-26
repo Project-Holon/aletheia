@@ -147,7 +147,7 @@ struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData
 {
     int i;
     struct PmsiSearch *s;
-    s = GFL_HEAP_Alloc(heap, 0xaf4, 1, sPmsiSearchAllocSite, 137);
+    s = GFL_HEAP_Alloc(heap, sizeof(*s), 1, sPmsiSearchAllocSite, 137);
     s->owner = owner;
     s->wordData = wordData;
     s->heapId = heap;
@@ -252,7 +252,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
             }
         }
         specialWords[specialCount] = PMS_INPUT_DATA_GetInvalidWordId(s->wordData);
-        s->hasResults = PMS_INPUT_DATA_FilterWordList((uptr)s->wordData, (uptr)specialWords, (uptr)s->wordIds);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList(s->wordData, specialWords, s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     } else {
@@ -262,7 +262,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
             normalWords[i] = PMS_INPUT_DATA_GetInitialWordId(s->wordData, initialId, s->results[i].wordIndex);
         }
         normalWords[matchCount] = PMS_INPUT_DATA_GetInvalidWordId(s->wordData);
-        s->hasResults = PMS_INPUT_DATA_FilterWordList((uptr)s->wordData, (uptr)normalWords, (uptr)s->wordIds);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList(s->wordData, normalWords, s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     }
@@ -275,7 +275,7 @@ u8 PMSI_SEARCH_HasResults(struct PmsiSearch *s)
 
 void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, u8 resultIndex, struct U16Vec *dest)
 {
-    PMS_INPUT_DATA_GetWordString(s->wordData, s->wordIds[resultIndex], (int)dest);
+    PMS_INPUT_DATA_GetWordString(s->wordData, s->wordIds[resultIndex], dest);
 }
 
 u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex)
@@ -333,7 +333,7 @@ u8 PMSI_SEARCH_GetKeyLeft(u32 i)
 
 int PMSI_SEARCH_GetKeyRight(int i)
 {
-    return *(const u8 *)((uptr)d_021C37AF + i * 10);
+    return *(const u8 *)(d_021C37AF + i * 10);
 }
 
 u8 PMSI_SEARCH_GetKeyKind(u32 i)

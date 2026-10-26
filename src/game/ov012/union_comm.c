@@ -114,10 +114,6 @@ struct CommPlayerPackage;
 
 
 
-extern u32 GFL_NET_GetScanResult(u32 index);
-
-extern void *GFL_NET_GetScanResultMac(u32 index);
-
 
 extern int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 
@@ -210,7 +206,7 @@ void UNION_COMM_ClearBeaconPcs(UnionRoomWork *work);
 
 void UNION_COMM_ReleaseWorks(UnionRoomWork *work);
 
-void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value);
+void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, uptr value);
 
 void UNION_COMM_InitSituation(UnionRoomWork *work);
 
@@ -510,7 +506,7 @@ void UNION_COMM_UpdateBeaconScan(UnionRoomWork *work)
     const u8 *mac;
 
     for (i = 0; i < UNION_BEACON_PC_MAX; i++) {
-        beacon = (struct UnionBeacon *)GFL_NET_GetScanResult(i);
+        beacon = GFL_NET_GetScanResult(i);
         if (beacon) {
             mac = GFL_NET_GetScanResultMac(i);
             if (mac) UNION_COMM_StoreBeacon(work, beacon, mac);
@@ -667,7 +663,7 @@ void UNION_COMM_ReleaseWorks(UnionRoomWork *work)
     }
 }
 
-void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value)
+void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, uptr value)
 {
     UnionMySituation *situation;
     situation = &work->mySituation;

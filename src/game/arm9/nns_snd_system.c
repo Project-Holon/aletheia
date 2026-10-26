@@ -105,7 +105,7 @@ u32 NNS_SndReadDriverInfo(void);
 
 int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
-void NNS_SndPrependPostSleepCallback(void);
+void NNS_SndPrependPostSleepCallback(void * unused0);
 
 void NNS_SndAppendPostSleepCallback(void *p);
 
@@ -155,7 +155,7 @@ void NNS_SndInit(void)
     }
     g_0214BAC0.initialized = 1;
     SND_Init();
-    g_0214BAC0.cb10.fn = (void (*)(void *))NNS_SndPrependPostSleepCallback;
+    g_0214BAC0.cb10.fn = NNS_SndPrependPostSleepCallback;
     g_0214BAC0.cb10.arg = 0;
     g_0214BAC0.cb20.fn = NNS_SndAppendPostSleepCallback;
     g_0214BAC0.cb20.arg = 0;
@@ -307,7 +307,7 @@ int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackIn
     return SND_ReadTrackInfo((struct SNDDriverInfo *)p, playerNo, trackNo, trackInfo);
 }
 
-void NNS_SndPrependPostSleepCallback(void)
+void NNS_SndPrependPostSleepCallback(void * unused0)
 {
     u32 res;
 

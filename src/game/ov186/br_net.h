@@ -50,7 +50,7 @@ void BR_NET_DestroyTask(struct BrNetTask *task);
 void BR_NET_RunTask(struct BrNetTask *task);
 void BR_NET_SetStep(struct BrNetTask *task, BrNetStepFunc step);
 int BR_NET_IsStep(struct BrNetTask *task, BrNetStepFunc step);
-int BR_NET_OnRapError(struct BrNet *net, int unused, int errorKind, int unused2);
+int BR_NET_OnRapError(void *arg, u32 errorCode, u32 errorKind, int dwcError);
 /* END mkheaders: generated region */
 
 #endif

@@ -78,7 +78,7 @@ struct MyItem;
 struct PdwPostmanSave;
 struct MysteryData;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/game_event.h"
 
 /* Mystery gift card (0xCC); layout and field names as in arm9 mystery_data.c. */
 typedef struct MysteryCard {
@@ -173,7 +173,6 @@ extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSyst
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct GameSyncData;
 #include "../arm9/game_sync.h"
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 #include "../arm9/mystery_data.h"
 
@@ -404,7 +403,7 @@ struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     save = (struct PdwPostmanSave *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
     work = GAME_EVENT_GetWork(event);
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->pageTop = 0;

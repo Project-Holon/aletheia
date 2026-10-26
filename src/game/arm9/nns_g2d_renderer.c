@@ -213,6 +213,7 @@ struct RendererBssHead {
 #include "mi_memory.h"
 struct CellDrawState;
 #include "fx_cp.h"
+#include "../sdk_ioreg.h"
 struct NNSG2dPaletteProxy;
 struct NNSG2dImageProxy;
 void NNSi_G2dRendererPreDrawOam(struct RndOamCell *c, void *pCellData, void *pOam);
@@ -233,8 +234,8 @@ void NNS_G2dPopMtx(int n);
 void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z);
 void NNS_G2dScale(fx32 x, fx32 y, fx32 z);
 void NNS_G2dRotZ(fx32 sin, fx32 cos);
-int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
-void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
+void *NNSi_G2dGetCurrentInstanceVramHandle(NNSG2dRendererInstance *p);
+void NNSi_G2dSetRndCoreImageProxyVeneer(NNSG2dRndCoreInstance *pRnd, NNSG2dImageProxy *pImgProxy, NNSG2dPaletteProxy *pPltProxy);
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 extern struct RendererBss g_02147B88;
 /* stand-in: second name for g_02147B88, used by NNS_G2dTranslate only; with the full struct the 2.0 scheduler hoists the stackPos_ load (44 bytes off) */
@@ -267,7 +268,7 @@ void NNSi_G2dRendererPreDrawOam(struct RndOamCell *c, void *pCellData, void *pOa
     MtxFx32 *m;
     u32 i;
 
-    map = (void *)NNSi_G2dGetCurrentInstanceVramHandle((int *)g_02147B88.pCurrentInstance_);
+    map = NNSi_G2dGetCurrentInstanceVramHandle(g_02147B88.pCurrentInstance_);
     if (map != 0)
         c->oam.cParam = NNSi_G2dGetVramHandle(map, (u16)((c->oam.attr2 & 0xF000) >> 12));
 
@@ -368,7 +369,7 @@ static inline void DrawA(void *a, NNSG2dRenderSurface *p)
 
     q->pCurrentTargetSurface = p;
     NNS_G2dSetRndCoreSurface((NNSG2dRndCoreInstance *)q, (NNSG2dRndCoreSurface *)p);
-    NNS_G2dSetRndCoreOamRegisterFunc((NNSG2dRndCoreInstance *)q, (OamRegisterFunc)p->pFuncOamRegister, (OamAffineRegisterFunc)p->pFuncOamAffineRegister);
+    NNS_G2dSetRndCoreOamRegisterFunc((NNSG2dRndCoreInstance *)q, p->pFuncOamRegister, p->pFuncOamAffineRegister);
     NNS_G2dRndCoreBeginRendering((struct NNSG2dRndCoreInstance *)q);
     aff = GetAff();
     NNS_G2dSetRndCoreCurrentMtx2D(GetMtx(), aff);
@@ -597,7 +598,7 @@ void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRender
  */
 void NNS_G2dInitRenderSurface(NNSG2dRenderSurface *p)
 {
-    MIi_CpuClear16(0, p, 0x48);
+    MIi_CpuClear16(0, p, sizeof(*p));
 
     p->isActive = 1;
     p->type = 3;
@@ -653,8 +654,8 @@ void NNS_G2dBeginRendering(NNSG2dRendererInstance *obj)
     g_02147B88.groupID_ = 0;
     MIi_CpuClearFast(0, g_02147C18, 0x100);
 
-    *(volatile u32 *)0x04000444 = 0;
-    *(volatile u32 *)0x04000454 = 0;
+    *(volatile u32 *)REG_MTX_PUSH_ADDR = 0;
+    *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
     NNSi_G2dRendererResetMtxSlot();
 }
 
@@ -676,7 +677,7 @@ void NNS_G2dEndRendering(void)
     u32 f;
     NNSG2dRendererInstance *o;
 
-    *(volatile u32 *)0x04000448 = 1;
+    *(volatile u32 *)REG_MTX_POP_ADDR = 1;
 
     o = g_02147B88.pCurrentInstance_;
     f = o->flag;
@@ -1182,9 +1183,9 @@ void NNS_G2dRotZ(fx32 sin, fx32 cos)
     NNSi_G2dMCMSetCurrentMtxSRChanged();
 }
 
-int NNSi_G2dGetCurrentInstanceVramHandle(int *p){ return p[0x1e]; }
+void *NNSi_G2dGetCurrentInstanceVramHandle(NNSG2dRendererInstance *p){ return p->currentCell; }
 
-void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy){ NNS_G2dSetRndCoreImageProxy((struct NNSG2dRndCoreInstance *)pRnd, (struct NNSG2dImageProxy *)pImgProxy, (struct NNSG2dPaletteProxy *)pPltProxy); }
+void NNSi_G2dSetRndCoreImageProxyVeneer(NNSG2dRndCoreInstance *pRnd, NNSG2dImageProxy *pImgProxy, NNSG2dPaletteProxy *pPltProxy){ NNS_G2dSetRndCoreImageProxy(pRnd, pImgProxy, pPltProxy); }
 
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab)
 {

@@ -13,9 +13,9 @@ ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char 
 void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp);
 void EL_SCOREBOARD_TickLamp(ElLamp *lamp);
 void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick);
-int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work);
+int EL_SCOREBOARD_EventMain(struct GameEvent *eventTask, int *state, void *work);
 void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
-void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg);
+void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, void *finishCallbackArg);
 void *EL_SCOREBOARD_StartStandalone(void *gameSystem, u8 shownSeason, u8 targetSeason);
 void EL_SCOREBOARD_SetupDisplay(ElScoreboardWork *work);
 void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work);

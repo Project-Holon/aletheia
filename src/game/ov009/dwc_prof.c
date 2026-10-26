@@ -103,8 +103,8 @@ int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserv
  */
 int DWC_CheckProfanityProcess(void);
 int DWCi_Prof_ParseResponse(void);
-static void *DWCi_Prof_Alloc(int name, unsigned long size);
-static void DWCi_Prof_Free(int name, void *ptr, unsigned long size);
+static void *DWCi_Prof_Alloc(unsigned long name, long size);
+static void DWCi_Prof_Free(unsigned long name, void *ptr, long size);
 extern DWCProfWorkarea *gDwcProfWorkarea;
 extern DWCAuthHttpParam gDwcHttpParamArg;
 extern char gDwcProfPathAc[];
@@ -179,8 +179,8 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     httpparam.url = gDwcProfWorkarea->url;
     httpparam.action = 0;
     httpparam.len_recvbuf = 0x400;
-    httpparam.alloc = (DWCAuthAlloc)DWCi_Prof_Alloc;
-    httpparam.free = (DWCAuthFree)DWCi_Prof_Free;
+    httpparam.alloc = DWCi_Prof_Alloc;
+    httpparam.free = DWCi_Prof_Free;
     httpparam.ignoreca = 0;
     if (timeout <= 0)
         httpparam.timeout = 10000;
@@ -203,7 +203,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
         if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWtype, reserved, 4) != 0)
             goto error;
     }
-    if (DWC_Http_Add_Body((char *)(&gDwcProfWorkarea->http), gDwcProfBodyWtype) != 0)
+    if (DWC_Http_Add_Body((&gDwcProfWorkarea->http), gDwcProfBodyWtype) != 0)
         goto error;
 
     sendstring = DWC_Alloc(0, totalnum_wchar * sizeof(unsigned short));
@@ -224,9 +224,9 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     DWC_Free(0, sendstring, 0);
     sendstring = 0;
 
-    if (DWC_Http_FinishHeader((char *)(&gDwcProfWorkarea->http)) != 0)
+    if (DWC_Http_FinishHeader((&gDwcProfWorkarea->http)) != 0)
         goto error;
-    DWC_Http_StartThread((char *)(&gDwcProfWorkarea->http), OS_GetThreadPriority(OSi_ThreadInfo.current) - 1);
+    DWC_Http_StartThread((&gDwcProfWorkarea->http), OS_GetThreadPriority(OSi_ThreadInfo.current) - 1);
     if (gDwcProfWorkarea->http.thread.id != 0)
         return 1;
 
@@ -235,7 +235,7 @@ error:
         DWC_Free(0, sendstring, 0);
     if (gDwcProfWorkarea != 0) {
         if (gDwcProfWorkarea->http_initialized == 1)
-            DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
+            DWC_Http_Destroy((&gDwcProfWorkarea->http));
         DWC_Free(0, gDwcProfWorkarea, 0);
         gDwcProfWorkarea = 0;
     }
@@ -301,7 +301,7 @@ int DWC_CheckProfanityProcess(void)
         return 1;
     }
 
-    DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
+    DWC_Http_Destroy((&gDwcProfWorkarea->http));
     DWC_Free(0, gDwcProfWorkarea, 0);
     gDwcProfWorkarea = 0;
     return retval;
@@ -326,18 +326,18 @@ int DWCi_Prof_ParseResponse(void)
     if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
-    strp = DWC_Http_GetResult((char *)DWChttp, gDwcProfLabelDate);
+    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelDate);
     if (strp != 0)
         DWC_Auth_SetNasTimeDiff(strp);
 
-    strp = DWC_Http_GetResult((char *)DWChttp, gDwcProfLabelHttpResult);
+    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelHttpResult);
     if (strp == 0)
         goto error;
     httpretcode = atoi(strp);
     if (errno == 34 || httpretcode != 200)
         goto error;
 
-    if (DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
+    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
         goto error;
     httpretcode = atoi(retcode);
     if (errno == 34)
@@ -350,7 +350,7 @@ int DWCi_Prof_ParseResponse(void)
     for (i = 0; i < sizeof(regionResultFieldName.name) / sizeof(char *) - 1; i++) {
         if (regionResultFieldName.name[i] == 0)
             continue;
-        decodedStringLength = DWC_Http_GetBase64DecodedResult((char *)DWChttp, regionResultFieldName.name[i], result, sizeof(result));
+        decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, regionResultFieldName.name[i], result, sizeof(result));
         if (decodedStringLength < 0)
             goto error;
         if (decodedStringLength == 0)
@@ -364,7 +364,7 @@ int DWCi_Prof_ParseResponse(void)
         }
     }
 
-    decodedStringLength = DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
+    decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
     if (decodedStringLength < 0)
         goto error;
     if (decodedStringLength == 0)
@@ -389,12 +389,12 @@ error:
     return 0;
 }
 
-static void *DWCi_Prof_Alloc(int name, unsigned long size)
+static void *DWCi_Prof_Alloc(unsigned long name, long size)
 {
     return DWC_Alloc(0, size);
 }
 
-static void DWCi_Prof_Free(int name, void *ptr, unsigned long size)
+static void DWCi_Prof_Free(unsigned long name, void *ptr, long size)
 {
     DWC_Free(0, ptr, size);
 }

@@ -150,8 +150,8 @@ typedef struct SideOrder {
 } SideOrder;
 
 typedef struct Pair {
-    int a;
-    int b;
+    struct FieldMap *fieldMap;
+    int hideFieldObjects;
 } Pair;
 
 #include "../arm9/gamesystem.h"
@@ -185,6 +185,7 @@ struct FieldState;
 struct WifiList;
 #include "../arm9/wifilist.h"
 #include "../arm9/gf_overlay.h"
+#include "../arm9/net_save.h"
 struct WifiClubPlayerStatus;
 #include "../ov099/wifi_club.h"
 #include "../arm9/net_command.h"
@@ -194,12 +195,12 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work, void *gameData, int seq);
 void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work);
-int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work);
+int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
 void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
-int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
-extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021C37E8[];
+struct GameEvent *EVENT_WIFICLUB_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects);
+struct GameEvent *EVENT_WIFICLUB_Entry(struct GameSystem *gameSystem, Pair *request);
+extern const char d_021DCCA4[],d_021C37E8[];
 extern NetCommandEntry d_021F03C4[];
 extern const char d_0215513C[],d_021E75C0[],d_02154C80[],d_02208C40[],d_021C7240[];
 extern char ov008_id[],ov067_id[],ov127_id[],ov115_id[],ov099_id[];
@@ -271,19 +272,19 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
     switch (menuIndex) {
     case 7:
     case 8:
-        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
     case 10:
-        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 11:
     case 12:
-        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
     case 14:
-        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, (uptr)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     }
     BTL_SETUP_AllocRecordBuffer(work->battleSetup, 1);
@@ -294,6 +295,9 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
 }
 
 
+
+/* The DS build reaches a side through a byte offset from the work block (the match needs that spelling);
+ * the host build indexes the side array, which stays right when the side record has wider pointers. */
 
 /*
  * size: 136
@@ -320,10 +324,10 @@ void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, in
     partnerRecord = GAME_DATA_GetMyStatusPlayer(gameData, partnerSide);
     work->battleEntry.regulation = work->session->regulation;
     entry = &work->battleEntry;
-    entry->ownParty = *(void **)((uptr)work->session + 0x14 + 4 * (unsigned int)selfSide);
+    entry->ownParty = work->session->party[selfSide];
     entry->partnerInfo = (void *)MYSTATUS_GetName(partnerRecord);
     entry->partnerGender = MYSTATUS_GetSex(partnerRecord);
-    entry->partnerParty = *(void **)((uptr)work->session + 0x14 + 4 * (unsigned int)partnerSide);
+    entry->partnerParty = work->session->party[partnerSide];
     entry->gameData = gameData;
     entry->reserved18 = 0;
     POKEPARTY_Init(work->battleParty);
@@ -377,11 +381,13 @@ void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work)
  * function. Nothing left to change in the C.
  * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is WIFICLUB_RunPeerAddrRoutine, a Thumb veneer in ov099). No change possible in C.
  */
-int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work)
+int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    WifiClubEventWork *work = workPtr;
     struct GameSystem *gameSystem;
     u32 step;
-    int i, offset;
+    int i;
+    WifiClubEventWork *side;
     SideOrder order;
     EvolutionRequest *request;
     WifiClubEventSession *session;
@@ -427,7 +433,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 7: return 1;
     case 8:
-        MI_CpuFill8(&work->login, 0, 0x28);
+        MI_CpuFill8(&work->login, 0, sizeof(work->login));
         *seq = 9;
         work->login.useSaveData = 0;
         break;
@@ -439,7 +445,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         work->login.allowCancel = 1;
         GFL_USE_CancelChangeAndPlayBgm(0x481, 0xffff);
         work->loginTask = PROCSYS_Create(4);
-        PROCSYS_Push(work->loginTask, (uptr)ov115_id, (const struct ProcData *)gNetSaveMainProc, &work->login);
+        PROCSYS_Push(work->loginTask, (uptr)ov115_id, &gNetSaveMainProc, &work->login);
         work->session->menuChoice = 0;
         *seq = 10;
         break;
@@ -460,7 +466,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         work->confirm.useSaveData = 0;
         work->confirm.allowCancel = 0;
         work->loginTask = PROCSYS_Create(4);
-        PROCSYS_Push(work->loginTask, (uptr)ov115_id, (const struct ProcData *)gNetSaveRetryProc, &work->confirm);
+        PROCSYS_Push(work->loginTask, (uptr)ov115_id, &gNetSaveRetryProc, &work->confirm);
         ++*seq;
         break;
     case 31:
@@ -517,19 +523,18 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 16:
         GFL_USE_CancelChangeAndPlayBgm(0x490, 0xffff);
         work->matchActive = 1;
-        /* (work + offset) then the member offset, as in the original; indexing sides[] changes the bytes */
+        /* side i is reached as the work block moved by i side records, then the member offset (indexing sides[] changes the bytes) */
         if (!GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
             for (i = 0; i < 2; i++) {
-                offset = i << 4;
-                ((WifiClubEventWork *)((uptr)work + offset))->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
-                ((WifiClubEventWork *)((uptr)work + offset))->sides[0].party = work->session->party[i];
+                ((WifiClubEventWork *)((ClubBattleSide *)work + i))->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
+                ((WifiClubEventWork *)((ClubBattleSide *)work + i))->sides[0].party = work->session->party[i];
             }
         } else {
             order = d_02154C2C;
             for (i = 0; i < 2; i++) {
-                offset = ((u8 *)&order)[i] << 4;
-                ((WifiClubEventWork *)((uptr)work + offset))->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
-                ((WifiClubEventWork *)((uptr)work + offset))->sides[0].party = work->session->party[i];
+                side = (WifiClubEventWork *)((ClubBattleSide *)work + ((u8 *)&order)[i]);
+                side->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
+                side->sides[0].party = work->session->party[i];
             }
         }
         work->startParam.gameData = GAMESYSTEM_GetGameData(work->gameSystem);
@@ -572,7 +577,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         }
         break;
     case 21:
-        request = GFL_HEAP_Alloc(4, 0x14, 0, d_02154C80, 0x24b);
+        request = GFL_HEAP_Alloc(4, sizeof(EvolutionRequest), 0, d_02154C80, 0x24b);
         request->gameData = GAMESYSTEM_GetGameData(work->gameSystem);
         request->party = work->tradeParam.party;
         request->targetSpecies = work->tradeParam.partyIndex;
@@ -653,14 +658,14 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fie
     work->fieldMap = fieldMap;
     work->event = event;
     work->hideFieldObjects = hideFieldObjects;
-    work->session = GFL_HEAP_Alloc(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
+    work->session = GFL_HEAP_Alloc(0x8004, sizeof(WifiClubEventSession), 1, d_02154C80, 0x2b0);
     work->session->scratchBuffer = GFL_HEAP_Alloc(0x8004, 0x20, 1, d_02154C80, 0x2b1);
     work->session->gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     work->session->saveControl = GAME_DATA_GetSaveControl(work->session->gameData);
     work->session->rulesLoaded = 1;
     work->session->rematch = 0;
     work->paramGameData = work->session->gameData;
-    work->battleRecord = (uptr)GAME_DATA_GetWifiList(work->paramGameData);
+    work->battleRecord = GAME_DATA_GetWifiList(work->paramGameData);
     work->session->menuChoice = 0;
     work->tradeParam.party = work->battleParty = POKEPARTY_Create(0x8004);
     work->self = work;
@@ -674,18 +679,18 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fie
 
 
 
-int EVENT_WIFICLUB_Create(int gameSystem, struct FieldMap *fieldMap, int hideFieldObjects)
+struct GameEvent *EVENT_WIFICLUB_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int hideFieldObjects)
 {
-    sptr event;
+    struct GameEvent *event;
 
-    event = (sptr)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_WIFICLUB_Main, 0x174);
-    EVENT_WIFICLUB_InitWork((void *)event, (void *)gameSystem, fieldMap, hideFieldObjects);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFICLUB_Main, sizeof(WifiClubEventWork));
+    EVENT_WIFICLUB_InitWork(event, gameSystem, fieldMap, hideFieldObjects);
     return event;
 }
 
 
 /* Overlay entry point: unpacks the request pair and creates the event. */
-int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request)
+struct GameEvent *EVENT_WIFICLUB_Entry(struct GameSystem *gameSystem, Pair *request)
 {
-    return EVENT_WIFICLUB_Create(gameSystem, (struct FieldMap *)request->a, request->b);
+    return EVENT_WIFICLUB_Create(gameSystem, request->fieldMap, request->hideFieldObjects);
 }

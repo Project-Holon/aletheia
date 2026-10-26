@@ -68,7 +68,7 @@ int gpiStatusInfoKeysInit(void **connection);
  * sdk: gpiStatusInfoKeysDestroy (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
 void gpiStatusInfoKeysDestroy(void **connection);
-int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2);
+int gpiStatusInfoKeyCompFunc(void * elem1Arg, void * elem2Arg);
 /*
  * sdk: gpiStatusInfoAddKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -128,8 +128,10 @@ void gpiStatusInfoKeysDestroy(void **connection)
     iconnection->extendedInfoKeys = 0;
 }
 
-int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
+int gpiStatusInfoKeyCompFunc(void * elem1Arg, void * elem2Arg)
 {
+    char ** elem1 = (char **)elem1Arg;
+    char ** elem2 = (char **)elem2Arg;
     return strcmp(*elem1, *elem2);
 }
 
@@ -150,7 +152,7 @@ int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *t
     }
     aKey.keyName = goastrdup(theKeyName);
     aKey.keyValue = goastrdup(theKeyValue);
-    ArrayInsertSorted(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc);
+    ArrayInsertSorted(keys, &aKey, gpiStatusInfoKeyCompFunc);
     return 0;
 }
 
@@ -168,7 +170,7 @@ int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newK
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = ArraySearch(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, gpiStatusInfoKeyCompFunc, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         gsifree(aKeyFound->keyValue);
@@ -193,7 +195,7 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
-    anIndex = ArraySearch(keys, &aKey, (int (*)(void *, void *))gpiStatusInfoKeyCompFunc, 0, 1);
+    anIndex = ArraySearch(keys, &aKey, gpiStatusInfoKeyCompFunc, 0, 1);
     if (anIndex != -1) {
         aKeyFound = (struct GPIKey *)ArrayNth(keys, anIndex);
         *keyValue = aKeyFound->keyValue;

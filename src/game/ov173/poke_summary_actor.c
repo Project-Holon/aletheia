@@ -143,10 +143,11 @@ struct TaskMenuRes;
 struct TaskMenuWin;
 #include "../arm9/app_taskmenu.h"
 #include "../arm9/g2.h"
+#include "../arm9/procsys.h"
 void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *archiveHandle);
 void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
 void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other);
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 a,int b,u32 c,u32 d,u16 heap);
+void POKE_SUMMARY_ACTOR_TransferCharacter(void *a,int b,u32 c,u32 d,u16 heap);
 void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
 void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *p);
 void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *p);
@@ -176,7 +177,7 @@ void POKE_SUMMARY_ACTOR_SetSubBrightness(int a);
 extern const struct Cfg d_021B820C;
 extern u8 d_021B8250[];
 extern const Row d_021B85E0[];
-extern char gPokeStatusProcData[];
+extern const ProcData gPokeStatusProcData;
 extern char k_83[];
 extern u8 d_021B81DC[];
 extern const u8 d_021B83A8[];
@@ -190,7 +191,7 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     void *bank;
     u32 i;
     u32 first;
-    sptr second;
+    void *second;
     void *mon;
     u32 save;
     bank=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),79);
@@ -211,26 +212,26 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[3]=CLACT_RegisterCellAnim(archiveHandle,24,25,79);
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[4]=CLACT_RegisterCellAnim(archiveHandle,27,28,79);
     ARC_TOOL_DeleteHandle(bank);
-    second=(sptr)POKEGRA_OpenHandle(79);
+    second=POKEGRA_OpenHandle(79);
     mon=POKE_TOOL_CastToBoxParam(((struct PokeSummaryWork *)work)->mon->party);
     save=POKE_TOOL_DecodeBoxParam(mon);
     ((struct PokeSummaryWork *)work)->reg.named.cgrHandle=POKEGRA_RegisterCgrPP(second,mon,0,0,79);
     ((struct PokeSummaryWork *)work)->reg.named.paletteHandles[4]=POKEGRA_RegisterPalettePP(second,mon,0,0,128,79);
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandle2=POKEGRA_RegisterCellAnimPP(mon,0,1,0,79);
     POKE_TOOL_EncodeBoxParam(mon,save);
-    ARC_TOOL_DeleteHandle((void *)second);
+    ARC_TOOL_DeleteHandle(second);
 }
 
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct NNSG2dCharacterData *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(void *archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct NNSG2dCharacterData *out;raw=ARC_UTIL_LoadScreenDataFromHandle(archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
 
-void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct ClactActor *)(*(struct ClactActor **)(work+(i+8)*4+260)),APP_ICON_GetTypePaletteOffset((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct ClactActor *)((struct ClactActor *)((struct PokeSummaryWork *)work)->actors[i+8]),APP_ICON_GetTypePaletteOffset((u8)n),1);}
 
 void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *work)
 {
     int i;
     for (i = 0; i < 8; i++) {
         if (((struct PokeSummaryWork *)work)->transfers[i].flag != 0) {
-            POKE_SUMMARY_ACTOR_TransferCharacter((uptr)(((struct PokeSummaryWork *)work)->resourceHandle), (int)(((struct PokeSummaryWork *)work)->reg.flat[4+i]), APP_ICON_GetTypeCellFileId((u8)((struct PokeSummaryWork *)work)->transfers[i].param), 0, 0x4f);
+            POKE_SUMMARY_ACTOR_TransferCharacter(((struct PokeSummaryWork *)work)->resourceHandle, (int)(((struct PokeSummaryWork *)work)->reg.flat[4+i]), APP_ICON_GetTypeCellFileId((u8)((struct PokeSummaryWork *)work)->transfers[i].param), 0, 0x4f);
             ((struct PokeSummaryWork *)work)->transfers[i].flag = 0;
         }
     }
@@ -247,7 +248,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
         CLACT_AddActorSurfacePos(((struct PokeSummaryWork *)work)->actors[4+i], (struct ClactVec2 *)rect, 1);
-        if (((struct PokeSummaryWork *)work)->mon->scrollIndex + i >= *(u8 *)(work + off)) {
+        if (((struct PokeSummaryWork *)work)->mon->scrollIndex + i >= ((struct PokeSummaryWork *)work)->moveCount) {
             CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)work)->actors[4+i], 0);
         } else {
             value = WAZA_TOOL_GetParam(*(u16 *)(*(char * *)&((struct PokeSummaryWork *)work)->mon->moveList + (((struct PokeSummaryWork *)work)->mon->scrollIndex + i) * 2), 0);
@@ -325,7 +326,7 @@ int POKE_SUMMARY_ACTOR_StartProc(char *work)
     ((struct PokeSummaryWork *)work)->procArgs.enabled = 2;
     ((struct PokeSummaryWork *)work)->procArgs.mode = zero;
     ((struct PokeSummaryWork *)work)->procArgs.nationalDexEnabled = zero;
-    GAMESYSTEM_CallProc(((struct PokeSummaryMon *)(*(char * *)&((struct PokeSummaryWork *)work)->mon))->gameSystem, (uptr)k_83, gPokeStatusProcData, work + 0x180);
+    GAMESYSTEM_CallProc(((struct PokeSummaryMon *)(*(char * *)&((struct PokeSummaryWork *)work)->mon))->gameSystem, (uptr)k_83, &gPokeStatusProcData, (char *)((char *)&((struct PokeSummaryWork *)work)->procArgs));
     return 12;
 }
 
@@ -347,7 +348,7 @@ int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
     return 0;
 }
 
-void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,(uptr)work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
 
 /*
  *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
@@ -462,20 +463,20 @@ void POKE_SUMMARY_ACTOR_HandleCursorInput(char *work,int i)
 void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *work, int flag)
 {
     if (flag == 1) {
-        if (*(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] == 0) {
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] = (uptr)APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)((work + 0x1e4)), 13, 21, 9, 0x4f);
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[1] = (uptr)APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)((work + 0x1f0)), 22, 21, 9, 0x4f);
+        if (((struct PokeSummaryWork *)work)->taskMenuWindows[0] == 0) {
+            ((struct PokeSummaryWork *)work)->taskMenuWindows[0] = APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)(char *)((char *)&((struct PokeSummaryWork *)work)->moveEntries[0]), 13, 21, 9, 0x4f);
+            ((struct PokeSummaryWork *)work)->taskMenuWindows[1] = APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)(char *)((char *)&((struct PokeSummaryWork *)work)->moveEntries[1]), 22, 21, 9, 0x4f);
             CURSOR_MOVE_SetSkipBit(((struct PokeSummaryWork *)work)->sound, 8);
             ((struct PokeSummaryWork *)work)->cursorSkipFlag = 1;
             return;
         }
     } else {
-        if (*(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] != 0) {
+        if (((struct PokeSummaryWork *)work)->taskMenuWindows[0] != 0) {
             APP_TASKMENU_WIN_Delete(((struct PokeSummaryWork *)work)->taskMenuWindows[0]);
             APP_TASKMENU_WIN_Delete(((struct PokeSummaryWork *)work)->taskMenuWindows[1]);
             BG_SYS_PushTile(4);
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] = 0;
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[1] = 0;
+            ((struct PokeSummaryWork *)work)->taskMenuWindows[0] = 0;
+            ((struct PokeSummaryWork *)work)->taskMenuWindows[1] = 0;
         }
         CURSOR_MOVE_ClearSkipBit(((struct PokeSummaryWork *)work)->sound, 8);
         ((struct PokeSummaryWork *)work)->cursorSkipFlag = 0;
@@ -544,7 +545,7 @@ void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *work)
 
 int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
 {
-    char *q = work + 0x1d0;
+    char *q = (char *)(&((struct PokeSummaryWork *)work)->decide);
 
     ((struct PokeSummaryDecide *)q)->active = 0;
     ((struct PokeSummaryDecide *)q)->windowIndex = 0xd;
@@ -553,18 +554,18 @@ int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
     return 0xd;
 }
 
-int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *work,u16 result) {u8 *q;q=work+464;((struct PokeSummaryDecide *)q)->active=1;((struct PokeSummaryDecide *)q)->windowIndex=0;((struct PokeSummaryDecide *)q)->result=result;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(work+((struct PokeSummaryDecide *)q)->windowIndex*4+544)),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *work,u16 result) {u8 *q;q=(u8 *)((u8 *)&((struct PokeSummaryWork *)work)->decide);((struct PokeSummaryDecide *)q)->active=1;((struct PokeSummaryDecide *)q)->windowIndex=0;((struct PokeSummaryDecide *)q)->result=result;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)((char *)((struct PokeSummaryWork *)work)->taskMenuWindows[((struct PokeSummaryDecide *)q)->windowIndex]),1);return 13;}
 
-int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *work,unsigned short id) {unsigned short *q=(unsigned short *)(work+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)((uptr)work+q[3]*4+0x220)),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *work,unsigned short id) {unsigned short *q=(unsigned short *)((unsigned short *)&((struct PokeSummaryWork *)work)->decide);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)((char *)((struct PokeSummaryWork *)work)->taskMenuWindows[q[3]]),1);return 13;}
 
 int POKE_SUMMARY_ACTOR_WaitDecide(u8 *work)
 {
     u8 *s;
-    s=work+464;
+    s=(u8 *)((u8 *)&((struct PokeSummaryWork *)work)->decide);
     if(((struct PokeSummaryDecide *)s)->active==0) {
-        if(CLACT_IsActorAnimActive(*(void **)(work+260+((struct PokeSummaryDecide *)s)->windowIndex*4))==0) return ((struct PokeSummaryDecide *)s)->result;
+        if(CLACT_IsActorAnimActive(((struct PokeSummaryWork *)work)->actors[((struct PokeSummaryDecide *)s)->windowIndex])==0) return ((struct PokeSummaryDecide *)s)->result;
     } else if(((struct PokeSummaryDecide *)s)->active==1) {
-        if(APP_TASKMENU_WIN_IsFinish(*(void **)(work+544+((struct PokeSummaryDecide *)s)->windowIndex*4))!=0) {
+        if(APP_TASKMENU_WIN_IsFinish(((struct PokeSummaryWork *)work)->taskMenuWindows[((struct PokeSummaryDecide *)s)->windowIndex])!=0) {
             POKE_SUMMARY_ACTOR_ToggleTaskMenu((char *)work,0);
             return ((struct PokeSummaryDecide *)s)->result;
         }

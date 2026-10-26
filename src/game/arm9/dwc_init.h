@@ -12,7 +12,7 @@
 
 int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free);
 int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free);
-void *DWCi_GetGamecode(void);
+u32 DWCi_GetGamecode(void);
 void DWCi_Np_SetInitFlag(int initialized);
 /* END mkheaders: generated region */
 

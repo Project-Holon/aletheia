@@ -126,7 +126,7 @@ void DWCi_SceneOptMovWait(void)
     DWCi_CMNlMsgDraw(0x1c);
     DWCi_ANIMElInitEx(0);
     DWCi_SNDlPlay(0xb);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
@@ -143,7 +143,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -151,7 +151,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(1);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 
@@ -159,7 +159,7 @@ static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMovWait_procScene);
+    DWCi_ChangeScene(DWCi_SceneOptMovWait_procScene);
 }
 
 void DWCi_SceneOptMovWait_procScene(void)
@@ -190,7 +190,7 @@ static void button(void)
         return;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 /*
@@ -203,7 +203,7 @@ static void endScene(void)
         DWCi_MOVlEnd();
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -218,7 +218,7 @@ static void endScene1(void)
     if (gSceneOptMovWaitWork == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -247,13 +247,13 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if (gSceneOptMovWaitWork == 0) {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
+        DWCi_ChangeScene(DWCi_SceneOptMenu);
     } else if (gSceneOptMovWaitWork == 2) {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMovFailure);
+        DWCi_ChangeScene(DWCi_SceneOptMovFailure);
     } else {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneOptMovUser);
+        DWCi_ChangeScene(DWCi_SceneOptMovUser);
     }
 }
 
@@ -271,5 +271,5 @@ static void DWCi_SceneOptMovWaitCbMov(int state)
         DWCi_SNDlPlay(0x12);
     }
     DWCi_MOVlChangeCallback(0);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }

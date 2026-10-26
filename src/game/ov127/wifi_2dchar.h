@@ -19,7 +19,7 @@ void WIFI_2DCHAR_SetupCells(u8 *p,int a,int b,int c,int d);
 void WIFI_2DCHAR_ReleaseBmpCells(u8 *p);
 void WIFI_2DCHAR_RegisterBmp(u8 *p, int a, int b, int c);
 void WIFI_2DCHAR_ReleaseBmp(u8 *p);
-u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32 heap);
+Wifi2dcharActor *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32 heap);
 void WIFI_2DCHAR_DeleteActor(u8 *p);
 void WIFI_2DCHAR_SetActorPos(u8 *p,int x,int y);
 void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v);

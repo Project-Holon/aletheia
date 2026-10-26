@@ -14,7 +14,7 @@ void NNS_SndSetMasterVolume(int volume);
 void NNS_SndSetMasterPan(u32 flag);
 u32 NNS_SndReadDriverInfo(void);
 int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-void NNS_SndPrependPostSleepCallback(void);
+void NNS_SndPrependPostSleepCallback(void * unused0);
 void NNS_SndAppendPostSleepCallback(void *p);
 /* END mkheaders: generated region */
 

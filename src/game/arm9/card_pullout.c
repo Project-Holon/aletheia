@@ -55,7 +55,7 @@ extern void CARDi_SendtoPxi(u32 data, u32 wait);
 #include "svc_wait_by_loop.h"
 void CARD_InitPulledOutCallback(void);
 void CARD_SetPulledOutCallback(int (*callback)(void));
-void *CARD_IsPulledOut(void);
+BOOL CARD_IsPulledOut(void);
 void CARDi_CheckPulledOutCore(u32 id);
 extern CARDPulledOutState CARDiSlotResetCount;
 
@@ -117,9 +117,9 @@ void CARD_SetPulledOutCallback(int (*callback)(void))
     CARDiSlotResetCount.callback = callback;
 }
 
-void *CARD_IsPulledOut(void)
+BOOL CARD_IsPulledOut(void)
 {
-    return (void *)CARDiSlotResetCount.is_pulled_out;
+    return CARDiSlotResetCount.is_pulled_out;
 }
 
 /*

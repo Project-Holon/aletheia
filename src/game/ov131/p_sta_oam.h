@@ -19,7 +19,7 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
 void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid);
 void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y);
 void P_STA_OAM_SwapInts(int *a, int *b);
-int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc);
+int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, void *arc);
 void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr);
 u32 P_STA_RIBBON_GetRibbonInfo(u32 index, u32 field);
 unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);

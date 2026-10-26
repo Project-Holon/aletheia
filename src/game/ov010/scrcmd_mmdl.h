@@ -12,9 +12,9 @@ typedef struct ScrcmdWork ScrcmdWork;
 #include "../types.h"
 
 int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, u32 *state, void *work);
+int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, int *state, void *work);
 int SCRCMD_MMDL_StartOrbit(ScriptVm *vm, ScrcmdWork *cmdWork);
-int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work);
+int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, int *mode, void *work);
 /* END mkheaders: generated region */
 
 #endif

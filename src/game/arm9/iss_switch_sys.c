@@ -331,7 +331,7 @@ void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId)
 
     n = ARC_TOOL_GetArchiveFileCount(0x93);
     sys->setCount = (u8)n;
-    sys->sets = GFL_HEAP_Alloc(heapId, (u32)(n << 2), 0,
+    sys->sets = GFL_HEAP_Alloc(heapId, n * sizeof(*sys->sets), 0,
                               IssSwitchSysFileName, 0x13a);
     for (i = 0; (int)i < n; i++) {
         struct IssSwitchSet *set = ISS_SWITCH_SET_Create(heapId);

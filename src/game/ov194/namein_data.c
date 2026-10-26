@@ -38,11 +38,11 @@ void *NAMEIN_GRAPHIC_LoadArcMember(u32 a, u16 b);
 
 void NAMEIN_GRAPHIC_FreeMember(void *p);
 
-u32 *NAMEIN_GRAPHIC_CreateMembers(u16 heap);
+void **NAMEIN_GRAPHIC_CreateMembers(u16 heap);
 
-void NAMEIN_GRAPHIC_DeleteMembers(u8 *p);
+void NAMEIN_GRAPHIC_DeleteMembers(void **p);
 
-u32 NAMEIN_GRAPHIC_GetWord(const u8 *p, u32 i);
+void *NAMEIN_GRAPHIC_GetWord(void *const *p, u32 i);
 
 u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
 
@@ -58,9 +58,9 @@ u16 NAMEIN_GRAPHIC_GetTableCount(const u16 *p);
 
 void NAMEIN_GRAPHIC_CopyTableEntries(const char *p,int i,u16 *dst,u32 n,u8 *count);
 
-int NAMEIN_GRAPHIC_PickTable8(int p, int idx, unsigned short *tab, int val, unsigned char *out);
+int NAMEIN_GRAPHIC_PickTable8(const char *p, int idx, unsigned short *tab, int val, unsigned char *out);
 
-int NAMEIN_GRAPHIC_PickTableE(int p, int idx, unsigned short *tab, int val, unsigned char *out);
+int NAMEIN_GRAPHIC_PickTableE(const char *p, int idx, unsigned short *tab, int val, unsigned char *out);
 
 int NAMEIN_GRAPHIC_PickTable14(char *p, int index, unsigned short *table, unsigned n, unsigned char *out);
 
@@ -92,28 +92,28 @@ void NAMEIN_GRAPHIC_FreeMember(void *p) { GFL_HEAP_Free(p); }
 /*
  * evidence: caller consumes 021F4D20 r0; full forwarder leaves 0204A1BC allocation result live despite own void declaration.
  */
-u32 *NAMEIN_GRAPHIC_CreateMembers(u16 heap)
+void **NAMEIN_GRAPHIC_CreateMembers(u16 heap)
 {
-    u32 *p;
+    void **p;
     int i = 0;
-    p = GFL_HEAP_Alloc(heap, 20, 0, d_021F5798, 147);
-    MI_CpuFill8(p, 0, 20);
+    p = GFL_HEAP_Alloc(heap, 5 * sizeof(void *), 0, d_021F5798, 147);
+    MI_CpuFill8(p, 0, 5 * sizeof(void *));
     for (; i < 5; i++)
-        p[i] = (uptr)NAMEIN_GRAPHIC_LoadArcMember(i, heap);
+        p[i] = NAMEIN_GRAPHIC_LoadArcMember(i, heap);
     return p;
 }
 
-void NAMEIN_GRAPHIC_DeleteMembers(u8 *p)
+void NAMEIN_GRAPHIC_DeleteMembers(void **p)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
-        NAMEIN_GRAPHIC_FreeMember(*(void **)(p + i * 4));
+        NAMEIN_GRAPHIC_FreeMember(p[i]);
     }
     GFL_HEAP_Free(p);
 }
 
-u32 NAMEIN_GRAPHIC_GetWord(const u8 *p, u32 i) { return *(const u32 *)(p + i * 4); }
+void *NAMEIN_GRAPHIC_GetWord(void *const *p, u32 i) { return p[i]; }
 
 u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p) { return *p; }
 
@@ -135,11 +135,11 @@ u16 NAMEIN_GRAPHIC_GetTableCount(const u16 *p) { return *p; }
 
 void NAMEIN_GRAPHIC_CopyTableEntries(const char *p,int i,u16 *dst,u32 n,u8 *count) {WORDSET_CopyString((const u16 *)(p+2+i*24),dst,n);if(count){*count=0;while(*count<3 && dst[*count]!=0x3000) ++*count;}}
 
-int NAMEIN_GRAPHIC_PickTable8(int p, int idx, unsigned short *tab, int val, unsigned char *out)
+int NAMEIN_GRAPHIC_PickTable8(const char *p, int idx, unsigned short *tab, int val, unsigned char *out)
 {
     unsigned char i;
 
-    WORDSET_CopyString((const u16 *)(p + 8 + 0x18 * idx), (u16 *)((sptr)tab), val);
+    WORDSET_CopyString((const u16 *)(p + 8 + 0x18 * idx), tab, val);
     i = 0;
     while (i < 3 && tab[i] != 0x3000) {
         i++;
@@ -150,11 +150,11 @@ int NAMEIN_GRAPHIC_PickTable8(int p, int idx, unsigned short *tab, int val, unsi
     return i != 0;
 }
 
-int NAMEIN_GRAPHIC_PickTableE(int p, int idx, unsigned short *tab, int val, unsigned char *out)
+int NAMEIN_GRAPHIC_PickTableE(const char *p, int idx, unsigned short *tab, int val, unsigned char *out)
 {
     unsigned char i;
 
-    WORDSET_CopyString((const u16 *)(p + 0xe + 0x18 * idx), (u16 *)((sptr)tab), val);
+    WORDSET_CopyString((const u16 *)(p + 0xe + 0x18 * idx), tab, val);
     i = 0;
     while (i < 3 && tab[i] != 0x3000) {
         i++;

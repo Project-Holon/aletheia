@@ -168,23 +168,23 @@ struct NetCommandTable *GFL_NET_COMMAND_GetCommandTable(u32 command);
 
 NetCommandRecvFunc GFL_NET_COMMAND_GetRecvFunc(u32 command);
 
-u32 GFL_NET_COMMAND_GetCommandWork(u32 command);
+void *GFL_NET_COMMAND_GetCommandWork(u32 command);
 
 NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command);
 
-void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size, u32 data, u32 handle);
+void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size, void *data, struct GFLNetHandle *handle);
 
 int GFL_NET_COMMAND_IsCommandValid(unsigned int command);
 
 int GFL_NET_COMMAND_IsHugeCommand(unsigned int command);
 
-u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size);
+void *GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size);
 
 void GFL_NET_COMMAND_NoProc(void);
 
-void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int unusedArg, volatile int handle);
+void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int unusedArg, struct GFLNetHandle *volatile handle);
 
-void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, int handle);
+void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, struct GFLNetHandle *handle);
 
 u32 GFL_NET_COMMAND_SetSendSlot(GFLNetHandle *handle, u32 destMask, u32 command, u32 totalSize, void *dataAddr);
 
@@ -236,7 +236,7 @@ void GFL_NET_COMMAND_Init(u32 groupKey, NetCommandEntry *commandList, u32 listNu
     int memberIdx;
 
     if (_pCommandWork == 0) {
-        _pCommandWork = GFL_HEAP_Alloc(0, 0x22c, 1, g_020A7AF8, 0x96);
+        _pCommandWork = GFL_HEAP_Alloc(0, sizeof(*_pCommandWork), 1, g_020A7AF8, 0x96);
     }
     GFL_NET_COMMAND_AddCommandTable(groupKey, commandList, listNum, userData);
     g_020A7AE8.userData = userData;
@@ -250,7 +250,7 @@ void GFL_NET_COMMAND_Exit(void)
 {
     if (_pCommandWork == 0)
         return;
-    MI_CpuFill8(_pCommandWork, 0, 0x22c);
+    MI_CpuFill8(_pCommandWork, 0, sizeof(*_pCommandWork));
     GFL_HEAP_Free(_pCommandWork);
     _pCommandWork = 0;
 }
@@ -283,7 +283,7 @@ void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey)
         return;
     for (tableIdx = 0; tableIdx < 4; tableIdx++) {
         if (tables[tableIdx].groupKey == groupKey) {
-            MI_CpuFill8(&tables[tableIdx], 0, 0x10);
+            MI_CpuFill8(&tables[tableIdx], 0, sizeof(tables[tableIdx]));
             return;
         }
     }
@@ -389,11 +389,11 @@ NetCommandRecvFunc GFL_NET_COMMAND_GetRecvFunc(u32 command)
  *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_GetCommandWork.c \
  *       --func GFL_NET_COMMAND_GetCommandWork --addr 0x0203A730 --cc 1.1p1 --arm
  */
-u32 GFL_NET_COMMAND_GetCommandWork(u32 command)
+void *GFL_NET_COMMAND_GetCommandWork(u32 command)
 {
     struct NetCommandTable *table = GFL_NET_COMMAND_GetCommandTable(command);
 
-    return table != 0 ? (uptr)table->userData : 0;
+    return table != 0 ? table->userData : 0;
 }
 
 NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command)
@@ -405,7 +405,7 @@ NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command)
     return 0;
 }
 
-void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size, u32 data, u32 handle)
+void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size, void *data, struct GFLNetHandle *handle)
 {
     u32 accepted;
     NetCommandRecvFunc recvFunc;
@@ -414,7 +414,7 @@ void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size,
         return;
     }
     accepted = 1;
-    if (GFL_NET_HANDLE_IsNegotiationDone((struct GFLNetHandle *)handle) == 0) {
+    if (GFL_NET_HANDLE_IsNegotiationDone(handle) == 0) {
         if (command >= 0x11) {
             accepted = 0;
         }
@@ -453,7 +453,7 @@ int GFL_NET_COMMAND_IsHugeCommand(unsigned int command)
  *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_GetHugeBuffer.c \
  *       --func GFL_NET_COMMAND_GetHugeBuffer --addr 0x0203A81C --cc 1.1p1 --arm
  */
-u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size)
+void *GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size)
 {
     NetCommandSizeFunc getBuffer = GFL_NET_COMMAND_GetSizeFunc(command);
 
@@ -481,14 +481,14 @@ void GFL_NET_COMMAND_NoProc(void)
  *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_RecvHugeData.c \
  *       --func GFL_NET_COMMAND_RecvHugeData --addr 0x0203A85C --cc 1.1p1
  */
-void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int unusedArg, volatile int handle)
+void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int unusedArg, struct GFLNetHandle *volatile handle)
 {
     int slotIdx = netId;
 
     if (netId == 0xff) {
         slotIdx = 8;
     }
-    if (handle != (uptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle != GFL_NET_HANDLE_GetCurrentHandle()) {
         return;
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].used == 0) {
@@ -496,9 +496,9 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].data != 0) {
         MI_CpuCopy8(chunkData,
-                    (void *)(_pCommandWork->aNetHugeRecv[slotIdx].data
-                             + _pCommandWork->aNetHugeRecv[slotIdx].chunksReceived
-                                   * _pCommandWork->aNetHugeRecv[slotIdx].chunkSize),
+                    (u8 *)_pCommandWork->aNetHugeRecv[slotIdx].data
+                        + _pCommandWork->aNetHugeRecv[slotIdx].chunksReceived
+                              * _pCommandWork->aNetHugeRecv[slotIdx].chunkSize,
                     byteCount);
     }
     _pCommandWork->aNetHugeRecv[slotIdx].chunksReceived++;
@@ -527,7 +527,7 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_RecvHugeBuffer.c  *       --func GFL_NET_COMMAND_RecvHugeBuffer --addr 0x0203A958 --arm --cc 1.1p1
  */
-void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, int handle)
+void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, struct GFLNetHandle *handle)
 {
     int slotIdx;
     u16 command, chunkSize, destMask, chunkCount;
@@ -535,7 +535,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     slotIdx = netId;
     if (netId == 0xff)
         slotIdx = 8;
-    if (handle != (sptr)GFL_NET_HANDLE_GetCurrentHandle())
+    if (handle != GFL_NET_HANDLE_GetCurrentHandle())
         return;
     if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, *((u32 *)header)) == 0)
         return;
@@ -588,7 +588,11 @@ u32 GFL_NET_COMMAND_SetSendSlot(GFLNetHandle *handle, u32 destMask, u32 command,
     work = _pCommandWork;
     firstState = &work->sendSlots[0].state.raw;
     for (slotIdx = 0; slotIdx < 5; slotIdx++) {
+#ifdef __MWERKS__
         state = (SendSlotState *)&firstState[slotIdx * 0x18];
+#else
+        state = (SendSlotState *)&work->sendSlots[slotIdx].state.raw;
+#endif
         if (state->bits.headerPending)
             continue;
         if (state->bits.dataActive == 0)

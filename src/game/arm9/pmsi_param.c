@@ -120,8 +120,8 @@ int PMSI_PARAM_GetOptionFlag(const struct PmsiParam *obj);
 void PMSI_PARAM_GetResult(const struct PmsiParam *obj, u16 *outWords, u16 *outSentence);
 u32 PMSI_PARAM_IsSameInput(const struct PmsiParam *obj, const u16 *words, const struct PmsData *sentence);
 void PMSI_PARAM_SetResult(struct PmsiParam *obj, const u16 *words, const struct PmsData *sentence);
-void PMSI_PARAM_GetUiInputMode(void);
-void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode);
+u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *param);
+void PMSI_PARAM_SetUiInputMode(struct PmsiParam *unused, u32 inputMode);
 void FX_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude);
 void PMSI_PARAM_ClearSentence(struct PmsData *sentence);
 void PMSI_PARAM_InitSentence(struct PmsData *sentence, u32 sentenceType);
@@ -201,7 +201,7 @@ struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSent
     struct PmsiParam *obj;
     int i;
 
-    obj = (struct PmsiParam *)GFL_HEAP_Alloc((u16)heapId, 0x20, 1, (const char *)file_020A745C, 0x56);
+    obj = (struct PmsiParam *)GFL_HEAP_Alloc((u16)heapId, sizeof(*obj), 1, (const char *)file_020A745C, 0x56);
     obj->inputMode = (u8)inputMode;
     obj->saveWork = SAVE_CONTROL_GetBlock(saveControl, 0x37);
     obj->wordSave = PMS_WORD_GetSaveData(saveControl);
@@ -371,12 +371,12 @@ void PMSI_PARAM_SetResult(struct PmsiParam *obj, const u16 *words, const struct 
  *   python tools/match.py one --src src/matched/PMSI_PARAM_GetUiInputMode.c \
  *       --func PMSI_PARAM_GetUiInputMode --addr 0x0202421C --thumb --cc 1.1p1
  */
-void PMSI_PARAM_GetUiInputMode(void)
+u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *param)
 {
-    UI_GetInputMode();
+    return UI_GetInputMode();
 }
 
-void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode((uptr)inputMode); }
+void PMSI_PARAM_SetUiInputMode(struct PmsiParam *unused, u32 inputMode) { UI_SetInputMode(inputMode); }
 
 /*
  * pmsi_param.c: fill table[0..count) with amplitude * sin(phase), phase advancing

@@ -7,6 +7,7 @@
 
 /* Renderer core of the 2D graphics library. */
 
+struct NNSG2dImageAttr;
 typedef struct NNSG2dImageProxy NNSG2dImageProxy;
 typedef struct NNSG2dPaletteProxy NNSG2dPaletteProxy;
 
@@ -65,7 +66,7 @@ void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
 void NNS_G2dResetOamSoftEmuAutoZOffset(void);
 void NNS_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step);
 int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
-void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, const struct NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
 void NNSi_G2dDoAffineTransforme(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans);
 void NNSi_G2dDrawCellToSurface2D(const NNSG2dRndCoreSurface *pSurface, const NNSG2dCellData *pCell);
 void NNSi_G2dDrawOam3D(GXOamAttr *oam);

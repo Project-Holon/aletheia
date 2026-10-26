@@ -10,23 +10,43 @@
 #include "../types.h"
 
 struct ClactActor;
+struct Unit;
+struct G3dCamera;
+struct TcbTask;
+struct TextPrinter;
+struct TcblSystem;
+struct TaskMenuWork;
+struct PselGraphicSystem;
 
-/* One palette fade slot (0x94 bytes). */
-typedef struct {
-    u16 src[16];
-    u16 dst[16];
-    u16 out[16];
-    u16 state;
-    u16 step;
-    u8 pad[0x30];
-} PselFade;
+/*
+ * One selection unit (0x94 bytes on the DS): the registered POKEGRA and CLACT
+ * handles, the actors, the palette fade slot and the move animation state.
+ */
+struct PselUnit {
+    u32 cgr;              /* 0x00: POKEGRA_RegisterCgr result */
+    u32 palette;          /* 0x04: POKEGRA_RegisterPalette result */
+    u32 cellAnim;         /* 0x08: POKEGRA_RegisterCellAnim result */
+    u32 charHandle;       /* 0x0C: CLACT_RegisterCharacter result */
+    u8 pad10[4];
+    u32 affineCellAnim;   /* 0x14: CLACT_RegisterCellAnim result */
+    struct ClactActor *actor;            /* 0x18: CLACT_CreateActor result */
+    struct ClactActor *affineActor;      /* 0x1C: CLACT_CreateAffineActor result */
+    u16 src[16];          /* 0x20: fade source palette */
+    u16 dst[16];          /* 0x40: fade target palette */
+    u16 out[16];          /* 0x60: fade output palette */
+    u16 state;            /* 0x80: fade state */
+    u16 step;             /* 0x82: fade step */
+    u16 frame;            /* 0x84: move animation frame */
+    u16 pad86;
+    u32 phase;            /* 0x88: move animation phase */
+    int direction;        /* 0x8C */
+    int animHold;         /* 0x90 */
+};
 
 /*
  * The psel work object: one 2168-byte record allocated by psel.c PSEL_Init.
- * The three 0x94-byte palette-fade slots and the actor handles at 0x210..0x224
- * and the menu-selection words at 0x228/0x22C share the 0x74..0x230 region, so
- * they are a union (the fade slots never touch their own tail padding, which is
- * where the actor handles and the selection words live).
+ * It holds the three selection units, then the fade-unit actor handles at
+ * 0x210..0x224 and the menu-selection words at 0x228/0x22C.
  */
 struct PselWork {
     u16 heapId; u16 pad02;            /* 0x00 */
@@ -34,16 +54,14 @@ struct PselWork {
     u32 fadeSpeed;                    /* 0x08 */
     u32 subState;                     /* 0x0C */
     u32 frame;                        /* 0x10 */
-    void *graphicSys;                 /* 0x14 */
-    void *font;                       /* 0x18 */
+    struct PselGraphicSystem *graphicSys; /* 0x14 */
+    struct GfFont *font;              /* 0x18 */
     struct PrintQueue *printQue;                     /* 0x1C */
-    void *vblankNode;                 /* 0x20 */
+    struct TcbTask *vblankNode;       /* 0x20 */
     u32 flags;                        /* 0x24 */
     void *g3dUtil;                    /* 0x28 */
     u16 unitId; u16 unitId2;          /* 0x2C, 0x2E */
-    u16 recBase; u16 selIndex;        /* 0x30, 0x32 */
-    u16 recIndex1; u16 recIndex2;     /* 0x34, 0x36 */
-    u16 recIndex3;                    /* 0x38 */
+    u16 recSlots[5];                  /* 0x30: base, selected, then the three unit records */
     u16 recordCount;                  /* 0x3A */
     void *records;                    /* 0x3C */
     void *animStream;                 /* 0x40 */
@@ -51,34 +69,25 @@ struct PselWork {
     u32 animReverse;                  /* 0x48 */
     u32 animTarget;                   /* 0x4C */
     u32 animFrame;                    /* 0x50 */
-    u8 pad54[0x20];                   /* 0x54..0x74 */
-    union {
-        PselFade slots[3];                /* 0x74..0x230 */
-        struct {
-            u8 pad[0x19C];
-            int fadeAlpha;            /* 0x210: fade-unit alpha counter */
-            int fadeState;            /* 0x214: fade-unit state */
-            u32 charHandle;           /* 0x218: CLACT_RegisterCharacter */
-            u32 palHandle;            /* 0x21C: CLACT_RegisterPaletteEx */
-            u32 cellAnimHandle;       /* 0x220: CLACT_RegisterCellAnim */
-            void *actor;              /* 0x224: CLACT_CreateActor */
-            u32 menuSelected;         /* 0x228 */
-            u32 currentIndex;         /* 0x22C */
-        } state;
-    } fade;
+    struct PselUnit units[3];         /* 0x54..0x210 */
+    int fadeAlpha;                    /* 0x210: fade-unit alpha counter */
+    int fadeState;                    /* 0x214: fade-unit state */
+    u32 charHandle;                   /* 0x218: CLACT_RegisterCharacter */
+    u32 palHandle;                    /* 0x21C: CLACT_RegisterPaletteEx */
+    u32 cellAnimHandle;               /* 0x220: CLACT_RegisterCellAnim */
+    void *actor;                      /* 0x224: CLACT_CreateActor */
+    u32 menuSelected;                 /* 0x228 */
+    u32 currentIndex;                 /* 0x22C */
     u32 voicePending;                 /* 0x230 */
     void *msgBank;                    /* 0x234 */
-    void *winMain;                    /* 0x238 */
-    void *winSub;                     /* 0x23C */
-    void *winExtra;                   /* 0x240 */
-    u32 winFlag;                      /* 0x244 */
-    u8 pad248[8];
-    void *printStream;                /* 0x250 */
-    void *tcbl;                       /* 0x254 */
+    void *windows[3];                 /* 0x238: main, sub, extra BMP windows */
+    u32 winFlags[3];                  /* 0x244: per-window flag */
+    struct TextPrinter *printStream;  /* 0x250 */
+    struct TcblSystem *tcbl;          /* 0x254 */
     void *strbuf;                     /* 0x258 */
     void *taskRes;                    /* 0x25C */
     void *win;                        /* 0x260 */
-    void *taskMenu;                   /* 0x264 */
+    struct TaskMenuWork *taskMenu;    /* 0x264 */
     u8 alpha; u8 pad269;              /* 0x268 */
     u16 palBuf[4][128];               /* 0x26A..0x66A */
     u16 palSrc[128];                  /* 0x66A..0x76A */
@@ -94,37 +103,14 @@ struct PselWork {
 /* The 16-byte graphics system handle returned by PSEL_GRAPHIC_Create. */
 struct PselGraphicSystem {
     u32 unused0;                      /* 0x00 */
-    u32 clactBank;                    /* 0x04 */
-    u32 camera;                       /* 0x08 */
-    u32 vblankNode;                   /* 0x0C */
-};
-
-/* A loaded archive member: its payload pointer sits at 0x0C. */
-struct PselResMember {
-    u8 pad0[0x0C];
-    u8 *data;
+    struct Unit *clact;               /* 0x04 */
+    struct G3dCamera *camera;         /* 0x08 */
+    struct TcbTask *vblankNode;       /* 0x0C */
 };
 
 /* A single 32-bit CLACT/G3D handle the graphic helpers receive by address. */
 struct PselHandle {
     struct Unit *value;
-};
-
-/*
- * One unit record (stride 0x94, base p + i*0x94): the registered POKEGRA and
- * CLACT handles of a selection unit. Only the handle block at 0x54..0x70 is
- * modelled here; the words at 0xD8..0xE4 are touched as raw offsets in psel.c.
- */
-struct PselUnit {
-    u8 pad0[0x54];
-    u32 cgr;              /* 0x54: POKEGRA_RegisterCgr result */
-    u32 palette;          /* 0x58: POKEGRA_RegisterPalette result */
-    u32 cellAnim;         /* 0x5C: POKEGRA_RegisterCellAnim result */
-    u32 charHandle;       /* 0x60: CLACT_RegisterCharacter result */
-    u8 pad64[4];
-    u32 affineCellAnim;   /* 0x68: CLACT_RegisterCellAnim result */
-    struct ClactActor *actor;            /* 0x6C: CLACT_CreateActor result */
-    struct ClactActor *affineActor;      /* 0x70: CLACT_CreateAffineActor result */
 };
 
 #endif

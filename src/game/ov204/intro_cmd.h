@@ -52,7 +52,7 @@ int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q);
 int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q);
 int INTRO_CMD_CmdCheckConfig(u8*p);
 void INTRO_CMD_CmdSetWordSet(u8*p,u32 a);
-char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap);
+char *INTRO_CMD_Create(void *a, void *b, void *c, char *d, void *e, unsigned short heap);
 void INTRO_CMD_Delete(u8*p);
 int INTRO_CMD_Main(char *p);
 int INTRO_CMD_AddCommand(IntroCmdWork *p, IntroCommand *q);

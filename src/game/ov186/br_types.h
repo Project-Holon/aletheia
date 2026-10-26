@@ -110,6 +110,7 @@ struct BrRes {
     volatile u32 palSet;                       /* index 0..7 into the palette/cell tables */
 };
 
+struct PrintQueue;
 struct GameData;
 struct GdsProfile;
 struct BrNet;
@@ -127,6 +128,18 @@ enum BrNetRequestKind {
     BR_NET_REQUEST_SEARCH_KIND2 = 7,
     BR_NET_REQUEST_MARK_VIDEO = 8,
     BR_NET_REQUEST_COUNT = 9
+};
+
+/* Step of a BR_UTIL task: called as step(task, &task->state, task->payload). The payload type
+   differs per screen, so the parameter list is left open. */
+typedef void (*BrUtilTaskStep)();
+
+/* The task object created by BR_UTIL_CreateTask, 16 bytes on the DS. */
+struct BrUtilTask {
+    BrUtilTaskStep step;        /* 0x00 step function */
+    int state;                  /* 0x04 step state, passed by address */
+    void *payload;              /* 0x08 object the step runs on */
+    int unusedC;                /* 0x0C */
 };
 
 /* Task step: runs once per BR_NET_Main until it installs another step. */
@@ -230,6 +243,8 @@ struct BrSidebar {
 };
 
 struct PrintSys;
+struct PmsDraw;
+struct ClactActor;
 struct Strbuf;
 struct ZukanSave;
 struct BrTextWin;
@@ -256,10 +271,25 @@ struct BrListMenuConfig {
     u8 x, y, width, height, palette, bg, spacing, pad;
     int mode;
     struct BrRes *resources;
-    uptr manager;             /* actor unit for the list marks */
-    uptr cursor;              /* cursor effect */
-    uptr other;               /* second effect, or the PMS draw */
+    struct Unit *manager;     /* actor unit for the list marks */
+    void *cursor;             /* cursor effect */
+    void *other;              /* second effect, or the PMS draw */
     u16 *selection;           /* start and index are written back here */
+};
+
+/* The profile card of a recorded battle: seven text windows, a PMS draw and two actors with their CLACT handles, 0x44 bytes. */
+struct BrProfileScreen {
+    void *win[7];                    /* 0x00 text windows */
+    struct BrRes *res;               /* 0x1C shared BR resources */
+    struct PmsDraw *pms;             /* 0x20 PMS draw behind the greeting window */
+    struct ClactActor *speciesActor; /* 0x24 party icon */
+    struct ClactActor *trainerActor; /* 0x28 trainer sprite */
+    u32 speciesPalette;              /* 0x2C */
+    u32 speciesChar;                 /* 0x30 */
+    u32 speciesCell;                 /* 0x34 */
+    u32 trainerPalette;              /* 0x38 */
+    u32 trainerChar;                 /* 0x3C */
+    u32 trainerCell;                 /* 0x40 */
 };
 
 #define BR_POKESEARCH_GROUP_COUNT 9
@@ -279,15 +309,15 @@ struct BrPokeSearch {
     struct BrRes *res;
     struct BrButton *backButton;
     struct BrFade *fade;
-    u32 uiParamA;
-    u32 uiParamB;
+    struct Unit *uiParamA;
+    void *uiParamB;
     struct PrintSys *printQue;
     struct BrTextWin *groupWin[BR_POKESEARCH_GROUP_COUNT];
     struct BrMenuItem *menuItems;
     struct BrListMenu *listMenu;
     int active;
     int listShown;
-    u32 listParam;
+    void *listParam;
     struct BrTapFx *tapFx;
     struct ZukanSave *zukan;
     u16 *groupTable;          /* species ids of all groups, from the overlay data archive */
@@ -318,13 +348,15 @@ struct BrBtnResult { u16 a, b; };
 /* A set of button results read from a script, up to six entries. */
 struct BrBtnResultSet { struct BrBtnResult rec[6]; u32 count; };
 
+struct Button;
+
 /* One battle-recorder button: resources, button data and label records, 0x60 bytes. */
 struct BrBtn {
     u16 heap;                    /* 0x00 heap id */
     u16 pad0;                    /* 0x02 alignment, never read */
-    int resBase;                 /* 0x04 resource base handed to BR_RES_* */
-    int oamData;                 /* 0x08 argument of BMP_OAM_CreateSys */
-    int *task;                   /* 0x0C BR_UTIL task driving the button */
+    struct BrRes *resBase;       /* 0x04 resource base handed to BR_RES_* */
+    void *oamData;               /* 0x08 argument of BMP_OAM_CreateSys */
+    struct BrUtilTask *task;     /* 0x0C BR_UTIL task driving the button */
     int spriteIndex;             /* 0x10 first sprite of the button */
     int pressed;                 /* 0x14 set when a button was pressed */
     int placement;               /* 0x18 returned by BR_BTN_GetPlacement */
@@ -339,14 +371,14 @@ struct BrBtn {
     u8 sectionCount;             /* 0x39 rows of the current section */
     u8 maxRows;                  /* 0x3A capacity of the tail record array */
     u8 recordCount;              /* 0x3B records in the tail array */
-    char *tailRecords;           /* 0x3C Button records of the tail list */
-    char *rowRecords;            /* 0x40 Button records of the main list */
+    struct Button *tailRecords;  /* 0x3C Button records of the tail list */
+    struct Button *rowRecords;   /* 0x40 Button records of the main list */
     void *dataTable;             /* 0x44 BR_BTN_DATA table */
     void *oamSys;                /* 0x48 BMP OAM system */
-    u32 printQue;                /* 0x4C print queue */
+    struct PrintQueue *printQue; /* 0x4C print queue */
     void *textWin;               /* 0x50 text window of the current row */
     int resultValue;             /* 0x54 returned by BR_BTN_GetField54 */
-    int effect;                  /* 0x58 effect handle */
+    void *effect;                /* 0x58 effect handle */
     struct BrBtnResultSet *resultSet; /* 0x5C pushed results */
 };
 

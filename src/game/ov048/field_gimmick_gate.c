@@ -447,7 +447,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
             for (; i < *count; i++) {
                 entry.nicknameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
                 entry.otNameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
-                DENDOU_SAVEDATA_ExportRingMember((void *)record, 0, (void *)i, &entry);
+                DENDOU_SAVEDATA_ExportRingMember((void *)record, 0, i, &entry);
                 values[i] = entry.species;
                 STRBUF_Delete((struct Strbuf *)entry.nicknameStr);
                 STRBUF_Delete((struct Strbuf *)entry.otNameStr);

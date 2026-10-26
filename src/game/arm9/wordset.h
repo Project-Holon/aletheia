@@ -39,7 +39,7 @@ void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u32 entryIndex);
 void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex);
-void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source);
+void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId);
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromMsgB4(struct WordSet *words, u32 slot, u32 entryIndex);

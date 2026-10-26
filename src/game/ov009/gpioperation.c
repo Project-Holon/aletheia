@@ -242,7 +242,7 @@ int gpiAddOperation(void **connection, int type, void *data,
     GPIConnection *iconnection = (GPIConnection *)*connection;
     GPIOperation *operation;
 
-    operation = (GPIOperation *)gsimalloc(0x24);
+    operation = (GPIOperation *)gsimalloc(sizeof(*operation));
     if (operation == 0) {
         gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
         return 1;

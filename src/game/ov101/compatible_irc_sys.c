@@ -113,15 +113,15 @@ int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,void *resource);
 void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out);
 void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index);
-int COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
+void *COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
 int COMPATIBLE_IRC_SYS_GetRecvSize(void);
 int COMPATIBLE_IRC_SYS_IsEqual(int a, int b);
 void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys);
 void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg);
 void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg);
-void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work);
-void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle);
-void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle);
+void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,IrcSys *work);
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,struct GFLNetHandle *handle);
+void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,IrcSys *work,struct GFLNetHandle *handle);
 void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int heapId);
 void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync);
 int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second);
@@ -134,7 +134,7 @@ void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 aid,int size,void *data,IrcProfil
 void COMPATIBLE_IRC_SYS_RecvAckHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
 void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, u8 *data, IrcProfileSync *work, void *handle);
-u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
+void *COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
 extern const char gCompatibleIrcSysFileName[];
 extern const NetSessionParam gCompatibleIrcSessionParam;
 extern NetCommandEntry gCompatibleIrcProfileCommands[];
@@ -142,8 +142,8 @@ extern char gCompatibleIrcRecvBuffer[];
 
 void *COMPATIBLE_IRC_SYS_Create(int context,void *playerRecords,int heapId,int offline) {
  IrcSys *sys;
- sys=GFL_HEAP_Alloc(heapId,0x8c,0,gCompatibleIrcSysFileName,0x113);
- MI_CpuFill8((void *)sys,0,0x8c);
+ sys=GFL_HEAP_Alloc(heapId,sizeof(*sys),0,gCompatibleIrcSysFileName,0x113);
+ MI_CpuFill8((void *)sys,0,sizeof(*sys));
  sys->context=context;
  sys->heapId=heapId;
  sys->sessionReady=0;
@@ -402,7 +402,7 @@ void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index)
         sys->partnerReady = 1;
 }
 
-int COMPATIBLE_IRC_SYS_GetRecvBuffer(void) { return (sptr)gCompatibleIrcRecvBuffer; }
+void *COMPATIBLE_IRC_SYS_GetRecvBuffer(void) { return gCompatibleIrcRecvBuffer; }
 
 int COMPATIBLE_IRC_SYS_GetRecvSize(void) { return 4; }
 
@@ -414,17 +414,17 @@ void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg) { }
 
 void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg) { IrcSys *sys = userArg; sys->exitDone = 1; }
 
-void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work) { unsigned v; if(GFL_NET_IsParentAid()) { MI_CpuCopy8(data,&v,4); *(unsigned *)(work+0x68+aid*4)=v; } }
+void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,IrcSys *work) { unsigned v; if(GFL_NET_IsParentAid()) { MI_CpuCopy8(data,&v,4); work->receivedValue[aid]=v; } }
 
-void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle) { if(handle==(uptr)GFL_NET_HANDLE_GetCurrentHandle()) work->valueAckReceived=1; }
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,struct GFLNetHandle *handle) { if(handle==GFL_NET_HANDLE_GetCurrentHandle()) work->valueAckReceived=1; }
 
-void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle) { if(handle==(uptr)GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) MI_CpuCopy8(data,work+0x3c,4); } }
+void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,IrcSys *work,struct GFLNetHandle *handle) { if(handle==GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) MI_CpuCopy8(data,&work->partnerValue,4); } }
 
 void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int heapId)
 {
     int line;
 
-    MI_CpuFill8((void *)sync, 0, 0x34);
+    MI_CpuFill8((void *)sync, 0, sizeof(*sync));
     line = 0x57b;
     sync->sys = sys;
     sync->sendProfile = GFL_HEAP_Alloc(heapId, 0x2c, 0, gCompatibleIrcSysFileName, line);
@@ -436,7 +436,7 @@ void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int h
     COMPATIBLE_IRC_SYS_AddCommandTable(sys, 0x1000, gCompatibleIrcProfileCommands, 4, sync);
 }
 
-void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->sys,0x1000); GFL_HEAP_Free(sync->sendProfile); GFL_HEAP_Free(sync->selfProfile); GFL_HEAP_Free(sync->partnerProfile); MI_CpuFill8(sync, 0, 0x34); }
+void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->sys,0x1000); GFL_HEAP_Free(sync->sendProfile); GFL_HEAP_Free(sync->selfProfile); GFL_HEAP_Free(sync->partnerProfile); MI_CpuFill8(sync, 0, sizeof(*sync)); }
 
 int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second) { sync->ownRequest[1]=first; sync->ownRequest[0]=second; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1000,8,sync->ownRequest)!=0; }
 
@@ -487,7 +487,7 @@ void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, u8 *data, IrcProfi
     }
 }
 
-u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync) {
- if(aid==GFL_NET_SYSTEM_GetCurrentAid()) return (uptr)sync->selfProfile;
- return (uptr)sync->partnerProfile;
+void *COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync) {
+ if(aid==GFL_NET_SYSTEM_GetCurrentAid()) return sync->selfProfile;
+ return sync->partnerProfile;
 }

@@ -143,7 +143,7 @@ extern const struct ActorInit gBtlvClactDefaultActorInit;
 
 BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap)
 {
-    BtlvClact *clact = GFL_HEAP_Alloc(heap, 0x84, 1, gBtlvClactFileName, 0x4f);
+    BtlvClact *clact = GFL_HEAP_Alloc(heap, sizeof(*clact), 1, gBtlvClactFileName, 0x4f);
     clact->owner = owner;
     clact->heap = heap;
     clact->unit = CLACT_CreateUnit(7, 0, heap);
@@ -270,7 +270,7 @@ void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, VecFx32 *sta
                    void (*taskMain)(struct TcbTask *, void *), void (*taskEnd)(void *))
 {
     BtlvClactMoveTask *job;
-    job = GFL_HEAP_Alloc((u16)((clact->heap & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
+    job = GFL_HEAP_Alloc((u16)((clact->heap & 0x7fff) | 0x8000), sizeof(*job), 0, gBtlvClactFileName, 0x197);
     job->clact = clact;
     job->slot = slot;
     job->pos.x = start->x;

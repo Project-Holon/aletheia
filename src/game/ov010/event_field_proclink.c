@@ -130,18 +130,7 @@ struct EscapeLocation {
     s16 zoneId;       /* 0x04 */
 };
 
-/* Bag screen parameter (0x3C bytes, from the bag creator). */
-typedef struct BagParam {
-    GameData *gameData;         /* 0x00 */
-    void *myStatus;             /* 0x04 */
-    void *myItem;               /* 0x08 */
-    void *saveWork;             /* 0x0C */
-    void *config;               /* 0x10 */
-    u8 itemCheck[0x18];         /* 0x14 */
-    u32 mode;                   /* 0x2C */
-    u32 cycleFlag;              /* 0x30 */
-    u8 reserved34[8];
-} BagParam;
+#include "../arm9/bag_param_types.h"
 
 /* Setting byte pair read by the zone flag setter: 0 turns both off, 1 turns both on. */
 typedef struct ZoneFlagSetting {
@@ -190,12 +179,7 @@ typedef struct TownMapParam {
     GameSystem *gameSystem;     /* 0x14 */
 } TownMapParam;
 
-/* Trainer card view work: result at 0x10, first page at 0x14. */
-typedef struct TrainerCardViewWork {
-    u8 reserved00[0x10];
-    int result;                 /* 0x10 */
-    int startPage;              /* 0x14 */
-} TrainerCardViewWork;
+#include "trcard_view_types.h"
 
 typedef struct ReportParam {
     u32 reserved00;
@@ -334,6 +318,7 @@ struct FieldEffectCont;
 #include "event_field_proclink_return.h"
 #include "../arm9/game_event.h"
 #include "trcard_sys.h"
+#include "../arm9/procsys.h"
 
 PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int kind, int mode, void *source);
 int EVENT_FIELD_PROCLINK_ReturnPokeList(ProcLinkWork *work, PokeListParam *listResult);
@@ -344,8 +329,8 @@ int EVENT_FIELD_PROCLINK_ReturnPokeStatus(ProcLinkWork *work, PStatusProcParam *
 int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem);
 BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult);
 int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult);
-void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage);
-int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardViewWork *param);
+ViewWork *EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage);
+int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, ViewWork *param);
 TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work);
 int EVENT_FIELD_PROCLINK_ReturnTownMapSelect(ProcLinkWork *work, TownMapParam *param);
 ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work);
@@ -353,7 +338,7 @@ int EVENT_FIELD_PROCLINK_ReturnConfig(int unused, ConfigParam *param);
 void EVENT_FIELD_PROCLINK_StartConfigEvent(ProcLinkWork *work);
 TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work);
 int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam *param);
-int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
+void *EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
 int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam);
 void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam);
 EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
@@ -361,23 +346,23 @@ int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work);
 ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work);
 int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param);
 GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut);
-int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work);
+int EVENT_FIELD_PROCLINK_FreeEventMain(struct GameEvent *event, int *state, void *work);
 void EVENT_FIELD_PROCLINK_FreeAnimWork(void *work);
-int EVENT_FIELD_PROCLINK_AnimEventMain(GameEvent *event, u32 *seq, MapAnimWork *work);
+int EVENT_FIELD_PROCLINK_AnimEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fieldMap);
-int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *work);
+int EVENT_FIELD_PROCLINK_ObjAnimEventMain(struct GameEvent *task, int *state, void *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName);
 GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source);
 void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId);
 void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work);
 ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, void *handle);
 int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work);
-int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work);
+int EVENT_FIELD_PROCLINK_HopEventMain(struct GameEvent *event, int *seq, void *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
 void *EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
 int EVENT_FIELD_PROCLINK_IsHopAnimDone(void *handle);
 GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
-int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work);
+int EVENT_FIELD_PROCLINK_CommExitEventMain(struct GameEvent *event, int *state, void *work);
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);
 void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
 void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
@@ -392,7 +377,7 @@ extern const char d_021713FC[];
 extern const char d_021713F4[];
 extern const char d_021713EC[];
 extern const fx32 d_0217140C[];
-extern u8 gDemo3dProcData[];
+extern const ProcData gDemo3dProcData;
 extern u8 ov203_id[];
 
 /*
@@ -409,7 +394,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     u32 value;
 
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
-    list = GFL_HEAP_Alloc((u16)4, 0x98, 1, (char *)d_02172978, 0x330);
+    list = GFL_HEAP_Alloc((u16)4, sizeof(*list), 1, (char *)d_02172978, 0x330);
     list->party = GAME_DATA_GetMyParty(gameData);
     list->carry = work->carry;
     list->myItem = GAME_DATA_GetMyItem(gameData);
@@ -583,8 +568,8 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     GameData *gameData;
     FieldSoundSystem *bgmInfo;
 
-    param = GFL_HEAP_Alloc((u16)4, 0x10, 0, (char *)d_02172978, 0x49b);
-    MI_CpuFill8(param, 0, 0x10);
+    param = GFL_HEAP_Alloc((u16)4, sizeof(*param), 0, (char *)d_02172978, 0x49b);
+    MI_CpuFill8(param, 0, sizeof(*param));
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     param->gameData = gameData;
     param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
@@ -843,26 +828,27 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
     return 4;
 }
 
-void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage)
+ViewWork *EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage)
 {
     GameData *gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     u32 zoneId = *(u16 *)GAME_DATA_GetMyPlayerWork(gameData);
     sptr canFly = 1;
     FieldSoundSystem *bgmInfo;
-    TrainerCardViewWork *viewWork;
+    ViewWork *viewWork;
 
     bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_LowerVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (ZONEDATA_IsUnionRoom(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
         canFly = 0;
     }
-    viewWork = (struct TrainerCardViewWork *)TRCARD_SYS_CreateViewWork((void *)gameData, 4, (void *)canFly);
+    viewWork = TRCARD_SYS_CreateViewWork((void *)gameData, 4, (void *)canFly);
     if (startPage != -1) {
         viewWork->startPage = startPage;
     }
+    return viewWork;
 }
 
-int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardViewWork *param)
+int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, ViewWork *param)
 {
     GameData *gameData;
     FieldSoundSystem *bgmInfo;
@@ -881,7 +867,7 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
  */
 TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work)
 {
-    TownMapParam *param = GFL_HEAP_Alloc((u16)4, 0x18, 1, (char *)d_02172978, 0x68A);
+    TownMapParam *param = GFL_HEAP_Alloc((u16)4, sizeof(TownMapParam), 1, (char *)d_02172978, 0x68A);
     void *playerWork;
     void *gameData;
 
@@ -950,7 +936,7 @@ ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
     ConfigParam *param;
 
     SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
-    param = GFL_HEAP_Alloc((u16)4, 8, 1, (char *)d_02172978, 0x705);
+    param = GFL_HEAP_Alloc((u16)4, sizeof(*param), 1, (char *)d_02172978, 0x705);
     param->gameSystem = work->context->gameSystem;
     return param;
 }
@@ -986,7 +972,7 @@ TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work
 {
     TrainerCardParam *param;
 
-    param = GFL_HEAP_Alloc((u16)4, 8, 1, (char *)d_02172978, 0x74C);
+    param = GFL_HEAP_Alloc((u16)4, sizeof(*param), 1, (char *)d_02172978, 0x74C);
     param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
@@ -1010,12 +996,12 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam 
     }
 }
 
-int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
+void *EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
 {
     GameData *gameData;
     void *party;
     u32 slot;
-    int mailParam;
+    void *mailParam;
     u16 itemId;
 
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
@@ -1027,17 +1013,17 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
         itemId = listResult->argValue;
         work->resultValue = itemId;
         if (listResult->command == 6)
-            return (sptr)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, FILE_UTIL_GetItemSlot(itemId), 4);
+            return MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, FILE_UTIL_GetItemSlot(itemId), 4);
         work->purpose = 1;
-        return (sptr)MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
+        return MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
     }
     if (listResult->carry.words[4] == 2) {
-        mailParam = (sptr)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
+        mailParam = MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
         work->resultValue = listResult->listArg;
         return mailParam;
     }
     work->purpose = 1;
-    return (sptr)MAILTOOL_CreateArgsFromMail(gameData, (void *)FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
+    return MAILTOOL_CreateArgsFromMail(gameData, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
 }
 
 /*
@@ -1117,7 +1103,7 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
             mon = POKEPARTY_GetMember(party, listResult->selectedSlot);
             targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *(u16 *)GAME_DATA_GetMyPlayerWork(gameData), GAME_DATA_GetSeason(gameData), &method, 4);
         }
-        request = GFL_HEAP_Alloc((u16)4, 0x14, 0, (char *)d_02172978, 0x868);
+        request = GFL_HEAP_Alloc((u16)4, sizeof(*request), 0, (char *)d_02172978, 0x868);
         request->gameData = gameData;
         request->party = party;
         request->targetSpecies = targetSpecies;
@@ -1151,7 +1137,7 @@ ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work)
 {
     ReportParam *param;
 
-    param = GFL_HEAP_Alloc((u16)4, 0x10, 1, (char *)d_02172978, 0x8AC);
+    param = GFL_HEAP_Alloc((u16)4, sizeof(*param), 1, (char *)d_02172978, 0x8AC);
     param->gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     return param;
 }
@@ -1184,10 +1170,10 @@ int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
  */
 GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, sizeof(ReportEventWork));
     ReportEventWork *work = GAME_EVENT_GetWork(event);
 
-    MI_CpuFill8(work, 0, 0x1C);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->msgContext = objectModel;
     work->heapId = heapId;
     work->gameSystem = gameSystem;
@@ -1197,8 +1183,9 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fi
     return event;
 }
 
-int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work)
+int EVENT_FIELD_PROCLINK_FreeEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    ReportEventWork *work = workPtr;
     switch (REPORT_EVENT_Main(work, (u32 *)state)) {
     case 0:
         *work->resultOut = 1;
@@ -1226,8 +1213,9 @@ void EVENT_FIELD_PROCLINK_FreeAnimWork(void *work)
  * FLDMMDL_CheckMoveBitMove in step 1): written as a pointer local set to 0 and
  * tested. work->fieldMap is read into a local before the switch.
  */
-int EVENT_FIELD_PROCLINK_AnimEventMain(GameEvent *event, u32 *seq, MapAnimWork *work)
+int EVENT_FIELD_PROCLINK_AnimEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    MapAnimWork *work = workPtr;
     void *fieldObjects;
     void *mainObject;
     void *unusedObject;
@@ -1289,7 +1277,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     GameEvent *event;
     MapAnimWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELD_PROCLINK_AnimEventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_AnimEventMain, sizeof(MapAnimWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1297,8 +1285,9 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fi
     return event;
 }
 
-int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *work)
+int EVENT_FIELD_PROCLINK_ObjAnimEventMain(struct GameEvent *task, int *state, void *workPtr)
 {
+    ObjAnimWork *work = workPtr;
     void *fieldObjects;
 
     fieldObjects = FIELDMAP_GetMmdlSys(work->source);
@@ -1323,7 +1312,7 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
  */
 GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELD_PROCLINK_ObjAnimEventMain, 0x34);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_ObjAnimEventMain, sizeof(ObjAnimWork));
     ObjAnimWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_FIELD_PROCLINK_ClearAnimNode(work);
@@ -1420,8 +1409,9 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * bls on the ldrsh), and the landing height read into a local before the
  * drop is computed.
  */
-int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work)
+int EVENT_FIELD_PROCLINK_HopEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    HopWork *work = workPtr;
     VecFx32 pos;
     fx32 dropY;
     fx32 landingY;
@@ -1465,7 +1455,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     GameEvent *event;
     HopWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, sizeof(HopWork));
     work = GAME_EVENT_GetWork(event);
     work->object = object;
     work->owner = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(gameSystem));
@@ -1513,9 +1503,9 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
     GameEvent *event;
     CommProcWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
+    event = GAME_EVENT_Create(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, sizeof(CommProcWork));
     work = GAME_EVENT_GetWork(event);
-    MI_CpuFill8(work, 0, 0x24);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->gameSystem = gameSystem;
     work->gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     if (useRealTime != 0)
@@ -1527,8 +1517,9 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
     return event;
 }
 
-int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work)
+int EVENT_FIELD_PROCLINK_CommExitEventMain(struct GameEvent *event, int *state, void *workPtr)
 {
+    CommProcWork *work = workPtr;
     switch (*state) {
     case 0:
         work->savedCommBlocked = GAMESYSTEM_IsCommBlocked(work->gameSystem);
@@ -1545,7 +1536,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
             *state = *state + 1;
         break;
     case 2:
-        GAMESYSTEM_CallProc(work->gameSystem, (uptr)ov203_id, gDemo3dProcData, &work->procParam);
+        GAMESYSTEM_CallProc(work->gameSystem, (uptr)ov203_id, &gDemo3dProcData, &work->procParam);
         *state = *state + 1;
         break;
     case 3:
@@ -1560,7 +1551,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
 
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season)
 {
-    MI_CpuFill8(param, 0, 0x18);
+    MI_CpuFill8(param, 0, sizeof(*param));
     param->gameSystem = gameSystem;
     param->kind = kind;
     param->sub = sub;

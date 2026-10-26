@@ -14,8 +14,8 @@ void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex)
 struct GameEvent;
 struct GameSystem;
 struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(struct GameSystem *gameSystem, int isRising);
-int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq);
-int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork);
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(struct GameEvent *event, int *seq, void *eventWork);
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(FieldGimmickLiftElevatorWork *work);
 int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 liftIndex, int tileX, int tileZ);
 void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(FieldGimmickLiftElevatorSave *save, void *expObj, int liftIndex);

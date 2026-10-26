@@ -189,7 +189,7 @@ static void procInit(void);
 static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
-static void taskAc(void *task);
+static void taskAc(void *task, void * unused1);
 
 void DWCi_SceneSetTest(void)
 {
@@ -207,16 +207,16 @@ void DWCi_SceneSetTest(void)
     initAc();
     DWCi_ICONlInit(0);
     DWCi_SNDlPlay(12);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathJbBgStep3Char), GX_LoadBG2Char);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathYbBgStep3Pltt), GX_LoadBGPltt);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathXb4MultiScr), GX_LoadBG2Scr);
+    DWCi_CMNlLoadResource((char *)(sSceneSetTestPathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)(sSceneSetTestPathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)(sSceneSetTestPathXb4MultiScr), GX_LoadBG2Scr);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -250,7 +250,7 @@ static void initAc(void)
         OS_Terminate();
     if (scene == 0)
         DWCi_AC_InsertApInfo(info->ap, (struct NCFGApInfo *)info);
-    DWCi_TSKlForm(0, (void (*)(void *, void *))taskAc, 0, 0x78);
+    DWCi_TSKlForm(0, taskAc, 0, 0x78);
 }
 
 static void procInit(void)
@@ -264,7 +264,7 @@ static void procInit(void)
         DWCi_EFFlFade(2, 1, 1, 8);
         DWCi_GXlVisible(1, 1);
     }
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -273,7 +273,7 @@ static void procInit1(void)
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene((uptr)DWCi_SceneSetTest_procScene);
+    DWCi_ChangeScene(DWCi_SceneSetTest_procScene);
 }
 
 /*
@@ -322,7 +322,7 @@ void DWCi_SceneSetTest_button(void)
 static void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
-	DWCi_ChangeScene((uptr)endScene1);
+	DWCi_ChangeScene(endScene1);
 }
 
 /*
@@ -335,7 +335,7 @@ static void endScene1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -353,10 +353,10 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 21);
     if (gSceneSetTestWork == 0) {
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((uptr)DWCi_SceneSetError);
+        DWCi_ChangeScene(DWCi_SceneSetError);
     } else {
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((uptr)DWCi_SceneSetTestCompletet);
+        DWCi_ChangeScene(DWCi_SceneSetTestCompletet);
     }
 }
 
@@ -366,7 +366,7 @@ static void endScene2(void)
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/taskAc.c \n *       --func taskAc --addr 0x021CD4F4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  */
-static void taskAc(void *task)
+static void taskAc(void *task, void * unused1)
 {
     int rs = DWC_AC_Process();
     if (rs == 0)
@@ -380,7 +380,7 @@ static void taskAc(void *task)
         DWCi_SetErrorCode(DWC_AC_GetStatus());
         DWCi_SNDlPlay(18);
     }
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
     DWCi_TSKlDelete(0, task);
 }
 

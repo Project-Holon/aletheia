@@ -205,11 +205,11 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q);
 
 void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id);
 
-void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e);
+void LOCAL_TVT_CHARA_CopyTiles(u8 *a, u8 *b, int c, int d, int e);
 
 void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q);
 
-void LOCAL_TVT_CHARA_ShowWindow(int a, int *p);
+void LOCAL_TVT_CHARA_ShowWindow(u8 *a, u8 *p);
 
 unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p);
 
@@ -268,7 +268,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         break;
     case 2:
         step=((struct LocalTvtChara *)q)->step*0x3000u;
-        LOCAL_TVT_CHARA_CopyTiles((sptr)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x10000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((u8 *)p,(u8 *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x10000)),0x3000);
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=3;
@@ -283,7 +283,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         break;
     case 4:
         step=((struct LocalTvtChara *)q)->step*0x3000u;
-        LOCAL_TVT_CHARA_CopyTiles((sptr)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x28000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((u8 *)p,(u8 *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x28000)),0x3000);
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=5;
@@ -356,10 +356,10 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     if (((struct LocalTvtSys *)p)->charaCount == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, (d_021B7481 + 4)[((struct LocalTvtChara *)q)->charId * 3]);
-    LOCAL_TVT_CHARA_CopyTiles((sptr)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x10000, step);
+    LOCAL_TVT_CHARA_CopyTiles((u8 *)p, (u8 *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x10000, step);
     GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, d_021B7481[((struct LocalTvtChara *)q)->subId * 2] + ((struct LocalTvtSys *)p)->timeSlot * 2);
-    LOCAL_TVT_CHARA_CopyTiles((sptr)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x28000, step);
+    LOCAL_TVT_CHARA_CopyTiles((u8 *)p, (u8 *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x28000, step);
     GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     ((struct LocalTvtChara *)q)->paletteHandle = CLACT_RegisterPaletteCompressed(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3], 0, (u16)((((struct LocalTvtChara *)q)->index * 2 + 4) << 5), ((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtChara *)q)->charHandle = CLACT_RegisterCharacter(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3] + 1, 0, 0, ((struct LocalTvtSys *)p)->heapId);
@@ -382,7 +382,7 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
 
 void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=ARC_UTIL_LoadBgCharDataFromHandle((void *)(((struct LocalTvtSys *)p)->arcHandle),(unsigned int)id,(unsigned int)0,(&((struct LocalTvtChara *)q)->tileSrc),((struct LocalTvtSys *)p)->heapId);}
 
-void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e)
+void LOCAL_TVT_CHARA_CopyTiles(u8 *a, u8 *b, int c, int d, int e)
 {
     MIi_CpuCopy32(*(int *)((char *)(((struct LocalTvtChara *)b)->tileSrc) + 0x14) + c,
                   d + HW_BG_VRAM, e);
@@ -410,17 +410,17 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_Delete(ws);
         s=dst;
     }
-    ((struct LocalTvtChara *)q)->labelWidth=PRINTSYS_MeasureWidestLine(s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),0,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x400);
+    ((struct LocalTvtChara *)q)->labelWidth=PRINTSYS_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.ptr,0);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,s,((struct LocalTvtSys *)p)->font.ptr,0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,s,((struct LocalTvtSys *)p)->font.ptr,0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,s,((struct LocalTvtSys *)p)->font.ptr,0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),0,s,((struct LocalTvtSys *)p)->font.ptr,0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),1,s,((struct LocalTvtSys *)p)->font.ptr,0x400);
     STRBUF_Delete(s);
     ((struct LocalTvtChara *)q)->flag=1;
 }
 
-void LOCAL_TVT_CHARA_ShowWindow(int a, int *p)
+void LOCAL_TVT_CHARA_ShowWindow(u8 *a, u8 *p)
 {
     BMP_WIN_MakeScreen((struct BmpWin *)(((struct LocalTvtChara *)p)->window));
     BG_SYS_MarkTileDirty(0);

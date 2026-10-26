@@ -158,7 +158,7 @@ static void button(void);
 static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
-static void taskVBlank(void);
+static void taskVBlank(void *task, void *work);
 static void procError(void);
 static void procError1(void);
 static void procWait(void);
@@ -184,7 +184,7 @@ void DWCi_SceneSetAossButton(void)
     DWCi_ANIMElInitEx(0);
     DWCi_AOSSlInit();
     DWCi_SNDlPlay(0xb);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -196,9 +196,9 @@ static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetAossButtonPathJbBgStep3Char), GX_LoadBG2Char);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetAossButtonPathYbBgStep3Pltt), GX_LoadBGPltt);
-    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetAossButtonPathXb4MultiScr), GX_LoadBG2Scr);
+    DWCi_CMNlLoadResource((char *)(sSceneSetAossButtonPathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)(sSceneSetAossButtonPathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)(sSceneSetAossButtonPathXb4MultiScr), GX_LoadBG2Scr);
 
     p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
@@ -216,7 +216,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -226,15 +226,15 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(1);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;
-    sScenesetaossbuttonChoose.Task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x78);
-    DWCi_ChangeScene((uptr)procScene);
+    sScenesetaossbuttonChoose.Task = DWCi_TSKlForm(1, taskVBlank, 0, 0x78);
+    DWCi_ChangeScene(procScene);
 }
 
 static void procScene(void)
@@ -251,7 +251,7 @@ static void procScene(void)
         sScenesetaossbuttonChoose.Choose = 1;
         DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
         sScenesetaossbuttonChoose.Task = 0;
-        DWCi_ChangeScene((uptr)procWait);
+        DWCi_ChangeScene(procWait);
         return;
     case 2:
         if (sScenesetaossbuttonChoose.Task == 0)
@@ -262,7 +262,7 @@ static void procScene(void)
         DWCi_BTNlDisable();
         DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
         sScenesetaossbuttonChoose.Task = 0;
-        DWCi_ChangeScene((uptr)procError);
+        DWCi_ChangeScene(procError);
         return;
     }
 }
@@ -291,7 +291,7 @@ static void button(void)
     DWCi_TSKlDelete(1, sScenesetaossbuttonChoose.Task);
     sScenesetaossbuttonChoose.Task = 0;
     DWCi_BTNlDisable();
-    DWCi_ChangeScene((uptr)procCancel);
+    DWCi_ChangeScene(procCancel);
 }
 
 static void endScene(void)
@@ -300,7 +300,7 @@ static void endScene(void)
     if (sScenesetaossbuttonChoose.Task != 0)
         DWCi_TSKlDeleteEx(1, sScenesetaossbuttonChoose.Task);
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void procConfirm(void);
@@ -315,7 +315,7 @@ static void endScene1(void)
     if (sceneopterase_bss.Choose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -341,14 +341,14 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetAossComplete);
+        DWCi_ChangeScene(DWCi_SceneSetAossComplete);
     }
 }
 
-static void taskVBlank(void)
+static void taskVBlank(void *task, void *work)
 {
     DWCi_IPTlUpdate();
     DWCi_TSKlAct(0);
@@ -362,14 +362,14 @@ static void procError(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)procError1);
+    DWCi_ChangeScene(procError1);
 }
 
 static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 
@@ -382,7 +382,7 @@ static void procWait(void)
     if (sScenesetaossbuttonChoose.Count < 1080)
         return;
     DWCi_SNDlStop();
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 /*
@@ -394,5 +394,5 @@ static void procCancel(void)
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
     *(unsigned char *)0x021DE5CC = 0;
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }

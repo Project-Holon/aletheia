@@ -58,7 +58,7 @@ extern const char sWf2dmapCmdqFileName[];
 Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int n, int heap)
 {
     Wf2dmapCmdStore *p;
-    p = GFL_HEAP_Alloc(heap, 12, 1, sWf2dmapCmdqFileName, 211);
+    p = GFL_HEAP_Alloc(heap, sizeof(Wf2dmapCmdStore), 1, sWf2dmapCmdqFileName, 211);
     p->slotCount = n + 1;
     p->entries = GFL_HEAP_Alloc(heap, p->slotCount * 4, 1, sWf2dmapCmdqFileName, 216);
     p->usedCount = 0;

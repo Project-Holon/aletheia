@@ -136,7 +136,7 @@ void DWCi_SceneInit(void)
     *(volatile unsigned short *)0x0400000A = (*(volatile unsigned short *)0x0400000A & ~3) | 3;
     DWCi_GXlVisible(1, 2);
     DWCi_GXlVisible(0, 2);
-    DWCi_ChangeScene((uptr)procFade);
+    DWCi_ChangeScene(procFade);
 }
 
 
@@ -144,7 +144,7 @@ static void procFade(void)
 {
 	DWCi_EFFlFade(2, 1, 2, 0x14);
 	DWCi_EFFlFade(2, 0, 2, 0x14);
-	DWCi_ChangeScene((uptr)DWCi_SceneInitProcWait);
+	DWCi_ChangeScene(DWCi_SceneInitProcWait);
 }
 
 
@@ -157,11 +157,11 @@ static void DWCi_SceneInitProcWait(void)
 	switch (DWCi_Entry()) {
 	case 0:
 		DWCi_SetParam_(0, (unsigned int)(1));
-		DWCi_ChangeScene((uptr)DWCi_SceneMenu);
+		DWCi_ChangeScene(DWCi_SceneMenu);
 		break;
 	case 1:
 		DWCi_SetParam_((unsigned int)(1), (unsigned int)(1));
-		DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
+		DWCi_ChangeScene(DWCi_SceneSetSelectAp);
 		break;
 	}
 }

@@ -158,7 +158,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 {
     DeliveryBeacon *work;
 
-    work = GFL_HEAP_Alloc(param->heapId, 0x31C0, 1, gDeliveryBeaconAllocSite, 0x127);
+    work = GFL_HEAP_Alloc(param->heapId, sizeof(*work), 1, gDeliveryBeaconAllocSite, 0x127);
     MI_CpuCopy8(param, work, sizeof(DeliveryBeaconParam));
     return work;
 }

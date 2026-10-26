@@ -30,7 +30,6 @@
  */
 #include "pokemontrade_types.h"
 
-#define P(k) (*(void **)(p+(k)))
 
 
 
@@ -49,29 +48,29 @@ struct McssWork;
 
 #include "pokemontrade_nego.h"
 
-void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *frameCount, void *targetPos);
+void POKETRADE_MCSS_SlideBegin(McssSlide *p, int frameCount, void *targetPos);
 
-void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
+void *POKETRADE_MCSS_SlideCreate(void *mcss, int frameCount, void *targetPos, u32 heapId);
 
-void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId);
+void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, int frameCount, void *targetPos, void *offsetTable, u16 heapId);
 
 int POKETRADE_MCSS_SlideInterpolate(int startValue, int targetValue, McssSlide *slide, int allowWobble);
 
-void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, int eventArg);
+void POKETRADE_MCSS_SlideApplyOffset(McssSlide *p, void *eventArg);
 
-void POKETRADE_MCSS_SlideUpdate(McssSlide *p, int eventArg);
+void POKETRADE_MCSS_SlideUpdate(McssSlide *p, void *eventArg);
 
-void POKETRADE_MCSS_StopAnimation(TradeWork *p);
+void POKETRADE_MCSS_StopAnimation(void *param, u32 frame);
 
 extern short FX_SinCosTable_[];
 
-void POKETRADE_MCSS_SlideBegin(McssSlide *slide, void *frameCount, void *targetPos)
+void POKETRADE_MCSS_SlideBegin(McssSlide *slide, int frameCount, void *targetPos)
 {
     u8 buf[12];
 
     MCSS_GetPosition(slide->mcss, (u32 *)buf);
     slide->frame = 0;
-    slide->frameCount = (uptr)frameCount;
+    slide->frameCount = frameCount;
     MI_CpuCopy8(targetPos, &slide->target, 0xC);
     MI_CpuCopy8(buf, &slide->start, 0xC);
 }
@@ -79,9 +78,9 @@ void POKETRADE_MCSS_SlideBegin(McssSlide *slide, void *frameCount, void *targetP
 /*
  * Addresses are Black-image addresses.
  */
-void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId)
+void *POKETRADE_MCSS_SlideCreate(void *mcss, int frameCount, void *targetPos, u32 heapId)
 {
-    McssSlide *slide = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
+    McssSlide *slide = GFL_HEAP_Alloc(heapId, sizeof(*slide), 1, (const char *)0x021E80F4, 0xD2);
 
     slide->mcss = mcss;
     POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
@@ -100,14 +99,14 @@ void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, 
  *
  * Addresses are Black-image addresses.
  */
-void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId)
+void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, int frameCount, void *targetPos, void *offsetTable, u16 heapId)
 {
-    McssSlide *slide = GFL_HEAP_Alloc(heapId, 0x38, 1, (const char *)0x021E80F4, 0xE7);
+    McssSlide *slide = GFL_HEAP_Alloc(heapId, sizeof(*slide), 1, (const char *)0x021E80F4, 0xE7);
 
     slide->mcss = mcss;
     POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
     slide->reserved0C = 0;
-    slide->offsetTable = (McssSlideVec *)(uptr)offsetTable;
+    slide->offsetTable = (McssSlideVec *)offsetTable;
     return slide;
 }
 
@@ -140,7 +139,7 @@ int POKETRADE_MCSS_SlideInterpolate(int startValue, int targetValue, McssSlide *
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_MCSS_SlideApplyOffset(McssSlide *slide, int eventArg)
+void POKETRADE_MCSS_SlideApplyOffset(McssSlide *slide, void *eventArg)
 {
     u32 vec[3];
     int frameIndex = slide->frame;
@@ -150,7 +149,7 @@ void POKETRADE_MCSS_SlideApplyOffset(McssSlide *slide, int eventArg)
     vec[1] = offset[1] + slide->start.y;
     vec[2] = offset[2] + slide->start.z;
     MCSS_SetPosition(slide->mcss, vec);
-    POKETRADE_NEGO_PlaySeByEvent(slide->frame, (u8 *)eventArg);
+    POKETRADE_NEGO_PlaySeByEvent(slide->frame, (TradeWork *)eventArg);
 }
 
 /*
@@ -160,7 +159,7 @@ void POKETRADE_MCSS_SlideApplyOffset(McssSlide *slide, int eventArg)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_MCSS_SlideUpdate(McssSlide *slide, int eventArg)
+void POKETRADE_MCSS_SlideUpdate(McssSlide *slide, void *eventArg)
 {
     u32 vec[6];
     int prevFrame, next, frameCount;
@@ -192,8 +191,9 @@ void POKETRADE_MCSS_SlideUpdate(McssSlide *slide, int eventArg)
     MCSS_SetPosition(slide->mcss, (u32 *)&slide->target);
 }
 
-void POKETRADE_MCSS_StopAnimation(TradeWork *p)
+void POKETRADE_MCSS_StopAnimation(void *param, u32 frame)
 {
+    TradeWork *p = (TradeWork *)param;
     MCSS_SetAnmStopFlag(p->mcssPokemon[0]);
     p->mcssAnimStopped = 1;
 }

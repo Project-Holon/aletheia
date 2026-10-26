@@ -10,7 +10,7 @@ typedef struct Camera Camera;
 #include "../types.h"
 
 Camera *CTVT_CAMERA_Create(int id);
-void CTVT_CAMERA_OnPowerOff(Camera *p);
+void CTVT_CAMERA_OnPowerOff(void *arg);
 void CTVT_CAMERA_Delete(Camera *p);
 void CTVT_CAMERA_StartFrameDma(Camera *p);
 void CTVT_CAMERA_UpdateShutterSound(Camera *p);

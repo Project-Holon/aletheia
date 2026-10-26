@@ -28,7 +28,7 @@
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   strcpy  0x02094798  arm
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "sc_types.h"
 #include "../arm9/msl_string_mem.h"
 

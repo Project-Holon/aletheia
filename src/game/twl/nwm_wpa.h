@@ -2,6 +2,7 @@
 #define GAME_TWL_NWM_WPA_H
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
 typedef struct TwlReq {
     u16 kind;
@@ -12,8 +13,9 @@ typedef struct TwlReq {
 /* Public functions of nwm_wpa.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_SetWPAPSK(void *callback, TwlReq *pskInfo);
+u32 NWM_SetWPAPSK(NWMCallbackFunc callback, TwlReq *pskInfo);
 /* END mkheaders: generated region */
 
 #endif

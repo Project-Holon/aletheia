@@ -4,13 +4,13 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of worldtrade_adapter.c, prototypes copied from their definitions. */
 
-struct Strbuf;
-struct WorldtradeObj;
-
 struct PokemonParam;
+struct Strbuf;
 struct WordSet;
 struct MsgBank;
 struct BoxPokemon;
+struct GfFont;
+struct WorldtradeObj;
 
 #include "../ov135/worldtrade_types.h"
 #include "../types.h"
@@ -24,14 +24,14 @@ int WORLDTRADE_ADAPTER_CheckPartyHasOther(WorldtradeWork *p, void *mon);
 void WORLDTRADE_ADAPTER_SetPair(WorldtradeWork *p, u16 stateAfterSaveWait, u16 stateAfterSave);
 u32 WORLDTRADE_ADAPTER_CanProceed(WorldtradeWork *p);
 void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap);
-void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 wordSet, u32 slot, u32 boxMon);
+void WORLDTRADE_ADAPTER_CreateMonFromBox(void *wordSet, u32 slot, void *boxMon);
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
-void WORLDTRADE_ADAPTER_CopyMon(u32 src, struct PokemonParam *dst);
+void WORLDTRADE_ADAPTER_CopyMon(const void *src, struct PokemonParam *dst);
 void WORLDTRADE_ADAPTER_ClearWindowScreen(void *win, int kind);
-u32 WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId);
+struct Strbuf *WORLDTRADE_ADAPTER_CreateString(struct WordSet *wordSet, struct MsgBank *bank, u32 msgId, u32 heapId);
 void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, struct PokemonParam *dst);
 struct BoxPokemon *WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
-int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, struct Strbuf *str, u32 margin);
+int WORLDTRADE_ADAPTER_StrObjThunk(struct GfFont **p, u32 unused1, struct Strbuf *str, u32 margin);
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg);
 void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p);
 void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p);

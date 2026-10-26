@@ -201,7 +201,7 @@ int IRCi_Read(u8 *buf)
     OS_LockCard(gIrcLockId);
     while (*(volatile u16 *)REG_MCCNT0_ADDR & 0x80)
         ;
-    *(volatile u16 *)0x040001A0 = 0xA042;
+    *(volatile u16 *)REG_MCCNT0_ADDR = 0xA042;
     IRCi_CommWrite(((struct IRCParam *)&g_0217AC90b));
     IRCi_WaitCommand();
     IRCi_CommRead(((struct IRCParam *)&g_0217AC90b));
@@ -216,11 +216,11 @@ int IRCi_Read(u8 *buf)
     if (size != 0) {
         for (; (i < size) ? 1 : 0; i++) {
             if (i == size - 1)
-                *(volatile u16 *)0x040001A0 = 0xA002;
+                *(volatile u16 *)REG_MCCNT0_ADDR = 0xA002;
             IRCi_CommRead(((struct IRCParam *)&g_0217AC90b));
         }
     } else {
-        *(volatile u16 *)0x040001A0 = 0xA002;
+        *(volatile u16 *)REG_MCCNT0_ADDR = 0xA002;
         IRCi_CommRead(((struct IRCParam *)&g_0217AC90b));
     }
     for (i = 0; (i < size) ? 1 : 0; i++) {

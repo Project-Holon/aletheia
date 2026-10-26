@@ -195,15 +195,15 @@ void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expecte
 int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
 {
     u8 *work;
-    work = PROCSYS_AllocProcWork(sys, 0x100, 4);
-    MI_CpuFill8(work, 0, 0x100);
-    *(NetPartyArgs *)(work + 0xd0) = *args;
+    work = PROCSYS_AllocProcWork(sys, sizeof(NetPartyWork), 4);
+    MI_CpuFill8(work, 0, sizeof(NetPartyWork));
+    ((NetPartyWork *)work)->args = *args;
     ((NetPartyWork *)work)->kind = 4;
     ((NetPartyWork *)work)->procHandle = PROCSYS_Create(((NetPartyWork *)work)->kind);
     GFL_NET_COMMAND_AddCommandTable((unsigned int)0x2f00, sNetPartyCommandTable, (unsigned int)1, work);
-    NET_PARTY_COMMAND_BuildPartyList((NetPartyArgs *)args, work, (NetPartyParam *)(work + 4));
-    NET_PARTY_COMMAND_BuildStatusParam((NetPartyArgs *)args, work, (PStatusProcParam *)(work + 0x9c));
-    work[0xc4] = 0;
+    NET_PARTY_COMMAND_BuildPartyList((NetPartyArgs *)args, work, &((NetPartyWork *)work)->list);
+    NET_PARTY_COMMAND_BuildStatusParam((NetPartyArgs *)args, work, &((NetPartyWork *)work)->status);
+    ((NetPartyWork *)work)->elapsedAccum = 0;
     ((NetPartyWork *)work)->lastFrame = g_02FFFC3C;
     ((NetPartyWork *)work)->state = 0;
     return 1;
@@ -211,7 +211,7 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
 
 int NET_PARTY_COMMAND_Exit(void *proc, u32 unused0, u32 unused1, char *work)
 {
-    PLIST_COMM_End(work + 4);
+    PLIST_COMM_End((u8 *)&((NetPartyWork *)work)->list);
     GF_OVERLAY_Unload((sptr)ov90_id);
     PROCSYS_Delete(((NetPartyWork *)work)->procHandle);
     PROCSYS_FreeProcWork(proc);
@@ -235,11 +235,11 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
             ((NetPartyWork *)work)->elapsedAccum -= 60;
         }
     }
-    PLIST_COMM_Update((struct PartyListCommWork *)(work + 4));
+    PLIST_COMM_Update((struct PartyListCommWork *)&((NetPartyWork *)work)->list);
     switch (((NetPartyWork *)work)->state) {
     case 0:
         GF_OVERLAY_Load((sptr)ov91_id);
-        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPartyListProcData, (void *)(work + 4));
+        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPartyListProcData, (void *)&((NetPartyWork *)work)->list);
         ((NetPartyWork *)work)->state = 1;
         break;
     case 1:
@@ -278,7 +278,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
         break;
     case 3:
         GF_OVERLAY_Load((sptr)ov131_id);
-        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPokeStatusProcData, (void *)(work + 156));
+        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPokeStatusProcData, (void *)&((NetPartyWork *)work)->status);
         ((NetPartyWork *)work)->state = 4;
         break;
     case 4:

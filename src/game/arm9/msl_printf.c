@@ -95,7 +95,7 @@ unsigned char *float2str(double num, unsigned char *buff, print_format format);
 
 int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteProcArg, const uchar *format_str, va_list arg, int is_secure);
 
-u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n);
+void *MSL_C_LIB_SprintfWriteProc(void *sb, const u8 *src, size_t n);
 
 u32 vsnprintf(u8 *dst, u32 n, const u8 *format, va_list ap);
 
@@ -1273,7 +1273,7 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
     return chars_written;
 }
 
-u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n)
+void *MSL_C_LIB_SprintfWriteProc(void *sb, const u8 *src, size_t n)
 {
     u32 pos = ((MslStringBuf *)sb)->length;
     u32 cap = ((MslStringBuf *)sb)->capacity;
@@ -1282,7 +1282,7 @@ u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n)
         n = cap - pos;
     memcpy(*(u8 * *)&((MslStringBuf *)sb)->buf + pos, src, n);
     ((MslStringBuf *)sb)->length += n;
-    return 1;
+    return (void *)1;
 }
 
 /*
@@ -1301,7 +1301,7 @@ u32 vsnprintf(u8 *dst, u32 n, const u8 *format, va_list ap)
     state[0] = (uptr)dst;
     state[1] = n;
     state[2] = 0;
-    len = __pformatter((void *(*)(void *, const uchar *, size_t))MSL_C_LIB_SprintfWriteProc, state, format, ap, 0);
+    len = __pformatter(MSL_C_LIB_SprintfWriteProc, state, format, ap, 0);
     if (dst == 0)
         return len;
     if (len < n) {

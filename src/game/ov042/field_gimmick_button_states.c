@@ -133,7 +133,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem
     save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (stateModel >= FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
     if (event != 0) {
         work->stateModel = stateModel;
         work->showLastFrame = showLastFrame;
@@ -156,7 +156,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSyst
     save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (oneShotIndex > FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
     work->oneShotIndex = oneShotIndex;
     return event;
 }

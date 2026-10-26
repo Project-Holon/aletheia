@@ -248,7 +248,15 @@ struct PrintQueue;
 #include "../arm9/bmp_win.h"
 #include "../arm9/wordset.h"
 struct McssWork;
+/* Original DS prototype: this file ignores the return value; the header returns int. */
+#ifdef __MWERKS__
+#define MCSS_TOOL_SetAnimeStopCallback MCSS_TOOL_SetAnimeStopCallback_header
+#endif
 #include "../arm9/mcss.h"
+#ifdef __MWERKS__
+#undef MCSS_TOOL_SetAnimeStopCallback
+extern void MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
+#endif
 struct Party;
 #include "../arm9/pokeparty.h"
 struct PersonalData;
@@ -316,7 +324,7 @@ extern const VecFx32 d_021DC1EC;
 extern const short d_020A5078[];
 
 void *P_STA_SUB_Create(PStatusWork *wk) {
-    PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, 0x9c, 1, P_STA_SUB_FileName, 0x10d);
+    PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, sizeof(PStaSubWork), 1, P_STA_SUB_FileName, 0x10d);
     work->mcss[STA_SUB_MCSS_FRONT] = 0;
     work->mcss[STA_SUB_MCSS_BACK] = 0;
     work->isTouching = 0;
@@ -491,7 +499,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     u32 ballId, ballArc, marks;
     u8 i, markBit;
     mon = P_STATUS_GetPokePara(wk);
-    pp = (void *)P_STATUS_GetPokeParaSource(wk);
+    pp = P_STATUS_GetPokeParaSource(wk);
     P_STA_SUB_CreateMcss(wk, work, mon);
     win = work->nameWin;
     BMP_WIN_TransferChars(win);
@@ -994,18 +1002,13 @@ void P_STA_SUB_CreateMcss(PStatusWork *wk, PStaSubWork *work, void *mon)
     VecFx32 frontScale = d_021DC240;
     VecFx32 backScale = d_021DC180;
     VecFx32 baseOfs = d_021DC1C8;
-    void *pp = (void *)P_STATUS_GetPokeParaSource(wk);
+    void *pp = P_STATUS_GetPokeParaSource(wk);
     P_STA_SUB_GetSpeciesAdjust(wk, work, &extraOfs, &frontScale);
     work->mcss[STA_SUB_MCSS_FRONT] = MCSS_TOOL_AddPokeMcss(wk->mcssSys, pp, 0, 0xd8000, 0x48000, 0);
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_FRONT], 2);
     MCSS_SetShadowRotateX(work->mcss[STA_SUB_MCSS_FRONT], 0xd555);
     MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&frontScale));
-#ifdef __MWERKS__
-    /* The original prototype returned void. */
-    ((void (*)(void *))MCSS_TOOL_SetAnimeStopCallback)(work->mcss[STA_SUB_MCSS_FRONT]);
-#else
     MCSS_TOOL_SetAnimeStopCallback(work->mcss[STA_SUB_MCSS_FRONT]);
-#endif
     MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&extraOfs));
     work->mcss[STA_SUB_MCSS_BACK] = MCSS_TOOL_AddPokeMcss(wk->mcssSys, pp, 1, 0xd8000, 0x48000, 0);
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_BACK], 2);

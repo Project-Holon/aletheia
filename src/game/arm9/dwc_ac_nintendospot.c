@@ -63,11 +63,11 @@ typedef struct NSpotState {
 #include "dwc_memfunc.h"
 #include "mi_memory.h"
 #include "os_tick.h"
-extern void WDS_Initialize_CB(void);
-extern void WDS_StartScan_CB(void);
-extern void WDS_EndScan_CB(void);
-extern void WDS_End_CB(void);
-extern void WDS_Error_End_CB(void);
+extern void WDS_Initialize_CB(void * unused0);
+extern void WDS_StartScan_CB(void * unused0);
+extern void WDS_EndScan_CB(void * unused0);
+extern void WDS_End_CB(void * unused0);
+extern void WDS_Error_End_CB(void * unused0);
 BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
 int DWC_AC_ProcessGetWDSInfo(void);
 void DWC_AC_CancelGetWDSInfo(void);
@@ -106,13 +106,13 @@ int DWC_AC_ProcessGetWDSInfo(void)
     switch (s_nspot.gAppstate) {
     case 0:
         s_nspot.gAppstate = 1;
-        if (WDS_Initialize(s_nspot.wdsSysBuf, (void (*)(void *))WDS_Initialize_CB, s_nspot.gDwcWdsWork->dmaNo)) {
+        if (WDS_Initialize(s_nspot.wdsSysBuf, WDS_Initialize_CB, s_nspot.gDwcWdsWork->dmaNo)) {
             s_nspot.gAppstate = 0xb;
         }
         break;
     case 2:
         s_nspot.gAppstate = 3;
-        if (WDS_StartScan((void (*)(void *))WDS_StartScan_CB) == 0) {
+        if (WDS_StartScan(WDS_StartScan_CB) == 0) {
             if (s_nspot.gDwcWdsWork->wdsScanBeginTick == 0) {
                 s_nspot.gDwcWdsWork->wdsScanBeginTick = OS_GetTick();
             }
@@ -130,7 +130,7 @@ int DWC_AC_ProcessGetWDSInfo(void)
         break;
     case 5:
         s_nspot.gAppstate = 6;
-        if (WDS_EndScan((void (*)(void *))WDS_EndScan_CB)) {
+        if (WDS_EndScan(WDS_EndScan_CB)) {
             s_nspot.gAppstate = 0xa;
         }
         break;
@@ -150,7 +150,7 @@ int DWC_AC_ProcessGetWDSInfo(void)
             }
         }
         s_nspot.gAppstate = 8;
-        if (WDS_End((void (*)(void *))WDS_End_CB)) {
+        if (WDS_End(WDS_End_CB)) {
             s_nspot.gAppstate = 0xb;
         }
         break;
@@ -173,7 +173,7 @@ int DWC_AC_ProcessGetWDSInfo(void)
         break;
     case 10:
         s_nspot.gAppstate = 8;
-        if (WDS_End((void (*)(void *))WDS_Error_End_CB)) {
+        if (WDS_End(WDS_Error_End_CB)) {
             s_nspot.gAppstate = 0xb;
         }
         break;
@@ -209,7 +209,7 @@ void DWC_AC_CleanupGetWDSInfo(void)
 /*
  * sdk:      WDS_Initialize_CB (nintendospot.o)
  */
-void WDS_Initialize_CB(void)
+void WDS_Initialize_CB(void * unused0)
 {
     s_nspot.gAppstate = 2;
 }
@@ -217,7 +217,7 @@ void WDS_Initialize_CB(void)
 /*
  * sdk:      WDS_StartScan_CB (nintendospot.o)
  */
-void WDS_StartScan_CB(void)
+void WDS_StartScan_CB(void * unused0)
 {
     s_nspot.gAppstate = 4;
 }
@@ -225,7 +225,7 @@ void WDS_StartScan_CB(void)
 /*
  * sdk:      WDS_EndScan_CB (nintendospot.o)
  */
-void WDS_EndScan_CB(void)
+void WDS_EndScan_CB(void * unused0)
 {
     s_nspot.gAppstate = 7;
 }
@@ -233,7 +233,7 @@ void WDS_EndScan_CB(void)
 /*
  * sdk:      WDS_End_CB (nintendospot.o)
  */
-void WDS_End_CB(void)
+void WDS_End_CB(void * unused0)
 {
     s_nspot.gAppstate = 9;
 }
@@ -241,7 +241,7 @@ void WDS_End_CB(void)
 /*
  * sdk:      WDS_Error_End_CB (nintendospot.o)
  */
-void WDS_Error_End_CB(void)
+void WDS_Error_End_CB(void * unused0)
 {
     s_nspot.gAppstate = 0xb;
 }

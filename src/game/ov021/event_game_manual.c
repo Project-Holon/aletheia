@@ -50,7 +50,7 @@ typedef struct EventGameManualWork {
 struct FieldMap;
 #include "../arm9/field_status.h"
 struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut);
-u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
+int EVENT_GAME_MANUAL_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work);
 extern char d_021DE698[];        /* "event_game_manual.c" */
 extern unsigned char abs_id_e1[]; /* FS_OVERLAY_ID(ov225) */
@@ -65,7 +65,7 @@ struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *r
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
+    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -83,8 +83,9 @@ struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *r
  * (attest_xwin_loaded(), 2026-10-02).  No overlay listing labels
  * 0x021BBDE4 as a function; ov114 has ARM code there.
  */
-u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work)
+int EVENT_GAME_MANUAL_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventGameManualWork *work = workPtr;
     switch (seq[0]) {
     case 0:
         GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (sptr)abs_id_e1, d_021BBDE4, work->param));

@@ -235,7 +235,7 @@ int APCi_MoveIdleState(void)
             return 0;
         break;
     case 1:
-        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, (void (*)(void *))APCi_Notify) != 3)
+        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, APCi_Notify) != 3)
             return 0;
         break;
     case 0:
@@ -418,7 +418,7 @@ int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size
         apc_bss.apci_state = 1;
     }
     if (apc_bss.apci_state == 1) {
-        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, (void (*)(void *))APCi_Notify) != 3) {
+        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, APCi_Notify) != 3) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }

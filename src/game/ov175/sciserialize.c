@@ -20,7 +20,7 @@
  *   sSciGuidFormatByte  0x021E41A0  data
  *   sSciGuidFormatByteRun  0x021E41A4  data
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "sc_types.h"
 
 #include "../arm9/std_string.h"

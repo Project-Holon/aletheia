@@ -176,7 +176,7 @@ extern const FieldPlayerFormRow gFieldPlayerFormTable[];
  */
 FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId)
 {
-    FieldPlayer *player = GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)&gFieldPlayerFileName, 0x4C);
+    FieldPlayer *player = GFL_HEAP_Alloc(heapId, sizeof(*player), 1, (const char *)&gFieldPlayerFileName, 0x4C);
 
     player->fieldMap = fieldMap;
     player->core = FIELD_PLAYER_CORE_Create(playerWork, fieldMap, pos, sex, heapId);
@@ -214,9 +214,9 @@ void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player)
     GAME_DATA_SetPlayerMoveForm(playerWork, 1);
 }
 
-int FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c)
+GameEvent *FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c)
 {
-    int pushed = 0;
+    GameEvent *pushed = 0;
 
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
         pushed = FIELD_PLAYER_GRID_EVENT_TryPushBoulder(player->grid, a, b, c);

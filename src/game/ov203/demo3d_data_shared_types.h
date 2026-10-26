@@ -22,7 +22,7 @@ typedef struct Demo3dCmdContext {
     struct Tcbl *task;                /* 0x20 */
     struct GfFont *text;              /* 0x24 */
     void *assets;                     /* 0x28 */
-    int extra;                        /* 0x2C */
+    void *extra;                      /* 0x2C */
 } Demo3dCmdContext;
 
 typedef char Demo3dCmdContext_SizeCheck[(sizeof(Demo3dCmdContext) == 0x30) ? 1 : -1];

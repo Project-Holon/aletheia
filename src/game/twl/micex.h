@@ -11,7 +11,7 @@ MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
 MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 u32 MICEXi_StopLimitedSampling(void);
 u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg);
-void MicexSyncCallback(u32 result, u32 queue);
+void MicexSyncCallback(MICResult result, void *queue);
 u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags);
 u32 MicexStopLimitedSampling(void);
 /* END mkheaders: generated region */

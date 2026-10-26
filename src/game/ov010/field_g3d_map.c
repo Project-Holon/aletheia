@@ -98,7 +98,7 @@ FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
 void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
 void FIELD_G3D_MAP_Update(FieldG3dMap *map);
 int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map);
-int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, int arg);
+int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, void *arg);
 void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId);
 void FIELD_G3D_MAP_CloseArchive(FieldG3dMap *map);
 void FIELD_G3D_MAP_SetAltTextureRes(FieldG3dMap *map, void *textureRes);
@@ -129,7 +129,7 @@ void FIELD_G3D_MAP_ResetLoadState(FieldG3dMap *map);
 void FIELD_G3D_MAP_BeginChunkedLoad(FieldG3dMap *map, u32 member);
 int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map);
 int FIELD_G3D_MAP_Draw(FieldG3dMap *map);
-void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused);
+void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, void *unused);
 int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map);
 void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
 void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
@@ -252,7 +252,7 @@ int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map)
 }
 
 /* Draw the map model and, when it was drawn and has placed models, those models too. */
-int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, int arg)
+int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, void *arg)
 {
     int drawn;
 
@@ -592,7 +592,7 @@ int FIELD_G3D_MAP_Draw(FieldG3dMap *map)
  * entry's angle translated by the map position plus the entry's position
  * (command 0x19, 4x3 multiply), box-tests the model and draws it.
  */
-void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
+void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, void *unused)
 {
     FieldG3dMapModelRes *modelRes = map->placedModels->res;
     u32 count = map->placedModels->count;
@@ -750,7 +750,7 @@ void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes
         NNS_G3dBindMdlTex((struct NNSG3dResMdl *)model, (struct NNSG3dResTex *)texture);
         NNS_G3dBindMdlPltt((struct NNSG3dResMdl *)model, (struct NNSG3dResTex *)texture);
     }
-    NNS_G3dRenderObjInit((struct NNSG3dRenderObj *)renderObj, (uptr)model);
+    NNS_G3dRenderObjInit((struct NNSG3dRenderObj *)renderObj, (struct NNSG3dResMdl *)model);
 }
 
 /* Clear the model of the render object; returns the render object. */

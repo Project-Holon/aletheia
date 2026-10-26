@@ -427,7 +427,7 @@ void ZONEDATA_Init(u16 heap)
     if (g_ZoneDataMgr != 0)
         return;
 
-    g_ZoneDataMgr = GFL_HEAP_Alloc(heap, 0x4c, 1, sZonedataFile, 0x60);
+    g_ZoneDataMgr = GFL_HEAP_Alloc(heap, sizeof(*g_ZoneDataMgr), 1, sZonedataFile, 0x60);
     g_ZoneDataMgr->arcHandle = ARC_TOOL_CreateHandle(0x0c, heap);
 
     g_ZoneDataMgr->fogTable = ARC_UTIL_LoadMemberWithSize(0x51, 13, 0, heap, &size);

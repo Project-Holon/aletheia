@@ -52,7 +52,7 @@ struct GameData;
 
 #include "../arm9/procsys.h"
 
-void WORLDTRADE_STATUS_Open(WorldtradeWork *p);
+int WORLDTRADE_STATUS_Open(WorldtradeWork *p);
 
 u32 WORLDTRADE_STATUS_WaitIdle(WorldtradeWork *p);
 
@@ -62,7 +62,7 @@ extern const char str_02203E30[], ov131_id[];
 
 extern const struct ProcData gPokeStatusProcData;
 
-void WORLDTRADE_STATUS_Open(WorldtradeWork *p)
+int WORLDTRADE_STATUS_Open(WorldtradeWork *p)
 {
     PokeStatusRequest *r;
     WORLDTRADE_ExitPlanes(p);
@@ -72,7 +72,7 @@ void WORLDTRADE_STATUS_Open(WorldtradeWork *p)
     r->config=p->ctx->statusConfig;
     r->save=GAMESYSTEM_GetGameData(p->ctx->gameData);
     if(WORLDTRADE_BOX_IsPartyBox(p->box))
-        r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(p->ctx->box),p->box);
+        r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,p->ctx->save,p->box);
     else r->slotCount=30;
     r->slot=p->slot;
     r->enabled=1;
@@ -89,6 +89,7 @@ void WORLDTRADE_STATUS_Open(WorldtradeWork *p)
     }
     PROCSYS_Push(p->procSys,(uptr)ov131_id,&gPokeStatusProcData,r);
     p->subLcdRefresh=1;
+    return 1;
 }
 
 /*

@@ -6,11 +6,11 @@
 
 struct TcbTask;
 struct Proc;
-struct ClActor;
+struct ClactActor;
 struct BmpWin;
 struct TaskMenu;
 struct StrokeBytes;
-typedef struct ClActor ClActor;
+typedef struct ClactActor ClActor;
 typedef struct TaskMenu TaskMenu;
 typedef struct StrokeBytes StrokeBytes;
 

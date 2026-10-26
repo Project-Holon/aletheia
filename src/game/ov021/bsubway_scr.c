@@ -370,7 +370,7 @@ struct BtlInstGroup;
 extern struct BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(struct BtlInstTrainer *trainer, s32 trainerIndex, s32 heapId);
 extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 #include "../arm9/gfl_use.h"
-int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
+struct GameData *BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode);
 void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work);
 void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work);
@@ -384,7 +384,7 @@ void BSUBWAY_SCR_DrawTrainerNos(BsubwayScrWork *work);
 u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, struct GameSystem *gameSystem);
 int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, struct GameSystem *gameSystem);
-int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem);
+BsubwayScrWork *BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem);
 void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work);
 u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i);
 int BSUBWAY_SCR_UpdateStageRank(void *scoreData, struct GameSystem *gameSystem, int mode);
@@ -393,7 +393,7 @@ void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work);
 u16 BSUBWAY_SCR_GetWinCount(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetWinCount(BsubwayScrWork *work, u16 winCount);
 void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work);
-int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work);
+BsubwayScrWork *BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work);
 void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round);
 int BSUBWAY_SCR_GetMemberNum(u16 playMode);
 int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count);
@@ -411,9 +411,9 @@ int BSUBWAY_SCR_WaitTimingSync(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommEntryMenu(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommEntryMenuSimple(struct ScriptVm *vm, void *script);
 int BSUBWAY_SCR_WaitCommRecvEnd(struct ScriptVm *vm, void *script);
-int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, u32 *state, void *eventWork);
+int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, int *state, void *eventWork);
 void *BSUBWAY_SCR_CreateCommShutdownTask(struct GameSystem *gameSystem, BsubwayScrWork *work);
-int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, u32 *state, void *eventWork);
+int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, int *state, void *eventWork);
 void *BSUBWAY_SCR_CreateYesNoMenuTask(struct GameSystem *gameSystem, struct ScrcmdWork *script, u16 *resultDst, u32 arg);
 void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void *fieldMmdlSys, void *fieldMap);
 u32 BSUBWAY_SCR_GetMmdlParam(struct Mmdl *mapObj);
@@ -463,9 +463,9 @@ extern const TrainerNoRange d_021DB3F4[];
  *
  * Addresses are Black-image addresses.
  */
-int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
+struct GameData *BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
 {
-    return (sptr)GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
+    return GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
 }
 
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode)
@@ -483,7 +483,7 @@ BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 p
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    work = GFL_HEAP_Alloc(4, 0x7EC, 1, d_021DE58C, 0x5f);
+    work = GFL_HEAP_Alloc(4, sizeof(*work), 1, d_021DE58C, 0x5f);
     work->heapId = 4;
     work->magic = 0x12345678;
     work->gameData = gameData;
@@ -542,7 +542,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
             BTL_SETUP_Delete((struct BattleSetupParam *)(work->btlSetup));
             work->btlSetup = 0;
         }
-        MI_CpuFill8(work, 0, 0x7EC);
+        MI_CpuFill8(work, 0, sizeof(*work));
         GFL_HEAP_Free(work);
     }
     GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
@@ -599,15 +599,15 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, struct GameSystem *gameSystem
 {
     void *party;
     int i;
-    uptr mon;
+    struct PokemonParam *mon;
 
     work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
     BSUBWAY_PLAYDATA_GetField(work->playData, 5, work->memberIndex);
     party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
-        mon = (uptr)POKEPARTY_GetMember(party, work->memberIndex[i]);
-        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
-        work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
+        mon = POKEPARTY_GetMember(party, work->memberIndex[i]);
+        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        work->memberItemNo[i] = POKE_TOOL_GetPartyValue(mon, 6, 0);
     }
 }
 
@@ -793,7 +793,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, struct GameSystem *game
 {
     void *party;
     u16 i;
-    uptr mon;
+    struct PokemonParam *mon;
 
     if (work->selectCancel != 0 || work->selectMode == 7 || work->selectMode == 8)
         return 0;
@@ -802,9 +802,9 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, struct GameSystem *game
         if (work->selectPos[i] - 1 >= 6)
             work->selectPos[i] = 1;
         work->memberIndex[i] = work->selectPos[i] - 1;
-        mon = (uptr)POKEPARTY_GetMember(party, work->memberIndex[i]);
-        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
-        work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
+        mon = POKEPARTY_GetMember(party, work->memberIndex[i]);
+        work->memberMonsNo[i] = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        work->memberItemNo[i] = POKE_TOOL_GetPartyValue(mon, 6, 0);
     }
     return 1;
 }
@@ -841,11 +841,11 @@ void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, struct GameSystem *gameSyst
     BSUBWAY_PLAYDATA_ClearRound(work->playData);
 }
 
-int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem)
+BsubwayScrWork *BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, struct GameSystem *gameSystem)
 {
     work->stateBits.winMaxReached = 0;
     work->stateBits.fixedBpMode = 0;
-    return (sptr)work;
+    return work;
 }
 
 /*
@@ -980,10 +980,10 @@ void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work)
         work->winCount = winCount + 1;
 }
 
-int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work)
+BsubwayScrWork *BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work)
 {
     work->winCount = 0;
-    return (sptr)work;
+    return work;
 }
 
 void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round)
@@ -2068,7 +2068,7 @@ int BSUBWAY_SCR_WaitCommRecvEnd(struct ScriptVm *vm, void *script)
  *
  * Addresses are Black-image addresses.
  */
-int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, u32 *state, void *eventWork)
+int BSUBWAY_SCR_CommShutdownMain(struct GameEvent *event, int *state, void *eventWork)
 {
     BsubwayScrWork **work = eventWork;
 
@@ -2116,7 +2116,7 @@ void *BSUBWAY_SCR_CreateCommShutdownTask(struct GameSystem *gameSystem, BsubwayS
  *
  * Addresses are Black-image addresses.
  */
-int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, u32 *state, void *eventWork)
+int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, int *state, void *eventWork)
 {
     ScreenTaskWork *taskWork = eventWork;
 
@@ -2154,7 +2154,7 @@ int BSUBWAY_SCR_YesNoMenuMain(struct GameEvent *event, u32 *state, void *eventWo
 
 void *BSUBWAY_SCR_CreateYesNoMenuTask(struct GameSystem *gameSystem, struct ScrcmdWork *script, u16 *resultDst, u32 arg)
 {
-    void *task = GAME_EVENT_Create(gameSystem, 0, BSUBWAY_SCR_YesNoMenuMain, 0x10);
+    void *task = GAME_EVENT_Create(gameSystem, 0, BSUBWAY_SCR_YesNoMenuMain, sizeof(ScreenTaskWork));
     ScreenTaskWork *taskWork = GAME_EVENT_GetWork(task);
 
     taskWork->script = script;
@@ -2429,7 +2429,7 @@ struct BattleSetupParam *BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct
  */
 void *BSUBWAY_SCR_GetNameinEncounterWork(void *work)
 {
-    return (char *)work + 0x74c;
+    return ((BsubwayScrWork *)work)->reserved74C;
 }
 
 static inline u16 RandInRange(BsubwayScrWork *work, uptr tbl, u32 round)

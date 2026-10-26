@@ -278,7 +278,7 @@ void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *handle, u32 netID)
         GFL_HEAP_Free(handle->workBuf);
         handle->workBuf = 0;
     }
-    MI_CpuFill8(handle, 0, 0x50);
+    MI_CpuFill8(handle, 0, sizeof(*handle));
     for (i = 0; i < 8; i++)
         handle->memberRec[i] = savedRec[i];
     GFL_NET_SYSTEM_ResetMachineBuffer(netID);
@@ -360,7 +360,7 @@ GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 netID)
         }
     }
     i = 0;
-    MI_CpuFill8(handle, 0, 0x50);
+    MI_CpuFill8(handle, 0, sizeof(*handle));
     if (netID == 0xff) {
         for (; i < 8; i++)
             handle->memberRec[i] = GFL_HEAP_Alloc(session->init.heapId, 0x10, 1, _FileName, 0xc7);

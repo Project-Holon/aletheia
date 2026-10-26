@@ -5,6 +5,7 @@
 /* Public functions of ircnet.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../ov015/ircnet_types.h"
 
 int IRCNET_CbInit(void);
 int IRCNET_CbConnect(void);
@@ -14,7 +15,7 @@ int IRCNET_CbStop(void);
 unsigned char IRCNET_CbIsRunning(void);
 int IRCNET_IsNotRunning(void);
 int IRCNET_SendAndNotify(void *dst, int a, int unused, void (*cb)(int));
-int IRCNET_CbSetRecvCallback(int v);
+int IRCNET_CbSetRecvCallback(IRCNetRecvFn v);
 int IRCNET_CbIsLinkedReceiver(void);
 int IRCNET_CbIsLinkLost(void);
 void IRCNET_CbUpdate(void);
@@ -28,14 +29,14 @@ int IRCNET_CbGetLinkState(void);
 unsigned char IRCNET_CbIsClosing(void);
 void IRCNET_CbOnConnect(void);
 void IRCNET_CbSetTimeoutLimit(int v);
-void IRCNET_CbSetFilter(int a);
+void IRCNET_CbSetFilter(IRCNetFilterFn a);
 void *IRCNET_GetHandlerTable(void);
 void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b);
 void IRCNET_InitWork(u32 a, u8 b);
 void IRCNET_SetTimeoutLimit(int v);
 void IRCNET_Stop(void);
-void IRCNET_SetRecvCallback(unsigned v);
-void IRCNET_SetFilter(int a);
+void IRCNET_SetRecvCallback(IRCNetRecvFn v);
+void IRCNET_SetFilter(IRCNetFilterFn a);
 void IRCNET_Start(void);
 unsigned char IRCNET_IsRunning(void);
 u8 IRCNET_IsSendReady(void);
@@ -44,7 +45,7 @@ int IRCNET_IsIdle(void);
 void IRCNET_QueueSend(void *dst, u8 a, u8 b);
 void IRCNET_ResendPending(void);
 int IRCNET_IsReceiver(void);
-void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type);
+void IRCNET_OnRecv(u8 *rawPacket, u8 len, u8 type, u8 id);
 int IRCNET_IsSender(void);
 int IRCNET_IsLinkLost(void);
 void IRCNET_OnConnect(void);

@@ -8,8 +8,8 @@ struct Proc;
 
 #include "../types.h"
 
-int STAFF_ROLL_Init(struct Proc *p, int unused, u32 arg);
-int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work);
+int STAFF_ROLL_Init(struct Proc *p, int unused, void *arg);
+int STAFF_ROLL_Main(int unused0, int unused1, int unused2, char *work);
 int STAFF_ROLL_Exit(void *p);
 int STAFF_ROLL_RunState(char *p);
 int STAFF_ROLL_Setup(u8 *p);

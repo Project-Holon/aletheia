@@ -59,27 +59,27 @@ struct ZukanSave;
 struct PersonalData;
 
 #include "../arm9/poke_personal.h"
+#include "../arm9/species.h"
 
 
 
 
-extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out);
+#include "../arm9/arc_util.h"
 
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 
 struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
 
-void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work);
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(struct Search *work);
 
 int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 
 u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode, u16 heap, u16 **out);
 
-unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, int heapId, u16 **out);
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(void *archive, int mode, int rule, int heapId, u16 **out);
 
-void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *table1, u16 *count2, u32 *table2, u16 *count3, u32 *table3, u16 *count4, u32 *table4);
+void ZUKAN_SEARCH_ENGINE_LoadTables(void *archive, u32 heapId, u16 *count1, void **table1, u16 *count2, void **table2, u16 *count3, void **table3, u16 *count4, void **table4);
 
 u8 ZUKAN_SEARCH_ENGINE_FinalTest(const u8 *table, const u16 *nextLink, u32 species, u32 steps);
 
@@ -91,7 +91,7 @@ extern int g_021C9968[];
 
 struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
 {
-    struct Search *q = GFL_HEAP_Alloc(heap, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
+    struct Search *q = GFL_HEAP_Alloc(heap, sizeof(struct Search), 1, (const char *)0x021C99A8, 0x1ce);
 
     q->save = p;
     q->query = b;
@@ -111,9 +111,9 @@ struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int
  * disasm emits it as an unlabelled `.word` run, so no listing class attests
  * it.  Addresses are Black-image addresses.
  */
-void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work)
+void ZUKAN_SEARCH_ENGINE_ReleaseWork(struct Search *work)
 {
-    GFL_HEAP_Free((void *)work);
+    GFL_HEAP_Free(work);
 }
 
 /*
@@ -142,12 +142,12 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
     p->state = 1;
     break;
   case 1:
-    p->count = ZUKAN_SEARCH_ENGINE_LoadFormIds((sptr)p->arc, p->query->mode, p->query->rule, heap, &p->ids);
+    p->count = ZUKAN_SEARCH_ENGINE_LoadFormIds(p->arc, p->query->mode, p->query->rule, heap, &p->ids);
     p->reject = GFL_HEAP_Alloc(heap, p->count, 1, sZukanSearchEngineSite, 551);
     p->state = 2;
     break;
   case 2:
-    ZUKAN_SEARCH_ENGINE_LoadTables((uptr)p->arc, heap, &p->count1, (u32 *)&p->table1, &p->count2, (u32 *)&p->table2, &p->count3, (u32 *)&p->table3, &p->count4, (u32 *)&p->table4);
+    ZUKAN_SEARCH_ENGINE_LoadTables(p->arc, heap, &p->count1, (void **)&p->table1, &p->count2, (void **)&p->table2, &p->count3, (void **)&p->table3, &p->count4, (void **)&p->table4);
     p->state = 3;
     break;
   case 3:
@@ -164,7 +164,7 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
       if (!ZUKAN_SAVE_IsSeen(p->save, species)) { p->reject[i] = 1; continue; }
       ZUKAN_SAVE_GetViewGenderAndForm(p->save, species, &unused1, &unused2, &outForm, heap);
       of = outForm;
-      if (p->count == 649) form = of;
+      if (p->count == SPECIES_LAST) form = of;
       if (form != of) { p->reject[i] = 1; continue; }
       if ((p->query->rule >= 2 && p->query->rule <= 5) || p->query->type1 != 255 || p->query->type2 != 255) {
         if (!ZUKAN_SAVE_IsCaught(p->save, species)) { p->reject[i] = 1; continue; }
@@ -236,13 +236,13 @@ u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out)
     u16 n;
     if (mode == 0) {
         used = 0;
-        result = GFL_HEAP_Alloc(heap,1298,0,sZukanSearchEngineSite,825);
+        result = GFL_HEAP_Alloc(heap,SPECIES_LAST * 2,0,sZukanSearchEngineSite,825);
         do {
             result[used] = used + 1;
             used = used + 1;
-        } while (used < 649);
+        } while (used < SPECIES_LAST);
         *out = result;
-        return 649;
+        return SPECIES_LAST;
     }
     map = POKE_PERSONAL_LoadFormTable(heap,&count);
     used = 0;
@@ -263,22 +263,22 @@ u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out)
     return count;
 }
 
-unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, int heapId, u16 **out)
+unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(void *archive, int mode, int rule, int heapId, u16 **out)
 {
     u16 *buf;
     unsigned int n;
 
     if (mode == 0 && rule == 0) {
         u16 i;
-        buf = GFL_HEAP_Alloc(heapId, 0x512, 0, g_021C99A8, 0x3B1);
-        for (i = 0; i < 0x289;) {
+        buf = GFL_HEAP_Alloc(heapId, SPECIES_LAST * 2, 0, g_021C99A8, 0x3B1);
+        for (i = 0; i < SPECIES_LAST;) {
             buf[i] = i + 1;
             i++;
         }
-        n = 0x289;
+        n = SPECIES_LAST;
     } else {
         unsigned int tmp;
-        buf = (u16 *)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, g_021C9968[rule], 0, heapId, &tmp);
+        buf = (u16 *)ARC_UTIL_LoadHandleMemberWithSize(archive, g_021C9968[rule], 0, heapId, &tmp);
         n = (tmp >> 1) & 0xFFFF;
     }
     *out = buf;
@@ -288,18 +288,18 @@ unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, in
 /*
  * Addresses are Black-image addresses.
  */
-void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *table1,
-                   u16 *count2, u32 *table2, u16 *count3, u32 *table3, u16 *count4, u32 *table4)
+void ZUKAN_SEARCH_ENGINE_LoadTables(void *archive, u32 heapId, u16 *count1, void **table1,
+                   u16 *count2, void **table2, u16 *count3, void **table3, u16 *count4, void **table4)
 {
     u32 buf;
 
-    *table1 = (uptr)POKE_PERSONAL_LoadFormTable(heapId, 0);
-    *count1 = 0x28A;
-    *table2 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 1, 0, heapId, &buf);
+    *table1 = POKE_PERSONAL_LoadFormTable(heapId, 0);
+    *count1 = SPECIES_LAST + 1;
+    *table2 = ARC_UTIL_LoadHandleMemberWithSize(archive, 1, 0, heapId, &buf);
     *count2 = buf;
-    *table3 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 2, 0, heapId, &buf);
+    *table3 = ARC_UTIL_LoadHandleMemberWithSize(archive, 2, 0, heapId, &buf);
     *count3 = buf;
-    *table4 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 0, 0, heapId, &buf);
+    *table4 = ARC_UTIL_LoadHandleMemberWithSize(archive, 0, 0, heapId, &buf);
     *count4 = buf >> 1;
 }
 

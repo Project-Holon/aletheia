@@ -69,7 +69,7 @@ struct MusicalShowProgram;
 
 
 
-char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b);
+char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, void *b);
 
 void STA_ACT_AUDIENCE_Delete(u8 *p);
 
@@ -103,16 +103,16 @@ extern const char d_021FDCC4[];
 
 extern u16 d_021FDC16[];
 
-char *STA_ACT_AUDIENCE_Create(unsigned heap, void *scene, unsigned input)
+char *STA_ACT_AUDIENCE_Create(unsigned heap, void *scene, void *input)
 {
     u8 i = 0;
-    char *p = GFL_HEAP_Alloc(heap, 0x3e4, 0, d_021FDCC4, 115);
+    char *p = GFL_HEAP_Alloc(heap, sizeof(struct ActAudience), 0, d_021FDCC4, 115);
     ((struct ActAudience *)p)->heapId = heap;
     STA_ACT_AUDIENCE_Noop(p);
     STA_ACT_AUDIENCE_SetupRecords(p, (char *)input);
     ((struct ActAudience *)p)->scene = scene;
     ((struct ActAudience *)p)->dirty = 0;
-    for (; i < 4; i++) *(int *)(p + i * 4 + 0x1ec) = 0;
+    for (; i < 4; i++) ((struct ActAudience *)p)->choices[i] = 0;
     ((struct ActAudience *)p)->highlight = 255;
     return p;
 }
@@ -135,7 +135,7 @@ void STA_ACT_AUDIENCE_Update(char *p)
             for (i = 0; i < 3; i++) {
                 u8 a = GFL_USE_GetRandomBelow(4);
                 u8 b = GFL_USE_GetRandomBelow(60);
-                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + b * 8), a);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)((u8 *)&((struct ActAudience *)p)->records + b * 8), a);
             }
         }
     } else {
@@ -172,7 +172,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *input)
     int off;
     u8 *rec;
     for (i = 0; i < 4; i++) {
-        b[i] = MUSICAL_PROGRAM_GetCategoryBonus((struct MusicalShowProgram *)(*(u8 **)(input + 0x14)), i);
+        b[i] = MUSICAL_PROGRAM_GetCategoryBonus((struct MusicalShowProgram *)(((struct ActingInput *)input)->program), i);
         sum = sum + b[i];
     }
     for (i = 0; i < 4; i++) {
@@ -203,19 +203,19 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *input)
             idx = i + base;
             off = idx * 8;
             rec = (u8 *)(p + off);
-            rec[0x20A] = i + 2;
-            rec[0x20B] = g;
-            rec[0x206] = c[idx];
-            rec[0x205] = GFL_USE_GetRandomBelow(60) + 1;
-            rec[0x204] = 0xff;
+            ((struct ActAudience *)rec)->records[0].state = i + 2;
+            ((struct ActAudience *)rec)->records[0].rowOffset = g;
+            ((struct ActAudience *)rec)->records[0].tileIndex = c[idx];
+            ((struct ActAudience *)rec)->records[0].timer = GFL_USE_GetRandomBelow(60) + 1;
+            ((struct ActAudience *)rec)->records[0].actorIndex = 0xff;
             if (i < 2)
-                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 3);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)((u8 *)&((struct ActAudience *)p)->records + off), 3);
             else if (i < 4)
-                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 2);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)((u8 *)&((struct ActAudience *)p)->records + off), 2);
             else if (i < 6)
-                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 1);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)((u8 *)&((struct ActAudience *)p)->records + off), 1);
             else
-                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)(p + 0x204 + off), 0);
+                STA_ACT_AUDIENCE_DrawRecord(p, (u8 *)((u8 *)&((struct ActAudience *)p)->records + off), 0);
         }
     }
 }
@@ -233,9 +233,9 @@ void STA_ACT_AUDIENCE_Noop3(void *audience)
 void STA_ACT_AUDIENCE_UpdateRecords(char *p)
 {
   u8 i = 0;
-  u8 *base = (u8 *) (p + 0x204);
+  u8 *base = (u8 *) ((u8 *)&((struct ActAudience *)p)->records);
   for (; i < 60; i++)
-    STA_ACT_AUDIENCE_UpdateRecord(p, ((u8 *) (p + 0x204)) + (i * 8));
+    STA_ACT_AUDIENCE_UpdateRecord(p, ((u8 *) ((u8 *)&((struct ActAudience *)p)->records)) + (i * 8));
 
 }
 
@@ -307,13 +307,13 @@ void STA_ACT_AUDIENCE_ApplyChoices(char *p)
     u8 n = 0;
     u8 choices[4] = {0, 0, 0, 0};
     for (i = 0; i < 4; i++) {
-        if (*(int *)(p + i * 4 + 0x1ec) == 1) { choices[n] = i; n++; }
+        if (((struct ActAudience *)p)->choices[i] == 1) { choices[n] = i; n++; }
     }
     if (n == 0) STA_ACT_AUDIENCE_RandomizeRecords(p);
     else {
         for (i = 0; i < 60; i++) {
-            *(u8 *)(p + i * 8 + 0x205) = GFL_USE_GetRandomBelow(60) + 1;
-            *(u8 *)(p + i * 8 + 0x204) = choices[GFL_USE_GetRandomBelow(n)];
+            ((struct ActAudience *)p)->records[i].timer = GFL_USE_GetRandomBelow(60) + 1;
+            ((struct ActAudience *)p)->records[i].actorIndex = choices[GFL_USE_GetRandomBelow(n)];
         }
     }
 }

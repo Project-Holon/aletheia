@@ -216,7 +216,7 @@ EncountModelSet *FLDEFF_ENCOUNT_Create(FieldEffectSys *fieldEffect, int heapId, 
 {
     EncountModelSet *set;
 
-    set = GFL_HEAP_Alloc(heapId, 0x98, 1, sFldeffEncountFileName, 0x11e);
+    set = GFL_HEAP_Alloc(heapId, sizeof(*set), 1, sFldeffEncountFileName, 0x11e);
     set->fieldEffect = fieldEffect;
     FLDEFF_ENCOUNT_LoadKind(set, kind);
     return set;
@@ -341,7 +341,7 @@ FieldEffectObj *FLDEFF_ENCOUNT_Start(EncountSys *encount, FieldEffectSys *fieldE
     if (res == 0) {
         return 0;
     }
-    MI_CpuFill8(&param, 0, 0x28);
+    MI_CpuFill8(&param, 0, sizeof(param));
     param.encount = encount;
     param.res = res;
     param.mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);

@@ -256,7 +256,7 @@ void ISS_CITY_SYS_LoadUnits(struct IssCitySys *sys, u32 heapId)
     s32 memberCount = ARC_TOOL_GetArchiveFileCount(0x84);
     s32 i;
     sys->unitCount = memberCount;
-    sys->units = GFL_HEAP_Alloc(heapId, memberCount << 2, 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
+    sys->units = GFL_HEAP_Alloc(heapId, memberCount * sizeof(*sys->units), 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
     for (i = 0; i < memberCount; i++) {
         sys->units[i] = ISS_CITY_UNIT_Create(heapId, i);
     }

@@ -190,7 +190,7 @@ struct Pen {
     const void *vtable; /* +0x14 */
 };
 
-struct NNSG2dCanvas { u8 reserved[0x14]; void **vt; };
+struct NNSG2dCanvas { u8 reserved[0x14]; void (**vt)(struct NNSG2dCanvas *, void *, int, int, int, s8 **); };
 
 typedef union {
     u32 raw;
@@ -280,7 +280,7 @@ void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int 
 void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeight, int dstBpp, const void *vtable, int param);
 s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code);
-void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp);
+void NNSi_G2dInitPenSimple(struct Pen *pen, void *charBase, int areaWidth, int areaHeight, int dstBpp);
 void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
 void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
@@ -288,12 +288,12 @@ u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight);
 int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift);
 void NNSi_G2dDrawTextLine(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
 void NNSi_G2dDrawTextRotated(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
-void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
-void NNSi_G2dAlignTextVertical(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 h, u32 w2, u32 flags, u32 s, Step st);
+void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 flags, const void *s, Step st);
+void NNSi_G2dAlignTextVertical(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 h, u32 w2, u32 flags, const void *s, Step st);
 u32 NNS_G2dFontLoad(NftrFileHeader *res, void **out);
 void NNSi_G2dFontFixupSections(NftrFileHeader *base);
 u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
-u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
+u16 NNSi_G2dReadCharUTF16(const void ** cursorArg);
 u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
 extern const u8 g_020A18F4[4][4][2];
 extern u32 g_020A1914[][4];
@@ -348,7 +348,7 @@ u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode)
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource)
 {
     NNS_G2dFontLoad((NftrFileHeader *)pResource, (void **)pFont);
-    pFont->cbCharSpliter = (u16 (*)(const void **))NNSi_G2dReadCharUTF16;
+    pFont->cbCharSpliter = NNSi_G2dReadCharUTF16;
 }
 
 /*
@@ -1420,7 +1420,7 @@ s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x,
         y -= g[0] + font->pRes->pGlyph->cellHeight;
         break;
     }
-    ((void (*)(struct NNSG2dCanvas *, void *, int, int, int, s8 **))ctx->vt[0])(ctx, font, x, y, cl, out);
+    ctx->vt[0](ctx, font, x, y, cl, out);
     return out[0][2];
 }
 
@@ -1429,9 +1429,9 @@ s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x,
  *   python tools/match.py one --src src/matched/NNSi_G2dInitPenSimple.c \
  *       --func NNSi_G2dInitPenSimple --addr 0x02068FC4 --cc 1.1p1 --arm
  */
-void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp)
+void NNSi_G2dInitPenSimple(struct Pen *pen, void *charBase, int areaWidth, int areaHeight, int dstBpp)
 {
-    NNSi_G2dInitPen((struct Pen *)pen, (void *)charBase, areaWidth, areaHeight, dstBpp, (const void *)0x020A18DC, areaWidth);
+    NNSi_G2dInitPen(pen, charBase, areaWidth, areaHeight, dstBpp, (const void *)0x020A18DC, areaWidth);
 }
 
 static inline u32 MATH_CountLeadingZeros(u32 x)
@@ -1870,14 +1870,14 @@ void NNSi_G2dDrawTextRotated(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
  * and 2.0 alike dead-store-eliminate them and the frame comes out 0x18.
  */
 void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
-                   u32 flags, u32 s, Step st)
+                   u32 flags, const void *s, Step st)
 {
     volatile Ext box2;
     Ext e;
     volatile Ext box;
     s32 d;
 
-    e = NNS_G2dFontGetTextRect(ctx->pFont, ctx->hSpace, ctx->vSpace, (const void *)s);
+    e = NNS_G2dFontGetTextRect(ctx->pFont, ctx->hSpace, ctx->vSpace, s);
     box.width = e.width;
     box.height = e.height;
     box2.width = e.width;
@@ -1903,7 +1903,7 @@ void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
         y = y + d * st.dx;
     }
 
-    NNSi_G2dDrawTextRotated(ctx, x, y, box2.width, w, flags, (const void *)s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, box2.width, w, flags, s, st);
 }
 
 /*
@@ -1950,23 +1950,23 @@ void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
  * forwarded verbatim to NNSi_G2dDrawTextRotated.
  */
 void NNSi_G2dAlignTextVertical(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
-                   u32 h, u32 w2, u32 flags, u32 s, Step st)
+                   u32 h, u32 w2, u32 flags, const void *s, Step st)
 {
     s32 n;
     s32 d;
 
     if (flags & 0x100) {
-        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, s);
         d = (s32)h - n;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     } else if (flags & 0x80) {
-        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, (const void *)s);
+        n = NNS_G2dFontGetTextHeight(ctx->pFont, ctx->vSpace, s);
         d = ((s32)h + 1) / 2 - (n + 1) / 2;
         x = x + d * -st.dy;
         y = y + d * st.dx;
     }
-    NNSi_G2dDrawTextRotated(ctx, x, y, w, w2, flags, (const void *)s, st);
+    NNSi_G2dDrawTextRotated(ctx, x, y, w, w2, flags, s, st);
 }
 
 static inline BOOL IsNftr(const NftrFileHeader *r)
@@ -2121,8 +2121,9 @@ u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits)
  * u8-pointer spelling `p = b->cur; b->cur = p + 2; return *(u16 *)p;`
  * schedules the store before the load (7 bytes).
  */
-u16 NNSi_G2dReadCharUTF16(CharCursor *cursor)
+u16 NNSi_G2dReadCharUTF16(const void ** cursorArg)
 {
+    CharCursor * cursor = (CharCursor *)cursorArg;
     u16 *p = (u16 *)cursor->pCur;
     u16 v = *p++;
     cursor->pCur = (u8 *)p;

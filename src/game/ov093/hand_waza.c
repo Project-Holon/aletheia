@@ -482,7 +482,7 @@
 #define MAGNET_RISE_TURNS 5
 #define SICK_ROOST_GROUNDED 0x18
 #define BTL_VISIBILITY_FOCUS 5
-#define BTL_ANIM_FOCUS_PUNCH_TENSE 0x272
+#define BTL_ANIM_FOCUS_PUNCH_TENSE (BTLV_EFFECT_MOVE_END + 65)
 #define BTL_ANIM_MODE_PLAY 6
 #define BTL_TARGET_SLOT_NONE 6
 #define BTL_WAZA_FLAG_MIRRORABLE 6
@@ -5303,7 +5303,7 @@ void HAND_WAZA_MagicCoatOnExecuteCheck(struct BtlEventFactor *factor, struct Btl
             return;
         }
     } else if (BTL_MAIN_IsPokeSamePair(pokeId, userId) == 0) {
-        HAND_COMMON_EventRedirectMove(factor, flow, pokeId, (sptr)work);
+        HAND_COMMON_EventRedirectMove(factor, flow, pokeId, work);
     }
 }
 
@@ -5327,7 +5327,7 @@ void HAND_WAZA_MagicCoatOnWazaExecute(struct BtlEventFactor *factor, struct BtlS
 /* Magic Coat: reflect the move back at its user. */
 void HAND_WAZA_MagicCoatOnWazaCounter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    HAND_COMMON_EventCounterMove(factor, flow, pokeId, (sptr)work);
+    HAND_COMMON_EventCounterMove(factor, flow, pokeId, work);
 }
 
 
@@ -5337,7 +5337,7 @@ void HAND_WAZA_MagicCoatOnWazaNotice(struct BtlEventFactor *factor, struct BtlSe
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
         if (BTL_EVENT_OverwriteVar(BTL_EVAR_HANDLED_FLAG, 1) != 0)
-            HAND_COMMON_EventQueueMoveNotice(factor, flow, pokeId, (sptr)work);
+            HAND_COMMON_EventQueueMoveNotice(factor, flow, pokeId, work);
     }
 }
 
@@ -9588,15 +9588,15 @@ int *HAND_WAZA_AddRetaliate(int *handlerCount)
 /* Retaliate: double the power when an ally of the user fainted on the previous turn. */
 void HAND_WAZA_RetaliateDoublePowerAfterAllyFaint(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    sptr historyList;
+    struct BtlDeadRec *historyList;
     u32 faintCount;
     u8 i;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        historyList = (sptr)BTL_SERVER_FLOW_GetHistoryList(flow);
-        faintCount = BTL_DEADREC_GetCount((struct BtlDeadRec *)historyList, 1);
+        historyList = BTL_SERVER_FLOW_GetHistoryList(flow);
+        faintCount = BTL_DEADREC_GetCount(historyList, 1);
         for (i = 0; i < faintCount; i++) {
-            if (BTL_MAIN_IsPokeSamePair(pokeId, BTL_DEADREC_GetPokeId((struct BtlDeadRec *)historyList, 1, i)) != 0) {
+            if (BTL_MAIN_IsPokeSamePair(pokeId, BTL_DEADREC_GetPokeId(historyList, 1, i)) != 0) {
                 BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, 0x2000);
                 return;
             }
@@ -10335,14 +10335,14 @@ int *HAND_WAZA_AddRound(int *handlerCount)
 /* Round: when the turn record shows the move was used this turn, queue a record with the move key (the follow-up Round of an ally). */
 void HAND_WAZA_RoundRegisterUse(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    sptr turnRecord;
+    struct BtlWazaRec *turnRecord;
     u16 factorKey;
     struct HandWazaCmdRoundUsed *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
-        turnRecord = (sptr)BTL_SERVER_FLOW_GetTurnRecord(flow);
+        turnRecord = BTL_SERVER_FLOW_GetTurnRecord(flow);
         factorKey = BTL_EVENT_GetFactorKey(factor);
-        if (BTL_WAZAREC_GetUsedWazaCount((struct BtlWazaRec *)turnRecord, factorKey, BTL_SERVER_FLOW_GetTurnCount(flow)) == 1) {
+        if (BTL_WAZAREC_GetUsedWazaCount(turnRecord, factorKey, BTL_SERVER_FLOW_GetTurnCount(flow)) == 1) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ROUND_USED, pokeId);
             cmd->factorKey = factorKey;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);

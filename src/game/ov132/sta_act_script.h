@@ -5,6 +5,7 @@
 /* Public functions of sta_act_script.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../arm9/tcb_list.h"
 
 void *STA_ACT_SCRIPT_Create(u32 heap, void *owner);
 void STA_ACT_SCRIPT_Delete(char *p);
@@ -13,7 +14,7 @@ void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag);
 char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag);
 int STA_ACT_SCRIPT_RunScript(void *unused, char *p);
 u8 STA_ACT_SCRIPT_CountScripts(char *p);
-void *STA_ACT_SCRIPT_AddTask(char *p, u32 taskFunc, u32 arg, u32 key);
+void *STA_ACT_SCRIPT_AddTask(char *p, TcbFunc taskFunc, void *arg, u32 key);
 void STA_ACT_SCRIPT_RemoveTask(char *p, char *node);
 int STA_ACT_SCRIPT_StepTaskInt(char *p, int *out);
 int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out);

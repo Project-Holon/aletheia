@@ -436,7 +436,7 @@ void VIEWER_MAIN_HandlePageInput(ViewerWork *p);
 int VIEWER_MAIN_HandleInput(ViewerWork *p);
 int VIEWER_MAIN_UpdateInput(ViewerWork *p);
 void VIEWER_MAIN_DrawSelected(ViewerWork *p, int sel, int *seq);
-void VIEWER_MAIN_VBlank(void *task, ViewerWork *p);
+void VIEWER_MAIN_VBlank(struct TcbTask *task, void *pArg);
 void VIEWER_MAIN_InitLcdBrightness(void);
 void VIEWER_MAIN_UploadBg(ViewerWork *p);
 void VIEWER_MAIN_SetWindowRect(void *p);
@@ -488,12 +488,12 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
 
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    *(volatile u32 *)0x04000000 &= ~0x1F00;
-    *(volatile u32 *)0x04001000 &= ~0x1F00;
+    *(volatile u32 *)REG_DISPCNT_ADDR &= ~0x1F00;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= ~0x1F00;
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask(0);
-    WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(1);
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x50000);
     p = PROCSYS_AllocProcWork(man, sizeof(ViewerWork), 0x27);
     MI_CpuFill8(p, 0, sizeof(ViewerWork));
@@ -526,11 +526,11 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     VIEWER_MAIN_InitBg();
     VIEWER_MAIN_LoadBgResources((ViewerWork *)p);
-    VIEWER_TEXT_InitActors( &p->anim, (u32)((struct DispVramCfg *)d_021C8564));
+    VIEWER_TEXT_InitActors( &p->anim, (const struct DispVramCfg *)d_021C8564);
     VIEWER_TEXT_BuildRowList(p, p->args->info);
     VIEWER_TEXT_CreateActor((ViewerAnim *)(&p->anim));
     VIEWER_TEXT_Init(p);
-    p->pmsDraw = PMS_DRAW_Create((u32)p->anim.unit, 1, (uptr)p->printQue, (uptr)p->font, 8, 1, 0x27);
+    p->pmsDraw = PMS_DRAW_Create(p->anim.unit, 1, p->printQue, p->font, 8, 1, 0x27);
     VIEWER_TEXT_NoOp(p, p->bg[4], 1, p->strbuf1);
     if (p->args->decoMode == 2) {
         p->args->decoMode = 0;
@@ -552,7 +552,7 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     p->y = 0;
     VIEWER_MAIN_InitLcdBrightness();
     VIEWER_MAIN_Draw((ViewerWork *)p);
-    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))VIEWER_MAIN_VBlank, (void *)p, 1);
+    p->vblankTask = GFL_USE_AddMainTask(VIEWER_MAIN_VBlank, (void *)p, 1);
     p->tcbl = TCBL_Create(p->heap, p->heap, 3, 0);
     GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
@@ -838,7 +838,7 @@ void VIEWER_MAIN_ClearBgSlot(ViewerWork *p, int k)
 
 void VIEWER_MAIN_InitBg(void)
 {
-    *(volatile u16 *)0x04000304 |= 0x8000;
+    *(volatile u16 *)REG_POWCNT1_ADDR |= 0x8000;
     {
         struct DispConfig disp = d_021C85C8;
         BG_SYS_SetGraphicsMode(&disp);
@@ -1307,82 +1307,82 @@ void VIEWER_MAIN_SetWindowPlane(int side)
  */
 int VIEWER_MAIN_UpdateWindows(char *p)
 {
-    switch (*(u8 *)(p + 0x32C6)) {
+    switch (((ViewerWork *)p)->state) {
     case 0:
-        if (*(u16 *)(p + 0x305C) == 0) {
-            *(u32 *)(p + 0x304C) = 0x20;
-            *(u32 *)(p + 0x3050) = 0x98;
+        if (((ViewerWork *)p)->pane == 0) {
+            ((ViewerWork *)p)->cx = 0x20;
+            ((ViewerWork *)p)->cy = 0x98;
         } else {
-            *(u32 *)(p + 0x304C) = 0xE0;
-            *(u32 *)(p + 0x3050) = 0x98;
+            ((ViewerWork *)p)->cx = 0xE0;
+            ((ViewerWork *)p)->cy = 0x98;
         }
-        *(u32 *)(p + 0x303C) = 0x103D;
-        *(u32 *)(p + 0x3040) = 0x103D;
-        *(u8 *)(p + 0x32C6) = 1;
+        ((ViewerWork *)p)->scaleX = 0x103D;
+        ((ViewerWork *)p)->scaleY = 0x103D;
+        ((ViewerWork *)p)->state = 1;
         break;
     case 1:
-        *(int *)(p + 0x303C) += 0x100;
-        *(int *)(p + 0x3040) += 0x100;
-        if (*(int *)(p + 0x303C) >= 0x2000) {
-            *(int *)(p + 0x303C) = 0x2000;
-            *(int *)(p + 0x3040) = 0x2000;
-            *(u8 *)(p + 0x32C6) = 2;
+        ((ViewerWork *)p)->scaleX += 0x100;
+        ((ViewerWork *)p)->scaleY += 0x100;
+        if (((ViewerWork *)p)->scaleX >= 0x2000) {
+            ((ViewerWork *)p)->scaleX = 0x2000;
+            ((ViewerWork *)p)->scaleY = 0x2000;
+            ((ViewerWork *)p)->state = 2;
         }
         break;
     case 2:
-        *(u16 *)(p + 0x305E) = 1;
-        VIEWER_MAIN_UpdateRows((ViewerWork *)p, *(int *)(p + 0x3034));
-        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
+        ((ViewerWork *)p)->inputMode = 1;
+        VIEWER_MAIN_UpdateRows((ViewerWork *)p, ((ViewerWork *)p)->decoVisible);
+        VIEWER_MAIN_SetWindowPlane(((ViewerWork *)p)->pane);
         return 1;
     case 3:
-        *(u8 *)(p + 0x32C6) = 4;
+        ((ViewerWork *)p)->state = 4;
         break;
     case 4:
-        *(int *)(p + 0x303C) -= 0x100;
-        *(int *)(p + 0x3040) -= 0x100;
-        if (*(int *)(p + 0x303C) <= 0x1000) {
-            *(int *)(p + 0x303C) = 0x1000;
-            *(int *)(p + 0x3040) = 0x1000;
-            *(u8 *)(p + 0x32C6) = 5;
+        ((ViewerWork *)p)->scaleX -= 0x100;
+        ((ViewerWork *)p)->scaleY -= 0x100;
+        if (((ViewerWork *)p)->scaleX <= 0x1000) {
+            ((ViewerWork *)p)->scaleX = 0x1000;
+            ((ViewerWork *)p)->scaleY = 0x1000;
+            ((ViewerWork *)p)->state = 5;
         }
         break;
     case 5:
-        *(int *)(p + 0x304C) = 0x80;
-        *(int *)(p + 0x3050) = 0x60;
-        *(u16 *)(p + 0x305E) = 0;
-        VIEWER_MAIN_UpdateRows((ViewerWork *)p, *(int *)(p + 0x3034));
+        ((ViewerWork *)p)->cx = 0x80;
+        ((ViewerWork *)p)->cy = 0x60;
+        ((ViewerWork *)p)->inputMode = 0;
+        VIEWER_MAIN_UpdateRows((ViewerWork *)p, ((ViewerWork *)p)->decoVisible);
         VIEWER_MAIN_SetWindowPlane(-1);
         return 1;
     case 6:
-        *(u8 *)(p + 0x32C6) = 7;
+        ((ViewerWork *)p)->state = 7;
         break;
     case 7:
-        *(int *)(p + 0x304C) -= 8;
-        if (*(int *)(p + 0x304C) < 0x20) {
-            *(int *)(p + 0x304C) = 0x20;
-            *(u8 *)(p + 0x32C6) = 8;
+        ((ViewerWork *)p)->cx -= 8;
+        if (((ViewerWork *)p)->cx < 0x20) {
+            ((ViewerWork *)p)->cx = 0x20;
+            ((ViewerWork *)p)->state = 8;
         }
         break;
     case 8:
-        *(u16 *)(p + 0x305C) ^= 1;
-        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
+        ((ViewerWork *)p)->pane ^= 1;
+        VIEWER_MAIN_SetWindowPlane(((ViewerWork *)p)->pane);
         return 1;
     case 9:
-        *(u8 *)(p + 0x32C6) = 10;
+        ((ViewerWork *)p)->state = 10;
         break;
     case 10:
-        *(int *)(p + 0x304C) += 8;
-        if (*(int *)(p + 0x304C) > 0xE0) {
-            *(int *)(p + 0x304C) = 0xE0;
-            *(u8 *)(p + 0x32C6) = 11;
+        ((ViewerWork *)p)->cx += 8;
+        if (((ViewerWork *)p)->cx > 0xE0) {
+            ((ViewerWork *)p)->cx = 0xE0;
+            ((ViewerWork *)p)->state = 11;
         }
         break;
     case 11:
-        *(u16 *)(p + 0x305C) ^= 1;
-        VIEWER_MAIN_SetWindowPlane(*(u16 *)(p + 0x305C));
+        ((ViewerWork *)p)->pane ^= 1;
+        VIEWER_MAIN_SetWindowPlane(((ViewerWork *)p)->pane);
         return 1;
     }
-    *(u8 *)(p + 0x32CA) |= 4;
+    ((ViewerWork *)p)->dirty = 1;
     return 0;
 }
 
@@ -1848,8 +1848,9 @@ void VIEWER_MAIN_DrawSelected(ViewerWork *p, int sel, int *seq)
 
 
 
-void VIEWER_MAIN_VBlank(void *task, ViewerWork *p)
+void VIEWER_MAIN_VBlank(struct TcbTask *task, void *pArg)
 {
+    ViewerWork *p = pArg;
     int ofs;
 
     VIEWER_MAIN_UpdateBrightness((ViewerWork *)p);

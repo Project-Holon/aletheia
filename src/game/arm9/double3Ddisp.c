@@ -251,16 +251,16 @@ void DOUBLE3DDISP_SetupGraphics(void)
 {
     u16 v = *(volatile u16 *)REG_POWCNT1_ADDR;
 
-    *(volatile u16 *)0x04000304 = v | 0x8000;
+    *(volatile u16 *)REG_POWCNT1_ADDR = v | 0x8000;
     GX_ResetBankForSubOBJ();
     GX_SetBankForSubBG(4);
     GX_SetBankForLCDC(8);
-    *(volatile u32 *)0x04000064 = 0x80330010;
+    *(volatile u32 *)REG_DISP_CAPCNT_ADDR = 0x80330010;
     GX_SetGraphicsMode(1, 0, 1);
     GXS_SetGraphicsMode(5);
-    *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x400;
-    *(volatile u16 *)0x0400100c = (*(volatile u16 *)0x0400100c & 0x43) | 0x84 | 0x4000;
-    *(volatile u16 *)0x0400100c = *(volatile u16 *)0x0400100c & 0xffbf;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | 0x400;
+    *(volatile u16 *)REG_DB_BG2CNT_ADDR = (*(volatile u16 *)REG_DB_BG2CNT_ADDR & 0x43) | 0x84 | 0x4000;
+    *(volatile u16 *)REG_DB_BG2CNT_ADDR = *(volatile u16 *)REG_DB_BG2CNT_ADDR & 0xffbf;
 }
 
 /*
@@ -284,12 +284,12 @@ void DOUBLE3DDISP_SetupGraphicsSubObj(void)
 {
     u16 v = *(volatile u16 *)REG_POWCNT1_ADDR;
 
-    *(volatile u16 *)0x04000304 = (u16)(v & ~0x8000);
+    *(volatile u16 *)REG_POWCNT1_ADDR = (u16)(v & ~0x8000);
     GX_ResetBankForSubBG();
     GX_SetBankForSubOBJ(8);
     GX_SetBankForLCDC(4);
-    *(volatile u32 *)0x04000064 = 0x80320010;
+    *(volatile u32 *)REG_DISP_CAPCNT_ADDR = 0x80320010;
     GX_SetGraphicsMode(1, 0, 1);
     GXS_SetGraphicsMode(5);
-    *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x1000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR = (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | 0x1000;
 }

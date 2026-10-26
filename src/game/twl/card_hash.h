@@ -8,15 +8,15 @@ typedef struct CardHashNode {
     struct CardHashNode *next;
     u32 key;
     u32 offset;
-    u32 data;
-    u32 buffer;
+    u8 *data;
+    u8 *buffer;
 } CardHashNode;
 
 typedef struct Node16 {
     struct Node16 *next;
     int key;
     u32 offset;
-    u32 data;
+    u8 *data;
 } Node16;
 
 /* ROM header fields read by CARD_InitRomHashContext */
@@ -68,8 +68,8 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
 void CARDi_StartLoading(CardHash *obj);
 void CARD_NotifyRomHashReadAsync(void *arg);
 CardHashNode *CARDi_TouchRomHashBlock(CardHash *obj, u32 sector);
-u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
-void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size, int (*cb34)(void *, void *, u32, u32), int (*cb38)(void *, void *, u32, u32), void *arg30);
+u8 *CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
+void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u8 *base, u32 size, int (*cb34)(void *, void *, u32, u32), int (*cb38)(void *, void *, u32, u32), void *arg30);
 void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len);
 void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len);
 void CARD_ReadRomHashImage(CardHash *obj, u8 *buf, u32 off, u32 len);

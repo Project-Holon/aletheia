@@ -158,7 +158,7 @@ typedef struct FieldSubscreenMode {
     void (*init)(FieldSubscreen *work, u32 prevMode);
     void (*update)(FieldSubscreen *work, s32 isFieldIdle);
     void (*updateNoTransition)(FieldSubscreen *work, s32 isFieldIdle);
-    int (*checkRequest)(FieldSubscreen *work, u32 mode);
+    struct GameEvent *(*checkRequest)(FieldSubscreen *work, u32 mode);
     void (*exit)(FieldSubscreen *work);
     u32 reserved14;
     u32 reserved18;
@@ -177,7 +177,7 @@ typedef struct FieldSubscreenMode {
 #undef C_GEAR_HandleCommand
 extern u32 C_GEAR_Nop(u32 a);
 extern u32 C_GEAR_Update(u32, u32);
-extern int C_GEAR_HandleCommand();
+extern struct GameEvent *C_GEAR_HandleCommand();
 #endif
 u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work);
 struct CGearWork;
@@ -257,7 +257,7 @@ void FIELD_SUBSCREEN_InitIntrude(FieldSubscreen *work);
 void FIELD_SUBSCREEN_ExitIntrude(FieldSubscreen *work);
 void FIELD_SUBSCREEN_UpdateIntrude(FieldSubscreen *work, int isFieldIdle);
 void FIELD_SUBSCREEN_DrawIntrude(FieldSubscreen *work);
-void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode);
+struct GameEvent *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode);
 struct BeaconViewWork;
 #include "../ov033/dowsing.h"
 struct FieldSubscreen;
@@ -271,7 +271,7 @@ void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work);
 void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work);
 void FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work, s32 isFieldIdle);
 int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work);
-int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode);
+struct GameEvent *FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode);
 void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work);
 void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work);
 void FIELD_SUBSCREEN_UpdateDowsing(FieldSubscreen *work, s32 isFieldIdle);
@@ -407,7 +407,7 @@ void FIELD_SUBSCREEN_MainNoTransition(FieldSubscreen *work)
     }
 }
 
-int FIELD_SUBSCREEN_CheckModeRequest(FieldSubscreen *work, u32 mode)
+struct GameEvent *FIELD_SUBSCREEN_CheckModeRequest(FieldSubscreen *work, u32 mode)
 {
     if (work->state == FIELD_SUBSCREEN_STATE_RUN && d_021D872C[work->mode].checkRequest != 0)
         return d_021D872C[work->mode].checkRequest(work, mode);
@@ -458,7 +458,7 @@ void FIELD_SUBSCREEN_ChangeModeNow(FieldSubscreen *work, u32 mode)
     work->state = FIELD_SUBSCREEN_STATE_RUN;
 }
 
-int FIELD_SUBSCREEN_RequestModeWithCallback(FieldSubscreen *work, u32 mode, void (*callback)(int), u32 callbackArg)
+int FIELD_SUBSCREEN_RequestModeWithCallback(FieldSubscreen *work, u32 mode, void (*callback)(void *), void *callbackArg)
 {
     work->callback = callback;
     work->callbackArg = callbackArg;
@@ -510,7 +510,7 @@ void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work)
     GF_OVERLAY_Load((sptr)abs_id_1d);
     cgearPowered = BLOCK20_SAVEDATA_GetPanelState(cgearSave);
     commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
-    work->cgear = C_GEAR_Create(cgearSave, (sptr)work, gameSystem, commState == 1 && cgearPowered == 0);
+    work->cgear = C_GEAR_Create(cgearSave, work, gameSystem, commState == 1 && cgearPowered == 0);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
@@ -527,7 +527,7 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
     GF_OVERLAY_Load((sptr)abs_id_1d);
     commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(cgearSaveBase);
-    work->cgear = C_GEAR_Open(cgearSave, (sptr)work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
+    work->cgear = C_GEAR_Open(cgearSave, work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
@@ -553,10 +553,10 @@ u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work)
 
 u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
 {
-    uptr gameSystem, savedValue;
+    void *gameSystem, *savedValue;
     if (active != 0) {
-        gameSystem = (uptr)FIELDMAP_GetGameSystem(work->fieldMap);
-        savedValue = (uptr)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
+        gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
+        savedValue = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
         if (GAMESYSTEM_IsNetOffBySleep((void *)gameSystem) != 0) {
             if (GAMESYSTEM_IsAlwaysNetFlagSet((void *)gameSystem) != 0) {
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
@@ -574,12 +574,12 @@ u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
 #endif
 }
 
-int FIELD_SUBSCREEN_HandleCGearInput(FieldSubscreen *work, int button)
+struct GameEvent *FIELD_SUBSCREEN_HandleCGearInput(FieldSubscreen *work, int button)
 {
 #ifdef __MWERKS__
     return C_GEAR_HandleCommand(work->cgear, button, work);
 #else
-    return (int)(uptr)C_GEAR_HandleCommand((CGearWork *)work->cgear, button);
+    return C_GEAR_HandleCommand((CGearWork *)work->cgear, button);
 #endif
 }
 
@@ -780,9 +780,9 @@ void FIELD_SUBSCREEN_DrawIntrude(FieldSubscreen *work)
 }
 
 /* Mode 3 request check: the panel's touch selection may start an event. */
-void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
+struct GameEvent *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
 {
-    return INTRUDE_SUBDISP_EventCheck(work->cgear, (s32)mode, (sptr)work);
+    return INTRUDE_SUBDISP_EventCheck(work->cgear, (s32)mode, work);
 }
 
 /*
@@ -813,7 +813,7 @@ void FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work, s32 isFieldIdle) { B
 int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work) { return BEACON_VIEW_MainPrintQueue(work->cgear); }
 
 /* Mode 4 request check. */
-int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode) { return (sptr)BEACON_VIEW_CreateLeaveEvent(work->cgear, mode); }
+struct GameEvent *FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode) { return BEACON_VIEW_CreateLeaveEvent(work->cgear, mode); }
 
 /* Mode 6 (dowsing, overlay 0x21) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)

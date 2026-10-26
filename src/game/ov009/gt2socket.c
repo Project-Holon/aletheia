@@ -90,7 +90,7 @@ struct GTI2Socket;
 GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, u32 ip, u16 port);
 int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void (*callback)(GTI2Socket *), int type);
 void gti2CloseSocket(GTI2Socket *socket);
-void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback);
+void gti2SetConnectAttemptCallback(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback);
 void *gti2CreateConnectionObject(void);
 int gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connection, unsigned int ip, unsigned short port);
 void gti2FreeSocketConnection(GTI2Connection *connection);
@@ -99,7 +99,7 @@ int gti2SocketConnectionsThink(GTI2Socket *socket);
 void gti2FreeClosedConnections(GTI2Socket *socket);
 void gti2SocketError(GTI2Socket *socket);
 
-static void gti2ConnectionFree(void **elem);
+static void gti2ConnectionFree(void * elemArg);
 
 static int gti2ConnectionHash(void *elem, int numBuckets)
 {
@@ -118,8 +118,9 @@ static int gti2ConnectionCompare(void *elem1, void *elem2)
         : (short)(connection1->port - connection2->port);
 }
 
-static void gti2ConnectionFree(void **elem)
+static void gti2ConnectionFree(void * elemArg)
 {
+    void ** elem = (void **)elemArg;
     gti2ConnectionCleanup(*elem);
 }
 
@@ -179,7 +180,7 @@ int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSi
         return 1;
     }
 
-    socketTemp->closedConnections = ArrayNew(4, 4, (void (*)(void *))gti2ConnectionFree);
+    socketTemp->closedConnections = ArrayNew(4, 4, gti2ConnectionFree);
     if (!socketTemp->closedConnections) {
         TableFree(socketTemp->connections);
         gsifree(socketTemp);
@@ -239,7 +240,7 @@ void gti2CloseSocket(GTI2Socket *socket)
     SocketShutDown();
 }
 
-void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback)
+void gti2SetConnectAttemptCallback(GTI2Socket *socket, GT2DumpCallback connectAttemptCallback)
 {
     socket->connectAttemptCallback = connectAttemptCallback;
 }

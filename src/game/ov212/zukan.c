@@ -158,19 +158,19 @@ int ZUKAN_SetResumeState(struct ZukanWork *p, int v);
 
 u32 ZUKAN_GetResumeState(struct ZukanWork *p);
 
-void ZUKAN_StartProc211(struct ZukanWork *p);
+int ZUKAN_StartProc211(struct ZukanWork *p);
 
 int ZUKAN_ResumeProc211(struct ZukanWork *p);
 
-void ZUKAN_StartProc209(struct ZukanWork *p);
+int ZUKAN_StartProc209(struct ZukanWork *p);
 
 int ZUKAN_ResumeProc209(struct ZukanWork *p);
 
-void ZUKAN_StartProc210(struct ZukanWork *p);
+int ZUKAN_StartProc210(struct ZukanWork *p);
 
 int ZUKAN_ResumeProc210(struct ZukanWork *p);
 
-void ZUKAN_StartProc208(struct ZukanWork *p);
+int ZUKAN_StartProc208(struct ZukanWork *p);
 
 int ZUKAN_ResumeProc208(struct ZukanWork *p);
 
@@ -192,7 +192,8 @@ struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemp
 
 #include "zukan_search_engine.h"
 
-extern unsigned char d_021C9944[];
+struct ZukanWork;
+extern unsigned (*const d_021C9944[])(struct ZukanWork *);
 
 extern const char d_021C99A0[];
 
@@ -222,8 +223,8 @@ int ZUKAN_Create(struct Proc *obj,int unused,struct ZukanParam *ctx)
 {
     struct ZukanWork *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);
-    p=PROCSYS_AllocProcWork(obj,44,105);
-    MI_CpuFill8(p,0,44);
+    p=PROCSYS_AllocProcWork(obj,sizeof(struct ZukanWork),105);
+    MI_CpuFill8(p,0,sizeof(struct ZukanWork));
     p->ctx=ctx;
     p->proc=PROCSYS_Create(105);
     p->count=ZUKAN_LoadListAndSelection(p->ctx->zukanSave,&p->idList,105);
@@ -240,7 +241,7 @@ int ZUKAN_Create(struct Proc *obj,int unused,struct ZukanParam *ctx)
     return 1;
 }
 
-int ZUKAN_Update(int a,int b,int c,struct ZukanWork *p){if(p->state==9)return 1;p->procResult=PROCSYS_Main(p->proc);p->state=(*(unsigned (**)(struct ZukanWork *))(d_021C9944+p->state*4))(p);return 0;}
+int ZUKAN_Update(int a,int b,int c,struct ZukanWork *p){if(p->state==9)return 1;p->procResult=PROCSYS_Main(p->proc);p->state=d_021C9944[p->state](p);return 0;}
 
 int ZUKAN_Delete(struct Proc *obj, void *b, void *c, struct ZukanWork *p) {
     ZUKAN_FreeIdList(p);
@@ -272,15 +273,15 @@ u32 ZUKAN_GetResumeState(struct ZukanWork *p)
     return 0;
 }
 
-void ZUKAN_StartProc211(struct ZukanWork *p)
+int ZUKAN_StartProc211(struct ZukanWork *p)
 {
     struct ZukanSearchOwner *q;
-    q=GFL_HEAP_Alloc(105,12,0,d_021C99A0,297);
+    q=GFL_HEAP_Alloc(105,sizeof(struct ZukanSearchOwner),0,d_021C99A0,297);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->context=p->ctx->myStatus;
     PROCSYS_Push((ProcSys *)p->proc,(uptr)ov211_id,(const ProcData *)((uptr)d_021BC8BC),(void *)((uptr)p->subWork));
-    ZUKAN_SetResumeState(p,2);
+    return ZUKAN_SetResumeState(p,2);
 }
 
 int ZUKAN_ResumeProc211(struct ZukanWork *p) {
@@ -304,9 +305,9 @@ int ZUKAN_ResumeProc211(struct ZukanWork *p) {
  * prototype: 02031348 legacy void(void) forwards r0-r3 to 020314F4,
  * whose matched body reads all four; this caller sets all four.
  */
-void ZUKAN_StartProc209(struct ZukanWork *p)
+int ZUKAN_StartProc209(struct ZukanWork *p)
 {
-    struct ZukanListArgs *q=GFL_HEAP_Alloc(105,20,0,d_021C99A0,359);
+    struct ZukanListArgs *q=GFL_HEAP_Alloc(105,sizeof(struct ZukanListArgs),0,d_021C99A0,359);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->save=p->ctx->zukanSave;
@@ -319,7 +320,7 @@ void ZUKAN_StartProc209(struct ZukanWork *p)
         q->count=p->count;
     }
     PROCSYS_Push((ProcSys *)p->proc,(uptr)ov209_id,(const ProcData *)((uptr)d_021BE794),(void *)((uptr)p->subWork));
-    ZUKAN_SetResumeState(p,4);
+    return ZUKAN_SetResumeState(p,4);
 }
 
 /*
@@ -363,10 +364,10 @@ done:
  * prototype: 02031348 legacy void(void) forwards untouched r0-r3 to
  * 020314F4; its matched body reads all four and caller sets all four.
  */
-void ZUKAN_StartProc210(struct ZukanWork *p)
+int ZUKAN_StartProc210(struct ZukanWork *p)
 {
     struct ZknSearchArgs *q;
-    q=GFL_HEAP_Alloc(105,24,0,d_021C99A0,455);
+    q=GFL_HEAP_Alloc(105,sizeof(struct ZknSearchArgs),0,d_021C99A0,455);
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->save=p->ctx->zukanSave;
@@ -374,7 +375,7 @@ void ZUKAN_StartProc210(struct ZukanWork *p)
     q->idList=0;
     q->count=0;
     PROCSYS_Push((ProcSys *)p->proc,(uptr)ov210_id,(const ProcData *)((uptr)d_021C0714),(void *)((uptr)p->subWork));
-    ZUKAN_SetResumeState(p,8);
+    return ZUKAN_SetResumeState(p,8);
 }
 
 /*
@@ -411,12 +412,12 @@ int ZUKAN_ResumeProc210(struct ZukanWork *p)
  * prototype: 02031348 forwards all four original inputs to 020314F4;
  * the matched forwarding target reads each, overriding legacy void(void).
  */
-void ZUKAN_StartProc208(struct ZukanWork *p)
+int ZUKAN_StartProc208(struct ZukanWork *p)
 {
     struct ZukanDetailArgs *q;
     u16 selected,i;
     selected=ZUKAN_SAVE_GetLastViewedSpecies(ZUKAN_SAVE_GetFromGameData(p->ctx->gameData));
-    q=GFL_HEAP_Alloc(105,20,0,d_021C99A0,530);
+    q=GFL_HEAP_Alloc(105,sizeof(struct ZukanDetailArgs),0,d_021C99A0,530);
     q->gameData=p->ctx->gameData;
     q->mode=p->subMode;
     q->idList=p->idList;
@@ -427,7 +428,7 @@ void ZUKAN_StartProc208(struct ZukanWork *p)
     }
     PROCSYS_Push((ProcSys *)p->proc,(uptr)ov208_id,(const ProcData *)((uptr)d_021C8108),(void *)((uptr)q));
     p->subWork=q;
-    ZUKAN_SetResumeState(p,6);
+    return ZUKAN_SetResumeState(p,6);
 }
 
 int ZUKAN_ResumeProc208(struct ZukanWork *p)

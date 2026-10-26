@@ -255,7 +255,7 @@ struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gam
     if (cannonIndex >= FIELD_GIMMICK_CANNONS_CANNON_COUNT) {
         return 0;
     }
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_CANNONS_EventLaunch, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
     work->cannonIndex = cannonIndex;
     work->facing = facing;
     return event;

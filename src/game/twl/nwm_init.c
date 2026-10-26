@@ -68,6 +68,13 @@ extern CamBuf *NWMi_SysWorkPtr;
 extern u8 data_027341A0[];
 #include "../arm9/os_ownerinfoex.h"
 
+#ifndef __MWERKS__
+static void NWMi_ReceiveFifo9Pxi(int tag, u32 data, BOOL err)
+{
+    NWMi_ReceiveFifo9(tag, (Msg *)(uptr)data, err);
+}
+#endif
+
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
     if (NWMi_CheckEnableFlag() == 0) {
         return 4;
@@ -118,7 +125,11 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         DC_StoreRange(NWMi_SysWorkPtr->lines[i], 2);
         OS_SendMessage((struct OSMessageQueue *)NWMi_SysWorkPtr->ctlA, NWMi_SysWorkPtr->lines[i], 1);
     }
+#ifdef __MWERKS__
     PXI_SetFifoRecvCallback(0x16, (PXIFifoCallback)NWMi_ReceiveFifo9);
+#else
+    PXI_SetFifoRecvCallback(0x16, NWMi_ReceiveFifo9Pxi);
+#endif
     MI_CpuFill8(NWMi_SysWorkPtr->state, 0, 0x154);
     data_027341A0[0] = 1;
     NWMi_SysWorkPtr->ring->ready = 1;

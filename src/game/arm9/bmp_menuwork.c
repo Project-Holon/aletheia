@@ -76,7 +76,7 @@ void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
 void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
 
-void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+u32 BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
 void BMP_MENUWORK_FreeTileRun(int layer, u32 packedOffsets);
 
@@ -208,9 +208,9 @@ void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 fr
  *   python tools/match.py one --src src/matched/BMP_MENUWORK_LoadFrameGfx.c \
  *       --func BMP_MENUWORK_LoadFrameGfx --addr 0x0201F5DC --cc 1.1p1 --thumb
  */
-void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
+u32 BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 {
-    void *charResult = (void *)ARC_UTIL_RegisterObjCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
+    u32 charResult = ARC_UTIL_RegisterObjCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
 
     BMP_MENUWORK_LoadPltt(layer, palSlot, frameId, heapId);
     return charResult;

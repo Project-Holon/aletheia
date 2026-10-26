@@ -9,7 +9,7 @@
 void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle);
 void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *work);
 void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle);
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap);
+void POKE_SUMMARY_ACTOR_TransferCharacter(void *archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap);
 void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i);
 void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *work);
 void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work);

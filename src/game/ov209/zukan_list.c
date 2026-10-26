@@ -262,6 +262,7 @@ struct Personal;
 
 struct TouchBarWindow;
 #include "../arm9/clact.h"
+#include "../arm9/nns_g2d_res_types.h"
 #include "../arm9/bg_sys.h"
 
 /*
@@ -308,7 +309,7 @@ struct ZukanList {
     struct WordSet *wordSet;             /* 0x040 */
     struct Strbuf *textBuf;              /* 0x044 */
     void *printer;                       /* 0x048 */
-    struct U16Vec *speciesText[649];     /* 0x04C one string per species row */
+    struct Strbuf *speciesText[649];     /* 0x04C one string per species row */
     struct Bank *clactUnit;              /* 0xA70 */
     struct ClactActor *actors[60];              /* 0xA74 */
     u32 charHandles[36];                 /* 0xB64 */
@@ -584,7 +585,7 @@ struct PersonalData;
 
 
 
-int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
+int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,struct ZukanListArgs *arg);
 
 int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work);
 
@@ -600,7 +601,7 @@ void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p);
 
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p);
 
-void ZUKAN_LIST_HBlankTask(void);
+void ZUKAN_LIST_HBlankTask(struct TcbTask *unused0, void *unused1);
 
 void ZUKAN_LIST_SetVramBanks(void);
 
@@ -642,7 +643,7 @@ void ZUKAN_LIST_CreateFrameList(struct ZukanList *p);
 
 void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p);
 
-void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, int dest, u16 position, int mode);
+void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, unsigned char *dest, u16 position, int mode);
 
 void ZUKAN_LIST_FrameListSelectCallback(struct ZukanList *p, int index);
 
@@ -782,7 +783,15 @@ extern const struct ClactActorDesc gZukanListActorDesc;
 
 extern const struct ClactSpeciesActor gZukanListSpeciesActor;
 
-int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg){unsigned *work;GFL_HEAP_CreateChildHeap(1,107,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)p,0xc44,107);MI_CpuFill8(work,0,0xc44);*work=arg;return 1;}
+int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,struct ZukanListArgs *arg)
+{
+    struct ZukanList *work;
+    GFL_HEAP_CreateChildHeap(1,107,0x60000);
+    work=PROCSYS_AllocProcWork((struct Proc *)p,sizeof(struct ZukanList),107);
+    MI_CpuFill8(work,0,sizeof(struct ZukanList));
+    work->args=arg;
+    return 1;
+}
 
 int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work)
 {
@@ -808,7 +817,7 @@ void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct TcbTa
  */
 void ZUKAN_LIST_VBlankTask(struct TcbTask *unused, void *work_){ struct ZukanList * p = work_;enum Base { DTCM_BASE=0x02fe0000 } base;BG_SYS_Update();CLACT_VBlankSystem();PALANM_TransferPalettes((struct PaletteFade *)p->palAnm);base=DTCM_BASE;*(volatile unsigned *)&((struct DtcmIrqFlag *)base)->flag|=1;}
 
-void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=GFL_USE_AddHBlankTask((TcbFunc)((uptr)ZUKAN_LIST_HBlankTask),(void *)((uptr)p),0);}
+void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=GFL_USE_AddHBlankTask(ZUKAN_LIST_HBlankTask,(void *)((uptr)p),0);}
 
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p)
 {
@@ -818,7 +827,7 @@ void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p)
 /*
  * volatile: VCOUNT read at 021BC30A; BLDALPHA writes at 021BC314, 021BC320, 021BC32C, 021BC338, 021BC344, 021BC34A
  */
-void ZUKAN_LIST_HBlankTask(void)
+void ZUKAN_LIST_HBlankTask(struct TcbTask *unused0, void *unused1)
 {
     int vcount = *(volatile u16 *)REG_VCOUNT_ADDR;
     if (vcount >= 168) {
@@ -1051,30 +1060,38 @@ void ZUKAN_LIST_CreateFrameList(struct ZukanList *p)
     for(rowIndex=0;rowIndex<p->args->count;rowIndex++){
         if(ZUKAN_SAVE_IsCaught((struct ZukanSave *)p->args->save,p->args->ids[rowIndex])==1){
             text=MSGDATA_AllocString(gSpeciesNameBank,p->args->ids[rowIndex]);
+#ifdef __MWERKS__
             *(void **)((uptr)(char *)p+rowIndex*4+0x4c)=STRBUF_Clone(text,107);
+#else
+            p->speciesText[rowIndex]=STRBUF_Clone(text,107);
+#endif
             STRBUF_Delete(text);
             FRAME_LIST_AddItem(p->frameList,0,0x20000000|p->args->ids[rowIndex]);
         }else if(ZUKAN_SAVE_IsSeen((struct ZukanSave *)p->args->save,p->args->ids[rowIndex])==1){
             text=MSGDATA_AllocString(gSpeciesNameBank,p->args->ids[rowIndex]);
+#ifdef __MWERKS__
             *(void **)((uptr)(char *)p+rowIndex*4+0x4c)=STRBUF_Clone(text,107);
+#else
+            p->speciesText[rowIndex]=STRBUF_Clone(text,107);
+#endif
             STRBUF_Delete(text);
             FRAME_LIST_AddItem(p->frameList,1,0x10000000|p->args->ids[rowIndex]);
         }else{
-            *(void **)((uptr)(char *)p+rowIndex*4+0x4c)=MSGDATA_AllocString(p->msgBank,7);
+            p->speciesText[rowIndex]=MSGDATA_AllocString(p->msgBank,7);
             FRAME_LIST_AddItem(p->frameList,2,p->args->ids[rowIndex]);
         }
     }
 }
 
-void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p) { u32 i;FRAME_LIST_Delete((struct FrameList *)p->frameList);for(i=0;i<649;i++){struct U16Vec *text=*(struct U16Vec **)((uptr)(char *)p+i*4+76);if(text)STRBUF_Delete((struct Strbuf *)text);} }
+void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p) { u32 i;FRAME_LIST_Delete((struct FrameList *)p->frameList);for(i=0;i<649;i++){struct U16Vec *text=(struct U16Vec *)p->speciesText[i];if(text)STRBUF_Delete((struct Strbuf *)text);} }
 
-void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, int dest, u16 position, int mode)
+void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, unsigned char *dest, u16 position, int mode)
 {
     u32 itemValue;
     u32 speciesId;
     itemValue = FRAME_LIST_GetItemValue(p->frameList, index);
     speciesId = itemValue & 0x0FFFFFFF;
-    ZUKAN_LIST_PrintListRow(p, (unsigned char *)dest, (struct Strbuf *)p->speciesText[index], speciesId);
+    ZUKAN_LIST_PrintListRow(p, dest, (struct Strbuf *)p->speciesText[index], speciesId);
     if ((itemValue & 0xF0000000) >> 28) ZUKAN_LIST_ShowSpeciesActor(p, speciesId, position, mode);
 }
 
@@ -1091,7 +1108,7 @@ void ZUKAN_LIST_ScrollByDelta(struct ZukanList *p,int delta) { ZUKAN_LIST_Scroll
 
 extern int (*const gZukanListStateHandlers[])(char *);
 
-int ZUKAN_LIST_RunState(struct ZukanList *p) { p->state=(*(int (**)(char *))((uptr)gZukanListStateHandlers+p->state*4))((char *)p);if(p->state==9)return 0;ZUKAN_LIST_UpdateActors(p);ZUKAN_LIST_FlushWindows(p);ZUKAN_TickCounter(3,7,(u8 *)p->tickState);return 1; }
+int ZUKAN_LIST_RunState(struct ZukanList *p) { p->state=gZukanListStateHandlers[p->state]((char *)p);if(p->state==9)return 0;ZUKAN_LIST_UpdateActors(p);ZUKAN_LIST_FlushWindows(p);ZUKAN_TickCounter(3,7,(u8 *)p->tickState);return 1; }
 
 /*
  * lever: pooled 0x43 is the linker-defined ov067 id, not an integer literal
@@ -1331,7 +1348,7 @@ void ZUKAN_LIST_StoreLastViewedSpecies(struct ZukanList *p,int speciesIndex) { i
 int ZUKAN_LIST_StateSelectSpecies(struct ZukanList *p, int speciesIndex)
 {
     ZUKAN_LIST_StoreLastViewedSpecies(p, speciesIndex);
-    *(int *)(*(int *)&p->args + 0x10) = 3;
+    p->args->state = 3;
     return 7;
 }
 
@@ -1354,11 +1371,11 @@ void ZUKAN_LIST_CreateWindows(struct ZukanList *p)
     unsigned windowIndex;
     BMP_WIN_Init(107);
     for (windowIndex = 0; windowIndex < 3; windowIndex++)
-        *(unsigned *)&p->windows[windowIndex].bmp = (uptr)BMP_WIN_Create((unsigned int)gZukanListWindowDefs[windowIndex][0], (unsigned int)gZukanListWindowDefs[windowIndex][1], (unsigned int)gZukanListWindowDefs[windowIndex][2], gZukanListWindowDefs[windowIndex][3], gZukanListWindowDefs[windowIndex][4], gZukanListWindowDefs[windowIndex][5], 1);
+        p->windows[windowIndex].bmp = (struct Descriptor *)BMP_WIN_Create((unsigned int)gZukanListWindowDefs[windowIndex][0], (unsigned int)gZukanListWindowDefs[windowIndex][1], (unsigned int)gZukanListWindowDefs[windowIndex][2], gZukanListWindowDefs[windowIndex][3], gZukanListWindowDefs[windowIndex][4], gZukanListWindowDefs[windowIndex][5], 1);
     ZUKAN_LIST_DrawHeaderRegional(p);
 }
 
-void ZUKAN_LIST_DeleteWindows(struct ZukanList *p) { u32 windowIndex;for(windowIndex=0;windowIndex<3;windowIndex++)BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor **)((uptr)(char *)p+windowIndex*8+32)));BMP_WIN_Exit(); }
+void ZUKAN_LIST_DeleteWindows(struct ZukanList *p) { u32 windowIndex;for(windowIndex=0;windowIndex<3;windowIndex++)BMP_WIN_Delete((struct BmpWin *)(p->windows[windowIndex].bmp));BMP_WIN_Exit(); }
 
 /*
  * extent: 021BD43E..021BD440 is two zero alignment bytes before matched D440.
@@ -1421,20 +1438,19 @@ void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex)
     u8 w;
     int x;
     u8 *tileMap;
-    struct Descriptor **ent = &p->windows[0].bmp;
     void *arc;
     u16 col;
 
-    w = BMP_WIN_GetDispWidth((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
-    h = BMP_WIN_GetDispHeight((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
-    x = BMP_WIN_GetPosX((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
-    y = BMP_WIN_GetPosY((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
-    dst = BMP_GetPixels(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8))));
+    w = BMP_WIN_GetDispWidth((struct BmpWin *)(p->windows[windowIndex].bmp));
+    h = BMP_WIN_GetDispHeight((struct BmpWin *)(p->windows[windowIndex].bmp));
+    x = BMP_WIN_GetPosX((struct BmpWin *)(p->windows[windowIndex].bmp));
+    y = BMP_WIN_GetPosY((struct BmpWin *)(p->windows[windowIndex].bmp));
+    dst = BMP_GetPixels(BMP_WIN_GetBmp((struct BmpWin *)(p->windows[windowIndex].bmp)));
     arc = ARC_TOOL_CreateHandle(0x9F, 0x6B);
     mapHandle = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x45, 0, &mapRes, 0x806B);
-    tileMap = (u8 *)mapRes + 0xC;
+    tileMap = ((NNSG2dScreenData *)mapRes)->rawData;
     gfxHandle = ARC_UTIL_LoadBgCharDataFromHandle((void *)arc, 0x39, 0, (&gfxRes), 0x806B);
-    gfx = *(u8 **)((u8 *)gfxRes + 0x14);
+    gfx = ((NNSG2dCharacterData *)gfxRes)->pRawData;
     ARC_TOOL_DeleteHandle(arc);
     if (h > 0) {
         map = tileMap + x * 2;
@@ -1520,15 +1536,15 @@ void ZUKAN_LIST_UpdateActors(struct ZukanList *p) {u32 actorIndex;for(actorIndex
 
 void ZUKAN_LIST_SetActorAnim(struct ZukanList *p, int actorIndex, int animValue)
 {
-    CLACT_SetActorAnimFrame(*(void **)((char *)p + 0xa74 + actorIndex * 4), 0);
-    CLACT_SetActorAnimSeq(*(void **)((char *)p + 0xa74 + actorIndex * 4), (unsigned short)animValue);
+    CLACT_SetActorAnimFrame(p->actors[actorIndex], 0);
+    CLACT_SetActorAnimSeq(p->actors[actorIndex], (unsigned short)animValue);
 }
 
-void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim((struct ClactActor *)((struct Actor *)(struct Actor *)p->actors[actorIndex]),1);}
+void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim(p->actors[actorIndex],1);}
 
 int ZUKAN_LIST_GetActorAnimSeq(struct ZukanList *p, int actorIndex)
 {
-    return CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)(sptr)p->actors[actorIndex]));
+    return CLACT_GetActorAnimSeq(p->actors[actorIndex]);
 }
 
 u32 ZUKAN_LIST_IsActorAnimActive(struct ZukanList *p,u32 actorIndex) {return CLACT_IsActorAnimActive((struct ClactActor *)p->actors[actorIndex]);}
@@ -1640,7 +1656,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
-void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct ClactActor **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor **)(actorTable+actorOffset))));*(struct ClactActor **)(actorTable+actorOffset)=0;}}
+void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*sizeof(struct ClactActor *);actorTable=(char *)p->actors;if(*(struct ClactActor **)(actorTable+actorOffset)) {CLACT_DeleteActor(*(struct ClactActor **)(actorTable+actorOffset));*(struct ClactActor **)(actorTable+actorOffset)=0;}}
 
 void ZUKAN_LIST_DeleteActorUnit(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) ZUKAN_LIST_DeleteActor(p,actorIndex);CLACT_DeleteUnit((struct Unit *)p->clactUnit);}
 
@@ -1658,21 +1674,21 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
         desc.charIndex=33; desc.palIndex=3; desc.animIndex=3;
         paletteBase=0x180;
     }
-    if (*(unsigned *)((char *)p+0xa74+actorIndex*4)!=0) {
+    if (p->actors[actorIndex]!=0) {
         ZUKAN_LIST_DeleteActor(p,actorIndex);
-        if (*(unsigned *)((char *)p+desc.charIndex*4+0xb64)!=(unsigned)-1)
-            CLACT_ReleaseCharacter(*(unsigned *)((char *)p+desc.charIndex*4+0xb64));
-        if (*(unsigned *)((char *)p+desc.palIndex*4+0xbf4)!=(unsigned)-1)
-            CLACT_ReleasePalette(*(unsigned *)((char *)p+desc.palIndex*4+0xbf4));
-        if (*(unsigned *)((char *)p+desc.animIndex*4+0xc0c)!=(unsigned)-1)
-            CLACT_ReleaseCellAnim(*(unsigned *)((char *)p+desc.animIndex*4+0xc0c));
+        if (p->charHandles[desc.charIndex]!=(unsigned)-1)
+            CLACT_ReleaseCharacter(p->charHandles[desc.charIndex]);
+        if (p->paletteHandles[desc.palIndex]!=(unsigned)-1)
+            CLACT_ReleasePalette(p->paletteHandles[desc.palIndex]);
+        if (p->cellAnimHandles[desc.animIndex]!=(unsigned)-1)
+            CLACT_ReleaseCellAnim(p->cellAnimHandles[desc.animIndex]);
     }
     if (species==0) {
         void *arc;
         arc=ARC_TOOL_CreateHandle(0x9f,0x806b);
-        *(unsigned *)((char *)p+desc.charIndex*4+0xb64)=CLACT_RegisterCharacter(arc,0x36,0,0,0x6b);
-        *(unsigned *)((char *)p+desc.palIndex*4+0xbf4)=CLACT_RegisterPaletteEx(arc,0x32,0,(u16)paletteBase,0,1,0x6b);
-        *(unsigned *)((char *)p+desc.animIndex*4+0xc0c)=CLACT_RegisterCellAnim(arc,0x3c,0x46,0x6b);
+        p->charHandles[desc.charIndex]=CLACT_RegisterCharacter(arc,0x36,0,0,0x6b);
+        p->paletteHandles[desc.palIndex]=CLACT_RegisterPaletteEx(arc,0x32,0,(u16)paletteBase,0,1,0x6b);
+        p->cellAnimHandles[desc.animIndex]=CLACT_RegisterCellAnim(arc,0x3c,0x46,0x6b);
         ARC_TOOL_DeleteHandle(arc);
         ZUKAN_LIST_SetActorVisible(p,2,0);
     } else {
@@ -1681,20 +1697,20 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
         ZUKAN_SAVE_GetViewGenderAndForm((struct ZukanSave *)(*(u8 * *)&p->args->save),species,&out1,&out2,&outForm,0x806b);
         arc=(void *)POKEGRA_OpenHandle(0x806b);
         personality=species==0x147?ZUKAN_SAVE_GetSpindaPersonality((struct ZukanSave *)p->args->save,0):0;
-        *(unsigned *)((char *)p+desc.charIndex*4+0xb64)=POKEGRA_RegisterCgr((uptr)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
-        *(unsigned *)((char *)p+desc.palIndex*4+0xbf4)=POKEGRA_RegisterPalette((sptr)arc,species,outForm,out1,out2,0,0,0,paletteBase,0x6b);
-        *(unsigned *)((char *)p+desc.animIndex*4+0xc0c)=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);
+        p->charHandles[desc.charIndex]=POKEGRA_RegisterCgr(arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
+        p->paletteHandles[desc.palIndex]=POKEGRA_RegisterPalette(arc,species,outForm,out1,out2,0,0,0,paletteBase,0x6b);
+        p->cellAnimHandles[desc.animIndex]=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);
         ARC_TOOL_DeleteHandle(arc);
         ZUKAN_LIST_SetActorVisible(p,2,1);
     }
-    desc.charIndex=*(unsigned *)((char *)p+desc.charIndex*4+0xb64);
-    desc.palIndex=*(unsigned *)((char *)p+desc.palIndex*4+0xbf4);
-    desc.animIndex=*(unsigned *)((char *)p+desc.animIndex*4+0xc0c);
-    *(void **)((char *)p+0xa74+actorIndex*4)=ZUKAN_CreateActor((p->clactUnit),(struct ZknSearchActorTemplate *)(&desc),0x6b);
-    CLACT_SetActorVisible(*(void **)((char *)p+0xa74+actorIndex*4),0);
+    desc.charIndex=p->charHandles[desc.charIndex];
+    desc.palIndex=p->paletteHandles[desc.palIndex];
+    desc.animIndex=p->cellAnimHandles[desc.animIndex];
+    p->actors[actorIndex]=ZUKAN_CreateActor((p->clactUnit),(struct ZknSearchActorTemplate *)(&desc),0x6b);
+    CLACT_SetActorVisible(p->actors[actorIndex],0);
     personal=POKE_PERSONAL_Create(species,(u16)outForm,0x806b);
     if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)
-        CLACT_SetActorFlip(*(void **)((char *)p+0xa74+actorIndex*4),1,1);
+        CLACT_SetActorFlip(p->actors[actorIndex],1,1);
     POKE_PERSONAL_Delete(personal);
     ZUKAN_LIST_SetActorVisible(p,otherSlot,0);
     PALANM_CopyHwPaletteToSlot(p->palAnm,2,(u16)((paletteBase>>5)<<4),0x20);
@@ -1704,34 +1720,34 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
 void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
     struct ClactSpeciesActor proto;
     struct ClactSpeciesActor desc;
-    u32 *unitPtr;
+    void **unitPtr;
     u32 rowUpper;
     u32 rowLower;
     u32 rowHide;
     proto = gZukanListSpeciesActor;
     desc = gZukanListSpeciesActor;
-    desc.palHandle = *(u32 *)((char *)p + 0xBF4);
-    desc.animHandle = *(u32 *)((char *)p + 0xC0C);
+    desc.palHandle = ((struct ZukanList *)p)->paletteHandles[0];
+    desc.animHandle = ((struct ZukanList *)p)->cellAnimHandles[0];
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
         desc.posY = rowUpper * 0x18 + 8;
-        desc.charHandle = *(u32 *)((char *)p + rowUpper * 4 + 0xB64);
-        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (uptr)ZUKAN_CreateActor(*(void **)((char *)p + 0xA70), (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowUpper * 4 + 0xA9C)), 0);
+        desc.charHandle = ((struct ZukanList *)p)->charHandles[rowUpper];
+        p->actors[rowUpper + 10] = (struct ClactActor *)ZUKAN_CreateActor(p->clactUnit, (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)(p->actors[rowUpper + 10]), 0);
     }
     desc = proto;
-    desc.palHandle = *(u32 *)((char *)p + 0xBF8);
-    desc.animHandle = *(u32 *)((char *)p + 0xC10);
+    desc.palHandle = ((struct ZukanList *)p)->paletteHandles[1];
+    desc.animHandle = ((struct ZukanList *)p)->cellAnimHandles[1];
     for (rowLower = 0; rowLower < 16; rowLower++) {
         desc.posY = rowLower * 0x18 + 0x20;
-        desc.charHandle = *(u32 *)((char *)p + rowLower * 4 + 0xBA4);
+        desc.charHandle = ((struct ZukanList *)p)->charHandles[rowLower + 16];
         desc.flags = 1;
-        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (uptr)ZUKAN_CreateActor(*(void **)((char *)p + 0xA70), (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowLower * 4 + 0xADC)), 0);
+        p->actors[rowLower + 26] = (struct ClactActor *)ZUKAN_CreateActor(p->clactUnit, (const struct ZknSearchActorTemplate *)( &desc), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)(p->actors[rowLower + 26]), 0);
         ZUKAN_LIST_SetActorObjMode(p, rowLower + 0x1a, 1);
-        unitPtr = (u32 *)((char *)p + 0xA70);
-        *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (uptr)ZUKAN_CreateActor((void *)(*unitPtr), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
-        CLACT_SetActorVisible((struct ClactActor *)(*(struct Actor **)((char *)p + rowLower * 4 + 0xB1C)), 0);
-        CLACT_SetActorObjMode(*(struct ClactActor **)((char *)p + rowLower * 4 + 0xB1C), 2);
+        unitPtr = (void **)(&((struct ZukanList *)p)->clactUnit);
+        p->actors[rowLower + 42] = (struct ClactActor *)ZUKAN_CreateActor(*unitPtr, (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)(p->actors[rowLower + 42]), 0);
+        CLACT_SetActorObjMode(p->actors[rowLower + 42], 2);
     }
     for (rowHide = 0; rowHide < 16; rowHide++) ZUKAN_LIST_SetActorVisible(p, rowHide + 0xa, 0);
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
@@ -1749,7 +1765,7 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     unsigned charHalfSaved;
     owner=ARC_TOOL_CreateHandle(7,0x806b);
     charHalfSaved=charHalf;
-    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((uptr)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,&out,0x806b);
+    data=ARC_UTIL_LoadScreenDataFromHandle((void *)(owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,&out,0x806b);
     if (mode==1) {
         slot=&p->actors[actorIndex];
         CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct ClactActor *)*slot),(void *)out->part,1024,0,0);
@@ -1759,7 +1775,7 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     }
     GFL_HEAP_Free((void *)data);
     ARC_TOOL_DeleteHandle((void *)owner);
-    CLACT_SetActorPaletteOffset((struct ClactActor *)((struct Actor *)(*slot)),POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
+    CLACT_SetActorPaletteOffset(*slot,POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
 }
 
 int ZUKAN_LIST_FindHiddenSpeciesActor(struct ZukanList *list, int group)
@@ -1953,7 +1969,7 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (UI_GetInputMode() == 1) {
                 UI_SetInputMode(0);
-                FRAME_LIST_ShowCursor((struct FrameList *)((uptr)p->frameList));
+                FRAME_LIST_ShowCursor((struct FrameList *)(p->frameList));
             } else {
                 UI_SetInputMode(0);
             }

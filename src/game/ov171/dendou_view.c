@@ -258,7 +258,7 @@ struct DispVramCfg;
 struct ClactSysInit;
 #include "../arm9/app_icon.h"
 struct Unit;
-/* The DS code passes the archive handle as a pointer and the other arguments without volatile (the original prototypes); the header takes a word handle. The host build uses the header. */
+/* The DS code passes the archive handle as a pointer and the other arguments without volatile (the original prototypes); the header declares the narrow arguments volatile. The host build uses the header. */
 #ifdef __MWERKS__
 #define POKEGRA_RegisterCgr POKEGRA_RegisterCgr_header
 #define POKEGRA_RegisterPalette POKEGRA_RegisterPalette_header
@@ -269,9 +269,6 @@ struct Unit;
 #undef POKEGRA_RegisterPalette
 extern u32 POKEGRA_RegisterCgr(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heap);
 extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32 dir, u32 egg, u32 drawType, u16 palOffset, u16 heap);
-#define DENDOU_VIEW_POKEGRA_HANDLE(h) (h)
-#else
-#define DENDOU_VIEW_POKEGRA_HANDLE(h) ((uptr)(h))
 #endif
 #include "../arm9/poke_tool.h"
 #include "../arm9/gf_standard.h"
@@ -302,7 +299,7 @@ void DENDOU_VIEW_ExitText(DendouViewWork *work);
 void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work);
 void DENDOU_VIEW_FreeHallOfFame(DendouViewWork *work);
 int DENDOU_VIEW_RunState(DendouViewWork *work);
-void DENDOU_VIEW_StateInit(DendouViewWork *work);
+int DENDOU_VIEW_StateInit(DendouViewWork *work);
 int DENDOU_VIEW_StateExit(DendouViewWork *work);
 int DENDOU_VIEW_StateWaitWipe(DendouViewWork *work);
 u32 DENDOU_VIEW_StateWaitButton(DendouViewWork *work);
@@ -423,7 +420,7 @@ void DENDOU_VIEW_VBlankTask(struct TcbTask *unused, void *workArg)
     PALANM_TransferPalettes((struct PaletteFade *)work->palAnm);
     base = DtcmBase_;
     offset = IRQ_CHECK_FLAG_OFFSET;
-    *(u32 *)((u32)base + offset) |= 1;
+    *(u32 *)((uptr)base + offset) |= 1;
 }
 
 void DENDOU_VIEW_InitVram(void)
@@ -587,7 +584,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
                     DENDOU_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
                     if (work->rows[loadRow].memberCount != 0) {
                         for (member = 0; member < work->rows[loadRow].memberCount; member++)
-                            DENDOU_SAVEDATA_ExportRingMember((void *)extraData, loadRow, (void *)member, &work->rows[loadRow].members[member]);
+                            DENDOU_SAVEDATA_ExportRingMember((void *)extraData, loadRow, member, &work->rows[loadRow].members[member]);
                         work->rowCount++;
                     }
                 }
@@ -618,7 +615,7 @@ int DENDOU_VIEW_RunState(DendouViewWork *work)
     return 1;
 }
 
-void DENDOU_VIEW_StateInit(DendouViewWork *work)
+int DENDOU_VIEW_StateInit(DendouViewWork *work)
 {
     GF_OVERLAY_Load((sptr)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
@@ -640,7 +637,7 @@ void DENDOU_VIEW_StateInit(DendouViewWork *work)
     DENDOU_VIEW_InitBlend();
     GFL_NET_RefreshWmIconAtTopRight(1, DENDOU_VIEW_HEAP);
     DENDOU_VIEW_StartVBlankTask(work);
-    DENDOU_VIEW_StartWipeIn(work, DENDOU_VIEW_STATE_OVERVIEW);
+    return DENDOU_VIEW_StartWipeIn(work, DENDOU_VIEW_STATE_OVERVIEW);
 }
 
 int DENDOU_VIEW_StateExit(DendouViewWork *work)
@@ -1426,8 +1423,8 @@ void DENDOU_VIEW_SwitchRowActors(DendouViewWork *work)
                 half = (u16)i;
                 slot = &work->actors[half];
             }
-            work->cgrIds[tmpl.cgrSlot] = POKEGRA_RegisterCgr(DENDOU_VIEW_POKEGRA_HANDLE(pokegraArchive), member->species, member->form, member->gender, shiny, 0, 0, member->pid, 0, DENDOU_VIEW_HEAP);
-            work->palIds[tmpl.palSlot] = POKEGRA_RegisterPalette(DENDOU_VIEW_POKEGRA_HANDLE(pokegraArchive), member->species, member->form, member->gender, shiny, 0, 0, 0, (u16)(half << 5), DENDOU_VIEW_HEAP);
+            work->cgrIds[tmpl.cgrSlot] = POKEGRA_RegisterCgr(pokegraArchive, member->species, member->form, member->gender, shiny, 0, 0, member->pid, 0, DENDOU_VIEW_HEAP);
+            work->palIds[tmpl.palSlot] = POKEGRA_RegisterPalette(pokegraArchive, member->species, member->form, member->gender, shiny, 0, 0, 0, (u16)(half << 5), DENDOU_VIEW_HEAP);
             work->cellIds[tmpl.cellSlot] = POKEGRA_RegisterCellAnim(member->species, member->form, member->gender, shiny, 0, 0, 2, 0, DENDOU_VIEW_HEAP);
             *slot = DENDOU_VIEW_CreateActor(work, &tmpl);
             DENDOU_VIEW_PlaceActorOnEllipse(work, half, sMemberSlotsByCount[row->memberCount - 1][i].angle);

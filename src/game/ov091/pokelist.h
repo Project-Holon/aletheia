@@ -11,6 +11,8 @@ struct Descriptor;
 #include "../ov091/pokelist_types.h"
 #include "../types.h"
 
+struct TcbTask;
+
 int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
 int POKELIST_Exit(struct Proc *procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work);
@@ -18,7 +20,7 @@ int POKELIST_InitWork(PokelistWork *work);
 int POKELIST_ExitWork(PokelistWork *work);
 int POKELIST_UpdatePhase(PokelistWork *work);
 void POKELIST_UpdatePaletteFade(PokelistWork *work);
-void POKELIST_UpdateWindowMaskTask(void *tcb, PokelistWork *work);
+void POKELIST_UpdateWindowMaskTask(struct TcbTask *tcb, void *arg);
 void POKELIST_SetupDisplay(PokelistWork *work);
 void POKELIST_SetupBgPlanes(PokelistWork *work);
 void POKELIST_SetupLight(PokelistWork *work);
@@ -80,7 +82,7 @@ void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice);
 void POKELIST_ShowMoveLearned(PokelistWork *work);
 void POKELIST_OpenTakeItemMenu(PokelistWork *work);
 void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice);
-void POKELIST_StartHpTransfer(PokelistWork *work);
+void POKELIST_StartHpTransfer(struct PokelistWork *work);
 void POKELIST_ShowHealResult(PokelistWork *work);
 void POKELIST_OpenTakeMailMenu(PokelistWork *work);
 void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice);

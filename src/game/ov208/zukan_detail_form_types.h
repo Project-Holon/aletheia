@@ -28,7 +28,7 @@ struct Ov208AnmState {
 };
 
 struct Ov208Mdl {
-    unsigned int obj;
+    struct McssWork *obj;
     struct Ov208AnmState *state;
     VecF pos[5];
 };
@@ -54,13 +54,13 @@ struct Ov208Row {
     unsigned int mask;
     unsigned int se;
     unsigned int st;
-    unsigned int obj;
+    struct ClactActor *obj;
 };
 
 struct Ov208Form {
-    unsigned int actorUnit;
-    unsigned int font;
-    unsigned int cam;
+    struct Unit *actorUnit;
+    struct GfFont *font;
+    struct McssSys *cam;
     struct Ov208Mdl item[4];
     void *mem;
     void *heap3d;
@@ -69,7 +69,7 @@ struct Ov208Form {
     unsigned int res[2];
     unsigned int iconPalette;
     unsigned int iconCellAnim;
-    unsigned int obj[2];
+    struct ClactActor *obj[2];
     int cur;
     struct Ov208Ent ents[8];
     unsigned char  pad1c8[0x548 - 0x1c8];
@@ -79,26 +79,26 @@ struct Ov208Form {
     unsigned short sel;
     unsigned short sel2;
     unsigned short pad552;
-    unsigned int win[5];
+    struct BmpWin *win[5];
     unsigned int active[5];
-    unsigned int print[5];
-    unsigned int msg;
-    unsigned int marc;
-    unsigned int msg2;
-    unsigned int str[6];
+    struct PrintQueue *print[5];
+    struct MsgBank *msg;
+    void *marc;
+    struct MsgBank *msg2;
+    struct Strbuf *str[6];
     unsigned int bgCharRange;
-    unsigned int mainBgPalette;
-    unsigned int subBgPalette;
+    struct Ov208Win *mainBgPalette;
+    struct Ov208Win *subBgPalette;
     unsigned int rs[9];
-    unsigned int act[4];
+    struct ClactActor *act[4];
     struct Ov208Row row[4];
     unsigned int pressedArrow;
     unsigned int scrollKeyMoved;
     unsigned int scrollDragging;
-    unsigned int effectTask;
-    unsigned int blendMain;
-    unsigned int blendSub;
-    unsigned int paletteAnim;
+    struct TcbTask *effectTask;
+    struct Ov208Blend *blendMain;
+    struct Ov208Blend *blendSub;
+    struct Ov208PalFade *paletteAnim;
     unsigned int mode;
     unsigned int keyFlag;
     unsigned int state;

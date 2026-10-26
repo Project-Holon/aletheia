@@ -5,16 +5,19 @@
 /* Public functions of zknsearch_sys.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../ov210/zknsearch_types.h"
 
-u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, u32 arg);
-u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, u32 work);
+struct TcbTask;
+
+u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, void *arg);
+u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, ZknSearchWork *work);
 u32 ZKNSEARCH_SYS_Delete(void *work);
-void ZKNSEARCH_SYS_RegisterVBlank(u8 *work);
-u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *work);
-void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work);
-void ZKNSEARCH_SYS_RegisterHBlank(u8 *work);
-u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work);
-void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *work);
+void ZKNSEARCH_SYS_RegisterVBlank(ZknSearchWork *work);
+u32 ZKNSEARCH_SYS_UnregisterVBlank(ZknSearchWork *work);
+void ZKNSEARCH_SYS_VBlankHandler(struct TcbTask *unused, void *workArg);
+void ZKNSEARCH_SYS_RegisterHBlank(ZknSearchWork *work);
+u32 ZKNSEARCH_SYS_UnregisterHBlank(ZknSearchWork *work);
+void ZKNSEARCH_SYS_HBlankHandler(struct TcbTask *ctx, void *workArg);
 void ZKNSEARCH_SYS_SetVramBanks(void);
 void *ZKNSEARCH_SYS_GetVramBanks(void);
 /* END mkheaders: generated region */

@@ -1,5 +1,9 @@
+
+struct TcbTask;
 #ifndef GAME_OV215_EGG_DEMO_VIEW_H
 #define GAME_OV215_EGG_DEMO_VIEW_H
+
+#include "../types.h"
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of egg_demo_view.c, prototypes copied from their definitions. */
@@ -15,14 +19,14 @@ void EGG_DEMO_VIEW_SetSpecies(char *work, void *species);
 int EGG_DEMO_VIEW_IsFadeDone(char *work);
 void EGG_DEMO_VIEW_ResetAnimState(char *work);
 int EGG_DEMO_VIEW_IsFinished(char *work);
-void EGG_DEMO_VIEW_Noop(void);
+void EGG_DEMO_VIEW_Noop(struct TcbTask *unused0, void *unused1);
 void EGG_DEMO_VIEW_InitMcss(char *work);
 void EGG_DEMO_VIEW_DeleteMcss(char *work);
 void EGG_DEMO_VIEW_AddPokeMcss(char *work);
 void EGG_DEMO_VIEW_DeletePokeMcss(char *work);
 void EGG_DEMO_VIEW_HidePokeMcss(char *work);
 void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable);
-int EGG_DEMO_VIEW_OnAnimStop(char *work);
+void EGG_DEMO_VIEW_OnAnimStop(void *work, u32 frame);
 void EGG_DEMO_VIEW_UpdateAlpha(char *work);
 void EGG_DEMO_VIEW_StartFadeOut(char *work);
 int EGG_DEMO_VIEW_IsFadeOutDone(char *work);

@@ -16,11 +16,11 @@ struct TcbTask;
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
-int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, void *workArg);
 void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
 void ENCEFF_ScreenCaptureTask(struct TcbTask *task, void *work_);
 u32 ENCEFF_GetScreenTexParam(void);
-int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, void *workArg);
 /* END mkheaders: generated region */
 
 #endif

@@ -506,9 +506,9 @@ struct SaveBlock;
 #undef POKEGRA_RegisterPalette
 #undef POKEGRA_RegisterCgr
 #undef POKEGRA_RegisterCellAnim
-extern u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heapId);
+extern u32 POKEGRA_RegisterCgr(void *handle, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heapId);
 extern u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 mapping, u32 unusedArg, u16 heapId);
-extern int POKEGRA_RegisterPalette(u32 handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, unsigned short h, unsigned short heapId);
+extern int POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, unsigned short h, unsigned short heapId);
 #endif
 
 
@@ -663,7 +663,7 @@ void SCRCMD_MMDL_ICA_EndProc(MmdlIcaWork *work);
 
 void SCRCMD_MMDL_ICA_Start(MmdlIcaWork *work, u32 animKind);
 
-u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *work, u32 unusedArg1, u32 unusedArg2, u32 unusedArg3);
+u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *work, u32 unusedArg1, void *unusedArg2, u32 unusedArg3);
 
 void SCRCMD_MMDL_ICA_Update(u32 event, u32 state, MmdlIcaWork *work);
 
@@ -678,10 +678,16 @@ int SCRCMD_EndMmdlIcaProc(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork);
 
 int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 arg);
+#ifndef __MWERKS__
+static int SCRCMD_MMDL_ICA_WaitTaskEvent(struct GameEvent *event, int *seq, void *work)
+{
+    return SCRCMD_MMDL_ICA_WaitTask(0, 0, (MmdlIcaWaitWork *)work, 0);
+}
+#endif
 
 int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-int SCRCMD_SUBSCREEN_ChangeModeTask(GameEvent *event, int *seq, SubscreenModeWork *work);
+int SCRCMD_SUBSCREEN_ChangeModeTask(struct GameEvent *event, int *seq, void *work);
 
 int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
 
@@ -691,7 +697,7 @@ int SCRCMD_SUBSCREEN_ResetModeTask(void **eventWords, int *seq);
 
 GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap, u32 partySlot);
 
-int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work);
+int EVENT_PERAP_RECORD_Main(struct GameEvent *event, int *seq, void *work);
 
 void EVENT_PERAP_RECORD_OnRecorded(MICResult result, void *arg);
 
@@ -717,9 +723,9 @@ int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 soundId);
 
 GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fieldMap);
 
-int FLDEFF_RIPPLE_WarpToZoneStartTask(GameEvent *event, int *seq, RippleWarpWork *work);
+int FLDEFF_RIPPLE_WarpToZoneStartTask(struct GameEvent *event, int *seq, void *work);
 
-int FLDEFF_RIPPLE_WarpToSpecialLocationTask(GameEvent *event, int *seq, RippleWarpWork *work);
+int FLDEFF_RIPPLE_WarpToSpecialLocationTask(struct GameEvent *event, int *seq, void *work);
 
 GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMap *fieldMap);
 
@@ -737,7 +743,7 @@ void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *work, int species, int form, int 
 
 int SCRCMD_POKE_ICON_DeleteIcon(PokeIconWork *work);
 
-u32 SCRCMD_POKE_ICON_Task(GameEvent *event, u32 *state, PokeIconWork *work);
+int SCRCMD_POKE_ICON_Task(struct GameEvent *event, int *state, void *work);
 
 u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, ScrcmdWork *cmdWork);
 
@@ -745,7 +751,7 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem);
 
 GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem);
 
-u32 FIELD_SUBSCREEN_AnimTask(GameEvent *event, u32 *state, SubscreenAnimWork *work);
+int FIELD_SUBSCREEN_AnimTask(struct GameEvent *event, int *state, void *work);
 
 int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork);
 
@@ -761,7 +767,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByRandom(GameData *gameData, u32 messageId, i
 
 GameEvent *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, CameraShakeParams *params);
 
-int FIELD_CAMERA_ShakeTask(GameEvent *event, int *state);
+int FIELD_CAMERA_ShakeTask(struct GameEvent *event, int *state, void *eventWork);
 
 u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork);
 
@@ -954,7 +960,7 @@ void SCRCMD_MMDL_ICA_Start(MmdlIcaWork *work, u32 animKind)
     FLDMMDL_SetMoveBit(work->mmdl, 0x8000);
 }
 
-u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *work, u32 unusedArg1, u32 unusedArg2, u32 unusedArg3)
+u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *work, u32 unusedArg1, void *unusedArg2, u32 unusedArg3)
 {
     if (work->state == 0) {
         return 1;
@@ -1046,7 +1052,7 @@ int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork)
 
 int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 arg)
 {
-    if (SCRCMD_MMDL_ICA_IsDone(work->ica, state, (uptr)work, arg) == 1) {
+    if (SCRCMD_MMDL_ICA_IsDone(work->ica, state, work, arg) == 1) {
         return 1;
     }
     return 0;
@@ -1055,7 +1061,11 @@ int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 ar
 int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+#ifdef __MWERKS__
     GameEvent *task = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem(cmdWork), 0, (GameEventFunc)SCRCMD_MMDL_ICA_WaitTask, 4);
+#else
+    GameEvent *task = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem(cmdWork), 0, SCRCMD_MMDL_ICA_WaitTaskEvent, 4);
+#endif
     MmdlIcaWaitWork *work = GAME_EVENT_GetWork(task);
 
     work->ica = (MmdlIcaWork *)SCRIPT_WORK_GetReturnParam(scriptWork);
@@ -1063,8 +1073,9 @@ int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 1;
 }
 
-int SCRCMD_SUBSCREEN_ChangeModeTask(GameEvent *event, int *seq, SubscreenModeWork *work)
+int SCRCMD_SUBSCREEN_ChangeModeTask(struct GameEvent *event, int *seq, void *workPtr)
 {
+    SubscreenModeWork *work = workPtr;
     switch (*seq) {
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(work->subscreen)) {
@@ -1096,7 +1107,7 @@ int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork)
     mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     subscreen = FIELDMAP_GetSubscreen(fieldParam->fieldSystem);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_SUBSCREEN_ChangeModeTask, 8);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, sizeof(SubscreenModeWork));
     work = GAME_EVENT_GetWork(task);
     mode = gSubscreenModeTable[mode];
     work->subscreen = subscreen;
@@ -1117,7 +1128,7 @@ int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     subscreen = FIELDMAP_GetSubscreen(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_SUBSCREEN_ChangeModeTask, 8);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SUBSCREEN_ChangeModeTask, sizeof(SubscreenModeWork));
     work = GAME_EVENT_GetWork(task);
     work->subscreen = subscreen;
     work->mode = 0;
@@ -1153,7 +1164,7 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
     GameEvent *task;
     PerapRecordWork *work;
 
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
+    task = GAME_EVENT_Create(gameSystem, 0, EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
     work = GAME_EVENT_GetWork(task);
     MI_CpuFill8(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
@@ -1173,8 +1184,9 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
  *
  * Addresses are Black-image addresses.
  */
-int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
+int EVENT_PERAP_RECORD_Main(struct GameEvent *event, int *seq, void *workPtr)
 {
+    PerapRecordWork *work = workPtr;
     Strbuf *string;
     TcbList *taskList;
     struct MsgBank *msgData;
@@ -1344,8 +1356,8 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
     box = (struct BoxPokemon *)POKE_TOOL_CastToBoxParam(work->partyMon);
     resHandle = POKEGRA_OpenHandle(0x15);
     savedState = POKE_TOOL_DecodeBoxParam(box);
-    work->charRes = POKEGRA_RegisterCgrPP((sptr)resHandle, box, 0, 0, 0x15);
-    work->palRes = POKEGRA_RegisterPalettePP((sptr)resHandle, box, 0, 0, 0x60, 0x15);
+    work->charRes = POKEGRA_RegisterCgrPP(resHandle, box, 0, 0, 0x15);
+    work->palRes = POKEGRA_RegisterPalettePP(resHandle, box, 0, 0, 0x60, 0x15);
     work->cellRes = POKEGRA_RegisterCellAnimPP(box, 0, 1, 0, 0x15);
     POKE_TOOL_EncodeBoxParam(box, savedState);
     ARC_TOOL_DeleteHandle(resHandle);
@@ -1481,8 +1493,9 @@ GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fie
     return 0;
 }
 
-int FLDEFF_RIPPLE_WarpToZoneStartTask(GameEvent *event, int *seq, RippleWarpWork *work)
+int FLDEFF_RIPPLE_WarpToZoneStartTask(struct GameEvent *event, int *seq, void *workPtr)
 {
+    RippleWarpWork *work = workPtr;
     VecFx32 drawOffset;
     u16 zoneId;
     FieldTaskManager *taskManager;
@@ -1530,8 +1543,9 @@ int FLDEFF_RIPPLE_WarpToZoneStartTask(GameEvent *event, int *seq, RippleWarpWork
     return 0;
 }
 
-int FLDEFF_RIPPLE_WarpToSpecialLocationTask(GameEvent *event, int *seq, RippleWarpWork *work)
+int FLDEFF_RIPPLE_WarpToSpecialLocationTask(struct GameEvent *event, int *seq, void *workPtr)
 {
+    RippleWarpWork *work = workPtr;
     FieldTaskManager *taskManager;
     FieldFog *fog;
     FieldTask *spinTaskA;
@@ -1572,7 +1586,7 @@ int FLDEFF_RIPPLE_WarpToSpecialLocationTask(GameEvent *event, int *seq, RippleWa
 
 GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLDEFF_RIPPLE_WarpToZoneStartTask, sizeof(RippleWarpWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FLDEFF_RIPPLE_WarpToZoneStartTask, sizeof(RippleWarpWork));
     RippleWarpWork *work = GAME_EVENT_GetWork(task);
 
     work->gameSystem = gameSystem;
@@ -1583,7 +1597,7 @@ GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMa
 
 GameEvent *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(GameSystem *gameSystem, FieldMap *fieldMap, u32 useSpin)
 {
-    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLDEFF_RIPPLE_WarpToSpecialLocationTask, sizeof(RippleWarpWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FLDEFF_RIPPLE_WarpToSpecialLocationTask, sizeof(RippleWarpWork));
     RippleWarpWork *work = GAME_EVENT_GetWork(task);
 
     work->gameSystem = gameSystem;
@@ -1639,7 +1653,7 @@ int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     isEgg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gender = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_POKE_ICON_Task, 0x18);
+    task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_POKE_ICON_Task, sizeof(PokeIconWork));
     work = GAME_EVENT_GetWork(task);
     SCRCMD_POKE_ICON_InitWindow(work);
     SCRCMD_POKE_ICON_CreateIcon(work, species, form, isEgg, gender, 0);
@@ -1680,8 +1694,8 @@ void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *work, int species, int form, int 
 
     work->clactUnit = CLACT_CreateUnit(1, 0, 0x8015);
     resHandle = POKEGRA_OpenHandle(0x8015);
-    work->charRes = POKEGRA_RegisterCgr((uptr)resHandle, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
-    work->palRes = POKEGRA_RegisterPalette((uptr)resHandle, species, form, isEgg, gender, 0, 0, 0, 0, 0x8015);
+    work->charRes = POKEGRA_RegisterCgr(resHandle, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
+    work->palRes = POKEGRA_RegisterPalette(resHandle, species, form, isEgg, gender, 0, 0, 0, 0, 0x8015);
     ARC_TOOL_DeleteHandle(resHandle);
     work->cellRes = POKEGRA_RegisterCellAnim(species, form, isEgg, gender, 0, 0, 1, 0, 0x8015);
     actorParam = gPokeIconActorParam;
@@ -1697,8 +1711,9 @@ int SCRCMD_POKE_ICON_DeleteIcon(PokeIconWork *work)
     return CLACT_DeleteUnit(work->clactUnit);
 }
 
-u32 SCRCMD_POKE_ICON_Task(GameEvent *event, u32 *state, PokeIconWork *work)
+int SCRCMD_POKE_ICON_Task(struct GameEvent *event, int *state, void *workPtr)
 {
+    PokeIconWork *work = workPtr;
     switch (state[0]) {
     case 0:
         if (KEY_GetTrg() & 3) {
@@ -1844,7 +1859,7 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
 
 GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem)
 {
-    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
     SubscreenAnimWork *work = GAME_EVENT_GetWork(task);
 
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -1852,8 +1867,9 @@ GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem)
     return task;
 }
 
-u32 FIELD_SUBSCREEN_AnimTask(GameEvent *event, u32 *state, SubscreenAnimWork *work)
+int FIELD_SUBSCREEN_AnimTask(struct GameEvent *event, int *state, void *workPtr)
 {
+    SubscreenAnimWork *work = workPtr;
     switch (state[0]) {
     case 0:
         FIELD_SUBSCREEN_RequestMode(work->subscreen, 9);
@@ -2045,7 +2061,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByRandom(GameData *gameData, u32 messageId, i
 
 GameEvent *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, CameraShakeParams *params)
 {
-    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_CAMERA_ShakeTask, sizeof(CameraShakeWork));
+    GameEvent *task = GAME_EVENT_Create(gameSystem, 0, FIELD_CAMERA_ShakeTask, sizeof(CameraShakeWork));
 
     *(CameraShakeParams *)GAME_EVENT_GetWork(task) = *params;
     return task;
@@ -2058,7 +2074,7 @@ GameEvent *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, CameraShakeParam
  *
  * Addresses are Black-image addresses.
  */
-int FIELD_CAMERA_ShakeTask(GameEvent *event, int *state)
+int FIELD_CAMERA_ShakeTask(struct GameEvent *event, int *state, void *eventWork)
 {
     CameraShakeWork *shake;
     FieldMap *fieldMap;

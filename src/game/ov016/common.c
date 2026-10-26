@@ -40,7 +40,7 @@
  *   sCommonNamePosByLanguage  0x021da068  data
  *   gDwcLanguageTable 0x021DA04C data
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #include "dwcutil_types.h"
 
@@ -125,7 +125,7 @@ void DWCi_CMNlMsgDraw(int msgId)
     unsigned long flag = DWCi_CMNlFontFlag();
 
     DWCi_FNTlDrawRect(canvas, 0xd, 0x28, 0xe6, 0x70, 2, flag, msg);
-    DWCi_FNTlRenewBg((sptr)canvas);
+    DWCi_FNTlRenewBg(canvas);
 }
 
 
@@ -141,7 +141,7 @@ void DWCi_CMNlMsgNameDraw(unsigned short *name, int msgId)
     msg = DWCi_MSGlGet(gCommentWork, msgId);
     DWCi_FNTlDrawRect(canvas, 13, 60, 230, 94, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlDraw(canvas, sCommonNamePosByLanguage[DWCi_Language()].x, sCommonNamePosByLanguage[DWCi_Language()].y, 2, 13 + 508, name);
-    DWCi_FNTlRenewBg((sptr)canvas);
+    DWCi_FNTlRenewBg(canvas);
 }
 
 

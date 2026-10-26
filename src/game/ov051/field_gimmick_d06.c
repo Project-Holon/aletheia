@@ -338,11 +338,11 @@ struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, 
         return 0;
     steps = FIELD_GIMMICK_D06_GetSlideSteps(work, slot, direction);
     if (steps == 0)
-        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventStoneBlocked, sizeof(GimmickD06SlideEvent));
     else
-        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_D06_EventSlideStone, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, sizeof(GimmickD06SlideEvent));
     slide = GAME_EVENT_GetWork(event);
-    MI_CpuFill(slide, 0, 0x10);
+    MI_CpuFill(slide, 0, sizeof(*slide));
     slide->direction = direction;
     slide->work = work;
     slide->slotIndex = i;

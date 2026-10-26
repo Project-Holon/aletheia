@@ -469,7 +469,7 @@ int DWCi_Acc_IsValidFriendDataThunk(void *frienddata)
 
 void DWC_CreateUserData(void *userdata)
 {
-    DWCi_Acc_CreateUserData(userdata, (long unsigned int)DWCi_GetGamecode());
+    DWCi_Acc_CreateUserData(userdata, DWCi_GetGamecode());
 }
 
 /*

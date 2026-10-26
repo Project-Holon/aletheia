@@ -12,7 +12,7 @@ typedef struct IrcBattleRequest IrcBattleRequest;
 
 #include "../types.h"
 
-int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work);
+int IRC_BATTLE_TASK_Main(struct GameEvent *event, int *state, void *work);
 struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
 void IRC_BATTLE_TASK_SetFormationOnce(int *formation, int value);
 void IRC_BATTLE_TASK_Empty0(void);

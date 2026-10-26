@@ -285,7 +285,7 @@ void SCRCMD_SYMBOL_SendEntryFlag(ScrcmdWork *cmdWork);
 struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct PokemonParam *mon, SymbolKey key,
                                 u16 *resultOut, u16 heapId);
 
-int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *work);
+int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, int *state, void *work);
 
 /* Overlay ids are absolute symbols: the address of ovNNN_id is the id. */
 #define FS_OVERLAY_ID(name) ((uptr)name##_id)
@@ -556,7 +556,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     work->mon = mon;
     work->key = key;
     work->crc = GF_STANDARD_CalcCrc16((u8 *)mon, POKE_TOOL_GetPartyParamSize());
-    if (SYMBOL_SAVE_FindRecord((void *)(GAME_DATA_GetSaveControl(gameData)), (u32 *)(&key), (void *)heapId, 0) == 0)
+    if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), (u32 *)(&key), heapId, 0) == 0)
         work->key.species = SYMBOL_UNSEEN_SPECIES;
     FIELD_ENCOUNT_SetFieldSituation((struct FieldSituation *)(&work->scene), gameData, fieldMap);
     return event;
@@ -572,7 +572,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
  * heap declared before mon in both key blocks, and the u16 flag stored in
  * both arms of an if/else.
  */
-int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procWork)
+int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, int *state, void *procWork)
 {
     SymbolViewWork *work = procWork;
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
@@ -585,7 +585,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         (*state)++;
         break;
     case 1: {
-        uptr heapId;
+        u32 heapId;
         struct PokemonParam *mon;
         SymbolKey key;
 
@@ -594,7 +594,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         key.species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
         key.form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
-        if ((void *)(void *)SYMBOL_SAVE_FindRecord((void *)(GAME_DATA_GetSaveControl(gameData)), (u32 *)(&key), (void *)heapId, 1) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), (u32 *)(&key), heapId, 1) == 0)
             work->key.form = SYMBOL_UNSEEN_FORM;
         ENCEFF_Start((struct EncEffWork *)(FIELDMAP_GetEncEff(work->fieldMap)), event, 0);
         (*state)++;
@@ -619,7 +619,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         break;
     }
     case 5: {
-        uptr heapId;
+        u32 heapId;
         struct PokemonParam *mon;
         SymbolKey key;
 
@@ -629,8 +629,8 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         key.species = POKE_TOOL_GetPartyValue(mon, PARAM_SPECIES, 0);
         key.form = POKE_TOOL_GetPartyValue(mon, PARAM_FORM, 0);
-        if ((void *)(void *)SYMBOL_SAVE_FindRecord((void *)(GAME_DATA_GetSaveControl(gameData)), (u32 *)(&key), (void *)heapId, 1) == 0
-            || SYMBOL_SAVE_FindRecord((void *)(GAME_DATA_GetSaveControl(gameData)), (u32 *)(&work->key), (void *)work->heapId, 0) == 0)
+        if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), (u32 *)(&key), heapId, 1) == 0
+            || SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(gameData), (u32 *)(&work->key), work->heapId, 0) == 0)
             ok = 0;
         if (ok == 1)
             *work->resultOut = 1;
@@ -638,7 +638,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
             *work->resultOut = 0;
         GF_OVERLAY_Unload(FS_OVERLAY_ID(ov098));
         GF_OVERLAY_Load(FS_OVERLAY_ID(ov227));
-        work->resultScreen = EVENT_PDC_RETURN_CreateArgs((uptr)gameData, ok, (uptr)work->mon, work->heapId);
+        work->resultScreen = EVENT_PDC_RETURN_CreateArgs(gameData, ok, work->mon, work->heapId);
         GAME_EVENT_CallProc(event, -1, d_021B98A4, work->resultScreen);
         MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
         (*state)++;

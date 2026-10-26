@@ -50,7 +50,7 @@ extern char d_021DE558[];
 /* Allocates a patch handle and loads patch file patchId. */
 LandDataPatch *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId)
 {
-    LandDataPatch *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
+    LandDataPatch *patch = GFL_HEAP_Alloc(heapId, sizeof(*patch), 1, d_021DE558, 0x4f);
     patch->data = ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
     return patch;
 }

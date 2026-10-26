@@ -65,7 +65,7 @@ typedef struct BAppToolLayoutPos {
 
 /* One window entry walked by B_APP_TOOL_Update (8 bytes). */
 typedef struct BAppToolEntry {
-    int handle;             /* 0x00, descriptor handle */
+    struct BmpWin *handle;  /* 0x00, window handle */
     unsigned char active;   /* 0x04 */
     unsigned char pad[3];   /* 0x05, alignment only */
 } BAppToolEntry;
@@ -75,7 +75,7 @@ typedef struct BAppTool {
     struct ClactActor *actors[4];      /* 0x00: CLACT actor handles */
     u16 heapId;         /* 0x10: heap used for the tool and its actors */
     u16 pad12;          /* 0x12 */
-    void *visible;      /* 0x14: last visibility value passed to SetActorsVisible */
+    u32 visible;        /* 0x14: last visibility value passed to SetActorsVisible */
 } BAppTool;
 
 typedef char BAppTool_size_check[(sizeof(BAppTool) == 0x18) ? 1 : -1];
@@ -84,10 +84,6 @@ typedef char BAppToolEntry_size_check[(sizeof(BAppToolEntry) == 0x8) ? 1 : -1];
 #include "../arm9/gfl_heap_wrap.h"
 struct ClactActor;
 struct ClactActor;
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 struct ClactVec2;
 struct BmpWin;
 #include "../arm9/bmp_win.h"
@@ -99,14 +95,14 @@ u8 *B_APP_TOOL_Create(u16 heapId);
 void B_APP_TOOL_Delete(void *p);
 void B_APP_TOOL_CreateActors(char *p, struct Unit *owner, int charRes, int palRes, int cellRes);
 void B_APP_TOOL_DeleteActors(u8 *p);
-void B_APP_TOOL_SetActorsVisible(char *p, void *visible);
-void B_APP_TOOL_LayoutActors(int *p, u8 *q);
+void B_APP_TOOL_SetActorsVisible(char *p, u32 visible);
+void B_APP_TOOL_LayoutActors(struct ClactActor **p, u8 *q);
 void B_APP_TOOL_ShowWindow(void **p);
 void B_APP_TOOL_ShowWindows(char *p, unsigned char *q);
 void B_APP_TOOL_Update(BAppToolEntry *p, struct PrintSys *printSys, unsigned n);
 extern const char d_0220B100[];
 
-u8 *B_APP_TOOL_Create(u16 heapId) { BAppTool *tool; tool=(BAppTool *)GFL_HEAP_Alloc(heapId,24,0,d_0220B100,43); tool->heapId=heapId; tool->visible=(void *)1; return (u8 *)tool; }
+u8 *B_APP_TOOL_Create(u16 heapId) { BAppTool *tool; tool=(BAppTool *)GFL_HEAP_Alloc(heapId,sizeof(*tool),0,d_0220B100,43); tool->heapId=heapId; tool->visible=1; return (u8 *)tool; }
 
 /*
  * leaf: parent-cleared sole blocker of ov197 B_BAG_MAIN_StateExit; eight-byte tail stub.
@@ -143,7 +139,7 @@ void B_APP_TOOL_DeleteActors(u8 *p)
     }
 }
 
-void B_APP_TOOL_SetActorsVisible(char *p, void *visible)
+void B_APP_TOOL_SetActorsVisible(char *p, u32 visible)
 {
     BAppTool *tool = (BAppTool *)p;
     if (tool->visible != visible)
@@ -151,21 +147,21 @@ void B_APP_TOOL_SetActorsVisible(char *p, void *visible)
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
-            CLACT_SetActorDrawEnable((void *)tool->actors[i], (uptr)visible);
+            CLACT_SetActorDrawEnable((void *)tool->actors[i], visible);
         }
         tool->visible = visible;
     }
 }
 
-void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
+void B_APP_TOOL_LayoutActors(struct ClactActor **actors, u8 *rect)
 {
     BAppToolLayoutPos pos;
     u8 halfH=rect[3]/2;
     u8 halfW=rect[2]/2;
-    pos.x=rect[0]-halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[0],(struct ClactVec2 *)(&pos),1);
-    pos.x=rect[0]-halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[1],(struct ClactVec2 *)(&pos),1);
-    pos.x=rect[0]+halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[2],(struct ClactVec2 *)(&pos),1);
-    pos.x=rect[0]+halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[3],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]-halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos(actors[0],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]-halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos(actors[1],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]+halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos(actors[2],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]+halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos(actors[3],(struct ClactVec2 *)(&pos),1);
 }
 
 /*
@@ -180,7 +176,7 @@ void B_APP_TOOL_ShowWindows(char *windows, unsigned char *order)
         unsigned char slot = order[i];
         if (slot == 0xff)
             break;
-        B_APP_TOOL_ShowWindow((void **)(windows + (slot << 3)));
+        B_APP_TOOL_ShowWindow((void **)(windows + slot * (int)sizeof(BAppToolEntry)));
         i++;
     }
 }
@@ -190,8 +186,8 @@ void B_APP_TOOL_Update(BAppToolEntry *p, struct PrintSys *printSys, unsigned n)
     unsigned i;
     PRINTSYS_QUE_Main((struct PrintQueue *)printSys);
     for(i=0;i<n;i++) {
-        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys,(void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)p[i].handle)))==0) {
-            BMP_WIN_TransferChars((struct BmpWin *)p[i].handle);
+        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys,(void *)(BMP_WIN_GetBmp(p[i].handle)))==0) {
+            BMP_WIN_TransferChars(p[i].handle);
             p[i].active=0;
         }
     }

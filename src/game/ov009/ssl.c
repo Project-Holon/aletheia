@@ -120,7 +120,7 @@
 #include "biginteger.h"
 #include "cps_ssl_types.h"
 #include "arc4.h"
-#include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "../libc/memcmp/string.h"
 
 #define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
 #include "../arm9/os_system.h"
@@ -152,7 +152,7 @@ extern void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b
 extern int CPSi_big_sign(unsigned short *a, int digits);
 extern void CPSi_big_negate(unsigned short *a, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
-extern unsigned char *CPSi_TcpReadRaw(unsigned int *len, char *soc);
+extern unsigned char *CPSi_TcpReadRaw(unsigned int *len, CPSSoc *soc);
 struct CPSSoc;
 extern void CPSi_SocConsumeRaw(u32 len, struct CPSSoc *soc);
 static void client_hello(CPSSslConnection *con, unsigned char *s);
@@ -184,7 +184,7 @@ struct SOCLCaInfo;
 void CPS_SetRootCa(struct SOCLCaInfo **rootCa, int num);
 SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
 int chars_till_end(const char *str);
-int select_method(int methods, int num, int size);
+int select_method(unsigned char *methods, int num, int size);
 int version_ok(int major, int minor);
 void finished_md5(CPSSslConnection *con, unsigned char *d, int flag);
 void finished_sha1(CPSSslConnection *con, unsigned char *d, int flag);
@@ -936,12 +936,12 @@ static int has_method(unsigned char *s, int num, int size, unsigned short method
  * Scans the two halfword entries of a table, returning the first entry the
  * helper accepts, else zero.
  */
-int select_method(int methods, int num, int size)
+int select_method(unsigned char *methods, int num, int size)
 {
     u32 i;
 
     for (i = 0; i < 2; i++) {
-        if (has_method((unsigned char *)methods, num, size, gCpsSslConfig.methods[i]))
+        if (has_method(methods, num, size, gCpsSslConfig.methods[i]))
             return gCpsSslConfig.methods[i];
     }
     return 0;
@@ -985,7 +985,7 @@ static void client_hello_v2(CPSSslConnection *con, unsigned char *s)
     if (!version_ok(s[0], s[1]))
         return;
     pairlist_len = (s[2] << 8) + s[3];
-    method = select_method((sptr)(s + 8), pairlist_len / 3, 3);
+    method = select_method(s + 8, pairlist_len / 3, 3);
     if (method == 0)
         return;
     con->method = method;
@@ -1024,7 +1024,7 @@ static void client_hello(CPSSslConnection *con, unsigned char *s)
         find_session_from_id(con);
     }
     s += sessionID_len;
-    method = select_method((sptr)(s + 2), ((s[0] << 8) + s[1]) / 2, 2);
+    method = select_method(s + 2, ((s[0] << 8) + s[1]) / 2, 2);
     con->method = method;
     if (method != 0)
         con->state = 1;
@@ -1403,7 +1403,7 @@ static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc)
     unsigned char *s;
 
     do {
-        s = CPSi_TcpReadRaw((u32 *)(&thislen), (char *)soc);
+        s = CPSi_TcpReadRaw((u32 *)(&thislen), soc);
         if (thislen == 0)
             return -1;
         if (thislen > len)
@@ -1558,7 +1558,7 @@ static int parse_record(CPSSoc *soc)
     CPSSslConnection *con = soc->con;
 
     for (;;) {
-        buf = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
+        buf = CPSi_TcpReadRaw((u32 *)(&len), soc);
         if (len >= 5)
             break;
         if (len == 0 || soc->state == 0) {
@@ -1981,7 +1981,7 @@ void try_fill_record(CPSSoc *soc)
 
     if (con->buf == 0) {
         if (soc->rcvbufp < 5) return;
-        s = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
+        s = CPSi_TcpReadRaw((u32 *)(&len), soc);
         len = (s[3] << 8) + s[4] + 5;
         if (len > 0x4805) {
             con->state = 9;
@@ -1998,7 +1998,7 @@ void try_fill_record(CPSSoc *soc)
     } else if (soc->rcvbufp == 0) {
         return;
     }
-    s = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
+    s = CPSi_TcpReadRaw((u32 *)(&len), soc);
     if (len >= (con->end - con->pos)) {
         len = con->end - con->pos;
         got_all = 1;
@@ -2125,7 +2125,7 @@ void CPS_SetSsl(int mode)
     CPSSoc *soc;
 
     OSi_ReferSymbol(id_string);
-    soc = *(CPSSoc **)((char *)OSi_ThreadInfo.current + 0xa4);
+    soc = OSi_ThreadInfo.current->specific[0];
     if (soc != 0)
         soc->ssl = mode;
 }

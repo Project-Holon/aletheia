@@ -10,7 +10,7 @@ void DWCi_SNDlPlay(unsigned int v);
 void DWCi_SNDlSetVolume(unsigned int v);
 void DWCi_SNDlSetPitch(unsigned int a, unsigned int b);
 void DWCi_SNDlStop(void);
-void taskSound(void);
+void taskSound(void * unused0, void * unused1);
 /* END mkheaders: generated region */
 
 #endif

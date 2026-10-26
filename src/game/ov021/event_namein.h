@@ -13,7 +13,7 @@ typedef struct NameInParam NameInParam;
 #include "../types.h"
 
 struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, u32 mode, u16 *resultVar);
-int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work);
+int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, void *work);
 void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param);
 /* END mkheaders: generated region */
 

@@ -10,7 +10,12 @@
  */
 
 /* Server id of a recorded battle, also read as two words. */
-typedef union BattleRecDataNumber {
+#ifdef __MWERKS__
+#define BATTLE_REC_PACKED
+#else
+#define BATTLE_REC_PACKED __attribute__((packed)) /* the DS compiler aligns 64-bit members to 4 */
+#endif
+typedef union BATTLE_REC_PACKED BattleRecDataNumber {
     unsigned long long value;
     struct {
         unsigned int lo;

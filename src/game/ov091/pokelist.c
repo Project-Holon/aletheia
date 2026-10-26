@@ -660,7 +660,7 @@ int POKELIST_InitWork(PokelistWork *work);
 int POKELIST_ExitWork(PokelistWork *work);
 int POKELIST_UpdatePhase(PokelistWork *work);
 void POKELIST_UpdatePaletteFade(PokelistWork *work);
-void POKELIST_UpdateWindowMaskTask(void *tcb, PokelistWork *work);
+void POKELIST_UpdateWindowMaskTask(struct TcbTask *tcb, void *arg);
 void POKELIST_SetupDisplay(PokelistWork *work);
 void POKELIST_SetupBgPlanes(PokelistWork *work);
 void POKELIST_SetupLight(PokelistWork *work);
@@ -722,7 +722,7 @@ void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice);
 void POKELIST_ShowMoveLearned(PokelistWork *work);
 void POKELIST_OpenTakeItemMenu(PokelistWork *work);
 void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice);
-void POKELIST_StartHpTransfer(PokelistWork *work);
+void POKELIST_StartHpTransfer(struct PokelistWork *work);
 void POKELIST_ShowHealResult(PokelistWork *work);
 void POKELIST_OpenTakeMailMenu(PokelistWork *work);
 void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice);
@@ -789,10 +789,10 @@ int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork
     switch (*seq) {
     case 0:
         GFL_HEAP_CreateChildHeap(1, 0x17, 0x30000);
-        work = PROCSYS_AllocProcWork(procObj, 0x284, 0x17);
+        work = PROCSYS_AllocProcWork(procObj, sizeof(PokelistWork), 0x17);
         work->heapId = 0x17;
         if (arg == 0) {
-            arg = GFL_HEAP_Alloc(0x17, 0x98, 1, d_021BED0C, 0x52);
+            arg = GFL_HEAP_Alloc(0x17, sizeof(PokelistArg), 1, d_021BED0C, 0x52);
             arg->party = POKEPARTY_Create(0x17);
             arg->selectedIndex = 0;
             POKEPARTY_InitEx(arg->party, 6);
@@ -918,7 +918,7 @@ int POKELIST_InitWork(PokelistWork *work)
     u8 n;
     u8 i;
     PokelistArg *arg;
-    sptr e;
+    void *e;
 
     n = POKEPARTY_GetCount(work->arg->party);
     work->touchMode = UI_GetInputMode();
@@ -973,8 +973,8 @@ int POKELIST_InitWork(PokelistWork *work)
     POKELIST_CreateFonts(work);
     for (i = 0; i < 6; i++) {
         if (i < n) {
-            e = (sptr)POKEPARTY_GetMember(work->arg->party, i);
-            work->plates[i] = PLIST_PLATE_Create(work, i, (void *)e);
+            e = POKEPARTY_GetMember(work->arg->party, i);
+            work->plates[i] = PLIST_PLATE_Create(work, i, e);
         } else
             work->plates[i] = PLIST_PLATE_CreateEmpty(work, i);
         if (PLIST_PLATE_GetLabelState(work->plates[i]) <= 5)
@@ -984,7 +984,7 @@ int POKELIST_InitWork(PokelistWork *work)
     POKELIST_CreateClactUnit(work);
     if (POKELIST_IsItemMode(work) == 1)
         PLIST_MENU_InitTimer(work);
-    work->updateTask = GFL_USE_AddMainTask((TcbFunc)POKELIST_UpdateWindowMaskTask, (void *)work, 8);
+    work->updateTask = GFL_USE_AddMainTask(POKELIST_UpdateWindowMaskTask, (void *)work, 8);
     work->messageWindow = PLIST_MESSAGE_Create(work);
     work->contextMenu = PLIST_MENU_Create(work);
     POKELIST_StartMode(work);
@@ -1252,8 +1252,9 @@ static inline void GX_SetVisibleWnd(int window)
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
 }
 
-void POKELIST_UpdateWindowMaskTask(void *tcb, PokelistWork *work)
+void POKELIST_UpdateWindowMaskTask(struct TcbTask *tcb, void *arg)
 {
+    PokelistWork *work = arg;
     if (work->fadeMode == 1)
         GX_SetVisibleWnd(1);
     else
@@ -1295,7 +1296,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask(0);
-    WIPE_ResetWndMask((void *)1);
+    WIPE_ResetWndMask(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     BG_SYS_SetVramBanks((const struct DispVram *)(&a));
     BG_SYS_Create(work->heapId);
@@ -1328,10 +1329,10 @@ void POKELIST_SetupLight(PokelistWork *work)
 
     GX_SetGraphicsMode(1, 0, 1);
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, work->heapId, 0);
-    *(volatile u16 *)0x04000008 = *(volatile u16 *)0x04000008 & ~3;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
-    *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
+    *(volatile u16 *)REG_BG0CNT_ADDR = *(volatile u16 *)REG_BG0CNT_ADDR & ~3;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x20;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x10;
+    *(volatile u16 *)REG_DISP3DCNT_ADDR = (*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8;
     r = G3D_CAMERA_Create(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, (struct VecFx32 *)d_021BEAB8, (struct VecFx32 *)d_021BEAD0, (struct VecFx32 *)d_021BEAC4, work->heapId);
     work->light = r;
     G3D_CAMERA_Reset((struct G3dCamera *)r);
@@ -1552,15 +1553,19 @@ void POKELIST_StartMode(PokelistWork *work)
         if (work->arg->moveSlot < 4) {
             old=POKE_TOOL_GetPartyValue(work->selectedMon,work->arg->moveSlot+0x36,0);
             off=0x150;
-            PLIST_MESSAGE_CreateWordSet(work,*(struct PlistMessage **)((u8 *)work + off)); PLIST_MESSAGE_SetWordSetPokemon(work,*(struct PlistMessage **)((u8 *)work + off),0,work->selectedMon);
-            PLIST_MESSAGE_SetWordSetMove(work,*(struct PlistMessage **)((u8 *)work + off),(u32)1,(u16)old);
+            PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
+            PLIST_MESSAGE_SetWordSetMove(work,work->messageWindow,(u32)1,(u16)old);
             POKELIST_ShowMessage(work,0x28,1,POKELIST_ShowMoveLearned);
         } else {
             off=0x150;
-            PLIST_MESSAGE_CreateWordSet(work,*(struct PlistMessage **)((u8 *)work + off)); PLIST_MESSAGE_SetWordSetMove(work,*(struct PlistMessage **)((u8 *)work + off),(u32)1,(u16)work->arg->moveId);
+            PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetMove(work,work->messageWindow,(u32)1,(u16)work->arg->moveId);
             POKELIST_ShowMessage(work,0x23,0,POKELIST_OpenForgetMoveMenu);
         }
+#ifdef __MWERKS__
         PLIST_MESSAGE_DestroyWordSet(work,*(struct PlistMessage **)((u8 *)work + off));
+#else
+        PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
+#endif
         work->nextPhase=7; work->phase=0; work->switchButtonEnabled=0;
         PLIST_PLATE_SetSelected(work,work->plates[work->selectedSlot],1); return;
     case 10:
@@ -2114,7 +2119,7 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
         work->selectedMon = POKEPARTY_GetMember(work->arg->party, work->selectedSlot);
         work->phase = 10;
         work->displayHp = PLIST_PLATE_GetHp(work, work->plates[work->selectedSlot]);
-        work->phaseCallback = (PokelistFn)POKELIST_StartHpTransfer;
+        work->phaseCallback = POKELIST_StartHpTransfer;
         POKELIST_MoveCursorToPlate(work, work->selectedSlot);
         PLIST_PLATE_SetSelected((PokelistWork *)work, (PlistPlate *)work->plates[work->healSourceSlot], 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->swapMarkerActor, 0);
@@ -2177,7 +2182,7 @@ void POKELIST_ConfirmBattleParty(PokelistWork *work)
                 buf[n] = i + 1;
             }
         }
-        r = POKE_REGULATION_CheckSelection((uptr)rule, (uptr)work->arg->party, (uptr)buf);
+        r = POKE_REGULATION_CheckSelection((struct Regulation *)rule, work->arg->party, buf);
     }
     if (rule->minPartySize > work->selectedCount) {
         POKELIST_ShowMessage(work, rule->minPartySize + 0x56, 1, POKELIST_CloseMessageToList);
@@ -3239,7 +3244,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
     }
 }
 
-void POKELIST_StartHpTransfer(PokelistWork *work)
+void POKELIST_StartHpTransfer(struct PokelistWork *work)
 {
     void *sourceMon;
     void *targetMon;

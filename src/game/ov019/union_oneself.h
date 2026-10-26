@@ -5,12 +5,13 @@
 /* Public functions of union_oneself.c, prototypes copied from their definitions. */
 
 struct GameSystem;
+struct GameEvent;
 
 #include "../ov012/union_comm_types.h"
 #include "../types.h"
 
-int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
-int UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos);
+struct GameEvent *UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
+struct GameEvent *UNION_ONESELF_GetFieldTalkEvent(void *gameSystem, void *pos);
 int UNION_ONESELF_RunPlayCategory(UnionRoomWork *work, void *fieldMap);
 int UNION_ONESELF_SetNextPlayCategory(UnionRoomWork *work, int playCategory);
 int UNION_ONESELF_SetNextPlayCategoryInMainPhase(UnionRoomWork *work, char playCategory);
@@ -56,8 +57,8 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
 int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
-void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
-void UNION_ONESELF_EntryMenuRemoveMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac);
+void UNION_ONESELF_EntryMenuAddMember(void *unisysArg, const void *myStatus, const u8 *mac);
+void UNION_ONESELF_EntryMenuRemoveMember(void *unisysArg, const void *myStatus, const u8 *mac);
 int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);
 int UNION_ONESELF_ColosseumFreeMoveStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap);
 int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq);

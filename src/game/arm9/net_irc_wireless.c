@@ -98,7 +98,7 @@ void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
 
 int GFL_NET_IRC_WIRELESS_IsActive(void);
 
-void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value);
+void GFL_NET_IRC_WIRELESS_SetSessionParamValue(NetIrcFilterFn value);
 
 GFLNetUserFunc GFL_NET_IRC_WIRELESS_SetCallbacks(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady);
 
@@ -116,7 +116,7 @@ void GFL_NET_IRC_WIRELESS_Main(void);
 
 void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *beaconArg);
 
-void *GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *beaconArg);
+int GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *beaconArg);
 
 void GFL_NET_IRC_WIRELESS_AddMacList(u32 unusedA, u32 unusedB, struct NetMacList *macList);
 
@@ -214,7 +214,7 @@ int GFL_NET_IRC_WIRELESS_IsActive(void)
 /*
  * Stores a word into the singleton at +0x74.
  */
-void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value)
+void GFL_NET_IRC_WIRELESS_SetSessionParamValue(NetIrcFilterFn value)
 {
     gNetIrcWirelessLink->sessionParam = value;
 }
@@ -441,7 +441,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         scanIndex = 0;
         OS_GetMacAddress(ownMac);
         for (;; scanIndex++) {
-            scanEntry = (u8 *)GFL_NET_GetScanResult((int)scanIndex);
+            scanEntry = GFL_NET_GetScanResult((int)scanIndex);
             if (scanEntry == 0)
                 return;
             for (slot = 0; slot < 4; slot++) {
@@ -542,13 +542,13 @@ void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *beaconArg)
     return &link->macs;
 }
 
-void *GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *beaconArg)
+int GFL_NET_IRC_WIRELESS_GetBeaconCompare(void *beaconArg)
 {
-    void *compareData;
+    int compareSize;
     if (gNetIrcWirelessLink == 0)
         return 0;
-    compareData = gNetIrcWirelessLink->savedGetBeaconSizeFunc(beaconArg);
-    return (char *)compareData + 0x24;
+    compareSize = gNetIrcWirelessLink->savedGetBeaconSizeFunc(beaconArg);
+    return compareSize + 0x24;
 }
 
 /*

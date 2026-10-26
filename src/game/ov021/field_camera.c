@@ -188,8 +188,8 @@ void FIELD_CAMERA_StartMoveConstrained(FieldCamera *camera, FieldCameraMoveReque
 void FIELD_CAMERA_StartFreeMove(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames);
 void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames);
 void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames);
-void FIELD_CAMERA_UpdateMove(FieldCamera *camera);
-void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera);
+void FIELD_CAMERA_UpdateMove(struct FieldCamera *camera, unsigned int unused1);
+void FIELD_CAMERA_UpdateFreeMove(struct FieldCamera *camera, unsigned int unused1);
 void FIELD_CAMERA_LerpVec(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out);
 int FIELD_CAMERA_LerpFx32(int *from, int *to, int frames, int frame);
 u16 FIELD_CAMERA_LerpAngle(u16 *from, u16 *to, s32 frames, s32 frame);
@@ -211,7 +211,7 @@ extern VecFx32 gFieldCameraRingRefVec;
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId)
 {
     int fovSin;
-    FieldCamera *camera = GFL_HEAP_Alloc(heapId, 0x1b0, 1, gFieldCameraFileName, 0x80);
+    FieldCamera *camera = GFL_HEAP_Alloc(heapId, sizeof(*camera), 1, gFieldCameraFileName, 0x80);
 
     camera->settingId = settingId;
     camera->mode = mode;
@@ -1362,7 +1362,7 @@ void FIELD_CAMERA_SetMoveGoal(FieldCamera *camera, FieldCameraMoveRequest *reque
         motion->frame = 0;
         motion->frames = frames;
         motion->channels = request->channels;
-        camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
+        camera->motion.callback = FIELD_CAMERA_UpdateMove;
         motion->callbackArg = 0;
         motion->moving = 1;
     }
@@ -1407,7 +1407,7 @@ void FIELD_CAMERA_StartFreeMove(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *
         loc.distance = 0;
         loc.shift = channels->shift;
         motion->channels = loc;
-        camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateFreeMove;
+        camera->motion.callback = FIELD_CAMERA_UpdateFreeMove;
         motion->callbackArg = 0;
         motion->moving = 1;
     }
@@ -1427,7 +1427,7 @@ void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, FieldCameraMoveChannels 
             motion->frame = 0;
             motion->frames = frames;
             motion->channels = *channels;
-            camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
+            camera->motion.callback = FIELD_CAMERA_UpdateMove;
             motion->callbackArg = 0;
             motion->moving = 1;
         }
@@ -1471,7 +1471,7 @@ void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames)
             motion->channels.distance = 1;
             motion->channels.fov = 1;
             motion->channels.target = 1;
-            camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
+            camera->motion.callback = FIELD_CAMERA_UpdateMove;
             motion->callbackArg = 0;
             motion->moving = 1;
         }
@@ -1482,7 +1482,7 @@ void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames)
  * Per-frame callback of the moves above: steps the frame counter and
  * interpolates each enabled channel from the start pose toward the goal pose.
  */
-void FIELD_CAMERA_UpdateMove(FieldCamera *camera)
+void FIELD_CAMERA_UpdateMove(struct FieldCamera *camera, unsigned int unused1)
 {
     FieldCameraMotion *motion;
     FieldCameraView *from;
@@ -1526,7 +1526,7 @@ void FIELD_CAMERA_UpdateMove(FieldCamera *camera)
 }
 
 /* Per-frame callback of the free mode move: eye and target, fov and shift channels. */
-void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera)
+void FIELD_CAMERA_UpdateFreeMove(struct FieldCamera *camera, unsigned int unused1)
 {
     FieldCameraMotion *motion;
     FieldCameraView *from;

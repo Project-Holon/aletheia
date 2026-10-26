@@ -288,10 +288,10 @@ typedef void (*MIDmaCallback)(void *);
 
 typedef struct {
     int subBGExtPltt;
-    u32 objExtPlttLCDCBlk;
+    uptr objExtPlttLCDCBlk;
     int objExtPltt;
     u32 bgExtPlttLCDCOffset;
-    u32 bgExtPlttLCDCBlk;
+    uptr bgExtPlttLCDCBlk;
     int bgExtPltt;
     int subOBJExtPltt;
 } GXLoad2DState;
@@ -340,7 +340,7 @@ void GX_BeginLoadBGExtPltt(void)
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopyAsync(dmaNo - 4, (uptr)src, (uptr)dest, (unsigned int)size, callback, (uptr)arg);
+        MI_NDmaCopyAsync(dmaNo - 4, (uptr)src, (uptr)dest, (unsigned int)size, callback, arg);
     } else {
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }
@@ -434,7 +434,7 @@ void GXS_EndLoadBGExtPltt(void);
 
 void GXS_LoadBGExtPltt(const void *pSrc, u32 destSlotAddr, u32 szByte)
 {
-    GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(0x06898000 + destSlotAddr), szByte, 0, 0);
+    GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(IOREG_ADDR(0x06898000) + destSlotAddr), szByte, 0, 0);
 }
 
 void GXS_EndLoadBGExtPltt(void)
@@ -461,7 +461,7 @@ void *GXS_BeginLoadOBJExtPltt(void)
 
 void GXS_LoadOBJExtPltt(const void *pSrc, u32 destSlotAddr, u32 szByte)
 {
-    GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(0x068A0000 + destSlotAddr), szByte, 0, 0);
+    GXi_DmaCopy32Async(GXi_DmaId, pSrc, (void *)(IOREG_ADDR(0x068A0000) + destSlotAddr), szByte, 0, 0);
 }
 
 void GXS_EndLoadOBJExtPltt(void)

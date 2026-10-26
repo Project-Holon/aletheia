@@ -2,6 +2,7 @@
 #define GAME_ARM9_CLACT_H
 
 #include "../types.h"
+#include "../arm9/nns_g2d_anim_types.h"
 
 struct AnimCtrl;
 
@@ -51,8 +52,8 @@ struct ClactVec2 {
 struct ClactAnimCommand {
     u16 op;     /* 0x00 */
     u16 tag;    /* 0x02 */
-    u32 param;  /* 0x04 */
-    u32 func;   /* 0x08 */
+    void *param;            /* 0x04 */
+    AnimCallBackFunc func;  /* 0x08 */
 };
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
@@ -167,7 +168,7 @@ void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy);
 void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst);
 u16 CLACT_GetActorCharacterIndex(struct ClactActor *actor);
 u16 CLACT_GetActorPaletteIndex(struct ClactActor *actor);
-void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
+void CLACT_SetActorDrawPriority(struct ClactActor *actor, u8 priority);
 int CLACT_GetActorDrawPriority(struct ClactActor *actor);
 void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 u32 CLACT_GetActorBgPriority(struct ClactActor *actor);

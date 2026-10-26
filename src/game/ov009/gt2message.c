@@ -84,7 +84,7 @@
  *   @14988         0x021A5948  data
  */
 #include "gt2main_types.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #define SWAP16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 #include "../types.h"
@@ -93,7 +93,7 @@
 
 #include "gt2connection.h"
 #include "gt2callback.h"
-extern int gti2SendClosed(int *connection);
+extern int gti2SendClosed(GTI2Connection *connection);
 #include "gsplatformutil.h"
 #include "darray.h"
 #include "gt2buffer.h"
@@ -224,7 +224,7 @@ int gti2ConnectionCommunicationError(GTI2Connection *connection)
 
 int gti2ConnectionMemoryError(GTI2Connection *connection)
 {
-    if (gti2SendClosed((int *)connection) == 0)
+    if (gti2SendClosed(connection) == 0)
         return 0;
     return gti2ConnectionError(connection, 1, 4);
 }
@@ -384,7 +384,7 @@ int gti2HandleClientResponse(GTI2Connection *connection, unsigned char *message,
         return gti2ConnectionCommunicationError(connection) != 0;
     if (connection->socket->connectAttemptCallback == 0)
     {
-        if (!gti2SendClosed((int *)connection))
+        if (!gti2SendClosed(connection))
             return 0;
         gti2ConnectionClosed(connection);
         return 1;
@@ -407,7 +407,7 @@ int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len
     if (connection->state != 1)
         return gti2ConnectionCommunicationError(connection) != 0;
     gti2ConnectionClosed(connection);
-    if (!gti2SendClosed((int *)connection))
+    if (!gti2SendClosed(connection))
         return 0;
     if (gti2ConnectedCallback(connection, 2, message, len))
         return 1;
@@ -416,7 +416,7 @@ int gti2HandleReject(GTI2Connection *connection, unsigned char *message, int len
 
 int gti2HandleClose(GTI2Connection *connection)
 {
-    if (!gti2SendClosed((int *)connection))
+    if (!gti2SendClosed(connection))
         return 0;
     if (!gti2ConnectionError(connection, GT2Rejected,
                              (connection->state == 6) ? GT2LocalClose : GT2RemoteClose))
@@ -495,7 +495,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
             break;
     }
 
-    if (gti2GetBufferFreeSpace((int *)(&connection->incomingBuffer)) < len) {
+    if (gti2GetBufferFreeSpace(&connection->incomingBuffer) < len) {
         *overflow = 1;
         return 1;
     }
@@ -782,7 +782,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
     magicString = (actualLength > 2) && !memcmp((unsigned char *)actualMessage, (unsigned char *)gGti2PacketMagic, 2);
 
     if (!connection) {
-        if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (sptr)message, len, &handled))
+        if (!gti2UnrecognizedMessageCallback(socket, ip, port, message, len, &handled))
             return 0;
         if (handled)
             return 1;
@@ -808,7 +808,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
 
     if (connection->state == 7) {
         if (!magicString || actualMessage[2] != 0x68) {
-            if (!gti2SendClosed((int *)connection))
+            if (!gti2SendClosed(connection))
                 return 0;
         }
         return 1;
@@ -825,7 +825,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
 
     if (!magicString) {
         if (connection->state < 5) {
-            if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (sptr)message, len, &handled))
+            if (!gti2UnrecognizedMessageCallback(socket, ip, port, message, len, &handled))
                 return 0;
         } else {
             if (!gti2HandleAppUnreliable((GTI2Connection *)connection, message, len))
@@ -957,7 +957,7 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
     int freeSpace;
 
     vdpDataLength = (unsigned short)(len - connection->socket->protocolOffset);
-    freeSpace = gti2GetBufferFreeSpace((int *)(&connection->outgoingBuffer));
+    freeSpace = gti2GetBufferFreeSpace(&connection->outgoingBuffer);
     if (freeSpace < len)
         return (gti2ConnectionMemoryError(connection) == 0) ? 0 : (*overflow = 1);
     if (!gti2StoreOutgoingReliableMessageInfo(connection, connection->serialNumber,
@@ -968,9 +968,9 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
                             (unsigned char *)&vdpDataLength,
                             connection->socket->protocolOffset);
     gti2BufferWriteData(&connection->outgoingBuffer, gGti2PacketMagic, 2);
-    gti2BufferWriteByte((int *)(&connection->outgoingBuffer), (unsigned char)type);
-    gti2BufferWriteUShort((int *)(&connection->outgoingBuffer), connection->serialNumber++);
-    gti2BufferWriteUShort((int *)(&connection->outgoingBuffer), connection->expectedSerialNumber);
+    gti2BufferWriteByte(&connection->outgoingBuffer, (unsigned char)type);
+    gti2BufferWriteUShort(&connection->outgoingBuffer, connection->serialNumber++);
+    gti2BufferWriteUShort(&connection->outgoingBuffer, connection->expectedSerialNumber);
     *overflow = 0;
     return 1;
 }
@@ -1111,7 +1111,7 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
         return 1;
     }
     totalLen = len + 2;
-    freeSpace = gti2GetBufferFreeSpace((int *)(&connection->outgoingBuffer));
+    freeSpace = gti2GetBufferFreeSpace(&connection->outgoingBuffer);
     if (freeSpace < totalLen)
         return 1;
     start = connection->outgoingBuffer.buffer + connection->outgoingBuffer.len;
@@ -1200,9 +1200,9 @@ int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len)
 /*
  * Tail call on three fields of the object.
  */
-int gti2SendClosed(int *p)
+int gti2SendClosed(GTI2Connection *p)
 {
-    return gti2SendClosedOnSocket((GTI2Socket *)p[2], p[0], *(unsigned short *)((char *)p + 4));
+    return gti2SendClosedOnSocket(p->socket, p->ip, p->port);
 }
 
 /*

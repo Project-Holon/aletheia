@@ -1013,7 +1013,14 @@ struct VramNodeFlags {
 };
 
 struct VramAnim {
-    void (*fn)(void);
+    union {
+        void (*addVec)(struct RandomVecRange *o, void *s, int *dst);
+        void (*updateNode)(struct RandomVecRange *o, struct RandomVecSource *s, int *dst);
+        void (*addScaledVec)(struct ScaledVecSource *a, struct RigOffsetPair *b, volatile int *c);
+        void (*buildFrame)(struct AxisAngleKey *o, u8 *dst);
+        void (*interpTarget)(struct InterpTargetParam *a, struct InterpTrack *s, int unused, struct InterpState *c);
+        void (*lerpVec)(struct LerpSource *a, struct LerpDest *b);
+    } fn;
     void *data;
 };
 
@@ -1179,6 +1186,17 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl);
 void SPL_EMITTER_UpdateParticleMotionEx(SPLManager *mgr, SPLParticle *ptcl);
+#ifndef __MWERKS__
+static void SPL_EMITTER_UpdateParticleMotionRow(struct RigObject *o, struct RenderNode *n)
+{
+    SPL_EMITTER_UpdateParticleMotion((SPLManager *)o, (SPLParticle *)n);
+}
+
+static void SPL_EMITTER_UpdateParticleMotionExRow(struct RigObject *o, struct RenderNode *n)
+{
+    SPL_EMITTER_UpdateParticleMotionEx((SPLManager *)o, (SPLParticle *)n);
+}
+#endif
 void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s);
@@ -1196,12 +1214,12 @@ struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2
 void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
 int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc);
 int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc);
-void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
-void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);
+void SPL_EMITTER_AllocTexVramDefault(struct RigObject *rigObject);
+void SPL_EMITTER_AllocPlttVramDefault(struct RigObject *rigObject);
 void SPL_EMITTER_FreeTexNode(struct VramFreeList *h);
 void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a);
-int SPL_EMITTER_AllocResource(char *p, int b, int c);
-int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
+struct SPLEmitter *SPL_EMITTER_AllocResource(char *p, int b, const VecFx32 *c);
+struct SPLEmitter *SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 void SPL_EMITTER_FreeResource(char *p, char *q);
 void SPL_EMITTER_FreeResourceList(void *p);
 extern const VecFx16 g_020A7FEC;
@@ -2372,7 +2390,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     c1 = s->color;
     mtx = obj->mtx;
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -2412,7 +2430,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         f.m.a[9] = f.t.x;
         f.m.a[10] = f.t.y;
         f.m.a[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         G3_MultMtx43((void *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
@@ -2434,19 +2452,19 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         f.m.a[9] = f.t.x;
         f.m.a[10] = f.t.y;
         f.m.a[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(&f.m));
     }
 
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     p = obj->renderList->subList->desc;
     SPLUtil_DrawXYPlane(obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
@@ -2508,7 +2526,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     sc = obj->renderList->subList->desc->scale;
     mtx = obj->mtx;
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -2554,7 +2572,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         f.m.a[9] = f.t.x;
         f.m.a[10] = f.t.y;
         f.m.a[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         G3_MultMtx43((void *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
@@ -2576,12 +2594,12 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         f.m.a[9] = f.t.x;
         f.m.a[10] = f.t.y;
         f.m.a[11] = f.t.z;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(&f.m));
     }
 
@@ -2590,7 +2608,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     SPLUtil_DrawXYPlane(obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
@@ -3002,7 +3020,7 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -3044,12 +3062,12 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
         f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(obj->mtx));
         G3_MultMtx43((void *)(&f.m1));
     }
@@ -3059,7 +3077,7 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     p = obj->renderList->subList->desc;
     func_02054A68_Hooks2[p->flags.z.sel1]
@@ -3088,7 +3106,7 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -3130,12 +3148,12 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
         f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(obj->mtx));
         G3_MultMtx43((void *)(&f.m1));
     }
@@ -3145,7 +3163,7 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     e = 0;
     func_02054718_Hooks2[obj->renderList->subList->hw->hw.sel1]
@@ -3173,7 +3191,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -3250,12 +3268,12 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
         f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(obj->mtx));
         G3_MultMtx43((void *)(&f.m1));
     }
@@ -3265,7 +3283,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     p = obj->renderList->subList->desc;
     func_0205429C_Hooks2[p->flags.z.sel1]
@@ -3314,7 +3332,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
 
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
-    *(volatile u32 *)0x040004A4 = v;
+    *(volatile u32 *)REG_POLYGON_ATTR_ADDR = v;
     v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
@@ -3391,12 +3409,12 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         f.m1.a[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.a[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
         f.m1.a[11] = s->p1.z + s->emitterPosZ - obj->renderList->subList->desc->transZ;
-        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
         p = obj->renderList->subList->desc;
         qc = p->transZ;  q8 = p->transY;  q4 = p->transX;
-        *(volatile u32 *)0x04000470 = q4;
-        *(volatile u32 *)0x04000470 = q8;
-        *(volatile u32 *)0x04000470 = qc;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q4;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = q8;
+        *(volatile u32 *)REG_MTX_TRANS_ADDR = qc;
         G3_MultMtx43((void *)(obj->mtx));
         G3_MultMtx43((void *)(&f.m1));
     }
@@ -3406,7 +3424,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
       | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
-    *(volatile u32 *)0x04000480 = (u16)v;
+    *(volatile u32 *)REG_COLOR_ADDR = (u16)v;
 
     func_02053E1C_Hooks2[obj->renderList->subList->hw->hw.sel1]
         (obj->renderList->texS2, obj->renderList->texT2, 0, 0);
@@ -3875,7 +3893,11 @@ void SPL_EMITTER_UpdateSubB(struct RigObject *o)
         fn = SPL_EMITTER_UpdateFrame;
         break;
     case 1:
+#ifdef __MWERKS__
         fn = (Fn)SPL_EMITTER_UpdateParticleMotion; /* stand-in: the row is an SPLManager * SPLParticle handler */
+#else
+        fn = SPL_EMITTER_UpdateParticleMotionRow;
+#endif
         break;
     case 2:
         fn = SPL_EMITTER_UpdateFrameA68;
@@ -3963,7 +3985,11 @@ void SPL_EMITTER_UpdateSubX(struct RigObject *o)
         fn = SPL_EMITTER_UpdateFrameEx;
         break;
     case 1:
+#ifdef __MWERKS__
         fn = (Fn)SPL_EMITTER_UpdateParticleMotionEx; /* stand-in: the row is an SPLManager * SPLParticle handler */
+#else
+        fn = SPL_EMITTER_UpdateParticleMotionExRow;
+#endif
         break;
     case 2:
         fn = SPL_EMITTER_UpdateFrameA68Ex;
@@ -4195,12 +4221,12 @@ void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d)
             struct VramAnim *p;
             rec->anims = h->alloc(rec->nanims * sizeof(struct VramAnim));
             p = rec->anims;
-            if (fl.anim0) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddVec; off += 8; p++; }
-            if (fl.anim1) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_UpdateNode; off += 8; p++; }
-            if (fl.anim2) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
-            if (fl.anim3) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_BuildFrame; off += 4; p++; }
-            if (fl.anim4) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_InterpTarget; off += 8; p++; }
-            if (fl.anim5) { p->data = (char *)d + off; p->fn = (void (*)(void))SPL_EMITTER_LerpVec; off += 0x10; }
+            if (fl.anim0) { p->data = (char *)d + off; p->fn.addVec = SPL_EMITTER_AddVec; off += 8; p++; }
+            if (fl.anim1) { p->data = (char *)d + off; p->fn.updateNode = SPL_EMITTER_UpdateNode; off += 8; p++; }
+            if (fl.anim2) { p->data = (char *)d + off; p->fn.addScaledVec = SPL_EMITTER_AddScaledVec; off += 0x10; p++; }
+            if (fl.anim3) { p->data = (char *)d + off; p->fn.buildFrame = SPL_EMITTER_BuildFrame; off += 4; p++; }
+            if (fl.anim4) { p->data = (char *)d + off; p->fn.interpTarget = SPL_EMITTER_InterpTarget; off += 8; p++; }
+            if (fl.anim5) { p->data = (char *)d + off; p->fn.lerpVec = SPL_EMITTER_LerpVec; off += 0x10; }
         } else {
             rec->anims = 0;
         }
@@ -4306,9 +4332,9 @@ int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocTexVramDefault.c \
  *       --func SPL_EMITTER_AllocTexVramDefault --addr 0x020528BC --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_AllocTexVramDefault(u32 rigObject)
+void SPL_EMITTER_AllocTexVramDefault(struct RigObject *rigObject)
 {
-    SPL_EMITTER_AllocTexVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
+    SPL_EMITTER_AllocTexVramList(rigObject, (AllocTex)((void *)SPL_EMITTER_AllocTexVram));
 }
 
 /*
@@ -4330,9 +4356,9 @@ void SPL_EMITTER_AllocTexVramDefault(u32 rigObject)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_AllocPlttVramDefault.c \
  *       --func SPL_EMITTER_AllocPlttVramDefault --addr 0x020528A8 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject)
+void SPL_EMITTER_AllocPlttVramDefault(struct RigObject *rigObject)
 {
-    SPL_EMITTER_AllocPlttVramList((struct RigObject *)rigObject, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
+    SPL_EMITTER_AllocPlttVramList(rigObject, (AllocTex)((void *)SPL_EMITTER_AllocPlttVram));
 }
 
 /*
@@ -4457,7 +4483,7 @@ void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
 {
     struct VramHeapNode *n;
 
-    *(volatile u16 *)0x04000060 =
+    *(volatile u16 *)REG_DISP3DCNT_ADDR =
         (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8);
 
     h->userData = a;
@@ -4500,18 +4526,18 @@ void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
  *       --func SPL_EMITTER_AllocResource --addr 0x02052634 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-int SPL_EMITTER_AllocResource(char *p, int b, int c)
+struct SPLEmitter *SPL_EMITTER_AllocResource(char *p, int b, const VecFx32 *c)
 {
     void *r = 0;
 
     if (((SPLManager *)p)->inactiveEmitters.first != 0) {
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)((uptr)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)c);
+        SPL_EMITTER_SetupResource(r, (void *)((uptr)((SPLManager *)p)->resources + (b << 5)), c);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
-        if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
+        if (((SPLEmitter *)r)->resource->header->flags.selfMaintaining != 0)
             r = 0;
     }
-    return (sptr)r;
+    return r;
 }
 
 /*
@@ -4532,7 +4558,7 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
  *       --func SPL_EMITTER_AllocResourceEx --addr 0x020525A0 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
-int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
+struct SPLEmitter *SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
 {
     void *r = 0;
 
@@ -4544,10 +4570,10 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
         if (fn != 0)
             fn(r);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
-        if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
+        if (((SPLEmitter *)r)->resource->header->flags.selfMaintaining != 0)
             r = 0;
     }
-    return (sptr)r;
+    return r;
 }
 
 /*

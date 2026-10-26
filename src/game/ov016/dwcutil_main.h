@@ -6,7 +6,7 @@
 
 int DWC_StartUtility(void *work, int language, int param);
 void initGraph(void);
-void DWCi_ChangeScene(unsigned int v);
+void DWCi_ChangeScene(void (*v)(void));
 void DWCi_SetParam_(unsigned int stepParam, unsigned int buttonParam);
 void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
 void DWCi_SetParam2_(unsigned int a, unsigned int b);

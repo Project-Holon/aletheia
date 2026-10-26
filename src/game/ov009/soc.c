@@ -93,7 +93,7 @@ int SOC_Socket(int pf, int type, int protocol);
 int SOC_Bind(int s, void *sockAddr);
 int SOC_Connect(int s, void * sockAddr);
 int SOC_Recv(int s, void *buf, int len, int flags);
-int SOC_RecvFrom(int s, int buf, int len, int flags, u8 *out);
+int SOC_RecvFrom(int s, void *buf, int len, int flags, u8 *out);
 int SOC_Send(int s, void *buf, int len, int flags);
 int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo);
 int SOC_Shutdown(int s, int how);
@@ -151,13 +151,13 @@ int SOC_Recv(int s, void *buf, int len, int flags)
  * non-null destination object, write the byte-swapped halfword to +2 and the
  * byte-swapped word to +4.  Returns the callee's result.
  */
-int SOC_RecvFrom(int s, int buf, int len, int flags, u8 *sockFrom)
+int SOC_RecvFrom(int s, void *buf, int len, int flags, u8 *sockFrom)
 {
     u16 h;
     u32 w;
     int r;
 
-    r = SOCL_ReadFrom(s, (void *)buf, len, &h, (long unsigned int *)(&w), flags);
+    r = SOCL_ReadFrom(s, buf, len, &h, (long unsigned int *)(&w), flags);
     if (r < 0)
         return r;
     if (sockFrom == 0)

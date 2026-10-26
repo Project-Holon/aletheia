@@ -18,6 +18,6 @@ struct Config {
 
 /* The 0x20-byte player record.  The name is eight u16 characters; the other
  * fields are only read and written as scalars. */
-#include "mystatus_types.h"
+#include "../arm9/mystatus_types.h"
 
 #endif

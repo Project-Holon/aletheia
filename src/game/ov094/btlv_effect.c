@@ -690,7 +690,7 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFie
     BtlvEffSetup *o;
     int i = 0;
 
-    o = GFL_HEAP_Alloc((u16)((heap & 0x7fff) | 0x8000), 0x2c, 0, gBtlvEffectFileName, 0xca);
+    o = GFL_HEAP_Alloc((u16)((heap & 0x7fff) | 0x8000), sizeof(*o), 0, gBtlvEffectFileName, 0xca);
     o->mode = rule;
     o->competitor = competitor;
     o->situation = *situation;
@@ -863,7 +863,7 @@ void BTLV_EFFECT_StartEffect(u32 scriptId)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), 0x14, 1, gBtlvEffectFileName, 0x210);
+    o = GFL_HEAP_Alloc((u16)((gBtlvEff->heap & 0x7fff) | 0x8000), sizeof(*o), 1, gBtlvEffectFileName, 0x210);
     o->attackerPos = 0xff;
     o->defenderPos = 0xff;
     o->scriptId = scriptId;
@@ -879,7 +879,7 @@ void BTLV_EFFECT_StartEffectOnPoke(int attackerPos, u32 scriptId)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x22c);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, sizeof(*o), 1, gBtlvEffectFileName, 0x22c);
     o->attackerPos = attackerPos;
     o->defenderPos = 0xff;
     o->scriptId = scriptId;
@@ -895,7 +895,7 @@ void BTLV_EFFECT_StartEffectBetweenPokes(int attackerPos, int defenderPos, u32 s
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x249);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, sizeof(*o), 1, gBtlvEffectFileName, 0x249);
     o->attackerPos = attackerPos;
     o->defenderPos = defenderPos;
     o->scriptId = scriptId;
@@ -916,7 +916,7 @@ void BTLV_EFFECT_StartEffectWithRequest(const BtlvEffScriptRequest *request)
         gBtlvEff->effvmActive = 1;
         return;
     }
-    o = GFL_HEAP_Alloc(gBtlvEff->heap, 0x14, 1, gBtlvEffectFileName, 0x26b);
+    o = GFL_HEAP_Alloc(gBtlvEff->heap, sizeof(*o), 1, gBtlvEffectFileName, 0x26b);
     o->params = GFL_HEAP_Alloc(gBtlvEff->heap, 0x10, 1, gBtlvEffectFileName, 0x26c);
     o->attackerPos = request->attackerPos;
     o->defenderPos = request->defenderPos;

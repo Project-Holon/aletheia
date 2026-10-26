@@ -12,8 +12,8 @@ struct GameEvent;
 typedef struct NpcTableRow NpcTableRow;
 
 #include "../arm9/script_vm_types.h"
-#include "../types.h"
 #include "../bool_types.h"
+#include "../types.h"
 
 int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, void *scriptWork);
 int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScrcmdWork *scriptWork);
@@ -33,7 +33,7 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScrcmdWork *scrip
 int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB);
 Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *workArg);
+int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg);
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 /* END mkheaders: generated region */
 

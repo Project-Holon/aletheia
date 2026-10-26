@@ -349,8 +349,8 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->subscreenType = 0;
 
     gameData->situation = PLAYER_LOCATION_GetData(gameData->saveControl);
-    gameData->startLocation = PLAYER_LOCATION_Nop((uptr)gameData->situation);
-    gameData->entranceLocation = PLAYER_LOCATION_Nop((uptr)gameData->situation);
+    gameData->startLocation = PLAYER_LOCATION_Nop(gameData->situation);
+    gameData->entranceLocation = PLAYER_LOCATION_Nop(gameData->situation);
     gameData->specialLocation = PLAYER_LOCATION_GetLocationA(gameData->situation);
     gameData->escapeLocation = PLAYER_LOCATION_GetLocationB(gameData->situation);
 
@@ -751,17 +751,17 @@ void *GAME_DATA_GetMyItem(const struct GameData *gd);
 
 void *GAME_DATA_GetMyParty(const struct GameData *gd);
 
-u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
+void *GAME_DATA_GetBoxManager(const struct GameData *gd);
 
 struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId);
 
-u32 GAME_DATA_GetBagCursor(const struct GameData *gd);
+struct BgmInfoTable *GAME_DATA_GetBagCursor(const struct GameData *gd);
 
 void *GAME_DATA_GetOccupyInfo(const struct GameData *gd);
 
 void *GAME_DATA_GetEventWork(const struct GameData *gd);
 
-u32 GAME_DATA_GetFieldWork(const struct GameData *gd);
+struct MapMatrix *GAME_DATA_GetFieldWork(const struct GameData *gd);
 
 u32 GAME_DATA_GetMusicalWork(const struct GameData *gd);
 
@@ -797,7 +797,7 @@ u32 GAME_DATA_GetLastBattleResult(const struct GameData *gd);
 
 void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value);
 
-u32 GAME_DATA_GetItemUseWork(const struct GameData *gd);
+struct BeaconStatus *GAME_DATA_GetItemUseWork(const struct GameData *gd);
 
 void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, const struct PlayerPosition *pos);
 
@@ -1007,9 +1007,9 @@ void *GAME_DATA_GetMyParty(const struct GameData *gd)
     return gd->myParty;
 }
 
-u32 GAME_DATA_GetBoxManager(const struct GameData *gd)
+void *GAME_DATA_GetBoxManager(const struct GameData *gd)
 {
-    return (uptr)gd->boxManager;
+    return gd->boxManager;
 }
 
 struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd)
@@ -1022,9 +1022,9 @@ struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId)
     return &gd->playerWork[playerId].status;
 }
 
-u32 GAME_DATA_GetBagCursor(const struct GameData *gd)
+struct BgmInfoTable *GAME_DATA_GetBagCursor(const struct GameData *gd)
 {
-    return (uptr)gd->bagCursor;
+    return gd->bagCursor;
 }
 
 void *GAME_DATA_GetOccupyInfo(const struct GameData *gd)
@@ -1037,9 +1037,9 @@ void *GAME_DATA_GetEventWork(const struct GameData *gd)
     return gd->eventWork;
 }
 
-u32 GAME_DATA_GetFieldWork(const struct GameData *gd)
+struct MapMatrix *GAME_DATA_GetFieldWork(const struct GameData *gd)
 {
-    return (uptr)gd->fieldWork;
+    return gd->fieldWork;
 }
 
 u32 GAME_DATA_GetMusicalWork(const struct GameData *gd)
@@ -1133,9 +1133,9 @@ void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value)
     gd->lastBattleResult = value;
 }
 
-u32 GAME_DATA_GetItemUseWork(const struct GameData *gd)
+struct BeaconStatus *GAME_DATA_GetItemUseWork(const struct GameData *gd)
 {
-    return (uptr)gd->itemUseWork;
+    return gd->itemUseWork;
 }
 
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player)
@@ -1533,11 +1533,7 @@ int GAME_DATA_SaveStart(struct GameData *gd)
     GAME_DATA_WriteToSave(gd);
     WIH_DWC_PauseTimers();
     gd->isSaving = 1;
-#ifdef __MWERKS__
-    UI_SetSoftResetInhibitGlobal(2, 1);
-#else
     UI_SetSoftResetInhibitGlobal(2);
-#endif
     return SAVE_CONTROL_StartSave(gd->saveControl);
 }
 

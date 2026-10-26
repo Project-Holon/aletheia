@@ -8,7 +8,7 @@
 
 int gpiInitialize(void **connection, int productID, int namespaceID, int partnerID);
 void gpiDestroy(void **connection);
-int gpiResetProfile(int unused, GPIProfile *profile);
+int gpiResetProfile(void *unused, GPIProfile *profile, void *unused3);
 int gpiReset(GPConnection *connection);
 int gpiProcessConnectionManager(void **connection);
 int gpiProcess(void **connection, int blockingOperationID);

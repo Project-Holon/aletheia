@@ -8,10 +8,11 @@ struct TwlMsg;
 typedef struct TwlMsg TwlMsg;
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, u32 protocol);
-u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol);
-void NWMi_ReceivingFrameCallback(TwlMsg *msg);
+u32 NWM_SetReceivingFrameBuffer(NWMCallbackFunc callback, void *recvBuf, u32 recvBufSize, u32 protocol);
+u32 NWM_UnsetReceivingFrameBuffer(NWMCallbackFunc callback, u32 protocol);
+void NWMi_ReceivingFrameCallback(void *arg);
 /* END mkheaders: generated region */
 
 #endif

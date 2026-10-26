@@ -95,7 +95,7 @@ struct Ov208PalTbl {
 
 extern void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *);
 
-extern void ZUKAN_DETAIL_HEADBAR_NoOp(void *);
+extern void ZUKAN_DETAIL_HEADBAR_NoOp(struct TcbTask *p, void *unused1);
 
 
 extern void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *);
@@ -130,7 +130,7 @@ struct GfFont;
 
 
 
-struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
+struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,struct GfFont *arg);
 
 void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m);
 
@@ -144,7 +144,7 @@ void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 
 void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_NoOp(void *p);
+void ZUKAN_DETAIL_HEADBAR_NoOp(struct TcbTask *p, void *unused1);
 
 void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g);
 
@@ -160,16 +160,16 @@ extern const char d_021C8DFC[];
 
 extern const struct Ov208PalTbl data_021C84F4;
 
-struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
+struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,struct GfFont *arg)
 {
-    struct Ov208Icon *p=GFL_HEAP_Alloc(heap,0x34,1,d_021C8DFC,120);
+    struct Ov208Icon *p=GFL_HEAP_Alloc(heap,sizeof(struct Ov208Icon),1,d_021C8DFC,120);
     p->heap=heap;p->font=arg;p->state=0;p->kind=5;
     BG_SYS_ChangeScrollImmediate(5,3,24);
     BG_SYS_SetPriority(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     ZUKAN_DETAIL_HEADBAR_DrawIcon(p);
-    p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZUKAN_DETAIL_HEADBAR_NoOp),(void *)((uptr)p),1);
-    p->queue=(uptr)PRINTSYS_QUE_Create((unsigned int)(unsigned)p->heap);
+    p->task=GFL_USE_AddMainTask(ZUKAN_DETAIL_HEADBAR_NoOp,(void *)((uptr)p),1);
+    p->queue=PRINTSYS_QUE_Create((unsigned int)(unsigned)p->heap);
     p->dirty=0;
     return p;
 }
@@ -179,9 +179,9 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
  */
 void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m)
 {
-    PRINTSYS_QUE_Clear((void *)m->queue);
-    PRINTSYS_QUE_Delete((struct PrintQueue *)m->queue);
-    TCB_DeleteTask((struct TcbTask *)m->task);
+    PRINTSYS_QUE_Clear(m->queue);
+    PRINTSYS_QUE_Delete(m->queue);
+    TCB_DeleteTask(m->task);
     ZUKAN_DETAIL_HEADBAR_ClearIcon(m);
     ZUKAN_DETAIL_HEADBAR_DeleteWindows(m);
     GFL_HEAP_Free(m);
@@ -210,7 +210,7 @@ void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
         break;
     }
     ZUKAN_DETAIL_HEADBAR_FlushIcon(p);
-    PRINTSYS_QUE_Main((struct PrintQueue *)p->queue);
+    PRINTSYS_QUE_Main(p->queue);
 }
 
 void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind)
@@ -241,7 +241,7 @@ void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p)
     }
 }
 
-void ZUKAN_DETAIL_HEADBAR_NoOp(void *p)
+void ZUKAN_DETAIL_HEADBAR_NoOp(struct TcbTask *p, void *unused1)
 {
 }
 
@@ -250,9 +250,9 @@ void ZUKAN_DETAIL_HEADBAR_NoOp(void *p)
  */
 void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
 {
-    g->window = (uptr)BMP_WIN_Create((unsigned int)5, (unsigned int)0, (unsigned int)0, 0x10, 1, 13, 0);
-    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)g->window)), 0);
-    BMP_WIN_TransferChars((struct BmpWin *)g->window);
+    g->window = BMP_WIN_Create((unsigned int)5, (unsigned int)0, (unsigned int)0, 0x10, 1, 13, 0);
+    BMP_Clear(BMP_WIN_GetBmp(g->window), 0);
+    BMP_WIN_TransferChars(g->window);
     g->bmp = BMP_CreateFromArchive(0x9f, 14, 0, g->heap);
     g->size = BMP_GetByteSize(g->bmp);
     g->tile = BG_SYS_CreateTileRun(5, BMP_GetPixels(g->bmp), g->size);
@@ -265,15 +265,15 @@ void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
 {
     MSGDATA_Delete((struct MsgBank *)p->msg);
     BG_SYS_FreeTileRun(5, p->tile, p->size);
-    BMP_Delete((struct Bmp *)p->bmp);
-    BMP_WIN_Delete((struct BmpWin *)p->window);
+    BMP_Delete(p->bmp);
+    BMP_WIN_Delete(p->window);
 }
 
 void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
 {
     struct Ov208PalTbl pal;
     void *h;
-    uptr s;
+    struct Strbuf *s;
 
     if (p->kind < 0 || p->kind >= 5)
         return;
@@ -284,9 +284,9 @@ void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p)
     h = BMP_CreateFromArchive(0x9f, 0xe, 0, p->heap);
     BMP_CopyPixels((const struct Bmp *)h, (struct Bmp *)p->bmp);
     BMP_Delete(h);
-    s = (uptr)MSGDATA_AllocString(p->msg, p->kind + 0xb2);
-    PRINTSYS_PrintQueColor((void *)p->queue, p->bmp, 0x18, 5, (struct Strbuf *)s, (struct GfFont *)p->font, 0x3dc0);
-    STRBUF_Delete((struct Strbuf *)s);
+    s = MSGDATA_AllocString(p->msg, p->kind + 0xb2);
+    PRINTSYS_PrintQueColor(p->queue, p->bmp, 0x18, 5, s, p->font, 0x3dc0);
+    STRBUF_Delete(s);
     p->dirty = 1;
     ZUKAN_DETAIL_HEADBAR_FlushIcon(p);
 }
@@ -297,8 +297,8 @@ void ZUKAN_DETAIL_HEADBAR_ClearIcon()
 
 void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
-    if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)p->queue, (void *)p->bmp) == 0) {
-        BG_SYS_LoadTileData(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
+    if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget(p->queue, p->bmp) == 0) {
+        BG_SYS_LoadTileData(5, BMP_GetPixels(p->bmp), p->size, p->tile);
         BG_SYS_MarkTileDirty(5);
         p->dirty = 0;
     }

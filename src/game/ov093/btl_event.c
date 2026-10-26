@@ -350,7 +350,7 @@ void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { B
 
 void BTL_EVENT_ClearFactor(struct BtlEventFactor *factor)
 {
-    MI_CpuFill8(factor, 0, 0x3c);
+    MI_CpuFill8(factor, 0, sizeof(*factor));
 }
 
 void BTL_EVENT_ResetVarStack(void) { struct BtlEventVarStack *stack = &gBtlEventVarStack; unsigned int i; stack->frameTop = 0; for (i = 0; i < BTL_EVENT_VAR_MAX; i++) stack->keys[i] = 0; }

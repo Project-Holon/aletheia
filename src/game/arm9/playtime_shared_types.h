@@ -1,7 +1,7 @@
 #ifndef PLAYTIME_SHARED_TYPES_H
 #define PLAYTIME_SHARED_TYPES_H
 
-#include "config_shared_types.h"
+#include "../arm9/config_shared_types.h"
 
 /* The packed date and time is a nested struct, not bitfields in PlayTime:
  * PLAYTIME_GetStamp and PLAYTIME_SetStamp move it as one ldr/str pair. */

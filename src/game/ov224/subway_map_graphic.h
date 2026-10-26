@@ -6,6 +6,7 @@
 
 struct Proc;
 struct TcbTask;
+struct DispVramCfg;
 
 #include "../types.h"
 
@@ -29,7 +30,7 @@ void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p);
 void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap);
-void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p);
+void SUBWAY_MAP_GRAPHIC_DeleteCamera(void **p);
 /* END mkheaders: generated region */
 
 #endif

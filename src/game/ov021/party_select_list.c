@@ -203,7 +203,7 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
 
     if (firstParty == 0 || secondParty == 0)
         GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
-    list = GFL_HEAP_Alloc(heapId, 0xc4, 1, (char *)d_021DE5C0, 0xd3);
+    list = GFL_HEAP_Alloc(heapId, sizeof(*list), 1, (char *)d_021DE5C0, 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
     list->party[1] = secondParty;
@@ -575,7 +575,7 @@ void PARTY_SELECT_LIST_CreateMenu(PartySelectList *list)
 
     items = FIELD_MSGBG_CreateMenuItemsFromTable(d_021DB414, 3, list->msgData, list->heapId);
     list->menu = FIELD_MSGBG_CreateMenuFuncCallback(list->msgBg, &d_021DB42C, items, 0, 0,
-        (uptr)PARTY_SELECT_LIST_MenuMoveCallback, (uptr)PARTY_SELECT_LIST_MenuSelectCallback, (uptr)list);
+        (uptr)PARTY_SELECT_LIST_MenuMoveCallback, (uptr)PARTY_SELECT_LIST_MenuSelectCallback, list);
 }
 
 
@@ -604,7 +604,7 @@ u32 PARTY_SELECT_LIST_GetMenuResult(PartySelectList *list)
  */
 void PARTY_SELECT_LIST_MenuMoveCallback(struct BmpMenuList *menu, u32 sel)
 {
-    PartySelectList *list = (PartySelectList *)BMP_MENULIST_GetUserData(menu);
+    PartySelectList *list = BMP_MENULIST_GetUserData(menu);
     if (sel < 2)
         PARTY_SELECT_LIST_ShowParty(list, sel);
     else
@@ -614,7 +614,7 @@ void PARTY_SELECT_LIST_MenuMoveCallback(struct BmpMenuList *menu, u32 sel)
 
 void PARTY_SELECT_LIST_MenuSelectCallback(struct BmpMenuList *menu, int k)
 {
-    PartySelectList *list = (PartySelectList *)BMP_MENULIST_GetUserData(menu);
+    PartySelectList *list = BMP_MENULIST_GetUserData(menu);
 
     if (k == 0 && list->sideFlagFirst == 1) {
         BMP_MENULIST_SetOverrideColors(menu, 1, 0, 2);

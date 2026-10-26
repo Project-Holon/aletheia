@@ -164,7 +164,7 @@ void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u
 
 void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex);
 
-void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source);
+void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId);
 
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex);
 
@@ -280,7 +280,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     struct WordSet *words;
     u32 slot = 0;
 
-    words = GFL_HEAP_Alloc(heapId, 0x10, 0, gWordsetFileName, 0x9F);
+    words = GFL_HEAP_Alloc(heapId, sizeof(*words), 0, gWordsetFileName, 0x9F);
     if (words == 0) {
         goto fail;
     }
@@ -290,7 +290,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     if (words->scratch == 0) {
         goto fail;
     }
-    words->slots = GFL_HEAP_Alloc(heapId, slotCount * 0xc, slot, gWordsetFileName, 0xA8);
+    words->slots = GFL_HEAP_Alloc(heapId, slotCount * sizeof(*words->slots), slot, gWordsetFileName, 0xA8);
     if (words->slots == 0) {
         goto fail;
     }
@@ -675,9 +675,9 @@ void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex)
     WORDSET_SetSlotFromMessage(words, slot, 0xBF, entryIndex);
 }
 
-void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source)
+void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId)
 {
-    WORDSET_SetSlotFromMsgBF(words, slot, (u8)TPOKE_DATA_GetRecordField(source, 1));
+    WORDSET_SetSlotFromMsgBF(words, slot, (u8)TPOKE_DATA_GetRecordField(trainerId, 1));
 }
 
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex)

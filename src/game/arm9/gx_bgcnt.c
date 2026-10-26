@@ -72,7 +72,7 @@ void *G2_GetBG0ScrPtr(void)
 
 void *G2S_GetBG0ScrPtr(void)
 {
-    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x1f00) >> 8) << 11) + HW_DB_BG_VRAM);
 }
 
 static inline int GetBG1ScreenBase(void)
@@ -93,7 +93,7 @@ void *G2_GetBG1ScrPtr(void)
 
 void *G2S_GetBG1ScrPtr(void)
 {
-    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x1f00) >> 8) << 11) + HW_DB_BG_VRAM);
 }
 
 /*
@@ -232,7 +232,7 @@ void *G2_GetBG0CharPtr(void)
 
 void *G2S_GetBG0CharPtr(void)
 {
-    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x3c) >> 2) << 14) + HW_DB_BG_VRAM);
 }
 
 static inline int GetBG1CharBase(void)
@@ -253,7 +253,7 @@ void *G2_GetBG1CharPtr(void)
 
 void *G2S_GetBG1CharPtr(void)
 {
-    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
+    return (void *)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x3c) >> 2) << 14) + HW_DB_BG_VRAM);
 }
 
 /*

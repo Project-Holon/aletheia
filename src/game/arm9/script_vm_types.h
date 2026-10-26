@@ -29,7 +29,7 @@ typedef struct ScriptVm {
     u8 pad0F;
     ScriptWaitFn wait;           /* 0x10 */
     u8 *pc;                      /* 0x14: script cursor */
-    u32 *stack;                  /* 0x18 */
+    uptr *stack;                 /* 0x18: u32 entries on the DS, pointer-wide on the host (return addresses) */
     u32 *ring;                   /* 0x1C: register file */
     void *user;                  /* 0x20 */
     ScriptHookFn hook;           /* 0x24 */

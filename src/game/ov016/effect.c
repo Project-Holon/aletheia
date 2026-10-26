@@ -162,7 +162,7 @@ bool DWCi_EFFlWait(int frame)
 
     if (prm->active != 0)
         return 0;
-    prm->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskWait, prm, 0xc8);
+    prm->task = DWCi_TSKlForm(1, taskWait, prm, 0xc8);
     prm->count = 0;
     prm->max = frame;
     prm->active = 1;

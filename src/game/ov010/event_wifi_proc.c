@@ -121,6 +121,7 @@ struct FieldSubscreen;
 
                                       
 #include "../ov021/fieldmap.h"
+#include "../arm9/procsys.h"
 
 extern unsigned char ov020_id[];
 
@@ -130,7 +131,7 @@ extern u8 ov122_id[];
 
 extern u8 ov172_id[];
 
-extern u8 d_021D5764[];
+extern const ProcData d_021D5764;
 
 extern u8 d_021C7240[];
 
@@ -142,7 +143,7 @@ void EVENT_WIFI_PROC_LoadOv020(void);
 
 void EVENT_WIFI_PROC_UnloadOv020(void);
 
-int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg);
+int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, int *seq, void *workArg);
 
 struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
 
@@ -213,7 +214,7 @@ void EVENT_WIFI_PROC_UnloadOv020(void)
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg)
+int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, int *seq, void *workArg)
 {
     WifiProcWork *work = workArg;
     struct GameSystem *gameSystem = work->gameSystem;
@@ -233,7 +234,7 @@ int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg)
     case 2:
         (*seq)++;
     case 3:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov122_id, d_021D5764, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov122_id, &d_021D5764, work);
         (*seq)++;
         break;
     case 4:
@@ -314,9 +315,9 @@ struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct F
 
     FIELDMAP_GetSubscreen(fieldMap);
     if (createNew != 0) {
-        event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFI_PROC_EventMain, 0x34);
+        event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFI_PROC_EventMain, sizeof(WifiProcWork));
     } else {
-        GAME_EVENT_Change(event, EVENT_WIFI_PROC_EventMain, 0x34);
+        GAME_EVENT_Change(event, EVENT_WIFI_PROC_EventMain, sizeof(WifiProcWork));
     }
     work = GAME_EVENT_GetWork(event);
     gameData = GAMESYSTEM_GetGameData(gameSystem);

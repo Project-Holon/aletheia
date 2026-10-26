@@ -273,7 +273,7 @@ PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk)
 {
     PStaSkillWork *work;
     u8 i;
-    work=GFL_HEAP_Alloc(wk->heapId,296,0,P_STA_SKILL_FileName,315);
+    work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaSkillWork),0,P_STA_SKILL_FileName,315);
     work->isOpen=0;
     work->statsPrintPending=0;
     work->movePrintPending=0;
@@ -458,7 +458,7 @@ void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *work)
 {
     u8 i;
     for(i=0;i<STA_SKILL_WIN_MAX;i++) {
-        *(struct BmpWin **)((u8 *)work->win+i*4)=BMP_WIN_Create(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
+        *(struct BmpWin **)((u8 *)work->win+i*(int)sizeof(struct BmpWin *))=BMP_WIN_Create(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
     }
     BMP_WIN_SetPalette(work->win[STA_SKILL_WIN_HP_BAR],13);
     P_STA_SKILL_PrintStatsPage(wk,work);
@@ -472,7 +472,7 @@ void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *work)
 void P_STA_SKILL_ShowStatsPage(PStatusWork *wk, PStaSkillWork *work)
 {
     u8 i;
-    BG_SYS_DrawTileEx(2,0,0,32,24,(const void *)((uptr)work->bgScrnData+12),0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,(const u8 *)work->bgScrnData+12,0,0,32,32);
     BG_SYS_MarkTileDirty(2);
     P_STA_SKILL_ApplyStatsScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
@@ -524,7 +524,7 @@ void P_STA_SKILL_ApplyStatsScreen(PStatusWork *wk, PStaSkillWork *work)
     }
     BG_SYS_DecodeTile(6,(const void *)((u8 *)work->statsPlttData+12),((StaGraphicsFile *)work->statsPlttData)->dataSize);
     BG_SYS_MarkTileDirty(6);
-    BG_SYS_DrawTileEx(5,0,0,32,3,(const void *)((uptr)work->statsScrnData+12),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(const u8 *)work->statsScrnData+12,0,0,32,32);
     BG_SYS_MarkTileDirty(5);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,1);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,0);
@@ -563,7 +563,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     BG_SYS_PushTileSource(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize,0);
     BG_SYS_DecodeTile(6,(const void *)((u8 *)work->movesPlttData+12),((StaGraphicsFile *)work->movesPlttData)->dataSize);
     BG_SYS_MarkTileDirty(6);
-    BG_SYS_DrawTileEx(5,0,0,32,3,(const void *)((uptr)((u8 *)work->movesScrnData+12)),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(const void *)(((u8 *)work->movesScrnData+12)),0,0,32,32);
     BG_SYS_MarkTileDirty(5);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,0);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,1);
@@ -605,7 +605,7 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     struct WordSet *words;
     u32 abilityId;
     void *abilityNameBank,*abilityDescBank,*str;
-    pp=(void *)P_STATUS_GetPokeParaSource(wk);
+    pp=P_STATUS_GetPokeParaSource(wk);
     nature=POKE_TOOL_GetPartyValue(pp,112,0);
     one=1;
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],110,25,one,15424);
@@ -663,7 +663,7 @@ void P_STA_SKILL_DrawHpBar(PStatusWork *wk, PStaSkillWork *work) {
     u16 maxHp,curHp;
     int barColor,barPixels;
     u8 firstRow,lastRow;
-    pp=(void *)P_STATUS_GetPokeParaSource(wk);
+    pp=P_STATUS_GetPokeParaSource(wk);
     maxHp=POKE_TOOL_GetPartyValue(pp,161,0);
     curHp=POKE_TOOL_GetPartyValue(pp,160,0);
     barColor=BGWINFRM_GetScaleRank(curHp,maxHp);
@@ -741,14 +741,14 @@ void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *work)
     u8 i;
     StaOamBitmapDesc desc;
     for(i=0;i<STA_SKILL_WIN_MAX;i++) {
-        *(struct BmpWin **)((u8 *)work->win+i*4)=BMP_WIN_Create(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
+        *(struct BmpWin **)((u8 *)work->win+i*(int)sizeof(struct BmpWin *))=BMP_WIN_Create(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
     }
     BMP_WIN_SetPalette(work->win[STA_SKILL_WIN_HP_BAR],13);
     P_STA_SKILL_RefreshMoveDetail(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_InitSlotText(wk,work,&work->slot[i]);
     if(work->slotCount==STA_SKILL_SLOT_MAX) {
         work->giveUpBmp=BMP_Create(11,4,32,wk->heapId);
-        P_STATUS_PrintMsg(wk,(sptr)work->giveUpBmp,193,5,9,1088);
+        P_STATUS_PrintMsg(wk,work->giveUpBmp,193,5,9,1088);
         desc.x=32;
         desc.y=160;
         desc.plttRes=wk->objRes[8];
@@ -772,7 +772,7 @@ void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *work)
  */
 void P_STA_SKILL_ShowMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     u8 i;
-    BG_SYS_DrawTileEx(2,0,0,32,24,(const void *)((uptr)work->bgScrnData+12),0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,(const u8 *)work->bgScrnData+12,0,0,32,32);
     BG_SYS_MarkTileDirty(2);
     P_STA_SKILL_ApplyMovesScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
@@ -1406,18 +1406,18 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
     STRBUF_Delete(str);
     MSGDATA_Delete((struct MsgBank *)nameBank);
     if(moveId!=0) {
-        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,135,13,17,1088);
+        P_STATUS_PrintMsg(wk,slot->nameBmp,135,13,17,1088);
         ppWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(ppWords,0,curPP,3,1,1);
-        P_STATUS_PrintWordSetMsgRight(wk,(sptr)slot->nameBmp,ppWords,136,57,17,1088);
+        P_STATUS_PrintWordSetMsgRight(wk,slot->nameBmp,ppWords,136,57,17,1088);
         WORDSET_Delete(ppWords);
-        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,117,57,17,1088);
+        P_STATUS_PrintMsg(wk,slot->nameBmp,117,57,17,1088);
         maxPPWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(maxPPWords,0,maxPP,3,1,1);
-        P_STATUS_PrintWordSetMsg(wk,(sptr)slot->nameBmp,maxPPWords,141,61,17,1088);
+        P_STATUS_PrintWordSetMsg(wk,slot->nameBmp,maxPPWords,141,61,17,1088);
         WORDSET_Delete(maxPPWords);
     } else {
-        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,153,49,17,1088);
+        P_STATUS_PrintMsg(wk,slot->nameBmp,153,49,17,1088);
     }
     desc.x=(P_STA_SKILL_SlotTilePos[slot->index][0]+5)*8;
     desc.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8;

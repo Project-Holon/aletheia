@@ -122,7 +122,7 @@ extern u8 gAosslinkBlock2[96];
 extern struct OSMessageQueue gAosslinkEventQueue;
 
 static void Set_WLLA_LINK_STAT(unsigned long *link, struct WMBssDesc *bd, unsigned long stat);
-static void aoss_apc_callback(void *event);
+static void aoss_apc_callback(int event, void *arg);
 static void alarmCallback(void *event);
 
 void Set_WLLA_BSS_INFO(struct WMBssDesc *bd, struct wlla_bss_info *bi)
@@ -174,9 +174,9 @@ static void Set_WLLA_LINK_STAT(unsigned long *link, struct WMBssDesc *bd, unsign
     Set_WLLA_BSS_INFO(bd, (struct wlla_bss_info *)(link + 1));
 }
 
-static void aoss_apc_callback(void *event)
+static void aoss_apc_callback(int event, void *arg)
 {
-    OS_SendMessage(&gAosslinkEventQueue, event, 0);
+    OS_SendMessage(&gAosslinkEventQueue, (void *)(uptr)event, 0);
 }
 
 static void alarmCallback(void *event)
@@ -201,7 +201,7 @@ int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *))
     aosslink_bss.aoss_workbuffer = aosslink_bss.AOSSi_Alloc(0x5890);
     if (aosslink_bss.aoss_workbuffer == 0)
         return -1;
-    if (APC_Init((void (*)(int, void *))aoss_apc_callback, aosslink_bss.aoss_workbuffer, 0x5890) == 0)
+    if (APC_Init(aoss_apc_callback, aosslink_bss.aoss_workbuffer, 0x5890) == 0)
         loop_flag = 0;
     while (loop_flag) {
         OS_ReceiveMessage(&aoss_mq, &msg, 1);

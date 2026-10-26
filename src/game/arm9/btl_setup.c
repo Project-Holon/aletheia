@@ -172,7 +172,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
 
 void BTL_SETUP_SetupTrainerBase(struct BattleSetupParam *param, struct GameData *gd, u32 rule, const struct FieldSituation *sit, u16 heap);
 
-void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, u32 netHandle, u8 commPos, u8 netId, u16 heap);
+void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u16 heap);
 
 void BTL_SETUP_SetupDemo(struct BattleSetupParam *param, struct GameData *gd, struct Party *enemyParty, struct Party *partnerParty, const struct FieldSituation *sit, u16 heap);
 
@@ -188,17 +188,17 @@ void BTL_SETUP_SetupTrainerTag(struct BattleSetupParam *param, struct GameData *
 
 void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap);
 
-void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap);
 
-void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u16 heap);
+void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u16 heap);
 
-void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap);
+void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap);
 
-void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap);
 
 void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd, u16 heap);
 
@@ -216,7 +216,7 @@ void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
 struct BattleSetupParam *BTL_SETUP_Create(u32 heap)
 {
     struct BattleSetupParam *param;
-    param = GFL_HEAP_Alloc(heap, 0xf0, 0, sBtlSetupFileName, 0x31);
+    param = GFL_HEAP_Alloc(heap, sizeof(*param), 0, sBtlSetupFileName, 0x31);
     BTL_SETUP_Clear(param);
     return param;
 }
@@ -234,7 +234,7 @@ void BTL_SETUP_Delete(struct BattleSetupParam *param)
  */
 void BTL_SETUP_Clear(struct BattleSetupParam *param)
 {
-    MI_CpuFill8(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, sizeof(*param));
     BTL_SETUP_InitFieldSituation(&param->fieldSituation);
 }
 
@@ -258,7 +258,7 @@ void BTL_SETUP_FreeSlots(struct BattleSetupParam *param)
     }
     if (param->recordBuffer != 0)
         GFL_HEAP_Free(param->recordBuffer);
-    MI_CpuFill8(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, sizeof(*param));
 }
 
 /*
@@ -405,7 +405,7 @@ void BTL_SETUP_InitFieldSituation(struct FieldSituation *sit)
 struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap)
 {
     struct BattleTrainerData *tr;
-    tr = GFL_HEAP_Alloc(heap, 0x28, 1, sBtlSetupFileName, 0xef);
+    tr = GFL_HEAP_Alloc(heap, sizeof(*tr), 1, sBtlSetupFileName, 0xef);
     tr->name = STRBUF_Create(0x10, heap);
     tr->trainerId = 0;
     PMSI_PARAM_ClearSentence((struct PmsData *)tr->winWord);
@@ -637,7 +637,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     s32 pos;
     struct Party *enemy;
     u32 count;
-    uptr box;
+    void *box;
     BTL_SETUP_Clear(param);
     BTL_SETUP_InitCommon(param, gd, sit);
     BTL_SETUP_SetPlayerParty(param, gd, heap);
@@ -655,7 +655,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     box = GAME_DATA_GetBoxManager(gd);
     tray = 0;
     pos = 0;
-    if (BOX_SAVEDATA_FindFreeSlot((struct GameData *)box, &tray, &pos) == 0) {
+    if (BOX_SAVEDATA_FindFreeSlot(box, &tray, &pos) == 0) {
         BTL_SETUP_SetStatusFlag(param, 0x40);
     }
 }
@@ -687,7 +687,7 @@ void BTL_SETUP_SetupTrainerBase(struct BattleSetupParam *param, struct GameData 
  * as in the image. docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-
  * stays-behind-a-spill-store.md is the same lever.
  */
-void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, u32 netHandle, u8 commPos, u8 netId, u16 heap)
+void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u32 rule, u8 multiMode, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u16 heap)
 {
     struct FieldSituation sit;
     u32 i;
@@ -699,7 +699,7 @@ void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u3
     BTL_SETUP_SetPlayerParty(param, gd, heap);
     param->competitor = 3;
     param->rule = rule;
-    param->netHandle = (struct GFLNetHandle *)(uptr)netHandle;
+    param->netHandle = netHandle;
     param->commPos = commPos;
     param->multiMode = multiMode;
     param->netId = netId;
@@ -898,9 +898,9 @@ void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommSingle.c \
  *       --func BTL_SETUP_SetupCommSingle --addr 0x02013790 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
+void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID(netHandle);
     BTL_SETUP_SetupComm(param, gd, 0, 0, netHandle, commPos, netId, heap);
 }
 
@@ -912,9 +912,9 @@ void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommDouble.c \
  *       --func BTL_SETUP_SetupCommDouble --addr 0x020137C0 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
+void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID(netHandle);
     BTL_SETUP_SetupComm(param, gd, 1, 0, netHandle, commPos, netId, heap);
 }
 
@@ -927,7 +927,7 @@ void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommMulti.c \
  *       --func BTL_SETUP_SetupCommMulti --addr 0x020137F0 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u16 heap)
+void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u16 heap)
 {
     BTL_SETUP_SetupComm(param, gd, 1, 1, netHandle, commPos, netId, heap);
 }
@@ -964,7 +964,7 @@ void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *g
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommAiMulti.c \
  *       --func BTL_SETUP_SetupCommAiMulti --addr 0x02013810 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap)
+void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap)
 {
     BTL_SETUP_SetupComm(param, gd, 1, 2, netHandle, commPos, netId, heap);
     param->competitor = 1;
@@ -980,9 +980,9 @@ void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData 
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommTriple.c \
  *       --func BTL_SETUP_SetupCommTriple --addr 0x02013864 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
+void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID(netHandle);
     BTL_SETUP_SetupComm(param, gd, 2, 0, netHandle, commPos, netId, heap);
 }
 
@@ -994,9 +994,9 @@ void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *
  *   python tools/match.py one --src src/matched/BTL_SETUP_SetupCommRotation.c \
  *       --func BTL_SETUP_SetupCommRotation --addr 0x02013894 --cc 1.1p1 --thumb
  */
-void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
+void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, struct GFLNetHandle *netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID(netHandle);
     BTL_SETUP_SetupComm(param, gd, 3, 0, netHandle, commPos, netId, heap);
 }
 
@@ -1005,7 +1005,7 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
     u32 i;
     struct Config *config;
     struct Config *copy;
-    MI_CpuFill8(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, sizeof(*param));
     for (i = 0; i < 4; i++) {
         param->party[i] = POKEPARTY_Create(heap);
         param->playerStatus[i] = MYSTATUS_Create(heap);

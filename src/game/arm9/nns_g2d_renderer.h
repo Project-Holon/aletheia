@@ -38,8 +38,8 @@ void NNS_G2dPopMtx(int n);
 void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z);
 void NNS_G2dScale(fx32 x, fx32 y, fx32 z);
 void NNS_G2dRotZ(fx32 sin, fx32 cos);
-int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
-void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
+void *NNSi_G2dGetCurrentInstanceVramHandle(NNSG2dRendererInstance *p);
+void NNSi_G2dSetRndCoreImageProxyVeneer(NNSG2dRndCoreInstance *pRnd, NNSG2dImageProxy *pImgProxy, NNSG2dPaletteProxy *pPltProxy);
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 /* END mkheaders: generated region */
 

@@ -11,6 +11,7 @@ struct GFLNetSession;
 
 /* Callback that gets the session's user argument (the caller's work pointer). */
 typedef void (*GFLNetUserFunc)(void *userArg);
+typedef void (*NetStateExitFunc)(void);
 
 /* Limits of the handle table (assert strings "netID < GFL_NET_HANDLE_MAX" and
  * "netID!=GFL_NET_NETID_SERVER" in net_handle.c). */
@@ -63,16 +64,16 @@ typedef struct GFLNetInitializeStruct {
     u32  (*negotiationFunc)(void *userArg);
     u32  (*negotiationSizeFunc)(void *userArg);
     void *(*getBeaconDataFunc)(void *arg);
-    void *(*getBeaconSizeFunc)(void *arg);
-    int  (*compareBeaconFunc)(u8 gameKind, u8 beaconKind, u32 userData);
+    int  (*getBeaconSizeFunc)(void *arg);
+    int  (*compareBeaconFunc)(u8 gameKind, u8 beaconKind, void *userData);
     void (*stateChangeFunc)(u32 handle, u32 state, void *userArg);
     void (*errorStateFunc)(u32 handle, u32 state, void *userArg);
     void (*connectEndFunc)(void *userArg);
     void (*deviceReadyFunc)(void *userArg);
     u8    reserved34[8];
     void (*deleteFriendFunc)(u32 deletedIndex, u32 srcIndex, void *userArg);
-    u32  (*getFriendListFunc)(void *userArg);
-    u32  (*getWifiUserDataFunc)(void *userArg);
+    void *(*getFriendListFunc)(void *userArg);
+    void *(*getWifiUserDataFunc)(void *userArg);
     u32   heapSize;
     u8    reserved4C[4];
     u32   ggid;
@@ -101,6 +102,9 @@ typedef struct GFLNetInitializeStruct {
  * device (ov015) each fill their own subset; an unused slot is null or points
  * at a constant-return stub. Slot numbers are word indices (offset / 4).
  */
+/* Packet filter an IRC session installs: (own group id, packet group id) -> accept. */
+typedef int (*NetIrcFilterFn)(int groupId, int packetGroupId);
+
 typedef struct GFLNetModeOps {
     void (*initLibrary)(u32 parentHeapId, u32 zero);                     /* 0: Wi-Fi only (DWC init) */
     void (*setup)(u16 heapId, struct GFLNetSession *session, u32 wmParam, void *userData);
@@ -110,7 +114,7 @@ typedef struct GFLNetModeOps {
     u32  (*cleanup)(u32 endCallback);                                     /* 5: end the device, callback when done */
     void (*clearScanList)(void);                                          /* 6: wireless only */
     u8    unusedSlots7To9[0x28 - 0x1C];
-    u32  (*getScanResult)(u32 index);                                     /* 10: wireless only */
+    void *(*getScanResult)(u32 index);                                   /* 10: wireless only */
     void *(*getScanResultMac)(u32 index);                                 /* 11: wireless only */
     u8    unusedSlots12To13[0x38 - 0x30];
     u32  (*hasBeaconBeenSent)(u32 a);                                     /* 14: wireless only */
@@ -123,8 +127,8 @@ typedef struct GFLNetModeOps {
     u32  (*pollDisconnect)(u32 closeRequest, u32 zero);                   /* 21: nonzero once the link is closed */
     u32  (*isDataSharing)(void);                                          /* 22: wireless only */
     u32  (*stepDataSharing)(u32 sendData);                                /* 23: wireless only */
-    u32  (*getSharedData)(u32 aid);                                       /* 24: wireless only */
-    u32  (*sendData)(u32 data, u32 size, u32 unused, void *doneCallback); /* 25 */
+    struct NetPacketHeader *(*getSharedData)(u32 aid);                                       /* 24: wireless only */
+    u32  (*sendData)(const void *data, u32 size, u32 unused, void *doneCallback); /* 25 */
     void (*setEventCallback)(void *cb);                                   /* 26 */
     u32  (*isActive)(void);                                               /* 27 */
     int  (*isConnected)(void);                                            /* 28 */
@@ -148,7 +152,7 @@ typedef struct GFLNetModeOps {
     int  (*startAutoSearch)(void);                                        /* 47: wireless only */
     void (*startJoinLock)(int frames);                                    /* 48: wireless only */
     void (*setLinkTimeout)(u32 frames);                                   /* 49: IRC device */
-    void (*setSessionParam)(u32 param);                                   /* 50: IRC device */
+    void (*setSessionParam)(NetIrcFilterFn param);                                  /* 50: IRC device */
 } GFLNetModeOps;
 
 /* The 0x354-byte session record allocated by the session start function. */
@@ -186,9 +190,9 @@ struct NetMacList {
 typedef struct NetIrcWirelessLink {
     GFLNetInitializeStruct init;
     void  *callbackArg;
-    u32    sessionParam;
+    NetIrcFilterFn sessionParam;
     void *(*savedGetBeaconDataFunc)(void *arg);
-    void *(*savedGetBeaconSizeFunc)(void *arg);
+    int  (*savedGetBeaconSizeFunc)(void *arg);
     void (*savedConnectEndFunc)(void *userArg);
     GFLNetUserFunc onFinishedFunc;
     void (*onResultFunc)(void *arg, int flag);
@@ -322,8 +326,8 @@ typedef struct NetErrorInfo {
 } NetErrorInfo;
 
 /* One command: receive handler and size handler (both may be null). */
-typedef void (*NetCommandRecvFunc)(u32 netId, u32 size, u32 data, u32 userData, u32 handle);
-typedef u32 (*NetCommandSizeFunc)(u32 netId, u32 userData, u32 size);
+typedef void (*NetCommandRecvFunc)(u32 netId, u32 size, void *data, void *userData, struct GFLNetHandle *handle);
+typedef void *(*NetCommandSizeFunc)(u32 netId, void *userData, u32 size);
 
 typedef struct NetCommandEntry {
     NetCommandRecvFunc recvFunc;
@@ -361,7 +365,7 @@ typedef struct NetSendSlot {
 
 typedef struct NetHugeRecv {
     u32 size;
-    u32 data;
+    void *data;
     u16 command;
     u16 chunkSize;
     u16 chunksReceived;

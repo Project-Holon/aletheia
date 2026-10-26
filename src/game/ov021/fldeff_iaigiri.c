@@ -121,7 +121,7 @@ extern G3dObjectStatus sIaigiriDrawStatus;                     /* draw status te
 /* Loads the resources of the Cut effect. */
 IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IaigiriRes *res = GFL_HEAP_Alloc(heapId, 0x1c, 1, sFldeffIaigiriFileName, 0x66);
+    IaigiriRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffIaigiriFileName, 0x66);
     res->fieldEffect = fieldEffect;
     FLDEFF_IAIGIRI_LoadResources(res);
     return res;

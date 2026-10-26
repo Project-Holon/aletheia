@@ -4,12 +4,18 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wf2dmap_scene.c, prototypes copied from their definitions. */
 
+struct Wf2dmapSceneCell;
+struct DispVramCfg;
+typedef struct Wf2dmapSceneCell Wf2dmapSceneCell;
+
 #include "../types.h"
 
-int WF2DMAP_SCENE_Draw(int a, int b, int c, int scene);
+struct TcbTask;
+
+int WF2DMAP_SCENE_Draw(int a, int b, int c, char *scene);
 int WF2DMAP_SCENE_Delete(void *procWork,int b,int c,char *scene);
 void WF2DMAP_SCENE_InitBg(void);
-void WF2DMAP_SCENE_VBlank(int a, char *scene);
+void WF2DMAP_SCENE_VBlank(struct TcbTask *a, void *sceneArg);
 void WF2DMAP_SCENE_SetSlot(char *scene,int slotId);
 void WF2DMAP_SCENE_BuildGrid(char *scene);
 void WF2DMAP_SCENE_ResetState(char *scene, int state);
@@ -23,14 +29,15 @@ void WF2DMAP_SCENE_HandleInput(char *scene);
 int WF2DMAP_SCENE_GetGridNumber(u8 *scene);
 int WF2DMAP_SCENE_CheckGridNumber(u8 *scene);
 void WF2DMAP_SCENE_BuildNumberList(char *scene);
+void WF2DMAP_SCENE_ClearSelection(const Wf2dmapSceneCell *cells);
 void WF2DMAP_SCENE_CreateButtons(char *scene);
 void WF2DMAP_SCENE_SetButtonCursor(u8 *scene,int buttonIdx);
-void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, int isRelease, char *scene);
+void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, s32 isRelease, void *);
 void WF2DMAP_SCENE_ProcessPending(char *scene);
 void WF2DMAP_SCENE_ClearPending(char *scene);
 int WF2DMAP_SCENE_FindCellByValue(u8 *scene,int value);
 int WF2DMAP_SCENE_FindLastCellByValue(u8 *scene,int value);
-void WF2DMAP_SCENE_InitClact(char *scene,unsigned heapId);
+void WF2DMAP_SCENE_InitClact(char *scene,const struct DispVramCfg *heapId);
 void WF2DMAP_SCENE_LoadActorAssets(char *scene);
 void WF2DMAP_SCENE_DeleteActors(char *scene);
 void WF2DMAP_SCENE_CreateCellActors(char *scene);
@@ -52,7 +59,7 @@ void WF2DMAP_SCENE_DeleteOam(u8 *scene);
 void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *scene);
 void WF2DMAP_SCENE_CreateTextOams(u8 *scene);
 void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int unused);
-void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int tiles,int palette,int msgBank,int number);
+void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int tiles,int palette,void *msgBank,int number);
 void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number);
 void WF2DMAP_SCENE_ShowMessage(void *window, int sel, void *msgBank, unsigned int number);
 /* END mkheaders: generated region */

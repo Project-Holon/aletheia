@@ -166,8 +166,7 @@ enum {
 #include "../arm9/g2.h"
 #include "../arm9/mi_memory.h"
 #include "field_msgbg.h"
-extern void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
-extern void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, unsigned char shownSeason, unsigned char targetSeason, FieldFadeCallback finishCallback, int finishCallbackArg);
+#include "../ov020/el_scoreboard.h"
 #include "../arm9/game_event.h"
 #include "../arm9/wipe.h"
 #include "../arm9/zonedata.h"
@@ -204,22 +203,22 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(GameSystem *gameSyste
 GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
 
-int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFadeWork *work);
-int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunFadeOut(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunFadeIn(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(struct GameEvent *event, int *seq, void *work);
+int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(struct GameEvent *event, int *seq, void *work);
 void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
 void EVENT_FIELDMAP_CONTROL_ResetBgAffine(FieldMap *fieldMap);
 
@@ -299,7 +298,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *
  */
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -318,7 +317,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem
  */
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -332,7 +331,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gam
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -382,7 +381,7 @@ u32 EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(int fromGroup, int toGroup)
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -395,7 +394,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(GameSystem *gameSy
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunFadeIn, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -409,7 +408,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect(GameSystem *gameSys
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -421,7 +420,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -436,7 +435,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault(GameSystem *gameSyste
  */
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -452,7 +451,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent(GameSystem *gameSystem
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -464,7 +463,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -476,7 +475,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeInEffect5, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect5, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -488,7 +487,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(GameSystem *gameSyste
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -500,7 +499,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeInEffect6, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect6, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -512,7 +511,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(GameSystem *gameSyste
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -524,7 +523,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeInEffect7, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect7, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -536,7 +535,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(GameSystem *gameSyste
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -548,7 +547,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(GameSystem *gameSyst
 
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_FIELDMAP_CONTROL_RunWipeInEffect8, sizeof(FieldFadeWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect8, sizeof(FieldFadeWork));
     FieldFadeWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -597,8 +596,9 @@ GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, Fi
 /*
  * Fade-out for the black and white effects: starts the fade and waits for it.
  */
-int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeOut(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     switch (*seq) {
     case FADE_STEP_START:
         FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
@@ -618,8 +618,9 @@ int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork 
  * Fade-in for the black and white effects: restores the BG planes when the
  * work asks for it, then fades in and waits.
  */
-int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeIn(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     switch (*seq) {
     case FADE_STEP_START:
         if (work->restoreBg != 0) {
@@ -643,8 +644,9 @@ int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *
  * Default fade-out: starts the fade, captures the screen into VRAM bank A
  * and switches the main display to the capture BG setup.
  */
-int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     DispConfig dispConfig;
 
     if (*seq == 0) {
@@ -669,8 +671,9 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFa
  * Default fade-in: cross-fades the captured screen into the map with an alpha
  * blend, restores the BG setup and loads the window graphics step by step.
  */
-int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     struct FieldMsgBg *msgBg;
 
     switch (*seq) {
@@ -734,8 +737,9 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
  * Season fade-in without a finish callback: starts the season scoreboard
  * event as a child and ends.
  */
-int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
@@ -756,14 +760,15 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFade
  * Season fade-in with a finish callback: same as above, the scoreboard event
  * calls the callback when it ends.
  */
-int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
-        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, (sptr)work->finishCallbackArg);
+        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, work->finishCallbackArg);
         GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
@@ -777,8 +782,9 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *se
 /*
  * Map change effect 4 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -803,8 +809,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFa
 /*
  * Map change effect 5 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -829,8 +836,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFa
 /*
  * Map change effect 6 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -855,8 +863,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFa
 /*
  * Map change effect 7 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -881,8 +890,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFa
 /*
  * Map change effect 8 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -907,8 +917,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFa
 /*
  * Map change effect 5 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -935,8 +946,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFad
 /*
  * Map change effect 6 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -963,8 +975,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFad
 /*
  * Map change effect 7 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -991,8 +1004,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFad
 /*
  * Map change effect 8 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
@@ -1020,8 +1034,9 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFad
  * Fade-in with a fade speed from the work: restores the BG planes, fades in
  * and waits.
  */
-int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FieldFadeWork *work = workPtr;
     switch (*seq) {
     case FADE_STEP_START:
         FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, work->fadeSpeed);

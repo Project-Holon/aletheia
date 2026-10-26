@@ -60,7 +60,7 @@ struct TPokeDataItem {
 struct Container {
     const struct TPokeDataItem *entries;
     u32 pad04;
-    int records;
+    u8 *records;
     u32 count;
 };
 
@@ -102,8 +102,8 @@ struct TrainerKindRecord {
 extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
 struct ArcHandle;
 u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
-int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
-u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+u8 *TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
+u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 idx);
 u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u16 heap);
 #include "msgdata.h"
 struct Strbuf;
@@ -131,8 +131,8 @@ Tpoke *TPOKE_DATA_Create(u16 heap)
     Tpoke *p;
     u32 size;
 
-    p = (Tpoke *)GFL_HEAP_Alloc(heap, 0x10, 1, sTpokeData82, 82);
-    p->handle = (sptr)ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
+    p = (Tpoke *)GFL_HEAP_Alloc(heap, sizeof(Tpoke), 1, sTpokeData82, 82);
+    p->handle = ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
     p->count = size >> 3;
     p->buf = ARC_TOOL_LoadMember(0x30, 0, heap);
     p->buf4 = (char *)p->buf + 4;
@@ -142,7 +142,7 @@ Tpoke *TPOKE_DATA_Create(u16 heap)
 void TPOKE_Delete(Tpoke *tpoke)
 {
     GFL_HEAP_Free(tpoke->buf);
-    GFL_HEAP_Free((void *)tpoke->handle);
+    GFL_HEAP_Free(tpoke->handle);
     GFL_HEAP_Free(tpoke);
 }
 
@@ -163,7 +163,7 @@ u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtyp
 int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e)
 {
     int i = TPOKE_DATA_GetEntryIndex((u8 *)c, type, subtype, e);
-    u8 *r = (u8 *)TPOKE_DATA_GetRecordPtr(c, c->entries[i].recordIndex);
+    u8 *r = TPOKE_DATA_GetRecordPtr(c, c->entries[i].recordIndex);
 
     if (((struct TpokeRecord *)r)->battleKind == 2) {
         return 1;
@@ -224,14 +224,14 @@ u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype)
     return r < 0 ? 0u : (u32)r;
 }
 
-int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = FLDMMDL_ObjCodeToTableIndex((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
+u8 *TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = FLDMMDL_ObjCodeToTableIndex((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
 
-u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
+u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 idx)
 {
     TpokeDataRecord rec;
     u32 r;
 
-    TPOKE_DATA_ReadRecord((uptr)a, &rec);
+    TPOKE_DATA_ReadRecord(trainerId, &rec);
     switch (idx) {
     case 0:
         r = rec.type;

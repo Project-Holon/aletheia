@@ -6,10 +6,12 @@
 
 #include "../types.h"
 
+struct TcbTask;
+
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
 void MANUAL_CATEGORY_DeleteOption(char *p);
 int MANUAL_CATEGORY_UpdateOption(char *p);
-void MANUAL_CATEGORY_OptionTaskNoop(void *p);
+void MANUAL_CATEGORY_OptionTaskNoop(struct TcbTask *p, void *unused1);
 void MANUAL_CATEGORY_LoadOptionAssets(char *p);
 void MANUAL_CATEGORY_SetOptionBgMode(char *work);
 void MANUAL_CATEGORY_OptionNoop(char *work);

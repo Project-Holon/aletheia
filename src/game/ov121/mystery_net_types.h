@@ -17,12 +17,12 @@ typedef struct MysteryNetNdContext {
     int done;                            /* 0x70C set when the caller requests the download */
     int error;                           /* 0x710 set on an ND error */
     int validCount;                      /* 0x714 number of flagged records */
-    int progressRatio;                   /* 0x718 last reported progress percent */
-    int progressDone;                    /* 0x71C bytes downloaded so far */
-    int progressTotal;                   /* 0x720 total bytes to download */
+    unsigned int progressRatio;                   /* 0x718 last reported progress percent */
+    unsigned int progressDone;                    /* 0x71C bytes downloaded so far */
+    unsigned int progressTotal;                   /* 0x720 total bytes to download */
     int selectedIndex;                   /* 0x724 record chosen for download */
     void *destBuffer;                    /* 0x728 destination of the downloaded file */
-    int timer;                           /* 0x72C watchdog counter (7200 ticks) */
+    unsigned int timer;                           /* 0x72C watchdog counter (7200 ticks) */
     int busy;                            /* 0x730 1 while an ND download is running */
 } MysteryNetNdContext;                   /* 0x734 */
 
@@ -32,14 +32,14 @@ typedef struct MysteryNetNdContext {
  * 0x00: the handler is called as handler(object, &state, handlerArg).
  */
 typedef struct MysteryNetWork {
-    void (*handler)(char *, char *, unsigned int); /* 0x00 active state handler */
+    void (*handler)(void *, int *, char *); /* 0x00 active state handler */
     int paused;                          /* 0x04 when set the handler is not dispatched */
     int state;                           /* 0x08 per-handler state machine */
-    unsigned int handlerArg;             /* 0x0C third argument passed to the handler */
+    void *handlerArg;                    /* 0x0C third argument passed to the handler */
     void *wihHandle;                     /* 0x10 WIH_DWC handle */
     unsigned char buffer[0x20];          /* 0x14 scratch buffer (MYSTERY_NET_GetBuffer) */
     unsigned char unknown34[0x20];       /* 0x34 */
-    void *result;                        /* 0x54 last polled result */
+    unsigned int result;                 /* 0x54 last polled result (WIH_DWC status bits) */
     unsigned short heapId;               /* 0x58 heap the object was allocated from */
     unsigned char unknown5A[2];          /* 0x5A */
     int flag5C;                          /* 0x5C exit request flag */

@@ -35,22 +35,22 @@ extern u32 data_0273594C[];
 #include "../arm9/fs_proc_mem.h"
 #include "dsp_process.h"
 
-void DSPi_OpenStaticComponentG711Core(u32 *file);
-u32 DSPi_LoadG711Core(u32 file, u16 bankMaskA, u16 bankMaskB);
+void DSPi_OpenStaticComponentG711Core(FSFile *file);
+u32 DSPi_LoadG711Core(FSFile *file, u16 bankMaskA, u16 bankMaskB);
 void DSPi_UnloadG711Core(void);
 
-void DSPi_OpenStaticComponentG711Core(u32 *file) {
+void DSPi_OpenStaticComponentG711Core(FSFile *file) {
     if (FS_IsAvailable() == 0) {
         FS_Init(-1);
     }
-    FS_InitFile((FSFile *)file);
-    FS_CreateFileFromMemory((FSFile *)file, DSPi_StaticComponentG711 /* start of the embedded data blob 0x02707CB4..0x0272E9E8 */, 0x1000000);
+    FS_InitFile(file);
+    FS_CreateFileFromMemory(file, DSPi_StaticComponentG711 /* start of the embedded data blob 0x02707CB4..0x0272E9E8 */, 0x1000000);
 }
 
-u32 DSPi_LoadG711Core(u32 file, u16 bankMaskA, u16 bankMaskB) {
+u32 DSPi_LoadG711Core(FSFile *file, u16 bankMaskA, u16 bankMaskB) {
     if (data_02735940.ready == 0) {
         DSP_InitProcessContext((DspProc *)data_0273594C, "g711");
-        if (DSP_ExecuteProcess((DspProc *)data_0273594C, (void *)file, bankMaskA, bankMaskB) != 0) {
+        if (DSP_ExecuteProcess((DspProc *)data_0273594C, file, bankMaskA, bankMaskB) != 0) {
             data_02735940.ready = 1;
         }
     }

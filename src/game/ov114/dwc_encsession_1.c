@@ -26,7 +26,7 @@
  *   @16117  0x021CE1CC  data
  *   _u32_div_f                   0x0209C2B0  arm
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "dwc_encsession_types.h"
 #include "dwc_ghttp_types.h"
 

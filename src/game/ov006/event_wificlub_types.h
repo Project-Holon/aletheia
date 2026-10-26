@@ -11,6 +11,7 @@ struct GameSystem;
 struct GameEvent;
 struct GameData;
 struct SaveControl;
+struct WifiList;
 
 #include "../ov010/evolution_request_types.h"
 
@@ -104,7 +105,7 @@ typedef struct WifiClubEventWork {
     WifiClubEventSession *session;
     ClubTradeParam tradeParam;
     struct GameData *paramGameData;
-    u32 battleRecord;
+    struct WifiList *battleRecord;
     WifiLoginParam login;
     WifiConfirmParam confirm;
     void *battleSetup;

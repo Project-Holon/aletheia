@@ -31,6 +31,7 @@
  *   BMP_GetPixels 0x020437D4 arm arm9
  */
 #include "bmp_shared_types.h"
+#include "bmp_win_types.h"
 
 struct BmpWin;
 
@@ -40,20 +41,6 @@ struct BmpWin;
  * A bitmap window: a rectangle of a BG layer backed by a Bmp.  One object
  * for every view the accessors and the constructors take.
  */
-struct BmpWin {
-    u16 magic : 15;          /* +0x00, BMP_WIN_MAGIC while live */
-    u16 is8bpp : 1;          /*        BG layer uses 8bpp characters */
-    u8  bgLayer;             /* +0x02 */
-    u8  posX;                /* +0x03, in tiles */
-    u8  posY;                /* +0x04 */
-    u8  width;               /* +0x05, in tiles */
-    u8  height;              /* +0x06 */
-    u8  dispWidth;           /* +0x07, on-screen extent, starts equal to width */
-    u8  dispHeight;          /* +0x08, starts equal to height */
-    u8  palette;             /* +0x09 */
-    u16 charOffset;          /* +0x0a, first character number in BG VRAM */
-    struct Bmp *bmp;         /* +0x0c */
-};
 
 #include "gfl_heap_wrap.h"
 
@@ -298,7 +285,7 @@ struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
     struct BmpWin *win;
     u32 tileBytes = is8bpp == 0 ? BMP_TILE_BYTES_4BPP : BMP_TILE_BYTES_8BPP;
 
-    win = GFL_HEAP_Alloc(*sBmpWinHeapRecord, 0x10, 0, bmpWin_File, 0xd5);
+    win = GFL_HEAP_Alloc(*sBmpWinHeapRecord, sizeof(*win), 0, bmpWin_File, 0xd5);
 
     win->magic = BMP_WIN_MAGIC;
     win->bgLayer = bgLayer;

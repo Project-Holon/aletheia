@@ -237,7 +237,7 @@ void DWCi_SceneSetSelectAp(void)
     DWCi_CMNlStep(0);
     initObj();
     dispFocus();
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 /*
@@ -315,7 +315,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -325,7 +325,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -337,7 +337,7 @@ static void procInit2(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 static void procScene(void)
@@ -392,7 +392,7 @@ static void button(void)
             break;
         case 1:
             DWCi_BTNlDisable();
-            DWCi_ChangeScene((uptr)DWCi_SceneEnd);
+            DWCi_ChangeScene(DWCi_SceneEnd);
             return;
         }
         break;
@@ -411,7 +411,7 @@ static void button(void)
 
             dispPushClear();
             DWCi_BTNlDisable();
-            DWCi_ChangeScene((uptr)procErase);
+            DWCi_ChangeScene(procErase);
             return;
         }
         if (scenesetselectap_bss.FocusPos <= 2)
@@ -422,7 +422,7 @@ static void button(void)
     default:
         return;
     }
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)
@@ -432,7 +432,7 @@ static void endScene(void)
     }
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -447,7 +447,7 @@ static void endScene1(void)
     }
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 /*
@@ -483,7 +483,7 @@ static void endScene2(void)
 
     if (scenesetselectap_bss.MemSssa->mode == 2) {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneMenu);
+        DWCi_ChangeScene(DWCi_SceneMenu);
     } else {
         switch (scenesetselectap_bss.FocusPos) {
         case 0:
@@ -491,16 +491,16 @@ static void endScene2(void)
         case 2:
             DWCi_SetParam_(2, 0);
             if (((SETTINGINFO *)DWCi_SETTIGNlGet())->setting == 0xff) {
-                DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
+                DWCi_ChangeScene(DWCi_SceneSetSelectWay);
             } else {
                 DWCi_SetParam2_(0, 0);
                 DWCi_SetListReturn(0);
-                DWCi_ChangeScene((uptr)DWCi_SceneSetList);
+                DWCi_ChangeScene(DWCi_SceneSetList);
             }
             break;
         case 3:
             DWCi_SetParam_(2, 1);
-            DWCi_ChangeScene((uptr)DWCi_SceneSetUsbReady);
+            DWCi_ChangeScene(DWCi_SceneSetUsbReady);
             break;
         }
     }
@@ -647,7 +647,7 @@ static void procErase(void)
         return;
     }
     DWCi_WINlEnd();
-    DWCi_ChangeScene((uptr)procErase1);
+    DWCi_ChangeScene(procErase1);
 }
 
 static void procErase1(void)
@@ -656,7 +656,7 @@ static void procErase1(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 static void dispPush(void)

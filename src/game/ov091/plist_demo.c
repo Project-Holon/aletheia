@@ -105,9 +105,9 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
 {
     u8 count;
     int member;
-    sptr handle;
+    void *handle;
     PlistPos pos;
-    int vec[3];
+    Vec3 vec;
     u8 i;
     count = 0;
     member = 0x1c;
@@ -119,19 +119,19 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
         count = 2;
         work->effectLength = 0x26;
     }
-    handle = (sptr)PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
+    handle = PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
     work->particleMemory = GFL_NET_AllocAligned(work->heapId, 0x5000, (const char *)d_021BED58, 0xea);
-    work->particleSystem = PARTICLE_CreateSystemDefault((uptr)work->particleMemory, 0x5000, 0, work->heapId);
-    PARTICLE_SetupSystem(work->particleSystem, (void *)handle, 0, (uptr)GFL_USE_GetMainTaskList());
+    work->particleSystem = PARTICLE_CreateSystemDefault(work->particleMemory, 0x5000, 0, work->heapId);
+    PARTICLE_SetupSystem(work->particleSystem, handle, 0, GFL_USE_GetMainTaskList());
     PLIST_PLATE_GetCenterPos(work, (struct PlistPlate *)work->plates[work->selectedSlot], (struct PlistPlatePos *)(&pos));
     pos.x -= 0x28;
     pos.y += 4;
-    if (pos.x > 0) vec[0] = (int)(0.5f + (float)(pos.x << 12)) / 0x26;
-    else vec[0] = (int)((float)(pos.x << 12) - 0.5f) / 0x26;
-    if (pos.y > 0) vec[1] = (int)(0.5f + (float)(pos.y << 12)) / 0x26;
-    else vec[1] = (int)((float)(pos.y << 12) - 0.5f) / 0x26;
-    vec[2] = 0x40000;
-    for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, (sptr)vec);
+    if (pos.x > 0) vec.x = (int)(0.5f + (float)(pos.x << 12)) / 0x26;
+    else vec.x = (int)((float)(pos.x << 12) - 0.5f) / 0x26;
+    if (pos.y > 0) vec.y = (int)(0.5f + (float)(pos.y << 12)) / 0x26;
+    else vec.y = (int)((float)(pos.y << 12) - 0.5f) / 0x26;
+    vec.z = 0x40000;
+    for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, &vec);
 }
 
 void PLIST_DEMO_DeleteParticles(PokelistWork *work)

@@ -12,12 +12,12 @@ struct EncEffWork;
 
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap);
-void *ENCEFF_StartRipple(void *gameSystem);
-int ENCEFF_RippleEventMain(struct GameEvent *event, int *state);
+struct GameEvent *ENCEFF_StartRipple(struct GameSystem *gameSystem);
+int ENCEFF_RippleEventMain(struct GameEvent *event, int *state, void *work);
 void ENCEFF_UpdateRipple(struct EncEffWork *eff);
-void ENCEFF_DrawRipple(EncEffRipple *ripple);
+void ENCEFF_DrawRipple(void *rippleArg);
 int ENCEFF_StepRipple(EncEffRipple *ripple);
-void *ENCEFF_StartRippleBurst(void *gameSystem);
+struct GameEvent *ENCEFF_StartRippleBurst(struct GameSystem *gameSystem);
 /* END mkheaders: generated region */
 
 #endif

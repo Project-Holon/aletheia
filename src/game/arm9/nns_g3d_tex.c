@@ -76,14 +76,14 @@ typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResPlttToMatIdx;
 #include "fx_cp.h"
 #include "nns_g3d_res.h"
 void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, const NNSG3dResMdl *resMdl, NNSG3dResTex *resTex);
-void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
+void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, const NNSG3dResMdl *resMdl);
 void NNSi_G3dAnmObjInsertByPriority(NNSG3dAnmObj **head, NNSG3dAnmObj *item);
 void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, NNSG3dAnmObj *anmObj);
 void NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
 u32 NNSi_G3dAnmObjUnlink(NNSG3dAnmObj **head, NNSG3dAnmObj *target);
 void NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
 int NNS_G3dTexGetRequiredSize(void *pTex);
-int NNS_G3dTex4x4GetRequiredSize(int pTex);
+int NNS_G3dTex4x4GetRequiredSize(NNSG3dResTex *pTex);
 void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, int texKey, int tex4x4Key);
 void NNS_G3dTexLoad(NNSG3dResTex *pTex, u32 exec);
 void NNS_G3dTexReleaseTexKey(NNSG3dResTex *pTex, u32 *pTexKey, u32 *pTex4x4Key);
@@ -100,9 +100,9 @@ void NNS_G3dReleaseMdlPltt(NNSG3dResMdl *pMdl);
 extern u32 sHandlerCount;
 extern NNSiG3dAnmObjInitKey sHandlerKeys[];
 extern u8 sHandlerFns[];
-extern u32 gNNSiG3dFuncBlendVisDefault;
-extern u32 gNNSiG3dFuncBlendJntDefault;
-extern u32 gNNSiG3dFuncBlendMatDefault;
+extern NNSG3dFuncBlendVis gNNSiG3dFuncBlendVisDefault;
+extern NNSG3dFuncBlendJnt gNNSiG3dFuncBlendJntDefault;
+extern NNSG3dFuncBlendMat gNNSiG3dFuncBlendMatDefault;
 
 /*
  * NNS_G3dAnmObjInit: reset the animation object and call the init handler
@@ -145,13 +145,13 @@ next:
  * model and install the default blend functions. The literal for
  * gNNSiG3dFuncBlendMatDefault has no witness outside this function.
  */
-void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl)
+void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, const NNSG3dResMdl *resMdl)
 {
-    MIi_CpuClear32(0, rndObj, 0x54);
-    rndObj->funcBlendMat = (void *)gNNSiG3dFuncBlendMatDefault;
-    rndObj->funcBlendJnt = (void *)gNNSiG3dFuncBlendJntDefault;
-    rndObj->funcBlendVis = (void *)gNNSiG3dFuncBlendVisDefault;
-    rndObj->resMdl = (void *)resMdl;
+    MIi_CpuClear32(0, rndObj, sizeof(*rndObj));
+    rndObj->funcBlendMat = gNNSiG3dFuncBlendMatDefault;
+    rndObj->funcBlendJnt = gNNSiG3dFuncBlendJntDefault;
+    rndObj->funcBlendVis = gNNSiG3dFuncBlendVisDefault;
+    rndObj->resMdl = resMdl;
 }
 
 /*
@@ -314,9 +314,9 @@ int NNS_G3dTexGetRequiredSize(void *pTex)
 }
 
 /* NNS_G3dTex4x4GetRequiredSize: 4x4 compressed texture block size in bytes. */
-int NNS_G3dTex4x4GetRequiredSize(int pTex)
+int NNS_G3dTex4x4GetRequiredSize(NNSG3dResTex *pTex)
 {
-    return pTex ? (((NNSG3dResTex *)pTex)->tex4x4Info.sizeTex << 3) : 0;
+    return pTex ? (pTex->tex4x4Info.sizeTex << 3) : 0;
 }
 
 /* NNS_G3dTexSetTexKey: store the VRAM keys of the texture and 4x4 blocks (when non-zero). */

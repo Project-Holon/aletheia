@@ -52,7 +52,7 @@ void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client);
 int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *state);
 u32 BTL_CLIENT_PickWindowMode(u32 mode);
 int BTL_CLIENT_ReturnTrue(void);
-void BTL_CLIENT_StartWindowModeSend(BtlClient *client);
+int BTL_CLIENT_StartWindowModeSend(BtlClient *client);
 void BTL_CLIENT_StartTimeLimit(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitReady(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, BtlClientSubFn q);

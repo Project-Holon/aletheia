@@ -218,9 +218,9 @@ typedef struct ScriptProcHandoff {
 
 typedef struct BagResultVars { u16 *selectedVar; u16 *itemVar; } BagResultVars;
 
-typedef struct BagParamResult { char pad[0x34]; u32 selected; u32 itemId; } BagParamResult;
+#include "../arm9/bag_param_types.h"
 
-typedef struct BagCloseData { BagParamResult *bagParam; BagResultVars *resultVars; } BagCloseData;
+typedef struct BagCloseData { BagParam *bagParam; BagResultVars *resultVars; } BagCloseData;
 
 typedef struct GtsParam {
     void *gameData;     /* 0x00 */
@@ -556,19 +556,19 @@ int SCRCMD_PROC_CallFieldCloseEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdW
 
 void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *, struct ScrcmdWork *, u32 overlayId, const void *procData, void *procWork, ScriptProcFinishFn onFinish, void *userData);
 
-int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, void *arg);
 
 int SCRCMD_PROC_FreeScriptUserWork(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData);
+void SCRCMD_PROC_OnBagClosed(void *closeDataArg);
 
 int SCRCMD_PROC_CallBagScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData);
+void SCRCMD_PROC_OnGtsNegotiationDone(void * callbackDataArg);
 
 int SCRCMD_PROC_CallGtsNegotiation(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_OnMoveRelearnDone(RelearnCallbackData *callbackData, int callArg1);
+void SCRCMD_PROC_OnMoveRelearnDone(void *callbackDataArg);
 
 int SCRCMD_PROC_CallMoveRelearn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -731,10 +731,10 @@ store:
  */
 int SCRCMD_PROC_GetPartyMemberParam(struct ScrcmdWork *cmdWork, u32 partyIndex, u32 paramId)
 {
-    sptr member;
+    struct PokemonParam *member;
 
     if (SCRCMD_PROC_GetPartyMember(cmdWork, partyIndex, (void **)(&member)) == 1)
-        return POKE_TOOL_GetPartyValue((void *)member, paramId, 0);
+        return POKE_TOOL_GetPartyValue(member, paramId, 0);
 
     return 0;
 }
@@ -997,7 +997,7 @@ int SCRCMD_PROC_CountPartyMonsOfSpecies(struct ScriptVm *vm, struct ScrcmdWork *
     u16 matchCount = 0;
     int i;
 
-    if (species != 0 && species <= 0x289) {
+    if (species != 0 && species <= SPECIES_LAST) {
         for (i = 0; i < partyCount; i++) {
             void *member = POKEPARTY_GetMember(party, i);
             u16 memberSpecies;
@@ -1062,7 +1062,7 @@ int SCRCMD_PROC_FindPartyMonBySpecies(struct ScriptVm *vm, struct ScrcmdWork *cm
     u16 partyCount = POKEPARTY_GetCount(party);
     int i;
 
-    if (species != 0 && species <= 0x289) {
+    if (species != 0 && species <= SPECIES_LAST) {
         for (i = 0; i < partyCount; i++) {
             void *member = POKEPARTY_GetMember(party, i);
             u16 memberSpecies;
@@ -1605,7 +1605,7 @@ int SCRCMD_PROC_AddEggToParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 form;
     void *mon;
     uptr tempStrbuf;
-    uptr personal;
+    struct PersonalData *personal;
     u32 hatchCycles;
 
     SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -1625,7 +1625,7 @@ int SCRCMD_PROC_AddEggToParty(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     tempStrbuf = (uptr)MYSTATUS_CreateNameStrbuf((u16 *)GAME_DATA_GetMyStatus(gameData), heapId);
     POKE_TOOL_SetPartyValue(mon, 0x8D, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
-    personal = (uptr)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
+    personal = POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
     hatchCycles = POKE_PERSONAL_GetParam((const struct PersonalData *)personal, 0x15);
     POKE_PERSONAL_Delete((void *)personal);
     POKE_TOOL_SetPartyValue(mon, 9, hatchCycles);
@@ -1779,11 +1779,12 @@ void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWor
     handoff->onFinish = onFinish;
     GAMESYSTEM_CallProc(gameSystem, overlayId, (void *)procData, procWork);
     *handoffSlot = handoff;
-    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PROC_WaitOverlayProc);
+    VM_SetWait(vm, SCRCMD_PROC_WaitOverlayProc);
 }
 
-int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_PROC_WaitOverlayProc(struct ScriptVm *vm, void *arg)
 {
+    struct ScrcmdWork *cmdWork = arg;
     struct ScrcmdWork *cmdWorkCopy;
     struct ScriptWork *eventSlot;
     ScriptProcHandoff *handoff;
@@ -1829,9 +1830,10 @@ int SCRCMD_PROC_FreeScriptUserWork(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
  * lever: Stores in both if/else arms retain the zero-first full branch;
  * a local flag (u32, u16, or enum) folds to 42 bytes and DIFF 33.
  */
-void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData)
+void SCRCMD_PROC_OnBagClosed(void *closeDataArg)
 {
-    BagParamResult *bagParam = closeData->bagParam;
+    BagCloseData *closeData = closeDataArg;
+    BagParam *bagParam = closeData->bagParam;
     BagResultVars *resultVars = closeData->resultVars;
     if (bagParam->selected == 0)
         *resultVars->selectedVar = B_FALSE;
@@ -1876,7 +1878,7 @@ int SCRCMD_PROC_CallBagScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     closeData = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov070_id, gItemMenuProcData, bagParam, (ScriptProcFinishFn)SCRCMD_PROC_OnBagClosed, closeData);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov070_id, gItemMenuProcData, bagParam, SCRCMD_PROC_OnBagClosed, closeData);
     return 1;
 }
 
@@ -1885,8 +1887,9 @@ int SCRCMD_PROC_CallBagScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
  * first record's word at +4 equals 1 into the halfword the second record
  * points to, then frees the first record's first word.
  */
-void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData)
+void SCRCMD_PROC_OnGtsNegotiationDone(void * callbackDataArg)
 {
+    GtsCallbackData * callbackData = (GtsCallbackData *)callbackDataArg;
     if (callbackData->param->result == 1)
         *callbackData->resultVar = 1;
     else
@@ -1920,12 +1923,13 @@ int SCRCMD_PROC_CallGtsNegotiation(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     gtsParam[0] = (uptr)gameData;
     callbackData[0] = (uptr)gtsParam;
     callbackData[1] = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (uptr)ov136_id, (void *)gMbSeqProcData, gtsParam, (void (*)(void *))SCRCMD_PROC_OnGtsNegotiationDone, callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (uptr)ov136_id, (void *)gMbSeqProcData, gtsParam, SCRCMD_PROC_OnGtsNegotiationDone, callbackData));
     return 1;
 }
 
-int SCRCMD_PROC_OnMoveRelearnDone(RelearnCallbackData *callbackData, int callArg1)
+void SCRCMD_PROC_OnMoveRelearnDone(void *callbackDataArg)
 {
+    RelearnCallbackData *callbackData = callbackDataArg;
     int learned;
     int result;
 
@@ -1940,8 +1944,7 @@ learned:
 store:
     *callbackData->resultVar = learned;
     GFL_HEAP_Free(callbackData->param->relearnMoves);
-    result = WAZA_OSHIE_Delete(callbackData->param);
-    return result;
+    WAZA_OSHIE_Delete(callbackData->param);
 }
 
 static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, void *myStatus, void *gameSystem, void *moves)
@@ -1988,7 +1991,7 @@ int SCRCMD_PROC_CallMoveRelearn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
     callbackData[0] = (uptr)relearnParam;
     callbackData[1] = resultVar;
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, fieldMap, (uptr)ov173_id, (void *)gMoveRelearnProcData, relearnParam, (void (*)(void *))SCRCMD_PROC_OnMoveRelearnDone, callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, fieldMap, (uptr)ov173_id, (void *)gMoveRelearnProcData, relearnParam, SCRCMD_PROC_OnMoveRelearnDone, callbackData));
     return 1;
 }
 
@@ -2025,10 +2028,10 @@ int SCRCMD_PROC_CallPlayerProfile(struct ScriptVm *vm, struct ScrcmdWork *cmdWor
     work = GFL_HEAP_Alloc(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
     if (commState != 0 && commState->localPeer.intrudeId != GAME_DATA_GetOwnNetId(gameData)
         && INTRUDE_COMM_GetMemberNameNetId((struct IntrudeMemberName *)(&commState->session.members[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
-        && ((u8 *)commState)[0x922] == 1) {
+        && ((u8 *)&commState->remoteRecord)[0xe] == 1) {
         playerIndex = GAME_DATA_GetIntrudeIdByte(gameData);
         work->name = *INTRUDE_COMM_GetMemberEntry(commState, playerIndex);
-        work->profile = *(IntrudeRemoteRecord *)((u8 *)commState + 0x914);
+        work->profile = commState->remoteRecord;
         work->isRemote = 1;
     } else {
         INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
@@ -2077,7 +2080,7 @@ int SCRCMD_PROC_CallValueScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     ValueProcParam *param;
 
     value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
+    param = GFL_HEAP_Alloc(4, sizeof(*param), 1, sAllocSiteScrcmdProc, 0x205);
     param->value = value;
     param->gameData = SCRCMD_WORK_GetGameData(cmdWork);
     SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov174_id, gLocalTvtSysProcData, param, 0, 0);
@@ -2117,19 +2120,19 @@ int SCRCMD_PROC_CallModeScreen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     }
     switch (screenMode) {
     case 0:
-        param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
+        param = GFL_HEAP_Alloc(4, sizeof(*param), 1, sAllocSiteScrcmdProc, 0x22B);
         param->gameData = gameData;
         param->value = value;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov221_id, gChihouZukanAwardProcData, param, 0, 0);
         break;
     case 1:
-        param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
+        param = GFL_HEAP_Alloc(4, sizeof(*param), 1, sAllocSiteScrcmdProc, 0x233);
         param->gameData = gameData;
         param->value = value;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov222_id, gZenkokuZukanAwardProcData, param, 0, 0);
         break;
     case 2:
-        myStatusParam = GFL_HEAP_Alloc(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
+        myStatusParam = GFL_HEAP_Alloc(4, sizeof(*myStatusParam), 1, sAllocSiteScrcmdProc, 0x23C);
         *myStatusParam = myStatus;
         SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov224_id, gSubwayMapProcData, myStatusParam, 0, 0);
         break;

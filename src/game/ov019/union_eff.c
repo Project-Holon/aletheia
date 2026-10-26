@@ -370,7 +370,7 @@ void UNION_EFF_CreateIconObj(UnionEffIconGroup *icon, UnionEffObj *obj, void *mm
         resModel = &icon->resModel[1];
     }
     obj->render = G3D_SYSTEM_CreateRender(*resModel, 0, *resModel);
-    obj->object = G3D_SYSTEM_CreateObject((void *)*(volatile u32 *)&obj->render, NULL, 0);
+    obj->object = G3D_SYSTEM_CreateObject(*(void *volatile *)&obj->render, NULL, 0);
 }
 
 void UNION_EFF_DeleteIconObj(UnionEffObj *obj)

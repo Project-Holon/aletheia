@@ -12,7 +12,7 @@ typedef struct CtvtAdpcmAdpcmState CtvtAdpcmAdpcmState;
 void CTVT_ADPCM_ResetEncoder(void);
 void CTVT_ADPCM_ResetDecoder(void);
 int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
-int CTVT_ADPCM_Decode(int in, int inBytes, int out);
+int CTVT_ADPCM_Decode(char *in, int inBytes, s16 *out);
 void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, CtvtAdpcmAdpcmState *state);
 void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, CtvtAdpcmAdpcmState *state);
 s8 CTVT_ADPCM_EncodeSample(int sample, CtvtAdpcmAdpcmState *state);

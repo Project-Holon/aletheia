@@ -39,7 +39,7 @@ struct BtlPokeParam;
 /* Empty the set. */
 void BTL_POKESET_Clear(BtlPokeSet *p)
 {
-    MI_CpuFill8(p, 0, 0x48);
+    MI_CpuFill8(p, 0, sizeof(*p));
 }
 
 /* Append a pokemon unless it is already in the set or the set is full. */

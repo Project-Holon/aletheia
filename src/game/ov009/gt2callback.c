@@ -21,8 +21,6 @@
 
 typedef int (*FilterCb)(GTI2Connection *, int, unsigned char *, int, int);
 
-typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
-
 #include "gt2socket.h"
 #include "darray.h"
 int gti2SocketErrorCallback(GTI2Socket *socket);
@@ -34,7 +32,7 @@ int gti2PingCallback(GTI2Connection *c, int latency);
 int gti2SendFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send);
-int gti2UnrecognizedMessageCallback(char *p, int ip, int port, int message, int len, int *handled);
+int gti2UnrecognizedMessageCallback(GTI2Socket *p, unsigned int ip, unsigned short port, unsigned char *message, int len, int *handled);
 
 
 
@@ -306,14 +304,14 @@ int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsig
  * through the pointer, drop the counter and report whether the object still
  * has work outstanding.
  */
-int gti2UnrecognizedMessageCallback(char *socket, int ip, int port, int message, int len, int *handled)
+int gti2UnrecognizedMessageCallback(GTI2Socket *socket, unsigned int ip, unsigned short port, unsigned char *message, int len, int *handled)
 {
     int r;
 
     *handled = 0;
     if (socket == 0)
         return 1;
-    if (*(int *)(socket + 0x30) == 0)
+    if (socket->unrecognizedMessageCallback == 0)
         return 1;
 
     if (len == 0 || message == 0) {
@@ -321,13 +319,13 @@ int gti2UnrecognizedMessageCallback(char *socket, int ip, int port, int message,
         len = 0;
     }
 
-    *(int *)(socket + 0x1c) += 1;
-    r = (*(Hook *)(socket + 0x30))(socket, ip, port, message, len);
+    socket->callbackLevel += 1;
+    r = socket->unrecognizedMessageCallback(socket, ip, port, message, len);
     *handled = r;
 
-    *(int *)(socket + 0x1c) -= 1;
-    if (*(int *)(socket + 0x14) != 0 && *(int *)(socket + 0x1c) == 0) {
-        gti2CloseSocket((GTI2Socket *)socket);
+    socket->callbackLevel -= 1;
+    if (socket->close != 0 && socket->callbackLevel == 0) {
+        gti2CloseSocket(socket);
         return 0;
     }
     return 1;

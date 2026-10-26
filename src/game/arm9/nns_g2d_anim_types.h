@@ -41,10 +41,12 @@ struct AnimBank {
 };
 
 /* Per-frame callback functor. */
+typedef void (*AnimCallBackFunc)(void *param, u32 frame);
+
 typedef struct AnimCallBack {
     u32 type;
-    u32 param;
-    void *pFunc;
+    void *param;
+    AnimCallBackFunc pFunc;
     u16 frameIdx;
     u16 pad;
 } AnimCallBack;

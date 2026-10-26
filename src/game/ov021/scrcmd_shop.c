@@ -106,7 +106,7 @@ int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     taskSlot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork));
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     shopTable = (u8 *)GAME_DATA_GetSecondUnionInfo(gameData);
-    task = GFL_HEAP_Alloc(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
+    task = GFL_HEAP_Alloc(4, sizeof(*task), 1, (const char *)d_021DE210, 0xFC);
     *taskSlot = task;
     task->shop.fontInfo = FIELD_MSGBG_GetFont(msgBg);
     task->shop.moneyData = GAME_DATA_GetMiscSave(gameData);

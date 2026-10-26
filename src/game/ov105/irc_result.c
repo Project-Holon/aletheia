@@ -327,8 +327,8 @@ int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context)
     struct Unit *unit;
     void *font,*printQueue;
     GFL_HEAP_CreateChildHeap(1,60,0x20000);
-    work=PROCSYS_AllocProcWork(proc,0x1a8,60);
-    MI_CpuFill8(work,0,0x1a8);
+    work=PROCSYS_AllocProcWork(proc,sizeof(*work),60);
+    MI_CpuFill8(work,0,sizeof(*work));
     work->context=context;
     IRC_RESULT_InitScreen(&work->screen,60);
     IRC_RESULT_InitTextSystem(&work->text,0,60);
@@ -407,7 +407,7 @@ int IRC_RESULT_Main(void *proc,u32 *state,void *unused,IrcResult *work)
 /* ---- screen: backgrounds, sprites and the vblank task ---- */
 
 void IRC_RESULT_InitScreen(IrcResultScreen *screen,u16 heapId) {
- MI_CpuFill8(screen,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((struct DispVram *)sResultVramBankConfig);
+ MI_CpuFill8(screen,0,sizeof(*screen)); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((struct DispVram *)sResultVramBankConfig);
  BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
  IRC_RESULT_InitActorSystem(&screen->actorSystem,sResultVramBankConfig,heapId); IRC_RESULT_InitBackgrounds(screen,heapId);
  screen->vblankTask=GFL_USE_AddMainTask(IRC_RESULT_ScreenVBlankTask,screen,0);
@@ -480,7 +480,7 @@ void IRC_RESULT_InitActorSystem(IrcResultActorSystem *sys,const void *config,u16
     struct ActorInitParam placementA,placementB;
     void *archive;
     int i;
-    MI_CpuFill8(sys,0,0xa8);
+    MI_CpuFill8(sys,0,sizeof(*sys));
     CLACT_InitSystem((struct ClactSysInit *)gClActorInitParam,(struct DispVramCfg *)config,heapId);
     sys->unit=CLACT_CreateUnit(128,0,heapId);
     CLACT_SetUnitDefaultRenderer(sys->unit);
@@ -506,7 +506,7 @@ void IRC_RESULT_ExitActorSystem(IrcResultActorSystem *sys) {
  int i;
  for(i=0;i<38;i++) if(sys->actors[i]) CLACT_DeleteActor((struct ClactActor *)sys->actors[i]);
  CLACT_ReleasePalette(sys->paletteId); CLACT_ReleaseCharacter(sys->characterId); CLACT_ReleaseCellAnim(sys->cellAnimId);
- CLACT_DeleteUnit(sys->unit); CLACT_ExitSystem(); MI_CpuFill8(sys,0,0xa8);
+ CLACT_DeleteUnit(sys->unit); CLACT_ExitSystem(); MI_CpuFill8(sys,0,sizeof(*sys));
 }
 
 void IRC_RESULT_DrawActorSystem(void *unused) { CLACT_DrawSystem(); }
@@ -526,7 +526,7 @@ struct Unit *IRC_RESULT_GetActorUnit(IrcResultActorSystem *sys)
 /* ---- text system and text windows ---- */
 
 void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
- MI_CpuFill8(text, 0, 0x10);
+ MI_CpuFill8(text, 0, sizeof(*text));
  GF_FONT_InitTextColor();
  if (fontStyle == 0) {
   text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
@@ -536,7 +536,7 @@ void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
  text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
-void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->msgData); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->msgData); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,sizeof(*text)); }
 
 u32 IRC_RESULT_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 
@@ -566,7 +566,7 @@ void *IRC_RESULT_GetWordSet(IrcTextSystem *text)
 void IRC_RESULT_InitMessageWindow(IrcTextWindow *win, u32 layer, u32 x, u8 y, u8 width, u8 height, u8 paletteNo, u16 heapId)
 {
     void *window;
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->clearColor = 15;
     win->window = BMP_WIN_Create(layer, x, y, width, height, paletteNo, 1);
     win->buffer = STRBUF_Create(255, heapId);
@@ -581,7 +581,7 @@ void IRC_RESULT_InitMessageWindow(IrcTextWindow *win, u32 layer, u32 x, u8 y, u8
 
 void IRC_RESULT_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,u8 height,u8 paletteNo,u16 clearColor,u8 slot,u16 heapId) {
  void *window;
- MI_CpuFill8(win,0,0x14); win->clearColor=clearColor;
+ MI_CpuFill8(win,0,sizeof(*win)); win->clearColor=clearColor;
  win->window=BMP_WIN_Create(layer,x,y,width,height,paletteNo,slot);
  win->buffer=STRBUF_Create(0xff,heapId);
  win->printTarget=win->window; win->isPrinting=0;
@@ -589,7 +589,7 @@ void IRC_RESULT_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,
  window=win->window; BMP_WIN_TransferChars(window); BMP_WIN_MakeScreen(window); BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
-void IRC_RESULT_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer); BMP_WIN_Delete(win->window); MI_CpuFill8(win,0,20); }
+void IRC_RESULT_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer); BMP_WIN_Delete(win->window); MI_CpuFill8(win,0,sizeof(*win)); }
 
 int IRC_RESULT_UpdateTextWindow(IrcTextWindow *win,IrcTextSystem *text) { void *printQueue; printQueue=text->printQueue; if(win->isPrinting) { if(!PRINTSYS_QUE_IsExistTarget(printQueue,BMP_WIN_GetBmp(win->printTarget))) { BMP_WIN_TransferChars(win->printTarget); win->isPrinting=0; } } if(!win->isPrinting) return 1; return 0; }
 
@@ -732,7 +732,7 @@ void IRC_RESULT_StateEnd(IrcResult *work,u16 *step) {IRC_RESULT_Finish(work);}
 void IRC_RESULT_InitScoreDisplay(IrcResultScoreDisplay *display,IrcResultScreen *screen,int score)
 {
  int i; struct ClactVec2 pos;
- MI_CpuFill8(display,0,64);
+ MI_CpuFill8(display,0,sizeof(*display));
  for(i=0;i<3;i++) {
   display->digitActors[i]=IRC_RESULT_GetScreenActor(screen,i);
   if(score<100) pos.x=74+i*36;

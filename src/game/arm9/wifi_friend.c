@@ -57,6 +57,9 @@ struct SaveData;
 
 #ifdef __MWERKS__
 extern int GFL_NET_GetGameKind(void); /* original prototype; the definition differs in return type */
+extern void *GFL_NET_GetWifiUserData(void);
+extern void *GFL_NET_GetFriendList(void);
+extern u32 GFL_NET_GetFriendListNum(void);
 #else
 #include "net.h"
 #endif
@@ -128,11 +131,7 @@ int GFL_NET_ERR_PollNetState(void)
     linkState = GFL_NET_GetGameKind();
     if ((unsigned int)linkState == (unsigned int)2) {
         if ((unsigned int)sWifiPollLatch == (unsigned int)0) {
-#ifdef __MWERKS__
-            latched = GFL_NET_Main((int)sWifiPollLatch);
-#else
             latched = GFL_NET_Main();
-#endif
             sWifiPollLatch = (unsigned char)latched;
             return latched;
         } else {
@@ -140,11 +139,7 @@ int GFL_NET_ERR_PollNetState(void)
             return 0;
         }
     } else {
-#ifdef __MWERKS__
-        result = GFL_NET_Main((int)linkState);
-#else
         result = GFL_NET_Main();
-#endif
         return result;
     }
 }
@@ -206,8 +201,8 @@ int WIFILIST_CompareFriendData(void *candidate, void *userData, void *existing)
 int WIFILIST_SearchFriendSlot(void *friendData, int *outSlot)
 {
     int   i;
-    void *userData = (void *)GFL_NET_GetWifiUserData();
-    u8   *friendList = (u8 *)GFL_NET_GetFriendList();
+    void *userData = GFL_NET_GetWifiUserData();
+    u8   *friendList = GFL_NET_GetFriendList();
     int   friendCount = GFL_NET_GetFriendListNum();
 
     *outSlot = -1;
@@ -280,7 +275,7 @@ int WIFILIST_UpdateFriendRecord(void *friendData)
 {
     u32 slot;
     int result = 0;
-    void *friendList = (void *)GFL_NET_GetFriendList();
+    void *friendList = GFL_NET_GetFriendList();
     int searchResult = WIFILIST_SearchFriendSlot(friendData, (int *)(&slot));
 
     if (searchResult == 0) {

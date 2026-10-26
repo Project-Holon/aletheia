@@ -115,7 +115,7 @@ typedef struct UnionSubEventWork {
 } UnionSubEventWork;
 
 /* One sub-event: its step function and the status shown while it runs. */
-typedef int (*UnionSubEventFunc)(struct GameSystem *gameSystem, UnionRoomWork *work, void *fieldMap, int param, void *event, void **nextEvent, u8 *seq);
+typedef int (*UnionSubEventFunc)(struct GameSystem *gameSystem, UnionRoomWork *work, void *fieldMap, void *param, void *event, void **nextEvent, u8 *seq);
 
 typedef struct UnionSubEventEntry {
     UnionSubEventFunc func;   /* 0x00 */
@@ -157,17 +157,17 @@ struct GameEvent;
 
 
 
-void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
+struct GameEvent *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
 
-int UNION_SCENE_SubEventMain(void *event, int *seq, UnionSubEventWork *eventWork);
+int UNION_SCENE_SubEventMain(struct GameEvent *event, int *seq, void *work);
 
 extern const UnionSubEventEntry sUnionSubEventTable[];
 
-void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work)
+struct GameEvent *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work)
 {
-    void *event;
+    struct GameEvent *event;
     UnionSubEventWork *eventWork;
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)UNION_SCENE_SubEventMain, sizeof(UnionSubEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, UNION_SCENE_SubEventMain, sizeof(UnionSubEventWork));
     eventWork = GAME_EVENT_GetWork(event);
     eventWork->gameSystem = gameSystem;
     eventWork->fieldMap = fieldMap;
@@ -176,8 +176,9 @@ void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, 
     return event;
 }
 
-int UNION_SCENE_SubEventMain(void *event, int *seq, UnionSubEventWork *eventWork)
+int UNION_SCENE_SubEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    UnionSubEventWork *eventWork = workPtr;
     struct GameSystem *gameSystem;
     UnionRoomWork *work;
     UnionSubEvent *subEvent;
@@ -345,29 +346,30 @@ struct FieldState;
 
 
 #include "../arm9/wifilist.h"
+#include "../arm9/procsys.h"
 
 
 
 
-void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, int sceneParam);
+void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, void *sceneParam);
 
-int UNION_SCENE_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *procWork, void *event, struct GameEvent **outEvent, u8 *step);
 
 int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, ClubTradeParam *tradeParam, void *event, struct GameEvent **outEvent, u8 *step);
 
-int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step);
 
-int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step);
 
-int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step);
 
-int UNION_SCENE_StepWarpToZone1A6(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepWarpToZone1A6(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step);
 
 int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, PartyListParam *listParam, struct GameEvent *event, struct GameEvent **outEvent, u8 *step);
 
 u32 UNION_SCENE_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, BattleSelectParam *selectParam, void *event, struct GameEvent **outEvent, u8 *step);
 
-int UNION_SCENE_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step);
+int UNION_SCENE_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *procWork, void *event, struct GameEvent **outEvent, u8 *step);
 
 extern const char gUnionMainEmptyString[];
 
@@ -379,9 +381,9 @@ extern char ov119_id[];
 
 extern char ov195_id[];
 
-extern u8 gPokemonTradeProcData[];
+extern const ProcData gPokemonTradeProcData;
 
-extern u8 d_02208C40[];
+extern const ProcData d_02208C40;
 
 extern char ov022_id[];
 
@@ -389,9 +391,9 @@ extern char ov023_id[];
 
 extern char ov137_id[];
 
-extern u8 gOekakiProcData[];
+extern const ProcData gOekakiProcData;
 
-extern u8 gGuru2ProcData[];
+extern const ProcData gGuru2ProcData;
 
 extern char ov090_id[];
 
@@ -399,16 +401,16 @@ extern char ov091_id[];
 
 extern char ov131_id[];
 
-extern u8 gPartyListProcData[];
+extern const ProcData gPartyListProcData;
 
-extern u8 gPokeStatusProcData[];
+extern const ProcData gPokeStatusProcData;
 
 extern u8 ov110_id[];
 
 extern const int gPmsInputProcData[];
 
 /* Records the scene to run next and its parameter block; only one scene may be pending. */
-void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, int sceneParam)
+void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, void *sceneParam)
 {
     if (unionRoom->subEvent.id != 0 || unionRoom->subEvent.active != 0)
         GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
@@ -426,10 +428,10 @@ int UNION_SCENE_IsScenePending(UnionRoomWork *unionRoom)
 }
 
 /* Scene step: starts the ov111 sub process once, then reports done. */
-int UNION_SCENE_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
     if (*step == 0) {
-        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov111_id, (void *)gOv111ProcData, (void *)procWork);
+        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov111_id, (void *)gOv111ProcData, procWork);
     } else {
         return 1;
     }
@@ -457,7 +459,7 @@ int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *u
         (*step)++;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, gPokemonTradeProcData, tradeParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, &gPokemonTradeProcData, tradeParam);
         (*step)++;
         break;
     case 3:
@@ -478,7 +480,7 @@ int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *u
         request->fromTrade = 1;
         request->fromField = 0;
         tradeParam->evolutionRequest = request;
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, d_02208C40, request);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, &d_02208C40, request);
         (*step)++;
         break;
     case 5:
@@ -520,7 +522,7 @@ int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *u
  * the wrapper is matched EXACT (src/matched/arm9/GFL_USE_ChangeBgm.c), so +0x22C
  * attests as `matched`.
  */
-int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, struct GameEvent *event, struct GameEvent **outEvent, u8 *step)
 {
     UnionSubEvent *scene = &unionRoom->subEvent;
     UnionMySituation *situation = &unionRoom->mySituation;
@@ -606,11 +608,11 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
         if (situation->status == 3) {
             activityParam = (ActivityParam *)scene->param;
             activityParam->unionApp = unionRoom->app;
-            GAMESYSTEM_CallProc(gameSystem, (uptr)ov023_id, gOekakiProcData, activityParam);
+            GAMESYSTEM_CallProc(gameSystem, (uptr)ov023_id, &gOekakiProcData, activityParam);
         } else {
             activityParam = (ActivityParam *)scene->param;
             activityParam->unionApp = unionRoom->app;
-            GAMESYSTEM_CallProc(gameSystem, (uptr)ov137_id, gGuru2ProcData, activityParam);
+            GAMESYSTEM_CallProc(gameSystem, (uptr)ov137_id, &gGuru2ProcData, activityParam);
         }
         (*step)++;
         break;
@@ -656,7 +658,7 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
 }
 
 /* Scene step: plays field effect 0x96 above the seat of the local player, then reports done. */
-int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step)
 {
     VecFx32 pos;
     int result = 0;
@@ -674,7 +676,7 @@ int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomW
 }
 
 /* Scene step: plays field effect 0x97 at the seat of the local player, then reports done. */
-int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step)
 {
     VecFx32 pos;
     int zero;
@@ -693,7 +695,7 @@ int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomW
 }
 
 /* Scene step: plays field effect 0x1A6 at a fixed spot, then reports done. */
-int UNION_SCENE_StepWarpToZone1A6(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int param, void *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepWarpToZone1A6(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *param, void *event, struct GameEvent **outEvent, u8 *step)
 {
     VecFx32 pos;
     int zero;
@@ -757,7 +759,7 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
         (*step)++;
         break;
     case 3:
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov091_id, gPartyListProcData, listParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov091_id, &gPartyListProcData, listParam);
         (*step)++;
         break;
     case 4:
@@ -778,7 +780,7 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
         statusParam->cursor = listParam->cursor;
         statusParam->result = 0;
         statusParam->trainerRecord = ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(statusParam->gameData));
-        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, gPokeStatusProcData, statusParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, &gPokeStatusProcData, statusParam);
         (*step)++;
         break;
     case 6:
@@ -913,10 +915,10 @@ u32 UNION_SCENE_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWo
 }
 
 /* Scene step: starts the PMS word input overlay (ov110) once, then reports done. */
-int UNION_SCENE_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
+int UNION_SCENE_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, void *procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
     if (*step == 0) {
-        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov110_id, (void *)gPmsInputProcData, (void *)procWork);
+        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov110_id, (void *)gPmsInputProcData, procWork);
     } else {
         return 1;
     }

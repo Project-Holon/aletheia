@@ -223,18 +223,18 @@ struct BoxPokemon;
 
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem);
 struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
-int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work);
-int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work);
+int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, int *seq, void *work);
+int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, int *seq, void *work);
 int EVENT_SHORTCUT_MENU_ResolveShortcut(ShortcutLink *link, u32 shortcutId);
 int EVENT_SHORTCUT_MENU_GetAvailBit(u32 shortcutId, u32 *availBit, u32 *isUnknownId);
 void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work);
-int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, u32 *seq);
+int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, int *seq);
 int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *work);
 int EVENT_SHORTCUT_MENU_SuspendLinkHook(ShortcutLink *link, ShortcutMenuWork *work);
 void *EVENT_SHORTCUT_MENU_OpenMessage(struct GameSystem *gameSystem, u32 messageIndex);
 int EVENT_SHORTCUT_MENU_CheckPartyRibbon(ShortcutMenuWork *work);
 struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id);
-int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, u32 *seq, ShortcutProcTask *task);
+int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, int *seq, void *work);
 void EVENT_SHORTCUT_MENU_InitHooks(ShortcutHooks *hooks, ShortcutLink *link, ShortcutHook onResume, ShortcutHook onSuspend, ShortcutHook onExit, struct ShortcutMenuWork *arg);
 int EVENT_SHORTCUT_MENU_CallResumeHook(ShortcutHooks *hooks);
 int EVENT_SHORTCUT_MENU_CallSuspendHook(ShortcutHooks *hooks);
@@ -267,9 +267,9 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
 
     shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)shortcuts) == 1) {
-        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
-        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
     }
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(ShortcutMenuWork));
@@ -307,8 +307,9 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
  * three arms, which is what makes both work->gameSystem loads hoist above their
  * branches and lets state 11 cross-jump into the shared tail.
  */
-int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work)
+int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ShortcutMenuWork *work = workPtr;
     switch (*seq) {
     case 0:
         *seq = 1;
@@ -469,8 +470,9 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
  * cross-jumped into `b`), and cases 4 and 5 hand one local `child` to
  * GAME_EVENT_CallEvent, which is what lets case 4 cross-jump into case 5's call.
  */
-int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutMenuWork *work)
+int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ShortcutMenuWork *work = workPtr;
     ShortcutAvailMask avail;
     u32 availBit;
     u32 isUnknownId;
@@ -740,7 +742,7 @@ void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work)
  * Close sequence of the link session, one step per call (steps in
  * commCloseState); returns 1 when the session is closed.
  */
-int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, u32 *seq)
+int EVENT_SHORTCUT_MENU_CloseLink(ShortcutMenuWork *work, int *seq)
 {
     if (work->commClosed == 0) {
         switch (work->commCloseState) {
@@ -806,7 +808,7 @@ int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *wor
  */
 int EVENT_SHORTCUT_MENU_SuspendLinkHook(ShortcutLink *link, ShortcutMenuWork *work)
 {
-    return EVENT_SHORTCUT_MENU_CloseLink(work, (u32 *)work);
+    return EVENT_SHORTCUT_MENU_CloseLink(work, (int *)work);
 }
 
 /*
@@ -849,7 +851,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     struct GameEvent *event;
     ShortcutProcTask *task;
 
-    event = GAME_EVENT_Create(link->gameSystem, link->event, (GameEventFunc)EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
+    event = GAME_EVENT_Create(link->gameSystem, link->event, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
     task = GAME_EVENT_GetWork(event);
     MI_CpuFill8(task, 0, sizeof(ShortcutProcTask));
     task->id = id;
@@ -873,8 +875,9 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
  * 0x021712CC has 24-byte records; each pool word is the table plus the
  * field offset.
  */
-int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, u32 *seq, ShortcutProcTask *task)
+int EVENT_SHORTCUT_MENU_ProcEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    ShortcutProcTask *task = workPtr;
     u32 result;
     void *procWork;
 

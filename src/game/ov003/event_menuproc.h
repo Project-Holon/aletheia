@@ -10,7 +10,7 @@ typedef struct MenuProcEventWork MenuProcEventWork;
 
 #include "../types.h"
 
-u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
+int EVENT_MENUPROC_Main(struct GameEvent *event, int *seq, void *work);
 void *EVENT_MENUPROC_Create(void *gameSystem, struct FieldMap *fieldMap, int procKind);
 /* END mkheaders: generated region */
 

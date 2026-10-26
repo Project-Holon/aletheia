@@ -5,6 +5,7 @@
 /* Public functions of irc.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "irc_types.h"
 
 unsigned short IRCi_CalcSum(void *input, unsigned long length);
 void IRCi_Restore(void);
@@ -22,7 +23,7 @@ int IRCi_CheckLength(unsigned long n);
 int IRCi_CheckTimeout(void);
 int IRCi_CheckPacket(unsigned long n);
 int IRC_Move(void);
-void IRC_SetRecvCallback(void *cb);
+void IRC_SetRecvCallback(IRCRecvCallback cb);
 void IRC_SetUnitNumber(unsigned int n);
 unsigned int IRC_GetUnitNumber(void);
 /* END mkheaders: generated region */

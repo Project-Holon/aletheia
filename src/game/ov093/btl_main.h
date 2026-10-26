@@ -213,7 +213,7 @@ unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, int slot);
 struct PmsData *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode);
 void *BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot);
 struct MyStatus *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main);
-u32 BTL_MAIN_GetField(struct BtlMain *main);
+BtlFieldState *BTL_MAIN_GetField(struct BtlMain *main);
 void BTL_MAIN_CreateParties(struct BtlMain *main);
 void BTL_MAIN_FreeParties(struct BtlMain *main);
 void BTL_MAIN_SetClientParty(struct BtlMain *main, int clientId, struct Party *party);

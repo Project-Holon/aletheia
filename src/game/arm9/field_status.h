@@ -27,23 +27,23 @@ void FIELD_STATUS_SetProcAction(struct FieldStatus *fs, u16 procAction);
 u16 FIELD_STATUS_GetProcAction(struct FieldStatus *fs);
 u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *fs, u8 seasonDispFlag);
 u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs);
-int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_FieldOpenEvent(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *gameSystem);
-int FIELD_STATUS_SubProcEvent(struct GameEvent *event, u32 *seq, void *work);
-int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcEvent(struct GameEvent *event, int *seq, void *work);
+int FIELD_STATUS_SubProcNoFadeEvent(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
 struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
-int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, u32 *seq, void *work);
+int FIELD_STATUS_SubProcCallbackEvent(struct GameEvent *event, int *seq, void *work);
+int FIELD_STATUS_SubProcNoFadeCallbackEvent(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
 struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
 int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work);
-void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
+void *FIELD_STATUS_CreateSubProcListEvent(void *anime, void *fieldMap, void *listParam, void *statusParam);
 /* END mkheaders: generated region */
 
 #endif

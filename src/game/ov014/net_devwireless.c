@@ -56,7 +56,7 @@
 /* State of the wireless device layer; one block, allocated by the setup slot. */
 typedef struct DevWirelessWork {
     u32 setupParam;                         /* second argument of the setup slot, kept for the owner */
-    void (*onEndedCallback)(void *result);  /* called once the pipe has shut down */
+    void (*onEndedCallback)(int result);  /* called once the pipe has shut down */
 } DevWirelessWork;
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -90,7 +90,7 @@ typedef struct DevWirelessWork {
 
 void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 
-int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userData);
+int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, void *userData);
 
 int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void));
 
@@ -98,9 +98,9 @@ int GFL_NET_DEVWIRELESS_Update(u32 tick);
 
 int GFL_NET_DEVWIRELESS_RequestDisconnect(void);
 
-int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result);
+int GFL_NET_DEVWIRELESS_OnShutdownDone(int result);
 
-int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *));
+int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(int));
 
 int GFL_NET_DEVWIRELESS_ClearScanList(void);
 
@@ -120,13 +120,13 @@ int GFL_NET_DEVWIRELESS_UnusedSlot13(void);
 
 int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void *unused);
 
-int GFL_NET_DEVWIRELESS_SetConnectCallback(int connectCallback);
+int GFL_NET_DEVWIRELESS_SetConnectCallback(WihSlotCallback connectCallback);
 
 int GFL_NET_DEVWIRELESS_StartParent(int autoChannel);
 
 int GFL_NET_DEVWIRELESS_StartChildScan(int resetWork);
 
-int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, u32 onConnected);
+int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, void (*onConnected)(void));
 
 int GFL_NET_DEVWIRELESS_UnusedSlot19(void);
 
@@ -134,13 +134,13 @@ int GFL_NET_DEVWIRELESS_RequestShutdown(void);
 
 int GFL_NET_DEVWIRELESS_IsDataSharing(void);
 
-int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData);
+int GFL_NET_DEVWIRELESS_StepDataSharing(const u16 *sendData);
 
-int GFL_NET_DEVWIRELESS_GetSharedData(u32 aid);
+u16 *GFL_NET_DEVWIRELESS_GetSharedData(u32 aid);
 
-int GFL_NET_DEVWIRELESS_SendData(int data,u32 size,int unused,int callbackArg);
+int GFL_NET_DEVWIRELESS_SendData(u16 *data,u32 size,int unused,WihResultCallback callbackArg);
 
-int GFL_NET_DEVWIRELESS_SetEventCallback(u32 callback);
+int GFL_NET_DEVWIRELESS_SetEventCallback(int (*callback)(int, int, int));
 
 int GFL_NET_DEVWIRELESS_IsActive(void);
 
@@ -157,14 +157,14 @@ void *GFL_NET_DEVWIRELESS_GetDeviceTable(void)
 }
 
 /* Slot 1: allocates the layer and starts the pipe; wmParam goes to the WH init, userData to the pipe callbacks. */
-int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userData)
+int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, void *userData)
 {
     int forListening;
     DevWirelessWork *work;
 
     if (sDevWirelessWork != 0)
         return 0;
-    work = GFL_HEAP_Alloc(heapId, 8, 1, sFileNetDevWireless, 0xb4);
+    work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sFileNetDevWireless, 0xb4);
     forListening = 1;
     sDevWirelessWork = work;
     work->setupParam = setupParam;
@@ -203,7 +203,7 @@ int GFL_NET_DEVWIRELESS_RequestDisconnect(void)
 }
 
 /* Pipe end callback: reports to the owner, frees the layer. */
-int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result)
+int GFL_NET_DEVWIRELESS_OnShutdownDone(int result)
 {
     if (sDevWirelessWork->onEndedCallback != 0)
         sDevWirelessWork->onEndedCallback(result);
@@ -213,11 +213,11 @@ int GFL_NET_DEVWIRELESS_OnShutdownDone(void *result)
 }
 
 /* Slot 5: ends the pipe; endCallback runs when the end has finished. */
-int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *))
+int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(int))
 {
     if(sDevWirelessWork != 0) {
         sDevWirelessWork->onEndedCallback = endCallback;
-        return NET_WHPIPE_RequestEnd((sptr)GFL_NET_DEVWIRELESS_OnShutdownDone);
+        return NET_WHPIPE_RequestEnd(GFL_NET_DEVWIRELESS_OnShutdownDone);
     }
     return 1;
 }
@@ -254,7 +254,7 @@ int GFL_NET_DEVWIRELESS_UnusedSlot13(void) { return 1; }
 int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void *unused) { return NET_WHPIPE_HasBeaconBeenSent(unused); }
 
 /* Slot 15: stores the callback the WH layer calls when a child connects. */
-int GFL_NET_DEVWIRELESS_SetConnectCallback(int connectCallback) { WIH_SetConnectCallback(connectCallback); return 1; }
+int GFL_NET_DEVWIRELESS_SetConnectCallback(WihSlotCallback connectCallback) { WIH_SetConnectCallback(connectCallback); return 1; }
 
 /* Slot 16: starts the parent task of the pipe; autoChannel nonzero lets it pick the channel. */
 int GFL_NET_DEVWIRELESS_StartParent(int autoChannel) { return NET_WHPIPE_StartParent(autoChannel); }
@@ -263,7 +263,7 @@ int GFL_NET_DEVWIRELESS_StartParent(int autoChannel) { return NET_WHPIPE_StartPa
 int GFL_NET_DEVWIRELESS_StartChildScan(int resetWork) { return NET_WHPIPE_StartScan(resetWork); }
 
 /* Slot 18: starts the child connect task toward the given BSSID (or scan entry); onConnected runs after. */
-int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, u32 onConnected) { return NET_WHPIPE_StartChild(unused,bssid,entryIndex,(void (*)(void))onConnected); }
+int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, void (*onConnected)(void)) { return NET_WHPIPE_StartChild(unused,bssid,entryIndex,onConnected); }
 
 /* Slot 19: unused by this device; reports failure. */
 int GFL_NET_DEVWIRELESS_UnusedSlot19(void) { return 0; }
@@ -275,22 +275,22 @@ int GFL_NET_DEVWIRELESS_RequestShutdown(void) { return NET_WHPIPE_RequestFinaliz
 int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (WIH_GetSysState() == 5) return 1; return 0; }
 
 /* Slot 23: submits this frame's send data to the data-sharing step. */
-int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData) { return WIH_StepDS((int)((unsigned short *)sendData)); }
+int GFL_NET_DEVWIRELESS_StepDataSharing(const u16 *sendData) { return WIH_StepDS(sendData); }
 
 /* Slot 24: data-sharing entry received from the child with the given aid. */
-int GFL_NET_DEVWIRELESS_GetSharedData(u32 aid) { return WIH_GetSharedDataAdr((u16)aid); }
+u16 *GFL_NET_DEVWIRELESS_GetSharedData(u32 aid) { return WIH_GetSharedDataAdr((u16)aid); }
 
 /*
  * Slot 25: send data of the given size, completion callbackArg. The second
  * argument is forwarded unchanged to 02177C30; that leaf performs the u16
  * truncation itself. Its matched signature uses full width.
  */
-int GFL_NET_DEVWIRELESS_SendData(int data,u32 size,int unused,int callbackArg) { return NET_WHPIPE_SendData(data,size,callbackArg); }
+int GFL_NET_DEVWIRELESS_SendData(u16 *data,u32 size,int unused,WihResultCallback callbackArg) { return NET_WHPIPE_SendData(data,size,callbackArg); }
 
 /* Slot 26: stores the pipe's event callback; always succeeds. */
-int GFL_NET_DEVWIRELESS_SetEventCallback(u32 callback)
+int GFL_NET_DEVWIRELESS_SetEventCallback(int (*callback)(int, int, int))
 {
-    NET_WHPIPE_SetEventCallback((int (*)(int, int, int))callback);
+    NET_WHPIPE_SetEventCallback(callback);
     return 1;
 }
 

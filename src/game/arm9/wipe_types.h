@@ -51,6 +51,8 @@ struct WindowRequests {
 };
 
 /* One screen's slot of the wipe system. */
+struct WipeHBlankSlots;
+
 struct WipePanel {
     u32   pattern;
     u32   frames;       /* number of steps of the wipe */
@@ -59,7 +61,7 @@ struct WipePanel {
     u32   screen;       /* 0 = engine A, 1 = engine B */
     void *work;         /* pattern work object */
     struct WindowRequests *windowRequests;
-    u32   hblank;       /* HBlank handler slots, passed on to the slot calls */
+    struct WipeHBlankSlots *hblank; /* HBlank handler slots, passed on to the slot calls */
     u32   heapId;
     u16   color;        /* 0x7FFF = white, 0 = black */
     u16   pad26;
@@ -73,6 +75,20 @@ struct WipeHBlankSlots {
     void   *work[2];
     Handler func[2];
     u32     active[2];
+};
+
+/* Heap record of a deferred WIPE_SetHBlankSlot call (0x10 bytes on the DS). */
+struct WipeSetSlotReq {
+    struct WipeHBlankSlots *slots;
+    void   *ctx;
+    Handler fn;
+    u32     slotIdx;
+};
+
+/* Heap record of a deferred WIPE_ClearHBlankSlot call (8 bytes on the DS). */
+struct WipeClearSlotReq {
+    struct WipeHBlankSlots *slots;
+    u32     slotIdx;
 };
 
 struct WipeSys {

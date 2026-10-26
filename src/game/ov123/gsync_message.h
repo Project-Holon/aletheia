@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gsync_message.c, prototypes copied from their definitions. */
 
+struct TaskMenuWork;
+
 #include "../ov123/gsync_message_types.h"
 #include "../types.h"
 

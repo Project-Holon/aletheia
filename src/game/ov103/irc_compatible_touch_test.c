@@ -370,7 +370,15 @@ struct DispVramCfg;
 struct SysInit;
 #include "../arm9/clact.h"
 struct ClactActor;
+/* The DS call passes the heap id wide where the header takes a signed halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
 #include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, u32 heapId, void (*setUpFunc)(void));
+#endif
 /* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/g3d_camera.h */
 #ifdef __MWERKS__
 #define G3D_CAMERA_Create G3D_CAMERA_Create_header
@@ -530,8 +538,8 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
     void *unit;
     void *font, *printQueue;
     GFL_HEAP_CreateChildHeap(1, 55, 0x25000);
-    work = PROCSYS_AllocProcWork(proc, 0xb10, 55);
-    MI_CpuFill8(work, 0, 0xb10);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 55);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->args = args;
     work->args->penalty = 0;
     IRC_COMPATIBLE_TOUCH_TEST_InitExchange(&work->exchange, work->args->view);
@@ -730,7 +738,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitSprites(IrcTouchSprites *sprites, const void 
     void *arc;
     int i;
     u16 position[4];
-    MI_CpuFill8(sprites, 0, 0x94);
+    MI_CpuFill8(sprites, 0, sizeof(*sprites));
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (struct DispVramCfg *)config, heapId);
     sprites->res.unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
@@ -762,7 +770,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitSprites(IrcTouchSprites *sprites)
     CLACT_ReleaseCellAnim(sprites->res.cellAnim);
     CLACT_DeleteUnit(sprites->res.unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(sprites, 0, 0x94);
+    MI_CpuFill8(sprites, 0, sizeof(*sprites));
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_DrawSpriteSystem(void *sprites) { CLACT_DrawSystem(); }
@@ -783,7 +791,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_Init3D(IrcScene3d *scene, int heapId)
 {
     void *arc;
     /* likely original mismatch: heap ids are passed wide, the ARM9 definitions narrow them */
-    ((void (*)(u32, u32, u32, u32, u16, u32, void (*)(void)))G3D_SYSTEM_Init)(0, 1, 0, 1, 0, heapId, IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay);
     scene->camera = G3D_CAMERA_Create(2, 6 << 14, 0xFFFE8000, 0xFFFE0000, 1 << 17, 1 << 12, 250 << 14, 0,
                               &IRC_COMPATIBLE_TOUCH_TEST_CameraPosition, &IRC_COMPATIBLE_TOUCH_TEST_CameraTarget, &IRC_COMPATIBLE_TOUCH_TEST_CameraUp, heapId);
     arc = ARC_TOOL_CreateHandle(0x5e, heapId);
@@ -840,7 +848,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitModel(IrcModel *model, void *arc, const u16 *
     int i, j;
     void *textureResource = 0;
     NNSG3dRenderObj *renderObj;
-    MI_CpuFill8(model, 0, 0x60);
+    MI_CpuFill8(model, 0, sizeof(*model));
     model->resource = G3D_SYSTEM_CreateResourceArcHandle(arc, fileIds[0]);
     if (G3D_SYSTEM_CheckResourceType(model->resource, 2)) {
         textureResource = model->resource;
@@ -877,7 +885,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitModel(IrcModel *model)
     G3D_SYSTEM_DeleteRender(model->render);
     for (i = 0; i < 2; i++) G3D_SYSTEM_DeleteResource(model->animResource[i]);
     G3D_SYSTEM_DeleteResource(model->resource);
-    MI_CpuFill8(model, 0, 0x60);
+    MI_CpuFill8(model, 0, sizeof(*model));
 }
 
 /*
@@ -915,7 +923,7 @@ u32 IRC_COMPATIBLE_TOUCH_TEST_ModelIsActive(IrcModel *model) { return model->act
 
 void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 heapId)
 {
-    MI_CpuFill8(text, 0, 16);
+    MI_CpuFill8(text, 0, sizeof(*text));
     GF_FONT_InitTextColor();
     if (skipFont == 0)
         text->font = GF_FONT_Create(23, 0, 0, 0, heapId);
@@ -930,7 +938,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitText(IrcTextSystem *text)
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
-    MI_CpuFill8(text, 0, 16);
+    MI_CpuFill8(text, 0, sizeof(*text));
 }
 
 u32 IRC_COMPATIBLE_TOUCH_TEST_UpdateTextQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
@@ -961,7 +969,7 @@ void *IRC_COMPATIBLE_TOUCH_TEST_TextGetWordSet(IrcTextSystem *text)
 void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8 width, u8 height, u8 palette, u16 heapId)
 {
     void *bmpWin;
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->fillColor = 15;
     win->bmpWin = BMP_WIN_Create(bgLayer, x, y, width, height, palette, 1);
     win->strBuf = STRBUF_Create(255, heapId);
@@ -980,7 +988,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(IrcWindow *win, int bgLayer, int 
 void IRC_COMPATIBLE_TOUCH_TEST_InitWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8 width, u8 height, u8 palette, u16 fillColor, u8 charBase, u16 heapId)
 {
     void *bmpWin;
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->fillColor = fillColor;
     win->bmpWin = BMP_WIN_Create(bgLayer, x, y, width, height, palette, charBase);
     win->strBuf = STRBUF_Create(255, heapId);
@@ -997,7 +1005,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitWindow(IrcWindow *win)
 {
     STRBUF_Delete(win->strBuf);
     BMP_WIN_Delete(win->bmpWin);
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
 }
 
 int IRC_COMPATIBLE_TOUCH_TEST_UpdateWindow(IrcWindow *win, IrcTextSystem *text)
@@ -1344,7 +1352,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleAbort(IrcTouchWork *work, u16 *state)
 
 void IRC_COMPATIBLE_TOUCH_TEST_InitExchange(IrcDrawingExchange *exchange, IrcSys *sys)
 {
-    MI_CpuFill8(exchange, 0, 0x294);
+    MI_CpuFill8(exchange, 0, sizeof(*exchange));
     exchange->sys = sys;
     COMPATIBLE_IRC_SYS_AddCommandTable(sys, (u32)0xe00, IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable, (u32)1, exchange);
 }
@@ -1352,7 +1360,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitExchange(IrcDrawingExchange *exchange, IrcSys
 void IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(IrcDrawingExchange *exchange)
 {
     COMPATIBLE_IRC_SYS_DeleteCommandTable(exchange->sys, 0xe00);
-    MI_CpuFill8(exchange, 0, 0x294);
+    MI_CpuFill8(exchange, 0, sizeof(*exchange));
 }
 
 int IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(IrcDrawingExchange *exchange, const IrcDrawingPacket *packet)
@@ -1403,14 +1411,14 @@ IrcDrawingPacket *IRC_COMPATIBLE_TOUCH_TEST_ExchangeGetBuffer(u32 netId, IrcDraw
 void IRC_COMPATIBLE_TOUCH_TEST_InitMarkers(IrcMarkers *markers, IrcScene3d *scene, int unused)
 {
     int i;
-    MI_CpuFill8(markers, 0, 16);
+    MI_CpuFill8(markers, 0, sizeof(*markers));
     for (i = 0; i < IRC_TOUCH_MODEL_COUNT; i++) {
         markers->model[i] = IRC_COMPATIBLE_TOUCH_TEST_Get3DModel(scene, i);
         IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive(markers->model[i], 0);
     }
 }
 
-void IRC_COMPATIBLE_TOUCH_TEST_ExitMarkers(IrcMarkers *markers) { MI_CpuFill8(markers, 0, 0x10); }
+void IRC_COMPATIBLE_TOUCH_TEST_ExitMarkers(IrcMarkers *markers) { MI_CpuFill8(markers, 0, sizeof(*markers)); }
 
 void IRC_COMPATIBLE_TOUCH_TEST_UpdateMarkers(IrcMarkers *markers)
 {
@@ -1570,7 +1578,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(int mask, u16 heapId)
 void IRC_COMPATIBLE_TOUCH_TEST_InitTrail(IrcTrail *trail, IrcTouchWork *work, int mode, int paletteOffset, int firstSprite, u8 kind)
 {
     int i;
-    MI_CpuFill8(trail, 0, 0x590);
+    MI_CpuFill8(trail, 0, sizeof(*trail));
     trail->mode = mode;
     trail->paletteOffset = paletteOffset;
     trail->head = 0;
@@ -1578,11 +1586,11 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitTrail(IrcTrail *trail, IrcTouchWork *work, in
     for (i = 0; i < IRC_TRAIL_SPRITE_COUNT; i++) IRC_COMPATIBLE_TOUCH_TEST_InitTrailSprite(&trail->sprite[i], IRC_COMPATIBLE_TOUCH_TEST_GetSprite(work, firstSprite + i), paletteOffset, kind);
 }
 
-void IRC_COMPATIBLE_TOUCH_TEST_ExitTrail(IrcTrail *trail) { MI_CpuFill8(trail, 0, 0x590); }
+void IRC_COMPATIBLE_TOUCH_TEST_ExitTrail(IrcTrail *trail) { MI_CpuFill8(trail, 0, sizeof(*trail)); }
 
 void IRC_COMPATIBLE_TOUCH_TEST_InitTrailSprite(IrcTrailSprite *sprite, void *actor, int paletteOffset, u8 kind)
 {
-    MI_CpuFill8(sprite, 0, 0x2c);
+    MI_CpuFill8(sprite, 0, sizeof(*sprite));
     sprite->actor = actor;
     sprite->kind = kind;
     CLACT_SetActorPaletteOffset(actor, (u8)paletteOffset, 1);

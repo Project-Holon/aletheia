@@ -231,7 +231,7 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            WCMi_NwmifSetDCFData((uptr)dstAddr, (uptr)w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }

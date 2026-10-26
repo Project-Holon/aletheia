@@ -4,6 +4,9 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wifi_bsubway.c, prototypes copied from their definitions. */
 
+struct MyStatus;
+struct WifiBsubwayStatus;
+
 #include "../types.h"
 
 int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent);
@@ -29,10 +32,10 @@ int WIFI_BSUBWAY_StatusCheckMessage(u8 *status,unsigned heapId);
 void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async);
 int WIFI_BSUBWAY_FinishProfileUpload(unsigned char *status,unsigned char *async);
 void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, const struct MyStatus *trainer);
-void WIFI_BSUBWAY_OnHttpError(unsigned char *status);
+void WIFI_BSUBWAY_OnHttpError(void *arg, u32 errorCode, u32 errorType, int dwcError);
 void WIFI_BSUBWAY_StartHttpRequest(u8 *status, u8 *async, u8 *unusedA, int heapId);
 int WIFI_BSUBWAY_PollHttpRequest(u8 *status, u8 *async, int quiet);
-void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index);
+void WIFI_BSUBWAY_ReadRecordUnits(struct WifiBsubwayStatus *status,unsigned int index);
 void WIFI_BSUBWAY_AbortHttpRequest(u8 *status);
 void WIFI_BSUBWAY_StartUploadPlayer(u8 *status, u8 *async);
 int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *async);

@@ -84,7 +84,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(FieldGimmickSwitchToggleSave *save, int requirementIndex);
 void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObjCnt *expObj, int switchOn, int switchIndex, int usePrimaryModel);
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, int switchIndex);
-int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state, void *eventWork);
 
 extern struct FldExpUnitDesc sSwitchToggleUnitDesc;
 extern VecFx32 sSwitchTogglePrimaryModelPos[];
@@ -166,7 +166,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct G
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
 }
 
 struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex)
@@ -180,7 +180,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct Game
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
 }
 
 
@@ -235,7 +235,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, i
 }
 
 
-int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state, void *eventWork)
 {
     struct FieldMap *fieldMap;
     struct FldExpObjCnt *expObj;
@@ -272,7 +272,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event
     return 0;
 }
 
-int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state, void *eventWork)
 {
     int newState;
     struct FieldMap *fieldMap;

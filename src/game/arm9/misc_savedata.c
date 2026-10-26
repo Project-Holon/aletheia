@@ -43,7 +43,7 @@ u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
 
 void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
 
-int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
+int MISC_SAVEDATA_GetScoreValue(const u8 *tally, int fieldId, int index);
 
 void MISC_SAVEDATA_FoldTally(Tally *t);
 
@@ -141,7 +141,16 @@ void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta)
     base[offset] = value + (u8)delta;
 }
 
-int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index){ int offset; if ((unsigned int)(index) == (unsigned int)(0)) {  return 0; } else { offset = MISC_SAVEDATA_GetAnswerMessageOffset((int)(fieldId + 0), (int)(index + 0)); return *(unsigned short *)(((char *)(((tally + 0) + (offset << 1))) + ((int)((0x55 << 2)) << 0))); } }
+int MISC_SAVEDATA_GetScoreValue(const u8 *tally, int fieldId, int index)
+{
+    int offset;
+
+    if (index == 0) {
+        return 0;
+    }
+    offset = MISC_SAVEDATA_GetAnswerMessageOffset(fieldId, index);
+    return *(u16 *)(tally + (offset << 1) + 0x154);
+}
 
 /*
  * Folds two arrays of pending increments into their saturating totals and

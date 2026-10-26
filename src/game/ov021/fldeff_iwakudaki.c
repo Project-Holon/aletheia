@@ -121,7 +121,7 @@ IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_IWAKUDAKI_Delete(FieldEffectSys *fieldEffect, IwakudakiRes *res);
 void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res);
 void FLDEFF_IWAKUDAKI_FreeResources(IwakudakiRes *res);
-void FLDEFF_IWAKUDAKI_UploadTexturesTask(void *task, void *work);
+void FLDEFF_IWAKUDAKI_UploadTexturesTask(struct TcbTask * taskArg, void *work);
 void FLDEFF_IWAKUDAKI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect);
 void FLDEFF_IWAKUDAKI_Init(FieldEffectObj *effect, IwakudakiWork *work);
 void FLDEFF_IWAKUDAKI_Exit(void *task, IwakudakiWork *work);
@@ -140,7 +140,7 @@ extern G3dObjectStatus sIwakudakiDrawStatus;                     /* draw status 
 /* Loads the resources of the Rock Smash effect. */
 IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IwakudakiRes *res = GFL_HEAP_Alloc(heapId, 0x20, 1, sFldeffIwakudakiFileName, 0x67);
+    IwakudakiRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffIwakudakiFileName, 0x67);
     res->fieldEffect = fieldEffect;
     FLDEFF_IWAKUDAKI_LoadResources(res);
     return res;
@@ -159,7 +159,7 @@ void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res)
 
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IWAKUDAKI_MODEL_FILE);
     G3D_SYSTEM_AllocVramTexture(res->model);
-    res->uploadTask = GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))FLDEFF_IWAKUDAKI_UploadTexturesTask, (void *)res, 0);
+    res->uploadTask = GFL_USE_AddMainTask( FLDEFF_IWAKUDAKI_UploadTexturesTask, (void *)res, 0);
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
         res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, sIwakudakiAnimeFiles[i]);
 }
@@ -176,8 +176,9 @@ void FLDEFF_IWAKUDAKI_FreeResources(IwakudakiRes *res)
 }
 
 /* Task: uploads the model textures to VRAM once. */
-void FLDEFF_IWAKUDAKI_UploadTexturesTask(void *task, void *work)
+void FLDEFF_IWAKUDAKI_UploadTexturesTask(struct TcbTask * taskArg, void *work)
 {
+    void * task = (void *)taskArg;
     IwakudakiRes *res = work;
 
     if (res->texturesUploaded == 0) {

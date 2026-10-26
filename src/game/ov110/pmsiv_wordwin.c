@@ -218,7 +218,7 @@ int PMSIV_WORDWIN_IsPickAnimDone(struct PmsivWordwin *p);
 
 /* Allocates the word window and its two bitmap windows. */
 struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, PmsInput *input, struct PmsInputData *wordData) {
-    struct PmsivWordwin *p=GFL_HEAP_Alloc(42,160,0,gPmsivWordwinFileName,154);
+    struct PmsivWordwin *p=GFL_HEAP_Alloc(42,sizeof(*p),0,gPmsivWordwinFileName,154);
     p->view=view; p->input=input; p->wordData=wordData;
     p->wordText=(struct U16Vec *)STRBUF_Create(32,42);
     p->listWindow=(void *)BMP_WIN_Create(2,3,0,26,32,13,1);
@@ -526,11 +526,11 @@ void PMSIV_WORDWIN_ResetScroll(struct PmsivWordwin *p) { p->originY=0; p->firstS
 /* Draws one list cell at a height. */
 void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
 {
-    uptr font;
+    struct GfFont *font;
     struct PmsivWordwinPt pos;
     u32 wrap, x;
     struct Bmp *dest;
-    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
+    font = PMS_INPUT_VIEW_GetFont(p->view);
     if (n < 2 || n >= PMS_INPUT_GetListItemCount(p->input)) return;
     if (!PMS_INPUT_GetBrowseMode(p->input) && PMS_INPUT_GetCursorPos(p->input) == 11) {
         x = 24 + 112 * ((n - 2) & 1);
@@ -544,11 +544,11 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
     PMS_INPUT_GetListWord(p->input, n - 2, (p->wordText));
     GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->listWindow), 112 * ((n - 2) & 1), y, (struct Strbuf *)p->wordText, (void *)font);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->listWindow), 112 * ((n - 2) & 1), y, (struct Strbuf *)p->wordText, font);
     } else {
         wrap = 256 - y;
         BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)p->wrapWindow), 0);
-        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->wrapWindow), 0, 0, (struct Strbuf *)p->wordText, (void *)font);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->wrapWindow), 0, 0, (struct Strbuf *)p->wordText, font);
         n = 112 * ((n - 2) & 1);
         dest = BMP_WIN_GetBmp((struct BmpWin *)p->wrapWindow);
         BMP_Blit(dest, BMP_WIN_GetBmp((struct BmpWin *)p->listWindow), 0, 0, n, y, 96, wrap, 65535);

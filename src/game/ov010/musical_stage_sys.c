@@ -197,7 +197,7 @@ MusicalStage *MUSICAL_STAGE_SYS_Create(u32 heapId, void *session)
     MusicalStage *stage;
     u8 i;
 
-    stage = GFL_HEAP_Alloc(heapId, 0x20, 0, sMusicalStageSysFileName, 0xBE);
+    stage = GFL_HEAP_Alloc(heapId, sizeof(*stage), 0, sMusicalStageSysFileName, 0xBE);
     stage->session = session;
     for (i = 0; i < 4; i++)
         stage->performers[i] = 0;
@@ -225,12 +225,16 @@ int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage){
  */
 int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
+#ifdef __MWERKS__
     sptr list;
     int offset;
 
     list = (sptr)stage + 4;
     offset = slot << 2;
     *(MusicalPerformer **)((char *)list + offset) = performer;
+#else
+    stage->performers[slot] = performer;
+#endif
     performer->origin = MUSICAL_PERFORMER_LOCAL;
     return MUSICAL_PERFORMER_LOCAL;
 }
@@ -252,12 +256,16 @@ void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 mons
  */
 int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
+#ifdef __MWERKS__
     sptr list;
     int offset;
 
     list = (sptr)stage + 4;
     offset = slot << 2;
     *(MusicalPerformer **)((char *)list + offset) = performer;
+#else
+    stage->performers[slot] = performer;
+#endif
     performer->origin = MUSICAL_PERFORMER_REMOTE;
     return MUSICAL_PERFORMER_REMOTE;
 }

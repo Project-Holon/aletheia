@@ -40,7 +40,7 @@
  *   s_data_02146AAC  0x02146AAC  data
  *   dwc_init_state  0x02146AAC  data  a4
  */
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #define DWC_AUTHSERVER_PRODUCTION 1
 #define DWC_ALLOCTYPE_BASE 2
@@ -68,7 +68,7 @@ extern char id_string_production[68];
 extern u32  dwci_gamecode;
 extern char gcd_gamename[];
 extern char StatsServerHostname[];
-extern void *s_data_02146AAC;
+extern u32 s_data_02146AAC;
 
 /*
  * sdk:      DWC_InitForProduction (libdwccommon.TWL.HYB.a dwc_init.o)
@@ -129,7 +129,7 @@ int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc a
     return result;
 }
 
-void *DWCi_GetGamecode(void)
+u32 DWCi_GetGamecode(void)
 {
     return s_data_02146AAC;
 }

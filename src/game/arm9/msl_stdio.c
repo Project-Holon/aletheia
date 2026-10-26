@@ -119,11 +119,11 @@ int __load_buffer(struct MslStream *stream, size_t *bytes_loaded, int mode);
 
 int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed);
 
-int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
+int fread(void *ptr, u32 memb_size, u32 num_memb, FILE *stream);
 
 size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file);
 
-int fclose(u8 *stream);
+int fclose(FILE *stream);
 
 int MSL_C_LIB_FlushStream(struct MslStream *stream);
 
@@ -131,11 +131,11 @@ int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n);
 
 int __ftell(struct MslStream *stream);
 
-int ftell(u32 stream);
+int ftell(FILE *stream);
 
 int __fseek(MslStream *stream, u32 pos, u32 whence);
 
-int fseek(u32 stream, u32 pos, u32 whence);
+int fseek(FILE *stream, u32 pos, u32 whence);
 
 int rewind(void *stream);
 
@@ -233,7 +233,7 @@ int __load_buffer(struct MslStream *stream, size_t *bytes_loaded, int mode)
     __prep_buffer((struct MslStream *)stream);
     if (mode == 1)
         stream->buffer_len = stream->buffer_size;
-    r = ((MslReadFn)stream->read_proc)(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
+    r = stream->read_proc(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
     if (r == 2)
         stream->buffer_len = 0;
     if (bytes_loaded != 0)
@@ -274,7 +274,7 @@ int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed)
         stream->buffer_len = d;
         if (((stream->mode << 19) >> 31) == 0)
             MSL_C_LIB_NopBufferHookA(stream->buffer, &stream->buffer_len);
-        r = ((MslWriteFn)stream->write_proc)(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
+        r = stream->write_proc(stream->handle, stream->buffer, &stream->buffer_len, stream->ref_con);
         if (bytes_flushed != 0)
             *bytes_flushed = stream->buffer_len;
         if (r != 0)
@@ -308,9 +308,9 @@ int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed)
  *   python3 tools/match.py one --src src/matched/fread.c \
  *       --func fread --addr 0x020916D4 --arm --cc 1.1p1
  */
-int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
+int fread(void *ptr, u32 memb_size, u32 num_memb, FILE *stream)
 {
-    u32 idx = (stream == (uptr)gMslStream0) ? 2 : 5;
+    u32 idx = (stream == (FILE *)gMslStream0) ? 2 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -329,7 +329,7 @@ int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
             gMslRefCount[idx] = 1;
         }
     }
-    r = __fread((void *)ptr, memb_size, num_memb, (struct FILE *)stream);
+    r = __fread(ptr, memb_size, num_memb, stream);
     gMslRefCount[idx]--;
     if (gMslRefCount[idx] == 0) OS_UnlockMutex((struct OSMutex *)blk);
     return r;
@@ -476,7 +476,7 @@ size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     return bytes_read / memb_size;
 }
 
-int fclose(u8 *stream)
+int fclose(FILE *stream)
 {
     u32 mode;
     int r;
@@ -488,7 +488,7 @@ int fclose(u8 *stream)
     if (mode == 0)
         return 0;
     r = (int)MSL_C_LIB_FlushStream((struct MslStream *)stream);
-    x = ((int (*)(u32))*(u32 *)(stream + 0x44))(((struct MslStream *)stream)->handle);
+    x = ((struct MslStream *)stream)->close_proc(((struct MslStream *)stream)->handle);
     ((struct MslStream *)stream)->mode &= ~0x380u;
     ((struct MslStream *)stream)->handle = 0;
     if ((((struct MslStream *)stream)->state << 28) >> 31)
@@ -704,10 +704,10 @@ int __ftell(struct MslStream *stream)
  *   python3 tools/match.py one --src src/matched/ftell.c \
  *       --func ftell --addr 0x02091D38 --arm --cc 1.1p1
  */
-int ftell(u32 stream)
+int ftell(FILE *stream)
 {
-    u32 idx = (stream == (uptr)gMslStream0) ? 2 : (stream == (uptr)gMslStream1) ? 3
-            : (stream == (uptr)gMslStream2) ? 4 : 5;
+    u32 idx = (stream == (FILE *)gMslStream0) ? 2 : (stream == (FILE *)gMslStream1) ? 3
+            : (stream == (FILE *)gMslStream2) ? 4 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -809,10 +809,10 @@ int __fseek(MslStream *stream, u32 pos, u32 whence)
  *           stands: converts with no edit the moment 0x02091E44 has a
  *           manifest entry of its own.
  */
-int fseek(u32 stream, u32 pos, u32 whence)
+int fseek(FILE *stream, u32 pos, u32 whence)
 {
-    u32 idx = (stream == (uptr)gMslStream0) ? 2 : (stream == (uptr)gMslStream1) ? 3
-            : (stream == (uptr)gMslStream2) ? 4 : 5;
+    u32 idx = (stream == (FILE *)gMslStream0) ? 2 : (stream == (FILE *)gMslStream1) ? 3
+            : (stream == (FILE *)gMslStream2) ? 4 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -837,7 +837,7 @@ int fseek(u32 stream, u32 pos, u32 whence)
     return r;
 }
 
-int rewind(void *stream){ int result; ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; result = fseek((sptr)stream, (int)0, (int)0); ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; return result; }
+int rewind(void *stream){ int result; ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; result = fseek((FILE *)stream, (int)0, (int)0); ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; return result; }
 
 /*
  * 64-bit population count: the four SWAR stages of the standard bit-count

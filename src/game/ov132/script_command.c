@@ -128,7 +128,7 @@ typedef struct Tag { u32 v; } Tag;
 typedef struct ScriptCommandMsg { struct ScriptOwner *system; void *vm; u8 pad8[0xC]; u16 waitFrames; } ScriptCommandMsg;
 
 typedef struct ScriptActorMoveTask {
-    u32 actor; char *scene; ScriptCommandVec3 start; ScriptCommandVec3 end; ScriptCommandVec3 step; u16 duration; u16 counter; struct ScriptOwner *system; void *node;
+    void *actor; char *scene; ScriptCommandVec3 start; ScriptCommandVec3 end; ScriptCommandVec3 step; u16 duration; u16 counter; struct ScriptOwner *system; void *node;
 } ScriptActorMoveTask;
 
 typedef struct ScriptShakeTask { char *scene; u32 counter; u32 interval; u32 remaining; void *actor; int amplitude; void *system; void *node; } ScriptShakeTask;
@@ -232,11 +232,11 @@ int SCRIPT_COMMAND_CmdCameraTo0(void *unused, char *ctx);
 
 int SCRIPT_COMMAND_CmdSetCameraPos(void *unused, char *ctx);
 
-void SCRIPT_COMMAND_TaskCameraPos(void *unused, char *p);
+void SCRIPT_COMMAND_TaskCameraPos(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx);
 
-void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p);
+void SCRIPT_COMMAND_TaskCameraTarget(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p);
 
@@ -254,7 +254,7 @@ int SCRIPT_COMMAND_CmdSetActorPos(int unused,char *p);
 
 int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskActorMove(int unused,char *p);
+void SCRIPT_COMMAND_TaskActorMove(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdActorAnimRestart(int unused, char *p);
 
@@ -278,11 +278,11 @@ int SCRIPT_COMMAND_CmdLoadAnimMember(int unused,char *p);
 
 int SCRIPT_COMMAND_CmdStartShake(int unused, char *p);
 
-void SCRIPT_COMMAND_TaskShake(int unused, char *p);
+void SCRIPT_COMMAND_TaskShake(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskRotate(int unused, int *task);
+void SCRIPT_COMMAND_TaskRotate(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdCompareScores(int unused, ScriptCommandMsg *m);
 
@@ -298,7 +298,7 @@ int SCRIPT_COMMAND_CmdHideEntry(int unused,char *p);
 
 int SCRIPT_COMMAND_CmdSetEntryTarget(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskEntryTarget(int unused,char *p);
+void SCRIPT_COMMAND_TaskEntryTarget(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p);
 
@@ -310,7 +310,7 @@ int SCRIPT_COMMAND_CmdKillEffect(int unused,char *p);
 
 int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskMoveEffect(int a, char *p);
+void SCRIPT_COMMAND_TaskMoveEffect(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdSetChar(int a,char **p);
 
@@ -318,11 +318,11 @@ int SCRIPT_COMMAND_CmdFreeChar(int unused,char *p);
 
 int SCRIPT_COMMAND_CmdSetCharPos(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskCharMove(int unused,char *p);
+void SCRIPT_COMMAND_TaskCharMove(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p);
 
-void SCRIPT_COMMAND_TaskCharFollow(int unused,char *p);
+void SCRIPT_COMMAND_TaskCharFollow(struct TcbTask *unused, void *arg);
 
 int SCRIPT_COMMAND_CmdSetCharColor(int a,char **p);
 
@@ -356,7 +356,7 @@ int SCRIPT_COMMAND_CmdCameraTo224(void *unused, char *ctx)
     int delta;
     owner = *(char * *)&((struct ScriptCtx *)ctx)->system;
     wait = VM_GetU32(((struct ScriptCtx *)ctx)->vm.p);
-    p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, 0x18, 0, d_021FDD00, 0x1a4);
+    p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, BW_OFFSETOF(struct ScriptTask, actor), 0, d_021FDD00, 0x1a4);
     *(char * *)&((struct ScriptTask *)p)->system = owner;
     ((struct ScriptTask *)p)->scene = ((struct ScriptOwner *)owner)->scene;
     ((struct ScriptTask *)p)->counter = 0;
@@ -365,7 +365,7 @@ int SCRIPT_COMMAND_CmdCameraTo224(void *unused, char *ctx)
     delta = 224 - ((struct ScriptTask *)p)->start.s;
     if (delta < 0) delta = -delta;
     ((struct ScriptTask *)p)->duration = delta / 2;
-    ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, (uptr)SCRIPT_COMMAND_TaskCameraPos, (u32)((struct TaskData *)p), 10);
+    ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, SCRIPT_COMMAND_TaskCameraPos, ((struct TaskData *)p), 10);
     if (wait == 1) {
         ((struct ScriptCtx *)ctx)->waitFrames = ((struct ScriptTask *)p)->duration;
         return 1;
@@ -381,7 +381,7 @@ int SCRIPT_COMMAND_CmdCameraTo0(void *unused, char *ctx)
     int delta;
     owner = *(char * *)&((struct ScriptCtx *)ctx)->system;
     wait = VM_GetU32(((struct ScriptCtx *)ctx)->vm.p);
-    p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, 0x18, 0, d_021FDD00, 0x1c1);
+    p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, BW_OFFSETOF(struct ScriptTask, actor), 0, d_021FDD00, 0x1c1);
     *(char * *)&((struct ScriptTask *)p)->system = owner;
     ((struct ScriptTask *)p)->scene = ((struct ScriptOwner *)owner)->scene;
     ((struct ScriptTask *)p)->counter = 0;
@@ -390,7 +390,7 @@ int SCRIPT_COMMAND_CmdCameraTo0(void *unused, char *ctx)
     delta = ((struct ScriptTask *)p)->end.s - ((struct ScriptTask *)p)->start.s;
     if (delta < 0) delta = -delta;
     ((struct ScriptTask *)p)->duration = delta / 2;
-    ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, (uptr)SCRIPT_COMMAND_TaskCameraPos, (u32)((struct TaskData *)p), 10);
+    ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, SCRIPT_COMMAND_TaskCameraPos, ((struct TaskData *)p), 10);
     STA_ACTING_PlayRankSe(((struct ScriptOwner *)owner)->scene);
     if (wait == 1) {
         ((struct ScriptCtx *)ctx)->waitFrames = ((struct ScriptTask *)p)->duration;
@@ -413,14 +413,14 @@ int SCRIPT_COMMAND_CmdSetCameraPos(void *unused, char *ctx)
     if (time == 0) {
         STA_ACTING_SetCameraPos(((struct ScriptOwner *)owner)->scene, target);
     } else {
-        p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, 0x18, 0, d_021FDD00, 0x1e9);
+        p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, BW_OFFSETOF(struct ScriptTask, actor), 0, d_021FDD00, 0x1e9);
         *(char * *)&((struct ScriptTask *)p)->system = owner;
         ((struct ScriptTask *)p)->scene = ((struct ScriptOwner *)owner)->scene;
         ((struct ScriptTask *)p)->counter = 0;
         ((struct ScriptTask *)p)->start.s = STA_ACTING_GetCameraPos(((struct ScriptOwner *)owner)->scene);
         ((struct ScriptTask *)p)->end.s = target;
         ((struct ScriptTask *)p)->duration = time;
-        ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, (uptr)SCRIPT_COMMAND_TaskCameraPos, (u32)((struct TaskData *)p), 10);
+        ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, SCRIPT_COMMAND_TaskCameraPos, ((struct TaskData *)p), 10);
         if (wait == 1) {
             ((struct ScriptCtx *)ctx)->waitFrames = ((struct ScriptTask *)p)->duration;
             return 1;
@@ -429,8 +429,9 @@ int SCRIPT_COMMAND_CmdSetCameraPos(void *unused, char *ctx)
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskCameraPos(void *unused, char *p)
+void SCRIPT_COMMAND_TaskCameraPos(struct TcbTask *unused, void *arg)
 {
+    char *p = arg;
     int v;
     int done = STA_ACT_SCRIPT_StepTaskInt(p, &v);
     STA_ACTING_SetCameraPos(((struct ScriptTask *)p)->scene, v);
@@ -451,14 +452,14 @@ int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx)
     if (time == 0) {
         STA_ACTING_SetCameraTarget(((struct ScriptOwner *)owner)->scene, target);
     } else {
-        p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, 0x18, 0, d_021FDD00, 0x225);
+        p = GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId, BW_OFFSETOF(struct ScriptTask, actor), 0, d_021FDD00, 0x225);
         *(char * *)&((struct ScriptTask *)p)->system = owner;
         ((struct ScriptTask *)p)->scene = ((struct ScriptOwner *)owner)->scene;
         ((struct ScriptTask *)p)->counter = 0;
         ((struct ScriptTask *)p)->start.s = STA_ACTING_GetCameraScrollX(((struct ScriptOwner *)owner)->scene);
         ((struct ScriptTask *)p)->end.s = target;
         ((struct ScriptTask *)p)->duration = time;
-        ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, (uptr)SCRIPT_COMMAND_TaskCameraTarget, (u32)((struct TaskData *)p), 10);
+        ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, SCRIPT_COMMAND_TaskCameraTarget, ((struct TaskData *)p), 10);
         if (wait == 1) {
             ((struct ScriptCtx *)ctx)->waitFrames = ((struct ScriptTask *)p)->duration;
             return 1;
@@ -467,8 +468,9 @@ int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx)
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p)
+void SCRIPT_COMMAND_TaskCameraTarget(struct TcbTask *unused, void *arg)
 {
+    char *p = arg;
     int v;
     int done = STA_ACT_SCRIPT_StepTaskInt(p, &v);
     STA_ACTING_SetCameraTarget(((struct ScriptTask *)p)->scene, v);
@@ -537,12 +539,12 @@ int SCRIPT_COMMAND_CmdSetActorVisible(int unused, char *p)
     ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->scene);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            char *slot;
+            void *slot;
             int flag;
             slot = STA_ACTING_GetActor(((struct ScriptOwner *)obj)->scene, i);
             flag = 0;
             if (value != 0) flag = 1;
-            STA_ACT_LIGHT_SetActorFlagB((sptr)ctx, (int *)slot, flag);
+            STA_ACT_LIGHT_SetActorFlagB((sptr)ctx, slot, flag);
         }
     }
     return 0;
@@ -551,7 +553,7 @@ int SCRIPT_COMMAND_CmdSetActorVisible(int unused, char *p)
 int SCRIPT_COMMAND_CmdSetActorPos(int unused,char *p)
 {
     int mask;
-    char *owner,*q,*target;
+    char *owner,*q; void *target;
     StaActingVec pos;
     int delta[3];
     u32 wait,z,y,x,rate;
@@ -570,21 +572,21 @@ int SCRIPT_COMMAND_CmdSetActorPos(int unused,char *p)
             target=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->scene,i);
             if (rate==0) {
                 pos.x=x;pos.y=y;pos.z=z;
-                STA_ACT_LIGHT_SetActorPos(ctx,(u32 *)target,(const u32 *)(&pos));
+                STA_ACT_LIGHT_SetActorPos(ctx,target,(const u32 *)(&pos));
             } else {
-                q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,56,0,d_021FDD00,0x2DA);
+                q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptSlot),0,d_021FDD00,0x2DA);
                 *(char * *)&((struct ScriptSlot *)q)->system=owner;
                 *(char * *)&((struct ScriptSlot *)q)->target=target;
                 ((struct ScriptSlot *)q)->scene=((struct ScriptOwner *)owner)->scene;
                 ((struct ScriptSlot *)q)->counter=0;
-                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,(u32 *)(q+8));
+                STA_ACT_LIGHT_CopyActorPos(ctx,target,(u32 *)((u8 *)&((struct ScriptSlot *)q)->start));
                 ((struct ScriptSlot *)q)->end[0]=x;((struct ScriptSlot *)q)->end[1]=y;((struct ScriptSlot *)q)->end[2]=z;
                 ((struct ScriptSlot *)q)->duration=rate;
-                VEC_Subtract((const VecFx32 *)(q+20),(const VecFx32 *)(q+8),(VecFx32 *)delta);
+                VEC_Subtract((const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->end),(const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->start),(VecFx32 *)delta);
                 ((struct ScriptSlot *)q)->step[0]=delta[0]/(int)rate;
                 ((struct ScriptSlot *)q)->step[1]=delta[1]/(int)rate;
                 ((struct ScriptSlot *)q)->step[2]=delta[2]/(int)rate;
-                ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskActorMove,(u32)((struct TaskData *)q),10);
+                ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskActorMove,((struct TaskData *)q),10);
             }
         }
     }
@@ -613,44 +615,44 @@ int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p)
     char *owner;
     int rate;
     Coord wait;
-    owner=*(char **)p;
-    mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(void **)(p+4)));
-    rate=VM_GetU32(*(void **)(p+4));
-    x=VM_GetU32(*(void **)(p+4));
-    y=VM_GetU32(*(void **)(p+4));
-    z=VM_GetU32(*(void **)(p+4));
-    wait=VM_GetU32(*(void **)(p+4));
+    owner=((struct ScriptCtx *)p)->system.p;
+    mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(((struct ScriptCtx *)p)->vm.p));
+    rate=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    x=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    y=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    z=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    wait=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
     {
     u8 i;
     void *ctx;
-    char *q,*target;
+    char *q; void *target;
     u32 pos[3];
-    ctx=STA_ACTING_GetActorSystem(*(void **)(owner+52));
+    ctx=STA_ACTING_GetActorSystem(((struct ScriptOwner *)owner)->scene);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            target=STA_ACTING_GetActor(*(void **)(owner+52),i);
+            target=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->scene,i);
             if (rate==0) {
-                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_CopyActorPos(ctx,target,pos);
                 pos[0]+=x;pos[1]+=y;pos[2]+=z;
-                STA_ACT_LIGHT_SetActorPos(ctx,(u32 *)target,pos);
+                STA_ACT_LIGHT_SetActorPos(ctx,target,pos);
             } else {
-                q=GFL_HEAP_Alloc(*(u16 *)owner,56,0,d_021FDD00,0x31B);
-                *(char **)(q+48)=owner;
-                *(char **)q=target;
-                *(void **)(q+4)=*(void **)(owner+52);
-                *(u16 *)(q+46)=0;
-                STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)target,(u32 *)(q+8));
-                vset((StaActingVec *)(q+20),*(int *)(q+8)+x,*(int *)(q+12)+y,*(int *)(q+16)+z);
-                *(u16 *)(q+44)=rate;
-                *(int *)(q+32)=(int)x/(int)rate;
-                *(int *)(q+36)=(int)y/(int)rate;
-                *(int *)(q+40)=(int)z/(int)rate;
-                *(void **)(q+52)=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskActorMove,(u32)((struct TaskData *)q),10);
+                q=GFL_HEAP_Alloc(*(u16 *)owner,sizeof(struct ScriptSlot),0,d_021FDD00,0x31B);
+                ((struct ScriptSlot *)q)->system=owner;
+                ((struct ScriptSlot *)q)->target=target;
+                ((struct ScriptSlot *)q)->scene=((struct ScriptOwner *)owner)->scene;
+                ((struct ScriptSlot *)q)->counter=0;
+                STA_ACT_LIGHT_CopyActorPos(ctx,target,(u32 *)((struct ScriptSlot *)q)->start);
+                vset((StaActingVec *)((struct ScriptSlot *)q)->end,(int)((struct ScriptSlot *)q)->start[0]+x,(int)((struct ScriptSlot *)q)->start[1]+y,(int)((struct ScriptSlot *)q)->start[2]+z);
+                ((struct ScriptSlot *)q)->duration=rate;
+                ((struct ScriptSlot *)q)->step[0]=(int)x/(int)rate;
+                ((struct ScriptSlot *)q)->step[1]=(int)y/(int)rate;
+                ((struct ScriptSlot *)q)->step[2]=(int)z/(int)rate;
+                ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskActorMove,((struct TaskData *)q),10);
             }
         }
     }
     }
-    if(wait==1) {*(u16 *)(p+20)=rate;return 1;}
+    if(wait==1) {((struct ScriptCtx *)p)->waitFrames=rate;return 1;}
     return 0;
 }
 
@@ -659,7 +661,8 @@ int SCRIPT_COMMAND_CmdAddActorPos(int unused,char *p)
 /*
  * lever: Void callback return omits the extra zero result instruction.
  */
-void SCRIPT_COMMAND_TaskActorMove(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetActorSystem(((struct ScriptSlot *)p)->scene); result=STA_ACT_SCRIPT_StepTaskVec(p+4,pos); STA_ACT_LIGHT_SetActorPos(ctx,*(unsigned int * *)&((struct ScriptSlot *)p)->target,(unsigned int *)pos); if(result==1)STA_ACT_SCRIPT_RemoveTask(((struct ScriptSlot *)p)->system,((struct ScriptSlot *)p)->node); }
+void SCRIPT_COMMAND_TaskActorMove(struct TcbTask *unused, void *arg) {
+    char *p = arg; int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetActorSystem(((struct ScriptSlot *)p)->scene); result=STA_ACT_SCRIPT_StepTaskVec((char *)&((struct ScriptSlot *)p)->scene,pos); STA_ACT_LIGHT_SetActorPos(ctx,((struct ScriptSlot *)p)->target,(unsigned int *)pos); if(result==1)STA_ACT_SCRIPT_RemoveTask(((struct ScriptSlot *)p)->system,((struct ScriptSlot *)p)->node); }
 
 int SCRIPT_COMMAND_CmdActorAnimRestart(int unused, char *p)
 {
@@ -706,13 +709,13 @@ int SCRIPT_COMMAND_CmdSetActorFlag(int unused, char *p)
     int value;
     char *ctx;
     u8 i;
-    obj = *(char **)p;
-    mask = SCRIPT_COMMAND_GetActorMask(p, VM_GetU32(*(void **)(p + 4)));
-    value = VM_GetU32(*(void **)(p + 4));
-    ctx = STA_ACTING_GetActorSystem(*(char **)(obj + 0x34));
+    obj = ((struct ScriptCtx *)p)->system.p;
+    mask = SCRIPT_COMMAND_GetActorMask(p, VM_GetU32(((struct ScriptCtx *)p)->vm.p));
+    value = VM_GetU32(((struct ScriptCtx *)p)->vm.p);
+    ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->scene);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            STA_ACT_LIGHT_SetRenderAnim((sptr)ctx, STA_ACTING_GetActor(*(char **)(obj + 0x34), i), value);
+            STA_ACT_LIGHT_SetRenderAnim((sptr)ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->scene, i), value);
         }
     }
     return 0;
@@ -807,7 +810,7 @@ int SCRIPT_COMMAND_CmdStartShake(int unused, char *p)
     STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->scene);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            data = GFL_HEAP_Alloc(((struct ScriptOwner *)obj)->heapId, 0x20, 0, d_021FDD00, 0x443);
+            data = GFL_HEAP_Alloc(((struct ScriptOwner *)obj)->heapId, sizeof(TaskData), 0, d_021FDD00, 0x443);
             data->owner = obj;
             data->slot = STA_ACTING_GetActor(((struct ScriptOwner *)obj)->scene, i);
             data->amplitude = amplitude;
@@ -815,7 +818,7 @@ int SCRIPT_COMMAND_CmdStartShake(int unused, char *p)
             data->tick = 0;
             data->duration = duration;
             data->count = count;
-            data->task = STA_ACT_SCRIPT_AddTask(obj, (uptr)SCRIPT_COMMAND_TaskShake, (u32)data, 10);
+            data->task = STA_ACT_SCRIPT_AddTask(obj, SCRIPT_COMMAND_TaskShake, data, 10);
         }
     }
     if (wait == 1) {
@@ -828,8 +831,9 @@ int SCRIPT_COMMAND_CmdStartShake(int unused, char *p)
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskShake(int unused, char *p)
+void SCRIPT_COMMAND_TaskShake(struct TcbTask *unused, void *arg)
 {
+    char *p = arg;
     void *ctx;
     ctx = STA_ACTING_GetActorSystem(((ScriptShakeTask *)p)->scene);
     if (STA_ACT_SCRIPT_TickSlot(p) == 2) {
@@ -864,7 +868,7 @@ int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p)
     STA_ACTING_GetActorSystem(((struct ScriptOwner *)owner)->scene);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,36,0,d_021FDD00,0x493);
+            q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptTask),0,d_021FDD00,0x493);
             *(char * *)&((struct ScriptTask *)q)->rotateSystem=owner;
             ((struct ScriptTask *)q)->actor=STA_ACTING_GetActor(((struct ScriptOwner *)owner)->scene,i);
             ((struct ScriptTask *)q)->scene=((struct ScriptOwner *)owner)->scene;
@@ -872,7 +876,7 @@ int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p)
             ((struct ScriptTask *)q)->end.u=start+delta;
             ((struct ScriptTask *)q)->duration=rate;
             ((struct ScriptTask *)q)->counter=0;
-            ((struct ScriptTask *)q)->rotateNode=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskRotate,(u32)((struct TaskData *)q),10);
+            ((struct ScriptTask *)q)->rotateNode=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskRotate,((struct TaskData *)q),10);
         }
     }
     if(wait==1) {((struct ScriptCtx *)p)->waitFrames=rate;return 1;}
@@ -887,15 +891,16 @@ int SCRIPT_COMMAND_CmdRotateActor(int unused,char *p)
  *           EXACT* only because the inferred extent runs into an unlabelled
  *           follower in ov132; there is no byte difference.
  */
-void SCRIPT_COMMAND_TaskRotate(int unused, int *task)
+void SCRIPT_COMMAND_TaskRotate(struct TcbTask *unused, void *arg)
 {
-    int r4 = (sptr)STA_ACTING_GetActorSystem((char *)task[0]);
+    struct ScriptTask *task = arg;
+    int r4 = (sptr)STA_ACTING_GetActorSystem(task->scene);
     int local;
     if (STA_ACT_SCRIPT_StepTaskInt((char *)task, &local) == 1) {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)((task[2] << 16) / 0x168));
-        STA_ACT_SCRIPT_RemoveTask((char *)task[7], (char *)task[8]);
+        STA_ACT_LIGHT_SetActorAngle(r4, task->actor, (u16)((task->end.s << 16) / 0x168));
+        STA_ACT_SCRIPT_RemoveTask(task->rotateSystem, task->rotateNode);
     } else {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)((local << 16) / 0x168));
+        STA_ACT_LIGHT_SetActorAngle(r4, task->actor, (u16)((local << 16) / 0x168));
     }
 }
 
@@ -953,9 +958,9 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, ScriptCommandMsg *ctx)
         ScriptActorMoveTask *a;
         tag.v = 0x54B;
         tag.v -= 0x1B;
-        a = GFL_HEAP_Alloc(o->heapId, 0x38, 0, d_021FDD00, tag.v);
+        a = GFL_HEAP_Alloc(o->heapId, sizeof(ScriptActorMoveTask), 0, d_021FDD00, tag.v);
         a->system = o;
-        a->actor = (u32)STA_ACTING_GetActor(o->scene, k);
+        a->actor = STA_ACTING_GetActor(o->scene, k);
         a->scene = o->scene;
         a->counter = 0;
         STA_ACT_LIGHT_CopyActorPos(h, (void *)a->actor, (u32 *)&a->start);
@@ -966,9 +971,9 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, ScriptCommandMsg *ctx)
         a->step.x = (int)(a->end.x - a->start.x) / a->duration;
         a->step.y = (int)(a->end.y - a->start.y) / a->duration;
         a->step.z = (int)(a->end.z - a->start.z) / a->duration;
-        a->node = STA_ACT_SCRIPT_AddTask((char *)o, (uptr)SCRIPT_COMMAND_TaskActorMove, (u32)((struct TaskData *)a), 10);
+        a->node = STA_ACT_SCRIPT_AddTask((char *)o, SCRIPT_COMMAND_TaskActorMove, ((struct TaskData *)a), 10);
         if (a->duration != 0) {
-            ScriptShakeTask *b = GFL_HEAP_Alloc(o->heapId, 0x20, 0, d_021FDD00, 0x54B);
+            ScriptShakeTask *b = GFL_HEAP_Alloc(o->heapId, sizeof(ScriptShakeTask), 0, d_021FDD00, 0x54B);
             u16 t = a->duration;
             int rem = (u8)(t % 15) ? 1 : 0;
             b->system = o;
@@ -978,12 +983,12 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, ScriptCommandMsg *ctx)
             b->counter = 0;
             b->interval = 15;
             b->remaining = (u8)(t / 15 + rem);
-            b->node = STA_ACT_SCRIPT_AddTask((char *)o, (uptr)SCRIPT_COMMAND_TaskShake, (u32)((struct TaskData *)b), 10);
+            b->node = STA_ACT_SCRIPT_AddTask((char *)o, SCRIPT_COMMAND_TaskShake, ((struct TaskData *)b), 10);
         }
         total += a->end.x;
     }
     {
-        ScriptCameraTargetTask *c = GFL_HEAP_Alloc(o->heapId, 0x18, 0, d_021FDD00, 0x563);
+        ScriptCameraTargetTask *c = GFL_HEAP_Alloc(o->heapId, sizeof(ScriptCameraTargetTask), 0, d_021FDD00, 0x563);
         float f;
         c->system = o;
         c->scene = o->scene;
@@ -994,7 +999,7 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, ScriptCommandMsg *ctx)
         f = f - 128.0f;
         c->end = (int)f;
         c->duration = x;
-        c->node = STA_ACT_SCRIPT_AddTask((char *)o, (uptr)SCRIPT_COMMAND_TaskCameraTarget, (u32)((struct TaskData *)c), 10);
+        c->node = STA_ACT_SCRIPT_AddTask((char *)o, SCRIPT_COMMAND_TaskCameraTarget, ((struct TaskData *)c), 10);
         STA_ACTING_SetCameraHoldScript((u8 *)o->scene, 1);
         STA_ACTING_SetCameraHoldScore(o->scene, 1);
         if (y == 1) {
@@ -1055,24 +1060,25 @@ int SCRIPT_COMMAND_CmdSetEntryTarget(int unused,char *p)
         pos[0]=c;pos[1]=d;pos[2]=e;
         STA_ACT_OBJ_SetEntryTarget(ctx,(StaActObjEntry *)target,pos);
     } else {
-        q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,56,0,d_021FDD00,0x601);
+        q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptSlot),0,d_021FDD00,0x601);
         *(char * *)&((struct ScriptSlot *)q)->system=owner;
         *(u32 * *)&((struct ScriptSlot *)q)->target=target;
         ((struct ScriptSlot *)q)->scene=((struct ScriptOwner *)owner)->scene;
         ((struct ScriptSlot *)q)->counter=0;
-        STA_ACT_OBJ_GetEntryTarget(ctx,(StaActObjEntry *)target,(u32 *)(q+8));
+        STA_ACT_OBJ_GetEntryTarget(ctx,(StaActObjEntry *)target,(u32 *)((u8 *)&((struct ScriptSlot *)q)->start));
         ((struct ScriptSlot *)q)->end[0]=c;((struct ScriptSlot *)q)->end[1]=d;((struct ScriptSlot *)q)->end[2]=e;
         ((struct ScriptSlot *)q)->duration=b;
-        VEC_Subtract((const VecFx32 *)(q+20),(const VecFx32 *)(q+8),(VecFx32 *)delta);
+        VEC_Subtract((const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->end),(const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->start),(VecFx32 *)delta);
         ((struct ScriptSlot *)q)->step[0]=delta[0]/(int)b;
         ((struct ScriptSlot *)q)->step[1]=delta[1]/(int)b;
         ((struct ScriptSlot *)q)->step[2]=delta[2]/(int)b;
-        ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskEntryTarget,(u32)((struct TaskData *)q),10);
+        ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskEntryTarget,((struct TaskData *)q),10);
     }
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskEntryTarget(int unused,char *p) { int pos[3]; void *ctx; int result;ctx=STA_ACTING_GetActObj(((struct ScriptSlot *)p)->scene);result=STA_ACT_SCRIPT_StepTaskVec(p+4,pos);STA_ACT_OBJ_SetEntryTarget(ctx,(StaActObjEntry *)(*(unsigned int * *)&((struct ScriptSlot *)p)->target),(unsigned int *)pos);if(result==1)STA_ACT_SCRIPT_RemoveTask(((struct ScriptSlot *)p)->system,((struct ScriptSlot *)p)->node);}
+void SCRIPT_COMMAND_TaskEntryTarget(struct TcbTask *unused, void *arg) {
+    char *p = arg; int pos[3]; void *ctx; int result;ctx=STA_ACTING_GetActObj(((struct ScriptSlot *)p)->scene);result=STA_ACT_SCRIPT_StepTaskVec((char *)&((struct ScriptSlot *)p)->scene,pos);STA_ACT_OBJ_SetEntryTarget(ctx,(StaActObjEntry *)(*(unsigned int * *)&((struct ScriptSlot *)p)->target),(unsigned int *)pos);if(result==1)STA_ACT_SCRIPT_RemoveTask(((struct ScriptSlot *)p)->system,((struct ScriptSlot *)p)->node);}
 
 /*
  * prototype: Own 021F9EDC source takes u16; original caller passes the
@@ -1121,7 +1127,7 @@ int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p)
     i=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
     j=VM_GetU32(((struct ScriptCtx *)p)->vm.p);
     target=STA_ACTING_GetAnimSlot(((struct ScriptOwner *)owner)->scene,a);
-    q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,56,0,d_021FDD00,0x691);
+    q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptEffectTask),0,d_021FDD00,0x691);
     *(char * *)&((struct ScriptEffectTask *)q)->system=owner;
     ((struct ScriptEffectTask *)q)->effectSystem=target;
     ((struct ScriptEffectTask *)q)->effectIndex=b;
@@ -1135,12 +1141,13 @@ int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p)
     ((struct ScriptEffectTask *)q)->counter=0;
     ((struct ScriptEffectTask *)q)->interval=c;
     ((struct ScriptEffectTask *)q)->remaining=d;
-    ((struct ScriptEffectTask *)q)->node=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskMoveEffect,(u32)((struct TaskData *)q),10);
+    ((struct ScriptEffectTask *)q)->node=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskMoveEffect,((struct TaskData *)q),10);
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskMoveEffect(int unused, char *p)
+void SCRIPT_COMMAND_TaskMoveEffect(struct TcbTask *unused, void *arg)
 {
+    char *p = arg;
     u32 v[3];
     int s;
     s=STA_ACT_SCRIPT_TickSlot(p);
@@ -1195,24 +1202,25 @@ int SCRIPT_COMMAND_CmdSetCharPos(int unused,char *p)
         pos.x=c;pos.y=d;pos.z=e;
         STA_ACT_LIGHT_CopyElemA(ctx,target,(const u32 *)(&pos));
     } else {
-        q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,56,0,d_021FDD00,0x704);
+        q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptSlot),0,d_021FDD00,0x704);
         *(char * *)&((struct ScriptSlot *)q)->system=owner;
         *(u32 * *)&((struct ScriptSlot *)q)->target=target;
         ((struct ScriptSlot *)q)->scene=((struct ScriptOwner *)owner)->scene;
         ((struct ScriptSlot *)q)->counter=0;
-        STA_ACT_LIGHT_GetElemPos((void *)ctx,(char *)target,(StaActLightVec3 *)((StaActingVec *)(q+8)));
+        STA_ACT_LIGHT_GetElemPos((void *)ctx,(char *)target,(StaActLightVec3 *)((StaActingVec *)((u8 *)&((struct ScriptSlot *)q)->start)));
         ((struct ScriptSlot *)q)->end[0]=c;((struct ScriptSlot *)q)->end[1]=d;((struct ScriptSlot *)q)->end[2]=e;
         ((struct ScriptSlot *)q)->duration=b;
-        VEC_Subtract((const VecFx32 *)(q+20),(const VecFx32 *)(q+8),(VecFx32 *)delta);
+        VEC_Subtract((const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->end),(const VecFx32 *)((u8 *)&((struct ScriptSlot *)q)->start),(VecFx32 *)delta);
         ((struct ScriptSlot *)q)->step[0]=delta[0]/(int)b;
         ((struct ScriptSlot *)q)->step[1]=delta[1]/(int)b;
         ((struct ScriptSlot *)q)->step[2]=delta[2]/(int)b;
-        ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskCharMove,(u32)((struct TaskData *)q),10);
+        ((struct ScriptSlot *)q)->node=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskCharMove,((struct TaskData *)q),10);
     }
     return 0;
 }
 
-void SCRIPT_COMMAND_TaskCharMove(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptSlot *)p)->scene); result=STA_ACT_SCRIPT_StepTaskVec(p+4,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptSlot *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptSlot *)p)->system,*(char * *)&((struct ScriptSlot *)p)->node); }
+void SCRIPT_COMMAND_TaskCharMove(struct TcbTask *unused, void *arg) {
+    char *p = arg; int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptSlot *)p)->scene); result=STA_ACT_SCRIPT_StepTaskVec((char *)&((struct ScriptSlot *)p)->scene,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptSlot *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptSlot *)p)->system,*(char * *)&((struct ScriptSlot *)p)->node); }
 
 int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
 {
@@ -1243,7 +1251,7 @@ int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
     STA_ACT_LIGHT_CopyElemA(ctx,target,(const u32 *)(&pos));
    } else {
     STA_ACTING_GetAudience(((struct ScriptOwner *)owner)->scene);
-    q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,0x30,0,d_021FDD00,0x74D);
+    q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,sizeof(struct ScriptCharFollowTask),0,d_021FDD00,0x74D);
     *(char * *)&((struct ScriptCharFollowTask *)q)->owner=owner;
     ((struct ScriptCharFollowTask *)q)->index=i;
     ((struct ScriptCharFollowTask *)q)->target=target;
@@ -1252,14 +1260,15 @@ int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
     ((struct ScriptCharFollowTask *)q)->step.counter=0;
     ((struct ScriptCharFollowTask *)q)->step.dx=d;((struct ScriptCharFollowTask *)q)->step.dy=e;((struct ScriptCharFollowTask *)q)->step.dz=f;
     ((struct ScriptCharFollowTask *)q)->step.duration=duration;
-    ((struct ScriptCharFollowTask *)q)->task=STA_ACT_SCRIPT_AddTask(owner,(uptr)SCRIPT_COMMAND_TaskCharFollow,(u32)((struct TaskData *)q),7);
+    ((struct ScriptCharFollowTask *)q)->task=STA_ACT_SCRIPT_AddTask(owner,SCRIPT_COMMAND_TaskCharFollow,((struct TaskData *)q),7);
    }
   }
  }
  return 0;
 }
 
-void SCRIPT_COMMAND_TaskCharFollow(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptCharFollowTask *)p)->step.scene); STA_ACTING_GetAudience(((struct ScriptCharFollowTask *)p)->step.scene); result=STA_ACT_SCRIPT_StepTaskActor((char *)&((struct ScriptCharFollowTask *)p)->step,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptCharFollowTask *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptCharFollowTask *)p)->owner,*(char * *)&((struct ScriptCharFollowTask *)p)->task); }
+void SCRIPT_COMMAND_TaskCharFollow(struct TcbTask *unused, void *arg) {
+    char *p = arg; int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptCharFollowTask *)p)->step.scene); STA_ACTING_GetAudience(((struct ScriptCharFollowTask *)p)->step.scene); result=STA_ACT_SCRIPT_StepTaskActor((char *)&((struct ScriptCharFollowTask *)p)->step,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptCharFollowTask *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptCharFollowTask *)p)->owner,*(char * *)&((struct ScriptCharFollowTask *)p)->task); }
 
 /*
  * follower: two-byte zero alignment padding at 021FC53A.
@@ -1294,7 +1303,7 @@ int SCRIPT_COMMAND_CmdSetTextColor(int unused,char *p) { u32 a,b,c; a=VM_GetU32(
 int SCRIPT_COMMAND_CmdInstallBgm(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.p));
 
     STA_ACTING_InstallBgm(((struct ScriptOwner *)p)->scene, (unsigned short)x);
     return 0;
@@ -1303,7 +1312,7 @@ int SCRIPT_COMMAND_CmdInstallBgm(int unused, char **ctx)
 int SCRIPT_COMMAND_CmdStartSeq(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.p));
 
     STA_ACTING_StartSeq(((struct ScriptOwner *)p)->scene, (unsigned short)x);
     return 0;
@@ -1320,7 +1329,7 @@ int SCRIPT_COMMAND_CmdReplaceWave(int unused,char *p) { char *o; u32 a,b,c; o=*(
 int SCRIPT_COMMAND_CmdPlayBgm(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.p));
 
     STA_ACTING_PlayBgm(((struct ScriptOwner *)p)->scene, x);
     return 0;

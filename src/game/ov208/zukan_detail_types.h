@@ -24,7 +24,7 @@ struct Ov208ActDesc {
 struct Ov208ActList {
     struct Ov208ActDesc *descs;
     unsigned int count;
-    unsigned int owner;
+    struct Unit *owner;
     unsigned int channel;
     unsigned int pal;
     unsigned int objPal;
@@ -52,10 +52,10 @@ struct Ov208Bg {
 
 /* One 0x38-byte entry of the manager's table. */
 struct Ov208Rec {
-    unsigned int actor;
+    struct ClactActor *actor;
     unsigned int enabled;
     unsigned int animSeq;
-    void (*onPress)(void);
+    void (*onPress)(char *p);
     unsigned int pressKind;
     struct Ov208ActDesc desc;
     unsigned int forcePress;
@@ -73,7 +73,7 @@ struct Ov208Mgr {
 
 struct Ov208Slot {
     struct Ov208ActSrc *src;
-    unsigned int obj;
+    struct ClactActor *obj;
 };
 
 struct Unit;

@@ -5,9 +5,10 @@
 /* Public functions of nwm_unloaddev.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_UnloadDevice(void *callback);
-u32 NWMi_ForceUnloadDevice(u32 callback);
+u32 NWM_UnloadDevice(NWMCallbackFunc callback);
+u32 NWMi_ForceUnloadDevice(NWMCallbackFunc callback);
 void NWMi_ForceExit(void);
 /* END mkheaders: generated region */
 

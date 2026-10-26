@@ -1987,7 +1987,7 @@ void COMM_ENTRY_ScanParents(CommEntryMenu *menu)
     CommEntryBeaconData *beacon;
 
     for (i = 0; i < 0x10; i++) {
-        beacon = (struct CommEntryBeaconData *)GFL_NET_GetScanResult(i);
+        beacon = GFL_NET_GetScanResult(i);
         if (beacon != 0 && beacon->advertiseId == COMM_ENTRY_ADVERTISE_ID) {
             COMM_ENTRY_AddParent(menu, beacon->mac, beacon);
         }

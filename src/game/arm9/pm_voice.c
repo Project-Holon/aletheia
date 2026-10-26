@@ -46,6 +46,7 @@
 #include "gfl_use.h"
 
 #include "../types.h"
+#include "species.h"
 
 /* Sound volume range and the player numbers the sequence start call takes. */
 #define SND_VOLUME_MAX       0x7F
@@ -770,7 +771,7 @@ void PM_VOICE_ReverseBytes(u8 *bytes, u32 count)
  */
 void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex)
 {
-    if (species < 1 && species > 649) {
+    if (species < 1 && species > SPECIES_LAST) {
         *cryIndex = 1;
         return;
     }

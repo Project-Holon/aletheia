@@ -6,12 +6,13 @@
 
 struct ProcSystem;
 struct ZukanList;
+struct ZukanListArgs;
 struct TcbTask;
 struct Strbuf;
 
 #include "../types.h"
 
-int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
+int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,struct ZukanListArgs *arg);
 int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, struct ZukanList *work);
 int ZUKAN_LIST_ProcExit(void *p);
 void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p);
@@ -19,7 +20,7 @@ void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_VBlankTask(struct TcbTask *unused, void *work_);
 void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p);
-void ZUKAN_LIST_HBlankTask(void);
+void ZUKAN_LIST_HBlankTask(struct TcbTask *unused0, void *unused1);
 void ZUKAN_LIST_SetVramBanks(void);
 void *ZUKAN_LIST_GetVramBankConfig(void);
 void ZUKAN_LIST_InitBgSystem(void);
@@ -40,7 +41,7 @@ void ZUKAN_LIST_StartActorMoveFrames(struct ZukanList *p, int delta);
 int ZUKAN_LIST_UpdateActorMove(struct ZukanList *p);
 void ZUKAN_LIST_CreateFrameList(struct ZukanList *p);
 void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p);
-void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, int dest, u16 position, int mode);
+void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, unsigned char *dest, u16 position, int mode);
 void ZUKAN_LIST_FrameListSelectCallback(struct ZukanList *p, int index);
 void ZUKAN_LIST_ScrollByDelta(struct ZukanList *p,int delta);
 int ZUKAN_LIST_RunState(struct ZukanList *p);

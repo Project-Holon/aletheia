@@ -69,7 +69,7 @@ static inline void *NNSi_G3dGetResDataByIdx(const NNSG3dResDict *pDict, u32 idx)
         const NNSG3dResDictEntryHdr *pHdr =
             (const NNSG3dResDictEntryHdr *)((const u8 *)pDict + pDict->ofsEntry);
 
-        return (void *)((u32)pHdr + sizeof(NNSG3dResDictEntryHdr) + pHdr->sizeUnit * idx);
+        return (void *)((uptr)pHdr + sizeof(NNSG3dResDictEntryHdr) + pHdr->sizeUnit * idx);
     }
     return 0;
 }

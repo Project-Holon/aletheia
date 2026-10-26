@@ -6,9 +6,11 @@
 
 #include "../types.h"
 
+struct TcbTask;
+
 int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p);
 int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p);
-void MUSICAL_SHOT_SYS_VBlank(void);
+void MUSICAL_SHOT_SYS_VBlank(struct TcbTask *unused0, void *unused1);
 void MUSICAL_SHOT_SYS_InitGraphics(u8 *p);
 void MUSICAL_SHOT_SYS_ExitGraphics(void *unused);
 /* END mkheaders: generated region */

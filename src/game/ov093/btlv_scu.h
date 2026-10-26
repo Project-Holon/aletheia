@@ -91,7 +91,7 @@ int BTLV_SCU_ShowMonPair(BtlvScu *scu, int slotA, int slotB);
 void BTLV_SCU_HideMon(BtlvScu *scu, int slotIdx);
 int BTLV_SCU_ShowMon(BtlvScu *scu, int slotIdx);
 void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos);
-int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos);
+int BTLV_SCU_IsPosCueEffectDone(struct BtlvScu *unused, int viewPos);
 void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag);
 u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu);
 void BTLV_SCU_TaskMonFormChange(struct TcblTask *task, void *workPtr);

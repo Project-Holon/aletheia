@@ -5,15 +5,14 @@
 /* Public functions of br_codein_rec.c, prototypes copied from their definitions. */
 
 struct CodeinSoclWork;
-struct BrCodeinRecPair;
-struct CodeinMenuArg;
-typedef struct BrCodeinRecPair BrCodeinRecPair;
+struct CodeinStoredFns;
+struct BrProcArgResult;
 
 void BR_CODEIN_ShowMenuText(struct CodeinSoclWork *menu);
 void BR_CODEIN_HideMenuText(struct CodeinSoclWork *menu);
-void BR_CODEIN_GetMenuCallbacks(BrCodeinRecPair *out);
-void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg);
-void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg);
+void BR_CODEIN_GetMenuCallbacks(struct CodeinStoredFns *out);
+void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct BrProcArgResult *arg);
+void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct BrProcArgResult *arg);
 int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y);
 int BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *menu, int x, int y);
 /* END mkheaders: generated region */

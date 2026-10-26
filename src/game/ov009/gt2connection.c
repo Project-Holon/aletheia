@@ -209,7 +209,7 @@ int gti2CheckTimeout(struct GTI2Connection *c, unsigned int now)
 				timedOut = 1;
 		}
 		if (timedOut) {
-			gti2SendClosed((int *)c);
+			gti2SendClosed(c);
 			gti2ConnectionClosed(c);
 			if (!gti2ConnectedCallback(c, 6, 0, 0))
 				return 0;
@@ -298,7 +298,7 @@ void gti2CloseConnection(struct GTI2Connection *connection, int hard)
         if (connection->state >= 7)
             return;
         gti2ConnectionClosed(connection);
-        gti2SendClosed((int *)connection);
+        gti2SendClosed(connection);
         gti2ClosedCallback(connection, 0);
         gti2FreeSocketConnection(connection);
     }

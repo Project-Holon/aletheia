@@ -29,7 +29,7 @@ typedef struct TwlWork {
 #include "../arm9/os_cache.h"
 #include "nwm_cmd.h"
 
-u32 NWM_Disconnect(void *callback) {
+u32 NWM_Disconnect(NWMCallbackFunc callback) {
     u32 r;
     u32 busy;
     TwlWork *w;
@@ -48,7 +48,7 @@ u32 NWM_Disconnect(void *callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(9, (uptr)callback);
+    NWMi_SetCallbackTable(9, callback);
     r = NWMi_SendCommand(9, 0);
     if (r == 0 || r == 2) {
         r = 2;

@@ -15,7 +15,7 @@ u32 SNDEXi_SetIirFilterAsync(u32 target, u16 *coefficients, Cb callback, void *u
 u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
 u32 SNDEXi_PreProcessForShutterSound(void);
 u32 SNDEXi_PostProcessForShutterSound(Cb callback, void *userData);
-void CommonCallback(u32 tag, u32 data, u32 err);
+void CommonCallback(int tag, u32 data, BOOL err);
 void SyncCallback(u32 result, void *queue);
 u32 SendCommand(u32 command, u8 data);
 u32 SendCommandEx(u32 command, u32 data);

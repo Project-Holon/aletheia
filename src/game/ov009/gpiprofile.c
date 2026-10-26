@@ -75,13 +75,13 @@ void gpiRemoveProfileByID(void ** connection, int profileid);
 void gpiRemoveProfile(void ** connection, GPIProfile * profile);
 int gpiCheckProfileForUser(void * unused, GPIProfile * profile, void * udata);
 int gpiFindProfileByUser(void ** connection, char * nick, char * email, GPIProfile ** profile);
-void gpiProfileMapCallback(int a, int *p);
+int gpiProfileMapCallback(void *elem, void *mapDataArg);
 int gpiProfileMap(void ** connection, int (*func)(void *, GPIProfile *, void *), void * data);
 int gpiCheckForBuddy(void * unused, GPIProfile * profile, void * udata);
 GPIProfile * gpiFindBuddy(void ** connection, int blockIndex);
 void gpiRemoveBuddyStatus(GPIBuddyStatus * buddyStatus);
 void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo * buddyStatusInfo);
-int gpiCanFreeProfile(char *p);
+int gpiCanFreeProfile(GPIProfile *p);
 int gpiProcessRecvBlockedList(void **connection, char *input);
 extern char gGpiProfileResponsePr[];
 extern char gGpiProfileErrorUnexpectedData[];
@@ -390,9 +390,11 @@ int gpiFindProfileByUser(void ** connection, char * nick, char * email, GPIProfi
 /*
  * Calls the handler the object carries on its three words.
  */
-void gpiProfileMapCallback(int a, int *p)
+int gpiProfileMapCallback(void *elem, void *mapDataArg)
 {
-    ((void (*)(int, int, int))p[1])(p[0], a, p[2]);
+    GPIProfileMapData *p = (GPIProfileMapData *)mapDataArg;
+
+    return p->func(p->connection, (GPIProfile *)elem, p->data);
 }
 
 
@@ -406,7 +408,7 @@ int gpiProfileMap(void ** connection, int (*func)(void *, GPIProfile *, void *),
 	mapData.connection = connection;
 	mapData.func = func;
 	mapData.data = data;
-	if (TableMapSafe2(iconnection->profileList.profileTable, (int (*)(void *, void *))gpiProfileMapCallback, &mapData) == 0)
+	if (TableMapSafe2(iconnection->profileList.profileTable, gpiProfileMapCallback, &mapData) == 0)
 		return 1;
 	return 0;
 }
@@ -476,15 +478,15 @@ void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo * buddyStatusInfo)
  * True when the block is non-null and all six pointers at +0x10, +8, +0xc,
  * +0x1c, +0x14 and +0x20 are null.
  */
-int gpiCanFreeProfile(char *p)
+int gpiCanFreeProfile(GPIProfile *p)
 {
     if (p != 0
-        && *(int *)(p + 0x10) == 0
-        && *(int *)(p + 8) == 0
-        && *(int *)(p + 0xc) == 0
-        && *(int *)(p + 0x1c) == 0
-        && *(int *)(p + 0x14) == 0
-        && *(int *)(p + 0x20) == 0)
+        && p->cache == 0
+        && p->buddyStatus == 0
+        && p->buddyStatusInfo == 0
+        && p->peerSig == 0
+        && p->authSig == 0
+        && p->blocked == 0)
         return 1;
     return 0;
 }

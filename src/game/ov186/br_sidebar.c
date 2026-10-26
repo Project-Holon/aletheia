@@ -82,7 +82,7 @@ extern const struct BrSidebarConfig gBrSidebarConfigTable[BR_SIDEBAR_SLOT_COUNT]
 
 extern const char gBrSidebarAssertString[];
 
-struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, int unused, struct BrRes *res, u16 heapId);
+struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, struct BrFade *unused, struct BrRes *res, u16 heapId);
 
 void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res);
 
@@ -121,7 +121,7 @@ void BR_SIDEBAR_UpdateSlide(struct BrSidebarSlot *slot);
 typedef char BrSidebarCheckSlot[sizeof(struct BrSidebarSlot) == 0x4C ? 1 : -1];
 typedef char BrSidebarCheckConfig[sizeof(struct BrSidebarConfig) == 24 ? 1 : -1];
 
-struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, int unused, struct BrRes *res, u16 heapId)
+struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, struct BrFade *unused, struct BrRes *res, u16 heapId)
 {
     struct BrSidebar *sidebar = GFL_HEAP_Alloc(heapId, sizeof(struct BrSidebar), 0, gBrSidebarSourceFile, 0x132);
     int i;
@@ -240,7 +240,7 @@ void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Unit *unit, struct B
 void BR_SIDEBAR_DestroySlot(struct BrSidebarSlot *slot)
 {
     CLACT_DeleteActor((struct ClactActor *)slot->actor);
-    MI_CpuFill8(slot,0,76);
+    MI_CpuFill8(slot,0,sizeof(*slot));
 }
 
 void BR_SIDEBAR_UpdateSlot(struct BrSidebarSlot *slot)

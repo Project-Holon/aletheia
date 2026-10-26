@@ -146,9 +146,9 @@ extern const s16 FX_SinCosTable_[];
 struct GameEvent *FIELD_FK_DEMO_StartEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
 u32 FIELD_FK_DEMO_GetCameraSettingId(u32 variant);
 int FIELD_FK_DEMO_GetAnimeEndFrame(struct G3dAnime *anime);
-void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, FkDemoWork *work);
+void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, void * workArg);
 struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
-int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work);
+int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, void *work);
 void FIELD_FK_DEMO_InitBuildAnime(FkBuildModelAnime *anime, struct BuildModelMan *man, int variant);
 void FIELD_FK_DEMO_DeleteBuildAnime(FkBuildModelAnime *anime);
 void FIELD_FK_DEMO_StartBuildAnime(FkBuildModelAnime *anime);
@@ -204,8 +204,9 @@ int FIELD_FK_DEMO_GetAnimeEndFrame(struct G3dAnime *anime)
  * Per frame task: uploads the stand-in model once. Unlabelled tail-call leaf:
  * forwards the work plus 0x3c (the model).
  */
-void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, FkDemoWork *work)
+void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, void * workArg)
 {
+    FkDemoWork * work = (FkDemoWork *)workArg;
     FIELD_FK_DEMO_UploadModelOnce(&work->model);
 }
 
@@ -216,12 +217,12 @@ struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struc
     FkDemoWork *work;
 
     FIELDMAP_GetHeapId(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
+    event = GAME_EVENT_Create(gameSystem, 0, FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
     work = GAME_EVENT_GetWork(event);
     work->fieldMap = fieldMap;
     work->gameSystem = gameSystem;
     work->variant = variant;
-    work->uploadTcb = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))FIELD_FK_DEMO_UploadModelTask, work, 0);
+    work->uploadTcb = GFL_USE_AddMainTask(FIELD_FK_DEMO_UploadModelTask, work, 0);
     return event;
 }
 
@@ -233,8 +234,9 @@ struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struc
  *   3: run the animations until all of them end
  *   4: put everything back
  */
-int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
+int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    FkDemoWork *work = workPtr;
     u16 heapId;
     struct FieldCamera *fieldCamera;
     struct MyStatus *myStatus;

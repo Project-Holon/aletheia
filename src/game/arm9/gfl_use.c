@@ -280,7 +280,7 @@ struct SndState {
     u32 countdown;              /* 08: frames left of the running fade */
     u32 loaderSeqNo;            /* 0C: sequence the loader thread works on; its address is the thread argument */
     struct SndHeap *heap;       /* 10: sound heap */
-    u32 loaderThread;           /* 14: nonzero once the loader thread was started */
+    void *loaderThread;          /* 14: nonzero once the loader thread was started */
     u32 currentBgm;             /* 18 */
     u32 changeActive;           /* 1C: 1 while a BGM change is pending */
     u32 changePhase;            /* 20: BGM_CHANGE_* */
@@ -620,11 +620,11 @@ void GFL_USE_InitGameSystems(void)
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
-    GF_PANIC_SetFailHook((uptr)&GFL_NET_ERR_ExitAndHalt);
+    GF_PANIC_SetFailHook(&GFL_NET_ERR_ExitAndHalt);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
-    PM_VOICE_Init(1, (void (*)(u32,  u32,  u32 *))&PM_VOICE_GetCryIndex, (u32 (*)(u32,  u32,  void **, u8 **, u32 *, u32 *, u32 *, s8 *))&PM_VOICE_PrepareCry);
+    PM_VOICE_Init(1, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry);
     GFL_USE_ApplySoundModeFromConfig(SYSTEM_DATA_GetConfig((struct SaveData *)SAVE_CONTROL_Get()));
     CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
@@ -724,11 +724,11 @@ void GFL_USE_InitSdk(void)
     FX_Init();
     if (OS_GetConsoleType() & 0x03000000) {
         SCFG_SetCpuSpeed(1);
-        *(volatile u32 *)0x04004008 &= 0xFFFFDFFF;
+        *(volatile u32 *)REG_SCFG_EXT_ADDR &= 0xFFFFDFFF;
         *(volatile u32 *)0x02FFFDF0 &= 0xFFFFDFFF;
     }
-    *(volatile u16 *)0x04000208;
-    *(volatile u16 *)0x04000208 = 1;
+    *(volatile u16 *)REG_IME_ADDR;
+    *(volatile u16 *)REG_IME_ADDR = 1;
     FS_Init(1);
     tableSize = FS_TryLoadTable(0, 0);
     FS_TryLoadTable(OS_AllocFromArenaLo(0, (u32)tableSize, 4), tableSize);
@@ -755,7 +755,7 @@ void GFL_USE_PollPowerExit(void)
     if (PM_GetAutoExit() != 0) {
         return;
     }
-    *(volatile u16 *)0x04000204 |= 0x8000;
+    *(volatile u16 *)REG_EXMEMCNT_ADDR |= 0x8000;
     PM_ReadyToExit();
 }
 
@@ -868,7 +868,7 @@ void GFL_USE_InitSystem(void)
     GF_OVERLAY_Init(0, 0x10, 4, 4);
     PROCSYS_CreateGlobal(0);
 
-    _GflUse.runtime = GFL_HEAP_Alloc(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
+    _GflUse.runtime = GFL_HEAP_Alloc(0, sizeof(*_GflUse.runtime), 0, (const char *)s_gfl_use_c, 0x117);
     _GflUse.runtime->hblankTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(4), 0, (const char *)s_gfl_use_c, 0x119);
     _GflUse.runtime->hblankTasks = (struct TcbList *)TCB_Init(4, _GflUse.runtime->hblankTaskBuf);
     _GflUse.runtime->mainTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
@@ -1213,9 +1213,26 @@ void GFL_USE_UnmuteSound(void)
     NNS_SndSetMasterVolume(0x7F);
 }
 
+#ifndef __MWERKS__
+/* PC build: the hooks are UiCb callbacks, so they take the callback argument. */
+static void GFL_USE_MuteSoundHook(void *unused)
+{
+    GFL_USE_MuteSound();
+}
+
+static void GFL_USE_UnmuteSoundHook(void *unused)
+{
+    GFL_USE_UnmuteSound();
+}
+#endif
+
 void GFL_USE_SetSleepVolumeHooks(void)
 {
+#ifdef __MWERKS__
     UI_SetResumeAndSuspendHooks((UiCb)GFL_USE_MuteSound, (UiCb)GFL_USE_UnmuteSound, 0);
+#else
+    UI_SetResumeAndSuspendHooks(GFL_USE_MuteSoundHook, GFL_USE_UnmuteSoundHook, 0);
+#endif
 }
 
 /*
@@ -1243,7 +1260,11 @@ int GFL_USE_IsMuteHookActive(void)
     UiCb hook;
 
     hook = UI_GetSuspendHookGlobal();
+#ifdef __MWERKS__
     return hook == (UiCb)GFL_USE_MuteSound;
+#else
+    return hook == GFL_USE_MuteSoundHook;
+#endif
 }
 
 /*
@@ -1560,7 +1581,7 @@ void GFL_USE_InitSound(void)
     struct SndHeap *heap;
 
     NNS_SndInit();
-    heap = (struct SndHeap *)NNS_SndHeapCreate((uptr)_SndHeapBuf, 0x95AD0);
+    heap = (struct SndHeap *)NNS_SndHeapCreate(_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
     NNS_SndArcInit((struct NNSSndArc *)_SndArc, _SndArcPath, (unsigned int *)heap, 0);
     GFL_USE_ResetSound(1);
@@ -1641,8 +1662,8 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode);
 void GFL_USE_StopLoaderThread(void);
 int GFL_USE_IsLoaderDone(void);
 u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort);
-int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo);
-int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex);
+int GFL_USE_InstallBgmBuffers(void *seqAddr, void *bankAddr, u32 bgmNo);
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, SNDWaveArc *srcWaveArc, u32 srcWaveIndex);
 void GFL_USE_StartSeq(u32 seqNo);
 void GFL_USE_StopSeqAndUnload(void);
 void GFL_USE_ClearPreloadedBgmBuffers(void);
@@ -1822,7 +1843,7 @@ u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
     if (GFL_USE_LoadBgmData(bgmNo) == 0) {
         return 0;
     }
-    started = NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, bgmNo);
+    started = NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
     if (started == 0) {
         return zero;
     }
@@ -1862,7 +1883,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
     if (GFL_USE_LoadBgmData(seqNo) == 0) {
         return;
     }
-    NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_FANFARE, -1, -1, seqNo);
+    NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
 void GFL_USE_SetBgmPaused(u32 value)
@@ -2112,7 +2133,7 @@ void GFL_USE_UpdateBgmChange(void)
         if (GFL_USE_IsLoaderDone() == 1) {
             NNS_SndArcSetReadChunkSize(0);
             GFL_USE_FinishBgmLoad(_SndState.changeBgm);
-            NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
             NNS_SndHandleSetVolume(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
@@ -2171,7 +2192,7 @@ void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
         return;
     }
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeqEx((uptr)(&_SeSlots[slot].handle), slot + 1, -1, -1, seqNo) == 1) {
+    if (NNS_SndArcPlayerStartSeqEx(&_SeSlots[slot].handle, slot + 1, -1, -1, seqNo) == 1) {
         _SeSlots[slot].seqNo = seqNo;
     }
 }
@@ -2186,7 +2207,7 @@ void GFL_USE_PlaySe(u32 seqNo, u32 volume)
     }
     slot = GFL_USE_GetSeSlot(seqNo);
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeq((uptr)(&_SeSlots[slot].handle), seqNo) != 1) {
+    if (NNS_SndArcPlayerStartSeq(&_SeSlots[slot].handle, seqNo) != 1) {
         return;
     }
     _SeSlots[slot].seqNo = seqNo;
@@ -2313,7 +2334,7 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
         break;
     }
     OS_WakeupThreadDirect(&_WorkerThread);
-    _SndState.loaderThread = (uptr)&_WorkerThread;
+    _SndState.loaderThread = &_WorkerThread;
 }
 
 /* Destroy the loader thread when it was started and has not finished. */
@@ -2380,7 +2401,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
 
                 NNS_SndArcSetReadChunkSize(0);
                 GFL_USE_FinishBgmLoad(bgmNo);
-                NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), 0, zero - 1, zero - 1, bgmNo);
+                NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
                 (*step)++;
                 return 1;
             }
@@ -2405,7 +2426,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
  * passed to the bank lookup. The first member of the bank entry is a full
  * 32 bit load.
  */
-int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
+int GFL_USE_InstallBgmBuffers(void *seqAddr, void *bankAddr, u32 bgmNo)
 {
     NNSSndArcSeqInfo *seq;
     NNSSndArcBankInfo *bank;
@@ -2438,27 +2459,27 @@ int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
  * another archive's data. The file id is a 24 bit unsigned bitfield (a
  * lsls #8 / lsrs #8 pair); `& 0xFFFFFF` would load a pool word instead.
  */
-int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
+int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, SNDWaveArc *srcWaveArc, u32 srcWaveIndex)
 {
     NNSSndArcWaveArcInfo *entry;
-    u32 *waveArcData;
+    SNDWaveArc *waveArcData;
 
     entry = NNS_SndArcGetWaveArcInfo(waveArcNo);
     if (entry == 0) {
         return 0;
     }
-    waveArcData = (u32 *)NNS_SndArcGetFileAddress(entry->bits.fileId);
+    waveArcData = NNS_SndArcGetFileAddress(entry->bits.fileId);
     if (waveArcData == 0) {
         return 0;
     }
-    SND_SetWaveDataAddress((struct SNDWaveArc *)waveArcData, waveIndex, SND_GetWaveDataAddress((struct SNDWaveArc *)srcWaveArc, srcWaveIndex));
+    SND_SetWaveDataAddress(waveArcData, waveIndex, SND_GetWaveDataAddress(srcWaveArc, srcWaveIndex));
     return 1;
 }
 
 /* Start a sequence on the current handle. */
 void GFL_USE_StartSeq(u32 seqNo)
 {
-    NNS_SndArcPlayerStartSeq((uptr)(GFL_USE_GetCurrentSndHandle()), seqNo);
+    NNS_SndArcPlayerStartSeq(GFL_USE_GetCurrentSndHandle(), seqNo);
 }
 
 /* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */

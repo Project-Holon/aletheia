@@ -345,7 +345,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
 
     WIFI_HISTORY_GetBlock(saveData);
     miscSave = GAME_DATA_GetMiscSave(sys);
-    recordEnv = GREETING_SAVEDATA_GetFromSaveThunk((uptr)saveData);
+    recordEnv = GREETING_SAVEDATA_GetFromSaveThunk(saveData);
     OS_GetOwnerInfo(&info);
     MISC_GetMonRecord(miscSave, &species, &form, &isEgg, &monGender);
 
@@ -439,7 +439,7 @@ u32 GDS_PROFILE_GetSpecies(struct StoredMon *p)
 {
     u32 v = p->species;
 
-    if (v >= 0x28B) {
+    if (v >= SPECIES_LAST + 2) {
         v = 0;
     }
     return v;
@@ -447,7 +447,7 @@ u32 GDS_PROFILE_GetSpecies(struct StoredMon *p)
 
 u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p)
 {
-    if (p->species >= 0x28B) {
+    if (p->species >= SPECIES_LAST + 2) {
         return 0;
     }
     return POKE_TOOL_FilterSpecies(p->species, p->form);

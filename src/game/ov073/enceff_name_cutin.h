@@ -35,8 +35,8 @@ struct GameEvent *ENCEFF_BuildNameCutInKind34(struct GameSystem *gameSystem, str
 struct GameEvent *ENCEFF_BuildNameCutInKind03(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_BuildNameCutInKind04(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct FieldMap *unusedFieldMap, int tableIndex, int fadeVariant);
-int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state);
-int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state);
+int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state, void *eventWork);
+int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state, void *eventWork);
 /* END mkheaders: generated region */
 
 #endif

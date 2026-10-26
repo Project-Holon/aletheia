@@ -417,11 +417,11 @@ void GSYNC_MENU_AddPaletteEntries(u16 *palette, const u16 *add, int rowCount);
 void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work);
 void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work);
 void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work);
-void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work);
-void GSYNC_MENU_NoOp(void);
+void GSYNC_MENU_OnButtonAnimEnd(void *param, u32 frame);
+void GSYNC_MENU_NoOp(struct GsyncMenuWork *unused0);
 void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY);
 void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work);
-void GSYNC_MENU_RunButtonCallback(int buttonIndex, int event, void *work);
+void GSYNC_MENU_RunButtonCallback(u32 buttonIndex, s32 event, void *);
 void GSYNC_MENU_CreateActors(GsyncMenuWork *work);
 void GSYNC_MENU_LoadResources(GsyncMenuWork *work);
 void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work);
@@ -446,7 +446,7 @@ void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work);
 void GSYNC_MENU_StateSaveStart(GsyncMenuWork *work);
 void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work);
 void GSYNC_MENU_StateOpenConfirmMenu(GsyncMenuWork *work);
-void GSYNC_MENU_VBlank(void);
+void GSYNC_MENU_VBlank(struct TcbTask * unused0, void * unused1);
 int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param);
 int GSYNC_MENU_ProcMain(int unused0, int unused1, int unused2, GsyncMenuWork *work);
 int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWork *work);
@@ -583,8 +583,9 @@ void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work)
  * extent: follower 021D45F0 already filed separately.
  */
 /* Animation end callback of the cursor sprite: moves on according to the chosen button. */
-void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work)
+void GSYNC_MENU_OnButtonAnimEnd(void *param, u32 frame)
 {
+    GsyncMenuWork *work = (GsyncMenuWork *)param;
     CLACT_ResetActorAnimCommand(work->actors[work->pressedButton]);
     CLACT_SetActorAutoAnim(work->actors[work->pressedButton], 0);
     if (work->exitMode == GSYNC_MENU_EXIT_BUTTON_1) {
@@ -613,7 +614,7 @@ void GSYNC_MENU_OnButtonAnimEnd(GsyncMenuWork *work)
 /*
  * extent: bx lr callback stub, two zero alignment bytes, then labelled GSYNC_MENU_CreateButtonWindows.
  */
-void GSYNC_MENU_NoOp(void) {}
+void GSYNC_MENU_NoOp(struct GsyncMenuWork *unused0) {}
 
 /*
  * note 2026-10-05 (wD6 lane17): closed by the real callee prototypes: GF_FONT_SetDefaultTextColor takes no
@@ -681,7 +682,7 @@ void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work)
 }
 
 /* Button manager callback: forwards a press (event 0) to the work's button callback. */
-void GSYNC_MENU_RunButtonCallback(int buttonIndex, int event, void *work)
+void GSYNC_MENU_RunButtonCallback(u32 buttonIndex, s32 event, void *work)
 {
     GsyncMenuWork *menu = work;
     if (event)
@@ -743,7 +744,7 @@ void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    work->bgFrame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heapId);
+    work->bgFrame = BMP_MENUWORK_LoadFrameGfx(5, 12, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 0x1a0, 32, work->heapId);
     arc = ARC_TOOL_CreateHandle(29, work->heapId);
     work->charHandle = CLACT_RegisterCharacter(arc, 5, 0, 1, work->heapId);
@@ -759,7 +760,7 @@ void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work)
     /* one-entry message id table; the struct form keeps the original stack layout */
     struct { int id; } messageIds = {0};
     GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)sGsyncMenuButtonWinDefs, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
-    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, (void (*)(s32, s32, s32))GSYNC_MENU_RunButtonCallback, (sptr)work, work->heapId);
+    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, GSYNC_MENU_RunButtonCallback, work, work->heapId);
     work->buttonCallback = GSYNC_MENU_OnButtonPressed;
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, 0x321);
 }
@@ -812,14 +813,14 @@ void GSYNC_MENU_StateWaitTouchAfterMessage(GsyncMenuWork *work)
 /* Plays the press animation of the chosen button; its end callback is GSYNC_MENU_OnButtonAnimEnd. */
 void GSYNC_MENU_StatePlayButtonAnim(GsyncMenuWork *work)
 {
-    GsyncActorAnimCallback cb;
-    cb.frame = 0;
-    cb.work = work;
-    cb.callback = GSYNC_MENU_OnButtonAnimEnd;
+    struct ClactAnimCommand cb;
+    cb.op = 0;
+    cb.param = work;
+    cb.func = GSYNC_MENU_OnButtonAnimEnd;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[work->pressedButton], 1);
-    CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[work->pressedButton], (const struct ClactAnimCommand *)&cb);
+    CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[work->pressedButton], &cb);
     CLACT_RestartActorAnim(work->actors[work->pressedButton]);
-    GSYNC_MENU_ChangeState(work, (GsyncMenuStateFunc)GSYNC_MENU_NoOp, 0x376);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_NoOp, 0x376);
 }
 
 /* Button callback: 0 and 1 are the two buttons, 2 is the back button. Returns 1. */
@@ -1033,7 +1034,7 @@ void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work)
 void GSYNC_MENU_StateSaveStart(GsyncMenuWork *work)
 {
     if (GSYNC_MENU_UpdateMessageStream(work)) {
-        (struct GameData *)GAME_DATA_SaveStart((struct GameData *)(work->gameData));
+        GAME_DATA_SaveStart((struct GameData *)(work->gameData));
         GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveFinish, 0x4fa);
     }
 }
@@ -1076,7 +1077,7 @@ void GSYNC_MENU_StateOpenConfirmMenu(GsyncMenuWork *work)
  * evidence: root claimed this sole blocker of 021D5128; target's matched
  * definition and original body read no incoming argument registers.
  */
-void GSYNC_MENU_VBlank(void)
+void GSYNC_MENU_VBlank(struct TcbTask * unused0, void * unused1)
 {
     CLACT_VBlankSystem();
 }
@@ -1095,8 +1096,8 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     int color;
     struct DispConfigWords cfg;
     GFL_HEAP_CreateChildHeap(1, 31, 0x18000);
-    work = PROCSYS_AllocProcWork(proc, 0x2b4, 31);
-    MI_CpuFill8(work, 0, 0x2b4);
+    work = PROCSYS_AllocProcWork(proc, sizeof(GsyncMenuWork), 31);
+    MI_CpuFill8(work, 0, sizeof(GsyncMenuWork));
     work->heapId = 31;
     work->gameData = param->gameData;
     work->gameSystem = param->gameSystem;
@@ -1104,7 +1105,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     if (param->fadeFromWhite) bright = 16; else bright = -16;
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, bright);
     GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, bright);
-    *(volatile u32 *)0x04001000 |= 0x10000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
@@ -1116,7 +1117,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct ClactSysInit *)d_021DA658, (const struct DispVramCfg *)d_021DA9F0, work->heapId);
     work->clactUnit = CLACT_CreateUnit(40, 0, work->heapId);
-    work->vblankTcb = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))GSYNC_MENU_VBlank, (void *)work, 0);
+    work->vblankTcb = GFL_USE_AddMainTask(GSYNC_MENU_VBlank, (void *)work, 0);
     GSYNC_MENU_InitBgLayers(work);
     GSYNC_MENU_LoadResources(work);
     work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);

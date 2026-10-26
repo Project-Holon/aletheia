@@ -1,3 +1,5 @@
+
+struct TcbTask;
 #ifndef GAME_OV225_MANUAL_TOUCHBAR_H
 #define GAME_OV225_MANUAL_TOUCHBAR_H
 
@@ -11,7 +13,7 @@ void MANUAL_COMMON_SetTouchbarState(char *touchbar,unsigned state);
 void MANUAL_COMMON_SetTouchbarSelection(char *touchbar,unsigned count,unsigned selected);
 unsigned MANUAL_COMMON_GetTouchbarSelected(char *touchbar);
 unsigned MANUAL_COMMON_GetTouchbarPressed(char *touchbar);
-void MANUAL_COMMON_TouchbarTaskNoop(void *task,void *data);
+void MANUAL_COMMON_TouchbarTaskNoop(struct TcbTask *task, void *data);
 void MANUAL_COMMON_CreateTouchbarWidget(char *touchbar);
 void MANUAL_COMMON_TouchbarNoop(void *unused);
 void MANUAL_COMMON_CreateTouchbarSlots(char *touchbar);

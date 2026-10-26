@@ -278,9 +278,9 @@ extern const UnionSubdispTextOffset sUnionSubdispChatTextOffset;
  */
 static inline int UNION_SUBDISP_PollLineTransfer(UnionSubdispWork *work, int lineNo)
 {
-    struct PrintSys *printSys = work->printSys;
+    struct PrintQueue *printSys = work->printSys;
     if (work->winSlot[lineNo].transferPending != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win)) == 0) {
             BMP_WIN_TransferChars(work->winSlot[lineNo].win);
             work->winSlot[lineNo].transferPending = 0;
         }
@@ -299,7 +299,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     u32 winOut;
 
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
-    work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, 0x80, 1, sUnionSubdispFileName, 0x10F);
+    work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, sizeof(*work), 1, sUnionSubdispFileName, 0x10F);
     work->gameSystem = gameSystem;
     archive = ARC_TOOL_CreateHandle(0x59, UNION_SUBDISP_HEAP_ID);
     UNION_SUBDISP_CreateSystems(work);
@@ -309,7 +309,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     UNION_SUBDISP_CreateActors(work, archive);
     UNION_SUBDISP_LoadFrameBg(work);
     ARC_TOOL_DeleteHandle(archive);
-    work->pmsDraw = PMS_DRAW_Create((uptr)work->clactUnit, (u32)1, (uptr)work->printSys, (uptr)work->font, 9, 3, UNION_SUBDISP_HEAP_ID);
+    work->pmsDraw = PMS_DRAW_Create(work->clactUnit, (u32)1, work->printSys, work->font, 9, 3, UNION_SUBDISP_HEAP_ID);
     PMS_DRAW_SetNullColorPalette(work->pmsDraw, 0);
     unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
@@ -324,10 +324,17 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
                  * entry branch to the bottom test (a plain `<` is 8 bytes
                  * shorter).
                  */
+#ifdef __MWERKS__
                 if (sUnionSubdispAppealNo[i] == *((u8 *)work + 0x30)) {
                     CLACT_SetActorPaletteOffset((struct ClactActor *)work->actor[i], 1, 1);
                     break;
                 }
+#else
+                if (sUnionSubdispAppealNo[i] == work->appealNo) {
+                    CLACT_SetActorPaletteOffset((struct ClactActor *)work->actor[i], 1, 1);
+                    break;
+                }
+#endif
             }
         }
     }
@@ -371,14 +378,14 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
         REG_DB_BLDCNT_SUB = 0;
     else
         G2x_SetBlendBrightness_((uptr)(&REG_DB_BLDCNT_SUB), 0x3F, -8);
-    PRINTSYS_QUE_Main((struct PrintQueue *)work->printSys);
+    PRINTSYS_QUE_Main(work->printSys);
     PMS_DRAW_Main(work->pmsDraw);
     for (i = 0; i < UNION_SUBDISP_LINE_COUNT; i++) {
         if (work->lineKind[i] == UNION_SUBDISP_LINE_TEXT) {
             /* the local keeps the print system load ahead of the transfer test */
-            struct PrintSys *printSys = work->printSys;
+            struct PrintQueue *printSys = work->printSys;
             if (work->winSlot[i].transferPending != 0) {
-                if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->winSlot[i].win)) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->winSlot[i].win)) == 0) {
                     BMP_WIN_TransferChars(work->winSlot[i].win);
                     work->winSlot[i].transferPending = 0;
                 }
@@ -450,7 +457,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
 void UNION_SUBDISP_CreateSystems(UnionSubdispWork *work)
 {
     work->clactUnit = CLACT_CreateUnit(12, 5, UNION_SUBDISP_HEAP_ID);
-    work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create(UNION_SUBDISP_HEAP_ID);
+    work->printSys = (struct PrintQueue *)PRINTSYS_QUE_Create(UNION_SUBDISP_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
     work->msgData = MSGDATA_CreateFromArchive(0, 2, 201, UNION_SUBDISP_HEAP_ID);
 }
@@ -459,8 +466,8 @@ void UNION_SUBDISP_DeleteSystems(UnionSubdispWork *work)
 {
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
-    PRINTSYS_QUE_Clear((struct PrintQueue *)work->printSys);
-    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys);
+    PRINTSYS_QUE_Clear(work->printSys);
+    PRINTSYS_QUE_Delete(work->printSys);
     CLACT_DeleteUnit(work->clactUnit);
 }
 
@@ -713,7 +720,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     UnionSubdispTextOffset textOffset;
     struct Strbuf *text;
     struct Strbuf *name;
-    struct PrintSys *printSys;
+    struct PrintQueue *printSys;
     int offset;
 
     screen = (u16 *)BG_SYS_GetBuf(UNION_SUBDISP_BG_CHAT);
@@ -758,18 +765,18 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
         BMP_WIN_MakeScreen(work->lineWin[lineNo]);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
         work->winSlot[lineNo].transferPending = 1;
         STRBUF_Delete(text);
         work->lineKind[lineNo] = UNION_SUBDISP_LINE_TEXT;
     }
     name = STRBUF_Create(UNION_SUBDISP_NAME_CHARS, UNION_SUBDISP_HEAP_ID);
     STRBUF_SetString(name, entry->name);
-    PRINTSYS_PrintQueColor((struct PrintQueue *)work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
     STRBUF_Delete(name);
     if (entry->relation != 0) {
         name = MSGDATA_AllocString(work->msgData, (entry->relation == 1) ? UNION_SUBDISP_MSG_FRIEND : UNION_SUBDISP_MSG_KNOWN);
-        PRINTSYS_PrintQueColor((struct PrintQueue *)work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0x74, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
+        PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0x74, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
         STRBUF_Delete(name);
     }
 }
@@ -816,8 +823,8 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     destOffset <<= 1;
     sourceOffset = srcLine * UNION_SUBDISP_LINE_COPY_STRIDE;
     sourceOffset <<= 1;
-    dst = (u16 *)((uptr)screen + destOffset);
-    src = (u16 *)((uptr)screen + sourceOffset);
+    dst = (u16 *)((u8 *)screen + destOffset);
+    src = (u16 *)((u8 *)screen + sourceOffset);
     MI_CpuCopy8(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
     BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_PMS && work->lineKind[dstLine] == UNION_SUBDISP_LINE_PMS) {

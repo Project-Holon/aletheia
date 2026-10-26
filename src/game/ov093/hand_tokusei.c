@@ -33,6 +33,7 @@
  *   BTL_SERVER_FLOW_QueryMainFlag 0x021C82B8 thumb ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
+ *   BTL_SERVER_FLOW_GetFrontPosOfPokeHeader  0x021C7D00  thumb  ov093
  *   BTL_SERVER_FLOW_GetScratchBuffer  0x021C8120  thumb  ov093
  *   BTL_SERVER_FLOW_CollectAlivePokeIds  0x021C7F68  thumb  ov093
  *   BTL_SERVER_FLOW_PushCmdRecord  0x021C88B4  thumb  ov093
@@ -1035,7 +1036,7 @@ void HAND_TOKUSEI_BadDreamsHurtSleepers(struct BtlEventFactor *factor, struct Bt
 
 BtlEventHandler *HAND_TOKUSEI_GetBadDreamsHandlers(int *handlerCount);
 
-void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg);
+void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *unusedArg);
 
 void HAND_TOKUSEI_RunAway_ShowEscapeMessage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
@@ -1293,7 +1294,7 @@ void HAND_TOKUSEI_MagicBounceReflectMove(struct BtlEventFactor *factor, struct B
 
 void HAND_TOKUSEI_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work);
 
-void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work);
+void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 
 const BtlEventHandlerEntry *HAND_TOKUSEI_AddMagicBounce(int *count);
 
@@ -4158,9 +4159,9 @@ void HAND_TOKUSEI_BadDreamsHurtSleepers(struct BtlEventFactor *factor, struct Bt
 BtlEventHandler *HAND_TOKUSEI_GetBadDreamsHandlers(int *handlerCount) { *handlerCount = 1; return gBadDreamsHandlers; }
 
 /* Run Away: the first handler of its table; belongs to hand_tokusei_021db0e4.c. */
-void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg)
+void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *unusedArg)
 {
-    HAND_COMMON_EventSetFlagIfAttacker((sptr)factor, (sptr)flow, pokeId, unusedArg);
+    HAND_COMMON_EventSetFlagIfAttacker(factor, flow, pokeId, unusedArg);
 }
 
 /* Run Away: after the escape check passes, show the escape message with its sound. */
@@ -5596,17 +5597,17 @@ BtlEventHandler *HAND_TOKUSEI_GetPranksterHandlers(u32 *handlerCount)
 /* Magic Bounce: the first of its two handlers is the one that Magic Coat uses to reflect a status move. */
 void HAND_TOKUSEI_MagicBounceReflectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work)
 {
-    HAND_COMMON_EventRedirectMove(factor, flow, ownerId, (sptr)work);
+    HAND_COMMON_EventRedirectMove(factor, flow, ownerId, work);
 }
 
 /* Magic Bounce: the second handler is the one that Magic Coat uses to counter a status move aimed at the owner. */
 void HAND_TOKUSEI_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work)
 {
-    HAND_COMMON_EventCounterMove(factor, flow, ownerId, (sptr)work);
+    HAND_COMMON_EventCounterMove(factor, flow, ownerId, work);
 }
 
 /* Magic Bounce: reflect the incoming move and show the ability window. */
-void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work)
+void HAND_TOKUSEI_MagicBounceReflectMoveWithWindow(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && BTL_EVENT_OverwriteVar(BTL_EVAR_FORCE_FLOATING_FLAG, 1) != 0) {
         BTL_SERVER_FLOW_PushCmdRecord(flow, HANDEX_KIND_ABILITY_WINDOW_IN, pokeId);

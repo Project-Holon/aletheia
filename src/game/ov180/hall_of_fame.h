@@ -54,7 +54,7 @@ void HALL_OF_FAME_ExitMcss(HallOfFameWork *work);
 void HALL_OF_FAME_AddMonSprite(HallOfFameWork *work);
 void HALL_OF_FAME_DeleteMonSprite(HallOfFameWork *work);
 void HALL_OF_FAME_MoveMonSpriteX(HallOfFameWork *work, int step);
-void HALL_OF_FAME_OnMonAnimDone(HallOfFameWork *work);
+void HALL_OF_FAME_OnMonAnimDone(void *param, u32 frame);
 void HALL_OF_FAME_StartMonAnimCallback(HallOfFameWork *work);
 int HALL_OF_FAME_RunState(HallOfFameWork *work);
 int HALL_OF_FAME_StateInit(HallOfFameWork *work);

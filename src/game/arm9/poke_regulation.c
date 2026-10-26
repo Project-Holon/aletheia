@@ -103,7 +103,7 @@ int POKE_REGULATION_IsInSpeciesTable(unsigned short species);
 
 int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *mon);
 
-int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
+int POKE_REGULATION_CheckSelection(struct Regulation *reg, struct Party *party, u8 *order);
 
 int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party *party);
 
@@ -226,7 +226,7 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
  *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckSelection.c \
  *       --func POKE_REGULATION_CheckSelection --addr 0x02019E54 --cc 1.1p1 --thumb
  */
-int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order)
+int POKE_REGULATION_CheckSelection(struct Regulation *reg, struct Party *party, u8 *order)
 {
     u64 picked;
     u32 flags;
@@ -234,7 +234,7 @@ int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order)
     if (reg == 0)
         return 0;
 
-    POKE_REGULATION_CheckOrder((struct Regulation *)reg, (struct Party *)party, (u8 *)order, (char *)(&picked), &flags);
+    POKE_REGULATION_CheckOrder(reg, party, order, (char *)(&picked), &flags);
     if (flags == 0)
         return 0;
 
@@ -736,7 +736,7 @@ struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, 
     int i;
     u32 regulationMode;
 
-    text = (struct RegulationText *)GFL_HEAP_Alloc(heapId, 0x38, 1, poke_regulation_File, 0x312);
+    text = (struct RegulationText *)GFL_HEAP_Alloc(heapId, sizeof(*text), 1, poke_regulation_File, 0x312);
     text->bank = MSGDATA_CreateFromArchive(0, 2, 0xa5, heapId);
     scratch = STRBUF_Create(0x40, heapId);
     regulationMode = reg->shooter;

@@ -30,13 +30,6 @@ typedef struct GsyncProcParam {
 struct GsyncMenuWork;
 typedef void (*GsyncMenuStateFunc)(struct GsyncMenuWork *work);
 
-/* Animation end callback record given to the actor animation system. */
-typedef struct GsyncActorAnimCallback {
-    u16 frame;
-    struct GsyncMenuWork *work;
-    void (*callback)(struct GsyncMenuWork *work);
-} GsyncActorAnimCallback;
-
 /* 0x2B4 bytes, one instance per proc. */
 typedef struct GsyncMenuWork {
     GsyncMenuStateFunc stateFunc;                       /* 0x000 */

@@ -63,8 +63,8 @@ struct ButtonSlot {
 struct ButtonMan {
     u8          *rects;     /* +0x00, 4-byte entries ended by 0xFF */
     u32          n;         /* +0x04 */
-    void       (*cb)(s32, s32, s32);  /* +0x08 */
-    s32          arg;       /* +0x0C */
+    void       (*cb)(u32, s32, void *);  /* +0x08 */
+    void        *arg;       /* +0x0C */
     struct ButtonSlot *slots;     /* +0x10 */
 };
 
@@ -82,7 +82,7 @@ extern u32 GFL_HEAP_Free(void *p);
 #include "fx_mtx33.h"
 #include "fx_atanidx.h"
 #include "strbuf.h"
-struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
+struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(u32, s32, void *), void *arg, int heap);
 void BUTTON_MAN_ClearSlot(struct ButtonSlot *slot);
 void BUTTON_MAN_Delete(struct ButtonMan *bm);
 s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
@@ -103,7 +103,7 @@ extern s16 FX_SinCosTable_[];
 
 extern s32 (*const g_020A15E8[])(struct ButtonSlot *, s32, s32);
 
-struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
+struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(u32, s32, void *), void *arg, int heap)
 {
     struct ButtonMan *r;
     int i = 0;
@@ -115,7 +115,7 @@ struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 ar
         }
         i++;
     }
-    r = GFL_HEAP_Alloc((u16)heap, 0x14, 0, g_020A7FCC, 0x6b);
+    r = GFL_HEAP_Alloc((u16)heap, sizeof(*r), 0, g_020A7FCC, 0x6b);
     if (r != 0) {
         r->rects = rects;
         r->n = i;

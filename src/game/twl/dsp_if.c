@@ -108,7 +108,7 @@ void DSP_SendDataCore(u32 index, u32 data)
 {
     while (!DSP_SendDataIsEmptyCore(index)) {
     }
-    *(vu16 *)(0x04004300 + index * 8 + 0x20) = data;
+    *(vu16 *)(IOREG_ADDR(0x04004300) + index * 8 + 0x20) = data;
 }
 
 u16 DSP_RecvDataCore(u32 ch)
@@ -177,10 +177,10 @@ u16 DSP_GetSemaphoreCore(void)
 
 void DSP_ClearSemaphoreCore(u16 mask)
 {
-    *(volatile u16 *)0x04004318 = mask;
+    *(volatile u16 *)REG_AES_BLK_ADDR = mask;
 }
 
 void DSP_MaskSemaphoreCore(u16 mask)
 {
-    *(volatile u16 *)0x04004314 = mask;
+    *(volatile u16 *)REG_AES_MAC_ADDR = mask;
 }

@@ -181,11 +181,12 @@ struct ChihouZukanAwardWork {
 enum { BOOL_FALSE = 0, BOOL_TRUE = 1 };
 
 #include "../sdk_gx.h"
+#include "../arm9/mystatus_types.h"
 
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 extern void MI_CpuFill8(void*,int,u32);
-extern void *CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
+#include "chihou_zukan_award_graphic.h"
 #include "../arm9/gf_font.h"
 struct PrintQueue;
 #include "../arm9/printsys.h"
@@ -199,9 +200,7 @@ extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGra
 extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char *);
 #include "../arm9/gfl_heap_wrap.h"
-extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 #include "../arm9/fade.h"
 #include "../arm9/key.h"
 #include "../arm9/ui.h"
@@ -215,7 +214,6 @@ typedef short s16_p07;
 struct Strbuf;
 #include "../arm9/strbuf.h"
 #include "../arm9/wordset.h"
-extern unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
 struct ClactActor;
 struct ClactVec2;
 #include "../arm9/g3x.h"
@@ -224,7 +222,7 @@ struct G3dLight;
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p);
 int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
-void CHIHOU_ZUKAN_AWARD_Task(void);
+void CHIHOU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1);
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p);
 void CHIHOU_ZUKAN_AWARD_Noop(char *p);
 void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p);
@@ -256,18 +254,18 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  u16 heap;
  void *h;
  GFL_HEAP_CreateChildHeap((uptr)((void*)1),131,0x30000);
- p=PROCSYS_AllocProcWork(owner,88,131);
+ p=PROCSYS_AllocProcWork(owner,sizeof(struct ChihouZukanAwardWork),131);
  i=BG_MODE0;
- MI_CpuFill8(p,i,88);
+ MI_CpuFill8(p,i,sizeof(struct ChihouZukanAwardWork));
  *(u16*)p=131;
- *(void**)(p+4)=input;
- *(void**)(p+8)=CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
- *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
- *(u32*)(p+16)=(uptr)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
+ ((struct ChihouZukanAwardWork *)p)->args=input;
+ ((struct ChihouZukanAwardWork *)p)->graphic=CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
+ ((struct ChihouZukanAwardWork *)p)->font=GF_FONT_Create(23,0,0,0,*(u16*)p);
+ ((struct ChihouZukanAwardWork *)p)->printQue=PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)CHIHOU_ZUKAN_AWARD_Task),(void *)p,1);
+ ((struct ChihouZukanAwardWork *)p)->task=GFL_USE_AddMainTask(CHIHOU_ZUKAN_AWARD_Task,(void *)p,1);
  CHIHOU_ZUKAN_AWARD_LoadBgAssets((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupWindows((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupTiles((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_CreateActor((struct ChihouZukanAwardWork *)p);
- settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
+ settings=(char *)GAME_DATA_GetMyStatus(*(void**)(((struct ChihouZukanAwardWork *)p)->args));
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
@@ -279,7 +277,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  } while((u32)i<1u);
  BG_SYS_SetSubPlaneVisible(16,1);
  heap=*(u16*)p;
- selected=1;if(*(u8*)(settings+29)!=1) selected=0;
+ selected=1;if(((struct MyStatus *)settings)->sex!=1) selected=0;
  h=ARC_TOOL_CreateHandle(30,heap);
  zero=0;
  ARC_UTIL_UploadPaletteFromHandleWhole(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
@@ -287,7 +285,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,*(u16*)p);
- if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
+ if(((struct ChihouZukanAwardWork *)p)->args->bgmActive==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }
 
@@ -350,14 +348,14 @@ int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *
  return 0;
 }
 
-void CHIHOU_ZUKAN_AWARD_Task(void) {}
+void CHIHOU_ZUKAN_AWARD_Task(struct TcbTask *unused0, void *unused1) {}
 
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((uptr)h),1,0,0,0x1E0,p->heap);
-    ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)h),4,1,0,0,0,p->heap);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)h),6,1,0,0,0,p->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(h),1,0,0,0x1E0,p->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(h),4,1,0,0,0,p->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)(h),6,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_PushTile(1);
 }
@@ -428,7 +426,7 @@ void CHIHOU_ZUKAN_AWARD_FlushWindows(struct ChihouZukanAwardWork *p)
 int CHIHOU_ZUKAN_AWARD_IsWindowsReady(unsigned char *p)
 {
     unsigned char i;
-    for(i=0;i<5;i++) if(*(int *)(p+0x30+4*i)==0) return 0;
+    for(i=0;i<5;i++) if(((struct ChihouZukanAwardWork *)p)->done[i]==0) return 0;
     return 1;
 }
 
@@ -460,11 +458,11 @@ void CHIHOU_ZUKAN_AWARD_SetupTiles(struct ChihouZukanAwardWork *p)
 void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
-    p->paletteId=CLACT_RegisterPaletteEx((void *)((uptr)h),0,0,0,0,2,p->heap);
-    p->charId=CLACT_RegisterCharacter((void *)((uptr)h),3,0,0,p->heap);
-    p->cellAnimId=CLACT_RegisterCellAnim((void *)((uptr)h),8,9,p->heap);
+    p->paletteId=CLACT_RegisterPaletteEx((void *)(h),0,0,0,0,2,p->heap);
+    p->charId=CLACT_RegisterCharacter((void *)(h),3,0,0,p->heap);
+    p->cellAnimId=CLACT_RegisterCellAnim((void *)(h),8,9,p->heap);
     ARC_TOOL_DeleteHandle(h);
-    p->actor=(struct Obj *)CLACT_CreateActor((void *)CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic),p->charId,p->paletteId,p->cellAnimId,(struct ActorInitParam *)(&d_021BA140),0,p->heap);
+    p->actor=(struct Obj *)CLACT_CreateActor(CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic),p->charId,p->paletteId,p->cellAnimId,(struct ActorInitParam *)(&d_021BA140),0,p->heap);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->actor,1);
     CLACT_SetActorAutoAnim((struct ClactActor *)p->actor,1);
 }
@@ -486,7 +484,7 @@ void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p)
  */
 void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
 {
-    if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
+    if(((struct ChihouZukanAwardWork *)p)->args->bgmActive==0) {
         struct ChihouZukanAwardVec2 v;
         short *t;
         BG_SYS_ChangeScrollImmediate(1,3,0x40);
@@ -494,8 +492,8 @@ void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
         t=(short *)&d_021BA140;
         v.x=t[0];
         v.y=t[1]-64;
-        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj **)(p+0x54)),(const struct ClactVec2 *)&v,0);
-        p[0x44]=0;
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((struct ChihouZukanAwardWork *)p)->actor),(const struct ClactVec2 *)&v,0);
+        ((struct ChihouZukanAwardWork *)p)->countdown=0;
     }
 }
 

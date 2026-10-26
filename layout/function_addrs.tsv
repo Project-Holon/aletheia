@@ -26056,8 +26056,8 @@ ov115	0x021D4270	WIFILOGIN_COMMON_CheckLocalAid	thumb	30	src/game/ov115/wifilogi
 ov115	0x021D4290	WIFILOGIN_COMMON_GetSessionId	thumb	8	src/game/ov115/wifilogin_common.c	no
 ov115	0x021D4298	WIFILOGIN_COMMON_GetMaxPlayers	thumb	4	src/game/ov115/wifilogin_common.c	no
 ov115	0x021D429C	WIFILOGIN_COMMON_IsSameId	thumb	12	src/game/ov115/wifilogin_common.c	no
-ov115	0x021D42A8	WIFILOGIN_DISP_OpenProfileCard	thumb	14	src/game/ov115/wifilogin_disp.c	no
-ov115	0x021D42B8	WIFILOGIN_DISP_GetProfileSlot0	thumb	16	src/game/ov115/wifilogin_disp.c	no
+ov115	0x021D42A8	WIFILOGIN_DISP_GetWifiUserData	thumb	14	src/game/ov115/wifilogin_disp.c	no
+ov115	0x021D42B8	WIFILOGIN_DISP_GetDwcFriendDataSlot0	thumb	16	src/game/ov115/wifilogin_disp.c	no
 ov115	0x021D42C8	WIFILOGIN_DISP_CopyProfileSlot	thumb	22	src/game/ov115/wifilogin_disp.c	no
 ov115	0x021D42E0	WIFILOGIN_DISP_StepCancelOnReady	thumb	48	src/game/ov115/wifilogin_disp.c	no
 ov115	0x021D4310	WIFILOGIN_DISP_StepCancel	thumb	80	src/game/ov115/wifilogin_disp.c	no

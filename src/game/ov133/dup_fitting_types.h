@@ -7,10 +7,25 @@
  * through one field at a time.
  */
 
+/* One per-frame record inside DupFittingWork. */
+#include "../ov112/mus_poke_draw_shared_types.h"
+
+struct DupFittingOwner;
+struct MusicalSave;
+
+struct DupFittingFrame {
+    unsigned short id;           /* 0x0 */
+    unsigned char  pad_2[2];
+    int            imageKeyA;    /* 0x4 billboard image key of the front view */
+    int            imageKeyB;    /* 0x8 billboard image key of the back view */
+    int            mode;         /* 0xC */
+    int            owned;        /* 0x10 owned flag */
+};
+
 struct DupFittingWork {
     unsigned short heapId;        /* 0x0000 heap the work object was allocated from */
     unsigned char  pad_2[2];
-    void          *parent;        /* 0x0004 owning screen object */
+    struct DupFittingOwner *parent; /* 0x0004 owning screen object */
     void          *task;          /* 0x0008 GFL_USE_AddMainTask task handle */
     int            state;         /* 0x000C screen state */
     int            progress;      /* 0x0010 panel slide progress 0..192 */
@@ -43,9 +58,8 @@ struct DupFittingWork {
     int            sortMode;           /* 0x00A4 */
     unsigned short frameCount;    /* 0x00A8 number of frames */
     unsigned char  pad_AA[2];
-    unsigned char  frameRecords[0x1434 - 0x00AC]; /* 0x00AC per-frame records */
-    void          *frameOrder[1]; /* 0x1434 frame pointer array */
-    unsigned char  pad_1438[0x181C - 0x1438];
+    struct DupFittingFrame frames[250]; /* 0x00AC per-frame records */
+    struct DupFittingFrame *frameOrder[250]; /* 0x1434 frames in display order */
     void          *itemList;      /* 0x181C item element list head */
     void          *listA;         /* 0x1820 worn element list */
     void          *listB;         /* 0x1824 spare element list */
@@ -54,7 +68,7 @@ struct DupFittingWork {
     short          rotationVel;   /* 0x182E model rotation velocity */
     unsigned short turnAccum;     /* 0x1830 accumulated turn */
     unsigned char  pad_1832[2];
-    unsigned int   startAngle;         /* 0x1834 */
+    int            startAngle;         /* 0x1834 */
     short          spin;         /* 0x1838 */
     short          spinAccel;         /* 0x183A */
     int            firstTouch;    /* 0x183C touch released this frame */
@@ -66,9 +80,9 @@ struct DupFittingWork {
     void          *actorA;        /* 0x184C actor A */
     void          *actorB;        /* 0x1850 actor B */
     void          *actorC;        /* 0x1854 actor C */
-    unsigned int   clactRes[9];   /* 0x1858 3 palettes, 3 characters, 3 cell anims */
-    unsigned int   renderObj;     /* 0x187C MCSS render object id */
-    int            renderParam;   /* 0x1880 MCSS render object parameter */
+    int            clactRes[9];   /* 0x1858 3 palettes, 3 characters, 3 cell anims */
+    MusPokeDrawScene *renderObj;  /* 0x187C MCSS render object */
+    MusPokeDrawSlot *renderParam; /* 0x1880 MCSS render slot */
     void          *elemSet;       /* 0x1884 MCSS element set */
     void          *camera;        /* 0x1888 G3D camera */
     void          *billboard;     /* 0x188C billboard */
@@ -97,17 +111,27 @@ struct DupFittingWork {
 
 typedef char DupFittingWork_size_check[(sizeof(struct DupFittingWork) == 0x18F0) ? 1 : -1];
 
-/* The owning screen object: work->parent. */
-struct DupFittingOwner {
-    unsigned char pad_0[4];
-    void          *outfitTable;  /* 0x4 table of owned outfits */
-    void          *saveData;     /* 0x8 MUSICAL_SAVE data block */
+/* One outfit slot record of the owner's outfit table (6 bytes). */
+struct DupFittingOutfitRecord {
+    unsigned short id;           /* 0x0 */
+    short          rotation;     /* 0x2 pose rotation, clamped to +-2730 */
+    unsigned char  flag;         /* 0x4 */
+    unsigned char  pad_5;
 };
 
 /* The table pointed at by DupFittingOwner.outfitTable. */
 struct DupFittingOutfitTable {
     unsigned char pad_0[4];
     void          *monSpecies;   /* 0x4 species the outfit belongs to */
+    unsigned char pad_8[0xC];
+    struct DupFittingOutfitRecord rec[1]; /* 0x14 one record per frame */
+};
+
+/* The owning screen object: work->parent. */
+struct DupFittingOwner {
+    void          *comm;         /* 0x0 musical network state */
+    struct DupFittingOutfitTable *outfitTable; /* 0x4 table of owned outfits */
+    struct MusicalSave *saveData; /* 0x8 MUSICAL_SAVE data block */
 };
 
 /* Head of a singly linked element list. */
@@ -124,7 +148,7 @@ struct DupFittingItemList {
 struct DupFittingItemElem {
     unsigned char  pad_0[4];
     void          *data;         /* 0x4 item descriptor */
-    unsigned int   sprite;       /* 0x8 copied sprite */
+    void          *sprite;       /* 0x8 copied sprite */
     void          *renderElem;   /* 0xC MCSS render element */
     int            posX;         /* 0x10 */
     int            posY;         /* 0x14 */
@@ -156,13 +180,6 @@ struct DupFittingRenderElem {
     int            offsetY;          /* 0x14 offset y */
     unsigned char  pad_18[0x36 - 0x18];
     unsigned short baseRotation;          /* 0x36 base rotation */
-};
-
-/* One per-frame record inside DupFittingWork. */
-struct DupFittingFrame {
-    unsigned short id;           /* 0x0 */
-    unsigned char  pad_2[0xE];
-    int            owned;          /* 0x10 owned flag */
 };
 
 struct Object;

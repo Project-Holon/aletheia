@@ -189,7 +189,7 @@ extern G3dObjectStatus sD06DenkiPulseDrawStatus;                     /* pulse dr
 /* Loads the resources of the three effects. */
 D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    D06DenkiRes *res = GFL_HEAP_Alloc(heapId, 0x34, 1, sFldeffD06DenkiFileName, 0xa9);
+    D06DenkiRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, sFldeffD06DenkiFileName, 0xa9);
     res->fieldEffect = fieldEffect;
     FLDEFF_D06DENKI_LoadResources(res);
     return res;

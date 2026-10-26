@@ -92,7 +92,8 @@ struct CPSNetVars {
     int (*link_is_on)(void);        /* 0x18 */
     u32 dhcp_server_ip;             /* 0x1C */
     u8 *buf;                        /* 0x20 */
-    u8 pad24[0x2C - 0x24];
+    u8 pad24[0x28 - 0x24];
+    void (*fixed_ip_hook)(void);    /* 0x28 */
     u32 gateway_ip;                 /* 0x2C */
     u32 xid;                        /* 0x30 */
     void (*periodic)(void);         /* 0x34 */

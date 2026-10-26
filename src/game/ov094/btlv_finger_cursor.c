@@ -108,7 +108,7 @@ void BTLV_FINGER_CURSOR_DeleteActor(BtlvFingerCursor *cursor);
 
 int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor);
 
-void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor);
+void BTLV_FINGER_CURSOR_AnimCallback(void *param, u32 frame);
 
 extern char d_0220AEFC[];
 
@@ -119,7 +119,7 @@ BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 
     BtlvFingerCursor *cursor;
     void *archive;
 
-    cursor = GFL_HEAP_Alloc(heapId, 0x30, 1, d_0220AEFC, 0x52);
+    cursor = GFL_HEAP_Alloc(heapId, sizeof(*cursor), 1, d_0220AEFC, 0x52);
     archive = ARC_TOOL_CreateHandle(0xb, (u16)((heapId & 0x7fff) | 0x8000));
     cursor->heapId = heapId;
     cursor->charResId = CLACT_RegisterCharacter(archive, 0xd9, 0, 1, heapId);
@@ -176,10 +176,10 @@ int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, int x, int y, u32 startDe
     cursor->state = 0;
     cursor->loopCount = loopCount;
     cursor->isActive = 0;
-    command.param = (uptr)cursor;
+    command.param = cursor;
     command.op = 0;
     command.tag = 0;
-    command.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
+    command.func = BTLV_FINGER_CURSOR_AnimCallback;
     CLACT_ApplyActorAnimCommand(cursor->actor, &command);
     return 1;
 }
@@ -203,8 +203,9 @@ int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor)
  * original reloads state after each isActive store and keeps the store order.
  * The other fields stay plain, so the volatile view is local to this function.
  */
-void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
+void BTLV_FINGER_CURSOR_AnimCallback(void *param, u32 frame)
 {
+    BtlvFingerCursor *cursor = (BtlvFingerCursor *)param;
     volatile BtlvFingerCursor *live = cursor;
     struct ClactAnimCommand pressCommand;
     struct ClactAnimCommand releaseCommand;
@@ -214,10 +215,10 @@ void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
         if (--cursor->startDelay == 0) {
             CLACT_SetActorAnimSeq(cursor->actor, 1);
             live->state++;
-            pressCommand.param = (uptr)cursor;
+            pressCommand.param = cursor;
             pressCommand.op = 1;
             pressCommand.tag = cursor->loopCount;
-            pressCommand.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
+            pressCommand.func = BTLV_FINGER_CURSOR_AnimCallback;
             CLACT_ApplyActorAnimCommand(cursor->actor, &pressCommand);
             return;
         }
@@ -225,10 +226,10 @@ void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
     case 1:
         live->isActive = 1;
         live->state++;
-        releaseCommand.param = (uptr)cursor;
+        releaseCommand.param = cursor;
         releaseCommand.op = 2;
         releaseCommand.tag = 0;
-        releaseCommand.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
+        releaseCommand.func = BTLV_FINGER_CURSOR_AnimCallback;
         CLACT_ApplyActorAnimCommand(cursor->actor, &releaseCommand);
         return;
     case 2:

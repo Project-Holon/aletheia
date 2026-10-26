@@ -19,7 +19,7 @@
 
 asm void LOADER_DECRYPT_SyncCacheRange(void *addr, unsigned int size);
 int LOADER_DECRYPT_ClassifyOpcode(unsigned word);
-void LOADER_DECRYPT_DecodeBlocks(u32 *t);
+void LOADER_DECRYPT_DecodeBlocks(uptr *t);
 extern char gLoaderDecryptBssStart[];
 
 /*
@@ -58,9 +58,9 @@ int LOADER_DECRYPT_ClassifyOpcode(unsigned instr)
     return 0;
 }
 
-void LOADER_DECRYPT_DecodeBlocks(u32 *desc)
+void LOADER_DECRYPT_DecodeBlocks(uptr *desc)
 {
-    u32 *header;
+    uptr *header;
     u32 byteCount;
     u32 *end;
     u32 key;

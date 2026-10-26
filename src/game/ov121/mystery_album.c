@@ -208,6 +208,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
+#include "../arm9/item.h"
 #include "../arm9/move.h"
 #include "../sdk_ioreg.h"
 #include "mystery_album_types.h"
@@ -238,6 +239,7 @@ typedef struct MysteryAlbumEntry {
     unsigned char padD4[8];     /* 0xD4 */
 } MysteryAlbumEntry;
 
+
 /*
  * Root work object of the Mystery Gift album select screen (mystery_album.c
  * original, held in this file). Allocated 0xC70 bytes by MYSTERY_ALBUM_Create.
@@ -245,20 +247,20 @@ typedef struct MysteryAlbumEntry {
 typedef struct MysteryAlbumWork {
     unsigned int mode;              /* 0x00 */
     unsigned int reserved04;            /* 0x04 */
-    unsigned int clactUnit;            /* 0x08 */
-    void *cardList;                 /* 0x0C MYSTERY_DATA card list */
-    void *font;                  /* 0x10 */
-    void *printQueue;                  /* 0x14 */
-    unsigned int wordSet;           /* 0x18 */
-    unsigned int msgBank;           /* 0x1C */
-    unsigned int gameData;           /* 0x20 */
+    void *clactUnit;                /* 0x08 */
+    struct MysteryData *cardList;   /* 0x0C MYSTERY_DATA card list */
+    struct GfFont *font;            /* 0x10 */
+    struct PrintQueue *printQueue;  /* 0x14 */
+    struct WordSet *wordSet;        /* 0x18 */
+    struct MsgBank *msgBank;        /* 0x1C */
+    struct GameData *gameData;      /* 0x20 */
     unsigned short heapId;          /* 0x24 */
     unsigned char pad26[2];
     MysteryAlbumEntry items[12];    /* 0x28 one per card slot */
     int refreshFlag;                /* 0xA78 */
     void *slots[12];                /* 0xA7C selected album handles */
     void *selectedAlbum;            /* 0xAAC */
-    void *menuWork;                 /* 0xAB0 */
+    struct MysteryAlbumSlotWork *menuWork; /* 0xAB0 */
     void *infoWindow;                 /* 0xAB4 */
     void *windowList;               /* 0xAB8 MysteryUtilWindowList */
     void *menuWindow;                 /* 0xABC */
@@ -274,22 +276,28 @@ typedef struct MysteryAlbumWork {
     unsigned short swapIndex;        /* 0xADE */
     int introActive;                   /* 0xAE0 */
     int introMode;                   /* 0xAE4 */
-    unsigned char padAE8[4];
+    unsigned int fadeTimer;         /* 0xAE8 */
     void *actorA;                   /* 0xAEC */
     void *actorB;                   /* 0xAF0 */
-    void *actorC;                   /* 0xAF4 */
-    void *actorD;                   /* 0xAF8 */
-    void *charHandle;                 /* 0xAFC */
-    void *cellAnimHandle;                 /* 0xB00 */
-    void *paletteHandle;                 /* 0xB04 */
+    union {
+        struct {
+            void *actorC;           /* 0xAF4 */
+            void *actorD;           /* 0xAF8 */
+        };
+        void *actorCD[2];
+    };
+    int charHandle;                 /* 0xAFC */
+    int cellAnimHandle;             /* 0xB00 */
+    int paletteHandle;              /* 0xB04 */
     void *windows[8];               /* 0xB08 BMP_WIN handles */
     void *actors[8];                /* 0xB28 CLACT actors */
     unsigned int charHandles[8];    /* 0xB48 CLACT character handles */
     unsigned int cellAnimHandles[8];/* 0xB68 CLACT cell-anim handles */
     unsigned int paletteHandles[8]; /* 0xB88 CLACT palette handles */
-    void *bgPaletteHandle;                 /* 0xBA8 */
+    int bgPaletteHandle;            /* 0xBA8 */
     unsigned short angle;           /* 0xBAC */
-    unsigned char tail[0xC70 - 0xBAE]; /* 0xBAE icon sprites */
+    MysteryUtilBlendPalettes icons[2]; /* 0xBAE icon sprite palettes */
+    unsigned char padC6E[2];
 } MysteryAlbumWork;
 
 /*
@@ -302,11 +310,8 @@ typedef struct MysteryUtilResData {
     char *data;             /* 0x0C */
 } MysteryUtilResData;
 
-#define W(k) (*(u32 *)(p+(k)))
 
-#define P(k) (*(u8 **)(p+(k)))
 
-#define H(k) (*(u16 *)(p+(k)))
 
 struct ClactActor;
 
@@ -317,9 +322,6 @@ struct Sub0200852CObj;
 
 /* Raw 0xCC Mystery Gift card record (MYSTERY_DATA_GetCard, MYSTERY_ALBUM_SetupEntry). */
 /* 48-byte album slot create descriptor (MYSTERY_ALBUM_CreateSlotWork). */
-
-/* Volatile view of MysteryAlbumWork; the volatile load schedule is load-bearing. */
-typedef struct MysteryAlbumWorkVolatile { char pad[0x28]; MysteryAlbumEntry items[12]; char tail[0xacc-0x28-12*0xdc]; volatile int index; } MysteryAlbumWorkVolatile;
 
 /* 8-byte album slot coordinate (data_021DF86E); h/s are the tile pair, b the byte view. */
 typedef union MysteryAlbumSlotCoord { u16 h[4]; s16 s[4]; u8 b[8]; struct { u8 x, y, pad[6]; } c; } MysteryAlbumSlotCoord;
@@ -332,9 +334,6 @@ typedef struct { u8 low:1; u8 flag:1; u8 rest:6; } MysteryAlbumCardFlagBits;
 /* 120-byte table of five MysteryUtilMenuEntry descriptors (d_021DF99C). */
 /* 120-byte table of five MysteryUtilMenuEntry descriptors (d_021DF99C, d_021DFA14). */
 typedef struct { MysteryUtilMenuEntry e[5]; } MysteryUtilMenuEntryTable;
-
-/* Two-field cursor view of MysteryAlbumWork; kept distinct so the index CSE matches. */
-typedef struct { u8 pad[0xAC8]; u32 row; u32 col; } MysteryAlbumCursor;
 
 /*
  * Slot work for the album card row (mystery_album.c original, allocated 0xD0
@@ -406,16 +405,6 @@ struct MysteryAlbumViewCard {
     u8 altMessageSet:1;
 };
 
-struct CtxB {
-    u32 windowList;
-    u8 pad4[0xB4];
-    u32 clactUnit;
-    u32 cardList;
-    u32 msgBank;
-    u32 font;
-    u32 printQueue;
-    u32 wordSet;
-};
 
 struct MysteryAlbumView {
     u8 pad0[0xE0];
@@ -425,12 +414,12 @@ struct MysteryAlbumView {
     u8 padE8[0x118 - 0xE8];
     u16 heap;
     u8 pad11A[2];
-    struct CtxB *slotWork;
+    MysteryAlbumSlotWork *slotWork;
     struct MysteryAlbumViewCard *card;
     void *gameData;
     u8 pad128[0xC];
-    u32 pokeCharData;
-    u32 pokeCharBuf;
+    void *pokeCharData;
+    NNSG2dCharacterData *pokeCharBuf;
     void *pokePalette;
     void *pokePaletteData;
     void *bmpList;
@@ -493,7 +482,6 @@ int POKEGRA_OpenHandle(int heapId);
 #include "../arm9/mi_memory.h"
 
 
-extern void BG_SYS_SetPlaneVisible(unsigned char plane, unsigned char enable);
 
 #include "../arm9/strbuf.h"
 
@@ -504,11 +492,9 @@ typedef short s16_p07;
 
 
 
-extern void BG_SYS_PushTile(u32 bgLayer);
 
 
 
-extern void BG_SYS_MarkTileDirty(unsigned);
 
 
 
@@ -518,18 +504,15 @@ extern void BG_SYS_MarkTileDirty(unsigned);
 #include "../arm9/msgdata.h"
 
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 visible);
 
 
 
 #include "../arm9/key.h"
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 
 
-extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 
 
 
@@ -538,7 +521,6 @@ void MYSTERY_ALBUM_RequestSetup(MysteryAlbum *album,u32 mode);
 
 void MYSTERY_ALBUM_Delete(MysteryAlbum *album);
 
-extern void BG_SYS_ClearSlot(u8 bgLayer);
 
 void MYSTERY_ALBUM_ResetIntro(MysteryAlbum *album);
 
@@ -549,45 +531,31 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album);
 #include "../arm9/arc_tool.h"
 
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
-
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
 
 
-extern void BG_SYS_Init(u32, u32, u32, u32);
+
 
 #include "../arm9/bmp_menuwork.h"
 
 #include "../arm9/poke_tool_ext.h"
 
-extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
-
-extern s32 CLACT_RegisterPaletteEx(void *, u32, u32, u32, u16, u16, u16);
-
-extern s32 CLACT_RegisterCellAnim(void *, u32, u32, u32);
-
-extern s32 CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 
 
 
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void CLACT_ReleasePalette(u32 i);
+
+
+
 
 #include "../arm9/wordset.h"
 
 
-extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 
 
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 animId, u32 flag);
 
-extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space);
 
 
 
@@ -611,17 +579,6 @@ int MYSTERY_ALBUM_IsIntroIdle(MysteryAlbum *album);
 
 
 
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-
-
-
-extern int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
-
-
-
-
-
-extern u32 GFL_USE_GetRandom(u32 range);
 
 
 
@@ -640,10 +597,16 @@ extern u32 GFL_USE_GetRandom(u32 range);
 
 
 
-extern int POKEGRA_GetArcID(void);
 
 
-extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
+
+
+
+
+
+
+
+
 
 
 
@@ -686,93 +649,93 @@ struct MsgBank;
 
 
 
-char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap);
+MysteryAlbumWork *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap);
 
 void MYSTERY_ALBUM_DeleteWork(MysteryAlbumWork *obj);
 
-void MYSTERY_ALBUM_Update(MysteryAlbumWorkVolatile *obj);
+void MYSTERY_ALBUM_Update(MysteryAlbumWork *obj);
 
-void MYSTERY_ALBUM_UpdateWindows(char *p);
+void MYSTERY_ALBUM_UpdateWindows(MysteryAlbumWork *p);
 
-int MYSTERY_ALBUM_GetWindowState(char *p);
+int MYSTERY_ALBUM_GetWindowState(MysteryAlbumWork *p);
 
-void MYSTERY_ALBUM_Setup(u8 *p, u16 heap);
+void MYSTERY_ALBUM_Setup(MysteryAlbumWork *p, u16 heap);
 
-void MYSTERY_ALBUM_Cleanup(char *p);
+void MYSTERY_ALBUM_Cleanup(MysteryAlbumWork *p);
 
-void MYSTERY_ALBUM_SetCursor(char *p,int a,int b,int c,u16 heap);
+void MYSTERY_ALBUM_SetCursor(MysteryAlbumWork *p,int a,int b,int c,u16 heap);
 
-void MYSTERY_ALBUM_DeleteSlotActors(char *p,int a);
+void MYSTERY_ALBUM_DeleteSlotActors(MysteryAlbumWork *p,int a);
 
-void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap);
+void MYSTERY_ALBUM_SetupSlot(MysteryAlbumWork *p, int a, int b, int c, u16 index, u16 heap);
 
-void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index);
+void MYSTERY_ALBUM_DeleteSlotActor(MysteryAlbumWork *p,int a,u16 index);
 
-void MYSTERY_ALBUM_StartScroll(u8 *p,int a);
+void MYSTERY_ALBUM_StartScroll(MysteryAlbumWork *p,int a);
 
-int MYSTERY_ALBUM_UpdateScroll(char *p);
+int MYSTERY_ALBUM_UpdateScroll(MysteryAlbumWork *p);
 
 void MYSTERY_ALBUM_RemoveCard(MysteryAlbumWork *o, int idx);
 
 void MYSTERY_ALBUM_SwapCards(MysteryAlbumWork *o, u32 a, u32 b);
 
-int MYSTERY_ALBUM_GetColumnCount(char *p);
+int MYSTERY_ALBUM_GetColumnCount(MysteryAlbumWork *p);
 
-u32 MYSTERY_ALBUM_CountValidCards(u32 p);
+u32 MYSTERY_ALBUM_CountValidCards(MysteryAlbumWork *p);
 
-void MYSTERY_ALBUM_SetupEntry(char *out,const MysteryAlbumCard *src,char *p,u16 heap);
+void MYSTERY_ALBUM_SetupEntry(MysteryAlbumEntry *out,const MysteryAlbumCard *src,const MysteryAlbumCreateInput *p,u16 heap);
 
-extern void MYSTERY_ALBUM_ClearEntry(u32 album);
+extern void MYSTERY_ALBUM_ClearEntry(MysteryAlbumEntry *p);
 
-int MYSTERY_ALBUM_IsEntryValid(int *p);
+int MYSTERY_ALBUM_IsEntryValid(MysteryAlbumEntry *p);
 
 void *MYSTERY_ALBUM_GetEntryBmp(void *p);
 
-extern void *MYSTERY_ALBUM_CreateEntryArc(void *album,u16 heapId);
+extern void *MYSTERY_ALBUM_CreateEntryArc(void *p,u16 heap);
 
-extern u32 MYSTERY_ALBUM_GetEntryPaletteResId(void *album);
+extern u32 MYSTERY_ALBUM_GetEntryPaletteResId(void *p);
 
-extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *album);
+extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *p);
 
-extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *album);
+extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *p);
 
 int MYSTERY_ALBUM_GetEntryCellResId(void *p);
 
 int MYSTERY_ALBUM_GetEntryCellAnimResId(void *p);
 
-extern int MYSTERY_ALBUM_GetEntryKind(void *album);
+extern int MYSTERY_ALBUM_GetEntryKind(void *p);
 
 char *MYSTERY_ALBUM_GetEntryCard(void *p);
 
-int MYSTERY_ALBUM_GetEntryEggFlag(u32 p);
+int MYSTERY_ALBUM_GetEntryEggFlag(MysteryAlbumEntry *p);
 
 int MYSTERY_ALBUM_GetEntryIconX(void *p);
 
-extern int MYSTERY_ALBUM_GetEntryIconY(void *album);
+extern int MYSTERY_ALBUM_GetEntryIconY(void *p);
 
-void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_SelectHandler(void *task, int *state, void *pArg);
 
-void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p);
+void MYSTERY_ALBUM_ConfirmHandler(void *task, int *state, void *pArg);
 
-void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_InfoHandler(void *task, int *state, void *pArg);
 
-void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_MoveHandler(void *task, int *state, void *pArg);
 
-void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p);
+void MYSTERY_ALBUM_SaveHandler(void *arg, int *state, void *pArg);
 
-void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,char *p);
+void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,MysteryAlbumWork *p);
 
-void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u16 heap);
+void MYSTERY_ALBUM_SetupIconSprite(MysteryUtilBlendPalettes *p,void *arc,int id,int index,u8 other,u16 heap);
 
-void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d);
+void MYSTERY_ALBUM_UpdateIconSprite(MysteryUtilBlendPalettes *p,int b,int c,u16 d);
 
 void *MYSTERY_ALBUM_CreateSlotWork(const MysteryAlbumDesc *p,u16 heap);
 
-void MYSTERY_ALBUM_DeleteSlotWork(void **p);
+void MYSTERY_ALBUM_DeleteSlotWork(MysteryAlbumSlotWork *p);
 
-int MYSTERY_ALBUM_UpdateSlotWork(void **p);
+int MYSTERY_ALBUM_UpdateSlotWork(MysteryAlbumSlotWork *p);
 
-struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap);
+struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, MysteryAlbumSlotWork *slotWork, void *gameData, u16 heap);
 
 extern char d_021DFBB0[],d_021DF8FC[],d_021DF890[];
 
@@ -800,9 +763,9 @@ extern u8 g0209DF0C;
 
 extern void *gSpeciesNameBank;
 
-char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
+MysteryAlbumWork *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
 {
-    char *out;
+    MysteryAlbumWork *out;
     int count=0;
     u32 i;
     int j;
@@ -811,41 +774,41 @@ char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
     const char *table;
     int n;
     void *callback;
-    out=GFL_HEAP_Alloc(heap,0xc70,0,d_021DFBB0,0x19f);
-    MI_CpuFill8(out,0,0xc70);
-    ((MysteryAlbumWork *)out)->flipFlag=1;
+    out=GFL_HEAP_Alloc(heap,sizeof(*out),0,d_021DFBB0,0x19f);
+    MI_CpuFill8(out,0,sizeof(*out));
+    out->flipFlag=1;
     *(MysteryAlbumCreateInput *)out=*src;
-    ((MysteryAlbumWork *)out)->heapId=heap;
-    MIi_CpuClear32(-1,out+0xb48,32);
-    MIi_CpuClear32(-1,out+0xb88,32);
-    MIi_CpuClear32(-1,out+0xb68,32);
-    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((MysteryAlbumWork *)out)->cardList);i++) {
-        if(MYSTERY_DATA_IsCardExist(((MysteryAlbumWork *)out)->cardList,i)) {
+    out->heapId=heap;
+    MIi_CpuClear32(-1,out->charHandles,32);
+    MIi_CpuClear32(-1,out->paletteHandles,32);
+    MIi_CpuClear32(-1,out->cellAnimHandles,32);
+    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(out->cardList);i++) {
+        if(MYSTERY_DATA_IsCardExist(out->cardList,i)) {
             count++;
-            MYSTERY_DATA_GetCard(((MysteryAlbumWork *)out)->cardList,i,&record);
-            MYSTERY_ALBUM_SetupEntry(out+40+i*0xdc,(const MysteryAlbumCard *)&record,out,heap);
+            MYSTERY_DATA_GetCard(out->cardList,i,&record);
+            MYSTERY_ALBUM_SetupEntry(&out->items[i],(const MysteryAlbumCard *)&record,(const MysteryAlbumCreateInput *)out,heap);
         }
     }
     callback=(void *)MYSTERY_ALBUM_SelectHandler;
-    if(((MysteryAlbumWork *)out)->mode) callback=(void *)MYSTERY_ALBUM_SingleHandler;
-    ((MysteryAlbumWork *)out)->task=MYSTERY_UTIL_CreateTask(out,callback,heap);
-    MYSTERY_ALBUM_Setup((u8 *)out,heap);
-    MYSTERY_ALBUM_SetCursor(out,1,0,((MysteryAlbumWork *)out)->cursorIndex,heap);
+    if(out->mode) callback=(void *)MYSTERY_ALBUM_SingleHandler;
+    out->task=MYSTERY_UTIL_CreateTask(out,callback,heap);
+    MYSTERY_ALBUM_Setup(out,heap);
+    MYSTERY_ALBUM_SetCursor(out,1,0,out->cursorIndex,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    ((MysteryAlbumWork *)out)->windowList=MYSTERY_UTIL_CreateWindowList(0,table,n,1,3,(uptr)((MysteryAlbumWork *)out)->printQueue,(struct MsgBank *)((MysteryAlbumWork *)out)->msgBank,*(int *)&((MysteryAlbumWork *)out)->font,heap);
-    MI_CpuFill8(&d,0,48);
-    d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
-    d.w[6]=((MysteryAlbumWork *)out)->clactUnit;d.w[7]=*(u32 *)&((MysteryAlbumWork *)out)->cardList;d.w[8]=((MysteryAlbumWork *)out)->msgBank;
-    d.w[9]=(uptr)((MysteryAlbumWork *)out)->font;d.w[10]=(uptr)((MysteryAlbumWork *)out)->printQueue;d.w[11]=((MysteryAlbumWork *)out)->wordSet;
-    ((MysteryAlbumWork *)out)->menuWork=MYSTERY_ALBUM_CreateSlotWork((const MysteryAlbumDesc *)&d,heap);
-    if(MYSTERY_ALBUM_CountValidCards((uptr)out)) {
+    out->windowList=MYSTERY_UTIL_CreateWindowList(0,table,n,1,3,out->printQueue,out->msgBank,out->font,heap);
+    MI_CpuFill8(&d,0,sizeof(d));
+    d.frontPlane=6;d.backPlane=4;d.reserved08=14;d.windowPalette=15;d.charPalette=11;d.paletteBank=14;
+    d.clactUnit=out->clactUnit;d.cardList=out->cardList;d.msgBank=out->msgBank;
+    d.font=out->font;d.printQueue=out->printQueue;d.wordSet=out->wordSet;
+    out->menuWork=MYSTERY_ALBUM_CreateSlotWork(&d,heap);
+    if(MYSTERY_ALBUM_CountValidCards(out)) {
         for(j=0;j<12;j++) {
-            if(MYSTERY_ALBUM_IsEntryValid((int *)(out+40+j*0xdc)))
-                *(void **)(out+0xa7c+j*4)=MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(out+40+j*0xdc),((MysteryAlbumWork *)out)->menuWork,(void *)src->w[8],heap);
+            if(MYSTERY_ALBUM_IsEntryValid(&out->items[j]))
+                out->slots[j]=MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&out->items[j]),out->menuWork,src->gameData,heap);
         }
-        MYSTERY_ALBUM_RequestSetup(((MysteryAlbumWork *)out)->slots[0],0);
+        MYSTERY_ALBUM_RequestSetup(out->slots[0],0);
         GFL_HEAP_GetHeapHeadChecked(29);
     }
     BG_SYS_ChangeScrollImmediate(3,3,0);
@@ -859,7 +822,6 @@ char *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 heap)
  */
 void MYSTERY_ALBUM_DeleteWork(MysteryAlbumWork *obj)
 {
-    char *p=(char *)obj;
     int i;
     u32 j;
     for(i=0;i<12;i++) {
@@ -868,47 +830,47 @@ void MYSTERY_ALBUM_DeleteWork(MysteryAlbumWork *obj)
             obj->slots[i]=0;
         }
     }
-    MYSTERY_ALBUM_DeleteSlotWork(*(void ** *)&((MysteryAlbumWork *)p)->menuWork);
-    if(((MysteryAlbumWork *)p)->menuWindow) {
-        MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
-        ((MysteryAlbumWork *)p)->menuWindow=0;
+    MYSTERY_ALBUM_DeleteSlotWork(obj->menuWork);
+    if(obj->menuWindow) {
+        MYSTERY_UTIL_DeleteMenuWindow(obj->menuWindow);
+        obj->menuWindow=0;
     }
     BG_SYS_ChangeScrollImmediate(3,0,0);
     BG_SYS_ChangeScrollImmediate(2,0,0);
-    MYSTERY_UTIL_ClearWindowList(((MysteryAlbumWork *)p)->windowList);
-    MYSTERY_UTIL_DeleteWindowList(((MysteryAlbumWork *)p)->windowList);
-    MYSTERY_ALBUM_DeleteSlotActors(p,1);
-    MYSTERY_ALBUM_DeleteSlotActors(p,0);
-    MYSTERY_ALBUM_Cleanup(p);
-    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((MysteryAlbumWork *)p)->cardList);j++)
-        MYSTERY_ALBUM_ClearEntry((uptr)(p+0x28+j*0xdc));
+    MYSTERY_UTIL_ClearWindowList(obj->windowList);
+    MYSTERY_UTIL_DeleteWindowList(obj->windowList);
+    MYSTERY_ALBUM_DeleteSlotActors(obj,1);
+    MYSTERY_ALBUM_DeleteSlotActors(obj,0);
+    MYSTERY_ALBUM_Cleanup(obj);
+    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(obj->cardList);j++)
+        MYSTERY_ALBUM_ClearEntry(&obj->items[j]);
     BG_SYS_ClearSlot(4);
     BG_SYS_ClearSlot(6);
     BG_SYS_MarkTileDirty(4);
     BG_SYS_MarkTileDirty(6);
-    MYSTERY_UTIL_DeleteTask(((MysteryAlbumWork *)p)->task);
-    GFL_HEAP_Free(p);
+    MYSTERY_UTIL_DeleteTask(obj->task);
+    GFL_HEAP_Free(obj);
 }
 
-void MYSTERY_ALBUM_Update(MysteryAlbumWorkVolatile *obj)
+void MYSTERY_ALBUM_Update(MysteryAlbumWork *obj)
 {
     char *p=(char *)obj;
     int flag;
     u16 old;
     int angle;
-    MYSTERY_UTIL_DispatchTask(*(char * *)&((MysteryAlbumWork *)p)->task);
+    MYSTERY_UTIL_DispatchTask(((MysteryAlbumWork *)p)->task);
     MYSTERY_ALBUM_UpdateSlotWork(((MysteryAlbumWork *)p)->menuWork);
     if(((MysteryAlbumWork *)p)->refreshFlag) {
         flag=0;
-        if(*(char * *)&((MysteryAlbumWork *)p)->selectedAlbum) {
-            MYSTERY_ALBUM_ResetIntro((MysteryAlbum *)*(char * *)&((MysteryAlbumWork *)p)->selectedAlbum);
-            *(char * *)&((MysteryAlbumWork *)p)->selectedAlbum=0;
+        if(((MysteryAlbumWork *)p)->selectedAlbum) {
+            MYSTERY_ALBUM_ResetIntro((MysteryAlbum *)((MysteryAlbumWork *)p)->selectedAlbum);
+            ((MysteryAlbumWork *)p)->selectedAlbum=0;
         }
-        if(obj->index<4 && MYSTERY_ALBUM_IsEntryValid((int *)(&obj->items[obj->index+((MysteryAlbumWork *)p)->cursorIndex*4]))) {
+        if(*(volatile int *)&((MysteryAlbumWork *)p)->cursorMode<4 && MYSTERY_ALBUM_IsEntryValid((MysteryAlbumEntry *)(&((MysteryAlbumWork *)p)->items[*(volatile int *)&((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4]))) {
             flag=1;
-            MYSTERY_ALBUM_RequestSetup(*(void **)(p+0xa7c+(((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4)*4),1);
+            MYSTERY_ALBUM_RequestSetup(((MysteryAlbumWork *)p)->slots[((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4],1);
         }
-        if(flag==0) MYSTERY_ALBUM_HideScreen(((MysteryAlbumWork *)p)->menuWork);
+        if(flag==0) MYSTERY_ALBUM_HideScreen((MysteryAlbumUi *)((MysteryAlbumWork *)p)->menuWork);
         ((MysteryAlbumWork *)p)->refreshFlag=0;
     }
     old=((MysteryAlbumWork *)p)->angle;
@@ -917,8 +879,8 @@ void MYSTERY_ALBUM_Update(MysteryAlbumWorkVolatile *obj)
         ((MysteryAlbumWork *)p)->angle=old-0xfc00;
     else
         ((MysteryAlbumWork *)p)->angle=angle;
-    MYSTERY_ALBUM_UpdateIconSprite((u8 *)(p+0xbae),14,0,((MysteryAlbumWork *)p)->angle);
-    MYSTERY_ALBUM_UpdateIconSprite((u8 *)(p+0xc0e),14,2,((MysteryAlbumWork *)p)->angle);
+    MYSTERY_ALBUM_UpdateIconSprite(&((MysteryAlbumWork *)p)->icons[0],14,0,((MysteryAlbumWork *)p)->angle);
+    MYSTERY_ALBUM_UpdateIconSprite(&((MysteryAlbumWork *)p)->icons[1],14,2,((MysteryAlbumWork *)p)->angle);
 }
 
 static inline void update(void *p)
@@ -929,20 +891,20 @@ static inline void update(void *p)
 /*
  * extent: unit includes tail-call follower MYSTERY_ALBUM_GetWindowState (function-start seed).
  */
-void MYSTERY_ALBUM_UpdateWindows(char *p)
+void MYSTERY_ALBUM_UpdateWindows(MysteryAlbumWork *p)
 {
     int i;
-    MYSTERY_UTIL_IsWindowListDone(((MysteryAlbumWork *)p)->windowList);
-    if(((MysteryAlbumWork *)p)->infoWindow) MYSTERY_UTIL_IsMessageDone(((MysteryAlbumWork *)p)->infoWindow);
+    MYSTERY_UTIL_IsWindowListDone(p->windowList);
+    if(p->infoWindow) MYSTERY_UTIL_IsMessageDone(p->infoWindow);
     for(i=0;i<12;i++) {
-        void *q=*(void **)(p+i*4+0xa7c);
+        void *q=p->slots[i];
         if(q) update(q);
     }
 }
 
-int MYSTERY_ALBUM_GetWindowState(char *p)
+int MYSTERY_ALBUM_GetWindowState(MysteryAlbumWork *p)
 {
-    return MYSTERY_UTIL_IsTaskDone(((MysteryAlbumWork *)p)->task);
+    return MYSTERY_UTIL_IsTaskDone(p->task);
 }
 
 #pragma opt_dead_assignments off
@@ -995,7 +957,7 @@ int MYSTERY_ALBUM_GetWindowState(char *p)
  *   variant with opt_propagation off (901 B) and opt_lifetimes off (85 B). Idea not done: a
  *   source where W1 is not provably 0 after the first loop-free section.
  */
-void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
+void MYSTERY_ALBUM_Setup(MysteryAlbumWork *p, u16 heap)
 {
     MysteryAlbumScratch t;
     void *arc;
@@ -1020,7 +982,7 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
     BG_SYS_Init(2, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 13, 0, heap);
     arc = ARC_TOOL_CreateHandle(7, heap);
-    *(int *)(p + 0xBA8) = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 384, heap);
+    p->bgPaletteHandle = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 0, 384, heap);
     ARC_TOOL_DeleteHandle(arc);
     for (i = 0; i < 8; i++) {
         if (i >= 4) {
@@ -1036,17 +998,17 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
             *(u16 *)(t.b + 12) = data_021DF86E[i].h[2];
             *(u16 *)(t.b + 14) = data_021DF86E[i].h[3];
         }
-        *(struct BmpWin **)(p + i * 4 + 0xBA8 - 0xA0) = BMP_WIN_Create(2, t.b[10], t.b[11], 10, 2, 15, 0);
-        BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0xBA8 - 0xA0));
+        p->windows[i] = BMP_WIN_Create(2, t.b[10], t.b[11], 10, 2, 15, 0);
+        BMP_WIN_MakeScreen(p->windows[i]);
         BG_SYS_PushTile(2);
     }
-    *(void **)(p + 0xAB4) = MYSTERY_UTIL_CreateWindow(0, 1, 13, 22, 6, 2, 3, *(u32 *)(p + 0x14), heap);
+    p->infoWindow = MYSTERY_UTIL_CreateWindow(0, 1, 13, 22, 6, 2, 3, p->printQueue, heap);
     arc = ARC_TOOL_CreateHandle(34, heap);
-    *(s32 *)(p + 0xAB4 + 0x50) = CLACT_RegisterPaletteEx(arc, 0, 0, 0, 0, 6, heap);
-    *(s32 *)(p + 0xAB4 + 0x4C) = CLACT_RegisterCellAnim(arc, 32, 35, heap);
-    *(s32 *)(p + 0xAB4 + 0x48) = CLACT_RegisterCharacter(arc, 9, 0, 0, heap);
-    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xBAE, arc, 0, 0, 1, heap);
-    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xC0E, arc, 0, 2, 3, heap);
+    p->paletteHandle = CLACT_RegisterPaletteEx(arc, 0, 0, 0, 0, 6, heap);
+    p->cellAnimHandle = CLACT_RegisterCellAnim(arc, 32, 35, heap);
+    p->charHandle = CLACT_RegisterCharacter(arc, 9, 0, 0, heap);
+    MYSTERY_ALBUM_SetupIconSprite(&p->icons[0], arc, 0, 0, 1, heap);
+    MYSTERY_ALBUM_SetupIconSprite(&p->icons[1], arc, 0, 2, 3, heap);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&t, 0, 8);
     *(u16 *)(t.b) = 0;
@@ -1054,11 +1016,11 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
     t.b[7] = 1;
     t.b[6] = 1;
     {
-        struct ClactActor *o = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xAB4 + 0x48), *(u32 *)(p + 0xAB4 + 0x50), *(u32 *)(p + 0xAB4 + 0x4C), (const struct ActorInitParam *)&t, 0, heap);
-        *(struct ClactActor **)(p + 0xAB4 + 0x38) = o;
+        struct ClactActor *o = CLACT_CreateActor(p->clactUnit, p->charHandle, p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&t, 0, heap);
+        p->actorA = o;
         *(u16 *)(t.b + 4) = 2;
-        o = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xAB4 + 0x48), *(u32 *)(p + 0xAB4 + 0x50), *(u32 *)(p + 0xAB4 + 0x4C), (const struct ActorInitParam *)&t, 0, heap);
-        *(struct ClactActor **)(p + 0xAB4 + 0x3C) = o;
+        o = CLACT_CreateActor(p->clactUnit, p->charHandle, p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&t, 0, heap);
+        p->actorB = o;
         CLACT_SetActorDrawEnable(o, 0);
     }
     t.b[6] = 0;
@@ -1075,55 +1037,55 @@ void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
             *(u16 *)(t.b + 2) = 0x10;
             *(u16 *)(t.b + 4) = 9;
         }
-        q = p + j * 4;
-        o = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xAB4 + 0x48), *(u32 *)(p + 0xAB4 + 0x50), *(u32 *)(p + 0xAB4 + 0x4C), (const struct ActorInitParam *)&t, k, heap);
-        *(struct ClactActor **)(q + 0xAB4 + 0x40) = o;
-        CLACT_SetActorAutoAnim(*(struct ClactActor **)(q + 0xAB4 + 0x40), 1);
-        CLACT_SetActorDrawEnable(*(struct ClactActor **)(q + 0xAB4 + 0x40), k);
-        if (j == 0) CLACT_SetActorFlip((struct ClactActor *)(*(struct ClactActor **)(q + 0xAB4 + 0x40)), 1, 1);
-        else CLACT_SetActorFlip((struct ClactActor *)(*(struct ClactActor **)(q + 0xAB4 + 0x40)), 1, 0);
+        q = (u8 *)p + j * (int)sizeof(void *);
+        o = CLACT_CreateActor(p->clactUnit, p->charHandle, p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&t, k, heap);
+        ((MysteryAlbumWork *)q)->actorCD[0] = o;
+        CLACT_SetActorAutoAnim(((MysteryAlbumWork *)q)->actorCD[0], 1);
+        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)q)->actorCD[0], k);
+        if (j == 0) CLACT_SetActorFlip(((MysteryAlbumWork *)q)->actorCD[0], 1, 1);
+        else CLACT_SetActorFlip(((MysteryAlbumWork *)q)->actorCD[0], 1, 0);
     }
     BG_SYS_SetPlaneVisible(2, 1);
 }
 
 #pragma opt_dead_assignments reset
 
-void MYSTERY_ALBUM_Cleanup(char *p)
+void MYSTERY_ALBUM_Cleanup(MysteryAlbumWork *p)
 {
     int i;
     BG_SYS_FreeTiles(2,1,0);
     BG_SYS_FreeTiles(1,1,0);
-    for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+0xaf4+i*4));
-    CLACT_DeleteActor(((MysteryAlbumWork *)p)->actorB);
-    CLACT_DeleteActor(((MysteryAlbumWork *)p)->actorA);
-    CLACT_ReleaseCharacter((uptr)(((MysteryAlbumWork *)p)->charHandle));
-    CLACT_ReleaseCellAnim((uptr)(((MysteryAlbumWork *)p)->cellAnimHandle));
-    CLACT_ReleasePalette((uptr)(((MysteryAlbumWork *)p)->paletteHandle));
-    MYSTERY_UTIL_DeleteWindow(((MysteryAlbumWork *)p)->infoWindow);
-    ((MysteryAlbumWork *)p)->infoWindow=0;
-    CLACT_ReleasePalette((uptr)(((MysteryAlbumWork *)p)->bgPaletteHandle));
-    for(i=0;i<8;i++) BMP_WIN_Delete(*(void **)(p+0xb08+i*4));
+    for(i=0;i<2;i++) CLACT_DeleteActor(p->actorCD[i]);
+    CLACT_DeleteActor(p->actorB);
+    CLACT_DeleteActor(p->actorA);
+    CLACT_ReleaseCharacter(p->charHandle);
+    CLACT_ReleaseCellAnim(p->cellAnimHandle);
+    CLACT_ReleasePalette(p->paletteHandle);
+    MYSTERY_UTIL_DeleteWindow(p->infoWindow);
+    p->infoWindow=0;
+    CLACT_ReleasePalette(p->bgPaletteHandle);
+    for(i=0;i<8;i++) BMP_WIN_Delete(p->windows[i]);
 }
 
-void MYSTERY_ALBUM_SetCursor(char *p,int a,int b,int c,u16 heap)
+void MYSTERY_ALBUM_SetCursor(MysteryAlbumWork *p,int a,int b,int c,u16 heap)
 {
     int i;
     void *text,*other;
     for(i=0;i<4;i++) MYSTERY_ALBUM_SetupSlot(p,a,b,c,(u16)i,heap);
     text=STRBUF_Create(128,heap);
-    other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->msgBank,150);
-    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,0,c+1,1,1,1);
-    WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
-    WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->wordSet,text,other);
-    MYSTERY_UTIL_SetColor(((MysteryAlbumWork *)p)->infoWindow,0x39ea);
-    MYSTERY_UTIL_SetPosition(((MysteryAlbumWork *)p)->infoWindow,0,0,1);
-    MYSTERY_UTIL_ShowString(((MysteryAlbumWork *)p)->infoWindow,(sptr)text,(sptr)((MysteryAlbumWork *)p)->font);
+    other=MSGDATA_AllocString((void *)p->msgBank,150);
+    WORDSET_SetSlotNumber(p->wordSet,0,c+1,1,1,1);
+    WORDSET_SetSlotNumber(p->wordSet,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
+    WORDSET_CopyTaggedText(p->wordSet,text,other);
+    MYSTERY_UTIL_SetColor(p->infoWindow,0x39ea);
+    MYSTERY_UTIL_SetPosition(p->infoWindow,0,0,1);
+    MYSTERY_UTIL_ShowString(p->infoWindow,text,p->font);
     STRBUF_Delete(text);
     STRBUF_Delete(other);
     BG_SYS_PushTile(3);
 }
 
-void MYSTERY_ALBUM_DeleteSlotActors(char *p,int a) { int i; for(i=0;i<4;i++) MYSTERY_ALBUM_DeleteSlotActor(p,a,i); BG_SYS_PushTile(3); }
+void MYSTERY_ALBUM_DeleteSlotActors(MysteryAlbumWork *p,int a) { int i; for(i=0;i<4;i++) MYSTERY_ALBUM_DeleteSlotActor(p,a,i); BG_SYS_PushTile(3); }
 
 #pragma opt_loop_invariants off
 
@@ -1196,7 +1158,7 @@ void MYSTERY_ALBUM_DeleteSlotActors(char *p,int a) { int i; for(i=0;i<4;i++) MYS
  *   x r4, rx r5, tile r6. Passing ry (not r.b[1]) keeps ry itself as the spilled web, so it takes
  *   the slot after k (sp+0x1c) and index takes sp+0x18.
  */
-void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
+void MYSTERY_ALBUM_SetupSlot(MysteryAlbumWork *p, int a, int b, int c, u16 index, u16 heap)
 {
     void *obj;
     int off;
@@ -1213,12 +1175,12 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
     struct ActorInitParam pos;
     MysteryUtilVec2 cur;
     k = index + c * 4;
-    tab = p + 0x28;
-    off = k * 0xdc;
+    tab = (char *)p->items;
+    off = k * (int)sizeof(MysteryAlbumEntry);
     idx = index;
     src = (const MysteryAlbumSlotCoord *)d_021DF86E + index;
     r = *src;
-    if ((a && *(u32 *)(p + 0xad0) == 0) || (a == 0 && *(u32 *)(p + 0xad0))) {
+    if ((a && p->flipFlag == 0) || (a == 0 && p->flipFlag)) {
         idx += 4;
         r.b[0] += 32;
         r.b[2] += 32;
@@ -1237,7 +1199,7 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 2);
         y++;
     } while (y < 2);
-    if (MYSTERY_ALBUM_IsEntryValid((int *)(tab + off)) == 0) {
+    if (MYSTERY_ALBUM_IsEntryValid((MysteryAlbumEntry *)(tab + off)) == 0) {
         y2 = 0;
         do {
             x = 0;
@@ -1249,8 +1211,8 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
             } while (x < 12);
             y2++;
         } while (y2 < 7);
-        BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)), 0);
-        BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
+        BMP_Clear(BMP_WIN_GetBmp((*(void * *)((char *)p->windows + idx * (int)sizeof(void *)))), 0);
+        BMP_WIN_TransferChars((*(void * *)((char *)p->windows + idx * (int)sizeof(void *))));
         return;
     }
     y3 = 0;
@@ -1266,13 +1228,13 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
     } while (y3 < 7);
     BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)MYSTERY_ALBUM_GetEntryIconX(tab + off));
     dsc = MYSTERY_ALBUM_GetEntryBmp(tab + off);
-    BMP_CopyPixels(dsc, BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)));
-    BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
+    BMP_CopyPixels(dsc, BMP_WIN_GetBmp((*(void * *)((char *)p->windows + idx * (int)sizeof(void *)))));
+    BMP_WIN_TransferChars((*(void * *)((char *)p->windows + idx * (int)sizeof(void *))));
     obj = MYSTERY_ALBUM_CreateEntryArc(tab + off, heap);
     if (MYSTERY_ALBUM_GetEntryKind(tab + off) != 1)
-        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryPaletteResId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
-    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntryCellResId(tab + off), MYSTERY_ALBUM_GetEntryCellAnimResId(tab + off), heap);
-    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, MYSTERY_ALBUM_GetEntryGraphicIndex(tab + off), 0, 0, heap);
+        (*(unsigned int *)((char *)p->paletteHandles + idx * (int)sizeof(unsigned int))) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryPaletteResId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
+    (*(unsigned int *)((char *)p->cellAnimHandles + idx * (int)sizeof(unsigned int))) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntryCellResId(tab + off), MYSTERY_ALBUM_GetEntryCellAnimResId(tab + off), heap);
+    (*(unsigned int *)((char *)p->charHandles + idx * (int)sizeof(unsigned int))) = CLACT_RegisterCharacter(obj, MYSTERY_ALBUM_GetEntryGraphicIndex(tab + off), 0, 0, heap);
     dx = 0;
     ARC_TOOL_DeleteHandle(obj);
     dy = 0;
@@ -1293,12 +1255,12 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
         pos.x = r.s[2];
     pos.x += dx;
     pos.y += dy;
-    *(void **)(p + 0xb28 + idx * 4) = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
-        MYSTERY_ALBUM_GetEntryKind(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
-        *(u32 *)(p + 0xb68 + idx * 4), &pos, 0, *(u16 *)(p + 0x24));
-    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)MYSTERY_ALBUM_GetEntryIconPalette(tab + off), 0);
-    CLACT_SetActorDrawEnable(*(void **)(p + 0xb28 + idx * 4), 1);
-    if (*(u32 *)(p + 0xae0) && *(u16 *)(p + 0xade) == k) {
+    (*(void * *)((char *)p->actors + idx * (int)sizeof(void *))) = CLACT_CreateActor(p->clactUnit, (*(unsigned int *)((char *)p->charHandles + idx * (int)sizeof(unsigned int))),
+        MYSTERY_ALBUM_GetEntryKind(tab + off) == 1 ? p->bgPaletteHandle : (*(unsigned int *)((char *)p->paletteHandles + idx * (int)sizeof(unsigned int))),
+        (*(unsigned int *)((char *)p->cellAnimHandles + idx * (int)sizeof(unsigned int))), &pos, 0, p->heapId);
+    CLACT_SetActorPaletteOffset((*(void * *)((char *)p->actors + idx * (int)sizeof(void *))), (u8)MYSTERY_ALBUM_GetEntryIconPalette(tab + off), 0);
+    CLACT_SetActorDrawEnable((*(void * *)((char *)p->actors + idx * (int)sizeof(void *))), 1);
+    if (p->introActive && p->swapIndex == k) {
         cur.x = src->b[0] * 8 - 0x18;
         cur.y = d_021DF86F[index * 8] * 8 - 8;
         if (a == 0) {
@@ -1307,7 +1269,7 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
             else if (b == 0)
                 cur.x += 0x100;
         }
-        CLACT_AddActorSurfacePos(*(void **)(p + 0xaf0), (const void *)(&cur), 0);
+        CLACT_AddActorSurfacePos(p->actorB, (const void *)(&cur), 0);
     }
 }
 
@@ -1315,13 +1277,13 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
 
 #pragma opt_loop_invariants reset
 
-void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index)
+void MYSTERY_ALBUM_DeleteSlotActor(MysteryAlbumWork *p,int a,u16 index)
 {
     MysteryAlbumSlotCoord rect;
     int y,x,tile;
     int yy;
     rect=*(const MysteryAlbumSlotCoord *)((const MysteryAlbumSlotCoord *)d_021DF86E + index);
-    if((a && ((MysteryAlbumWork *)p)->flipFlag==0) || (a==0 && ((MysteryAlbumWork *)p)->flipFlag)) {
+    if((a && p->flipFlag==0) || (a==0 && p->flipFlag)) {
         index+=4;
         rect.b[0]+=32;
         rect.b[2]+=32;
@@ -1332,58 +1294,58 @@ void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index)
         for(x=0;x<12;x++)
             BG_SYS_SetTileEntry(3,(u16)(x+tile),(u8)(rect.b[0]+x),yy,1,1,3);
     }
-    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0xb08+index*4)),0);
-    BMP_WIN_TransferChars(*(void **)(p+0xb08+index*4));
-    if(*(void **)(p+0xb28+index*4)) {
-        CLACT_DeleteActor((struct ClactActor *)(*(void **)(p+0xb28+index*4)));
-        *(void **)(p+0xb28+index*4)=0;
-        if(*(u32 *)(p+0xb88+index*4)!=-1) {
-            CLACT_ReleasePalette(*(u32 *)(p+0xb88+index*4));
-            *(u32 *)(p+0xb88+index*4)=-1;
+    BMP_Clear(BMP_WIN_GetBmp(p->windows[index]),0);
+    BMP_WIN_TransferChars(p->windows[index]);
+    if(p->actors[index]) {
+        CLACT_DeleteActor((struct ClactActor *)(p->actors[index]));
+        p->actors[index]=0;
+        if(p->paletteHandles[index]!=-1) {
+            CLACT_ReleasePalette(p->paletteHandles[index]);
+            p->paletteHandles[index]=-1;
         }
-        if(*(u32 *)(p+0xb48+index*4)!=-1) {
-            CLACT_ReleaseCharacter(*(u32 *)(p+0xb48+index*4));
-            *(u32 *)(p+0xb48+index*4)=-1;
+        if(p->charHandles[index]!=-1) {
+            CLACT_ReleaseCharacter(p->charHandles[index]);
+            p->charHandles[index]=-1;
         }
-        if(*(u32 *)(p+0xb68+index*4)!=-1) {
-            CLACT_ReleaseCellAnim(*(u32 *)(p+0xb68+index*4));
-            *(u32 *)(p+0xb68+index*4)=-1;
+        if(p->cellAnimHandles[index]!=-1) {
+            CLACT_ReleaseCellAnim(p->cellAnimHandles[index]);
+            p->cellAnimHandles[index]=-1;
         }
     }
 }
 
-void MYSTERY_ALBUM_StartScroll(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((MysteryAlbumWork *)p)->scrollDir=v; ((MysteryAlbumWork *)p)->scrollTimer=0; }
+void MYSTERY_ALBUM_StartScroll(MysteryAlbumWork *p,int a) { int v; if(a) v=-1; else v=1; p->scrollDir=v; p->scrollTimer=0; }
 
-int MYSTERY_ALBUM_UpdateScroll(char *p)
+int MYSTERY_ALBUM_UpdateScroll(MysteryAlbumWork *p)
 {
     int amount,i;
     s16 xy[4];
-    if(((MysteryAlbumWork *)p)->scrollDir==0) goto idle;
-    amount=(((MysteryAlbumWork *)p)->scrollDir*256)/16;
+    if(p->scrollDir==0) goto idle;
+    amount=(p->scrollDir*256)/16;
     for(i=0;i<8;i++) {
-        if(*(void **)(p+i*4+0xb28)) {
-            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct ClactVec2 *)(xy+2),0);
+        if(p->actors[i]) {
+            CLACT_GetActorSurfacePos(p->actors[i],(struct ClactVec2 *)(xy+2),0);
             xy[2]-=(s16)amount;
-            CLACT_AddActorSurfacePos((struct ClactActor *)(*(void **)(p+i*4+0xb28)), (const struct ClactVec2 *)(xy+2), 0);
-            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct ClactVec2 *)xy,0);
+            CLACT_AddActorSurfacePos((struct ClactActor *)(p->actors[i]), (const struct ClactVec2 *)(xy+2), 0);
+            CLACT_GetActorSurfacePos(p->actors[i],(struct ClactVec2 *)xy,0);
             if(xy[0]>=-16 && xy[0]<=272 && xy[1]>=-16 && xy[1]<=208)
-                CLACT_SetActorDrawEnable((struct ClactActor *)(*(void **)(p+i*4+0xb28)), 1);
-            else CLACT_SetActorDrawEnable((struct ClactActor *)(*(void **)(p+i*4+0xb28)), 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)(p->actors[i]), 1);
+            else CLACT_SetActorDrawEnable((struct ClactActor *)(p->actors[i]), 0);
         }
     }
-    if(((MysteryAlbumWork *)p)->introActive) {
-        CLACT_GetActorSurfacePos(((MysteryAlbumWork *)p)->actorB,(struct ClactVec2 *)(xy+2),0);
+    if(p->introActive) {
+        CLACT_GetActorSurfacePos(p->actorB,(struct ClactVec2 *)(xy+2),0);
         xy[2]-=(s16)amount;
-        CLACT_AddActorSurfacePos((struct ClactActor *)(((MysteryAlbumWork *)p)->actorB), (const struct ClactVec2 *)(xy+2), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(p->actorB), (const struct ClactVec2 *)(xy+2), 0);
         if(xy[2]>=-96 && xy[2]<=352 && xy[3]>=-96 && xy[3]<=288)
-            CLACT_SetActorDrawEnable((struct ClactActor *)(((MysteryAlbumWork *)p)->actorB), 1);
-        else CLACT_SetActorDrawEnable((struct ClactActor *)(((MysteryAlbumWork *)p)->actorB), 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)(p->actorB), 1);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)(p->actorB), 0);
     }
     BG_SYS_ChangeScrollImmediate(3,1,amount);
     BG_SYS_ChangeScrollImmediate(2,1,amount);
-    if((((MysteryAlbumWork *)p)->scrollTimer)++>=15) {
-        ((MysteryAlbumWork *)p)->flipFlag^=1;
-        ((MysteryAlbumWork *)p)->scrollDir=0;
+    if((p->scrollTimer)++>=15) {
+        p->flipFlag^=1;
+        p->scrollDir=0;
     }
     return 0;
 idle:
@@ -1401,11 +1363,11 @@ void MYSTERY_ALBUM_RemoveCard(MysteryAlbumWork *o, int idx)
 
     MYSTERY_DATA_DeleteCard(o->cardList, idx);
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++)
-        MYSTERY_ALBUM_ClearEntry((uptr)(&o->items[i]));
+        MYSTERY_ALBUM_ClearEntry(&o->items[i]);
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++) {
         if (MYSTERY_DATA_IsCardExist(o->cardList, i)) {
             MYSTERY_DATA_GetCard(o->cardList, i, buf);
-            MYSTERY_ALBUM_SetupEntry((char *)(&o->items[i]), (const MysteryAlbumCard *)buf, (char *)o, o->heapId);
+            MYSTERY_ALBUM_SetupEntry(&o->items[i], (const MysteryAlbumCard *)buf, (const MysteryAlbumCreateInput *)o, o->heapId);
         }
     }
     if (o->slots[idx] != 0) {
@@ -1434,57 +1396,57 @@ void MYSTERY_ALBUM_SwapCards(MysteryAlbumWork *o, u32 a, u32 b)
 
     MYSTERY_DATA_SwapCards(o->cardList, a, b);
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++)
-        MYSTERY_ALBUM_ClearEntry((uptr)(&o->items[i]));
+        MYSTERY_ALBUM_ClearEntry(&o->items[i]);
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++) {
         if (MYSTERY_DATA_IsCardExist(o->cardList, i)) {
             MYSTERY_DATA_GetCard(o->cardList, i, buf);
-            MYSTERY_ALBUM_SetupEntry((char *)(&o->items[i]), (const MysteryAlbumCard *)buf, (char *)o, o->heapId);
+            MYSTERY_ALBUM_SetupEntry(&o->items[i], (const MysteryAlbumCard *)buf, (const MysteryAlbumCreateInput *)o, o->heapId);
         }
     }
     MYSTERY_ALBUM_Delete(o->slots[a]);
     MYSTERY_ALBUM_Delete(o->slots[b]);
-    o->slots[a] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[a]), o->menuWork, (void *)o->gameData, o->heapId);
-    o->slots[b] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[b]), o->menuWork, (void *)o->gameData, o->heapId);
+    o->slots[a] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[a]), o->menuWork, o->gameData, o->heapId);
+    o->slots[b] = MYSTERY_ALBUM_CreateAlbumView((MysteryAlbumCard *)MYSTERY_ALBUM_GetEntryCard(&o->items[b]), o->menuWork, o->gameData, o->heapId);
     o->dirty = 1;
 }
 
-int MYSTERY_ALBUM_GetColumnCount(char *p) { return 3; }
+int MYSTERY_ALBUM_GetColumnCount(MysteryAlbumWork *p) { return 3; }
 
 /*
  * lever: Declare the index before the count, but initialise count first; this places index in r4 and count in r5.
  * prototype: MYSTERY_DATA_GetCardSlotNum returns the value used by the bound. Its forwarding target 0200A400 reads only r0, so legacy trailing arguments are omitted.
  */
-u32 MYSTERY_ALBUM_CountValidCards(u32 p) { u32 i; u32 count=0; for (i=0;i<MYSTERY_DATA_GetCardSlotNum((struct MysteryData *)(((MysteryAlbumWork *)p)->cardList));i++) { if (MYSTERY_ALBUM_IsEntryValid((int *)(p+40+i*220))) count++; } return count; }
+u32 MYSTERY_ALBUM_CountValidCards(MysteryAlbumWork *p) { u32 i; u32 count=0; for (i=0;i<MYSTERY_DATA_GetCardSlotNum(p->cardList);i++) { if (MYSTERY_ALBUM_IsEntryValid(&p->items[i])) count++; } return count; }
 
-void MYSTERY_ALBUM_SetupEntry(char *out,const MysteryAlbumCard *src,char *p,u16 heap)
+void MYSTERY_ALBUM_SetupEntry(MysteryAlbumEntry *out,const MysteryAlbumCard *src,const MysteryAlbumCreateInput *p,u16 heap)
 {
     int flags;
     void *text,*other;
     s16 x,y;
-    MI_CpuFill8(out,0,0xdc);
+    MI_CpuFill8(out,0,sizeof(*out));
     if(src) {
-        ((MysteryAlbumEntry *)out)->valid=1;
-        *(MysteryAlbumCard *)(out+4)=*src;
-        ((MysteryAlbumEntry *)out)->bmp=BMP_Create(10,2,32,heap);
+        out->valid=1;
+        out->card=*src;
+        out->bmp=BMP_Create(10,2,32,heap);
         flags=src->flags;
         text=STRBUF_Create(128,heap);
-        other=MSGDATA_AllocString((void *)((MysteryAlbumWork *)p)->msgBank,151);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,0,(u16)(flags>>16),4,1,1);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,1,(u8)(flags>>8),2,0,1);
-        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,2,(u8)flags,2,0,1);
-        WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->wordSet,text,other);
+        other=MSGDATA_AllocString(p->msgBank,151);
+        WORDSET_SetSlotNumber(p->wordSet,0,(u16)(flags>>16),4,1,1);
+        WORDSET_SetSlotNumber(p->wordSet,1,(u8)(flags>>8),2,0,1);
+        WORDSET_SetSlotNumber(p->wordSet,2,(u8)flags,2,0,1);
+        WORDSET_CopyTaggedText(p->wordSet,text,other);
         x=40;
-        x-=(s16)(PRINTSYS_MeasureWidestLine(text,((MysteryAlbumWork *)p)->font,0)/2);
-        y=8-(s16)(PRINTSYS_CountLines(text,((MysteryAlbumWork *)p)->font)/2);
-        PRINTSYS_Print(((MysteryAlbumEntry *)out)->bmp,x,y,text,((MysteryAlbumWork *)p)->font);
+        x-=(s16)(PRINTSYS_MeasureWidestLine(text,p->font,0)/2);
+        y=8-(s16)(PRINTSYS_CountLines(text,p->font)/2);
+        PRINTSYS_Print(out->bmp,x,y,text,p->font);
         STRBUF_Delete(text);
         STRBUF_Delete(other);
     }
 }
 
-void MYSTERY_ALBUM_ClearEntry(u32 p) { if (((MysteryAlbumEntry *)p)->valid) { BMP_Delete(((MysteryAlbumEntry *)p)->bmp); MI_CpuFill8((void *)p,0,220); } }
+void MYSTERY_ALBUM_ClearEntry(MysteryAlbumEntry *p) { if (p->valid) { BMP_Delete(p->bmp); MI_CpuFill8(p,0,sizeof(*p)); } }
 
-int MYSTERY_ALBUM_IsEntryValid(int *p) { return *p; }
+int MYSTERY_ALBUM_IsEntryValid(MysteryAlbumEntry *p) { return p->valid; }
 
 void *MYSTERY_ALBUM_GetEntryBmp(void *p) { return ((MysteryAlbumEntry *)p)->bmp; }
 
@@ -1519,11 +1481,11 @@ int MYSTERY_ALBUM_GetEntryKind(void *p) { return ((MysteryAlbumEntry *)p)->card.
 
 char *MYSTERY_ALBUM_GetEntryCard(void *p) { return (char *)p+4; }
 
-int MYSTERY_ALBUM_GetEntryEggFlag(u32 p) { return ((MysteryAlbumCardFlagBits *)(p+184))->flag; }
+int MYSTERY_ALBUM_GetEntryEggFlag(MysteryAlbumEntry *p) { return ((MysteryAlbumCardFlagBits *)((char *)p+184))->flag; }
 
-int MYSTERY_ALBUM_GetEntryIconX(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag((uptr)p) ? 0 : 5; return add+d_021DF838[i]; }
+int MYSTERY_ALBUM_GetEntryIconX(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag(p) ? 0 : 5; return add+d_021DF838[i]; }
 
-int MYSTERY_ALBUM_GetEntryIconY(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag((uptr)p) ? 3 : 0; return add+d_021DF848[i]; }
+int MYSTERY_ALBUM_GetEntryIconY(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag(p) ? 3 : 0; return add+d_021DF848[i]; }
 
 static inline int wrap(int value,int low,int high)
 {
@@ -1536,152 +1498,153 @@ static inline int wrap(int value,int low,int high)
  * spelling: BF04 uses char-pointer arithmetic and a signed acc read, retaining the post-switch acc reload; raw integer address arithmetic was four bytes short.
  * interfaces: 02035C60's live r0 is consumed by this caller despite its legacy void definition.
  */
-void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_SelectHandler(void *task, int *state, void *pArg)
 {
+    MysteryAlbumWork *p = pArg;
     u32 repeat;
     int delta,changed,count,next,direction;
     MysteryUtilVec2 pos;
     switch(*state) {
     case 0:
-        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,1);
-        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,1);
-        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorA,1);
+        CLACT_SetActorDrawEnable(p->actorC,1);
+        CLACT_SetActorDrawEnable(p->actorD,1);
+        CLACT_SetActorDrawEnable(p->actorA,1);
         repeat=KEY_GetRepeat();
         changed=0;delta=0;
         if(TOUCHPANEL_GetTrg()) {
-            ((MysteryAlbumWork *)p)->selectedAlbum=*(void **)((uptr)p+0xa7c+(u16)(((MysteryAlbumWork *)p)->cursorMode+*(u32 *)&((MysteryAlbumWork *)p)->cursorIndex*4)*4);
-            if(((MysteryAlbumWork *)p)->selectedAlbum) MYSTERY_ALBUM_StartIntro(((MysteryAlbumWork *)p)->selectedAlbum);
+            p->selectedAlbum=p->slots[(u16)(p->cursorMode+p->cursorIndex*4)];
+            if(p->selectedAlbum) MYSTERY_ALBUM_StartIntro(p->selectedAlbum);
         }
         if(repeat==512) delta=-1;
         else if(repeat==256) delta=1;
         else if(repeat&64) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            switch(((MysteryAlbumWork *)p)->cursorMode) {
+            switch(p->cursorMode) {
             case 0:
-                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=2;
-                else {((MysteryAlbumWork *)p)->introMode=1;((MysteryAlbumWork *)p)->cursorMode=4;}
+                if(p->introActive) p->cursorMode=2;
+                else {p->introMode=1;p->cursorMode=4;}
                 break;
             case 1:
-                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=3;
-                else {((MysteryAlbumWork *)p)->introMode=0;((MysteryAlbumWork *)p)->cursorMode=4;}
+                if(p->introActive) p->cursorMode=3;
+                else {p->introMode=0;p->cursorMode=4;}
                 break;
-            case 2: ((MysteryAlbumWork *)p)->cursorMode=0;break;
-            case 3: ((MysteryAlbumWork *)p)->cursorMode=1;break;
+            case 2: p->cursorMode=0;break;
+            case 3: p->cursorMode=1;break;
             case 4:
-                if(((MysteryAlbumWork *)p)->introMode) ((MysteryAlbumWork *)p)->cursorMode=2;
-                else ((MysteryAlbumWork *)p)->cursorMode=3;
+                if(p->introMode) p->cursorMode=2;
+                else p->cursorMode=3;
                 break;
             }
             changed=1;
         } else if(repeat&128) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            switch(((MysteryAlbumWork *)p)->cursorMode) {
-            case 0: ((MysteryAlbumWork *)p)->cursorMode=2;break;
-            case 1: ((MysteryAlbumWork *)p)->cursorMode=3;break;
+            switch(p->cursorMode) {
+            case 0: p->cursorMode=2;break;
+            case 1: p->cursorMode=3;break;
             case 2:
-                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=0;
-                else {((MysteryAlbumWork *)p)->introMode=1;((MysteryAlbumWork *)p)->cursorMode=4;}
+                if(p->introActive) p->cursorMode=0;
+                else {p->introMode=1;p->cursorMode=4;}
                 break;
             case 3:
-                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=1;
-                else {((MysteryAlbumWork *)p)->introMode=0;((MysteryAlbumWork *)p)->cursorMode=4;}
+                if(p->introActive) p->cursorMode=1;
+                else {p->introMode=0;p->cursorMode=4;}
                 break;
             case 4:
-                if(((MysteryAlbumWork *)p)->introMode) ((MysteryAlbumWork *)p)->cursorMode=0;
-                else ((MysteryAlbumWork *)p)->cursorMode=1;
+                if(p->introMode) p->cursorMode=0;
+                else p->cursorMode=1;
                 break;
             }
             changed=1;
         } else if(repeat&32) {
             MYSTERY_ALBUM_GetColumnCount(p);
-            if(((MysteryAlbumWork *)p)->cursorMode==0 || ((MysteryAlbumWork *)p)->cursorMode==2) delta=-1;
-            else if(((MysteryAlbumWork *)p)->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
-            if(((MysteryAlbumWork *)p)->cursorMode!=4) {
-                if(((MysteryAlbumWork *)p)->cursorMode<=1) {
-                    --((MysteryAlbumWork *)p)->cursorMode;
-                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,0,1);
+            if(p->cursorMode==0 || p->cursorMode==2) delta=-1;
+            else if(p->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
+            if(p->cursorMode!=4) {
+                if(p->cursorMode<=1) {
+                    --p->cursorMode;
+                    p->cursorMode=wrap(p->cursorMode,0,1);
                 } else {
-                    --((MysteryAlbumWork *)p)->cursorMode;
-                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,2,3);
+                    --p->cursorMode;
+                    p->cursorMode=wrap(p->cursorMode,2,3);
                 }
                 changed=1;
             }
         } else if(repeat&16) {
             MYSTERY_ALBUM_GetColumnCount(p);
-            if(((MysteryAlbumWork *)p)->cursorMode==1 || ((MysteryAlbumWork *)p)->cursorMode==3) delta=1;
-            else if(((MysteryAlbumWork *)p)->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
-            if(((MysteryAlbumWork *)p)->cursorMode!=4) {
-                if(((MysteryAlbumWork *)p)->cursorMode<=1) {
-                    ++((MysteryAlbumWork *)p)->cursorMode;
-                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,0,1);
+            if(p->cursorMode==1 || p->cursorMode==3) delta=1;
+            else if(p->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
+            if(p->cursorMode!=4) {
+                if(p->cursorMode<=1) {
+                    ++p->cursorMode;
+                    p->cursorMode=wrap(p->cursorMode,0,1);
                 } else {
-                    ++((MysteryAlbumWork *)p)->cursorMode;
-                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,2,3);
+                    ++p->cursorMode;
+                    p->cursorMode=wrap(p->cursorMode,2,3);
                 }
                 changed=1;
             }
         } else if(KEY_GetTrg()&1) {
-            if(((MysteryAlbumWork *)p)->cursorMode==4) {
-                if(((MysteryAlbumWork *)p)->introActive==0) {
-                    CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
-                    CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
+            if(p->cursorMode==4) {
+                if(p->introActive==0) {
+                    CLACT_SetActorDrawEnable(p->actorC,0);
+                    CLACT_SetActorDrawEnable(p->actorD,0);
                     GFL_USE_PlaySeDefaultVolume(0x54c);
-                    MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SaveHandler);
+                    MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SaveHandler);
                 }
-            } else if(MYSTERY_ALBUM_IsEntryValid((int *)(p+40+220*((u32)*(int *)&((MysteryAlbumWork *)p)->cursorMode+*(u32 *)&((MysteryAlbumWork *)p)->cursorIndex*4)))) {
-                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
-                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
+            } else if(MYSTERY_ALBUM_IsEntryValid(&p->items[(u32)*(int *)&p->cursorMode+p->cursorIndex*4])) {
+                CLACT_SetActorDrawEnable(p->actorC,0);
+                CLACT_SetActorDrawEnable(p->actorD,0);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                if(((MysteryAlbumWork *)p)->introActive) MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_MoveHandler);
-                else MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_ConfirmHandler);
+                if(p->introActive) MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_MoveHandler);
+                else MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_ConfirmHandler);
             }
         } else if(KEY_GetTrg()&2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
-            if(((MysteryAlbumWork *)p)->introActive) {
-                if(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
-                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorB,0);
-                ((MysteryAlbumWork *)p)->introActive=0;
+            if(p->introActive) {
+                if(*(u8 * *)&p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&p->menuWindow);p->menuWindow=0;}
+                CLACT_SetActorDrawEnable(p->actorB,0);
+                p->introActive=0;
             } else {
-                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
-                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
-                MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SaveHandler);
+                CLACT_SetActorDrawEnable(p->actorC,0);
+                CLACT_SetActorDrawEnable(p->actorD,0);
+                MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SaveHandler);
             }
         }
         if(delta) {
             count=MYSTERY_ALBUM_GetColumnCount(p);
             if(delta<0) {
-                if(((MysteryAlbumWork *)p)->cursorIndex) next=((MysteryAlbumWork *)p)->cursorIndex-1;
+                if(p->cursorIndex) next=p->cursorIndex-1;
                 else next=count-1;
                 direction=1;
             } else if(delta>0) {
-                if(((MysteryAlbumWork *)p)->cursorIndex<count-1) next=((MysteryAlbumWork *)p)->cursorIndex+1;
+                if(p->cursorIndex<count-1) next=p->cursorIndex+1;
                 else next=0;
                 direction=0;
             }
             GFL_USE_PlaySeDefaultVolume(0x642);
-            MYSTERY_ALBUM_StartScroll((u8 *)p,direction);
+            MYSTERY_ALBUM_StartScroll(p,direction);
             MYSTERY_ALBUM_DeleteSlotActors(p,0);
-            MYSTERY_ALBUM_SetCursor(p,0,direction,next,((MysteryAlbumWork *)p)->heapId);
-            ((MysteryAlbumWork *)p)->cursorIndex=next;
-            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorA,0);
-            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
-            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
-            ((MysteryAlbumWork *)p)->angle=0;
-            ((MysteryAlbumWork *)p)->refreshFlag=1;
+            MYSTERY_ALBUM_SetCursor(p,0,direction,next,p->heapId);
+            p->cursorIndex=next;
+            CLACT_SetActorDrawEnable(p->actorA,0);
+            CLACT_SetActorDrawEnable(p->actorC,0);
+            CLACT_SetActorDrawEnable(p->actorD,0);
+            p->angle=0;
+            p->refreshFlag=1;
             *state=1;
         }
         if(changed) {
-            if((int)((MysteryAlbumWork *)p)->cursorMode<4) {
-                pos.x=data_021DF86E[*(u32 *)(p+0xacc)].c.x*8-24;
-                pos.y=data_021DF86E[*(u32 *)(p+0xacc)].c.y*8-8;
-                CLACT_SetActorAnimSeq(((MysteryAlbumWork *)p)->actorA,0);
+            if((int)p->cursorMode<4) {
+                pos.x=data_021DF86E[p->cursorMode].c.x*8-24;
+                pos.y=data_021DF86E[p->cursorMode].c.y*8-8;
+                CLACT_SetActorAnimSeq(p->actorA,0);
             } else {
                 pos.x=176;pos.y=152;
-                CLACT_SetActorAnimSeq(((MysteryAlbumWork *)p)->actorA,11);
+                CLACT_SetActorAnimSeq(p->actorA,11);
             }
-            CLACT_AddActorSurfacePos(((MysteryAlbumWork *)p)->actorA,(const struct ClactVec2 *)(&pos),0);
-            ((MysteryAlbumWork *)p)->angle=0;
-            ((MysteryAlbumWork *)p)->refreshFlag=1;
+            CLACT_AddActorSurfacePos(p->actorA,(const struct ClactVec2 *)(&pos),0);
+            p->angle=0;
+            p->refreshFlag=1;
         }
         break;
     case 1:
@@ -1690,181 +1653,183 @@ void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p)
     }
 }
 
-void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p)
+void MYSTERY_ALBUM_ConfirmHandler(void *task, int *state, void *pArg)
 {
+    MysteryAlbumWork *p = pArg;
     MysteryUtilMenuDef d;
     MysteryUtilVec2 v;
     int result;
     switch (*state) {
     case 0:
-        if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
-            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
+        if (!p->menuWindow) {
+            p->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,p->printQueue,p->font,29);
+            MYSTERY_UTIL_DrawMenuWindow(p->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,116,0);
+        MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,116,0);
         *state=1;
         break;
     case 1:
-        MI_CpuFill8(&d,0,36);
-        d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->msgBank; d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->font; d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->printQueue;
+        MI_CpuFill8(&d,0,sizeof(d));
+        d.menuTable=p->msgBank; d.messageTable=p->font; d.printOwner=p->printQueue;
         d.menuItems[0]=117;d.menuItems[1]=118;d.menuItems[2]=119;d.count=3;
         d.bgLayer=0;d.palette=15;d.windowX=13;d.windowY=1;
-        ((MysteryAlbumWork *)p)->menu=MYSTERY_UTIL_CreateMenu((const u8 *)(&d),((MysteryAlbumWork *)p)->heapId);
+        p->menu=MYSTERY_UTIL_CreateMenu(&d,p->heapId);
         *state=2;
         break;
     case 2:
-        result=MYSTERY_UTIL_UpdateMenu(((MysteryAlbumWork *)p)->menu);
-        ((MysteryAlbumWork *)p)->angle=0x7fff;
+        result=MYSTERY_UTIL_UpdateMenu(p->menu);
+        p->angle=0x7fff;
         if (result==-1) break;
         if (result==0) {
-            ((MysteryAlbumWork *)p)->introActive=1;
-            v.x=data_021DF86E[*(u32 *)(p+0xacc)].c.x*8-24;
-            v.y=data_021DF86E[*(u32 *)(p+0xacc)].c.y*8-8;
-            CLACT_AddActorSurfacePos(((MysteryAlbumWork *)p)->actorB,(const struct ClactVec2 *)(&v),0);
-            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorB,1);
-            ((MysteryAlbumWork *)p)->swapIndex=((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4;
-            if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
-            if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
-            if (!((MysteryAlbumWork *)p)->menuWindow) {
-                ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow2(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
-                MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
+            p->introActive=1;
+            v.x=data_021DF86E[p->cursorMode].c.x*8-24;
+            v.y=data_021DF86E[p->cursorMode].c.y*8-8;
+            CLACT_AddActorSurfacePos(p->actorB,(const struct ClactVec2 *)(&v),0);
+            CLACT_SetActorDrawEnable(p->actorB,1);
+            p->swapIndex=p->cursorMode+p->cursorIndex*4;
+            if (p->menu) {MYSTERY_UTIL_DeleteMenu(p->menu);p->menu=0;}
+            if (*(u8 * *)&p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&p->menuWindow);p->menuWindow=0;}
+            if (!p->menuWindow) {
+                p->menuWindow=MYSTERY_UTIL_CreateMenuWindow2(0,15,p->printQueue,p->font,29);
+                MYSTERY_UTIL_DrawMenuWindow(p->menuWindow,1,13);
             }
-            MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,122,0);
+            MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,122,0);
             *state=6;
         } else if (result==1) {
-            if (MYSTERY_ALBUM_GetEntryEggFlag((uptr)((void *)((uptr)p+40+220*(((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4))))) *state=7;
+            if (MYSTERY_ALBUM_GetEntryEggFlag(&p->items[p->cursorMode+p->cursorIndex*4])) *state=7;
             else *state=3;
         } else if (result==2) *state=5;
         break;
     case 3:
-        if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,120,1);
+        if (p->menu) {MYSTERY_UTIL_DeleteMenu(p->menu);p->menu=0;}
+        MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,120,1);
         *state=4;
         break;
     case 4:
-        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=5;
+        if (MYSTERY_UTIL_GetMenuState(p->menuWindow)) *state=5;
         break;
     case 5:
-        if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
-        if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
-        MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);
+        if (*(u8 * *)&p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&p->menuWindow);p->menuWindow=0;}
+        if (p->menu) {MYSTERY_UTIL_DeleteMenu(p->menu);p->menu=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);
         break;
     case 6:
-        MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);
+        MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);
         break;
     case 7:
-        MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;
-        MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_InfoHandler);
+        MYSTERY_UTIL_DeleteMenu(p->menu);p->menu=0;
+        MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_InfoHandler);
         break;
     }
-    if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);
+    if (*(u8 * *)&p->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(*(u8 * *)&p->menuWindow);
 }
 
 static inline void window0(int x,int y,int xx,int yy)
 {
-    *(volatile u16 *)0x04000040=((x<<8)&0xff00)|(xx&255);
-    *(volatile u16 *)0x04000044=((y<<8)&0xff00)|(yy&255);
+    *(volatile u16 *)REG_WIN0H_ADDR=((x<<8)&0xff00)|(xx&255);
+    *(volatile u16 *)REG_WIN0V_ADDR=((y<<8)&0xff00)|(yy&255);
 }
 
 static inline void inside(int planes,int effect)
 {
     u32 v=(*(volatile u16 *)REG_WININ_ADDR&~0x3f)|(u32)planes;
     if(effect) v|=32;
-    *(volatile u16 *)0x04000048=v;
+    *(volatile u16 *)REG_WININ_ADDR=v;
 }
 
 static inline void outside(int planes,int effect)
 {
     u32 v=(*(volatile u16 *)REG_WINOUT_ADDR&~0x3f)|(u32)planes;
     if(effect) v|=32;
-    *(volatile u16 *)0x0400004a=v;
+    *(volatile u16 *)REG_WINOUT_ADDR=v;
 }
 
 /*
  * lever: int coordinate locals retain table loads before SDK window plane writes; u8 locals were 4 bytes short.
  * volatile: display control 021DC82C/838/950/958; window registers 021DC84E..892.
  */
-void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_InfoHandler(void *task, int *state, void *pArg)
 {
+    MysteryAlbumWork *p = pArg;
     MysteryUtilMenuDef d;
-    u32 index=W(0xac8)*4+W(0xacc);
+    u32 index=p->cursorIndex*4+p->cursorMode;
     int result;
     int x,y;
     switch(*state) {
-    case 0:MYSTERY_UTIL_SetMenuMessage(P(0xabc),W(28),123,1);*state=1;break;
+    case 0:MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,123,1);*state=1;break;
     case 1:
-        if(MYSTERY_UTIL_GetMenuState(P(0xabc))) {
-            MI_CpuFill8(&d,0,36);
-            d.menuTable=W(28);d.messageTable=W(16);d.printOwner=W(20);
+        if(MYSTERY_UTIL_GetMenuState(p->menuWindow)) {
+            MI_CpuFill8(&d,0,sizeof(d));
+            d.menuTable=p->msgBank;d.messageTable=p->font;d.printOwner=p->printQueue;
             d.menuItems[0]=124;d.menuItems[1]=125;d.count=2;
             d.bgLayer=0;d.palette=15;d.windowX=13;d.windowY=1;
-            P(0xac0)=MYSTERY_UTIL_CreateMenu((const u8 *)&d,H(36));
+            p->menu=MYSTERY_UTIL_CreateMenu(&d,p->heapId);
             *state=2;
         }
         break;
     case 2:
-        result=MYSTERY_UTIL_UpdateMenu((char *)P(0xac0));
-        H(0xbac)=0x7fff;
+        result=MYSTERY_UTIL_UpdateMenu((char *)p->menu);
+        p->angle=0x7fff;
         if(result!=-1) {
-            MYSTERY_UTIL_DeleteMenu(P(0xac0));P(0xac0)=0;
+            MYSTERY_UTIL_DeleteMenu(p->menu);p->menu=0;
             if(!result) *state=3;
             else {
-                if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
-                MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);
+                if(p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);p->menuWindow=0;}
+                MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);
             }
         }
         break;
     case 3:
-        *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0xe000)|0x2000;
+        *(volatile u32 *)REG_DISPCNT_ADDR=(*(volatile u32 *)REG_DISPCNT_ADDR&~0xe000)|0x2000;
         x=d_021DF86E[(u8)(index&3)*8];
         y=d_021DF86F[(u8)(index&3)*8];
         inside(30,1);
         window0(x*8,y*8,(x+12)*8,(y+7)*8);
         outside(30,0);*state=4;break;
     case 4:
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,W(0xae8)*16/30);
-        if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,p->fadeTimer*16/30);
+        if(p->fadeTimer++>30) {p->fadeTimer=0;*state=5;}
         break;
     case 5:
         MYSTERY_ALBUM_RemoveCard((MysteryAlbumWork *)p, index);
         MYSTERY_ALBUM_DeleteSlotActors(p,1);
-        MYSTERY_ALBUM_SetCursor(p,1,0,W(0xac8),H(36));
-        W(0xa78)=1;*state=6;break;
+        MYSTERY_ALBUM_SetCursor(p,1,0,p->cursorIndex,p->heapId);
+        p->refreshFlag=1;*state=6;break;
     case 6:
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,16-W(0xae8)*16/30);
-        if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,16-p->fadeTimer*16/30);
+        if(p->fadeTimer++>30) {p->fadeTimer=0;*state=7;}
         break;
     case 7:
-        if(!MYSTERY_DATA_HasAnyCard((struct MysteryData *)P(12))) MYSTERY_UTIL_ClearListWindow(P(0xab8),1);
-        *(volatile u32 *)0x04000000 &= ~0xe000;
+        if(!MYSTERY_DATA_HasAnyCard((struct MysteryData *)p->cardList)) MYSTERY_UTIL_ClearListWindow(p->windowList,1);
+        *(volatile u32 *)REG_DISPCNT_ADDR &= ~0xe000;
         *state=8;break;
-    case 8:MYSTERY_UTIL_SetMenuMessage(P(0xabc),W(28),121,1);*state=9;break;
-    case 9:if(MYSTERY_UTIL_GetMenuState(P(0xabc))) *state=10;break;
+    case 8:MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,121,1);*state=9;break;
+    case 9:if(MYSTERY_UTIL_GetMenuState(p->menuWindow)) *state=10;break;
     case 10:
-        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
-        MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);break;
+        if(p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);p->menuWindow=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);break;
     }
-    if(P(0xabc)) MYSTERY_UTIL_UpdateMenuWindow(P(0xabc));
+    if(p->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(p->menuWindow);
 }
 
 static inline void window1(int x,int y,int xx,int yy)
 {
-    *(volatile u16 *)0x04000042=((x<<8)&0xff00)|(xx&255);
-    *(volatile u16 *)0x04000046=((y<<8)&0xff00)|(yy&255);
+    *(volatile u16 *)REG_WIN1H_ADDR=((x<<8)&0xff00)|(xx&255);
+    *(volatile u16 *)REG_WIN1V_ADDR=((y<<8)&0xff00)|(yy&255);
 }
 
 static inline void inside0(int planes,int effect)
 {
     u32 v=(*(volatile u16 *)REG_WININ_ADDR&~0x3f)|(u32)planes;
     if(effect) v|=32;
-    *(volatile u16 *)0x04000048=v;
+    *(volatile u16 *)REG_WININ_ADDR=v;
 }
 
 static inline void inside1(int planes,int effect)
 {
     u32 v=(*(volatile u16 *)REG_WININ_ADDR&~0x3f00)|((u32)planes<<8);
     if(effect) v|=32<<8;
-    *(volatile u16 *)0x04000048=v;
+    *(volatile u16 *)REG_WININ_ADDR=v;
 }
 
 /*
@@ -1872,30 +1837,31 @@ static inline void inside1(int planes,int effect)
  * note: 2026-10-05 recoup P23L5: 8 B DIFF first form (asrs for lsrs and row/col slots swapped), then EXACT. Real extent 792 B, not the 46 B of the lane list.
  * volatile: display control 04000000, window registers 04000040..4A.
  */
-void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_MoveHandler(void *task, int *state, void *pArg)
 {
-    u32 index=((MysteryAlbumCursor *)p)->col+((MysteryAlbumCursor *)p)->row*4;
+    MysteryAlbumWork *p = pArg;
+    u32 index=((const u32 *)&p->cursorIndex)[1]+((const u32 *)&p->cursorIndex)[0]*4;
     int here,there,mask;
     int x,y;
     u8 now,old;
     int col,row;
     switch(*state) {
     case 0:
-        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
-        W(0xae0)=0;
-        if(index==H(0xade)) {
-            CLACT_SetActorDrawEnable((struct ClactActor *)P(0xaf0),0);
-            MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);
+        if(p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);p->menuWindow=0;}
+        p->introActive=0;
+        if(index==p->swapIndex) {
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->actorB,0);
+            MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);
             return;
         }
         *state=1;break;
     case 1:
         now=index&3;
-        old=H(0xade)%4;
-        here=((*(int *)(p+0xac8))==(index>>2));
-        there=((*(int *)(p+0xac8))==((u32)H(0xade)>>2));
+        old=p->swapIndex%4;
+        here=((p->cursorIndex)==(index>>2));
+        there=((p->cursorIndex)==((u32)p->swapIndex>>2));
         mask=0;if(here) mask|=1;if(there) mask|=2;
-        *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0xe000)|(mask<<13);
+        *(volatile u32 *)REG_DISPCNT_ADDR=(*(volatile u32 *)REG_DISPCNT_ADDR&~0xe000)|(mask<<13);
         if(here) {
             x=d_021DF86E[now*8];y=d_021DF86F[now*8];
             inside0(30,1);window0(x*8,y*8,(x+12)*8,(y+7)*8);
@@ -1906,38 +1872,39 @@ void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
         }
         outside(30,0);*state=2;break;
     case 2:
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,W(0xae8)*16/30);
-        if(W(0xae8)++>30) {W(0xae8)=0;*state=3;}break;
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,p->fadeTimer*16/30);
+        if(p->fadeTimer++>30) {p->fadeTimer=0;*state=3;}break;
     case 3:
-        MYSTERY_ALBUM_SwapCards((MysteryAlbumWork *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
-        row=(u32)H(0xade)>>2;col=H(0xade)%4;
-        there=((*(int *)(p+0xac8))==row);
-        here=((*(int *)(p+0xac8))==(index>>2));
+        MYSTERY_ALBUM_SwapCards((MysteryAlbumWork *)p,index,p->swapIndex);GFL_USE_PlaySeDefaultVolume(0x670);
+        row=(u32)p->swapIndex>>2;col=p->swapIndex%4;
+        there=((p->cursorIndex)==row);
+        here=((p->cursorIndex)==(index>>2));
         if(here) {
-            MYSTERY_ALBUM_DeleteSlotActor(p,1,W(0xacc));
-            MYSTERY_ALBUM_SetupSlot(p,1,0,(*(int *)(p+0xac8)),W(0xacc),H(36));
+            MYSTERY_ALBUM_DeleteSlotActor(p,1,p->cursorMode);
+            MYSTERY_ALBUM_SetupSlot(p,1,0,(p->cursorIndex),p->cursorMode,p->heapId);
         }
         if(there) {
             MYSTERY_ALBUM_DeleteSlotActor(p,1,col);
-            MYSTERY_ALBUM_SetupSlot(p,1,0,row,col,H(36));
+            MYSTERY_ALBUM_SetupSlot(p,1,0,row,col,p->heapId);
         }
-        BG_SYS_PushTile(3);W(0xa78)=1;*state=4;break;
+        BG_SYS_PushTile(3);p->refreshFlag=1;*state=4;break;
     case 4:
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,16-W(0xae8)*16/30);
-        if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}break;
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,30,16-p->fadeTimer*16/30);
+        if(p->fadeTimer++>30) {p->fadeTimer=0;*state=5;}break;
     case 5:*(volatile u32 *)REG_DISPCNT_ADDR &=~0xe000;*state=6;break;
     case 6:
-        W(0xae0)=0;CLACT_SetActorDrawEnable((struct ClactActor *)P(0xaf0),0);
-        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
-        MYSTERY_UTIL_SetTaskHandler(task,(uptr)MYSTERY_ALBUM_SelectHandler);break;
+        p->introActive=0;CLACT_SetActorDrawEnable((struct ClactActor *)p->actorB,0);
+        if(p->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);p->menuWindow=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SelectHandler);break;
     }
 }
 
 /*
  * lever: separate case-1 guard tests preserve the branch to the shared state store; a short-circuit guard gives DIFF404.
  */
-void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
+void MYSTERY_ALBUM_SaveHandler(void *arg, int *state, void *pArg)
 {
+    MysteryAlbumWork *p = pArg;
     MysteryUtilMenuDef d;
     int result;
     int ready;
@@ -1946,112 +1913,112 @@ void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
         *state=1;
         break;
     case 1:
-        if (!((MysteryAlbumWork *)p)->mode) *state=5;
-        else if (MYSTERY_DATA_HasCardSpace(((MysteryAlbumWork *)p)->cardList)) *state=5;
+        if (!p->mode) *state=5;
+        else if (MYSTERY_DATA_HasCardSpace(p->cardList)) *state=5;
         else *state=2;
         break;
     case 2:
-        if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
-            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
+        if (!p->menuWindow) {
+            p->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,p->printQueue,p->font,29);
+            MYSTERY_UTIL_DrawMenuWindow(p->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,93,1);
+        MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,93,1);
         *state=3;
         break;
     case 3:
-        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) {
-            MI_CpuFill8(&d,0,36);
-            d.menuTable=*(u32 *)&((MysteryAlbumWork *)p)->msgBank;
-            d.messageTable=*(u32 *)&((MysteryAlbumWork *)p)->font;
-            d.printOwner=*(u32 *)&((MysteryAlbumWork *)p)->printQueue;
+        if (MYSTERY_UTIL_GetMenuState(p->menuWindow)) {
+            MI_CpuFill8(&d,0,sizeof(d));
+            d.menuTable=p->msgBank;
+            d.messageTable=p->font;
+            d.printOwner=p->printQueue;
             d.menuItems[0]=124;
             d.menuItems[1]=125;
             d.count=2;
             d.bgLayer=0; d.palette=15; d.windowX=13; d.windowY=1;
-            ((MysteryAlbumWork *)p)->menu=MYSTERY_UTIL_CreateMenu((const u8 *)(&d),((MysteryAlbumWork *)p)->heapId);
+            p->menu=MYSTERY_UTIL_CreateMenu(&d,p->heapId);
             *state=4;
         }
         break;
     case 4:
-        result=MYSTERY_UTIL_UpdateMenu(((MysteryAlbumWork *)p)->menu);
-        ((MysteryAlbumWork *)p)->angle=0x7fff;
+        result=MYSTERY_UTIL_UpdateMenu(p->menu);
+        p->angle=0x7fff;
         if (result!=-1) {
-            MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);
-            ((MysteryAlbumWork *)p)->menu=0;
+            MYSTERY_UTIL_DeleteMenu(p->menu);
+            p->menu=0;
             if (!result) *state=5;
             else {
-                if (((MysteryAlbumWork *)p)->menuWindow) {
-                    MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
-                    ((MysteryAlbumWork *)p)->menuWindow=0;
+                if (p->menuWindow) {
+                    MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);
+                    p->menuWindow=0;
                 }
-                MYSTERY_UTIL_SetTaskHandler(arg,(uptr)MYSTERY_ALBUM_SelectHandler);
+                MYSTERY_UTIL_SetTaskHandler(arg,MYSTERY_ALBUM_SelectHandler);
             }
         }
         break;
     case 5:
-        if (((MysteryAlbumWork *)p)->dirty) *state=6;
+        if (p->dirty) *state=6;
         else *state=10;
         break;
     case 6:
-        if (!((MysteryAlbumWork *)p)->menuWindow) {
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
-            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
+        if (!p->menuWindow) {
+            p->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,p->printQueue,p->font,29);
+            MYSTERY_UTIL_DrawMenuWindow(p->menuWindow,1,13);
         }
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,115,2);
+        MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,115,2);
         *state=7;
         break;
     case 7:
-        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=8;
+        if (MYSTERY_UTIL_GetMenuState(p->menuWindow)) *state=8;
         break;
     case 8:
         ready=1;
-        if (((MysteryAlbumWork *)p)->selectedAlbum && !MYSTERY_ALBUM_IsIntroIdle(((MysteryAlbumWork *)p)->selectedAlbum)) ready=0;
+        if (p->selectedAlbum && !MYSTERY_ALBUM_IsIntroIdle(p->selectedAlbum)) ready=0;
         if (ready) {
-            MYSTERY_DATA_SaveStart(((MysteryAlbumWork *)p)->cardList,(struct GameData *)(((MysteryAlbumWork *)p)->gameData));
+            MYSTERY_DATA_SaveStart(p->cardList,(struct GameData *)(p->gameData));
             *state=9;
         }
         break;
     case 9:
-        if (MYSTERY_DATA_SaveMain(((MysteryAlbumWork *)p)->cardList,(struct GameData *)(((MysteryAlbumWork *)p)->gameData))==2) *state=10;
+        if (MYSTERY_DATA_SaveMain(p->cardList,(struct GameData *)(p->gameData))==2) *state=10;
         break;
     case 10:
-        if (((MysteryAlbumWork *)p)->menuWindow) {
-            MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
-            ((MysteryAlbumWork *)p)->menuWindow=0;
+        if (p->menuWindow) {
+            MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);
+            p->menuWindow=0;
         }
         MYSTERY_UTIL_MarkTaskDone(arg);
         break;
     }
-    if (((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+    if (p->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(p->menuWindow);
 }
 
-void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,char *p)
+void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,MysteryAlbumWork *p)
 {
     switch (*state) {
     case 0:
-        if (!((MysteryAlbumWork *)p)->menuWindow)
-            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->printQueue,((MysteryAlbumWork *)p)->font,29);
-        MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
-        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->msgBank,92,1);
+        if (!p->menuWindow)
+            p->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,p->printQueue,p->font,29);
+        MYSTERY_UTIL_DrawMenuWindow(p->menuWindow,1,13);
+        MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,92,1);
         *state=1; break;
     case 1:
-        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=2;
+        if (MYSTERY_UTIL_GetMenuState(p->menuWindow)) *state=2;
         break;
     case 2:
-        if (((MysteryAlbumWork *)p)->menuWindow) {
-            MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
-            ((MysteryAlbumWork *)p)->menuWindow=0;
+        if (p->menuWindow) {
+            MYSTERY_UTIL_DeleteMenuWindow(p->menuWindow);
+            p->menuWindow=0;
         }
-        MYSTERY_UTIL_SetTaskHandler(arg,(uptr)MYSTERY_ALBUM_SelectHandler);
+        MYSTERY_UTIL_SetTaskHandler(arg,MYSTERY_ALBUM_SelectHandler);
         break;
     }
-    if (((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+    if (p->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(p->menuWindow);
 }
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u16 heap)
+void MYSTERY_ALBUM_SetupIconSprite(MysteryUtilBlendPalettes *p,void *arc,int id,int index,u8 other,u16 heap)
 {
     void *res;
     void *allocation;
@@ -2059,12 +2026,12 @@ void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u
     MI_CpuFill8(p,0,0x60);
     allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,id,&res,heap);
     data=((MysteryUtilResData *)res)->data;
-    MI_CpuCopy8(data+index*32,p+0x40,32);
-    MI_CpuCopy8(data+other*32,p+0x20,32);
+    MI_CpuCopy8(data+index*32,p->blendTo,32);
+    MI_CpuCopy8(data+other*32,p->blendFrom,32);
     GFL_HEAP_Free(allocation);
 }
 
-void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d) {MYSTERY_UTIL_BlendPaletteRange(b,(u16 *)p,d,c,(const u16 *)(p+32),(const u16 *)(p+64));}
+void MYSTERY_ALBUM_UpdateIconSprite(MysteryUtilBlendPalettes *p,int b,int c,u16 d) {MYSTERY_UTIL_BlendPaletteRange(b,p->current,d,c,p->blendFrom,p->blendTo);}
 
 /*
  * lever: const descriptor input places its loads before the outgoing heap store.
@@ -2078,12 +2045,12 @@ void *MYSTERY_ALBUM_CreateSlotWork(const MysteryAlbumDesc *p,u16 heap)
     struct ActorInitParam second;
     void *arc;
     void *arc2;
-    out=GFL_HEAP_Alloc(heap,208,0,d_021DFBB0,0xcff);
-    ((MysteryAlbumSlotWork *)out)->paletteBank=p->w[5];
-    ((MysteryAlbumSlotWork *)out)->frontPlane=p->w[0];
-    ((MysteryAlbumSlotWork *)out)->backPlane=p->w[1];
-    *(MysteryAlbumDesc *)(out+0xa0)=*p;
-    if(p->w[0]<4) {
+    out=GFL_HEAP_Alloc(heap,sizeof(MysteryAlbumSlotWork),0,d_021DFBB0,0xcff);
+    ((MysteryAlbumSlotWork *)out)->paletteBank=p->paletteBank;
+    ((MysteryAlbumSlotWork *)out)->frontPlane=p->frontPlane;
+    ((MysteryAlbumSlotWork *)out)->backPlane=p->backPlane;
+    ((MysteryAlbumSlotWork *)out)->desc=*p;
+    if(p->frontPlane<4) {
         ((MysteryAlbumSlotWork *)out)->pokeBank=0;
         ((MysteryAlbumSlotWork *)out)->screenId=0;
         ((MysteryAlbumSlotWork *)out)->isMainScreen=1;
@@ -2094,53 +2061,53 @@ void *MYSTERY_ALBUM_CreateSlotWork(const MysteryAlbumDesc *p,u16 heap)
     }
     config=d_021DF99C;
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    ((MysteryAlbumSlotWork *)out)->windowList=MYSTERY_UTIL_CreateWindowList((void *)1,(const char *)&config,5,(u16)((MysteryAlbumSlotWork *)out)->desc.w[1],(u8)((MysteryAlbumSlotWork *)out)->desc.w[3],((MysteryAlbumSlotWork *)out)->desc.w[10],(struct MsgBank *)((MysteryAlbumSlotWork *)out)->desc.w[8],((MysteryAlbumSlotWork *)out)->desc.w[9],heap);
+    ((MysteryAlbumSlotWork *)out)->windowList=MYSTERY_UTIL_CreateWindowList((void *)1,(const char *)&config,5,(u16)((MysteryAlbumSlotWork *)out)->desc.backPlane,(u8)((MysteryAlbumSlotWork *)out)->desc.windowPalette,((MysteryAlbumSlotWork *)out)->desc.printQueue,((MysteryAlbumSlotWork *)out)->desc.msgBank,((MysteryAlbumSlotWork *)out)->desc.font,heap);
     arc=ARC_TOOL_CreateHandle(34,heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->palette=CLACT_RegisterPalette(arc,3,((MysteryAlbumSlotWork *)out)->screenId,(u16)(p->w[4]<<5),heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->cellAnim=CLACT_RegisterCellAnim(arc,33,36,heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->character=CLACT_RegisterCharacter(arc,12,0,((MysteryAlbumSlotWork *)out)->screenId,heap);
+    ((MysteryAlbumSlotWork *)out)->palette=CLACT_RegisterPalette(arc,3,((MysteryAlbumSlotWork *)out)->screenId,(u16)(p->charPalette<<5),heap);
+    ((MysteryAlbumSlotWork *)out)->cellAnim=CLACT_RegisterCellAnim(arc,33,36,heap);
+    ((MysteryAlbumSlotWork *)out)->character=CLACT_RegisterCharacter(arc,12,0,((MysteryAlbumSlotWork *)out)->screenId,heap);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&first,0,8);
     first.x=216;first.y=22;
-    ((MysteryAlbumSlotWork *)out)->actorA=CLACT_CreateActor((void *)p->w[6],((MysteryAlbumSlotWork *)out)->character,((MysteryAlbumSlotWork *)out)->palette,((MysteryAlbumSlotWork *)out)->cellAnim,&first,((MysteryAlbumSlotWork *)out)->screenId,heap);
+    ((MysteryAlbumSlotWork *)out)->actorA=CLACT_CreateActor(p->clactUnit,((MysteryAlbumSlotWork *)out)->character,((MysteryAlbumSlotWork *)out)->palette,((MysteryAlbumSlotWork *)out)->cellAnim,&first,((MysteryAlbumSlotWork *)out)->screenId,heap);
     CLACT_SetActorObjMode(((MysteryAlbumSlotWork *)out)->actorA,0);
     CLACT_SetActorDrawEnable(((MysteryAlbumSlotWork *)out)->actorA,0);
     arc2=(void *)POKEGRA_OpenHandle(heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->pokePalette=POKEGRA_RegisterPalette((sptr)arc2,1,0,0,0,0,0,((MysteryAlbumSlotWork *)out)->screenId,p->w[5]<<5,heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->pokeCellAnim=POKEGRA_RegisterCellAnim(1,0,0,0,0,0,2,((MysteryAlbumSlotWork *)out)->screenId,heap);
-    *(int *)&((MysteryAlbumSlotWork *)out)->pokeCharacter=POKEGRA_RegisterCgr((uptr)arc2,1,0,0,0,0,0,0,((MysteryAlbumSlotWork *)out)->screenId,heap);
+    ((MysteryAlbumSlotWork *)out)->pokePalette=POKEGRA_RegisterPalette(arc2,1,0,0,0,0,0,((MysteryAlbumSlotWork *)out)->screenId,p->paletteBank<<5,heap);
+    ((MysteryAlbumSlotWork *)out)->pokeCellAnim=POKEGRA_RegisterCellAnim(1,0,0,0,0,0,2,((MysteryAlbumSlotWork *)out)->screenId,heap);
+    ((MysteryAlbumSlotWork *)out)->pokeCharacter=POKEGRA_RegisterCgr(arc2,1,0,0,0,0,0,0,((MysteryAlbumSlotWork *)out)->screenId,heap);
     ARC_TOOL_DeleteHandle(arc2);
     MI_CpuFill8(&second,0,8);
-    second.x=184;second.y=112;second.bg_priority=p->w[0]&3;
+    second.x=184;second.y=112;second.bg_priority=p->frontPlane&3;
     ((MysteryAlbumSlotWork *)out)->idleAnimId=second.bg_priority;
-    ((MysteryAlbumSlotWork *)out)->introAnimId=p->w[1]&3;
-    ((MysteryAlbumSlotWork *)out)->actorB=CLACT_CreateActor((void *)p->w[6],((MysteryAlbumSlotWork *)out)->pokeCharacter,((MysteryAlbumSlotWork *)out)->pokePalette,((MysteryAlbumSlotWork *)out)->pokeCellAnim,&second,((MysteryAlbumSlotWork *)out)->screenId,heap);
+    ((MysteryAlbumSlotWork *)out)->introAnimId=p->backPlane&3;
+    ((MysteryAlbumSlotWork *)out)->actorB=CLACT_CreateActor(p->clactUnit,((MysteryAlbumSlotWork *)out)->pokeCharacter,((MysteryAlbumSlotWork *)out)->pokePalette,((MysteryAlbumSlotWork *)out)->pokeCellAnim,&second,((MysteryAlbumSlotWork *)out)->screenId,heap);
     CLACT_SetActorAffineMode(((MysteryAlbumSlotWork *)out)->actorB,2);
     CLACT_SetActorObjMode(((MysteryAlbumSlotWork *)out)->actorB,1);
     CLACT_SetActorDrawEnable(((MysteryAlbumSlotWork *)out)->actorB,0);
     return out;
 }
 
-void MYSTERY_ALBUM_DeleteSlotWork(void **p)
+void MYSTERY_ALBUM_DeleteSlotWork(MysteryAlbumSlotWork *p)
 {
-    CLACT_DeleteActor(p[8]);
-    CLACT_ReleaseCharacter((uptr)p[5]);
-    CLACT_ReleaseCellAnim((uptr)p[6]);
-    CLACT_ReleasePalette((uptr)p[4]);
-    CLACT_DeleteActor(p[7]);
-    CLACT_ReleaseCharacter((uptr)p[2]);
-    CLACT_ReleaseCellAnim((uptr)p[3]);
-    CLACT_ReleasePalette((uptr)p[1]);
-    MYSTERY_UTIL_DeleteWindowList(p[0]);
+    CLACT_DeleteActor(p->actorB);
+    CLACT_ReleaseCharacter(p->pokeCharacter);
+    CLACT_ReleaseCellAnim(p->pokeCellAnim);
+    CLACT_ReleasePalette(p->pokePalette);
+    CLACT_DeleteActor(p->actorA);
+    CLACT_ReleaseCharacter(p->character);
+    CLACT_ReleaseCellAnim(p->cellAnim);
+    CLACT_ReleasePalette(p->palette);
+    MYSTERY_UTIL_DeleteWindowList(p->windowList);
     GFL_HEAP_Free(p);
 }
 
-int MYSTERY_ALBUM_UpdateSlotWork(void **p) {return MYSTERY_UTIL_IsWindowListDone(*p);}
+int MYSTERY_ALBUM_UpdateSlotWork(MysteryAlbumSlotWork *p) {return MYSTERY_UTIL_IsWindowListDone(p->windowList);}
 
-struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap)
+struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, MysteryAlbumSlotWork *slotWork, void *gameData, u16 heap)
 {
     struct MysteryAlbumView *out;
-    struct MysteryUtilCtx ctx;
+    MysteryAlbumCreateInput ctx;
     MysteryUtilMenuEntryTable desc;
     void *res;
     u16 idx;
@@ -2161,22 +2128,22 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
     u32 id;
     u64 id64;
 
-    out = GFL_HEAP_Alloc(heap, 0x148, 0, d_021DFBB0, 0xDD4);
-    MI_CpuFill8(out, 0, 0x148);
+    out = GFL_HEAP_Alloc(heap, sizeof(*out), 0, d_021DFBB0, 0xDD4);
+    MI_CpuFill8(out, 0, sizeof(*out));
     out->heap = heap;
     out->card = (struct MysteryAlbumViewCard *)card;
     out->slotWork = slotWork;
     out->gameData = gameData;
-    MI_CpuFill8(&ctx, 0, 0x24);
+    MI_CpuFill8(&ctx, 0, sizeof(ctx));
     ctx.mode = 0;
-    ctx.clactUnit = slotWork->clactUnit;
-    ctx.cardList = slotWork->cardList;
-    ctx.font = slotWork->font;
-    ctx.printQueue = slotWork->printQueue;
-    ctx.wordSet = slotWork->wordSet;
-    ctx.msgBank = slotWork->msgBank;
-    ctx.gameData = (uptr)gameData;
-    MYSTERY_ALBUM_SetupEntry((char *)out, (const MysteryAlbumCard *)card, (char *)&ctx, heap);
+    ctx.clactUnit = slotWork->desc.clactUnit;
+    ctx.cardList = slotWork->desc.cardList;
+    ctx.font = slotWork->desc.font;
+    ctx.printQueue = slotWork->desc.printQueue;
+    ctx.wordSet = slotWork->desc.wordSet;
+    ctx.msgBank = slotWork->desc.msgBank;
+    ctx.gameData = gameData;
+    MYSTERY_ALBUM_SetupEntry((MysteryAlbumEntry *)out, (const MysteryAlbumCard *)card, &ctx, heap);
     desc = d_021DFA14;
     id16 = (heap & 0x7fff) | 0x8000;
     desc.e[1].str.stringPtr = STRBUF_Create(0x25, (u16)id16);
@@ -2185,17 +2152,17 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
         idx = out->card->messageIndex + 0x19d;
     else
         idx = out->card->messageIndex + 0x9d;
-    desc.e[2].str.stringPtr = MSGDATA_AllocString((void *)slotWork->msgBank, idx);
+    desc.e[2].str.stringPtr = MSGDATA_AllocString(slotWork->desc.msgBank, idx);
     desc.e[4].str.stringPtr = STRBUF_Create(0x80, heap);
     flags = out->card->eventDate;
-    t4 = MSGDATA_AllocString((void *)slotWork->msgBank, 0x9a);
+    t4 = MSGDATA_AllocString(slotWork->desc.msgBank, 0x9a);
     res = 0;
-    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 0, (u16)(flags >> 16), 4, 1, 1);
-    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 1, (u8)(flags >> 8), 2, 0, 1);
-    WORDSET_SetSlotNumber((void *)slotWork->wordSet, 2, (u8)flags, 2, 0, 1);
-    WORDSET_CopyTaggedText((void *)slotWork->wordSet, desc.e[4].str.stringPtr, t4);
+    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 0, (u16)(flags >> 16), 4, 1, 1);
+    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 1, (u8)(flags >> 8), 2, 0, 1);
+    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 2, (u8)flags, 2, 0, 1);
+    WORDSET_CopyTaggedText(slotWork->desc.wordSet, desc.e[4].str.stringPtr, t4);
     out->bmpList = MYSTERY_UTIL_CreateBmpList((char *)slotWork->windowList, heap);
-    MYSTERY_UTIL_DrawBmpList(out->bmpList, (char *)(&desc), (void *)slotWork->printQueue);
+    MYSTERY_UTIL_DrawBmpList(out->bmpList, (char *)(&desc), slotWork->desc.printQueue);
     STRBUF_Delete(desc.e[1].str.stringPtr);
     STRBUF_Delete(desc.e[2].str.stringPtr);
     STRBUF_Delete(desc.e[4].str.stringPtr);
@@ -2226,7 +2193,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
         mv[1] = r->mv[1];
         mv[2] = r->mv[2];
         mv[3] = r->mv[3];
-        if (r->giftType == 1 && species <= 0x289 && species != 0 && level <= 0x64 && r->heldItem <= 0x289 - 0x17) {
+        if (r->giftType == 1 && species <= SPECIES_LAST && species != 0 && level <= 0x64 && r->heldItem <= ITEM_LAST) {
             if (level == 0)
                 level = (u16)(GFL_USE_GetRandom(0x64) + 1);
             if (r->otIdOrItem == 0)
@@ -2381,7 +2348,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
             genderId = POKE_TOOL_GetPartyValue(res, 0x6e, 0);
             idx = POKEGRA_GetPalArcIndex(arcId, speciesId, formId, genderId, POKE_TOOL_IsShiny(res), 0, POKE_TOOL_GetPartyValue(res, 0x4c, 0));
             out->pokePalette = ARC_UTIL_LoadPaletteBlockFromHandle(arc, idx, &out->pokePaletteData, out->heap);
-            out->pokeCharData = (uptr)POKEGRA_LoadCharDataPP(&out->pokeCharBuf, POKE_TOOL_GetBoxParam(res), 0, out->heap);
+            out->pokeCharData = POKEGRA_LoadCharDataPP(&out->pokeCharBuf, POKE_TOOL_GetBoxParam(res), 0, out->heap);
             GFL_HEAP_Free(res);
             ARC_TOOL_DeleteHandle(arc);
         }
@@ -2401,16 +2368,15 @@ typedef struct { s16 frameId,x,y; } MysteryAlbumPathOut;
 
 #include "../arm9/pm_voice.h"
 
-extern u16 CLACT_GetActorRotation(const struct ClactActor *actor);
 
-extern void MYSTERY_ALBUM_PathAnimInit(MysteryAlbumPathAnim *anim, u16 frameId, int x, int y);
+extern void MYSTERY_ALBUM_PathAnimInit(MysteryAlbumPathAnim *anim,u16 frameId,int x,int y);
 
 
 #pragma thumb off
 
-extern void MYSTERY_ALBUM_SetBlendMain(int eva,int evb);
+extern void MYSTERY_ALBUM_SetBlendMain(int eva, int evb);
 
-extern void MYSTERY_ALBUM_SetBlendSub(int eva,int evb);
+extern void MYSTERY_ALBUM_SetBlendSub(int eva, int evb);
 
 #pragma thumb on
 
@@ -2426,7 +2392,7 @@ void MYSTERY_ALBUM_Delete(MysteryAlbum *album)
     if (album->paletteBuffer) GFL_HEAP_Free(album->paletteBuffer);
     if (album->bgDataBuffer) GFL_HEAP_Free(album->bgDataBuffer);
     MYSTERY_UTIL_DeleteBmpList(album->cardView);
-    MYSTERY_ALBUM_ClearEntry((uptr)album);
+    MYSTERY_ALBUM_ClearEntry((MysteryAlbumEntry *)album);
     GFL_HEAP_Free(album);
 }
 
@@ -2515,30 +2481,25 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
  */
 void MYSTERY_ALBUM_SetBlendMain(int eva, int evb)
 {
-    *(volatile u16 *)0x04000052 = eva | (evb << 8);
+    *(volatile u16 *)REG_BLDALPHA_ADDR = eva | (evb << 8);
 }
 
 void MYSTERY_ALBUM_SetBlendSub(int eva, int evb)
 {
-    *(volatile u16 *)0x04001052 = eva | (evb << 8);
+    *(volatile u16 *)REG_DB_BLDALPHA_ADDR = eva | (evb << 8);
 }
 
 struct ClactActor;
 
 struct ClactActor;
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 palOffset, u32 size, u16 heapId);
 
 
-extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 
 struct PaletteData;
-extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 
 
-extern void CLACT_SetActorRotation(struct ClactActor *actor, u16 frame);
 
-extern int CLACT_GetPaletteVramAddress(u32 paletteHandle, u32 screenId);
 
 
 #pragma thumb on
@@ -2626,8 +2587,8 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     void *arc;
     void *iconPalAlloc;
     void *iconGfxAlloc;
-    void *iconPalRes;
-    void *iconGfxRes;
+    NNSG2dPaletteData *iconPalRes;
+    NNSG2dCharacterData *iconGfxRes;
     struct ClactVec2 iconPos;
     u16 *paletteRam;
     u32 offset;
@@ -2635,10 +2596,10 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     arc=MYSTERY_ALBUM_CreateEntryArc(album,heapId);
     iconPalAlloc=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryPaletteResId(album),&iconPalRes,(u16)(album->heapId));
     offset=ui->iconPaletteNumber*32;
-    MI_CpuCopy8(*(void **)((char *)iconPalRes+12),MYSTERY_ALBUM_GetPaletteRam(offset,ui->screenId),96);
+    MI_CpuCopy8(iconPalRes->pRawData,MYSTERY_ALBUM_GetPaletteRam(offset,ui->screenId),96);
     GFL_HEAP_Free(iconPalAlloc);
     iconGfxAlloc=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryGraphicIndex(album),(int)0,&iconGfxRes,album->heapId);
-    CLACT_TransferCharacterPart(ui->bgHandleA,*(void **)((char *)iconGfxRes+20),512,0,ui->screenId);
+    CLACT_TransferCharacterPart(ui->bgHandleA,iconGfxRes->pRawData,512,0,ui->screenId);
     GFL_HEAP_Free(iconGfxAlloc);
     ARC_TOOL_DeleteHandle(arc);
     iconPos.x=216; iconPos.y=22;
@@ -2647,10 +2608,10 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     CLACT_AddActorSurfacePos(ui->iconActor, (const struct ClactVec2 *)&iconPos, ui->screenId);
     CLACT_SetActorDrawEnable(ui->iconActor,1);
     if (MYSTERY_ALBUM_GetEntryKind(album)==1) {
-        CLACT_TransferPalette(ui->paletteHandle,*(struct PaletteData **)((char *)album->paletteRes+12),1);
-        MI_CpuCopy8(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
+        CLACT_TransferPalette(ui->paletteHandle,(struct PaletteData *)album->paletteRes->pRawData,1);
+        MI_CpuCopy8(album->paletteRes->pRawData,ui->palImage,32);
         MIi_CpuClear16(0,ui->palBlack,32);
-        CLACT_TransferCharacterPart(ui->bgHandleB,*(void **)((char *)album->bgDataRes+20),0x1200,0,ui->screenId);
+        CLACT_TransferCharacterPart(ui->bgHandleB,album->bgDataRes->pRawData,0x1200,0,ui->screenId);
         CLACT_SetActorRotation(ui->cursorActor,0);
         CLACT_SetActorDrawEnable(ui->cursorActor,1);
         if (ui->bgSetup.bgLayer<4) paletteRam=(u16 *)((u32)CLACT_GetPaletteVramAddress(ui->paletteHandle,ui->screenId)+HW_OBJ_PLTT);

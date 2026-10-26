@@ -5,6 +5,7 @@
 /* Public functions of net_devwifi.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../ov009/dwc_rap_types.h"
 
 void GFL_NET_DEVWIFI_InitDwc(int heapId);
 int GFL_NET_DEVWIFI_Setup(int heapId, int param);
@@ -15,8 +16,8 @@ int GFL_NET_DEVWIFI_Cleanup(void (*doneCallback)(int));
 int GFL_NET_DEVWIFI_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, int unused);
 int GFL_NET_DEVWIFI_StartFriendMatch(int friendIndex, int maxPlayers, int limitToTwo);
 int GFL_NET_DEVWIFI_PollDisconnect(int requestClose);
-int GFL_NET_DEVWIFI_SendMessage(int data, int size, int unused, void (*doneCallback)(int));
-int GFL_NET_DEVWIFI_SetRecvCallback(int callback);
+int GFL_NET_DEVWIFI_SendMessage(void *data, int size, int unused, void (*doneCallback)(int));
+int GFL_NET_DEVWIFI_SetRecvCallback(DwcRapRecvFunc callback);
 int GFL_NET_DEVWIFI_IsActive(void);
 int GFL_NET_DEVWIFI_IsConnected(void);
 int GFL_NET_DEVWIFI_IsOffline(void);

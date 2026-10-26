@@ -223,7 +223,7 @@ FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int 
 {
     FieldPlayerNogrid *player;
 
-    player = GFL_HEAP_Alloc(heapId, 0x24, 1, &d_021DDF04, 0x1a0);
+    player = GFL_HEAP_Alloc(heapId, sizeof(*player), 1, &d_021DDF04, 0x1a0);
     player->core = core;
     player->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
     player->mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);

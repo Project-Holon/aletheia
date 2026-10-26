@@ -12,6 +12,7 @@ struct PmsData;
 struct PmsWordListCursor;
 struct PmsInputView;
 struct PmsExitState;
+struct U16Vec;
 struct TcbSystem;
 
 #include "../ov110/pms_input_types.h"
@@ -19,7 +20,7 @@ struct TcbSystem;
 
 int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, void *work);
 int PMS_INPUT_ProcMain(struct Proc *proc, int unused, int args, struct PmsInput *input);
-void PMS_INPUT_OnButton(int value, unsigned int event, struct PmsInput *input);
+void PMS_INPUT_OnButton(u32 value, s32 event, void *);
 int PMS_INPUT_ProcExit(struct Proc *proc, int unused, int args, struct PmsInput *input);
 struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param);
 void PMS_INPUT_InitSentenceCursor(struct PmsSentenceCursor *cursor, const struct PmsData *sentence);
@@ -110,7 +111,7 @@ void PMS_INPUT_ResetSearch(PmsInput *input);
 void PMS_INPUT_GetScrollRange(const PmsInput *input, u16 *topRow, u16 *maxTopRow);
 u8 PMS_INPUT_GetInitialCount(PmsInput *input);
 int PMS_INPUT_GetSearchState(PmsInput *input);
-void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b);
+void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,void *b);
 int PMS_INPUT_CanConfirm(PmsInput *input);
 void PMS_INPUT_ResetCursor(PmsInput *input);
 /* END mkheaders: generated region */

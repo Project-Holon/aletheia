@@ -55,28 +55,28 @@ struct TcbTask;
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
 
-u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg);
-u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d);
-u32 ZKNSEARCH_SYS_Delete(void *p);
-void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
-u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p);
-void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *p);
-void ZKNSEARCH_SYS_RegisterHBlank(u8 *p);
-u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p);
-void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *p);
+u32 ZKNSEARCH_SYS_Create(void *man, u32 b, void *arg);
+u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, ZknSearchWork *work);
+u32 ZKNSEARCH_SYS_Delete(void *work);
+void ZKNSEARCH_SYS_RegisterVBlank(ZknSearchWork *work);
+u32 ZKNSEARCH_SYS_UnregisterVBlank(ZknSearchWork *work);
+void ZKNSEARCH_SYS_VBlankHandler(struct TcbTask *unused, void *workArg);
+void ZKNSEARCH_SYS_RegisterHBlank(ZknSearchWork *work);
+u32 ZKNSEARCH_SYS_UnregisterHBlank(ZknSearchWork *work);
+void ZKNSEARCH_SYS_HBlankHandler(struct TcbTask *ctx, void *workArg);
 void ZKNSEARCH_SYS_SetVramBanks(void);
 void *ZKNSEARCH_SYS_GetVramBanks(void);
 extern unsigned d_02FE0000[];
 extern u8 d_021C0754[];
 
 
-u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, u32 arg)
+u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, void *arg)
 {
-    u32 *p;
+    ZknSearchWork *p;
     GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);
-    p = PROCSYS_AllocProcWork(man, 0x2d4, 0x7b);
-    MI_CpuFill8(p, 0, 0x2d4);
-    *p = arg;
+    p = PROCSYS_AllocProcWork(man, sizeof(ZknSearchWork), 0x7b);
+    MI_CpuFill8(p, 0, sizeof(ZknSearchWork));
+    p->save = (ZknSearchSave *)arg;
     return 1;
 }
 
@@ -84,9 +84,9 @@ u32 ZKNSEARCH_SYS_Create(void *man, u32 unused, u32 arg)
 /*
  * Addresses are Black-image addresses.
  */
-u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, u32 work)
+u32 ZKNSEARCH_SYS_IsReady(u32 man, u32 unused, u32 args, ZknSearchWork *work)
 {
-    return ZKNSEARCH_MAIN_RunState((u8 *)work) == 0;
+    return ZKNSEARCH_MAIN_RunState(work) == 0;
 }
 
 
@@ -98,44 +98,45 @@ u32 ZKNSEARCH_SYS_Delete(void *work)
 }
 
 
-void ZKNSEARCH_SYS_RegisterVBlank(u8 *work)
+void ZKNSEARCH_SYS_RegisterVBlank(ZknSearchWork *work)
 {
-    ((ZknSearchWork *)work)->vblank = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))ZKNSEARCH_SYS_VBlankHandler), (void *)work, (unsigned int)0);
+    work->vblank = GFL_USE_AddMainTask(ZKNSEARCH_SYS_VBlankHandler, work, (unsigned int)0);
 }
 
 
-u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *work)
+u32 ZKNSEARCH_SYS_UnregisterVBlank(ZknSearchWork *work)
 {
-    return TCB_DeleteTask((struct TcbTask *)(((ZknSearchWork *)work)->vblank));
+    return TCB_DeleteTask(work->vblank);
 }
 
-void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work)
+void ZKNSEARCH_SYS_VBlankHandler(struct TcbTask *unused, void *workArg)
 {
+    ZknSearchWork *work = workArg;
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    PALANM_TransferPalettes(((ZknSearchWork *)work)->palAnm);
-    if (work[0x2b8]==1) {
+    PALANM_TransferPalettes(work->palAnm);
+    if (work->fadeState==1) {
         BG_SYS_SetMainPlaneVisible(10,1);
         BG_SYS_SetSubPlaneVisible(2,1);
-        work[0x2b8]=0;
-    } else if (work[0x2b8]==2) {
+        work->fadeState=0;
+    } else if (work->fadeState==2) {
         BG_SYS_SetMainPlaneVisible(10,0);
         BG_SYS_SetSubPlaneVisible(2,0);
-        work[0x2b8]=0;
+        work->fadeState=0;
     }
     *(volatile unsigned *)((uptr)d_02FE0000+0x3ff8) |= 1;
 }
 
 
-void ZKNSEARCH_SYS_RegisterHBlank(u8 *work)
+void ZKNSEARCH_SYS_RegisterHBlank(ZknSearchWork *work)
 {
-    ((ZknSearchWork *)work)->hblank = (uptr)GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((uptr)ZKNSEARCH_SYS_HBlankHandler), (void *)((uptr)work), 0);
+    work->hblank = GFL_USE_AddHBlankTask(ZKNSEARCH_SYS_HBlankHandler, (void *)(work), 0);
 }
 
 
-u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work)
+u32 ZKNSEARCH_SYS_UnregisterHBlank(ZknSearchWork *work)
 {
-    return TCB_DeleteTask((struct TcbTask *)(((ZknSearchWork *)work)->hblank));
+    return TCB_DeleteTask(work->hblank);
 }
 
 /*
@@ -146,10 +147,11 @@ u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work)
  * halfword from the IO register at 0x04000006, then writes one of six packed
  * halfwords to the register at 0x04001052.
  */
-void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *work)
+void ZKNSEARCH_SYS_HBlankHandler(struct TcbTask *ctx, void *workArg)
 {
+    ZknSearchWork *work = workArg;
     int v = *(volatile unsigned short *)REG_VCOUNT_ADDR;
-    int b = work[0x2b9];
+    int b = work->listPage;
 
     if (b == 4) {
         if (v >= 0x98)

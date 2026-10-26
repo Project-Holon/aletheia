@@ -97,8 +97,6 @@
 
 #include "../arm9/gfl_heap_wrap.h"
 
-#define Q(k) (*(u32 *)(q+(k)))
-#define W(k) (*(u32 *)(p+(k)))
 #include "../version.h"
 #include "mystery_net_types.h"
 struct Req;
@@ -117,7 +115,6 @@ typedef struct MysteryNetDescriptor {
     int enabled;
 } MysteryNetDescriptor;
 
-typedef struct { char pad[0x6e0];u32 flag; } Flag;
 
 typedef enum { NO_DIGIT = -1 } Digit;
 #include "../arm9/mi_memory.h"
@@ -144,41 +141,41 @@ void MYSTERY_NET_Delete(u8 *p);
 void MYSTERY_NET_Step(char *p);
 void MYSTERY_NET_SetAction(char *p, unsigned action);
 int MYSTERY_NET_GetAction(void *p);
-void *MYSTERY_NET_GetResult(char *p);
+unsigned int MYSTERY_NET_GetResult(char *p);
 int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b);
 int MYSTERY_NET_UpdateWifiError(void *p);
 void MYSTERY_NET_Exit(char *p);
 int MYSTERY_NET_HandleWifiError(char *p);
 int MYSTERY_NET_ShowWifiError(void *work);
 int MYSTERY_NET_ShowWifiErrorDw(void *work);
-void MYSTERY_NET_NoopHandler(void);
+void MYSTERY_NET_NoopHandler(void *a, int *state, char *p);
 void MYSTERY_NET_StartSession(void *a, int *state, char *p);
 void MYSTERY_NET_StopSession(void *a, int *state, char *p);
-void MYSTERY_NET_PollWihStatus(int a, int b, char *c);
+void MYSTERY_NET_PollWihStatus(void *a, int *b, char *c);
 void MYSTERY_NET_StartBeacon(void *a,int *state,char *p);
 void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p);
-void MYSTERY_NET_RunBeacon(void *a,int b,char *p);
+void MYSTERY_NET_RunBeacon(void *a,int *b,char *p);
 void MYSTERY_NET_StartIrc(void *a, int *state, char *p);
 void MYSTERY_NET_DeleteIrc(void *a, int *state, char *p);
 void MYSTERY_NET_RunIrc(void *a, int *state, char *p);
 void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p);
 void MYSTERY_NET_EndDownload(void *a, int *state, char *p);
-void MYSTERY_NET_SetNdState(char *p, int *state, int value);
-void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c);
-void MYSTERY_NET_InitTask(void *p, int a, void *b);
+void MYSTERY_NET_SetNdState(MysteryNetNdContext *p, int *state, int value);
+void MYSTERY_NET_AbortNd(MysteryNetNdContext *p,int a,int *state,int b,int c);
+void MYSTERY_NET_InitTask(MysteryNetWork *p, void *a, void *b);
 void MYSTERY_NET_ClearTask(void *p);
 void MYSTERY_NET_Dispatch(char *p);
-void MYSTERY_NET_SetHandler(u32 *p,void *f);
-int MYSTERY_NET_IsHandler(int *p, int value);
+void MYSTERY_NET_SetHandler(MysteryNetWork *p,void (*f)(void *, int *, char *));
+int MYSTERY_NET_IsHandler(MysteryNetWork *p, void (*value)(void *, int *, char *));
 void *MYSTERY_NET_GetBuffer(char *p);
 int MYSTERY_NET_GetBufferSize(void);
 int MYSTERY_NET_IsEqual(int a, int b);
 void MYSTERY_NET_FlagExit(void *userArg);
-void MYSTERY_NET_OnNdAsyncDone(int a, int b);
+void MYSTERY_NET_OnNdAsyncDone(int reason, int b, int serverError);
 void MYSTERY_NET_MarkNdDone(void);
 int MYSTERY_NET_ParseHexValue(const signed char *p);
 int MYSTERY_NET_IsZeroBlock(const unsigned *p, unsigned size);
-int MYSTERY_NET_GetErrorHookState(char *p, int unused, int type);
+int MYSTERY_NET_GetErrorHookState(void *arg, u32 errorCode, u32 type, int dwcError);
 int MYSTERY_NET_ImportRecords(char *p, void *a, unsigned short b);
 extern const char d_021DFBC0[];
 extern unsigned d_021DFABC[];
@@ -189,12 +186,12 @@ extern const signed char d_021DFA8C[][2];
 
 void *MYSTERY_NET_Create(void *arg,int heap)
 {
-    char *p;
-    p=GFL_HEAP_Alloc(heap,0x17a8,0,d_021DFBC0,315);
-    MI_CpuFill8(p,0,0x17a8);
-    ((MysteryNetWork *)p)->heapId=heap;
-    ((MysteryNetWork *)p)->param=arg;
-    MYSTERY_NET_InitTask(p,(sptr)p,MYSTERY_NET_NoopHandler);
+    MysteryNetWork *p;
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_021DFBC0,315);
+    MI_CpuFill8(p,0,sizeof(*p));
+    p->heapId=heap;
+    p->param=arg;
+    MYSTERY_NET_InitTask(p,p,MYSTERY_NET_NoopHandler);
     return p;
 }
 
@@ -213,53 +210,53 @@ void MYSTERY_NET_SetAction(char *p, unsigned action)
 {
     switch (action) {
     case 1:
-        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartSession);
+        if (MYSTERY_NET_IsHandler((MysteryNetWork *)p, MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_StartSession);
         break;
     case 3:
-        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_PollWihStatus)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StopSession);
+        if (MYSTERY_NET_IsHandler((MysteryNetWork *)p, MYSTERY_NET_PollWihStatus)) MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_StopSession);
         break;
     case 4:
-        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_RunNdDownload);
+        if (MYSTERY_NET_IsHandler((MysteryNetWork *)p, MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_RunNdDownload);
         break;
     case 5:
-        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_RunNdDownload)) ((MysteryNetWork *)p)->nd.done = 1;
+        if (MYSTERY_NET_IsHandler((MysteryNetWork *)p, MYSTERY_NET_RunNdDownload)) ((MysteryNetWork *)p)->nd.done = 1;
         break;
-    case 6: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_EndDownload); break;
-    case 7: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartBeacon); break;
-    case 9: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_DeleteBeacon); break;
-    case 10: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartIrc); break;
-    case 12: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_DeleteIrc); break;
-    case 0: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_NoopHandler); break;
+    case 6: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_EndDownload); break;
+    case 7: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_StartBeacon); break;
+    case 9: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_DeleteBeacon); break;
+    case 10: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_StartIrc); break;
+    case 12: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_DeleteIrc); break;
+    case 0: MYSTERY_NET_SetHandler((MysteryNetWork *)p, MYSTERY_NET_NoopHandler); break;
     }
 }
 
 int MYSTERY_NET_GetAction(void *p)
 {
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_NoopHandler)) return 0;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartSession)) return 1;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_PollWihStatus)) return 2;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StopSession)) return 3;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunNdDownload)) return 4;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_EndDownload)) return 6;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartBeacon)) return 7;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunBeacon)) return 8;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_DeleteBeacon)) return 9;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartIrc)) return 10;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunIrc)) return 11;
-    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_DeleteIrc)) return 12;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_NoopHandler)) return 0;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_StartSession)) return 1;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_PollWihStatus)) return 2;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_StopSession)) return 3;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_RunNdDownload)) return 4;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_EndDownload)) return 6;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_StartBeacon)) return 7;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_RunBeacon)) return 8;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_DeleteBeacon)) return 9;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_StartIrc)) return 10;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_RunIrc)) return 11;
+    if (MYSTERY_NET_IsHandler(p, MYSTERY_NET_DeleteIrc)) return 12;
     return 0;
 }
 
-void *MYSTERY_NET_GetResult(char *p)
+unsigned int MYSTERY_NET_GetResult(char *p)
 {
     return ((MysteryNetWork *)p)->result;
 }
 
 int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b)
 {
-    int s = *(int *)(p + 0x17A4);
+    int s = ((MysteryNetWork *)p)->recvState;
     if (s == 1) {
-        MI_CpuCopy8(p + 0x7A4, a, b);
+        MI_CpuCopy8(((MysteryNetWork *)p)->recvBuffer, a, b);
         return 1;
     }
     return s;
@@ -279,13 +276,13 @@ int MYSTERY_NET_UpdateWifiError(void *p)
     return result;
 }
 
-void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete((struct WihContext *)(*(u8 * *)&((MysteryNetWork *)p)->wihHandle)); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); GFL_NET_ERR_ResetState();}
+void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete((struct WihContext *)(*(u8 * *)&((MysteryNetWork *)p)->wihHandle)); ((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); GFL_NET_ERR_ResetState();}
 
 int MYSTERY_NET_HandleWifiError(char *p)
 {
     int result=0;
     if (GFL_NET_ERR_GetErrorLevel()) {
-        switch (*(unsigned *)(GFL_NET_STATE_GetError()+4)) {
+        switch (GFL_NET_STATE_GetError()->errorType) {
         case 1: case 2: case 3: case 4: case 5: case 6:
             if (((MysteryNetWork *)p)->nd.busy==1) return result;
             GFL_NET_STATE_SetWifiError();
@@ -311,7 +308,7 @@ int MYSTERY_NET_ShowWifiErrorDw(void *work) {int r=0; if(GFL_NET_ERR_GetErrorLev
 /*
  * extent: empty callback followed by zero alignment padding then labelled 021DE61C.
  */
-void MYSTERY_NET_NoopHandler(void) {}
+void MYSTERY_NET_NoopHandler(void *a, int *state, char *p) {}
 
 void MYSTERY_NET_StartSession(void *a, int *state, char *p)
 {
@@ -324,7 +321,7 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
     case 1:
         if (GFL_NET_GetRunState()) {
             GFL_NET_RefreshWmIconAtTopRight(1, ((MysteryNetWork *)p)->heapId);
-            ((MysteryNetWork *)p)->wihHandle = WIH_DWC_Create(4, (void *)(((MysteryNetWork *)p)->heapId));
+            ((MysteryNetWork *)p)->wihHandle = WIH_DWC_Create(4, ((MysteryNetWork *)p)->heapId);
             GFL_NET_BeaconScanStart();
             *state = 2;
         }
@@ -341,7 +338,7 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
     switch (*state) {
     case 0:
         WIH_DWC_Delete(((MysteryNetWork *)p)->wihHandle);
-        *(int *)&((MysteryNetWork *)p)->wihHandle = 0;
+        ((MysteryNetWork *)p)->wihHandle = 0;
         *state = 1;
         break;
     case 1:
@@ -360,13 +357,13 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
     }
 }
 
-void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
+void MYSTERY_NET_PollWihStatus(void *a, int *b, char *c)
 {
     WIH_DWC_TickTimers();
-    ((MysteryNetWork *)c)->result = (void *)WIH_DWC_PollStatus(0);
+    ((MysteryNetWork *)c)->result = WIH_DWC_PollStatus(0);
 }
 
-void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {MysteryNetConfig cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=PM_VERSION_MASK;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(uptr)DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((struct DeliveryBeacon *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
+void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {MysteryNetConfig cfg;DeliveryBeacon *h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=((MysteryNetWork *)p)->recvBuffer;cfg.lang=GAME_LANGUAGE_Code;cfg.align=PM_VERSION_MASK;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&cfg));((MysteryNetWork *)p)->beacon=h;DELIVERY_BEACON_Start(h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
 
 void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 {
@@ -384,17 +381,17 @@ void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
     }
 }
 
-void MYSTERY_NET_RunBeacon(void *a,int b,char *p) {DELIVERY_BEACON_RunStep((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon));if(DELIVERY_BEACON_TryComplete((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon))) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
+void MYSTERY_NET_RunBeacon(void *a,int *b,char *p) {DELIVERY_BEACON_RunStep((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon));if(DELIVERY_BEACON_TryComplete((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon))) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
 
 void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
 {
     MysteryNetDescriptor d;
     switch (*state) {
     case 0:
-        MI_CpuFill8(&d, 0, 0x7c);
+        MI_CpuFill8(&d, 0, sizeof(d));
         d.kind = 9;
         d.size = 0x2d0;
-        d.data = p + 0x7a4;
+        d.data = ((MysteryNetWork *)p)->recvBuffer;
         d.zero = 0;
         d.heap = ((MysteryNetWork *)p)->heapId;
         d.setting = GAME_LANGUAGE_Code;
@@ -450,96 +447,96 @@ void MYSTERY_NET_RunIrc(void *a, int *state, char *p)
 
 void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
 {
-    char *q=p+0x60;
+    MysteryNetNdContext *q=&((MysteryNetWork *)p)->nd;
     int i,n,j,valid;
     u32 rnd,t,ratio;
     switch(*state) {
     case 0:
-        DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((sptr)MYSTERY_NET_GetErrorHookState),(sptr)q);
-        MI_CpuFill8(q,0,0x734);
-        Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(uptr)(p+0x7a4);
-        W(0x17a4)=0;
-        if(!DWC_NdInitAsync((DWCNdCallback)MYSTERY_NET_OnNdAsyncDone,(char *)d_021DFBD0,(char *)d_021DFBD8)) {
-            W(0x17a4)=2;*state=9;
-        } else {Q(0x730)=1;MYSTERY_NET_SetNdState(q,state,1);}
+        DWC_RAP_SetErrorHookCallback(MYSTERY_NET_GetErrorHookState, q);
+        MI_CpuFill8(q,0,sizeof(*q));
+        q->done=0;q->error=0;q->selectedIndex=0;q->destBuffer=((MysteryNetWork *)p)->recvBuffer;
+        ((MysteryNetWork *)p)->recvState=0;
+        if(!DWC_NdInitAsync(MYSTERY_NET_OnNdAsyncDone,(char *)d_021DFBD0,(char *)d_021DFBD8)) {
+            ((MysteryNetWork *)p)->recvState=2;*state=9;
+        } else {q->busy=1;MYSTERY_NET_SetNdState(q,state,1);}
         break;
     case 1:
-        if(Q(0x710)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);}
+        if(q->error) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,7,7);}
         else if(!DWC_NdSetAttr(d_021DFBEC,d_021DFBF8,d_021DFBF8)) {
-            W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);
+            ((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,4,state,9,9);
         } else *state=3;
         break;
     case 3:
-        if(!DWC_NdGetFileListAsync(q,0,10)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);}
+        if(!DWC_NdGetFileListAsync(q->records,0,10)) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,4,state,9,9);}
         else MYSTERY_NET_SetNdState(q,state,2);
         break;
     case 2:
         for(i=0;i<10;i++) {
-            if(!MYSTERY_NET_IsZeroBlock((const unsigned *)(q+0xb0*i),0xb0)) {
-                if(MYSTERY_NET_ParseHexValue((const signed char *)(q+0xb0*i+0x93))&PM_VERSION_MASK)
-                    ((Flag *)((uptr)q+(u32)i*4))->flag=1;
-                else ((Flag *)((uptr)q+(u32)i*4))->flag=0;
-            } else ((Flag *)((uptr)q+(u32)i*4))->flag=0;
+            if(!MYSTERY_NET_IsZeroBlock((const unsigned *)&q->records[i],0xb0)) {
+                if(MYSTERY_NET_ParseHexValue(q->records[i].hexFlags)&PM_VERSION_MASK)
+                    q->recordFlags[i]=1;
+                else q->recordFlags[i]=0;
+            } else q->recordFlags[i]=0;
         }
-        Q(0x714)=0;
-        for(i=0;i<10;i++) if(((Flag *)((uptr)q+(u32)i*4))->flag) Q(0x714)++;
+        q->validCount=0;
+        for(i=0;i<10;i++) if(q->recordFlags[i]) q->validCount++;
         *state=4;break;
     case 4:
-        n=Q(0x714);
+        n=q->validCount;
         if(n==1) {
-            for(i=0;i<10;i++) if(((Flag *)((uptr)q+(u32)i*4))->flag) {Q(0x724)=i;break;}
+            for(i=0;i<10;i++) if(q->recordFlags[i]) {q->selectedIndex=i;break;}
         } else if(n>1) {
             j=0;rnd=GF_STANDARD_Rand();
             if(n) rnd=(u32)(((u64)rnd*(u32)n)>>32);
             for(i=0;i<10;i++) {
-                if(((Flag *)((uptr)q+(u32)i*4))->flag) {
-                    if(j==rnd) {Q(0x724)=i;break;}
+                if(q->recordFlags[i]) {
+                    if(j==rnd) {q->selectedIndex=i;break;}
                     j++;
                 }
             }
-            Q(0x724)=i;
-        } else {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,1,state,8,8);break;}
+            q->selectedIndex=i;
+        } else {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,1,state,8,8);break;}
         *state=5;break;
     case 5:
-        if(!DWC_NdGetFileAsync(q+Q(0x724)*0xb0,(char *)Q(0x728),0x1000)) {
-            W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);
+        if(!DWC_NdGetFileAsync(&q->records[q->selectedIndex],(char *)q->destBuffer,0x1000)) {
+            ((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,4,state,9,9);
         } else {
-            Q(0x718)=0;d_021DFC00[1]=0;d_021DFC00[3]=0;Q(0x72c)=0;*state=6;
+            q->progressRatio=0;d_021DFC00[1]=0;d_021DFC00[3]=0;q->timer=0;*state=6;
         }break;
     case 6:
         DWC_NdProcess();
-        if(Q(0x72c)++>7200) {
-            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);
+        if(q->timer++>7200) {
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
-            if(Q(0x70c)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);break;}
-            if(DWC_NdGetProgress((unsigned long *)((u32 *)(q+0x71c)),(unsigned long *)((u32 *)(q+0x720)))==1) {
-                ratio=Q(0x71c)*100/Q(0x720);
-                if(Q(0x718)!=ratio) Q(0x718)=ratio;
+            if(q->done) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,7,7);break;}
+            if(DWC_NdGetProgress((unsigned long *)&q->progressDone,(unsigned long *)&q->progressTotal)==1) {
+                ratio=q->progressDone*100/q->progressTotal;
+                if(q->progressRatio!=ratio) q->progressRatio=ratio;
             }
-        } else if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);}
-        else if(!Q(0x710)) {W(0x17a4)=1;MYSTERY_NET_AbortNd((uptr)q,1,state,8,8);}
-        else {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,8,8);}
+        } else if(d_021DFC00[3]) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,4,state,9,9);}
+        else if(!q->error) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_AbortNd(q,1,state,8,8);}
+        else {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,8,8);}
         break;
     case 7:DWC_NdCancelAsync();*state=8;break;
     case 8:*state=9;break;
-    case 9:Q(0x730)=0;DWC_RAP_SetErrorHookCallback(0,0);MYSTERY_NET_SetHandler(task,MYSTERY_NET_EndDownload);break;
+    case 9:q->busy=0;DWC_RAP_SetErrorHookCallback(0,0);MYSTERY_NET_SetHandler(task,MYSTERY_NET_EndDownload);break;
     case 100:
         DWC_NdProcess();
-        if(Q(0x72c)++>7200) {
-            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,9,9);
+        if(q->timer++>7200) {
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,9,9);
         }
         if(d_021DFC00[1]) {
             d_021DFC00[1]=0;
-            if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,9,9);}
-            else *state=Q(0x708);
-        } else if(Q(0x70c)) Q(0x710)=1;
+            if(d_021DFC00[3]) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,9,9);}
+            else *state=q->state;
+        } else if(q->done) q->error=1;
         break;
     case 200:
         DWC_NdProcess();
-        if(Q(0x72c)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f5);*state=Q(0x708);}
-        if(d_021DFC00[0]) {d_021DFC00[0]=0;*state=Q(0x708);}
-        else if(Q(0x70c)) Q(0x710)=1;
+        if(q->timer++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f5);*state=q->state;}
+        if(d_021DFC00[0]) {d_021DFC00[0]=0;*state=q->state;}
+        else if(q->done) q->error=1;
         break;
     }
 }
@@ -566,21 +563,21 @@ void MYSTERY_NET_EndDownload(void *a, int *state, char *p)
     }
 }
 
-void MYSTERY_NET_SetNdState(char *p, int *state, int value)
+void MYSTERY_NET_SetNdState(MysteryNetNdContext *p, int *state, int value)
 {
     d_021DFC00[1] = 0;
     d_021DFC00[3] = 0;
-    ((MysteryNetNdContext *)p)->state = value;
-    ((MysteryNetNdContext *)p)->timer = 0;
+    p->state = value;
+    p->timer = 0;
     *state = 100;
 }
 
-void MYSTERY_NET_AbortNd(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((MysteryNetNdContext *)p)->state=b;((MysteryNetNdContext *)p)->timer=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
+void MYSTERY_NET_AbortNd(MysteryNetNdContext *p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;p->state=b;p->timer=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
 
-void MYSTERY_NET_InitTask(void *p, int a, void *b)
+void MYSTERY_NET_InitTask(MysteryNetWork *p, void *a, void *b)
 {
     MI_CpuFill8(p, 0, 0x10);
-    ((MysteryNetWork *)p)->handlerArg = (u32)a;
+    p->handlerArg = a;
     MYSTERY_NET_SetHandler(p, b);
 }
 
@@ -589,19 +586,19 @@ void MYSTERY_NET_ClearTask(void *p) {MI_CpuFill8(p,0,16);}
 void MYSTERY_NET_Dispatch(char *p)
 {
     if (((MysteryNetWork *)p)->paused == 0)
-        (*(void (**)(char *, char *, u32))p)(p, p + 8, ((MysteryNetWork *)p)->handlerArg);
+        ((MysteryNetWork *)p)->handler(p, &((MysteryNetWork *)p)->state, ((MysteryNetWork *)p)->handlerArg);
 }
 
-void MYSTERY_NET_SetHandler(u32 *p,void *f) {p[0]=(uptr)f;p[2]=0;}
+void MYSTERY_NET_SetHandler(MysteryNetWork *p,void (*f)(void *, int *, char *)) {p->handler=f;p->state=0;}
 
-int MYSTERY_NET_IsHandler(int *p, int value)
+int MYSTERY_NET_IsHandler(MysteryNetWork *p, void (*value)(void *, int *, char *))
 {
-    return *p == value;
+    return p->handler == value;
 }
 
 void *MYSTERY_NET_GetBuffer(char *p)
 {
-    return p + 0x14;
+    return ((MysteryNetWork *)p)->buffer;
 }
 
 int MYSTERY_NET_GetBufferSize(void)
@@ -621,7 +618,7 @@ void MYSTERY_NET_FlagExit(void *userArg)
     ((MysteryNetWork *)p)->flag5C = 1;
 }
 
-void MYSTERY_NET_OnNdAsyncDone(int a, int b)
+void MYSTERY_NET_OnNdAsyncDone(int reason, int b, int serverError)
 {
     d_021DFC00[1] = 1;
     d_021DFC00[3] = b;
@@ -674,8 +671,9 @@ int MYSTERY_NET_IsZeroBlock(const unsigned *p, unsigned size)
 /*
  * extent: Ends at labelled function 021DEF6C.
  */
-int MYSTERY_NET_GetErrorHookState(char *p, int unused, int type)
+int MYSTERY_NET_GetErrorHookState(void *arg, u32 errorCode, u32 type, int dwcError)
 {
+    char *p = arg;
     switch (type) {
     case 3:
     case 5:
@@ -848,7 +846,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
             res = 0;
             goto end;
         }
-        if (species > 0x289) {
+        if (species > SPECIES_LAST) {
             res = 0;
             goto end;
         }

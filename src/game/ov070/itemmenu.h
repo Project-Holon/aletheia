@@ -18,6 +18,8 @@ typedef struct ItemMenuResult ItemMenuResult;
 #include "../arm9/myitem_savedata_types.h"
 #include "../types.h"
 
+struct TcbTask;
+
 void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn);
 void ITEMMENU_ForceRedrawList(ItemMenuWork *work);
 void ITEMMENU_RedrawList(ItemMenuWork *work);
@@ -56,7 +58,7 @@ u32 ITEMMENU_TryStartSell(ItemMenuWork *work);
 int ITEMMENU_FindUseRange(u16 itemId);
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work);
-void ITEMMENU_TaskBagMain(ItemMenuWork *work);
+void ITEMMENU_TaskBagMain(struct ItemMenuWork *work);
 void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work);
 void ITEMMENU_TaskOpenActionMenu(ItemMenuWork *work);
 void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work);
@@ -93,8 +95,8 @@ void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *itemData, u16 *itemIdPtr
 void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions);
 void ITEMMENU_OpenActionMenu(ItemMenuWork *work);
 int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value);
-void ITEMMENU_HandleTouchTarget(u32 idx, int flag, ItemMenuWork *work);
-void ITEMMENU_VBlankCallback(int unusedArg, ItemMenuWork *work);
+void ITEMMENU_HandleTouchTarget(u32 idx, s32 flag, void *);
+void ITEMMENU_VBlankCallback(struct TcbTask *unusedArg, void *arg);
 void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work);
 void ITEMMENU_TaskWaitFadeIn(ItemMenuWork *work);
 int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args);
@@ -120,7 +122,7 @@ int ITEMMENU_IsCheckModeAllowed(ItemMenuWork *work, int value);
 void ITEMMENU_ReturnToBagMainAlias(ItemMenuWork *work);
 void ITEMMENU_InitDisplayBanks(void);
 void ITEMMENU_ResetDisplayLayers(void);
-void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive);
+void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, void *archive);
 void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive);
 void ITEMMENU_SetupGraphics(ItemMenuWork *work);
 void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work);
@@ -169,7 +171,7 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page);
 void ITEMMENU_SetBackButtonAnim(ItemMenuWork *work, int v);
 void ITEMMENU_UpdateInputGuardAnim(ItemMenuWork *work);
 void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode);
-int ITEMMENU_MoveActorToPoint(const char *workBytes);
+int ITEMMENU_MoveActorToPoint(struct ItemMenuWork *work);
 void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str, u16 x, TextCoord y, u16 color);
 void ITEMMENU_FlushWindowAt(ItemMenuWindow *slot);
 void ITEMMENU_FlushDirtyWindows(ItemMenuWork *work);

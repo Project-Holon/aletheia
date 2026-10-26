@@ -68,7 +68,7 @@ void FIELD_GIMMICK_LIFT_Init(void *fieldMap);
 void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap);
 void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
 struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, int isDescending);
-int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork);
 int FIELD_GIMMICK_LIFT_IsLiftArrived(FieldGimmickLiftWork *work);
 void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj);
 extern int sLiftExpObjUnitDesc;
@@ -137,7 +137,7 @@ struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, in
         step = 0x2000;
     }
     work->stepY = step;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_LIFT_LiftEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_LiftEventMain, 0);
 }
 
 
@@ -145,7 +145,7 @@ struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, in
  * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_IsLiftArrived
  * (filed as FIELD_GIMMICK_LIFT_IsLiftArrived.c).
  */
-int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork)
 {
     void *fieldMap;
     void *expObj;

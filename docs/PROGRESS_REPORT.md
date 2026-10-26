@@ -32,30 +32,13 @@ no unit covers is in the units `<region>/_no_unit_game` and
 categories are `game` and `sdk`: a unit is `sdk` when most of its code bytes are
 SDK functions. Each category is the sum of its units.
 
-### Data measures
-
-`total_data`, `matched_data` and `complete_data` count `.rodata` and `.data`
-(the sections objdiff counts as data; `.bss` is not counted).
-
-| measure | rule |
-|---|---|
-| `total_data` | the data objects of the region in `layout/data_objects.json` (ARM9, each overlay, the DSi block) |
-| `matched_data` | the `.rodata` and `.data` bytes of the compiled `src/game` file of the unit (data written as C). The data-mode link (`tools/datamode_all.py`) proves them byte-identical; a region whose data link is not PASS in `build/datamode_all.tsv` counts none |
-| `complete_data` | matched data of a complete unit |
-
-Data that the build takes from companions generated from the image
-(`tools/datagen.py`) is not source. It is in the unit `<region>/_generated_data`
-(`auto_generated`, no source path, no code): in `total_data`, never in
-`matched_data`. A source file that includes `build/gen/` data counts as
-generated. The per-file sizes are cached in `build/linkstats/data_sections.json`.
-
 ### Categories
 
 Besides `game` and `sdk`, the report has one category per region group and
 kind: `arm9`, `arm9_game`, `arm9_sdk`, `itcm` (and any other autoload block),
 `overlays`, `overlays_game`, `overlays_sdk`, `twl`, `twl_game`, `twl_sdk`
 (only those with units). Each unit lists all its categories in
-`metadata.progress_categories`. Each category carries the code and data
+`metadata.progress_categories`. Each category carries the code
 measures of its units.
 
 The file holds names, sizes, addresses and percentages. It holds no ROM bytes.
@@ -105,7 +88,6 @@ the manage page:
 Badges for the READMEs:
 
     ![Code](https://bytematch.dev/Project-Holon/aletheia.svg?label=Code&measure=matched_code_percent)
-    ![Data](https://bytematch.dev/Project-Holon/aletheia.svg?label=Data&measure=matched_data_percent)
     ![Functions](https://bytematch.dev/Project-Holon/aletheia.svg?label=Functions&measure=matched_functions)
 
 Add `&version=IRAO` for White and `&category=<id>` for one category.

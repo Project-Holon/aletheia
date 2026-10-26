@@ -159,7 +159,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, str
 int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait);
-void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, FadeEffectTask *task);
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, void *arg);
 int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 /* Script command: change the screen brightness (mask, start level, end level, speed). */
@@ -573,9 +573,9 @@ int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
 {
     struct TcbSystem *tcbSys = FIELDMAP_GetTcblSys(fieldMap);
-    FadeEffectTask *task = GFL_HEAP_Alloc(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
+    FadeEffectTask *task = GFL_HEAP_Alloc(4, sizeof(*task), 1, (const char *)&d_021DE14C, 0x369);
 
-    TCB_AddTask(tcbSys, (TcbFunc)SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    TCB_AddTask(tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
     FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;
@@ -586,8 +586,9 @@ void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct F
 }
 
 /* Fade task step: step 0 starts the brightness change, step 1 waits for it and frees the task. */
-void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, FadeEffectTask *task)
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, void *arg)
 {
+    FadeEffectTask *task = arg;
     int speed;
     int startLevel;
     int endLevel;

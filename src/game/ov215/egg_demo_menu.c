@@ -95,57 +95,52 @@ struct TcblSystem;
 #include "../arm9/gf_font.h"
 #include "../arm9/bg_sys.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+#include "../arm9/printsys.h"
 #include "../arm9/strbuf.h"
 struct Strbuf;
 #include "../arm9/wordset.h"
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 struct GfFont;
 #include "../arm9/bmp_menu_types.h"
 #include "../arm9/strbuf_types.h"
 #include "../ov099/wifi_club_work.h"
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
-extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,unsigned short,unsigned char,unsigned char,unsigned short);
 #include "../arm9/g3x.h"
 struct G3dLight;
 #include "../arm9/g3d_system.h"
-void EGG_DEMO_MENU_FadeInBgm(void);
-void EGG_DEMO_MENU_Create(int unused,char *p);
+void EGG_DEMO_MENU_FadeInBgm();
+void EGG_DEMO_MENU_Create(void *unused,char *p);
 void EGG_DEMO_MENU_Delete(void *unused,char *p);
 void EGG_DEMO_MENU_Main(void *unused, char *p);
 void EGG_DEMO_MENU_Draw(void *unused, char *p);
-void EGG_DEMO_MENU_SetText(char *object,char *p,unsigned entry);
+void EGG_DEMO_MENU_SetText(struct EggDemoArgs *object,char *p,unsigned entry);
 int EGG_DEMO_MENU_WaitText(void *unused,char *p);
-void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *q);
-void EGG_DEMO_MENU_Noop(int args, char *work);
+void EGG_DEMO_MENU_InitDialog(void *unused, unsigned char *q);
+void EGG_DEMO_MENU_Noop(struct EggDemoArgs *args, char *work);
 void EGG_DEMO_MENU_ProcessDialog(void *unused, char *p);
-int EGG_DEMO_MENU_CreateDialog(u32 *a, char *p);
-int EGG_DEMO_MENU_GetDialogResult(u32 *a, char *p);
+int EGG_DEMO_MENU_CreateDialog(void *a, char *p);
+int EGG_DEMO_MENU_GetDialogResult(void *a, char *p);
 void EGG_DEMO_MENU_InitGraphics(void);
 extern const u16 d_021F71A4[];
 
-void EGG_DEMO_MENU_FadeInBgm(void)
+void EGG_DEMO_MENU_FadeInBgm()
 {
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(0x3c);
 }
 
-void EGG_DEMO_MENU_Create(int unused,char *work)
+void EGG_DEMO_MENU_Create(void *unused,char *work)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,32,32,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->windowSub=(void *)BMP_WIN_Create(1,0,0,1,1,1,0);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->windowSub)),0);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->windowSub)),0);
     BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->windowSub);
     ((struct EggDemoWork *)work)->window=(void *)BMP_WIN_Create(1,1,19,30,4,1,0);
-    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->window)),15);
+    BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->window)),15);
     BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->window);
-    ((struct EggDemoWork *)work)->frameGfx=(uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,2,0,((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->frameGfx=BMP_MENUWORK_LoadFrameGfx(1,2,0,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,3,260,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->tcbl=TCBL_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoWork *)work)->heapId,1,0);
     GF_FONT_SetTextColor(1,2,15);
@@ -185,7 +180,7 @@ void EGG_DEMO_MENU_Draw(void *unused, char *work)
 /*
  * evidence: CCE4 return widened because original stores live r0 after call.
  */
-void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
+void EGG_DEMO_MENU_SetText(struct EggDemoArgs *args,char *work,unsigned entry)
 {
     void *text,*words,*buffer;
     BMP_Clear(BMP_WIN_GetBmp(((struct EggDemoWork *)work)->window),15);
@@ -193,13 +188,13 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     if(((struct EggDemoWork *)work)->textBuf) STRBUF_Delete(((struct EggDemoWork *)work)->textBuf);
     text=MSGDATA_AllocString(((struct EggDemoWork *)work)->msgBank,entry);
     words=WORDSET_CreateDefault(((struct EggDemoWork *)work)->heapId);
-    WORDSET_SetSlotMonSpeciesName(words,0,((struct EggDemoArgs *)args)->mon);
+    WORDSET_SetSlotMonSpeciesName(words,0,args->mon);
     buffer=STRBUF_Create(256,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->textBuf=buffer;
     WORDSET_CopyTaggedText(words,buffer,text);
     WORDSET_Delete(words);
     STRBUF_Delete(text);
-    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((struct EggDemoWork *)work)->window),0,0,(struct Strbuf *)(((struct EggDemoWork *)work)->textBuf),(struct GfFont *)((uptr)((struct EggDemoWork *)work)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((struct EggDemoWork *)work)->tcbl),2,((struct EggDemoWork *)work)->heapId,15);
+    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((struct EggDemoWork *)work)->window),0,0,(struct Strbuf *)(((struct EggDemoWork *)work)->textBuf),(struct GfFont *)(((struct EggDemoWork *)work)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((struct EggDemoWork *)work)->tcbl),2,((struct EggDemoWork *)work)->heapId,15);
 }
 
 int EGG_DEMO_MENU_WaitText(void *unused,char *work)
@@ -221,7 +216,7 @@ int EGG_DEMO_MENU_WaitText(void *unused,char *work)
     return result;
 }
 
-void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *work)
+void EGG_DEMO_MENU_InitDialog(void *unused, unsigned char *work)
 {
     int h = BG_SYS_CreateRun(1, 0x500, 1);
 
@@ -234,7 +229,7 @@ void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *work)
     ((struct EggDemoWork *)work)->dialogResult = 2;
 }
 
-void EGG_DEMO_MENU_Noop(int args, char *work)
+void EGG_DEMO_MENU_Noop(struct EggDemoArgs *args, char *work)
 {
 
 }
@@ -258,12 +253,12 @@ void EGG_DEMO_MENU_ProcessDialog(void *unused, char *work)
     }
 }
 
-int EGG_DEMO_MENU_CreateDialog(u32 *unused, char *work){*(struct BmpMenu * *)&((struct EggDemoWork *)work)->bmpMenu=BMP_MENU_CreateYesNo((const struct WinDat *)(work+0x70),((struct EggDemoWork *)work)->frameGfx,2,0,((struct EggDemoWork *)work)->heapId);((struct EggDemoWork *)work)->dialogResult=2;((struct EggDemoWork *)work)->dialogState=1;return 1;}
+int EGG_DEMO_MENU_CreateDialog(void *unused, char *work){*(struct BmpMenu * *)&((struct EggDemoWork *)work)->bmpMenu=BMP_MENU_CreateYesNo((const struct WinDat *)(&((struct EggDemoWork *)work)->winDat[0]),((struct EggDemoWork *)work)->frameGfx,2,0,((struct EggDemoWork *)work)->heapId);((struct EggDemoWork *)work)->dialogResult=2;((struct EggDemoWork *)work)->dialogState=1;return 1;}
 
 /*
  * extent: includes cleared tiny follower EGG_DEMO_MENU_GetDialogResult; no further code included.
  */
-int EGG_DEMO_MENU_GetDialogResult(u32 *unused, char *work){return ((struct EggDemoWork *)work)->dialogResult;}
+int EGG_DEMO_MENU_GetDialogResult(void *unused, char *work){return ((struct EggDemoWork *)work)->dialogResult;}
 
 static inline void SetPriority(int priority)
 {

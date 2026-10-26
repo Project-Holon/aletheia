@@ -117,9 +117,7 @@ struct TcbTask;
 
 
 
-extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 
-extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
 #include "../arm9/fx_vec.h"
 
@@ -129,7 +127,7 @@ extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555
 #else
 #include "../arm9/g3d_light.h"
 #endif
-extern void G3D_SYSTEM_Exit(void);
+#include "../arm9/g3d_system.h"
 
 
 #include "../arm9/bmp_win.h"
@@ -146,44 +144,32 @@ extern void G3D_SYSTEM_Exit(void);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-
-extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
+#include "../arm9/clact.h"
 
 
 
-extern u32 CLACT_DeleteUnit(struct Unit *unit);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, s16 heapId, void (*setUpFunc)(void));
+
+
 struct LightSetDesc;
 struct LightSlotValue;
 
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16 heapID);
 
 #include "demo3d.h"
 
-extern u32 G3D_LIGHT_DeleteSlots(void *slots);
 
 
-extern void G3D_SYSTEM_DrawStart(void);
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void G3D_SYSTEM_DrawEnd(void);
 
 #include "../arm9/double3Ddisp.h"
 
 #include "../arm9/g3d_camera.h"
 
-Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap);
+Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, u32 id, u8 heap);
 
 void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx);
 
@@ -201,7 +187,7 @@ void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p, unsigned i, unsigned short va
 
 void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, VecFx16 *b);
 
-void DEMO3D_GRAPHIC_VBlank(u32 a, Demo3dGraphic *p);
+void DEMO3D_GRAPHIC_VBlank(struct TcbTask *unused, void *arg);
 
 void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, u16 heap);
 
@@ -229,7 +215,7 @@ void DEMO3D_GRAPHIC_ApplyLookAt(void *a);
 
 void DEMO3D_GRAPHIC_DrawEnd(void *p);
 
-void DEMO3D_GRAPHIC_DeleteDouble3d(void);
+void DEMO3D_GRAPHIC_DeleteDouble3d(void *unused0);
 
 void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
@@ -248,11 +234,11 @@ extern const struct LightSet d_021BFB48;
 /*
  * volatile: 04000050/04001050 hardware stores DE06/DE0C; 04000000/04001000 rereads DE10/DE1A.
  */
-Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
+Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, u32 id, u8 heap)
 {
-    Demo3dGraphic *ctx = GFL_HEAP_Alloc(heap, 24, 0, d_021C3CCC, 0x15a);
-    MI_CpuFill8(ctx, 0, 24);
-    ctx->engineOn = DEMO3D_DATA_IsDouble3dDisplay(config);
+    Demo3dGraphic *ctx = GFL_HEAP_Alloc(heap, sizeof(Demo3dGraphic), 0, d_021C3CCC, 0x15a);
+    MI_CpuFill8(ctx, 0, sizeof(Demo3dGraphic));
+    ctx->engineOn = DEMO3D_DATA_IsDouble3dDisplay(id);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
@@ -267,7 +253,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_InitBg(ctx, heap);
         DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (struct DispVramCfg *)d_021BFBC4, heap);
-        ctx->proc = GFL_USE_AddMainTask((TcbFunc)((uptr)DEMO3D_GRAPHIC_VBlank), (void *)((uptr)ctx), 0);
+        ctx->proc = GFL_USE_AddMainTask(DEMO3D_GRAPHIC_VBlank, (void *)((uptr)ctx), 0);
     }
     DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
     return ctx;
@@ -286,7 +272,7 @@ void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-    MI_CpuFill8(ctx, 0, 24);
+    MI_CpuFill8(ctx, 0, sizeof(Demo3dGraphic));
     GFL_HEAP_Free(ctx);
 }
 
@@ -326,8 +312,9 @@ void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, VecFx16 *b)
     G3D_LIGHT_SetDirection(p->lightSlots, a, (struct Rgb555 *)buf);
 }
 
-void DEMO3D_GRAPHIC_VBlank(u32 unused, Demo3dGraphic *p)
+void DEMO3D_GRAPHIC_VBlank(struct TcbTask *unused, void *arg)
 {
+    Demo3dGraphic *p = arg;
     if (p->engineOn == 0) {
         DEMO3D_GRAPHIC_UpdateBg(p);
         DEMO3D_GRAPHIC_VBlankClact((u8 *)&p->clact);
@@ -374,7 +361,7 @@ void DEMO3D_GRAPHIC_UpdateBg(void *unused){BG_SYS_Update();}
 
 void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, struct DispVramCfg *a, int b)
 {
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(Demo3dGraphicClact));
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021BFB60), (const struct DispVramCfg *)a, b);
     p->unit = (struct Bank *)CLACT_CreateUnit(0x20, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)p->unit);
@@ -386,7 +373,7 @@ void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p)
 {
     CLACT_DeleteUnit((struct Unit *)p->unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(p, 0, 4);
+    MI_CpuFill8(p, 0, sizeof(Demo3dGraphicClact));
 }
 
 void DEMO3D_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
@@ -408,7 +395,7 @@ void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_LIGHT_DeleteSlots((void *)((sptr)p->lightSlots));
+    G3D_LIGHT_DeleteSlots((void *)(p->lightSlots));
     G3D_SYSTEM_Exit();
 }
 
@@ -424,6 +411,6 @@ void DEMO3D_GRAPHIC_DrawEnd(void *p){G3D_SYSTEM_DrawEnd();}
  * leaf: solely blocks assigned 021BDF24; parent cleared ownership.
  * extent: three 8-byte wrappers; ends at peer-owned 021BE160, which is excluded.
  */
-void DEMO3D_GRAPHIC_DeleteDouble3d(void){DOUBLE3DDISP_Delete();}
+void DEMO3D_GRAPHIC_DeleteDouble3d(void *unused0){DOUBLE3DDISP_Delete();}
 
 void DEMO3D_GRAPHIC_DeleteCamera(void *p){G3D_CAMERA_Delete(p);}

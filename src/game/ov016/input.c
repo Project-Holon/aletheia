@@ -69,17 +69,6 @@ typedef struct {
 
 typedef _Bool bool;
 
-typedef struct {
-    unsigned char touch : 1;
-    unsigned char trigger : 1;
-    unsigned char repeat : 1;
-    unsigned char release : 1;
-    unsigned char reserved4 : 1;
-    unsigned char reserved5 : 1;
-    unsigned char reserved6 : 1;
-    unsigned char reserved7 : 1;
-} ByteBits;
-
 #include "heap.h"
 #include "../arm9/os_terminate_processor.h"
 struct TPData;
@@ -262,68 +251,65 @@ int DWCi_IPTlCheckRelease(unsigned int f)
  */
 int DWCi_TPlCheck(u16 *a)
 {
-    u8 *g = (u8 *)0x021DE688;
-    u8 *p;
+    InputWork *p;
 
     if (((*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15) != 0)
         return 0;
 
-    p = *(u8 **)(g + 4);
+    p = gInputStatics.work;
 
-    if (((ByteBits *)(p + 0x38))->touch == 0)
+    if (p->touch == 0)
         return 0;
 
-    if (a[0] > *(u16 *)(p + 0x28))
+    if (a[0] > p->coord.x)
         return 0;
-    if (a[2] < *(u16 *)(p + 0x28))
+    if (a[2] < p->coord.x)
         return 0;
-    if (a[1] > *(u16 *)(p + 0x2a))
+    if (a[1] > p->coord.y)
         return 0;
-    return a[3] >= *(u16 *)(p + 0x2a);
+    return a[3] >= p->coord.y;
 }
 
 int DWCi_TPlCheckTrigger(u16 *a)
 {
-    u8 *g = (u8 *)0x021DE688;
-    u8 *p;
+    InputWork *p;
 
     if (((*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15) != 0)
         return 0;
 
-    p = *(u8 **)(g + 4);
+    p = gInputStatics.work;
 
-    if (((ByteBits *)(p + 0x38))->trigger == 0)
+    if (p->trig == 0)
         return 0;
 
-    if (a[0] > *(u16 *)(p + 0x28))
+    if (a[0] > p->coord.x)
         return 0;
-    if (a[2] < *(u16 *)(p + 0x28))
+    if (a[2] < p->coord.x)
         return 0;
-    if (a[1] > *(u16 *)(p + 0x2a))
+    if (a[1] > p->coord.y)
         return 0;
-    return a[3] >= *(u16 *)(p + 0x2a);
+    return a[3] >= p->coord.y;
 }
 
 int DWCi_TPlCheckRepeat(u16 *a)
 {
-    u8 *g = (u8 *)0x021DE688;
-    u8 *p;
+    InputWork *p;
 
     if (((*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15) != 0)
         return 0;
 
-    p = *(u8 **)(g + 4);
+    p = gInputStatics.work;
 
-    if (((ByteBits *)(p + 0x38))->repeat == 0)
+    if (p->repeatTp == 0)
         return 0;
 
-    if (a[0] > *(u16 *)(p + 0x28))
+    if (a[0] > p->coord.x)
         return 0;
-    if (a[2] < *(u16 *)(p + 0x28))
+    if (a[2] < p->coord.x)
         return 0;
-    if (a[1] > *(u16 *)(p + 0x2a))
+    if (a[1] > p->coord.y)
         return 0;
-    return a[3] >= *(u16 *)(p + 0x2a);
+    return a[3] >= p->coord.y;
 }
 
 /*
@@ -334,24 +320,23 @@ int DWCi_TPlCheckRepeat(u16 *a)
  */
 int DWCi_TPlCheckRelease(u16 *a)
 {
-    u8 *g = (u8 *)0x021DE688;
-    u8 *p;
+    InputWork *p;
 
     if (((*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15) != 0)
         return 0;
 
-    p = *(u8 **)(g + 4);
+    p = gInputStatics.work;
 
-    if (((ByteBits *)(p + 0x38))->release == 0)
+    if (p->releaseTp == 0)
         return 0;
 
-    if (a[0] > *(u16 *)(p + 0x28))
+    if (a[0] > p->coord.x)
         return 0;
-    if (a[2] < *(u16 *)(p + 0x28))
+    if (a[2] < p->coord.x)
         return 0;
-    if (a[1] > *(u16 *)(p + 0x2a))
+    if (a[1] > p->coord.y)
         return 0;
-    return a[3] >= *(u16 *)(p + 0x2a);
+    return a[3] >= p->coord.y;
 }
 
 /*

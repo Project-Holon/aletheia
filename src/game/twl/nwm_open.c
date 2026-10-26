@@ -22,12 +22,12 @@
 
 #include "nwm_init.h"
 #include "nwm_system.h"
-extern void DC_InvalidateRange(u32, u32);
+extern void DC_InvalidateRange(void *, u32);
 #include "nwm_cmd.h"
 
-u32 NWM_Open(void *callback) {
+u32 NWM_Open(NWMCallbackFunc callback) {
     u32 r;
-    uptr base;
+    struct NwmSystemWork *base;
     u32 busy;
     if (NWMi_CheckEnableFlag() == 0) {
         return 7;
@@ -38,10 +38,10 @@ u32 NWM_Open(void *callback) {
     }
     base = NWMi_GetSystemWork();
     if (base != 0) {
-        u32 ptr = *(u32 *)(base + 0x2278);
+        struct NwmStatus *ptr = base->status;
         busy = 1;
-        DC_InvalidateRange(ptr + 5, 1);
-        if (*(unsigned char *)(*(u32 *)(base + 0x2278) + 5) != 1) {
+        DC_InvalidateRange(&ptr->busy[5], 1);
+        if (base->status->busy[5] != 1) {
             busy = 0;
         }
     } else {
@@ -50,7 +50,7 @@ u32 NWM_Open(void *callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(5, (uptr)callback);
+    NWMi_SetCallbackTable(5, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(5, 0);
     if (r == 0 || r == 2) {

@@ -6,7 +6,7 @@
 
 int DWCi_USBAPlBegin(void (*callback)(int));
 int DWCi_USBAPlEnd(void);
-void DWCi_USBAPlSetCallback(unsigned int v);
+void DWCi_USBAPlSetCallback(void (*v)(int));
 /* END mkheaders: generated region */
 
 #endif

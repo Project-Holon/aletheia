@@ -262,7 +262,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
         *result = 3;
         return 0;
     }
-    task = (struct FieldTask *)GAME_EVENT_Create( (struct GameSystem *)gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
+    task = (struct FieldTask *)GAME_EVENT_Create( (struct GameSystem *)gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, sizeof(PartyCheckTaskWork));
     playerFlag = 0;
     taskWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     taskWork->gameSystem = gameSystem;

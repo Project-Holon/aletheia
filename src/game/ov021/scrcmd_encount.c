@@ -221,7 +221,7 @@ int SCRCMD_PROC_FLD_StartCameraShake(struct ScriptVm *vm, struct ScrcmdWork *cmd
 
 int SCRCMD_PROC_FLD_PollCameraSaveReady(void *event);
 
-int SCRCMD_PROC_FLD_PollCameraIdle(void *event);
+int SCRCMD_PROC_FLD_PollCameraIdle(struct GameEvent *event, int *seq, void *work);
 
 int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -419,7 +419,7 @@ int SCRCMD_PROC_FLD_WaitCameraIdle(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_PROC_FLD_PollCameraIdle, 0));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_Create(gameSystem, 0, SCRCMD_PROC_FLD_PollCameraIdle, 0));
     return 1;
 }
 
@@ -465,7 +465,7 @@ int SCRCMD_PROC_FLD_PollCameraSaveReady(void *event)
     return 0;
 }
 
-int SCRCMD_PROC_FLD_PollCameraIdle(void *event)
+int SCRCMD_PROC_FLD_PollCameraIdle(struct GameEvent *event, int *seq, void *work)
 {
     int busy = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
 

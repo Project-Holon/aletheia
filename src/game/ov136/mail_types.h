@@ -21,7 +21,7 @@ struct PmsiParam;
 struct PmsDraw;
 struct MsgData;
 struct GfFont;
-struct PrintQue;
+struct PrintQueue;
 struct Unit;
 struct AppTaskMenuRes;
 struct AppTaskMenu;
@@ -132,12 +132,12 @@ struct MailEditProc {
     /* 0x028 */ u8 pad_28[0x0C];
     /* 0x034 */ struct Strbuf *msgBuf;
     /* 0x038 */ struct PaletteFade *palAnm;
-    /* 0x03C */ void (*onKeyInput)(void *);
-    /* 0x040 */ void (*onTouchInput)(void *);
+    /* 0x03C */ int (*onKeyInput)(struct MailEditProc *);
+    /* 0x040 */ int (*onTouchInput)(struct MailEditProc *);
     /* 0x044 */ struct BmpWin *win[7];
     /* 0x060 */ struct MailWinSlot slot[6];
     /* 0x090 */ u8 pad_90[8];
-    /* 0x098 */ struct PrintQue *printQue;
+    /* 0x098 */ struct PrintQueue *printQue;
     /* 0x09C */ void *printStream;
     /* 0x0A0 */ struct Unit *clactUnit;
     /* 0x0A4 */ u8 pad_A4[0x50];
@@ -155,7 +155,7 @@ struct MailEditProc {
     /* 0x148 */ struct PmsDraw *pmsDraw;
     /* 0x14C */ struct PmsData closingWord;
     /* 0x154 */ struct Unit *pmsClactUnit;
-    /* 0x158 */ struct PrintQue *pmsPrintQue;
+    /* 0x158 */ struct PrintQueue *pmsPrintQue;
 };
 
 /* Caller's request of the mail box list (first two words; the caller owns the block). */
@@ -206,7 +206,7 @@ struct MailBoxView {
     /* 0x004 */ u8 blankTile[2][0x20];     /* tiles copied from the frame graphics, used as blit sources */
     /* 0x044 */ struct BmpWin *win[0x20];
     /* 0x0C4 */ struct MailWinSlot slot[0x20];
-    /* 0x1C4 */ struct PrintQue *printQue;
+    /* 0x1C4 */ struct PrintQueue *printQue;
     /* 0x1C8 */ struct TextPrinter *printStream;
     /* 0x1CC */ struct Tcbl *tcbl;
     /* 0x1D0 */ struct MsgData *msgData;
@@ -238,7 +238,7 @@ struct MailBoxView {
     /* 0x35C */ struct PmsDraw *pmsDraw;
     /* 0x360 */ struct PmsData closingWord;
     /* 0x368 */ struct Unit *pmsClactUnit;
-    /* 0x36C */ struct PrintQue *pmsPrintQue;
+    /* 0x36C */ struct PrintQueue *pmsPrintQue;
 };
 
 typedef char MailArgsSizeCheck[(sizeof(struct MailArgs) == 0x1C) ? 1 : -1];

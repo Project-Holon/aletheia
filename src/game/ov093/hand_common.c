@@ -102,15 +102,15 @@ int BTLV_CORE_CheckPartySlotCondition(void *party, int slot);
 
 int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB);
 
-void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1);
+void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1);
 
-void HAND_COMMON_EventCounterMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1);
+void HAND_COMMON_EventCounterMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1);
 
-void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1);
+void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1);
 
 void HAND_COMMON_EventScaleDamage(int factor);
 
-void HAND_COMMON_EventSetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId, int unusedArg2);
+void HAND_COMMON_EventSetFlagIfAttacker(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *unusedArg1, int pokeId, void *unusedArg2);
 
 int HAND_COMMON_EventTrySetFlagIfAttacker(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *unusedArg1, int pokeId);
 
@@ -166,7 +166,7 @@ int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB)
 }
 
 struct BtlServerFlow;
-void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1)
+void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1)
 {
     u8 attackerId;
     u16 moveId;
@@ -183,7 +183,7 @@ void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *unusedArg0, struct Btl
     }
 }
 
-void HAND_COMMON_EventCounterMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1)
+void HAND_COMMON_EventCounterMove(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1)
 {
     u8 defenderId;
     u16 moveId;
@@ -207,7 +207,7 @@ void HAND_COMMON_EventCounterMove(struct BtlEventFactor *unusedArg0, struct BtlS
     }
 }
 
-void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, int unusedArg1)
+void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *eventCtx, int pokeId, void *unusedArg1)
 {
     HandExMessage *rec;
     int listKind;
@@ -230,7 +230,7 @@ void HAND_COMMON_EventScaleDamage(int factor)
     BTL_EVENT_OverwriteVar(0x30, factor);
 }
 
-void HAND_COMMON_EventSetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId, int unusedArg2)
+void HAND_COMMON_EventSetFlagIfAttacker(struct BtlEventFactor *unusedArg0, struct BtlServerFlow *unusedArg1, int pokeId, void *unusedArg2)
 {
     if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), pokeId) != 0)
         BTL_EVENT_OverwriteVar(0x51, 1);

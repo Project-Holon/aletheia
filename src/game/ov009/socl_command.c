@@ -40,13 +40,13 @@ int SOCLi_CleanupCommandPacketQueue(void);
 struct SOCLiCommandPacket *SOCLi_AllocCommandPacket(long flag);
 struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 void SOCLi_FreeCommandPacket(void *ptr);
-int SOCLi_GetCtrlPipe(const int *p, int b);
-int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet);
-void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
+void *SOCLi_GetCtrlPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *b);
+int SOCLi_SendCommandPacket(void *queue, struct SOCLiCommandPacket *packet);
+void SOCLi_SendCommandPacketToCtrlPipe(struct SOCLSocket *a, struct SOCLiCommandPacket *b);
 int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command);
 int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
 int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
-void SOCLi_ExecCommandPacketInCtrlPipe(int a, int b);
+void SOCLi_ExecCommandPacketInCtrlPipe(struct SOCLSocket *a, struct SOCLiCommandPacket *b);
 void SOCLi_CommandPacketHandler(void *arg);
 extern SOCLConfig *gSoclConfig;
 extern struct OSMessageQueue SOCLiCommandPacketQueue;
@@ -110,7 +110,7 @@ struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
         cp->exec = handler;
         cp->target.socket = socket;
         cp->response_queue = 0;
-        cp->pipeIndex = *(signed char *)((char *)socket + 0xaf);
+        cp->pipeIndex = socket->flag_mode;
         cp->blockFlag = (signed char)flag;
     }
     return cp;
@@ -126,12 +126,12 @@ void SOCLi_FreeCommandPacket(void *ptr)
 /*
  * Word at +0xa0 of the block, falling back to +0xa4 when it is zero.
  */
-int SOCLi_GetCtrlPipe(const int *p, int b)
+void *SOCLi_GetCtrlPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *b)
 {
-    int v = p[0x28];
+    void *v = socket->recv_pipe;
 
     if (v == 0)
-        v = p[0x29];
+        v = socket->send_pipe;
     return v;
 }
 
@@ -140,7 +140,7 @@ int SOCLi_GetCtrlPipe(const int *p, int b)
  * (defaulting to 1 for a null object); on a zero result runs a teardown and
  * returns -0x29, otherwise 0.
  */
-int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
+int SOCLi_SendCommandPacket(void *queue, struct SOCLiCommandPacket *packet)
 {
     int blocking;
     int sent;
@@ -149,7 +149,7 @@ int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
         blocking = 1;
     else
         blocking = 0;
-    sent = OS_SendMessage((struct OSMessageQueue *)queue, packet, blocking);
+    sent = OS_SendMessage(queue, packet, blocking);
     if (sent == 0)
         SOCLi_FreeCommandPacket(packet);
     return sent ? 0 : -0x2A;
@@ -158,11 +158,11 @@ int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet)
 /*
  * Passes the second argument on to both calls.
  */
-void SOCLi_SendCommandPacketToCtrlPipe(int socket, int packet)
+void SOCLi_SendCommandPacketToCtrlPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *packet)
 {
-    int v = SOCLi_GetCtrlPipe((const int *)socket, packet);
+    void *v = SOCLi_GetCtrlPipe(socket, packet);
 
-    SOCLi_SendCommandPacket(v, (struct SOCLiCommandPacket *)packet);
+    SOCLi_SendCommandPacket(v, packet);
 }
 
 /*
@@ -177,11 +177,11 @@ int SOCLi_ExecCommandPacket(void *pipe, struct SOCLiCommandPacket *command)
 	if (command->blockFlag == 1) {
 		OS_InitMessageQueue((struct OSMessageQueue *)(&response_queue), &response, 1);
 		command->response_queue = &response_queue;
-		SOCLi_SendCommandPacket((int)pipe, command);
+		SOCLi_SendCommandPacket(pipe, command);
 		OS_ReceiveMessage((struct OSMessageQueue *)&response_queue, (void **)&result, 1);
 	} else {
 		command->response_queue = 0;
-		result = SOCLi_SendCommandPacket((int)pipe, command);
+		result = SOCLi_SendCommandPacket(pipe, command);
 	}
 	return result;
 }
@@ -202,11 +202,11 @@ int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCom
     return SOCLi_ExecCommandPacket(socket->send_pipe, command);
 }
 
-void SOCLi_ExecCommandPacketInCtrlPipe(int socket, int packet)
+void SOCLi_ExecCommandPacketInCtrlPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *packet)
 {
-    int v = SOCLi_GetCtrlPipe((const int *)socket, packet);
+    void *v = SOCLi_GetCtrlPipe(socket, packet);
 
-    SOCLi_ExecCommandPacket((void *)v, (struct SOCLiCommandPacket *)packet);
+    SOCLi_ExecCommandPacket(v, packet);
 }
 
 /*

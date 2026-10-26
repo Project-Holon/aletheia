@@ -173,7 +173,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u
     struct MsgBank *bank;
     u32 origin;
 
-    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0x68);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, sizeof(*bank), 0, MSGDATA_AllocSite, 0x68);
     bank->heapId = (u16)heapId;
     bank->stream = ARC_TOOL_CreateHandle(arcId, heapId);
     origin = ARC_TOOL_GetHandleMemberOffset(bank->stream, fileId);
@@ -274,7 +274,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 {
     struct MsgBank *bank;
 
-    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, 0x1c, 0, MSGDATA_AllocSite, 0xa6);
+    bank = (struct MsgBank *)GFL_HEAP_Alloc(heapId, sizeof(*bank), 0, MSGDATA_AllocSite, 0xa6);
     bank->heapId = (u16)heapId;
     bank->stream = 0;
     bank->origin = 0;

@@ -128,7 +128,7 @@ typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,mat
 
 #include "../types.h"
 
-typedef struct {int x,y,z;} EggDemoVec3;
+typedef VecFx32 EggDemoVec3;
 
 typedef struct {u32 species;float x,y;} EggDemoViewEntry;
 
@@ -166,16 +166,20 @@ struct EggDemoView {
 };
 
 /* The particle system work, 0x481C bytes, allocated by EGG_DEMO_VIEW_CreateParticles. */
+struct EggDemoParticleSet {
+    unsigned char storage[0x4800]; /* 0x0000 particle storage */
+    void *system;                /* 0x4800 */
+    unsigned char resourceType;  /* 0x4804 */
+    unsigned char pad4805[3];    /* 0x4805 */
+};
+
 struct EggDemoParticles {
     unsigned short frame;        /* 0x00 */
     unsigned short index;        /* 0x02 */
     unsigned short count;        /* 0x04 */
     unsigned char pad6[2];       /* 0x06 */
     const void *table;           /* 0x08 */
-    unsigned char padC[0x4800];  /* 0x0C particle storage */
-    void *system;                /* 0x480C */
-    unsigned char resourceType;  /* 0x4810 */
-    unsigned char pad4811[3];    /* 0x4811 */
+    struct EggDemoParticleSet sets[1]; /* 0x0C */
     int active;                  /* 0x4814 */
     int life;                    /* 0x4818 */
 };
@@ -294,7 +298,7 @@ void EGG_DEMO_VIEW_ResetAnimState(char *work);
 
 int EGG_DEMO_VIEW_IsFinished(char *work);
 
-void EGG_DEMO_VIEW_Noop(void);
+void EGG_DEMO_VIEW_Noop(struct TcbTask *unused0, void *unused1);
 
 void EGG_DEMO_VIEW_InitMcss(char *work);
 
@@ -308,7 +312,7 @@ void EGG_DEMO_VIEW_HidePokeMcss(char *work);
 
 void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable);
 
-int EGG_DEMO_VIEW_OnAnimStop(char *work);
+void EGG_DEMO_VIEW_OnAnimStop(void *work, u32 frame);
 
 void EGG_DEMO_VIEW_UpdateAlpha(char *work);
 
@@ -356,7 +360,7 @@ EggDemoViewRecord *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
 {
     EggDemoViewRecord *records;
     u16 i;
-    records=GFL_HEAP_Alloc(heap,68*count,1,d_021F73F4,283);
+    records=GFL_HEAP_Alloc(heap,sizeof(EggDemoViewRecord)*count,1,d_021F73F4,283);
     for(i=0;i<count;i++) {
         records[i].x=0;records[i].y=0;records[i].z=0;
         records[i].sx=4096;records[i].sy=4096;records[i].sz=4096;
@@ -373,7 +377,7 @@ void EGG_DEMO_VIEW_FreeRecords(void *work){GFL_HEAP_Free(work);}
 char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
 {
     char *work;
-    work=GFL_HEAP_Alloc(heap,96,1,d_021F73F4,433);
+    work=GFL_HEAP_Alloc(heap,sizeof(struct EggDemoView),1,d_021F73F4,433);
     ((struct EggDemoView *)work)->heapId=heap;
     ((struct EggDemoView *)work)->mon=mon;
     ((struct EggDemoView *)work)->species=POKE_TOOL_GetPartyValue(mon,5,0);
@@ -384,7 +388,7 @@ char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
     ((struct EggDemoView *)work)->soundPlaying=0;
     ((struct EggDemoView *)work)->soundDelay=0;
     ((struct EggDemoView *)work)->soundStep=0;
-    ((struct EggDemoView *)work)->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void ( *)(int,char *))EGG_DEMO_VIEW_Noop), (void *)work, 1);
+    ((struct EggDemoView *)work)->vblankTask=GFL_USE_AddMainTask(EGG_DEMO_VIEW_Noop, (void *)work, 1);
     EGG_DEMO_VIEW_InitMcss(work);
     EGG_DEMO_VIEW_AddPokeMcss(work);
     if(((struct EggDemoView *)work)->species==490)
@@ -508,7 +512,7 @@ int EGG_DEMO_VIEW_IsFinished(char *work){if(((struct EggDemoView *)work)->animSt
  * evidence: sole callback blocker of 021F6720; parent SDK/ownership audit.
  * extent: bx lr at 021F6AB4, zero padding at 6AB6; 6AB8 begins next function.
  */
-void EGG_DEMO_VIEW_Noop(void)
+void EGG_DEMO_VIEW_Noop(struct TcbTask *unused0, void *unused1)
 {
 }
 
@@ -577,7 +581,7 @@ void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable)
     NNS_G2dRestartMCAnimation(obj);
     MCSS_ResetAnmStopFlag(((struct EggDemoView *)work)->pokeMcss);
     if(enable) {
-        NNS_G2dSetCellAnimationParam(obj,1,(sptr)work,(sptr)EGG_DEMO_VIEW_OnAnimStop);
+        NNS_G2dSetCellAnimationParam(obj,1,work,EGG_DEMO_VIEW_OnAnimStop);
         ((struct EggDemoView *)work)->animStopFlag=0;
     } else MCSS_TOOL_SetAnimeStopCallback((((struct EggDemoView *)work)->pokeMcss));
 }
@@ -586,11 +590,10 @@ void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable)
  *   entry), so neither label nor sole-ref/code can attest the bl site;
  *   byte-correct.
  */
-int EGG_DEMO_VIEW_OnAnimStop(char *work)
+void EGG_DEMO_VIEW_OnAnimStop(void *work, u32 frame)
 {
     MCSS_SetAnmStopFlag((void *)(((struct EggDemoView *)work)->pokeMcss));
     ((struct EggDemoView *)work)->animStopFlag = 1;
-    return 1;
 }
 
 void EGG_DEMO_VIEW_UpdateAlpha(char *work){u8 n;if(((struct EggDemoView *)work)->alphaActive){n=MCSS_GetAlpha((struct McssWork *)(*(struct Data * *)&((struct EggDemoView *)work)->pokeMcss));if(n>((struct EggDemoView *)work)->alphaTarget)n--;else n++;MCSS_SetAlpha((struct McssWork *)(*(char * *)&((struct EggDemoView *)work)->pokeMcss),n);if(n==((struct EggDemoView *)work)->alphaTarget)((struct EggDemoView *)work)->alphaActive=0;}}
@@ -607,7 +610,7 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     unsigned zero[3]={0};
     unsigned long long config;
     sptr resource;
-    work=GFL_HEAP_Alloc(heap,0x481C,1,d_021F73F4,0x502);
+    work=GFL_HEAP_Alloc(heap,sizeof(struct EggDemoParticles),1,d_021F73F4,0x502);
     ((struct EggDemoParticles *)work)->frame=0;
     ((struct EggDemoParticles *)work)->index=0;
     ((struct EggDemoParticles *)work)->count=count;
@@ -615,11 +618,11 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     ((struct EggDemoParticles *)work)->active=0;
     ((struct EggDemoParticles *)work)->life=-1;
     PARTICLE_InitManager(heap);
-    *(int *)&((struct EggDemoParticles *)work)->system=(sptr)PARTICLE_CreateSystemDefault((sptr)(work+12),0x4800,1,heap);
+    ((struct EggDemoParticles *)work)->sets[0].system=PARTICLE_CreateSystemDefault(((struct EggDemoParticles *)work)->sets[0].storage,0x4800,1,heap);
     config=d_021F7300;
     resource=(sptr)PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
-    ((struct EggDemoParticles *)work)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
-    PARTICLE_SetupSystem(((struct EggDemoParticles *)work)->system,(void *)resource,1,0);
+    ((struct EggDemoParticles *)work)->sets[0].resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
+    PARTICLE_SetupSystem(((struct EggDemoParticles *)work)->sets[0].system,(void *)resource,1,0);
     return work;
 }
 
@@ -642,13 +645,13 @@ void EGG_DEMO_VIEW_UpdateParticles(char *work)
             u16 frame=((struct EggDemoParticles *)work)->frame;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            PARTICLE_StartEffect(*(void **)(work+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(sptr)(&v));
+            PARTICLE_StartEffect(((struct EggDemoParticles *)work)->sets[*(unsigned char *)(table+index*4+2)].system,*(unsigned char *)(table+index*4+3),(&v));
             (((struct EggDemoParticles *)work)->index)++;
         }
         (((struct EggDemoParticles *)work)->frame)++;
     }
     if (((struct EggDemoParticles *)work)->life>=0) {
-        if (((struct EggDemoParticles *)work)->life==0) PARTICLE_KillAllEffects(((struct EggDemoParticles *)work)->system);
+        if (((struct EggDemoParticles *)work)->life==0) PARTICLE_KillAllEffects(((struct EggDemoParticles *)work)->sets[0].system);
         (((struct EggDemoParticles *)work)->life)--;
     }
 }

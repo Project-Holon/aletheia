@@ -27,7 +27,7 @@ void SCRIPT_SYS_SetNextEvent(ScriptSys *sys, void *nextEvent);
 void SCRIPT_SYS_CallEndCallback(ScriptSys *sys, void *event);
 int SCRIPT_SYS_HasEndCallback(ScriptSys *sys);
 u16 SCRIPT_SYS_GetZoneId(void *fieldSys);
-int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork);
+int SCRIPT_SYS_EventMain(struct GameEvent *event, int *seq, void *work);
 struct GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork);
 void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);

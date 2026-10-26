@@ -24,7 +24,8 @@ struct CommBtlDemoArgs {
     struct CommBtlDemoSide side[4]; /* 0x00 */
     u32 battleKind;     /* 0x40 */
     u32 partyMode;      /* 0x44 */
-    u8 pad48[8];        /* 0x48: ov199 writes the setup rule id at 0x48, never read here */
+    s32 ruleId;         /* 0x48: setup rule id written by ov199, never read here */
+    u8 pad4C[4];        /* 0x4C */
     u32 soundKind;      /* 0x50 */
     void *animTarget;   /* 0x54 */
 };

@@ -21,7 +21,7 @@ void GFL_HEAP_AuditFree(void *payload);
 void GFL_HEAP_NotifyAlloc(u32 heapId, void *payload, u32 size);
 void GFL_HEAP_NotifyFree(void *payload);
 void GFL_HEAP_DumpIfLive(u32 heapId);
-void GFL_HEAP_WalkBlocksCallback(void *block, int *heap, u32 userParam);
+void GFL_HEAP_WalkBlocksCallback(void *block, void * heapArg, int userParam);
 void GFL_HEAP_DumpReport(u32 heapId);
 void GFL_HEAP_InitSystemHeapChecked(u32 size);
 void *GFL_HEAP_AllocSystemChecked(u32 size);

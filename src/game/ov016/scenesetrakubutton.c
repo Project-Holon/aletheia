@@ -146,7 +146,7 @@ void DWCi_SceneSetRakuButton(void)
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x25);
     DWCi_ANIMElInitEx(1);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
@@ -163,7 +163,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -171,7 +171,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(1);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
@@ -179,7 +179,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)procScene);
+    DWCi_ChangeScene(procScene);
 }
 
 /*
@@ -220,14 +220,14 @@ static void button(void)
         return;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -239,7 +239,7 @@ static void endScene1(void)
     if (sScenesetrakubuttonChoose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 static void endScene2(void)
@@ -265,10 +265,10 @@ static void endScene2(void)
     if (sScenesetrakubuttonChoose == 0) {
         DWCi_RAKUlEnd();
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((uptr)DWCi_SceneSetRakuButton1);
+        DWCi_ChangeScene(DWCi_SceneSetRakuButton1);
     }
 }
 
@@ -280,7 +280,7 @@ static void checkRaku(void)
     switch (DWCi_RAKUlGetState()) {
     case 2:
         gSceneSetRakuButtonWork = 1;
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
         break;
     case 4:
         gSceneSetRakuButtonWork = 0;
@@ -288,7 +288,7 @@ static void checkRaku(void)
         DWCi_SNDlPlay(9);
         DWCi_WINlInitEx(13, 1, 1, -1, 0);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene((uptr)procError);
+        DWCi_ChangeScene(procError);
         break;
     }
 }
@@ -298,7 +298,7 @@ static void procError(void)
     if (DWCi_WINlGet() == 0) {
         DWCi_SNDlPlay(6);
         DWCi_WINlEnd();
-        DWCi_ChangeScene((uptr)procError1);
+        DWCi_ChangeScene(procError1);
     }
 }
 
@@ -308,5 +308,5 @@ static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }

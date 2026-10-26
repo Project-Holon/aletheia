@@ -9,8 +9,10 @@ typedef struct CameraZoomWork CameraZoomWork;
 
 #include "../types.h"
 
+struct TcbTask;
+
 void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta);
-void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w);
+void FIELDMAP_TCB_CAMERA_ZOOM_Main(struct TcbTask *task, void *arg);
 void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w);
 /* END mkheaders: generated region */
 

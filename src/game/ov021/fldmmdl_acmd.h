@@ -21,7 +21,7 @@ void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, VecFx32 *out);
 struct TcbTask *FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list);
 int FLDMMDL_ACMD_ListCheckEnd(void *tcb);
 void FLDMMDL_ACMD_ListDelete(void *tcb);
-void FLDMMDL_ACMD_ListTaskMain(void *tcb, MmdlAcmdListWork *work);
+void FLDMMDL_ACMD_ListTaskMain(struct TcbTask *tcb, void *arg);
 int FLDMMDL_ACMD_ListStateStart(MmdlAcmdListWork *work);
 int FLDMMDL_ACMD_ListStateWaitPossible(MmdlAcmdListWork *work);
 int FLDMMDL_ACMD_ListStateSetCmd(MmdlAcmdListWork *work);

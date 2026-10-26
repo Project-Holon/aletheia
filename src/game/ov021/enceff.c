@@ -377,7 +377,7 @@ void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, s
 void ENCEFF_SelectEffectAndBgmForTrainer(int trainerId, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
 {
     int areaIsInner = 1;
-    u32 trainerClass = TPOKE_DATA_GetRecordField((void *)(uptr)trainerId, 1);
+    u32 trainerClass = TPOKE_DATA_GetRecordField(trainerId, 1);
     u32 bgmGroup = TPOKE_DATA_GetTrainerKind(trainerClass);
     u32 effectGroup = TPOKE_DATA_FindTrainerType(trainerClass);
     int effectKind;

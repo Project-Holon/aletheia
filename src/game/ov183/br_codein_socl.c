@@ -14,11 +14,11 @@
  *   gBrCodeinDefaultPair  0x021E3910  data  ov183
  */
 
-#include "soc_types.h"
+#include "br_codein_types.h"
 
-extern SOCLResource gBrCodeinDefaultPair;
+extern const struct CodeinStoredFns gBrCodeinDefaultPair;
 
-void BR_CODEIN_SOCL_InitDefault(SOCLResource *resource)
+void BR_CODEIN_SOCL_InitDefault(struct CodeinStoredFns *resource)
 {
     *resource = gBrCodeinDefaultPair;
 }

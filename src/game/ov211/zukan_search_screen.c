@@ -132,7 +132,7 @@ extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN
 #include "../arm9/key.h"
 extern void ZUKAN_SEARCH_SCREEN_Tick(void);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
-void ZUKAN_SEARCH_SCREEN_VBlank(void);
+void ZUKAN_SEARCH_SCREEN_VBlank(struct TcbTask *unused0, void *unused1);
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p);
 void ZUKAN_SEARCH_SCREEN_InitBg(void);
@@ -158,9 +158,9 @@ void ZUKAN_SEARCH_SCREEN_SetupVram(void)
     BG_SYS_SetVramBanks((const struct DispVram *)(&buf));
 }
 
-void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((uptr)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
+void ZUKAN_SEARCH_SCREEN_VBlank(struct TcbTask *unused0, void *unused1){BG_SYS_Update();*(unsigned *)((uptr)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
 
-void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZUKAN_SEARCH_SCREEN_VBlank),(void *)((uptr)p),0);}
+void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask(ZUKAN_SEARCH_SCREEN_VBlank,(void *)((uptr)p),0);}
 
 void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct TcbTask *)p->vblankNode);}
 

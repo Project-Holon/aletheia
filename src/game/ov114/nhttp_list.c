@@ -58,7 +58,7 @@ int NHTTPi_setReqQueue(NHTTPListInfo *listInfo_p, NHTTPReq *req_p)
     int id;
 
     id = -1;
-    list_p = NHTTPi_alloc(0x14, 4);
+    list_p = NHTTPi_alloc(sizeof(*list_p), 4);
     if (list_p != 0) {
         if (listInfo_p->head == 0) {
             list_p->next = list_p;

@@ -35,6 +35,4 @@ typedef struct EncEffScreenTexWork {
     EncEffScreenTexDrawFunc draw;           /* 0x2C */
 } EncEffScreenTexWork;
 
-typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state, void *work);
-
 #endif

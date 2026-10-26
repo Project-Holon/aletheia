@@ -182,7 +182,7 @@ void NNSi_FndFreeToExpHeapAllocator(NNSiFndAllocator *allocator, void *block)
  */
 void *NNSi_FndAllocFromFrmHeapAllocator(NNSiFndAllocator *allocator, u32 size)
 {
-    return (void *)NNS_FndAllocFromFrmHeapEx(allocator->heap, size, (s32)allocator->heapParam1);
+    return NNS_FndAllocFromFrmHeapEx(allocator->heap, size, (s32)allocator->heapParam1);
 }
 
 /*

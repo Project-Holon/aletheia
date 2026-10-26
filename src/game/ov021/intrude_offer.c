@@ -87,7 +87,7 @@ void INTRUDE_TakeOfferSlot(IntrudeOfferLog *log, int index, IntrudeOfferSlot *de
 
 const IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(IntrudeOfferLog *log, int *index);
 
-int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferSlot *offer);
+int INTRUDE_OfferEventMain(struct GameEvent *event, int *seq, void *work);
 
 struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 heapId, int slotIndex);
 
@@ -145,8 +145,9 @@ const IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(IntrudeOfferLog *log, int *inde
  * Event task: starts the offer script with the offer id as parameter and
  * registers the sender's name in word 3.
  */
-int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferSlot *offer)
+int INTRUDE_OfferEventMain(struct GameEvent *event, int *seq, void *workPtr)
 {
+    const IntrudeOfferSlot *offer = workPtr;
     IntrudeOfferSlot copy = *offer;
     struct ScriptWork *scriptWork;
     struct WordSet *wordSet;
@@ -165,7 +166,7 @@ int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferS
 /* Takes offer slot slotIndex out of the log and starts the event task that shows it. */
 struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 heapId, int slotIndex)
 {
-    struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_OfferEventMain, 0x14);
+    struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
     IntrudeOfferSlot *offer = GAME_EVENT_GetWork(taskEvent);
 
     INTRUDE_TakeOfferSlot((struct IntrudeOfferLog *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);

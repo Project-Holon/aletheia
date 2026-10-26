@@ -242,9 +242,9 @@ int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid
     }
 
     OS_SNPrintf(buf, sizeof(buf), gDwcCalFmtHeaderVersion, 5, 3);
-    if (DWC_Http_Add_HeaderItem((char *)http, (char *)gDwcCalHeaderVersion, buf) != 0)
+    if (DWC_Http_Add_HeaderItem(http, (char *)gDwcCalHeaderVersion, buf) != 0)
         return 0;
-    if (DWC_Http_Add_HeaderItem((char *)http, (char *)gDwcCalHeaderGameCd, calinfo->gamecd) != 0)
+    if (DWC_Http_Add_HeaderItem(http, (char *)gDwcCalHeaderGameCd, calinfo->gamecd) != 0)
         return 0;
     return 1;
 }

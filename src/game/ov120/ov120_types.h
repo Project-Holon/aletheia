@@ -1,6 +1,8 @@
 #ifndef OV120_TYPES_H
 #define OV120_TYPES_H
 
+#include "../arm9/app_taskmenu.h"
+
 struct GtsnegoMsgCtx;
 struct GtsnegoActorSys;
 struct GtsnegoTileScreen;
@@ -16,17 +18,14 @@ struct GtsnegoMsgCtx {
     void *srcText;
     void *windowText;
     void *expandedText;
-    void *rowAHandle;
+    unsigned int rowAHandle;
     unsigned int rowBHandle;
-    void *rowCHandle;
+    unsigned int rowCHandle;
     void *messageWindow;
     void *extraWindow;
-    void *rowWindow;
-    unsigned char pad_3C[44];
+    void *rowWindows[12];
     void *statusWindow;
-    void *listWindow;
-    unsigned char pad_70[16];
-    void *lastListWindow;
+    void *listWindows[6];
     void *entryWindow;
     void *drawWindow;
     void *pairWindowTop;
@@ -36,14 +35,7 @@ struct GtsnegoMsgCtx {
     void *printStream;
     void *tcbList;
     void *printQueue;
-    void *menuEntryText0;
-    unsigned short menuEntryColor0;
-    unsigned char pad_AE[2];
-    int menuEntryType0;
-    void *menuEntryText1;
-    unsigned short menuEntryColor1;
-    unsigned char pad_BA[2];
-    void *menuEntryType1;
+    TaskMenuItem menuEntries[2];
     void *taskMenuRes;
     void *taskMenuWin;
     unsigned short heapId;
@@ -55,22 +47,22 @@ struct GtsnegoMsgCtx {
 struct GtsnegoActorSys {
     unsigned int bgCharLayer4;
     unsigned int bgCharLayer0;
-    void *bgCharLayer7;
+    unsigned int bgCharLayer7;
     void *touchbar;
     void *clactUnit;
     void *vblankTask;
-    void *uiPalette;
-    void *idlePalette;
-    void *listPalette;
-    void *cursorPalette;
+    int uiPalette;
+    int idlePalette;
+    int listPalette;
+    int cursorPalette;
     unsigned int uiChar;
-    void *idleChar;
-    void *listChars[16];
-    void *cursorChar;
+    int idleChar;
+    int listChars[16];
+    int cursorChar;
     unsigned int uiCellAnim;
-    void *idleCellAnim;
-    void *listCellAnims[16];
-    void *cursorCellAnim;
+    int idleCellAnim;
+    int listCellAnims[16];
+    int cursorCellAnim;
     unsigned char pad_C0[4];
     void *slotActors[12];
     unsigned short heapId;
@@ -93,11 +85,8 @@ struct GtsnegoActorSys {
     void *cursorActor;
     void *selectorActor;
     unsigned char pad_13C[4];
-    void *iconActor;
-    unsigned char pad_144[8];
-    void *listActorFirst;
-    unsigned char pad_150[16];
-    void *listActorLast;
+    void *iconActors[3];
+    void *listActors[6];
 };
 
 /* Screen data loaded for the party tile rows; only the blank tile entry is read. */

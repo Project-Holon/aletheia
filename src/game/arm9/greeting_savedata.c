@@ -69,9 +69,9 @@ struct SaveControl;
 #include "save_control.h"
 
 
-void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
+void *GREETING_SAVEDATA_GetFromSaveThunk(struct SaveControl *a);
 
-void *GREETING_SAVEDATA_GetFromSave(u32 a);
+void *GREETING_SAVEDATA_GetFromSave(struct SaveControl *a);
 
 void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, int idx, struct QuadRecord *dst);
 
@@ -92,14 +92,14 @@ void GREETING_SAVEDATA_SetSentence(struct QuadRecord *dst, int idx, struct QuadR
  *   python tools/match.py tu --src src/matched/unit_0200E6E8.c \
  *       --addr 0x0200E6E8 --thumb
  */
-void *GREETING_SAVEDATA_GetFromSaveThunk(u32 saveData)
+void *GREETING_SAVEDATA_GetFromSaveThunk(struct SaveControl *saveData)
 {
     return GREETING_SAVEDATA_GetFromSave(saveData);
 }
 
-void *GREETING_SAVEDATA_GetFromSave(u32 saveData)
+void *GREETING_SAVEDATA_GetFromSave(struct SaveControl *saveData)
 {
-    return SAVE_CONTROL_GetBlock((struct SaveControl *)saveData, 0x3e);
+    return SAVE_CONTROL_GetBlock(saveData, 0x3e);
 }
 
 /*

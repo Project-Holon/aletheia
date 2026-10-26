@@ -128,29 +128,22 @@ struct ZukanSave;
 
 #include "../arm9/g2.h"
 
-extern u32 TCB_GetTaskOffset(u32);
 
 
 #include "../arm9/palanm.h"
 
 struct TcbSystem;
-extern void PALANM_SetAutoTransfer(PaletteFade *o, int v);
 
 
 
 
-extern void TCB_Noop(struct TcbSystem *sys);
 struct TcbSystem;
 
-extern void TCB_Main(struct TcbSystem *sys);
-
-extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
-
-extern void PALANM_TransferPalettes(PaletteFade *p);
 
 
 
-extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
+
+
 
 #include "../arm9/arc_tool.h"
 
@@ -164,7 +157,7 @@ extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b,
 
 
 
-void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
+void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, unsigned short *h, unsigned short i, void *j);
 
 void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx);
 
@@ -206,7 +199,7 @@ void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(struct Ov208PalFade *p);
 
 void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p);
 
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, void *a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p);
 
@@ -230,10 +223,10 @@ extern const u8 data_021C80E8[2][4];
 
 extern const struct Ov208BgArc data_021C80F0[2];
 
-void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, void *font, void *graphics, void *work, void *headbar, int speciesTable,
+void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, void *font, void *graphics, void *work, void *headbar, unsigned short *speciesTable,
                     unsigned short entryCount, void *cursorPtr)
 {
-    struct Ov208Ctx *p = (struct Ov208Ctx *)GFL_HEAP_Alloc(heapId, 0x24, 1, d_021C8D98, 0x60);
+    struct Ov208Ctx *p = (struct Ov208Ctx *)GFL_HEAP_Alloc(heapId, sizeof(struct Ov208Ctx), 1, d_021C8D98, 0x60);
 
     p->blk = blk;
     p->display = display;
@@ -241,7 +234,7 @@ void *ZUKAN_DETAIL_COMMON_CreateContext(u32 heapId, void *blk, void *display, vo
     p->graphics = graphics;
     p->work = work;
     p->headbar = headbar;
-    p->speciesTable = (unsigned short *)speciesTable;
+    p->speciesTable = speciesTable;
     p->entryCount = entryCount;
     p->cursorPtr = (unsigned short *)cursorPtr;
     return p;
@@ -322,7 +315,7 @@ void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p)
 void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p)
 {
     u16 start = *p->cursorPtr;
-    u32 h = (uptr)ZUKAN_SAVE_GetFromGameData(p->blk);
+    void *h = ZUKAN_SAVE_GetFromGameData(p->blk);
     do {
         if (*p->cursorPtr == 0)
             *p->cursorPtr = p->entryCount - 1;
@@ -330,12 +323,12 @@ void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p)
             *p->cursorPtr = *p->cursorPtr - 1;
         if (*p->cursorPtr == start)
             break;
-    } while (ZUKAN_SAVE_IsSeen((struct ZukanSave *)h, p->speciesTable[*p->cursorPtr]) == 0);
+    } while (ZUKAN_SAVE_IsSeen(h, p->speciesTable[*p->cursorPtr]) == 0);
 }
 
 void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap)
 {
-    return GFL_HEAP_Alloc(heap, 20, 1, d_021C8D98, 0x113);
+    return GFL_HEAP_Alloc(heap, sizeof(struct Ov208Blend), 1, d_021C8D98, 0x113);
 }
 
 void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *blend)
@@ -431,7 +424,7 @@ void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p)
 
 struct Ov208PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
 {
-    struct Ov208PalFade *p=GFL_HEAP_Alloc(heap,20,1,d_021C8D98,0x1e5);
+    struct Ov208PalFade *p=GFL_HEAP_Alloc(heap,sizeof(struct Ov208PalFade),1,d_021C8D98,0x1e5);
     p->memory=GFL_HEAP_Alloc(heap,TCB_GetTaskOffset(2),1,d_021C8D98,0x1e8);
     p->tcb=(struct Ctx *)TCB_Init(2,p->memory);
     p->slots=PALANM_Create(heap);
@@ -459,7 +452,7 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p)
     PALANM_Delete(p->slots);
     TCB_Noop((struct TcbSystem *)p->tcb);
     GFL_HEAP_Free(p->memory);
-    GFL_HEAP_Free((void *)((uptr)p));
+    GFL_HEAP_Free((void *)(p));
 }
 
 /*
@@ -530,9 +523,9 @@ void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p)
     p->fadeState = 1;
 }
 
-void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, u32 arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset)
+void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset)
 {
-    PALANM_LoadHandlePaletteToSlotAt(p->slots, (void *)arcHandle, fileId, heapId, slotIdx, byteSize, dstOffset, srcOffset);
+    PALANM_LoadHandlePaletteToSlotAt(p->slots, arcHandle, fileId, heapId, slotIdx, byteSize, dstOffset, srcOffset);
 }
 
 void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p)
@@ -600,7 +593,7 @@ void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p)
 
     w = p->chrOfs;
     BG_SYS_FreeTileRun(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
-    GFL_HEAP_Free((void *)((sptr)p));
+    GFL_HEAP_Free((void *)(p));
 }
 
 void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p)

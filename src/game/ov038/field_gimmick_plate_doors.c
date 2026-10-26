@@ -102,21 +102,21 @@ struct Mmdl;
 #include "../arm9/key.h"
 #include "../arm9/gfl_use.h"
 #include "../ov021/fldmmdl_acmd.h"
-extern int FIELD_GIMMICK_PLATE_DOORS_EventScripted(struct GameEvent *, int *);
+extern int FIELD_GIMMICK_PLATE_DOORS_EventScripted(struct GameEvent *event, int *seq, void *work);
 void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap);
 int FIELD_GIMMICK_PLATE_DOORS_FindDoor(FieldGimmickPlateDoorsWork *work, int cellX, int cellZ, int *doorOpen, int *exactCell);
 struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(struct GameSystem *gameSystem, int cellX, int cellZ);
-int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state);
-int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(struct GameEvent *event, int *state);
-int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(struct GameEvent *event, int *state);
-int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state, void *work);
+int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(struct GameEvent *event, int *state, void *work);
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(struct GameEvent *event, int *state, void *work);
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(struct GameEvent *event, int *state, void *work);
 struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(struct GameSystem *gameSystem, int switchIdx);
 struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(struct GameSystem *gameSystem, int plateIdx);
 struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(struct GameSystem *gameSystem, int variant);
-int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *state);
-int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *state, void *work);
+int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(struct GameEvent *event, int *state, void *work);
 extern int gPlateDoorsUnitDef;
 extern VecFx32 gPlateDoorsSwitchPos[];
 extern VecFx32 gPlateDoorsPlatePos[];
@@ -308,11 +308,11 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(struct GameSystem *ga
     if (doorIdx < 7) {
         if (exactCell != 0) {
             if (doorOpen == 1)
-                event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
+                event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
             else
-                event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
+                event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
         } else {
-            event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
+            event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
         }
     } else {
         return 0;
@@ -334,7 +334,7 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(struct GameSystem *ga
  *           FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, is the else) so case 0's two failed tests reuse
  *           its `b` to the shared tail; slideUnits = (u32)slideFrames >> 1 gives the plain lsrs.
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state, void *work)
 {
     struct GameSystem *gameSystem;
     void *fieldMap;
@@ -405,7 +405,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state
                     *state = *state + 1;
             }
         } else {
-            GAME_EVENT_ChangeEvent(event, (struct GameEvent *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
+            GAME_EVENT_ChangeEvent(event, (struct GameEvent *)GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
             return 0;
         }
         break;
@@ -455,7 +455,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(struct GameEvent *event, int *state
  * note:     same u8 side spelling as FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide (side++ on a u8 local;
  *           the 0x021BE6xx callees take u16 parameters).
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;
@@ -537,7 +537,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(struct GameEvent *event, int *stat
  *           so the u16 parameters add no narrowing at the call; animeIdx++ keeps the
  *           unfolded increment of the stored value.
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;
@@ -595,7 +595,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(struct GameEvent *event, int *st
  *           (adds; lsls; lsrs); `animeIdx = animeIdx + 1` folds it to `movs #1` and swaps
  *           state/fieldMap between r5 and r6.
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;
@@ -645,7 +645,7 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(struct GameSystem *
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (switchIdx >= 8) return 0;
     runtime->switchIdx = switchIdx;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
 }
 
 /* Script command: starts the press event of a plate. */
@@ -654,7 +654,7 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(struct GameSystem *g
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (plateIdx >= 10) return 0;
     runtime->plateIdx = plateIdx;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
 }
 
 /* Script command: starts the scripted event, whose script depends on the variant. */
@@ -662,7 +662,7 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(struct GameSystem
 {
     FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     runtime->scriptVariant = variant;
-    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
 }
 
 /*
@@ -676,13 +676,13 @@ struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(struct GameSystem
  *           FLD_EXP_OBJ_SetAnimeEnabled: its own file's `unsigned int j` brings the r4/r5
  *           swap back even with the u8 local.
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;
     FieldGimmickPlateDoorsRuntime *runtime;
     FieldGimmickPlateDoorsWork *save;
-    uptr gimmickSave;
+    u8 *gimmickSave;
     u16 *progress;
     int i;
     u8 switchModel;
@@ -690,7 +690,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *sta
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
-    gimmickSave = (uptr)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap)));
+    gimmickSave = GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap)));
     save = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork((struct GimmickWork *)gimmickSave, 6);
     progress = (u16 *)GIMMICK_WORK_GetSubWork((struct GimmickWork *)gimmickSave, 6);
     switch (*state) {
@@ -721,7 +721,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(struct GameEvent *event, int *sta
  *           f = 1; } else f = 1;`, whose cross-jumped else arm gives the
  *           `beq SET ... beq SKIP; b SET` shape (an `||` or else-if does not).
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;
@@ -805,7 +805,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(struct GameEvent *event, int *stat
  * Event: shows the effect model at the position of the variant, calls the
  * first script event, waits for the effect animation and calls the second.
  */
-int FIELD_GIMMICK_PLATE_DOORS_EventScripted(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventScripted(struct GameEvent *event, int *state, void *work)
 {
     void *fieldMap;
     struct FldExpObjCnt *expObj;

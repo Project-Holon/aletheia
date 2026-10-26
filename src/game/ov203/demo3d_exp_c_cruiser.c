@@ -77,7 +77,6 @@ typedef struct Demo3dCruiserGfx {
 struct Demo3dGraphic;
 #include "demo3d_graphic.h"
 #include "../ov067/ui_scene_types.h"
-extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
 /* The DS code was built against other parameter widths for UI_SCENE_CreateActor (the original prototypes); the header differs. The host build uses the header. */
 #ifdef __MWERKS__
 extern struct Actor *UI_SCENE_CreateActor(ActorGfxSet *, void *, unsigned char, unsigned char, unsigned char, unsigned short);
@@ -87,7 +86,6 @@ extern struct Actor *UI_SCENE_CreateActor(ActorGfxSet *, void *, unsigned char, 
 struct Actor;
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
-extern void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap);
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p);
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p);
@@ -112,7 +110,7 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     Demo3dCruiserGfx *a;
     sptr resource;
     Demo3dCruiserActorConfig config;
-    a = (Demo3dCruiserGfx *)GFL_HEAP_Alloc(p->heapId, 24, 1, d_021C3D5C, 0xB3);
+    a = (Demo3dCruiserGfx *)GFL_HEAP_Alloc(p->heapId, sizeof(Demo3dCruiserGfx), 1, d_021C3D5C, 0xB3);
     p->gfx = a;
     DEMO3D_EXP_C_CRUISER_LoadTextures(p->heapId);
     a->step = (DEMO3D_ENGINE_GetFrame(p->model) >> 12) / 100;

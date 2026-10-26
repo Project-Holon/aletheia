@@ -6,13 +6,14 @@
 
 struct BrSidebar;
 struct Unit;
+struct BrFade;
 struct BrRes;
 struct BrSidebarSlot;
 struct BrSidebarConfig;
 
 #include "../types.h"
 
-struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, int unused, struct BrRes *res, u16 heapId);
+struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, struct BrFade *unused, struct BrRes *res, u16 heapId);
 void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res);
 void BR_SIDEBAR_Update(struct BrSidebar *sidebar);
 void BR_SIDEBAR_StartBounce(struct BrSidebar *sidebar);

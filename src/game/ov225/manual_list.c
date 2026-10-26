@@ -70,6 +70,7 @@
  *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
  */
 #include "manual_common_shared_types.h"
+#include "manual_category_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 #include "manual_list_shared_types.h"
 #include "../arm9/key.h"
@@ -100,16 +101,6 @@ struct ManualListWork {
     u32 listReady;              /* 0x94 */
 };
 
-/* List state region at ManualListWork.owner (0x14). */
-struct ManualListState {
-    u32 ready;      /* 0x00 */
-    u16 count;      /* 0x04 */
-    u16 pad06;      /* 0x06 */
-    void *data;     /* 0x08 entry table */
-    u16 top;        /* 0x0C */
-    u16 selected;   /* 0x0E */
-    u32 mode;       /* 0x10 */
-};
 
 struct ManualClactPos { s16 x; s16 y; };
 
@@ -174,10 +165,7 @@ struct TaskMenuRes;
 
 
 /* The DS code passes the source as a pointer (the original prototype); the header takes an address word. The host build uses the header. */
-#ifdef __MWERKS__
-#else
 #include "../arm9/nns_gfd_vram_transfer.h"
-#endif
 
 
 
@@ -202,7 +190,7 @@ void MANUAL_COMMON_DeleteListWork(char *p);
 
 int MANUAL_COMMON_UpdateListWork(char *p);
 
-void MANUAL_COMMON_ListWorkTaskNoop(void);
+void MANUAL_COMMON_ListWorkTaskNoop(struct TcbTask *unused0, void *unused1);
 
 void MANUAL_COMMON_LoadListWorkAssets(char *p);
 
@@ -248,9 +236,9 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   int count;
   s16 y;
   int mode;
-  work = GFL_HEAP_Alloc(data->heap, 0x98, 1, gManualCommonListWorkAllocFile, 0xdf);
+  work = GFL_HEAP_Alloc(data->heap, sizeof(struct ManualListWork), 1, gManualCommonListWorkAllocFile, 0xdf);
   work->owner = owner;
-  *((u32 *) (owner + 0x10)) = 0;
+  ((struct ManualListState *)owner)->mode = 0;
   work->data = data;
   index = 0;
   do
@@ -265,16 +253,16 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   MANUAL_COMMON_SetListWorkBgMode(work);
   BG_SYS_ChangeScroll(5, 3, 12);
   flag = 0;
-  if ((*((u16 *) (work->owner + 4))) > 6)
+  if (((struct ManualListState *)work->owner)->count > 6)
     flag = 1;
   CLACT_SetActorDrawEnable(work->actor, flag);
   count = MANUAL_COMMON_GetScrollTop((u16 **) work);
   count = count + 1;
-  y = MANUAL_COMMON_IndexToY(work, count, *((u16 *) (work->owner + 0xc)));
+  y = MANUAL_COMMON_IndexToY(work, count, ((struct ManualListState *)work->owner)->top);
   pos.x = 240;
   pos.y = y;
   CLACT_AddActorSurfacePos((struct ClactActor *)work->actor, (const struct ClactVec2 *)&pos, 1);
-  work->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr) MANUAL_COMMON_ListWorkTaskNoop), (void *)((uptr) work), 1);
+  work->task = GFL_USE_AddMainTask(MANUAL_COMMON_ListWorkTaskNoop, (void *)((uptr) work), 1);
   work->state = 0;
   work->dragging = 0;
   work->dirty = 0;
@@ -286,7 +274,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   else
     if (mode == 1)
     state = 2;
-  MANUAL_COMMON_SetTouchbarState(*((char **) (((char *) work->data) + 0x34)), state);
+  MANUAL_COMMON_SetTouchbarState(((struct ManualData *)work->data)->group, state);
   return work;
 }
 
@@ -314,8 +302,8 @@ int MANUAL_COMMON_UpdateListWork(char *work)
  }
  if(((struct ManualListWork *)work)->state!=1) {
   for(i=0;i<8;i++) {
-   if(*(u8 **)(work+i*4+0xc) && *(void **)(work+i*4+0x2c))
-    APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(u8 **)(work+i*4+0xc)));
+   if(((struct ManualListWork *)work)->win[i] && ((struct ManualListWork *)work)->slotFlag[i])
+    APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(((struct ManualListWork *)work)->win[i]));
   }
  }
  if(((struct ManualListWork *)work)->state==0 || ((struct ManualListWork *)work)->state==2) {
@@ -329,7 +317,7 @@ int MANUAL_COMMON_UpdateListWork(char *work)
   } else {
    selected=MANUAL_COMMON_GetTouchbarSelected(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->group);
    if(selected!=(unsigned)-1) {
-    if(selected==1) ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->owner))->printQue[0]=0;
+    if(selected==1) ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->mode=0;
     ((struct ManualListWork *)work)->state=1;
     ((struct ManualListWork *)work)->timer=1;
    }
@@ -339,8 +327,8 @@ int MANUAL_COMMON_UpdateListWork(char *work)
   if(((struct ManualListWork *)work)->state==0) {
    if(MANUAL_COMMON_UpdateListWorkInput(work)) ((struct ManualListWork *)work)->state=4;
   } else {
-   if(APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(*(u8 **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc)))) {
-    ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->owner))->printQue[0]=1;
+   if(APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)]))) {
+    ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->mode=1;
     ((struct ManualListWork *)work)->state=1;
     ((struct ManualListWork *)work)->timer=1;
    }
@@ -349,7 +337,7 @@ int MANUAL_COMMON_UpdateListWork(char *work)
  return result;
 }
 
-void MANUAL_COMMON_ListWorkTaskNoop(void) {}
+void MANUAL_COMMON_ListWorkTaskNoop(struct TcbTask *unused0, void *unused1) {}
 
 /*
  * Lever: index before 0x60 keeps field offset in immediate; distinct loop
@@ -368,7 +356,7 @@ void MANUAL_COMMON_LoadListWorkAssets(char *work)
     *(int *)&((struct ManualListWork *)work)->reg2=CLACT_RegisterCellAnim(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc[0],7,8,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     quad[1]=gManualCommonListHeadPos;
     parent=*(char * *)&((struct ManualListWork *)work)->data;
-    ((struct ManualListWork *)work)->actor=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit((const u8 *)(((struct ManualData *)parent)->screen)),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,(const struct ActorInitParam *)&quad[1],1,((struct ManualData *)parent)->heap);
+    ((struct ManualListWork *)work)->actor=CLACT_CreateActor(MANUAL_GRAPHIC_GetClactUnit((const u8 *)(((struct ManualData *)parent)->screen)),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,(const struct ActorInitParam *)&quad[1],1,((struct ManualData *)parent)->heap);
     CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actor,0);
     CLACT_SetActorAutoAnim(((struct ManualListWork *)work)->actor,1);
     quad[0]=gManualCommonListRowPos;
@@ -376,9 +364,9 @@ void MANUAL_COMMON_LoadListWorkAssets(char *work)
         char *loopparent;
         quad[0].y=i*24-8;
         loopparent=*(char * *)&((struct ManualListWork *)work)->data;
-        *(void **)(work+i*4+0x60)=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit((const u8 *)(((struct ManualData *)loopparent)->screen)),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,(const struct ActorInitParam *)&quad[0],1,((struct ManualData *)loopparent)->heap);
-        CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
-        CLACT_SetActorAutoAnim(*(void **)(work+i*4+0x60),1);
+        ((struct ManualListWork *)work)->actorList[i]=CLACT_CreateActor(MANUAL_GRAPHIC_GetClactUnit((const u8 *)(((struct ManualData *)loopparent)->screen)),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,(const struct ActorInitParam *)&quad[0],1,((struct ManualData *)loopparent)->heap);
+        CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actorList[i],0);
+        CLACT_SetActorAutoAnim(((struct ManualListWork *)work)->actorList[i],1);
     }
     MANUAL_COMMON_CreateListWorkMenu(work);
 }
@@ -388,23 +376,18 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
     BG_SYS_FreeSlot(5);
     *(struct ManualRes * *)&((struct ManualListWork *)work)->resource = (struct ManualRes *)APP_TASKMENU_RES_Create(5, 4, (struct GFont *)(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->font), (struct PrintQueue *)(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue[1]), ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ((struct ManualListWork *)work)->paletteColor = 0x1ce7;
-#ifdef __MWERKS__
-    NNS_GfdRegisterNewVramTransferTask(31, 154, work + 0x4c, 2);
-    NNS_GfdRegisterNewVramTransferTask(31, 186, work + 0x4c, 2);
-#else
-    NNS_GfdRegisterNewVramTransferTask(31, 154, (work + 0x4c), 2);
-    NNS_GfdRegisterNewVramTransferTask(31, 186, (work + 0x4c), 2);
-#endif
+    NNS_GfdRegisterNewVramTransferTask(31, 154, &((struct ManualListWork *)work)->paletteColor, 2);
+    NNS_GfdRegisterNewVramTransferTask(31, 186, &((struct ManualListWork *)work)->paletteColor, 2);
     MANUAL_COMMON_RebuildListWindows(work);
     if (UI_GetInputMode() == 0) {
-        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc)), 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)]), 1);
         ((struct ManualListWork *)work)->dirty = 0;
     }
 }
 
 void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work) { BG_SYS_MarkTileDirty(4); }
 
-void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor **)(work+i*4+0x60)))); CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor))); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
+void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor((struct ClactActor *)((((struct ManualListWork *)work)->actorList[i]))); CLACT_DeleteActor((struct ClactActor *)((*(struct ClactActor * *)&((struct ManualListWork *)work)->actor))); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
 
 void MANUAL_COMMON_DeleteListWorkMenu(char *work) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue[1]); for(i=0;i<8;i++) if(*(u8 **)(work+i*4+12)) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(work+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualListWork *)work)->resource)); BG_SYS_MarkTileDirty(5); }
 
@@ -421,12 +404,12 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
     if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<count) {
             UI_SetInputMode(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&2)) {
             UI_SetInputMode(0);
-            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
             ((struct ManualListWork *)work)->dirty=0;
             GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
@@ -434,13 +417,13 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
     }
     if(UI_GetInputMode()==0) {
         if(KEY_GetTrg()&1) {
-            APP_TASKMENU_WIN_SetDecide(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
         }
         if((*(struct ManualListState **)work)->count>1) {
             if(KEY_GetRepeat()&0x40) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
                 if((*(struct ManualListState **)work)->selected>(*(struct ManualListState **)work)->top) (*(struct ManualListState **)work)->selected--;
                 else if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
                 else {
@@ -457,11 +440,11 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                     delta[3].y=y;
                     CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[3])), 1);
                 }
-                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
                 ((struct ManualListWork *)work)->dirty=0;
                 GFL_USE_PlaySeDefaultVolume(0x548);
             } else if(KEY_GetRepeat()&0x80) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
                 if((*(struct ManualListState **)work)->selected<last) (*(struct ManualListState **)work)->selected++;
                 else if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=0;
                 else {
@@ -475,12 +458,12 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                     delta[2].y=y;
                     CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[2])), 1);
                 }
-                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
                 ((struct ManualListWork *)work)->dirty=0;
                 GFL_USE_PlaySeDefaultVolume(0x548);
             } else if(KEY_GetRepeat()&0x220) {
                 if((*(struct ManualListState **)work)->selected!=0) {
-                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
                     if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=0;
                     else {
                         if((*(struct ManualListState **)work)->top>=6) {(*(struct ManualListState **)work)->top-=6;(*(struct ManualListState **)work)->selected-=6;}
@@ -491,13 +474,13 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                         delta[1].y=y;
                         CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[1])), 1);
                     }
-                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
                     ((struct ManualListWork *)work)->dirty=0;
                     GFL_USE_PlaySeDefaultVolume(0x548);
                 }
             } else if(KEY_GetRepeat()&0x110) {
                 if((*(struct ManualListState **)work)->selected<(*(struct ManualListState **)work)->count-1) {
-                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                    APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
                     if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
                     else {
                         (*(struct ManualListState **)work)->top+=6;
@@ -510,7 +493,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                         delta[0].y=y;
                         CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[0])), 1);
                     }
-                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                    APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
                     ((struct ManualListWork *)work)->dirty=0;
                     GFL_USE_PlaySeDefaultVolume(0x548);
                 }
@@ -518,9 +501,9 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
         }
     } else if(hit>=0 && hit<count) {
         (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->top+hit;
-        APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+        APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
         ((struct ManualListWork *)work)->dirty=0;
-        APP_TASKMENU_WIN_SetDecide(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],1);
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }
@@ -537,13 +520,13 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
     struct ManualPoint drag;
     u32 clickx,clicky;
     struct ManualPoint click;
-    if(CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor)))==0) return 0;
+    if(CLACT_GetActorDrawEnable((struct ClactActor *)((*(struct ClactActor * *)&((struct ManualListWork *)work)->actor)))==0) return 0;
     if(((struct ManualListWork *)work)->dragging) {
         if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
             UI_SetInputMode(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
             offset=0;
             drag.x=240;
             if(dragy>=8) offset=dragy-8;
@@ -569,7 +552,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
             int offset;
             u16 selection,end;
             UI_SetInputMode(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(((struct ManualListWork *)work)->win[MANUAL_COMMON_GetCursorIndex((u16 **)work)],0);
             offset=0;
             GFL_USE_PlaySeDefaultVolume(0x548);
             ((struct ManualListWork *)work)->dragging=1;
@@ -646,28 +629,28 @@ void MANUAL_COMMON_RebuildListWindows(char *work)
     if (end>=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->count) end--;
     last=(u8)(first+end-index);
     for(i=last+1;i<=7;i++) {
-        if (*(u8 **)(work+i*4+0xc)) {
-            APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)(*(u8 **)(work+i*4+0xc)));
-            *(u32 *)(work+i*4+0x2c)=0;
+        if (((struct ManualListWork *)work)->win[i]) {
+            APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)(((struct ManualListWork *)work)->win[i]));
+            ((struct ManualListWork *)work)->slotFlag[i]=0;
         }
-        CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
+        CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actorList[i],0);
     }
     for(i=first;i<=last;i++) {
-        if (*(u8 **)(work+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear(*(void **)(work+i*4+0xc));
+        if (((struct ManualListWork *)work)->win[i]) APP_TASKMENU_WIN_DeleteNoClear(((struct ManualListWork *)work)->win[i]);
         entry.resource=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->bank[1],*(u16 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+2));
         if(i==0 || i==7) entry.tag=0x3da3; else entry.tag=0x39e3;
         entry.flags=0;
         if(((struct ManualListWork *)work)->listReady)
-            *(u32 **)(work+i*4+0xc)=(u32 *)APP_TASKMENU_WIN_CreateExNoScreen((struct TaskMenuRes *)(*(u32 *)&((struct ManualListWork *)work)->resource),(struct TaskMenuItem *)&entry,2,(u8)(i*3),28,3,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+            ((struct ManualListWork *)work)->win[i]=APP_TASKMENU_WIN_CreateExNoScreen((struct TaskMenuRes *)((struct ManualListWork *)work)->resource,(struct TaskMenuItem *)&entry,2,(u8)(i*3),28,3,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
         else
-            *(u32 *)(work+i*4+0xc)=(uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(u32 *)&((struct ManualListWork *)work)->resource),(struct TaskMenuItem *)&entry,2,(u8)(i*3),28,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
-        APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(u8 **)(work+i*4+0xc)));
-        *(u32 *)(work+i*4+0x2c)=1;
+            ((struct ManualListWork *)work)->win[i]=APP_TASKMENU_WIN_Create((struct TaskMenuRes *)((struct ManualListWork *)work)->resource,(struct TaskMenuItem *)&entry,2,(u8)(i*3),28,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+        APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(((struct ManualListWork *)work)->win[i]));
+        ((struct ManualListWork *)work)->slotFlag[i]=1;
         STRBUF_Delete(entry.resource);
         if (*(u32 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+4)==0)
-            CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
+            CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actorList[i],0);
         else if (*(u32 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+4)==1)
-            CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),1);
+            CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actorList[i],1);
         index++;
     }
     ((struct ManualListWork *)work)->listReady=1;

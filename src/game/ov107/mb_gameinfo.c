@@ -150,23 +150,23 @@ void MBi_MakeGameInfo(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent)
     MIi_CpuClear16(0, gameInfop, 0x4c0);
     icon_disable = 1;
     gameInfop[0x4b2] = 0;
-    if (MBi_ReadIconInfo((char *)(*(const char **)(mbGameRegp + 0xc)), gameInfop, 1))
+    if (MBi_ReadIconInfo(((const MBGameRegistry *)mbGameRegp)->iconCharPathp, gameInfop, 1))
         icon_disable = 0;
     icon_disable2 = 0;
-    if (!MBi_ReadIconInfo((char *)(*(const char **)(mbGameRegp + 0x10)), gameInfop, 0))
+    if (!MBi_ReadIconInfo(((const MBGameRegistry *)mbGameRegp)->iconPalettePathp, gameInfop, 0))
         icon_disable2 = 1;
     icon_disable |= icon_disable2;
     if (icon_disable) {
         gameInfop[0x4b2] = 1;
         MIi_CpuClearFast(0, gameInfop, 0x220);
     }
-    *(u32 *)(gameInfop + 0x4b8) = *(const u32 *)(mbGameRegp + 0x14);
+    *(u32 *)(gameInfop + 0x4b8) = ((const MBGameRegistry *)mbGameRegp)->ggid;
     if (parent != 0)
         MIi_CpuCopy16(parent, gameInfop + 0x220, 0x16);
-    gameInfop[0x236] = mbGameRegp[0x18];
-    len = mystrlen(*(const u16 **)(mbGameRegp + 4));
-    MIi_CpuCopy16(*(const u16 **)(mbGameRegp + 4), gameInfop + 0x238, (u16)(len * 2));
-    MIi_CpuCopy16(*(const u16 **)(mbGameRegp + 8), gameInfop + 0x298, 0xc0);
+    gameInfop[0x236] = ((const MBGameRegistry *)mbGameRegp)->maxPlayerNum;
+    len = mystrlen(((const MBGameRegistry *)mbGameRegp)->gameNamep);
+    MIi_CpuCopy16(((const MBGameRegistry *)mbGameRegp)->gameNamep, gameInfop + 0x238, (u16)(len * 2));
+    MIi_CpuCopy16(((const MBGameRegistry *)mbGameRegp)->gameIntroductionp, gameInfop + 0x298, 0xc0);
     gameInfop[0x358] = 1;
     *(u16 *)(gameInfop + 0x35a) = 1;
     *(u16 *)(gameInfop + 0x4b0) = 1;

@@ -16,7 +16,7 @@ struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont 
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId);
 int HAND_SIDE_IsActive(int side, int effectId);
 int HAND_SIDE_Remove(u32 side, u32 effectId);
-void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 arg);
+void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, void *arg), void *arg);
 int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
 const BtlEventHandler *HAND_SIDE_GetHandlersReflect(u32 *handlerCount);
 void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, void *work);

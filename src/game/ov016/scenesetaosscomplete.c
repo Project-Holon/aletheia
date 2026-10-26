@@ -94,7 +94,7 @@ void DWCi_SceneSetAossComplete(void)
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x23);
     DWCi_SNDlPlay(0x10);
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 
@@ -114,14 +114,14 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene((uptr)DWCi_SceneSetAossComplete_procScene);
+        DWCi_ChangeScene(DWCi_SceneSetAossComplete_procScene);
 }
 
 
@@ -157,7 +157,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 
@@ -173,12 +173,12 @@ static void endScene1(void)
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 0);
     DWCi_SetParam2_(0, 1);
-    DWCi_ChangeScene((uptr)DWCi_SceneSetTestConfirm);
+    DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
 }
 
 
 static void wait(void)
 {
     if (++gSceneSetAossCompleteWork >= 120)
-        DWCi_ChangeScene((uptr)endScene);
+        DWCi_ChangeScene(endScene);
 }

@@ -9,7 +9,7 @@ struct CtvtComm;
 
 #include "../types.h"
 
-char *CTVT_COMM_Create(void *work, u16 heapId);
+struct CtvtComm *CTVT_COMM_Create(void *work, u16 heapId);
 void CTVT_COMM_Delete(void *work, char *comm);
 void CTVT_COMM_Main(void *work, char *comm);
 void CTVT_COMM_StartSession(void *work, void *comm);
@@ -22,7 +22,7 @@ int CTVT_COMM_IsNetReady(void *unused, void *comm);
 u8 *CTVT_COMM_GetMyStatus(u8 *comm);
 int CTVT_COMM_GetStatusBlockSize(void);
 int CTVT_COMM_IsModeSupported(int mode, int kind);
-int CTVT_COMM_MatchPeerName(void *probe, u8 *comm);
+int CTVT_COMM_MatchPeerName(void *probe, void *commArg);
 void CTVT_COMM_Update(void *work, char *comm);
 void CTVT_COMM_SetScanWait(void *work, char *comm);
 void CTVT_COMM_UpdateMembers(void *work, char *comm);
@@ -46,13 +46,13 @@ u32 CTVT_COMM_GetHandleNetId(void *unused, char *unused2);
 u8 CTVT_COMM_GetMarkerSlot(void *unused, char *comm);
 int CTVT_COMM_IsPostBusy(void *unused, u8 *comm);
 u8 *CTVT_COMM_GetMyStatusPtr(void *unused, u8 *comm);
-u32 CTVT_COMM_GetVoiceRecord(void *unused, char *comm);
+void *CTVT_COMM_GetVoiceRecord(void *unused, char *comm);
 u32 CTVT_COMM_GetSlotConnected(void *unused, char *comm, int slot);
 char *CTVT_COMM_GetSlotParam(int unused, char *comm, int slot);
 char *CTVT_COMM_GetPeerStatus(int unused, char *comm);
 u32 CTVT_COMM_IsSlotActive(void *unused, char *comm, int slot);
 u8 CTVT_COMM_GetSlotReady(void *unused, char *comm, int slot);
-int CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full);
+struct CtvtStroke *CTVT_COMM_PopStroke(struct CtvtWork *unused, struct CtvtComm *comm, int *full);
 void CTVT_COMM_AdvanceWriteCursor(struct CtvtWork *unused, struct CtvtComm *comm);
 void CTVT_COMM_ResetSlotTimer(void *unused, u8 *comm);
 u32 CTVT_COMM_IsSlotTimerDone(void *unused, u8 *comm);

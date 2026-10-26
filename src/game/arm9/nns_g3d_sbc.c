@@ -1371,13 +1371,13 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *pRS, u32 opt)
                 NNS_G3dGeBufferOP_N(0x19, &m, 12);
             }
             NNS_G3dGeFlushBuffer();
-            *(volatile u32 *)0x04000440 = 0;
-            *(volatile u32 *)0x04000444 = 0;
-            *(volatile u32 *)0x04000454 = 0;
+            *(volatile u32 *)REG_MTX_MODE_ADDR = 0;
+            *(volatile u32 *)REG_MTX_PUSH_ADDR = 0;
+            *(volatile u32 *)REG_MTX_IDENTITY_ADDR = 0;
             while (G3X_GetClipMtx(&clip))
                 ;
-            *(volatile u32 *)0x04000448 = 1;
-            *(volatile u32 *)0x04000440 = 3;
+            *(volatile u32 *)REG_MTX_POP_ADDR = 1;
+            *(volatile u32 *)REG_MTX_MODE_ADDR = 3;
             NNS_G3dGeBufferOP_N(0x16, &clip, 16);
             {
                 fx32 s = clip.m[3][0] >> 4;

@@ -13,7 +13,7 @@ void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
 struct GameEvent;
 struct GameSystem;
 struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, int isDescending);
-int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_LiftEventMain(struct GameEvent *event, int *seq, void *eventWork);
 int FIELD_GIMMICK_LIFT_IsLiftArrived(FieldGimmickLiftWork *work);
 void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj);
 void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem);

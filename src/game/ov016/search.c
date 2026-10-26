@@ -34,7 +34,7 @@
  *   WM_GetOtherElements  0x0208F05C  arm
  *   sSearchBeaconTag  0x021DA8C0  data
  */
-#include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "../libc/memcmp/string.h"
 
 #include "../types.h"
 
@@ -100,7 +100,7 @@ static void renewInfo(WMStartScanExCallback *prm);
 void DWCi_SEARCHlInit(void)
 {
 	if (gSearchWork == 0)
-		gSearchWork = (tagMEMSEARCH *)DWCi_HEAPlAllocEx(0x1e60, 0x20);
+		gSearchWork = (tagMEMSEARCH *)DWCi_HEAPlAllocEx(sizeof(*gSearchWork), 0x20);
 }
 
 /*

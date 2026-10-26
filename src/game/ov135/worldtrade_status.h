@@ -7,7 +7,7 @@
 #include "../ov135/worldtrade_types.h"
 #include "../types.h"
 
-void WORLDTRADE_STATUS_Open(WorldtradeWork *p);
+int WORLDTRADE_STATUS_Open(WorldtradeWork *p);
 u32 WORLDTRADE_STATUS_WaitIdle(WorldtradeWork *p);
 u32 WORLDTRADE_STATUS_Close(WorldtradeWork *p);
 /* END mkheaders: generated region */

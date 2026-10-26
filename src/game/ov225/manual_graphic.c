@@ -68,6 +68,7 @@
  *   sManualGraphicConfig 0x021BBDF0 data ov225
  *   gManualGraphicMainBgLayerTable 0x021BBE4C data ov225
  *   d_021BBE4C 0x021BBE4C data a4
+ *   d_021BBE00 0x021BBE00 data a4
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -125,7 +126,7 @@ struct ManualWork {
     void *optionList;
 };
 
-struct ManualClactUnit { int unit; };
+struct ManualClactUnit { struct Unit *unit; };
 
 struct ManualScreen { u32 bgState; struct ManualClactUnit clactUnit; u32 reserved08; void *task; };
 
@@ -173,7 +174,7 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct ClactSysInit;
-struct ClactSysInit;
+extern const struct ClactSysInit d_021BBE00;
 #include "../arm9/clact.h"
 struct Unit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -185,17 +186,17 @@ void MANUAL_GRAPHIC_TaskNoop(void *unused, char *work);
 void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap);
 void MANUAL_GRAPHIC_DeleteScreen(char *p);
 void MANUAL_GRAPHIC_DrawScreen(char *p);
-u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
+struct Unit *MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
 void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *p);
 void MANUAL_GRAPHIC_CreateBg(void *p, u32 heap);
 void MANUAL_GRAPHIC_DeleteBg(void *p);
 void MANUAL_GRAPHIC_DrawBg(void *unused);
 void MANUAL_GRAPHIC_VBlankBg(void *unused);
-void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b);
+void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *p, struct DispVramCfg *a, int b);
 void MANUAL_GRAPHIC_DeleteClactUnit(char *p);
 void MANUAL_GRAPHIC_DrawClactUnit(void *unused);
 void MANUAL_GRAPHIC_VBlankClactUnit(void *unused);
-u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *p);
+struct Unit *MANUAL_GRAPHIC_GetUnitHandle(struct Unit *const *p);
 extern char sManualGraphicFile[], sManualGraphicVram[];
 extern u32 sManualGraphicConfig[];
 extern struct ManualGraphicRecord gManualGraphicMainBgLayerTable[];
@@ -204,8 +205,8 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct ManualGraphicArgs *args
 {
     struct ManualWork *work;
     GFL_HEAP_CreateChildHeap(1,0x90,0x50000);
-    work = PROCSYS_AllocProcWork(proc,0x78,0x90);
-    MI_CpuFill8(work,0,0x78);
+    work = PROCSYS_AllocProcWork(proc,sizeof(struct ManualWork),0x90);
+    MI_CpuFill8(work,0,sizeof(struct ManualWork));
     work->heap = 0x90;
     work->args = args;
     args->flag = 1;
@@ -271,12 +272,12 @@ int MANUAL_GRAPHIC_Main(void *unusedA,u32 *state,void *unused,char *work)
      if(((struct ManualWork *)work)->choice==2) {
       ((struct ManualWork *)work)->state=1;
       ((struct ManualWork *)work)->listOriginX=0; ((struct ManualWork *)work)->listOriginY=0;
-      *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList(work+0x20,*(char * *)&((struct ManualWork *)work)->data);
+      *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList((char *)&((struct ManualWork *)work)->listOriginX,*(char * *)&((struct ManualWork *)work)->data);
      } else if(((struct ManualWork *)work)->choice==3) {
       ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=1;
       ((struct ManualWork *)work)->detailId=done;
       ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-      *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
+      *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)((char *)&((struct ManualWork *)work)->ownerState),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
      }
     }
    }
@@ -290,12 +291,12 @@ innerDone:
     MANUAL_CATEGORY_DeleteList(*(char * *)&((struct ManualWork *)work)->list);
     if(((struct ManualWork *)work)->hasDetail==0) {
      ((struct ManualWork *)work)->state=done;
-     *(char * *)&((struct ManualWork *)work)->menu=MANUAL_COMMON_CreateDialog(work+0x14,*(char * *)&((struct ManualWork *)work)->data);
+     *(char * *)&((struct ManualWork *)work)->menu=MANUAL_COMMON_CreateDialog((char *)&((struct ManualWork *)work)->listBuf,*(char * *)&((struct ManualWork *)work)->data);
     } else {
      ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=0;
      ((struct ManualWork *)work)->detailId=((struct ManualWork *)work)->detailEntry;
      ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)((char *)&((struct ManualWork *)work)->ownerState),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
@@ -303,15 +304,15 @@ innerDone:
    if(MANUAL_CATEGORY_IsDetailFinished(*(char * *)&((struct ManualWork *)work)->detailList)) {
     MANUAL_CATEGORY_DeleteDetailList(*(char * *)&((struct ManualWork *)work)->detailList);
     if(((struct ManualWork *)work)->subFlag==0) {
-     if(((struct ManualWork *)work)->ownerState==0) { ((struct ManualWork *)work)->state=1; *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList(work+0x20,*(char * *)&((struct ManualWork *)work)->data); }
-     else if(((struct ManualWork *)work)->ownerState==1) { ((struct ManualWork *)work)->state=done; *(char * *)&((struct ManualWork *)work)->menu=MANUAL_COMMON_CreateDialog(work+0x14,*(char * *)&((struct ManualWork *)work)->data); }
+     if(((struct ManualWork *)work)->ownerState==0) { ((struct ManualWork *)work)->state=1; *(char * *)&((struct ManualWork *)work)->list=MANUAL_CATEGORY_CreateList((char *)&((struct ManualWork *)work)->listOriginX,*(char * *)&((struct ManualWork *)work)->data); }
+     else if(((struct ManualWork *)work)->ownerState==1) { ((struct ManualWork *)work)->state=done; *(char * *)&((struct ManualWork *)work)->menu=MANUAL_COMMON_CreateDialog((char *)&((struct ManualWork *)work)->listBuf,*(char * *)&((struct ManualWork *)work)->data); }
     } else {
      ((struct ManualWork *)work)->state=3;
      id=((struct ManualWork *)work)->entryId;
      count=MANUAL_COMMON_GetEntryValue3(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,id);
      selected=MANUAL_COMMON_GetEntryValue2(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,id);
-     if(!MANUAL_COMMON_GetSaveValue((void *)(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets),selected,(void *)(**(int * *)&((struct ManualWork *)work)->data)))
-      MANUAL_COMMON_SetSaveValue(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,selected,(struct Big *)(**(int * *)&((struct ManualWork *)work)->data));
+     if(!MANUAL_COMMON_GetSaveValue((void *)(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets),selected,((struct ManualData *)((struct ManualWork *)work)->data)->owner))
+      MANUAL_COMMON_SetSaveValue(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,selected,(struct Big *)((struct ManualData *)((struct ManualWork *)work)->data)->owner);
      ((struct ManualWork *)work)->selectedId=MANUAL_COMMON_GetEntryValue0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,id);
      ((struct ManualWork *)work)->entryCount=MANUAL_COMMON_GetEntryValue3(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,id);
      for(entryIndex=0;entryIndex<count;entryIndex++) {
@@ -320,7 +321,7 @@ innerDone:
       ((struct ManualWork *)work)->entries[entryIndex].item=item;
       ((struct ManualWork *)work)->entries[entryIndex].count=MANUAL_COMMON_GetEntryPair0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->assets,id,entryIndex);
      }
-     *(char * *)&((struct ManualWork *)work)->optionList=MANUAL_CATEGORY_CreateOption(work+0x48,*(char * *)&((struct ManualWork *)work)->data);
+     *(char * *)&((struct ManualWork *)work)->optionList=MANUAL_CATEGORY_CreateOption((char *)&((struct ManualWork *)work)->entryCount,*(char * *)&((struct ManualWork *)work)->data);
     }
    }
    break;
@@ -329,7 +330,7 @@ innerDone:
     MANUAL_CATEGORY_DeleteOption(((struct ManualWork *)work)->optionList);
     if(((struct ManualWork *)work)->closeFlag==0) {
      ((struct ManualWork *)work)->state=2;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)((char *)&((struct ManualWork *)work)->ownerState),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
@@ -361,8 +362,8 @@ static inline void GXS_SetVisibleWnd(int window) {
 
 void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 {
-    char *screen = GFL_HEAP_Alloc(heap, 16, 0, sManualGraphicFile, 454);
-    MI_CpuFill8(screen, 0, 16);
+    char *screen = GFL_HEAP_Alloc(heap, sizeof(struct ManualScreen), 0, sManualGraphicFile, 454);
+    MI_CpuFill8(screen, 0, sizeof(struct ManualScreen));
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
@@ -375,7 +376,7 @@ void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     MANUAL_GRAPHIC_CreateBg(screen, heap);
-    MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)screen + 4, (sptr)sManualGraphicVram, heap);
+    MANUAL_GRAPHIC_CreateClactUnit((unsigned char *)&((struct ManualScreen *)screen)->clactUnit, (struct DispVramCfg *)sManualGraphicVram, heap);
     ((struct ManualScreen *)screen)->task = GFL_USE_AddMainTask(MANUAL_GRAPHIC_VBlankScreen, screen, 0);
     return screen;
 }
@@ -383,29 +384,29 @@ void *MANUAL_GRAPHIC_CreateScreen(u32 swap, u32 heap)
 void MANUAL_GRAPHIC_DeleteScreen(char *screen)
 {
     TCB_DeleteTask(((struct ManualScreen *)screen)->task);
-    MANUAL_GRAPHIC_DeleteClactUnit(screen + 4);
+    MANUAL_GRAPHIC_DeleteClactUnit((char *)&((struct ManualScreen *)screen)->clactUnit);
     MANUAL_GRAPHIC_DeleteBg(screen);
     GF_FONT_SetDefaultTextColor();
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    MI_CpuFill8(screen, 0, 16);
+    MI_CpuFill8(screen, 0, sizeof(struct ManualScreen));
     GFL_HEAP_Free(screen);
 }
 
 void MANUAL_GRAPHIC_DrawScreen(char *screen)
 {
-    MANUAL_GRAPHIC_DrawClactUnit(screen + 4);
+    MANUAL_GRAPHIC_DrawClactUnit((char *)&((struct ManualScreen *)screen)->clactUnit);
     MANUAL_GRAPHIC_DrawBg(screen);
 }
 
-u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *screen) { return MANUAL_GRAPHIC_GetUnitHandle((const u32 *)(screen+4)); }
+struct Unit *MANUAL_GRAPHIC_GetClactUnit(const u8 *screen) { return MANUAL_GRAPHIC_GetUnitHandle((struct Unit *const *)&((const struct ManualScreen *)screen)->clactUnit); }
 
 void MANUAL_GRAPHIC_VBlankScreen(void *unused, char *screen)
 {
     MANUAL_GRAPHIC_VBlankBg(screen);
-    MANUAL_GRAPHIC_VBlankClactUnit(screen + 4);
+    MANUAL_GRAPHIC_VBlankClactUnit((char *)&((struct ManualScreen *)screen)->clactUnit);
 }
 
 void MANUAL_GRAPHIC_CreateBg(void *screen, u32 heap)
@@ -436,25 +437,25 @@ void MANUAL_GRAPHIC_DrawBg(void *unused) {}
 
 void MANUAL_GRAPHIC_VBlankBg(void *unused) { BG_SYS_Update(); }
 
-void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
+void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, struct DispVramCfg *arg, int heap)
 {
-    MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((struct ClactSysInit *)0x021BBE00, (struct DispVramCfg *)arg, heap);
-    ((struct ManualClactUnit *)clact)->unit = (sptr)CLACT_CreateUnit(0x80, 0, heap);
-    CLACT_SetUnitDefaultRenderer((void *)((struct ManualClactUnit *)clact)->unit);
+    MI_CpuFill8(clact, 0, sizeof(struct ManualClactUnit));
+    CLACT_InitSystem(&d_021BBE00, arg, heap);
+    ((struct ManualClactUnit *)clact)->unit = CLACT_CreateUnit(0x80, 0, heap);
+    CLACT_SetUnitDefaultRenderer(((struct ManualClactUnit *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 void MANUAL_GRAPHIC_DeleteClactUnit(char *clact)
 {
-    CLACT_DeleteUnit((struct Unit *)(((struct ManualClactUnit *)clact)->unit));
+    CLACT_DeleteUnit(((struct ManualClactUnit *)clact)->unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(clact, 0, 4);
+    MI_CpuFill8(clact, 0, sizeof(struct ManualClactUnit));
 }
 
 void MANUAL_GRAPHIC_DrawClactUnit(void *unused) {CLACT_DrawSystem();}
 
 void MANUAL_GRAPHIC_VBlankClactUnit(void *unused) {CLACT_VBlankSystem();}
 
-u32 MANUAL_GRAPHIC_GetUnitHandle(const u32 *handle) {return *handle;}
+struct Unit *MANUAL_GRAPHIC_GetUnitHandle(struct Unit *const *handle) {return *handle;}

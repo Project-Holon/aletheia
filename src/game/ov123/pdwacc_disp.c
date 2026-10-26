@@ -148,7 +148,7 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp);
 
 void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp);
 
-void PDWACC_DISP_VBlankTask(void);
+void PDWACC_DISP_VBlankTask(struct TcbTask * unused0, void * unused1);
 
 void PDWACC_DISP_LoadResources(PdwaccDispWork *disp);
 
@@ -177,13 +177,13 @@ extern const struct BgTemplate d_021DA8A8[8];
 PdwaccDispWork *PDWACC_DISP_Init(int heap)
 {
     PdwaccDispWork *disp;
-    disp=(PdwaccDispWork *) GFL_HEAP_Alloc(heap,0xb70,1,d_021DABFC,201);
+    disp=(PdwaccDispWork *) GFL_HEAP_Alloc(heap,sizeof(PdwaccDispWork),1,d_021DABFC,201);
     disp->heap=heap;
     GF_OVERLAY_Load((sptr)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetLcdSwap(1);
-    *(volatile u32 *)0x04001000|=0x10000;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR|=0x10000;
     GX_DispOn();
     BG_SYS_Create(disp->heap);
     CLACT_InitSystem((const struct ClactSysInit *)gGsyncClactConfig,(const struct DispVramCfg *)d_021DABCC,disp->heap);
@@ -192,7 +192,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021DABBC);
     PDWACC_DISP_InitBgLayers(disp);
     PDWACC_DISP_LoadResources(disp);
-    disp->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PDWACC_DISP_VBlankTask,(void *)disp,0);
+    disp->vblankTask=GFL_USE_AddMainTask(PDWACC_DISP_VBlankTask,(void *)disp,0);
     BG_SYS_SetSubVisiblePlanes(31);
     BG_SYS_SetMainVisiblePlanes(27);
     return disp;
@@ -210,9 +210,9 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
         disp->palette.enabled=0;
     }
     resourceIndex=0;
-    do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette((uptr)disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
-    for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter((uptr)disp->clactResources[resourceIndex]);
-    for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim((uptr)disp->clactResources[resourceIndex]);
+    do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette(disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
+    for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter(disp->clactResources[resourceIndex]);
+    for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim(disp->clactResources[resourceIndex]);
     if (disp->unusedTask) TCB_DeleteTask(disp->unusedTask);
     TCB_DeleteTask(disp->vblankTask);
     CLACT_DeleteUnit(disp->clactUnit);
@@ -292,7 +292,7 @@ void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp)
  * leaf: sole blocker of owned ov123 021D9958; parent ownership audit passed.
  * extent: 8-byte tailcall stub; next labelled function 021D9D3C follows.
  */
-void PDWACC_DISP_VBlankTask(void)
+void PDWACC_DISP_VBlankTask(struct TcbTask * unused0, void * unused1)
 {
     CLACT_VBlankSystem();
 }
@@ -379,7 +379,4 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
     }
 }
 
-/*
- * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
- */
-void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(uptr)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((PdwaccDispWork *)actorCursor)->actors[0]))); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }
+void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { if(disp->actors[slotIndex]) { CLACT_DeleteActor(disp->actors[slotIndex]); disp->actors[slotIndex]=0; } } }

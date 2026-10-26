@@ -46,7 +46,7 @@ BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
 u32 OS_GetThreadPriority(const OSThread *thread);
 void OS_Sleep(u32 msec);
 void OSi_SleepAlarmCallback(void *arg);
-void OSi_IdleThreadProc(void);
+void OSi_IdleThreadProc(void * unused0);
 u32 OS_DisableScheduler(void);
 u32 OS_EnableScheduler(void);
 void OS_SetThreadDestructor(OSThread *thread, void (*dtor)(void *));

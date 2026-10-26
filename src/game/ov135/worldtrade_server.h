@@ -8,7 +8,7 @@
 #include "../types.h"
 
 int WORLDTRADE_SERVER_Init(WorldtradeWork *p);
-void WORLDTRADE_SERVER_CallStateHandler(u8 *p);
+int WORLDTRADE_SERVER_CallStateHandler(u8 *p);
 int WORLDTRADE_SERVER_Exit(WorldtradeWork *p);
 void WORLDTRADE_SERVER_SetupBgPlanes(void);
 void WORLDTRADE_SERVER_ExitBgPlanes(void);

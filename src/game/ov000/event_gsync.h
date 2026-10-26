@@ -10,8 +10,8 @@ typedef struct GsyncEventWork GsyncEventWork;
 
 #include "../types.h"
 
-u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
-void *EVENT_GSYNC_Entry(void *gameSystem);
+int EVENT_GSYNC_Main(struct GameEvent *event, int *seq, void *work);
+struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *unused1);
 void *EVENT_GSYNC_Create(void *gameSystem);
 /* END mkheaders: generated region */
 

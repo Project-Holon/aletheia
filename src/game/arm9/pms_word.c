@@ -99,7 +99,7 @@ struct PmsWordSys *PMS_WORD_Create(u32 heapId)
     int i;
     struct PmsWordSys *p;
 
-    p = GFL_HEAP_Alloc((u16)heapId, 0x38, 0, g_pmsWordSourceFile, 0x32);
+    p = GFL_HEAP_Alloc((u16)heapId, sizeof(*p), 0, g_pmsWordSourceFile, 0x32);
     for (i = 0; i < 13; i++) {
         p->heapId = heapId;
         p->msg[i] = MSGDATA_CreateFromArchive(0, 2, g_pmsWordBankFileIds[i], heapId);

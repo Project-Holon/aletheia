@@ -2637,7 +2637,7 @@ void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 cl
     int lastValid;
     party = BTL_MAIN_GetClientParty(main, clientId, side->sideIndex);
     slotBase = (char *)side->slots;
-    slotOffset = clientId * 0x1c;
+    slotOffset = clientId * sizeof(struct BtlSideSlot);
     count = POKEPARTY_GetCount(party);
     firstPokeId = gClientFirstPokeIds[clientId];
     side->parties[clientId] = party;
@@ -2805,7 +2805,7 @@ u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u8 position)
     struct BtlMain *main = *side;
     u8 clientId;
     u8 nth;
-    char *slot;
+    struct BtlSideSlot *slot;
 
     clientId = BTL_MAIN_GetSlotClientId(main, position);
     nth = 0;
@@ -2813,9 +2813,9 @@ u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u8 position)
         if (clientId == main->slotClientIds[i])
             nth++;
     }
-    slot = (char *)side + 4 + clientId * 0x1c;
-    if (nth < BTL_SLOT_GetCount((struct BtlSideSlot *)slot))
-        return (u8 *)BTL_SLOT_GetPokeParam((struct BtlSideSlot *)slot, nth);
+    slot = &((struct BtlSide *)side)->slots[clientId];
+    if (nth < BTL_SLOT_GetCount(slot))
+        return (u8 *)BTL_SLOT_GetPokeParam(slot, nth);
     return 0;
 }
 
@@ -3319,7 +3319,7 @@ struct MyStatus *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0xaf; lsls r1, r1, #2; ldr r0, [r0, r1]; bx lr.
  */
-u32 BTL_MAIN_GetField(struct BtlMain *main) { return (uptr)main->field; }
+BtlFieldState *BTL_MAIN_GetField(struct BtlMain *main) { return main->field; }
 
 void BTL_MAIN_CreateParties(struct BtlMain *main)
 {
@@ -3486,7 +3486,11 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     if (main->setup->competitor == 4) return;
     for (k = 0; k < 4; k++) {
         slot = BTL_MAIN_GetRelativeClientIndex((u8)main->ownClientId, (u8)k);
+#ifdef __MWERKS__
         for (j = 0; j < 6; j++) { rowObj = (uptr)main->setup; rowStart = slot * 6; *(u8 *)(j + (rowStart + rowObj) + 0xc8) = 0; }
+#else
+        for (j = 0; j < 6; j++) main->setup->memberStatus[slot][j] = 0;
+#endif
         if (BTL_MAIN_IsClientUsed(main, (u8)slot)) {
             group = BTL_SIDE_GetSlotOfClient(&main->sides[0], slot);
             count = BTL_SLOT_GetCount(group);
@@ -3497,10 +3501,19 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
                 i = (u8)(BTL_POKEPARAM_GetPokeId(poke) - base);
                 total += BTL_POKEPARAM_GetValue(poke, 13);
                 maximum += BTL_POKEPARAM_GetValue(poke, 14);
+#ifdef __MWERKS__
                 if (BTL_POKEPARAM_IsFainted(poke)) { rowObj = (uptr)main->setup; rowFainted = slot * 6; *(u8 *)(i + (rowFainted + (uptr)main->setup) + 0xc8) = 2; }
                 else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) { rowObj = (uptr)main->setup; rowStatus = slot * 6; *(u8 *)(i + (rowStatus + rowObj) + 0xc8) = 1; }
+#else
+                if (BTL_POKEPARAM_IsFainted(poke)) main->setup->memberStatus[slot][i] = 2;
+                else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) main->setup->memberStatus[slot][i] = 1;
+#endif
             }
+#ifdef __MWERKS__
             *(u32 *)((char *)main->setup + slot * 4 + 0xe0) = (total * 100) / maximum;
+#else
+            main->setup->hpPercent[slot] = (total * 100) / maximum;
+#endif
         }
     }
 }

@@ -176,7 +176,7 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc);
 int MAILSYS_RunSequence(struct MailEditProc *proc);
 int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc);
 int MAILSYS_OnTouchMode(struct MailEditProc *proc);
-int MAILSYS_OnKeyModeNoOp(void);
+int MAILSYS_OnKeyModeNoOp(struct MailEditProc *proc);
 int MAILSYS_UpdateInputMode(struct MailEditProc *proc);
 int MAILSYS_SwitchInputModeOnTrigger(struct MailEditProc *proc);
 int MAILSYS_HandleKeyInput(struct MailEditProc *proc);
@@ -198,8 +198,8 @@ struct MailDraft *MAILSYS_CreateMessage(struct Mail *mail, unsigned heap)
     struct MailDraft *draft;
     u16 i;
     i = 0;
-    draft = GFL_HEAP_Alloc((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
-    MIi_CpuClearFast(0, draft, 0x34);
+    draft = GFL_HEAP_Alloc((u16)heap, sizeof(*draft), 0, d_021C7EEC, 0x147);
+    MIi_CpuClearFast(0, draft, sizeof(*draft));
     draft->result = i;
     draft->writerId = MAIL_GetWriterId(mail);
     draft->writerName = STRBUF_Create(0x10, heap);
@@ -247,8 +247,8 @@ int MAILSYS_ProcInit(void *a, void *b, struct MailDraft *draft)
     struct MailEditProc *proc;
     u8 v;
     GFL_HEAP_CreateChildHeap(1, 0x64, 0x20000);
-    proc = PROCSYS_AllocProcWork(a, 0x15C, 0x64);
-    MIi_CpuClearFast(0, proc, 0x15C);
+    proc = PROCSYS_AllocProcWork(a, sizeof(*proc), 0x64);
+    MIi_CpuClearFast(0, proc, sizeof(*proc));
     proc->heapId = 0x64;
     proc->draft = draft;
     proc->mode = draft->result;
@@ -290,7 +290,7 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
 int MAILSYS_RunSequence(struct MailEditProc *proc)
 {
     int r = 0;
-    uptr t;
+    void *t;
 
     switch (proc->step) {
     case 0:
@@ -298,7 +298,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         WIPE_SetBrightnessFadeOut(0, 0);
         WIPE_SetBrightnessFadeOut(1, 0);
         WIPE_ResetWndMask(0);
-        WIPE_ResetWndMask((void *)1);
+        WIPE_ResetWndMask(1);
         (proc->step)++;
         break;
     case 1:
@@ -307,8 +307,8 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
             G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 0x1C, 4);
-            t = (uptr)GFL_USE_GetMainTaskList();
-            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, (void *)t);
+            t = GFL_USE_GetMainTaskList();
+            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, t);
             (proc->step)++;
         }
         break;
@@ -320,8 +320,8 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     case 3:
         if (data_021C7774[proc->mode](proc) == 1) {
             (proc->step)++;
-            t = (uptr)GFL_USE_GetMainTaskList();
-            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, (void *)t);
+            t = GFL_USE_GetMainTaskList();
+            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, t);
         }
         PMS_DRAW_Main(proc->pmsDraw);
         if (proc->sendButton) {
@@ -355,9 +355,9 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     if (proc->tcbl)
         TCBL_Main((struct TcblSystem *)proc->tcbl);
     if (proc->printQue)
-        PRINTSYS_QUE_Main((struct PrintQueue *)proc->printQue);
+        PRINTSYS_QUE_Main(proc->printQue);
     if (proc->pmsPrintQue)
-        PRINTSYS_QUE_Main((struct PrintQueue *)proc->pmsPrintQue);
+        PRINTSYS_QUE_Main(proc->pmsPrintQue);
     return r;
 }
 
@@ -397,7 +397,7 @@ int MAILSYS_OnTouchMode(struct MailEditProc *proc)
     return 0;
 }
 
-int MAILSYS_OnKeyModeNoOp(void)
+int MAILSYS_OnKeyModeNoOp(struct MailEditProc *proc)
 {
     return 0;
 }

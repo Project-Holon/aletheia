@@ -48,6 +48,12 @@
 #include "socl_command_types.h"
 
 typedef struct UdpData UdpData;
+
+/* The head of a socket command pipe: the message queue, then the thread. */
+typedef struct SoclPipeHead {
+	OSMessageQueue queue;
+	OSThread thread;
+} SoclPipeHead;
 struct UdpData {
 	UdpData *next;
 };
@@ -200,13 +206,13 @@ int SOCL_Close(int s)
 		if (mode == 0) {
 			SOCLi_Resource.datagramCount--;
 		} else {
-			SOCLi_SendCommandPacket((sptr)socket->send_pipe, 0);
+			SOCLi_SendCommandPacket(socket->send_pipe, 0);
 			SOCLi_Resource.streamCount--;
 		}
 	}
 	command = (struct SOCLCommand *)SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, (struct SOCLSocket *)socket, 1);
 	command->response_queue = result;
-	SOCLi_SendCommandPacketToCtrlPipe((sptr)socket, (sptr)command);
+	SOCLi_SendCommandPacketToCtrlPipe((struct SOCLSocket *)socket, (struct SOCLiCommandPacket *)command);
 	return result;
 }
 
@@ -231,17 +237,17 @@ int SOCLi_CloseCallBack(void *arg)
 
 	socket = ((Cmd *)arg)->socket;
 	if (IsStream(socket)) {
-		OS_JoinThread((OSThread *)((char *)socket->send_pipe + 0x20));
+		OS_JoinThread(&((SoclPipeHead *)socket->send_pipe)->thread);
 		CPS_TcpShutdown();
 		CPS_TcpClose();
 		CPS_SocRelease();
 	}
 	CPS_SocUnRegister();
 	socket->state &= ~6;
-	SOCLi_SendCommandPacket((sptr)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
+	SOCLi_SendCommandPacket((socket->flag_mode == 2 ? (void *)socket->send_pipe : (void *)socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
-	SOCLi_SocketUnregister((sptr)socket);
-	SOCLi_SocketRegisterTrash((sptr)socket);
+	SOCLi_SocketUnregister((struct SOCLSocket *)socket);
+	SOCLi_SocketRegisterTrash((struct SOCLSocket *)socket);
 	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;
@@ -280,8 +286,8 @@ void SOCLi_CleanupSocket(Socket *socket)
 		SOCLi_FreeCommandPipe(socket->send_pipe);
 	}
 	enable = OS_DisableInterrupts();
-	SOCLi_SocketUnregister((sptr)socket);
-	SOCLi_SocketUnregisterTrash((sptr)socket);
+	SOCLi_SocketUnregister((struct SOCLSocket *)socket);
+	SOCLi_SocketUnregisterTrash((struct SOCLSocket *)socket);
 	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }
@@ -298,7 +304,7 @@ void SOCLi_FreeCommandPipe(unsigned char *pipe)
 	if (pipe == 0) {
 		return;
 	}
-	OS_JoinThread((OSThread *)((char *)pipe + 0x20));
+	OS_JoinThread(&((SoclPipeHead *)pipe)->thread);
 	enable = OS_DisableInterrupts();
 	OS_DisableScheduler();
 	while (OS_ReceiveMessage((struct OSMessageQueue *)pipe, (void **)&command, 0)) {

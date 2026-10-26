@@ -275,7 +275,7 @@ void VIEWER_ACTOR_SetRowActorDrawEnable(ViewerTextWork *p, int row, int n);
 void VIEWER_ACTOR_RefreshRows(ViewerTextWork *p);
 void VIEWER_ACTOR_HandleScrollRepeat(u8 *p, int value);
 void VIEWER_ACTOR_ResetDragFlags(u8 *p);
-void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx);
+void VIEWER_ACTOR_StepScrollCount(ViewerTextWork *p, int idx);
 extern const ViewerRowTemplate d_021C8AA0[36];
 extern const void *const d_021C8810;
 extern const ViewerCamera d_021C896C;
@@ -308,7 +308,7 @@ void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
         pos.z = d_021C8AA0[i].z;
         pos.flags = 0;
         pos.pri = 0x24 - i;
-        p->actors.obj[i] = CLACT_CreateActor((struct Unit *)p->unit, (uptr)p->resSet.set[d_021C8AA0[i].cell], (uptr)p->resSet.set[d_021C8AA0[i].chr], (uptr)p->resSet.set[d_021C8AA0[i].anm], (const struct ActorInitParam *)&pos, 0, 0x27);
+        p->actors.obj[i] = CLACT_CreateActor((struct Unit *)p->unit, p->resSet.set[d_021C8AA0[i].cell], p->resSet.set[d_021C8AA0[i].chr], p->resSet.set[d_021C8AA0[i].anm], (const struct ActorInitParam *)&pos, 0, 0x27);
         CLACT_SetActorAutoAnim(p->actors.obj[i], 1);
     }
 }
@@ -318,12 +318,12 @@ void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
 
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p)
 {
-    CLACT_ReleaseCharacter((uptr)p->resSet.named.chr2);
-    CLACT_ReleasePalette((uptr)p->resSet.named.palette2);
-    CLACT_ReleaseCellAnim((uptr)p->resSet.named.cellAnim2);
-    CLACT_ReleaseCharacter((uptr)p->resSet.named.chr);
-    CLACT_ReleasePalette((uptr)p->resSet.named.palette);
-    CLACT_ReleaseCellAnim((uptr)p->resSet.named.cellAnim);
+    CLACT_ReleaseCharacter(p->resSet.named.chr2);
+    CLACT_ReleasePalette(p->resSet.named.palette2);
+    CLACT_ReleaseCellAnim(p->resSet.named.cellAnim2);
+    CLACT_ReleaseCharacter(p->resSet.named.chr);
+    CLACT_ReleasePalette(p->resSet.named.palette);
+    CLACT_ReleaseCellAnim(p->resSet.named.cellAnim);
     CLACT_DeleteUnit(p->unit);
     CLACT_ExitSystem();
 }
@@ -1198,9 +1198,9 @@ void VIEWER_ACTOR_ResetDragFlags(u8 *p) { p[2] = 0; p[3] = 0; }
 
 
 
-void VIEWER_ACTOR_StepScrollCount(u8 *p, int idx)
+void VIEWER_ACTOR_StepScrollCount(ViewerTextWork *p, int idx)
 {
-    s32 *count = (s32 *)(p + 0x188);
+    s32 *count = p->badgeTimer;
 
     if (count[idx] < 0x23F) {
         count[idx]++;
@@ -1255,7 +1255,7 @@ void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx)
             }
         }
         if (hit) {
-            VIEWER_ACTOR_StepScrollCount((u8 *)p, idx);
+            VIEWER_ACTOR_StepScrollCount(p, idx);
         }
     }
     p->prevX = x;

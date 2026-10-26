@@ -7,22 +7,23 @@
 #include "../arm9/net_whpipe_types.h"
 #include "../arm9/net_whpipe_types.h"
 #include "../types.h"
+#include "../ov014/wih.h"
 
 void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task);
-int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening);
+int NET_WHPIPE_Create(int heapId, int wmParam, void *userData, int forListening);
 void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c));
 int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry);
-int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry);
+int NET_WHPIPE_StoreScannedEntry(void *arg);
 int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags);
 void NET_WHPIPE_ClearEntries(void);
 void NET_WHPIPE_ResetState(WhPipeWork *work);
-int NET_WHPIPE_ForwardEvent(int a, int b, int c);
+int NET_WHPIPE_ForwardEvent(u32 a, u32 b, u32 c);
 int NET_WHPIPE_StartScan(int clearEntries);
 void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work);
 void NET_WHPIPE_TaskWaitFinalize(WhPipeWork *work);
 int NET_WHPIPE_RequestFinalize(void);
 void NET_WHPIPE_Destroy(void);
-int NET_WHPIPE_NotifyEntryAcceptable(WhPipeEntry *entry);
+int NET_WHPIPE_NotifyEntryAcceptable(void *arg);
 void NET_WHPIPE_TickEntryAges(void);
 void NET_WHPIPE_PublishBeacon(void);
 void NET_WHPIPE_RefreshBeacon(void);
@@ -45,7 +46,7 @@ void NET_WHPIPE_ReleaseEntry(unsigned int index);
 u8 *NET_WHPIPE_GetEntryBeacon(WhPipeEntry *entry, u8 *outKind);
 int NET_WHPIPE_HasBeaconBeenSent(void *unused);
 int NET_WHPIPE_IsStateScanning(void);
-int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg);
+int NET_WHPIPE_SendData(u16 *data, unsigned int size, WihResultCallback callbackArg);
 unsigned int NET_WHPIPE_GetConnectBitmap(void);
 int NET_WHPIPE_GetOwnAid(void);
 void NET_WHPIPE_TaskConnectParent(WhPipeWork *work);
@@ -55,9 +56,9 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 void NET_WHPIPE_TaskConnectChild(WhPipeWork *work);
 int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnected)(void));
 void NET_WHPIPE_TaskFinishEnd(WhPipeWork *work);
-int NET_WHPIPE_RequestEnd(int endCallback);
-int NET_WHPIPE_AcceptChild(void);
-int NET_WHPIPE_RejectChild(void);
+int NET_WHPIPE_RequestEnd(WihEndCallback endCallback);
+int NET_WHPIPE_AcceptChild(void *startParentCb, void *userArg);
+int NET_WHPIPE_RejectChild(void *startParentCb, void *userArg);
 void NET_WHPIPE_SetAcceptChild(int acceptChild);
 void NET_WHPIPE_TaskParentSearchWait(WhPipeWork *work);
 void NET_WHPIPE_TaskParentSearchStart(WhPipeWork *work);
@@ -69,7 +70,7 @@ u8 NET_WHPIPE_GetEntryKind(u8 i);
 void NET_WHPIPE_SelectEntry(u32 i);
 void NET_WHPIPE_StartJoinLock(int a);
 void NET_WHPIPE_SetBeaconStatus(u8 value);
-void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
+void NET_WHPIPE_SetNotifyCallback(WhPipeNotifyFunc callback, void *value);
 /* END mkheaders: generated region */
 
 #endif

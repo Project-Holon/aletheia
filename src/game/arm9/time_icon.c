@@ -218,7 +218,7 @@ void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, 
 /* Allocates an idle TimeIcon: heap id and frame sheet only; TIME_ICON_Start finishes it. */
 struct TimeIcon *TIME_ICON_Alloc(u32 heapId)
 {
-    struct TimeIcon *icon = GFL_HEAP_Alloc(heapId, 0x1c, 0, time_icon_File, 0xa6);
+    struct TimeIcon *icon = GFL_HEAP_Alloc(heapId, sizeof(*icon), 0, time_icon_File, 0xa6);
 
     icon->heapId = (u16)heapId;
     icon->sheet = BMP_CreateFromArchive(0xc6, 0, 1, icon->heapId);

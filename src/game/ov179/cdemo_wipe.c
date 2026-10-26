@@ -28,7 +28,8 @@
 
 #include "../arm9/wipe.h"
 #include "../arm9/arc_util.h"
-extern void MIi_CpuCopy32(int, int, int);
+#include "../arm9/mi_memory.h"
+#include "../arm9/nns_g2d_res_types.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/key.h"
 #include "../arm9/gfl_use.h"
@@ -65,15 +66,15 @@ void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c)
 
 void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
 {
-    void *ptr;
-    sptr t;
+    NNSG2dPaletteData *ptr;
+    void *t;
     char *p;
 
-    t = (sptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct CdemoState *)obj)->arcHandle), b, (&ptr), 0x807f);
+    t = ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct CdemoState *)obj)->arcHandle), b, (&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
-    ((struct CdemoPaletteBlock *)p)->count = ((struct CdemoPaletteEntry *)ptr)->size;
-    MIi_CpuCopy32(((struct CdemoPaletteEntry *)ptr)->data, (sptr)p, ((struct CdemoPaletteBlock *)p)->count);
-    GFL_HEAP_Free((void *)t);
+    ((struct CdemoPaletteBlock *)p)->count = ptr->szByte;
+    MIi_CpuCopy32(ptr->pRawData, p, ((struct CdemoPaletteBlock *)p)->count);
+    GFL_HEAP_Free(t);
 }
 
 extern int (*const d_021B6A04[])(char *);

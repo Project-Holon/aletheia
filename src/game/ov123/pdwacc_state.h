@@ -29,10 +29,10 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc);
 void PDWACC_STATE_StateSendRequest(PdwaccProc *proc);
 void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc);
 void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc);
-void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc);
+void PDWACC_STATE_DestroyHttpConnection(void *arg, u32 errorCode, u32 errorType, int dwcError);
 int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param);
 int PDWACC_STATE_ProcMain(int unused0,int unused1,PdwaccProcParam *param,PdwaccProc *proc);
-int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *proc);
+int PDWACC_STATE_ProcExit(void *procHandle, int unused0, int unused1, PdwaccProc *proc);
 /* END mkheaders: generated region */
 
 #endif

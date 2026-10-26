@@ -98,7 +98,7 @@ void CARD_SPI_WaitNotBusy(void)
 
 void CARD_SPI_SetControl(u16 v)
 {
-    *(volatile u16 *)0x040001A0 = v | 0xA000;
+    *(volatile u16 *)REG_MCCNT0_ADDR = v | 0xA000;
 }
 
 u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
@@ -109,7 +109,7 @@ u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
     start = OS_GetTick();
     while ((OS_GetTick() - start) * 64000 / 33514 < 50)
         ;
-    *(volatile u16 *)0x040001A2 = *xfer->txCursor;
+    *(volatile u16 *)REG_MCD0_ADDR = *xfer->txCursor;
     xfer->txCursor += 1;
     CARD_SPI_WaitNotBusy();
     v = *(volatile u16 *)REG_MCD0_ADDR;
@@ -124,9 +124,9 @@ void CARD_SPI_ReceiveByte(CardSpiTransfer *xfer)
     u64 start;
     start=OS_GetTick();
     while((OS_GetTick()-start)*64000/33514<50) ;
-    *(volatile u16 *)0x040001A2=0;
+    *(volatile u16 *)REG_MCD0_ADDR=0;
     CARD_SPI_WaitNotBusy();
-    *xfer->rxCursor=*(volatile u16 *)0x040001A2;
+    *xfer->rxCursor=*(volatile u16 *)REG_MCD0_ADDR;
     xfer->rxCursor+=1;
 }
 

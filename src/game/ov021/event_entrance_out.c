@@ -96,7 +96,7 @@ GameEvent *EVENT_ENTRANCE_OUT_Create(EntranceParam *param)
         eventKind = ENTRANCE_EVENT_CAMERA;
         break;
     }
-    event = GAME_EVENT_Create(param->gameSystem, param->event, (GameEventFunc)table.func[eventKind], sizeof(EntranceOutWork));
+    event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceOutWork));
     ((EntranceOutWork *)GAME_EVENT_GetWork(event))->param = param;
     return event;
 }

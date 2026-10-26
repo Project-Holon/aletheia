@@ -195,11 +195,11 @@ struct ThAwardRec { u32 msg; u16 a; u16 level; u32 b; };
 struct ClactActor;
 struct Unit;
 struct ActorInitParam;
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
+#include "../arm9/clact.h"
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
-extern void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap);
+#include "th_award_graphic.h"
 #include "../arm9/gf_font.h"
 struct PrintQueue;
 #include "../arm9/printsys.h"
@@ -212,7 +212,6 @@ extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_Refr
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 #include "../arm9/gfl_heap_wrap.h"
-extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
 extern void GFL_USE_SetBgmPaused(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
 #include "../arm9/key.h"
@@ -220,27 +219,16 @@ extern void GFL_USE_SetBgmPaused(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),
 #include "../arm9/ui.h"
 struct BmpWin;
 #include "../arm9/bmp_win.h"
-extern void TH_AWARD_GRAPHIC_Update(char*);
 extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
-extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-extern struct Unit *TH_AWARD_GRAPHIC_GetActor(u8 *p);
-extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 struct Actor;
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
 #include "../arm9/poke_tool_ext.h"
-extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCellAnim(unsigned),CLACT_ReleaseCharacter(unsigned),CLACT_ReleasePalette(unsigned);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
 #include "../arm9/msgdata.h"
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/strbuf.h"
 #include "../arm9/wordset.h"
+#include "../sdk_ioreg.h"
 int TH_AWARD_Init(void *host,void *unused,void *args);
 int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p);
 int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p);
@@ -275,8 +263,8 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     void *owner;
     u16 heap;
     GFL_HEAP_CreateChildHeap((uptr)((void *)1),131,0x50000);
-    p=PROCSYS_AllocProcWork(host,0xB4,131);
-    MI_CpuFill8(p,0,0xB4);
+    p=PROCSYS_AllocProcWork(host,sizeof(struct ThAwardWork),131);
+    MI_CpuFill8(p,0,sizeof(struct ThAwardWork));
     p->heap=131;
     p->args=args;
     p->graphic=TH_AWARD_GRAPHIC_Create(1,p->heap);
@@ -289,9 +277,9 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     if (!*(u8 *)desc) p->bgmIndex=7;
     else p->bgmIndex=TH_AWARD_GetLevelIndex(*(u16 *)(desc+2));
     TH_AWARD_LoadBgAssets(p);TH_AWARD_CreateSpeciesActors((char *)p);TH_AWARD_CreateBgActors(p);TH_AWARD_SetupWindows(p);
-    *(volatile u16 *)0x04001050=0;
-    *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
-    *(volatile u32 *)0x04001000 |= 0x10000;
+    *(volatile u16 *)REG_DB_BLDCNT_ADDR=0;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR &= 0xFFFF1FFF;
+    *(volatile u32 *)REG_DB_DISPCNT_ADDR |= 0x10000;
     BG_SYS_ClearSubPlanes();GXS_SetGraphicsMode(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
@@ -414,48 +402,48 @@ void TH_AWARD_CreateSpeciesActors(char *p)
   u8 gender;
   u8 *desc;
   u8 i;
-  char *res;
-  char *slot;
+  struct ThAwardWork *res;
+  struct ThAwardWork *slot;
   struct ThAwardActorPos param;
   void *actor;
-  char *args = *((char **) (p + 4));
-  *((u8 *) (p + 0x18)) = 0;
-  if (*((u32 *) (args + 8)))
-    desc = (*((u8 **) (args + 4))) + 0x14;
+  struct ThAwardArgs *args = ((struct ThAwardWork *)p)->args;
+  ((struct ThAwardWork *)p)->speciesCount = 0;
+  if (args->hasExtra)
+    desc = args->base + 0x14;
   else
-    desc = *((u8 **) (args + 4));
+    desc = args->base;
   if (*desc)
   {
     if (desc[1] == 0)
     {
-      *((u8 *) (p + 0x18)) = 3;
+      ((struct ThAwardWork *)p)->speciesCount = 3;
       coords = sThAwardCoords3;
     }
     else
     {
-      *((u8 *) (p + 0x18)) = 4;
+      ((struct ThAwardWork *)p)->speciesCount = 4;
       coords = sThAwardCoords4;
     }
-    owner = ARC_TOOL_CreateHandle(7, *((u16 *) p));
-    for (i = 0; i < (*((u8 *) (p + 0x18))); i++)
+    owner = ARC_TOOL_CreateHandle(7, ((struct ThAwardWork *)p)->heap);
+    for (i = 0; i < ((struct ThAwardWork *)p)->speciesCount; i++)
     {
       species = *((u16 *) (desc + i * 4 + 4));
       form = desc[i * 4 + 6];
       gender = desc[i * 4 + 7];
       if (i == 0)
-        *((u32 *) (p + i * 12 + 0x20)) = CLACT_RegisterPaletteCompressed(owner, POKE_TOOL_GetIconPaletteArcId(), 0, 32, *((u16 *) p));
-      res = p + i * 12;
-      *((u32 *) (res + 0x1C)) = CLACT_RegisterCharacter(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
-      *((u32 *) (res + 0x24)) = CLACT_RegisterCellAnim(owner, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), *((u16 *) p));
+        ((struct ThAwardWork *)((struct ThAwardSlot *)p + i))->slots[0].paletteId = CLACT_RegisterPaletteCompressed(owner, POKE_TOOL_GetIconPaletteArcId(), 0, 32, ((struct ThAwardWork *)p)->heap);
+      res = (struct ThAwardWork *)((struct ThAwardSlot *)p + i);
+      res->slots[0].charId = CLACT_RegisterCharacter(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, ((struct ThAwardWork *)p)->heap);
+      res->slots[0].cellAnimId = CLACT_RegisterCellAnim(owner, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), ((struct ThAwardWork *)p)->heap);
       MI_CpuFill8(&param, 0, 8);
-      param.x = *((const s16 *) (coords + i * 4));
-      param.y = *((const s16 *) (coords + i * 4 + 2));
-      slot = p + i * 4;
-      actor = CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((uptr) (&param)), 0, *((u16 *) p));
-      *((void **) (slot + 0x4C)) = actor;
+      param.x = *((const s16 *) (coords + i * sizeof(u32)));
+      param.y = *((const s16 *) (coords + i * sizeof(u32) + 2));
+      slot = (struct ThAwardWork *)((char *)p + (unsigned)(i * sizeof(void *)));
+      actor = CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(((struct ThAwardWork *)p)->graphic), res->slots[0].charId, ((struct ThAwardWork *)p)->slots[0].paletteId, res->slots[0].cellAnimId, (const void *)( (&param)), 0, ((struct ThAwardWork *)p)->heap);
+      slot->actors[0] = actor;
       CLACT_SetActorAnimSeq(actor, 1);
-      CLACT_SetActorAutoAnim(*((void **) (slot + 0x4C)), 0);
-      CLACT_SetActorPaletteOffset(*((void **) (slot + 0x4C)), POKE_TOOL_CalcIconPalette(species, form, gender, 0), 0);
+      CLACT_SetActorAutoAnim(slot->actors[0], 0);
+      CLACT_SetActorPaletteOffset(slot->actors[0], POKE_TOOL_CalcIconPalette(species, form, gender, 0), 0);
     }
     ARC_TOOL_DeleteHandle(owner);
   }
@@ -479,7 +467,7 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
     u8 i=0;
     p->bgSlotCount=0;
     if(p->bgmIndex!=7){
-        p->bgSlotCount=*(const u8*)((uptr)sThAwardTable+p->bgmIndex*12);
+        p->bgSlotCount=*(const u8*)(sThAwardTable+p->bgmIndex*12);
         if(*(volatile u8 *)&p->bgSlotCount){
             owner=ARC_TOOL_CreateHandle(201,p->heap);
             p->paletteId=CLACT_RegisterPaletteEx(owner,1,0,0,0,1,p->heap);

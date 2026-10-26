@@ -8,6 +8,7 @@
 #include "zukan_detail_shared_types.h"
 
 struct ClactActor;
+struct Unit;
 struct Bmp;
 struct Descriptor;
 struct Ov208Win;
@@ -19,7 +20,7 @@ struct Ov208PalFade;
 #define ZUKAN_DETAIL_VOICE_ACTOR_COUNT 7
 
 struct ZukanDetailVoice {
-    /* 0x00 */ unsigned int clactSys;
+    /* 0x00 */ struct Unit *clactSys;
     /* 0x04 */ struct GfFont *font;
     /* 0x08 */ void *printQue;
     /* 0x0C */ struct Descriptor *nameWin;

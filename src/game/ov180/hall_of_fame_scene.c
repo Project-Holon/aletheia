@@ -210,9 +210,7 @@ typedef struct HofMtx {
     int m[4];
 } HofMtx;
 
-typedef struct HofVec3 {
-    int x, y, z;
-} HofVec3;
+typedef VecFx32 HofVec3;
 
 /* Camera description of the particle system. */
 typedef struct HofParticleCamera {
@@ -494,7 +492,7 @@ void HALL_OF_FAME_ExitParticleManager(void)
 
 void HALL_OF_FAME_CreateMonParticle(HallOfFameWork *work)
 {
-    work->monParticle = (void *)PARTICLE_CreateSystemDefault((sptr)work->monParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
+    work->monParticle = (void *)PARTICLE_CreateSystemDefault(work->monParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
     PARTICLE_SetupSystem(work->monParticle, (void *)PARTICLE_LoadArchiveMember(216, gHallOfFameEffectArchives[work->effectStyle], HOF_HEAP_ID), 1, 0);
 }
 
@@ -508,12 +506,12 @@ void HALL_OF_FAME_StartMonParticle(HallOfFameWork *work, int effect)
 {
     HofVec3 origin;
     origin = gHallOfFameMonEffectOrigin;
-    PARTICLE_StartEffect(work->monParticle, effect, (sptr)&origin);
+    PARTICLE_StartEffect(work->monParticle, effect, &origin);
 }
 
 void HALL_OF_FAME_CreateBackdropParticle(HallOfFameWork *work)
 {
-    work->backdropParticle = (void *)PARTICLE_CreateSystemDefault((sptr)work->backdropParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
+    work->backdropParticle = (void *)PARTICLE_CreateSystemDefault(work->backdropParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
     PARTICLE_SetupSystem(work->backdropParticle, (void *)PARTICLE_LoadArchiveMember(216, 51, HOF_HEAP_ID), 1, 0);
 }
 
@@ -525,8 +523,8 @@ void HALL_OF_FAME_DeleteBackdropParticle(HallOfFameWork *work)
 
 void HALL_OF_FAME_StartBackdropParticle(HallOfFameWork *work, int effect)
 {
-    int origin[3] = {0, 0, 0};
-    PARTICLE_StartEffect(work->backdropParticle, effect, (sptr)origin);
+    Vec3 origin = {0, 0, 0};
+    PARTICLE_StartEffect(work->backdropParticle, effect, &origin);
 }
 
 void HALL_OF_FAME_SetParticleCamera(HallOfFameWork *work, void *particle, int mode)
@@ -609,8 +607,9 @@ void HALL_OF_FAME_MoveMonSpriteX(HallOfFameWork *work, int step)
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  */
-void HALL_OF_FAME_OnMonAnimDone(HallOfFameWork *work)
+void HALL_OF_FAME_OnMonAnimDone(void *param, u32 frame)
 {
+    HallOfFameWork *work = (HallOfFameWork *)param;
     MCSS_SetAnmStopFlag(work->monSprite);
     work->monAnimDone = 1;
 }
@@ -618,7 +617,7 @@ void HALL_OF_FAME_OnMonAnimDone(HallOfFameWork *work)
 void HALL_OF_FAME_StartMonAnimCallback(HallOfFameWork *work)
 {
     work->monAnimDone = 0;
-    MCSS_SetAnimCallback(work->monSprite, (uptr)work, (uptr)HALL_OF_FAME_OnMonAnimDone, 0);
+    MCSS_SetAnimCallback(work->monSprite, work, HALL_OF_FAME_OnMonAnimDone, 0);
 }
 
 int HALL_OF_FAME_RunState(HallOfFameWork *work)
@@ -1220,7 +1219,7 @@ void HALL_OF_FAME_DeleteAllActors(HallOfFameWork *work)
 
 void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
 {
-    sptr bank;
+    void *bank;
     void *mon;
     u32 lock;
     if (work->actors[HOF_ACTOR_MON_TOP]) {
@@ -1235,7 +1234,7 @@ void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
         HALL_OF_FAME_ReleasePalette(work, 1);
         HALL_OF_FAME_ReleaseCellAnim(work, 1);
     }
-    bank = (sptr)POKEGRA_OpenHandle(HOF_HEAP_ID);
+    bank = POKEGRA_OpenHandle(HOF_HEAP_ID);
     mon = POKE_TOOL_CastToBoxParam(work->partyMons[work->monIndex]);
     lock = POKE_TOOL_DecodeBoxParam(mon);
     work->charIds[0] = POKEGRA_RegisterCgrPP(bank, mon, 0, 0, HOF_HEAP_ID);

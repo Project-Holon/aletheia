@@ -16,9 +16,9 @@ u32 LIVEBATTLEMATCH_SAVE_HasOpponentMac(void *keys, void *key);
 unsigned int LIVEBATTLEMATCH_SAVE_GetSize(void);
 void LIVEBATTLEMATCH_SAVE_Init(void *record);
 void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *saveData);
-int LIVEBATTLEMATCH_SAVE_GetStats(int stats);
-int LIVEBATTLEMATCH_SAVE_GetStats2(int stats);
-int LIVEBATTLEMATCH_SAVE_GetRecord(int stats);
+void *LIVEBATTLEMATCH_SAVE_GetStats(void *stats);
+void *LIVEBATTLEMATCH_SAVE_GetStats2(void *stats);
+void *LIVEBATTLEMATCH_SAVE_GetRecord(void *stats);
 /* END mkheaders: generated region */
 
 #endif

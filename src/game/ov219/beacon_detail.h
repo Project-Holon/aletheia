@@ -5,6 +5,7 @@
 /* Public functions of beacon_detail.c, prototypes copied from their definitions. */
 
 struct Proc;
+struct Descriptor;
 struct BeaconDetailMenuTemplate;
 
 #include "../types.h"
@@ -29,7 +30,7 @@ void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i);
 void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i);
 void BEACON_DETAIL_DeleteMainScreen(char *p);
 int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force);
-void BEACON_DETAIL_OnMessageDone(int a, int b, int c);
+void BEACON_DETAIL_OnMessageDone(struct BmpMenuList *a, u32 b, void *c);
 void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconDetailMenuTemplate *source,unsigned count);
 void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, uptr b, u32 c);
 void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct BeaconDetailMenuTemplate *cfg,unsigned file,const unsigned char *ids,unsigned count);

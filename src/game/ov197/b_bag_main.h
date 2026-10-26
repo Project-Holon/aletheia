@@ -5,10 +5,13 @@
 /* Public functions of b_bag_main.c, prototypes copied from their definitions. */
 
 struct ClactActor;
+struct ClactVec2;
 struct BBagMainPair;
 struct Node;
 
 #include "../types.h"
+
+struct TcbTask;
 
 void B_BAG_MAIN_InitWindows(char *p);
 void B_BAG_MAIN_CreateWindows(char *p,u8 unused);
@@ -66,7 +69,7 @@ void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b);
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a);
 void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair *src);
 void B_BAG_MAIN_Create(u8 *arg);
-void B_BAG_MAIN_Main(void *task, char *p);
+void B_BAG_MAIN_Main(struct TcbTask *task, void *arg);
 int B_BAG_MAIN_StateInit(char *p);
 int B_BAG_MAIN_StateInitOther(char *p);
 int B_BAG_MAIN_StateWaitPrintWipe(char *p);
@@ -87,7 +90,7 @@ int B_BAG_MAIN_StateMessageDone(char *p);
 int B_BAG_MAIN_StateWaitKey(char *p);
 int B_BAG_MAIN_StateFadeOut(char *p);
 int B_BAG_MAIN_StateWaitFade(char *a);
-int B_BAG_MAIN_StateExit(struct Node *task, char *p);
+int B_BAG_MAIN_StateExit(struct TcbTask *task, char *p);
 int B_BAG_MAIN_StateOtherFlow(char *p);
 void B_BAG_MAIN_InitBg(char *p);
 void B_BAG_MAIN_ExitBg(void);

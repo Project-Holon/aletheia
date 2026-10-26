@@ -77,7 +77,7 @@ void INTRO_PARTICLE_Delete(char *a);
 
 void INTRO_PARTICLE_Main(void *unused);
 
-void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z);
+void INTRO_PARTICLE_StartEffect(void **work, u32 x, u32 y, u32 z);
 
 extern const char d_021C0B30[];
 
@@ -90,8 +90,8 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
     IntroParticleCameraParams config;
     IntroParticleWork *p;
     PARTICLE_InitManager(heap);
-    p=GFL_HEAP_Alloc(heap,18444,1,d_021C0B30,86);
-    p->system=(void *)PARTICLE_CreateSystemDefault((sptr)p->data,18432,1,heap);
+    p=GFL_HEAP_Alloc(heap,sizeof(IntroParticleWork),1,d_021C0B30,86);
+    p->system=(void *)PARTICLE_CreateSystemDefault(p->data,18432,1,heap);
     p->owner=owner;
     p->heapId=heap;
     config.projType=2;
@@ -116,15 +116,15 @@ void INTRO_PARTICLE_Delete(char *a)
 
 void INTRO_PARTICLE_Main(void *unused) { PARTICLE_Main(); }
 
-void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z)
+void INTRO_PARTICLE_StartEffect(void **work, u32 x, u32 y, u32 z)
 {
-    u32 *p = work;
-    u32 buf[3] = { 0 };
+    IntroParticleWork *p = (IntroParticleWork *)work;
+    Vec3 buf = { 0 };
 
-    buf[0] = x;
-    buf[1] = y;
-    buf[2] = z;
-    PARTICLE_StartEffect((void *)p[2], 0, (sptr)buf);
-    PARTICLE_StartEffect((void *)p[2], 1, (sptr)buf);
-    PARTICLE_StartEffect((void *)p[2], 2, (sptr)buf);
+    buf.x = x;
+    buf.y = y;
+    buf.z = z;
+    PARTICLE_StartEffect(p->system, 0, &buf);
+    PARTICLE_StartEffect(p->system, 1, &buf);
+    PARTICLE_StartEffect(p->system, 2, &buf);
 }

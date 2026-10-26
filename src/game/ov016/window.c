@@ -178,16 +178,16 @@ extern struct MemWinT *gMemWindow;
  * sdk:      DWCi_WINlInitEx (libdwcutil.TWL.HYB.a window.o)
  */
 
-static void taskV(void *task);
-static void taskMove(void *task);
+static void taskV(void *task, void * unused1);
+static void taskMove(void *task, void * unused1);
 static void taskMain(void *task, void *work);
 static void taskMain1(void *task, void *work);
 static void disp(int y);
 static void dispCell(void *cell, int y);
 static void pushButton(int idx);
-static void taskEnd1(void *task);
-static void taskEnd2(void *task);
-static void taskEnd3(void *task);
+static void taskEnd1(void *task, void *work);
+static void taskEnd2(void *task, void *work);
+static void taskEnd3(void *task, void *work);
 void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
 {
     u8 EFF[6];
@@ -203,7 +203,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     EFF[5] = sWindowTable15[5];
 
     ms = DWCi_MSGlGetEx(gCommentWork, msg, n, num);
-    gWindowWork = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
+    gWindowWork = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(sizeof(*gWindowWork), 4));
     gWindowWork->type = type;
     gWindowWork->input = -2;
     gWindowWork->dark = dark;
@@ -233,15 +233,15 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     *(volatile unsigned long *)0x04000000 = (*(volatile unsigned long *)0x04000000 & ~0xE000) | 0x6000;
 
     if (dark)
-        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, taskV, 0, 0x78);
     else
-        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, taskMove, 0, 0x78);
 }
 
 void DWCi_WINlEnd(void)
 {
     DWCi_TSKlDelete(0, MemWin->task);
-    MemWin->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskEnd, 0, 0x78);
+    MemWin->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
 }
 
 /*
@@ -273,13 +273,13 @@ int DWCi_WINlIsInit(void)
 /*
  * sdk:      taskV (libdwcutil.TWL.HYB.a window.o)
  */
-static void taskV(void *task)
+static void taskV(void *task, void * unused1)
 {
     gWindowWork->count--;
     DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, gWindowWork->count);
     if (gWindowWork->count > -12)
         return;
-    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMove);
+    DWCi_TSKlChangeFunc(task, taskMove);
 }
 
 /*
@@ -307,7 +307,7 @@ static void taskV(void *task)
  * the difference is mwcc 4.0.0.1025's rematerialisation policy, not a source shape.  Referencing
  * the same 0 through a helper or a cast does not survive either.
  */
-static void taskMove(void *task)
+static void taskMove(void *task, void * unused1)
 {
     int x;
     int y;
@@ -320,9 +320,9 @@ static void taskMove(void *task)
     }
     disp(sWindowTable11[gWindowWork->type].y);
     if (gWindowWork->type == 5)
-        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain1, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(0, taskMain1, 0, 0x78);
     else
-        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(0, taskMain, 0, 0x78);
     DWCi_TSKlDelete(1, task);
 }
 
@@ -364,7 +364,7 @@ static void taskMain1(void *task, void *work)
     if (gWindowWork->countWait < 0x78)
         return;
     DWCi_TSKlDelete(0, task);
-    gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskEnd, 0, 0x78);
+    gWindowWork->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
 }
 
 /*
@@ -453,13 +453,13 @@ void taskEnd(void *task, void *work)
     MemWin->count++;
     if (MemWin->count < 8)
         return;
-    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
+    DWCi_TSKlChangeFunc(task, taskEnd1);
 }
 
 /*
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a window.o)
  */
-static void taskEnd1(void *task)
+static void taskEnd1(void *task, void *work)
 {
     int x;
     int y;
@@ -470,27 +470,27 @@ static void taskEnd1(void *task)
     if (y < 192)
         return;
     if (gWindowWork->dark != 0)
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
+        DWCi_TSKlChangeFunc(task, taskEnd2);
     else
-        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
+        DWCi_TSKlChangeFunc(task, taskEnd3);
 }
 
 /*
  * sdk:      taskEnd2 (libdwcutil.TWL.HYB.a window.o)
  */
-static void taskEnd2(void *task)
+static void taskEnd2(void *task, void *work)
 {
     gWindowWork->count++;
     DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, gWindowWork->count);
     if (gWindowWork->count < 0)
         return;
-    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
+    DWCi_TSKlChangeFunc(task, taskEnd3);
 }
 
 /*
  * sdk:      taskEnd3 (libdwcutil.TWL.HYB.a window.o)
  */
-static void taskEnd3(void *task)
+static void taskEnd3(void *task, void *work)
 {
     int i;
 

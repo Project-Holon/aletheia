@@ -170,7 +170,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     list->cursorAnim = BLINK_PALANM_Create(list->params.cursorPltt << 4, 0x10, list->params.bgLayer, list->heapId);
     list->items = GFL_HEAP_Alloc(list->heapId, list->params.itemCount * 8, 1, gFrameListSourceFile, 0x104);
     if (list->params.mapCount != 0) {
-        list->maps = GFL_HEAP_Alloc(list->heapId, list->params.mapCount * 4, 0, gFrameListSourceFile, 0x109);
+        list->maps = GFL_HEAP_Alloc(list->heapId, list->params.mapCount * sizeof(*list->maps), 0, gFrameListSourceFile, 0x109);
         for (index = 0; index < list->params.mapCount; index++)
             list->maps[index] = GFL_HEAP_Alloc(list->heapId, list->params.tileWidth * list->params.rowHeight * 2, 0, gFrameListSourceFile, 0x10b);
     }
@@ -179,7 +179,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     if (list->params.bgLayerB != 0xff)
         list->windowCount = list->windowCount * 2;
     list->frameMgr = (struct BgWinFrm *)BGWINFRM_Create(2, list->windowCount, list->heapId);
-    list->windows = GFL_HEAP_Alloc(list->heapId, list->windowCount * 8, 0, gFrameListSourceFile, 0x117);
+    list->windows = GFL_HEAP_Alloc(list->heapId, list->windowCount * sizeof(*list->windows), 0, gFrameListSourceFile, 0x117);
     for (index = 0; index < list->windowCount; index++) {
         if (list->params.bgLayerB != 0xff && list->windowCountHalf <= index) {
             BGWINFRM_AddFrame((struct BgWinFrmWork *)list->frameMgr, index, list->params.bgLayerB, list->params.tileWidth, list->params.rowHeight);
@@ -1234,11 +1234,11 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
 
 void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
 {
-    uptr frameBuffer;
+    u16 *frameBuffer;
     u32 bgFrame;
     u16 tileRow;
 
-    frameBuffer = (uptr)BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)list->frameMgr, windowIndex);
+    frameBuffer = BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)list->frameMgr, windowIndex);
     bgFrame = BGWINFRM_GetBgFrame((struct BgWinFrmWork *)list->frameMgr, windowIndex);
     for (tileRow = 0; tileRow < list->params.rowHeight; tileRow++) {
         if (y < 0)

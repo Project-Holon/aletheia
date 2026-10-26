@@ -10,7 +10,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap);
 void PDWACC_DISP_Draw(PdwaccDispWork *disp);
 void PDWACC_DISP_Exit(PdwaccDispWork *disp);
 void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp);
-void PDWACC_DISP_VBlankTask(void);
+void PDWACC_DISP_VBlankTask(struct TcbTask * unused0, void * unused1);
 void PDWACC_DISP_LoadResources(PdwaccDispWork *disp);
 void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette);
 void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp);

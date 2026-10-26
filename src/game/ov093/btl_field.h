@@ -19,7 +19,7 @@ void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot);
 void BTL_FIELD_ResetStatic(int value);
 int BTL_FIELD_GetCountdownValue(void);
 int BTL_FIELD_GetCountdownCount(void);
-int BTL_FIELD_SetCountdown(int value, int count);
+BtlFieldCountdown *BTL_FIELD_SetCountdown(int value, int count);
 u32 BTL_FIELD_TickCountdown(void);
 int BTL_FIELD_RegisterStaticSlot(u32 slot, union SickCont key);
 int BTL_FIELD_RemoveStaticSlot(int arg);

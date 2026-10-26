@@ -244,7 +244,6 @@ extern void CLACT_StopActorAnim(struct ClactActor *actor);
 #undef TOUCHBAR_Create
 extern struct TouchBar *TOUCHBAR_Create(TouchBarParams *r, int heap);
 #endif
-extern void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority);
 extern void TOUCHBAR_Delete(TouchBar *bar);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCellAnim(u32 idx);
@@ -263,7 +262,6 @@ extern int TOUCHBAR_IsBusy(TouchBar *bar);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
-extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
 #include "../arm9/fx_vec.h"
 #include "../arm9/button_man.h"
 extern void CLACT_RestartActorAnim(struct ClactActor *actor);
@@ -280,9 +278,9 @@ void TOWNMAP_ProcRun(TownMapProc *proc);
 int TOWNMAP_ProcIsFinished(TownMapProc *proc);
 void TOWNMAP_ProcSetStep(TownMapProc *proc, TownMapStepFunc step);
 void TOWNMAP_ProcFinish(TownMapProc *proc);
-void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state);
-void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state);
-int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work);
+void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state, struct TownMapWork *unused2);
+void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state, struct TownMapWork *unused2);
+void TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work);
 void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId);
 void TOWNMAP_BackButtonFree(TownMapButtonBar *bar);
 void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll);
@@ -366,8 +364,8 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
 
     GF_OVERLAY_Load((uptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x44, 0x60000);
-    work = PROCSYS_AllocProcWork(taskArg, 0x144, 0x44);
-    MI_CpuFill8(work, 0, 0x144);
+    work = PROCSYS_AllocProcWork(taskArg, sizeof(TownMapWork), 0x44);
+    MI_CpuFill8(work, 0, sizeof(TownMapWork));
     work->args = args;
     pickMode = work->args->mode == 2;
     work->fontSystem = GF_FONT_Create(0x17, 0, 0, 0, 0x44);
@@ -375,7 +373,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->detailMsg = MSGDATA_CreateFromArchive(0, 2, 0xb9, 0x44);
     work->gfx = TOWNMAP_GRH_Create(0x44);
     work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
-    TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
+    TOWNMAP_ProcInit(&work->proc, work, TOWNMAP_StepFadeIn);
     ctx = (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx);
     if (work->args->mode != 1) {
         TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
@@ -411,7 +409,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     if (GFL_NET_GetRunState()) {
         GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
-    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_EmptyTask, (void *)work, 0);
+    work->vblankTask = GFL_USE_AddMainTask(TOWNMAP_GRH_EmptyTask, (void *)work, 0);
     return 1;
 }
 
@@ -448,14 +446,14 @@ int TOWNMAP_Update(int taskArg, int unusedA, int unusedB, TownMapWork *work) {
 
 void TOWNMAP_ProcInit(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step)
 {
-    MI_CpuFill8(proc, 0, 16);
+    MI_CpuFill8(proc, 0, sizeof(TownMapProc));
     proc->arg = work;
     TOWNMAP_ProcSetStep(proc, step);
 }
 
 void TOWNMAP_ProcClear(TownMapProc *proc)
 {
-    MI_CpuFill8(proc, 0, 0x10);
+    MI_CpuFill8(proc, 0, sizeof(TownMapProc));
 }
 
 void TOWNMAP_ProcRun(TownMapProc *proc) {
@@ -478,7 +476,7 @@ void TOWNMAP_ProcFinish(TownMapProc *proc)
     proc->finished = 1;
 }
 
-void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
+void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state, struct TownMapWork *unused2)
 {
     switch (state[0]) {
     case 0:
@@ -491,7 +489,7 @@ void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
         }
         break;
     case 2:
-        TOWNMAP_ProcSetStep(proc, (TownMapStepFunc)TOWNMAP_StepBrowse);
+        TOWNMAP_ProcSetStep(proc, TOWNMAP_StepBrowse);
         break;
     }
 }
@@ -499,7 +497,7 @@ void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
 /*
  * note: trailing two-byte alignment padding.
  */
-void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state) {
+void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state, struct TownMapWork *unused2) {
     switch (*state) {
     case 0: FADE_Start(3,0,16,0); *state = 1; break;
     case 1: if (FADE_IsActive() == 0) *state = 2; break;
@@ -507,7 +505,7 @@ void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state) {
     }
 }
 
-int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
+void TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
 {
     u8 moved;
     TownMapTown *hovered;
@@ -550,7 +548,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
                     work->args->townId=TOWNMAP_TownGetField(hovered,0);
                     work->args->pickedX=TOWNMAP_TownGetField(hovered,13);
                     work->args->pickedY=TOWNMAP_TownGetField(hovered,14);
-                    GFL_USE_PlaySeDefaultVolume(0x54c); TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut);
+                    GFL_USE_PlaySeDefaultVolume(0x54c); TOWNMAP_ProcSetStep(proc,TOWNMAP_StepFadeOut);
                 }
             }
             if (UI_GetInputMode()==0) pressed=1; else pressed=TOWNMAP_CursorIsPressed(&work->cursor);
@@ -578,9 +576,9 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     TOWNMAP_GRH_UpdateLabel(&work->label); TOWNMAP_GRH_UpdateTouch(&work->touch);
     switch (TOWNMAP_BackButtonGetPressed(&work->buttonBar)) {
     case 0:
-        work->args->result=1; TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut); break;
+        work->args->result=1; TOWNMAP_ProcSetStep(proc,TOWNMAP_StepFadeOut); break;
     case 1:
-        work->args->result=0; TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut); break;
+        work->args->result=0; TOWNMAP_ProcSetStep(proc,TOWNMAP_StepFadeOut); break;
     case 7:
         if (work->zooming==0 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             TownMapPoint cursorPos;
@@ -605,7 +603,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
         }
         break;
     }
-    return TOWNMAP_IsScrollZoomDone(&work->scroll);
+    TOWNMAP_IsScrollZoomDone(&work->scroll);
 }
 
 void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
@@ -615,7 +613,7 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *
     SpriteInit init;
     void *archive;
 
-    MI_CpuFill8(bar, 0, 0x20);
+    MI_CpuFill8(bar, 0, sizeof(TownMapButtonBar));
     bar->ctx = ctx;
     archive = ARC_TOOL_CreateHandle(0x55, heapId);
     bar->charRes = CLACT_RegisterPaletteEx(archive, 2, 0, 0, 0, 4, heapId);
@@ -630,7 +628,7 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *
     CLACT_SetActorAutoAnim((struct ClactActor *)bar->sprite, 1);
     CLACT_StopActorAnim((struct ClactActor *)bar->sprite);
     table = d_021BBB8C;
-    MI_CpuFill8(&req, 0, 0x20);
+    MI_CpuFill8(&req, 0, sizeof(req));
     req.defs = (TouchBarButtonDef *)&table;
     req.count = 2;
     req.actorSys = (struct Unit *)clactSet;
@@ -638,18 +636,18 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, struct Unit *
     req.bgPlttSlot = palette;
     req.actorPlttSlot = tileBase + 4;
     req.iconSet = 2;
-    bar->buttonMan = (u32)((int *)TOUCHBAR_Create(&req, heapId));
-    TOUCHBAR_SetAllButtonsPriority((TouchBar *)bar->buttonMan, 10);
+    bar->buttonMan = TOUCHBAR_Create(&req, heapId);
+    TOUCHBAR_SetAllButtonsPriority(bar->buttonMan, 10);
 }
 
 void TOWNMAP_BackButtonFree(TownMapButtonBar *bar)
 {
-    TOUCHBAR_Delete((TouchBar *)bar->buttonMan);
+    TOUCHBAR_Delete(bar->buttonMan);
     CLACT_DeleteActor((struct ClactActor *)bar->sprite);
     CLACT_ReleaseCellAnim(bar->cellRes);
     CLACT_ReleaseCharacter(bar->plttRes);
     CLACT_ReleasePalette(bar->charRes);
-    MI_CpuFill8(bar, 0, 32);
+    MI_CpuFill8(bar, 0, sizeof(TownMapButtonBar));
 }
 
 /*
@@ -666,7 +664,7 @@ void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
     TownmapScreenPos spritePos;
     int hit;
 
-    TOUCHBAR_Update((void *)bar->buttonMan);
+    TOUCHBAR_Update(bar->buttonMan);
     bar->pressed = -1;
     switch (bar->animState) {
     case 0:
@@ -705,14 +703,14 @@ void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
 
 int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar) {
     int pressed;
-    pressed = TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)bar->buttonMan);
+    pressed = TOUCHBAR_GetPressedButtonIdIfDone(bar->buttonMan);
     if (pressed == -1) pressed = bar->pressed;
     return pressed;
 }
 
 int TOWNMAP_BackButtonIsHeld(TownMapButtonBar *bar)
 {
-    return TOUCHBAR_IsBusy((TouchBar *)bar->buttonMan);
+    return TOUCHBAR_IsBusy(bar->buttonMan);
 }
 
 void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId)
@@ -720,7 +718,7 @@ void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSpr
     int zero = 0;
     int one;
 
-    MI_CpuFill8(cursor, 0, 0x18);
+    MI_CpuFill8(cursor, 0, sizeof(TownMapCursor));
     cursor->arrowSprite = arrowSprite;
     cursor->hoverSprite = hoverSprite;
     cursor->x = 0x80;
@@ -744,7 +742,7 @@ void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSpr
 
 void TOWNMAP_CursorClear(TownMapCursor *cursor)
 {
-    MI_CpuFill8(cursor, 0, 0x18);
+    MI_CpuFill8(cursor, 0, sizeof(TownMapCursor));
 }
 
 void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
@@ -916,11 +914,11 @@ void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, struct TownMapI
 
     i = 0;
     clactSet = TOWNMAP_GRH_GetHandle(gfx, 0);
-    MI_CpuFill8(map, 0, 0x28);
+    MI_CpuFill8(map, 0, sizeof(TownMapMap));
     map->townCount = 0x3d;
     map->gameData = (void *)gameData;
-    map->towns = GFL_HEAP_Alloc(heapId, map->townCount * 0x44, 0, d_021BBD60, 0x8C5);
-    MI_CpuFill8(map->towns, 0, map->townCount * 0x44);
+    map->towns = GFL_HEAP_Alloc(heapId, map->townCount * sizeof(*map->towns), 0, d_021BBD60, 0x8C5);
+    MI_CpuFill8(map->towns, 0, map->townCount * sizeof(*map->towns));
     TOWNMAP_GRH_GetResourceIds(gfx, &markerBank0, &markerBank1, &markerBank2);
     for (; i < map->townCount; i++) {
         TOWNMAP_TownInit(&map->towns[i], mapInfo, i, clactSet, markerBank0, markerBank1, markerBank2, (void *)gameData, heapId, pickMode);
@@ -943,7 +941,7 @@ void TOWNMAP_MapFree(TownMapMap *map)
     for (i = 0; i < map->townCount; i++)
         TOWNMAP_TownFree(&map->towns[i]);
     GFL_HEAP_Free(map->towns);
-    MI_CpuFill8(map, 0, 40);
+    MI_CpuFill8(map, 0, sizeof(TownMapMap));
 }
 
 /*
@@ -1125,7 +1123,7 @@ void TOWNMAP_TownInit(TownMapTown *town, struct TownMapInfoRow *mapInfo, int tow
     u32 flag;
     int i;
 
-    MI_CpuFill8(town, 0, 0x44);
+    MI_CpuFill8(town, 0, sizeof(TownMapTown));
     town->scale = 0x1000;
     town->info = (char *)mapInfo;
     town->index = townIndex;
@@ -1194,7 +1192,7 @@ void TOWNMAP_TownFree(TownMapTown *town)
 {
     if (town->sprite)
         CLACT_DeleteActor((struct ClactActor *)town->sprite);
-    MI_CpuFill8(town, 0, 0x44);
+    MI_CpuFill8(town, 0, sizeof(TownMapTown));
 }
 
 void TOWNMAP_TownSetShown(TownMapTown *town, int shown)
@@ -1363,7 +1361,7 @@ void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, struct Unit *c
 {
     SpriteInit init;
 
-    MI_CpuFill8(marker, 0, 8);
+    MI_CpuFill8(marker, 0, sizeof(*marker));
     marker->town = town;
     MI_CpuFill8(&init, 0, 8);
     if (town != 0) {

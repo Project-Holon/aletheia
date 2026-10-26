@@ -5,8 +5,9 @@
 /* Public functions of nwm_disconnect.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/nwm_callback_types.h"
 
-u32 NWM_Disconnect(void *callback);
+u32 NWM_Disconnect(NWMCallbackFunc callback);
 /* END mkheaders: generated region */
 
 #endif

@@ -16,9 +16,9 @@ void NNSi_SndStrmStopIfSetup(SndStrm *strm);
 void NNS_SndStrmSetVolume(SndStrm *strm, s32 volume);
 void NNS_SndStrmStop(SndStrm *strm);
 void NNSi_SndStrmReleaseTimer(SndStrm *strm);
-void NNSi_SndStrmTimerCallback(SndStrm *strm);
+void NNSi_SndStrmTimerCallback(void * strmArg);
 void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall);
-void NNSi_SndStrmAlarmHandler(SndStrm *strm);
+void NNSi_SndStrmAlarmHandler(void * strmArg);
 /* END mkheaders: generated region */
 
 #endif

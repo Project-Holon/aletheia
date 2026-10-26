@@ -60,14 +60,14 @@ void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int 
 void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeight, int dstBpp, const void *vtable, int param);
 s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code);
-void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp);
+void NNSi_G2dInitPenSimple(struct Pen *pen, void *charBase, int areaWidth, int areaHeight, int dstBpp);
 void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
 void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
 u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight);
 int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift);
 u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
-u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
+u16 NNSi_G2dReadCharUTF16(const void ** cursorArg);
 u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
 /* END mkheaders: generated region */
 

@@ -78,7 +78,7 @@
 #include "gsudp_types.h"
 #include "gsdebug.h"
 #include "gsstringutil.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 
 #include "../arm9/msl_string_mem.h"
 struct GTI2Connection;
@@ -92,18 +92,18 @@ extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocat
 struct GTI2Socket;
 #include "gsmemory.h"
 struct GTI2Socket;
-void gsUdpMsgHandlerFree(GSUdpMsgHandler *theHandler);
+void gsUdpMsgHandlerFree(void * theHandlerArg);
 int gsUdpMsgHandlerCompare(void *theFirst, void *theSecond);
 int gsUdpMsgHandlerCompare2(void *theFirst, void *theSecond);
 int gsUdpRemotePeerCompare(void *theFirstPeer, void *theSecondPeer);
 int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer);
-void gsUdpSocketError(void);
-void gsUdpClosedRoutingCB(void *theConnection, int reason);
-void gsUdpConnectedRoutingCB(void *theConnection, int theResult);
-void gsUdpPingRoutingCB(void *theConnection, int theLatency);
-void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
-int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
-void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
+void gsUdpSocketError(GTI2Socket *socket);
+void gsUdpClosedRoutingCB(GTI2Connection * theConnectionArg, int reason);
+void gsUdpConnectedRoutingCB(GTI2Connection * theConnectionArg, int theResult, unsigned char * unused2, int unused3);
+void gsUdpPingRoutingCB(GTI2Connection * theConnectionArg, int theLatency);
+void gsUdpReceivedRoutingCB(GTI2Connection * theConnectionArg, unsigned char *theMessage, int theMessageLen, int reliable);
+int gsUdpUnrecognizedMsgCB(GTI2Socket *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);
+void gsUdpConnAttemptCB(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
 int gsUdpEngineIsInitialized(void);
 int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
@@ -143,8 +143,9 @@ extern char g_021A3CC4[];
 extern char g_021A3CE4[];
 
 
-void gsUdpMsgHandlerFree(GSUdpMsgHandler *theHandler)
+void gsUdpMsgHandlerFree(void * theHandlerArg)
 {
+    GSUdpMsgHandler * theHandler = (GSUdpMsgHandler *)theHandlerArg;
     ArrayFree(theHandler->mPendingConnections);
 }
 
@@ -183,7 +184,7 @@ int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer)
 /*
  * sdk:      gsUdpSocketError (gsudpengine.o)
  */
-void gsUdpSocketError(void)
+void gsUdpSocketError(GTI2Socket *socket)
 {
     int i;
     int len;
@@ -206,8 +207,9 @@ void gsUdpSocketError(void)
 /*
  * sdk:      gsUdpClosedRoutingCB (gsudpengine.o)
  */
-void gsUdpClosedRoutingCB(void *theConnection, int reason)
+void gsUdpClosedRoutingCB(GTI2Connection * theConnectionArg, int reason)
 {
+    void * theConnection = (void *)theConnectionArg;
     GSUdpEngineObject *aUdp;
     GSUdpRemotePeer aRemotePeer;
     int index;
@@ -252,8 +254,9 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
 /*
  * sdk:      gsUdpConnectedRoutingCB (gsudpengine.o)
  */
-void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
+void gsUdpConnectedRoutingCB(GTI2Connection * theConnectionArg, int theResult, unsigned char * unused2, int unused3)
 {
+    void * theConnection = (void *)theConnectionArg;
     GSUdpEngineObject *aUdp;
     int aIndex;
     int len;
@@ -325,8 +328,9 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
 }
 
 
-void gsUdpPingRoutingCB(void *theConnection, int theLatency)
+void gsUdpPingRoutingCB(GTI2Connection * theConnectionArg, int theLatency)
 {
+    void * theConnection = (void *)theConnectionArg;
     GSUdpEngineObject *aUdp;
     char anAddr[22];
     int index;
@@ -367,8 +371,9 @@ void gsUdpPingRoutingCB(void *theConnection, int theLatency)
  * theMessage` gives the mirror image (destination r3, source r4).  Same close as
  * sendto (sendto) and gsUdpConnAttemptCB (0x02180C94).
  */
-void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable)
+void gsUdpReceivedRoutingCB(GTI2Connection * theConnectionArg, unsigned char *theMessage, int theMessageLen, int reliable)
 {
+    void * theConnection = (void *)theConnectionArg;
     GSUdpEngineObject *aUdp;
     GSUdpMsgHandler aHandler;
     int index;
@@ -401,7 +406,7 @@ void gsUdpReceivedRoutingCB(void *theConnection, unsigned char *theMessage, int 
 }
 
 
-int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
+int gsUdpUnrecognizedMsgCB(GTI2Socket *theSocket, unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen)
 {
     int aRet;
     char anAddr[22];
@@ -419,7 +424,7 @@ int gsUdpUnrecognizedMsgCB(void *theSocket, unsigned int theIp, unsigned short t
 }
 
 
-void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
+void gsUdpConnAttemptCB(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len)
 {
     int index;
     GSUdpMsgHandler aHandler;
@@ -439,10 +444,10 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare, 0, 0);
         if (index != -1) {
-            aCallbacks.closed = (void (*)(GTI2Connection *, int))gsUdpClosedRoutingCB;
-            aCallbacks.connected = (void (*)(GTI2Connection *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
-            aCallbacks.ping = (void (*)(GTI2Connection *, int))gsUdpPingRoutingCB;
-            aCallbacks.received = (void (*)(GTI2Connection *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
+            aCallbacks.closed = gsUdpClosedRoutingCB;
+            aCallbacks.connected = gsUdpConnectedRoutingCB;
+            aCallbacks.ping = gsUdpPingRoutingCB;
+            aCallbacks.received = gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
             gsDebugFormat(12, 0, 16, g_021A3AB8);
             return;
@@ -507,7 +512,7 @@ int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int th
         return 1;
     }
 
-    aUdp->mMsgHandlers = ArrayNew(60, 1, (void (*)(void *))gsUdpMsgHandlerFree);
+    aUdp->mMsgHandlers = ArrayNew(60, 1, gsUdpMsgHandlerFree);
     if (aUdp->mMsgHandlers == 0) {
         gsDebugFormat(12, 2, 1, g_021A3B7C);
         return 1;
@@ -603,10 +608,10 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
         GSUdpRemotePeer *aRemotePeerPtr;
 
         gt2AddressToString(theIp, thePort, anAddr);
-        aCallbacks.closed = (void (*)(GTI2Connection *, int))gsUdpClosedRoutingCB;
-        aCallbacks.connected = (void (*)(GTI2Connection *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
-        aCallbacks.ping = (void (*)(GTI2Connection *, int))gsUdpPingRoutingCB;
-        aCallbacks.received = (void (*)(GTI2Connection *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
+        aCallbacks.closed = gsUdpClosedRoutingCB;
+        aCallbacks.connected = gsUdpConnectedRoutingCB;
+        aCallbacks.ping = gsUdpPingRoutingCB;
+        aCallbacks.received = gsUdpReceivedRoutingCB;
         gt2Connect(aUdp->mSocket, (struct GTI2Connection **)(&aRemotePeer.mConnection), anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;

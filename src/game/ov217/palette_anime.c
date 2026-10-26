@@ -58,7 +58,7 @@ extern void MI_CpuFill8(void *dst, int val, int size);
 extern const short FX_SinCosTable_[];
 extern char d_021C408C[];
 
-u32 PALETTE_ANIME_Create(u32 heapId);
+struct PaletteAnime *PALETTE_ANIME_Create(u32 heapId);
 u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 void PALETTE_ANIME_Bind(struct PaletteAnime *anime, u16 *palette, u16 *original, int colorCount);
 void PALETTE_ANIME_Update(struct PaletteAnime *anime);
@@ -88,11 +88,11 @@ void PALETTE_ANIME_BindImpl(struct PaletteAnime *anime, u16 *palette, u16 *origi
 void PALETTE_ANIME_ReleaseOriginal(struct PaletteAnime *anime);
 
 /* Allocates and clears an animation object. */
-u32 PALETTE_ANIME_Create(u32 heapId)
+struct PaletteAnime *PALETTE_ANIME_Create(u32 heapId)
 {
     struct PaletteAnime *anime = PALETTE_ANIME_Alloc(heapId);
     PALETTE_ANIME_Clear(anime);
-    return (uptr)anime;
+    return anime;
 }
 
 /* Releases the copy buffer, then the object. */
@@ -324,7 +324,7 @@ u32 PALETTE_ANIME_IsRunningImpl(struct PaletteAnime *anime)
 /* Allocates the 32-byte object and records the heap id. */
 struct PaletteAnime *PALETTE_ANIME_Alloc(u32 heapId)
 {
-    struct PaletteAnime *anime = GFL_HEAP_Alloc(heapId, 32, 0, d_021C408C, 667);
+    struct PaletteAnime *anime = GFL_HEAP_Alloc(heapId, sizeof(struct PaletteAnime), 0, d_021C408C, 667);
     anime->heapId = heapId;
     return anime;
 }
@@ -338,7 +338,7 @@ u32 PALETTE_ANIME_Free(struct PaletteAnime *anime)
 void PALETTE_ANIME_Clear(struct PaletteAnime *anime)
 {
     u16 heapId = anime->heapId;
-    MI_CpuFill8(anime, 0, 0x20);
+    MI_CpuFill8(anime, 0, sizeof(struct PaletteAnime));
     anime->heapId = heapId;
 }
 

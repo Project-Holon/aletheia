@@ -23,39 +23,39 @@
 #include "../types.h"
 
 #include "nwm_system.h"
-extern void DC_InvalidateRange(u32, u32);
+extern void DC_InvalidateRange(void *, u32);
 #include "nwm_cmd.h"
 #include "pm.h"
 #include "../arm9/os_system.h"
 #include "../arm9/pxi_fifo.h"
-static void NWMi_ForceUnloadDeviceCallback(void);
+static void NWMi_ForceUnloadDeviceCallback(void *arg);
 extern u8 d_027341C8;
-u32 NWM_UnloadDevice(void *callback);
-u32 NWMi_ForceUnloadDevice(u32 callback);
+u32 NWM_UnloadDevice(NWMCallbackFunc callback);
+u32 NWMi_ForceUnloadDevice(NWMCallbackFunc callback);
 void NWMi_ForceExit(void);
 
 static inline u32 flag_set(u32 n) {
-    u32 base = NWMi_GetSystemWork();
+    struct NwmSystemWork *base = NWMi_GetSystemWork();
     if (base != 0) {
-        DC_InvalidateRange(*(u32 *)(base + 0x2278) + n, 1);
-        return *(u8 *)(*(u32 *)(base + 0x2278) + n) == 1;
+        DC_InvalidateRange(&base->status->busy[n], 1);
+        return base->status->busy[n] == 1;
     }
     return 0;
 }
 
-u32 NWM_UnloadDevice(void *callback) {
+u32 NWM_UnloadDevice(NWMCallbackFunc callback) {
     u32 r = NWMi_CheckState(1, 2);
-    uptr base;
+    struct NwmSystemWork *base;
     u32 busy;
     if (r != 0 && r != 2) {
         return r;
     }
     base = NWMi_GetSystemWork();
     if (base != 0) {
-        u32 ptr = *(u32 *)(base + 0x2278);
+        struct NwmStatus *ptr = base->status;
         busy = 1;
-        DC_InvalidateRange(ptr + 4, 1);
-        if (*(u8 *)(*(u32 *)(base + 0x2278) + 4) != 1) {
+        DC_InvalidateRange(&ptr->busy[4], 1);
+        if (base->status->busy[4] != 1) {
             busy = 0;
         }
     } else {
@@ -64,7 +64,7 @@ u32 NWM_UnloadDevice(void *callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, (uptr)callback);
+    NWMi_SetCallbackTable(4, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 0);
     if (r == 0 || r == 2) {
@@ -73,19 +73,19 @@ u32 NWM_UnloadDevice(void *callback) {
     return r;
 }
 
-u32 NWMi_ForceUnloadDevice(u32 callback) {
+u32 NWMi_ForceUnloadDevice(NWMCallbackFunc callback) {
     u32 r = NWMi_CheckState(5, 1, 2, 3, 4, 5);
-    uptr base;
+    struct NwmSystemWork *base;
     u32 busy;
     if (r != 0 && r != 2) {
         return r;
     }
     base = NWMi_GetSystemWork();
     if (base != 0) {
-        u32 ptr = *(u32 *)(base + 0x2278);
+        struct NwmStatus *ptr = base->status;
         busy = 1;
-        DC_InvalidateRange(ptr + 4, 1);
-        if (*(u8 *)(*(u32 *)(base + 0x2278) + 4) != 1) {
+        DC_InvalidateRange(&ptr->busy[4], 1);
+        if (base->status->busy[4] != 1) {
             busy = 0;
         }
     } else {
@@ -94,7 +94,7 @@ u32 NWMi_ForceUnloadDevice(u32 callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, (u32)callback);
+    NWMi_SetCallbackTable(4, callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 1);
     if (r == 0 || r == 2) {
@@ -104,13 +104,13 @@ u32 NWMi_ForceUnloadDevice(u32 callback) {
 }
 
 /* Completion callback: sets the one-byte flag that NWMi_ForceExit polls. */
-static void NWMi_ForceUnloadDeviceCallback(void) {
+static void NWMi_ForceUnloadDeviceCallback(void *arg) {
     d_027341C8 = 1;
 }
 
 void NWMi_ForceExit(void) {
     int timeout;
-    u32 base;
+    struct NwmSystemWork *base;
     if (PM_GetExitFactor() == 0) {
         return;
     }
@@ -128,7 +128,7 @@ void NWMi_ForceExit(void) {
         return;
     }
     d_027341C8 = 0;
-    NWMi_ForceUnloadDevice((uptr)NWMi_ForceUnloadDeviceCallback);
+    NWMi_ForceUnloadDevice(NWMi_ForceUnloadDeviceCallback);
     for (;;) {
         OS_SpinWaitSysCycles(0x2710);
         PXIi_HandlerRecvFifoNotEmpty();

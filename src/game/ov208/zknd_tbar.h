@@ -6,10 +6,11 @@
 
 struct Ov208Mgr;
 struct Ov208ActList;
+struct ClactActor;
 struct Ov208Rec;
 struct Ov208Bg;
+struct Unit;
 struct Ov208ActDesc;
-struct ClactActor;
 
 #include "../types.h"
 
@@ -28,7 +29,7 @@ int ZKND_TBAR_GetButtonVisible(struct Ov208Mgr *mgr, int key);
 void ZKND_TBAR_SetButtonAnimSeqLoop(struct Ov208Mgr *mgr, int key, int keyMask);
 void ZKND_TBAR_SetButtonAnimSeqOnce(struct Ov208Mgr *mgr, int key, int pressed);
 int ZKND_TBAR_IsButtonAnimActive(struct Ov208Mgr *mgr, int key);
-int ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key);
+struct ClactActor *ZKND_TBAR_GetButtonActor(struct Ov208Mgr *mgr, int key);
 void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *p, int key, u16 *pos);
 void ZKND_TBAR_GetButtonActorRaw(struct Ov208Mgr *mgr, int key);
 struct Ov208Rec *ZKND_TBAR_FindButtonActor(struct Ov208Mgr *p, int key);
@@ -37,13 +38,13 @@ void ZKND_TBAR_LoadButtonResources(struct Ov208Bg *p, u32 channel, u32 objChanne
 void ZKND_TBAR_ReleaseButtonResources(char *p);
 int ZKND_TBAR_GetResourceSlot(int *p, int i);
 void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 srcX, u8 srcY, u8 srcW, u8 srcH, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 decompress, u16 heap);
-void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struct Ov208ActDesc *desc, u32 prio, u16 mode);
+void ZKND_TBAR_CreateButton(struct Ov208Rec *p, struct Unit *owner, const int *res, struct Ov208ActDesc *desc, u32 prio, u16 mode);
 void ZKND_TBAR_DeleteButton(char *p);
 int ZKND_TBAR_UpdateButtonTouch(char *p);
-int ZKND_TBAR_IsButtonAnimating(int *p);
+int ZKND_TBAR_IsButtonAnimating(struct ClactActor **p);
 int ZKND_TBAR_GetButtonActorBase(char *p);
 void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int enable);
-unsigned ZKND_TBAR_GetActorDrawEnable(int *p);
+unsigned ZKND_TBAR_GetActorDrawEnable(struct ClactActor **p);
 void ZKND_TBAR_SetActorAnimSeq(char *p, int enabled);
 void ZKND_TBAR_SetPressedAnim(char *p, int keyMask);
 void ZKND_TBAR_SetAnimByState(char *p, int which);

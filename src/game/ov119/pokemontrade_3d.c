@@ -146,34 +146,16 @@ struct G3dSys;
 
 struct Arg;
 
-/*
- * Particle and ICA animation manager owned by TradeWork.particleManager.
- * Allocated and released by the caller; holds nine particle systems with
- * their backing heap blocks, the four ICA animation streams and the shared
- * particle archive member.
- */
-typedef struct ParticleManager {
-    void *system[9];          /* 0x000 particle systems */
-    void *buffer[9];          /* 0x024 heap block backing each system */
-    unsigned char pad_48[72]; /* 0x048 */
-    void *icaStream[4];       /* 0x090 ICA animation streams */
-    unsigned char pad_A0[8];  /* 0x0A0 */
-    int streamFrame[2];       /* 0x0A8 loop frame of stream 0 and stream 1 */
-    unsigned char pad_B0[4];  /* 0x0B0 */
-    void *archiveMember;      /* 0x0B4 shared particle archive member */
-    unsigned char pad_B8[2];  /* 0x0B8 */
-    u16 heap;                 /* 0x0BA owning heap id */
-} ParticleManager;
 
 typedef struct { u32 x, y, z; } Vec3U32;
 
-typedef struct {void (*call)(char *);u32 other;} Pokemontrade3dCallback;
+typedef struct {void (*call)(TradeWork *);u32 other;} Pokemontrade3dCallback;
 
-typedef void (*Fn)(void *);
+typedef void (*Fn)(TradeWork *);
 
 
 typedef struct {
-    void (*fn)(char *p, void *out);
+    void (*fn)(TradeWork *p, void *out);
     int unused;
 } Handler;
 
@@ -198,7 +180,7 @@ typedef struct { u32 f0, f4; u16 f8, fA, fC, fE, f10, f12; u32 f14, f18, f1C; } 
 
 typedef struct { Element e[4]; } ElementTemplate;
 
-typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } TouchbarConfig;
+typedef struct { void *f0; u32 f4; void *f8; u32 fC, f10, f14; int f18, f1C; } TouchbarConfig;
 struct PokemonParam;
 
 #include "../arm9/poke_tool.h"
@@ -305,23 +287,23 @@ void POKETRADE_3D_ExitParticleManager(ParticleManager *p, int unused);
 
 void POKETRADE_3D_InitTradeParticleSet(ParticleManager *p);
 
-void POKETRADE_3D_Init3DScene(char *p);
+void POKETRADE_3D_Init3DScene(TradeWork *p);
 
-void POKETRADE_3D_Update3DScene(void *p);
+void POKETRADE_3D_Update3DScene(TradeWork *p);
 
-void POKETRADE_3D_Delete3DScene(char *p);
+void POKETRADE_3D_Delete3DScene(TradeWork *p);
 
 void POKETRADE_3D_UploadCubeTextures(void *p);
 
-void POKETRADE_3D_AddUnitAndInit(void *p, int a);
+void POKETRADE_3D_AddUnitAndInit(TradeWork *p, int a);
 
-void POKETRADE_3D_RemoveCurrentUnit(void *p);
+void POKETRADE_3D_RemoveCurrentUnit(TradeWork *p);
 
-void POKETRADE_3D_AddUnit(char *p,int n);
+void POKETRADE_3D_AddUnit(TradeWork *p,int n);
 
-void POKETRADE_3D_RemoveUnit(char *p);
+void POKETRADE_3D_RemoveUnit(TradeWork *p);
 
-void POKETRADE_3D_Draw3DScene(char *p);
+void POKETRADE_3D_Draw3DScene(TradeWork *p);
 
 void POKETRADE_3D_SetMcssOffsetForSpecies(void *mcss, int *dir, int side, void *mon);
 
@@ -331,7 +313,7 @@ void POKETRADE_3D_AddPokemonMcssFlipped(void *a, int b, int c, void *d, int e, i
 
 void POKETRADE_3D_AddPokemonMcssPlain(void *a, int b, int c, void *d, int e);
 
-void POKETRADE_3D_DeleteMcssSlot(void *p, int idx);
+void POKETRADE_3D_DeleteMcssSlot(TradeWork *p, int idx);
 
 void POKETRADE_3D_EmitCubeVertex(int n);
 
@@ -345,19 +327,19 @@ void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int unused);
 
 void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int unused);
 
-void POKETRADE_3D_UploadTexturePages(char *p, int count);
+void POKETRADE_3D_UploadTexturePages(TradeWork *p, int count);
 
 void POKETRADE_3D_SetToonEdgeColors(int a, int b);
 
 void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b);
 
-void POKETRADE_3D_DrawRotatingCube(const u8 *p);
+void POKETRADE_3D_DrawRotatingCube(TradeWork *p);
 
-void POKETRADE_3D_LoadTexturePalette(char *p);
+void POKETRADE_3D_LoadTexturePalette(TradeWork *p);
 
-void POKETRADE_3D_FadeTexturePalette(char *p);
+void POKETRADE_3D_FadeTexturePalette(TradeWork *p);
 
-void POKETRADE_3D_CreateTouchbar(char *p);
+void POKETRADE_3D_CreateTouchbar(TradeWork *p);
 
 extern short FX_SinCosTable_[];
 
@@ -449,7 +431,7 @@ void POKETRADE_3D_InitParticleSystems(ParticleManager *p) {
         case 0: case 1: case 2: case 5: case 6: case 8: flag=0; break;
         case 3: case 4: case 7: default: flag=1; break;
         }
-        p->system[i]=(void *)PARTICLE_CreateSystemDefault((sptr)p->buffer[i],0x4800,flag,p->heap);
+        p->system[i]=(void *)PARTICLE_CreateSystemDefault(p->buffer[i],0x4800,flag,p->heap);
     }
 }
 
@@ -457,9 +439,9 @@ void POKETRADE_3D_SetupParticleSystemsLow(ParticleManager *p) {
     int i;
     p->archiveMember=(void *)PARTICLE_LoadArchiveMember((int)0x67,(int)0x35,(u16)((p->heap&0x7fff)|0x8000));
     for(i=0;i<4;i++) {
-        int x;
+        struct TcbList *x;
         OS_WaitInterrupt(1,1);
-        x=(sptr)GFL_USE_GetMainTaskList();
+        x=GFL_USE_GetMainTaskList();
         PARTICLE_SetupSystemBorrowed(p->system[i],p->archiveMember,1,x);
     }
 }
@@ -470,7 +452,7 @@ void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p)
 
     for (i = 4; i < 9; i++) {
         OS_WaitInterrupt(1, 1);
-        PARTICLE_SetupSystemBorrowed(p->system[i], p->archiveMember, 1, (uptr)GFL_USE_GetMainTaskList());
+        PARTICLE_SetupSystemBorrowed(p->system[i], p->archiveMember, 1, GFL_USE_GetMainTaskList());
     }
 }
 
@@ -509,88 +491,88 @@ void POKETRADE_3D_InitTradeParticleSet(ParticleManager *p)
         q = &p->system[i];
         buf = GFL_HEAP_Alloc(p->heap, 0x4800, 1, gParticleBufferAllocTag, 0x273);
         q[9] = buf;
-        *q = (void *)PARTICLE_CreateSystemDefault((sptr)buf, 0x4800, 0, p->heap);
+        *q = (void *)PARTICLE_CreateSystemDefault(buf, 0x4800, 0, p->heap);
     }
     h = (void *)PARTICLE_LoadArchiveMember(0x68, 10, p->heap);
     for (i = 0; i < 6; i++)
         PARTICLE_SetupSystem(p->system[i], h, 1, 0);
 }
 
-void POKETRADE_3D_Init3DScene(char *p)
+void POKETRADE_3D_Init3DScene(TradeWork *p)
 {
-    ((TradeWork *)p)->g3dUnitHandle=0xffff;
-    ((TradeWork *)p)->animIndex=~0u;
+    p->g3dUnitHandle=0xffff;
+    p->animIndex=~0u;
     POKETRADE_SAVE_Init3DProjection(0x91);
-    ((TradeWork *)p)->g3dUtil=G3D_UTIL_Create(20,20,0x91);
-    if (!((TradeWork *)p)->subCamera) {
+    p->g3dUtil=G3D_UTIL_Create(20,20,0x91);
+    if (!p->subCamera) {
         Vec3U32 a={0,0,0};
         Vec3U32 b={0,0,0};
         Vec3U32 c;
         u16 heap;
-        heap=((TradeWork *)p)->heapId;
+        heap=p->heapId;
         c=gCubeRotation;
-        ((TradeWork *)p)->subCamera=G3D_CAMERA_Create(0,gCameraParams[6],gCameraParams[7],0x1555,0,0x1000,0x400000,0,(VecFx32 *)&a,(VecFx32 *)&c,(VecFx32 *)&b,heap);
+        p->subCamera=G3D_CAMERA_Create(0,gCameraParams[6],gCameraParams[7],0x1555,0,0x1000,0x400000,0,(VecFx32 *)&a,(VecFx32 *)&c,(VecFx32 *)&b,heap);
     }
-    if (((TradeWork *)p)->animIndex!=~0u)
-        g3dStateCallbacks[*(u32 *)(p+0x109c)].call(p);
+    if (p->animIndex!=~0u)
+        g3dStateCallbacks[p->animIndex].call(p);
 }
 
-void POKETRADE_3D_Update3DScene(void *p) { POKETRADE_3D_Draw3DScene(p); }
+void POKETRADE_3D_Update3DScene(TradeWork *p) { POKETRADE_3D_Draw3DScene(p); }
 
-void POKETRADE_3D_Delete3DScene(char *p) {
-    if (((TradeWork *)p)->subCamera) G3D_CAMERA_Delete(((TradeWork *)p)->subCamera);
-    G3D_UTIL_Delete(((TradeWork *)p)->g3dUtil);
-    if (((TradeWork *)p)->particleManager) {
-        POKETRADE_3D_ExitParticleManager(((TradeWork *)p)->particleManager,6);
-        POKETRADE_3D_FreeParticleResources(((TradeWork *)p)->particleManager);
-        GFL_HEAP_Free(((TradeWork *)p)->particleManager);
-        ((TradeWork *)p)->particleManager=0;
+void POKETRADE_3D_Delete3DScene(TradeWork *p) {
+    if (p->subCamera) G3D_CAMERA_Delete(p->subCamera);
+    G3D_UTIL_Delete(p->g3dUtil);
+    if (p->particleManager) {
+        POKETRADE_3D_ExitParticleManager(p->particleManager,6);
+        POKETRADE_3D_FreeParticleResources(p->particleManager);
+        GFL_HEAP_Free(p->particleManager);
+        p->particleManager=0;
     }
     POKETRADE_SAVE_Free3DLightSet();
 }
 
 void POKETRADE_3D_UploadCubeTextures(void *p) { POKETRADE_3D_UploadTexturePages(p, 0x19); }
 
-void POKETRADE_3D_AddUnitAndInit(void *p, int a)
+void POKETRADE_3D_AddUnitAndInit(TradeWork *p, int a)
 {
     POKETRADE_3D_AddUnit(p, a);
-    if (((TradeWork *)p)->animIndex != 0xFFFFFFFF) {
-        gPokeTrade3dStateTable[*(u32 *)((char *)p + 0x109C) * 2](p);
+    if (p->animIndex != 0xFFFFFFFF) {
+        gPokeTrade3dStateTable[p->animIndex * 2](p);
     }
 }
 
-void POKETRADE_3D_RemoveCurrentUnit(void *p)
+void POKETRADE_3D_RemoveCurrentUnit(TradeWork *p)
 {
-    if (((TradeWork *)p)->animIndex != 0xFFFFFFFF) {
+    if (p->animIndex != 0xFFFFFFFF) {
         POKETRADE_3D_RemoveUnit(p);
-        ((TradeWork *)p)->animIndex = 0xFFFFFFFF;
+        p->animIndex = 0xFFFFFFFF;
     }
 }
 
-void POKETRADE_3D_AddUnit(char *p,int n) {
+void POKETRADE_3D_AddUnit(TradeWork *p,int n) {
     void *q;
     int i,count;
-    if(gG3dUnitTable[n].objCount) ((TradeWork *)p)->g3dUnitHandle=G3D_UTIL_AddUnit(((TradeWork *)p)->g3dUtil,&gG3dUnitTable[n]);
-    else ((TradeWork *)p)->g3dUnitHandle=0xffff;
-    if(((TradeWork *)p)->g3dUnitHandle!=0xffff) {
-        q=G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil,((TradeWork *)p)->g3dUnitHandle);
+    if(gG3dUnitTable[n].objCount) p->g3dUnitHandle=G3D_UTIL_AddUnit(p->g3dUtil,&gG3dUnitTable[n]);
+    else p->g3dUnitHandle=0xffff;
+    if(p->g3dUnitHandle!=0xffff) {
+        q=G3D_UTIL_GetObject(p->g3dUtil,p->g3dUnitHandle);
         count=G3D_SYSTEM_GetObjectAnimeCount(q);
         for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime(q,(u16)i);
     }
-    *(int *)&((TradeWork *)p)->animIndex=n;
+    p->animIndex=n;
 }
 
-void POKETRADE_3D_RemoveUnit(char *p)
+void POKETRADE_3D_RemoveUnit(TradeWork *p)
 {
     u16 v;
 
-    v = ((TradeWork *)p)->g3dUnitHandle;
+    v = p->g3dUnitHandle;
     if (v != 0xFFFF)
-        G3D_UTIL_RemoveUnit(((TradeWork *)p)->g3dUtil, v);
-    ((TradeWork *)p)->g3dUnitHandle = 0xFFFF;
+        G3D_UTIL_RemoveUnit(p->g3dUtil, v);
+    p->g3dUnitHandle = 0xFFFF;
 }
 
-void POKETRADE_3D_Draw3DScene(char *p)
+void POKETRADE_3D_Draw3DScene(TradeWork *p)
 {
     char buf[0x3C];
     void *q;
@@ -598,37 +580,37 @@ void POKETRADE_3D_Draw3DScene(char *p)
     int i;
     int idx;
 
-    idx = (*(int *)&((TradeWork *)p)->animIndex);
+    idx = (p->animIndex);
     if (idx == -1)
         return;
     if (g3dSceneHandlers[idx].fn != 0)
         g3dSceneHandlers[idx].fn(p, buf);
-    if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF) {
-        q = G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle);
+    if (p->g3dUnitHandle != 0xFFFF) {
+        q = G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnitHandle);
         n = G3D_SYSTEM_GetObjectAnimeCount(q);
         for (i = 0; i < n; i++)
             G3D_SYSTEM_LoopObjectAnimeFrame(q, (u16)i, gAnimeFrameCfg.amount);
     }
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset(((TradeWork *)p)->subCamera);
+    G3D_CAMERA_Reset(p->subCamera);
     G3D_SYSTEM_ApplyLookAt();
-    if (((TradeWork *)p)->particleManager != 0) {
+    if (p->particleManager != 0) {
         PARTICLE_DrawAllSystems();
         PARTICLE_UpdateAllSystems();
     }
-    if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF)
-        G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct G3dObjectStatus *)buf);
-    if (((TradeWork *)p)->particleManager != 0) {
-        if (((TradeWork *)p)->particleManager->icaStream[0] != 0) {
-            if (((TradeWork *)p)->particleManager->streamFrame[0] == 0)
-                ((TradeWork *)p)->particleManager->streamFrame[0] = ICA_ANIME_IncFrameLoop((struct IcaAnime *)(((TradeWork *)p)->particleManager->icaStream[0]), gAnimeFrameCfg.amount);
-            if (((TradeWork *)p)->particleManager->streamFrame[1] == 0)
-                ((TradeWork *)p)->particleManager->streamFrame[1] = ICA_ANIME_IncFrameLoop((struct IcaAnime *)(((TradeWork *)p)->particleManager->icaStream[1]), gAnimeFrameCfg.amount);
+    if (p->g3dUnitHandle != 0xFFFF)
+        G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnitHandle), (struct G3dObjectStatus *)buf);
+    if (p->particleManager != 0) {
+        if (p->particleManager->icaStream[0] != 0) {
+            if (p->particleManager->streamFrame[0] == 0)
+                p->particleManager->streamFrame[0] = ICA_ANIME_IncFrameLoop((struct IcaAnime *)(p->particleManager->icaStream[0]), gAnimeFrameCfg.amount);
+            if (p->particleManager->streamFrame[1] == 0)
+                p->particleManager->streamFrame[1] = ICA_ANIME_IncFrameLoop((struct IcaAnime *)(p->particleManager->icaStream[1]), gAnimeFrameCfg.amount);
         }
-        if (((TradeWork *)p)->particleManager->icaStream[3] != 0)
-            ICA_ANIME_IncFrameLoop((struct IcaAnime *)(((TradeWork *)p)->particleManager->icaStream[3]), gAnimeFrameCfg.amount);
-        if (((TradeWork *)p)->particleManager->icaStream[2] != 0)
-            ICA_ANIME_IncFrameLoop((struct IcaAnime *)(((TradeWork *)p)->particleManager->icaStream[2]), gAnimeFrameCfg.amount);
+        if (p->particleManager->icaStream[3] != 0)
+            ICA_ANIME_IncFrameLoop((struct IcaAnime *)(p->particleManager->icaStream[3]), gAnimeFrameCfg.amount);
+        if (p->particleManager->icaStream[2] != 0)
+            ICA_ANIME_IncFrameLoop((struct IcaAnime *)(p->particleManager->icaStream[2]), gAnimeFrameCfg.amount);
     }
 }
 
@@ -702,7 +684,7 @@ void POKETRADE_3D_AddPokemonMcss(TradeWork *p, int idx, int side, void *mon, int
         p->mcssPokemon[idx] = MCSS_TOOL_AddPokeMcss(p->mcssSystem, mon, 1, t.v[idx], -0x1C000, 0);
     if (p->tradeState == 2)
         DWC_RAP_SetVchatTalkLock(0);
-    (struct McssWork *)MCSS_TOOL_SetAnimeStopCallback((struct McssWork *)p->mcssPokemon[idx]);
+    MCSS_TOOL_SetAnimeStopCallback((struct McssWork *)p->mcssPokemon[idx]);
     MCSS_SetScale(p->mcssPokemon[idx], (u32 *)(&v));
     MCSS_SetShadowVanishFlag(p->mcssPokemon[idx], 1);
     POKETRADE_3D_SetMcssOffsetForSpecies(p->mcssPokemon[idx], (int *)(&v), side, mon);
@@ -729,14 +711,14 @@ void POKETRADE_3D_AddPokemonMcssPlain(void *a, int b, int c, void *d, int e)
  *
  * Addresses are Black-image addresses.
  */
-void POKETRADE_3D_DeleteMcssSlot(void *p, int idx)
+void POKETRADE_3D_DeleteMcssSlot(TradeWork *p, int idx)
 {
-    u32 v = ((u32 *)((char *)p + 0x844))[idx];
+    void *v = p->mcssPokemon[idx];
 
     if (v != 0) {
-        MCSS_SetVanishFlag((void *)v);
-        MCSS_Del(*(void **)&((TradeWork *)p)->mcssSystem, (void *)(((u32 *)((char *)p + 0x844))[idx]));
-        ((u32 *)((char *)p + 0x844))[idx] = 0;
+        MCSS_SetVanishFlag(v);
+        MCSS_Del(*(void **)&p->mcssSystem, p->mcssPokemon[idx]);
+        p->mcssPokemon[idx] = 0;
     }
 }
 
@@ -821,18 +803,18 @@ void POKETRADE_3D_FillTextureHeader(u16 *p, u8 *src, int unused)
         POKETRADE_3D_FillTextureCell(p, i % 2 + 2, i / 2 + 1, src[i]);
 }
 
-void POKETRADE_3D_UploadTexturePages(char *p, int count)
+void POKETRADE_3D_UploadTexturePages(TradeWork *p, int count)
 {
     char *v;
     int i;
     GX_BeginLoadTex();
-    v = GFL_HEAP_Alloc(((TradeWork *)p)->heapId, 0x200, 1, gParticleBufferAllocTag, 0x510);
+    v = GFL_HEAP_Alloc(p->heapId, 0x200, 1, gParticleBufferAllocTag, 0x510);
     for (i = 0; i < count; i++) {
         MI_CpuFill8(v, 0, 0x200);
         if (i == 0)
-            POKETRADE_3D_FillTextureHeader((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
+            POKETRADE_3D_FillTextureHeader((u16 *)v, p->texHeader, 2);
         else
-            POKETRADE_3D_FillTexturePage((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
+            POKETRADE_3D_FillTexturePage((u16 *)v, p->texSource, i - 1, 2);
         DC_FlushRange(v, 0x200);
         GX_LoadTex(v, i * 0x200 + 0x3000, 0x200);
     }
@@ -892,7 +874,7 @@ static inline fx32 fraction(int x,int y) { return (fx32)((unsigned long long)((l
  * lever: separate x+=48 and remainder assignments restore numerator register setup.
  * volatile: hardware writes 021E3A5C,021E3A60 to 040004C8/040004CC
  */
-void POKETRADE_3D_DrawRotatingCube(const u8 *p)
+void POKETRADE_3D_DrawRotatingCube(TradeWork *p)
 {
     int i,stage,count,total,base;
     int x;
@@ -900,12 +882,12 @@ void POKETRADE_3D_DrawRotatingCube(const u8 *p)
     u16 angle;
     G3X_Reset();
     G3i_LookAt_(&gLookAtEye,&gLookAtTarget,&gLookAtUp,1,0);
-    *(volatile u32 *)0x040004c8=0x2d8b6127;
-    *(volatile u32 *)0x040004cc=0x7fff;
-    stage=POKETRADE_PROC_GetStoredBoxIndex((u8 *)p);
+    *(volatile u32 *)REG_LIGHT_VECTOR_ADDR=0x2d8b6127;
+    *(volatile u32 *)REG_LIGHT_COLOR_ADDR=0x7fff;
+    stage=POKETRADE_PROC_GetStoredBoxIndex(p);
     count=stage+1;
     total=count*160;
-    x=((TradeWork *)p)->scrollY;
+    x=p->scrollY;
     if(x<96) {
         if(x<48) x=x*112/48;
         else x=x+64;
@@ -937,14 +919,14 @@ typedef struct {
     u16 firstColor;           /* 0x20 first palette entry */
 } IcaTextureData;
 
-void POKETRADE_3D_LoadTexturePalette(char *p)
+void POKETRADE_3D_LoadTexturePalette(TradeWork *p)
 {
     void *v;
     void *allocation;
     void *descriptor;
     char *data;
-    v = ARC_TOOL_CreateHandle(0x74, ((TradeWork *)p)->heapId);
-    allocation = ARC_UTIL_LoadPaletteBlockFromHandle((void *)v, 0x48, (&descriptor), ((TradeWork *)p)->heapId);
+    v = ARC_TOOL_CreateHandle(0x74, p->heapId);
+    allocation = ARC_UTIL_LoadPaletteBlockFromHandle((void *)v, 0x48, (&descriptor), p->heapId);
     data = ((IcaTexture *)descriptor)->data;
     DC_FlushRange(data + 32, 32);
     MI_CpuMove(data + 32, data + 34, 30);
@@ -953,53 +935,51 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     GX_BeginLoadTexPltt();
     GX_LoadTexPltt(data + 32, 0x2000, 32);
     GX_EndLoadTexPltt();
-    MI_CpuCopy8(data + 32, p + 0x1134, 32);
+    MI_CpuCopy8(data + 32, p->palettePageA, 32);
     GFL_HEAP_Free(allocation);
     ARC_TOOL_DeleteHandle(v);
 }
 
-void POKETRADE_3D_FadeTexturePalette(char *p)
+void POKETRADE_3D_FadeTexturePalette(TradeWork *p)
 {
     int i;
     int j;
     int component;
     int shift;
-    char *q;
     for (i = 0; i < 16; i++) {
-        q = p + i * 2;
-        ((TradeWork *)q)->colorBitsB = 0;
+        p->palettePageB[i] = 0;
         for (j = 0; j < 3; j++) {
             shift = j * 5;
-            component = (((TradeWork *)q)->colorBitsA >> shift) & 31;
+            component = (p->palettePageA[i] >> shift) & 31;
             if (component)
                 component--;
-            ((TradeWork *)q)->colorBitsB |= (unsigned short)((component & 31) << shift);
+            p->palettePageB[i] |= (unsigned short)((component & 31) << shift);
         }
     }
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt(p + 0x1154, 0x2000, 32);
+    GX_LoadTexPltt(p->palettePageB, 0x2000, 32);
     GX_EndLoadTexPltt();
 }
 
-void POKETRADE_3D_CreateTouchbar(char *p)
+void POKETRADE_3D_CreateTouchbar(TradeWork *p)
 {
     ElementTemplate t = gTouchbarTemplate;
     TouchbarConfig c;
     u16 a, b, d;
-    MI_CpuFill8(&c, 0, 32);
+    MI_CpuFill8(&c, 0, sizeof(c));
     c.f0 = &t;
     c.f4 = 4;
-    c.f8 = (int)(((TradeWork *)p)->clactSystem);
+    c.f8 = p->clactSystem;
     c.fC = 4;
     c.f1C = 1;
     c.f10 = 7;
     c.f14 = 0;
     c.f18 = 2;
-    a = *(u32 *)&((TradeWork *)p)->actorChar;
+    a = p->actorChar;
     t.e[1].f8 = a;
-    b = *(u32 *)&((TradeWork *)p)->actorPalette;
+    b = p->actorPalette;
     t.e[1].fA = b;
-    d = *(u32 *)&((TradeWork *)p)->actorCellAnim;
+    d = p->actorCellAnim;
     t.e[1].fC = d;
     t.e[1].fE = 6; t.e[1].f10 = 5; t.e[1].f12 = 4;
     t.e[1].f18 = 0; t.e[1].f1C = 0x54C;
@@ -1009,8 +989,8 @@ void POKETRADE_3D_CreateTouchbar(char *p)
     t.e[3].f8 = a; t.e[3].fA = b; t.e[3].fC = d;
     t.e[3].fE = 22; t.e[3].f10 = 21; t.e[3].f12 = 20;
     t.e[3].f18 = 48; t.e[3].f1C = 0x54C;
-    (*(void * *)&((TradeWork *)p)->touchbar) = TOUCHBAR_Create((TouchBarParams *)&c, ((TradeWork *)p)->heapId);
-    TOUCHBAR_SetButtonVisible((*(void * *)&((TradeWork *)p)->touchbar), 9, 0);
-    TOUCHBAR_SetButtonVisible((*(void * *)&((TradeWork *)p)->touchbar), 8, 0);
-    TOUCHBAR_SetAllButtonsPriority((*(void * *)&((TradeWork *)p)->touchbar), 2);
+    (*(void * *)&p->touchbar) = TOUCHBAR_Create((TouchBarParams *)&c, p->heapId);
+    TOUCHBAR_SetButtonVisible((*(void * *)&p->touchbar), 9, 0);
+    TOUCHBAR_SetButtonVisible((*(void * *)&p->touchbar), 8, 0);
+    TOUCHBAR_SetAllButtonsPriority((*(void * *)&p->touchbar), 2);
 }

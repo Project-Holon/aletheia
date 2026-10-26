@@ -5,8 +5,10 @@
 /* Public functions of wifibattlematch_util.c, prototypes copied from their definitions. */
 
 struct WifibattlematchUtilWork;
+struct GfFont;
 struct WifibattlematchMenu;
 struct WifibattlematchCallback;
+struct GameData;
 typedef struct WifibattlematchUtilWork WifibattlematchUtilWork;
 typedef struct WifibattlematchMenu WifibattlematchMenu;
 typedef struct WifibattlematchCallback WifibattlematchCallback;
@@ -14,7 +16,7 @@ typedef struct WifibattlematchCallback WifibattlematchCallback;
 #include "../ov177/wifibattlematch_menu_types.h"
 #include "../types.h"
 
-WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, int unused, int printArg, unsigned short heap);
+WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, void *unused, struct GfFont *printArg, unsigned short heap);
 void WIFIBATTLEMATCH_UTIL_Delete(WifibattlematchUtilWork *p);
 void WIFIBATTLEMATCH_UTIL_Main(WifibattlematchUtilWork *p);
 void WIFIBATTLEMATCH_UTIL_PrintMessage(WifibattlematchUtilWork *p, void *msgBank, int msgIndex, int mode);
@@ -26,15 +28,15 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_ShowMenu(const WifibattlematchMenuDesc
 WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDesc *p,u8 x,u8 y,u8 width,int height,u16 heap);
 void WIFIBATTLEMATCH_UTIL_DeleteMenu(WifibattlematchMenu *p);
 int WIFIBATTLEMATCH_UTIL_UpdateMenu(WifibattlematchMenu *p);
-WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(int owner, int callback, int heap);
+WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(void *owner, WifibattlematchCallbackFn callback, int heap);
 void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
 void WIFIBATTLEMATCH_UTIL_InvokeCallback(WifibattlematchCallback *p);
-int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **p);
-void WIFIBATTLEMATCH_UTIL_SetCallback(WifibattlematchCallback *p, int callback);
-void WIFIBATTLEMATCH_UTIL_ClearCallback(void *record);
-void WIFIBATTLEMATCH_UTIL_SetRequest(s32 *record, u32 request);
-void WIFIBATTLEMATCH_UTIL_CommitRequest(u32 record);
-void WIFIBATTLEMATCH_UTIL_SetSaveState(int owner, int state);
+int WIFIBATTLEMATCH_UTIL_IsCallbackNull(WifibattlematchCallback *p);
+void WIFIBATTLEMATCH_UTIL_SetCallback(WifibattlematchCallback *p, WifibattlematchCallbackFn callback);
+void WIFIBATTLEMATCH_UTIL_ClearCallback(WifibattlematchCallback *record);
+void WIFIBATTLEMATCH_UTIL_SetRequest(WifibattlematchCallback *record, u32 request);
+void WIFIBATTLEMATCH_UTIL_CommitRequest(WifibattlematchCallback *record);
+void WIFIBATTLEMATCH_UTIL_SetSaveState(struct GameData *owner, int state);
 /* END mkheaders: generated region */
 
 #endif

@@ -101,8 +101,8 @@ void FIELD_CAMERA_StartMoveConstrained(FieldCamera *camera, FieldCameraMoveReque
 void FIELD_CAMERA_StartFreeMove(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames);
 void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames);
 void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames);
-void FIELD_CAMERA_UpdateMove(FieldCamera *camera);
-void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera);
+void FIELD_CAMERA_UpdateMove(struct FieldCamera *camera, unsigned int unused1);
+void FIELD_CAMERA_UpdateFreeMove(struct FieldCamera *camera, unsigned int unused1);
 void FIELD_CAMERA_LerpVec(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out);
 int FIELD_CAMERA_LerpFx32(int *from, int *to, int frames, int frame);
 u16 FIELD_CAMERA_LerpAngle(u16 *from, u16 *to, s32 frames, s32 frame);

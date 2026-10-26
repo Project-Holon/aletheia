@@ -8,7 +8,7 @@
 #include "../types.h"
 
 int WORLDTRADE_DEPOSIT_Init(WorldtradeWork *p);
-void WORLDTRADE_DEPOSIT_Main(u8 *p);
+int WORLDTRADE_DEPOSIT_Main(u8 *p);
 int WORLDTRADE_DEPOSIT_Exit(WorldtradeWork *p);
 void WORLDTRADE_DEPOSIT_PrintMessage(WorldtradeWork *p, u32 msgId, u32 unused1, u32 unused2, u32 unused3);
 void WORLDTRADE_DEPOSIT_SetupBgPlanes(void);
@@ -46,7 +46,7 @@ u16 WORLDTRADE_DEPOSIT_GetModeFontColor(int mode, u16 color);
 void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *printer);
 void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *printer);
 void WORLDTRADE_DEPOSIT_PrintLevelRange(void *win, void *bank, int idx, u32 align, u32 y, u16 color, int alt, void *printer);
-void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 align, u32 x, u32 y, u16 color, int alt, u32 printer);
+void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 align, u32 x, u32 y, u16 color, int alt, void *printer);
 void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, void **win, u32 index, int mode, int place, void *printer);
 void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, void *unused, void **win, u32 index, int mode, int place, void *printer);
 void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *mon, MonTag *out, void *printer);
@@ -55,7 +55,7 @@ void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 kind, int *start, int *end);
 u8 *WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(u32 id);
 void WORLDTRADE_DEPOSIT_BuildOffer(WorldtradeEntry *dst, WorldtradeWork *p);
 void WORLDTRADE_DEPOSIT_StoreOfferInWork(Deposit *dst, WorldtradeWork *p);
-int WORLDTRADE_DEPOSIT_CreateSpeciesMenu(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
+int WORLDTRADE_DEPOSIT_CreateSpeciesMenu(void **menu, void *msg, void *endmsg, u16 *list, uptr unused4, u32 unused5, u32 kind, void *bag);
 void *WORLDTRADE_DEPOSIT_CreateSpeciesMenuList(WorldtradeWork *p, void **menu, void *win, void *endmsg, void *msg, DepositState *cfg, void *bag);
 int WORLDTRADE_DEPOSIT_CreateGenderMenu(void **menu, void *msg, int kind);
 void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int index, int kind);

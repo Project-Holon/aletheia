@@ -402,7 +402,7 @@ void IRC_COMPATIBLE_MENU_SetButtonsEnabled(IrcButtons *buttons, u32 enabled);
 int IRC_COMPATIBLE_MENU_IsButtonPressed(IrcButtons *buttons);
 int IRC_COMPATIBLE_MENU_PollChoice(IrcButtons *buttons, int *out);
 void IRC_COMPATIBLE_MENU_ResetButtonPalettes(IrcButtons *buttons);
-void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, IrcButtons *buttons);
+void IRC_COMPATIBLE_MENU_ButtonCallback(u32 value, s32 flag, void *);
 void IRC_COMPATIBLE_MENU_InitScrollEffect(IrcScrollEffect *effect, u32 unused);
 void IRC_COMPATIBLE_MENU_ExitScrollEffect(IrcScrollEffect *effect);
 void IRC_COMPATIBLE_MENU_UpdateScrollEffect(IrcScrollEffect *effect);
@@ -424,8 +424,8 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     void *unit;
     void *font, *printQueue;
     GFL_HEAP_CreateChildHeap(1, 59, 0x40000);
-    work = PROCSYS_AllocProcWork(proc, 0x4a4, 59);
-    MI_CpuFill8(work, 0, 0x4a4);
+    work = PROCSYS_AllocProcWork(proc, sizeof(*work), 59);
+    MI_CpuFill8(work, 0, sizeof(*work));
     work->args = args;
     IRC_COMPATIBLE_MENU_InitText(&work->text, 59);
     IRC_COMPATIBLE_MENU_InitDisplay(work, 59);
@@ -611,7 +611,7 @@ void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config
     void *arc;
     int i;
     u16 position[4];
-    MI_CpuFill8(sprites, 0, 0x90);
+    MI_CpuFill8(sprites, 0, sizeof(*sprites));
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (struct DispVramCfg *)config, heapId);
     sprites->res.unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
@@ -649,7 +649,7 @@ void IRC_COMPATIBLE_MENU_ExitSprites(IrcMenuSprites *sprites)
     CLACT_ReleaseCellAnim(sprites->res.cellAnim);
     CLACT_DeleteUnit(sprites->res.unit);
     CLACT_ExitSystem();
-    MI_CpuFill8(sprites, 0, 0x90);
+    MI_CpuFill8(sprites, 0, sizeof(*sprites));
 }
 
 void IRC_COMPATIBLE_MENU_DrawSpriteSystem(void) { CLACT_DrawSystem(); }
@@ -665,7 +665,7 @@ void *IRC_COMPATIBLE_MENU_SpriteSetGetUnit(IrcMenuSprites *sprites) { return spr
 
 void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
 {
-    MI_CpuFill8(text, 0, 0x10);
+    MI_CpuFill8(text, 0, sizeof(*text));
     GF_FONT_InitTextColor();
     text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
@@ -681,7 +681,7 @@ void IRC_COMPATIBLE_MENU_ExitText(IrcTextSystem *text)
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
-    MI_CpuFill8(text, 0, 16);
+    MI_CpuFill8(text, 0, sizeof(*text));
 }
 
 void IRC_COMPATIBLE_MENU_UpdateTextQueue(IrcTextSystem *text) { PRINTSYS_QUE_Main(text->printQueue); }
@@ -710,7 +710,7 @@ void *IRC_COMPATIBLE_MENU_TextGetMsgData(IrcTextSystem *text)
 void IRC_COMPATIBLE_MENU_InitTitleWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8 width, u8 height, u8 palette, u16 heapId)
 {
     void *bmpWin;
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->fillColor = 0xF;
     win->bmpWin = BMP_WIN_Create(bgLayer, x, y, width, height, palette, 1);
     win->strBuf = STRBUF_Create(255, heapId);
@@ -726,7 +726,7 @@ void IRC_COMPATIBLE_MENU_InitTitleWindow(IrcWindow *win, int bgLayer, int x, u8 
 void IRC_COMPATIBLE_MENU_InitWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8 width, u8 height, u8 palette, u16 fillColor, u8 charBase, u16 heapId)
 {
     void *bmpWin;
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
     win->fillColor = fillColor;
     win->bmpWin = BMP_WIN_Create(bgLayer, x, y, width, height, palette, charBase);
     win->strBuf = STRBUF_Create(255, heapId);
@@ -743,7 +743,7 @@ void IRC_COMPATIBLE_MENU_ExitWindow(IrcWindow *win)
 {
     STRBUF_Delete(win->strBuf);
     BMP_WIN_Delete(win->bmpWin);
-    MI_CpuFill8(win, 0, 20);
+    MI_CpuFill8(win, 0, sizeof(*win));
 }
 
 int IRC_COMPATIBLE_MENU_UpdateWindow(IrcWindow *win, IrcTextSystem *text)
@@ -974,7 +974,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
     void *bmpWin;
     u32 width, height;
     void *label, *bmp;
-    MI_CpuFill8(buttons, 0, 60);
+    MI_CpuFill8(buttons, 0, sizeof(*buttons));
     buttons->count = count;
     buttons->rows = rows;
     buttons->bgLayer = bgLayer;
@@ -987,7 +987,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         buttons->bounds[i * 4 + 3] = (row->x + row->width) * 8 - 1;
     }
     buttons->bounds[i * 4] = 255;
-    buttons->buttonMan = BUTTON_MAN_Create(buttons->bounds, (void (*)(s32, s32, s32))IRC_COMPATIBLE_MENU_ButtonCallback, (sptr)buttons, heapId);
+    buttons->buttonMan = BUTTON_MAN_Create(buttons->bounds, IRC_COMPATIBLE_MENU_ButtonCallback, buttons, heapId);
     for (i = 0; i < buttons->count; i++) {
         row = rows + i;
         buttons->windows[i] = BMP_WIN_Create(bgLayer, (u8)(row->x + 4), (u8)(row->y + 1), (u8)(row->width - 8), row->height - 2, row->palette, 1);
@@ -1013,7 +1013,7 @@ void IRC_COMPATIBLE_MENU_ExitButtons(IrcButtons *buttons)
     int i;
     for (i = 0; i < buttons->count; i++) BMP_WIN_Delete(buttons->windows[i]);
     BUTTON_MAN_Delete(buttons->buttonMan);
-    MI_CpuFill8(buttons, 0, 60);
+    MI_CpuFill8(buttons, 0, sizeof(*buttons));
 }
 
 #pragma opt_propagation off
@@ -1115,8 +1115,9 @@ void IRC_COMPATIBLE_MENU_ResetButtonPalettes(IrcButtons *buttons)
 /*
  * extent: includes the 8-byte setter follower at 021B8794.
  */
-void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, IrcButtons *buttons)
+void IRC_COMPATIBLE_MENU_ButtonCallback(u32 value, s32 flag, void *arg)
 {
+    IrcButtons *buttons = arg;
     if (flag == 0) buttons->selected = value;
 }
 
@@ -1147,7 +1148,7 @@ void IRC_COMPATIBLE_MENU_StartScrollEffect(IrcScrollEffect *effect)
 void IRC_COMPATIBLE_MENU_InitFloater(IrcFloater *floater, void *actor, int isSpecial, int unused)
 {
     u16 offset[2];
-    MI_CpuFill8(floater, 0, 0x1c);
+    MI_CpuFill8(floater, 0, sizeof(*floater));
     floater->actor = actor;
     /* likely original mismatch: the sequence is passed wide, the ARM9 definition takes u16 */
     CLACT_SetActorAnimSeq(floater->actor, isSpecial != 0 ? 0xd : 0xc);
@@ -1159,7 +1160,7 @@ void IRC_COMPATIBLE_MENU_InitFloater(IrcFloater *floater, void *actor, int isSpe
     CLACT_SetActorAnimFrame(floater->actor, GFL_USE_GetRandomBelow(0x2000));
 }
 
-void IRC_COMPATIBLE_MENU_ExitFloater(IrcFloater *floater) { MI_CpuFill8(floater, 0, 0x1c); }
+void IRC_COMPATIBLE_MENU_ExitFloater(IrcFloater *floater) { MI_CpuFill8(floater, 0, sizeof(*floater)); }
 
 /*
  * extent: two trailing zero padding bytes at 021B88F6.
@@ -1207,7 +1208,7 @@ void IRC_COMPATIBLE_MENU_ResetFloaterPath(IrcFloater *floater)
 void IRC_COMPATIBLE_MENU_InitFloaters(IrcFloaters *floaters, IrcMenuWork *work, void *records, int unused)
 {
     int i;
-    MI_CpuFill8(floaters, 0, 0x350);
+    MI_CpuFill8(floaters, 0, sizeof(*floaters));
     if (records == 0)
         floaters->totalCount = 0x1e;
     else
@@ -1227,7 +1228,7 @@ void IRC_COMPATIBLE_MENU_ExitFloaters(IrcFloaters *floaters)
 {
     int i;
     for (i = 0; i < floaters->totalCount; i++) IRC_COMPATIBLE_MENU_ExitFloater(&floaters->floater[i]);
-    MI_CpuFill8(floaters, 0, 848);
+    MI_CpuFill8(floaters, 0, sizeof(*floaters));
 }
 
 /*

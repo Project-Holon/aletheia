@@ -167,29 +167,29 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSys
 GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoom(GameEvent *event, int *seq, EventAppearWork *work);
+int EVENT_APPEAR_RunPlayerDrop(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *work);
 void EVENT_APPEAR_StartZoomOut(EventAppearWork *work);
 void EVENT_APPEAR_EndZoomOut(EventAppearWork *work);
 void EVENT_APPEAR_StartPlayerSpin(EventAppearWork *work);
 GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work);
-void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoomAlt(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEnd(void *workArg);
+int EVENT_APPEAR_RunSpinZoomAlt(struct GameEvent *event, int *seq, void *work);
 void EVENT_APPEAR_StartZoomOutAlt(EventAppearWork *work);
 void EVENT_APPEAR_EndZoomOutAlt(EventAppearWork *work);
 void EVENT_APPEAR_StartPlayerSpinAlt(EventAppearWork *work);
 GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work);
-void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work);
-int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *work);
-int EVENT_APPEAR_RunMoveAnime(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEndAlt(void *workArg);
+int EVENT_APPEAR_RunSpinZoomSmoke(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunDescendingSpin(struct GameEvent *event, int *seq, void *work);
+int EVENT_APPEAR_RunMoveAnime(struct GameEvent *event, int *seq, void *work);
 
 extern const VecFx32 d_021DA080;
 
 /* Creates the player drop event. */
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunPlayerDrop, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunPlayerDrop, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -200,7 +200,7 @@ GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSyst
 /* Creates the spin zoom event with an optional season scoreboard. */
 GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoom, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoom, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -214,7 +214,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem
 /* Second copy of the spin zoom event; the map change events use the two as pairs. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoomAlt, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomAlt, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -228,7 +228,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event that ends with a smoke puff at the player. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomSmoke, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -239,7 +239,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameS
 /* Creates the descending spin event. */
 GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunDescendingSpin, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunDescendingSpin, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -250,7 +250,7 @@ GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *game
 /* Creates the move animation event. */
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunMoveAnime, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunMoveAnime, sizeof(EventAppearWork));
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -262,8 +262,9 @@ GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSyste
  * Player drop: the player starts above the ground (draw offset from
  * d_021DA080), the screen fades in and the player falls to the ground.
  */
-int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunPlayerDrop(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     struct FieldCamera *camera = FIELDMAP_GetCamera(work->fieldMap);
     VecFx32 drawOffset;
     Mmdl *player;
@@ -302,8 +303,9 @@ int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work
  * scoreboard ends (EVENT_APPEAR_OnScoreboardEnd), else at once. FIELD_TASK_MANAGER_IsEmpty takes the task
  * manager that stays live across the switch, which puts the step number in r1.
  */
-int EVENT_APPEAR_RunSpinZoom(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoom(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     FieldMap *fieldMap;
     struct FieldCamera *camera;
     FieldTaskManager *taskManager;
@@ -384,14 +386,15 @@ GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work)
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, (FieldFadeCallback)EVENT_APPEAR_OnScoreboardEnd, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEnd, work);
     }
     return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
 
 /* Scoreboard finished: start the spin and the zoom. */
-void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work)
+void EVENT_APPEAR_OnScoreboardEnd(void *workArg)
 {
+    EventAppearWork *work = workArg;
     EVENT_APPEAR_StartPlayerSpin(work);
     EVENT_APPEAR_StartZoomOut(work);
 }
@@ -400,8 +403,9 @@ void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work)
  * Second copy of the spin zoom (EVENT_APPEAR_RunSpinZoom). Its fade-in, scoreboard
  * callback and helpers are copies as well.
  */
-int EVENT_APPEAR_RunSpinZoomAlt(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoomAlt(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     FieldMap *fieldMap;
     struct FieldCamera *camera;
     FieldTaskManager *taskManager;
@@ -482,14 +486,15 @@ GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work)
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, (FieldFadeCallback)EVENT_APPEAR_OnScoreboardEndAlt, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEndAlt, work);
     }
     return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
 
 /* Copy of EVENT_APPEAR_OnScoreboardEnd. */
-void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work)
+void EVENT_APPEAR_OnScoreboardEndAlt(void *workArg)
 {
+    EventAppearWork *work = workArg;
     EVENT_APPEAR_StartPlayerSpinAlt(work);
     EVENT_APPEAR_StartZoomOutAlt(work);
 }
@@ -499,8 +504,9 @@ void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work)
  * and the fade-in start in sequence, and the smoke starts at the player when
  * the spin is over.
  */
-int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoomSmoke(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     GameSystem *gameSystem;
     FieldMap *fieldMap;
     struct FieldCamera *camera;
@@ -561,8 +567,9 @@ int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *w
  * in and a spin task and a draw offset task bring the player down. It is the
  * mirror of the rising spin of event_disappear.c.
  */
-int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunDescendingSpin(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     FieldMap *fieldMap;
     struct FieldCamera *camera;
     Mmdl *player;
@@ -622,8 +629,9 @@ int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *
  * Move animation: the screen fades in while the player plays the move
  * animation EVENT_APPEAR_ACMD_APPEAR.
  */
-int EVENT_APPEAR_RunMoveAnime(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunMoveAnime(struct GameEvent *event, int *seq, void *workPtr)
 {
+    EventAppearWork *work = workPtr;
     struct FieldCamera *camera = FIELDMAP_GetCamera(work->fieldMap);
     Mmdl *player;
 

@@ -114,7 +114,7 @@ void DWCi_SceneOptInfo(void)
     DWCi_HLlLoad(0x11);
     DWCi_COMMENTlDispEx(0x3a, -1, 0);
     drawInfo();
-    DWCi_ChangeScene((uptr)procInit);
+    DWCi_ChangeScene(procInit);
 }
 
 static void initGraphics(void)
@@ -159,7 +159,7 @@ static void drawInfo(void)
         DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     }
     DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);
-    DWCi_FNTlRenewBg((sptr)canvas);
+    DWCi_FNTlRenewBg(canvas);
 }
 
 static void procInit(void)
@@ -168,7 +168,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((uptr)procInit1);
+    DWCi_ChangeScene(procInit1);
 }
 
 static void procInit1(void)
@@ -176,14 +176,14 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(1)) return;
     if (DWCi_EFFlCheck(0)) return;
     DWCi_CMNlButton(2);
-    DWCi_ChangeScene((uptr)procInit2);
+    DWCi_ChangeScene(procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((uptr)DWCi_SceneOptInfo_procScene);
+    DWCi_ChangeScene(DWCi_SceneOptInfo_procScene);
 }
 
 void DWCi_SceneOptInfo_procScene(void)
@@ -207,14 +207,14 @@ static void button(void)
 {
     if (DWCi_BTNlGet() != 0) return;
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((uptr)endScene);
+    DWCi_ChangeScene(endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((uptr)endScene1);
+    DWCi_ChangeScene(endScene1);
 }
 
 static void endScene1(void)
@@ -223,7 +223,7 @@ static void endScene1(void)
     DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((uptr)endScene2);
+    DWCi_ChangeScene(endScene2);
 }
 
 static void endScene2(void)
@@ -236,5 +236,5 @@ static void endScene2(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
+    DWCi_ChangeScene(DWCi_SceneOptMenu);
 }

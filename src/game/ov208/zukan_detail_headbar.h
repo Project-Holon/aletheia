@@ -5,17 +5,20 @@
 /* Public functions of zukan_detail_headbar.c, prototypes copied from their definitions. */
 
 struct Ov208Icon;
+struct GfFont;
 
 #include "../types.h"
 
-struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
+struct TcbTask;
+
+struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,struct GfFont *arg);
 void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m);
 void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p);
 void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
 int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p);
 void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
-void ZUKAN_DETAIL_HEADBAR_NoOp(void *p);
+void ZUKAN_DETAIL_HEADBAR_NoOp(struct TcbTask *p, void *unused1);
 void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g);
 void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p);
 void ZUKAN_DETAIL_HEADBAR_DrawIcon(struct Ov208Icon *p);

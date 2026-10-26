@@ -587,7 +587,7 @@ s16 MCSS_GetOfsY(McssWork *work);
 
 u8 MCSS_GetStopCellFlags(McssWork *work);
 
-int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
+int MCSS_SetAnimCallback(McssWork *work, void *arg, AnimCallBackFunc func, u32 unusedArg);
 
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, int (*callback)(void *, void *, void *, int));
 
@@ -657,7 +657,7 @@ void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction
 
 void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out, u32 direction);
 
-void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender);
+void MCSS_TOOL_MakeAddWorkFromTrainer(u32 trainerClass, McssAddWork *out, u32 isBack);
 
 McssWork *MCSS_TOOL_AddPokeMcss(McssSys *sys, void *pp, u32 direction, fx32 x, fx32 y, fx32 z);
 
@@ -669,7 +669,7 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
 
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
 
-void MCSS_TOOL_AnimeStopCallback(McssWork *work);
+void MCSS_TOOL_AnimeStopCallback(void *param, u32 frame);
 struct PokemonParam;
 
 #include "poke_tool.h"
@@ -704,16 +704,16 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     McssTransTask *task;
     u32 subHeapId;
 
-    sys = GFL_HEAP_Alloc(heapId, 0x4c, 1, sFileMcss, 0x78);
+    sys = GFL_HEAP_Alloc(heapId, sizeof(*sys), 1, sFileMcss, 0x78);
     sys->maxCount = maxCount;
     sys->heapId = heapId;
     sys->globalScale = 0x1000;
-    sys->works = GFL_HEAP_Alloc(heapId, maxCount * 4, 1, sFileMcss, 0x7f);
+    sys->works = GFL_HEAP_Alloc(heapId, maxCount * sizeof(*sys->works), 1, sFileMcss, 0x7f);
     sys->texTransAdrs = 9 << 14;
     sys->plttTransAdrs = 0x1000;
     NNSi_G2dInitVramHandleEx((u32 *)&sys->shadowPltt);
     subHeapId = (heapId & 0x7fff) | 0x8000;
-    task = GFL_HEAP_Alloc((uptr)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
+    task = GFL_HEAP_Alloc((u16)subHeapId, sizeof(*task), 1, sFileMcss, 0x8e);
     task->sys = sys;
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
@@ -1946,9 +1946,9 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
  *   python tools/match.py one --src src/matched/MCSS_SetAnimCallback.c \
  *       --func MCSS_SetAnimCallback --addr 0x02015F2C --cc 1.1p1
  */
-int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg)
+int MCSS_SetAnimCallback(McssWork *work, void *arg, AnimCallBackFunc func, u32 unusedArg)
 {
-    NNS_G2dSetCellAnimationParam((struct CellAnim *)&work->animCtrl, 1, callback, callbackWork);
+    NNS_G2dSetCellAnimationParam((struct CellAnim *)&work->animCtrl, 1, arg, func);
 #ifndef __MWERKS__
     return 0; /* the DS returns whatever NNS_G2dSetCellAnimationParam leaves in r0 */
 #endif
@@ -2211,7 +2211,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     task = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
-            0x2c, 1, sFileMcss, 0x761);
+            sizeof(*task), 1, sFileMcss, 0x761);
 
     task->sys = sys;
     task->hasTaskSys = (sys->taskSys != 0);
@@ -2221,7 +2221,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     task->plttData = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
-            0x10, 0, sFileMcss, 0x769);
+            sizeof(*task->plttData), 0, sFileMcss, 0x769);
 
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = 0;
@@ -2264,7 +2264,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     void *handle;
 
     hasTaskSys = 1;
-    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 1942);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, 1942);
     task->sys = sys;
     if (sys->taskSys == 0) {
         hasTaskSys = 0;
@@ -2275,7 +2275,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     hasTaskSys = 0;
-    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 1950);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, 1950);
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = hasTaskSys;
     task->plttData->byteSize = work->plttByteSize;
@@ -2414,7 +2414,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
     task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
-                         0x2C, 1, sFileMcss, 0x840);
+                         sizeof(*task), 1, sFileMcss, 0x840);
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2494,7 +2494,7 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
     task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
-                         0x2C, 1, sFileMcss, 0x8AB);
+                         sizeof(*task), 1, sFileMcss, 0x8AB);
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2635,8 +2635,8 @@ void MCSS_InitAnimCtrl(McssWork *work, int kind)
 void MCSS_InitEdgeColor(void)
 {
     u32 v = 0x4210FFFF;
-    *(volatile u32 *)0x040004C0 = v;
-    *(volatile u32 *)0x040004C4 = v >> 16;
+    *(volatile u32 *)REG_DIF_AMB_ADDR = v;
+    *(volatile u32 *)REG_SPE_EMI_ADDR = v >> 16;
 }
 
 /*
@@ -2673,7 +2673,7 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     }
 
     flag = 1;
-    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x2C, 1, sFileMcss, 0x9A1);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, 0x9A1);
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2684,7 +2684,7 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     flag = 0;
-    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), 0x10, 0, sFileMcss, 0x9A9);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, 0x9A9);
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = flag;
     task->plttData->byteSize = work->plttByteSize;
@@ -3225,16 +3225,16 @@ void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShi
  *   python tools/match.py tu --src src/matched/unit_02017214.c \
  *       --addr 0x02017214 --thumb
  */
-void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender)
+void MCSS_TOOL_MakeAddWorkFromTrainer(u32 trainerClass, McssAddWork *out, u32 isBack)
 {
-    out->arcId = POKEGRA_GetTrainerArcID(trainerGender);
-    out->textureMember = POKEGRA_GetTrainerCbrArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->paletteMember = POKEGRA_GetTrainerPalArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->cellMember = POKEGRA_GetTrainerCelArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->cellAnimMember = POKEGRA_GetTrainerAnmArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->multiCellMember = POKEGRA_GetTrainerMCelArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->multiCellAnimMember = POKEGRA_GetTrainerMAnmArcIndex((uptr)trainerClass, (uptr)trainerGender);
-    out->cellHeaderMember = POKEGRA_GetTrainerNcecArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->arcId = POKEGRA_GetTrainerArcID(isBack);
+    out->textureMember = POKEGRA_GetTrainerCbrArcIndex(trainerClass, isBack);
+    out->paletteMember = POKEGRA_GetTrainerPalArcIndex(trainerClass, isBack);
+    out->cellMember = POKEGRA_GetTrainerCelArcIndex(trainerClass, isBack);
+    out->cellAnimMember = POKEGRA_GetTrainerAnmArcIndex(trainerClass, isBack);
+    out->multiCellMember = POKEGRA_GetTrainerMCelArcIndex(trainerClass, isBack);
+    out->multiCellAnimMember = POKEGRA_GetTrainerMAnmArcIndex(trainerClass, isBack);
+    out->cellHeaderMember = POKEGRA_GetTrainerNcecArcIndex(trainerClass, isBack);
     out->heapMode = 1;
 }
 
@@ -3344,7 +3344,7 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality)
     }
 }
 
-int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, (uptr)(work + 0), (u32)0x20173C9, (u32)1); return ret; }
+int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, work, MCSS_TOOL_AnimeStopCallback, 1); return ret; }
 
 /*
  * A four-byte tail call: the pool word 0x02016381 (Thumb) is loaded and
@@ -3358,7 +3358,8 @@ int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallba
  *   python tools/match.py one --src src/matched/MCSS_TOOL_AnimeStopCallback.c \
  *       --func MCSS_TOOL_AnimeStopCallback --addr 0x020173C8 --cc 1.1p1 --thumb
  */
-void MCSS_TOOL_AnimeStopCallback(McssWork *work)
+void MCSS_TOOL_AnimeStopCallback(void *param, u32 frame)
 {
+    McssWork *work = (McssWork *)param;
     MCSS_RequestAnimeStopAtStart(work);
 }

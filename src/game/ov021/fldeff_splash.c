@@ -186,7 +186,7 @@ extern char ov171_id[];
 /* Splash, billboard kind: allocates the record (0xC bytes) and loads its image. */
 SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashBoardRes *res = GFL_HEAP_Alloc(heapId, 0xC, 1, gFldeffSplashFileName, 0x7D);
+    SplashBoardRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, gFldeffSplashFileName, 0x7D);
 
     res->sys = sys;
     res->actSys = (struct BbActSys *)FIELDMAP_GetGroundBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap((struct FieldEffectSys *)sys));
@@ -256,7 +256,7 @@ void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
     desc.color = 1;
     desc.pos = pos;
     desc.hook = 0;
-    desc.hookArg = (uptr)work;
+    desc.hookArg = work;
     work->entryId = BILLBOARD_ACT_CreateEntries(actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);
@@ -292,7 +292,7 @@ void FLDEFF_SPLASH_DrawBoardObj(void) {}
 /* Splash, model kind: allocates the record (8 bytes) and loads its model. */
 SplashModelRes *FLDEFF_SPLASH_CreateModelRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashModelRes *res = GFL_HEAP_Alloc(heapId, 8, 1, gFldeffSplashFileName, 0x163);
+    SplashModelRes *res = GFL_HEAP_Alloc(heapId, sizeof(*res), 1, gFldeffSplashFileName, 0x163);
 
     res->sys = sys;
     FLDEFF_SPLASH_LoadModel(res);

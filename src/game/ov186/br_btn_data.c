@@ -106,7 +106,7 @@ void BR_BTN_DATA_Fill(struct BrBtnTable *table)
         count = d_022007F0[section].count;
         templates = d_022007F0[section].records;
         for (item = 0; item < count; item++) {
-            row = (struct BrBtnTemplate *)((char *)table + total * 24 + 4);
+            row = &((struct BrBtnTable *)((char *)table + total * 24))->records[0];
             *row = templates[item];
             switch (row->kind) {
             case 1: row->enabled = config[0]; break;
@@ -151,7 +151,7 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
     if(hasWordSet){
         if((*wordSetSrc)[index]!=0){
             wordSet=WORDSET_CreateDefault((unsigned short)((heapId&0x7fff)|0x8000));
-            WORDSET_SetSlotTag(wordSet,0,(struct Strbuf *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
+            WORDSET_SetSlotTag(wordSet,0,*(struct Strbuf **)(*wordSetSrc+index+4),(*wordSetSrc+index)[8],1,2);
             src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             WORDSET_CopyTaggedText(wordSet,result,src);

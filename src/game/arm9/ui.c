@@ -114,8 +114,8 @@ void UI_SetSoftResetInhibitGlobal(u8 mask);
 void UI_ClearSoftResetInhibit(UiCtx *p, u32 mask);
 void UI_ClearSoftResetInhibitGlobal(u32 v);
 u32 UI_TestSoftResetInhibitGlobal(u32 mask);
-void UI_SetIntrData(UiCtx *p, u32 a, u32 b);
-void UI_SetIntrDataGlobal(u32 a, u32 b);
+void UI_SetIntrData(UiCtx *p, UiIntrFunc func, void *arg);
+void UI_SetIntrDataGlobal(UiIntrFunc func, void *arg);
 void *UI_GetPointerValue(void **p);
 UiCtx *UI_GetContext(void);
 void UI_RunSleepHook(UiCtx *p);
@@ -549,10 +549,10 @@ u32 UI_TestSoftResetInhibitGlobal(u32 mask)
  *   python tools/match.py one --src src/pending/UI_SetIntrData.c \
  *       --func UI_SetIntrData --addr 0x020351EC --cc 1.1p1 --arm
  */
-void UI_SetIntrData(UiCtx *p, u32 a, u32 b)
+void UI_SetIntrData(UiCtx *p, UiIntrFunc func, void *arg)
 {
-    p->intrData = (UiIntrFunc)a;
-    p->intrArg = b;
+    p->intrData = func;
+    p->intrArg = arg;
 }
 
 /*
@@ -560,9 +560,9 @@ void UI_SetIntrData(UiCtx *p, u32 a, u32 b)
  * gUiState.ctx (a tail call through ip).  No lr push, so disasm.py never
  * labels it; filed so its ov088/ov172 callers can resolve the BLX.
  */
-void UI_SetIntrDataGlobal(u32 a, u32 b)
+void UI_SetIntrDataGlobal(UiIntrFunc func, void *arg)
 {
-    UI_SetIntrData(gUiState.ctx, a, b);
+    UI_SetIntrData(gUiState.ctx, func, arg);
 }
 
 /*

@@ -156,21 +156,16 @@ extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struc
 #include "../arm9/g3d_camera.h"
 #endif
 
-extern u16 G3D_UTIL_AddUnit(struct G3dUtil *,const struct G3dUtilSetup *);
 
 struct G3dObject;
 
 #include "../arm9/g3d_system.h"
 
 
-extern unsigned int G3D_CAMERA_Delete(void *);
 
-extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
 
-extern void G3D_UTIL_Delete(struct G3dUtil *);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 #include "../arm9/fx_mtx33.h"
 struct G3dObjectStatus;
@@ -194,7 +189,7 @@ void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 
 void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
 
-void INTRO_G3D_OnAnimEnd(IntroMcssSlot *slot);
+void INTRO_G3D_OnAnimEnd(void * slotArg, u32 unused1);
 
 int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 
@@ -242,7 +237,7 @@ void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned 
     work->slots[i].animFinished = 0;
     work->slots[i].loopAnim = 1;
     work->idleTimer = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
-    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], INTRO_G3D_OnAnimEnd, 0);
 }
 
 void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index)
@@ -264,7 +259,7 @@ void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned 
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = v;
-    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], INTRO_G3D_OnAnimEnd, 0);
 }
 
 unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i)
@@ -297,8 +292,10 @@ void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag)
     else MCSS_ResetMepachiFlag(work->slots[index].object);
 }
 
-void INTRO_G3D_OnAnimEnd(IntroMcssSlot *slot)
+void INTRO_G3D_OnAnimEnd(void * slotArg, u32 unused1)
 {
+
+    IntroMcssSlot * slot = (IntroMcssSlot *)slotArg;
     slot->animFinished=1;
     if(slot->loopAnim==1)MCSS_RestartAnime(slot->object);
 }
@@ -360,7 +357,7 @@ char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
     IntroG3dWork *p;
     IntroG3dVec3 a,b,c;
     void *obj;
-    p=GFL_HEAP_Alloc(heap,48,1,gIntroG3dSite,162);
+    p=GFL_HEAP_Alloc(heap,sizeof(IntroG3dWork),1,gIntroG3dSite,162);
     p->heapId=heap;
     p->owner=owner;
     p->util=G3D_UTIL_Create(10,16,heap);
