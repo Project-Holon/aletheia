@@ -594,7 +594,7 @@ void WORLDTRADE_DEPOSIT_CreateWindows(WorldtradeWork *p)
     WORLDTRADE_TITLE_CreateMenuWindow(p, 3);
 }
 
-void WORLDTRADE_DEPOSIT_DeleteWindows(WorldtradeWork *p) { int i; WORLDTRADE_ADAPTER_DeletePrintStream((struct WorldtradeObj *)((struct Actor *)((u8 *)&((struct WorldtradeWork *)p)->printer))); BMP_WIN_Delete((struct BmpWin *)p->msgWin); for(i=0;i<6;i++) BMP_WIN_Delete((struct BmpWin *)(((struct WorldtradeWork *)p)->win_p4[(u32)i])); BMP_WIN_Delete((struct BmpWin *)p->d40); }
+void WORLDTRADE_DEPOSIT_DeleteWindows(WorldtradeWork *p) { int i; WORLDTRADE_ADAPTER_DeletePrintStream((struct WorldtradeObj *)((struct Actor *)((u8 *)&((struct WorldtradeWork *)p)->printer))); BMP_WIN_Delete((struct BmpWin *)p->msgWin); for(i=0;i<6;i++) BMP_WIN_Delete((struct BmpWin *)(((struct WorldtradeWork *)p)->win_u16[(u32)i])); BMP_WIN_Delete((struct BmpWin *)p->d40); }
 
 /*
  * CLACT_CreateActor returns the object consumed by the subsequent calls and stores.

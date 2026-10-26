@@ -513,10 +513,10 @@ void WORLDTRADE_LIST_DeleteWindows(u8 *p)
         BMP_WIN_Delete((struct BmpWin *)(((WorldtradeWork *)p)->win[0]));
     }
     for (i = 0; i < 0x10; i++) {
-        h = ((struct WorldtradeWork *)p)->win_p4[i];
+        h = ((struct WorldtradeWork *)p)->win_u16[i];
         BMP_WIN_ClearScreen((struct BmpWin *)h);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)h));
-        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_p4[i]);
+        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_u16[i]);
     }
 }
 

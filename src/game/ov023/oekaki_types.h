@@ -142,9 +142,7 @@ typedef struct OekakiWork {
     u8  pad74[0x98 - 0x74];
     struct ClactActor *nameTagActor[OEKAKI_MEMBER_MAX]; /* 0x098 shown while the member is present */
     u8  padAC[0xD0 - 0xAC];
-    struct ClactActor *colorButton[8];         /* 0x0D0 */
-    struct ClactActor *clearButton;            /* 0x0F0 */
-    struct ClactActor *sizeButton[3];          /* 0x0F4 */
+    struct ClactActor *buttonActor[12];        /* 0x0D0 0..7 colors, 8 clear, 9..11 pen sizes */
     struct ClactActor *quitButton;             /* 0x100 */
     struct BmpWin *nameWindow[OEKAKI_MEMBER_MAX]; /* 0x104 */
     struct BmpWin *canvasWindow;     /* 0x118 */

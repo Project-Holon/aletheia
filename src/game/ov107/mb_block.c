@@ -24,6 +24,7 @@ struct MbBlockPiece {
     unsigned char *buf;
     int size;
     int max;
+    int total;
 };
 
 #include "../types.h"
@@ -45,14 +46,14 @@ void MBi_SetChildMPMaxSize(u16 childMaxSize)
 {
     s32 n = childMaxSize - 2;
 
-    *(s32 *)(((char *)&d_021F7008) + 8) = n;
-    *(s32 *)(((char *)&d_021F7008) + 0xC) = 0x1E / n;
-    *(s32 *)(((char *)&d_021F7008) + 0x10) = 0x1E;
+    d_021F7008.size = n;
+    d_021F7008.max = 0x1E / n;
+    d_021F7008.total = 0x1E;
 }
 
 void MBi_SetParentPieceBuffer(void *buf)
 {
-    *(void **)(((char *)&d_021F7008) + 4) = buf;
+    d_021F7008.buf = buf;
     MI_CpuFill8(buf, 0, 0x21C);
 }
 
@@ -171,10 +172,10 @@ int IsGetAllRequestData(int a)
 {
     unsigned short i = 0;
     unsigned int v;
-    int n = *(int *)(((char *)&d_021F7008) + 0xc);
+    int n = d_021F7008.max;
 
     if (n > 0) {
-        v = *(unsigned int *)(*(unsigned char **)(((char *)&d_021F7008) + 4) + (a - 1) * 4 + 0x1e0);
+        v = *(unsigned int *)(d_021F7008.buf + (a - 1) * 4 + 0x1e0);
         do {
             if (!(v & (1u << i)))
                 return 0;

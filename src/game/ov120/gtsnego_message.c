@@ -631,7 +631,7 @@ void GTSNEGO_MSG_ScrollListUp(struct GtsnegoActorSys *actorSys, void *entry)
     int i;
     if (entry) {
         if (((struct GtsnegoActorSys *)actorSys)->listActors[5]) CLACT_DeleteActor(((struct GtsnegoActorSys *)actorSys)->listActors[5]);
-        for (i = 5; i > 0; i--) ((struct GtsnegoActorSys *)actorSys)->listActors[i] = ((struct GtsnegoActorSys *)actorSys)->iconActors[i + 2];
+        for (i = 5; i > 0; i--) ((struct GtsnegoActorSys *)actorSys)->listActors[i] = ((struct GtsnegoActorSys *)actorSys)->listActors[i - 1];
         ((struct GtsnegoActorSys *)actorSys)->listActors[0] = 0;
         GTSNEGO_MSG_SetListEntry(actorSys, entry, 0);
     }

@@ -476,7 +476,7 @@ void WORLDTRADE_DETAIL_DeleteWindows(char *p)
     BMP_WIN_Delete(((WorldtradeWork *)p)->d40);
     BMP_WIN_Delete(((WorldtradeWork *)p)->side_p2[0]);
     for (i = 0; i < 14; i++) {
-        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_p4[i]);
+        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_u16[i]);
     }
 }
 

@@ -21,6 +21,8 @@ typedef struct NNThinkGlobal {
     char *addFilter;                /* +0x0C */
     int needSbFree;                 /* +0x10 */
     int sbCallbackLevel;            /* +0x14 */
+    int tickLow;                    /* +0x18 */
+    int tickHigh;                   /* +0x1C */
 } NNThinkGlobal;
 
 struct SBServer;

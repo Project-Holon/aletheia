@@ -64,8 +64,8 @@ struct GfdLnkBlock;
 
 struct LnkVramManCfg
 {
-  u32 head_a;
-  u32 head_b;
+  struct GfdLnkBlock *head_a;
+  struct GfdLnkBlock *head_b;
   struct GfdLnkBlock *pool;
   u32 szByte;
   u32 szByteFor4x4;
@@ -87,7 +87,7 @@ struct Rgns
 
 struct HeapB
 {
-  u32 head;
+  struct GfdLnkBlock *head;
   struct GfdLnkBlock *pool;
   u32 szByte;
   void *pManagementWork;
@@ -101,7 +101,7 @@ struct GfdLnkBlock;
 struct GfdLnkBlockPool;
 struct GfdLnkBlockList;
 BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *pRet, u32 size, u32 alignment);
-void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
+void NNSi_GfdMergeFreeBlockList(struct GfdLnkBlock **pp, struct GfdLnkBlock **arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);
 void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, void *pManagementWork, u32 szByteManagementWork, u32 useAsDefault);
@@ -115,13 +115,13 @@ int NNS_GfdFreePlttVram(u32 id);
 void NNSi_GfdInitPlttVramHeap(void);
 extern struct LnkVramManCfg g_02146B94;
 extern struct LnkVramManCfg g_02146B94_blk;
-extern u32 g_02146B98;
-extern u32 g_02146B9C;
+extern struct GfdLnkBlock *g_02146B98;
+extern struct GfdLnkBlock *g_02146B9C;
 extern const struct Rgns g_020A17A8;
 extern struct HeapB g_02146BB0;
 extern u32 NNS_GfdDefaultFuncAllocPlttVram;
 extern u32 NNS_GfdDefaultFuncFreePlttVram;
-extern u32 g_02146BB4;
+extern struct GfdLnkBlock *g_02146BB4;
 extern struct HeapB g_02146BB0_blk;
 
 static inline NNSiGfdLnkBlock *GetNewBlock_(NNSiGfdLnkBlock **pool)
@@ -238,7 +238,7 @@ fail:
     return 0;
 }
 
-void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg)
+void NNSi_GfdMergeFreeBlockList(struct GfdLnkBlock **pp, struct GfdLnkBlock **arg)
 {
     Node02061FF8 *n = *(Node02061FF8 **)pp;
 

@@ -863,6 +863,13 @@ int GFL_NET_HANDLE_SendTimingSyncAll(GFLNetHandle *handle)
  *      separate local the own pointer and the loop index swap sb/sl in
  *      phase 2 (or r6/r7 in phase 4).
  */
+/* The DS loop scans one slot past the 8-slot timing arrays; the PC build stops at 8. */
+#ifdef __MWERKS__
+#define NET_HANDLE_TIMING_SCAN 9
+#else
+#define NET_HANDLE_TIMING_SCAN 8
+#endif
+
 void GFL_NET_HANDLE_Main(void)
 {
     GFLNetHandle *ownHandle;
@@ -877,7 +884,7 @@ void GFL_NET_HANDLE_Main(void)
     GFL_NET_HANDLE_SendNegotiation();
     if (GFL_NET_IsParentAid() != 0) {
         ownHandle = GFL_NET_HANDLE_GetNetHandle(0xff);
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < NET_HANDLE_TIMING_SCAN; i++) {
             if (_pBaseWork->timingSendReady[i] != 1)
                 continue;
             if (GFL_NET_SendDataMask(ownHandle, _pBaseWork->timingSend[i], 8, 2,

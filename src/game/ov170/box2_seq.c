@@ -7822,7 +7822,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
         } else if (task->curBox == task->heldSlot) {
             BOX2_SEQ_SwapSlotActors(((char *)((BoxTask *)(task))->work), task->cursorSlot);
         } else {
-            BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->heldSlot, task->cursorSlot, (((BoxTask *)(task))->work->cursorActorId));
+            BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->heldSlot, task->cursorSlot, (((BoxTask *)(task))->work->cursorTable[0x24]));
         }
         BOX2_MAIN_SceneMoveCursor((BoxTask *)task);
         BOX2_SEQ_SetSlotDimB((char **)task, 0x24);
@@ -7845,7 +7845,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
     case 5:
         BOX2_SEQ_StopRightBar((BoxTask *)task);
         if (task->cursorSlot < 0x1E && task->curBox != task->heldSlot)
-            BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->heldSlot, task->cursorSlot, (((BoxTask *)(task))->work->cursorActorId));
+            BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->heldSlot, task->cursorSlot, (((BoxTask *)(task))->work->cursorTable[0x24]));
         else
             BOX2_SEQ_SwapSlotActors(((char *)((BoxTask *)(task))->work), task->cursorSlot);
         BOX2_MAIN_SceneMoveCursor((BoxTask *)task);
@@ -7892,7 +7892,7 @@ int BOX2_SEQ_StatePmVoiceOpenD(BoxTask *task)
     case 5:
         BOX2_SEQ_StopRightBar((BoxTask *)task);
         if(task->cursorSlot<0x1e && task->curBox!=task->heldSlot)
-            BOX2_SEQ_ShowSlotIcon((BoxTask *)task,task->heldSlot,task->cursorSlot,((BoxTask *)task)->work->cursorActorId);
+            BOX2_SEQ_ShowSlotIcon((BoxTask *)task,task->heldSlot,task->cursorSlot,((BoxTask *)task)->work->cursorTable[0x24]);
         else BOX2_SEQ_SwapSlotActors(((char *)((BoxTask *)(task))->work),task->cursorSlot);
         BOX2_MAIN_SceneMoveCursor((BoxTask *)task); BOX2_SEQ_SetSlotDimB((char **)task,0x24);
         BOX2_UI_MoveCursor((char **)task,6,task->listCursorId); CURSOR_MOVE_ClearSkipBit(((BoxTask *)task)->work->cursorMove,0x27);
@@ -10020,8 +10020,8 @@ void BOX2_SEQ_SwapSlotActors(char *w, unsigned i)
     unsigned char *tbl = (unsigned char *)&((BoxWork *)w)->cursorTable;
     unsigned char t;
     BOX2_SEQ_GetActorSurfacePos((char *)w, tbl[i], &xy[1], &xy[0], 0);
-    t = ((BoxWork *)w)->cursorActorId;
-    ((BoxWork *)w)->cursorActorId = tbl[i];
+    t = ((BoxWork *)w)->cursorTable[0x24];
+    ((BoxWork *)w)->cursorTable[0x24] = tbl[i];
     tbl[i] = t;
     BOX2_SEQ_AddActorSurfacePos((char *)w, tbl[i], xy[1], xy[0], 0);
     BOX2_SEQ_SetSlotDrawPriority((char *)w, i, 1);
@@ -10031,11 +10031,11 @@ void BOX2_SEQ_SwapSlotActorsB(unsigned char *work, int i)
 {
     short xy[2];
     unsigned char t;
-    BOX2_SEQ_GetActorSurfacePos((char *)work, ((BoxWork *)work)->cursorActorId, &xy[1], &xy[0], 0);
+    BOX2_SEQ_GetActorSurfacePos((char *)work, ((BoxWork *)work)->cursorTable[0x24], &xy[1], &xy[0], 0);
     t = ((unsigned char *)&((BoxWork *)work)->cursorTable)[i];
-    ((unsigned char *)&((BoxWork *)work)->cursorTable)[i] = ((BoxWork *)work)->cursorActorId;
-    ((BoxWork *)work)->cursorActorId = t;
-    BOX2_SEQ_AddActorSurfacePos((char *)work, ((BoxWork *)work)->cursorActorId, xy[1], xy[0], 0);
+    ((unsigned char *)&((BoxWork *)work)->cursorTable)[i] = ((BoxWork *)work)->cursorTable[0x24];
+    ((BoxWork *)work)->cursorTable[0x24] = t;
+    BOX2_SEQ_AddActorSurfacePos((char *)work, ((BoxWork *)work)->cursorTable[0x24], xy[1], xy[0], 0);
 }
 
 
@@ -10055,7 +10055,7 @@ void BOX2_SEQ_RefreshHandSlot(BoxTask *task)
         k = 0xA;
         xy[0] += 8;
     } else {
-        k = ((BoxTask *)task)->work->cursorActorId;
+        k = ((BoxTask *)task)->work->cursorTable[0x24];
         xy[0] += 4;
     }
     BOX2_SEQ_AddActorSurfacePos(((char *)((BoxTask *)(task))->work), k, xy[1], xy[0], 0);

@@ -344,8 +344,13 @@ typedef struct VoiceGateConfig {
 
 /* gVoiceGateConfig is declared with a size under four bytes so that every access
  * to it falls in the unknown-memory set of the compiler (see the voice gate update). */
+#ifdef __MWERKS__
 extern u8 gVoiceGateConfig;
 #define VAD_CFG (*(VoiceGateConfig *)&gVoiceGateConfig)
+#else
+extern VoiceGateConfig gVoiceGateConfig; /* the PC build declares the full object */
+#define VAD_CFG gVoiceGateConfig
+#endif
 
 /* gVoiceGateState: voice gate state. */
 typedef struct VoiceGateState {

@@ -189,8 +189,7 @@ typedef struct BoxWork {
     void * arcHandle;
     unsigned char iconTiles[30][0x200];  /* 0x1B4 */
     unsigned char iconPalette[30];       /* 0x3DB4 */
-    unsigned char cursorTable[0x24];
-    unsigned char cursorActorId;
+    unsigned char cursorTable[0x25];     /* slot actors, entry 0x24 is the hand slot */
     unsigned char pad_3DF7[1];
     int iconLoaded[30];                  /* 0x3DF8 */
     unsigned char charPool[24][0x400];

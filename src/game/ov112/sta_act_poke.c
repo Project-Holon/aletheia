@@ -451,9 +451,19 @@ void STA_ACT_LIGHT_SetElemFrame(StaActBillboardImage *p, u16 v)
 {
     u8 i;
     p->frame = v;
+#ifdef __MWERKS__
     for (i = 0; i < 9; i++) {
         if (p->elems[i].value == 1) p->elems[i].dirty = 1;
     }
+#else
+    for (i = 0; i < 4; i++) {
+        if (p->elems[i].value == 1) p->elems[i].dirty = 1;
+    }
+#ifndef BUGFIX
+    /* The DS loop reads slot 4 past the elems array: its value is frame and pad_436, its dirty flag is image. */
+    if (p->frame == 1 && p->pad_436 == 0) p->image = 1;
+#endif
+#endif
 }
 
 /*

@@ -5736,8 +5736,8 @@ void DWCi_SetMatchCnt(DWCstMatchControl *a)
     unsigned long long v;
     g_021AAA20.pMatch = a;
     v = OS_GetTick();
-    *(int *)(((char *)&g_021AAA20) + 0x18) = (int)v;
-    *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
+    g_021AAA20.tickLow = (int)v;
+    g_021AAA20.tickHigh = (int)(v >> 32);
 }
 
 /*
@@ -6209,8 +6209,8 @@ void disp_match_state(int a, int b)
 {
     unsigned long long v = OS_GetTick();
 
-    *(int *)(((char *)&g_021AAA20) + 0x18) = (int)v;
-    *(int *)(((char *)&g_021AAA20) + 0x1c) = (int)(v >> 32);
+    g_021AAA20.tickLow = (int)v;
+    g_021AAA20.tickHigh = (int)(v >> 32);
 }
 
 /*

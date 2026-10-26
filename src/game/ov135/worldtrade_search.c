@@ -694,7 +694,7 @@ void WORLDTRADE_SEARCH_DeleteWindows(unsigned char *p)
     BMP_WIN_Delete(((WorldtradeWork *)p)->msgWin);
     BMP_WIN_Delete(((WorldtradeWork *)p)->d40);
     for (i = 0; i < 9; ++i)
-        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_p4[i]);
+        BMP_WIN_Delete(((struct WorldtradeWork *)p)->win_u16[i]);
     for (i = 0; i < 2; ++i)
         BMP_WIN_Delete(((struct WorldtradeWork *)p)->tab[i]);
     BG_SYS_FreeTiles(3, 1, 0);

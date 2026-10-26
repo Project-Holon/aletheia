@@ -108,7 +108,7 @@ struct RotomFormMoves {
 struct PersonalCache {
     u16 form;
     u16 species;
-    u8  data[0x10];
+    u8  data[0x40];             /* one personal record, 0x3C bytes read from the archive */
 };
 
 struct MsgData;

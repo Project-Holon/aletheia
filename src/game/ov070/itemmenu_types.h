@@ -141,9 +141,7 @@ typedef struct ItemMenuWork {
     /* 0x6AC */ struct Actor *tabActor[5];
     /* 0x6C0 */ struct Actor *damageClassActors[3];
     /* 0x6CC */ struct Actor *typeActors[ITEMMENU_TYPE_ACTOR_COUNT];
-    /* 0x710 */ struct Actor *sideActor[5];
-    /* 0x724 */ struct Actor *listWindowA;
-    /* 0x728 */ struct Actor *listWindowB;
+    /* 0x710 */ struct Actor *sideActor[7];  /* 0..4 side buttons, 5..6 list arrows */
     /* 0x72C */ struct Actor *inputGuard;
     /* 0x730 */ struct Tcbl *touchTask;
     /* 0x734 */ ItemMenuWindow listWindows[ITEMMENU_LIST_WINDOW_COUNT];

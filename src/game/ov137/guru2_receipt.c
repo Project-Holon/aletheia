@@ -1563,8 +1563,12 @@ void GURU2_RECEIPT_SetPlayerIcon(struct Guru2Lobby *p, struct NNSG2dPaletteData 
     NNSG2dCharacterData *screenDataPtr;
     GX_LoadOBJPltt((u8 *)paletteData->pRawData + gGuru2MemberPaletteIndex[outfit] * 32, member * 32, 32);
     screenData = ARC_UTIL_LoadScreenDataFromArchive(32, outfit + 1, 0, &screenDataPtr, 114);
+#ifdef __MWERKS__
     /* lever: the character ids follow the palette ids, so index past paletteId */
     CLACT_TransferCharacter(p->paletteId[member + 5], screenDataPtr);
+#else
+    CLACT_TransferCharacter(p->charId[member], screenDataPtr);
+#endif
     GFL_HEAP_Free(screenData);
 }
 

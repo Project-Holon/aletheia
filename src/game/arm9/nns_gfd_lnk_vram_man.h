@@ -15,8 +15,9 @@ typedef struct NNSiGfdLnkBlock {
 
 #include "../types.h"
 
+struct GfdLnkBlock;
 BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *pRet, u32 size, u32 alignment);
-void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
+void NNSi_GfdMergeFreeBlockList(struct GfdLnkBlock **pp, struct GfdLnkBlock **arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);
 void NNSi_GfdInitTexVramManager(u32 szByte, u32 szByteFor4x4, void *pManagementWork, u32 szByteManagementWork, u32 useAsDefault);

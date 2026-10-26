@@ -2599,7 +2599,11 @@ void STARTMENU_ShowRowActors(StartMenuWork *work, int flag)
 
 void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer)
 {
+#ifdef __MWERKS__
     u32 layer = *(u32 *)&bgLayer;
+#else
+    u32 layer = bgLayer;
+#endif
 
     BG_SYS_SetTileEntry(layer, 1, x, y, 1, 1, 1);
     BG_SYS_SetTileEntry(layer, 3, x + w - 1, y, 1, 1, 1);

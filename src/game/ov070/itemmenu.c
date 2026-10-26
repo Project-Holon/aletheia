@@ -1922,9 +1922,9 @@ void ITEMMENU_RemoveSelectedItems(ItemMenuWork *work, int removeCount)
     }
 }
 
-void ITEMMENU_ShowQuantityWindows(ItemMenuWork *work, int v) { work->listMode=v; ITEMMENU_LoadSellPalette(work); ITEMMENU_PrintQuantityPrice(work,work->listCount); CLACT_SetActorDrawEnable((struct ClactActor *)work->listWindowA, 1); CLACT_SetActorDrawEnable((struct ClactActor *)work->listWindowB, 1); }
+void ITEMMENU_ShowQuantityWindows(ItemMenuWork *work, int v) { work->listMode=v; ITEMMENU_LoadSellPalette(work); ITEMMENU_PrintQuantityPrice(work,work->listCount); CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[5], 1); CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[6], 1); }
 
-void ITEMMENU_HideQuantityWindows(ItemMenuWork *work) { BG_SYS_ClearSlot(3); CLACT_SetActorDrawEnable((struct ClactActor *)work->listWindowA, 0); CLACT_SetActorDrawEnable((struct ClactActor *)work->listWindowB, 0); }
+void ITEMMENU_HideQuantityWindows(ItemMenuWork *work) { BG_SYS_ClearSlot(3); CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[5], 0); CLACT_SetActorDrawEnable((struct ClactActor *)work->sideActor[6], 0); }
 
 /*
  * Quantity selector input: touch buttons (hit table sQuantityTouchRects, with
@@ -1996,9 +1996,9 @@ int ITEMMENU_HandleQuantityInput(ItemMenuWork *work)
     if (work->listCount != previousCount) {
         GFL_USE_PlaySeDefaultVolume(0x548);
         if (direction == 0)
-            CLACT_SetActorAnimSeq((struct ClactActor *)work->listWindowA, 0xB);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->sideActor[5], 0xB);
         else
-            CLACT_SetActorAnimSeq((struct ClactActor *)work->listWindowB, 0xA);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->sideActor[6], 0xA);
         ITEMMENU_PrintQuantityPrice(work, work->listCount);
     }
     return changed;

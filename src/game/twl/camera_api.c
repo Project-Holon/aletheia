@@ -721,7 +721,7 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 camera, u32 context, CamPxiCallback cal
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
     u32 ret;
-    u8 buf[2];
+    u8 buf[4];
 
     if (status == 7) {
         return status;
@@ -824,7 +824,7 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 camera, s32 frameRate, CamPxiCallback callb
     u32 status = CAMERA_CheckRetryCount();
     u32 irq;
     u32 ret;
-    u8 buf[2];
+    u8 buf[4];
 
     if (status == 7) {
         return status;
@@ -980,7 +980,7 @@ u32 CAMERA_I2CFlipExAsyncCore(u32 camera, u32 context, s32 flip, CamPxiCallback 
 }
 
 u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
@@ -1020,7 +1020,7 @@ u32 CAMERA_I2CPhotoModeAsyncCore(u32 camera, s32 mode, CamPxiCallback callback, 
 }
 
 u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
@@ -1061,7 +1061,7 @@ u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 camera, s32 whiteBalance, CamPxiCallback
 }
 
 u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
@@ -1094,7 +1094,7 @@ u32 CAMERA_I2CExposureAsyncCore(u32 camera, s32 exposure, CamPxiCallback callbac
 }
 
 u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
@@ -1127,7 +1127,7 @@ u32 CAMERA_I2CSharpnessAsyncCore(u32 camera, s32 sharpness, CamPxiCallback callb
 }
 
 u32 CAMERA_I2CAutoExposureAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {
@@ -1166,7 +1166,7 @@ u32 CAMERA_I2CAutoExposureCore(u32 camera, u32 enable) {
 }
 
 u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 camera, s32 enable, CamPxiCallback callback, u32 arg) {
-    u8 buf[2];
+    u8 buf[4];
     u32 st = CAMERA_CheckRetryCount();
     u32 irq;
     if (st == 7) {

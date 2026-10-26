@@ -4545,7 +4545,11 @@ static unsigned long is_broadcast(unsigned long ip)
 	unsigned long result = 0;
 
 	if (ip_islocal(ip)) {
+#ifdef __MWERKS__
 		unsigned long mask = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x10);
+#else
+		unsigned long mask = CPSNetMask; /* 0x021A827C */
+#endif
 
 		if ((~mask & ip) == ~mask)
 			result = 1;
@@ -4561,7 +4565,11 @@ static unsigned long is_broadcast(unsigned long ip)
 static unsigned long get_targetip(unsigned long ip)
 {
 	if (ip_islocal(ip) == 0)
+#ifdef __MWERKS__
 		ip = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x2c);
+#else
+		ip = CPSGatewayIp; /* 0x021A8298 */
+#endif
 	return ip;
 }
 
@@ -4575,8 +4583,16 @@ static unsigned long ip_islocal(unsigned long ip)
 	unsigned long result = 1;
 
 	if (ip != 0xffffffff && ip != 0x7f000001) {
+#ifdef __MWERKS__
 		unsigned long mask = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x10);
+#else
+		unsigned long mask = CPSNetMask; /* 0x021A827C */
+#endif
+#ifdef __MWERKS__
 		unsigned long myip = *(unsigned long *)((char *)&sCpsNetworkWfailed + 0x50);
+#else
+		unsigned long myip = CPSMyIp; /* 0x021A82BC */
+#endif
 
 		if ((ip & mask) != (myip & mask))
 			result = 0;

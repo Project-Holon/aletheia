@@ -1020,14 +1020,14 @@ void OEKAKI_CreateActors(OekakiWork *p)
     for (j = 0; j < 12; j++) {
         pos.x = gOekakiButtonLayout[j].x;
         pos.y = gOekakiButtonLayout[j].y;
-        p->colorButton[j] = CLACT_CreateActor(p->clactSys, p->cursorRes.charRes, p->cursorRes.plttRes, p->cursorRes.cellRes, &pos, 0, 0x28);
-        CLACT_SetActorAutoAnim(p->colorButton[j], 1);
-        CLACT_SetActorAnimSeq(p->colorButton[j], gOekakiButtonLayout[j].anim);
+        p->buttonActor[j] = CLACT_CreateActor(p->clactSys, p->cursorRes.charRes, p->cursorRes.plttRes, p->cursorRes.cellRes, &pos, 0, 0x28);
+        CLACT_SetActorAutoAnim(p->buttonActor[j], 1);
+        CLACT_SetActorAnimSeq(p->buttonActor[j], gOekakiButtonLayout[j].anim);
         if (j >= 8) {
-            CLACT_SetActorBgPriority(p->colorButton[j], 2);
+            CLACT_SetActorBgPriority(p->buttonActor[j], 2);
         }
     }
-    CLACT_SetActorAnimSeq(p->colorButton[0], 6);
+    CLACT_SetActorAnimSeq(p->buttonActor[0], 6);
     for (i = 0; i < 5; i++) {
         pos.x = 0x18;
         pos.y = i * 0x20 + 0x20 + 0x100000u;
@@ -1154,7 +1154,7 @@ void OEKAKI_HandleTouch(OekakiWork *p)
         case 7:
             if (p->penColor != hit) {
                 p->penColor = hit;
-                OEKAKI_SelectColorButton(p->colorButton, hit);
+                OEKAKI_SelectColorButton(p->buttonActor, hit);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
             break;
@@ -1181,9 +1181,9 @@ void OEKAKI_HandleTouch(OekakiWork *p)
         case 11:
             for (i = 0; i < 3; i++) {
                 if (hit - 9 == i)
-                    CLACT_SetActorAnimSeq(p->sizeButton[i], i * 2 + 0x1e);
+                    CLACT_SetActorAnimSeq(p->buttonActor[9 + i], i * 2 + 0x1e);
                 else
-                    CLACT_SetActorAnimSeq(p->sizeButton[i], i * 2 + 0x1d);
+                    CLACT_SetActorAnimSeq(p->buttonActor[9 + i], i * 2 + 0x1d);
             }
             if (p->penSize != hit - 9) {
                 p->penSize = hit - 9;
@@ -2048,7 +2048,7 @@ int OEKAKI_UpdateMembers(OekakiWork *p)
         p->nextScene = 0x16;
         if (p->menuOpen != 0) {
             OEKAKI_CloseMenuIfOpen(p);
-            CLACT_SetActorAnimSeq(p->clearButton, 0x15);
+            CLACT_SetActorAnimSeq(p->buttonActor[8], 0x15);
         }
         return 2;
     case 2:

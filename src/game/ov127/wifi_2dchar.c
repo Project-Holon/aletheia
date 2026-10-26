@@ -76,12 +76,8 @@ typedef struct Wifi2dcharContext {
     u32 actorCount;               /* 0x00C */
     Wifi2dcharCell cells[18];     /* 0x010: character/palette cells */
     u8 pad178[0x10];              /* 0x178 */
-    Wifi2dcharCell cellAnims[17]; /* 0x188: cell animation slots 0..16 */
-    u32 animHandle17;             /* 0x2DC: cell animation slot 17 */
-    u32 bmpCharHandle;            /* 0x2E0: bitmap character handle */
-    u32 bmpPaletteHandle;         /* 0x2E4: bitmap palette handle */
-    u32 bmpAnimHandle;            /* 0x2E8: bitmap cell anim handle */
-    u32 reserved2EC;                   /* 0x2EC */
+    Wifi2dcharCell cellAnims[18]; /* 0x188: cell animation slots 0..16; slot 17 holds the bitmap handles
+                                   (handle: character, owner: palette, argA: cell anim) */
     u32 bmpParam;                 /* 0x2F0 */
     u32 paletteHandle;            /* 0x2F4 */
     void *charHandle;             /* 0x2F8: CLACT cell/character resource */
@@ -183,7 +179,7 @@ Wifi2dcharContext *WIFI_2DCHAR_Create(void *a, void *b, u32 count, u32 heap)
     p->charHandle = ARC_TOOL_CreateHandle(31, heap);
     p->paletteSource = ARC_TOOL_CreateHandle(32, heap);
     for (i = 0; i < 18; i++) p->cells[i].handle = -1;
-    ((Wifi2dcharContext *)p)->bmpCharHandle = -1;
+    ((Wifi2dcharContext *)p)->cellAnims[17].handle = -1;
     ((Wifi2dcharContext *)p)->paletteHandle = -1;
     WIFI_2DCHAR_RegisterCellAnims((char *)p, 0, heap);
     p->actorCount = count;
@@ -279,14 +275,14 @@ Wifi2dcharActor *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, 
     e->animSeq = 1;
     e->rec = &ctx->cells[idx];
     off = 0x2E0;
-    if (WIFI_2DCHAR_IsHandleValid((int *)&ctx->bmpCharHandle)) {
+    if (WIFI_2DCHAR_IsHandleValid((int *)&ctx->cellAnims[17].handle)) {
         l.x = pos[0];
         l.y = pos[1];
         l.z = 0;
         l.a = ctx->bmpParam;
         l.b = 0;
-        e->subActor = CLACT_CreateActor((struct Unit *)ctx->ownerA, ctx->bmpCharHandle, ctx->bmpPaletteHandle,
-                             ctx->bmpAnimHandle, (const struct ActorInitParam *)&l, 0, (u16)heap);
+        e->subActor = CLACT_CreateActor((struct Unit *)ctx->ownerA, ctx->cellAnims[17].handle, ctx->cellAnims[17].owner,
+                             ctx->cellAnims[17].argA, (const struct ActorInitParam *)&l, 0, (u16)heap);
         CLACT_SetActorBgPriority(e->subActor, (u8)pos[3]);
     } else {
         e->subActor = 0;
@@ -452,12 +448,12 @@ void WIFI_2DCHAR_RegisterBmpHandles(u8 *p, u32 a, u32 heap)
         if (WIFI_2DCHAR_IsCellUsed((char *)p, 17) == 1)
         ((Wifi2dcharContext *)p)->bmpCellSlot = i;
     }
-    ((Wifi2dcharContext *)p)->bmpAnimHandle = (u32)CLACT_RegisterCellAnim((void *)(((Wifi2dcharContext *)p)->charHandle), 9, 8, (u16)heap);
-    ((Wifi2dcharContext *)p)->bmpCharHandle = CLACT_RegisterCharacter((void *)(((Wifi2dcharContext *)p)->charHandle), 11, 0, a, heap);
-    ((Wifi2dcharContext *)p)->bmpPaletteHandle = CLACT_RegisterPaletteEx((void *)(((Wifi2dcharContext *)p)->charHandle), 10, a, 320, 0, 1, heap);
+    ((Wifi2dcharContext *)p)->cellAnims[17].argA = (u32)CLACT_RegisterCellAnim((void *)(((Wifi2dcharContext *)p)->charHandle), 9, 8, (u16)heap);
+    ((Wifi2dcharContext *)p)->cellAnims[17].handle = CLACT_RegisterCharacter((void *)(((Wifi2dcharContext *)p)->charHandle), 11, 0, a, heap);
+    ((Wifi2dcharContext *)p)->cellAnims[17].owner = CLACT_RegisterPaletteEx((void *)(((Wifi2dcharContext *)p)->charHandle), 10, a, 320, 0, 1, heap);
 }
 
-void WIFI_2DCHAR_ReleaseBmpHandles(char *p) { if(WIFI_2DCHAR_IsHandleValid((int *)&((Wifi2dcharContext *)p)->bmpCharHandle)==1) { CLACT_ReleaseCharacter(((Wifi2dcharContext *)p)->bmpCharHandle); ((Wifi2dcharContext *)p)->bmpCharHandle=-1; CLACT_ReleasePalette(((Wifi2dcharContext *)p)->bmpPaletteHandle); ((Wifi2dcharContext *)p)->bmpPaletteHandle=-1; CLACT_ReleaseCellAnim(((Wifi2dcharContext *)p)->bmpAnimHandle); ((Wifi2dcharContext *)p)->bmpAnimHandle=-1; } }
+void WIFI_2DCHAR_ReleaseBmpHandles(char *p) { if(WIFI_2DCHAR_IsHandleValid((int *)&((Wifi2dcharContext *)p)->cellAnims[17].handle)==1) { CLACT_ReleaseCharacter(((Wifi2dcharContext *)p)->cellAnims[17].handle); ((Wifi2dcharContext *)p)->cellAnims[17].handle=-1; CLACT_ReleasePalette(((Wifi2dcharContext *)p)->cellAnims[17].owner); ((Wifi2dcharContext *)p)->cellAnims[17].owner=-1; CLACT_ReleaseCellAnim(((Wifi2dcharContext *)p)->cellAnims[17].argA); ((Wifi2dcharContext *)p)->cellAnims[17].argA=-1; } }
 
 int WIFI_2DCHAR_IsHandleValid(int *p)
 {

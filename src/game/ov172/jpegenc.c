@@ -315,7 +315,7 @@ int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos)
     u32 i;
     u32 sum = 0;
 
-    if (*pos + 0x10 >= ((unsigned long *)&gBitLen)[2])
+    if (*pos + 0x10 >= gWriteLimit)
         return 0;
 
     for (i = 0; i < 0x10; i++) {
@@ -325,7 +325,7 @@ int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos)
         sum += v;
     }
 
-    if (*pos + sum >= ((unsigned long *)&gBitLen)[2])
+    if (*pos + sum >= gWriteLimit)
         return 0;
 
     for (i = 0; i < sum; i++) {
@@ -635,16 +635,16 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     int i;
     u16 tag;
 
-    if (((unsigned long *)&gBitLen)[2] < 0x17)
+    if (gWriteLimit < 0x17)
         return 0;
 
     offset = dst[0x13] + 0xc;
-    if (offset + 2 > ((unsigned long *)&gBitLen)[2])
+    if (offset + 2 > gWriteLimit)
         return 0;
     p = dst + offset;
     registrationNumber = (u16)((p[1] + (dst[offset] << 8)));
     offset += 2;
-    if (registrationNumber * 0xc + offset > ((unsigned long *)&gBitLen)[2])
+    if (registrationNumber * 0xc + offset > gWriteLimit)
         return 0;
 
     tag = 0;
@@ -661,12 +661,12 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     if (tag != 0x8769)
         return 0;
 
-    if (offset + 2 > ((unsigned long *)&gBitLen)[2])
+    if (offset + 2 > gWriteLimit)
         return 0;
     p = dst + offset;
     registrationNumber = (u16)((p[1] + (dst[offset] << 8)));
     offset += 2;
-    if (registrationNumber * 0xc + offset > ((unsigned long *)&gBitLen)[2])
+    if (registrationNumber * 0xc + offset > gWriteLimit)
         return 0;
 
     tag = 0;
@@ -683,17 +683,17 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     if (tag != 0x927c)
         return 0;
 
-    if (offset + 4 > ((unsigned long *)&gBitLen)[2])
+    if (offset + 4 > gWriteLimit)
         return 0;
     p = dst + offset;
     if (p[2] != 0x10 || p[3] != 0)
         return 0;
-    if (offset + 0xe > ((unsigned long *)&gBitLen)[2])
+    if (offset + 0xe > gWriteLimit)
         return 0;
 
     offset = (((u32)p[0xa] << 24) + ((u32)p[0xb] << 16) +
               ((u32)p[0xc] << 8) + p[0xd]) + 0xc;
-    if (offset + 0x1c > ((unsigned long *)&gBitLen)[2])
+    if (offset + 0x1c > gWriteLimit)
         return 0;
 
     MI_CpuFill8(dst + offset, 0, 0x1c);

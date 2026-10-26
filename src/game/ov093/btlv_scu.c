@@ -2657,10 +2657,20 @@ void BTLV_SCU_InitMonSlots(BtlvScu *scu)
 {
     u32 i;
     u32 count;
+#ifdef __MWERKS__
     for (i = 0; i <= 6; i++) {
         scu->monSlots[i].isActive = 0;
         scu->monSlots[i].mon = 0;
     }
+#else
+    for (i = 0; i < 6; i++) {
+        scu->monSlots[i].isActive = 0;
+        scu->monSlots[i].mon = 0;
+    }
+    /* the DS slot 6 clear lands on the first name plate */
+    scu->namePlates[0].scu = 0;
+    scu->namePlates[0].bgPlane = 0;
+#endif
     if (BTL_MAIN_GetRule((struct BtlMain *)scu->context) != 3) {
         count = BTL_MAIN_GetRuleSlotSpan((struct BtlMain *)scu->context);
     } else {

@@ -73,6 +73,7 @@ extern SickAddStringEntry gSickAddStringTable[17];
  * taking the address of c is what pushes r0-r3 and makes c reload from its
  * home slot; a plain fifth parameter gives an ordinary push instead.
  */
+#ifdef __MWERKS__
 void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded)
 {
     int pokeId;
@@ -83,6 +84,18 @@ void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union S
     else
         BTL_SICK_ProcTurnEnd(((struct BtlServerFlow **)&cont)[2], bpp, pokeId, sickKind);
 }
+#else
+void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded, struct BtlServerFlow *flow)
+{
+    int pokeId;
+
+    pokeId = BTL_POKEPARAM_GetPokeId(bpp);
+    if (isAdded != 0)
+        BTL_SICK_OnAdded(flow, bpp, pokeId, sickKind, cont);
+    else
+        BTL_SICK_ProcTurnEnd(flow, bpp, pokeId, sickKind);
+}
+#endif
 
 
 void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind)

@@ -11,7 +11,11 @@ struct BtlServerFlow;
 #include "../ov093/hand_common_types.h"
 #include "../types.h"
 
+#ifdef __MWERKS__
 void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded);
+#else
+void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded, struct BtlServerFlow *flow);
+#endif
 void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind);
 int BTL_SICK_BuildDamageMessage(BtlStrParam *message, struct BtlPokeParam *bpp, int sickKind);
 int BTL_SICK_GetDamageStringId(int sickKind);

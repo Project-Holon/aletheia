@@ -20,5 +20,9 @@ extern unsigned int SDK_AUTOLOAD_DTCM_START;
 
 void OSi_VBlankIntr(void)
 {
+#ifdef __MWERKS__
     *(volatile unsigned int *)((char *)&SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
+#else
+    *(volatile unsigned int *)((__UINTPTR_TYPE__)&SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
+#endif
 }

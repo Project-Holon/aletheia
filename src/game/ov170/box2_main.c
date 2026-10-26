@@ -2361,7 +2361,7 @@ void BOX2_MAIN_SetMoverEntry(BoxTask *task, BoxMover *e)
             if (e[i].id == 0x24)
                 save = e[i].slot;
         } else {
-            task->work->cursorActorId = buf[i];
+            task->work->cursorTable[0x24] = buf[i];
             if (e[i].id == 0x24)
                 save = 0x24;
         }
@@ -3090,7 +3090,7 @@ int BOX2_MAIN_PopNameScene(u8 *task){char **q;q=*(char ** *)&((BoxTask *)task)->
 
 void BOX2_MAIN_MoveCursorActor(BoxTask *task, int x, int y)
 {
-    BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), task->work->cursorActorId, (short)x, (short)((short)y - 8), 0);
+    BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), task->work->cursorTable[0x24], (short)x, (short)((short)y - 8), 0);
     BOX2_SEQ_MoveCursorToSlot((char *)task->work, 0x24);
     task->work->cursorX = x;
     task->work->cursorY = y;
@@ -3974,7 +3974,7 @@ void BOX2_MAIN_SceneMoveCursor(BoxTask *task)
     short xy[2];
     BOX2_SEQ_SetCursorFrame((BoxTask *)task, 8);
     BOX2_SEQ_GetActorSurfacePos((char *)task->work, 4, (short *)&xy[1], (short *)&xy[0], 0);
-    BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), task->work->cursorActorId, (short)xy[1], (short)(xy[0] + 4), (short)0);
+    BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work), task->work->cursorTable[0x24], (short)xy[1], (short)(xy[0] + 4), (short)0);
     BOX2_SEQ_SetSlotDrawPriority((char *)((BoxWork *)task->work), 0x24, 0);
 }
 
@@ -4009,7 +4009,7 @@ int BOX2_MAIN_SceneWaitCursor(BoxTask *task)
         }
         BOX2_SEQ_GetActorSurfacePos((char *)task->work,4,(short *)&xy[1],(short *)&xy[0],0);
         BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work),4,(short)xy[1],(short)(xy[0]-2),(short)0);
-        k=task->work->cursorActorId;
+        k=task->work->cursorTable[0x24];
         BOX2_SEQ_GetActorSurfacePos((char *)task->work,k,(short *)&xy[1],(short *)&xy[0],0);
         BOX2_SEQ_AddActorSurfacePos((char *)((BoxWork *)task->work),k,(short)xy[1],(short)(xy[0]-2),(short)0);
         BOX2_SEQ_MoveCursorToSlot((char *)task->work,0x24);

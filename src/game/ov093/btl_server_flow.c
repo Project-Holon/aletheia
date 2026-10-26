@@ -6815,11 +6815,7 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(BtlServerFlow *flow, struct BtlPokeSet
             if (BTL_POKEPARAM_IsFainted(m) == 0) {
                 if (BTL_POKEPARAM_TickSickCont(m, (u32)q, (union SickCont *)(&y), (int *)(&x))) {
                     s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9719);
-#ifdef __MWERKS__
                     BTL_SICK_ProcAddedOrTurnEnd(m, q, y, x, flow);
-#else
-                    BTL_SICK_ProcAddedOrTurnEnd(m, q, y, x);
-#endif
                     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9721);
                 }
             }

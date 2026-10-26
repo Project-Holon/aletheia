@@ -769,7 +769,11 @@ extern const char d_0220AE68[];
 
 extern char d_02209DCC[];
 
+#ifdef __MWERKS__
 extern const VecFx32 d_0220ACA0[2];
+#else
+extern const VecFx32 d_0220ACA0[6];
+#endif
 
 extern const VecFx32 d_0220ACE8[];
 
@@ -1090,7 +1094,8 @@ void BTLV_EFFVM_ClearLastEffect(void *vm)
  * note: d_0220ACA0 holds six vectors but is declared with a short bound. Cases 14, 18 and
  *   19 index past it; MWCC then treats those loads as possibly aliasing A/B and keeps each
  *   load after the preceding store (any bound 1..4 matches; in-bounds models such as [6],
- *   [2][3] or a pair struct hoist the last load above the B.y store).
+ *   [2][3] or a pair struct hoist the last load above the B.y store). The PC build
+ *   declares the real six.
  */
 int BTLV_EFFVM_CmdSetupCamera(struct ScriptVm *vm, BtlvEffVmWork *work)
 {

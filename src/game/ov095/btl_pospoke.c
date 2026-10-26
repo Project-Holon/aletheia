@@ -136,8 +136,15 @@ void BTL_POSPOKE_RotateInPoke(BtlPosPoke *p, u32 size, u32 category, struct BtlP
     p->entry[idx[second]] = tmp;
     if (BTL_POKEPARAM_IsFainted(inPoke) == 0)
         BTL_POSPOKE_SetPoke(p, idx[0], BTL_POKEPARAM_GetPokeId(inPoke), pokeCon);
-    else
+    else {
+#ifdef __MWERKS__
         p->entry[i].pokeId = BTL_POSPOKE_NO_POKE;
+#elif defined(BUGFIX)
+        p->entry[idx[0]].pokeId = BTL_POSPOKE_NO_POKE; /* the DS indexes with i, which equals BTL_POSPOKE_COUNT here */
+#else
+        p->posOfPoke[2] = BTL_POSPOKE_NO_POKE; /* entry[BTL_POSPOKE_COUNT].pokeId overlays posOfPoke[2] on the DS */
+#endif
+    }
     for (i = 0; i < n; i++) BTL_POSPOKE_UpdatePosOfPoke(p, idx[i]);
 }
 

@@ -669,7 +669,12 @@ double __strtold(int max_width, int (*ReadProc)(MslStringScan *, u32, u32), void
             NibbleIndex = ch2 % 8;
             p[ch2 / 8] |= (unsigned char)(hch >> NibbleIndex);
             ch2 += 8;
+#ifdef __MWERKS__
             p[ch2 / 8] |= (unsigned char)(hch << (8 - NibbleIndex));
+#else
+            if (ch2 / 8 < sizeof(hexresult))
+                p[ch2 / 8] |= (unsigned char)(hch << (8 - NibbleIndex));
+#endif
         }
         expsign += exp_value + 0x3FF;
         if (expsign & ~0x7FF)

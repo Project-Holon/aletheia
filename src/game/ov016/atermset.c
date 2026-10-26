@@ -391,7 +391,7 @@ extern u8 gAtermsetBlock7[16];
 extern u8 gAtermsetBlock10[2048];
 extern int gAtermsetBlock1;
 extern u8 gAtermsetBlock8[8];
-extern u8 gAtermsetBlock9[8];
+extern u8 gAtermsetBlock9[16]; /* the MD5 digest written by MD5Encode */
 extern signed char gAtermsetBlock5[];
 extern u32 rcon[10];
 extern u32 Te4[256];

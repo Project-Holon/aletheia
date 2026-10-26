@@ -620,13 +620,22 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
 {
     sptr end;
     int              start;
+#ifndef __MWERKS__
+    struct MemRegion front; /* the DS keeps start and end as two adjacent scalars */
+#endif
     struct MemRegion rest;
     struct MemRegion alloc;
     struct MBlock   *prev;
     struct MBlock   *node;
     u32              sz;
 
+#ifdef __MWERKS__
     NNSi_FndGetMBlockRegion(&start, (int *)block);
+#else
+    NNSi_FndGetMBlockRegion(&front.start, (int *)block);
+    start = front.start;
+    end = front.end;
+#endif
     rest.end = end;
     end = (sptr)ptr - 0x10;
     rest.start = (int)(size + (uptr)ptr);
@@ -635,8 +644,15 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
     if ((u32)(end - start) < 0x14) {
         end = start;
     } else {
+#ifdef __MWERKS__
         prev = NNSi_FndInsertMBlock((int *)(&heap->freeList), NNSi_FndInitMBlock(&end - 1, 0x4652),
                              (int *)prev);
+#else
+        front.start = start;
+        front.end = (int)end;
+        prev = NNSi_FndInsertMBlock((int *)(&heap->freeList), NNSi_FndInitMBlock((int *)&front, 0x4652),
+                             (int *)prev);
+#endif
     }
     if ((u32)(rest.end - rest.start) < 0x14) {
         rest.start = rest.end;
@@ -1028,12 +1044,23 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
 void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block)
 {
     struct MBlock *hdr = (struct MBlock *)((u8 *)block - 0x10);
+#ifdef __MWERKS__
     int            end;
     int            start;
 
     NNSi_FndGetMBlockRegion(&start, (int *)hdr);
     NNSi_FndRemoveMBlock((int *)(&heap->usedList), (int *)hdr);
     NNSi_FndRecycleRegion((ExpHeapHead *)(&heap->freeList), (const MemRegion *)(&end - 1));
+#else
+    struct MemRegion span; /* the DS reads start and end as the two ints at &end - 1 */
+    MemRegion region;
+
+    NNSi_FndGetMBlockRegion(&span.start, (int *)hdr);
+    NNSi_FndRemoveMBlock((int *)(&heap->usedList), (int *)hdr);
+    region.start = (void *)(uptr)span.start;
+    region.end = (void *)(uptr)span.end;
+    NNSi_FndRecycleRegion((ExpHeapHead *)(&heap->freeList), &region);
+#endif
 }
 
 int NNSi_FndGetListTotalSize(int *p)
