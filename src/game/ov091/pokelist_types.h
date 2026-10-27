@@ -74,7 +74,7 @@ typedef struct PokelistArg {
     u8 timerExpired;                  /* 0x94 */
     u8 pad95[3];
 } PokelistArg;
-typedef char PokelistArg_SizeCheck[(sizeof(PokelistArg) == 0x98) ? 1 : -1];
+typedef char PokelistArg_SizeCheck[(sizeof(void *) != 4 || ((sizeof(PokelistArg) == 0x98))) ? 1 : -1];
 
 typedef struct PokelistWork {
     u16 heapId;                       /* 0x000 */
@@ -165,6 +165,6 @@ typedef struct PokelistWork {
     u8 pad27C[4];
     PokelistArg *arg;                 /* 0x280 */
 } PokelistWork;
-typedef char PokelistWork_SizeCheck[(sizeof(PokelistWork) == 0x284) ? 1 : -1];
+typedef char PokelistWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(PokelistWork) == 0x284))) ? 1 : -1];
 
 #endif

@@ -78,8 +78,8 @@ typedef struct BAppTool {
     u32 visible;        /* 0x14: last visibility value passed to SetActorsVisible */
 } BAppTool;
 
-typedef char BAppTool_size_check[(sizeof(BAppTool) == 0x18) ? 1 : -1];
-typedef char BAppToolEntry_size_check[(sizeof(BAppToolEntry) == 0x8) ? 1 : -1];
+typedef char BAppTool_size_check[(sizeof(void *) != 4 || ((sizeof(BAppTool) == 0x18))) ? 1 : -1];
+typedef char BAppToolEntry_size_check[(sizeof(void *) != 4 || ((sizeof(BAppToolEntry) == 0x8))) ? 1 : -1];
 
 #include "../arm9/gfl_heap_wrap.h"
 struct ClactActor;

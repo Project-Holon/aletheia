@@ -41,7 +41,7 @@ typedef struct PlistMessage {
     u32 promptRequested;              /* 0x30: show the prompt icon after the print */
     u8 *prompt;                       /* 0x34: prompt icon object */
 } PlistMessage;
-typedef char PlistMessage_SizeCheck[(sizeof(PlistMessage) == 0x38) ? 1 : -1];
+typedef char PlistMessage_SizeCheck[(sizeof(void *) != 4 || ((sizeof(PlistMessage) == 0x38))) ? 1 : -1];
 
 /* The DS code declares the stream callback as int (int); the SDK callback type is u8 (u32). */
 #ifdef __MWERKS__

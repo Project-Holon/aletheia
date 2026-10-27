@@ -180,7 +180,7 @@ struct BtlPokeParam {
     u8 pad1F7;
 };
 
-typedef char BtlPokeParamSizeCheck[sizeof(struct BtlPokeParam) == 0x1f8 ? 1 : -1];
+typedef char BtlPokeParamSizeCheck[(sizeof(void *) != 4 || (sizeof(struct BtlPokeParam) == 0x1f8)) ? 1 : -1];
 
 typedef struct BtlPokeParam BtlPokeParam;
 

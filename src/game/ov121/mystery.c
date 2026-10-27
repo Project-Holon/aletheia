@@ -404,11 +404,11 @@ typedef struct {
 } MysteryWork;
 
 #if __SIZEOF_POINTER__ == 4
-typedef char MysteryWork_size_check[(sizeof(MysteryWork) == 0x69C) ? 1 : -1];
-typedef char MysteryCardView_size_check[(sizeof(MysteryCardView) == 0x12C) ? 1 : -1];
-typedef char MysteryScroll_size_check[(sizeof(MysteryScroll) == 0x128) ? 1 : -1];
-typedef char MysteryClactActor_size_check[(sizeof(MysteryClactActor) == 0xFC) ? 1 : -1];
-typedef char MysteryPacket_size_check[(sizeof(MysteryPacket) == 0x2D0) ? 1 : -1];
+typedef char MysteryWork_size_check[(sizeof(void *) != 4 || ((sizeof(MysteryWork) == 0x69C))) ? 1 : -1];
+typedef char MysteryCardView_size_check[(sizeof(void *) != 4 || ((sizeof(MysteryCardView) == 0x12C))) ? 1 : -1];
+typedef char MysteryScroll_size_check[(sizeof(void *) != 4 || ((sizeof(MysteryScroll) == 0x128))) ? 1 : -1];
+typedef char MysteryClactActor_size_check[(sizeof(void *) != 4 || ((sizeof(MysteryClactActor) == 0xFC))) ? 1 : -1];
+typedef char MysteryPacket_size_check[(sizeof(void *) != 4 || ((sizeof(MysteryPacket) == 0x2D0))) ? 1 : -1];
 #endif
 
 #ifdef __MWERKS__

@@ -124,7 +124,7 @@ typedef struct {
 } LocalTvtCharaRequest;
 
 /* Compile-time check of the allocation size used in LOCAL_TVT_CHARA_Create. */
-typedef char LocalTvtChara_size_check[(sizeof(struct LocalTvtChara)==0x3C)?1:-1];
+typedef char LocalTvtChara_size_check[(sizeof(void *) != 4 || ((sizeof(struct LocalTvtChara)==0x3C))) ? 1 : -1];
 struct ClactActor;
 
 

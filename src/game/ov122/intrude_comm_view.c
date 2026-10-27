@@ -270,7 +270,7 @@ typedef struct IntrudeCommView {
     void *actors[6];
 } IntrudeCommView;
 
-typedef char IntrudeCommView_size_check[(sizeof(IntrudeCommView) == 0x3A8) ? 1 : -1];
+typedef char IntrudeCommView_size_check[(sizeof(void *) != 4 || ((sizeof(IntrudeCommView) == 0x3A8))) ? 1 : -1];
 
 typedef struct { u8 reserved[32]; int state; } IntrudeCommViewExitState;
 

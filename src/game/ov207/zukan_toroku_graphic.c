@@ -148,9 +148,9 @@ typedef struct ZukanTorokuBgEntry {
     unsigned enable;        /* 0x28 */
 } ZukanTorokuBgEntry;
 
-typedef char ZukanTorokuWork_size_check[(sizeof(ZukanTorokuWork) == 0x34) ? 1 : -1];
-typedef char ZukanTorokuDisplay_size_check[(sizeof(ZukanTorokuDisplay) == 0x10) ? 1 : -1];
-typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 1 : -1];
+typedef char ZukanTorokuWork_size_check[(sizeof(void *) != 4 || ((sizeof(ZukanTorokuWork) == 0x34))) ? 1 : -1];
+typedef char ZukanTorokuDisplay_size_check[(sizeof(void *) != 4 || ((sizeof(ZukanTorokuDisplay) == 0x10))) ? 1 : -1];
+typedef char ZukanTorokuBgEntry_size_check[(sizeof(void *) != 4 || ((sizeof(ZukanTorokuBgEntry) == 44))) ? 1 : -1];
 
 #include "../arm9/gf_overlay.h"
 #include "../arm9/gfl_heap.h"

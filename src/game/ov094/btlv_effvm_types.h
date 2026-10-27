@@ -256,6 +256,6 @@ typedef struct BtlvEffVmParticleLoadJob {
     void *resource;
 } BtlvEffVmParticleLoadJob;
 
-typedef char BtlvEffVmWorkSizeCheck[(sizeof(BtlvEffVmWork) == 0x2AC) ? 1 : -1];
+typedef char BtlvEffVmWorkSizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlvEffVmWork) == 0x2AC))) ? 1 : -1];
 
 #endif

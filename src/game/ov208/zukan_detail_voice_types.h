@@ -65,7 +65,7 @@ struct ZukanDetailVoice {
     /* 0xD0 */ unsigned int inputEnabled;
 };
 
-typedef char ZukanDetailVoiceSizeCheck[(sizeof(struct ZukanDetailVoice) == 0xD4) ? 1 : -1];
+typedef char ZukanDetailVoiceSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct ZukanDetailVoice) == 0xD4))) ? 1 : -1];
 
 /* Placement of a plain actor, filled from the rows of the actor table. */
 struct ZukanDetailVoiceActorPos {

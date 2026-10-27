@@ -94,9 +94,9 @@ struct CircleArcRange {
 
 #define FX_FX32_TO_F32(x) ((f32)((x) / 4096.0f))
 
-typedef char CircleGraphSizeCheck[(sizeof(struct CircleGraph) == 4044) ? 1 : -1];
-typedef char CircleGraphEntrySizeCheck[(sizeof(struct CircleGraphEntry) == 20) ? 1 : -1];
-typedef char CircleGraphVertexSizeCheck[(sizeof(struct CircleGraphVertex) == 10) ? 1 : -1];
+typedef char CircleGraphSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct CircleGraph) == 4044))) ? 1 : -1];
+typedef char CircleGraphEntrySizeCheck[(sizeof(void *) != 4 || ((sizeof(struct CircleGraphEntry) == 20))) ? 1 : -1];
+typedef char CircleGraphVertexSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct CircleGraphVertex) == 10))) ? 1 : -1];
 
 #include "../arm9/gfl_heap_wrap.h"
 

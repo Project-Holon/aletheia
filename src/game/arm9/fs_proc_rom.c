@@ -140,9 +140,9 @@ static void FSi_OnRomReadDone(void *arg)
 /*
  * sdk:      FSi_ReadRomCallback (fs_proc_rom.o)
  */
-static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, uptr src, u32 len)
+static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, u32 src, u32 len)
 {
-    CARDi_ReadRom(fsi_default_dma_no.default_dma_no, (const void *)src, dst, len, FSi_OnRomReadDone, p_arc, 1);
+    CARDi_ReadRom(fsi_default_dma_no.default_dma_no, (const void *)(uptr)src, dst, len, FSi_OnRomReadDone, p_arc, 1);
     return FS_RESULT_PROC_ASYNC;
 }
 

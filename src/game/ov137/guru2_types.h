@@ -105,10 +105,10 @@ struct Guru2Comm {
 
 #define GURU2_PARTY_ENTRY_SIZE 0x594
 
-typedef char Guru2EntrySizeCheck[(sizeof(struct Guru2Entry) == 36) ? 1 : -1];
-typedef char Guru2SessionSizeCheck[(sizeof(struct Guru2Session) == 36) ? 1 : -1];
-typedef char Guru2CommSizeCheck[(sizeof(struct Guru2Comm) == 88) ? 1 : -1];
-typedef char Guru2StatusParamSizeCheck[(sizeof(struct Guru2StatusParam) == 40) ? 1 : -1];
+typedef char Guru2EntrySizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Entry) == 36))) ? 1 : -1];
+typedef char Guru2SessionSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Session) == 36))) ? 1 : -1];
+typedef char Guru2CommSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Comm) == 88))) ? 1 : -1];
+typedef char Guru2StatusParamSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2StatusParam) == 40))) ? 1 : -1];
 
 /* ---- Game work (0xDAC bytes), allocated by the game proc init ---- */
 
@@ -360,13 +360,13 @@ struct Guru2Game {
     void *timeIcon;                   /* 0xDA8 */
 };
 
-typedef char Guru2SpinnerSizeCheck[(sizeof(struct Guru2Spinner) == 0xC0) ? 1 : -1];
-typedef char Guru2PlayerSizeCheck[(sizeof(struct Guru2Player) == 0xB4) ? 1 : -1];
-typedef char Guru2ShadowSizeCheck[(sizeof(struct Guru2Shadow) == 0x7C) ? 1 : -1];
-typedef char Guru2MarkerSizeCheck[(sizeof(struct Guru2Marker) == 0x68) ? 1 : -1];
-typedef char Guru2SeatInitSizeCheck[(sizeof(struct Guru2SeatInit) == 0x20) ? 1 : -1];
-typedef char Guru2WindowsSizeCheck[(sizeof(struct Guru2Windows) == 0x60) ? 1 : -1];
-typedef char Guru2GameSizeCheck[(sizeof(struct Guru2Game) == 0xDAC) ? 1 : -1];
+typedef char Guru2SpinnerSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Spinner) == 0xC0))) ? 1 : -1];
+typedef char Guru2PlayerSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Player) == 0xB4))) ? 1 : -1];
+typedef char Guru2ShadowSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Shadow) == 0x7C))) ? 1 : -1];
+typedef char Guru2MarkerSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Marker) == 0x68))) ? 1 : -1];
+typedef char Guru2SeatInitSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2SeatInit) == 0x20))) ? 1 : -1];
+typedef char Guru2WindowsSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Windows) == 0x60))) ? 1 : -1];
+typedef char Guru2GameSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Game) == 0xDAC))) ? 1 : -1];
 
 typedef struct Guru2FiveRecord { int a, b, c, d, e; } Guru2FiveRecord;
 

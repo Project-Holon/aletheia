@@ -199,7 +199,7 @@ typedef struct {
     u32 lightMode;
 } StaffRollLight;
 
-typedef char StaffRollLight_size_check[(sizeof(StaffRollLight) == 0x80) ? 1 : -1];
+typedef char StaffRollLight_size_check[(sizeof(void *) != 4 || ((sizeof(StaffRollLight) == 0x80))) ? 1 : -1];
 
 typedef struct {
     u32 text;
@@ -261,7 +261,7 @@ typedef struct StaffRoll {
     int wipeDelay;
 } StaffRoll;
 
-typedef char StaffRoll_size_check[(sizeof(StaffRoll) == 0x2F4) ? 1 : -1];
+typedef char StaffRoll_size_check[(sizeof(void *) != 4 || ((sizeof(StaffRoll) == 0x2F4))) ? 1 : -1];
 
 #include "../arm9/bmp_shared_types.h"
 struct CharBuf { u8 *pixels; u16 width, height, tileSize; };

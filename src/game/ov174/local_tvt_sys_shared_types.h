@@ -97,6 +97,6 @@ struct LocalTvtSys {
     unsigned short timer;                  /* 0x8A message timer */
 };
 
-typedef char LocalTvtSysSizeCheck[(sizeof(struct LocalTvtSys) == 0x8C) ? 1 : -1];
+typedef char LocalTvtSysSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct LocalTvtSys) == 0x8C))) ? 1 : -1];
 
 #endif

@@ -96,6 +96,6 @@ struct Guru2Lobby {
     struct Guru2LobbyFrame frame[5];  /* 0x4824 member ids of this and the previous frame */
 };
 
-typedef char Guru2LobbySizeCheck[(sizeof(struct Guru2Lobby) == 0x4874) ? 1 : -1];
+typedef char Guru2LobbySizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Guru2Lobby) == 0x4874))) ? 1 : -1];
 
 #endif

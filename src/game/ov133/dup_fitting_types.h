@@ -109,7 +109,7 @@ struct DupFittingWork {
     void          *window;        /* 0x18EC BMP window */
 };
 
-typedef char DupFittingWork_size_check[(sizeof(struct DupFittingWork) == 0x18F0) ? 1 : -1];
+typedef char DupFittingWork_size_check[(sizeof(void *) != 4 || ((sizeof(struct DupFittingWork) == 0x18F0))) ? 1 : -1];
 
 /* One outfit slot record of the owner's outfit table (6 bytes). */
 struct DupFittingOutfitRecord {

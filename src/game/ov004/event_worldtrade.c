@@ -102,7 +102,7 @@ typedef struct WorldTradeEventWork {
     u32 hideFieldObjects;
 } WorldTradeEventWork;
 
-typedef char WorldTradeEventWork_SizeCheck[sizeof(WorldTradeEventWork) == 0x54 ? 1 : -1];
+typedef char WorldTradeEventWork_SizeCheck[(sizeof(void *) != 4 || (sizeof(WorldTradeEventWork) == 0x54)) ? 1 : -1];
 
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_event.h"

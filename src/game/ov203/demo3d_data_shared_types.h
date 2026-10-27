@@ -25,6 +25,6 @@ typedef struct Demo3dCmdContext {
     void *extra;                      /* 0x2C */
 } Demo3dCmdContext;
 
-typedef char Demo3dCmdContext_SizeCheck[(sizeof(Demo3dCmdContext) == 0x30) ? 1 : -1];
+typedef char Demo3dCmdContext_SizeCheck[(sizeof(void *) != 4 || ((sizeof(Demo3dCmdContext) == 0x30))) ? 1 : -1];
 
 #endif

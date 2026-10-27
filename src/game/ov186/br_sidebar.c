@@ -118,8 +118,8 @@ void BR_SIDEBAR_UpdateWobble(struct BrSidebarSlot *slot);
 
 void BR_SIDEBAR_UpdateSlide(struct BrSidebarSlot *slot);
 
-typedef char BrSidebarCheckSlot[sizeof(struct BrSidebarSlot) == 0x4C ? 1 : -1];
-typedef char BrSidebarCheckConfig[sizeof(struct BrSidebarConfig) == 24 ? 1 : -1];
+typedef char BrSidebarCheckSlot[(sizeof(void *) != 4 || (sizeof(struct BrSidebarSlot) == 0x4C)) ? 1 : -1];
+typedef char BrSidebarCheckConfig[(sizeof(void *) != 4 || (sizeof(struct BrSidebarConfig) == 24)) ? 1 : -1];
 
 struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, struct BrFade *unused, struct BrRes *res, u16 heapId)
 {

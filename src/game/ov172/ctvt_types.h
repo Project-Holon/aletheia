@@ -114,7 +114,7 @@ typedef struct CtvtWork {
     CtvtLaunchParams *launch;
 } CtvtWork;
 
-typedef char CtvtWorkSizeCheck[(sizeof(CtvtWork) == 0x1FC) ? 1 : -1];
+typedef char CtvtWorkSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtWork) == 0x1FC))) ? 1 : -1];
 
 /* Connection flags of the comm record (+0x2D). */
 typedef struct CtvtCommFlags {
@@ -199,7 +199,7 @@ typedef struct CtvtComm {
     void *work;                 /* +0x3DC: back pointer to CtvtWork */
 } CtvtComm;
 
-typedef char CtvtCommSizeCheck[(sizeof(CtvtComm) == 0x3E0) ? 1 : -1];
+typedef char CtvtCommSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtComm) == 0x3E0))) ? 1 : -1];
 
 /* Drawing board screen ("Draw"): record of the pen tool screen. Size 0x98. */
 typedef struct CtvtDrawScene {
@@ -240,7 +240,7 @@ typedef struct CtvtDrawScene {
     u16 fadePhase;
 } CtvtDrawScene;
 
-typedef char CtvtDrawSceneSizeCheck[(sizeof(CtvtDrawScene) == 0x98) ? 1 : -1];
+typedef char CtvtDrawSceneSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtDrawScene) == 0x98))) ? 1 : -1];
 
 /* One stroke segment of the drawing board, in a list of 8 byte records. */
 typedef struct CtvtStroke {
@@ -271,7 +271,7 @@ typedef struct CtvtMic {
     struct NnsWaveOutSlot *channel; /* +0x20: NNS wave out channel */
 } CtvtMic;
 
-typedef char CtvtMicSizeCheck[(sizeof(CtvtMic) == 0x24) ? 1 : -1];
+typedef char CtvtMicSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtMic) == 0x24))) ? 1 : -1];
 
 /* One voice packet of the talk screen: a 6 byte header in front of the ADPCM
  * payload (ctvt_talk.c). */
@@ -323,7 +323,7 @@ typedef struct CtvtTalk {
     u32 voiceIconPrev;              /* +0xA8: voice icon state already shown */
 } CtvtTalk;
 
-typedef char CtvtTalkSizeCheck[(sizeof(CtvtTalk) == 0xAC) ? 1 : -1];
+typedef char CtvtTalkSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtTalk) == 0xAC))) ? 1 : -1];
 
 /* One row of the call list: the three cursor sprites and the name window of a
  * single friend row (ctvt_call.c). Stride 0x1C, first row at +0x40. */
@@ -383,7 +383,7 @@ typedef struct CtvtCall {
     void *actorSlider;          /* +0x404: scroll slider sprite */
 } CtvtCall;
 
-typedef char CtvtCallSizeCheck[(sizeof(CtvtCall) == 0x408) ? 1 : -1];
+typedef char CtvtCallSizeCheck[(sizeof(void *) != 4 || ((sizeof(CtvtCall) == 0x408))) ? 1 : -1];
 
 /* Accessors of CtvtWork fields and helpers (comm_tvt_sys.c). */
 extern CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);

@@ -102,13 +102,13 @@ typedef struct TouchBar {
     TouchBarButton buttons[1];
 } TouchBar;
 
-typedef char TouchBarGfx_size_check[sizeof(TouchBarGfx) == 0x14 ? 1 : -1];
-typedef char TouchBarButtonDef_size_check[sizeof(TouchBarButtonDef) == 0x20 ? 1 : -1];
-typedef char TouchBarButtonLook_size_check[sizeof(TouchBarButtonLook) == 0x14 ? 1 : -1];
-typedef char TouchBarActorInit_size_check[sizeof(TouchBarActorInit) == 8 ? 1 : -1];
-typedef char TouchBarButton_size_check[sizeof(TouchBarButton) == 0x38 ? 1 : -1];
-typedef char TouchBarParams_size_check[sizeof(TouchBarParams) == 0x20 ? 1 : -1];
-typedef char TouchBar_size_check[sizeof(TouchBar) == 0x58 ? 1 : -1];
+typedef char TouchBarGfx_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarGfx) == 0x14)) ? 1 : -1];
+typedef char TouchBarButtonDef_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarButtonDef) == 0x20)) ? 1 : -1];
+typedef char TouchBarButtonLook_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarButtonLook) == 0x14)) ? 1 : -1];
+typedef char TouchBarActorInit_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarActorInit) == 8)) ? 1 : -1];
+typedef char TouchBarButton_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarButton) == 0x38)) ? 1 : -1];
+typedef char TouchBarParams_size_check[(sizeof(void *) != 4 || (sizeof(TouchBarParams) == 0x20)) ? 1 : -1];
+typedef char TouchBar_size_check[(sizeof(void *) != 4 || (sizeof(TouchBar) == 0x58)) ? 1 : -1];
 
 struct BmpData;
 

@@ -218,7 +218,7 @@ typedef struct IntrudeProfileData {
     u8 pad0F;
 } IntrudeProfileData;
 #pragma pack()
-typedef char IntrudeProfileDataSizeCheck[sizeof(IntrudeProfileData) == 0x10 ? 1 : -1];
+typedef char IntrudeProfileDataSizeCheck[(sizeof(void *) != 4 || (sizeof(IntrudeProfileData) == 0x10)) ? 1 : -1];
 
 /* Trainer profile of one player (command 0x222). */
 typedef struct IntrudeProfile {

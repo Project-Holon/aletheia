@@ -241,13 +241,13 @@ struct MailBoxView {
     /* 0x36C */ struct PrintQueue *pmsPrintQue;
 };
 
-typedef char MailArgsSizeCheck[(sizeof(struct MailArgs) == 0x1C) ? 1 : -1];
-typedef char MailDraftSizeCheck[(sizeof(struct MailDraft) == 0x34) ? 1 : -1];
-typedef char MailToolProcSizeCheck[(sizeof(struct MailToolProc) == 0x20) ? 1 : -1];
-typedef char MailEditProcSizeCheck[(sizeof(struct MailEditProc) == 0x15C) ? 1 : -1];
-typedef char MailBoxProcSizeCheck[(sizeof(struct MailBoxProc) == 0x34) ? 1 : -1];
-typedef char MailBoxFlashSizeCheck[(sizeof(struct MailBoxFlash) == 8) ? 1 : -1];
-typedef char MailBoxViewSizeCheck[(sizeof(struct MailBoxView) == 0x370) ? 1 : -1];
+typedef char MailArgsSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailArgs) == 0x1C))) ? 1 : -1];
+typedef char MailDraftSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailDraft) == 0x34))) ? 1 : -1];
+typedef char MailToolProcSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailToolProc) == 0x20))) ? 1 : -1];
+typedef char MailEditProcSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailEditProc) == 0x15C))) ? 1 : -1];
+typedef char MailBoxProcSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailBoxProc) == 0x34))) ? 1 : -1];
+typedef char MailBoxFlashSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailBoxFlash) == 8))) ? 1 : -1];
+typedef char MailBoxViewSizeCheck[(sizeof(void *) != 4 || ((sizeof(struct MailBoxView) == 0x370))) ? 1 : -1];
 
 /* Cross-file functions of the mail edit screen. */
 struct MailDraft *MAILSYS_CreateMessage(struct Mail *mail, unsigned heap);

@@ -138,9 +138,9 @@ struct PokeSummaryWork {
 };
 
 typedef char PokeSummaryWork_size_check[
-    (sizeof(struct PokeSummaryWork) == 0x228) ? 1 : -1];
+    (sizeof(void *) != 4 || ((sizeof(struct PokeSummaryWork) == 0x228))) ? 1 : -1];
 typedef char PokeSummaryMon_size_check[
-    (sizeof(struct PokeSummaryMon) == 0x1C) ? 1 : -1];
+    (sizeof(void *) != 4 || ((sizeof(struct PokeSummaryMon) == 0x1C))) ? 1 : -1];
 
 
 #endif

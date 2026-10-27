@@ -204,9 +204,9 @@ int BR_NET_IsStep(struct BrNetTask *task, BrNetStepFunc step);
 
 int BR_NET_OnRapError(void *arg, u32 errorCode, u32 errorKind, int dwcError);
 
-typedef char BrNetCheckSize[sizeof(struct BrNet) == 0x5E4 ? 1 : -1];
-typedef char BrNetCheckRequest[sizeof(union BrNetRequest) == 8 ? 1 : -1];
-typedef char BrNetCheckTask[sizeof(struct BrNetTask) == 0x10 ? 1 : -1];
+typedef char BrNetCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrNet) == 0x5E4)) ? 1 : -1];
+typedef char BrNetCheckRequest[(sizeof(void *) != 4 || (sizeof(union BrNetRequest) == 8)) ? 1 : -1];
+typedef char BrNetCheckTask[(sizeof(void *) != 4 || (sizeof(struct BrNetTask) == 0x10)) ? 1 : -1];
 
 /*
  * Layout: original fills 0x2c bytes of local config and allocates 0x5e4-byte context. Callback table occupies its final seven words.

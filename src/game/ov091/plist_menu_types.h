@@ -45,7 +45,7 @@ typedef struct PlistMenu {
     u32 windowOut;                              /* 0x7C: out value of the window setup call */
     void *windowRes;                            /* 0x80: freed with the menu */
 } PlistMenu;
-typedef char PlistMenu_SizeCheck[(sizeof(PlistMenu) == 0x84) ? 1 : -1];
+typedef char PlistMenu_SizeCheck[(sizeof(void *) != 4 || ((sizeof(PlistMenu) == 0x84))) ? 1 : -1];
 
 /* Fixed command list (terminated by 16). */
 typedef struct PlistMenuItemList {

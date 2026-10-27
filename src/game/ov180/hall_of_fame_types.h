@@ -126,6 +126,6 @@ typedef struct HallOfFameWork {
 } HallOfFameWork;
 
 /* Compile-time size check: the allocation in the process init is 0x919C bytes. */
-typedef char HallOfFameWorkSizeCheck[(sizeof(HallOfFameWork) == 0x919C) ? 1 : -1];
+typedef char HallOfFameWorkSizeCheck[(sizeof(void *) != 4 || ((sizeof(HallOfFameWork) == 0x919C))) ? 1 : -1];
 
 #endif

@@ -522,7 +522,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force);
 void BEACON_DETAIL_OnMessageDone(struct BmpMenuList *a, u32 b, void *c);
 void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct BeaconDetailMenuTemplate *source,const BeaconMenuItem *entries);
 void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconDetailMenuTemplate *source,unsigned count);
-void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c);
+void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, uptr b, u32 c);
 void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct BeaconDetailMenuTemplate *cfg,unsigned file,const unsigned char *ids,unsigned count);
 void BEACON_DETAIL_CloseMenu(u8*p);
 void BEACON_DETAIL_DrawCurrentArea(char *p);

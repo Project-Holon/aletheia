@@ -122,7 +122,7 @@ typedef struct Demo3dData {
     unsigned char  pad_E[2];
 } Demo3dData;
 
-typedef char Demo3dData_SizeCheck[(sizeof(Demo3dData) == 0x10) ? 1 : -1];
+typedef char Demo3dData_SizeCheck[(sizeof(void *) != 4 || ((sizeof(Demo3dData) == 0x10))) ? 1 : -1];
 
 /* Per-object table built alongside Demo3dData (16 bytes). */
 typedef struct Demo3dDataExtra {
@@ -131,7 +131,7 @@ typedef struct Demo3dDataExtra {
     unsigned short count;   /* 0x0C */
 } Demo3dDataExtra;
 
-typedef char Demo3dDataExtra_SizeCheck[(sizeof(Demo3dDataExtra) == 0x10) ? 1 : -1];
+typedef char Demo3dDataExtra_SizeCheck[(sizeof(void *) != 4 || ((sizeof(Demo3dDataExtra) == 0x10))) ? 1 : -1];
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -548,7 +548,7 @@ typedef struct Demo3dBrightnessSeqWork {
     unsigned       blendParam;    /* 0x1C BRIGHTNESS_Set a1, constant 63 */
 } Demo3dBrightnessSeqWork;
 
-typedef char Demo3dBrightnessSeqWork_SizeCheck[(sizeof(Demo3dBrightnessSeqWork) == 0x20) ? 1 : -1];
+typedef char Demo3dBrightnessSeqWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(Demo3dBrightnessSeqWork) == 0x20))) ? 1 : -1];
 
 struct Demo3dLightVector{unsigned short x,y,z;};
 

@@ -35,7 +35,7 @@ struct BrDownloadWork {
     struct BrDownloadOwner *owner;     /* 0x30 owner screen object */
 };
 
-typedef char BrDownloadWork_size_check[(sizeof(struct BrDownloadWork) == 0x34) ? 1 : -1];
+typedef char BrDownloadWork_size_check[(sizeof(void *) != 4 || ((sizeof(struct BrDownloadWork) == 0x34))) ? 1 : -1];
 
 struct BrDownloadOwner {
     void *fade;                        /* 0x00 fade work */

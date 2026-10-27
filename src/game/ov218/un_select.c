@@ -257,7 +257,7 @@ struct UnSelectWork {
     int scrollKey;           /* +0x32C set when a scroll key is pressed */
 };
 
-typedef char UnSelectWork_SizeCheck[sizeof(struct UnSelectWork) == 0x330 ? 1 : -1];
+typedef char UnSelectWork_SizeCheck[(sizeof(void *) != 4 || (sizeof(struct UnSelectWork) == 0x330)) ? 1 : -1];
 
 /*
  * UN_SELECT record.  UN_SELECT_Create allocates it as 0x234 bytes with
@@ -281,7 +281,7 @@ struct UnSelectRecord {
     void *itemText[130];     /* +0x02C message text buffer per row */
 };
 
-typedef char UnSelectRecord_SizeCheck[sizeof(struct UnSelectRecord) == 0x234 ? 1 : -1];
+typedef char UnSelectRecord_SizeCheck[(sizeof(void *) != 4 || (sizeof(struct UnSelectRecord) == 0x234)) ? 1 : -1];
 
 #include "../ov067/frame_list.h"
 #include "../arm9/fade.h"

@@ -149,6 +149,6 @@ struct BtlClient {
     u8 pairs[3]; /* 0x1B5 pairs */
 };
 
-typedef char BtlClient_SizeCheck[(sizeof(BtlClient) == 0x1B8) ? 1 : -1];
+typedef char BtlClient_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlClient) == 0x1B8))) ? 1 : -1];
 
 #endif

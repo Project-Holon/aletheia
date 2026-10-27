@@ -41,7 +41,7 @@ typedef struct BeaconViewResEntry {
     struct NNSG2dCharacterData *data; /* 0x00 */
     void *file; /* 0x04 */
 } BeaconViewResEntry;
-typedef char BeaconViewResEntry_SizeCheck[(sizeof(BeaconViewResEntry) == 0x8) ? 1 : -1];
+typedef char BeaconViewResEntry_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewResEntry) == 0x8))) ? 1 : -1];
 
 typedef struct BeaconViewSlot {
     struct TaskMenuWin *taskMenu; /* 0x00 */
@@ -50,7 +50,7 @@ typedef struct BeaconViewSlot {
     u8 pad0A[0x2];
     int labelId; /* 0x0C */
 } BeaconViewSlot;
-typedef char BeaconViewSlot_SizeCheck[(sizeof(BeaconViewSlot) == 0x10) ? 1 : -1];
+typedef char BeaconViewSlot_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewSlot) == 0x10))) ? 1 : -1];
 
 typedef struct BeaconViewWindow {
     void *handle; /* 0x00 */
@@ -59,7 +59,7 @@ typedef struct BeaconViewWindow {
     u8 drawn; /* 0x0C */
     u8 pad0D[0x7];
 } BeaconViewWindow;
-typedef char BeaconViewWindow_SizeCheck[(sizeof(BeaconViewWindow) == 0x14) ? 1 : -1];
+typedef char BeaconViewWindow_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewWindow) == 0x14))) ? 1 : -1];
 
 typedef struct BeaconViewEntry {
     u8 index; /* 0x00 */
@@ -82,27 +82,27 @@ typedef struct BeaconViewEntry {
     struct TcblTask *busy; /* 0x2C */
     struct TcblTask *activeTask; /* 0x30 */
 } BeaconViewEntry;
-typedef char BeaconViewEntry_SizeCheck[(sizeof(BeaconViewEntry) == 0x34) ? 1 : -1];
+typedef char BeaconViewEntry_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewEntry) == 0x34))) ? 1 : -1];
 
 typedef struct BeaconViewResList {
     u32 count; /* 0x00 */
     u32 *items; /* 0x04 */
 } BeaconViewResList;
-typedef char BeaconViewResList_SizeCheck[(sizeof(BeaconViewResList) == 0x8) ? 1 : -1];
+typedef char BeaconViewResList_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewResList) == 0x8))) ? 1 : -1];
 
 typedef struct BeaconViewResSet {
     BeaconViewResList palettes; /* 0x00 */
     BeaconViewResList images; /* 0x08 */
     BeaconViewResList cells; /* 0x10 */
 } BeaconViewResSet;
-typedef char BeaconViewResSet_SizeCheck[(sizeof(BeaconViewResSet) == 0x18) ? 1 : -1];
+typedef char BeaconViewResSet_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewResSet) == 0x18))) ? 1 : -1];
 
 typedef struct BeaconViewPaletteFile {
     u8 *header; /* 0x00 */
     u16 *data; /* 0x04 */
     void *res; /* 0x08 */
 } BeaconViewPaletteFile;
-typedef char BeaconViewPaletteFile_SizeCheck[(sizeof(BeaconViewPaletteFile) == 0xC) ? 1 : -1];
+typedef char BeaconViewPaletteFile_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewPaletteFile) == 0xC))) ? 1 : -1];
 
 typedef struct BeaconViewWork {
     struct GameSystem *fieldSystem; /* 0x00 */
@@ -196,7 +196,7 @@ typedef struct BeaconViewWork {
     BeaconViewPaletteFile iconPalette; /* 0x3B8 */
     BeaconViewPaletteFile panelPalette; /* 0x3C4 */
 } BeaconViewWork;
-typedef char BeaconViewWork_SizeCheck[(sizeof(BeaconViewWork) == 0x3D0) ? 1 : -1];
+typedef char BeaconViewWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewWork) == 0x3D0))) ? 1 : -1];
 
 typedef struct BeaconViewIconMoveTask {
     u8 phase; /* 0x00 */
@@ -208,7 +208,7 @@ typedef struct BeaconViewIconMoveTask {
     int timer; /* 0x10 */
     int *busyCounter; /* 0x14 */
 } BeaconViewIconMoveTask;
-typedef char BeaconViewIconMoveTask_SizeCheck[(sizeof(BeaconViewIconMoveTask) == 0x18) ? 1 : -1];
+typedef char BeaconViewIconMoveTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewIconMoveTask) == 0x18))) ? 1 : -1];
 
 typedef struct BeaconViewIconSlideTask {
     int phase; /* 0x00 */
@@ -226,7 +226,7 @@ typedef struct BeaconViewIconSlideTask {
     int deltaY; /* 0x20 */
     int *busyCounter; /* 0x24 */
 } BeaconViewIconSlideTask;
-typedef char BeaconViewIconSlideTask_SizeCheck[(sizeof(BeaconViewIconSlideTask) == 0x28) ? 1 : -1];
+typedef char BeaconViewIconSlideTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewIconSlideTask) == 0x28))) ? 1 : -1];
 
 typedef struct BeaconViewScrollStepTask {
     u8 phase; /* 0x00 */
@@ -237,7 +237,7 @@ typedef struct BeaconViewScrollStepTask {
     u8 pad05[0x3];
     int *busyCounter; /* 0x08 */
 } BeaconViewScrollStepTask;
-typedef char BeaconViewScrollStepTask_SizeCheck[(sizeof(BeaconViewScrollStepTask) == 0xC) ? 1 : -1];
+typedef char BeaconViewScrollStepTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewScrollStepTask) == 0xC))) ? 1 : -1];
 
 typedef struct BeaconViewFadeTask {
     u8 phase; /* 0x00 */
@@ -247,7 +247,7 @@ typedef struct BeaconViewFadeTask {
     BeaconViewWork *work; /* 0x08 */
     int *busyCounter; /* 0x0C */
 } BeaconViewFadeTask;
-typedef char BeaconViewFadeTask_SizeCheck[(sizeof(BeaconViewFadeTask) == 0x10) ? 1 : -1];
+typedef char BeaconViewFadeTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewFadeTask) == 0x10))) ? 1 : -1];
 
 typedef struct BeaconViewPowerAnimTask {
     u8 phase; /* 0x00 */
@@ -268,7 +268,7 @@ typedef struct BeaconViewPowerAnimTask {
     BeaconViewWork *work; /* 0x1C */
     int *busyCounter; /* 0x20 */
 } BeaconViewPowerAnimTask;
-typedef char BeaconViewPowerAnimTask_SizeCheck[(sizeof(BeaconViewPowerAnimTask) == 0x24) ? 1 : -1];
+typedef char BeaconViewPowerAnimTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewPowerAnimTask) == 0x24))) ? 1 : -1];
 
 typedef struct BeaconViewIconWaitTask {
     u8 phase; /* 0x00 */
@@ -278,7 +278,7 @@ typedef struct BeaconViewIconWaitTask {
     u32 timer; /* 0x0C */
     BeaconViewWork *work; /* 0x10 */
 } BeaconViewIconWaitTask;
-typedef char BeaconViewIconWaitTask_SizeCheck[(sizeof(BeaconViewIconWaitTask) == 0x14) ? 1 : -1];
+typedef char BeaconViewIconWaitTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewIconWaitTask) == 0x14))) ? 1 : -1];
 
 typedef struct BeaconViewWindowATask {
     u8 phase; /* 0x00 */
@@ -290,7 +290,7 @@ typedef struct BeaconViewWindowATask {
     BeaconViewWork *work; /* 0x0C */
     int *busyCounter; /* 0x10 */
 } BeaconViewWindowATask;
-typedef char BeaconViewWindowATask_SizeCheck[(sizeof(BeaconViewWindowATask) == 0x14) ? 1 : -1];
+typedef char BeaconViewWindowATask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewWindowATask) == 0x14))) ? 1 : -1];
 
 typedef struct BeaconViewWindowBTask {
     u8 pad00[0x4];
@@ -298,7 +298,7 @@ typedef struct BeaconViewWindowBTask {
     BeaconViewWork *work; /* 0x08 */
     int *busyCounter; /* 0x0C */
 } BeaconViewWindowBTask;
-typedef char BeaconViewWindowBTask_SizeCheck[(sizeof(BeaconViewWindowBTask) == 0x10) ? 1 : -1];
+typedef char BeaconViewWindowBTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewWindowBTask) == 0x10))) ? 1 : -1];
 
 typedef struct BeaconViewWindowCTask {
     BeaconViewEntry *entry; /* 0x00 */
@@ -306,7 +306,7 @@ typedef struct BeaconViewWindowCTask {
     BeaconViewWork *work; /* 0x08 */
     int *busyCounter; /* 0x0C */
 } BeaconViewWindowCTask;
-typedef char BeaconViewWindowCTask_SizeCheck[(sizeof(BeaconViewWindowCTask) == 0x10) ? 1 : -1];
+typedef char BeaconViewWindowCTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconViewWindowCTask) == 0x10))) ? 1 : -1];
 
 /* Work of the event task created by BEACON_VIEW_CreateTaskProc (0x1C bytes). The param is an
    arrow index in mode 0 and a task menu window in mode 2. */
@@ -319,6 +319,6 @@ typedef struct BeaconTaskWork {
     unsigned mode; /* 0x14 */
     uptr param; /* 0x18 */
 } BeaconTaskWork;
-typedef char BeaconTaskWork_SizeCheck[(sizeof(BeaconTaskWork) == 0x1C) ? 1 : -1];
+typedef char BeaconTaskWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BeaconTaskWork) == 0x1C))) ? 1 : -1];
 
 #endif

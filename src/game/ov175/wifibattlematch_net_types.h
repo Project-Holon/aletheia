@@ -95,7 +95,7 @@ struct WifiBattleMatchParams {
 };
 
 /* INV-C: the allocation site fixes the size at 0x44 bytes. */
-typedef char WifiBattleMatchParams_size_check[(sizeof(struct WifiBattleMatchParams) == 0x44) ? 1 : -1];
+typedef char WifiBattleMatchParams_size_check[(sizeof(void *) != 4 || ((sizeof(struct WifiBattleMatchParams) == 0x44))) ? 1 : -1];
 
 /* The stat record reached through WifiBattleMatchParams.profile (0x14) and
  * .record (0x18).  The first 0x20 bytes are a MyStatus copy (MYSTATUS_Copy in
@@ -270,7 +270,7 @@ struct WifiBattleMatchCompWork {
 
 /* WIFIBATTLEMATCH_NET_CompCreate allocates 0x270 bytes. */
 typedef char WifiBattleMatchComp_size_check[
-    (sizeof(struct WifiBattleMatchCompWork) == 0x270) ? 1 : -1];
+    (sizeof(void *) != 4 || ((sizeof(struct WifiBattleMatchCompWork) == 0x270))) ? 1 : -1];
 
 /* The 0x100-byte net task work object created by
  * WIFIBATTLEMATCH_NET_TaskCreate (PROCSYS_AllocProcWork(sys, 0x100, 87)).
@@ -307,7 +307,7 @@ struct WifiBattleMatchNetTask {
 
 /* WIFIBATTLEMATCH_NET_TaskCreate allocates 0x100 bytes. */
 typedef char WifiBattleMatchNetTask_size_check[
-    (sizeof(struct WifiBattleMatchNetTask) == 0x100) ? 1 : -1];
+    (sizeof(void *) != 4 || ((sizeof(struct WifiBattleMatchNetTask) == 0x100))) ? 1 : -1];
 
 /* One 0x10-byte entry of the storage-server description buffer at
  * WifiBattleMatchNetCtx.recBuf (offset 0x190). */

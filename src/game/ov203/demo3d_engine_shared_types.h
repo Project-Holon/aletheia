@@ -64,6 +64,6 @@ struct Demo3dEngineCtx {
     Demo3dCfg data;     /* 0x78 */
 };
 
-typedef char Ctx_SizeCheck[(sizeof(struct Demo3dEngineCtx) == 0x88) ? 1 : -1];
+typedef char Ctx_SizeCheck[(sizeof(void *) != 4 || ((sizeof(struct Demo3dEngineCtx) == 0x88))) ? 1 : -1];
 
 #endif

@@ -171,8 +171,8 @@
 #include "../ov067/touchbar_types.h"
 #include "pms_select_graphic_types.h"
 
-typedef char PmsSelectGraphic_size_check[sizeof(struct PmsSelectGraphic) == 0xB0 ? 1 : -1];
-typedef char PmsSelectGraphicBg_size_check[sizeof(struct PmsSelectGraphicBg) == 0x2C ? 1 : -1];
+typedef char PmsSelectGraphic_size_check[(sizeof(void *) != 4 || (sizeof(struct PmsSelectGraphic) == 0xB0)) ? 1 : -1];
+typedef char PmsSelectGraphicBg_size_check[(sizeof(void *) != 4 || (sizeof(struct PmsSelectGraphicBg) == 0x2C)) ? 1 : -1];
 
 struct Proc;
 

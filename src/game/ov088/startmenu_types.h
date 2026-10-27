@@ -14,7 +14,7 @@ typedef struct TitleDemoCapture {
     u16 captureEva; /* 0x08 */
     u16 captureEvb; /* 0x0A */
 } TitleDemoCapture;
-typedef char TitleDemoCapture_SizeCheck[(sizeof(TitleDemoCapture) == 0xC) ? 1 : -1];
+typedef char TitleDemoCapture_SizeCheck[(sizeof(void *) != 4 || ((sizeof(TitleDemoCapture) == 0xC))) ? 1 : -1];
 
 /* Logo text window on bg layer 5 and the bg scroll counter. */
 typedef struct TitleDemoLogo {
@@ -31,7 +31,7 @@ typedef struct TitleDemoLogo {
     struct Strbuf *titleText; /* 0x24 */
     int bgScroll; /* 0x28 */
 } TitleDemoLogo;
-typedef char TitleDemoLogo_SizeCheck[(sizeof(TitleDemoLogo) == 0x2C) ? 1 : -1];
+typedef char TitleDemoLogo_SizeCheck[(sizeof(void *) != 4 || ((sizeof(TitleDemoLogo) == 0x2C))) ? 1 : -1];
 
 /* 3D logo model: renderer, light set, ica animation and camera. */
 typedef struct TitleDemo3d {
@@ -42,7 +42,7 @@ typedef struct TitleDemo3d {
     struct IcaAnime *anime; /* 0x0C */
     void *camera; /* 0x10 */
 } TitleDemo3d;
-typedef char TitleDemo3d_SizeCheck[(sizeof(TitleDemo3d) == 0x14) ? 1 : -1];
+typedef char TitleDemo3d_SizeCheck[(sizeof(void *) != 4 || ((sizeof(TitleDemo3d) == 0x14))) ? 1 : -1];
 
 /* Cell actor unit with one actor and its three resources. */
 typedef struct TitleDemoSprites {
@@ -53,7 +53,7 @@ typedef struct TitleDemoSprites {
     int charRes; /* 0x30 */
     int cellRes; /* 0x34 */
 } TitleDemoSprites;
-typedef char TitleDemoSprites_SizeCheck[(sizeof(TitleDemoSprites) == 0x38) ? 1 : -1];
+typedef char TitleDemoSprites_SizeCheck[(sizeof(void *) != 4 || ((sizeof(TitleDemoSprites) == 0x38))) ? 1 : -1];
 
 typedef struct TitleDemoWork {
     u16 state; /* 0x00 */
@@ -67,7 +67,7 @@ typedef struct TitleDemoWork {
     u32 fanfareHandle; /* 0x90 */
     u32 phase; /* 0x94 */
 } TitleDemoWork;
-typedef char TitleDemoWork_SizeCheck[(sizeof(TitleDemoWork) == 0x98) ? 1 : -1];
+typedef char TitleDemoWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(TitleDemoWork) == 0x98))) ? 1 : -1];
 
 /* ---- Start menu (work area allocated in STARTMENU_MenuInit, 0x150 bytes) ---- */
 
@@ -137,7 +137,7 @@ typedef struct StartMenuWork {
     u32 saveStatus; /* 0x148 */
     u32 noticeIndex; /* 0x14C */
 } StartMenuWork;
-typedef char StartMenuWork_SizeCheck[(sizeof(StartMenuWork) == 0x150) ? 1 : -1];
+typedef char StartMenuWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(StartMenuWork) == 0x150))) ? 1 : -1];
 
 /* ---- New game intro (work area allocated in STARTMENU_NewGameIntroInit, 0x5C bytes) ---- */
 
@@ -197,7 +197,7 @@ typedef struct ConfigPromptWork {
     u16 pulsePhase; /* 0x18 */
     u16 pulseColor; /* 0x1A */
 } ConfigPromptWork;
-typedef char ConfigPromptWork_SizeCheck[(sizeof(ConfigPromptWork) == 0x1C) ? 1 : -1];
+typedef char ConfigPromptWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(ConfigPromptWork) == 0x1C))) ? 1 : -1];
 
 /* ---- Logo screen (work area allocated in STARTMENU_LogoScreenInit, 8 bytes) ---- */
 
@@ -206,7 +206,7 @@ typedef struct LogoScreenWork {
     u16 pad02;
     int timer; /* 0x04: frames waited in the current step */
 } LogoScreenWork;
-typedef char LogoScreenWork_SizeCheck[(sizeof(LogoScreenWork) == 8) ? 1 : -1];
+typedef char LogoScreenWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(LogoScreenWork) == 8))) ? 1 : -1];
 
 /* ---- Save data erase screen (work area allocated in STARTMENU_SaveEraseInit, 0x2C bytes) ---- */
 
@@ -224,7 +224,7 @@ typedef struct SaveEraseWork {
     void *msgBoxFrame; /* 0x24 */
     int printAdvanceLatched; /* 0x28 */
 } SaveEraseWork;
-typedef char SaveEraseWork_SizeCheck[(sizeof(SaveEraseWork) == 0x2C) ? 1 : -1];
+typedef char SaveEraseWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(SaveEraseWork) == 0x2C))) ? 1 : -1];
 
 /* One touch screen hit box in pixels. */
 typedef struct StartmenuTouchRect {

@@ -38,7 +38,7 @@ struct Packet {
     u8 mode:3;
     u8 :5;
 };
-typedef char PacketMustBe40[sizeof(struct Packet)==40?1:-1];
+typedef char PacketMustBe40[(sizeof(void *) != 4 || (sizeof(struct Packet)==40)) ? 1 : -1];
 struct Big;
 struct Entry;
 struct Sub02009470Obj;

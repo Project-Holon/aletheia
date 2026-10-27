@@ -86,7 +86,7 @@ typedef struct PlistPlate {
     struct ClactActor *itemIconActor;       /* 0x3C */
     struct ClactActor *statusIconActor;     /* 0x40 */
 } PlistPlate;
-typedef char PlistPlate_SizeCheck[(sizeof(PlistPlate) == 0x44) ? 1 : -1];
+typedef char PlistPlate_SizeCheck[(sizeof(void *) != 4 || ((sizeof(PlistPlate) == 0x44))) ? 1 : -1];
 
 /* Screen rectangle in pixels. */
 typedef struct PlistPlateRect {

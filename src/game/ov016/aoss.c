@@ -422,7 +422,7 @@ extern unsigned long CPSMyIp;
 
 static int GetSecurityType(unsigned int v);
 static int Alloc(int a, int b);
-static void Free(int a, int b);
+static void Free(int a, sptr b);
 
 void *AOSS_MALLOC(int size)
 {

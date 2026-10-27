@@ -162,8 +162,8 @@ extern const struct BrListMenuConfig gBrPokeSearchListConfig;
 extern const char gBrPokeSearchHitTable[];
 extern const u16 gBrPokeSearchGroupStart[];
 
-typedef char BrPokeSearchCheckSize[sizeof(struct BrPokeSearch) == 0x90 ? 1 : -1];
-typedef char BrListMenuConfigCheckSize[sizeof(struct BrListMenuConfig) == 40 ? 1 : -1];
+typedef char BrPokeSearchCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrPokeSearch) == 0x90)) ? 1 : -1];
+typedef char BrListMenuConfigCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrListMenuConfig) == 40)) ? 1 : -1];
 
 /* Phases of the screen state machine. */
 enum {

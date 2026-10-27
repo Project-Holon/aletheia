@@ -351,20 +351,20 @@ typedef struct GdsSocket {
 } GdsSocket;
 
 /* Size checks (a wrong size makes the array length negative). */
-typedef char GdsCheckClientInfo[sizeof(GdsClientInfo) == 0x138 ? 1 : -1];
-typedef char GdsCheckPoke[sizeof(struct BattleRecMon) == 0x70 ? 1 : -1];
-typedef char GdsCheckParty[sizeof(struct BattleRecParty) == 0x2A4 ? 1 : -1];
-typedef char GdsCheckRecBody[sizeof(struct BattleRecBody) == 0x17E0 ? 1 : -1];
-typedef char GdsCheckRecSave[sizeof(struct BattleRecSave) == 0x18A4 ? 1 : -1];
-typedef char GdsCheckListing[sizeof(GdsVideoListing) == 0xC4 ? 1 : -1];
-typedef char GdsCheckListingEntry[sizeof(GdsListingEntry) == 0xD0 ? 1 : -1];
-typedef char GdsCheckDownloadEntry[sizeof(GdsDownloadEntry) == 572 ? 1 : -1];
-typedef char GdsCheckVideoEntry[sizeof(GdsVideoEntry) == 0x18B0 ? 1 : -1];
-typedef char GdsCheckPacketHeader[sizeof(GdsPacketHeader) == GDS_WIRE_HEADER_SIZE ? 1 : -1];
-typedef char GdsCheckDownloadPacket[sizeof(GdsPacketDownload) == 12 ? 1 : -1];
-typedef char GdsCheckUploadVideo[sizeof(GdsPacketUploadVideo) == 0x19A8 ? 1 : -1];
-typedef char GdsCheckSearch[sizeof(GdsPacketSearch) == 28 ? 1 : -1];
-typedef char GdsCheckRapWork[sizeof(GdsRapWork) == 0x5A4 ? 1 : -1];
-typedef char GdsCheckSocket[sizeof(GdsSocket) == 0x418 ? 1 : -1];
+typedef char GdsCheckClientInfo[(sizeof(void *) != 4 || (sizeof(GdsClientInfo) == 0x138)) ? 1 : -1];
+typedef char GdsCheckPoke[(sizeof(void *) != 4 || (sizeof(struct BattleRecMon) == 0x70)) ? 1 : -1];
+typedef char GdsCheckParty[(sizeof(void *) != 4 || (sizeof(struct BattleRecParty) == 0x2A4)) ? 1 : -1];
+typedef char GdsCheckRecBody[(sizeof(void *) != 4 || (sizeof(struct BattleRecBody) == 0x17E0)) ? 1 : -1];
+typedef char GdsCheckRecSave[(sizeof(void *) != 4 || (sizeof(struct BattleRecSave) == 0x18A4)) ? 1 : -1];
+typedef char GdsCheckListing[(sizeof(void *) != 4 || (sizeof(GdsVideoListing) == 0xC4)) ? 1 : -1];
+typedef char GdsCheckListingEntry[(sizeof(void *) != 4 || (sizeof(GdsListingEntry) == 0xD0)) ? 1 : -1];
+typedef char GdsCheckDownloadEntry[(sizeof(void *) != 4 || (sizeof(GdsDownloadEntry) == 572)) ? 1 : -1];
+typedef char GdsCheckVideoEntry[(sizeof(void *) != 4 || (sizeof(GdsVideoEntry) == 0x18B0)) ? 1 : -1];
+typedef char GdsCheckPacketHeader[(sizeof(void *) != 4 || (sizeof(GdsPacketHeader) == GDS_WIRE_HEADER_SIZE)) ? 1 : -1];
+typedef char GdsCheckDownloadPacket[(sizeof(void *) != 4 || (sizeof(GdsPacketDownload) == 12)) ? 1 : -1];
+typedef char GdsCheckUploadVideo[(sizeof(void *) != 4 || (sizeof(GdsPacketUploadVideo) == 0x19A8)) ? 1 : -1];
+typedef char GdsCheckSearch[(sizeof(void *) != 4 || (sizeof(GdsPacketSearch) == 28)) ? 1 : -1];
+typedef char GdsCheckRapWork[(sizeof(void *) != 4 || (sizeof(GdsRapWork) == 0x5A4)) ? 1 : -1];
+typedef char GdsCheckSocket[(sizeof(void *) != 4 || (sizeof(GdsSocket) == 0x418)) ? 1 : -1];
 
 #endif

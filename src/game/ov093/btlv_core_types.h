@@ -179,8 +179,8 @@ struct BtlvCore {
     u8 reserved186[2];
 };
 
-typedef char BtlvBagWork_SizeCheck[(sizeof(BtlvBagWork) == 0x44) ? 1 : -1];
-typedef char BtlvCoreTask_SizeCheck[(sizeof(BtlvCoreTask) == 0x90) ? 1 : -1];
-typedef char BtlvCore_SizeCheck[(sizeof(struct BtlvCore) == 0x188) ? 1 : -1];
+typedef char BtlvBagWork_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlvBagWork) == 0x44))) ? 1 : -1];
+typedef char BtlvCoreTask_SizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlvCoreTask) == 0x90))) ? 1 : -1];
+typedef char BtlvCore_SizeCheck[(sizeof(void *) != 4 || ((sizeof(struct BtlvCore) == 0x188))) ? 1 : -1];
 
 #endif

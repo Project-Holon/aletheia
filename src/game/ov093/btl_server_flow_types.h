@@ -27,7 +27,7 @@ typedef struct EventParamBuf {
     u8 work[0x220];                     /* 0x000: event work area, not read by the flow */
     u32 pendingCounter;                 /* 0x220: cleared before the side table is initialized */
 } EventParamBuf;
-typedef char EventParamBufSizeCheck[(sizeof(EventParamBuf) == 0x224) ? 1 : -1];
+typedef char EventParamBufSizeCheck[(sizeof(void *) != 4 || ((sizeof(EventParamBuf) == 0x224))) ? 1 : -1];
 
 
 /* One frame of the action stack: the sets, parameter blocks and queues that one action works on. */
@@ -52,7 +52,7 @@ typedef struct BtlServerFlowFrame {
     u8 failMessageShown;                      /* 0x28E: second bit field of stateFlags */
     u8 padFrameEnd;                 /* 0x28F */
 } BtlServerFlowFrame;
-typedef char BtlServerFlowFrameSizeCheck[(sizeof(BtlServerFlowFrame) == 0x290) ? 1 : -1];
+typedef char BtlServerFlowFrameSizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlServerFlowFrame) == 0x290))) ? 1 : -1];
 
 /* Cursor of the walk over the living pokes of the field. */
 typedef struct BtlFieldPokeIter {
@@ -147,6 +147,6 @@ typedef struct BtlServerFlow {
     u8 turnOnceFlags[4];                    /* 0x1FE8: [0] guards ProcPreTurnMoveCheck once per turn, [1] cleared at ProcMoveHitTargets */
     u8 scratchBuffer[0x140];                /* 0x1FEC: handler work area, see GetScratchBuffer */
 } BtlServerFlow;
-typedef char BtlServerFlowSizeCheck[(sizeof(BtlServerFlow) == 0x212C) ? 1 : -1];
+typedef char BtlServerFlowSizeCheck[(sizeof(void *) != 4 || ((sizeof(BtlServerFlow) == 0x212C))) ? 1 : -1];
 
 #endif
