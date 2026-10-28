@@ -5031,8 +5031,8 @@ int WIFIBATTLEMATCH_NET_SubmitReport(struct WifiBattleMatchReportPlayer *ctx, st
     return DWC_ScReportEnd(ctx->report, isAuthoritative, 0);
 }
 
-void WIFIBATTLEMATCH_NET_ReportAddRecord(struct WifiBattleMatchReportPlayer *ctx,const u32 *record,int invert) {
-    int first,second,flip=0,skip=0,present;
+int WIFIBATTLEMATCH_NET_ReportAddRecord(struct WifiBattleMatchReportPlayer *ctx,const u32 *record,int invert) {
+    int first,second,flip=0,skip=0,present,result;
     present=record[2]!=0 || record[3]!=0;
     switch(record[1]) {
     case 0: case 3: first=0; second=1; flip=1; break;
@@ -5043,44 +5043,45 @@ void WIFIBATTLEMATCH_NET_ReportAddRecord(struct WifiBattleMatchReportPlayer *ctx
     if(!invert && flip) { first^=1; second^=1; }
     switch(record[0]) {
     case 0:
-        if(!skip && DWC_ScReportAddByteValue(ctx->report,15,1)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,5,first)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,6,second)) return;
+        if(!skip && (result=DWC_ScReportAddByteValue(ctx->report,15,1))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,5,first))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,6,second))) return result;
         break;
     case 1:
-        if(!skip && DWC_ScReportAddByteValue(ctx->report,16,1)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,8,first)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,7,second)) return;
+        if(!skip && (result=DWC_ScReportAddByteValue(ctx->report,16,1))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,8,first))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,7,second))) return result;
         break;
     case 2:
-        if(!skip && DWC_ScReportAddByteValue(ctx->report,18,1)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,11,first)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,12,second)) return;
+        if(!skip && (result=DWC_ScReportAddByteValue(ctx->report,18,1))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,11,first))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,12,second))) return result;
         break;
     case 3:
-        if(!skip && DWC_ScReportAddByteValue(ctx->report,17,1)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,9,first)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,10,second)) return;
+        if(!skip && (result=DWC_ScReportAddByteValue(ctx->report,17,1))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,9,first))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,10,second))) return result;
         break;
     case 4:
-        if(!skip && DWC_ScReportAddByteValue(ctx->report,19,1)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,13,first)) return;
-        if(DWC_ScReportAddIntValue(ctx->report,14,second)) return;
+        if(!skip && (result=DWC_ScReportAddByteValue(ctx->report,19,1))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,13,first))) return result;
+        if((result=DWC_ScReportAddIntValue(ctx->report,14,second))) return result;
         break;
     default: GF_PANIC_Fail(d_021E2EF8,0,d_021E2EF8); break;
     }
-    if(DWC_ScReportAddIntValue(ctx->report,20,present!=0)) return;
-    DWC_ScReportAddIntValue(ctx->report,27,-1);
+    if((result=DWC_ScReportAddIntValue(ctx->report,20,present!=0))) return result;
+    return DWC_ScReportAddIntValue(ctx->report,27,-1);
 }
 
 /*
  * tail: 021DB216..021DB218 is two zero alignment bytes.
  */
-void WIFIBATTLEMATCH_NET_ReportAddTeam(struct WifiBattleMatchReportPlayer *ctx, const u32 *input, int invert)
+int WIFIBATTLEMATCH_NET_ReportAddTeam(struct WifiBattleMatchReportPlayer *ctx, const u32 *input, int invert)
 {
     int flip = 0, skip = 0;
     int first, second;
     int present = 1;
+    int result;
     if (input[2] == 0 && input[3] == 0) present = 0;
     switch (input[1]) {
     case 0: case 3: first = 0; second = 1; flip = 1; break;
@@ -5089,11 +5090,11 @@ void WIFIBATTLEMATCH_NET_ReportAddTeam(struct WifiBattleMatchReportPlayer *ctx, 
     case 5: case 6: default: first = 0; second = 0; break;
     }
     if (!invert && flip) { first ^= 1; second ^= 1; }
-    if (!skip && DWC_ScReportAddByteValue(ctx->report, 0x15, 1)) return;
-    if (DWC_ScReportAddIntValue(ctx->report, 0x16, first)) return;
-    if (DWC_ScReportAddIntValue(ctx->report, 0x17, second)) return;
-    if (DWC_ScReportAddIntValue(ctx->report, 0x18, present != 0)) return;
-    DWC_ScReportAddIntValue(ctx->report, 0x1c, -1);
+    if (!skip && (result = DWC_ScReportAddByteValue(ctx->report, 0x15, 1))) return result;
+    if((result=DWC_ScReportAddIntValue(ctx->report, 0x16, first))) return result;
+    if((result=DWC_ScReportAddIntValue(ctx->report, 0x17, second))) return result;
+    if((result=DWC_ScReportAddIntValue(ctx->report, 0x18, present != 0))) return result;
+    return DWC_ScReportAddIntValue(ctx->report, 0x1c, -1);
 }
 
 /*

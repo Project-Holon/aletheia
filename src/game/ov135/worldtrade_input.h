@@ -52,7 +52,7 @@ int WORLDTRADE_INPUT_StateWaitFrameMove(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateStartFrameOutSlow(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateWaitFrameHide(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p);
-void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p);
+int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateCategorySelected(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_DrawCategoryScreen(WorldtradeMenu *p);

@@ -490,7 +490,7 @@ int WORLDTRADE_INPUT_StateWaitFrameHide(WorldtradeMenu *p);
 
 int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p);
 
-void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p);
+int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p);
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p);
 
@@ -1775,7 +1775,7 @@ int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p)
     return -1;
 }
 
-void WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;}
+int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;return -1;}
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
 {
