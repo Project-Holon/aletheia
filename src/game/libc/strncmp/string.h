@@ -14,6 +14,8 @@
 #ifdef __MWERKS__
 typedef unsigned long size_t;
 #else
+#define __need_size_t
+#define __need_ptrdiff_t
 #include <stddef.h>
 #endif
 char *strcpy(char *dst, const char *src);
