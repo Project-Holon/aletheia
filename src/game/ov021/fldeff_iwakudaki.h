@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_FLDEFF_IWAKUDAKI_H
 #define GAME_OV021_FLDEFF_IWAKUDAKI_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fldeff_iwakudaki.c, prototypes copied from their definitions. */

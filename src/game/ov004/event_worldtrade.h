@@ -1,5 +1,7 @@
 #ifndef GAME_OV004_EVENT_WORLDTRADE_H
 #define GAME_OV004_EVENT_WORLDTRADE_H
+struct FieldMap;
+struct GameSystem;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_worldtrade.c, prototypes copied from their definitions. */

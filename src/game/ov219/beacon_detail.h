@@ -1,5 +1,6 @@
 #ifndef GAME_OV219_BEACON_DETAIL_H
 #define GAME_OV219_BEACON_DETAIL_H
+struct BmpMenuList;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of beacon_detail.c, prototypes copied from their definitions. */

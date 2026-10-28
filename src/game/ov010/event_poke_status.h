@@ -1,5 +1,6 @@
 #ifndef GAME_OV010_EVENT_POKE_STATUS_H
 #define GAME_OV010_EVENT_POKE_STATUS_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_poke_status.c, prototypes copied from their definitions. */

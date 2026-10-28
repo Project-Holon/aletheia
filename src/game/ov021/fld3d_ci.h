@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_FLD3D_CI_H
 #define GAME_OV021_FLD3D_CI_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fld3d_ci.c, prototypes copied from their definitions. */

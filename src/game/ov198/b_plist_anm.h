@@ -1,5 +1,6 @@
 #ifndef GAME_OV198_B_PLIST_ANM_H
 #define GAME_OV198_B_PLIST_ANM_H
+struct B_PlistWork;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of b_plist_anm.c, prototypes copied from their definitions. */

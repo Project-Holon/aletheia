@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_FLD_PARTICLE_H
 #define GAME_OV021_FLD_PARTICLE_H
+struct TcbList;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fld_particle.c, prototypes copied from their definitions. */

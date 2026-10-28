@@ -1,5 +1,6 @@
 #ifndef GAME_OV136_MB_SEQ_H
 #define GAME_OV136_MB_SEQ_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of mb_seq.c, prototypes copied from their definitions. */

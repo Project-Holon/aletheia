@@ -1,5 +1,6 @@
 #ifndef GAME_OV020_EL_SCOREBOARD_H
 #define GAME_OV020_EL_SCOREBOARD_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of el_scoreboard.c, prototypes copied from their definitions. */

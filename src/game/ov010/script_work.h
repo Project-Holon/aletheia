@@ -1,5 +1,6 @@
 #ifndef GAME_OV010_SCRIPT_WORK_H
 #define GAME_OV010_SCRIPT_WORK_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of script_work.c, prototypes copied from their definitions. */

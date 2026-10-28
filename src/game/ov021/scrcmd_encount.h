@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_SCRCMD_ENCOUNT_H
 #define GAME_OV021_SCRCMD_ENCOUNT_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of scrcmd_encount.c, prototypes copied from their definitions. */

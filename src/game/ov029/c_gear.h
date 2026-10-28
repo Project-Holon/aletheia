@@ -1,5 +1,6 @@
 #ifndef GAME_OV029_C_GEAR_H
 #define GAME_OV029_C_GEAR_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of c_gear.c, prototypes copied from their definitions. */

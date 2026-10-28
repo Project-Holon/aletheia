@@ -1,5 +1,6 @@
 #ifndef GAME_OV119_POKEMONTRADE_2D_H
 #define GAME_OV119_POKEMONTRADE_2D_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pokemontrade_2d.c, prototypes copied from their definitions. */

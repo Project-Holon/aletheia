@@ -1,5 +1,6 @@
 #ifndef GAME_OV003_EVENT_MENUPROC_H
 #define GAME_OV003_EVENT_MENUPROC_H
+struct FieldMap;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_menuproc.c, prototypes copied from their definitions. */

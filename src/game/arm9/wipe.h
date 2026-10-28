@@ -1,5 +1,6 @@
 #ifndef GAME_ARM9_WIPE_H
 #define GAME_ARM9_WIPE_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wipe.c, prototypes copied from their definitions. */

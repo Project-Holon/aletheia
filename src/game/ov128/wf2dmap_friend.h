@@ -1,5 +1,6 @@
 #ifndef GAME_OV128_WF2DMAP_FRIEND_H
 #define GAME_OV128_WF2DMAP_FRIEND_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wf2dmap_friend.c, prototypes copied from their definitions. */

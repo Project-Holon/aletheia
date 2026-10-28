@@ -1,5 +1,7 @@
 #ifndef GAME_ARM9_WIPE_SUB_H
 #define GAME_ARM9_WIPE_SUB_H
+struct TcbTask;
+struct WipeHBlankSlots;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wipe_sub.c, prototypes copied from their definitions. */

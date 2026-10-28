@@ -1,5 +1,6 @@
 #ifndef GAME_OV186_BR_UTIL_H
 #define GAME_OV186_BR_UTIL_H
+struct BrListMenuConfig;
 
 #include "../types.h"
 

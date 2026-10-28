@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_FIELD_GROUND_ANIME_H
 #define GAME_OV021_FIELD_GROUND_ANIME_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_ground_anime.c, prototypes copied from their definitions. */

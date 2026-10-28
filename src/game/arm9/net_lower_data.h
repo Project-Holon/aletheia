@@ -1,5 +1,6 @@
 #ifndef GAME_ARM9_NET_LOWER_DATA_H
 #define GAME_ARM9_NET_LOWER_DATA_H
+struct GFLNetHandle;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_lower_data.c, prototypes copied from their definitions. */

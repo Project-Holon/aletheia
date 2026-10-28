@@ -1,5 +1,7 @@
 #ifndef GAME_OV019_UNION_CHARA_H
 #define GAME_OV019_UNION_CHARA_H
+struct UnionEffWork;
+struct WifiList;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of union_chara.c, prototypes copied from their definitions. */

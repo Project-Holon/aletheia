@@ -1,5 +1,6 @@
 #ifndef GAME_OV009_SOCL_READ_H
 #define GAME_OV009_SOCL_READ_H
+struct CPSSoc;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of socl_read.c, prototypes copied from their definitions. */

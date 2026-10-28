@@ -1,5 +1,7 @@
 #ifndef GAME_OV173_POKE_SUMMARY_MAIN_H
 #define GAME_OV173_POKE_SUMMARY_MAIN_H
+struct GfFont;
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of poke_summary_main.c, prototypes copied from their definitions. */

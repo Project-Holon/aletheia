@@ -1,5 +1,6 @@
 #ifndef GAME_OV123_GSYNC_MENU_H
 #define GAME_OV123_GSYNC_MENU_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gsync_menu.c, prototypes copied from their definitions. */

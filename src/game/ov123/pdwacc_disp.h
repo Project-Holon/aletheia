@@ -1,5 +1,6 @@
 #ifndef GAME_OV123_PDWACC_DISP_H
 #define GAME_OV123_PDWACC_DISP_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pdwacc_disp.c, prototypes copied from their definitions. */

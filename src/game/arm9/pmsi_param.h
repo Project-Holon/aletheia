@@ -1,5 +1,6 @@
 #ifndef GAME_ARM9_PMSI_PARAM_H
 #define GAME_ARM9_PMSI_PARAM_H
+struct PmsiParam;
 
 /* Kept by hand: mkheaders cannot read __restrict, and the definition needs it for the load/store order. */
 void PMSI_PARAM_GetWords(const struct PmsiParam *obj, unsigned short *__restrict outWords);

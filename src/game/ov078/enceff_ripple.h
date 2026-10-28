@@ -1,5 +1,6 @@
 #ifndef GAME_OV078_ENCEFF_RIPPLE_H
 #define GAME_OV078_ENCEFF_RIPPLE_H
+struct GameSystem;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of enceff_ripple.c, prototypes copied from their definitions. */

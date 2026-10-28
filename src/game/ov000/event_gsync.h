@@ -1,5 +1,6 @@
 #ifndef GAME_OV000_EVENT_GSYNC_H
 #define GAME_OV000_EVENT_GSYNC_H
+struct GameSystem;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_gsync.c, prototypes copied from their definitions. */

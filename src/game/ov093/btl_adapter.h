@@ -1,5 +1,6 @@
 #ifndef GAME_OV093_BTL_ADAPTER_H
 #define GAME_OV093_BTL_ADAPTER_H
+struct GFLNetHandle;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of btl_adapter.c, prototypes copied from their definitions. */

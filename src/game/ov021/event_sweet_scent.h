@@ -1,5 +1,6 @@
 #ifndef GAME_OV021_EVENT_SWEET_SCENT_H
 #define GAME_OV021_EVENT_SWEET_SCENT_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_sweet_scent.c, prototypes copied from their definitions. */

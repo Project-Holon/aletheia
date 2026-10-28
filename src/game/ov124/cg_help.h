@@ -1,5 +1,6 @@
 #ifndef GAME_OV124_CG_HELP_H
 #define GAME_OV124_CG_HELP_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of cg_help.c, prototypes copied from their definitions. */

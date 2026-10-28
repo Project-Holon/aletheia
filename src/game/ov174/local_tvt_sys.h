@@ -1,5 +1,6 @@
 #ifndef GAME_OV174_LOCAL_TVT_SYS_H
 #define GAME_OV174_LOCAL_TVT_SYS_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of local_tvt_sys.c, prototypes copied from their definitions. */

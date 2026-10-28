@@ -1,5 +1,6 @@
 #ifndef GAME_OV010_EVENT_RESEARCH_RADAR_H
 #define GAME_OV010_EVENT_RESEARCH_RADAR_H
+struct GameEvent;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_research_radar.c, prototypes copied from their definitions. */

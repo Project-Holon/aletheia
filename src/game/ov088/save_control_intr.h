@@ -1,5 +1,6 @@
 #ifndef GAME_OV088_SAVE_CONTROL_INTR_H
 #define GAME_OV088_SAVE_CONTROL_INTR_H
+struct SaveControl;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of save_control_intr.c, prototypes copied from their definitions. */

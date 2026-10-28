@@ -1,5 +1,6 @@
 #ifndef GAME_OV093_BTL_CLIENT_H
 #define GAME_OV093_BTL_CLIENT_H
+struct GFLNetHandle;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of btl_client.c, prototypes copied from their definitions. */

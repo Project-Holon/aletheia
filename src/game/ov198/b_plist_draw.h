@@ -1,5 +1,6 @@
 #ifndef GAME_OV198_B_PLIST_DRAW_H
 #define GAME_OV198_B_PLIST_DRAW_H
+struct B_PlistWork;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of b_plist_draw.c, prototypes copied from their definitions. */

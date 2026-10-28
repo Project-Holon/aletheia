@@ -1,5 +1,6 @@
 #ifndef GAME_ARM9_GAMESYSTEM_H
 #define GAME_ARM9_GAMESYSTEM_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gamesystem.c, prototypes copied from their definitions. */

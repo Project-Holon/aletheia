@@ -1,5 +1,7 @@
 #ifndef GAME_OV011_INTRUDE_COMM_H
 #define GAME_OV011_INTRUDE_COMM_H
+struct FieldMap;
+struct MyStatus;
 
 struct GameComm;
 struct GameData;

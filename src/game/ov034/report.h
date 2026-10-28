@@ -1,5 +1,6 @@
 #ifndef GAME_OV034_REPORT_H
 #define GAME_OV034_REPORT_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of report.c, prototypes copied from their definitions. */

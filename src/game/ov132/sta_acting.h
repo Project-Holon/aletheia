@@ -1,5 +1,6 @@
 #ifndef GAME_OV132_STA_ACTING_H
 #define GAME_OV132_STA_ACTING_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of sta_acting.c, prototypes copied from their definitions. */

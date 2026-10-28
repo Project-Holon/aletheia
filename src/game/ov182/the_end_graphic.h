@@ -1,5 +1,7 @@
 #ifndef GAME_OV182_THE_END_GRAPHIC_H
 #define GAME_OV182_THE_END_GRAPHIC_H
+struct DispVramCfg;
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of the_end_graphic.c, prototypes copied from their definitions. */

@@ -1,5 +1,6 @@
 #ifndef GAME_OV002_EVENT_WIFIBATTLEMATCH_H
 #define GAME_OV002_EVENT_WIFIBATTLEMATCH_H
+struct FieldMap;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of event_wifibattlematch.c, prototypes copied from their definitions. */

@@ -1,5 +1,6 @@
 #ifndef GAME_OV179_CDEMO_MAIN_H
 #define GAME_OV179_CDEMO_MAIN_H
+struct CdemoScript;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of cdemo_main.c, prototypes copied from their definitions. */

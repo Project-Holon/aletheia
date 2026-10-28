@@ -1,5 +1,6 @@
 #ifndef GAME_OV122_INTRUDE_COMM_VIEW_H
 #define GAME_OV122_INTRUDE_COMM_VIEW_H
+struct WhPipeEntry;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of intrude_comm_view.c, prototypes copied from their definitions. */

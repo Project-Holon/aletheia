@@ -1,5 +1,6 @@
 #ifndef GAME_OV181_STAFF_ROLL_H
 #define GAME_OV181_STAFF_ROLL_H
+struct TcbTask;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of staff_roll.c, prototypes copied from their definitions. */
