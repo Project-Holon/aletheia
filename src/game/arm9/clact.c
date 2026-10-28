@@ -501,17 +501,14 @@ struct NNSG2dOamManagerInstance;
 struct NNSG2dRendererInstance;
 struct NNSG2dRenderSurface;
 #include "gf_panic.h"
-/* Original DS prototypes: the caller takes the affine entry as returning nothing and passes the first OAM index as an int; the host build uses the header. */
+/* Original DS prototype: the caller passes the first OAM index as an int; the host build uses the header. */
 #ifdef __MWERKS__
-#define NNS_G2dEntryOamManagerAffine NNS_G2dEntryOamManagerAffine_header
 #define NNSi_G2dReserveOamManagerSpan NNSi_G2dReserveOamManagerSpan_header
 #endif
 #include "nns_g2d_oam_manager.h"
 #ifdef __MWERKS__
-#undef NNS_G2dEntryOamManagerAffine
 #undef NNSi_G2dReserveOamManagerSpan
 extern u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, int first, int count, int which);
-extern void NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 #endif
 
 struct NNSG2dRndCoreInstance;
@@ -645,11 +642,11 @@ void CLACT_ExitRenderer(struct Renderer *renderer);
 void CLACT_SetSurfaceCulling(struct Renderer *renderer, int enable);
 void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init);
 void CLACT_SetSurfaceType(struct Surface *surface, u32 idx);
-void CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
-void CLACT_EntryOamMain(GXOamAttr *entry, u32 mode);
-void CLACT_EntryOamSub(GXOamAttr *entry, u32 mode);
-void CLACT_EntryAffineMain(const MtxFx22 *value);
-void CLACT_EntryAffineSub(const MtxFx22 *value);
+u32 CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
+u32 CLACT_EntryOamMain(GXOamAttr *entry, u32 mode);
+u32 CLACT_EntryOamSub(GXOamAttr *entry, u32 mode);
+u16 CLACT_EntryAffineMain(const MtxFx22 *value);
+u16 CLACT_EntryAffineSub(const MtxFx22 *value);
 int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine);
@@ -3277,8 +3274,8 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
  *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
  *       --func CLACT_EntryOam --addr 0x0204BF40 --cc 1.1p1 --arm
  */
-void CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset,
-                   u32 pltt_op)
+u32 CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset,
+                  u32 pltt_op)
 {
     GXOamAttr entry_copy;
     u32 *attr2;
@@ -3294,25 +3291,25 @@ void CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mo
                                (pltt_offset << 28 >> 16);
     }
 
-    NNSi_G2dEntryOamManagerOam(&oam_manager->inst, &entry_copy, mode);
+    return NNSi_G2dEntryOamManagerOam(&oam_manager->inst, &entry_copy, mode);
 }
 
 /*
  * Forward one command at the manager itself: the manager is the command
  * block, its u16 at +0xf0 is the id and the word at +0xf4 the payload.
  */
-void CLACT_EntryOamMain(GXOamAttr *entry, u32 mode)
+u32 CLACT_EntryOamMain(GXOamAttr *entry, u32 mode)
 {
-    CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[0], entry, mode, g_ClactSystem->pltt_base[0], g_ClactSystem->pltt_op);
+    return CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[0], entry, mode, g_ClactSystem->pltt_base[0], g_ClactSystem->pltt_op);
 }
 
 /*
  * Same forward as CLACT_EntryOamMain, but aimed at the sub-command block at
  * +0x20 of the manager, whose id and payload sit at +0xf2 / +0xf4.
  */
-void CLACT_EntryOamSub(GXOamAttr *entry, u32 mode)
+u32 CLACT_EntryOamSub(GXOamAttr *entry, u32 mode)
 {
-    CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[1], entry, mode,
+    return CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[1], entry, mode,
                   g_ClactSystem->pltt_base[1], g_ClactSystem->pltt_op);
 }
 
@@ -3321,9 +3318,9 @@ void CLACT_EntryOamSub(GXOamAttr *entry, u32 mode)
  * loaded, its value passed as the first argument, and the callee reached with
  * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
-void CLACT_EntryAffineMain(const MtxFx22 *value)
+u16 CLACT_EntryAffineMain(const MtxFx22 *value)
 {
-    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0].inst, value);
+    return NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0].inst, value);
 }
 
 /*
@@ -3334,9 +3331,9 @@ void CLACT_EntryAffineMain(const MtxFx22 *value)
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The
  * function starts at the computed address and its body ends at 0x0204C060.
  */
-void CLACT_EntryAffineSub(const MtxFx22 *value)
+u16 CLACT_EntryAffineSub(const MtxFx22 *value)
 {
-    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1].inst, value);
+    return NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1].inst, value);
 }
 
 /*

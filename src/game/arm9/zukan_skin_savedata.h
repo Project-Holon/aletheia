@@ -8,7 +8,7 @@
 
 u32 ZUKAN_SKIN_SAVE_GetSize(void);
 void ZUKAN_SKIN_SAVE_Clear(void *dest);
-void ZUKAN_SKIN_SAVE_GetTiles(void);
+void *ZUKAN_SKIN_SAVE_GetTiles(void *saveData);
 void *ZUKAN_SKIN_SAVE_GetPalette(void *saveData);
 u32 ZUKAN_SKIN_SAVE_GetValidFlag(const void *saveData);
 void ZUKAN_SKIN_SAVE_SetValidFlag(void *saveData, u32 value);

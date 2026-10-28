@@ -31,7 +31,7 @@ u32 ZUKAN_SKIN_SAVE_GetSize(void);
 
 void ZUKAN_SKIN_SAVE_Clear(void *dest);
 
-void ZUKAN_SKIN_SAVE_GetTiles(void);
+void *ZUKAN_SKIN_SAVE_GetTiles(void *saveData);
 
 void *ZUKAN_SKIN_SAVE_GetPalette(void *obj);
 
@@ -49,8 +49,9 @@ void ZUKAN_SKIN_SAVE_Clear(void *dest)
     MI_CpuFill8(dest, 0, ZUKAN_SKIN_SAVE_GetSize());
 }
 
-void ZUKAN_SKIN_SAVE_GetTiles(void)
+void *ZUKAN_SKIN_SAVE_GetTiles(void *saveData)
 {
+    return saveData;
 }
 
 void *ZUKAN_SKIN_SAVE_GetPalette(void *saveData)
