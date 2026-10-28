@@ -91,7 +91,11 @@ struct EventWork;
 #include "../arm9/vm.h"
 struct ScrcmdWork;
 #include "scrcmd_work.h"
+#ifdef __MWERKS__
 extern int MIi_CpuClear32();
+#else
+#include "../arm9/mi_memory.h"
+#endif
 struct FieldMap;
 struct FieldMsgBg;
 #include "../ov021/fieldmap.h"
@@ -163,7 +167,13 @@ int SCRIPT_WORK_CmdLoadRegValue(ScriptVm *vm);
 int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
 {
     void *fieldSystem = GAMESYSTEM_GetFieldMap(gameSystem);
+#ifdef __MWERKS__
+    /* The routine is hand-written assembly with no result; the DS keeps what r0 holds. */
     int result = MIi_CpuClear32(0, fieldParam, 8);
+#else
+    int result = 0;
+    MIi_CpuClear32(0, fieldParam, 8);
+#endif
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
         void *mapSystem = FIELDMAP_GetMsgBg(fieldSystem);

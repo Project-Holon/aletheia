@@ -882,3 +882,5 @@ B	src/game/arm9/nns_fnd_expheap.c:623	NNSi_FndAllocFromExpHeap	start and end are
 B	src/game/arm9/nns_fnd_expheap.c:632	NNSi_FndAllocFromExpHeap	NNSi_FndGetMBlockRegion fills start and the scalar after it	it fills a MemRegion and the two scalars copy it	yes
 B	src/game/arm9/nns_fnd_expheap.c:647	NNSi_FndAllocFromExpHeap	NNSi_FndInitMBlock reads the two scalars at &end - 1 as a region	it reads a MemRegion that holds the same two values	yes
 B	src/game/arm9/nns_fnd_expheap.c:1047	NNS_FndFreeToExpHeap	the region passed to NNSi_FndRecycleRegion is the two scalars at &end - 1	the call passes a MemRegion built from the two values	yes
+B	src/game/ov217/palette_anime.c	PALETTE_ANIME_RestoreImpl	returns what MI_CpuCopy8 (hand-written assembly, no result) leaves in r0; no caller reads it	returns 0	no
+B	src/game/ov010/script_work.c	SCRIPT_WORK_InitFieldParam	result starts as what MIi_CpuClear32 (hand-written assembly, no result) leaves in r0 when the field system is null; no caller reads it	result starts as 0	no

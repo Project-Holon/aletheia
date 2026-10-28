@@ -53,8 +53,12 @@ struct PaletteAnime {
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/palanm.h"
+#ifdef __MWERKS__
 extern int MI_CpuCopy8(int src, int dst, int size);
 extern void MI_CpuFill8(void *dst, int val, int size);
+#else
+#include "../arm9/mi_memory.h"
+#endif
 extern const short FX_SinCosTable_[];
 extern char d_021C408C[];
 
@@ -312,7 +316,13 @@ void PALETTE_ANIME_StepHold(struct PaletteAnime *anime)
 /* Copies the original colours back over the live palette. */
 int PALETTE_ANIME_RestoreImpl(struct PaletteAnime *anime)
 {
+#ifdef __MWERKS__
+    /* The routine is hand-written assembly with no result; the DS returns what r0 holds. */
     return MI_CpuCopy8((sptr)anime->original, (sptr)anime->palette, anime->colorCount << 1);
+#else
+    MI_CpuCopy8(anime->original, anime->palette, anime->colorCount << 1);
+    return 0;
+#endif
 }
 
 /* Returns the running flag. */
