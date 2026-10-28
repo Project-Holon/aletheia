@@ -424,7 +424,7 @@ typedef struct G3dGlobalState {
 } G3dGlobalState;
 
 typedef void (*FieldMapDrawFunc)(FieldMap *fieldMap);
-typedef int (*FieldMapDrawEndFunc)(FieldMap *fieldMap);
+typedef void (*FieldMapDrawEndFunc)(FieldMap *fieldMap);
 
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_data.h"

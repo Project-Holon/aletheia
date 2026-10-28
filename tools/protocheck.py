@@ -133,6 +133,9 @@ class Types:
         for f in files:
             code = clean(f)
             self._scan(code)
+        # C library types the host build takes from <stddef.h>: their DS width
+        for name, text in (("size_t", "unsigned long"), ("ptrdiff_t", "long")):
+            self.alias.setdefault(name, [text])
 
     def _scan(self, code):
         for m in re.finditer(r"\btypedef\b", code):

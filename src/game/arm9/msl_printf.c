@@ -47,7 +47,9 @@ extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
 typedef unsigned char uchar;
 
+#ifdef __MWERKS__
 typedef long ptrdiff_t;
+#endif
 
 typedef long long intmax_t;
 

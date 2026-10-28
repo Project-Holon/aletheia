@@ -232,7 +232,7 @@ extern char gGsXmlEntityHexPrefix[];       /* "&#x" */
 extern char gGsXmlHex8Format[];       /* "%08x" */
 extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
-extern int strncmp(const char *s1, const char *s2, unsigned long n);
+extern int strncmp(const char *s1, const char *s2, size_t n);
 extern char *strncpy(char *dest, const char *src, unsigned int n);
 extern char *strchr(const char *s, int c);
 /*

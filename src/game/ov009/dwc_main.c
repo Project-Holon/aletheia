@@ -95,7 +95,7 @@ extern void DWCi_LoginInit(DWCstLoginControl *logcnt, DWCstAccUserData *userdata
                            void **pGpObj, int productID, u32 gamecode,
                            u16 *playerName,
                            void (*callback)(int, int, void *), void *param);
-extern unsigned long strlen(const char *s);
+extern size_t strlen(const char *s);
 #include "qr2.h"
 struct ServerBrowser;
 #include "sb_serverbrowsing.h"

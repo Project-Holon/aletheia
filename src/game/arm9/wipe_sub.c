@@ -252,16 +252,16 @@ void WIPE_SUB_ApplyEndBrightness(struct WipePanel *panel);
 void WIPE_SUB_ClearSys(struct WipeSys *sys);
 u32 WIPE_SUB_PatternFadeOut(struct WipePanel *panel);
 u32 WIPE_SUB_PatternFadeIn(struct WipePanel *panel);
-void WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel);
-void WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel);
-void WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel);
-void WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel);
-void WIPE_SUB_PatternBoxOpenOut(struct WipePanel *panel);
-void WIPE_SUB_PatternBoxOpenIn(struct WipePanel *panel);
-void WIPE_SUB_PatternCircleOut(struct WipePanel *panel);
-void WIPE_SUB_PatternCircleIn(struct WipePanel *panel);
-void WIPE_SUB_PatternBoxSlideOut(struct WipePanel *panel);
-void WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel);
+u32 WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel);
+u32 WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel);
+u32 WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel);
+u32 WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel);
+u32 WIPE_SUB_PatternBoxOpenOut(struct WipePanel *panel);
+u32 WIPE_SUB_PatternBoxOpenIn(struct WipePanel *panel);
+u32 WIPE_SUB_PatternCircleOut(struct WipePanel *panel);
+u32 WIPE_SUB_PatternCircleIn(struct WipePanel *panel);
+u32 WIPE_SUB_PatternBoxSlideOut(struct WipePanel *panel);
+u32 WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel);
 s32 WIPE_SUB_CalcStep(s32 start, s32 end, s32 frames);
 void WIPE_SUB_AddRect(struct FixedRect *dst, struct FixedRect *src);
 void WIPE_SUB_InitRectInterp(struct FixedRect *current, struct FixedRect *target, struct FixedRect *step, const u8 *from, const u8 *to, s32 frames);
@@ -595,7 +595,7 @@ u32 WIPE_SUB_PatternFadeIn(struct WipePanel *panel)
  * slots the two uses differ by the slot offset, so one name suffices there.
  */
 /* Shutter pattern, edge moves down, covers the screen (descriptor 0 of g_020A73D0, closing = 1). */
-void WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel)
+u32 WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         g_020A73D0.descs[0].bands = d_0209F570;
@@ -603,8 +603,9 @@ void WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel)
         WIPE_SUB_ShutterStart(panel, &g_wipe_slot0);
         panel->fadeOut = 1;
         panel->usesBrightness = 0;
+        return 0;
     } else {
-        WIPE_SUB_ShutterMain(panel);
+        return WIPE_SUB_ShutterMain(panel);
     }
 }
 
@@ -621,7 +622,7 @@ void WIPE_SUB_PatternShutterDownOut(struct WipePanel *panel)
  *   python tools/match.py one --src src/matched/WIPE_SUB_PatternShutterDownIn.c  *       --func WIPE_SUB_PatternShutterDownIn --addr 0x02022758 --thumb --cc 1.1p1
  */
 /* Shutter pattern, edge moves down, uncovers the screen (descriptor 2, closing = 0). */
-void WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel)
+u32 WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         g_020A73D0.descs[2].bands = d_0209F56C;
@@ -629,8 +630,9 @@ void WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel)
         WIPE_SUB_ShutterStart(panel, &g_020A73D0.descs[2]);
         panel->fadeOut = 0;
         panel->usesBrightness = 0;
+        return 0;
     } else {
-        WIPE_SUB_ShutterMain(panel);
+        return WIPE_SUB_ShutterMain(panel);
     }
 }
 
@@ -647,7 +649,7 @@ void WIPE_SUB_PatternShutterDownIn(struct WipePanel *panel)
  *   python tools/match.py one --src src/matched/WIPE_SUB_PatternShutterUpOut.c  *       --func WIPE_SUB_PatternShutterUpOut --addr 0x02022790 --thumb --cc 1.1p1
  */
 /* Shutter pattern, edge moves up, covers the screen (descriptor 4, closing = 1). */
-void WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel)
+u32 WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         g_020A73D0.descs[4].bands = d_0209F574;
@@ -655,8 +657,9 @@ void WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel)
         WIPE_SUB_ShutterStart(panel, &g_020A73D0.descs[4]);
         panel->fadeOut = 1;
         panel->usesBrightness = 0;
+        return 0;
     } else {
-        WIPE_SUB_ShutterMain(panel);
+        return WIPE_SUB_ShutterMain(panel);
     }
 }
 
@@ -673,7 +676,7 @@ void WIPE_SUB_PatternShutterUpOut(struct WipePanel *panel)
  *   python tools/match.py one --src src/matched/WIPE_SUB_PatternShutterUpIn.c  *       --func WIPE_SUB_PatternShutterUpIn --addr 0x020227CC --thumb --cc 1.1p1
  */
 /* Shutter pattern, edge moves up, uncovers the screen (descriptor 5, closing = 0). */
-void WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel)
+u32 WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         g_020A73D0.descs[5].bands = d_0209F568;
@@ -681,8 +684,9 @@ void WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel)
         WIPE_SUB_ShutterStart(panel, &g_020A73D0.descs[5]);
         panel->fadeOut = 0;
         panel->usesBrightness = 0;
+        return 0;
     } else {
-        WIPE_SUB_ShutterMain(panel);
+        return WIPE_SUB_ShutterMain(panel);
     }
 }
 
@@ -710,16 +714,17 @@ void WIPE_SUB_PatternShutterUpIn(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternBoxOpenOut --addr 0x02022804 --cc 1.1p1 --thumb
  */
 /* Box pattern, visible window shrinks from the right edge to nothing (covers the screen). */
-void WIPE_SUB_PatternBoxOpenOut(struct WipePanel *panel)
+u32 WIPE_SUB_PatternBoxOpenOut(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_BoxStart(panel, &d_0209F61C);
         panel->fadeOut = 1;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_BoxMain(panel);
+    return WIPE_SUB_BoxMain(panel);
 }
 
 /*
@@ -733,16 +738,17 @@ void WIPE_SUB_PatternBoxOpenOut(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternBoxOpenIn --addr 0x02022830 --cc 1.1p1 --thumb
  */
 /* Box pattern, visible window grows from nothing to the full screen (uncovers the screen). */
-void WIPE_SUB_PatternBoxOpenIn(struct WipePanel *panel)
+u32 WIPE_SUB_PatternBoxOpenIn(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_BoxStart(panel, &d_0209F628);
         panel->fadeOut = 0;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_BoxMain(panel);
+    return WIPE_SUB_BoxMain(panel);
 }
 
 /*
@@ -757,16 +763,17 @@ void WIPE_SUB_PatternBoxOpenIn(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternCircleOut --addr 0x0202285C --cc 1.1p1 --thumb
  */
 /* Circle pattern, visible circle shrinks from radius 256 to nothing (covers the screen). */
-void WIPE_SUB_PatternCircleOut(struct WipePanel *panel)
+u32 WIPE_SUB_PatternCircleOut(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_CircleStart(panel, &d_0209F6B8);
         panel->fadeOut = 1;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_CircleMain(panel);
+    return WIPE_SUB_CircleMain(panel);
 }
 
 /*
@@ -780,16 +787,17 @@ void WIPE_SUB_PatternCircleOut(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternCircleIn --addr 0x02022888 --cc 1.1p1 --thumb
  */
 /* Circle pattern, visible circle grows from nothing to radius 256 (uncovers the screen). */
-void WIPE_SUB_PatternCircleIn(struct WipePanel *panel)
+u32 WIPE_SUB_PatternCircleIn(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_CircleStart(panel, &d_0209F6C4);
         panel->fadeOut = 0;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_CircleMain(panel);
+    return WIPE_SUB_CircleMain(panel);
 }
 
 /*
@@ -803,16 +811,17 @@ void WIPE_SUB_PatternCircleIn(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternBoxSlideOut --addr 0x020228B4 --cc 1.1p1 --thumb
  */
 /* Box pattern, hiding curtain grows from the left edge across the screen (covers the screen). */
-void WIPE_SUB_PatternBoxSlideOut(struct WipePanel *panel)
+u32 WIPE_SUB_PatternBoxSlideOut(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_BoxStart(panel, &d_0209F5EC);
         panel->fadeOut = 1;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_BoxMain(panel);
+    return WIPE_SUB_BoxMain(panel);
 }
 
 /*
@@ -826,16 +835,17 @@ void WIPE_SUB_PatternBoxSlideOut(struct WipePanel *panel)
  *       --func WIPE_SUB_PatternBoxSlideIn --addr 0x020228E0 --cc 1.1p1 --thumb
  */
 /* Box pattern, hiding curtain shrinks back to the left edge (uncovers the screen). */
-void WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel)
+u32 WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel)
 {
     if (panel->phase == 0) {
         WIPE_SetBackColor(panel->color);
         WIPE_SUB_BoxStart(panel, &d_0209F640);
         panel->fadeOut = 0;
         panel->usesBrightness = 0;
-        return;
+        return 0;
+
     }
-    WIPE_SUB_BoxMain(panel);
+    return WIPE_SUB_BoxMain(panel);
 }
 
 /*

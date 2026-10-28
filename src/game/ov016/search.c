@@ -76,7 +76,7 @@ typedef struct {
 #include "../arm9/wm_sync.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/wm_standard.h"
-extern int memcmp(const void *a, const void *b, unsigned long n);
+extern int memcmp(const void *a, const void *b, size_t n);
 #include "../arm9/os_terminate_processor.h"
 #include "../arm9/os_cache.h"
 void DWCi_SEARCHlInit(void);

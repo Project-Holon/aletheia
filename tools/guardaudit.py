@@ -30,6 +30,16 @@ TSV = os.path.join(ROOT, "docs", "ORIGINAL_BUGS.tsv")
 ALLOWLIST = {
     ("src/game/types.h", "BW_OFFSETOF"):
         "definition guard: the same offset value on both builds, no behaviour difference",
+    ("src/game/types.h", "size_t"):
+        "definition guard: the host takes the C library's own size_t (LLP64 hosts define it wider)",
+    ("src/game/libc/string.h", "size_t"):
+        "definition guard: the host takes the C library's own size_t",
+    ("src/game/libc/memcmp/string.h", "size_t"):
+        "definition guard: the host takes the C library's own size_t",
+    ("src/game/libc/strncmp/string.h", "size_t"):
+        "definition guard: the host takes the C library's own size_t",
+    ("src/game/arm9/msl_printf.c", "ptrdiff_t"):
+        "definition guard: the host takes the C library's own ptrdiff_t",
 }
 
 # Rows for guards that declare nothing: (file, enclosing function or "*") -> (kind, DS, host, host same?).

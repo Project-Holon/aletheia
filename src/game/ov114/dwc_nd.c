@@ -48,7 +48,7 @@
  *   @16278         0x021CF35C  data
  */
 #include "../arm9/os_thread.h"
-#include "../../matched/arm9_sdk/libc/string.h"
+#include "../libc/string.h"
 #include "dwc_nd_types.h"
 #include "dwci_nd.h"
 

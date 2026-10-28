@@ -12,7 +12,11 @@
 #ifndef ALETHEIA_LIBC_STRING_H
 #define ALETHEIA_LIBC_STRING_H
 
+#ifdef __MWERKS__
 typedef unsigned long size_t;
+#else
+#include <stddef.h>
+#endif
 
 char *strcpy(char *dst, const char *src);
 void *memcpy(void *dst, const void *src, size_t n);

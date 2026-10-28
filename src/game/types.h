@@ -22,8 +22,12 @@ typedef unsigned int       u32;
 #endif
 typedef unsigned long long u64;
 
-/* C library size type: unsigned long in the SDK C library (libc string.h, MSL). */
+/* C library size type: unsigned long in the SDK C library (libc string.h, MSL); the host takes its own. */
+#ifdef __MWERKS__
 typedef unsigned long      size_t;
+#else
+#include <stddef.h>
+#endif
 
 typedef signed char        s8;
 typedef signed short       s16;
