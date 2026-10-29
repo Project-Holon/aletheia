@@ -3187,7 +3187,7 @@ void BTLV_INPUT_CreateWazaCursorActors(BtlvInput *input, int mode)
 #ifdef __MWERKS__
     row = (char *)input + mode * 0x48;
 #else
-    row = (char *)input->slotInfo + mode * 0x48;
+    row = (char *)input->slotInfo[mode];
 #endif
     for (; i < 6; i++) {
         slots[i].actor = CLACT_CreateActor((void *)input->unitButtons, input->resCommonChr, input->resCommonPal, input->resCommonCell, &d_0220A392, 1, input->heap);
@@ -3196,7 +3196,7 @@ void BTLV_INPUT_CreateWazaCursorActors(BtlvInput *input, int mode)
 #ifdef __MWERKS__
         CLACT_SetActorAnimSeq(slots[i].actor, add + *(u8 *)(row + i * 12 + 0x75));
 #else
-        CLACT_SetActorAnimSeq(slots[i].actor, add + *(u8 *)(row + i * 12 + 0x21));
+        CLACT_SetActorAnimSeq(slots[i].actor, add + ((BtlvInputSlotInfo *)row)[i].b.animSeq);
 #endif
         pos.x += (s16)step;
     }
