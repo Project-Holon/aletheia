@@ -80,7 +80,7 @@ typedef struct GdsSvlToken {
 typedef struct GdsClientInfo {
     u32 profileId;                      /* 0x000 */
     u8 packetType;                      /* 0x004: 0x15, as in NHTTPRapTrainerInfo */
-    u8 protocolVersion;                 /* 0x005: 2 */
+    u8 language;                        /* 0x005: the cartridge language id */
     GdsSvlToken svlToken;               /* 0x006 */
     u8 unknown133[5];                   /* 0x133 */
 } GdsClientInfo;

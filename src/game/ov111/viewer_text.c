@@ -47,6 +47,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   WORDSET_FormatNumber  0x0201F35C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonth  0x0201F230  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PLAYTIME_GetHours  0x0200864C  thumb
  *   PLAYTIME_GetMinutes  0x02008650  thumb
@@ -142,6 +143,14 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "viewer_types.h"
+#include "../version.h"
+
+/* French, Italian and German print the month as a word; the others print its number. */
+#if PM_LANG_MONTH_AS_NAME
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotMonth(words, slot, month)
+#else
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, 1)
+#endif
 #include "../sdk_ioreg.h"
 
 struct CharBuf;
@@ -671,7 +680,7 @@ void VIEWER_TEXT_PrintString(ViewerWork *p, void *a, int x, int dx, int y, void 
     u32 w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year1 + 2000, 4, mode, 1);
-    WORDSET_SetSlotNumber(p->wordSet, 1, p->info->month1, 2, mode, 1);
+    VIEWER_SET_MONTH(p->wordSet, 1, p->info->month1, mode);
     WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, 1);
     WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[2]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
@@ -688,7 +697,7 @@ void VIEWER_TEXT_PrintStringClipped(ViewerWork *p, void *win, int x, int ofs, in
     int w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year2 + 2000, 4, mode, 1);
-    WORDSET_SetSlotNumber(p->wordSet, 1, p->info->month2, 2, mode, 1);
+    VIEWER_SET_MONTH(p->wordSet, 1, p->info->month2, mode);
     WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day2, 2, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 3, p->info->row2Value, 2, 2, 1);
     WORDSET_SetSlotNumber(p->wordSet, 4, p->info->row5Value, 2, 2, 1);

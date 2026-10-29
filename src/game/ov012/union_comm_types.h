@@ -38,7 +38,7 @@ struct Strbuf;
 #define UNION_RECV_BUFFER_SIZE   0x800
 #define UNION_BEACON_PC_LIFE     450
 #define UNION_PM_VERSION         PM_VERSION_ID
-#define UNION_LANGUAGE           2
+#define UNION_LANGUAGE           PM_LANG_ID
 #define UNION_STATUS_NONE        0x1B
 #define UNION_PLAY_CATEGORY_COLOSSEUM 0x2A
 

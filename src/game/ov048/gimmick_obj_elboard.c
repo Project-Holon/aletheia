@@ -112,6 +112,7 @@
 #define FX_Mul(a, b) ((fx32)(((s64)(a) * (b) + 0x800LL) >> 12))
 
 #include "../types.h"
+#include "../version.h"
 
 #include "field_gimmick_gate_types.h"
 
@@ -422,7 +423,11 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     wordSet = WORDSET_CreateDefault(work->heapId);
     RTC_GetDate(&locals.date);
     WORDSET_SetSlotNumber(wordSet, 2, locals.date.year, 2, 2, 1);
+#if LANGUAGE == LANGUAGE_SPANISH
+    WORDSET_SetSlotNumber(wordSet, 0, locals.date.month, 2, 0, 1);
+#else
     WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
+#endif
     WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 0, 1);
     locals.msg.animIndex = gElboardLayout.animIndex[0];
     locals.msg.textureName = gElboardLayout.textureName[0];

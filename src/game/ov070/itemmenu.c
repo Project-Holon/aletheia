@@ -315,6 +315,7 @@ struct ItemmenuSurfacePos;
 struct ItemmenuTaskMenuTmpl;
 struct TextStream;
 #include "../types.h"
+#include "../version.h"
 
 union TouchHitTable;
 #include "../arm9/clact.h"
@@ -1724,7 +1725,11 @@ void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
     work->listCount = 1;
     ITEMMENU_ShowQuantityWindows(work, 1);
     MSGDATA_ReadString(work->msgBank, 0x35, work->tempString);
+#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_SPANISH
+    ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+#else
     ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, 1, 0);
+#endif
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
     ITEMMENU_SetTask(work, ITEMMENU_TaskTossQuantityInput);
@@ -1752,7 +1757,11 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
         GFL_USE_PlaySeDefaultVolume(0x54C);
         ITEMMENU_HideQuantityWindows(work);
         MSGDATA_ReadString(work->msgBank, 0x37, work->tempString);
+#if LANGUAGE == LANGUAGE_GERMAN
+        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+#else
         ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
+#endif
         WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);

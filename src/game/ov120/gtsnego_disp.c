@@ -931,7 +931,7 @@ void GTSNEGO_DISP_StartMatchmaking(struct GtsnegoDispCtx *dispCtx)
         values[2] = dispCtx->rowAIndex;
         values[3] = dispCtx->rowBIndex;
         values[4] = dispCtx->rowCIndex;
-        values[5] = 0x20000 | PM_VERSION_ID;
+        values[5] = PM_LANG_VERSION_KEY;
         values[6] = 1;
         values[7] = 0;
         if (dispCtx->tradeMode == 1) {

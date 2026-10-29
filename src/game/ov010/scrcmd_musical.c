@@ -439,6 +439,7 @@ extern const ProcData MUSICAL_DRESSUP_SYS_ProcTable;
  * own file, but this caller uses its result as the musical save pointer.
  */
 #include "script_work_cmd.h"
+#include "../version.h"
 int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct ScriptWork *scriptCtl;
@@ -824,7 +825,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 
         str = STRBUF_Create(0x26, heapId);
         STRBUF_SetStringN(str, (const u16 *)MUSICAL_SAVE_GetStageData(musical), 0x26);
-        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         break;
     }
@@ -835,26 +836,26 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         else
             msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 3);
-        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 2:
         str = MUSICAL_EVENT_AllocTitleString((struct MusicalEventWork *)(*((void **)GAME_DATA_GetExternalWork(gameData))), heapId);
-        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         break;
     case 3:
         msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg);
-        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 4:
         msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 4);
-        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete((struct MsgBank *)msgData);
         break;
@@ -911,7 +912,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
             str = MSGDATA_AllocString((struct MsgBank *)msgData, labelIds[i]);
-            WORDSET_SetSlotTag(wordSet, i, str, 0, 1, 2);
+            WORDSET_SetSlotTag(wordSet, i, str, 0, 1, PM_LANG_ID);
             STRBUF_Delete(str);
         }
         MSGDATA_Delete((struct MsgBank *)msgData);

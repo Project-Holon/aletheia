@@ -7,6 +7,8 @@
     python tools/romlink.py --image-fallback   # a region that did not link keeps its image bytes (listed)
     python tools/romlink.py --out build/rom/aletheia.nds --report build/rom/report.json
     python tools/romlink.py --version white    # Pokemon White: plain-mode region links (see below)
+    python tools/romlink.py --target black_fr  # a language ROM (tools/targets.py), same method as White
+    python tools/romlink.py --target white_de --orig PATH   # compare with this dump (else the SHA-1 of targets.py)
 
 What it does:
 
@@ -49,6 +51,14 @@ not exist for White.  Overlay 230 is sealed again by ovcrypt.encrypt (the White 
 banner, file system and the game data files are taken from the extract.  Output defaults to
 build/rom/white.nds and build/rom/report_white.json.
 
+--target T (black_fr ... white_es) builds a language ROM the same way as White: the layout is
+build/<t>/layout/layout.json and the extract extract_<t>/ (ndsrom.py extract and delink.py of the user's
+dump of that cartridge); companions go to build/datac_<t>/, the region links to
+build/gamelink[_data]/<region>_<t>/, the output to build/rom/<t>.nds and build/rom/report_<t>.json.
+Header, ARM7, banner, file system, the 51 to 57 data files that differ from English and the DSi
+block's data blob come from that extract.  Without the user's dump (manifest rom_path) the result is
+compared with the SHA-1 of tools/targets.py; --orig PATH names a dump to diff against.
+
 The DSi block (both games): arm9i.bin is rebuilt from the twl link.  The decrypted block of the extract
 gets its code range replaced by the link (the data blob between the files stays image bytes and is
 listed), is compressed again with tools/blz.py (BLZ, as the SDK does), and its first 0x4000 bytes are
@@ -71,6 +81,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(ROOT, "tools")
 sys.path.insert(0, TOOLS)
+import targets  # noqa: E402
 
 LAYOUT = os.path.join(ROOT, "layout", "layout.json")
 BUILD = os.path.join(ROOT, "build")
@@ -80,19 +91,24 @@ AUTO = os.path.join(BUILD, "datac", "autoload")
 ITCM_C = os.path.join(BUILD, "datac", "itcm")
 PACK = os.path.join(BUILD, "rom", "pack")
 PY = sys.executable
-VERSION = "black"       # "white" with --version white (main() sets it)
+VERSION = "black"       # the target name (main() sets it): black, white, black_fr, ...
 
 
 def sh(cmd, **kw):
     return subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, **kw)
 
 
+def sfx():
+    """Output-name suffix of the target: '' for Black, '_white', '_black_fr', ..."""
+    return targets.suffix(VERSION)
+
+
 def load_layout():
-    if VERSION == "white":
-        with open(os.path.join(BUILD, "white", "layout", "layout.json"), encoding="utf-8") as fh:
+    if VERSION != "black":
+        with open(os.path.join(targets.layout_dir(VERSION), "layout.json"), encoding="utf-8") as fh:
             lay = json.load(fh)
-        lay["extract_dir"] = "extract_white"
-        ext = os.path.join(ROOT, "extract_white")
+        ext = targets.extract_dir(VERSION)
+        lay["extract_dir"] = os.path.basename(ext)
         with open(os.path.join(ext, "manifest.json"), encoding="utf-8") as fh:
             return lay, ext, json.load(fh)
     with open(LAYOUT, encoding="utf-8") as fh:
@@ -116,7 +132,10 @@ def code_overlay_ids(lay):
 
 
 def vflag(white):
-    return ["--version", "white"] if white else []
+    """Command-line flags that select the target (the argument is kept for the older callers)."""
+    if VERSION == "black":
+        return []
+    return ["--version", "white"] if VERSION == "white" else ["--target", VERSION]
 
 
 def link_itcm(white=False):
@@ -125,14 +144,14 @@ def link_itcm(white=False):
     leaves the two ranges as gaps, they are written as two zero arrays (C, build/datac/itcm)
     and the block is linked again with no gap.  (The link compares the result with the
     original, so a pad that was not zero would fail.)"""
-    itcm_c = os.path.join(BUILD, "datac_white" if white else "datac", "itcm")
+    itcm_c = os.path.join(BUILD, "datac" + sfx(), "itcm")
     os.makedirs(itcm_c, exist_ok=True)
     for f in os.listdir(itcm_c):
         if f.startswith("itcm_pad_"):
             os.remove(os.path.join(itcm_c, f))
     extra = "--extra=" + os.path.relpath(itcm_c, ROOT).replace(os.sep, "/")
     sh([PY, "tools/gamelink.py", "itcm", extra] + vflag(white))
-    j = json.load(open(os.path.join(GL, "itcm_white" if white else "itcm", "ov.json")))
+    j = json.load(open(os.path.join(GL, "itcm" + sfx(), "ov.json")))
     for k, (a, b) in enumerate(j["gaps"]):
         name = "%d" % k
         text = ("/*\n * file:     itcm_pad_NAME.c\n * address:  0xADDR\n"
@@ -164,19 +183,18 @@ def link_ov230_blobs(lay, white=False):
     o = next(x for x in lay["overlays"] if x["id"] == 230)
     if white:
         import white_map
-        view = ovcrypt.view_for(os.path.join(ROOT, "extract_white"), o)
+        view = ovcrypt.view_for(targets.extract_dir(VERSION), o)
     else:
         view = ovcrypt.load(ROOT)
-    oc = os.path.join(BUILD, "datac_white" if white else "datac", "ov230")
-    sfx = "_white" if white else ""
+    oc = os.path.join(BUILD, "datac" + sfx(), "ov230")
     os.makedirs(oc, exist_ok=True)
     for f in os.listdir(oc):
         if f.startswith("sealed_blob_"):
             os.remove(os.path.join(oc, f))
     extra = "--extra=" + os.path.relpath(oc, ROOT).replace(os.sep, "/")
     sh([PY, "tools/gamelink.py", "230", "--data", extra] + vflag(white))
-    j = json.load(open(os.path.join(GLD, "ov230" + sfx, "ov.json")))
-    with open(os.path.join(GLD, "ov230" + sfx, "blobs.json"), "w") as fh:
+    j = json.load(open(os.path.join(GLD, "ov230" + sfx(), "ov.json")))
+    with open(os.path.join(GLD, "ov230" + sfx(), "blobs.json"), "w") as fh:
         json.dump([list(x) for x in j["gaps"]], fh)
     for a, b in j["gaps"]:
         name = "OV230_SealedBlob_%08X" % a
@@ -208,7 +226,7 @@ def relink_all(lay, jobs, only=None, white=False):
     r = sh([PY, "tools/arm9data.py"] + v)
     log.append(r.stdout.strip()[-400:])
     r = sh([PY, "tools/gamelink.py", "arm9_main", "--data",
-            "--extra=build/datac%s/arm9" % ("_white" if white else "")] + v)
+            "--extra=build/datac%s/arm9" % sfx()] + v)
     log.append(r.stdout.strip()[-300:])
     log.append(link_itcm(white).strip()[-300:])
     log.append(link_twl_region(white).strip()[-300:])
@@ -217,9 +235,7 @@ def relink_all(lay, jobs, only=None, white=False):
 
 
 def region_dir(name):
-    if VERSION == "white":
-        return os.path.join(GL if name in ("itcm", "twl") else GLD, name + "_white")
-    return os.path.join(GL if name in ("itcm", "twl") else GLD, name)
+    return os.path.join(GL if name in ("itcm", "twl") else GLD, name + sfx())
 
 
 def newest_source(name):
@@ -375,7 +391,7 @@ def link_twl_region(white):
     """The DSi block (region twl): the link of src/game/twl (tools/twllink.py), plain mode.  The
     data between its files (the DSP component 0x02707CB4..0x0272E9E8 and four small objects) is C
     written by tools/twldata.py from the extract (build/datac/twl); the link has no gap."""
-    r = sh([PY, "tools/twllink.py"] + (["--version=white"] if white else []))
+    r = sh([PY, "tools/twllink.py"] + (["--target=" + VERSION] if VERSION != "black" else []))
     return (r.stdout + r.stderr).strip()[-300:]
 
 
@@ -445,20 +461,30 @@ def main(argv=None):
                     help="link every region in one mwldarm run (tools/onelink.py) and cut the images from it")
     ap.add_argument("--recapture", action="store_true", help="with --onelink: redo the capture even if it is fresh")
     ap.add_argument("--jobs", type=int, default=8)
-    ap.add_argument("--version", choices=("black", "white"), default="black",
-                    help="the game to build (white: plain-mode region links, extract_white/)")
+    ap.add_argument("--version", choices=("black", "white"), default=None,
+                    help="the game to build (older spelling of --target)")
+    ap.add_argument("--target", choices=sorted(targets.TARGETS), default=None,
+                    help="the cartridge to build (tools/targets.py; default black): plain-mode region links, extract_<t>/")
+    ap.add_argument("--orig", default=None,
+                    help="a dump to compare with (default: manifest rom_path, else the SHA-1 of targets.py)")
     ap.add_argument("--image-fallback", action="store_true",
                     help="a region with no usable link keeps its bytes from the image (listed as such)")
     ap.add_argument("--out", default=None)
     ap.add_argument("--report", default=None)
     a = ap.parse_args(argv)
     global VERSION
-    VERSION = a.version
-    white = VERSION == "white"
-    a.out = a.out or os.path.join(BUILD, "rom", "white.nds" if white else "aletheia.nds")
-    a.report = a.report or os.path.join(BUILD, "rom", "report_white.json" if white else "report.json")
+    VERSION = a.target or a.version or "black"
+    white = VERSION != "black"          # not the reference: plain-mode links of the mapped addresses
+    global AUTO, PACK
+    AUTO = os.path.join(BUILD, "datac" + sfx(), "autoload")
+    PACK = os.path.join(BUILD, "rom", "pack" + ("_" + VERSION if white else ""))
+    if white:
+        import white_map
+        white_map.set_target(VERSION)
+    a.out = a.out or os.path.join(BUILD, "rom", VERSION + ".nds" if white else "aletheia.nds")
+    a.report = a.report or os.path.join(BUILD, "rom", "report%s.json" % sfx())
     if white and a.onelink:
-        raise SystemExit("--onelink does not exist for White yet")
+        raise SystemExit("--onelink does not exist for White and the language targets yet")
 
     import blz
     import build as bld
@@ -470,6 +496,23 @@ def main(argv=None):
     if a.relink:
         for line in relink_all(lay, a.jobs, white=white):
             print(line)
+        # A language target maps some data addresses from other regions' passing links
+        # (white_map.exact_map), so a region linked before them can be off.  Link the
+        # overlays that failed once more, now that those links exist.
+        if white and VERSION != "white":
+            again = []
+            for o in lay["overlays"]:
+                p = os.path.join(region_dir("ov%03d" % o["id"]), "ov.json")
+                try:
+                    ok = json.load(open(p, encoding="utf-8")).get("ok")
+                except (OSError, ValueError):
+                    ok = None
+                if ok is False:
+                    again.append(o["id"])
+            if again:
+                print("relink pass 2: %s" % " ".join("ov%03d" % i for i in again))
+                for line in relink_all(lay, a.jobs, only=again, white=white):
+                    print(line)
     one_imgs = None
     if a.onelink:
         onelink_prepare(lay, a.jobs, a.recapture)
@@ -541,7 +584,7 @@ def main(argv=None):
     dec = bytes(dec)
     os.makedirs(PACK, exist_ok=True)
     os.makedirs(os.path.join(PACK, "overlays"), exist_ok=True)
-    with open(os.path.join(BUILD, "rom", "arm9_dec_romlink.bin"), "wb") as fh:
+    with open(os.path.join(BUILD, "rom", "arm9_dec_romlink%s.bin" % sfx()), "wb") as fh:
         fh.write(dec)
     same_dec = dec == img9
     print("arm9_dec.bin from source: %d bytes, %s the original decompressed image"
@@ -610,7 +653,7 @@ def main(argv=None):
     built_sha = hashlib.sha1(rom).hexdigest()
 
     # --- compare with the original ---
-    orig_path = man["rom_path"]
+    orig_path = a.orig or man["rom_path"]
     orig_sha = man["rom_sha1"]
     orig = None
     if os.path.exists(orig_path):
@@ -618,6 +661,9 @@ def main(argv=None):
         if hashlib.sha1(orig).hexdigest() != orig_sha:
             print("note: the file at rom_path no longer has the recorded SHA-1")
             orig_sha = hashlib.sha1(orig).hexdigest()
+    elif white:
+        orig_sha = targets.sha1(VERSION)
+        print("note: no dump at rom_path; comparing with the SHA-1 of tools/targets.py (--orig PATH gives a per-file diff)")
     verdict = "IDENTICAL" if built_sha == orig_sha else "DIFFERENT"
     print("ROM sha1: built %s  original %s  %s" % (built_sha, orig_sha, verdict))
 
@@ -669,7 +715,7 @@ def main(argv=None):
             # bytes of the decrypted view that no src/game file writes: link_ov230_blobs() fills
             # them with generated asm so the link has no gap, but they are not from our source
             try:
-                for g0, g1 in json.load(open(os.path.join(GLD, "ov230" + ("_white" if white else ""), "blobs.json"))):
+                for g0, g1 in json.load(open(os.path.join(GLD, "ov230" + sfx(), "blobs.json"))):
                     gap_lines.append(("ov230 generated blob %08X" % g0, g1 - g0))
                     gaps_total += g1 - g0
             except (OSError, ValueError):
@@ -689,7 +735,7 @@ def main(argv=None):
     # tools/datagen.py and tools/arm9data.py write from the user's extract
     tail_total, tail_regions = 0, 0
     for nm in ["arm9"] + ["ov%03d" % i for i in code_ids]:
-        dj = os.path.join(BUILD, "datac", nm, "datalink.json")
+        dj = os.path.join(BUILD, "datac" + sfx(), nm, "datalink.json")
         if os.path.exists(dj):
             t = json.load(open(dj)).get("tail")
             if t:

@@ -457,7 +457,11 @@ def main(argv=None):
     ap.add_argument("--summary", action="store_true")
     ap.add_argument("--standalone", type=int, metavar="JOBS",
                     help="compile the src/matched file of each function that has no src/game file and compare")
+    ap.add_argument("--target", default="white", help="white (the only tracked target; language targets: not yet)")
     a = ap.parse_args(argv)
+    if a.target != "white":
+        print("no tracking for target %r yet: layout/matched_white is the only tree" % a.target, file=sys.stderr)
+        return 2
     if a.standalone:
         standalone_check(a.standalone)
     result = build()

@@ -44,6 +44,20 @@
 #include "../arm9/gf_overlay.h"
 #include "../arm9/os_reset.h"
 #include "../arm9/wih_dwc.h"
+#include "../version.h"
+
+/* The Wi-Fi utility numbers its languages from English (1) on: French 2, German 3, Italian 4, Spanish 5. */
+#if LANGUAGE == LANGUAGE_FRENCH
+#define DWC_UTILITY_LANGUAGE 2
+#elif LANGUAGE == LANGUAGE_GERMAN
+#define DWC_UTILITY_LANGUAGE 3
+#elif LANGUAGE == LANGUAGE_ITALIAN
+#define DWC_UTILITY_LANGUAGE 4
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define DWC_UTILITY_LANGUAGE 5
+#else
+#define DWC_UTILITY_LANGUAGE 1
+#endif
 void DWC_RAPUTIL_RunUtility(int heapId);
 int DWC_RAPUTIL_Init(void);
 int DWC_RAPUTIL_Main(void);
@@ -63,7 +77,7 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     savedIrq = OS_DisableInterrupts();
     utilWork = GFL_HEAP_Alloc(heapId, 0x40000, 1, sDwcRaputilFileName, 0x3d);
     if (OS_IsRunOnTwl() == 0)
-        DWC_StartUtility(utilWork, 1, 0);
+        DWC_StartUtility(utilWork, DWC_UTILITY_LANGUAGE, 0);
     GFL_HEAP_Free(utilWork);
     OS_RestoreInterrupts(savedIrq);
     REG_IME;

@@ -30,6 +30,7 @@
  *   WORDSET_Delete 0x0201ED04 thumb
  */
 #include "br_types.h"
+#include "../version.h"
 
 struct WordSet;
 struct MsgBank;
@@ -151,7 +152,7 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
     if(hasWordSet){
         if((*wordSetSrc)[index]!=0){
             wordSet=WORDSET_CreateDefault((unsigned short)((heapId&0x7fff)|0x8000));
-            WORDSET_SetSlotTag(wordSet,0,*(struct Strbuf **)(*wordSetSrc+index+4),(*wordSetSrc+index)[8],1,2);
+            WORDSET_SetSlotTag(wordSet,0,*(struct Strbuf **)(*wordSetSrc+index+4),(*wordSetSrc+index)[8],1,PM_LANG_ID);
             src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             WORDSET_CopyTaggedText(wordSet,result,src);

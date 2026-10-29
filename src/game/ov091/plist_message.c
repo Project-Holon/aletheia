@@ -73,6 +73,7 @@
  *   PLIST_MESSAGE_SetWordSetItemAlt  0x021BB9BC  thumb
  */
 #include "../types.h"
+#include "../version.h"
 
 #include "pokelist_types.h"
 #include "plist_message_types.h"
@@ -349,7 +350,7 @@ void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *ms
 
 void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, 1); }
 
-void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, (struct Strbuf *)src, n, 1, 2); }
+void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, (struct Strbuf *)src, n, 1, PM_LANG_ID); }
 
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
 {

@@ -78,6 +78,7 @@ struct IntrudeSave;
 
 
 #include "../arm9/wordset.h"
+#include "../version.h"
 
 extern const IntrudeOfferSpot gIntrudeOfferTilePositions[];
 
@@ -158,7 +159,7 @@ int INTRUDE_OfferEventMain(struct GameEvent *event, int *seq, void *workPtr)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     name = STRBUF_Create(8, 0x15);
     STRBUF_SetStringN(name, (const u16 *)&copy, 8);
-    WORDSET_SetSlotTag(wordSet, 3, name, 1, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 3, name, 1, 1, PM_LANG_ID);
     STRBUF_Delete(name);
     return 0;
 }

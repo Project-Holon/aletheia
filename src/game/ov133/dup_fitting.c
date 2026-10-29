@@ -352,6 +352,7 @@ typedef enum { DISP_SUB_MAIN=0, DISP_MAIN_SUB=1 } DispSelect;
 typedef struct {short x,y,index;u8 a,b;} DupFittingActorParam;
 
 #include "../types.h"
+#include "../version.h"
 
 typedef struct {short y,x;u16 limit;} DupFittingScaleLimit;
 
@@ -2750,8 +2751,8 @@ void DUP_FITTING_SetTextItem(struct DupFittingWork *work, u8 *entry)
     void *obj = WORDSET_CreateDefault(work->heapId);
     void *a = MSGDATA_AllocString(work->msgBankB, ((struct DupFittingItemData *)data)->id + 3);
     void *b = MSGDATA_AllocString(work->msgBankC, index + 16);
-    WORDSET_SetSlotTag(obj, 0, a, 0, 1, 2);
-    WORDSET_SetSlotTag(obj, 1, b, 0, 1, 2);
+    WORDSET_SetSlotTag(obj, 0, a, 0, 1, PM_LANG_ID);
+    WORDSET_SetSlotTag(obj, 1, b, 0, 1, PM_LANG_ID);
     DUP_FITTING_SetText(work, 3, obj);
     STRBUF_Delete(b);
     STRBUF_Delete(a);
@@ -2780,7 +2781,7 @@ void DUP_FITTING_SetTextHelp(struct DupFittingWork *work, int state)
     }
     w = WORDSET_CreateDefault(work->heapId);
     str = MSGDATA_AllocString(work->msgBankC, index);
-    WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
+    WORDSET_SetSlotTag(w, 0, str, 0, 1, PM_LANG_ID);
     DUP_FITTING_SetText(work, 4, w);
     STRBUF_Delete(str);
     WORDSET_Delete(w);

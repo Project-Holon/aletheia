@@ -135,6 +135,16 @@ struct Obj;
 struct Vec2;
 struct Rec;
 #include "../types.h"
+#include "../version.h"
+
+/* Left edge of the height and weight values on the main page; the other languages need less room. */
+#if LANGUAGE == LANGUAGE_ENGLISH
+#define ZUKAN_INFO_HEIGHT_VALUE_X 0x65
+#define ZUKAN_INFO_WEIGHT_VALUE_X 0x66
+#else
+#define ZUKAN_INFO_HEIGHT_VALUE_X 0x5e
+#define ZUKAN_INFO_WEIGHT_VALUE_X 0x64
+#endif
 #include "../sdk_ioreg.h"
 
 struct ClactVec2;
@@ -963,10 +973,10 @@ void ZUKAN_INFO_DrawMainPage(char *p)
     ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[2], (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[3], 0, 0x14, 0x440, 0, 0);
     r6 = 0;
     if (((struct ZukanInfo *)p)->showCurrent != 0) r6 = t;
-    ZUKAN_INFO_DrawMessage(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[2], (struct MsgBank *)l24, (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, r6, 0x65, 4, 0x440, 1, 0);
+    ZUKAN_INFO_DrawMessage(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[2], (struct MsgBank *)l24, (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, r6, ZUKAN_INFO_HEIGHT_VALUE_X, 4, 0x440, 1, 0);
     r6 = 0;
     if (((struct ZukanInfo *)p)->showCurrent != 0) r6 = t;
-    ZUKAN_INFO_DrawMessage(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[2], (struct MsgBank *)l20, (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, r6, 0x66, 0x14, 0x440, 1, 0);
+    ZUKAN_INFO_DrawMessage(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[2], (struct MsgBank *)l20, (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, r6, ZUKAN_INFO_WEIGHT_VALUE_X, 0x14, 0x440, 1, 0);
     t = 0;
     if (((struct ZukanInfo *)p)->showCurrent != 0) t = ((struct ZukanInfo *)p)->species;
     ZUKAN_INFO_DrawMessage(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[3], (struct MsgBank *)l1c, (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, t, 4, 5, 0x3c40, 0, 0);

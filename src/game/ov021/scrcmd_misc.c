@@ -646,6 +646,7 @@ extern struct GameEvent * SP_POKE_GIMMICK_StartSwapNpc(struct GameSystem *, VecF
 #endif
 
 #include "../ov064/field_gimmick_arc_effect.h"
+#include "../version.h"
 
 
 
@@ -913,7 +914,7 @@ int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (entry != 0 && entry[0] != 0x7E && entry[0] != 0) {
         nameBuf = STRBUF_Create(0xE, heapId);
         STRBUF_SetStringN(nameBuf, entry + 1, 0xD);
-        WORDSET_SetSlotTag(wordSet, wordSlot, nameBuf, 0, 0, 2);
+        WORDSET_SetSlotTag(wordSet, wordSlot, nameBuf, 0, 0, PM_LANG_ID);
         STRBUF_Delete(nameBuf);
     }
     return 0;

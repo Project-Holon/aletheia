@@ -160,6 +160,49 @@ struct G3dRenderObjRef;
 typedef struct Util Util;
 
 #include "../types.h"
+#include "../version.h"
+
+/*
+ * Screen positions that move with the language: the effect offset of the battle scene, the two
+ * actors of the battle context and the two side actors.
+ */
+#if LANGUAGE == LANGUAGE_GERMAN
+#define COMM_BTL_DEMO_EFFECT_X 0x1800
+#define COMM_BTL_DEMO_EFFECT_UP_Y 0x1800
+#define COMM_BTL_DEMO_EFFECT_DOWN_Y 0x1000
+#define COMM_BTL_DEMO_ACTOR_A_X 174
+#define COMM_BTL_DEMO_ACTOR_A_Y 136
+#define COMM_BTL_DEMO_ACTOR_B_X 82
+#define COMM_BTL_DEMO_ACTOR_B_Y 56
+#define COMM_BTL_DEMO_SIDE_A_X 184
+#define COMM_BTL_DEMO_SIDE_A_Y 136
+#define COMM_BTL_DEMO_SIDE_B_X 72
+#define COMM_BTL_DEMO_SIDE_B_Y 56
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define COMM_BTL_DEMO_EFFECT_X 0x2000
+#define COMM_BTL_DEMO_EFFECT_UP_Y 0x2000
+#define COMM_BTL_DEMO_EFFECT_DOWN_Y 0x1800
+#define COMM_BTL_DEMO_ACTOR_A_X 190
+#define COMM_BTL_DEMO_ACTOR_A_Y 152
+#define COMM_BTL_DEMO_ACTOR_B_X 66
+#define COMM_BTL_DEMO_ACTOR_B_Y 40
+#define COMM_BTL_DEMO_SIDE_A_X 190
+#define COMM_BTL_DEMO_SIDE_A_Y 152
+#define COMM_BTL_DEMO_SIDE_B_X 66
+#define COMM_BTL_DEMO_SIDE_B_Y 40
+#else
+#define COMM_BTL_DEMO_EFFECT_X 0x2800
+#define COMM_BTL_DEMO_EFFECT_UP_Y 0x2000
+#define COMM_BTL_DEMO_EFFECT_DOWN_Y 0x1800
+#define COMM_BTL_DEMO_ACTOR_A_X 206
+#define COMM_BTL_DEMO_ACTOR_A_Y 152
+#define COMM_BTL_DEMO_ACTOR_B_X 50
+#define COMM_BTL_DEMO_ACTOR_B_Y 40
+#define COMM_BTL_DEMO_SIDE_A_X 206
+#define COMM_BTL_DEMO_SIDE_A_Y 152
+#define COMM_BTL_DEMO_SIDE_B_X 50
+#define COMM_BTL_DEMO_SIDE_B_Y 40
+#endif
 
 struct G3dResource;
 struct G3dUtilSetup;
@@ -630,8 +673,8 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(struct UiScene *state,unsigned char *p)
         }else if(((struct CommBtlDemoMain *)p)->stage==120)FADE_Start(3,0,16,-3);
         else if(((struct CommBtlDemoMain *)p)->stage==128)return 1;
         if((int)((struct CommBtlDemoMain *)p)->stage%180==0){
-            if(((struct CommBtlDemoMain *)p)->variant==1){x=-0x2800;y=0x2000;}
-            else{x=0x2800;y=-0x1800;}
+            if(((struct CommBtlDemoMain *)p)->variant==1){x=-COMM_BTL_DEMO_EFFECT_X;y=COMM_BTL_DEMO_EFFECT_UP_Y;}
+            else{x=COMM_BTL_DEMO_EFFECT_X;y=-COMM_BTL_DEMO_EFFECT_DOWN_Y;}
             effectPos0=gCommBtlDemoEffectPos0;effectPos0.x=x;effectPos0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)&((struct CommBtlDemoMain *)p)->gfx,0,(&effectPos0));
             effectPos1=gCommBtlDemoEffectPos1;effectPos1.x=x;effectPos1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)&((struct CommBtlDemoMain *)p)->gfx,1,(&effectPos1));
             effectPos2=gCommBtlDemoEffectPos2;effectPos2.x=x;effectPos2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)&((struct CommBtlDemoMain *)p)->gfx,2,(&effectPos2));
@@ -902,8 +945,8 @@ void COMM_BTL_DEMO_MAIN_InitBattleContext(struct CommBtlDemoBattleContext *p,con
     p->sideActor[1]=COMM_BTL_DEMO_MAIN_CreateSideActor((void *)owner,1,(u8)p->sideBCount);
     for(i=0;i<3;i++) {
         switch(i) {
-        case 0:x=206;y=152;break;
-        case 1:x=50;y=40;break;
+        case 0:x=COMM_BTL_DEMO_ACTOR_A_X;y=COMM_BTL_DEMO_ACTOR_A_Y;break;
+        case 1:x=COMM_BTL_DEMO_ACTOR_B_X;y=COMM_BTL_DEMO_ACTOR_B_Y;break;
         case 2:x=128;y=96;break;
         }
         p->actors[i]=COMM_BTL_DEMO_MAIN_CreateActor((void *)owner,x,y,7);
@@ -941,7 +984,7 @@ void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p){UI_SCENE_FreeActorGfx((ActorGfxSet
 
 void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c){return UI_SCENE_CreateActor((ActorGfxSet *)(&((struct CommBtlDemoCursor *)p)->gfx),(COMM_BTL_DEMO_GRAPHIC_GetCamera(((struct CommBtlDemoCursor *)p)->state)),a,b,c,((struct CommBtlDemoCursor *)p)->heap);}
 
-void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=COMM_BTL_DEMO_MAIN_CreateActor(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
+void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=COMM_BTL_DEMO_SIDE_A_X;y=COMM_BTL_DEMO_SIDE_A_Y;}else{x=COMM_BTL_DEMO_SIDE_B_X;y=COMM_BTL_DEMO_SIDE_B_Y;}v=COMM_BTL_DEMO_MAIN_CreateActor(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 
 void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap){G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=(struct Util *)G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
 

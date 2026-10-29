@@ -97,6 +97,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   gWifiClubVisitorMessageIds     0x021C398C  data   ov099
  *   gWifiClubMenuItemTable  0x021C3A70  data  a4
  *   gWifiClubRuleMenuHeader  0x021C3B68  data  a4
@@ -970,7 +971,7 @@ void WIFICLUB_SetPartnerNameWord(WifiClubWork *work, int friendIndex)
     if (friendIndex != -1) {
         sex = WIFILIST_GetFriendInfoField(work->friendList, friendIndex, 9);
         WIFILIST_CopyFriendNameToStrbuf(work->friendList, friendIndex, (struct Strbuf *)work->rawText);
-        WORDSET_SetSlotTag(work->wordSet, 0, (struct Strbuf *)work->rawText, sex, 1, 2);
+        WORDSET_SetSlotTag(work->wordSet, 0, (struct Strbuf *)work->rawText, sex, 1, PM_LANG_ID);
     }
 }
 
@@ -1478,7 +1479,11 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     if (messageId) {
         WORDSET_SetSlotNumber(work->detailWordSet, 2, messageId, 2, 0, 1);
         WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 5), 4, 1, 1);
+#if PM_LANG_MONTH_AS_NAME
+        WORDSET_SetSlotMonth(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6));
+#else
         WORDSET_SetSlotNumber(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6), 2, 0, 1);
+#endif
         MSGDATA_ReadString((struct MsgBank *)work->msgBank, 44, (struct Strbuf *)work->rawText);
         WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 152, 96, work->shortText, work->textFont, 0x3c40);
@@ -4025,7 +4030,7 @@ void WIFICLUB_BuildOwnStatus(WifiClubWork *work, int kind, int value)
     u8 genderValue;
     profile = GAME_DATA_GetMyStatus(work->gameData);
     work->localStatus->iconKind = PM_VERSION_ID;
-    work->localStatus->visitorKind = 2;
+    work->localStatus->visitorKind = PM_LANG_ID;
     genderValue = (int)MYSTATUS_GetSex(profile);
     work->localStatus->gender = genderValue;
     work->localStatus->avatarStyle = MYSTATUS_GetTrainerView(profile);
@@ -7426,7 +7431,7 @@ void WIFICLUB_SetFriendNameWord(WifiClubWork *work, int friendIndex)
     if (friendIndex != -1) {
         gender = WIFILIST_GetFriendInfoField(work->friendList, friendIndex, 9);
         WIFILIST_CopyFriendNameToStrbuf(work->friendList, friendIndex, (struct Strbuf *)work->rawText);
-        WORDSET_SetSlotTag(work->detailWordSet, 0, (struct Strbuf *)work->rawText, gender, 1, 2);
+        WORDSET_SetSlotTag(work->detailWordSet, 0, (struct Strbuf *)work->rawText, gender, 1, PM_LANG_ID);
     }
 }
 

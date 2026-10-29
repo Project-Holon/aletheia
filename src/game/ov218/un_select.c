@@ -340,11 +340,16 @@ struct TextPrinter;
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/gfl_use.h"
-#ifdef __MWERKS__
-void UN_SELECT_DrawFrameListRow();
+#include "../version.h"
+/* The other languages print the row number one lower. */
+#if LANGUAGE == LANGUAGE_ENGLISH
+#define UN_SELECT_ROW_NUMBER_BIAS 0
 #else
-void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, struct GfFont *c, u32 d);
+#define UN_SELECT_ROW_NUMBER_BIAS 1
 #endif
+/* Row index of a frame list item; the enum type makes mwcc copy the stack argument into a local. */
+enum UnSelectRowIndex { UN_SELECT_ROW_FIRST };
+void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, struct GfFont *c, enum UnSelectRowIndex idx);
 void UN_SELECT_DrawMessage(char *p, u32 id);
 int UN_SELECT_UpdateMessage(char *p);
 struct FrameListParams;
@@ -669,41 +674,20 @@ void UN_SELECT_Main(char *p)
     TCBL_Main(((struct UnSelectRecord *)p)->tcbl);
 }
 
-#ifdef __MWERKS__
-void UN_SELECT_DrawFrameListRow(p, a, b, cd)
-    u8 *p;
-
- u8 *a;
-
- void *b;
-
- unsigned long long cd;
-
+void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, struct GfFont *c, enum UnSelectRowIndex idx)
 {
-    struct GfFont *c = (struct GfFont *)(u32)cd; u32 d = (u32)(cd >> 32);
+    struct Strbuf **items;
     u32 r = 12;
+    u32 d = idx;
     u32 t = 0x83 - d;
     MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank, (t == 2) ? 0xF0 : 0xED, ((struct UnSelectRecord *)p)->text);
-    WORDSET_SetSlotNumber(((struct UnSelectRecord *)p)->wordSet, 2, t, 3, 0, 1);
+    WORDSET_SetSlotNumber(((struct UnSelectRecord *)p)->wordSet, 2, t - UN_SELECT_ROW_NUMBER_BIAS, 3, 0, 1);
     WORDSET_CopyTaggedText(((struct UnSelectRecord *)p)->wordSet, ((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->text);
     TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, ((struct UnSelectRecord *)p)->taggedText, c, 0x39E0, 0);
-    p += 0x2C;
-    if (PRINTSYS_CountLine(*(struct Strbuf **)(p + d * 4)) > 1) r = 4;
-    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, *(struct Strbuf **)(p + d * 4), c, 0x39E0, 0);
+    items = (struct Strbuf **)((struct UnSelectRecord *)p)->itemText;
+    if (PRINTSYS_CountLine(items[d]) > 1) r = 4;
+    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, items[d], c, 0x39E0, 0);
 }
-#else
-void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, struct GfFont *c, u32 d)
-{
-    u32 r = 12;
-    u32 t = 0x83 - d;
-    MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank, (t == 2) ? 0xF0 : 0xED, ((struct UnSelectRecord *)p)->text);
-    WORDSET_SetSlotNumber(((struct UnSelectRecord *)p)->wordSet, 2, t, 3, 0, 1);
-    WORDSET_CopyTaggedText(((struct UnSelectRecord *)p)->wordSet, ((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->text);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, ((struct UnSelectRecord *)p)->taggedText, c, 0x39E0, 0);
-    if (PRINTSYS_CountLine(((struct UnSelectRecord *)p)->itemText[d]) > 1) r = 4;
-    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, ((struct UnSelectRecord *)p)->itemText[d], c, 0x39E0, 0);
-}
-#endif
 
 void UN_SELECT_DrawMessage(char *p, u32 id)
 {

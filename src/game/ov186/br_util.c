@@ -141,6 +141,14 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "br_types.h"
+#include "../version.h"
+
+/* Left edge of the country text on the profile screen. */
+#if LANGUAGE == LANGUAGE_GERMAN
+#define BR_PROFILE_COUNTRY_TEXT_X 5
+#else
+#define BR_PROFILE_COUNTRY_TEXT_X 8
+#endif
 
 struct Strbuf;
 
@@ -1266,7 +1274,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
-            WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(prof),1,2);
+            WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(prof),1,PM_LANG_ID);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
             STRBUF_Delete(msg);
@@ -1294,7 +1302,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             WORDSET_SetSlotFromMsgE7(words,0,v);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
-            BR_UTIL_SetTextLayout(p->win[i],8,1,0);
+            BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
             break;
             }
         case 4:
@@ -1308,7 +1316,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
-            BR_UTIL_SetTextLayout(p->win[i],8,1,0);
+            BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
             break;
             }
         case 6:
@@ -1319,7 +1327,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             if(msg) {
                 text=STRBUF_Clone(msg,heap);
                 STRBUF_Delete(msg);
-                BR_UTIL_SetTextLayout(p->win[i],8,1,0);
+                BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
             } else {
                 BrUtilPair c=d_02200B6C;
                 PMS_DRAW_SetNullColorPalette(p->pms,0);

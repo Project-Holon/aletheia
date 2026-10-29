@@ -2458,7 +2458,7 @@ void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData)
     MAIL_SetWriterName(mail, writerChars);
     MAIL_SetGender(mail, 1);
     MAIL_SetDesign(mail, 3);
-    MAIL_SetLanguage(mail, 2);
+    MAIL_SetLanguage(mail, PM_LANG_ID);
     MAIL_SetVersion(mail, PM_VERSION_ID);
     MAIL_SetMessage(mail, &d_02187DA4, 0);
     MAIL_SetMessage(mail, &d_02187DAC, 1);

@@ -1161,7 +1161,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(WorldtradeEntry *dst, WorldtradeWork *p)
     dst->trainerView = MYSTATUS_GetTrainerView(p->ctx->myStatus);
     dst->sex = MYSTATUS_GetSex(p->ctx->myStatus);
     dst->romCode = PM_VERSION_ID;
-    dst->language = 2;
+    dst->language = PM_LANG_ID;
     dst->greetingSet = WIFI_HISTORY_GetGreetingSet(p->ctx->wifiHistory);
     dst->visitedCountryCount = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->wifiHistory);
     dst->ratingLevel = WIFI_HISTORY_GetRatingLevel(p->ctx->wifiHistory);

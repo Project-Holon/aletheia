@@ -54,6 +54,7 @@
  *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   gSpeciesNameBank 0x020A7370 data
@@ -71,6 +72,25 @@
  *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
+
+#include "../version.h"
+
+/* Text and icon columns of the info page; Spanish and German print one pixel further right. */
+#if LANGUAGE == LANGUAGE_SPANISH || LANGUAGE == LANGUAGE_GERMAN
+#define P_STA_INFO_LABEL_X 0
+#define P_STA_INFO_VALUE_X 0x42
+#define P_STA_INFO_NEXT_LV_X 0x22
+#define P_STA_INFO_EXP_X 2
+#define P_STA_INFO_TYPE1_X 97
+#define P_STA_INFO_TYPE2_X 131
+#else
+#define P_STA_INFO_LABEL_X 1
+#define P_STA_INFO_VALUE_X 0x41
+#define P_STA_INFO_NEXT_LV_X 0x21
+#define P_STA_INFO_EXP_X 1
+#define P_STA_INFO_TYPE1_X 96
+#define P_STA_INFO_TYPE2_X 130
+#endif
 
 #include "p_status_types.h"
 
@@ -269,7 +289,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         CLACT_GetCharacterProxy(wk->typeChrRes[type1],(struct ImageProxy *)(&header1));
         CLACT_SetActorImageProxy(wk->typeIconActor[0],(struct ImageProxy *)(&header1));
         CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
-        offset.x=96;
+        offset.x=P_STA_INFO_TYPE1_X;
         offset.y=48;
         CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[0],(const struct ClactVec2 *)&offset,0);
         CLACT_SetActorDrawEnable(wk->typeIconActor[0],1);
@@ -278,7 +298,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
             CLACT_GetCharacterProxy(wk->typeChrRes[type2],(struct ImageProxy *)(&header2));
             CLACT_SetActorImageProxy(wk->typeIconActor[1],(struct ImageProxy *)(&header2));
             CLACT_SetActorPaletteOffset(wk->typeIconActor[1],APP_ICON_GetTypePaletteOffset((u8)type2),1);
-            offset.x=130;
+            offset.x=P_STA_INFO_TYPE2_X;
             offset.y=48;
             CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[1],(const struct ClactVec2 *)&offset,0);
             CLACT_SetActorDrawEnable(wk->typeIconActor[1],1);
@@ -335,28 +355,28 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
     u16 idNo;
     u32 species;
     if(wk->isEgg==0) {
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],8,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],8,P_STA_INFO_LABEL_X,1,0x3c40);
         dexWordSet=WORDSET_CreateDefault(wk->heapId);
         dexNo=POKE_TOOL_GetBoxValue(mon,5,0);
         color=0x440;
         if(wk->param->isNationalDex==0) dexNo=work->dexTable[dexNo];
         if(POKE_TOOL_IsBoxShiny(mon)==1) color=0xc80;
         if(dexNo==999) {
-            P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,0x16,0x41,1,color);
+            P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,0x16,P_STA_INFO_VALUE_X,1,color);
         } else {
             WORDSET_SetSlotNumber(dexWordSet,0,dexNo,3,2,1);
-            P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,9,0x41,1,color);
+            P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,9,P_STA_INFO_VALUE_X,1,color);
         }
         WORDSET_Delete(dexWordSet);
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,P_STA_INFO_LABEL_X,1,0x3c40);
         if(wk->isEgg==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); speciesName=MSGDATA_AllocString(gSpeciesNameBank,species);}
         else speciesName=MSGDATA_AllocString(gSpeciesNameBank,0x28a);
         bmp=BMP_WIN_GetBmp(work->win[STA_INFO_WIN_SPECIES]);
         color=0x440;
-        PRINTSYS_PrintQueColor(wk->printQue,bmp,0x41,1,speciesName,wk->font,color);
+        PRINTSYS_PrintQueColor(wk->printQue,bmp,P_STA_INFO_VALUE_X,1,speciesName,wk->font,color);
         STRBUF_Delete(speciesName);
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_TYPE],12,1,1,0x3c40);
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_TYPE],12,P_STA_INFO_LABEL_X,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,P_STA_INFO_LABEL_X,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=WORDSET_CreateDefault(wk->heapId);
 #ifdef __MWERKS__
@@ -371,15 +391,15 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
 #else
         POKE_TOOL_GetBoxValue(mon,0x8d,(uptr)otName);
 #endif
-        WORDSET_SetSlotTag(otWordSet,0,otName,0,1,2);
-        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
+        WORDSET_SetSlotTag(otWordSet,0,otName,0,1,PM_LANG_ID);
+        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,P_STA_INFO_VALUE_X,1,color);
         WORDSET_Delete(otWordSet);
         STRBUF_Delete(otName);
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,P_STA_INFO_LABEL_X,1,0x3c40);
         idWordSet=WORDSET_CreateDefault(wk->heapId);
         idNo=POKE_TOOL_GetBoxValue(mon,7,0);
         WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
-        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,0x41,1,0x440);
+        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,P_STA_INFO_VALUE_X,1,0x440);
         WORDSET_Delete(idWordSet);
         level=POKE_TOOL_GetBoxValue(mon,0x9e,0);
         exp=POKE_TOOL_GetBoxValue(mon,8,0);
@@ -391,16 +411,16 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         expThisLv=POKE_TOOL_GetExpForLevel((u16)species2,(u16)growthRate,(u16)level);
         expToNext=expNextLv-exp;
         if(level==100) expToNext=0;
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,P_STA_INFO_LABEL_X,1,0x3c40);
         expWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,1);
-        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,1,1,0x440);
+        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,P_STA_INFO_EXP_X,1,0x440);
         WORDSET_Delete(expWordSet);
-        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,1,1,0x3c40);
+        P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,P_STA_INFO_LABEL_X,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],20,1,1,0x440);
         toNextWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,1);
-        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,0x21,1,0x440);
+        P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,P_STA_INFO_NEXT_LV_X,1,0x440);
         WORDSET_Delete(toNextWordSet);
         if(level!=100) {
             tmpValue=expNextLv-expThisLv-expToNext;
@@ -561,14 +581,22 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     metPlaceStr = P_STA_INFO_GetPlaceName(wk, work, metPlace);
     WORDSET_SetSlotNumber(wordSet, 0, metYear, 2, 2, 1);
     bestStat = 0;
+#if PM_LANG_MONTH_AS_NAME
+    WORDSET_SetSlotMonth(wordSet, 1, metMonth);
+#else
     WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, 1);
+#endif
     WORDSET_SetSlotNumber(wordSet, 2, metDay, 2, bestStat, 1);
     WORDSET_SetSlotNumber(wordSet, 3, metLevel, 3, bestStat, 1);
-    WORDSET_SetSlotTag(wordSet, 4, metPlaceStr, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 4, metPlaceStr, 0, 1, PM_LANG_ID);
     WORDSET_SetSlotNumber(wordSet, 5, eggYear, 2, 2, 1);
+#if PM_LANG_MONTH_AS_NAME
+    WORDSET_SetSlotMonth(wordSet, 6, eggMonth);
+#else
     WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, 1);
+#endif
     WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, 1);
-    WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, PM_LANG_ID);
     msgStr = MSGDATA_AllocString(work->msgInfo, msgId);
     WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);

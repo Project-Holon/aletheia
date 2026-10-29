@@ -111,7 +111,10 @@ FNT_MAIN_ENTRY_SIZE = 8
 RESIDUE_COALESCE_GAP = 64  # merge residue runs closer together than this
 
 EXPECTED_GAMECODE = b"IRBO"
-KNOWN_GAMECODES = (b"IRBO", b"IRAO")      # Pokemon Black and Pokemon White (USA)
+try:
+    from targets import GAMECODES as KNOWN_GAMECODES   # every cartridge in tools/targets.py
+except ImportError:
+    KNOWN_GAMECODES = (b"IRBO", b"IRAO")  # Pokemon Black and Pokemon White (USA, Europe)
 
 # characters Windows refuses in a filename, plus the path separators
 _UNSAFE_RE = re.compile(rb'[\x00-\x1f<>:"/\\|?*]')
@@ -390,7 +393,7 @@ def cmd_extract(args):
     if gamecode not in KNOWN_GAMECODES:
         raise RomError(
             f"unexpected game code {gamecode!r}; expected one of "
-            f"{KNOWN_GAMECODES!r} (Pokemon Black or White, USA)"
+            f"{KNOWN_GAMECODES!r} (a cartridge listed in tools/targets.py)"
         )
     unit_code = rom[0x12]
     is_twl = bool(unit_code & 0x02)

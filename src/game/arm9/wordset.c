@@ -50,6 +50,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "gf_font_shared_types.h"
 
 struct MsgBank;
@@ -126,7 +127,7 @@ void WORDSET_SetSlotMonSpeciesName(struct WordSet *words, u32 slot, void *mon);
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon);
 
-void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u16 entryIndex);
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon);
 
@@ -446,7 +447,8 @@ void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon)
     WORDSET_SetSlotSpeciesName(words, slot, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
-void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u32 entryIndex)
+#if LANGUAGE == LANGUAGE_ENGLISH
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u16 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0x119, entryIndex);
 }
@@ -455,6 +457,18 @@ void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
 {
     WORDSET_SetSlotFromMsg119(words, slot, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
+#else
+/* Outside English the species-name bank is read directly. */
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u16 entryIndex)
+{
+    WORDSET_SetSlotSpeciesName(words, slot, entryIndex);
+}
+
+void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
+{
+    WORDSET_SetSlotMonSpeciesName(words, slot, mon);
+}
+#endif
 
 void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon)
 {
@@ -480,7 +494,11 @@ void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex)
 
 void WORDSET_SetSlotFromMsg117(struct WordSet *words, u32 slot, u32 entryIndex)
 {
+#if LANGUAGE == LANGUAGE_ENGLISH
     WORDSET_SetSlotFromMessage(words, slot, 0x117, entryIndex);
+#else
+    WORDSET_SetSlotFromMsg36(words, slot, entryIndex);
+#endif
 }
 
 void WORDSET_SetSlotFromMsg118(struct WordSet *words, u32 slot, u32 entryIndex)
@@ -682,7 +700,11 @@ void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId)
 
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex)
 {
+#if LANGUAGE == LANGUAGE_ENGLISH
     WORDSET_SetSlotFromMessage(words, slot, 0x11B, entryIndex);
+#else
+    WORDSET_SetSlotFromMsgBF(words, slot, entryIndex);
+#endif
 }
 
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex)

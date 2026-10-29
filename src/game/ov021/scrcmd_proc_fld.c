@@ -571,6 +571,7 @@ struct MovePokemonSave;
 
 #include "../ov010/move_pokemon.h"
 #include "../sdk_ioreg.h"
+#include "../version.h"
 
 int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -1646,10 +1647,14 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     struct Strbuf *messageText;
     struct BmpWin *window;
 
+#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_SPANISH
     if (messageId == 9 && plural != 0)
         isPlural = 1;
     else
         isPlural = 0;
+#else
+    isPlural = 0;
+#endif
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(shop->windows[SHOP_WIN_MESSAGE])), 0xf);
     BMP_MENUWORK_DrawWindow(shop->windows[SHOP_WIN_MESSAGE], 0, 0xe4, 9);
     WORDSET_SetSlotFromBank(shop->wordSet, 0, itemId, isPlural, 0);
@@ -1721,8 +1726,18 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
  */
 void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u32 price, u16 quantity)
 {
+    u32 isPlural;
+
+#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_GERMAN
+    if (messageId == 5 && quantity > 1)
+        isPlural = 1;
+    else
+        isPlural = 0;
+#else
+    isPlural = 0;
+#endif
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
-    WORDSET_SetSlotFromBank(shop->wordSet, 0, itemId, 0, 0);
+    WORDSET_SetSlotFromBank(shop->wordSet, 0, itemId, isPlural, 0);
     WORDSET_SetSlotNumber(shop->wordSet, 1, quantity, 2, 0, 1);
     WORDSET_SetSlotNumber(shop->wordSet, 2, quantity * price, 7, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);

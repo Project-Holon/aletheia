@@ -1127,7 +1127,7 @@ int SCRCMD_POKEMON_FLD_RegisterStoredName(struct ScriptVm *vm, struct ScrcmdWork
         emptyName[0] = STRBUF_GetEosChar();
         STRBUF_SetString(tempBuffer, emptyName);
     }
-    WORDSET_SetSlotTag(wordSet, wordSetIndex, tempBuffer, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, wordSetIndex, tempBuffer, 0, 1, PM_LANG_ID);
     return 0;
 }
 
@@ -1324,7 +1324,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(struct ScriptVm *vm, struct ScrcmdW
     wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(work));
     text = STRBUF_Create(8, 0x8001);
     STRBUF_SetString(text, (const u16 *)entryText);
-    WORDSET_SetSlotTag((struct WordSet *)wordSet, wordSetIndex, text, flags, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)wordSet, wordSetIndex, text, flags, 1, PM_LANG_ID);
     STRBUF_Delete(text);
     return 0;
 }

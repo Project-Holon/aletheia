@@ -68,6 +68,7 @@
 #include "pms_input_view_shared_types.h"
 #include "pmsi_search_shared_types.h"
 #include "../types.h"
+#include "../version.h"
 #include "../ov067/msgsearch_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 
@@ -75,7 +76,17 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 #define PMSI_SEARCH_OTHER_INITIAL 26
 #define PMSI_SEARCH_INPUT_MAX 13
 #define PMSI_SEARCH_KEY_NONE 255
+
+/* Words in the search index differ per language, so the result list is sized per language. */
+#if LANGUAGE == LANGUAGE_FRENCH
+#define PMSI_SEARCH_RESULT_MAX 196
+#elif LANGUAGE == LANGUAGE_GERMAN || LANGUAGE == LANGUAGE_ITALIAN
+#define PMSI_SEARCH_RESULT_MAX 235
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define PMSI_SEARCH_RESULT_MAX 175
+#else
 #define PMSI_SEARCH_RESULT_MAX 264
+#endif
 
 struct PmsInputData;
 
@@ -89,7 +100,7 @@ struct PmsiSearch {
         u32 initial;
         u32 wordIndex;
     } results[PMSI_SEARCH_RESULT_MAX];
-    u16 wordIds[266];
+    u16 wordIds[PMSI_SEARCH_RESULT_MAX + 1];
     struct U16Vec *inputText;
     u16 inputKeys[PMSI_SEARCH_INPUT_MAX];
     u16 reserved;
@@ -221,8 +232,8 @@ void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out)
  */
 int PMSI_SEARCH_Run(struct PmsiSearch *s)
 {
-    u16 specialWords[265];
-    u16 normalWords[265];
+    u16 specialWords[PMSI_SEARCH_RESULT_MAX + 1];
+    u16 normalWords[PMSI_SEARCH_RESULT_MAX + 1];
     u32 matchCount, initialId;
     unsigned i, specialCount, isExcluded;
     u32 wordValue;

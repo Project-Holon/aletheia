@@ -300,6 +300,7 @@ struct BmpOamSys;
 struct BmpOamParam;
 struct ButtonMan;
 #include "../types.h"
+#include "../version.h"
 #include "../ov183/br_codein_rec.h"
 
 typedef struct {char pad[0x4c];char saved[0x18];int count;void *ptr;} CodeinWindowState;
@@ -1280,7 +1281,7 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,struct BrProcArg
                 text=STRBUF_Create(128,work->heapId);
                 name=GDS_PROFILE_CreateNameStr(work->recData,work->heapId);
                 message=MSGDATA_AllocString(bank,d->message);
-                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag((RecGet *)work->recData),1,2);
+                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag((RecGet *)work->recData),1,PM_LANG_ID);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 BR_UTIL_SetTextLayout(work->profileText[i],0,1,0);
@@ -4761,7 +4762,7 @@ void BR_CODEIN_SaveSetupText(struct CodeinSaveWork *work,const struct BrProcArgR
     base=input->rec;
     index=input->mode;
     WORDSET_SetSlotTag(ws,0,input->rec->name[index],
-        base->eggFlag[index],1,2);
+        base->eggFlag[index],1,PM_LANG_ID);
     WORDSET_CopyTaggedText(ws,expanded,str);
     BR_UTIL_SetWindowTextBuf((char *)(work->textWin),(void *)input->res,(void *)expanded);
     STRBUF_Delete((struct Strbuf *)expanded); STRBUF_Delete((struct Strbuf *)str);
@@ -5134,7 +5135,7 @@ void BR_CODEIN_SoclSetupText(struct CodeinSoclWork *work, struct BrProcArgResult
   index = work->selectedIndex;
   index = index * 4;
   base = (uptr)argRec->rec;
-  WORDSET_SetSlotTag(a, 0, (struct Strbuf *)((struct BrProcRecords *)((base + index) + index * (sizeof(void *) / 4 - 1)))->name[1], ((struct BrProcRecords *)(((char *) base) + index))->eggFlag[1], 1, 2);
+  WORDSET_SetSlotTag(a, 0, (struct Strbuf *)((struct BrProcRecords *)((base + index) + index * (sizeof(void *) / 4 - 1)))->name[1], ((struct BrProcRecords *)(((char *) base) + index))->eggFlag[1], 1, PM_LANG_ID);
   WORDSET_CopyTaggedText(a, b, s);
   BR_UTIL_SetWindowTextBuf(work->textWin, argRec->res, b);
   STRBUF_Delete((struct Strbuf *)b);

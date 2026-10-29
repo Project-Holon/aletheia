@@ -242,6 +242,25 @@ struct Arg;
 #include "../arm9/bmp_menu.h"
 #include "../arm9/bmp_menulist.h"
 #include "../types.h"
+#include "../version.h"
+
+/* The globe starts turned toward the cartridge's home region. */
+#if LANGUAGE == LANGUAGE_FRENCH
+#define BEACON_DETAIL_START_ANGLE_X 0x2300
+#define BEACON_DETAIL_START_ANGLE_Y 0x3100
+#elif LANGUAGE == LANGUAGE_GERMAN
+#define BEACON_DETAIL_START_ANGLE_X 0x2580
+#define BEACON_DETAIL_START_ANGLE_Y 0x2A00
+#elif LANGUAGE == LANGUAGE_ITALIAN
+#define BEACON_DETAIL_START_ANGLE_X 0x1DE0
+#define BEACON_DETAIL_START_ANGLE_Y 0x2A00
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define BEACON_DETAIL_START_ANGLE_X 0x1CA0
+#define BEACON_DETAIL_START_ANGLE_Y 0x35E0
+#else
+#define BEACON_DETAIL_START_ANGLE_X 0x1A40
+#define BEACON_DETAIL_START_ANGLE_Y 0x7C00
+#endif
 
 union MtxFx33;
 union TouchHitTable;
@@ -1846,8 +1865,8 @@ void BEACON_DETAIL_Init3DParams(u8 *p)
     ((BeaconDetailWork *)p)->light1.x = 0x1000;
     ((BeaconDetailWork *)p)->light1.y = 0x1000;
     ((BeaconDetailWork *)p)->light1.z = 0x1000;
-    ((BeaconDetailWork *)p)->angleX = 0x1A40;
-    ((BeaconDetailWork *)p)->angleY = 0x7C00;
+    ((BeaconDetailWork *)p)->angleX = BEACON_DETAIL_START_ANGLE_X;
+    ((BeaconDetailWork *)p)->angleY = BEACON_DETAIL_START_ANGLE_Y;
     ((BeaconDetailWork *)p)->angleZ = 0;
     ((BeaconDetailWork *)p)->light2.x = 0x1000;
     ((BeaconDetailWork *)p)->light2.y = 0x1000;
@@ -1879,8 +1898,10 @@ void BEACON_DETAIL_SetupCamera(char *p)
     G3D_CAMERA_SetFar(((BeaconDetailWork *)p)->camera, &b);
     if (((BeaconDetailWork *)p)->viewMode == 0)
         ((BeaconDetailWork *)p)->zoomMode = 1;
+#if LANGUAGE == LANGUAGE_ENGLISH
     else if (((BeaconDetailWork *)p)->nation == 0)
         ((BeaconDetailWork *)p)->zoomMode = 0;
+#endif
     else if (((BeaconDetailWork *)p)->nation == 0xdc)
         ((BeaconDetailWork *)p)->zoomMode = 0;
     else

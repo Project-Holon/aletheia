@@ -215,6 +215,16 @@ typedef struct {u8 b[14];} Motion;
 typedef struct {u8 b[5];} Files;
 
 #include "../types.h"
+#include "../version.h"
+
+/* Position and width of the task result window; the German labels are wider. */
+#if LANGUAGE == LANGUAGE_GERMAN
+#define PSEL_TASKRES_WIN_X 5
+#define PSEL_TASKRES_WIN_WIDTH 22
+#else
+#define PSEL_TASKRES_WIN_X 9
+#define PSEL_TASKRES_WIN_WIDTH 14
+#endif
 
 typedef struct PselVec2 { s16 x, y; } PselVec2;
 
@@ -1341,7 +1351,7 @@ void PSEL_ShowTaskRes(char *p)
     item.text = MSGDATA_AllocString(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 21);
     item.color = 0x39E3;
     item.value = 0;
-    ((struct PselWork *)p)->win = (void *)APP_TASKMENU_WIN_Create(*(struct TaskMenuRes **)&((struct PselWork *)p)->taskRes, (struct TaskMenuItem *)&item, 9, 21, 14, ((struct PselWork *)p)->heapId);
+    ((struct PselWork *)p)->win = (void *)APP_TASKMENU_WIN_Create(*(struct TaskMenuRes **)&((struct PselWork *)p)->taskRes, (struct TaskMenuItem *)&item, PSEL_TASKRES_WIN_X, 21, PSEL_TASKRES_WIN_WIDTH, ((struct PselWork *)p)->heapId);
     STRBUF_Delete(item.text);
 }
 

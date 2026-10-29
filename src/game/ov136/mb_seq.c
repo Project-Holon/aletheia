@@ -257,6 +257,7 @@
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb  arm9
  */
 #include "mail_types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "../ov091/pokelist_types.h"
 #include "mailview_shared_types.h"
@@ -1201,7 +1202,7 @@ void MB_SEQ_SetWriterWord(struct MailBoxProc *p, u32 unused)
     MAIL_GetWriterName(mail);
     STRBUF_SetString(text, MAIL_GetWriterName(mail));
     n = MAIL_GetGender(mail);
-    WORDSET_SetSlotTag(p->view->wordSet, 0, text, n, 1, 2);
+    WORDSET_SetSlotTag(p->view->wordSet, 0, text, n, 1, PM_LANG_ID);
     STRBUF_Delete(text);
 }
 

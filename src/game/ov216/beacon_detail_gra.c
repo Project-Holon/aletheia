@@ -245,6 +245,27 @@ struct BeaconDetailGraTransfer;
 struct Bmp;
 struct TcblTask;
 struct Tcbl;
+#include "../version.h"
+
+/* The play time line of a slot: its first tile column and width in tiles differ per language. */
+#if LANGUAGE == LANGUAGE_SPANISH
+#define BEACON_DETAIL_PLAYTIME_TILE_X 7
+#define BEACON_DETAIL_PLAYTIME_WIDTH 12
+#elif LANGUAGE == LANGUAGE_FRENCH
+#define BEACON_DETAIL_PLAYTIME_TILE_X 10
+#define BEACON_DETAIL_PLAYTIME_WIDTH 9
+#elif LANGUAGE == LANGUAGE_GERMAN
+#define BEACON_DETAIL_PLAYTIME_TILE_X 9
+#define BEACON_DETAIL_PLAYTIME_WIDTH 10
+#elif LANGUAGE == LANGUAGE_ITALIAN
+#define BEACON_DETAIL_PLAYTIME_TILE_X 12
+#define BEACON_DETAIL_PLAYTIME_WIDTH 7
+#else
+#define BEACON_DETAIL_PLAYTIME_TILE_X 6
+#define BEACON_DETAIL_PLAYTIME_WIDTH 13
+#endif
+#define BEACON_DETAIL_PLAYTIME_TEXT_X (BEACON_DETAIL_PLAYTIME_TILE_X * 8)
+
 #include "../arm9/arc_tool.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/arc_util.h"
@@ -1413,7 +1434,7 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,2,counts.b,3,0,1);
     WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,3,counts.a,2,2,1);
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,6);
-    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->win[3]),((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,1);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->win[3]),((struct BeaconDetailGraWork *)p)->textBuf2,BEACON_DETAIL_PLAYTIME_TILE_X,BEACON_DETAIL_PLAYTIME_TEXT_X,BEACON_DETAIL_PLAYTIME_WIDTH,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,value);
     WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,value,GAME_BEACON_ACCESSOR_GetArea(record));

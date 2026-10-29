@@ -46,10 +46,13 @@ unit per line, so the file changes only when a figure changes.
 
 usage
     python tools/progress_report.py [--out progress/report.json] [--jobs N]
-                                    [--no-relink] [--check] [--version white]
+                                    [--no-relink] [--check] [--version white | --target T]
 
 --version white writes progress/report_white.json: the same units, with White addresses and
 the White verdicts of layout/matched_white (tools/whitetrack.py; see white_report).
+--target black and --target white are the same as --version black and --version white.  A language
+target (black_fr ...) has no report yet: its tracking (layout/matched_<t>) comes with the language
+sites in src/game, and the tool says so instead of writing a report.
 
 By default linkstats is run first (it relinks only regions whose sources
 changed; build/linkstats/cache.json).  --no-relink uses the cache as it is.
@@ -393,7 +396,13 @@ def main(argv=None):
     ap.add_argument("--check", action="store_true", help="exit 1 if --out is out of date")
     ap.add_argument("--version", choices=("black", "white"), default="black",
                     help="white: figures for the White build (progress/report_white.json)")
+    ap.add_argument("--target", default=None, help="black or white (same as --version); language targets: not yet")
     a = ap.parse_args(argv)
+    if a.target:
+        if a.target not in ("black", "white"):
+            print("no report for target %r yet: the Black and White reports are the only ones" % a.target, file=sys.stderr)
+            return 2
+        a.version = a.target
     if a.version == "white" and a.out == DEFAULT_OUT:
         a.out = os.path.join(ROOT, "progress", "report_white.json")
     report = build(refresh(a.jobs, not a.no_relink), a.jobs)

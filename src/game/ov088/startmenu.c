@@ -424,6 +424,19 @@ struct Rec3;
 extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutsideWork *p);
 extern void SAVE_OUTSIDE_CopyPayload(struct SaveOutsideWork *p, void *ctrl);
 #include "../types.h"
+#include "../version.h"
+
+/* Width and left edge of a menu row in tiles; the longer Spanish and German labels need more. */
+#if LANGUAGE == LANGUAGE_GERMAN
+#define STARTMENU_ROW_TILES 0x1d
+#define STARTMENU_ROW_TILE_X 2
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define STARTMENU_ROW_TILES 0x1b
+#define STARTMENU_ROW_TILE_X 3
+#else
+#define STARTMENU_ROW_TILES 0x1a
+#define STARTMENU_ROW_TILE_X 3
+#endif
 
 struct SaveOutsideWork;
 struct VecFx32;
@@ -2323,7 +2336,7 @@ void STARTMENU_CreateFrameManager(StartMenuWork *work)
 
     work->frameManager = BGWINFRM_Create(0, 8, 0xb);
     for (i = 0; i < 8; i++)
-        BGWINFRM_AddFrame(work->frameManager, i, 1, 0x1a, gStartMenuRowInfo[i].height);
+        BGWINFRM_AddFrame(work->frameManager, i, 1, STARTMENU_ROW_TILES, gStartMenuRowInfo[i].height);
     BGWINFRM_PutBmpWin(work->frameManager, 0, work->windows[0].window);
     BGWINFRM_PutBmpWin(work->frameManager, 0, work->windows[1].window);
     BGWINFRM_PutBmpWin(work->frameManager, 0, work->windows[2].window);
@@ -2389,7 +2402,7 @@ void STARTMENU_LoadRowBuffers(StartMenuWork *work)
     void *archive = ARC_TOOL_CreateHandle(0x23, 0x800B);
     u32 i;
     for (i = 0; i < 8; i++) {
-        u32 rowBytes = gStartMenuRowInfo[i].height * 0x34;
+        u32 rowBytes = gStartMenuRowInfo[i].height * (STARTMENU_ROW_TILES * 2);
         void *fileData;
         void *fileHandle;
         work->rowBuffers[i] = (void *)GFL_HEAP_Alloc(0xb, rowBytes, 0, d_021BDA00, 0x7e9);
@@ -2476,9 +2489,9 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
     u8 tileYByte = tileY;
     u16 rowHeight = gStartMenuRowInfo[rowId].height;
     void *frameBuffer;
-    BG_SYS_DrawTileEx(2, 3, tileYByte, 0x1a, rowHeight, (work->rowBuffers[rowId]), 0, 0, 0x1a, rowHeight);
+    BG_SYS_DrawTileEx(2, STARTMENU_ROW_TILE_X, tileYByte, STARTMENU_ROW_TILES, rowHeight, (work->rowBuffers[rowId]), 0, 0, STARTMENU_ROW_TILES, rowHeight);
     frameBuffer = BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
-    BG_SYS_DrawTileEx(1, 3, tileYByte, 0x1a, rowHeight, (frameBuffer), 0, 0, 0x1a, rowHeight);
+    BG_SYS_DrawTileEx(1, STARTMENU_ROW_TILE_X, tileYByte, STARTMENU_ROW_TILES, rowHeight, (frameBuffer), 0, 0, STARTMENU_ROW_TILES, rowHeight);
     BG_SYS_MarkTileDirty(1);
     BG_SYS_MarkTileDirty(2);
 }
@@ -2489,7 +2502,7 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
  */
 void STARTMENU_PaintRowPalette(StartMenuWork *work, u8 row, int tileY, int palette)
 {
-    BG_SYS_FillTileMap(2, 3, tileY, 0x1a, gStartMenuRowInfo[row].height, palette);
+    BG_SYS_FillTileMap(2, STARTMENU_ROW_TILE_X, tileY, STARTMENU_ROW_TILES, gStartMenuRowInfo[row].height, palette);
     BG_SYS_MarkTileDirty(2);
 }
 

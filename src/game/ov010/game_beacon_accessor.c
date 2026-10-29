@@ -754,6 +754,7 @@ enum BeaconPrintKind {
 };
 
 #include "../arm9/wordset.h"
+#include "../version.h"
 
 
 
@@ -825,7 +826,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
     if (buf == 0)
         return;
     GAME_BEACON_ACCESSOR_GetPlayerName(info, buf);
-    WORDSET_SetSlotTag(wordSet, 0, buf, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, buf, 0, 1, PM_LANG_ID);
     printKind = GAME_BEACON_ACCESSOR_GetActionCheckIndex(GAME_BEACON_ACCESSOR_GetActionNo(info));
     switch (printKind) {
     case BEACON_PRINT_TRAINER_NO:
@@ -840,7 +841,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
             break;
     case BEACON_PRINT_NICKNAME:
         GAME_BEACON_ACCESSOR_GetNickname(info, buf);
-        WORDSET_SetSlotTag(wordSet, 2, buf, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, 2, buf, 0, 1, PM_LANG_ID);
         break;
     case BEACON_PRINT_ITEM_NO:
         WORDSET_SetSlotFromMsg117(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
@@ -871,7 +872,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         break;
     case BEACON_PRINT_FREE_TEXT:
         GAME_BEACON_ACCESSOR_GetFreeText((const GameBeaconInfo *)info, (struct Strbuf *)buf);
-        WORDSET_SetSlotTag(wordSet, 1, buf, GAME_BEACON_ACCESSOR_GetSex(info), 1, 2);
+        WORDSET_SetSlotTag(wordSet, 1, buf, GAME_BEACON_ACCESSOR_GetSex(info), 1, PM_LANG_ID);
         break;
     case BEACON_PRINT_NONE:
         break;

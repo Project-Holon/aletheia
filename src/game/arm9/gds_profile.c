@@ -46,6 +46,15 @@
  *   NATION_AREA_SanitizeArea  0x02025C30  thumb
  */
 #include "../version.h"
+
+/* The sentence a record with an unusable greeting is replaced by (type and id in the sentence table). */
+#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_SPANISH
+#define GDS_NOTICE_SENTENCE_TYPE 0
+#define GDS_NOTICE_SENTENCE_ID 1
+#else
+#define GDS_NOTICE_SENTENCE_TYPE 4
+#define GDS_NOTICE_SENTENCE_ID 0
+#endif
 struct GameSys;
 struct ProgressBlock;
 struct MyStatus;
@@ -366,7 +375,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     profile->birthMonth = info.birthday.month;
     profile->trainerSprite = MYSTATUS_GetTrainerView(trainerRec);
     profile->gameVersion = PM_VERSION_ID;
-    profile->language = 2;
+    profile->language = PM_LANG_ID;
     profile->checksum = GF_STANDARD_CalcCrc16((const u8 *)profile, 0x7C);
 }
 
@@ -521,8 +530,8 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u
         }
     chk:
         if (n > 0) {
-            PMSI_PARAM_InitSentence((struct PmsData *)out, 4);
-            out->word02 = 0;
+            PMSI_PARAM_InitSentence((struct PmsData *)out, GDS_NOTICE_SENTENCE_TYPE);
+            out->word02 = GDS_NOTICE_SENTENCE_ID;
             out->word04 = PMS_WORD_MakeWordId(0x95, 0x1D);
             out->word06 = 0xFFFF;
         }
@@ -569,7 +578,7 @@ u32 GDS_PROFILE_GetLanguage(struct GdsProfileRaw *p)
     case 8:
         return v;
     }
-    return 2;
+    return PM_LANG_ID;
 }
 
 /*

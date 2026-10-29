@@ -108,6 +108,7 @@
  *   d_021DF99C 0x021DF99C data a4
  *   STRBUF_SetStringN 0x02045994 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -208,6 +209,14 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
+#include "../version.h"
+
+/* French, Italian and German print the month as a word; the others print its number. */
+#if PM_LANG_MONTH_AS_NAME
+#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotMonth(words, slot, month)
+#else
+#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotNumber(words, slot, month, 2, 0, 1)
+#endif
 #include "../arm9/item.h"
 #include "../arm9/move.h"
 #include "../sdk_ioreg.h"
@@ -1432,7 +1441,7 @@ void MYSTERY_ALBUM_SetupEntry(MysteryAlbumEntry *out,const MysteryAlbumCard *src
         text=STRBUF_Create(128,heap);
         other=MSGDATA_AllocString(p->msgBank,151);
         WORDSET_SetSlotNumber(p->wordSet,0,(u16)(flags>>16),4,1,1);
-        WORDSET_SetSlotNumber(p->wordSet,1,(u8)(flags>>8),2,0,1);
+        MYSTERY_ALBUM_SET_MONTH(p->wordSet,1,(u8)(flags>>8));
         WORDSET_SetSlotNumber(p->wordSet,2,(u8)flags,2,0,1);
         WORDSET_CopyTaggedText(p->wordSet,text,other);
         x=40;
@@ -2158,7 +2167,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, M
     t4 = MSGDATA_AllocString(slotWork->desc.msgBank, 0x9a);
     res = 0;
     WORDSET_SetSlotNumber(slotWork->desc.wordSet, 0, (u16)(flags >> 16), 4, 1, 1);
-    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 1, (u8)(flags >> 8), 2, 0, 1);
+    MYSTERY_ALBUM_SET_MONTH(slotWork->desc.wordSet, 1, (u8)(flags >> 8));
     WORDSET_SetSlotNumber(slotWork->desc.wordSet, 2, (u8)flags, 2, 0, 1);
     WORDSET_CopyTaggedText(slotWork->desc.wordSet, desc.e[4].str.stringPtr, t4);
     out->bmpList = MYSTERY_UTIL_CreateBmpList((char *)slotWork->windowList, heap);

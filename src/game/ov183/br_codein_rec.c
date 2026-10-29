@@ -48,6 +48,7 @@ struct MsgBank;
 struct WordSet;
 struct BattleRecSave;
 #include "../types.h"
+#include "../version.h"
 
 #include "../ov186/br_proc_sys.h"
 #include "../ov186/br_util.h"
@@ -111,7 +112,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct BrProcArgRes
         offset=(i+1)*4;
         if(*(unsigned *)((char *)arg->rec->present+offset)) {
             MSGDATA_ReadString((struct MsgBank *)c,0x1a,s);
-            WORDSET_SetSlotTag((struct WordSet *)a,0,((struct BrProcRecords *)((char *)arg->rec+offset*(sizeof(void *)/4)))->name[0],((struct BrProcRecords *)((char *)arg->rec+offset))->eggFlag[0],1,2);
+            WORDSET_SetSlotTag((struct WordSet *)a,0,((struct BrProcRecords *)((char *)arg->rec+offset*(sizeof(void *)/4)))->name[0],((struct BrProcRecords *)((char *)arg->rec+offset))->eggFlag[0],1,PM_LANG_ID);
             WORDSET_CopyTaggedText((struct WordSet *)a,(struct Strbuf *)b,(struct Strbuf *)s);
         }else MSGDATA_ReadString((struct MsgBank *)c,9,(struct Strbuf *)b);
         menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->unit,menu->oamSys,(void *)h,&t,menu->heapId);
@@ -123,7 +124,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct BrProcArgRes
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((menu->heapId&0x7fff)|0x8000));
     if(!menu->textWin) menu->textWin=BR_UTIL_CreateTextWin(arg->res,menu->printQue,menu->heapId);
     MSGDATA_ReadString((struct MsgBank *)c,0x5c,s);
-    WORDSET_SetSlotTag(a,0,(struct Strbuf *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
+    WORDSET_SetSlotTag(a,0,(struct Strbuf *)tmp,GDS_PROFILE_GetEggFlag(owner),1,PM_LANG_ID);
     WORDSET_CopyTaggedText(a,b,s);
     BR_UTIL_SetWindowTextBuf(menu->textWin,arg->res,b);
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);

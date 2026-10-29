@@ -122,6 +122,7 @@
  *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "wifibattlematch_graphic_shared_types.h"
 #include "../sdk_ioreg.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -1230,10 +1231,18 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
             WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+#if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+#else
+            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, 1);
+#endif
             WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
             WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+#if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+#else
+            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, 1);
+#endif
             WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
@@ -1314,10 +1323,18 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const Wifi
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
             WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+#if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+#else
+            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, 1);
+#endif
             WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
             WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+#if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+#else
+            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, 1);
+#endif
             WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;

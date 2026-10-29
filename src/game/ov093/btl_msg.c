@@ -69,6 +69,7 @@
 #include "../sdk_stdarg.h"
 
 #include "../types.h"
+#include "../version.h"
 
 struct BtlMain;
 
@@ -297,7 +298,7 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
                     WORDSET_SetSlotFromMsgBE(wordSet, slot, trainerId);
             } else {
                 trainerData = BTL_MAIN_GetTrainerNameAndType((struct BtlMain *)gBtlMsgState.battle, clientId, &trainerClass);
-                WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
+                WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, PM_LANG_ID);
             }
         } else {
             WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_GetTrainerHandle((struct BtlMain *)gBtlMsgState.battle, clientId));

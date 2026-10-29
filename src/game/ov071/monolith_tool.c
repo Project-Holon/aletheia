@@ -286,6 +286,7 @@ struct Rec1B0;
 #include "../arm9/msgdata.h"
 #include "../sdk_ioreg.h"
 #include "../types.h"
+#include "../version.h"
 
 struct PaletteFadeWork;
 #include "../arm9/bmp_oam.h"
@@ -1910,7 +1911,7 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
         species = MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(name, MYSTATUS_GetName((const void *)species), 8);
-        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex(species), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex(species), 1, PM_LANG_ID);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);

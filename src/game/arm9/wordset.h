@@ -20,7 +20,7 @@ void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32
 void WORDSET_SetSlotSpeciesName(struct WordSet *words, u32 slot, u16 speciesId);
 void WORDSET_SetSlotMonSpeciesName(struct WordSet *words, u32 slot, void *mon);
 void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon);
-void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u16 entryIndex);
 void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon);
 void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon);
 void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, u32 slot, void *mon);

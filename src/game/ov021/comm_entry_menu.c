@@ -491,6 +491,7 @@ struct MsgBank;
 #include "../arm9/net_command.h"
 #include "../arm9/config.h"
 #include "../arm9/os_ownerinfo.h"
+#include "../version.h"
 struct GFLNetHandle;
 
 CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac);
@@ -2048,8 +2049,8 @@ void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu)
             WORDSET_CopyTaggedText(menu->wordSet, line, nameFormat);
         } else {
             STRBUF_SetString(emptyStr, &emptyChar);
-            WORDSET_SetSlotTag(menu->wordSet, 1, emptyStr, 0, 1, 2);
-            WORDSET_SetSlotTag(menu->wordSet, 2, emptyStr, 0, 1, 2);
+            WORDSET_SetSlotTag(menu->wordSet, 1, emptyStr, 0, 1, PM_LANG_ID);
+            WORDSET_SetSlotTag(menu->wordSet, 2, emptyStr, 0, 1, PM_LANG_ID);
             WORDSET_CopyTaggedText(menu->wordSet, line, emptyFormat);
         }
         FIELD_MSGBG_AddMenuItemStr(menu->parentList.items, line, i, menu->heapId);

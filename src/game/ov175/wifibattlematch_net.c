@@ -4278,7 +4278,7 @@ int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(struct WifiBattleMatchNetCtx *ctx)
 }
 
 /*
- * Sets up a matchmaking attempt: closes any connection, publishes the eight match keys (player count, group, 1, four record words, version 0x20015), formats the filter string and picks the evaluation callback for the mode (1 asserts).
+ * Sets up a matchmaking attempt: closes any connection, publishes the eight match keys (player count, group, 1, four record words, version and language), formats the filter string and picks the evaluation callback for the mode (1 asserts).
  */
 void WIFIBATTLEMATCH_NET_SetMatchKey(struct WifiBattleMatchNetCtx *obj, int mode, int extra, int group, int *rec)
 {
@@ -4296,7 +4296,7 @@ void WIFIBATTLEMATCH_NET_SetMatchKey(struct WifiBattleMatchNetCtx *obj, int mode
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 5, rec[1]);
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 4, rec[2]);
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 6, rec[3]);
-    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 7, 0x20000 | PM_VERSION_ID);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 7, PM_LANG_VERSION_KEY);
     STD_TSPrintf(obj->filter, d_021E2EFC, count, group, 1);
     obj->mmState = 0;
     obj->pollCount = 0;

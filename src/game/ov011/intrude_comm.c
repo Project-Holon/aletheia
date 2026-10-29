@@ -3483,7 +3483,7 @@ void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const 
 
     buffer = (struct STRBUF *)STRBUF_Create(size, heapId);
     STRBUF_SetStringN((struct Strbuf *)buffer, chars->chars, size);
-    WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)buffer, gender, 1, 2);
+    WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)buffer, gender, 1, PM_LANG_ID);
     STRBUF_Delete((struct Strbuf *)buffer);
 }
 

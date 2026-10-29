@@ -18,8 +18,10 @@ gamelink.py knows overlays, `itcm` and `arm9_main`; this module adds the region
 `twl` to its region table (overlay_info, SRC_DIR) without editing gamelink.py.
 
 usage
-    python tools/twllink.py [--version=white] [--image-gaps]
-Output is in build/gamelink/twl/ (White: build/gamelink/twl_white/).
+    python tools/twllink.py [--target=NAME | --version=white] [--image-gaps]
+Output is in build/gamelink/twl/ (other targets: build/gamelink/twl_<t>/, tools/targets.py).
+The block is the same code in every target; its extract is extract_<t>/ and a few words
+(relocations) differ, which the link takes from the target's address map (tools/white_map.py).
 """
 
 from __future__ import annotations
@@ -32,15 +34,27 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import gamelink         # noqa: E402
+import targets          # noqa: E402
 
 REGION = "twl"
 
 
+def tname(t):
+    """A target name; True means White and False Black (the older boolean argument)."""
+    if t is True:
+        return "white"
+    if not t:
+        return "black"
+    return t
+
+
 def twl_block(white=False):
-    """(ram_start, code bytes) of the twl block, from the extracted image (White: extract_white/)."""
-    lay = os.path.join(ROOT, "build", "white", "layout", "layout.json") if white         else os.path.join(ROOT, "layout", "layout.json")
+    """(ram_start, code bytes) of the twl block, from the extracted image of the target `white`
+    (a target name; True is White, False Black): extract_<t>/."""
+    t_ = tname(white)
+    lay = os.path.join(targets.layout_dir(t_), "layout.json")
     t = json.load(open(lay, encoding="utf-8"))["twl"]
-    img = open(os.path.join(ROOT, "extract_white" if white else "extract", t["decompressed_file"]), "rb").read()
+    img = open(os.path.join(targets.extract_dir(t_), t["decompressed_file"]), "rb").read()
     return t["ram_start"], img[t["src_offset"]:t["src_offset"] + t["code_size"]]
 
 
@@ -59,7 +73,7 @@ def install():
 
     def white_overlay_info(ovid):
         if ovid == REGION:
-            return twl_block(True)
+            return twl_block(gamelink.TARGET)
         return orig_w(ovid)
     gamelink.overlay_info = overlay_info
     gamelink.white_overlay_info = white_overlay_info
@@ -72,17 +86,21 @@ def link_twl(image_gaps=False, **kw):
     install()
     if not image_gaps and "extra" not in kw:
         import twldata
-        twldata.build(gamelink.VERSION == "white")
-        kw["extra"] = twldata.out_dir(gamelink.VERSION == "white")
+        twldata.build(gamelink.TARGET)
+        kw["extra"] = twldata.out_dir(gamelink.TARGET)
     return gamelink.link_overlay(REGION, **kw)
 
 
 def main(argv):
     mode = {}
     for a in argv:
-        if a in ("--version=white", "--version=black"):
-            gamelink.VERSION = a[10:]
-            os.environ["ALETHEIA_VERSION"] = a[10:]
+        if a.startswith(("--version=", "--target=")):
+            name = a.split("=", 1)[1].lower()
+            if name not in targets.TARGETS:
+                raise SystemExit("unknown target %r (known: %s)" % (name, ", ".join(targets.TARGETS)))
+            gamelink.TARGET = gamelink.VERSION = name
+            os.environ["ALETHEIA_TARGET"] = name
+            os.environ["ALETHEIA_VERSION"] = name
         elif a == "--absolute":
             mode["absolute_only"] = True
         elif a.startswith("--skip="):

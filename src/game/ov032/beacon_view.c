@@ -282,6 +282,7 @@ struct BmpOamParam;
 struct Sys;
 struct Bmp;
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/ica_anime_shared_types.h"
 
@@ -552,7 +553,7 @@ int BEACON_VIEW_ShowViewFlagMessage(BeaconViewWork *work)
         return 0;
     *f = 0;
     WORDSET_SetSlotTag(work->wordSet, 0, (void *)BEACON_STATUS_GetMessage(work->beaconStatus),
-                  work->gender, 1, 2);
+                  work->gender, 1, PM_LANG_ID);
     BEACON_VIEW_ShowFormatMessage(work, 0xB);
     return 1;
 }
@@ -705,7 +706,7 @@ int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
     case 4:
         s = GAME_BEACON_ACCESSOR_TableGetRingIndex(work->recordLog, work->touchedRow + work->scrollTop);
         icon = BEACON_VIEW_GetEntry(work, s);
-        WORDSET_SetSlotTag(work->wordSet, 0, icon->messageString, icon->gender, 1, 2);
+        WORDSET_SetSlotTag(work->wordSet, 0, icon->messageString, icon->gender, 1, PM_LANG_ID);
         BEACON_VIEW_SetPrintQueueLimit(work, 1);
         BEACON_VIEW_ShowFormatMessage(work, 3);
         GAME_BEACON_SEARCH_SetThanks(work->saveInfo, icon->trainerId);
@@ -807,7 +808,7 @@ void BEACON_VIEW_UpdateAchievements(BeaconViewWork *work, struct GameBeaconInfo 
     v[1] = 0;
     v[0] = 0;
     BEACON_VIEW_CountDifferingRecords(work, &v[0], &v[1]);
-    if (GAME_BEACON_ACCESSOR_GetLanguage(record) != 2)
+    if (GAME_BEACON_ACCESSOR_GetLanguage(record) != PM_LANG_ID)
         BEACON_VIEW_AddHistoryId(work, 1);
     if (work->previousIdB != v[1] && v[1] == 0x14)
         BEACON_VIEW_AddHistoryId(work, 2);

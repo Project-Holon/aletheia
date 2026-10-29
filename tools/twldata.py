@@ -10,6 +10,7 @@ overlays and tools/arm9data.py for the ARM9:
 
     python tools/twldata.py                  # Black: build/datac/twl/*.c
     python tools/twldata.py --version white  # Black's structure, White's values: build/datac_white/twl/*.c
+    python tools/twldata.py --target black_fr  # a language ROM: build/datac_black_fr/twl/*.c
     python tools/twldata.py --dry-run        # list the files and sizes, write nothing
     python tools/twldata.py --check          # write, link with tools/twllink.py, require PASS and no gap
 
@@ -32,6 +33,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import datareg    # noqa: E402
 import datagen    # noqa: E402
+import targets    # noqa: E402
 
 HEADER = """/*
  * file:     %(stem)s.c
@@ -51,7 +53,9 @@ HEADER = """/*
 
 
 def out_dir(white):
-    return os.path.join(ROOT, "build", "datac_white" if white else "datac", "twl")
+    """`white` is a target name (True: White, False: Black)."""
+    import twllink
+    return os.path.join(ROOT, "build", "datac" + targets.suffix(twllink.tname(white)), "twl")
 
 
 def twl_image(white):
@@ -77,15 +81,18 @@ def groups(objs):
 
 
 def build(white=False, dry=False):
-    """Write the companions; -> list of (file, bytes of data, object count)."""
+    """Write the companions; -> list of (file, bytes of data, object count).  `white` is the target
+    name (True: White, False: Black)."""
+    import twllink
+    white = twllink.tname(white)
     reg = datagen.load_registry().get(datareg.REG_KEY["twl"])
     if reg is None:
         raise SystemExit("layout/data_objects.json has no region twl_data: run tools/datareg.py --region twl")
     base, img = twl_image(white)
-    if white:
+    if white and white != "black":
         b_base, b_img = twl_image(False)
         if (b_base, len(b_img)) != (base, len(img)):
-            raise SystemExit("the twl block of White differs in place or size from Black's")
+            raise SystemExit("the twl block of %s differs in place or size from Black's" % twllink.tname(white))
     d = out_dir(white)
     if not dry:
         os.makedirs(d, exist_ok=True)
@@ -115,11 +122,12 @@ def build(white=False, dry=False):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--version", choices=("black", "white"), default="black")
+    ap.add_argument("--version", choices=("black", "white"), default=None, help="older spelling of --target")
+    ap.add_argument("--target", choices=sorted(targets.TARGETS), default=None)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args(argv)
-    white = a.version == "white"
+    white = a.target or a.version or targets.current()
     res = build(white, a.dry_run)
     where = os.path.relpath(out_dir(white), ROOT).replace(os.sep, "/")
     for f, size, n in res:
@@ -127,8 +135,8 @@ def main(argv=None):
     print("twl data: %d files, %d bytes%s" % (len(res), sum(r[1] for r in res), " (dry run)" if a.dry_run else ""))
     if a.check and not a.dry_run:
         import twllink
-        rc = twllink.main(["--version=white"] if white else [])
-        j = json.load(open(os.path.join(ROOT, "build", "gamelink", "twl_white" if white else "twl", "ov.json")))
+        rc = twllink.main(["--target=" + white] if white != "black" else [])
+        j = json.load(open(os.path.join(ROOT, "build", "gamelink", "twl" + targets.suffix(white), "ov.json")))
         if j.get("gaps"):
             print("twl FAIL: gaps left: %s" % j["gaps"])
             return 1

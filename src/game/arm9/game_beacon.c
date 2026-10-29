@@ -753,7 +753,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
         info->trainerView = MYSTATUS_GetTrainerView(myStatus) - 8;
     }
     info->pmVersion = PM_VERSION_ID;
-    info->language = 2;
+    info->language = PM_LANG_ID;
     info->nation = MYSTATUS_GetNation(myStatus);
     info->area = MYSTATUS_GetArea(myStatus);
     info->researchTeamRank = MISC_GetResearchRank(misc);

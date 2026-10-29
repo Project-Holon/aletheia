@@ -30,3 +30,7 @@ void f(u8 *p, u8 *a, u32 b, unsigned long long cd)
 
 A two-field struct by value `{u32 c; u32 d;}` does not work: mwcc spills
 r0-r3 to a home area (`push {r0-r3}`) for it.
+
+Update: an enum fifth parameter copied into a `u32` local matches this function
+without the split u64, in every language build; see
+`an-enum-stack-parameter-copied-to-a-u32-local-gets-its-own-spill-slot.md`.

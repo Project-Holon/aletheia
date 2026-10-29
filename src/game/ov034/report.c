@@ -72,6 +72,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
@@ -156,6 +157,14 @@ struct CellRes;
 struct ArcHandle;
 struct PartyMon;
 #include "../types.h"
+#include "../version.h"
+
+/* French, Italian and German print the month as a word; the others print its number. */
+#if PM_LANG_MONTH_AS_NAME
+#define REPORT_SET_MONTH(words, slot, month, flag) WORDSET_SetSlotMonth(words, slot, month)
+#else
+#define REPORT_SET_MONTH(words, slot, month, flag) WORDSET_SetSlotNumber(words, slot, month, 2, 0, flag)
+#endif
 struct TcbTask;
 
 #include "../arm9/bg_sys.h"
@@ -468,7 +477,7 @@ void REPORT_InitWindows(ReportWork *work)
     msgDate = MSGDATA_AllocString(msgBank, 1);
     RTC_GetDate(&date);
     WORDSET_SetSlotNumber(wordSet, 0, date.year, 2, 2, one);
-    WORDSET_SetSlotNumber(wordSet, one, date.month, 2, 0, one);
+    REPORT_SET_MONTH(wordSet, one, date.month, one);
     WORDSET_SetSlotNumber(wordSet, 2, date.day, 2, 0, one);
     WORDSET_CopyTaggedText(wordSet, buf, msgDate);
     printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, one);
@@ -502,7 +511,7 @@ void REPORT_InitWindows(ReportWork *work)
         playTime = SYSTEM_DATA_GetPlayTime(saveControl);
         msgLastSave = MSGDATA_AllocString(msgBank, 7);
         WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetStampYear(playTime), 2, 2, 1);
-        WORDSET_SetSlotNumber(wordSet, 1, PLAYTIME_GetStampMonth(playTime), 2, 0, 1);
+        REPORT_SET_MONTH(wordSet, 1, PLAYTIME_GetStampMonth(playTime), 1);
         WORDSET_SetSlotNumber(wordSet, 2, PLAYTIME_GetStampDay(playTime), 2, 0, 1);
         WORDSET_SetSlotNumber(wordSet, 3, PLAYTIME_GetStampHour(playTime), 2, 0, 1);
         WORDSET_SetSlotNumber(wordSet, 4, PLAYTIME_GetStampMinute(playTime), 2, 2, 1);

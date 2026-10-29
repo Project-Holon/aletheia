@@ -74,6 +74,7 @@ from cw import versions_dir, verkey  # noqa: E402
 import env as toolenv  # noqa: E402  (compiler location and wine runner)
 import stampcache  # noqa: E402  (stamp-validated pickle caches)
 import fnaddr  # noqa: E402  (function addresses whatever the name)
+import targets  # noqa: E402  (the ROMs the source builds: version, language, paths)
 
 SDK_INCLUDE = "sdk/TwlSDK/include"
 
@@ -149,8 +150,8 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
         cmd += ["-thumb"]
     if lang:
         cmd += ["-lang", lang]
-    if os.environ.get("ALETHEIA_VERSION", "black").lower() == "white":
-        cmd += ["-d", "VERSION=2"]     # src/game/version.h: VERSION_WHITE
+    target = targets.current()
+    cmd += targets.defines(target)     # src/game/version.h: VERSION and LANGUAGE (none for Black)
     cmd += ["-ir", os.path.dirname(os.path.abspath(src)) or "."]
     game_root = os.path.join(ROOT, "src", "game")
     if os.path.abspath(src).startswith(game_root + os.sep):
@@ -162,8 +163,8 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
         cmd += ["-I+" + inc]
     obj = os.path.join(workdir, "tu.o")
     csrc = os.path.abspath(src)
-    if os.environ.get("ALETHEIA_VERSION", "black").lower() == "white" and "game" in csrc.replace("\\", "/").split("/"):
-        # White build: address literals in the source are Black addresses (tools/white_map.py)
+    if target != "black" and "game" in csrc.replace("\\", "/").split("/"):
+        # non-Black build: address literals in the source are Black addresses (tools/white_map.py)
         import white_map
         with open(csrc, encoding="latin1", newline="") as fh:
             body = white_map.remap_source(fh.read(), csrc)

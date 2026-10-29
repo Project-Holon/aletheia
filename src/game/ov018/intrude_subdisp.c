@@ -255,6 +255,7 @@
 #define REG_WINOUT_SUB     (*(volatile u16 *)REG_DB_WINOUT_ADDR)
 #define REG_DB_BLDCNT_SUB (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 
 #include "../ov011/intrude_comm_types.h"
@@ -2130,7 +2131,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             done = 1;
             for (i = 0; i < 2; i++) {
                 if (req.words[i] != 0) {
-                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], req.words[i], req.param[i], 1, 2);
+                    WORDSET_SetSlotTag(work->wordSet, req.slot[i], req.words[i], req.param[i], 1, PM_LANG_ID);
                 }
             }
             WORDSET_CopyTaggedText(work->wordSet, work->strbufText, work->strbufMsg);

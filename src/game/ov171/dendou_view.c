@@ -113,6 +113,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
@@ -177,6 +178,7 @@
  *   d_021DED24 0x021DED24 data a4
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  */
+#include "../version.h"
 #include "dendou_view_types.h"
 #include "../sdk_ioreg.h"
 #include "../ov067/touchbar.h"
@@ -1106,7 +1108,11 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     }
     dateText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 2);
     WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, 1);
+#if PM_LANG_MONTH_AS_NAME
+    WORDSET_SetSlotMonth(work->wordSet, 1, row->month);
+#else
     WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, 1);
+#endif
     WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 2, row->day, 2, 2, 1);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)dateText);
     dateWidth = BMP_WIN_GetDispWidth((struct BmpWin *)work->windows[0].win);
@@ -1186,12 +1192,12 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, levelLabelWidth + 80, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);
     nicknameText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 9);
-    WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->nicknameStr, 0, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->nicknameStr, 0, 1, PM_LANG_ID);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)nicknameText);
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 24, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(nicknameText);
     trainerText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 10);
-    WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->otNameStr, 0, 1, 2);
+    WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->otNameStr, 0, 1, PM_LANG_ID);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)trainerText);
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 48, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(trainerText);

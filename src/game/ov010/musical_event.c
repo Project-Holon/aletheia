@@ -473,6 +473,7 @@ u32 MUSICAL_EVENT_IsAborted(MusicalEventWork *work);
 
 #include "musical_program.h"
 #include "../arm9/game_event.h"
+#include "../version.h"
 
 
 
@@ -1434,7 +1435,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
         void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4C, 4);
         void *str = MSGDATA_AllocString(msgData, nameId);
 
-        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
     }
@@ -1467,7 +1468,7 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
         void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4D, 4);
         void *str = MSGDATA_AllocString(msgData, nameId);
 
-        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, 2);
+        WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete(msgData);
     }

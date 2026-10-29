@@ -84,6 +84,14 @@
  */
 
 #include "../types.h"
+#include "../version.h"
+
+/* Left edge of the order and eligibility label on a plate. */
+#if LANGUAGE == LANGUAGE_SPANISH
+#define PLIST_PLATE_LABEL_X 0x30
+#else
+#define PLIST_PLATE_LABEL_X 0x2e
+#endif
 
 #include "../arm9/clact.h"
 #include "pokelist_types.h"
@@ -436,7 +444,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
         } else {
             label = label + PLIST_PLATE_MSG_ORDER_FIRST;
         }
-        POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
+        POKELIST_PrintTextMain(work, plate->window, (u16)label, PLIST_PLATE_LABEL_X, 0x1f, 0x440);
         CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
     } else if (isTeachMode == 1) {
         switch (POKELIST_GetMoveLearnStatus(work, plate->mon, plate->slot)) {
@@ -455,7 +463,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             if (value != 0) {
                 label = PLIST_PLATE_MSG_EVOLVE_ABLE;
             }
-            POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
+            POKELIST_PrintTextMain(work, plate->window, (u16)label, PLIST_PLATE_LABEL_X, 0x1f, 0x440);
             CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
         } else {
             wordSetB = WORDSET_CreateDefault(work->heapId);
@@ -544,7 +552,7 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
     void *eggText;
     wordSet = WORDSET_CreateDefault(work->heapId);
     eggText = MSGDATA_AllocString(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
-    WORDSET_SetSlotTag(wordSet, 0, eggText, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, eggText, 0, 1, PM_LANG_ID);
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
     WORDSET_Delete(wordSet);

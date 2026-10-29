@@ -241,6 +241,7 @@
 #ifdef __MWERKS__
 #define STRBUF_Create STRBUF_CreateHeader
 #endif
+#include "../version.h"
 #include "btlv_scu_types.h"
 #include "../sdk_ioreg.h"
 #include "btlv_core_types.h"
@@ -2967,6 +2968,13 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
 
 
 /* Draws the text of a plate: the template, then one or two lines of message 0x67. */
+/* Space between the nickname and the species name on a two-line name plate. */
+#if LANGUAGE == LANGUAGE_ENGLISH
+#define BTLV_SCU_NAME_PLATE_NAME_GAP 8
+#else
+#define BTLV_SCU_NAME_PLATE_NAME_GAP 12
+#endif
+
 void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 {
     BtlvScu *scu;
@@ -2989,7 +2997,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
     BTL_MSG_FormatArgs(scu->wordBuf0, 0x67, 2, plate->pokeId, plate->speciesId);
     if ((u8)PRINTSYS_InitCallerSuppliedArray((struct Strbuf *)scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
         width = widths[0];
-        edge = width + 8;
+        edge = width + BTLV_SCU_NAME_PLATE_NAME_GAP;
         right = 0x84 - widths[1];
         gap = edge - right;
         if (gap < 12) {

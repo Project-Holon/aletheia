@@ -270,6 +270,7 @@ struct ClactVec2;
 struct PaletteFade;
 struct Unit;
 #include "../arm9/arc_tool.h"
+#include "../version.h"
 #include "../arm9/gfl_use.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/palanm.h"
@@ -2431,7 +2432,7 @@ void RESEARCH_GRAPH_PrintSliceLabel(struct ResearchObjB *graph)
     y = MSGDATA_AllocString(graph->msgBank[2], k);
     z = STRBUF_Create(0x80, graph->heapId);
     WORDSET_SetSlotNumber(graph->wordSet, 0, a + 1, 2, 1, 1);
-    WORDSET_SetSlotTag(graph->wordSet, 1, y, 0, 1, 2);
+    WORDSET_SetSlotTag(graph->wordSet, 1, y, 0, 1, PM_LANG_ID);
     WORDSET_SetSlotNumber(graph->wordSet, 2, b, 5, 1, 1);
     WORDSET_SetSlotNumber(graph->wordSet, 3, c, 3, 1, 1);
     WORDSET_CopyTaggedText(graph->wordSet, z, x);
@@ -2457,7 +2458,7 @@ void RESEARCH_GRAPH_PrintTimeLabel(struct ResearchObjB *graph)
     a=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&graph->msgBank[0],14);
     b=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&graph->msgBank[2],index);
     buf=(struct U16Vec *)STRBUF_Create(128,graph->heapId);
-    WORDSET_SetSlotTag(*(struct WordSet * *)&graph->wordSet,0,(struct Strbuf *)b,0,1,2);
+    WORDSET_SetSlotTag(*(struct WordSet * *)&graph->wordSet,0,(struct Strbuf *)b,0,1,PM_LANG_ID);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&graph->wordSet,(struct Strbuf *)buf,(struct Strbuf *)a);
     BgTextLabel_SetVisible((struct BgTextLabel *)(graph->label[5]),1);
     BgTextLabel_PrintText((struct BgTextLabel *)(graph->label[5]),buf);

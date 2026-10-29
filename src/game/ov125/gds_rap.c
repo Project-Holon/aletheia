@@ -212,7 +212,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->strBuf = (struct Strbuf *)STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
     work->client.packetType = PM_VERSION_ID;
-    work->client.protocolVersion = 2;
+    work->client.language = PM_LANG_ID;
     if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
         GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
     work->active = 1;

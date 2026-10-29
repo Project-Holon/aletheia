@@ -55,6 +55,22 @@
 struct Node;
 struct BigObj;
 #include "../types.h"
+#include "../version.h"
+
+/* Tile width of the two status icons (selection mode and link) and the column of the link icon. */
+#if LANGUAGE == LANGUAGE_GERMAN
+#define INFOWIN_SEL_WIDTH 4
+#define INFOWIN_LINK_X 14
+#define INFOWIN_LINK_WIDTH 4
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define INFOWIN_SEL_WIDTH 3
+#define INFOWIN_LINK_X 13
+#define INFOWIN_LINK_WIDTH 5
+#else
+#define INFOWIN_SEL_WIDTH 3
+#define INFOWIN_LINK_X 13
+#define INFOWIN_LINK_WIDTH 6
+#endif
 #include "net_types.h"
 
 #include "gf_standard_types.h"
@@ -372,14 +388,14 @@ void INFOWIN_DrawTask(struct TcbTask *task, void *work)
 
     if (gInfoWin->redrawFlags & 4) {
         u8 sel = (gInfoWin->redrawFlags & 0x200) ? 1 : 0;
-        INFOWIN_WriteScreen(d_0209F834[sel], gInfoWin->palette, 9, 0, 3, 2);
+        INFOWIN_WriteScreen(d_0209F834[sel], gInfoWin->palette, 9, 0, INFOWIN_SEL_WIDTH, 2);
         INFOWIN_LoadCharacters(6, &d_0209F840[sel], 2);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 4;
     }
 
     if (gInfoWin->redrawFlags & 8) {
-        INFOWIN_WriteScreen(d_0209F848[gInfoWin->linkActive], gInfoWin->palette, 13, 0, 6, 2);
+        INFOWIN_WriteScreen(d_0209F848[gInfoWin->linkActive], gInfoWin->palette, INFOWIN_LINK_X, 0, INFOWIN_LINK_WIDTH, 2);
         INFOWIN_LoadCharacters(8, d_0209F852[gInfoWin->linkActive], 2);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 8;

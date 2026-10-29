@@ -36,6 +36,7 @@ from collections import Counter, defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import datareg  # noqa: E402
+import targets  # noqa: E402
 
 OUT_DIR = os.path.join(ROOT, "build", "data")
 CTYPE = {"u8": "unsigned char", "u16": "unsigned short", "u32": "unsigned long"}
@@ -492,13 +493,33 @@ DATAC_GEN = os.path.join(ROOT, "build", "gen", "datac")
 WHITE = False
 DATAC_OUT_WHITE = os.path.join(ROOT, "build", "datac_white")
 DATAC_GEN_WHITE = os.path.join(ROOT, "build", "gen", "datac_white")
+TARGET = "black"      # --target NAME (tools/targets.py); WHITE means "not the reference target"
+
+
+def set_target(t):
+    """Make companions for target `t` (white_map maps Black to it)."""
+    global TARGET, WHITE
+    TARGET = t
+    WHITE = t != "black"
+    if WHITE:
+        import white_map
+        white_map.set_target(t)
+
+
+def datac_out(t=None):
+    """build/datac (Black), build/datac_white, build/datac_<t>: the companions of a target."""
+    return os.path.join(ROOT, "build", "datac" + targets.suffix(t or TARGET))
+
+
+def datac_gen(t=None):
+    return os.path.join(ROOT, "build", "gen", "datac" + targets.suffix(t or TARGET))
 
 
 def white_overlay_image(rg):
-    """(White overlay image, White layout record) of region ovNNN, from extract_white/."""
-    lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+    """(target overlay image, target layout record) of region ovNNN, from extract_<t>/."""
+    lw = json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
     o = [x for x in lw["overlays"] if "ov%03d" % x["id"] == rg][0]
-    with open(os.path.join(ROOT, "extract_white", o["decompressed_file"].replace("/", os.sep)), "rb") as fh:
+    with open(os.path.join(targets.extract_dir(TARGET), o["decompressed_file"].replace("/", os.sep)), "rb") as fh:
         return fh.read()[:o["code_size"]], o
 
 
@@ -506,6 +527,10 @@ def white_ptr_word(kind, black_word, target_addr):
     """The word White holds for a pointer that Black holds as `black_word` (a Thumb bit stays)."""
     import white_map
     return white_map.to_white(black_word)
+
+
+# files whose rodata objects change size per language (region -> file names)
+VOLATILE_RUNS = {"ov021": ["scrcmd_proc_fld.c"], "ov110": ["pms_input_data.c"], "ov206": ["zukan_info.c"]}
 
 
 def _gl():
@@ -543,7 +568,12 @@ def _base_elf(rg, relink=False):
                      + [os.path.getmtime(gl.__file__)])
         relink = newest > os.path.getmtime(elf)
     if relink or not os.path.exists(elf):
-        r = gl.link_overlay(int(rg[2:]), verbose=False)
+        keep = gl.TARGET, gl.VERSION            # the base link is Black's, whatever the target
+        gl.TARGET = gl.VERSION = "black"
+        try:
+            r = gl.link_overlay(int(rg[2:]), verbose=False)
+        finally:
+            gl.TARGET, gl.VERSION = keep
         if not os.path.exists(elf):
             raise RuntimeError("plain link of %s failed: %s" % (rg, r.get("why")))
     return gl.read_elf(elf)
@@ -850,7 +880,7 @@ def companions(rg, out=None, relink=False):
     if WHITE:
         import white_map
         wimg, wo = white_overlay_image(rg)
-        irregular = rg in white_map.IRREGULAR       # code moved inside the overlay: the tail moves by blocks
+        irregular = rg in white_map.irregular(TARGET)       # code moved inside the overlay: the tail moves by blocks
         if len(wimg) != len(img) and not irregular:
             raise RuntimeError("%s: %d bytes in Black, %d in White" % (rg, len(img), len(wimg)))
         reg_ = rg if irregular else None
@@ -878,9 +908,95 @@ def companions(rg, out=None, relink=False):
                     del ob["ptrs"][k]
                     ob["wraw"].add(k)
 
+    # ---- .bss of a language target: an object can be smaller there (ov021 sFieldMapHeapBuffer:
+    # 836 bytes in Black, 824 in black_fr).  A start that the literal pools place in the target
+    # (white_map.refine) fixes the size of the object before it
+    if WHITE and TARGET != "white" and be > bs:
+        import white_map
+        white_map.set_context(rg)
+        _lw2 = json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
+        _ow2 = [x for x in _lw2["overlays"] if "ov%03d" % x["id"] == rg][0]
+        bl = [ob for ob in objs if ob["sec"] == ".bss"]
+        tl, ref_ = [], []
+        for ob in bl:
+            try:
+                m0 = white_map.to_white(ob["addr"], rg)
+            except KeyError:
+                m0 = None
+            tl.append(white_map.refine(ob["addr"], m0) if m0 is not None else None)
+            ref_.append(m0 is not None and tl[-1] != m0)
+        tl.append(_ow2["bss_end"])
+        ref_.append(False)
+        for i, ob in enumerate(bl):
+            if tl[i] is not None and tl[i + 1] is not None and (ref_[i] or ref_[i + 1]) \
+                    and 0 < tl[i + 1] - tl[i] != ob["size"]:
+                ob["size"] = tl[i + 1] - tl[i]
+        white_map.set_context(None)
+
+    # ---- volatile runs: the rodata tables of some files change size per language (ov110 PMS word
+    # lists, ov206 zukan_info), so their objects do not line up with Black's.  In a language target
+    # a run of such objects (one owner, contiguous) becomes one raw object from where the target's
+    # code ends to where the next owner's first object starts; names inside it stay absolute
+    # symbols that gamelink places from the literal pools (white_map.refine)
+    wt0 = None
+    if WHITE and TARGET not in ("white",):
+        import white_map
+        _lw = json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
+        _ow = [x for x in _lw["overlays"] if "ov%03d" % x["id"] == rg][0]
+        _tp = os.path.join(gl.OUT, "%s_%s" % (rg, TARGET), "ov.elf")
+        t0_t = None
+        if os.path.exists(_tp) and white_map._link_ok(_tp):
+            _d, _tsecs, _tsyms = gl.read_elf(_tp)
+            t0_t = max([x["addr"] + x["size"] for x in _tsecs
+                        if re.fullmatch(r"t\d+(_\d+)?", x["name"]) and _ow["ram_start"] <= x["addr"] < _ow["ram_start"] + _ow["code_size"]] + [0]) or None
+        if t0_t is not None:
+            t0_t += max(0, t0 - cend)       # the registry range can start above the end of the code
+        wt0 = t0_t if rg in VOLATILE_RUNS else None
+    if WHITE and TARGET != "white" and rg in VOLATILE_RUNS:
+        stems = VOLATILE_RUNS[rg]
+        runs = []
+        for i, ob in enumerate(objs):
+            if ob["sec"] == ".rodata" and files[ob["owner"]]["name"] in stems:
+                if runs and runs[-1][-1] == i - 1:
+                    runs[-1].append(i)
+                else:
+                    runs.append([i])
+        if runs:
+            if t0_t is None:
+                t0_t = wt0 = white_map.to_white(t0, rg)
+            s0_t = _ow["static_init_start"]
+            drop, newobjs = set(), {}
+            for run in runs:
+                a_, b_ = objs[run[0]]["addr"], objs[run[-1]]["addr"] + objs[run[-1]]["size"]
+                ta, tb = t0_t + (a_ - t0), s0_t - (s0 - b_)
+                if tb <= ta:
+                    blockers.append("volatile run %08X..%08X has size %d in the target" % (a_, b_, tb - ta))
+                    continue
+                wd = wimg[ta - wo["ram_start"]:tb - wo["ram_start"]]
+                m_ = dict(objs[run[0]], size=tb - ta, data=wd, wdata=wd, inner=[], ptrs={}, wraw=set(),
+                          name="dg_%08X" % a_, names={}, inner_names=[], vrun=(ta, tb))
+                newobjs[run[0]] = m_
+                drop |= set(run[1:])
+            remap, k_ = {}, 0
+            for i in range(len(objs)):
+                if i not in drop:
+                    remap[i] = k_
+                    k_ += 1
+            inrun = set(i for run in runs for i in run)
+            for i, ob in enumerate(objs):
+                if i in drop or i in newobjs:
+                    continue
+                for k, (kind, j, off) in list(ob["ptrs"].items()):
+                    if kind == "obj" and j in inrun:
+                        del ob["ptrs"][k]
+                        ob["wraw"].add(k)
+                    elif kind == "obj":
+                        ob["ptrs"][k] = (kind, remap[j], off)
+            objs = [newobjs.get(i, ob) for i, ob in enumerate(objs) if i not in drop]
+
     # ---- emit
-    out = out or os.path.join(DATAC_OUT_WHITE if WHITE else DATAC_OUT, rg)
-    gen = os.path.join(DATAC_GEN_WHITE if WHITE else DATAC_GEN, rg)
+    out = out or os.path.join(datac_out(), rg)
+    gen = os.path.join(datac_gen(), rg)
     for dd in (out, gen):
         if os.path.isdir(dd):
             for f in os.listdir(dd):
@@ -1063,7 +1179,7 @@ def companions(rg, out=None, relink=False):
     plan = [("%08X" % ob["addr"], ob["size"], ob["sec"], files[ob["owner"]]["name"], ob["name"]) for ob in objs]
     dl = dict(region=rg, tail=["%08X" % v for v in (t0, s0, s1, end)], sinit=sinit,
               bss=["%08X" % bs, "%08X" % be] if be > bs else None,
-              aliases=aliases, renames=renames, own=own_secs, stats=stats, blockers=blockers, plan=plan)
+              aliases=aliases, renames=renames, wt0="%08X" % wt0 if wt0 else None, own=own_secs, stats=stats, blockers=blockers, plan=plan)
     with open(os.path.join(out, "datalink.json"), "w", newline="\n") as fh:
         json.dump(dl, fh, indent=1)
     return dict(out=out, stats=stats, blockers=blockers)
@@ -1076,19 +1192,20 @@ def main():
     ap.add_argument("--region", action="append")
     ap.add_argument("--out", help="companions: output directory (one overlay)")
     ap.add_argument("--relink", action="store_true", help="companions: redo the plain gamelink link first")
-    ap.add_argument("--version", choices=("black", "white"), default="black",
-                    help="companions: white = structure of Black, values of extract_white/ (build/datac_white)")
+    ap.add_argument("--version", choices=("black", "white"), default=None,
+                    help="companions: white = --target white (older spelling)")
+    ap.add_argument("--target", choices=sorted(targets.TARGETS), default=None,
+                    help="companions: structure of Black, values of extract_<t>/ (build/datac_<t>)")
     a = ap.parse_args()
-    global WHITE
-    WHITE = a.version == "white"
+    set_target(a.target or a.version or targets.current())
     if a.cmd == "companions":
         rc = 0
         for i in a.ids or [r[2:] if r.startswith("ov") else r for r in (a.region or [])]:
             if i == "twl":
                 # the DSi block: tools/twldata.py (region twl of the registry), build/datac[_white]/twl
                 import twldata
-                res = twldata.build(WHITE)
-                print("twl -> %s %d files, %d bytes" % (os.path.relpath(twldata.out_dir(WHITE), ROOT), len(res),
+                res = twldata.build(TARGET)
+                print("twl -> %s %d files, %d bytes" % (os.path.relpath(twldata.out_dir(TARGET), ROOT), len(res),
                                                        sum(r[1] for r in res)))
                 continue
             rg = i if i.startswith("ov") else "ov%03d" % int(i)

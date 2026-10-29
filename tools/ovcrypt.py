@@ -165,6 +165,36 @@ VERSIONS = {
     0x20: ("white",
            "ff437c9ac38e6778abf517a2ba8ee584a26e1f34", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
            "85becd93c18e53fca461374eac4875e0832ebd9b"),
+    # The language cartridges (tools/targets.py): the ARM9 module is shorter, so the shift is
+    # negative.  Spanish Black and Spanish White load ov230 at the same address with the same code.
+    -0x80: ("black_fr",
+            "99f9ee82198d18bfa4c562d40f70f77876f01b44", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "ce4f25f5570d8e1c7c8b7d9ccb124cf03fe5628a"),
+    -0x60: ("white_fr",
+            "64cc302cd4584bf45cd76047024757899ada5702", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "87efc583b8ecd2b86faa5742c2a55bfbae864f27"),
+    -0xC0: ("black_de",
+            "0f034f5112f73fd0eec201a65b051d942eb30d47", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "b8dbc15003c65dfa447046c3f2b479d3179ffa13"),
+    -0xA0: ("white_de",
+            "3906443ec214a3a0c3e58f7f3e8c6629215885e8", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "619c0979b05fc4a2cb90e3cd05c25dedb11ded70"),
+    -0x100: ("black_it",
+             "2345e58a554ca1cbf51735d3349af16b69e5ee36", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+             "6ba445377c29abc24a560609c0871b97fe826d22"),
+    -0xE0: ("white_it",
+            "80eda309fbb939b630d2ea482e27442b638a2c42", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "9cfd31cde5a3887f1085eb4295ef6627c97b563d"),
+    -0x40: ("black_es/white_es",
+            "8a75beda2fdc7c0746f4c060403ef14cca6b1607", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "65103a86cbddde82b8cd4199f2214f75a1f796dc"),
+    # The Japanese cartridges: the ARM9 module is longer, so the shift is positive.
+    0x100: ("black_ja",
+            "aae99cab495fe865c146b9157645ce9cf84d688f", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "a31bb1727ceaedd20bc66ea81137935775bd594d"),
+    0x120: ("white_ja",
+            "9b271b91cdafeb74d5348869b0a9b0ade5d0216f", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+            "ad3f742a528a311684b879cff46419a4ca6fb502"),
 }
 BLACK_BASE = 0x02187F00
 SHIFT = 0

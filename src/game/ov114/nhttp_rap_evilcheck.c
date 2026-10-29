@@ -107,7 +107,7 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MyStatu
 {
     MI_CpuFill8(info_p, 0, 0x64);
     info_p->packetType = PM_VERSION_ID;
-    info_p->version = 2;
+    info_p->version = PM_LANG_ID;
     info_p->language = MYSTATUS_GetNation((struct MyStatus *)mystatus_p);
     info_p->romVersion = MYSTATUS_GetArea((struct MyStatus *)mystatus_p);
     info_p->trainerId = MYSTATUS_GetId((struct MyStatus *)mystatus_p);

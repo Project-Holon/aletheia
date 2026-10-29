@@ -62,7 +62,7 @@ void MYSTATUS_Copy(const struct MyStatus *src, struct MyStatus *dest)
 void MYSTATUS_Init(struct MyStatus *mystatus)
 {
     MI_CpuFill8(mystatus, 0, sizeof(struct MyStatus));
-    mystatus->language = 2;
+    mystatus->language = PM_LANG_ID;
     MYSTATUS_SetRomCode(mystatus, PM_VERSION_ID);
 }
 

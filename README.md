@@ -1,6 +1,6 @@
 <h1><img src="docs/banner.png" alt="aletheia"></h1>
 
-A byte-matching decompilation of Pokémon Black (USA/Europe).
+A byte-matching decompilation of Pokémon Black and White. The same source builds the English, French, German, Italian and Spanish cartridges.
 
 All tooling (ROM extraction, rebuilding, disassembly, and build system) is written independently for this repository.
 
@@ -33,7 +33,10 @@ Decompiled C source code is located in `src/game/` across 1,374 files.
 - [x] **Milestone 1**: ROM extraction and rebuild (`tools/ndsrom.py`)
 - [x] **Milestone 2**: Delinking, disassembly, and byte-identical reassembly
 - [x] **Milestone 3**: Decompilation to matching C (`src/game/`)
-- [x] **Milestone 4**: Pokémon White support (`tools/romlink.py --version white`)
+- [x] **Milestone 4**: Pokémon White and the other languages (`tools/romlink.py --target <name>`, [docs/ROMS.md](docs/ROMS.md))
+  - [x] Pokémon White
+  - [x] French, German, Italian and Spanish
+  - [ ] Japanese
 - [ ] **Milestone 5**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
   - [x] 64-bit ready source (real pointer types)
   - [x] Recovered structs for code that still reads fields by offset
@@ -43,12 +46,7 @@ Decompiled C source code is located in `src/game/` across 1,374 files.
 ## Requirements
 
 - Python 3.11+
-- Legally dumped ROM of Pokémon Black (USA, Europe) (NDSi Enhanced):
-  - SHA-1: `26ad0b9967aa279c4a266ee69f52b9b2332399a5`
-  - Size: 268,435,456 bytes
-- Optional (for Pokémon White): legally dumped ROM of Pokémon White (USA, Europe) (NDSi Enhanced):
-  - SHA-1: `bc696a0dfb448c7b3a8a206f0f8214411a039208`
-  - Size: 268,435,456 bytes
+- Legally dumped ROM of Pokémon Black or White. [docs/ROMS.md](docs/ROMS.md) lists the supported ROMs and their SHA-1s.
 - The Metrowerks CodeWarrior for DS compilers and linker (`mwccarm.exe`, `mwldarm.exe`), not included: place them under `tools/mwccarm/mwccarm/<version>/`. The builds use `dsi/1.1p1` for almost all code (33,068 functions), plus `2.0/sp2`, `2.0/sp1p2`, `2.0/sp2p2`, `1.2/sp2` and `1.2` for overlay 230 and some SDK and library objects (530 functions); `layout/matched/` lists the version per function.
 - Optional (for DSi-mode `twl` region): DSi AES key constant passed via `--dsi-key` or `ALETHEIA_DSI_KEY`.
 
@@ -76,6 +74,12 @@ Build the complete ROM from `src/game/`:
 
 ```bash
 python tools/romlink.py
+```
+
+Build another cartridge (its extract and layout first, see [docs/ROMS.md](docs/ROMS.md)):
+
+```bash
+python tools/romlink.py --target white_fr --relink
 ```
 
 Link individual regions or overlays:

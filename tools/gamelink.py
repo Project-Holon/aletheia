@@ -28,12 +28,15 @@ name starts with a stem to the image).  Data sections of a file are placed at
 the original address; names missing from every header are read from the original
 code (image evidence).
 
-Version (Pokemon White): `--version white` (or ALETHEIA_VERSION=white) links the same source
-for White.  The sources are compiled with VERSION=VERSION_WHITE (src/game/version.h, a flag of
+Target (tools/targets.py): `--target NAME` (or ALETHEIA_TARGET=NAME; `--version white` still
+means `--target white`) links the same source for White or for a language ROM (black_fr, white_de,
+...).  The sources are compiled with VERSION and LANGUAGE (src/game/version.h, flags of
 match.compile_tu).  The link is planned in Black addresses, as always; every address written
-to the linker command file goes through tools/white_map.py (overlay RAM +0x20, ARM9 callees
-at their White address), the gaps are read from extract_white/, and the result is compared
-with White's overlay image.  An address the map cannot place fails the run.  --data works for
+to the linker command file goes through tools/white_map.py (overlay RAM at the target's load
+address, ARM9 callees at their address there), the gaps are read from extract_<t>/, and the
+result is compared with the target's overlay image.  Output goes to build/gamelink/<region>_<t>/.
+The overlays whose code moved or whose size differs are listed per target by
+`white_map.py --target T irregular`.  An address the map cannot place fails the run.  --data works for
 White with the companions of `datagen.py companions N --version white` (and arm9data.py
 --version white): Black's structure of the tail, White's values; the tail segments of an overlay
 whose code moved come from White's layout.
@@ -102,10 +105,12 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import match            # noqa: E402
 import gamebuild        # noqa: E402
 import protofix as pf   # noqa: E402
+import targets          # noqa: E402
 
 LD = os.path.join(ROOT, "tools", "mwccarm", "mwccarm", "dsi", "1.1p1", "mwldarm.exe")
 OUT = os.path.join(ROOT, "build", "gamelink")
-VERSION = os.environ.get("ALETHEIA_VERSION", "black").lower()
+TARGET = targets.current()      # --target NAME, ALETHEIA_TARGET, or the older --version white
+VERSION = TARGET                # "black", "white", "black_fr", ...: written to ov.json
 
 
 OWN_OVERLAY = {}    # white build of an irregular overlay: {"region": "ov181", "lo": Black start, "hi": Black end}
@@ -116,16 +121,21 @@ def W(a, region=None):
     """The address an lcf line gets for the Black address `a`: itself for Black.  `region` is
     the overlay that holds the callee when a header says so (White moves code inside the
     larger overlays, see white_map.to_white_ov)."""
-    if VERSION != "white":
+    if TARGET == "black":
         return a
     import white_map
     if region is None:
         rs = ADDR_REGION.get(a & ~1)
         if rs and len(rs) == 1:
             region = next(iter(rs))
+    own = False
     if region is None and OWN_OVERLAY and OWN_OVERLAY["lo"] <= (a & ~1) < OWN_OVERLAY["hi"]:
         region = OWN_OVERLAY["region"]      # an address inside the overlay being linked
-    return white_map.to_white(a, region)
+        own = True
+    # an address of another module comes from that module's passing link when there is one
+    # (white_map.exact_map); the module being linked is planned from the alignment
+    own = own or (OWN_OVERLAY and region == OWN_OVERLAY["region"])
+    return white_map.to_white(a, region, exact=not own)
 
 
 # ---------------------------------------------------------------- ELF32 LE io
@@ -450,7 +460,7 @@ def header_symbols(raw):
             continue
         if not on:
             continue
-        sm = re.match(r"^\s*\*\s+(\S+)\s+(0x[0-9A-Fa-f]+)\s+(arm|thumb|data)\b(?:\s+(ov\d+|arm9))?", line)
+        sm = re.match(r"^\s*\*\s+(\S+)\s+(0x[0-9A-Fa-f]+)\s+(arm|thumb|data)\b(?:\s+a\d+)?(?:\s+(ov\d+|arm9))?", line)
         if sm:
             if sm.group(4):
                 ADDR_REGION.setdefault(int(sm.group(2), 16) & ~1, set()).add(sm.group(4))
@@ -626,6 +636,8 @@ def manifest_region(name, a):
                 _MREG.setdefault((m.group(1), int(m.group(2), 16) & ~1), set()).add(m.group(3))
         _MREG[None] = None
     r = _MREG.get((name, a & ~1))
+    if not r and re.search(r"__(v\d+|[0-9A-Fa-f]{6,8})$", name):
+        r = _MREG.get((name.rsplit("__", 1)[0], a & ~1))     # a second name (rename pair) of a function
     return next(iter(r)) if r and len(r) == 1 else None
 
 
@@ -638,7 +650,7 @@ SRC_DIR = {"arm9_main": "arm9", "itcm": "arm9_autoload0_ITCM"}
 
 def _B(a):
     """The Black address of a link result address (the overlay's own addresses move by 0x20 in White)."""
-    if VERSION != "white":
+    if TARGET == "black":
         return a
     import white_map
     if OWN_OVERLAY and OWN_OVERLAY["wlo"] <= a < OWN_OVERLAY["whi"]:
@@ -651,12 +663,18 @@ def _B(a):
         return None         # an ARM9 callee's stub: not a function of the overlay
 
 
+def target_layout():
+    """The layout.json of the target being linked (build/<t>/layout/)."""
+    return json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
+
+
 def white_overlay_info(ovid):
-    """(base, image) of an overlay in White: build/white/layout and extract_white/."""
-    lay = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+    """(base, image) of an overlay in the target: its layout and extract_<t>/."""
+    lay = target_layout()
+    xdir = targets.extract_dir(TARGET)
     if ovid in ("arm9_main", "itcm"):
         a = lay["arm9"]
-        img = open(os.path.join(ROOT, "extract_white", a["decompressed_file"]), "rb").read()
+        img = open(os.path.join(xdir, a["decompressed_file"]), "rb").read()
         if ovid == "arm9_main":
             st = a["static"]
             return st["ram_start"], img[st["src_offset"]:st["src_offset"] + st["size"]]
@@ -665,9 +683,9 @@ def white_overlay_info(ovid):
     o = [x for x in lay["overlays"] if x["id"] == ovid][0]
     if ovid == 230:
         import ovcrypt
-        v = ovcrypt.view_for(os.path.join(ROOT, "extract_white"), o)
+        v = ovcrypt.view_for(xdir, o)
         return o["ram_start"], v.data
-    return o["ram_start"], open(os.path.join(ROOT, "extract_white", o["decompressed_file"]), "rb").read()
+    return o["ram_start"], open(os.path.join(xdir, o["decompressed_file"]), "rb").read()
 
 
 def overlay_info(ovid):
@@ -762,26 +780,30 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
     base, img = overlay_info(ovid)
     end = base + len(img)
     wbase, wimg = base, img
-    if VERSION == "white":
+    if TARGET != "black":
+        import white_map
         wbase, wimg = white_overlay_info(ovid)
-        if len(wimg) != len(img) and ovid not in (88, "arm9_main"):
-            return dict(ov=ovid, ok=False, why="--version white: the overlay is 0x%X bytes in Black and 0x%X in White" % (len(img), len(wimg)))
+        if len(wimg) != len(img) and ovid != "arm9_main" and region_name(ovid) not in white_map.irregular(TARGET):
+            return dict(ov=ovid, ok=False, why="--target %s: the overlay is 0x%X bytes in Black and 0x%X in the target" % (TARGET, len(img), len(wimg)))
     wend = wbase + len(wimg)
+    if TARGET != "black":
+        white_map.set_context("arm9" if ovid == "arm9_main" else (region_name(ovid) if isinstance(ovid, int) else None))
     OWN_OVERLAY.clear()
-    if VERSION == "white" and ovid == "arm9_main":
+    if TARGET != "black" and ovid == "arm9_main":
         _st = json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["arm9"]["static"]
         OWN_OVERLAY.update(region="arm9", lo=base, hi=_st["bss_end"], wlo=wbase, whi=wend)
-    elif VERSION == "white" and isinstance(ovid, int) and ("ov%03d" % ovid) in ("ov021", "ov172", "ov088", "ov181", "ov203", "ov204"):
+    elif TARGET != "black" and isinstance(ovid, int) and ("ov%03d" % ovid) in white_map.irregular(TARGET):
         _ob = [o for o in json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["overlays"] if o["id"] == ovid][0]
         OWN_OVERLAY.update(region="ov%03d" % ovid, lo=base, hi=max(end, _ob["bss_end"]), wlo=wbase, whi=wend)
     d = os.path.join(ROOT, "src", "game", SRC_DIR.get(ovid) or region_name(ovid))
-    pub = os.path.join(OUT, region_name(ovid) + ("_white" if VERSION == "white" else ""))
+    pub = os.path.join(OUT, region_name(ovid) + targets.suffix(TARGET))
     work = os.path.join(OUT, "%s_%d" % (region_name(ovid), os.getpid()))
     data_tail = bss = None
     data_aliases = {}
     data_renames = {}
     own_tail = {}
     data_nosinit = False
+    data_wt0 = None
     data_fixed = {}
     pad_ok = data      # the linker pads a Thumb file to the next 4-aligned one
     if data:
@@ -800,9 +822,10 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         # 1-aligned here but 4-aligned in the game's objects)
         own_tail = {stem: [(i, int(a, 16)) for i, a in v] for stem, v in dj.get("own", {}).items()}
         data_sinit = dj.get("sinit", [])
+        data_wt0 = int(dj["wt0"], 16) if dj.get("wt0") else None     # target start of the tail (volatile runs)
         data_nosinit = bool(dj.get("nosinit"))         # arm9_main: .rodata and .data follow each other
         data_fixed = {k: int(v, 16) for k, v in dj.get("fixed", {}).items()}   # companion stem -> address
-        pub = os.path.join(OUT + "_data", region_name(ovid) + ("_white" if VERSION == "white" else ""))
+        pub = os.path.join(OUT + "_data", region_name(ovid) + targets.suffix(TARGET))
         work = os.path.join(OUT + "_data", "%s_%d" % (region_name(ovid), os.getpid()))
     shutil.rmtree(work, ignore_errors=True)
     os.makedirs(work)
@@ -1171,7 +1194,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                         gaps_w.append((cur, a))
                     elif a < cur:
                         who = [t["stem"] for t in tus for p in t["pieces"] if W(p["addr"]) <= a < W(p["addr"]) + (p["end"] - p["addr"])]
-                        return dict(ov=ovid, ok=False, why="files or data overlap at %08X (%s)" % (a, ", ".join(who)))
+                        return dict(ov=ovid, ok=False, why="files or data overlap at %08X by %d bytes (%s): the code in the target has another size" % (a, cur - a, ", ".join(who)))
                     cur = b
                 if cur < wend:
                     gaps_w.append((cur, wend))
@@ -1215,8 +1238,13 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     absol.append((n, a | (k == "thumb")))
                 elif in_gap(a) is not None:
                     gap_funcs.setdefault(in_gap(a), []).append((n, a, k))
-                elif in_tu(a) or (pas == 1 and base <= a < end):
-                    if pas == 2 and a in addr2name:
+                elif in_tu(a) or (pas == 1 and base <= a < end) or ("__" in n and any(n.rsplit("__", 1)[0] in t["defs"] for t in tus)):
+                    if pas == 2 and "__" in n and any(f[2] == n.rsplit("__", 1)[0] for f in funcs1):
+                        # NAME__ADDR (rename pair) names the function NAME of a file; in a language target
+                        # the Black address ADDR may hold another function, so NAME decides
+                        _f = [f for f in funcs1 if f[2] == n.rsplit("__", 1)[0]][0]
+                        aliases.append((n, _f[2], 0, _f[3]))
+                    elif pas == 2 and a in addr2name:
                         # second name of a function of a file (also of a static one:
                         # an absolute .lcf symbol at an odd address makes mwldarm
                         # misencode a backward Thumb BL by 2 bytes)
@@ -1288,24 +1316,26 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 sect.append(" .%s : { t%d.o (%s)%s } > %s" % (tag, i, p["sec"], " . = ALIGN(4);" if p.get("pad") else "", tag))
             names.append("t%d.o" % i)
         wtail_mem = {}
+        sinit_pad = False       # the target's data starts above the end of its table: ALIGN(32) pads it
         if data_tail:
             t0, s0, s1, e0 = data_tail
-            if VERSION == "white" and ovid == "arm9_main":
-                # the ARM9 data tail ends at White's end of the static module
+            if TARGET != "black" and ovid == "arm9_main":
+                # the ARM9 data tail ends at the target's end of the static module
                 wtail_mem["dtail"] = (W(t0), wend)
-            elif VERSION == "white" and OWN_OVERLAY and OWN_OVERLAY["region"] != "arm9":
-                # an overlay whose code moved: its tail segments come from White's layout (the
+            elif TARGET != "black" and OWN_OVERLAY and OWN_OVERLAY["region"] != "arm9":
+                # an overlay whose code moved: its tail segments come from the target's layout (the
                 # static-initialiser table, the end of the image), not from Black's sizes
-                _lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+                _lw = target_layout()
                 _ow = [o_ for o_ in _lw["overlays"] if o_["id"] == ovid][0]
                 _ob = [o_ for o_ in json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["overlays"]
                        if o_["id"] == ovid][0]
                 if not data_nosinit:
                     _s1w = _ow["static_init_end"]
-                    if s1 != _ob["static_init_end"]:
+                    if s1 != _ob["static_init_end"] or (e0 > s1 and _s1w % 32):
                         _s1w = (_s1w + 31) & ~31
-                    wtail_mem["dtail"] = (W(t0), _s1w)
+                    wtail_mem["dtail"] = (data_wt0 or W(t0), _s1w)
                     wtail_mem["ddata"] = (_s1w, wend)
+                    sinit_pad = _s1w > _ow["static_init_end"]
 
             def tail_of(sname):
                 out_ = []
@@ -1324,7 +1354,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 # datalink.json "sinit", then the terminator), .data at ALIGN(32)
                 sinit = "".join(" WRITEW %s;" % x for x in data_sinit)
                 body = tail_of(".rodata") + " . = ALIGN(4); SINIT_START = .;%s WRITEW 0; SINIT_END = .;" % sinit
-                if s1 > s0 + 4:
+                if s1 > s0 + 4 or sinit_pad:
                     body += " . = ALIGN(32);"
                 mem.append(("dtail", t0, s1 - t0))
                 sect.append(" .dtail : { %s } > dtail" % body)
@@ -1358,12 +1388,23 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             mem.append(("g%d" % i, g0, g1 - g0))
             sect.append(" .g%d : { g%d.o (.gap) } > g%d" % (i, i, i))
             names.append("g%d.o" % i)
+        stub_fix = {}               # stub region name -> its target address, read from the target image
+        stub_region = {}            # stub region name -> the overlay of its callees (several overlays share an address)
         if ext_funcs:
             secs, sy = [], []
             byaddr = {}
+            multi = {}
+            if TARGET != "black":
+                for n, a, k in ext_funcs:
+                    r_ = manifest_region(n, a) if a >= 0x02100000 else None
+                    if r_:
+                        multi.setdefault(a & ~1, set()).add(r_)
             for n, a, k in ext_funcs:
-                byaddr.setdefault((a, k), []).append(n)
-            for j, ((a, k), ns) in enumerate(sorted(byaddr.items())):
+                r_ = manifest_region(n, a) if TARGET != "black" and len(multi.get(a & ~1, ())) > 1 else None
+                byaddr.setdefault((a, k, r_), []).append(n)
+            for j, ((a, k, r_), ns) in enumerate(sorted(byaddr.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2] or ""))):
+                if r_:
+                    stub_region["c%d" % j] = r_
                 secs.append((".cal%d" % j, 6, bytes(2 if k == "thumb" else 4), 4 if k == "arm" else 2))
                 sy.append(("$t" if k == "thumb" else "$a", j + 1, 0, 0, True, False))
                 for q, n in enumerate(ns):
@@ -1373,12 +1414,49 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 sect.insert(0, " .c%d : { stubs.o (.cal%d) } > c%d" % (j, j, j))
             write_elf(os.path.join(work, "stubs.o"), secs, sy)
             names.append("stubs.o")
+            # a callee at an address that several overlays hold, which load at different shifts in
+            # the target (ov107, ov215): the call sites in the target image say which one
+            if TARGET != "black" and OWN_OVERLAY and pas == 2 and not absolute_only:
+                _sa_all = {}
+                for y in esyms:
+                    if y["name"] and y["shndx"] != 0 and not y["name"].startswith("$"):
+                        _sa_all.setdefault(y["name"], y["value"] & ~1)
+                _ovs = json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["overlays"]
+                for j, ((a, k, r_), ns) in enumerate(sorted(byaddr.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2] or ""))):
+                    if r_ or base <= a < end or a < 0x02100000 or wimg is None:
+                        continue
+                    import white_map
+                    cands = set()
+                    for o_ in _ovs:
+                        if o_["ram_start"] <= (a & ~1) < o_["ram_start"] + o_["code_size"]:
+                            try:
+                                cands.add(white_map.to_white(a & ~1, "ov%03d" % o_["id"]) & ~1)
+                            except KeyError:
+                                pass
+                    if len(cands) < 2:
+                        continue
+                    for n in ns:
+                        got_ = None
+                        for t in tus:
+                            if not any(y["name"] == n and y["shndx"] == 0 for y in t["osyms"]):
+                                continue
+                            sa = {}
+                            for y in t["osyms"]:
+                                if y["shndx"] and y["value"] == 0 and y["name"] in _sa_all and not y["name"].startswith("$"):
+                                    sa.setdefault(y["shndx"], _sa_all[y["name"]])
+                            r = infer_from_relocs(t, n, wimg, wbase, region_name(ovid), sa, branch_only=True)
+                            if r and (r[0] & ~1) in cands:
+                                got_ = r[0] & ~1
+                                break
+                        if got_ is not None:
+                            stub_fix["c%d" % j] = got_
+                            break
         # a stub that falls inside the overlay would overlap its regions
         for n, a, k in ext_funcs:
             if base <= a < end:
                 return dict(ov=ovid, ok=False, why="callee %s at %08X inside overlay, not in a gap or file" % (n, a))
         try:
-            if VERSION == "white":
+            if TARGET != "black":
                 import white_map
                 for n_, a_, _k in ext_funcs:
                     r_ = manifest_region(n_, a_)
@@ -1392,16 +1470,16 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     if (re.fullmatch(r"c[0-9]+", n_) and not ADDR_REGION.get(a_ & ~1)
                             and not (OWN_OVERLAY and OWN_OVERLAY["lo"] <= (a_ & ~1) < OWN_OVERLAY["hi"])):
                         ADDR_REGION[a_ & ~1] = {white_map.guess_callee_region(a_) or "-"}
-            mem = [((n_, gw[n_][0], gw[n_][1] - gw[n_][0]) if n_ in gw else (n_, W(a_), l_)) for n_, a_, l_ in mem]
-            absol = [(n_, W(a_ & ~1) | (a_ & 1)) for n_, a_ in absol]
-            if VERSION == "white" and ovid == "arm9_main":
-                # the two compressed-end values of the build info come from White's own layout
-                _wl = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))["arm9"]
+            mem = [((n_, gw[n_][0], gw[n_][1] - gw[n_][0]) if n_ in gw else (n_, stub_fix.get(n_) or W(a_, stub_region.get(n_)), l_)) for n_, a_, l_ in mem]
+            absol = [(n_, white_map.refine(a_, W(a_ & ~1) | (a_ & 1)) if TARGET != "black" else a_) for n_, a_ in absol]
+            if TARGET != "black" and ovid == "arm9_main":
+                # the two compressed-end values of the build info come from the target's own layout
+                _wl = target_layout()["arm9"]
                 _ov = {"SDK_COMPRESSED_STATIC_END": _wl["build_info"]["compressed_code_end"],
                        "SDK_LTDCOMPRESSED_END": _wl["twl_build_info"]["compressed_code_end"]}
                 absol = [(n_, _ov.get(n_, a_)) for n_, a_ in absol]
         except KeyError as exc:
-            return dict(ov=ovid, ok=False, why="--version white: %s" % exc)
+            return dict(ov=ovid, ok=False, why="--target %s: %s" % (TARGET, exc))
         lcf = "MEMORY {\n" + "".join(" %s : ORIGIN = 0x%08X, LENGTH = 0x%X\n" % m for m in mem) + "}\n"
         lcf += "SECTIONS {\n" + "\n".join(sect) + "\n"
         lcf += "".join(" %s = 0x%08X;\n" % (n, a) for n, a in absol)
@@ -1518,10 +1596,16 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             # the other file's address and lands off.  In this pass the code sits where the
             # original has it, so each file's own bl can be read from the image: name every
             # file whose call goes elsewhere than the address the name is bound to.
+            # In a language or White target the link and the image are the target's: symbols,
+            # call sites and call targets are all target addresses, so the bound address is
+            # compared after the mapping the link used (W).
+            tg = TARGET != "black"
             eaddr2 = {}
             for y in esyms:
-                if y["name"] and y["shndx"] != 0 and not y["name"].startswith("$") and _B(y["value"] & ~1) is not None:
-                    eaddr2.setdefault(y["name"], _B(y["value"] & ~1))
+                if y["name"] and y["shndx"] != 0 and not y["name"].startswith("$"):
+                    ya = (y["value"] & ~1) if tg else _B(y["value"] & ~1)
+                    if ya is not None:
+                        eaddr2.setdefault(y["name"], ya)
             for n in sorted(undef):
                 if n not in syms:
                     continue
@@ -1534,8 +1618,12 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     for y in t["osyms"]:
                         if y["shndx"] and y["value"] == 0 and y["name"] in eaddr2 and not y["name"].startswith("$"):
                             sa.setdefault(y["shndx"], eaddr2[y["name"]])
-                    r = infer_from_relocs(t, n, img, base, region_name(ovid), sa, branch_only=True)
-                    if r and (r[0] & ~1) != want and match.isa_evidence(r[0] & ~1, region_name(ovid)):
+                    r = infer_from_relocs(t, n, wimg if tg else img, wbase if tg else base, region_name(ovid), sa, branch_only=True)
+                    if tg:
+                        clash = bool(r) and (r[0] & ~1) != (W(want) & ~1)
+                    else:
+                        clash = bool(r) and (r[0] & ~1) != want and match.isa_evidence(r[0] & ~1, region_name(ovid))
+                    if clash:
                         name_clash.append("%s: bound to %08X (%s), but %s calls %08X" % (
                             n, want, "its own row" if n in t["syms"] else "another file's row or the first user",
                             t["stem"], r[0] & ~1))
@@ -1553,8 +1641,13 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             sha1=hashlib.sha1(bytes(out)).hexdigest(), version=VERSION)))
     tail_diff = None
     if data_tail:
-        bad = [i for i in range(data_tail[0] - base, data_tail[3] - base) if out[i] != wimg[i] or not got[i]]
-        tail_diff = (len(bad), [hex(base + b) for b in bad[:8]])
+        if OWN_OVERLAY:
+            # the tail of the target starts at its mapped place and runs to the end of its image
+            t_lo, t_hi, t_base = W(data_tail[0]) - wbase, len(wimg), wbase
+        else:
+            t_lo, t_hi, t_base = data_tail[0] - base, data_tail[3] - base, base
+        bad = [i for i in range(t_lo, t_hi) if out[i] != wimg[i] or not got[i]]
+        tail_diff = (len(bad), [hex(t_base + b) for b in bad[:8]])
     return dict(ov=ovid, ok=whole and not code_diff, tail_diff=tail_diff, files=len(tus), code_bytes=sum(t["size"] for t in tus),
                 gap_bytes=sum(g1 - g0 for g0, g1 in gaps), size=len(img),
                 bss_standin_bytes=standin, data_sections=len(dgroups), dead_data=dead, unplaced_data=unplaced, typed_stubs=len(ext_funcs), gap_funcs=sum(len(v) for v in gap_funcs.values()),
@@ -1595,15 +1688,16 @@ def selftest():
 
 
 def main(argv):
-    global VERSION
+    global VERSION, TARGET
     mode = {}
     ids = []
     if argv == ["--selftest"]:
         return selftest()
     argv = list(argv)
-    while "--version" in argv:
-        k = argv.index("--version")
-        argv[k:k + 2] = ["--version=" + (argv[k + 1] if k + 1 < len(argv) else "")]
+    for flag in ("--version", "--target"):
+        while flag in argv:
+            k = argv.index(flag)
+            argv[k:k + 2] = [flag + "=" + (argv[k + 1] if k + 1 < len(argv) else "")]
     for a in argv:
         if a == "--absolute":
             mode["absolute_only"] = True
@@ -1617,9 +1711,15 @@ def main(argv):
             mode["data"] = True
         elif a == "--no-interworking":
             mode["interworking"] = False
-        elif a == "--version=white" or a == "--version=black":
-            VERSION = a[10:]
-            os.environ["ALETHEIA_VERSION"] = VERSION
+        elif a.startswith("--version=") or a.startswith("--target="):
+            # --version white is the older spelling of --target white
+            name = a.split("=", 1)[1].lower()
+            if name not in targets.TARGETS:
+                print("unknown target %r (known: %s)" % (name, ", ".join(targets.TARGETS)))
+                return 2
+            TARGET = VERSION = name
+            os.environ["ALETHEIA_TARGET"] = name
+            os.environ["ALETHEIA_VERSION"] = name
         else:
             ids.append(a if a in SRC_DIR else int(a))
     rc = 0

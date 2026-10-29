@@ -4,6 +4,7 @@
     python tools/arm9data.py [--out=DIR] [--relink] [--data-start=0xADDR]
     python tools/gamelink.py arm9_main --data --extra=build/datac/arm9
     python tools/arm9data.py --version white        # Black's structure, White's values (build/datac_white/arm9)
+    python tools/arm9data.py --target black_fr      # the same for a language ROM (build/datac_black_fr/arm9)
     python tools/gamelink.py arm9_main --data --extra=build/datac_white/arm9 --version white
 
 Same design as `datagen.py companions` for the overlays (see there and
@@ -44,6 +45,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import datareg   # noqa: E402
 import datagen   # noqa: E402
+import targets   # noqa: E402
 
 RG = "arm9"
 WHITE = False     # --version white: Black's structure, White's values (build/datac_white/arm9)
@@ -343,8 +345,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
     # pointer stays a symbol only when White holds the word the Black pointer maps to
     if WHITE:
         import white_map
-        lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))["arm9"]["static"]
-        wimg = open(os.path.join(ROOT, "extract_white", "arm9_dec.bin"), "rb").read()
+        lw = json.load(open(os.path.join(targets.layout_dir(datagen.TARGET), "layout.json"), encoding="utf-8"))["arm9"]["static"]
+        wimg = open(os.path.join(targets.extract_dir(datagen.TARGET), "arm9_dec.bin"), "rb").read()
         wimg = wimg[lw["src_offset"]:lw["src_offset"] + lw["size"]]
         wbase = lw["ram_start"]
         # pointers name their target object by index; inserting objects below would shift them
@@ -352,11 +354,72 @@ def companions(out=None, relink=False, data_start=DATA_START):
             for k_, (kind_, j_, off_) in list(ob["ptrs"].items()):
                 if kind_ == "obj":
                     ob["ptrs"][k_] = (kind_, objs[j_], off_)
+        # Objects that the alignment cannot place (a language ROM re-orders and re-sizes the
+        # tables and strings of the tail): keep the heaviest chain of objects whose target ranges
+        # grow in step with Black's order; the rest are dropped.  The gaps they leave become raw
+        # objects below (the target's bytes), and the names of a dropped object become aliases
+        # into the object that holds its target address (inner_off).
+        # The pool words of the code are evidence: each site maps through the code alignment (which
+        # holds there) and the word the target holds at it is the address of the object it names.
+        votes = {}
+        for site_, v_ in words:
+            if t0 <= v_ < end and site_ < t0:
+                try:
+                    ws_ = white_map.to_white(site_) - wbase
+                except KeyError:
+                    continue
+                if 0 <= ws_ <= len(wimg) - 4:
+                    votes.setdefault(v_, Counter())[struct.unpack_from("<I", wimg, ws_)[0]] += 1
+        dropped, wspan = [], {}
+        liars = set()           # objects whose address the alignment gives differently than the code does
+        ostart = [x["addr"] for x in objs]
+        for v_, cn_ in votes.items():
+            k_ = bisect.bisect_right(ostart, v_) - 1
+            try:
+                al_ = white_map.to_white(v_)
+            except KeyError:
+                al_ = None
+            if k_ >= 0 and al_ != cn_.most_common(1)[0][0]:
+                liars.add(id(objs[k_]))
+        cand = [ob for ob in objs if ob["data"] is not None and ob["sec"] != ".bss"]
+        for ob in cand:
+            if id(ob) in liars:
+                continue
+            try:
+                wa_ = white_map.to_white(ob["addr"])
+                we_ = white_map.to_white(ob["addr"] + ob["size"] - 1) + 1
+            except KeyError:
+                continue
+            if we_ > wa_ and wbase <= wa_ and we_ <= wbase + len(wimg):
+                wspan[id(ob)] = (wa_, we_)
+        best = {}       # id -> (weight of the best chain ending here, previous object)
+        order = [ob for ob in cand if id(ob) in wspan]
+        for i, ob in enumerate(order):
+            wa_, _we = wspan[id(ob)]
+            bw_, bp_ = 0, None
+            for j in range(i):
+                o2 = order[j]
+                if wspan[id(o2)][1] <= wa_ and best[id(o2)][0] > bw_:
+                    bw_, bp_ = best[id(o2)][0], o2
+            best[id(ob)] = (bw_ + ob["size"], bp_)
+        keep = set()
+        if order:
+            cur = max(order, key=lambda o: best[id(o)][0])
+            while cur is not None:
+                keep.add(id(cur))
+                cur = best[id(cur)][1]
+        if len(keep) < len(cand):
+            dropped = [ob for ob in cand if id(ob) not in keep]
+            objs = [ob for ob in objs if ob["data"] is None or ob["sec"] == ".bss" or id(ob) in keep]
+            objstart = [x["addr"] for x in objs]
+        white_dropped = len(dropped)
         # White-only data: a range of White's tail that no object and no own section of Black
         # maps to (a constant that only a changed function uses) becomes one raw object that
         # follows the object before it
-        cover = sorted((white_map.to_white(ob["addr"]), white_map.to_white(ob["addr"]) + ob["size"], k)
-                       for k, ob in enumerate(objs) if ob["data"] is not None)
+        cover = sorted((wspan[id(ob)][0], wspan[id(ob)][1], k)
+                       for k, ob in enumerate(objs) if ob["data"] is not None and id(ob) in wspan)
+        if any(ob["data"] is not None and ob["sec"] != ".bss" and id(ob) not in wspan for ob in objs):
+            blockers.append("an object of the tail has no target range")
         own_w = [(white_map.to_white(a_), white_map.to_white(a_) + (b_ - a_)) for a_, b_ in own_occ]
         prev_end, extra, white_only_n = white_map.to_white(t0), [], 0
         for wa_, we_, k in sorted(cover + [(a_, b_, -1) for a_, b_ in own_w]):
@@ -379,13 +442,63 @@ def companions(out=None, relink=False, data_start=DATA_START):
                                 name="dgw_%08X" % ga, src_name="dgw_%08X" % ga, inner_names=[], wonly=True,
                                 wdata=wimg[ga - wbase:gb - wbase], wraw=set()))
             white_only_n += 1
+        # the names of the dropped objects point into the object that holds their target address
+        wext = sorted((wspan[id(ob)][0], wspan[id(ob)][1], id(ob)) for ob in objs if id(ob) in wspan)
+        for ob in objs:
+            if ob.get("wonly"):
+                ga_ = int(ob["name"][4:], 16)
+                wext.append((ga_, ga_ + ob["size"], id(ob)))
+        wext.sort()
+        byid = {id(ob): ob for ob in objs}
+
+        def holder(t_):
+            k_ = bisect.bisect_right([x[0] for x in wext], t_) - 1
+            if k_ >= 0 and wext[k_][0] <= t_ < wext[k_][1]:
+                return byid[wext[k_][2]], wext[k_][0]
+            return None, 0
+        redirect = {}
+        for d_ in dropped:
+            for a_ in [d_["addr"]] + d_["inner"]:
+                try:
+                    t_ = white_map.to_white(a_)
+                except KeyError:
+                    continue
+                if a_ in votes:
+                    t_ = votes[a_].most_common(1)[0][0]
+                h_, hw_ = holder(t_)
+                if h_ is None:
+                    continue
+                h_.setdefault("inner_off", {})[a_] = t_ - hw_
+                if a_ != h_["addr"]:
+                    h_["inner"] = h_.get("inner", []) + [a_]
+                if a_ == d_["addr"]:
+                    redirect[id(d_)] = (h_, t_ - hw_)
+        dropped_ids = {id(d) for d in dropped}
+        for ob in objs:
+            for k_, (kind_, j_, off_) in list(ob["ptrs"].items()):
+                if kind_ == "obj" and id(j_) in dropped_ids:
+                    h_ = redirect.get(id(j_))
+                    if h_:
+                        ob["ptrs"][k_] = (kind_, h_[0], h_[1] + off_)
+                    else:
+                        del ob["ptrs"][k_]
         for ob in objs:
             if ob["data"] is None or ob.get("wonly"):
                 continue
             wa = white_map.to_white(ob["addr"])
             we = white_map.to_white(ob["addr"] + ob["size"] - 1) + 1
             if we - wa != ob["size"]:
-                blockers.append("%08X: %d bytes in Black, %d in White" % (ob["addr"], ob["size"], we - wa))
+                if we - wa > 0 and wa + (we - wa) <= wbase + len(wimg):
+                    # the object has another length in the target (a language ROM's text): the
+                    # target's extent becomes the object, as raw words (no symbolic pointers)
+                    ob["resized"] = (ob["size"], we - wa)
+                    ob["size"] = we - wa
+                    ob["ptrs"] = {}
+                    ob["wdata"] = wimg[wa - wbase:we - wbase]
+                    ob["wraw"] = set()
+                    ob["inner"] = [x for x in ob["inner"] if ob.get("inner_off", {}).get(x, x - ob["addr"]) < ob["size"]]
+                    continue
+                blockers.append("%08X: %d bytes in Black, %d in the target" % (ob["addr"], ob["size"], we - wa))
                 ob["wdata"] = ob["data"]
                 ob["wraw"] = set()
                 continue
@@ -405,8 +518,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
                     ob["wraw"].add(k)
 
     # ---- emit
-    out = out or os.path.join(datagen.DATAC_OUT_WHITE if WHITE else datagen.DATAC_OUT, RG)
-    gen = os.path.join(datagen.DATAC_GEN_WHITE if WHITE else datagen.DATAC_GEN, RG)
+    out = out or os.path.join(datagen.datac_out(), RG)
+    gen = os.path.join(datagen.datac_gen(), RG)
     for dd in (out, gen):
         if os.path.isdir(dd):
             for f in os.listdir(dd):
@@ -418,6 +531,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
                  shifted=shifted)
     if WHITE:
         stats["white_only"] = white_only_n
+        stats["dropped"] = white_dropped
     aliases = {}
     by_owner = {}
     defined = Counter(ob["name"] for ob in objs)
@@ -464,7 +578,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
         for a in ob["inner"]:
             for fi_, nms in hdr_names.get(a, {}).items():
                 for n in nms:
-                    name_for(fi_, n, "%s + %d" % (ob["name"], a - ob["addr"]), a)
+                    name_for(fi_, n, "%s + %d" % (ob["name"], ob.get("inner_off", {}).get(a, a - ob["addr"])), a)
     stats["aliases"] = len(aliases)
     stats["companions"] = len(by_owner)
 
@@ -654,7 +768,7 @@ def secure_area(out, base, img, bsecs):
         # start maps to itself).
         import white_map
         used = sorted((white_map.to_white(a_), white_map.to_white(a_) + (b_ - a_)) for a_, b_ in used)
-        img = open(os.path.join(ROOT, "extract_white", "arm9_dec.bin"), "rb").read()[:SECURE_END - base]
+        img = open(os.path.join(targets.extract_dir(datagen.TARGET), "arm9_dec.bin"), "rb").read()[:SECURE_END - base]
     gaps = []
     cur = base
     for a, b in used + [(SECURE_END, SECURE_END)]:
@@ -715,10 +829,13 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--relink", action="store_true", help="redo the plain gamelink link first")
     ap.add_argument("--data-start", default=hex(DATA_START), help="address of the first .data object")
-    ap.add_argument("--version", choices=("black", "white"), default="black")
+    ap.add_argument("--version", choices=("black", "white"), default=None, help="older spelling of --target")
+    ap.add_argument("--target", choices=sorted(targets.TARGETS), default=None,
+                    help="Black's structure, the target's values (build/datac_<t>/arm9)")
     a = ap.parse_args()
     global WHITE
-    WHITE = a.version == "white"
+    datagen.set_target(a.target or a.version or targets.current())
+    WHITE = datagen.WHITE
     r = companions(a.out, a.relink, int(a.data_start, 16))
     print("arm9 -> %s %s, %d blockers" % (os.path.relpath(r["out"], ROOT), r["stats"], len(r["blockers"])))
     for b in r["blockers"][:20]:

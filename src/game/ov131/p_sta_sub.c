@@ -115,6 +115,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 
+#include "../version.h"
 #include "p_status_types.h"
 
 #include "../types.h"
@@ -597,7 +598,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
     POKE_TOOL_GetBoxValue(mon, (unsigned int)115, (uptr)name);
-    WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
+    WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, PM_LANG_ID);
     text = MSGDATA_AllocString(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);

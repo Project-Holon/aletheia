@@ -133,6 +133,7 @@
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
+ *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   MYSTATUS_Create 0x0200846C thumb
  *   WIFILIST_GetFriendInfo 0x020099D4 thumb
  *   STRBUF_SetString 0x02045924 arm
@@ -277,6 +278,7 @@ struct CodeinParam;
 struct Param;
 struct S020314B8;
 #include "../types.h"
+#include "../version.h"
 #include "../ov067/touchbar.h"
 
 #include "../arm9/bg_sys.h"
@@ -849,7 +851,11 @@ int Wf2dmapFriend_PrintTrainerStats(u8 *p,u8 *q,int idx)
     v=WIFILIST_GetFriendInfoField(base,idx,5);
     WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,0,v,4,1,1);
     v=WIFILIST_GetFriendInfoField(base,idx,6);
+#if PM_LANG_MONTH_AS_NAME
+    WORDSET_SetSlotMonth(((Wf2dmapTouchGfx *)p)->wordSet,1,v);
+#else
     WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,1,v,2,0,1);
+#endif
     return result;
 }
 

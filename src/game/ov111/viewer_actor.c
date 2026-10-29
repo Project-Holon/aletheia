@@ -81,6 +81,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   TRCARD_SIGN_GetBadgeDate  0x02008A54  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
+ *   WORDSET_SetSlotMonth  0x0201F230  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021C88B4  0x021C88B4  data
@@ -114,6 +115,14 @@
  *   d_021C8874  0x021C8874  data
  */
 #include "viewer_types.h"
+#include "../version.h"
+
+/* French, Italian and German print the month as a word; the others print its number. */
+#if PM_LANG_MONTH_AS_NAME
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotMonth(words, slot, month)
+#else
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, 1)
+#endif
 
 struct Obj;
 struct Bank;
@@ -627,7 +636,7 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
     case 0:
         r = TRCARD_SIGN_GetBadgeDate(p->saveBlock, idx);
         WORDSET_SetSlotNumber(p->wordSet, 0, r.year + 0x7D0, 4, 0, 1);
-        WORDSET_SetSlotNumber(p->wordSet, 1, r.month, 2, 0, 1);
+        VIEWER_SET_MONTH(p->wordSet, 1, r.month, 0);
         WORDSET_SetSlotNumber(p->wordSet, 2, r.day, 2, 0, 1);
         MSGDATA_ReadString(p->msgBank, idx * 3 + 0x58, str);
         WORDSET_CopyTaggedText(p->wordSet, p->strbuf, str);

@@ -128,6 +128,14 @@ struct U16Vec;
 struct WordSet;
 struct ThAwardRec;
 #include "../types.h"
+#include "../version.h"
+
+/* Gap between the two texts of the first result line. */
+#if LANGUAGE == LANGUAGE_ENGLISH
+#define TH_AWARD_RESULT_GAP 8
+#else
+#define TH_AWARD_RESULT_GAP 16
+#endif
 
 #include "../arm9/bg_sys.h"
 
@@ -543,12 +551,12 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     off = 0;
     w1 = (u16)PRINTSYS_MeasureWidestLine(x, p->font, 0);
     h = (u16)PRINTSYS_MeasureWidestLine(y, p->font, 0);
-    n = w1 + 8 + h;
+    n = w1 + TH_AWARD_RESULT_GAP + h;
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[1];
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[1]), (s16)off, k, x, p->font, 0x440);
-    PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[1]), (s16)(u16)(off + w1 + 8), k, y, p->font, 0x440);
+    PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[1]), (s16)(u16)(off + w1 + TH_AWARD_RESULT_GAP), k, y, p->font, 0x440);
     STRBUF_Delete(y);
     STRBUF_Delete(x);
     m = *(u16 *)(b + 2);

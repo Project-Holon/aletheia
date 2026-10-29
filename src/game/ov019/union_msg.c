@@ -132,6 +132,7 @@ struct MsgBank;
 struct U16Vec;
 struct Handle;
 #include "../sdk_fx.h"
+#include "../version.h"
 
 #include "../ov021/field_msgbg_types.h"
 #include "../ov012/union_comm_types.h"
@@ -644,7 +645,7 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
         sex = partner->sex;
     } else {
         nameChars = (u16 *)MYSTATUS_GetName((const void *)myStatus);
-        language = 2;
+        language = PM_LANG_ID;
         sex = (int)MYSTATUS_GetSex(myStatus);
     }
     nameStr = STRBUF_Create(0x20, UNION_HEAP_ID);

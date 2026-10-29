@@ -27,6 +27,7 @@
  *   g_pmsWordDefaultFlagTable   0x0209F784  data  a1
  *   g_pmsWordSimilarGroups  0x0209F7C8  data
  */
+#include "../version.h"
 #include "pms_types.h"
 struct WinPanel020071CCCtrl;
 struct MsgBank;
@@ -83,7 +84,19 @@ extern const char g_pmsWordSourceFile[];
 extern const u16 g_pmsWordBankFileIds[];
 extern const u16 g_pmsWordBankSizes[];
 extern const u8 g_pmsWordDefaultFlagTable[][2];
-extern const Group g_pmsWordSimilarGroups[13];
+#if LANGUAGE == LANGUAGE_FRENCH
+#define PMS_WORD_GROUP_COUNT 12
+#elif LANGUAGE == LANGUAGE_GERMAN
+#define PMS_WORD_GROUP_COUNT 7
+#elif LANGUAGE == LANGUAGE_ITALIAN
+#define PMS_WORD_GROUP_COUNT 2
+#elif LANGUAGE == LANGUAGE_SPANISH
+#define PMS_WORD_GROUP_COUNT 10
+#else
+#define PMS_WORD_GROUP_COUNT 13
+#endif
+
+extern const Group g_pmsWordSimilarGroups[PMS_WORD_GROUP_COUNT];
 
 /*
  * pms_word.c: allocate the 0x38-byte word-message system and open its
@@ -234,7 +247,7 @@ void PMS_WORD_InitSave(struct PmsWord *p)
             p->sentence[i].word[j] = 0xffff;
     }
     for (k = 0; k < 7; k++) {
-        if (g_pmsWordDefaultFlagTable[k][0] == 2) {
+        if (g_pmsWordDefaultFlagTable[k][0] == PM_LANG_ID) {
             PMS_WORD_SetFlag((int *)p, g_pmsWordDefaultFlagTable[k][1]);
             return;
         }
@@ -254,7 +267,7 @@ void PMS_WORD_SetFlag(int *p, int bit)
 }
 
 /*
- * Unlabelled arm9 leaf: true when a == b, or when the first of 13 halfword
+ * Unlabelled arm9 leaf: true when a == b, or when the first of the halfword
  * groups that contains a also contains b. Filed as the relocation witness for
  * ov021 SCRCMD_CheckPmsWordPair (wave A1).
  */
@@ -266,7 +279,7 @@ int PMS_WORD_IsSameGroup(u32 a, u16 b)
     if (a == b) {
         return 1;
     }
-    for (i = 0; i < 13; i++) {
+    for (i = 0; i < PMS_WORD_GROUP_COUNT; i++) {
         for (j = 0; j < g_pmsWordSimilarGroups[i].count; j++) {
             if (a == g_pmsWordSimilarGroups[i].list[j]) {
                 for (k = 0; k < g_pmsWordSimilarGroups[i].count; k++) {
