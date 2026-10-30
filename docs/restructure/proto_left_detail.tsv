@@ -776,8 +776,8 @@ src/game/ov010/game_beacon_set.c	52	GAME_BEACON_SetDetailsBattleSpecialPoke	widt
 src/game/ov010/game_beacon_set.c	54	GAME_BEACON_SetDetailsBattleTrainer	width	void (struct GameBeaconInfo*, u32)	void (struct GameBeaconInfo*, u16)	src/game/arm9/game_beacon.c
 src/game/ov010/game_beacon_set.c	56	GAME_BEACON_SetDetailsBattleLeader	width	void (struct GameBeaconInfo*, u32)	void (struct GameBeaconInfo*, u16)	src/game/arm9/game_beacon.c
 src/game/ov010/game_beacon_set.c	58	GAME_BEACON_SetDetailsBattleBigFour	width	void (struct GameBeaconInfo*, u32)	void (struct GameBeaconInfo*, u16)	src/game/arm9/game_beacon.c
-src/game/ov010/irc_battle_task.c	94	GAME_EVENT_CreateOverlayEvent	other,pointee	struct GameEvent* (void*, u32, void*, void*)	struct GameEvent* (struct GameSystem*, u32, @fnptr, void*)	src/game/arm9/game_event.c
-src/game/ov010/irc_battle_task.c	103	GAME_EVENT_Create	other,pointee	struct GameEvent* (void*, void*, void*, u32)	struct GameEvent* (struct GameSystem*, struct GameEvent*, @fnptr, u32)	src/game/arm9/game_event.c
+src/game/ov010/event_colosseum_battle.c	94	GAME_EVENT_CreateOverlayEvent	other,pointee	struct GameEvent* (void*, u32, void*, void*)	struct GameEvent* (struct GameSystem*, u32, @fnptr, void*)	src/game/arm9/game_event.c
+src/game/ov010/event_colosseum_battle.c	103	GAME_EVENT_Create	other,pointee	struct GameEvent* (void*, void*, void*, u32)	struct GameEvent* (struct GameSystem*, struct GameEvent*, @fnptr, u32)	src/game/arm9/game_event.c
 src/game/ov010/map_matrix.c	71	ARC_TOOL_LoadMember	width	void* (u32, u32, u32)	void* (u32, u32, u16)	src/game/arm9/arc_tool.c
 src/game/ov010/map_replace.c	107	ARC_TOOL_CreateHandle	width	void* (u32, u32)	void* (u32, u16)	src/game/arm9/arc_tool.c
 src/game/ov010/map_replace.c	125	ZONEDATA_SetDirectLocation	pointee,sign,width	void (void*, s32, s32, s32, s32, s32)	void (struct Location*, u16, s16, u32, u32, u32)	src/game/arm9/zonedata.c
@@ -940,8 +940,8 @@ src/game/ov011/intrude_comm.c	500	GAME_EVENT_Create	other,pointee	struct GameEve
 src/game/ov012/union_comm.c	84	GFL_NET_StartSession	ptrint	void (struct GFLNetInitializeStruct*, @fnptr, struct UnionRoomWork*)	void (struct GFLNetInitializeStruct*, u32, u32)	src/game/arm9/net.c
 src/game/ov012/union_comm.c	142	MYSTATUS_GetSex	ret	u32 (struct MyStatus*)	u8 (struct MyStatus*)	src/game/arm9/mystatus.c
 src/game/ov012/union_comm.c	156	WIFILIST_MakeExchangeToken	pointee	void (struct FieldState*, void*)	void (struct WifiList*, void*)	src/game/arm9/wifilist.c
-src/game/ov012/union_command.c	106	UNION_APP_SetMemberEntry	pointee,width	void (struct UnionAppWork*, struct UnionRoomWork*, u8, void*)	void (struct UnionAppWork*, struct UnionRoomWork*, u32, struct UnionAppEntry*)	src/game/ov022/union_app.c
-src/game/ov013/vct_main.c	91	MIC_GetLastSamplingAddress	ret	u32 ()	void* ()	src/game/arm9/mic.c
+src/game/ov012/union_comm_command.c	106	UNION_APP_SetMemberEntry	pointee,width	void (struct UnionAppWork*, struct UnionRoomWork*, u8, void*)	void (struct UnionAppWork*, struct UnionRoomWork*, u32, struct UnionAppEntry*)	src/game/ov022/union_app.c
+src/game/ov013/vchat.c	91	MIC_GetLastSamplingAddress	ret	u32 ()	void* ()	src/game/arm9/mic.c
 src/game/ov013/vct_mixer.c	81	VCT_AUDIO_PeekReadyPacket	ret	struct VctRxPacket* (u32)	void* (u32)	src/game/ov013/vct_audio.c
 src/game/ov013/vct_mixer.c	85	VCT_AUDIO_SetLastPacket	ret	s32 (struct VctReceiveSource*, struct VctRxPacket*)	void (struct VctReceiveSource*, struct VctRxPacket*)	src/game/ov013/vct_audio.c
 src/game/ov014/net_devwireless.c	64	GFL_NET_GetInitParam	ret	u8* ()	struct GFLNetSession* ()	src/game/arm9/net.c
@@ -1905,7 +1905,7 @@ src/game/ov021/weather_task.c	143	ARC_TOOL_CreateHandle	width	void* (u32, u32)	v
 src/game/ov021/weather_task.c	145	CLACT_RegisterCharacter	sign,width	s32 (void*, s32, s32, s32, s32)	s32 (void*, u32, u32, u32, u16)	src/game/arm9/clact.c
 src/game/ov021/weather_task.c	146	CLACT_RegisterPaletteEx	sign,width	s32 (void*, s32, s32, s32, s32, s32, s32)	s32 (void*, u32, u32, u32, u16, u16, u16)	src/game/arm9/clact.c
 src/game/ov021/weather_task.c	156	CLACT_CreateActor	pointee	struct Actor* (void*, u32, u32, u32, void*, u16, u16)	struct Actor* (struct Unit*, u32, u32, u32, struct ActorInit*, u16, u16)	src/game/arm9/clact.c
-src/game/ov022/union_app.c	67	UNION_COMMAND_SendAppNotice	ret	s32 (u32, u8)	void (u32, u8)	src/game/ov012/union_command.c
+src/game/ov022/union_app.c	67	UNION_COMMAND_SendAppNotice	ret	s32 (u32, u8)	void (u32, u8)	src/game/ov012/union_comm_command.c
 src/game/ov022/union_app.c	77	UNION_COMM_AddMember	width	s32 (struct UnionConnectInfo*, u8*, u32, u32)	s32 (struct UnionConnectInfo*, u8*, u8, u8)	src/game/ov012/union_comm.c
 src/game/ov023/oekaki.c	241	GFL_NET_COMMAND_AddCommandTable	ptrint	void (u32, void*, u32, void*)	void (u32, u32, u32, u32)	src/game/arm9/net_command.c
 src/game/ov023/oekaki.c	253	MATH_CountPopulation	ret	u32 (u32)	u8 (u32)	src/game/arm9/math.c
@@ -3208,7 +3208,7 @@ src/game/ov100/ircbattlematch.c	394	CLACT_AddActorSurfacePos	pointee	void (struc
 src/game/ov100/ircbattlematch.c	483	CLACT_CreateUnit	ret	struct Bank* (s32, u8, u32)	struct Unit* (s32, u8, u32)	src/game/arm9/clact.c
 src/game/ov100/ircbattlematch.c	498	GFL_NET_StartSession	pointee,ptrint	void (struct NetSessionReq*, u32, struct IrcBattleMatchWork*)	void (struct GFLNetInitializeStruct*, u32, u32)	src/game/arm9/net.c
 src/game/ov100/ircbattlematch.c	499	GFL_NET_IRC_WIRELESS_SetSessionParam	ptrint	void (@fnptr)	void (u32)	src/game/arm9/net.c
-src/game/ov100/ircbattlematch.c	510	IRCNET_SetFilter	ptrint	void (@fnptr)	void (s32)	src/game/ov015/ircnet.c
+src/game/ov100/ircbattlematch.c	510	IRCNET_SetFilter	ptrint	void (@fnptr)	void (s32)	src/game/ov015/net_irc.c
 src/game/ov100/ircbattlematch.c	511	GFL_NET_StartChangeoverEx	ptrint	void (@fnptr, @fnptr, @fnptr)	void (u32, u32, u32)	src/game/arm9/net.c
 src/game/ov100/ircbattlematch.c	517	CLACT_ApplyActorAnimCommand	pointee	void (struct Actor*, struct ActorTask*)	void (struct Actor*, struct Cmd*)	src/game/arm9/clact.c
 src/game/ov100/ircbattlematch.c	538	CLACT_DeleteUnit	pointee	u32 (struct Bank*)	u32 (struct Unit*)	src/game/arm9/clact.c
@@ -4232,17 +4232,17 @@ src/game/ov135/worldtrade_search.c	364	DPW_TR_DownloadMatchDataRawAsync	ptrint	v
 src/game/ov135/worldtrade_search.c	378	DPW_TR_End	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
 src/game/ov135/worldtrade_search.c	380	WORLDTRADE_INPUT_MenuUpdate	pointee	s32 (void*)	s32 (struct Menu*)	src/game/ov135/worldtrade_input.c
 src/game/ov135/worldtrade_search.c	386	WORLDTRADE_OpenTaskMenuYesNoDefault	ptrint	void (u32, u32, u32, u32, u8)	void (struct Work*, u32, u32, u32, u8)	src/game/ov135/worldtrade.c
-src/game/ov135/worldtrade_server.c	247	WORLDTRADE_NoOp	count,ret	void* (void*)	void ()	src/game/arm9/worldtrade.c
-src/game/ov135/worldtrade_server.c	285	DPW_TR_End	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
-src/game/ov135/worldtrade_server.c	349	RECORD_AddOne	pointee	u32 (struct Sub02008C20Obj*, s32)	u32 (struct RecordBlock*, s32)	src/game/arm9/record.c
-src/game/ov135/worldtrade_server.c	351	DPW_TR_GetUploadResultAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
-src/game/ov135/worldtrade_server.c	355	WORLDTRADE_GetReturnBox	pointee	u16 (struct RegB*)	u16 (struct WorldTradeData*)	src/game/arm9/worldtrade.c
-src/game/ov135/worldtrade_server.c	357	DPW_TR_UploadFinishAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
-src/game/ov135/worldtrade_server.c	361	DPW_TR_TradeFinishAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
-src/game/ov135/worldtrade_server.c	376	WORLDTRADE_DEMO_CreateMyStatusFromEntry	pointee,ret	void* (void*)	struct TradePartnerInfo* (struct Entry*)	src/game/ov135/worldtrade_demo.c
-src/game/ov135/worldtrade_server.c	394	DPW_TR_DeleteAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
-src/game/ov135/worldtrade_server.c	396	WORLDTRADE_INPUT_PrintStringTop	ptrint,ret,width	u32 (u8*, u32, u32, u32, u32)	void (u32, u32, u32, u32, u16)	src/game/ov135/worldtrade_input.c
-src/game/ov135/worldtrade_server.c	548	WORLDTRADE_ADAPTER_RegisterLanguageVersion	pointee	void (void*, u8*)	void (void*, struct Entry*)	src/game/ov135/worldtrade_adapter.c
+src/game/ov135/worldtrade_upload.c	247	WORLDTRADE_NoOp	count,ret	void* (void*)	void ()	src/game/arm9/worldtrade.c
+src/game/ov135/worldtrade_upload.c	285	DPW_TR_End	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
+src/game/ov135/worldtrade_upload.c	349	RECORD_AddOne	pointee	u32 (struct Sub02008C20Obj*, s32)	u32 (struct RecordBlock*, s32)	src/game/arm9/record.c
+src/game/ov135/worldtrade_upload.c	351	DPW_TR_GetUploadResultAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
+src/game/ov135/worldtrade_upload.c	355	WORLDTRADE_GetReturnBox	pointee	u16 (struct RegB*)	u16 (struct WorldTradeData*)	src/game/arm9/worldtrade.c
+src/game/ov135/worldtrade_upload.c	357	DPW_TR_UploadFinishAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
+src/game/ov135/worldtrade_upload.c	361	DPW_TR_TradeFinishAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
+src/game/ov135/worldtrade_upload.c	376	WORLDTRADE_DEMO_CreateMyStatusFromEntry	pointee,ret	void* (void*)	struct TradePartnerInfo* (struct Entry*)	src/game/ov135/worldtrade_demo.c
+src/game/ov135/worldtrade_upload.c	394	DPW_TR_DeleteAsync	count	void (u8*)	void ()	src/game/ov114/dpw_tr.c
+src/game/ov135/worldtrade_upload.c	396	WORLDTRADE_INPUT_PrintStringTop	ptrint,ret,width	u32 (u8*, u32, u32, u32, u32)	void (u32, u32, u32, u32, u16)	src/game/ov135/worldtrade_input.c
+src/game/ov135/worldtrade_upload.c	548	WORLDTRADE_ADAPTER_RegisterLanguageVersion	pointee	void (void*, u8*)	void (void*, struct Entry*)	src/game/ov135/worldtrade_adapter.c
 src/game/ov135/worldtrade_status.c	59	PROCSYS_Push	pointee	void (void*, u32, void*, void*)	void (struct ProcSys*, u32, struct ProcData*, void*)	src/game/arm9/procsys.c
 src/game/ov135/worldtrade_sublcd.c	61	CLACT_AddActorSurfacePos	pointee	void (struct Obj*, struct Vec2*, u32)	void (struct Actor*, struct Vec2*, u32)	src/game/arm9/clact.c
 src/game/ov135/worldtrade_sublcd.c	66	CLACT_CreateActor	pointee,ret	struct Obj* (void*, u32, u32, u32, void*, u16, u16)	struct Actor* (struct Unit*, u32, u32, u32, struct ActorInit*, u16, u16)	src/game/arm9/clact.c
@@ -5218,15 +5218,15 @@ src/game/ov184/br_download.c	167	BR_RES_GetSprite	pointee	s32 (char*, u32, void*
 src/game/ov184/br_download.c	168	BR_BTN_CreateFromMessage	pointee,ptrint,ret,width	s32 (struct Config*, u16, s32, s32, void*, s32, s32, s32, void*, u16)	void* (void*, s32, u16, s32, s32, void*, s32, s32, void*, u16)	src/game/ov186/br_btn.c
 src/game/ov184/br_download.c	169	BR_RES_ReleaseSprite	ptrint,sign	void (s32, s32)	void (struct BrRes*, u32)	src/game/ov186/br_res.c
 src/game/ov184/br_download.c	170	BR_BTN_DeleteObject	ptrint	void (s32)	void (char*)	src/game/ov186/br_btn.c
-src/game/ov185/br_pokesearch.c	139	BR_PROC_SYS_FlushWindows	pointee	void (char*)	void (struct Context*)	src/game/ov186/br_proc_sys.c
-src/game/ov185/br_pokesearch.c	150	BR_FADE_Start	ptrint	void (s32, s32, s32, s32)	void (void*, s32, s32, s32)	src/game/ov186/br_fade.c
-src/game/ov185/br_pokesearch.c	160	BR_UTIL_StartEffect	pointee,ptrint,sign	void (s32, s32, s32*)	void (char*, u32, struct Pair*)	src/game/ov186/br_util.c
-src/game/ov185/br_pokesearch.c	171	BR_SIDEBAR_SetVisibleBySpace	ptrint,sign	void (s32, s32, s32)	void (struct BrSidebar*, s32, u32)	src/game/ov186/br_sidebar.c
-src/game/ov185/br_pokesearch.c	172	BR_RES_ApplyBgSet	ptrint	void (s32, u32)	void (void*, u32)	src/game/ov186/br_res.c
-src/game/ov185/br_pokesearch.c	174	BR_GRAPHIC_Begin3d	ptrint,ret,width	s32 (u8*, s32)	void (u32, u16)	src/game/ov186/br_graphic.c
-src/game/ov185/br_pokesearch.c	175	MUSICAL_SHOT_SYS_CreateScene	ptrint,ret,width	s32 (s32, s32)	u8* (u8*, u16)	src/game/ov112/mus_shot_photo.c
-src/game/ov185/br_pokesearch.c	177	BR_GRAPHIC_End3d	count	void (void*, u32)	void ()	src/game/ov186/br_graphic.c
-src/game/ov185/br_pokesearch.c	178	BR_RES_LoadUiPalette	pointee	void (char*, u32, u32)	void (struct BrRes*, u32, u32)	src/game/ov186/br_res.c
+src/game/ov185/br_musicallook_proc.c	139	BR_PROC_SYS_FlushWindows	pointee	void (char*)	void (struct Context*)	src/game/ov186/br_proc_sys.c
+src/game/ov185/br_musicallook_proc.c	150	BR_FADE_Start	ptrint	void (s32, s32, s32, s32)	void (void*, s32, s32, s32)	src/game/ov186/br_fade.c
+src/game/ov185/br_musicallook_proc.c	160	BR_UTIL_StartEffect	pointee,ptrint,sign	void (s32, s32, s32*)	void (char*, u32, struct Pair*)	src/game/ov186/br_util.c
+src/game/ov185/br_musicallook_proc.c	171	BR_SIDEBAR_SetVisibleBySpace	ptrint,sign	void (s32, s32, s32)	void (struct BrSidebar*, s32, u32)	src/game/ov186/br_sidebar.c
+src/game/ov185/br_musicallook_proc.c	172	BR_RES_ApplyBgSet	ptrint	void (s32, u32)	void (void*, u32)	src/game/ov186/br_res.c
+src/game/ov185/br_musicallook_proc.c	174	BR_GRAPHIC_Begin3d	ptrint,ret,width	s32 (u8*, s32)	void (u32, u16)	src/game/ov186/br_graphic.c
+src/game/ov185/br_musicallook_proc.c	175	MUSICAL_SHOT_SYS_CreateScene	ptrint,ret,width	s32 (s32, s32)	u8* (u8*, u16)	src/game/ov112/mus_shot_photo.c
+src/game/ov185/br_musicallook_proc.c	177	BR_GRAPHIC_End3d	count	void (void*, u32)	void ()	src/game/ov186/br_graphic.c
+src/game/ov185/br_musicallook_proc.c	178	BR_RES_LoadUiPalette	pointee	void (char*, u32, u32)	void (struct BrRes*, u32, u32)	src/game/ov186/br_res.c
 src/game/ov186/br_btn.c	177	CLACT_CreateActor	pointee	struct Actor* (void*, u32, u32, u32, void*, u16, u16)	struct Actor* (struct Unit*, u32, u32, u32, struct ActorInit*, u16, u16)	src/game/arm9/clact.c
 src/game/ov186/br_btn.c	187	BMP_OAM_Create	pointee,ret	struct Grid* (struct Sys*, struct Param*)	struct BmpOam* (struct BmpOamSys*, struct BmpOamParam*)	src/game/arm9/bmp_oam.c
 src/game/ov186/br_btn.c	201	CLACT_GetActorSurfacePos	pointee	void (struct Actor*, struct PtS*, u16)	void (struct Actor*, struct Vec2*, u16)	src/game/arm9/clact.c

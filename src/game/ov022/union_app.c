@@ -51,7 +51,7 @@
 #undef UNION_COMM_AddMember
 int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 trainerView, u32 sex);
 #endif
-#include "../ov012/union_command.h"
+#include "../ov012/union_comm_command.h"
 #include "union_app_types.h"
 
 struct Entry;

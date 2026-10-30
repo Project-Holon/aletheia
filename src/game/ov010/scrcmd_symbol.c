@@ -237,6 +237,7 @@ struct SymbolMonEntry;
 extern void INTRUDE_COMM_SetPendingAreaNotice(struct IntrudeCommSys *linkState, int value); /* original prototype; the definition differs in argument width */
 #else
 #include "../ov011/intrude_comm.h"
+#include "../ov011/intrude_battle.h"
 #endif
 
 

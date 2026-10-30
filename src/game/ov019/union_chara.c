@@ -135,7 +135,7 @@ struct FieldPlayer;
 
 
 
-#include "../ov021/union_chat_log.h"
+#include "../ov021/union_chat.h"
 
 #include "../ov012/union_comm.h"
 

@@ -454,6 +454,8 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode);
 int INTRUDE_SUBDISP_IsAlone(IntrudeSubdispWork *work);
 struct EventCommMsgBox;
 #include "event_comm_common.h"
+#include "../ov018/intrude_message.h"
+#include "../ov018/event_comm_result.h"
 #include "../arm9/game_event.h"
 #include "../arm9/clact.h"
 #include "../arm9/bmp_oam.h"

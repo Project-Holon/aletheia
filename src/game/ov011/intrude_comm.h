@@ -6,7 +6,6 @@ struct MyStatus;
 struct GameComm;
 struct GameData;
 struct VecFx32;
-void INTRUDE_COMM_GetMarkerPosForPartner(struct GameComm *comm, struct GameData *gameData, struct VecFx32 *outPos);
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of intrude_comm.c, prototypes copied from their definitions. */
@@ -245,17 +244,6 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
 void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save);
 void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind);
 int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond);
-int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam *param);
-int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param, IntrudePartyWork *work);
-int INTRUDE_LINK_ProcExit(void *procWork, int unused1, int unused2, IntrudeLinkProc *linkProc);
-struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *procArg);
-int INTRUDE_LINK_EventMain(struct GameEvent *event, int *state, void *work);
-u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
-int INTRUDE_COMM_RequestPartnerSymbolPage(IntrudeCommSys *linkState, u8 value);
-u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(IntrudeCommSys *linkState);
-u8 *INTRUDE_COMM_GetPartnerSymbolPage(IntrudeCommSys *linkState);
-void INTRUDE_COMM_SetPendingAreaNotice(IntrudeCommSys *linkState, u8 value);
-int INTRUDE_COMM_ConsumeAreaNoticeSeen(IntrudeCommSys *linkState, int zoneId);
 /* END mkheaders: generated region */
 
 #endif

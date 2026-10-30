@@ -36,7 +36,7 @@
 
 #include "../ov014/net_devwireless.h"
 
-#include "../ov015/ircnet.h"
+#include "../ov015/net_irc.h"
 
 struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 sel);
 

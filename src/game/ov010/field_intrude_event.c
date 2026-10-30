@@ -114,6 +114,7 @@ struct VecFx32;
 #include "../arm9/game_event.h"
 #include "intrude_comm_query.h"
 #include "../ov011/intrude_comm.h"
+#include "../ov011/intrude_battle.h"
 #ifndef __MWERKS__
 #include "../arm9/game_data.h"
 #endif

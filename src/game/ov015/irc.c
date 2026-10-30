@@ -51,7 +51,7 @@
  *   _ll_udiv       0x0209C00C  arm
  */
 #include "irc_types.h"
-#include "ircnet_types.h"
+#include "net_irc_types.h"
 
 typedef struct {
     IRCStatusType status;

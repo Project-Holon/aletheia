@@ -4,7 +4,7 @@
  * ov013 voice chat library (packet magic "TCV_", module VCT): shared types and data declarations.
  *
  * The library has four parts that all work on the objects below:
- *   engine glue   (vct_main.c): lifecycle, microphone and stream callbacks, ADPCM codecs, send path
+ *   engine glue   (vchat.c): lifecycle, microphone and stream callbacks, ADPCM codecs, send path
  *   audio path    (vct_audio.c, vct_audio.c, vct_audio.c): encode, receive, jitter queues, peer table
  *   session       (vct_audio.c, vct_session.c): peer state machine and control packets
  *   frame pool    (vct_session.c, vct_session.c) and signal path / entry points (vct_dsp.c)

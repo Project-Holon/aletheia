@@ -98,6 +98,7 @@ struct MyStatus;
 
 
 #include "../ov125/gds_rap.h"
+#include "../ov125/gds_rap_response.h"
 #include "../version.h"
 #if LANGUAGE == LANGUAGE_JAPANESE
 extern const char str_ja_02201004[];

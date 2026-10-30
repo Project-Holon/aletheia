@@ -101,7 +101,7 @@ extern int GFL_NET_GetNegotiationNum(void);
 
 extern void GFL_NET_SetLoginOption(u8 option);
 
-#include "union_scene.h"
+#include "union_subproc.h"
 struct CommPlayerWork;
 
 #include "../ov010/comm_player.h"
@@ -109,6 +109,7 @@ struct CommPlayerPackage;
 
 
 #include "colosseum.h"
+#include "../ov012/colosseum_comm_command.h"
 
 #include "../ov019/colosseum_tool.h"
 
@@ -232,7 +233,7 @@ void UNION_COMM_SetGameKindByStatus(u32 status);
 
 #include "union_main.h"
 
-#include "union_command.h"
+#include "union_comm_command.h"
 
 
 

@@ -160,7 +160,7 @@ unsigned char DWC_GetMyAID(void);
 
 
 
-#include "../ov013/vct_main.h"
+#include "../ov013/vchat.h"
 
 extern int DWC_GetNumConnectionHost(void);
 

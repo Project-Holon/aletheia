@@ -431,6 +431,8 @@ struct IntrudeRequestHead;
 struct IntrudeRequestHead;
 struct IntrudeCommSys;
 #include "event_comm_common.h"
+#include "../ov018/intrude_message.h"
+#include "../ov018/event_comm_result.h"
 #include "../ov020/event_mapchange.h"
 /* map matrix and field map */
 #include "../ov010/map_matrix.h"

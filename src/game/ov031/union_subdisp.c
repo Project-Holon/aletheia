@@ -149,7 +149,7 @@ struct Bmp;
 #include "../arm9/bmp_win.h"
 struct UnionBeaconPc;
 struct UnionRoomWork;
-#include "../ov021/union_chat_log.h"
+#include "../ov021/union_chat.h"
 #include "../ov012/union_comm.h"
 #include "../arm9/gf_font.h"
 #include "../arm9/msgdata.h"

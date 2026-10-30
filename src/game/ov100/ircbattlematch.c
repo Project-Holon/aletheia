@@ -392,7 +392,7 @@ struct GFont;
 struct DispVramCfg;
 struct SysInit;
 #include "../arm9/gfl_heap_wrap.h"
-#include "../ov015/ircnet.h"
+#include "../ov015/net_irc.h"
 struct ButtonMan;
 #include "../arm9/button_man.h"
 #include "../arm9/gfl_heap.h"

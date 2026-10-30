@@ -187,6 +187,7 @@ struct CommPlayerSupport;
 #include "scrcmd_network.h"
 #include "../ov021/event_fieldmap_control.h"
 #include "../ov018/event_comm_common.h"
+#include "../ov018/event_comm_result.h"
 #include "../arm9/record.h"
 struct FieldEncount;
 #include "../ov021/fieldmap.h"

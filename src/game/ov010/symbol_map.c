@@ -226,6 +226,7 @@ struct GameComm;
 
 
 #include "../ov011/intrude_comm.h"
+#include "../ov011/intrude_battle.h"
 
 #include "comm_player.h"
 

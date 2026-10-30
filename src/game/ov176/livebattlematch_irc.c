@@ -58,7 +58,7 @@
  *   DELIVERY_IRC_GetResult 0x02157E6C thumb ov010
  *   GFL_NET_IsIdle 0x0203D210 arm
  */
-#include "../ov015/ircnet.h"
+#include "../ov015/net_irc.h"
 #include "../version.h"
 #include "livebattlematch_shared_types.h"
 struct WifibattlematchUtilWork;

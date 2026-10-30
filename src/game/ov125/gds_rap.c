@@ -1,7 +1,7 @@
 /*
  * file:     gds_rap.c
  * unit:     yes
- * function: GDS_RAP_Init, GDS_RAP_Exit, GDS_RAP_RequestUploadEntry, GDS_RAP_RequestDownloadEntries, GDS_RAP_RequestUploadVideo, GDS_RAP_RequestSearchVideos, GDS_RAP_RequestSearchKind1, GDS_RAP_RequestSearchKind2, GDS_RAP_RequestSearchKind3, GDS_RAP_RequestGetVideo, GDS_RAP_RequestMarkVideo, GDS_RAP_Main, GDS_RAP_RunRequest, GDS_RAP_UpdateSocketState, GDS_RAP_PollNothing, GDS_RAP_PollSaveUploadedVideo, GDS_RAP_PollNothingAfterError, GDS_RAP_ReleaseSession, GDS_RAP_FindMember, GDS_RAP_CopyNickname, GDS_RAP_ReadReply, GDS_RAP_GetResult, GDS_RAP_ClearResult, GDS_RAP_IsIdle, GDS_RAP_CheckUploadEntryReply, GDS_RAP_CheckDownloadEntriesReply, GDS_RAP_GetDownloadEntries, GDS_RAP_CheckUploadVideoReply, GDS_RAP_GetUploadedDataNumber, GDS_RAP_CheckSearchVideosReply, GDS_RAP_GetSearchResults, GDS_RAP_CheckGetVideoReply, GDS_RAP_GetVideoReply, GDS_RAP_CheckMarkVideoReply, GDS_RAP_SaveVideoSeq, GDS_RAP_EncodeVideoBody, GDS_RAP_SaveVideoWithDataNumber, GDS_RAP_SaveVideoSecured, GDS_RAP_StartVideoSave, GDS_RAP_StepVideoSave, GDS_RAP_GetVideoWork
+ * function: GDS_RAP_Init, GDS_RAP_Exit, GDS_RAP_RequestUploadEntry, GDS_RAP_RequestDownloadEntries, GDS_RAP_RequestUploadVideo, GDS_RAP_RequestSearchVideos, GDS_RAP_RequestSearchKind1, GDS_RAP_RequestSearchKind2, GDS_RAP_RequestSearchKind3, GDS_RAP_RequestGetVideo, GDS_RAP_RequestMarkVideo, GDS_RAP_Main, GDS_RAP_RunRequest, GDS_RAP_UpdateSocketState, GDS_RAP_PollNothing, GDS_RAP_PollSaveUploadedVideo, GDS_RAP_PollNothingAfterError, GDS_RAP_ReleaseSession, GDS_RAP_FindMember, GDS_RAP_CopyNickname, GDS_RAP_ReadReply, GDS_RAP_GetResult, GDS_RAP_ClearResult, GDS_RAP_IsIdle
  * address:  0x021D6660
  * region:   ov125
  * compiler: dsi/1.1p1
@@ -110,6 +110,15 @@
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   strcpy  0x02094798  arm  arm9
+ *   GDS_RAP_CheckUploadEntryReply  0x021D732C  thumb  ov125
+ *   GDS_RAP_CheckDownloadEntriesReply  0x021D7354  thumb  ov125
+ *   GDS_RAP_CheckUploadVideoReply  0x021D73B8  thumb  ov125
+ *   GDS_RAP_CheckSearchVideosReply  0x021D73F0  thumb  ov125
+ *   GDS_RAP_CheckGetVideoReply  0x021D74B4  thumb  ov125
+ *   GDS_RAP_CheckMarkVideoReply  0x021D7520  thumb  ov125
+ *   GDS_RAP_EncodeVideoBody  0x021D75C0  thumb  ov125
+ *   GDS_RAP_SaveVideoWithDataNumber  0x021D75E8  thumb  ov125
+ *   GDS_RAP_GetVideoWork  0x021D7700  thumb  ov125
  */
 
 #include "../types.h"
@@ -669,144 +678,4 @@ void GDS_RAP_ClearResult(GdsRapWork *work)
 
 int GDS_RAP_IsIdle(GdsRapWork *work) { if (work->requestId==GDS_REQUEST_NONE && work->finishedRequestId==GDS_REQUEST_NONE) return 1; return 0; }
 
-int GDS_RAP_CheckUploadEntryReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: break; default: break; } return r; }
 
-int GDS_RAP_CheckDownloadEntriesReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
-
-int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max)
-{
-    GdsDownloadList *list;
-    GdsDownloadEntry *base;
-    int count;
-    int i;
-    list = &((GdsReplyDownload *)GDS_SOCKET_GetReply())->list;
-    count = list->count;
-    if (count > max) count = max;
-    base = list->entries;
-    for (i = 0; i < count; i++) entries[i] = &base[i].blocks;
-    for (; i < max; i++) entries[i] = 0;
-    return count;
-}
-
-int GDS_RAP_CheckUploadVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: case 5: case 6: case 7: break; default: break; } return r; }
-
-u64 GDS_RAP_GetUploadedDataNumber(GdsRapWork *work) { GdsReplyUploadVideo *reply=(GdsReplyUploadVideo *)GDS_SOCKET_GetReply(); return reply->dataNumber.value; }
-
-int GDS_RAP_CheckSearchVideosReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
-
-/*
- * note: 2026-10-05 (D4-14): the xor/orr equality is a 64-bit compare; written as u64 loads, EXACT.
- */
-int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
-{
-    GdsReplySearch *reply = (GdsReplySearch *)GDS_SOCKET_GetReply();
-    GdsListingList *list = &reply->list;
-    GdsListingEntry *base;
-    int count;
-    int i;
-
-    count = list->count;
-    if (count > max) {
-        count = max;
-        GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString2, str_ja_021D8CE8), PM_SRC_LINE(0, 0x159), PM_LANG_JA(sGdsEmptyString2, str_ja_021D8CFC));
-    }
-    MI_CpuFill8(dst, 0, max * sizeof(GdsVideoListing));
-    i = 0;
-    base = list->entries;
-    for (i = 0; i < count; i++) {
-        GdsListingEntry *entry = &base[i];
-        u64 id = entry->dataNumber.value;
-        if (entry->listing.head.dataNumber.value != id) {
-            entry->listing.head.dataNumber.value = id;
-            entry->listing.head.crc = GF_STANDARD_CalcCrc16((const u8 *)&entry->listing.head, 0x38);
-        }
-        *(GdsVideoListing *)(dst + i * sizeof(GdsVideoListing)) = entry->listing;
-    }
-    return count;
-}
-
-int GDS_RAP_CheckGetVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: case 4: break; default: break; } return r; }
-
-int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
-{
-    GdsReplyGetVideo *reply = (GdsReplyGetVideo *)GDS_SOCKET_GetReply();
-    GdsVideoEntry *entry = &reply->entry;
-    u64 id;
-
-    *video = &entry->video;
-    id = reply->entry.dataNumber.value;
-    if (entry->video.head.dataNumber.value != id) {
-        entry->video.head.dataNumber.value = id;
-        (*video)->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&(*video)->head, 0x38);
-    }
-    return reply->entry.dataNumber.half.lo;
-}
-
-int GDS_RAP_CheckMarkVideoReply(GdsRapWork *work, const GdsReply *reply) { int r=0; switch (reply->resultCode) { case 0: r=1; break; case 1: case 2: case 3: break; default: break; } return r; }
-
-int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state, u16 *seq, u16 heap)
-{
-    unsigned int value;
-    switch (*state) {
-    case 0:
-        if (mode == 1) {
-            d_0214616C->head.secure = mode;
-            d_0214616C->head.magic = 57985;
-            d_0214616C->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&d_0214616C->head, 56);
-        }
-        value = d_0214616C->body.crc;
-        BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
-        ++*state;
-        break;
-    case 1:
-        return BATTLE_REC_SaveSeq(gameData, d_0214616C, id, seq, heap);
-    }
-    return 0;
-}
-
-void GDS_RAP_EncodeVideoBody(void)
-{
-    unsigned int value;
-    value = d_0214616C->body.crc;
-    BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
-}
-
-int GDS_RAP_SaveVideoWithDataNumber(struct GameData *gameData, int dataNumberLo, int dataNumberHi, u16 *state, u16 *seq, u16 heap)
-{
-    struct BattleRecSave *video;
-    switch (*state) {
-    case 0:
-        video = d_0214616C;
-        video->head.dataNumber.half.lo = dataNumberLo;
-        video->head.dataNumber.half.hi = dataNumberHi;
-        ++*state;
-        break;
-    case 1:
-        return BATTLE_REC_SaveSeq(gameData, d_0214616C, 0, seq, heap);
-    }
-    return 0;
-}
-
-int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 *seq, u16 heap)
-{
-    unsigned int value;
-    switch (*state) {
-    case 0:
-        d_0214616C->head.secure = 1;
-        d_0214616C->head.magic = 57985;
-        d_0214616C->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&d_0214616C->head, 56);
-        value = d_0214616C->body.crc;
-        BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
-        ++*state;
-        break;
-    case 1:
-        return BATTLE_REC_SaveSeq(gameData, d_0214616C, id, seq, heap);
-    }
-    return 0;
-}
-
-void GDS_RAP_StartVideoSave(struct GameData *gameData, u8 heap, u32 id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); SAVE_CONTROL_LoadExtraSave(save,id,heap); BATTLE_REC_Clear(SAVE_CONTROL_GetExtraSaveRecord(save,id,0)); GAME_DATA_PartSaveStart(gameData,id);}
-
-int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl *save=GAME_DATA_GetSaveControl(gameData); int r=GAME_DATA_PartSaveMain(gameData,id); if(r==2 || r==3) SAVE_CONTROL_DeleteExtraSave(save,id); return r;}
-
-struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }

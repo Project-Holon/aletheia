@@ -99,7 +99,7 @@ struct DeliveryIrcWork {
 #include "../arm9/gf_standard.h"
 
 
-#include "../ov015/ircnet.h"
+#include "../ov015/net_irc.h"
 
 struct GFLNetHandle;
 

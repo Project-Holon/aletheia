@@ -71,3 +71,51 @@ It can drop `typedef struct X X;` lines that a header only forward-declares, ove
 existing `<stem>_shared_types.h` with a self-include, put includes before the typedefs they
 need, lose a `#pragma ... reset` between consecutive pragma regions, and miss externs made by
 token pasting (FS_OVERLAY_ID). Check the pieces and headers after every split.
+
+## Japanese file names (2026-10-30)
+
+The Japanese cartridges pass the file name to every failed check, where the other languages pass
+an empty string, so they have about 600 more `__FILE__` anchors than English. Anchors were
+harvested from `black_ja` (`tools/fileanchors.py -e extract_black_ja -l build/black_ja/layout`),
+paired to Black functions through the function pairs of `tools/white_map.py`, and compared with
+the file names of `src/game`. 27 original names did not match; all but one are used by our code.
+
+Renamed (the whole file has one anchor name):
+
+- ov010 `irc_battle_task.c` to `event_colosseum_battle.c`
+- ov012 `union_command.c` to `union_comm_command.c`, `union_scene.c` to `union_subproc.c`
+- ov013 `vct_main.c` to `vchat.c`
+- ov015 `ircnet.c` to `net_irc.c`
+- ov021 `union_chat_log.c` to `union_chat.c`
+- ov135 `worldtrade_server.c` to `worldtrade_upload.c`
+- ov185 `br_pokesearch.c` to `br_musicallook_proc.c`
+
+Split (anchors of two or more names in one file; the pieces follow the link order of the
+file-name strings in the Japanese data):
+
+- ov011 `intrude_comm.c`: `intrude_comm.c`, `intrude_battle.c` (from 0x02176454)
+- ov012 `colosseum.c`: `colosseum_comm_command.c`, `colosseum.c` (from 0x02174F4C)
+- ov018 `event_comm_common.c`: `intrude_message.c`, `event_comm_common.c` (0x0217F5A0),
+  `event_comm_result.c` (0x021804F8), `event_comm_notarget.c` (0x021828B8),
+  `event_comm_sleep.c` (0x02182A08)
+- ov071 `monolith_tool.c`: `monolith_tool.c`, `monolith_mission_select.c` (0x021B730C),
+  `monolith_title.c` (0x021B7C3C), `monolith_power.c` (0x021B8EE8)
+- ov115 `wifilogin_disp.c`: `wifilogin_proc.c`, `wifilogin_disp.c` (from 0x021D4D38)
+- ov125 `gds_rap.c`: `gds_rap.c`, `gds_rap_response.c` (from 0x021D732C)
+- ov175 `wifibattlematch_net.c`: `wifibattlematch_core.c`, `wifibattlematch_net.c` (from 0x021D9DC8)
+- ov176 `battle_championship_flow.c`: `battle_championship_core.c`, `battle_championship_flow.c`
+  (from 0x0217B2E4)
+- ov183 `br_codein.c`: `br_record_proc.c`, `br_bvrank_proc.c` (0x021DD37C), `br_codein.c`
+  (0x021DF920), `br_codein_disp.c` (0x021E0840), `br_bvdelete_proc.c` (0x021E1C80)
+- ov186 `br_proc_sys.c`: `br_core.c`, `br_proc_sys.c` (from 0x021F99CC)
+
+A cut between two anchored functions of different files is placed at the start of the
+Create/Init function group of the second file when unanchored functions sit between them
+(evidence 2 and 3 above). The cuts of ov018 (event_comm_result to event_comm_notarget), ov071
+(monolith_title to monolith_power) and ov183 (record to bvrank, codein_disp to bvdelete) cross
+long unanchored runs and follow that rule; an unanchored original file between them cannot be
+ruled out. Each piece keeps the declarations of the file it was cut from; function names keep
+their prefixes.
+
+The one name left, `ctalkmsgwin.c` (ov021), has no Japanese function that pairs with ours, so it
+names no file yet.

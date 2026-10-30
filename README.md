@@ -16,7 +16,7 @@ The project is **100% matched** and links byte-identically to the original ROM u
 | TWL (DSi) | 8 game + 331 SDK | 582 game + 46,600 SDK | 100.0% |
 | **Total** | **35,197** | **3,396,468** | **100.0%** |
 
-Decompiled C source code is located in `src/game/` across 1,374 files.
+Decompiled C source code is located in `src/game/` across 1,392 files. File names come from the original source file names that the game's own strings give, where it gives them ([docs/restructure/BOUNDARY.md](docs/restructure/BOUNDARY.md)).
 
 ### Coverage Maps
 

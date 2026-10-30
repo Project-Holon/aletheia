@@ -4,7 +4,7 @@ file-name-guess	src/game/arm9/dma_channels.c	DMA_UpdateChannels, DMA_ProgramChan
 file-name-guess	src/game/arm9/poke_tool_ext.c	POKE_TOOL PP healing and icon functions outside poke_tool.c's range	no anchor	same
 file-name-guess	src/game/arm9/app_icon.c	APP_ICON_* run cut out of app_taskmenu.c	no anchor	same
 file-name-guess	src/game/ov110/pmsiv_tool.c	PMSIV_BGSCROLL / PMSIV_FADE helpers cut out of pmsiv_edit.c	no anchor	same
-file-name-guess	src/game/ov021/scrcmd_player_events.c, scrcmd_otid.c, scrcmd_wifi_history.c, intrude_offer.c, field_g3d_tile_plane.c, union_chat_log.c	pieces cut from ov021 merged files on prefix runs	no anchors in ov021 for these	same
+file-name-guess	src/game/ov021/scrcmd_player_events.c, scrcmd_otid.c, scrcmd_wifi_history.c, intrude_offer.c, field_g3d_tile_plane.c	pieces cut from ov021 merged files on prefix runs	no anchors in ov021 for these	same
 file-name-guess	src/game/ov109/idle_screen.c	the one function of ov109, which nothing in the image loads	name from behaviour only	same
 file-name-guess	src/game/arm9/zone_weather.c	the 7 zone weather functions cut out of iss_switch.c	no __FILE__ anchor names it	keep until an anchor or other evidence names the original file
 file-name-guess	src/game/arm9/fldmmdl_save.c	the field-object save table cut out of net_device_table.c	no __FILE__ anchor names it	keep until an anchor or other evidence names the original file

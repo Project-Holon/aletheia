@@ -1,8 +1,8 @@
 /*
  * file:     colosseum.c
  * unit:     yes
- * function: COLOSSEUM_AddCommandTable, COLOSSEUM_GetRecvBuffer, COLOSSEUM_NoOp, COLOSSEUM_RecvPlayerEntry, COLOSSEUM_SendPlayerEntry, COLOSSEUM_RecvTrainerCard, COLOSSEUM_SendTrainerCard, COLOSSEUM_RecvPackage, COLOSSEUM_SendPackage, COLOSSEUM_RecvChoiceRequest, COLOSSEUM_SendChoiceRequest, COLOSSEUM_RecvChoiceReply, COLOSSEUM_SendChoiceReply, COLOSSEUM_RecvParty, COLOSSEUM_SendParty, COLOSSEUM_RecvBattlePositions, COLOSSEUM_SendBattlePositions, COLOSSEUM_RecvReady, COLOSSEUM_SendReady, COLOSSEUM_RecvReadyCancel, COLOSSEUM_SendReadyCancel, COLOSSEUM_RecvCancelAck, COLOSSEUM_SendCancelAck, COLOSSEUM_RecvAllReady, COLOSSEUM_SendAllReady, COLOSSEUM_RecvConfirm, COLOSSEUM_RecvFinish, COLOSSEUM_SendFinish, COLOSSEUM_Create, COLOSSEUM_Delete, COLOSSEUM_SetStartFlag, COLOSSEUM_SetMyChoice, COLOSSEUM_GetMyChoice, COLOSSEUM_SetMyChoiceReply, COLOSSEUM_GetMyChoiceReply, COLOSSEUM_AssignChoice, COLOSSEUM_FlushChoiceReplies, COLOSSEUM_UpdateReadyState, COLOSSEUM_StorePackage, COLOSSEUM_TakePackage, COLOSSEUM_ClearConfirmCount, COLOSSEUM_AllPartiesReceived, COLOSSEUM_ResetParties, COLOSSEUM_SetupBattleInfo, COLOSSEUM_ClearBattleInfo, COLOSSEUM_SetupBattleMember
- * address:  0x02174B40
+ * function: COLOSSEUM_Create, COLOSSEUM_Delete, COLOSSEUM_SetStartFlag, COLOSSEUM_SetMyChoice, COLOSSEUM_GetMyChoice, COLOSSEUM_SetMyChoiceReply, COLOSSEUM_GetMyChoiceReply, COLOSSEUM_AssignChoice, COLOSSEUM_FlushChoiceReplies, COLOSSEUM_UpdateReadyState, COLOSSEUM_StorePackage, COLOSSEUM_TakePackage, COLOSSEUM_ClearConfirmCount, COLOSSEUM_AllPartiesReceived, COLOSSEUM_ResetParties, COLOSSEUM_SetupBattleInfo, COLOSSEUM_ClearBattleInfo, COLOSSEUM_SetupBattleMember
+ * address:  0x02174F4C
  * region:   ov012
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -52,6 +52,9 @@
  *   COMM_PLAYER_Delete  0x0216754C  thumb  ov010
  *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
+ *   COLOSSEUM_SendChoiceReply  0x02174D2C  thumb  ov012
+ *   COLOSSEUM_SendCancelAck  0x02174E9C  thumb  ov012
+ *   COLOSSEUM_SendAllReady  0x02174ED8  thumb  ov012
  */
 #include "../sdk_fx.h"
 
@@ -67,10 +70,7 @@
 #include "../arm9/net_handle.h"
 
 
-
-
 #include "../arm9/pokeparty.h"
-
 
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -81,11 +81,6 @@ void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom);
 
 extern NetCommandEntry gColosseumCommandTable[];
 
-/* Registers the colosseum network commands (base id 0x1500, 14 entries). */
-void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom)
-{
-    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, gColosseumCommandTable, (u32)14, unionRoom);
-}
 
 /* Net command ids of the colosseum. The receive callbacks sit in the union
  * room command table in ov019. */
@@ -269,188 +264,6 @@ extern const char str_ja_021756A4[];
 extern const char str_ja_021756C8[];
 #endif
 
-u8 *COLOSSEUM_GetRecvBuffer(int netId, u8 *buffer, int size)
-{
-#if LANGUAGE == LANGUAGE_JAPANESE
-    if (size > COLOSSEUM_RECV_BUFFER_SIZE) GF_PANIC_FailPrintf(str_ja_02175664, 0x6C, str_ja_02175680, size, COLOSSEUM_RECV_BUFFER_SIZE);
-#else
-    if (size > COLOSSEUM_RECV_BUFFER_SIZE) GF_PANIC_Fail(gColosseumAssertText1, 0, gColosseumAssertText1);
-#endif
-    return buffer + 4 + (netId << 11);
-}
-
-void COLOSSEUM_NoOp(void)
-{
-}
-
-void COLOSSEUM_RecvPlayerEntry(u32 netId, u32 size, void *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) return;
-    if (colosseum == 0 || colosseum->commPlayer == 0) return;
-    MI_CpuCopy8(data, &colosseum->player[netId], size);
-}
-
-u32 COLOSSEUM_SendPlayerEntry(const void *data, u32 toParent)
-{
-    u32 sendId = 0;
-    if (toParent != 1) sendId = 255;
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),(u8)sendId,COLOSSEUM_CMD_PLAYER_ENTRY,sizeof(ColosseumPlayer),data,1,0,1);
-}
-
-void COLOSSEUM_RecvTrainerCard(u32 netId, u32 size, void *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-
-    if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
-        return;
-    }
-    if (colosseum == 0 || colosseum->commPlayer == 0) {
-        return;
-    }
-    if (colosseum->trainerCard[netId] == 0) {
-        return;
-    }
-    MI_CpuCopy8(data, colosseum->trainerCard[netId], size);
-    colosseum->trainerCardReceived[netId] = 1;
-}
-
-int COLOSSEUM_SendTrainerCard(const void *data)
-{
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),255,COLOSSEUM_CMD_TRAINER_CARD,0x678,data,1,0,1);
-}
-
-void COLOSSEUM_RecvPackage(u32 netId, u32 size, void *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) return;
-    if (colosseum == 0 || colosseum->commPlayer == 0) return;
-    COLOSSEUM_StorePackage(colosseum,netId,data);
-}
-
-u32 COLOSSEUM_SendPackage(const void *package)
-{
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),255,COLOSSEUM_CMD_PACKAGE,sizeof(CommPlayerPackage),package,0,1,1);
-}
-
-void COLOSSEUM_RecvChoiceRequest(u32 netId, u32 size, u8 *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum == 0 || colosseum->commPlayer == 0) return;
-    if (GFL_NET_IsParentAid() == 0) return;
-    COLOSSEUM_AssignChoice(colosseum,netId,*data);
-}
-
-u32 COLOSSEUM_SendChoiceRequest(ColosseumWork *work)
-{
-    u8 choice = COLOSSEUM_GetMyChoice(work);
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),0,COLOSSEUM_CMD_CHOICE_REQUEST,1,&choice,1,0,0);
-}
-
-void COLOSSEUM_RecvChoiceReply(u32 netId, u32 size, u32 *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum == 0 || colosseum->commPlayer == 0) return;
-    COLOSSEUM_SetMyChoiceReply(colosseum, *data);
-}
-
-/*
- * lever: The address-taken payload is the third parameter: sp+0x20
- *        after the 16-byte home area, 8-byte save and 16-byte call frame.
- *        Taking the first parameter's address added a reload and gave DIFF.
- */
-int COLOSSEUM_SendChoiceReply(ColosseumWork *work, u32 netId, u32 result)
-{
-    COLOSSEUM_GetMyChoice(work);
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),(u8)netId,COLOSSEUM_CMD_CHOICE_REPLY,4,&result,1,0,0);
-}
-
-void COLOSSEUM_RecvParty(u32 netId, u32 size, void *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum == 0) return;
-    if (colosseum->party[netId] == 0) return;
-    MI_CpuCopy8(data, colosseum->party[netId], size);
-    colosseum->partyReceived[netId] = 1;
-}
-
-/*
- * Caller consumes 020399A8's live r0 despite its filed void return.
- */
-u32 COLOSSEUM_SendParty(const void *party)
-{
-    GFLNetHandle *handle = GFL_NET_HANDLE_GetCurrentHandle();
-    return GFL_NET_SendData(handle,255,COLOSSEUM_CMD_PARTY,POKE_REGULATION_GetDataSize(),party,1,0,1);
-}
-
-void COLOSSEUM_RecvBattlePositions(int netId, u32 size, void *data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum) {
-        MI_CpuCopy8(data,colosseum->battlePosition,size);
-        colosseum->positionsReceived = 1;
-    }
-}
-
-int COLOSSEUM_SendBattlePositions(const void *positions) { return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),COLOSSEUM_CMD_POSITIONS,4,positions); }
-
-void COLOSSEUM_RecvReady(int netId,int size,int data,UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum) colosseum->readyReceived[netId] = 1;
-}
-
-u32 COLOSSEUM_SendReady(void)
-{
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, COLOSSEUM_CMD_READY, 0, 0, 1, 0, 0);
-}
-
-void COLOSSEUM_RecvReadyCancel(int netId, int size, int data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum != 0) {
-        colosseum->readyCancelled[netId] = 1;
-        colosseum->readyReceived[netId] = 0;
-    }
-}
-
-u32 COLOSSEUM_SendReadyCancel(void) { return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),0,COLOSSEUM_CMD_READY_CANCEL,0,0,1,0,0); }
-
-void COLOSSEUM_RecvCancelAck(int netId,int size,int data,UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum) colosseum->readySent = 0;
-}
-
-u32 COLOSSEUM_SendCancelAck(int netId) { return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),(u8)netId,COLOSSEUM_CMD_CANCEL_ACK,0,0,1,0,0); }
-
-void COLOSSEUM_RecvAllReady(int netId,int size,int data,UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum) colosseum->allReady = 1;
-}
-
-u32 COLOSSEUM_SendAllReady(void)
-{
-    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, COLOSSEUM_CMD_ALL_READY, 0, 0, 1, 0, 0);
-}
-
-void COLOSSEUM_RecvConfirm(int netId, int size, int data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum != 0)
-        colosseum->confirmCount++;
-}
-
-void COLOSSEUM_RecvFinish(int netId, int size, int data, UnionRoomWork *unionWork)
-{
-    ColosseumWork *colosseum = unionWork->colosseum;
-    if (colosseum != 0) {
-        colosseum->finished[netId] = 1;
-    }
-}
-
-int COLOSSEUM_SendFinish(void) { return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), COLOSSEUM_CMD_FINISH, 0, 0); }
 
 ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSystem, const struct MyStatus *myStatus, u32 modeFlag)
 {

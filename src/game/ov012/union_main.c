@@ -49,7 +49,7 @@
 
 #include "../arm9/gfl_heap_wrap.h"
 
-#include "union_scene.h"
+#include "union_subproc.h"
 
 #include "../arm9/gamesystem.h"
 struct ColosseumWork;

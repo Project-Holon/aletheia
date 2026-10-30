@@ -466,6 +466,7 @@ extern struct GameEvent * INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *, stru
 #include "../ov018/intrude_subdisp.h"
 #include "../arm9/game_comm.h"
 #include "../ov011/intrude_comm.h"
+#include "../ov011/intrude_battle.h"
 #include "../ov010/field_intrude_event.h"
 #include "../ov018/event_comm_common.h"
 #ifdef __MWERKS__

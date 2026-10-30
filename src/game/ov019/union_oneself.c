@@ -258,7 +258,7 @@ struct GameComm;
 #include "../arm9/game_comm.h"
 struct UnionRoomWork;
 
-#include "../ov012/union_scene.h"
+#include "../ov012/union_subproc.h"
 struct BattleBoxSave;
 
 #include "../arm9/battle_box.h"
@@ -787,7 +787,7 @@ typedef struct UnionSceneFourParam {
 
 
 
-#include "../ov012/union_command.h"
+#include "../ov012/union_comm_command.h"
 
 
 
@@ -853,6 +853,7 @@ struct MyStatus;
 struct ColosseumWork;
 
 #include "../ov012/colosseum.h"
+#include "../ov012/colosseum_comm_command.h"
 
 
 struct CommEntryMenu;
