@@ -17,6 +17,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GF_PANIC_Fail  0x02034714  arm
+ *   GF_PANIC_FailPrintf  0x02034734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb
@@ -1039,7 +1040,11 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
             break;
         }
     }
-    GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x6CC), PM_LANG_JA((char *)d_021807F8, str_ja_021809CC));
+#if LANGUAGE == LANGUAGE_JAPANESE
+    GF_PANIC_FailPrintf(str_ja_021808FC, 0x6CC, str_ja_021809CC);
+#else
+    GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+#endif
     return 0;
 }
 

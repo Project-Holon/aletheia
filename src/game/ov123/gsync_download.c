@@ -53,6 +53,7 @@
 #include "../version.h"
 #if LANGUAGE == LANGUAGE_JAPANESE
 extern const char str_ja_021DA8F4[];
+extern const char str_ja_021DA920[];
 #endif
 
 
@@ -211,7 +212,7 @@ int GSYNC_DOWNLOAD_SetAttr(GsyncDownloadWork *work, void *attrName, int attrValu
     int ok = 0;
     work->requestDone = 0;
     STD_TSNPrintf(valueText, 20, sGsyncDownloadAttrFormat, attrValue);
-    if (DWC_NdSetAttr(attrName, valueText, (char *)sGsyncDownloadAssertText))
+    if (DWC_NdSetAttr(attrName, valueText, (char *)PM_LANG_JA(sGsyncDownloadAssertText, str_ja_021DA920)))
         ok = 1;
     return ok;
 }

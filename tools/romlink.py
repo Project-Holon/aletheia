@@ -228,6 +228,15 @@ def relink_all(lay, jobs, only=None, white=False):
     r = sh([PY, "tools/gamelink.py", "arm9_main", "--data",
             "--extra=build/datac%s/arm9" % sfx()] + v)
     log.append(r.stdout.strip()[-300:])
+    # a Japanese target: the pool words of the link place the data objects the listings could
+    # not (tools/jafix.py); each pass can uncover the next, so up to three more
+    for _pass in range(3 if VERSION.endswith("_ja") and "arm9_main PASS" not in r.stdout else 0):
+        sh([PY, "tools/jafix.py", "arm9", "--target", VERSION])
+        sh([PY, "tools/arm9data.py"] + v)
+        r = sh([PY, "tools/gamelink.py", "arm9_main", "--data", "--extra=build/datac%s/arm9" % sfx()] + v)
+        log.append(r.stdout.strip()[-300:])
+        if "arm9_main PASS" in r.stdout:
+            break
     log.append(link_itcm(white).strip()[-300:])
     log.append(link_twl_region(white).strip()[-300:])
     print("relink: %.0f s" % (time.time() - t))
@@ -509,6 +518,12 @@ def main(argv=None):
                     ok = None
                 if ok is False:
                     again.append(o["id"])
+            if again and VERSION.endswith("_ja"):
+                # the pool words of a Japanese overlay's own link place the data objects the
+                # Black listing could not (tools/jafix.py); the second pass reads them
+                for i in again:
+                    r = sh([PY, "tools/jafix.py", str(i), "--target", VERSION])
+                    print((r.stdout + r.stderr).strip()[-200:])
             if again:
                 print("relink pass 2: %s" % " ".join("ov%03d" % i for i in again))
                 for line in relink_all(lay, a.jobs, only=again, white=white):

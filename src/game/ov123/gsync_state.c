@@ -652,6 +652,7 @@ extern char ov114_id[];
 
 extern const char gGsyncStateAssertTag[];
 #if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021DAA24[];
 extern const char str_ja_021DAA50[];
 extern const char str_ja_021DAA60[];
 extern const char str_ja_021DAA68[];
@@ -1990,7 +1991,7 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
     state=(GsyncStateWork *) PROCSYS_AllocProcWork(procSys,sizeof(GsyncStateWork),98);
     MI_CpuFill8(state,0,sizeof(GsyncStateWork));
     state->heapId=98;
-    if (!connection) GF_PANIC_Fail(gGsyncStateAssertTag,PM_SRC_LINE(0, 0xa39),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA60));
+    if (!connection) GF_PANIC_Fail(PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA24),PM_SRC_LINE(0, 0xa39),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA60));
     if (connection) {
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
@@ -2004,19 +2005,19 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         GAME_SYNC_GetBlock(state->saveControl);
         switch (connection->state) {
         case 0:
-            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,PM_SRC_LINE(0, 0xa4d),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
+            if (!profileValue) GF_PANIC_Fail(PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA24),PM_SRC_LINE(0, 0xa4d),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
             GSYNC_STATE_ChangeState(state,GSYNC_STATE_StateSendParsedRequest,PM_SRC_LINE(0xa89, 0xa4e));
             break;
         case 1:
-            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,PM_SRC_LINE(0, 0xa51),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
+            if (!profileValue) GF_PANIC_Fail(PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA24),PM_SRC_LINE(0, 0xa51),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
             GSYNC_STATE_ChangeState(state,GSYNC_STATE_StateStoreReceivedMon,PM_SRC_LINE(0xa8d, 0xa52));
             break;
         case 2:
-            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,PM_SRC_LINE(0, 0xa55),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
+            if (!profileValue) GF_PANIC_Fail(PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA24),PM_SRC_LINE(0, 0xa55),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
             GSYNC_STATE_ChangeState(state,GSYNC_STATE_StateStoreReceivedMon,PM_SRC_LINE(0xa91, 0xa56));
             break;
         case 3:
-            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,PM_SRC_LINE(0, 0xa59),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
+            if (!profileValue) GF_PANIC_Fail(PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA24),PM_SRC_LINE(0, 0xa59),PM_LANG_JA(gGsyncStateAssertTag, str_ja_021DAA68));
             GSYNC_STATE_ChangeState(state,GSYNC_STATE_StateSendParsedRequest,PM_SRC_LINE(0xa95, 0xa5a));
             break;
         case 4:

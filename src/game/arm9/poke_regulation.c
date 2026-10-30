@@ -84,9 +84,6 @@ extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, 
 #include "arc_tool.h"
 #endif
 
-/* Archive that holds the regulation records. */
-#define REGULATION_ARC_ID PM_LANG_JA(0x69, 0x11)
-
 #include "wordset.h"
 
 #include "strbuf.h"
@@ -590,7 +587,7 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
  */
 void *POKE_REGULATION_Load(int memberId, int heapId)
 {
-    return ARC_TOOL_LoadMember(REGULATION_ARC_ID, memberId, heapId);
+    return ARC_TOOL_LoadMember(0x69, memberId, heapId);
 }
 
 /*
@@ -598,7 +595,7 @@ void *POKE_REGULATION_Load(int memberId, int heapId)
  */
 void POKE_REGULATION_LoadInto(int memberId, void *dst)
 {
-    ARC_TOOL_ReadMember(dst, REGULATION_ARC_ID, memberId);
+    ARC_TOOL_ReadMember(dst, 0x69, memberId);
 }
 
 /*

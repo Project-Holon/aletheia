@@ -4917,10 +4917,13 @@ int BTL_CLIENT_StepPrintMessageUpdateMons(BtlClient *client, int *state, u32 *ar
         u8 i;
 
         if (BTL_CLIENT_IsMainStepActive(client) == 0) {
-            if (messageKind == 3) {
-                BTLV_CORE_PrintSideMessage(client->view, 0x60, 0);
-            } else if (messageKind == 4) {
+            switch (messageKind) {
+            case 4:
                 BTLV_CORE_PrintSideMessage(client->view, 0x5f, 0);
+                break;
+            case 3:
+                BTLV_CORE_PrintSideMessage(client->view, 0x60, 0);
+                break;
             }
         }
         for (i = 0; i < count; i++) {

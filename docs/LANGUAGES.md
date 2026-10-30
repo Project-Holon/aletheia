@@ -52,7 +52,7 @@ regions whose addresses it uses have linked.
 ## Japanese
 
 The Japanese cartridges (`black_ja`, `white_ja`) are an earlier build of the same program. The
-source has their sites, but they do not build byte-identical yet ([ROMS.md](ROMS.md)).
+source builds 179 of their 181 regions byte-identical; two functions are open ([ROMS.md](ROMS.md)).
 
 - About 95 percent of the functions are the same or differ only in addresses. The rest differ in
   one or two words (line numbers, message archive ids, digit width, the language id 1) or in
@@ -77,5 +77,9 @@ A function that only one language has is guarded with its callers.
 
 The data after the code is placed by content (`tools/jatail.py`): each object of English Black
 is searched in the target's tail. An object that the code references is pinned first, by the
-literal pools of the functions whose code matches (`white_map.ja_pool_map`).
+literal pools of the functions whose code matches (`white_map.ja_pool_map`). The ARM9 data
+(`tools/arm9data.py`) is placed the same way. A few objects that no pool of the listings places
+are found from a first data-mode link: where the linked code loads another address than the
+target's code at the same place, `tools/jafix.py` records the target's address, and the next
+link uses it. `romlink.py --relink` runs these passes itself for the Japanese targets.
 

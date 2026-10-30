@@ -349,6 +349,51 @@ def companions(out=None, relink=False, data_start=DATA_START):
         wimg = open(os.path.join(targets.extract_dir(datagen.TARGET), "arm9_dec.bin"), "rb").read()
         wimg = wimg[lw["src_offset"]:lw["src_offset"] + lw["size"]]
         wbase = lw["ram_start"]
+        # A Japanese target re-orders and re-sizes much more of the tail: each object is placed by
+        # content (tools/jatail.py), objects the code references first, through the literal pools
+        # of matching functions (white_map.ja_pool_map); tw() is then the map for the tail
+        jt_place, jt_size, _pm = {}, {}, {}
+        if datagen.TARGET.endswith("_ja"):
+            import jatail
+            _pm = dict(white_map.ja_pool_map("arm9"))
+            try:
+                # addresses that an earlier data-mode link found (tools/jafix.py arm9)
+                with open(os.path.join(targets.build_dir(datagen.TARGET), "jafix_arm9.json"), encoding="utf-8") as fh_:
+                    _pm.update({int(k_, 16): v_ for k_, v_ in json.load(fh_).items()})
+            except (OSError, ValueError):
+                pass
+            _wend = wbase + lw["size"]
+            _tl = [ob for ob in objs if ob["data"] is not None and ob["sec"] in (".rodata", ".data")]
+            _own_it = [dict(addr=a_, size=b_ - a_, data=img[a_ - base:b_ - base], inner=[], own=True,
+                            sec=".rodata" if a_ < s0 else ".data") for a_, b_ in own_occ if b_ > a_]
+            _tl = sorted(_tl + _own_it, key=lambda x: x["addr"])
+            _st = jatail.align(_tl, wimg, wbase, {".rodata": (wbase, _wend), ".data": (wbase, _wend)},
+                               hint=lambda a_: white_map.to_white(a_, exact=False), pin=_pm.get,
+                               pin_weak=white_map.ja_pool_map_weak("arm9").get,
+                               wword=lambda v_: (white_map.fn_lookup("arm9", v_ & ~1) | (v_ & 1))
+                               if base <= v_ < t0 and white_map.fn_lookup("arm9", v_ & ~1) is not None else None)
+            _placed = sorted(t_ for t_ in _st if t_ is not None)
+            for ob, t_ in zip(_tl, _st):
+                if t_ is None:
+                    continue
+                k_ = bisect.bisect_right(_placed, t_)
+                nx_ = _placed[k_] if k_ < len(_placed) else _wend
+                jt_place[ob["addr"]] = t_
+                jt_size[ob["addr"]] = min(ob["size"], nx_ - t_)
+            if os.environ.get("JATAIL_DEBUG"):
+                print("jatail arm9: %d of %d tail objects placed" % (len(jt_place), len(_tl)))
+        _jt_starts = sorted(jt_place)
+
+        def tw(a_):
+            if jt_place:
+                k_ = bisect.bisect_right(_jt_starts, a_) - 1
+                if k_ >= 0:
+                    s_ = _jt_starts[k_]
+                    ob_ = next((o for o in objs if o["addr"] == s_), None)
+                    n_ = ob_["size"] if ob_ is not None else jt_size[s_]
+                    if a_ < s_ + n_:
+                        return jt_place[s_] + (a_ - s_)
+            return white_map.to_white(a_)
         # pointers name their target object by index; inserting objects below would shift them
         for ob in objs:
             for k_, (kind_, j_, off_) in list(ob["ptrs"].items()):
@@ -376,18 +421,18 @@ def companions(out=None, relink=False, data_start=DATA_START):
         for v_, cn_ in votes.items():
             k_ = bisect.bisect_right(ostart, v_) - 1
             try:
-                al_ = white_map.to_white(v_)
+                al_ = tw(v_)
             except KeyError:
                 al_ = None
-            if k_ >= 0 and al_ != cn_.most_common(1)[0][0]:
-                liars.add(id(objs[k_]))
+            if k_ >= 0 and al_ != cn_.most_common(1)[0][0] and not jt_place:
+                liars.add(id(objs[k_]))     # (a Japanese target: the content placement decides)
         cand = [ob for ob in objs if ob["data"] is not None and ob["sec"] != ".bss"]
         for ob in cand:
             if id(ob) in liars:
                 continue
             try:
-                wa_ = white_map.to_white(ob["addr"])
-                we_ = white_map.to_white(ob["addr"] + ob["size"] - 1) + 1
+                wa_ = tw(ob["addr"])
+                we_ = (wa_ + jt_size[ob["addr"]]) if ob["addr"] in jt_size else tw(ob["addr"] + ob["size"] - 1) + 1
             except KeyError:
                 continue
             if we_ > wa_ and wbase <= wa_ and we_ <= wbase + len(wimg):
@@ -420,8 +465,10 @@ def companions(out=None, relink=False, data_start=DATA_START):
                        for k, ob in enumerate(objs) if ob["data"] is not None and id(ob) in wspan)
         if any(ob["data"] is not None and ob["sec"] != ".bss" and id(ob) not in wspan for ob in objs):
             blockers.append("an object of the tail has no target range")
-        own_w = [(white_map.to_white(a_), white_map.to_white(a_) + (b_ - a_)) for a_, b_ in own_occ]
-        prev_end, extra, white_only_n = white_map.to_white(t0), [], 0
+        own_w = [(tw(a_), tw(a_) + (b_ - a_)) for a_, b_ in own_occ]
+        if os.environ.get("JATAIL_DEBUG"):
+            print("  own_w", [("%08X" % a_, "%08X" % x_, "%08X" % y_) for (a_, _b), (x_, y_) in zip(own_occ, own_w)][-6:])
+        prev_end, extra, white_only_n = tw(t0), [], 0
         for wa_, we_, k in sorted(cover + [(a_, b_, -1) for a_, b_ in own_w]):
             if wa_ > prev_end:
                 extra.append((prev_end, wa_, k))
@@ -460,11 +507,13 @@ def companions(out=None, relink=False, data_start=DATA_START):
         for d_ in dropped:
             for a_ in [d_["addr"]] + d_["inner"]:
                 try:
-                    t_ = white_map.to_white(a_)
+                    t_ = tw(a_)
                 except KeyError:
                     continue
-                if a_ in votes:
+                if a_ in votes and not jt_place:
                     t_ = votes[a_].most_common(1)[0][0]
+                if jt_place and _pm.get(a_) is not None:
+                    t_ = _pm[a_]        # where the target's code finds it
                 h_, hw_ = holder(t_)
                 if h_ is None:
                     continue
@@ -485,8 +534,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
         for ob in objs:
             if ob["data"] is None or ob.get("wonly"):
                 continue
-            wa = white_map.to_white(ob["addr"])
-            we = white_map.to_white(ob["addr"] + ob["size"] - 1) + 1
+            wa = tw(ob["addr"])
+            we = (wa + jt_size[ob["addr"]]) if ob["addr"] in jt_size else tw(ob["addr"] + ob["size"] - 1) + 1
             if we - wa != ob["size"]:
                 if we - wa > 0 and wa + (we - wa) <= wbase + len(wimg):
                     # the object has another length in the target (a language ROM's text): the
@@ -508,7 +557,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
                 bw = struct.unpack_from("<I", ob["data"], 4 * k)[0]
                 ww = struct.unpack_from("<I", ob["wdata"], 4 * k)[0]
                 try:
-                    ok_ = white_map.to_white(bw) == ww
+                    ok_ = (tw(bw) if t0 <= bw < end else white_map.to_white(bw)) == ww
                 except KeyError:
                     ok_ = False
                 if ob["ptrs"][k][0] == "ext" and bw >= white_map._load()["black_end"]:

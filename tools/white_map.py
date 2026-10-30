@@ -487,6 +487,15 @@ def refine(a, m, t=None):
     reg = _CTX["region"] or os.environ.get("ALETHEIA_CTX_REGION")
     if t == "black" or not reg or not (reg == "arm9" or reg.startswith("ov")) or a < 0x02000000 or a >= MAIN_MEMORY_END:
         return m
+    if t.endswith("_ja") and reg.startswith("ov"):
+        # the literal pools of the matching functions, then the content placement of the data
+        # tail, before the pairing of pool words by count below
+        x = ja_pool_map(reg, t).get(a)
+        if x is not None:
+            return x
+        jt = _ja_tail(reg)
+        if jt and any(b_[0] == (a & ~1) for b_ in jt["blocks"]):
+            return m        # an object start that the content placement found
     bc = _ctx_words("black", reg).get(a, 0)
     if not bc:
         return m
@@ -642,33 +651,97 @@ def _pools(path):
     return out
 
 
+def _pool_addr(x):
+    """A pool word that is an address: main memory, or an overlay loaded into VRAM (ov095)."""
+    return 0x02000000 <= x < MAIN_MEMORY_END or 0x06800000 <= x < 0x06A00000
+
+
 def ja_pool_map(region, t=None):
     """{Black word: target word} from the literal pools of paired functions (_fn_pairs) of the
     overlay `region` in a Japanese target: a function whose code matches keeps its pool order, so
     the k-th pool word of the Black function and of its target are the same object.  Only pairs
-    with the same pool count, and only Black words every pair maps the same way."""
+    with the same pool count, and only Black words every pair maps the same way (a pool that is a
+    prefix of the other: ja_pool_map_weak)."""
     t = t or target()
     key = (t, region)
     if key in _POOLMAP:
         return _POOLMAP[key]
     res = {}
-    if t.endswith("_ja") and region.startswith("ov"):
+    if t.endswith("_ja") and (region.startswith("ov") or region == "arm9"):
+        sub, fn = ("arm9", "main.s") if region == "arm9" else ("overlays", region + ".s")
         try:
-            pb = _pools(os.path.join(ROOT, "asm", "overlays", region + ".s"))
-            pt = _pools(os.path.join(ROOT, "build", t, "asm", "overlays", region + ".s"))
+            pb = _pools(os.path.join(ROOT, "asm", sub, fn))
+            pt = _pools(os.path.join(ROOT, "build", t, "asm", sub, fn))
         except OSError:
             pb = pt = {}
-        seen = {}
+        seen, weak = {}, {}
         for bf, tf in _fn_pairs(t, region).items():
             wb, wt = pb.get(bf), pt.get(tf)
-            if not wb or not wt or len(wb) != len(wt):
+            if not wb or not wt:
+                continue
+            if len(wb) != len(wt):
+                # the target added or dropped pool words (a Japanese-only string at the end): the
+                # words before the first place where the two shapes differ still pair
+                k = 0
+                while k < min(len(wb), len(wt)) and                         _pool_addr(wb[k]) == _pool_addr(wt[k]):
+                    k += 1
+                if k < 3 or k < min(len(wb), len(wt)):
+                    continue        # the shorter pool must be a prefix of the longer one
+                wb, wt = wb[:k], wt[:k]
+                if not any(x < 0x10000 and y < 0x10000 and abs(x - y) > 0x40 for x, y in zip(wb, wt)):
+                    for x, y in zip(wb, wt):
+                        if _pool_addr(x):
+                            weak.setdefault(x, set()).add(y)
+                continue    # weaker evidence: used only where the pools of the same length say nothing
+            # the same pool shape: addresses at the same places (constants such as line numbers
+            # may differ)
+            if any(_pool_addr(x) != _pool_addr(y) for x, y in zip(wb, wt)):
+                continue
+            # a small constant (a line number, a size) moves by a few lines at most: a pair whose
+            # constants are far apart is two different functions of the same shape
+            if any(x < 0x10000 and y < 0x10000 and abs(x - y) > 0x40 for x, y in zip(wb, wt)):
                 continue
             for x, y in zip(wb, wt):
-                if 0x02000000 <= x < MAIN_MEMORY_END:
+                if _pool_addr(x):
                     seen.setdefault(x, set()).add(y)
         res = {x: next(iter(ys)) for x, ys in seen.items() if len(ys) == 1}
+        _POOLWEAK[key] = {x: next(iter(ys)) for x, ys in weak.items() if x not in seen and len(ys) == 1}
     _POOLMAP[key] = res
     return res
+
+
+_POOLWEAK = {}
+
+
+def ja_pool_map_weak(region, t=None):
+    """The weaker pairs of ja_pool_map (a pool that is a prefix of the other): to use only where
+    the object's content agrees."""
+    t = t or target()
+    ja_pool_map(region, t)
+    return _POOLWEAK.get((t, region), {})
+
+
+_SVC = {}
+
+
+def _svc_map(t):
+    """{Black address: target address} of the BIOS call wrappers (`svc #n; bx lr`) in the secure
+    area of the ARM9 module: their bodies differ only in the call number, so they pair by it."""
+    if t not in _SVC:
+        res = {}
+        try:
+            b = open(os.path.join(ROOT, targets.extract_dir("black"), "arm9_dec.bin"), "rb").read()[:0x4000]
+            w = open(os.path.join(ROOT, targets.extract_dir(t), "arm9_dec.bin"), "rb").read()[:0x4000]
+        except OSError:
+            b = w = b""
+        for n in range(0x20):
+            pat = bytes([n, 0xDF, 0x70, 0x47])
+            kb = [m.start() for m in re.finditer(re.escape(pat), b) if m.start() % 2 == 0]
+            kw = [m.start() for m in re.finditer(re.escape(pat), w) if m.start() % 2 == 0]
+            if len(kb) == 1 and len(kw) == 1:
+                res[0x02004000 + kb[0]] = 0x02004000 + kw[0]
+        _SVC[t] = res
+    return _SVC[t]
 
 
 def fn_lookup(region, a, t=None):
@@ -680,6 +753,10 @@ def fn_lookup(region, a, t=None):
     t = t or target()
     if not t.endswith("_ja"):
         return None
+    if region == "arm9" and 0x02004000 <= (a & ~1) < 0x02008000:
+        x = _svc_map(t).get(a & ~1)
+        if x is not None:
+            return x
     key = (t, region)
     if key not in _FNMAP:
         _FNMAP[key] = _fn_pairs(t, region)
@@ -709,6 +786,23 @@ def to_white(a, region=None, exact=True):
     `region`: the overlay `a` belongs to, when it is one whose code moved inside.
     `exact`: use the symbols of a passing link of the target (exact_map) before the alignment."""
     bit = a & 1
+    ctx = _CTX["region"] or os.environ.get("ALETHEIA_CTX_REGION")
+    if exact and ctx and (ctx.startswith("ov") or ctx == "arm9") and target().endswith("_ja"):
+        # an address in another module that the linked module's matching functions load from
+        # their literal pools: the target's word at the same place is the address
+        lay_ = _lay("black")
+        r_ = _ov_rec(lay_, int(ctx[2:])) if ctx.startswith("ov") else lay_["arm9"]["static"]
+        if not (r_["ram_start"] <= (a & ~1) < r_["bss_end"]):
+            pm_ = ja_pool_map(ctx)
+            x = pm_.get(a)
+            if x is not None and lay_["arm9"]["static"]["ram_start"] <= (a & ~1) < lay_["arm9"]["static"]["ram_end"]                     and fn_lookup("arm9", a & ~1) is not None:
+                x = None        # an ARM9 function: the function map knows it (a pool pairing can be off)
+            if x is None and not bit and pm_.get(a | 1) is not None:
+                x = pm_[a | 1] & ~1          # a Thumb function's address without its mode bit
+            if x is not None:
+                return x
+        elif region is None:
+            region = ctx        # its own data tail: the content placement of jatail.py
     if (a & ~1) >= MAIN_MEMORY_END:
         if region and region.startswith("ov") and target().endswith("_ja"):
             x = fn_lookup(region, a & ~1)       # a Japanese DSi overlay moves inside its window

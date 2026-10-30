@@ -1708,7 +1708,7 @@ void WORLDTRADE_INPUT_DrawFrame(WorldtradeMenu *p, int mode, int pos)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, mode);
     WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 74, &p->g);
-    MI_CpuFill8(p->flags, 1, 26);
+    MI_CpuFill8(p->flags, 1, PM_LANG_JA(26, 50));
     g = (u8 *)p;
     g += PM_LANG_JA(124, 148);
     for (i = 0; i < WTMENU_GRID_WINS; i++) {
@@ -1750,7 +1750,7 @@ void WORLDTRADE_INPUT_DrawThreeOptionScreen(WorldtradeMenu *p)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 1);
     for (i = 0; i < 3; i++) {
-        str = MSGDATA_AllocString(p->bank, i + 130);
+        str = MSGDATA_AllocString(p->bank, i + PM_LANG_JA(130, 126));
         WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[i], str, 2, 0x3dc2, &p->g);
         STRBUF_Delete(str);
     }
@@ -1871,7 +1871,7 @@ int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p)
     return -1;
 }
 
-int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,PM_LANG_JA(144, 136),40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;return -1;}
+int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),PM_LANG_JA(18, 4));WORLDTRADE_SetActorPos(p->cursor,PM_LANG_JA(144, 136),40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;return -1;}
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
 {
@@ -1967,7 +1967,7 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(WorldtradeMenu *p)
     }
     BGWINFRM_PutFrame(p->mgr, 0, 16, 0);
     BGWINFRM_ShowFrame(p->mgr, 0);
-    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 18);
+    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), PM_LANG_JA(18, 4));
     WORLDTRADE_SetActorPos(p->cursor, (tbl_022032C6[p->layout].x + 16) * 8, tbl_022032C6[p->layout].y * 8);
     p->pos = p->layout;
     CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);

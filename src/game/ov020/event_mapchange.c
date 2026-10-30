@@ -2485,12 +2485,12 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData)
 
 void EVENT_MAPCHANGE_TamperLeakA(void)
 {
-    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe35);
+    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, PM_SRC_LINE(0xe35, 0xe06));
 }
 
 void EVENT_MAPCHANGE_TamperLeakB(void)
 {
-    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe3a);
+    GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, PM_SRC_LINE(0xe3a, 0xe0b));
 }
 
 /*

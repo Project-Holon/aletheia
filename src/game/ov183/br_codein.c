@@ -3745,7 +3745,7 @@ int BR_CODEIN_ProfileScreenMain(int unused, int *state, struct BrProcArgHead *ar
 struct CodeinProfileWork *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap)
 {
     struct CodeinProfileWork *p;
-    p = GFL_HEAP_Alloc(heap, sizeof(struct CodeinProfileWork), 0, d_021E3968, 56);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct CodeinProfileWork), 0, PM_LANG_JA(d_021E3968, str_ja_021E39AC), 56);
     MI_CpuFill8(p, 0, sizeof(struct CodeinProfileWork));
     p->object = *src;
     p->profileHeapId = heap;
@@ -3779,7 +3779,7 @@ struct BrCodeinObject *BR_CODEIN_ProfileCreateObject(int heap, int n, void *acto
 {
     int i;
     struct BrCodeinObject *p;
-    p = GFL_HEAP_Alloc((u16)heap, sizeof(struct BrCodeinObject), 0, d_021E3968, 192);
+    p = GFL_HEAP_Alloc((u16)heap, sizeof(struct BrCodeinObject), 0, PM_LANG_JA(d_021E3968, str_ja_021E39AC), 192);
     p->actorSys = actorSys;
     p->res = res;
     p->capacity = n;

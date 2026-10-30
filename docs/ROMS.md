@@ -29,7 +29,9 @@ means `white`).
 
 ## Japanese (in progress)
 
-The source has the Japanese sites, but these two cartridges do not build byte-identical yet.
+The source builds 179 of the 181 regions of each Japanese cartridge byte-identical (the ARM9
+module, the DSi block and 177 overlays). Two functions are still open, one in ov019 and one in
+ov093 ([DEBT.tsv](DEBT.tsv)); `romlink.py --image-fallback` takes those two overlays from the dump.
 
 | File | Target | No-Intro name | Game code | SHA-1 |
 |---|---|---|---|---|

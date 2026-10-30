@@ -532,10 +532,10 @@ void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 
 void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p)
 {
-    PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
 #if LANGUAGE != LANGUAGE_JAPANESE
-    PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
 #endif
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
     if (*(u8 * *)&((MusicalMcssWork *)p)->timeIcon) {
         TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon));
         ((MusicalMcssWork *)p)->timeIcon=0;

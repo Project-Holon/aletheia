@@ -1538,7 +1538,7 @@ int STARTMENU_MenuExit(struct Proc *procCtx, int unusedArg1, int unusedArg2, Sta
         PROCSYS_ReplaceGlobal((sptr)ov121_id, (struct ProcData *)d_021DF538, 0);
         break;
     case 3:
-        procArgs = GFL_HEAP_Alloc(1, 0x14, 0, d_021BDA00, 0x200);
+        procArgs = GFL_HEAP_Alloc(1, 0x14, 0, d_021BDA00, PM_SRC_LINE(0x200, 0x1FE));
         MI_CpuFill8(procArgs, 0, 0x14);
         ((StartMenuOv199Args *)procArgs)->selection = 0;
         ((StartMenuOv199Args *)procArgs)->fromTitleMenu = 1;
@@ -1554,7 +1554,7 @@ int STARTMENU_MenuExit(struct Proc *procCtx, int unusedArg1, int unusedArg2, Sta
         PROCSYS_ReplaceGlobal((sptr)ov168_id, (struct ProcData *)d_02184904, 0);
         break;
     case 7:
-        procArgs = GFL_HEAP_Alloc(1, 8, 1, d_021BDA00, 0x216);
+        procArgs = GFL_HEAP_Alloc(1, 8, 1, d_021BDA00, PM_SRC_LINE(0x216, 0x214));
         ((StartMenuOv107Args *)procArgs)->fromTitleMenu = 1;
         PROCSYS_ReplaceGlobal((sptr)ov107_id, (struct ProcData *)d_021F6D78, procArgs);
         break;
@@ -2157,21 +2157,26 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     }
     STRBUF_Delete(msgStr);
 
-    msgStr = MSGDATA_AllocString(work->msgBank, 16);
-    ZONEDATA_Init(0x800B);
-    if (ZONEDATA_CheckEventFlag(work->eventWork, 0x966) == 1) {
-        zoneName = ZONEDATA_GetPlaceNameId(PLAYER_LOCATION_GetLocationA(PLAYER_LOCATION_GetData(work->saveData))->zoneId);
-    } else {
-        PLAYER_LOCATION_CopyRecord(work->saveData, (struct LocationRecord *)locationBuf);
-        zoneName = ZONEDATA_GetPlaceNameId(locationBuf[0]);
+    {
+        /* the location row has a print system local of its own */
+        void *locationPrintSys;
+
+        msgStr = MSGDATA_AllocString(work->msgBank, 16);
+        ZONEDATA_Init(0x800B);
+        if (ZONEDATA_CheckEventFlag(work->eventWork, 0x966) == 1) {
+            zoneName = ZONEDATA_GetPlaceNameId(PLAYER_LOCATION_GetLocationA(PLAYER_LOCATION_GetData(work->saveData))->zoneId);
+        } else {
+            PLAYER_LOCATION_CopyRecord(work->saveData, (struct LocationRecord *)locationBuf);
+            zoneName = ZONEDATA_GetPlaceNameId(locationBuf[0]);
+        }
+        ZONEDATA_Exit();
+        WORDSET_SetSlotFromMsg59(work->wordSet, 0, zoneName);
+        WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
+        locationPrintSys = work->printSys;
+        PRINTSYS_PrintQueColor(locationPrintSys, BMP_WIN_GetBmp(work->windows[2].window), 0, 0, work->stringBuf, work->font, 0x440);
+        work->windows[2].textPending = 1;
+        STRBUF_Delete(msgStr);
     }
-    ZONEDATA_Exit();
-    WORDSET_SetSlotFromMsg59(work->wordSet, 0, zoneName);
-    WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
-    printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->windows[2].window), 0, 0, work->stringBuf, work->font, 0x440);
-    work->windows[2].textPending = 1;
-    STRBUF_Delete(msgStr);
 
     msgStr = MSGDATA_AllocString(work->msgBank, 9);
     playerInfo = SYSTEM_DATA_GetPlayTime(work->saveData);

@@ -171,9 +171,10 @@ extern FieldMenuHeader d_021DB42C;
  * other cartridges pass the file name twice.  It also prints the party numbers full width.
  */
 #if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021DE448[];
 extern const char str_ja_021DE45C[];
 extern const char str_ja_021DE47C[];
-#define PARTY_SELECT_LIST_ASSERT_FAIL(line, text) GF_PANIC_Fail(d_021DE5C0, line, text)
+#define PARTY_SELECT_LIST_ASSERT_FAIL(line, text) GF_PANIC_Fail(str_ja_021DE448, line, text)
 #else
 #define PARTY_SELECT_LIST_ASSERT_FAIL(line, text) GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC)
 #endif
@@ -216,7 +217,7 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
 
     if (firstParty == 0 || secondParty == 0)
         PARTY_SELECT_LIST_ASSERT_FAIL(0xD1, str_ja_021DE45C);
-    list = GFL_HEAP_Alloc(heapId, sizeof(*list), 1, (char *)d_021DE5C0, 0xd3);
+    list = GFL_HEAP_Alloc(heapId, sizeof(*list), 1, PM_LANG_JA((char *)d_021DE5C0, str_ja_021DE448), 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
     list->party[1] = secondParty;

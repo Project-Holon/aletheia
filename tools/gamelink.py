@@ -1440,6 +1440,8 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 data = wimg[gaps_w[i][0] - wbase:gaps_w[i][1] - wbase]
             else:
                 data = wimg[g0 - base:g1 - base]
+            if os.environ.get("GAMELINK_ZEROGAP"):
+                data = bytes(len(data))     # (a check: does the link's own content cover the gap)
             secs = [(".gap", 3, data, 1)]
             sy = [("__gap%d" % i, 1, 0, 0, False, True)]
             if not any(a == g0 for _n, a, _k in gap_funcs.get(i, [])):

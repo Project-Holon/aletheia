@@ -424,12 +424,6 @@ extern const ActorRow3 sKindMenuActorAnim;
 
 #include "../version.h"
 
-/*
- * The source line of a call site, passed to the debug allocator and to SetSeq. The Japanese
- * source is shorter by one line per menu section before the call.
- */
-#define IRCBATTLEMENU_LINE(line) PM_SRC_LINE(line, (line) - ((line) < 0x440 ? 12 : (line) < 0x4D0 ? 13 : (line) < 0x550 ? 14 : 15))
-
 void IRCBATTLEMENU_StoreSeqFunc(IrcBattleMenuSeqFunc *dest, IrcBattleMenuSeqFunc seq);
 void IRCBATTLEMENU_SetSeq(IrcBattleMenuWork *work, IrcBattleMenuSeqFunc seq, u32 line);
 void IRCBATTLEMENU_InitBgLayers(IrcBattleMenuWork *work);
@@ -803,7 +797,7 @@ void IRCBATTLEMENU_SeqSetupTopMenu(IrcBattleMenuWork *work)
 #endif
     work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sTopMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchTopMenu;
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, IRCBATTLEMENU_LINE(0x340));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, PM_SRC_LINE(0x340, 0x334));
 }
 
 /* Frees what IRCBATTLEMENU_LoadMenuGraphics loaded and resets the BG layers. */
@@ -830,9 +824,9 @@ void IRCBATTLEMENU_SeqWaitFadeEnd(IrcBattleMenuWork *work)
     if (WIPE_SYS_EndCheck()) {
         if (work->mode != 0xC) {
             if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(IRC_BATTLE_ENTRY_GetGameSys(work->param))) == 0)
-                IRCBATTLEMENU_SetSeq(work, 0, IRCBATTLEMENU_LINE(0x361));
+                IRCBATTLEMENU_SetSeq(work, 0, PM_SRC_LINE(0x361, 0x355));
         } else {
-            IRCBATTLEMENU_SetSeq(work, 0, IRCBATTLEMENU_LINE(0x365));
+            IRCBATTLEMENU_SetSeq(work, 0, PM_SRC_LINE(0x365, 0x359));
         }
     }
 }
@@ -847,7 +841,7 @@ void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work)
             GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(IRC_BATTLE_ENTRY_GetGameSys(work->param)));
         }
     }
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitFadeEnd, IRCBATTLEMENU_LINE(0x37C));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitFadeEnd, PM_SRC_LINE(0x37C, 0x370));
 }
 
 /* Animation end hook of the top menu: picks the next sequence from the chosen mode. */
@@ -855,18 +849,18 @@ void IRCBATTLEMENU_HookTopMenuPressed(void *param, u32 frame)
 {
     IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 0xC) {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x38C));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x38C, 0x380));
         return;
     }
     if (CONFIG_GetButtonMode(SYSTEM_DATA_GetConfig(IRC_BATTLE_ENTRY_GetSaveControl(work->param))) == 1) {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestion, IRCBATTLEMENU_LINE(0x38F));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestion, PM_SRC_LINE(0x38F, 0x383));
         return;
     }
     if (work->mode - 6 <= 2) {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x394));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x394, 0x388));
         return;
     }
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, IRCBATTLEMENU_LINE(0x397));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, PM_SRC_LINE(0x397, 0x38B));
 }
 
 /* Sequence: waits for the actor animation. */
@@ -894,7 +888,7 @@ void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleTop, IRCBATTLEMENU_LINE(0x3BF));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleTop, PM_SRC_LINE(0x3BF, 0x3B3));
 }
 
 /* Sequence: after the "not enough Pokemon" message, closes it and returns to touch input. */
@@ -902,7 +896,7 @@ void IRCBATTLEMENU_SeqWaitNotEnoughMsg(IrcBattleMenuWork *work)
 {
     if (IRCBATTLEMENU_IsMessageEnd(work) != 0 && TOUCHPANEL_GetTrg() != 0) {
         IRCBATTLEMENU_DeleteMsgWin(work);
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, IRCBATTLEMENU_LINE(0x3CB));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, PM_SRC_LINE(0x3CB, 0x3BF));
     }
 }
 
@@ -916,7 +910,7 @@ int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work)
     case 0:
     case 5:
         GFL_USE_PlaySeDefaultVolume(0x73B);
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, IRCBATTLEMENU_LINE(0x3DE));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, PM_SRC_LINE(0x3DE, 0x3D2));
         taken = 1;
         work->mode = 1;
         break;
@@ -925,31 +919,31 @@ int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work)
         if ((int)POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(work->gameData)) < 2) {
             MSGDATA_ReadString((struct MsgBank *)work->msgData, 0x2C, (struct Strbuf *)work->message);
             IRCBATTLEMENU_PrintMessage(work, 0);
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitNotEnoughMsg, IRCBATTLEMENU_LINE(0x3EA));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitNotEnoughMsg, PM_SRC_LINE(0x3EA, 0x3DE));
         } else {
             GFL_USE_PlaySeDefaultVolume(0x73B);
             work->mode = 6;
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, IRCBATTLEMENU_LINE(0x3F0));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, PM_SRC_LINE(0x3F0, 0x3E4));
             taken = 1;
         }
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 8;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, IRCBATTLEMENU_LINE(0x3F6));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, PM_SRC_LINE(0x3F6, 0x3EA));
         taken = 1;
         break;
     case 3:
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 7;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, IRCBATTLEMENU_LINE(0x3FD));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, PM_SRC_LINE(0x3FD, 0x3F1));
         taken = 1;
         break;
     case 4:
         GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, IRCBATTLEMENU_LINE(0x404));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, PM_SRC_LINE(0x404, 0x3F8));
         break;
     }
     return taken;
@@ -977,7 +971,7 @@ void IRCBATTLEMENU_SeqSetupKindMenu(IrcBattleMenuWork *work)
 #endif
     work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sKindMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchKindMenu;
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, IRCBATTLEMENU_LINE(0x432));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, PM_SRC_LINE(0x432, 0x425));
 }
 
 /* Animation end hook of the kind menu: picks the next menu from the mode and the party check. */
@@ -986,12 +980,12 @@ void IRCBATTLEMENU_HookKindMenuPressed(void *param, u32 frame)
     IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 5) {
         if (BATTLE_BOX_HasMon((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(work->param->saveControl)) != 0) {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, IRCBATTLEMENU_LINE(0x443));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, PM_SRC_LINE(0x443, 0x436));
         } else {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x446));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x446, 0x439));
         }
     } else {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupRuleMenu, IRCBATTLEMENU_LINE(0x44D));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupRuleMenu, PM_SRC_LINE(0x44D, 0x440));
     }
 }
 
@@ -1016,14 +1010,14 @@ void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKind, IRCBATTLEMENU_LINE(0x471));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKind, PM_SRC_LINE(0x471, 0x464));
 }
 
 /* Animation end hook of the kind menu back button: returns to the top menu. */
 void IRCBATTLEMENU_HookKindBackPressed(void *param, u32 frame)
 {
     IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, IRCBATTLEMENU_LINE(0x47A));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, PM_SRC_LINE(0x47A, 0x46D));
 }
 
 /* Sequence: waits for the actor animation. */
@@ -1042,7 +1036,7 @@ void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[work->touchIndex], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[work->touchIndex], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[work->touchIndex]);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKindBack, IRCBATTLEMENU_LINE(0x492));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKindBack, PM_SRC_LINE(0x492, 0x485));
 }
 
 /* Touch handler of the kind menu. */
@@ -1054,17 +1048,17 @@ int IRCBATTLEMENU_TouchKindMenu(u32 index, IrcBattleMenuWork *work)
     switch (index) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x73B);
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, IRCBATTLEMENU_LINE(0x4A3));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, PM_SRC_LINE(0x4A3, 0x496));
         break;
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 5;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, IRCBATTLEMENU_LINE(0x4A9));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, PM_SRC_LINE(0x4A9, 0x49C));
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindBack, IRCBATTLEMENU_LINE(0x4AF));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindBack, PM_SRC_LINE(0x4AF, 0x4A2));
         break;
     default:
         taken = 1;
@@ -1087,7 +1081,7 @@ void IRCBATTLEMENU_SeqSetupRuleMenu(IrcBattleMenuWork *work)
 #endif
     work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sRuleMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchRuleMenu;
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, IRCBATTLEMENU_LINE(0x4CC));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, PM_SRC_LINE(0x4CC, 0x4BE));
 }
 
 /* Animation end hook of the party menu: picks the next menu from the party mode. */
@@ -1097,12 +1091,12 @@ void IRCBATTLEMENU_HookPartyMenuPressed(void *param, u32 frame)
     if (work->partyMode == 2) {
         if (work->mode == 5) {
             work->mode = 1;
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, IRCBATTLEMENU_LINE(0x4DD));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, PM_SRC_LINE(0x4DD, 0x4CF));
         } else {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupRuleMenu, IRCBATTLEMENU_LINE(0x4E1));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupRuleMenu, PM_SRC_LINE(0x4E1, 0x4D3));
         }
     } else {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x4E5));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x4E5, 0x4D7));
     }
 }
 
@@ -1125,7 +1119,7 @@ void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleParty, IRCBATTLEMENU_LINE(0x504));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleParty, PM_SRC_LINE(0x504, 0x4F6));
 }
 
 /* Sequence: updates the touch switch each frame. */
@@ -1144,19 +1138,19 @@ int IRCBATTLEMENU_TouchPartyMenu(u32 index, IrcBattleMenuWork *work)
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->partyMode = 0;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, IRCBATTLEMENU_LINE(0x524));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, PM_SRC_LINE(0x524, 0x516));
         taken = 1;
         break;
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         taken = 1;
         work->partyMode = 1;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, IRCBATTLEMENU_LINE(0x52A));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, PM_SRC_LINE(0x52A, 0x51C));
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73C);
         work->partyMode = 2;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, IRCBATTLEMENU_LINE(0x530));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, PM_SRC_LINE(0x530, 0x522));
         break;
     }
     return taken;
@@ -1176,7 +1170,7 @@ void IRCBATTLEMENU_SeqSetupPartyMenu(IrcBattleMenuWork *work)
 #endif
     work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sPartyMenuTouchRects, IRCBATTLEMENU_TouchCallback, work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchPartyMenu;
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchParty, IRCBATTLEMENU_LINE(0x54D));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchParty, PM_SRC_LINE(0x54D, 0x53E));
 }
 
 /* Animation end hook of the rule menu: picks the next menu from the mode and the party check. */
@@ -1184,12 +1178,12 @@ void IRCBATTLEMENU_HookRuleMenuPressed(void *param, u32 frame)
 {
     IrcBattleMenuWork *work = (IrcBattleMenuWork *)param;
     if (work->mode == 0xC) {
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, IRCBATTLEMENU_LINE(0x558));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, PM_SRC_LINE(0x558, 0x549));
     } else {
         if (BATTLE_BOX_HasMon((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(work->param->saveControl)) != 0) {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, IRCBATTLEMENU_LINE(0x55D));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupPartyMenu, PM_SRC_LINE(0x55D, 0x54E));
         } else {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x560));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x560, 0x551));
         }
     }
 }
@@ -1228,7 +1222,7 @@ void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleRule, IRCBATTLEMENU_LINE(0x58F));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleRule, PM_SRC_LINE(0x58F, 0x580));
 }
 
 /* Touch handler of the rule menu: sets the mode (1 to 4, or 12 for back) from the pressed button. */
@@ -1242,30 +1236,30 @@ int IRCBATTLEMENU_TouchRuleMenu(u32 index, IrcBattleMenuWork *work)
         GFL_USE_PlaySeDefaultVolume(0x73B);
         taken = 1;
         work->mode = 1;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, IRCBATTLEMENU_LINE(0x5B1));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, PM_SRC_LINE(0x5B1, 0x5A2));
         break;
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 2;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, IRCBATTLEMENU_LINE(0x5B7));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, PM_SRC_LINE(0x5B7, 0x5A8));
         taken = 1;
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 3;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, IRCBATTLEMENU_LINE(0x5BD));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, PM_SRC_LINE(0x5BD, 0x5AE));
         taken = 1;
         break;
     case 3:
         GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 4;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, IRCBATTLEMENU_LINE(0x5C3));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, PM_SRC_LINE(0x5C3, 0x5B4));
         taken = 1;
         break;
     case 4:
         GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, IRCBATTLEMENU_LINE(0x5C9));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, PM_SRC_LINE(0x5C9, 0x5BA));
         break;
     }
     return taken;
@@ -1522,7 +1516,7 @@ void IRCBATTLEMENU_SeqSaveQuestion(IrcBattleMenuWork *work)
     BG_SYS_ClearLayerEx(5, 0);
     MSGDATA_ReadString((struct MsgBank *)work->msgData, 25, (struct Strbuf *)work->message);
     IRCBATTLEMENU_PrintMessage(work, 0);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestionWait, IRCBATTLEMENU_LINE(0x761));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveQuestionWait, PM_SRC_LINE(0x761, 0x752));
 }
 
 /* Runs the save; when it ends, goes on to the chosen battle mode. */
@@ -1534,9 +1528,9 @@ void IRCBATTLEMENU_SeqSaveMain(IrcBattleMenuWork *work)
         BMP_WIN_ClearScreen(work->msgWin);
         BG_SYS_MarkTileDirty(5);
         if (work->mode == 1) {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, IRCBATTLEMENU_LINE(0x776));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, PM_SRC_LINE(0x776, 0x767));
         } else {
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, IRCBATTLEMENU_LINE(0x779));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqStartFadeOut, PM_SRC_LINE(0x779, 0x76A));
         }
         work->isSaveDone = 1;
     }
@@ -1547,7 +1541,7 @@ void IRCBATTLEMENU_SeqSaveStart(IrcBattleMenuWork *work)
 {
     if (IRCBATTLEMENU_IsMessageEnd(work) != 0) {
         GAME_DATA_SaveStart(work->gameData);
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveMain, IRCBATTLEMENU_LINE(0x78E));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveMain, PM_SRC_LINE(0x78E, 0x77F));
     }
 }
 
@@ -1559,7 +1553,7 @@ void IRCBATTLEMENU_SeqWaitTouchExit(IrcBattleMenuWork *work)
         BG_SYS_ClearSlot(3);
         IRCBATTLEMENU_DeleteMsgWin(work);
         work->mode = 12;
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, IRCBATTLEMENU_LINE(0x7a2));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, PM_SRC_LINE(0x7a2, 0x793));
     }
 }
 
@@ -1571,19 +1565,19 @@ void IRCBATTLEMENU_SeqSaveYesNo(IrcBattleMenuWork *work)
             if (SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(work->gameData)) != 0) {
                 MSGDATA_ReadString((struct MsgBank *)work->msgData, 0x2d, (struct Strbuf *)work->message);
                 IRCBATTLEMENU_PrintMessage(work, 0);
-                IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitTouchExit, IRCBATTLEMENU_LINE(0x7b9));
+                IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitTouchExit, PM_SRC_LINE(0x7b9, 0x7AA));
             } else {
                 MSGDATA_ReadString((struct MsgBank *)work->msgData, 0x1c, (struct Strbuf *)work->message);
                 IRCBATTLEMENU_PrintMessage(work, 1);
                 IRCBATTLEMENU_CreateTimeIcon(work);
-                IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveStart, IRCBATTLEMENU_LINE(0x7bf));
+                IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveStart, PM_SRC_LINE(0x7bf, 0x7B0));
             }
         } else {
             IRCBATTLEMENU_SetSubPaletteActive(work, 0);
             BG_SYS_ClearSlot(3);
             IRCBATTLEMENU_DeleteMsgWin(work);
             work->mode = 12;
-            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, IRCBATTLEMENU_LINE(0x7c7));
+            IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, PM_SRC_LINE(0x7c7, 0x7B8));
         }
         APP_TASKMENU_CloseMenu(work->yesNoMenu);
         work->yesNoMenu = 0;
@@ -1595,7 +1589,7 @@ void IRCBATTLEMENU_SeqSaveQuestionWait(IrcBattleMenuWork *work)
 {
     if (IRCBATTLEMENU_IsMessageEnd(work) != 0) {
         IRCBATTLEMENU_OpenYesNoMenu(work);
-        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveYesNo, IRCBATTLEMENU_LINE(0x7DC));
+        IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSaveYesNo, PM_SRC_LINE(0x7DC, 0x7CD));
     }
 }
 
@@ -1629,8 +1623,8 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work->vblankTask = GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
     IRCBATTLEMENU_InitBgLayers(work);
     IRCBATTLEMENU_LoadMenuGraphics(work);
-    work->subObjPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, IRCBATTLEMENU_LINE(0x829));
-    work->subBgPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, IRCBATTLEMENU_LINE(0x82A));
+    work->subObjPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, PM_SRC_LINE(0x829, 0x81A));
+    work->subBgPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, PM_SRC_LINE(0x82A, 0x81B));
     work->tcbl = (struct Tcbl *)TCBL_Create(work->heapId, work->heapId, 2, 0);
     work->keyCursor = (struct AppKeyCursor *)APP_KEYCURSOR_CreateDefault(0xf, 0, 1, work->heapId);
     work->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(work->heapId);
@@ -1639,7 +1633,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     IRCBATTLEMENU_CreateDecoration(work, 0x39, 0x9a, 0, 10);
     IRCBATTLEMENU_CreateDecoration(work, 0xc8, 0x26, 1, 11);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
-    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, IRCBATTLEMENU_LINE(0x83B));
+    IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, PM_SRC_LINE(0x83B, 0x82C));
     work->param = (struct IrcBattleEntryWork *)param;
     work->gameData = GAMESYSTEM_GetGameData(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
     G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 4, 1, 0xf, 4);

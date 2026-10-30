@@ -1538,7 +1538,11 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
         ZUKAN_SAVE_RegisterCaught(dex, mon);
         GFL_HEAP_Free(mon);
         if (added != 1)
-            GF_PANIC_Fail(PM_LANG_JA(d_021F6E08, str_ja_021F6CE0), PM_SRC_LINE(0, 0x84E), PM_LANG_JA(d_021F6E08, str_ja_021F6D20));
+#if LANGUAGE == LANGUAGE_JAPANESE
+            GF_PANIC_FailPrintf(str_ja_021F6CE0, 0x84E, str_ja_021F6D20);
+#else
+            GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
+#endif
     }
 }
 
