@@ -235,6 +235,7 @@
  *   _fflt                        0x0209BDBC  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "ctvt_types.h"
 #include "../sdk_ioreg.h"
 
@@ -1529,9 +1530,9 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         fmt = MSGDATA_AllocString(msgs, 0xe);
         buf = STRBUF_Create(0x20, heap);
         if (e->kind == 0x20)
-            WORDSET_SetSlotNumber(ws, 0, COMM_PLAYER_SUPPORT_GetRecordField((const struct MyStatus *)(e->peer)), 5, 2, 1);
+            WORDSET_SetSlotNumber(ws, 0, COMM_PLAYER_SUPPORT_GetRecordField((const struct MyStatus *)(e->peer)), 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
         else
-            WORDSET_SetSlotNumber(ws, 0, ((struct CtvtCallRec *)*(char * *)&e->peer)->value, 5, 2, 1);
+            WORDSET_SetSlotNumber(ws, 0, ((struct CtvtCallRec *)*(char * *)&e->peer)->value, 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(ws, (struct Strbuf *)((void *)buf), (struct Strbuf *)((void *)fmt));
         STRBUF_Delete(fmt);
         PRINTSYS_PrintQueColor((struct PrintQueue *)(sys), (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((struct CtvtDescriptor *)((CtvtCallRow *)row)->win))), 0x50, 0, (struct Strbuf *)((void *)buf), (struct GfFont *)font, 0x3c40);
@@ -1542,7 +1543,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
             fmt2 = MSGDATA_AllocString(msgs, 0x10);
             buf2 = STRBUF_Create(0x20, heap);
             p += 0x20;
-            WORDSET_SetSlotNumber(ws, 0, *p, 1, 0, 1);
+            WORDSET_SetSlotNumber(ws, 0, *p, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(ws, (struct Strbuf *)((void *)buf2), (struct Strbuf *)((void *)fmt2));
             STRBUF_Delete(fmt2);
             PRINTSYS_PrintQueColor((struct PrintQueue *)(sys), (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((struct CtvtDescriptor *)((CtvtCallRow *)row)->win))), 0x90, 0, (struct Strbuf *)((void *)buf2), (struct GfFont *)font, 0x3c40);

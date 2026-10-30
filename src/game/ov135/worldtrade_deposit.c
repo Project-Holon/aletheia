@@ -306,6 +306,12 @@ struct MenuTemplate;
 
 
 #include "worldtrade_box.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02203D54[];
+extern const char str_ja_02203D6C[];
+extern const char str_ja_02203D90[];
+extern const char str_ja_02203DAC[];
+#endif
 
 int WORLDTRADE_DEPOSIT_Init(WorldtradeWork *p);
 
@@ -568,7 +574,7 @@ void WORLDTRADE_DEPOSIT_LoadBgGraphics(WorldtradeWork *p)
     BMP_MENUWORK_LoadCharAndPltt(0, 31, 11, 0, 0x48);
     ARC_UTIL_UploadBgCharFromArchive(0x60, 9, 1, 0, 0, 1, 0x48);
     ARC_UTIL_UploadBgPaletteFromArchive(0x60, 20, 1, 0, 0x600, 1, 0x48);
-    ARC_UTIL_UploadBgCharFromHandle(h, 12, 2, 0, 0, 1, 0x48);
+    ARC_UTIL_UploadBgCharFromHandle(h, 12, 2, 0, PM_LANG_JA(0, 0x600), 1, 0x48);
     WORLDTRADE_TITLE_LoadSubBgSwap(p);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -635,7 +641,7 @@ void WORLDTRADE_DEPOSIT_DeleteActors(WorldtradeWork *p)
 void WORLDTRADE_DEPOSIT_CreateStrings(WorldtradeWork *p)
 {
     p->str = STRBUF_Create(0xB4, 0x48);
-    (*(void **)&p->st) = GFL_HEAP_Alloc(0x48, sizeof(DepositState), 0, g_02203C00, 0x2B4);
+    (*(void **)&p->st) = GFL_HEAP_Alloc(0x48, sizeof(DepositState), 0, PM_LANG_JA(g_02203C00, str_ja_02203D54), PM_SRC_LINE(0x2B4, 0x2B2));
     MIi_CpuClearFast(0, (void *)p->st, sizeof(DepositState));
     ((DepositState *)p->st)->speciesList = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &((DepositState *)p->st)->speciesCount);
     ((DepositState *)p->st)->speciesFlags = WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(0x48);
@@ -948,7 +954,7 @@ void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *bank2, u32
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, 0, x, y, color, printer);
         STRBUF_Delete(str);
     } else {
-        str = MSGDATA_AllocString(bank2, 0xBB);
+        str = MSGDATA_AllocString(bank2, WORLDTRADE_MSG(0xBB));
         WORLDTRADE_INPUT_PrintStringAlignedLine(win, str, 0, x, y, color, printer);
         STRBUF_Delete(str);
     }
@@ -1018,7 +1024,7 @@ void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, v
     void *str;
     int show = 1;
     str = MSGDATA_AllocString(bank, 0x6b);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], str, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], str, PM_LANG_JA(1, 0), 0, 0, 0x440, printer);
     for (i = 1; i < 3; i++)
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
     WORLDTRADE_DEPOSIT_PrintName(win[1], names, index, 0, 0, 0x440, printer);
@@ -1074,7 +1080,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     level = POKE_TOOL_CalcBoxLevel(mon);
     has = POKE_TOOL_GetBoxValue(mon, 0xAD, 0);
     title = MSGDATA_AllocString(bank, 0x6E);
-    WORDSET_SetSlotNumber(ws, 3, level, 3, 0, 1);
+    WORDSET_SetSlotNumber(ws, 3, level, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     place = WORLDTRADE_ADAPTER_CreateString(ws, bank, 0x72, 0x48);
     if (form != 3) {
         MSGDATA_ReadString(bank, tbl_02202EB0[form], tmp);
@@ -1082,7 +1088,7 @@ void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *
     for (i = 0; i < 3; i++) {
         BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
     }
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], title, 1, 0, 0, 0x3C40, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], title, PM_LANG_JA(1, 0), 0, 0, 0x3C40, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], name, 0, 0, 0, 0x3C40, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[2], place, 0, 0, 2, 0x3C40, printer);
     if (form != 3 && has != 0) {
@@ -1109,8 +1115,8 @@ u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count)
 
 void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 kind, int *start, int *end)
 {
-    if (kind >= 0x1B) {
-        GF_PANIC_Fail((void *)0x02203C18, 0, (void *)0x02203C18);
+    if (kind >= PM_LANG_JA(0x1B, 0x2D)) {
+        GF_PANIC_Fail(PM_LANG_JA((void *)0x02203C18, str_ja_02203D54), PM_SRC_LINE(0, 0x74A), PM_LANG_JA((void *)0x02203C18, str_ja_02203D6C));
     }
     *start = tbl_0220307C[kind];
     *end = tbl_0220307C[kind + 1];
@@ -1124,7 +1130,7 @@ u8 *WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(u32 id)
     u16 *tbl;
     u32 n;
 
-    buf = GFL_HEAP_Alloc(0x48, SPECIES_LAST + 1, 0, (const char *)g_02203C00, 0x796);
+    buf = GFL_HEAP_Alloc(0x48, SPECIES_LAST + 1, 0, PM_LANG_JA((const char *)g_02203C00, str_ja_02203D54), PM_SRC_LINE(0x796, 0x762));
     MIi_CpuClearFast(0, buf, SPECIES_LAST + 1);
     tbl = (u16 *)ARC_UTIL_LoadMemberWithSize(0x62, 4, 0, (u16)id, &size);
     n = size / 2;
@@ -1195,7 +1201,7 @@ int WORLDTRADE_DEPOSIT_CreateSpeciesMenu(void **menu, void *msg, void *endmsg, u
             BMP_MENUWORK_AddMsgItem((BmpMenuWork *)*menu, (struct MsgBank *)(msg), list[start + i], list[start + i], 0x48);
         }
     }
-    BMP_MENUWORK_AddMsgItem((BmpMenuWork *)*menu, (struct MsgBank *)(endmsg), 0x85, -2, 0x48);
+    BMP_MENUWORK_AddMsgItem((BmpMenuWork *)*menu, (struct MsgBank *)(endmsg), WORLDTRADE_MSG(0x85), -2, 0x48);
     return count + 1;
 }
 
@@ -1237,10 +1243,10 @@ void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int index, int kind)
     const WorldtradeTableRow *table;
     if (kind == 0) {
         table = tbl_0220301C;
-        if (index >= 12) GF_PANIC_Fail(str_02203C18, 0, str_02203C18);
+        if (index >= 12) GF_PANIC_Fail(PM_LANG_JA(str_02203C18, str_ja_02203D54), PM_SRC_LINE(0, 0x92C), PM_LANG_JA(str_02203C18, str_ja_02203D90));
     } else {
         table = tbl_02202FC4;
-        if (index >= 11) GF_PANIC_Fail(str_02203C18, 0, str_02203C18);
+        if (index >= 11) GF_PANIC_Fail(PM_LANG_JA(str_02203C18, str_ja_02203D54), PM_SRC_LINE(0, 0x930), PM_LANG_JA(str_02203C18, str_ja_02203DAC));
     }
     dst[3] = table[index].x;
     dst[4] = table[index].y;
@@ -1295,7 +1301,7 @@ int WORLDTRADE_DEPOSIT_GetListRange(u32 id, u32 *start)
 {
     int i;
 
-    for (i = 0; i < 28; i++) {
+    for (i = 0; i < PM_LANG_JA(28, 35); i++) {
         if (id == tbl_02202F0C[i].id) {
             *start = tbl_02202F0C[i].start;
             return tbl_02202F0C[i + 1].start - tbl_02202F0C[i].start;

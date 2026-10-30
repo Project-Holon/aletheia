@@ -268,6 +268,14 @@ struct BoxPokemon;
 #include "../arm9/app_icon.h"
 struct ClactActor;
 #include "../arm9/file_util.h"
+#include "../version.h"
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define VS_MULTI_LIST_MSG_ARCHIVE 2
+#else
+#define VS_MULTI_LIST_MSG_ARCHIVE 0x12
+#endif
 
 int VS_MULTI_LIST_ProcInit(struct Proc *proc, int seq, struct VsMultiListArgs *args);
 int VS_MULTI_LIST_ProcMain(struct Proc *proc, int *seq, int unused, struct VsMultiList *work);
@@ -512,7 +520,7 @@ void VS_MULTI_LIST_LoadBgGraphics(struct VsMultiList *work)
 
 void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
 {
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x12, 0x71);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, VS_MULTI_LIST_MSG_ARCHIVE, 0x71);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
     work->fontSmall = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
     work->wordSet = WORDSET_CreateDefault(0x71);
@@ -699,7 +707,7 @@ void VS_MULTI_LIST_PrintLevel(struct VsMultiList *work, u32 slot)
     text = STRBUF_Create(0x20, 0x8071);
     format = MSGDATA_AllocString(work->msgBank, 0xb);
     WORDSET_SetSlotNumber(work->wordSet, 0,
-                  POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_LEVEL, 0), 3, dispType, 1);
+                  POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_LEVEL, 0), 3, dispType, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, text, format);
     PrintLevel(work, slot, text);
     STRBUF_Delete(format);
@@ -748,7 +756,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpLabel);
 
     hpFormat = MSGDATA_AllocString(work->msgBank, 0xd);
-    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, buf, hpFormat);
     {
         struct Bmp *bmp;
@@ -762,7 +770,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     STRBUF_Delete(hpFormat);
 
     maxHpFormat = MSGDATA_AllocString(work->msgBank, 0xd);
-    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, buf, maxHpFormat);
     {
         struct Bmp *bmp;

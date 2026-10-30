@@ -6,6 +6,7 @@
  * text-control block, the icon and the callback block as objects of their own types. */
 #include "../types.h"
 #include "../ov010/namein_args.h"
+#include "../version.h"
 
 struct ClactActor;
 struct Strbuf;
@@ -83,11 +84,22 @@ typedef int (*NameinPickerBoxFn)();
 typedef void (*NameinPickerMoveFn)();
 typedef int (*NameinPickerValueFn)();
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define NAMEIN_GRAPHIC_PICKER_MAP_SIZE 9
+#else
+#define NAMEIN_GRAPHIC_PICKER_MAP_SIZE 13
+#endif
+
 /* The kana/symbol picker embedded at the start of the grid. */
 typedef struct NameinGraphicPicker {
     void *table;                   /* 0x00 grid table */
+#if LANGUAGE == LANGUAGE_JAPANESE
+    unsigned char map[9];          /* 0x04 mode map copied from d_021F555C */
+    unsigned char pad_0D[3];
+#else
     unsigned char map[13];         /* 0x04 mode map copied from d_021F555C */
     unsigned char pad_11[3];
+#endif
     NameinPickerBoxFn getBox;      /* 0x14 int (*)(Pair *, Box *) */
     NameinPickerMoveFn move;       /* 0x18 void (*)(int, int, char *) */
     NameinPickerValueFn getValue;  /* 0x1C unsigned (*)(int *, int *) */
@@ -134,11 +146,15 @@ typedef struct NameinGraphicGrid {
     unsigned short heap;             /* 0xFE */
     int mode;                        /* 0x100 */
     int index;                       /* 0x104 */
+#if LANGUAGE != LANGUAGE_JAPANESE
     unsigned char variant;           /* 0x108 */
     unsigned char pad_109[1];
+#endif
     unsigned short animTick;         /* 0x10A */
     unsigned short animPhase;        /* 0x10C */
+#if LANGUAGE != LANGUAGE_JAPANESE
     unsigned char pad_10E[2];
+#endif
     int animActive;                  /* 0x110 */
     int targetMode;                  /* 0x114 */
     int extraLayer;                  /* 0x118 */
@@ -180,6 +196,34 @@ typedef struct NameinGraphicActors {
     unsigned int cellAnim;      /* 0x08 cell-animation registration */
     void *list[21];             /* 0x0C actor handles, index 17 is the selected cursor actor */
 } NameinGraphicActors;
+
+/* The grid mode of the symbol page (the Japanese screen has one more kana page before it). */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define NAMEIN_GRAPHIC_MODE_SYMBOL 4
+#else
+#define NAMEIN_GRAPHIC_MODE_SYMBOL 3
+#endif
+
+/* What a picker cell holds (the value the picker returns for a cell). Kind 1 is a plain character,
+ * 2 up to NAMEIN_KIND_LAST_PAGE the page buttons. The Japanese screen has one more page button,
+ * so every kind from the back button up is one higher there. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define NAMEIN_KIND_LAST_PAGE 6
+#define NAMEIN_KIND_BACK 7
+#define NAMEIN_KIND_OK 8
+#define NAMEIN_KIND_TOGGLE 9
+#define NAMEIN_KIND_SPACE 10
+#define NAMEIN_KIND_CHAR_A 11
+#define NAMEIN_KIND_CHAR_B 12
+#else
+#define NAMEIN_KIND_LAST_PAGE 5
+#define NAMEIN_KIND_BACK 6
+#define NAMEIN_KIND_OK 7
+#define NAMEIN_KIND_TOGGLE 8
+#define NAMEIN_KIND_SPACE 9
+#define NAMEIN_KIND_CHAR_A 10
+#define NAMEIN_KIND_CHAR_B 11
+#endif
 
 /* The name-entry screen work, 0x2D4 bytes on the DS. */
 typedef struct NameinGraphicWork {

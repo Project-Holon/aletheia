@@ -72,6 +72,7 @@
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "gsync_message_types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "gsync_common_types.h"
 
@@ -218,6 +219,20 @@ void GSYNC_MESSAGE_DeleteButtonManager(GsyncMessageWork *work)
     }
 }
 
+/* The Japanese cartridge prints the number in full width. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GSYNC_MESSAGE_NUMBER_HALF_WIDTH 0
+#else
+#define GSYNC_MESSAGE_NUMBER_HALF_WIDTH 1
+#endif
+
+/* The Japanese cartridge builds the key cursor without the live flag. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GSYNC_MESSAGE_KEYCURSOR_LIVE 0
+#else
+#define GSYNC_MESSAGE_KEYCURSOR_LIVE 1
+#endif
+
 GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
 {
     GsyncMessageWork *work;
@@ -232,7 +247,7 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->tmpBuf = STRBUF_Create(400, work->heap);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heap);
     work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgBank, work->heap);
-    work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, 1, 1, work->heap);
+    work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, GSYNC_MESSAGE_KEYCURSOR_LIVE, 1, work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (struct GFont *)work->font, (struct PrintQueue *)work->printQue, work->heap);
     work->bg5Frame = BMP_MENUWORK_LoadFrameGfx(5, 12, 0, work->heap);
     work->bg6Frame = BMP_MENUWORK_LoadFrameGfx(6, 12, 0, work->heap);
@@ -315,7 +330,7 @@ void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, voi
 {
     MSGDATA_ReadString(work->msgData, msgId, work->tmpBuf);
     WORDSET_SetSlotMonNickname(work->wordSet, 0, mon);
-    WORDSET_SetSlotNumber(work->wordSet, 1, digits, 3, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, digits, 3, 1, GSYNC_MESSAGE_NUMBER_HALF_WIDTH);
     WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, work->tmpBuf);
 }
 

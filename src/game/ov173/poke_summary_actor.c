@@ -102,6 +102,14 @@ struct CursorMove;
 struct Sound;
 struct ClactActor;
 #include "../types.h"
+#include "../version.h"
+
+/* Japanese: x of the move type icons. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define POKE_SUMMARY_MOVE_ICON_X 0x31
+#else
+#define POKE_SUMMARY_MOVE_ICON_X 0x2f
+#endif
 
 typedef enum { OFFSET=14 } Offset;
 
@@ -245,7 +253,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
     u32 value;
     off = 0x1b8;
     for (i = 0; i < 4; i++) {
-        rect[0] = 0x2f;
+        rect[0] = POKE_SUMMARY_MOVE_ICON_X;
         rect[1] = i * 24 + 0x50;
         CLACT_AddActorSurfacePos(((struct PokeSummaryWork *)work)->actors[4+i], (struct ClactVec2 *)rect, 1);
         if (((struct PokeSummaryWork *)work)->mon->scrollIndex + i >= ((struct PokeSummaryWork *)work)->moveCount) {
@@ -348,7 +356,11 @@ int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
     return 0;
 }
 
-void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;
+#if LANGUAGE != LANGUAGE_JAPANESE
+    CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);
+#endif
+    POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
 
 /*
  *   CURSOR_MOVE_Delete (0x02025D14) stays wildcarded because the target is an
@@ -448,12 +460,16 @@ void POKE_SUMMARY_ACTOR_HandleCursorInput(char *work,int i)
     } else if(i==7) {
         i=((struct PokeSummaryWork *)work)->mon->selectedIndex;
         CURSOR_MOVE_SetCurrent(((struct PokeSummaryWork *)work)->sound,i);
+#if LANGUAGE != LANGUAGE_JAPANESE
     } else if(i==8) {
         if(((struct PokeSummaryWork *)work)->cursorIndex!=6) {
             i=((struct PokeSummaryWork *)work)->mon->selectedIndex;
             CURSOR_MOVE_SetCurrent(((struct PokeSummaryWork *)work)->sound,i);
         }
     }
+#else
+    }
+#endif
     POKE_SUMMARY_ACTOR_PositionMonActor((u8 *)work,(u8)i,3);
 }
 
@@ -466,7 +482,9 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *work, int flag)
         if (((struct PokeSummaryWork *)work)->taskMenuWindows[0] == 0) {
             ((struct PokeSummaryWork *)work)->taskMenuWindows[0] = APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)(char *)((char *)&((struct PokeSummaryWork *)work)->moveEntries[0]), 13, 21, 9, 0x4f);
             ((struct PokeSummaryWork *)work)->taskMenuWindows[1] = APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)(char *)((char *)&((struct PokeSummaryWork *)work)->moveEntries[1]), 22, 21, 9, 0x4f);
+#if LANGUAGE != LANGUAGE_JAPANESE
             CURSOR_MOVE_SetSkipBit(((struct PokeSummaryWork *)work)->sound, 8);
+#endif
             ((struct PokeSummaryWork *)work)->cursorSkipFlag = 1;
             return;
         }
@@ -478,7 +496,9 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *work, int flag)
             ((struct PokeSummaryWork *)work)->taskMenuWindows[0] = 0;
             ((struct PokeSummaryWork *)work)->taskMenuWindows[1] = 0;
         }
+#if LANGUAGE != LANGUAGE_JAPANESE
         CURSOR_MOVE_ClearSkipBit(((struct PokeSummaryWork *)work)->sound, 8);
+#endif
         ((struct PokeSummaryWork *)work)->cursorSkipFlag = 0;
     }
 }

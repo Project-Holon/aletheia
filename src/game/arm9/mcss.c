@@ -126,6 +126,7 @@
 
 
 
+#include "../version.h"
 #include "../types.h"
 #include "../sdk_ioreg_reg.h"
 #include "mcss_types.h"
@@ -679,6 +680,7 @@ struct BoxPokemon;
 
 
 extern const char sFileMcss[];
+
 
 extern MtxFx43 g_renderStateDrawParams;
 
@@ -1391,7 +1393,7 @@ McssWork *MCSS_Add(McssSys *sys, fx32 x, fx32 y, fx32 z, const McssAddWork *addW
         if (sys->works[i] == 0) {
             sys->works[i] = GFL_HEAP_Alloc((u16)sys->heapId, sizeof(McssWork), 1,
                                           sFileMcss,
-                                          906);
+                                          PM_SRC_LINE(906, 906 - 4));
             sys->works[i]->index = i;
             sys->works[i]->heapId = sys->heapId;
             sys->works[i]->position.x = x;
@@ -2211,7 +2213,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     task = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
-            sizeof(*task), 1, sFileMcss, 0x761);
+            sizeof(*task), 1, sFileMcss, PM_SRC_LINE(0x761, 0x761 - 4));
 
     task->sys = sys;
     task->hasTaskSys = (sys->taskSys != 0);
@@ -2221,14 +2223,14 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     task->plttData = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
-            sizeof(*task->plttData), 0, sFileMcss, 0x769);
+            sizeof(*task->plttData), 0, sFileMcss, PM_SRC_LINE(0x769, 0x769 - 4));
 
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = 0;
     task->plttData->byteSize = work->plttByteSize;
     task->plttData->data = GFL_HEAP_Alloc(
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
-            work->plttByteSize, 0, sFileMcss, 0x76e);
+            work->plttByteSize, 0, sFileMcss, PM_SRC_LINE(0x76e, 0x76e - 4));
 
     PALANM_BlendColors(work->plttOriginal,
                   task->plttData->data,
@@ -2264,7 +2266,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     void *handle;
 
     hasTaskSys = 1;
-    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, 1942);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, PM_SRC_LINE(1942, 1942 - 4));
     task->sys = sys;
     if (sys->taskSys == 0) {
         hasTaskSys = 0;
@@ -2275,12 +2277,12 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     hasTaskSys = 0;
-    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, 1950);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, PM_SRC_LINE(1950, 1950 - 4));
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = hasTaskSys;
     task->plttData->byteSize = work->plttByteSize;
 
-    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 1950 + 5);
+    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, PM_SRC_LINE(1950 + 5, (1950 + 5) - 4));
     MIi_CpuCopy16(work->plttOriginal, task->plttData->data, work->plttByteSize);
 
     if (work->paletteTask != 0) {
@@ -2414,7 +2416,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
     task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
-                         sizeof(*task), 1, sFileMcss, 0x840);
+                         sizeof(*task), 1, sFileMcss, PM_SRC_LINE(0x840, 0x840 - 4));
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2433,10 +2435,10 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
 
     work->plttOriginal = GFL_HEAP_Alloc(heap,
                                        task->plttData->byteSize, 0,
-                                       sFileMcss, 0x858);
+                                       sFileMcss, PM_SRC_LINE(0x858, 0x858 - 4));
     work->plttCurrent = GFL_HEAP_Alloc(heap,
                                       task->plttData->byteSize, 0,
-                                      sFileMcss, 0x858 + 1);
+                                      sFileMcss, PM_SRC_LINE(0x858 + 1, (0x858 + 1) - 4));
     work->plttByteSize = task->plttData->byteSize;
     MIi_CpuCopy16(task->plttData->data, work->plttOriginal,
                   task->plttData->byteSize);
@@ -2494,7 +2496,7 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
     task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
-                         sizeof(*task), 1, sFileMcss, 0x8AB);
+                         sizeof(*task), 1, sFileMcss, PM_SRC_LINE(0x8AB, 0x8AB - 4));
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2513,10 +2515,10 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
 
     work->plttOriginal = GFL_HEAP_Alloc((u16)work->heapId,
                                        task->plttData->byteSize, 0,
-                                       sFileMcss, 0x8C3);
+                                       sFileMcss, PM_SRC_LINE(0x8C3, 0x8C3 - 4));
     work->plttCurrent = GFL_HEAP_Alloc((u16)work->heapId,
                                       task->plttData->byteSize, 0,
-                                      sFileMcss, 0x8C3 + 1);
+                                      sFileMcss, PM_SRC_LINE(0x8C3 + 1, (0x8C3 + 1) - 4));
     work->plttByteSize = task->plttData->byteSize;
     MIi_CpuCopy16(task->plttData->data, work->plttOriginal,
                   task->plttData->byteSize);
@@ -2615,7 +2617,7 @@ void MCSS_InitAnimCtrl(McssWork *work, int kind)
 {
     work->animWork = GFL_HEAP_Alloc((unsigned short)work->heapId,
                                    NNS_G2dGetMCWorkAreaSize(work->multiCellBank, kind),
-                                   0, sFileMcss, 0x970);
+                                   0, sFileMcss, PM_SRC_LINE(0x970, 0x970 - 4));
     NNS_G2dInitMCAnimation((struct MultiCellAnim *)(&work->animCtrl), work->animWork, work->cellAnimBank,
                   work->cellBank, work->multiCellBank, kind);
 }
@@ -2673,7 +2675,7 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     }
 
     flag = 1;
-    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, 0x9A1);
+    task = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task), 1, sFileMcss, PM_SRC_LINE(0x9A1, 0x9A1 - 4));
     task->sys = sys;
     if (sys->taskSys == 0) {
         flag = 0;
@@ -2684,11 +2686,11 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     task->plttDest = sys->plttTransAdrs + (work->index << 5);
 
     flag = 0;
-    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, 0x9A9);
+    task->plttData = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), sizeof(*task->plttData), 0, sFileMcss, PM_SRC_LINE(0x9A9, 0x9A9 - 4));
     task->plttData->fmt = work->plttProxy.fmt;
     task->plttData->extended = flag;
     task->plttData->byteSize = work->plttByteSize;
-    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 0x9A9 + 5);
+    task->plttData->data = GFL_HEAP_Alloc((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, PM_SRC_LINE(0x9A9 + 5, (0x9A9 + 5) - 4));
 
     if (work->flags.bits.plttCurrentValid) {
         PALANM_BlendColors(work->plttCurrent, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);

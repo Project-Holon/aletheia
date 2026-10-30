@@ -366,6 +366,7 @@ struct McssFade;
 struct McssSys;
 
 #include "../types.h"
+#include "../version.h"
 
 struct Ov208Sel {
     u16 next;
@@ -1042,6 +1043,12 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct
     *outD = d;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define ZUKAN_DETAIL_FORM_MSG_ARCHIVE2 0xf3
+#else
+#define ZUKAN_DETAIL_FORM_MSG_ARCHIVE2 0xf4
+#endif
+
 void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
     struct Ov208WinTbl t;
@@ -1060,7 +1067,7 @@ void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct 
         BMP_WIN_TransferChars((struct BmpWin *)p->win[i]);
     }
     p->msg = MSGDATA_CreateFromArchive(0, 2, 0xea, *heap);
-    p->msg2 = MSGDATA_CreateFromArchive(0, 2, 0xf4, *heap);
+    p->msg2 = MSGDATA_CreateFromArchive(0, 2, ZUKAN_DETAIL_FORM_MSG_ARCHIVE2, *heap);
     p->marc = ARC_UTIL_LoadMemberWithSize(0x62, 0, 0, *heap, &size);
     bmp = BMP_WIN_GetBmp(p->win[2]);
     s = MSGDATA_AllocString(p->msg, 0xb8);
@@ -1160,7 +1167,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
     ws = WORDSET_CreateDefault(*heap);
     src = (void *)p->str[0];
     str = (struct U16Vec *)STRBUF_Create(8, *heap);
-    WORDSET_SetSlotNumber(ws, 0, p->groupCount, 2, 1, 1);
+    WORDSET_SetSlotNumber(ws, 0, p->groupCount, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ws, (struct Strbuf *)str, src);
     PRINTSYS_PrintQueColor((void *)p->print[1], bmp2, (s16)0, (s16)1, (struct Strbuf *)str, (struct GfFont *)p->font, 0x3c40);
     STRBUF_Delete((struct Strbuf *)str);
@@ -1168,7 +1175,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
     ws2 = WORDSET_CreateDefault(*heap);
     src2 = (void *)p->str[1];
     str = (struct U16Vec *)STRBUF_Create(8, *heap);
-    WORDSET_SetSlotNumber(ws2, 0, p->shinyCount, 2, 1, 1);
+    WORDSET_SetSlotNumber(ws2, 0, p->shinyCount, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ws2, (struct Strbuf *)str, src2);
     PRINTSYS_PrintQueColor((void *)p->print[1], bmp2, (s16)0, (s16)0x11, (struct Strbuf *)str, (struct GfFont *)p->font, 0x3c40);
     STRBUF_Delete((struct Strbuf *)str);

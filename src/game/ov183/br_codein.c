@@ -480,6 +480,21 @@ typedef short s16_p07;
 #include "../ov186/br_pokesearch.h"
 #include "../ov186/br_sidebar.h"
 #include "../arm9/bmp_menuwork.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021E3920[];
+extern const char str_ja_021E3934[];
+extern const char str_ja_021E3964[];
+extern const char str_ja_021E3978[];
+extern const char str_ja_021E397C[];
+extern const char str_ja_021E39A8[];
+extern const char str_ja_021E39AC[];
+extern const char str_ja_021E39B8[];
+extern const char str_ja_021E39D8[];
+extern const char str_ja_021E39F0[];
+extern const char str_ja_021E3A04[];
+extern const char str_ja_021E3A40[];
+extern const char str_ja_021E3A54[];
+#endif
 extern int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *,int,int),BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *,int,int);
 extern int d_021E3280[];
 extern char d_021E3960[];
@@ -1165,7 +1180,7 @@ void BR_CODEIN_RecordStepSave(struct BrUtilTask *task,int *state,struct CodeinRe
     case 2: *state=3;break;
     case 3: work->saveCode=0;work->saveStatus=0;*state=4;break;
     case 4:
-        if(work->ctx->mode>3) GF_PANIC_Fail(d_021E3960,0,d_021E3960);
+        if(work->ctx->mode>3) GF_PANIC_Fail(PM_LANG_JA(d_021E3960, str_ja_021E3920), PM_SRC_LINE(0, 0x49E), PM_LANG_JA(d_021E3960, str_ja_021E3934));
         if(GDS_RAP_SaveVideoSecured((void *)(work->ctx->gameData),work->ctx->mode,&work->saveCode,&work->saveStatus,work->heapId)==2) {
             BATTLE_REC_DecodeWork();
             work->savedActorSys=(int)BATTLE_REC_GetHeaderParam(work->header,5,0);
@@ -1261,7 +1276,6 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,struct BrProcArg
     MsgBank *bank;
     WordSet *words;
     int ready;
-    const CodeinMenuItem *d;
     U16Vec *text;
     if(!work->actorsLoaded) {
         work->actorsLoaded=1;
@@ -1271,35 +1285,38 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,struct BrProcArg
         bank=(MsgBank *)BR_RES_GetMsgData((struct BrRes *)(arg->res));
         words=(WordSet *)BR_RES_GetWordSet((struct BrRes *)(arg->res));
         for(i=0;i<5;i++) {
-            d=&d_021E32C8[i];
-            work->profileText[i]=BR_UTIL_Create(1,d->x,d->y,d->w,d->h,14,work->printQue,work->heapId);
+            work->profileText[i]=BR_UTIL_Create(1,d_021E32C8[i].x,d_021E32C8[i].y,d_021E32C8[i].w,d_021E32C8[i].h,14,work->printQue,work->heapId);
             switch(i) {
             case 0:
                 {
                 void *name;
                 void *message;
+#if LANGUAGE == LANGUAGE_JAPANESE
+                text=MSGDATA_AllocString(bank,d_021E32C8[i].message);
+#else
                 text=STRBUF_Create(128,work->heapId);
+#endif
                 name=GDS_PROFILE_CreateNameStr(work->recData,work->heapId);
-                message=MSGDATA_AllocString(bank,d->message);
+                message=MSGDATA_AllocString(bank,d_021E32C8[i].message);
                 WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag((RecGet *)work->recData),1,PM_LANG_ID);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
-                BR_UTIL_SetTextLayout(work->profileText[i],0,1,0);
+                BR_UTIL_SetTextLayout(work->profileText[i],0,PM_LANG_JA(1, 0),0);
                 ready=1;break;
                 }
             case 1:
                 {
                 u32 selector;
                 selector=BATTLE_REC_GetHeaderParam(work->header,3,0);
-                text=MSGDATA_AllocString(bank,selector+d->message);
-                BR_UTIL_SetTextLayout(work->profileText[i],0,1,0);ready=1;break;
+                text=MSGDATA_AllocString(bank,selector+d_021E32C8[i].message);
+                BR_UTIL_SetTextLayout(work->profileText[i],0,PM_LANG_JA(1, 0),0);ready=1;break;
                 }
             case 2:
                 {
                 u64 value;
                 u64 quotient;
-                u32 low,middle,high;
                 void *message;
+                u32 low,middle,high;
                 void *temporary;
                 value=BATTLE_REC_GetHeaderParam(work->header,4,0);
                 low=value%100000ULL;
@@ -1309,11 +1326,11 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,struct BrProcArg
                 temporary=GDS_PROFILE_ExportRecord((GdsProfile *)work->recData,(GdsRecord *)record,work->heapId);
                 if(temporary) {
                     message=MSGDATA_AllocString(bank,13);STRBUF_Delete((U16Vec *)temporary);
-                } else message=MSGDATA_AllocString(bank,d->message);
+                } else message=MSGDATA_AllocString(bank,d_021E32C8[i].message);
                 text=STRBUF_Create(128,work->heapId);
-                WORDSET_SetSlotNumber(words,2,low,5,2,1);WORDSET_SetSlotNumber(words,1,middle,5,2,1);WORDSET_SetSlotNumber(words,0,high,2,2,1);
+                WORDSET_SetSlotNumber(words,2,low,5,2, PM_LANG_HALF_WIDTH_DIGITS);WORDSET_SetSlotNumber(words,1,middle,5,2, PM_LANG_HALF_WIDTH_DIGITS);WORDSET_SetSlotNumber(words,0,high,2,2, PM_LANG_HALF_WIDTH_DIGITS);
                 WORDSET_CopyTaggedText(words,text,message);
-                BR_UTIL_SetTextLayout(work->profileText[i],0,1,0);STRBUF_Delete((U16Vec *)message);
+                BR_UTIL_SetTextLayout(work->profileText[i],0,PM_LANG_JA(1, 0),0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
@@ -1321,16 +1338,20 @@ void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,struct BrProcArg
                     u32 count;
                     void *message;
                     count=BATTLE_REC_GetHeaderParam(work->header,2,0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+                    text=MSGDATA_AllocString(bank,d_021E32C8[i].message);
+#else
                     text=STRBUF_Create(128,work->heapId);
-                    message=MSGDATA_AllocString(bank,d->message);
-                    WORDSET_SetSlotNumber(words,0,count,4,0,1);WORDSET_CopyTaggedText(words,text,message);STRBUF_Delete((U16Vec *)message);
-                    BR_UTIL_SetTextLayout(work->profileText[i],0,1,1);ready=1;
+#endif
+                    message=MSGDATA_AllocString(bank,d_021E32C8[i].message);
+                    WORDSET_SetSlotNumber(words,0,count,4,0, PM_LANG_HALF_WIDTH_DIGITS);WORDSET_CopyTaggedText(words,text,message);STRBUF_Delete((U16Vec *)message);
+                    BR_UTIL_SetTextLayout(work->profileText[i],0,PM_LANG_JA(1, 0),1);ready=1;
                 } else ready=0;
                 break;
             case 4:
                 if(BR_CODEIN_RecordIsType2(work->header)) {
-                    text=MSGDATA_AllocString(bank,d->message);
-                    BR_UTIL_SetTextLayout(work->profileText[i],0,1,1);ready=1;
+                    text=MSGDATA_AllocString(bank,d_021E32C8[i].message);
+                    BR_UTIL_SetTextLayout(work->profileText[i],0,PM_LANG_JA(1, 0),1);ready=1;
                 } else ready=0;
                 break;
             }
@@ -1776,7 +1797,9 @@ void BR_CODEIN_ListSetupText(struct CodeinListWork *work, struct BrProcArgProfil
     b = rec->b;
     c = rec->c;
     work->rowText[0] = BR_UTIL_Create(1, a, b, c, d, 14, (void *)work->printQue, work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
     BR_UTIL_SetTextLayout((u8 *)work->rowText[0], 0, 1, 0);
+#endif
     BR_UTIL_SetTextFromMessage((char *)work->rowText[0], (void *)second, rec->value, (void *)first, 0x3da0);
     (work->textWin) = BR_UTIL_CreateTextWin((void *)(arg->res), (void *)(work->printQue), work->heapId);
     BR_UTIL_SetWindowText((work->textWin), arg->res, 0x86);
@@ -1800,7 +1823,9 @@ void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,struct BrProcArgProfile
  select=BR_CODEIN_ListIsEventA(arg->block,arg->gameData)?5:0;
  for(index=0;index<8;index++){
   rec=&d_021E33C0[index];work->rowText[index]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
   BR_UTIL_SetTextLayout(work->rowText[index],0,1,0);
+#endif
   switch(index){
    case 1:
     obj=MSGDATA_AllocString((struct MsgBank *)second,BR_CODEIN_ListIsEventA(arg->block,arg->gameData)?0x83:0x7e);break;
@@ -1810,9 +1835,14 @@ void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,struct BrProcArgProfile
     void *base;
     number1=BSUBWAY_SCOREDATA_GetWinCount(arg->block,select);
     number1=(number1>9999)?9999:number1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E33C0[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E33C0[index].value);
+#else
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,work->heapId);
-    WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number1,4,1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
@@ -1820,9 +1850,14 @@ void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,struct BrProcArgProfile
     void *base;
     number2=BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block,select);
     number2=(number2>9999)?9999:number2;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E33C0[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E33C0[index].value);
+#else
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,work->heapId);
-    WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number2,4,1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
@@ -1854,7 +1889,9 @@ void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,struct BrProcArgProfile
  select=BR_CODEIN_ListIsEventB(arg->block,arg->gameData)?6:1;
  for(index=0;index<8;index++){
   rec=&d_021E3400[index];work->rowText[index]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
   BR_UTIL_SetTextLayout(work->rowText[index],0,1,0);
+#endif
   switch(index){
    case 1:
     obj=MSGDATA_AllocString((struct MsgBank *)second,BR_CODEIN_ListIsEventB(arg->block,arg->gameData)?0x84:0x7f);break;
@@ -1864,9 +1901,14 @@ void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,struct BrProcArgProfile
     void *base;
     number1=BSUBWAY_SCOREDATA_GetWinCount(arg->block,select);
     number1=(number1>9999)?9999:number1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3400[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3400[index].value);
+#else
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,work->heapId);
-    WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number1,4,1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
@@ -1874,9 +1916,14 @@ void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,struct BrProcArgProfile
     void *base;
     number2=BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block,select);
     number2=(number2>9999)?9999:number2;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3400[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3400[index].value);
+#else
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
     obj=STRBUF_Create(0x80,work->heapId);
-    WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number2,4,1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
    }
@@ -1894,134 +1941,101 @@ void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,struct BrProcArgProfile
  * lever: bounded permuter rec/index declaration order, selector use and
  *        field-base expansion restore the three selector/index spill homes.
  */
-void BR_CODEIN_ListSetupRowC(struct CodeinListWork *work, struct BrProcArgProfile *arg)
+void BR_CODEIN_ListSetupRowC(struct CodeinListWork *work,struct BrProcArgProfile *arg)
 {
-  void *first;
-  void *second;
-  void *third;
-  const BrCodeinRecord *rec;
-  int v;
-  unsigned select;
-  unsigned select2;
-  int index;
-  char *slot;
-  int number1;
-  int number2;
-  int number3;
-  int number4;
-  void *obj;
-  BrCodeinTriple triple;
-  char **textSlot;
-  u16 heapId;
-  first = BR_RES_GetFont((struct BrRes *)(arg->res));
-  second = BR_RES_GetMsgData((struct BrRes *)(arg->res));
-  third = BR_RES_GetWordSet((struct BrRes *)(arg->res));
-  heapId = work->heapId;
-  BR_RES_LoadBgGraphics((void *)(arg->res), 12, heapId);
-  if (BR_CODEIN_ListIsEventC(arg->block, arg->gameData))
-  {
-    select = 7;
-    select2 = 8;
+ void *first; void *second; void *third; int v;
+ const BrCodeinRecord *rec;
+ unsigned select, select2;
+ int index;
+ int number1,number2,number3,number4;
+ void *obj;
+ BrCodeinTriple triple;
+ first=BR_RES_GetFont((struct BrRes *)(arg->res));
+ second=BR_RES_GetMsgData((struct BrRes *)(arg->res));
+ third=BR_RES_GetWordSet((struct BrRes *)(arg->res));
+ BR_RES_LoadBgGraphics((void *)(arg->res),12,work->heapId);
+ if(BR_CODEIN_ListIsEventC(arg->block,arg->gameData)){select=7;select2=8;}
+ else{select=2;select2=3;}
+ for(index=0;index<16;index++){
+  rec=&d_021E3490[index];work->rowText[index]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
+  BR_UTIL_SetTextLayout(work->rowText[index],0,1,0);
+#endif
+  switch(index){
+   case 1:
+    obj=MSGDATA_AllocString((struct MsgBank *)second,BR_CODEIN_ListIsEventC(arg->block,arg->gameData)?0x85:0x80);break;
+   case 3:
+    obj=MSGDATA_AllocString((struct MsgBank *)second,BSUBWAY_SCOREDATA_HasCleared(arg->block,select)?0x91:0x87);break;
+   case 4:{
+    void *base;
+    number1=BSUBWAY_SCOREDATA_GetWinCount(arg->block,select);
+    number1=(number1>9999)?9999:number1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+#else
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
+    obj=STRBUF_Create(0x80,work->heapId);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number1,4,1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_CopyTaggedText((void *)third,obj,base);
+    STRBUF_Delete(base);break;
+   }
+   case 7:{
+    void *base;
+    number2=BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block,select);
+    number2=(number2>9999)?9999:number2;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+#else
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
+    obj=STRBUF_Create(0x80,work->heapId);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number2,4,1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_CopyTaggedText((void *)third,obj,base);
+    STRBUF_Delete(base);break;
+   }
+   case 10:
+    obj=MSGDATA_AllocString((struct MsgBank *)second,BSUBWAY_SCOREDATA_HasCleared(arg->block,select2)?0x91:0x87);break;
+   case 11:{
+    void *base;
+    number3=BSUBWAY_SCOREDATA_GetWinCount(arg->block,select2);
+    number3=(number3>9999)?9999:number3;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+#else
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
+    obj=STRBUF_Create(0x80,work->heapId);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number3,4,1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_CopyTaggedText((void *)third,obj,base);
+    STRBUF_Delete(base);break;
+   }
+   case 14:{
+    void *base;
+    number4=BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block,select2);
+    number4=(number4>9999)?9999:number4;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    base=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+    obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E3490[index].value);
+#else
+    base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
+    obj=STRBUF_Create(0x80,work->heapId);
+#endif
+    WORDSET_SetSlotNumber((void *)third,0,number4,4,1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_CopyTaggedText((void *)third,obj,base);
+    STRBUF_Delete(base);break;
+   }
+   default:obj=MSGDATA_AllocString((struct MsgBank *)second,rec->value);break;
   }
-  else
-  {
-    select = 2;
-    select2 = 3;
-  }
-  ;
-  for (index = 0; index < 16; index++)
-  {
-    rec = &d_021E3490[index];
-    slot = (char *)work + index * (int)sizeof(void *);
-    *((void **) &((struct CodeinListWork *)slot)->rowText[0]) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, work->printQue, work->heapId);
-    BR_UTIL_SetTextLayout(*((void **) &((struct CodeinListWork *)slot)->rowText[0]), 0, 1, 0);
-    switch (index)
-    {
-      if (select2)
-      {
-      }
-      case 1:
-        obj = MSGDATA_AllocString((struct MsgBank *)second, (BR_CODEIN_ListIsEventC(arg->block, arg->gameData)) ? (0x85) : (0x80));
-        break;
-
-      case 3:
-        obj = MSGDATA_AllocString((struct MsgBank *)second, (BSUBWAY_SCOREDATA_HasCleared(arg->block, select)) ? (0x91) : (0x87));
-        break;
-
-      case 4:
-      {
-        void *base;
-        number1 = BSUBWAY_SCOREDATA_GetWinCount(arg->block, select);
-        if (number1 > 9999)
-          number1 = 9999;
-        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, work->heapId);
-        WORDSET_SetSlotNumber((void *) third, 0, number1, 4, 1, 1);
-        WORDSET_CopyTaggedText((void *) third, obj, base);
-        STRBUF_Delete(base);
-        break;
-      }
-
-      case 7:
-      {
-        void *base;
-        number2 = BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block, select);
-        if (number2 > 9999)
-          number2 = 9999;
-        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, work->heapId);
-        WORDSET_SetSlotNumber((void *) third, 0, number2, 4, 1, 1);
-        WORDSET_CopyTaggedText((void *) third, obj, base);
-        STRBUF_Delete(base);
-        break;
-      }
-
-      case 10:
-        obj = MSGDATA_AllocString((struct MsgBank *)second, (BSUBWAY_SCOREDATA_HasCleared(arg->block, select2)) ? (0x91) : (0x87));
-        break;
-
-      case 11:
-      {
-        void *base;
-        number3 = BSUBWAY_SCOREDATA_GetWinCount(arg->block, select2);
-        if (number3 > 9999)
-          number3 = 9999;
-        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, work->heapId);
-        WORDSET_SetSlotNumber((void *) third, 0, number3, 4, 1, 1);
-        WORDSET_CopyTaggedText((void *) third, obj, base);
-        STRBUF_Delete(base);
-        break;
-      }
-
-      case 14:
-      {
-        void *base;
-        number4 = BSUBWAY_SCOREDATA_GetMaxWinCount(arg->block, select2);
-        if (number4 > 9999)
-          number4 = 9999;
-        base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, work->heapId);
-        WORDSET_SetSlotNumber((void *) third, 0, number4, 4, 1, 1);
-        WORDSET_CopyTaggedText((void *) third, obj, base);
-        STRBUF_Delete(base);
-        break;
-      }
-
-      default:
-        obj = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        break;
-
-    }
-
-    textSlot = (char **) &((struct CodeinListWork *)slot)->rowText[0];
-    BR_UTIL_SetTextFromBuffer(*textSlot, obj, (void *) first, 0x3da0);
-    STRBUF_Delete(obj);
-  }
-
-  v = BSUBWAY_SCOREDATA_GetBattlePoints((struct BsubwayScoreData *)(arg->block));
-  BR_RES_GetSprite((void *)(arg->res), 13, (BrCodeinTriple *)((BrCodeinTriple *)&triple));
-  BR_CODEIN_ListCreateActor(&work->pointActors, arg->unit, &triple, v, 0xa0, 0x20, work->heapId);
+  BR_UTIL_SetTextFromBuffer(work->rowText[index],obj,(void *)first,0x3da0);
+  STRBUF_Delete(obj);
+ }
+ v=BSUBWAY_SCOREDATA_GetBattlePoints(arg->block);
+ BR_RES_GetSprite((void *)(arg->res), 13, (BrCodeinTriple *)((BrCodeinTriple *)&triple));
+ BR_CODEIN_ListCreateActor(&work->pointActors,arg->unit,&triple,v,0xa0,0x20,work->heapId);
 }
 
 /*
@@ -2042,8 +2056,13 @@ void BR_CODEIN_ListSetupRowD(struct CodeinListWork *work,struct BrProcArgProfile
   rec=&d_021E338C[i]; work->rowText[i]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
   if(i==4){
    v=BSUBWAY_SCOREDATA_GetLevel((struct BsubwayScoreData *)(arg->block));
+#if LANGUAGE == LANGUAGE_JAPANESE
+   text=MSGDATA_AllocString((struct MsgBank *)second,d_021E338C[i].value);
+   obj=MSGDATA_AllocString((struct MsgBank *)second,d_021E338C[i].value);
+#else
    text=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
    obj=STRBUF_Create(0x80,work->heapId);
+#endif
    WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
    WORDSET_CopyTaggedText((void *)third,obj,text);
    STRBUF_Delete(text);
@@ -2304,19 +2323,26 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinResultWork *work,struct BrProcArgPro
         flag=1;
         rec=&d_021E3574[i];
         work->rowText[i]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
         BR_UTIL_SetTextLayout(work->rowText[i],0,1,0);
+#endif
         switch(i) {
         case 0: WORDSET_SetSlotMyStatus((struct WordSet *)words,0,(void *)(GAME_DATA_GetMyStatus((struct GameData *)((arg->block))))); break;
-        case 7: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),5,0),4,1,1); break;
-        case 8: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),6,0),4,1,1); break;
-        case 9: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),7,0),4,1,1); break;
-        case 10: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),8,0),4,1,1); break;
-        case 11: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),9,0),4,1,1); break;
+        case 7: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),5,0),4,1, PM_LANG_HALF_WIDTH_DIGITS); break;
+        case 8: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),6,0),4,1, PM_LANG_HALF_WIDTH_DIGITS); break;
+        case 9: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),7,0),4,1, PM_LANG_HALF_WIDTH_DIGITS); break;
+        case 10: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),8,0),4,1, PM_LANG_HALF_WIDTH_DIGITS); break;
+        case 11: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),9,0),4,1, PM_LANG_HALF_WIDTH_DIGITS); break;
         default: text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value); flag=0; break;
         }
         if(flag) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            base=MSGDATA_AllocString((struct MsgBank *)bank,d_021E3574[i].value);
+            text=MSGDATA_AllocString((struct MsgBank *)bank,d_021E3574[i].value);
+#else
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,work->heapId);
+#endif
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
@@ -2338,14 +2364,21 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *work,struct BrProcArgPro
     for(i=0;i<18;i++) {
         rec=&d_021E3664[i];
         work->rowText[i]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,(void *)work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
         BR_UTIL_SetTextLayout(work->rowText[i],0,1,0);
+#endif
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),i-3,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),i-8,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            base=MSGDATA_AllocString((struct MsgBank *)bank,d_021E3664[i].value);
+            text=MSGDATA_AllocString((struct MsgBank *)bank,d_021E3664[i].value);
+#else
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,work->heapId);
-            WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
+#endif
+            WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
@@ -2367,14 +2400,21 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *work,struct BrProcArgPro
     for(i=0;i<18;i++) {
         rec=&d_021E35D4[i];
         work->rowText[i]=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,(void *)work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
         BR_UTIL_SetTextLayout(work->rowText[i],0,1,0);
+#endif
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),i-8,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&arg->gameData),i-13,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            base=MSGDATA_AllocString((struct MsgBank *)bank,d_021E35D4[i].value);
+            text=MSGDATA_AllocString((struct MsgBank *)bank,d_021E35D4[i].value);
+#else
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
             text=STRBUF_Create(128,work->heapId);
-            WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
+#endif
+            WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
@@ -2649,12 +2689,14 @@ void BR_CODEIN_StatSetup(struct BrUtilTask *task,int *state,struct CodeinStatWor
     MI_CpuFill8(&config,0,8);
     config.a=80;config.b=168;config.c=0;config.flag=1;
     if(!BR_RES_GetSprite((struct BrRes *)((void *)((work->statCtx->res))), 6, (void *)((BrCodeinTriple *)&triple)))
-        GF_PANIC_Fail((const char *)d_021E3964,0,(const char *)d_021E3964);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)d_021E3964, str_ja_021E3964), PM_SRC_LINE(0, 0x18B), PM_LANG_JA((const char *)d_021E3964, str_ja_021E3978));
     work->backButton=BR_BTN_CreateFromMessage((void *)&config,4,96,1,(void *)((work->statCtx->unit)),(void *)(work->oamSys),(void *)font,(struct MsgBank *)bank,(void *)&triple,work->heapId);
     work->headerText=BR_UTIL_Create(4,11,6,10,4,14,work->printQue,work->heapId);
     BR_UTIL_SetTextFromMessage(work->headerText,(void *)bank,0x55,(void *)font,0x3da0);
     work->titleText=BR_UTIL_Create(1,3,3,26,4,14,work->printQue,work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
     BR_UTIL_SetTextLayout(work->titleText,0,1,0);
+#endif
     BR_UTIL_SetTextFromMessage(work->titleText,(void *)bank,work->statCtx->mode+0x57,(void *)font,0x3da0);
     BR_CODEIN_SearchCreateList(&work->list, &work->statCtx->data->cache, work->statCtx->res, work->statCtx->unit, work->listFx, work->tapFx, &work->statCtx->rec->selection, work->heapId);
     work->listCreated=1;
@@ -2728,7 +2770,7 @@ void BR_CODEIN_StatStepMenu(struct BrUtilTask *task, int *state, struct CodeinSt
             Point args;
             selection=BR_CODEIN_SearchGetHitId(&work->list);
             if (selection>=work->statCtx->data->cache.itemCount)
-                GF_PANIC_Fail(d_021E3964,0,d_021E3964);
+                GF_PANIC_Fail(PM_LANG_JA(d_021E3964, str_ja_021E3964), PM_SRC_LINE(0, 0x237), PM_LANG_JA(d_021E3964, str_ja_021E397C));
             work->statCtx->data->cache.selection=selection;
             BR_PROC_SYS_PushEntry(work->statCtx->proc,2);
             BR_UTIL_SetTaskStep(task,BR_CODEIN_StatStepFadeOut);
@@ -2750,7 +2792,7 @@ void BR_CODEIN_SearchStep(struct BrUtilTask *task,u32 *state,struct CodeinStatWo
         case 1: mode=6; break;
         case 2: mode=7; break;
         case 3: initial=*(Point *)&work->statCtx->valueA; mode=4; break;
-        default: GF_PANIC_Fail(d_021E3964,0,d_021E3964); break;
+        default: GF_PANIC_Fail(PM_LANG_JA(d_021E3964, str_ja_021E3964), PM_SRC_LINE(0, 0x27E), PM_LANG_JA(d_021E3964, str_ja_021E39A8)); break;
         }
         MI_CpuFill8(&work->statCtx->data->cache,0,sizeof(struct BrRecCache));
         work->frames=0;
@@ -2774,7 +2816,7 @@ void BR_CODEIN_SearchStep(struct BrUtilTask *task,u32 *state,struct CodeinStatWo
             case 1: success=BR_NET_GetSearchResultsForRanking(work->statCtx->net,(char *)data,30,(void *)((char *)data+offset)); break;
             case 2: success=BR_NET_GetSearchResultsForNewest(work->statCtx->net,(char *)data,30,(void *)((char *)data+offset)); break;
             case 3: success=BR_NET_GetSearchResults(work->statCtx->net,(char *)data,30,(void *)((char *)data+offset)); break;
-            default: GF_PANIC_Fail(d_021E3964,0,d_021E3964); break;
+            default: GF_PANIC_Fail(PM_LANG_JA(d_021E3964, str_ja_021E3964), PM_SRC_LINE(0, 0x2B1), PM_LANG_JA(d_021E3964, str_ja_021E39A8)); break;
             }
             if(success) {
                 for(i=0;i<(int)work->statCtx->data->cache.itemCount;i++) {
@@ -2889,7 +2931,7 @@ void BR_CODEIN_SearchCreateList(struct CodeinSearchList *menu,struct BrRecCache 
     for(i=0;i<(int)base->itemCount;i++){
         bmp=BMP_Create(cfg.width,cfg.spacing,0x20,heap);
         BMP_Clear(bmp,0);
-        WORDSET_SetSlotNumber((struct WordSet *)menu->wordSet,0,i+1,2,0,1);
+        WORDSET_SetSlotNumber((struct WordSet *)menu->wordSet,0,i+1,2,0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(menu->wordSet,buf1,msg);
         STRBUF_SetString((struct Strbuf *)buf2,(const u16 *)base->entry[i].profile);
         PRINTSYS_PrintColor((struct Bmp *)bmp,(short)(16-PRINTSYS_MeasureWidestLine((struct Strbuf *)buf1,(struct GfFont *)first,0)),4,(struct Strbuf *)buf1,(struct GfFont *)((void *)first),0x3DA0);
@@ -3304,10 +3346,17 @@ int BR_CODEIN_CodeStepInput(struct CodeinCodeWork *work,struct BrProcArgSave *ar
         TOUCHPANEL_GetPointTrg((u32 *)&x,(u32 *)&y);args.x=x;args.y=y;
         BR_UTIL_StartEffect((char *)((void *)work->tapFx),1,(const BrPair *)&args);
         GFL_USE_PlaySeDefaultVolume(0x703);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        arg->language=255;arg->version=255;
+        BR_CODEIN_CodeSetMenuText(work,arg,2);
+        work->nextStage=3;
+        return 1;
+#else
         if(arg->language==255){arg->language=a;arg->version=b;}
         else{arg->language=255;arg->version=255;}
         BR_CODEIN_CodeSetMenuText(work,arg,2);
         return 0;
+#endif
     }
     }
     }
@@ -3545,7 +3594,9 @@ void BR_CODEIN_CodeSetupText(struct CodeinCodeWork *work, struct BrProcArgSave *
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
         work->text[i] = BR_UTIL_Create(1, r->a, r->b, r->c, r->d, 14, work->printQue, work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
         BR_UTIL_SetTextLayout(work->text[i], 0, 1, 0);
+#endif
         BR_UTIL_SetTextFromMessage(work->text[i], (void *)second, r->value, (void *)first, 15776);
     }
 }
@@ -3742,7 +3793,7 @@ struct BrCodeinObject *BR_CODEIN_ProfileCreateObject(int heap, int n, void *acto
 /*
  * extent: existing matched callback 021E083C and its alignment follow the pool.
  */
-void BR_CODEIN_ProfileDestroyObject(struct BrCodeinObject *work){if(!work->vector)GF_PANIC_Fail(d_021E3974,0,d_021E3974);if(!work)GF_PANIC_Fail(d_021E3974,0,d_021E3974);STRBUF_Delete(work->vector);GFL_HEAP_Free(work);}
+void BR_CODEIN_ProfileDestroyObject(struct BrCodeinObject *work){if(!work->vector)GF_PANIC_Fail(PM_LANG_JA(d_021E3974, str_ja_021E39AC), PM_SRC_LINE(0, 0xDC), PM_LANG_JA(d_021E3974, str_ja_021E39B8));if(!work)GF_PANIC_Fail(PM_LANG_JA(d_021E3974, str_ja_021E39AC), PM_SRC_LINE(0, 0xDD), PM_LANG_JA(d_021E3974, str_ja_021E39D8));STRBUF_Delete(work->vector);GFL_HEAP_Free(work);}
 
 /*
  * leaf: empty callback solely blocks owned constructor 021E06D0; parent cleared.
@@ -3755,15 +3806,15 @@ void BR_CODEIN_ProfileNoop(struct TcbTask *unused, void *work)
 void BR_CODEIN_ProfileSetupSprite(struct CodeinProfileWork *work)
 {
     struct BrCodeinTriple t;
-    if (!BR_RES_GetSprite(work->object.res, 11, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(work->object.res, 11, &t)) GF_PANIC_Fail(PM_LANG_JA(d_021E3978, str_ja_021E39F0), PM_SRC_LINE(0, 0x33), PM_LANG_JA(d_021E3978, str_ja_021E3A04));
     work->sprite11PaletteId = t.c;
     work->sprite11CharId = t.b;
     work->sprite11CellAnimId = t.a;
-    if (!BR_RES_GetSprite(work->object.res, 12, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(work->object.res, 12, &t)) GF_PANIC_Fail(PM_LANG_JA(d_021E3978, str_ja_021E39F0), PM_SRC_LINE(0, 0x3B), PM_LANG_JA(d_021E3978, str_ja_021E3A04));
     work->sprite12PaletteId = t.c;
     work->sprite12CharId = t.b;
     work->sprite12CellAnimId = t.a;
-    if (!BR_RES_GetSprite(work->object.res, 6, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    if (!BR_RES_GetSprite(work->object.res, 6, &t)) GF_PANIC_Fail(PM_LANG_JA(d_021E3978, str_ja_021E39F0), PM_SRC_LINE(0, 0x44), PM_LANG_JA(d_021E3978, str_ja_021E3A04));
     *(int *)&work->sprite6PaletteId = t.c;
     *(int *)&work->sprite6CharId = t.b;
     *(int *)&work->sprite6CellAnimId = t.a;
@@ -3874,7 +3925,7 @@ void BR_CODEIN_ProfileCreateArrowActors(struct CodeinProfileWork *work) {
     CLACT_SetActorAnimSeq(work->slot[CODEIN_PROFILE_SLOT_ARROW].actor,0);
     pos.x=work->rect[23][2];pos.y=work->rect[23][0]+16;
     CLACT_AddActorSurfacePos(work->slot[CODEIN_PROFILE_SLOT_ARROW+1].actor,(const struct ClactVec2 *)(&pos.x),1);
-    CLACT_SetActorAnimSeq(work->slot[CODEIN_PROFILE_SLOT_ARROW+1].actor,1);
+    CLACT_SetActorAnimSeq(work->slot[CODEIN_PROFILE_SLOT_ARROW+1].actor,PM_LANG_JA(1, 0));
 }
 
 void BR_CODEIN_ProfileSetActorVisible(struct CodeinProfileWork *work, int index, int visible)
@@ -4029,7 +4080,7 @@ void BR_CODEIN_ProfilePrintOamObject(struct CodeinProfileWork *object,Index inde
     source=BR_RES_GetMsgData((struct BrRes *)(p->object.res));
     source=MSGDATA_AllocString((struct MsgBank *)source,d_021E3850[index]);
     handle=BMP_Create(10,2,32,p->profileHeapId);
-    PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(p->font));
+    PRINTSYS_Print((void *)handle,PM_LANG_JA(1,0),0,(void *)source,(void *)(p->font));
     xx=p->rect[index+22][2];
     yy=p->rect[index+22][0];
     desc.handle=(void *)handle;
@@ -4315,7 +4366,7 @@ void BR_CODEIN_ProfileBuildAnimName(struct CodeinProfileWork *work)
       }
       tag = record->tag;
       digit = tag - 1;
-      WORDSET_FormatNumber(text, digit, 1, 1, 1);
+      WORDSET_FormatNumber(text, digit, 1, 1, PM_LANG_HALF_WIDTH_DIGITS);
       STRBUF_Append(work->object.vector, text);
       work->digitValue[group] *= 10;
       work->digitValue[group] += digit;
@@ -4611,9 +4662,9 @@ void BR_CODEIN_UploadStep(struct BrUtilTask *task,int *state,struct CodeinUpload
                         ws=(void *)BR_RES_GetWordSet((struct BrRes *)(work->ctx->res));
                         str=MSGDATA_AllocString(bank,334);expanded=STRBUF_Create(128,0x8059);
                         copy=total;quotient=copy/100000;
-                        WORDSET_SetSlotNumber(ws,2,(u32)(copy%100000),5,2,1);
-                        WORDSET_SetSlotNumber(ws,1,(u32)(quotient%100000),5,2,1);
-                        WORDSET_SetSlotNumber(ws,0,(u32)(quotient/100000),2,2,1);
+                        WORDSET_SetSlotNumber(ws,2,(u32)(copy%100000),5,2, PM_LANG_HALF_WIDTH_DIGITS);
+                        WORDSET_SetSlotNumber(ws,1,(u32)(quotient%100000),5,2, PM_LANG_HALF_WIDTH_DIGITS);
+                        WORDSET_SetSlotNumber(ws,0,(u32)(quotient/100000),2,2, PM_LANG_HALF_WIDTH_DIGITS);
                         WORDSET_CopyTaggedText(ws,expanded,str);
                         BR_UTIL_SetWindowTextBuf((char *)(work->textWin),(void *)((work->ctx->res)),expanded);
                         STRBUF_Delete(expanded);STRBUF_Delete(str);
@@ -4637,7 +4688,7 @@ int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,struct BrProcArgRecord *arg
 {
     struct CodeinSaveWork *p;
     int i;
-    if (arg->mode>=4) GF_PANIC_Fail(d_021E39B4,0,d_021E39B4);
+    if (arg->mode>=4) GF_PANIC_Fail(PM_LANG_JA(d_021E39B4, str_ja_021E3A40), PM_SRC_LINE(0, 0x8E), PM_LANG_JA(d_021E39B4, str_ja_021E3A54));
     p=PROCSYS_AllocProcWork(obj,sizeof(struct CodeinSaveWork),BR_PROC_SYS_GetSlotId(arg->proc));
     MI_CpuFill8(p,0,sizeof(struct CodeinSaveWork));
     p->saveCtx=arg;

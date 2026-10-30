@@ -38,6 +38,7 @@
  *   gSubProcTable    0x021DEA44  data  ov021  a1
  */
 #include "../types.h"
+#include "../version.h"
 
 #include "../ov010/namein_args.h"
 #include "../arm9/poke_tool_param.h"
@@ -184,7 +185,7 @@ struct GameEvent *SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int 
     nameSave = MISC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
     traits = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0) | (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0) << 8);
-    work->nameIn = (NameInArgs *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, 0xa, 0, nameSave);
+    work->nameIn = (NameInArgs *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, PM_LANG_JA(0xa, 5), 0, nameSave);
     work->mon = mon;
     return event;
 }

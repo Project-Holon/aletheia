@@ -66,7 +66,9 @@ struct EventWork;
 #include "../arm9/zonedata.h"
 
 #include "../arm9/met_trainers_savedata.h"
+#include "../version.h"
 
+/* source line number of the heap allocation */
 
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
@@ -117,7 +119,7 @@ extern char gManualCommonTableAllocFile[];
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
 {
-    void **table = GFL_HEAP_Alloc(heap, 4 * sizeof(void *), 1, gManualCommonTableAllocFile, 0x9c);
+    void **table = GFL_HEAP_Alloc(heap, 4 * sizeof(void *), 1, gManualCommonTableAllocFile, PM_SRC_LINE(0x9c, 0x8a));
     u32 size;
     table[0] = ARC_UTIL_LoadHandleMemberWithSize(narc, 11, 0, heap, &size);
     table[1] = ARC_UTIL_LoadHandleMemberWithSize(narc, 12, 0, heap, &size);

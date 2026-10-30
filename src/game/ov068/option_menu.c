@@ -176,6 +176,8 @@
  *   CONFIG_SetBattleScene 0x020083B4 thumb
  *   CONFIG_SetBattleStyle 0x020083D0 thumb
  *   CONFIG_SetSoundMode 0x02008398 thumb
+ *   CONFIG_GetTextLanguage 0x020083E4 thumb
+ *   CONFIG_SetTextLanguage 0x020083EC thumb
  *   CONFIG_SetButtonMode 0x02008430 thumb
  *   gOptionMenuSettingRowChoiceCount     0x021BB572  data  a2
  *   gOptionMenuSettingRowChoices     0x021BB574  data  a4
@@ -202,6 +204,26 @@ struct GfFont;
 struct Tcbl;
 struct Unit;
 #include "option_menu_types.h"
+
+/*
+ * Message file and graphic archive indexes of the options menu. The Japanese archive has two
+ * more entries in front.
+ */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define OPTION_MENU_MSG_FILE 0x1e
+#define OPTION_ARC_SHIFT 2
+#else
+#define OPTION_MENU_MSG_FILE 0x1d
+#define OPTION_ARC_SHIFT 0
+#endif
+#define OPTION_ARC_ID(n) ((n) + OPTION_ARC_SHIFT)
+#define OPTION_SPR_PLTT OPTION_ARC_ID(6)
+#define OPTION_SPR_MAIN_CHAR OPTION_ARC_ID(5)
+#define OPTION_SPR_MAIN_CELL OPTION_ARC_ID(4)
+#define OPTION_SPR_MAIN_ANIM OPTION_ARC_ID(3)
+#define OPTION_SPR_SUB_CHAR OPTION_ARC_ID(0xc)
+#define OPTION_SPR_SUB_CELL OPTION_ARC_ID(0xb)
+#define OPTION_SPR_SUB_ANIM OPTION_ARC_ID(0xa)
 
 /* Display registers of the main (A) and sub (B) engine. */
 #define REG_A_DISPCNT_ADDR REG_DISPCNT_ADDR
@@ -337,6 +359,9 @@ void OPTION_MENU_UpdateScreen(OptionMenuScreen *screen);
 struct ClactActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
 struct Unit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen);
 struct BmpWindow *OPTION_MENU_GetScreenWindow(OptionMenuScreen *screen, int index);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void OPTION_MENU_CreateScreenLabels(OptionMenuScreen *screen);
+#endif
 void OPTION_MENU_RestartScreenBlink(OptionMenuScreen *screen);
 void OPTION_MENU_ScreenTaskMain(struct Task *task, OptionMenuScreen *screen);
 void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId);
@@ -422,7 +447,11 @@ extern u8 ov067_id[];
 extern struct DispVram gOptionMenuDispVram;
 extern struct DispConfig gOptionMenuDispConfig;
 extern OptionMenuBgLayer gOptionMenuBgLayers[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const OptionMenuLabel gOptionMenuLabels[];
+#else
 extern OptionMenuLabel gOptionMenuLabels[];
+#endif
 extern s16 FX_SinCosTable_[];
 extern struct ClInitParam gClActorInitParam;
 extern OptionMenuChoice gOptionMenuChoices[];
@@ -458,7 +487,7 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create(0x1c);
     work->buttonMenuRes = APP_TASKMENU_RES_Create(0, 0xd, (struct GFont *)work->font, (struct PrintQueue *)work->printSys, 0x1c);
     work->messageMenuRes = APP_TASKMENU_RES_Create(3, 9, (struct GFont *)work->font, (struct PrintQueue *)work->printSys, 0x1c);
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, OPTION_MENU_MSG_FILE, 0x1c);
     work->taskList = (struct TaskList *)TCBL_Create(0x1c, 0x1c, 0x20, 0x20);
     OPTION_MENU_InitSettings(&work->savedSettings, SYSTEM_DATA_GetConfig((struct SaveData *)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem))));
     OPTION_MENU_InitRunner(&work->runner, work, OPTION_MENU_StateFadeIn);
@@ -559,6 +588,13 @@ struct BmpWindow *OPTION_MENU_GetScreenWindow(OptionMenuScreen *screen, int inde
     return OPTION_MENU_GetGfxWindow(&screen->gfx, index);
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void OPTION_MENU_CreateScreenLabels(OptionMenuScreen *screen)
+{
+    OPTION_MENU_CreateLabelWindows(&screen->gfx);
+}
+
+#endif
 void OPTION_MENU_RestartScreenBlink(OptionMenuScreen *screen)
 {
     OPTION_MENU_RestartGfxBlink(&screen->gfx);
@@ -598,22 +634,29 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
     BG_SYS_Init(4, 0, 1, 0);
     BG_SYS_Init(3, 0, 1, 0);
     arc = ARC_TOOL_CreateHandle(0x1b, heapId);
-    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, 0xd, 0, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle(arc, 0xe, 0, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, 0, 2, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle(arc, 2, 2, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 3, 1, 0, 0, heapId);
-    ARC_UTIL_UploadPaletteFromHandle(arc, 8, 0, 0x80, 0x1e0, 0x20, heapId);
-    gfx->screenBuffer = ARC_UTIL_LoadBgCharDataFromHandle((void *)arc, (u32)0xf, (u32)0, (&gfx->screenData), heapId);
-    ARC_UTIL_UploadPaletteFromHandleWhole(arc, 8, 4, 0, 0, heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, 7, 5, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle(arc, 9, 5, 0, 0, 0, heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, 0x10, 4, 1, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, OPTION_ARC_ID(1), 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, OPTION_ARC_ID(0xd), 0, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, OPTION_ARC_ID(0xe), 0, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, OPTION_ARC_ID(0), 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, OPTION_ARC_ID(2), 2, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, OPTION_ARC_ID(0x10), 3, 1, 0, 0, heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arc, OPTION_ARC_ID(8), 0, 0x80, 0x1e0, 0x20, heapId);
+    gfx->screenBuffer = ARC_UTIL_LoadBgCharDataFromHandle((void *)arc, (u32)OPTION_ARC_ID(0xf), (u32)0, (&gfx->screenData), heapId);
+    ARC_UTIL_UploadPaletteFromHandleWhole(arc, OPTION_ARC_ID(8), 4, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, OPTION_ARC_ID(7), 5, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc, OPTION_ARC_ID(9), 5, 0, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromHandle(arc, OPTION_ARC_ID(0x10), 4, 1, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    buffer = ARC_UTIL_LoadPaletteBlockFromArchive((u32)0x1b, (u32)1, (&pltt), heapId);
+    buffer = ARC_UTIL_LoadPaletteBlockFromArchive((u32)0x1b, (u32)OPTION_ARC_ID(1), (&pltt), heapId);
     MI_CpuCopy8(pltt->colors + 0xe0, gfx->palette, 0x20);
     GFL_HEAP_Free(buffer);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (i = 0; i < OPTION_WINDOW_LABEL_COUNT; i++) {
+        const OptionMenuLabel *label = &gOptionMenuLabels[i];
+
+        gfx->windows[i] = (struct BmpWindow *)BMP_WIN_Create(1, label->x, label->y, label->width, label->height, 0, 1);
+    }
+#endif
     gfx->windows[OPTION_WINDOW_DESCRIPTION] = (struct BmpWindow *)BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 4, 1);
     gfx->windows[OPTION_WINDOW_MESSAGE] = (struct BmpWindow *)BMP_WIN_Create(3, 1, 1, 0x1e, 4, 0xf, 1);
     gfx->windows[OPTION_WINDOW_TITLE] = (struct BmpWindow *)BMP_WIN_Create(0, 0, 0, 0x10, 3, 8, 1);
@@ -668,11 +711,13 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
     u8 *charData;
     int i;
     int x;
+#if LANGUAGE != LANGUAGE_JAPANESE
     OptionMenuLabel *label;
     u8 width;
+#endif
 
     font = GF_FONT_Create(0x17, 0, 0, 0, 0x1c);
-    msgBank = MSGDATA_CreateFromArchive(0, 2, 0x1d, 0x1c);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, OPTION_MENU_MSG_FILE, 0x1c);
     for (i = 0; i < OPTION_WINDOW_LABEL_COUNT; i++) {
         x = 0;
         switch (i) {
@@ -686,11 +731,15 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
             x = 2;
             break;
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        str = MSGDATA_AllocString(msgBank, gOptionMenuLabels[i].messageId);
+#else
         label = &gOptionMenuLabels[i];
         str = MSGDATA_AllocString(msgBank, gOptionMenuLabels[i].messageId);
         width = (x + PRINTSYS_MeasureWidestLine(str, font, 0) + 7) >> 3;
         label->width = width;
         gfx->windows[i] = (struct BmpWindow *)BMP_WIN_Create(1, label->x, label->y, width, label->height, 0, 1);
+#endif
         BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)gfx->windows[i])), 0);
         PRINTSYS_Print((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)gfx->windows[i])), x, 0, str, font);
         window = gfx->windows[i];
@@ -776,11 +825,11 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     arc = ARC_TOOL_CreateHandle(0x1b, heapId);
-    sprites->plttRes = CLACT_RegisterPalette(arc, 6, 0, 0, heapId);
-    sprites->mainCharRes = CLACT_RegisterCharacter(arc, 5, 0, 0, heapId);
-    sprites->mainCellRes = CLACT_RegisterCellAnim(arc, 4, 3, heapId);
-    sprites->subCharRes = CLACT_RegisterCharacter(arc, 0xc, 0, 0, heapId);
-    sprites->subCellRes = CLACT_RegisterCellAnim(arc, 0xb, 0xa, heapId);
+    sprites->plttRes = CLACT_RegisterPalette(arc, OPTION_SPR_PLTT, 0, 0, heapId);
+    sprites->mainCharRes = CLACT_RegisterCharacter(arc, OPTION_SPR_MAIN_CHAR, 0, 0, heapId);
+    sprites->mainCellRes = CLACT_RegisterCellAnim(arc, OPTION_SPR_MAIN_CELL, OPTION_SPR_MAIN_ANIM, heapId);
+    sprites->subCharRes = CLACT_RegisterCharacter(arc, OPTION_SPR_SUB_CHAR, 0, 0, heapId);
+    sprites->subCellRes = CLACT_RegisterCellAnim(arc, OPTION_SPR_SUB_CELL, OPTION_SPR_SUB_ANIM, heapId);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&param, 0, 8);
     param.bgPriority = 2;
@@ -1346,6 +1395,9 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
     int command;
     int useStream;
     u32 wait;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    int highlight;
+#endif
 
     command = OPTION_MENU_GetInputCommand(input);
     BG_SYS_GetScrollY(list->subLayer);
@@ -1391,12 +1443,18 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
         OPTION_MENU_DrawList(list, 0);
         OPTION_MENU_RestartScreenBlink(screen);
         list->redraw = 1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        highlight = 0;
+#endif
         if (UI_GetInputMode() == 0)
             UI_SetInputMode(1);
         break;
     case OPTION_INPUT_RIGHT:
         if (list->cursor < OPTION_COUNT) {
             GFL_USE_PlaySeDefaultVolume(OPTION_SE_CURSOR);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            highlight = 1;
+#endif
             OPTION_MENU_StepSelectedSetting(list, 1);
             OPTION_MENU_DrawList(list, 1);
             OPTION_MENU_RestartScreenBlink(screen);
@@ -1412,6 +1470,9 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
             OPTION_MENU_StepSelectedSetting(list, -1);
             OPTION_MENU_DrawList(list, 1);
             OPTION_MENU_RestartScreenBlink(screen);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            highlight = 1;
+#endif
         } else if (list->cursor == OPTION_CURSOR_CANCEL) {
             (list->cursor)--;
             GFL_USE_PlaySeDefaultVolume(OPTION_SE_CURSOR);
@@ -1427,6 +1488,15 @@ void OPTION_MENU_UpdateList(OptionMenuList *list, const OptionMenuInput *input, 
         break;
     }
     switch (OPTION_MENU_TakeChangedSetting(&list->settings)) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case OPTION_CHOICE_MOJI_KANA:
+    case OPTION_CHOICE_MOJI_KANJI:
+        OPTION_MENU_CreateScreenLabels(screen);
+        OPTION_MENU_CreateButtonWindows(buttons, 0x1c);
+        OPTION_MENU_DrawList(list, highlight);
+        list->redraw = 1;
+        break;
+#endif
     case 0:
     case 1:
     case 2:
@@ -1496,13 +1566,21 @@ void OPTION_MENU_DrawList(OptionMenuList *list, int highlight)
     u32 k;
     int i;
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (list->cursor > OPTION_COUNT)
+#else
     if (list->cursor >= OPTION_COUNT)
+#endif
         highlight = 0;
     list->highlight = highlight;
     base = ((int)BG_SYS_GetScrollY(list->subLayer) + 0x14) / 0x18;
     BG_SYS_FillTileMap((u8)(list->subLayer), 0, 0, 0x20, 0x20, 5);
     i = 0;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (k = 0; k < 5; k++)
+#else
     for (k = 0; k < OPTION_COUNT; k++)
+#endif
         BG_SYS_FillTileMap((u8)(list->subLayer), i, (base + k) * 3 + 2, 0x20, 3, gOptionMenuRowPalettes[k]);
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
         if (list->cursor == gOptionMenuChoices[i].settingIndex && highlight) {
@@ -1556,16 +1634,29 @@ void OPTION_MENU_ScrollList(OptionMenuList *list, int delta, int min, int max)
 
     t = BG_SYS_GetScrollY(list->subLayer);
     v = t + delta;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    v = v > max ? max : (v < min ? min : v);
+#else
     if (v > max) {
         v = max;
     } else if (v < min) {
         v = min;
     }
+#endif
     BG_SYS_ChangeScroll((u8)list->mainLayer, 3, v + 0x14);
     BG_SYS_ChangeScroll((u8)list->subLayer, 3, v);
     t = list->scrollY - delta;
     list->scrollY = t;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (t > 0x24) {
+        t = 0x24;
+    } else if (t < 0xc) {
+        t = 0xc;
+    }
+    list->scrollY = t;
+#else
     list->scrollY = t > 0x10 - min ? 0x10 - min : (t < 0x10 - max ? 0x10 - max : t);
+#endif
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
         pos.x = gOptionMenuChoices[i].actorX;
         pos.y = list->scrollY + gOptionMenuChoices[i].actorY;
@@ -1759,6 +1850,9 @@ void OPTION_MENU_InitSettings(OptionSettings *settings, struct Config *config)
     settings->values[OPTION_BATTLE_SCENE] = CONFIG_GetBattleScene(config);
     settings->values[OPTION_BATTLE_STYLE] = CONFIG_GetBattleStyle(config);
     settings->values[OPTION_SOUND_MODE] = CONFIG_GetSoundMode(config);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    settings->values[OPTION_MOJI_MODE] = CONFIG_GetTextLanguage(config);
+#endif
     settings->values[OPTION_BUTTON_MODE] = CONFIG_GetButtonMode(config);
 }
 
@@ -1774,6 +1868,9 @@ void OPTION_MENU_WriteSettings(const OptionSettings *settings)
     CONFIG_SetBattleScene(settings->config, settings->values[OPTION_BATTLE_SCENE]);
     CONFIG_SetBattleStyle(settings->config, settings->values[OPTION_BATTLE_STYLE]);
     CONFIG_SetSoundMode(settings->config, settings->values[OPTION_SOUND_MODE]);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    CONFIG_SetTextLanguage(settings->config, settings->values[OPTION_MOJI_MODE]);
+#endif
     CONFIG_SetButtonMode(settings->config, settings->values[OPTION_BUTTON_MODE]);
 }
 

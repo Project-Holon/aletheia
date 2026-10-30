@@ -113,6 +113,7 @@
  *   KEY_GetRepeat  0x0203633C  arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "../types.h"
 #include "../sdk_ioreg.h"
 #include "../sdk_fx.h"
@@ -267,8 +268,18 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
 extern const char sUnionSubdispEmptyStr[];
 extern const UnionSubdispTextOffset sUnionSubdispChatTextOffset;
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F0FE0[];
+extern const char str_ja_021F0FF0[];
+extern const char str_ja_021F1000[];
+extern const char str_ja_021F1010[];
+extern const char str_ja_021F1038[];
+/* The Japanese build keeps the file name, the line and a message. */
+#define UNION_SUBDISP_ASSERT_FAIL(line, msg) GF_PANIC_Fail(str_ja_021F0FE0, line, msg)
+#else
 /* Both arguments of the assertion failure call are the empty string of the build. */
-#define UNION_SUBDISP_ASSERT_FAIL() GF_PANIC_Fail(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
+#define UNION_SUBDISP_ASSERT_FAIL(line, msg) GF_PANIC_Fail(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
+#endif
 
 /*
  * The 0/1 flag the loop tests (movs r0,#1 / movs r0,#0 / cmp r0,#0) is a
@@ -299,7 +310,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     u32 winOut;
 
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
-    work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, sizeof(*work), 1, sUnionSubdispFileName, 0x10F);
+    work = GFL_HEAP_Alloc(UNION_SUBDISP_HEAP_ID, sizeof(*work), 1, PM_LANG_JA(sUnionSubdispFileName, str_ja_021F0FE0), 0x10F);
     work->gameSystem = gameSystem;
     archive = ARC_TOOL_CreateHandle(0x59, UNION_SUBDISP_HEAP_ID);
     UNION_SUBDISP_CreateSystems(work);
@@ -689,7 +700,7 @@ void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log)
             if (i > -1) {
                 entry = (struct UnionChatEntry *)UNION_CHAT_LOG_GetLine((struct UnionChatRing *)log, i);
                 if (entry == 0)
-                    UNION_SUBDISP_ASSERT_FAIL();
+                    UNION_SUBDISP_ASSERT_FAIL(0x37C, str_ja_021F0FF0);
                 UNION_SUBDISP_DrawChatLine(work, entry, i);
             }
         }
@@ -795,9 +806,9 @@ void UNION_SUBDISP_DrawVisibleChatLines(UnionSubdispWork *work, UnionChatLog *lo
     for (; i > stop; i--, lineNo--) {
         entry = (struct UnionChatEntry *)UNION_CHAT_LOG_GetLine((struct UnionChatRing *)log, i);
         if (entry == 0)
-            UNION_SUBDISP_ASSERT_FAIL();
+            UNION_SUBDISP_ASSERT_FAIL(0x414, str_ja_021F0FF0);
         if (lineNo <= -1)
-            UNION_SUBDISP_ASSERT_FAIL();
+            UNION_SUBDISP_ASSERT_FAIL(0x415, str_ja_021F1000);
         UNION_SUBDISP_DrawChatLine(work, entry, (u8)lineNo);
     }
 }
@@ -857,7 +868,7 @@ void UNION_SUBDISP_ScrollChatLines(UnionSubdispWork *work, UnionChatLog *log, in
         for (dstLine = 3 - delta; dstLine < 3; dstLine++) {
             entry = (struct UnionChatEntry *)UNION_CHAT_LOG_GetLine((struct UnionChatRing *)log, log->scrollIndex - 2 + dstLine);
             if (entry == 0)
-                UNION_SUBDISP_ASSERT_FAIL();
+                UNION_SUBDISP_ASSERT_FAIL(0x45F, str_ja_021F0FF0);
             UNION_SUBDISP_DrawChatLine(work, entry, (u8)dstLine);
         }
     } else {
@@ -868,7 +879,11 @@ void UNION_SUBDISP_ScrollChatLines(UnionSubdispWork *work, UnionChatLog *log, in
         for (dstLine = -1 - delta; dstLine > -1; dstLine--) {
             entry = (struct UnionChatEntry *)UNION_CHAT_LOG_GetLine((struct UnionChatRing *)log, log->scrollIndex - 2 + dstLine);
             if (entry == 0)
-                UNION_SUBDISP_ASSERT_FAIL();
+#if LANGUAGE == LANGUAGE_JAPANESE
+                GF_PANIC_FailPrintf(str_ja_021F0FE0, 0x46F, str_ja_021F1010, log->scrollIndex, dstLine, delta);
+#else
+                UNION_SUBDISP_ASSERT_FAIL(0, 0);
+#endif
             UNION_SUBDISP_DrawChatLine(work, entry, (u8)dstLine);
         }
     }
@@ -1075,7 +1090,7 @@ UnionSubdispLineSlot *UNION_SUBDISP_FindHighlightSlot(UnionSubdispWork *work, Un
         if (slotEntry > log->scrollIndex || slotEntry <= log->scrollIndex - 3)
             return &work->lineSlot[i];
     }
-    UNION_SUBDISP_ASSERT_FAIL();
+    UNION_SUBDISP_ASSERT_FAIL(0x5AB, str_ja_021F1038);
     return 0;
 }
 

@@ -427,6 +427,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "box2_types.h"
+#include "../version.h"
 #include "../ov067/touchbar.h"
 #include "../arm9/clact.h"
 /* The DS code passes the palette offset as a word (the original prototype); the header takes a halfword. The host build uses the header. */
@@ -7813,7 +7814,9 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
             ;
         BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         BOX2_UI_ShowWindowA((struct BoxWork *)((char *)((BoxTask *)(task))->work));
+#if LANGUAGE != LANGUAGE_JAPANESE
         task->cursorSlot = 0xFF;
+#endif
         return 0x15;
     case 3:
         if (task->cursorSlot >= 0x1E) {
@@ -7840,7 +7843,9 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
         BOX2_SEQ_StopRightBar((BoxTask *)task);
         BOX2_UI_MoveCursor((char **)task, 6, task->cursorSlot);
         BOX2_UI_ShowWindowB((struct BoxWork *)((char *)((BoxTask *)(task))->work));
+#if LANGUAGE != LANGUAGE_JAPANESE
         task->cursorSlot = 0xFF;
+#endif
         return 0x20;
     case 5:
         BOX2_SEQ_StopRightBar((BoxTask *)task);
@@ -7888,7 +7893,10 @@ int BOX2_SEQ_StatePmVoiceOpenD(BoxTask *task)
     case 4:
         BOX2_SEQ_StopRightBar((BoxTask *)task); BOX2_UI_MoveCursor((char **)task,6,task->cursorSlot);
         CURSOR_MOVE_ClearSkipBit(((BoxTask *)task)->work->cursorMove,0x27);
-        task->cursorSlot=0xff; return 0x20;
+#if LANGUAGE != LANGUAGE_JAPANESE
+        task->cursorSlot=0xff;
+#endif
+        return 0x20;
     case 5:
         BOX2_SEQ_StopRightBar((BoxTask *)task);
         if(task->cursorSlot<0x1e && task->curBox!=task->heldSlot)
@@ -8171,7 +8179,7 @@ int BOX2_SEQ_ScrollListToSlot(BoxTask *task, unsigned i, int v)
  */
 void BOX2_SEQ_Create(void *task)
 {
-    void *v = GFL_HEAP_Alloc(0x4c, sizeof(BoxUiScene), 1, (const char *)0x021F140C, 0x2130);
+    void *v = GFL_HEAP_Alloc(0x4c, sizeof(BoxUiScene), 1, (const char *)0x021F140C, PM_SRC_LINE(0x2130, 0x2124));
     ((BoxTask *)task)->work->seq.entry = v;
 }
 
@@ -8389,7 +8397,7 @@ int BOX2_SEQ_SetCursorMoveB(BoxTask *task, int i)
  */
 void BOX2_SEQ_CreateB(void *task)
 {
-    void *v = GFL_HEAP_Alloc(0x4c, 0x1c, 0, (const char *)0x021F140C, 0x228F);
+    void *v = GFL_HEAP_Alloc(0x4c, 0x1c, 0, (const char *)0x021F140C, PM_SRC_LINE(0x228F, 0x2283));
     ((BoxTask *)task)->work->seq.entry = v;
 }
 
@@ -8457,7 +8465,7 @@ int BOX2_SEQ_DrawListSlot(BoxTask *task, int sel)
 
 void BOX2_SEQ_CreateC(BoxTask *task)
 {
-    unsigned short *q = GFL_HEAP_Alloc(0x804C, 4, 0, d_021F140C, 0x2305);
+    unsigned short *q = GFL_HEAP_Alloc(0x804C, 4, 0, d_021F140C, PM_SRC_LINE(0x2305, 0x22F9));
     q[0] = 0;
     q[1] = 0;
     *(unsigned short * *)&task->work->scroll = q;
@@ -8678,9 +8686,15 @@ void BOX2_SEQ_PrintTextWinEx(char *w, int i, void *bank, u32 idx, int x, int y, 
 /*
  * Call MSGDATA_CreateFromArchive with fixed arguments.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BOX2_SEQ_MSG_ARCHIVE 0xd
+#else
+#define BOX2_SEQ_MSG_ARCHIVE 0xa
+#endif
+
 void *BOX2_SEQ_CreateMsgBank(void)
 {
-    return MSGDATA_CreateFromArchive(0, 2, 0xa, 0x4c);
+    return MSGDATA_CreateFromArchive(0, 2, BOX2_SEQ_MSG_ARCHIVE, 0x4c);
 }
 
 void BOX2_SEQ_PrintMsgWin(BoxTask *task) {
@@ -8734,7 +8748,7 @@ void BOX2_SEQ_DrawCellEntry(char *work, BoxSeqEntry *e, unsigned i)
     if (!e->flag) {
         BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 107, 0, 0, ((BoxWork *)work)->font, 0x440);
         n = PRINTSYS_MeasureWidestLine(((BoxWork *)work)->strbuf, ((BoxWork *)work)->font, 0);
-        WORDSET_SetSlotNumber(((BoxWork *)work)->wordSet, 0, e->low, 3, 0, 1);
+        WORDSET_SetSlotNumber(((BoxWork *)work)->wordSet, 0, e->low, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 103, n, 0, ((BoxWork *)work)->font, 0x440);
     } else {
         BOX2_SEQ_SetDirtyBit((unsigned char *)work, i); return;
@@ -8811,7 +8825,7 @@ void BOX2_SEQ_DrawTileEntry(char *task,const BoxSeqEntry *e,u32 i)
         if (n != 999) {
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(task))->work),i,((BoxTask *)task)->work->msgBank,108,0,0,((BoxTask *)task)->work->font,1088);
             text=PRINTSYS_MeasureWidestLine(((BoxTask *)task)->work->strbuf,((BoxTask *)task)->work->font,0);
-            WORDSET_SetSlotNumber(((BoxTask *)task)->work->wordSet,0,n,3,2,1);
+            WORDSET_SetSlotNumber(((BoxTask *)task)->work->wordSet,0,n,3,2,PM_LANG_HALF_WIDTH_DIGITS);
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(task))->work),i,((BoxTask *)task)->work->msgBank,104,text,0,((BoxTask *)task)->work->font,1088);
         } else { BOX2_SEQ_SetDirtyBit((unsigned char *)((char *)((BoxTask *)(task))->work),i); return; }
     } else { BOX2_SEQ_SetDirtyBit((unsigned char *)((char *)((BoxTask *)(task))->work),i); return; }
@@ -8862,6 +8876,12 @@ void BOX2_SEQ_DrawItemEntry(char *work, unsigned char *e, int i)
  * change. Older text in this header that asks for the double assignment is
  * superseded.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BOX2_SEQ_ENTRY_MSG_ARCHIVE 204
+#else
+#define BOX2_SEQ_ENTRY_MSG_ARCHIVE 203
+#endif
+
 void BOX2_SEQ_DrawMsgEntry(char *work, BoxSeqEntry *e, int i)
 {
     void **windows;
@@ -8870,7 +8890,7 @@ void BOX2_SEQ_DrawMsgEntry(char *work, BoxSeqEntry *e, int i)
     windows = (void **)&((BoxWork *)work)->windows;
     BMP_Clear(BMP_WIN_GetBmp(windows[i * 2]), 0);
     j = 0;
-    bank = MSGDATA_CreateFromArchive(0, 2, 203, 0x804c);
+    bank = MSGDATA_CreateFromArchive(0, 2, BOX2_SEQ_ENTRY_MSG_ARCHIVE, 0x804c);
     if (!e->flag) {
         for (; j < 4; j++) {
             BOX2_SEQ_PrintTextWin((unsigned char *)work, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((BoxWork *)work)->font, 0x440);
@@ -9097,7 +9117,7 @@ void BOX2_SEQ_DrawMonName(char **work, unsigned a, int i)
 {
     void *s = MSGDATA_AllocString(((BoxTask *)work)->work->msgBank, 0x1E);
     unsigned n = BOX_SAVEDATA_CountPokemonInBox(((BoxTask *)work)->params->boxSave, a);
-    WORDSET_SetSlotNumber(((BoxTask *)work)->work->wordSet, 0, n, 2, 0, 1);
+    WORDSET_SetSlotNumber(((BoxTask *)work)->work->wordSet, 0, n, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(((BoxTask *)work)->work->wordSet, ((BoxTask *)work)->work->strbuf, s);
     BMP_Clear(((BoxTask *)work)->work->oamSlots[i].aux, 0);
     if (n == 0x1E)

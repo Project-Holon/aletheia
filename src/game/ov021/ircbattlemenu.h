@@ -12,6 +12,7 @@ typedef struct IrcBattleWinDesc IrcBattleWinDesc;
 #include "../ov021/ircbattlemenu_types.h"
 #include "../ov021/ircbattlemenu_types.h"
 #include "../types.h"
+#include "../version.h"
 #include "../ov010/event_ircbattle_shared_types.h"
 
 void IRCBATTLEMENU_StoreSeqFunc(IrcBattleMenuSeqFunc *dest, IrcBattleMenuSeqFunc seq);
@@ -22,7 +23,11 @@ void IRCBATTLEMENU_SetSubPaletteActive(IrcBattleMenuWork *work, int isActive);
 void IRCBATTLEMENU_CreateTimeIcon(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_ClearMessageWindow(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_DeleteMsgWin(IrcBattleMenuWork *work);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork *work, IrcBattleWinDesc *descs);
+#else
 void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork *work, IrcBattleWinDesc *descs, int *centerX, int *centerY);
+#endif
 void IRCBATTLEMENU_DeleteButtonWindows(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_TouchCallback(u32 index, s32 event, void *);
 void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work);

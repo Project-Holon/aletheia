@@ -126,6 +126,7 @@
  */
 
 #include "field_msgbg_types.h"
+#include "../version.h"
 #include "../arm9/net_types.h"
 
 struct FieldMap;
@@ -458,7 +459,9 @@ typedef struct CommEntryMenu {
     u8 readyBits;
     u8 refreshPending;
     u16 lastMessageId;
+#if LANGUAGE != LANGUAGE_JAPANESE
     u8 pad57C[4];
+#endif
 } CommEntryMenu;
 
 #include "../arm9/strbuf.h"
@@ -491,7 +494,6 @@ struct MsgBank;
 #include "../arm9/net_command.h"
 #include "../arm9/config.h"
 #include "../arm9/os_ownerinfo.h"
-#include "../version.h"
 struct GFLNetHandle;
 
 CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac);
@@ -522,7 +524,11 @@ u32 COMM_ENTRY_MENU_GetAcceptedMask(CommEntryMenu *menu);
 int COMM_ENTRY_MENU_IsIdle(CommEntryMenu *menu);
 void COMM_ENTRY_MENU_OpenWindows(CommEntryMenu *menu);
 void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count);
+#else
 int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count);
+#endif
 void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *member, int index);
 void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *member, int index);
 void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, u32 row);
@@ -583,9 +589,9 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
     GFLNetInitializeStruct *netInit;
 
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
-    menu = GFL_HEAP_Alloc(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
+    menu = GFL_HEAP_Alloc(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, PM_SRC_LINE(0x179, 0x16f));
     menu->wordSet = WORDSET_CreateDefault(heapId);
-    menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x1e);
+    menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, PM_LANG_JA(0x1e, 0x1f));
     menu->sysWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, menu->msgData);
     menu->msgStr = STRBUF_Create(0x64, heapId);
     menu->nameFormat = MSGDATA_AllocString((struct MsgBank *)menu->msgData, 7);
@@ -1347,6 +1353,16 @@ void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu)
         COMM_ENTRY_MENU_PrintMemberName(menu, menu->myStatus, 0);
         count++;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (menu->memberCount != count) {
+        COMM_ENTRY_MENU_PrintRemaining(menu, count);
+        menu->memberCount = count;
+        if (COMM_ENTRY_MENU_IsIdle(menu) == 1 && menu->confirm.menu == 0 && menu->isChild == 1 && count == 1) {
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_WAIT_FOR_MEMBERS);
+        }
+    }
+}
+#else
     if (menu->memberCount != count) {
         if (COMM_ENTRY_MENU_PrintRemaining(menu, count) == 1) {
             menu->memberCount = count;
@@ -1364,6 +1380,7 @@ void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu)
         }
     }
 }
+#endif
 
 void COMM_ENTRY_MENU_AdvanceMemberStates(CommEntryMenu *menu)
 {
@@ -1545,9 +1562,11 @@ u32 COMM_ENTRY_MENU_ProcessStartConfirm(CommEntryMenu *menu)
         if (answer == 1) {
             confirm->result = 2;
             confirm->state = CONFIRM_ABORTED;
+#if LANGUAGE != LANGUAGE_JAPANESE
         } else if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) <= 1) {
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ALONE));
             confirm->state = CONFIRM_NOTIFY_ALONE;
+#endif
         } else {
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_CONFIRM_QUIT_MEMBERS);
             confirm->state++;
@@ -1681,17 +1700,29 @@ void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu)
     FIELD_MSGBG_ClearPrintQue(msgBg);
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
+{
+    if (menu->memberWin) {
+        FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, 0x40, 0x90, 0x50);
+        WORDSET_SetSlotNumber(menu->wordSet, 0, menu->maxMembers - count, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_CopyTaggedText(menu->wordSet, menu->remainingStr, menu->remainingFormat);
+        FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, 0x40, menu->remainingStr);
+    }
+}
+#else
 int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
 {
     if (menu->memberWin && FIELD_MSGBG_IsMsgWinTransDone(menu->memberWin) == 1) {
         FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, 0x40, 0x90, 0x50);
-        WORDSET_SetSlotNumber(menu->wordSet, 0, menu->maxMembers - count, 1, 0, 1);
+        WORDSET_SetSlotNumber(menu->wordSet, 0, menu->maxMembers - count, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(menu->wordSet, menu->remainingStr, menu->remainingFormat);
         FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, 0x40, menu->remainingStr);
         return 1;
     }
     return 0;
 }
+#endif
 
 void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
@@ -1718,7 +1749,7 @@ void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, 
     if (menu->memberWin != 0) {
         WORDSET_SetSlotMyStatus(menu->wordSet, 0, (void *)myStatus);
         trainerId = MYSTATUS_GetIdLow16((struct MyStatus *)myStatus);
-        WORDSET_SetSlotNumber(menu->wordSet, 1, trainerId, 5, 2, 1);
+        WORDSET_SetSlotNumber(menu->wordSet, 1, trainerId, 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(menu->wordSet, menu->nameStr, menu->nameFormat);
         FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, (row & 0xfff) << 4, menu->nameStr);
     }
@@ -1747,9 +1778,11 @@ void COMM_ENTRY_MENU_RefreshNames(CommEntryMenu *menu)
 void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
 {
     struct Strbuf *format;
+#if LANGUAGE != LANGUAGE_JAPANESE
     if (msgId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS && menu->lastMessageId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS)
         return;
     menu->lastMessageId = msgId;
+#endif
     format = MSGDATA_AllocString((struct MsgBank *)menu->msgData, msgId);
     WORDSET_CopyTaggedText(menu->wordSet, menu->msgStr, format);
     STRBUF_Delete(format);
@@ -1920,9 +1953,11 @@ u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
             if (answer == 1) {
                 list->state = list->returnState;
                 COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
+#if LANGUAGE != LANGUAGE_JAPANESE
                 if (menu->parentList.menu != 0) {
                     FIELD_MSGBG_DrawMenuFuncFrame(menu->parentList.menu);
                 }
+#endif
             } else {
                 list->result = LIST_RESULT_LEFT;
                 list->state = LIST_FINISHED;
@@ -2042,10 +2077,10 @@ void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu)
     MSGDATA_ReadString((struct MsgBank *)menu->msgData, 0x1a, emptyFormat);
     MSGDATA_ReadString((struct MsgBank *)menu->msgData, 0x1b, nameFormat);
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
-        WORDSET_SetSlotNumber(menu->wordSet, 0, i + 1, 2, 2, 1);
+        WORDSET_SetSlotNumber(menu->wordSet, 0, i + 1, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         if (menu->parentList.slots[i].used == 1) {
             WORDSET_SetSlotMyStatus(menu->wordSet, 1, &menu->parentList.slots[i]);
-            WORDSET_SetSlotNumber(menu->wordSet, 2, MYSTATUS_GetIdLow16((struct MyStatus *)(&menu->parentList.slots[i])), 5, 2, 1);
+            WORDSET_SetSlotNumber(menu->wordSet, 2, MYSTATUS_GetIdLow16((struct MyStatus *)(&menu->parentList.slots[i])), 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(menu->wordSet, line, nameFormat);
         } else {
             STRBUF_SetString(emptyStr, &emptyChar);

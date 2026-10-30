@@ -648,6 +648,13 @@ extern struct GameEvent * SP_POKE_GIMMICK_StartSwapNpc(struct GameSystem *, VecF
 #include "../ov064/field_gimmick_arc_effect.h"
 #include "../version.h"
 
+/* Constants that differ on the Japanese cartridge. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define SCRCMD_MISC_INFO_MSG_BANK 0x17
+#else
+#define SCRCMD_MISC_INFO_MSG_BANK 0x16
+#endif
+
 
 
 
@@ -1441,7 +1448,12 @@ int SCRCMD_CheckPmsWordPair(ScriptVm *vm, ScrcmdWork *cmdWork)
         *resultVar = 0;
         return 0;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    /* The Japanese cartridge compares the word ids itself. */
+    if (groupBegin == (u16)(wordA & 0x7FF) && groupEnd == (u16)(wordB & 0x7FF)) {
+#else
     if (PMS_WORD_IsSameGroup(groupBegin, wordA & 0x7FF) && PMS_WORD_IsSameGroup(groupEnd, wordB & 0x7FF)) {
+#endif
         *resultVar = 1;
     } else {
         *resultVar = 0;
@@ -1902,7 +1914,7 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldParam->fieldSystem);
     msgBg = FIELDMAP_GetMsgBg(fieldParam->fieldSystem);
     if (VM_ReadU16(vm)) {
-        msgBank = MSGDATA_CreateFromArchive(0, 2, 0x16, heapId);
+        msgBank = MSGDATA_CreateFromArchive(0, 2, SCRCMD_MISC_INFO_MSG_BANK, heapId);
         bmpWin = BMP_WIN_CreateAt(2, 1, 1, 0x1E, 10, 14, 0x40);
         BMP_Clear(BMP_WIN_GetBmp(bmpWin), 0xF);
         BMP_WIN_TransferChars(bmpWin);
@@ -1987,12 +1999,12 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
         idA = gGreetingCounterTable[msgIndex].idA;
         if (idA != -1) {
             countA = RECORD_GetCounterClamped(trainerRecord, idA);
-            WORDSET_SetSlotNumber(wordSet, 1, countA, gGreetingCounterTable[msgIndex].digitsA, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 1, countA, gGreetingCounterTable[msgIndex].digitsA, 0, PM_LANG_HALF_WIDTH_DIGITS);
         }
         idB = gGreetingCounterTable[msgIndex].idB;
         if (idB != -1) {
             countB = RECORD_GetCounterClamped(trainerRecord, idB);
-            WORDSET_SetSlotNumber(wordSet, 2, countB, gGreetingCounterTable[msgIndex].digitsB, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 2, countB, gGreetingCounterTable[msgIndex].digitsB, 0, PM_LANG_HALF_WIDTH_DIGITS);
         }
         if (msgIndex < 11) {
             if (idA != -1 && idB != -1) {

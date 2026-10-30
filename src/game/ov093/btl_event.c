@@ -41,6 +41,11 @@ struct BtlEventFactor;
 #include "hand_waza.h"
 #include "../arm9/gf_panic.h"
 #include "btl_event.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F38D0[];
+extern const char str_ja_021F38DC[];
+#endif
 extern struct BtlEventFactor gBtlEventFactorStorage[BTL_EVENT_FACTOR_MAX];
 extern struct BtlEventFactorList gBtlEventFactorList;
 /* stand-in: the same object as gBtlEventFactorList.freePool (gBtlEventFactorList + 0xC); the original reaches it through its own symbol, a field access changes the bytes of BTL_EVENT_InitFactorList. */
@@ -371,7 +376,7 @@ void BTL_EVENT_PushVarFrame(int line)
     if (stack->frameTop < BTL_EVENT_VAR_MAX - 1) {
         stack->keys[stack->frameTop++] = 1;
     } else {
-        GF_PANIC_Fail(gBtlEventEmptyString, 0, gBtlEventEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gBtlEventEmptyString, str_ja_021F38D0), PM_SRC_LINE(0, 0x44C), PM_LANG_JA(gBtlEventEmptyString, str_ja_021F38DC));
     }
 }
 

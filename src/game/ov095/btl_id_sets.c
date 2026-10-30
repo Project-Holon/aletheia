@@ -37,6 +37,7 @@
  *   gMimicExcludedMoves     0x0689E2CE  data  ov095  a2
  *   gMetronomeExcludedMoves     0x0689E3FC  data  ov095  a4
  */
+#include "../version.h"
 #include "btl_pokeparam_types.h"
 
 #define BTL_ID_BATON_PASS_SICK_COUNT 14
@@ -128,7 +129,9 @@ extern u16 gArceusPlateItems[16];     /* Arceus plates */
 
 extern u16 gGenesectDriveItems[4];      /* Genesect drives */
 
-extern u16 gCatchBonusBalls[10];     /* balls with a catch bonus */
+#define CATCH_BONUS_BALL_COUNT PM_LANG_JA(10, 11)
+
+extern u16 gCatchBonusBalls[CATCH_BONUS_BALL_COUNT];     /* balls with a catch bonus */
 
 extern u16 gMoldBreakerIgnoredAbilities[55];     /* abilities Mold Breaker ignores */
 
@@ -232,7 +235,7 @@ int BTL_ID_IsGenesectDrive(unsigned itemId)
 
 int BTL_ID_IsBallWithCatchBonus(unsigned itemId)
 {
-    return BTL_ID_IsInList(itemId, gCatchBonusBalls, 10);
+    return BTL_ID_IsInList(itemId, gCatchBonusBalls, CATCH_BONUS_BALL_COUNT);
 }
 
 int BTL_ID_IsAbilityIgnoredByMoldBreaker(unsigned abilityId)

@@ -30,6 +30,9 @@
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAMESYSTEM_SetEvent 0x02012108 thumb
+ *   KEY_GetCont 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -64,6 +67,8 @@ struct FieldCamera;
 #include "../arm9/gfl_use.h"
 #include "../ov021/field_player.h"
 #include "../arm9/game_event.h"
+#include "../arm9/key.h"
+#include "../version.h"
 void FIELD_GIMMICK_LIFT_Init(void *fieldMap);
 void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap);
 void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
@@ -104,10 +109,30 @@ void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap)
 }
 
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* Japanese build: a debug key combination (held, then L or A pressed) calls the lift. */
+void FIELD_GIMMICK_LIFT_Update(void *fieldMap)
+{
+    void *expObj = FIELDMAP_GetExpObj(fieldMap);
+    struct GameSystem *gameSystem;
+
+    if (KEY_GetCont() & 0x2000) {
+        if (KEY_GetTrg() & 0x200) {
+            gameSystem = FIELDMAP_GetGameSystem(fieldMap);
+            GAMESYSTEM_SetEvent(gameSystem, FIELD_GIMMICK_LIFT_CallEvent(gameSystem, 1));
+        } else if (KEY_GetTrg() & 1) {
+            gameSystem = FIELDMAP_GetGameSystem(fieldMap);
+            GAMESYSTEM_SetEvent(gameSystem, FIELD_GIMMICK_LIFT_CallEvent(gameSystem, 0));
+        }
+    }
+    FLD_EXP_OBJ_UpdateAnimes(expObj);
+}
+#else
 void FIELD_GIMMICK_LIFT_Update(void *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
+#endif
 
 
 struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, int isDescending)

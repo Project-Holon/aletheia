@@ -222,6 +222,7 @@
  *   BTLV_CLACT_SetActorAnimSeq 0x02201DA0 thumb ov094
  *   BTLV_CLACT_RequestPaletteFade 0x02201DB4 thumb ov094
  */
+#include "../version.h"
 #include "../arm9/nns_g3d_glb_types.h"
 #include "../sdk_ioreg.h"
 #include "btlv_effvm_types.h"
@@ -3136,11 +3137,17 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
         VM_Start(vm, (u8 *)(scriptPtr + ((BtlvEffVmScriptFile *)scriptPtr)->variant[0].entryOffset));
         return 1;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    BG_SYS_SetPlaneVisible(1, 1);
+    BG_SYS_SetPlaneVisible(2, 1);
+    BG_SYS_SetPlaneVisible(3, 1);
+#else
     if (finalEffectId != 0x27e) {
         BG_SYS_SetPlaneVisible(1, 1);
         BG_SYS_SetPlaneVisible(2, 1);
         BG_SYS_SetPlaneVisible(3, 1);
     }
+#endif
     return 1;
 }
 

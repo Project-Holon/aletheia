@@ -685,6 +685,7 @@ struct PercentageTemplate;
 
 #include "../arm9/g3x.h"
 
+/* Numbers print half width everywhere but in Japanese. */
 
 
 void *RESEARCH_GRAPH_Create(void *p);
@@ -2431,10 +2432,10 @@ void RESEARCH_GRAPH_PrintSliceLabel(struct ResearchObjB *graph)
     x = MSGDATA_AllocString(graph->msgBank[0], 0xd);
     y = MSGDATA_AllocString(graph->msgBank[2], k);
     z = STRBUF_Create(0x80, graph->heapId);
-    WORDSET_SetSlotNumber(graph->wordSet, 0, a + 1, 2, 1, 1);
+    WORDSET_SetSlotNumber(graph->wordSet, 0, a + 1, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotTag(graph->wordSet, 1, y, 0, 1, PM_LANG_ID);
-    WORDSET_SetSlotNumber(graph->wordSet, 2, b, 5, 1, 1);
-    WORDSET_SetSlotNumber(graph->wordSet, 3, c, 3, 1, 1);
+    WORDSET_SetSlotNumber(graph->wordSet, 2, b, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(graph->wordSet, 3, c, 3, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(graph->wordSet, z, x);
     BgTextLabel_PrintText((struct BgTextLabel *)t, z);
     BgTextLabel_SetVisible((struct BgTextLabel *)t, 1);
@@ -2496,7 +2497,7 @@ void RESEARCH_GRAPH_PrintTeamLabel(struct ResearchObjB *graph)
     c = graph->wordSet;
     a = MSGDATA_AllocString(graph->msgBank[0], k);
     b = STRBUF_Create(0x80, graph->heapId);
-    WORDSET_SetSlotNumber(c, 0, x, 6, 1, 1);
+    WORDSET_SetSlotNumber(c, 0, x, 6, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(c, b, a);
     BgTextLabel_PrintText((struct BgTextLabel *)(graph->label[6]), b);
     STRBUF_Delete(a);

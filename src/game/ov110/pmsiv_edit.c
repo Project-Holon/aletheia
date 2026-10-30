@@ -150,7 +150,9 @@ struct PmsivTextParser {
     struct U16Vec *text;
     u16 *cursor;
     u32 state;
+#if LANGUAGE != LANGUAGE_JAPANESE
     u16 slotWordId;
+#endif
 };
 
 struct PmsivEdit {
@@ -164,7 +166,9 @@ struct PmsivEdit {
     struct U16Vec *text;
     void *bmpCursor;
     PmsivEditScreenPos slotPos[PMSIV_EDIT_SLOT_COUNT];
+#if LANGUAGE != LANGUAGE_JAPANESE
     u16 slotWordId[PMSIV_EDIT_SLOT_COUNT];
+#endif
     int slotCount;
     struct PmsivTextParser parser;
     u8 palette[PMSIV_EDIT_PALETTE_BYTES];
@@ -294,6 +298,7 @@ struct PmsInput;
 
 
 #include "../arm9/pms_word.h"
+#include "../version.h"
 
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
 
@@ -316,7 +321,7 @@ extern const char sPmsivEditAllocSite[];
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param)
 {
     struct PmsivEdit *p;
-    p = GFL_HEAP_Alloc(PMSIV_EDIT_HEAP, sizeof(struct PmsivEdit), 1, sPmsivEditAllocSite, 211);
+    p = GFL_HEAP_Alloc(PMSIV_EDIT_HEAP, sizeof(struct PmsivEdit), 1, sPmsivEditAllocSite, PM_SRC_LINE(211, 198));
     p->view = view;
     p->input = input;
     p->param = param;
@@ -325,7 +330,7 @@ struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputSt
     p->cursors[1] = 0;
     p->scrollTask = 0;
     p->text = (struct U16Vec *)STRBUF_Create(128, PMSIV_EDIT_HEAP);
-    p->messageBank = MSGDATA_CreateFromArchive(0, 2, 146, PMSIV_EDIT_HEAP);
+    p->messageBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(146, 139), PMSIV_EDIT_HEAP);
     p->bmpCursor = BMP_CURSOR_Create(PMSIV_EDIT_HEAP);
     p->scrollOffset = 0;
     p->bgOffset = 0;
@@ -363,8 +368,8 @@ void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle)
     BG_SYS_ChangeScrollImmediate(4, 3, p->bgOffset);
     ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
     ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
-    p->windows[0] = BMP_WIN_Create(0, 3, 1, 28, 4, 0, 1);
-    p->windows[1] = BMP_WIN_Create(4, 3, 1, 28, 4, 0, 1);
+    p->windows[0] = BMP_WIN_Create(0, 3, 1, PM_LANG_JA(28, 27), 4, 0, 1);
+    p->windows[1] = BMP_WIN_Create(4, 3, 1, PM_LANG_JA(28, 27), 4, 0, 1);
     BMP_WIN_MakeScreen(p->windows[0]);
     BMP_WIN_MakeScreen(p->windows[1]);
     PMSIV_EDIT_InitSlotPositions(p);
@@ -416,7 +421,9 @@ u32 PMSIV_EDIT_IsSubScreenLayer(u32 layer);
 
 unsigned int PMSIV_EDIT_GetSlotCount(struct PmsivEdit *p);
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 u16 PMSIV_EDIT_GetSlotWordId(struct PmsivEdit *p, int slot);
+#endif
 
 void PMSIV_EDIT_ReleaseCursor(struct PmsivEdit *p);
 
@@ -611,11 +618,12 @@ void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot)
     rect[0] = p->slotPos[slot].y;
     rect[1] = rect[0] + 0x10;
 }
-
 int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 screen)
 {
     struct U16Vec *run;
+#if LANGUAGE != LANGUAGE_JAPANESE
     u16 wordId;
+#endif
     int running, slotCount, x, y;
     struct GfFont *font;
     run = PMS_INPUT_GetSentenceString((struct PmsInput *)p->input, PMSIV_EDIT_HEAP);
@@ -631,12 +639,14 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 scree
             x += PRINTSYS_MeasureWidestLine((struct Strbuf *)run, font, 0);
             break;
         case PMSIV_EDIT_TOKEN_SLOT: {
+#if LANGUAGE != LANGUAGE_JAPANESE
             wordId = p->parser.slotWordId;
             p->slotWordId[slotCount] = wordId;
+#endif
             p->slotPos[slotCount].x = x + 50;
             p->slotPos[slotCount].y = y + 8;
             PMSIV_EDIT_ClearSlotBox(window, &p->slotPos[slotCount]);
-            PMSIV_EDIT_DrawSlotWord(p, window, &p->slotPos[slotCount], PMS_INPUT_GetWord((struct PmsInput *)p->input, wordId), p->wordIcons[slotCount][screen]);
+            PMSIV_EDIT_DrawSlotWord(p, window, &p->slotPos[slotCount], PMS_INPUT_GetWord((struct PmsInput *)p->input, PM_LANG_JA(wordId, slotCount)), p->wordIcons[slotCount][screen]);
             slotCount++;
             x += 100;
             break;
@@ -684,7 +694,9 @@ int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out)
         STRBUF_SetStringN((struct Strbuf *)out, start, (parser->cursor - start) + 1);
         return PMSIV_EDIT_TOKEN_TEXT;
     case 1:
+#if LANGUAGE != LANGUAGE_JAPANESE
         parser->slotWordId = PRINTSYS_GetTagParam(start, 0);
+#endif
         parser->cursor = PRINTSYS_SkipTag(parser->cursor);
         token = PMSIV_EDIT_TOKEN_SLOT;
         break;
@@ -776,10 +788,12 @@ unsigned int PMSIV_EDIT_GetSlotCount(struct PmsivEdit *p)
 /*
  * Halfword accessor: p + slot*2 + 0x40.
  */
+#if LANGUAGE != LANGUAGE_JAPANESE
 u16 PMSIV_EDIT_GetSlotWordId(struct PmsivEdit *p, int slot)
 {
     return p->slotWordId[slot];
 }
+#endif
 
 void PMSIV_EDIT_ReleaseCursor(struct PmsivEdit *p)
 {

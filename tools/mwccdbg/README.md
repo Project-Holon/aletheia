@@ -23,6 +23,9 @@ The compile is the compile `match.py one` runs: compiler path, `BASE_FLAGS` and 
 include come from `tools/match.py`. Function, address, region, ISA, `-lang` and flags come
 from the source header (`function:`, `address:`, `region:`, `isa:`, `lang:`, `flags:`).
 `--func`, `--thumb`/`--arm`, `--lang`, `-O "<flags>"` and `--extra "<flags>"` override them.
+The compile does not add the target's defines or the `src/game` include path. For a language
+or version build, pass them in `--extra`, for example
+`--extra "-i <repo>/src/game -d LANGUAGE=1"` for Japanese (tools/targets.py gives the values).
 Work files go to a temporary directory under `env.scratch_dir("mwccdbg")` and are deleted
 after the run (`--keep` keeps them). The compiler file is never changed or copied:
 breakpoints exist only in the running process.

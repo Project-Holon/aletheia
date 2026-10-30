@@ -106,6 +106,7 @@
  */
 #include "field_event_types.h"
 #include "fld_btl_inst_tool_shared_types.h"
+#include "../version.h"
 
 #include "../types.h"
 #include "../arm9/ica_anime_shared_types.h"
@@ -1032,7 +1033,7 @@ int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, i
  */
 BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerIndex, int heapId)
 {
-    MsgData *nameBank = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 11, heapId);
+    MsgData *nameBank = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(11, 14), heapId);
     BtlInstGroup *group;
     Strbuf *name;
     MI_CpuFill8(trainer, 0, 0x120);

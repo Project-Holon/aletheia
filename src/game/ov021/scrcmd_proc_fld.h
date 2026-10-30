@@ -17,6 +17,7 @@ struct BmpWin;
 
 #include "../ov021/scrcmd_proc_fld_types.h"
 #include "../types.h"
+#include "../version.h"
 
 int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_PROC_FLD_InitShop(struct GameSystem *gameSystem, ShopWork *shop, int shopKind, int shopVariant);
@@ -56,7 +57,11 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(struct BmpMenuList *listMenu, int row,
 void SCRCMD_PROC_FLD_OnListCursorMove(struct BmpMenuList *listMenu, u32 row);
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop);
 u8 SCRCMD_PROC_FLD_ReturnZero(u32 arg);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId);
+#else
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural);
+#endif
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop);
 void SCRCMD_PROC_FLD_PrepareMessageWindow(struct BmpWin *window);
 void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId);

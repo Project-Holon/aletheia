@@ -67,6 +67,7 @@ struct ScriptWork;
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
 #include "field_player.h"
 #include "../arm9/gfl_heap_wrap.h"
+#include "../version.h"
 #include "../ov010/script_work.h"
 struct UnionInfo;
 struct GfFont;
@@ -87,6 +88,7 @@ extern VecFx32 d_021D9708[];
  * allocates the ShopTask, fills the save data pointers the shop reads and
  * arms SCRCMD_PROC_FLD_StepShopTask as the wait function that steps the task.
  */
+/* Source line the assertion text of the heap allocation names. */
 int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 shopId;
@@ -106,7 +108,7 @@ int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     taskSlot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork));
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     shopTable = (u8 *)GAME_DATA_GetSecondUnionInfo(gameData);
-    task = GFL_HEAP_Alloc(4, sizeof(*task), 1, (const char *)d_021DE210, 0xFC);
+    task = GFL_HEAP_Alloc(4, sizeof(*task), 1, (const char *)d_021DE210, PM_SRC_LINE(0xFC, 0xFA));
     *taskSlot = task;
     task->shop.fontInfo = FIELD_MSGBG_GetFont(msgBg);
     task->shop.moneyData = GAME_DATA_GetMiscSave(gameData);

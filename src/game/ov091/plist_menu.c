@@ -127,6 +127,7 @@
  *   PLIST_DEMO_UseItemOnMon  0x021BE2B4  thumb
  */
 #include "../types.h"
+#include "../version.h"
 
 struct TaskMenuItem;
 #include "pokelist_types.h"
@@ -384,13 +385,19 @@ void PLIST_MENU_BuildCommandList(PokelistWork *work, PlistMenu *menu, int *items
     }
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PLIST_MENU_MSG_ARCHIVE 0xcc
+#else
+#define PLIST_MENU_MSG_ARCHIVE 0xcb
+#endif
+
 struct Strbuf *PLIST_MENU_CreateCommandLabel(PokelistWork *work, PlistMenu *menu, int id)
 {
     sptr r;
     struct MsgBank *h;
     if (id >= 0x10 && id <= 0x13) {
         r = POKE_TOOL_GetPartyValue(work->selectedMon, id + 0x26, 0);
-        h = MSGDATA_CreateFromArchive(0, 2, 0xcb, work->heapId);
+        h = MSGDATA_CreateFromArchive(0, 2, PLIST_MENU_MSG_ARCHIVE, work->heapId);
         r = (sptr)MSGDATA_AllocString(h, r);
         MSGDATA_Delete(h);
     } else {
@@ -749,7 +756,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
             msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
+            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, PM_LANG_HALF_WIDTH_DIGITS); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = PRINTSYS_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);
@@ -778,7 +785,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         for (i = 0; i < 6; i++) {
             delta = POKE_TOOL_GetPartyValue(work->selectedMon, gPlistStatParamIds[i], 0);
             msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
+            WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, PM_LANG_HALF_WIDTH_DIGITS); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = PRINTSYS_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);

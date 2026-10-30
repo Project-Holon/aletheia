@@ -159,6 +159,21 @@ struct PartyMon;
 #include "../types.h"
 #include "../version.h"
 
+/* Source line of the work allocation, stored in the heap record. */
+/* The English code keeps the constant 1 in a live variable; the Japanese code writes 1. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define REPORT_ONE 1
+#else
+#define REPORT_ONE one
+#endif
+
+/* The digit-width flag of the numbers: English passes the same live 1, Japanese half width. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define REPORT_DIGITS PM_LANG_HALF_WIDTH_DIGITS
+#else
+#define REPORT_DIGITS one
+#endif
+
 /* French, Italian and German print the month as a word; the others print its number. */
 #if PM_LANG_MONTH_AS_NAME
 #define REPORT_SET_MONTH(words, slot, month, flag) WORDSET_SetSlotMonth(words, slot, month)
@@ -240,7 +255,7 @@ extern const struct ActorInitParam sReportActorPositions[2];
 
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
-    ReportWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, sReportAllocSite, 0x114);
+    ReportWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, sReportAllocSite, PM_SRC_LINE(0x114, 0x113));
     work->gameSystem = gameSystem;
     work->heapId = heapId;
     work->saveAnimRunning = 0;
@@ -447,7 +462,11 @@ static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *b
  */
 void REPORT_InitWindows(ReportWork *work)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u32 i;
+#else
     u32 i, one = 1;
+#endif
     struct MsgBank *msgBank;
     struct WordSet *wordSet;
     struct Strbuf *buf;
@@ -461,7 +480,7 @@ void REPORT_InitWindows(ReportWork *work)
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
         const u8 *layout = sReportWindowLayouts + i * 6;
-        work->windows[i].bmpWin = BMP_WIN_Create(layout[0], layout[1], layout[2], layout[3], layout[4], layout[5], one);
+        work->windows[i].bmpWin = BMP_WIN_Create(layout[0], layout[1], layout[2], layout[3], layout[4], layout[5], REPORT_ONE);
         BMP_Clear(BMP_WIN_GetBmp(work->windows[i].bmpWin), 0);
     }
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
@@ -473,50 +492,50 @@ void REPORT_InitWindows(ReportWork *work)
     msgPlayer = MSGDATA_AllocString(msgBank, 0);
     WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(gameData));
     WORDSET_CopyTaggedText(wordSet, buf, msgPlayer);
-    printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, one);
+    printRecordLine(work, 0, buf, msgPlayer, 4, 0x3580, REPORT_ONE);
     msgDate = MSGDATA_AllocString(msgBank, 1);
     RTC_GetDate(&date);
-    WORDSET_SetSlotNumber(wordSet, 0, date.year, 2, 2, one);
-    REPORT_SET_MONTH(wordSet, one, date.month, one);
-    WORDSET_SetSlotNumber(wordSet, 2, date.day, 2, 0, one);
+    WORDSET_SetSlotNumber(wordSet, 0, date.year, 2, 2, REPORT_DIGITS);
+    REPORT_SET_MONTH(wordSet, REPORT_ONE, date.month, REPORT_DIGITS);
+    WORDSET_SetSlotNumber(wordSet, 2, date.day, 2, 0, REPORT_DIGITS);
     WORDSET_CopyTaggedText(wordSet, buf, msgDate);
-    printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, one);
+    printRecordLine(work, 1, buf, msgDate, 0, 0x3DC0, REPORT_ONE);
     msgTime = MSGDATA_AllocString(msgBank, 2);
     RTC_GetTime(&clock);
-    WORDSET_SetSlotNumber(wordSet, 0, clock.hour, 2, 0, one);
-    WORDSET_SetSlotNumber(wordSet, one, clock.minute, 2, 2, one);
+    WORDSET_SetSlotNumber(wordSet, 0, clock.hour, 2, 0, REPORT_DIGITS);
+    WORDSET_SetSlotNumber(wordSet, REPORT_ONE, clock.minute, 2, 2, REPORT_DIGITS);
     WORDSET_CopyTaggedText(wordSet, buf, msgTime);
-    printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
+    printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, REPORT_ONE);
     msgLocation = MSGDATA_AllocString(msgBank, 3);
     WORDSET_SetSlotFromMsg59(wordSet, 0, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem))));
     WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
-    printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
+    printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, REPORT_ONE);
     msgBadges = MSGDATA_AllocString(msgBank, 4);
-    WORDSET_SetSlotNumber(wordSet, 0, MISC_CountBadges(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, MISC_CountBadges(GAME_DATA_GetMiscSave(gameData)), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
-    printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
+    printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, REPORT_ONE);
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem)), 0x962) == 1) {
         msgPokedex = MSGDATA_AllocString(msgBank, 5);
-        WORDSET_SetSlotNumber(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(gameData), work->heapId), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(wordSet, buf, msgPokedex);
-        printRecordLine(work, 5, buf, msgPokedex, 0, 0x3DC0, one);
+        printRecordLine(work, 5, buf, msgPokedex, 0, 0x3DC0, REPORT_ONE);
     }
     msgPlayTime = MSGDATA_AllocString(msgBank, 6);
     currentPlayTime = GAME_DATA_GetPlayTime(gameData);
-    WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetHours(currentPlayTime), 3, 0, 1);
-    WORDSET_SetSlotNumber(wordSet, 1, PLAYTIME_GetMinutes(currentPlayTime), 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetHours(currentPlayTime), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(wordSet, 1, PLAYTIME_GetMinutes(currentPlayTime), 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(wordSet, buf, msgPlayTime);
-    printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, one);
+    printRecordLine(work, 6, buf, msgPlayTime, 0, 0x3DC0, REPORT_ONE);
     if (SAVE_CONTROL_WouldOverwriteSave(saveControl) == 0 && SAVE_CONTROL_HasFlashSave(saveControl) == 1) {
         playTime = SYSTEM_DATA_GetPlayTime(saveControl);
         msgLastSave = MSGDATA_AllocString(msgBank, 7);
-        WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetStampYear(playTime), 2, 2, 1);
-        REPORT_SET_MONTH(wordSet, 1, PLAYTIME_GetStampMonth(playTime), 1);
-        WORDSET_SetSlotNumber(wordSet, 2, PLAYTIME_GetStampDay(playTime), 2, 0, 1);
-        WORDSET_SetSlotNumber(wordSet, 3, PLAYTIME_GetStampHour(playTime), 2, 0, 1);
-        WORDSET_SetSlotNumber(wordSet, 4, PLAYTIME_GetStampMinute(playTime), 2, 2, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, PLAYTIME_GetStampYear(playTime), 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
+        REPORT_SET_MONTH(wordSet, 1, PLAYTIME_GetStampMonth(playTime), PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_SetSlotNumber(wordSet, 2, PLAYTIME_GetStampDay(playTime), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_SetSlotNumber(wordSet, 3, PLAYTIME_GetStampHour(playTime), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_SetSlotNumber(wordSet, 4, PLAYTIME_GetStampMinute(playTime), 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(wordSet, buf, msgLastSave);
-        printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, one);
+        printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, REPORT_ONE);
     } else BMP_WIN_TransferChars(work->windows[7].bmpWin);
     STRBUF_Delete(buf);
     WORDSET_Delete(wordSet);

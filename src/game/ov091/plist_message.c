@@ -140,7 +140,9 @@ struct PokelistWork;
 void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon);
 struct PokelistWork;
 void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+#endif
 void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId);
 void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 value);
 void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
@@ -150,6 +152,12 @@ void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, struct PlistMessage *unus
 void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg);
 struct PokelistWork;
 void PLIST_MESSAGE_DrawKeyCursorMark(struct PokelistWork *unused, PlistMessage *msg);
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PLIST_MESSAGE_KEYCURSOR_LIVE 0
+#else
+#define PLIST_MESSAGE_KEYCURSOR_LIVE 1
+#endif
 
 PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
 {
@@ -165,7 +173,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
     msg->wordSet = 0;
     msg->prompt = 0;
     msg->promptRequested = 0;
-    msg->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
+    msg->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, PLIST_MESSAGE_KEYCURSOR_LIVE, 1, work->heapId);
     msg->printSys = (struct PrintSys *)PRINTSYS_QUE_Create(work->heapId);
     return msg;
 }
@@ -250,7 +258,9 @@ void PLIST_MESSAGE_CloseWindow(PokelistWork *work, PlistMessage *msg)
         }
         BMP_MENUWORK_DrawWindowBorder(msg->window, 1);
         BMP_WIN_Delete(msg->window);
+#if LANGUAGE != LANGUAGE_JAPANESE
         PRINTSYS_QUE_Clear((struct PrintQueue *)msg->printSys);
+#endif
         msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
     }
 }
@@ -268,7 +278,7 @@ void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageI
 
     text = MSGDATA_AllocString(work->msgBank, messageId);
     if (msg->wordSet != 0) {
-        expanded = STRBUF_Create(0x100, work->heapId);
+        expanded = STRBUF_Create(PM_LANG_JA(0x100, 0x80), work->heapId);
         WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
         STRBUF_Delete(text);
         text = expanded;
@@ -287,7 +297,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
 
     text = MSGDATA_AllocString(work->msgBank, messageId);
     if (msg->wordSet != 0) {
-        expanded = STRBUF_Create(0x100, work->heapId);
+        expanded = STRBUF_Create(PM_LANG_JA(0x100, 0x80), work->heapId);
         WORDSET_CopyTaggedText(msg->wordSet, expanded, text);
         STRBUF_Delete(text);
         text = expanded;
@@ -297,8 +307,13 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
         PRINTSYS_PrintStreamDelete((struct TextPrinter *)msg->stream);
         STRBUF_Delete(msg->streamText);
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    msg->streamText = text;
+    msg->waitForKey = waitForKey;
+#else
     msg->waitForKey = waitForKey;
     msg->streamText = text;
+#endif
     PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)msg->streamWait, 6);
     msg->stream = (struct TextStream *)PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, MSG_SPEED_GetWait(), msg->taskList, 0,
                                 work->heapId, 0xf, PLIST_MESSAGE_StreamCallback);
@@ -342,13 +357,15 @@ void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *
 
 void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg36(msg->wordSet, index, itemId); }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg117(msg->wordSet, index, itemId); }
+#endif
 
 void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
 
 void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 value) { WORDSET_SetSlotFromMsgB4(msg->wordSet, index, (unsigned char)value); }
 
-void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, 1); }
+void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, PM_LANG_HALF_WIDTH_DIGITS); }
 
 void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, (struct Strbuf *)src, n, 1, PM_LANG_ID); }
 

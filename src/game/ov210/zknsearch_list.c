@@ -24,6 +24,7 @@
  *   ZKNSEARCH_MAIN_LookupEntryId 0x021BCEF4 thumb ov210
  *   d_021C0C48 0x021C0C48 data a4
  */
+#include "../version.h"
 #include "zknsearch_types.h"
 
 struct FrameList;
@@ -59,7 +60,11 @@ void ZKNSEARCH_LIST_InitFrameList(ZknSearchWork *ctx)
     FRAME_LIST_CopyMapToBuffer(ctx->frameList, archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(ctx->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (i = 0x33; i <= 0x5E; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i - 0x33); ctx->entries[i - 0x33] = MSGDATA_AllocString(ctx->msgBank, i); }
+#else
     for (i = 0; i < 26; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i); ctx->entries[i] = MSGDATA_AllocString(ctx->msgBank, i + 51); }
+#endif
 }
 
 void ZKNSEARCH_LIST_InitFrameList2(ZknSearchWork *ctx)
@@ -76,5 +81,9 @@ void ZKNSEARCH_LIST_InitFrameList2(ZknSearchWork *ctx)
     FRAME_LIST_CopyMapToBuffer(ctx->frameList, archive, 97, 0, 0);
     FRAME_LIST_LoadPalettes(ctx->frameList, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (i = 0x1F; i <= 0x2F; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i - 0x1F); ctx->entries[i - 0x1F] = MSGDATA_AllocString(ctx->msgBank, i); }
+#else
     for (i = 0; i <= 16; i++) { FRAME_LIST_AddItem(ctx->frameList, 0, i); ctx->entries[i] = MSGDATA_AllocString(ctx->msgBank, ZKNSEARCH_MAIN_LookupEntryId(ctx, i)); }
+#endif
 }

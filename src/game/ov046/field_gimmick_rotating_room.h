@@ -20,7 +20,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObjCnt *expObj, int mode
 void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObjCnt *expObj, int unitIdx);
 void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
 struct GameEvent;
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);

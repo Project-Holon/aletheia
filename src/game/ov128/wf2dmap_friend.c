@@ -818,9 +818,9 @@ void Wf2dmapFriend_ClearWindow(u8 *p)
 
 void Wf2dmapFriend_SetFriendCode(void **p,u64 value)
 {
-    WORDSET_SetSlotNumber(*p,1,(unsigned)(value/100000000ULL),4,2,1);
-    WORDSET_SetSlotNumber(*p,2,(unsigned)(value/10000ULL%10000ULL),4,2,1);
-    WORDSET_SetSlotNumber(*p,3,(unsigned)(value%10000ULL),4,2,1);
+    WORDSET_SetSlotNumber(*p,1,(unsigned)(value/100000000ULL),4,2,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(*p,2,(unsigned)(value/10000ULL%10000ULL),4,2,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(*p,3,(unsigned)(value%10000ULL),4,2,PM_LANG_HALF_WIDTH_DIGITS);
 }
 
 void Wf2dmapFriend_PrintMyStatus(u8 *p,u8 *q,int idx,unsigned heap)
@@ -847,21 +847,21 @@ int Wf2dmapFriend_PrintTrainerStats(u8 *p,u8 *q,int idx)
     result=1;
     v=WIFILIST_GetFriendInfoField(base,idx,7);
     if(v==0) result=0;
-    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,2,v,2,0,1);
+    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,2,v,2,PM_LANG_JA(0,1),PM_LANG_HALF_WIDTH_DIGITS);
     v=WIFILIST_GetFriendInfoField(base,idx,5);
-    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,0,v,4,1,1);
+    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,0,v,4,1,PM_LANG_HALF_WIDTH_DIGITS);
     v=WIFILIST_GetFriendInfoField(base,idx,6);
 #if PM_LANG_MONTH_AS_NAME
     WORDSET_SetSlotMonth(((Wf2dmapTouchGfx *)p)->wordSet,1,v);
 #else
-    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,1,v,2,0,1);
+    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,1,v,2,PM_LANG_JA(0,1),PM_LANG_HALF_WIDTH_DIGITS);
 #endif
     return result;
 }
 
 void Wf2dmapFriend_SetWordSlot(char **p, int a)
 {
-    WORDSET_SetSlotNumber((struct WordSet *)(*p), 0, a, 4, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)(*p), 0, a, 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
 }
 
 /*

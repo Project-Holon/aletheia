@@ -268,6 +268,13 @@ struct GFLNetHandle;
 #include "../arm9/touchpanel.h"
 #include "../arm9/nns_gfd_vram_transfer.h"
 #include "../arm9/fx_vec.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_RHYTHM_MSG_ARCHIVE 0x33
+#else
+#define IRC_RHYTHM_MSG_ARCHIVE 0x34
+#endif
 int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context);
 int IRC_RHYTHM_Exit(struct Proc *proc,int unused1,int unused2,IrcRhythm *work);
 int IRC_RHYTHM_Main(void *proc,u32 *state,void *unused,IrcRhythm *work);
@@ -555,7 +562,7 @@ void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
   break;
  }
  text->printQueue=PRINTSYS_QUE_Create(heapId);
- text->msgData=MSGDATA_CreateFromArchive(0,2,0x34,heapId);
+ text->msgData=MSGDATA_CreateFromArchive(0,2,IRC_RHYTHM_MSG_ARCHIVE,heapId);
  text->wordSet=WORDSET_CreateDefault(heapId);
  ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,4,0x1C0,0x20,heapId);
  ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x1C0,0x20,heapId);

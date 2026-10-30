@@ -15,6 +15,7 @@ struct Bmp;
 struct TcbTask;
 struct TextPrinter;
 
+#include "../version.h"
 #include "../ov021/field_msgbg_types.h"
 #include "../types.h"
 #include "../arm9/bmp_menu_types.h"
@@ -82,9 +83,15 @@ void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 *outIndex, u32 margin);
 unsigned FIELD_MSGBG_GetMenuItemCount(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsWidthChars(FieldMsgBg *msgBg, BmpMenuWork *items, u32 fontId, u32 margin);
+#if LANGUAGE == LANGUAGE_JAPANESE
+unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing);
+#else
 unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing, int scrolls);
+#endif
 FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 itemCount, u16 x, u16 y, u16 width, u16 height);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
+#endif
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header);
 FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);

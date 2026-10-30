@@ -266,6 +266,13 @@ struct GameSystem;
 #include "../arm9/nns_gfd_vram_transfer.h"
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define CG_HELP_MSG_ARCHIVE 22
+#else
+#define CG_HELP_MSG_ARCHIVE 21
+#endif
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
 int CG_HELP_Main(CgHelpWork *work);
@@ -485,7 +492,7 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     CgHelpMenuItem req;
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
     GF_FONT_SetTextColor(15, 2, 0);
-    work->msgData = MSGDATA_CreateFromArchive(0, 2, 21, work->heapId);
+    work->msgData = MSGDATA_CreateFromArchive(0, 2, CG_HELP_MSG_ARCHIVE, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 480, 32, work->heapId);
     BMP_MENUWORK_LoadCharAndPltt(5, 1, 13, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, BMP_MENUWORK_GetPlttFileId(0), 4, 416, 64, work->heapId);

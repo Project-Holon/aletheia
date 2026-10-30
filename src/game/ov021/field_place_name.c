@@ -127,7 +127,11 @@ struct FieldMsgContext;
 #define FIELD_PLACE_NAME_BG_TEMPLATE_ADDR 0x021DE334
 
 #define FIELD_PLACE_NAME_BG_LAYER 3
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define FIELD_PLACE_NAME_MAX_MESSAGE_CHARS 28
+#else
 #define FIELD_PLACE_NAME_MAX_MESSAGE_CHARS 32
+#endif
 #define FIELD_PLACE_NAME_PLACE_COUNT 0x75
 #define FIELD_PLACE_NAME_FADE_IN_FRAMES 10
 #define FIELD_PLACE_NAME_FADE_OUT_FRAMES 20
@@ -241,6 +245,10 @@ void FIELD_PLACE_NAME_FreeWork(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_CreateMessage(FieldPlaceName *placeName);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void FIELD_PLACE_NAME_CreateBmp(FieldPlaceName *placeName);
+void FIELD_PLACE_NAME_DeleteBmp(FieldPlaceName *placeName);
+#endif
 void FIELD_PLACE_NAME_CreateBmpWin(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_DeleteWordSet(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_DeleteMsgData(FieldPlaceName *placeName);
@@ -265,6 +273,7 @@ Strbuf *FIELD_PLACE_NAME_GetMessage(FieldPlaceName *placeName);
 u8 FIELD_PLACE_NAME_GetMessageLength(FieldPlaceName *placeName);
 u32 FIELD_PLACE_NAME_HasWindow(u32 zoneId);
 #include "place_name_letter.h"
+#include "../version.h"
 Bmp *PLACE_NAME_LETTER_GetBmp(PlaceNameLetter *letter);
 
 /* Creates the banner work and every part of it; msgContext supplies the font. */
@@ -290,6 +299,9 @@ FieldPlaceName *FIELD_PLACE_NAME_Create(GameSystem *gameSystem, u32 heapId, stru
     BG_SYS_InitBgLayer(FIELD_PLACE_NAME_BG_LAYER, (const struct BgTemplate *)FIELD_PLACE_NAME_BG_TEMPLATE_ADDR, 0);
     FIELD_PLACE_NAME_LoadPaletteFile(placeName);
     FIELD_PLACE_NAME_AllocBgChars(placeName);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    FIELD_PLACE_NAME_CreateBmp(placeName);
+#endif
     FIELD_PLACE_NAME_CreateBmpWin(placeName);
     FIELD_PLACE_NAME_SetState(placeName, FIELD_PLACE_NAME_STATE_IDLE);
     return placeName;
@@ -308,6 +320,9 @@ void FIELD_PLACE_NAME_Delete(FieldPlaceName *placeName)
     FIELD_PLACE_NAME_DeleteWordSet(placeName);
     FIELD_PLACE_NAME_DeleteMsgData(placeName);
     FIELD_PLACE_NAME_DeleteBmpWin(placeName);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    FIELD_PLACE_NAME_DeleteBmp(placeName);
+#endif
     FIELD_PLACE_NAME_FreeBgChars(placeName);
     FIELD_PLACE_NAME_DeleteArcHandle(placeName);
     BG_SYS_FreeLayerBuf(FIELD_PLACE_NAME_BG_LAYER);
@@ -422,6 +437,9 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
 
     FIELD_PLACE_NAME_TransferPalette(placeName);
     FIELD_PLACE_NAME_AllocBgChars(placeName);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    FIELD_PLACE_NAME_CreateBmp(placeName);
+#endif
     FIELD_PLACE_NAME_CreateBmpWin(placeName);
     bmpWin = placeName->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
@@ -438,6 +456,9 @@ void FIELD_PLACE_NAME_ReleaseWindow(FieldPlaceName *placeName)
     BG_SYS_FreeSlot(FIELD_PLACE_NAME_BG_LAYER);
     FIELD_PLACE_NAME_FreeBgChars(placeName);
     FIELD_PLACE_NAME_DeleteBmpWin(placeName);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    FIELD_PLACE_NAME_DeleteBmp(placeName);
+#endif
 }
 
 void FIELD_PLACE_NAME_ResetWindow(FieldPlaceName *placeName)
@@ -455,7 +476,7 @@ void FIELD_PLACE_NAME_LoadPaletteFile(FieldPlaceName *placeName)
 
     heapId = FIELD_PLACE_NAME_GetHeapId(placeName);
     arcHandle = FIELD_PLACE_NAME_GetArcHandle(placeName);
-    file = (NitroFileHeader *)GFL_HEAP_Alloc(heapId, ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
+    file = (NitroFileHeader *)GFL_HEAP_Alloc(heapId, ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, PM_SRC_LINE(0x2c8, 0x2a8));
     placeName->paletteFile = file;
     ARC_TOOL_ReadHandleMember((struct ArcHandle *)arcHandle, 1, file);
     NNS_G2dGetUnpackedPaletteData(placeName->paletteFile, (void **)&placeName->paletteBlock);
@@ -494,7 +515,12 @@ void FIELD_PLACE_NAME_FreeBgChars(FieldPlaceName *placeName)
 /* Clears the window bitmap. */
 void FIELD_PLACE_NAME_ClearWindow(FieldPlaceName *placeName)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    Bmp *src = placeName->bmp;
+    BMP_CopyPixels(src, BMP_WIN_GetBmp(placeName->bmpWin));
+#else
     BMP_Clear(BMP_WIN_GetBmp(placeName->bmpWin), 3);
+#endif
 }
 
 void FIELD_PLACE_NAME_CreateClactRenderer(FieldPlaceName *placeName)
@@ -575,7 +601,9 @@ void FIELD_PLACE_NAME_DeleteArcHandle(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_ResetSpawnCounts(FieldPlaceName *placeName)
 {
     placeName->spawnedCount = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
     placeName->skippedSpaceCount = 0;
+#endif
 }
 
 /*
@@ -601,6 +629,13 @@ void FIELD_PLACE_NAME_SpawnNextLetter(FieldPlaceName *placeName)
     param = gPlaceNameLetterDefaultParam;
     param.font = placeName->font;
     param.ch = chars[letterIndex];
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (i = 0; i < letterIndex; i++) {
+        param.targetX += PLACE_NAME_LETTER_GetWidth(placeName->letters[i]);
+        param.targetX += 1.0f;
+    }
+    PLACE_NAME_LETTER_Setup(placeName->letters[letterIndex], &param);
+#else
     for (i = 0; i < letterIndex; i++) {
         if (placeName->shownLetters[i] == 0) {
             param.targetX += GF_FONT_GetCharWidth(placeName->font, 0x20);
@@ -615,6 +650,7 @@ void FIELD_PLACE_NAME_SpawnNextLetter(FieldPlaceName *placeName)
     } else {
         PLACE_NAME_LETTER_Setup(placeName->shownLetters[letterIndex] = placeName->letters[letterIndex - placeName->skippedSpaceCount], &param);
     }
+#endif
     placeName->spawnedCount++;
 }
 
@@ -639,10 +675,15 @@ void FIELD_PLACE_NAME_HideLetters(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_LaunchNextLetter(FieldPlaceName *placeName)
 {
     u8 i = placeName->launchedCount++;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    PLACE_NAME_LETTER_Start(placeName->letters[i]);
+    PLACE_NAME_LETTER_SetVisible(placeName->letters[i], 1);
+#else
     if (placeName->shownLetters[i] != 0) {
         PLACE_NAME_LETTER_Start(placeName->shownLetters[i]);
         PLACE_NAME_LETTER_SetVisible(placeName->shownLetters[i], 1);
     }
+#endif
 }
 
 /* Moves every started letter. */
@@ -651,9 +692,13 @@ void FIELD_PLACE_NAME_UpdateLetters(FieldPlaceName *placeName)
     int count = FIELD_PLACE_NAME_GetMessageLength(placeName);
     int i;
     for (i = 0; i < count; i++) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        PLACE_NAME_LETTER_Update(placeName->letters[i]);
+#else
         if (placeName->shownLetters[i] != 0) {
             PLACE_NAME_LETTER_Update(placeName->shownLetters[i]);
         }
+#endif
     }
 }
 
@@ -683,8 +728,13 @@ void FIELD_PLACE_NAME_BlitNextLetter(FieldPlaceName *placeName)
     Bmp *windowBmp;
     u16 srcX, srcY, width, height;
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+    letter = placeName->letters[placeName->blittedCount];
+    {
+#else
     letter = placeName->shownLetters[placeName->blittedCount];
     if (letter != 0) {
+#endif
         letterBmp = PLACE_NAME_LETTER_GetBmp(letter);
         windowBmp = BMP_WIN_GetBmp(placeName->bmpWin);
         srcX = PLACE_NAME_LETTER_GetX(letter);
@@ -960,8 +1010,12 @@ void FIELD_PLACE_NAME_StateLettersLand(FieldPlaceName *placeName)
     switch (FIELD_PLACE_NAME_GetStep(placeName)) {
     case 0:
         for (i = 0; i < placeName->messageLength; i++) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            if (PLACE_NAME_LETTER_IsActive(placeName->letters[i]) != 0) {
+#else
             PlaceNameLetter *letter = placeName->shownLetters[i];
             if (letter != 0 && PLACE_NAME_LETTER_IsActive(letter) != 0) {
+#endif
                 allLanded = 0;
                 break;
             }
@@ -1050,7 +1104,7 @@ void FIELD_PLACE_NAME_DrawFadeOut(FieldPlaceName *placeName)
 
 FieldPlaceName *FIELD_PLACE_NAME_AllocWork(u32 heapId)
 {
-    return GFL_HEAP_Alloc(heapId, 0x154, 1, (const char *)&gFieldPlaceNameFileName, 0x73C);
+    return GFL_HEAP_Alloc(heapId, sizeof(FieldPlaceName), 1, (const char *)&gFieldPlaceNameFileName, PM_SRC_LINE(0x73C, 0x705));
 }
 
 void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem)
@@ -1082,8 +1136,20 @@ void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateMessage(FieldPlaceName *placeName)
 {
-    placeName->message = STRBUF_Create(0x21, FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->message = STRBUF_Create(FIELD_PLACE_NAME_MAX_MESSAGE_CHARS + 1, FIELD_PLACE_NAME_GetHeapId(placeName));
 }
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* BMP_CreateFromHandle of the Japanese ARM9 (black_ja 0x02043758). */
+extern struct Bmp *BMP_CreateFromHandle_ja_02043758(void *arc, u32 memberId, u32 compressed, u32 heapId);
+
+void FIELD_PLACE_NAME_CreateBmp(FieldPlaceName *placeName)
+{
+    u16 heapId = FIELD_PLACE_NAME_GetHeapId(placeName);
+    ArcFile *arcHandle = FIELD_PLACE_NAME_GetArcHandle(placeName);
+    placeName->bmp = BMP_CreateFromHandle_ja_02043758(arcHandle, 0, 0, heapId);
+}
+#endif
 
 void FIELD_PLACE_NAME_CreateBmpWin(FieldPlaceName *placeName)
 {
@@ -1116,6 +1182,16 @@ void FIELD_PLACE_NAME_DeleteMessage(FieldPlaceName *placeName)
         placeName->message = 0;
     }
 }
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+void FIELD_PLACE_NAME_DeleteBmp(FieldPlaceName *placeName)
+{
+    if (placeName->bmp != 0) {
+        BMP_Delete(placeName->bmp);
+        placeName->bmp = 0;
+    }
+}
+#endif
 
 void FIELD_PLACE_NAME_DeleteBmpWin(FieldPlaceName *placeName)
 {

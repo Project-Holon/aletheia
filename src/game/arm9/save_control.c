@@ -35,6 +35,8 @@
  *   _pSaveControl  0x02146168  data
  *   _MainSaveDesc  0x0209D938  data
  *   _EmptyString  0x020A7064  data
+ *   _SaveControlWorkText  0x020A7068  data
+ *   _ExtraSaveText  0x020A7080  data
  *   GFL_HEAP_Free       0x020307B0  arm
  *   BACKUP_SYSTEM_Delete       0x0203195C  arm
  *   SYSTEM_DATA_ClearMark  0x020087C0  thumb
@@ -61,6 +63,7 @@
  *   SYSTEM_DATA_ClearActive  0x02008774  thumb
  */
 #include "btl_setup_types.h"
+#include "../version.h"
 #include "../types.h"
 
 struct BackupSaveData;   /* backup_system.c: one flash save area (main or extra) */
@@ -183,6 +186,18 @@ extern const char _SaveControlFileName[];        /* "save_control.c" */
 
 extern const char _EmptyString[];                /* assert text of the first file, empty */
 
+/*
+ * The Japanese cartridge keeps the text of its assertions: the file name, the line and the
+ * expression (SaveControlWork != NULL, and so on).  The other cartridges pass the empty string.
+ */
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char _SaveControlWorkText[];        /* "SaveControlWork != NULL" */
+extern const char _ExtraSaveText[];              /* "ctrl->sv_extra[extra_id] != NULL" */
+#define SAVE_CONTROL_ASSERT_FAIL(line, text) GF_PANIC_Fail(_SaveControlFileName, line, text)
+#else
+#define SAVE_CONTROL_ASSERT_FAIL(line, text) GF_PANIC_Fail(_EmptyString, 0, _EmptyString)
+#endif
+
 /* Own functions that are used before their definition. */
 void SAVE_CONTROL_EraseOutsideSave(void);
 
@@ -292,7 +307,7 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
         BACKUP_SYSTEM_ClearWork(saveControl->mainSave);
         break;
     default:
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(176, _EmptyString);
         break;
     }
     return saveControl;
@@ -320,7 +335,7 @@ void SAVE_CONTROL_Delete(void)
 struct SaveControl *SAVE_CONTROL_Get(void)
 {
     if (_pSaveControl == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(211, _SaveControlWorkText);
     }
     return _pSaveControl;
 }
@@ -598,7 +613,7 @@ u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 hea
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(596, _ExtraSaveText);
     }
     BACKUP_SYSTEM_Delete(saveControl->extraSaves[slot]);
     saveControl->extraSaves[slot] = 0;
@@ -629,7 +644,7 @@ void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(692, _ExtraSaveText);
     }
     BACKUP_SYSTEM_Delete(saveControl->extraSaves[slot]);
     saveControl->extraSaves[slot] = 0;
@@ -651,7 +666,7 @@ void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(707, _ExtraSaveText);
     }
     SYSTEM_DATA_SetMark(saveControl, slot);
     BACKUP_SYSTEM_InitLinkedSave(saveControl->mainSave, extraSaves[slot], SYSTEM_DATA_GetWordSlot(saveControl, slot));
@@ -672,7 +687,7 @@ int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(726, _ExtraSaveText);
     }
     return BACKUP_SYSTEM_MainLinkedSave(saveControl->mainSave, extraSaves[slot]);
 }
@@ -684,7 +699,7 @@ int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
 void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(744, _ExtraSaveText);
     }
     return BACKUP_SYSTEM_GetRecordWork(saveControl->extraSaves[slot], recordId);
 }
@@ -704,7 +719,7 @@ void SAVE_CONTROL_EraseExtraSave(struct SaveControl *saveControl, u32 slot, u32 
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
+        SAVE_CONTROL_ASSERT_FAIL(774, _ExtraSaveText);
     }
     BACKUP_SYSTEM_Erase(extraSaves[slot], heapId);
 }

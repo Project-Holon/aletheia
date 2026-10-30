@@ -1697,12 +1697,20 @@ int SCRCMD_POKEMON_FLD_PrepareGiftMonMessage(struct WordSet *wordSet, MysteryGif
     messageId = MYSTERY_GIFT_MSG_MON_RECEIVED;
     WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
     if (mon == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORDSET_SetSlotSpeciesName(wordSet, 1, 0);
+#else
         WORDSET_SetSlotFromMsg119(wordSet, 1, 0);
+#endif
     } else {
         if (POKE_TOOL_GetPartyValue(mon, MYSTERY_GIFT_MON_PARAM_IS_EGG, 0) == 1)
             messageId = MYSTERY_GIFT_MSG_EGG_RECEIVED;
         else
+#if LANGUAGE == LANGUAGE_JAPANESE
+            WORDSET_SetSlotMonSpeciesName(wordSet, 1, mon);
+#else
             WORDSET_SetSlotMonNameEx(wordSet, 1, mon);
+#endif
         GFL_HEAP_Free(mon);
     }
     return messageId;
@@ -1900,7 +1908,7 @@ int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(struct ScriptVm *vm, ScrcmdWork 
     count >>= 3;
     for (i = 0; i < count; i++) {
         if (key == table[i].key) {
-            WORDSET_SetSlotNumber(wordSet, bufferId, table[i].value, digits, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, bufferId, table[i].value, digits, 0, PM_LANG_HALF_WIDTH_DIGITS);
             break;
         }
     }

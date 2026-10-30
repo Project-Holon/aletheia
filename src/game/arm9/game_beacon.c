@@ -212,6 +212,10 @@ extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
 
 
 #include "gfl_use.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_020A7260[];
+extern const char str_ja_020A7270[];
+#endif
 
 void GAME_BEACON_Create(u32 heapId);
 
@@ -344,9 +348,9 @@ void GAME_BEACON_Create(u32 heapId)
     u32 one = 1;
 
     if (GAME_BEACON_Work != 0) {
-        GF_PANIC_Fail(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
+        GF_PANIC_Fail(PM_LANG_JA(GAME_BEACON_AssertText, str_ja_020A7260), PM_SRC_LINE(0, 0x58), PM_LANG_JA(GAME_BEACON_AssertText, str_ja_020A7270));
     }
-    GAME_BEACON_Work = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconWork), one, GAME_BEACON_FileName, 0x5a);
+    GAME_BEACON_Work = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconWork), one, PM_LANG_JA(GAME_BEACON_FileName, str_ja_020A7260), 0x5a);
     GAME_BEACON_Work->newestIndex = (u8)(one - 2);
 }
 

@@ -83,6 +83,7 @@
  *   CTVT_CAMVIEW_UploadWindows  0x021B71B8  thumb  ov172
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
  */
+#include "../version.h"
 #include "ctvt_camera_types.h"
 #include "../sdk_ioreg.h"
 
@@ -116,6 +117,8 @@ extern int OS_IsRunOnTwl(int);
 
 extern const char d_021C71E0[];
 extern const char d_021C71F0[];
+extern const char str_ja_021C7080[];
+extern const char str_ja_021C7090[];
 extern u32 gCtvtWindowHeightTable[];
 extern u32 gCtvtWindowWidthTable[];
 extern u32 gCtvtSlotStepTable[];
@@ -156,7 +159,7 @@ CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId)
     void *halfPicture;
     u8 i;
 
-    view = GFL_HEAP_Alloc(heapId, sizeof(CtvtCamView), 1, d_021C71E0, 0x67);
+    view = GFL_HEAP_Alloc(heapId, sizeof(CtvtCamView), 1, PM_LANG_JA(d_021C71E0, str_ja_021C7080), 0x67);
     arcHandle = COMM_TVT_SYS_GetArc(work);
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         view->heapId = 0x6E;
@@ -167,9 +170,9 @@ CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         CTVT_CAMERA_AllocFrames((Camera *)view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
         CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))(((void *)CTVT_CAMVIEW_OnCameraFrame)), (uptr)work);
         CTVT_CAMERA_StartCapture(view->camera);
-        view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
-        view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
-        view->cropBuf = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x78);
+        view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, PM_LANG_JA(d_021C71E0, str_ja_021C7080), 0x76);
+        view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, PM_LANG_JA(d_021C71E0, str_ja_021C7080), 0x77);
+        view->cropBuf = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, PM_LANG_JA(d_021C71E0, str_ja_021C7080), 0x78);
         view->noSignalFull = ARC_UTIL_LoadHandleMember(arcHandle, 0x19, 0, view->heapId);
         halfPicture = ARC_UTIL_LoadHandleMember(arcHandle, 0x1A, 0, view->heapId);
     } else {
@@ -188,7 +191,7 @@ CtvtCamView *CTVT_CAMVIEW_Create(void *work, u16 heapId)
     view->revealing = i;
     view->shutterReq0 = i;
     view->shutterReq1 = i;
-    view->screenBuf = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), 0x18000, 1, d_021C71E0, 0x8C);
+    view->screenBuf = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), 0x18000, 1, PM_LANG_JA(d_021C71E0, str_ja_021C7080), 0x8C);
     for (i = 0; i < 4; i++) {
         CTVT_CAMVIEW_SetWindowCurRect(&view->window[i], 0, 0, 0, 0);
         CTVT_CAMVIEW_SetWindowTargetRect(&view->window[i], 0, 0, 0, 0);
@@ -469,7 +472,11 @@ void CTVT_CAMVIEW_OnCameraFrame(char *frame, void *work)
             MIi_CpuCopy32(frame + i * 0x200 + 0x80, (char *)view->cropBuf + i * 0x100, 0x100);
     }
     if (screenSplit == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_021C7080, 0x220, str_ja_021C7090);
+#else
         GF_PANIC_Fail(d_021C71F0, 0, d_021C71F0);
+#endif
         return;
     }
     slot = selfSlot;

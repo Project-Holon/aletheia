@@ -227,6 +227,7 @@
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
 
+#include "../version.h"
 #include "../types.h"
 #include "../arm9/poke_tool_param.h"
 
@@ -1704,6 +1705,13 @@ struct GameEvent *FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, v
     int inputDir = FIELD_PLAYER_ChooseMoveDirFromKeys(player, input->keyCont);
 
     if (inputDir == 1) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        /* The Japanese cartridge reads signs in every move state. */
+        if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(input->tileAttr))) {
+            if (FLDMMDL_RAIL_GetHitBitsDirNoAttr(playerMmdl, inputDir) & 3)
+                return RAIL_SLIPDOWN_StartAtPlayer(gameSystem, fieldMap, inputDir);
+        }
+#else
         int moveState = input->moveState;
         if (moveState == 0 || moveState == 3) {
             if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(input->tileAttr))) {
@@ -1711,6 +1719,7 @@ struct GameEvent *FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, v
                     return RAIL_SLIPDOWN_StartAtPlayer(gameSystem, fieldMap, inputDir);
             }
         }
+#endif
     }
     return 0;
 }

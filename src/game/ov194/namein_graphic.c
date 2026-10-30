@@ -698,6 +698,7 @@ void *NAMEIN_GRAPHIC_LoadWord(void *const *p);
 #include "nsbtx_to_clwk.h"
 
 extern const u8 d_021F5569[];
+extern const u8 d_ja_021F53C4[];
 
 extern short FX_SinCosTable_[];
 
@@ -715,10 +716,10 @@ int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *p,NameinGraphicPair *out) {
  int result;NameinGraphicPair xy;
  result=0;
  switch((unsigned)p->y) {
- case 0: if(p->x==10)result=6;else {xy=*p;result=1;}break;
- case 1: if(p->x==9)result=7;else {xy=*p;result=1;}break;
- case 2: if(p->x==0 || p->x==9)result=8;else {xy.x=p->x-1;xy.y=p->y;result=1;}break;
- case 3: result=9;if(p->x!=4)result=p->x+2;break;
+ case 0: if(p->x==10)result=NAMEIN_KIND_BACK;else {xy=*p;result=1;}break;
+ case 1: if(p->x==9)result=NAMEIN_KIND_OK;else {xy=*p;result=1;}break;
+ case 2: if(p->x==0 || p->x==9)result=NAMEIN_KIND_TOGGLE;else {xy.x=p->x-1;xy.y=p->y;result=1;}break;
+ case 3: result=NAMEIN_KIND_SPACE;if(p->x!=PM_LANG_JA(4,5))result=p->x+2;break;
  }
  if(result==1 && out) {*out=xy;}return result;
 }
@@ -738,12 +739,16 @@ void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void **data,
  ((NameinGraphicGrid *)p)->mode=mode;((NameinGraphicGrid *)p)->targetMode=mode;((NameinGraphicGrid *)p)->data=data;
  ((NameinGraphicGrid *)p)->paletteHandleA=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(void *)((((void *)&((struct NameinGraphicGrid *)p)->paletteDataA))),heap);
  ((NameinGraphicGrid *)p)->paletteHandleB=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(void *)((((void *)&((struct NameinGraphicGrid *)p)->paletteDataB))),heap);
- if(mode==3){BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
+ if(mode==NAMEIN_GRAPHIC_MODE_SYMBOL){BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);BG_SYS_SetPlaneVisible(2,1);}
  BG_SYS_PushTile(1);
  NAMEIN_GRAPHIC_InitCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),mode,palette,heap);
+#if LANGUAGE == LANGUAGE_JAPANESE
+ NAMEIN_GRAPHIC_InitPicker((char *)p,mode,((NameinGraphicGrid *)p)->data,heap);
+#else
  index=NAMEIN_GRAPHIC_GridIndex(((NameinGraphicGrid *)p)->mode,((NameinGraphicGrid *)p)->index,((struct NameinGraphicGrid *)p)->variant);
  NAMEIN_GRAPHIC_InitPicker((char *)p,mode,index,((NameinGraphicGrid *)p)->data,heap);
+#endif
  bg=(void *)BMP_WIN_Create(3,3,5,26,15,15,1);
  ((NameinGraphicGrid *)p)->bmpWin=bg;
  BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);BG_SYS_PushTile(BMP_WIN_GetBgLayer(bg));
@@ -780,7 +785,7 @@ void NAMEIN_GRAPHIC_UpdateGrid(char *p,char *q)
         if(NAMEIN_GRAPHIC_AnimateGrid(p))((NameinGraphicGrid *)p)->state=0;
         break;
     case 1:
-        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));((NameinGraphicGrid *)p)->action=11;}
+        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,NAMEIN_KIND_OK,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));((NameinGraphicGrid *)p)->action=11;}
         ((NameinGraphicGrid *)p)->state=0;
         break;
     }
@@ -813,14 +818,16 @@ int NAMEIN_GRAPHIC_IsGridDrawDone(char *p) {
 
 int NAMEIN_GRAPHIC_GetGridMode(const u8 *p) {return ((NameinGraphicGrid *)p)->mode;}
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 NAMEIN_GRAPHIC_GridIndex(u32 a,u32 b,u32 c) {if(a==3) a=b+(a+2*c);return a;}
+#endif
 
 int NAMEIN_GRAPHIC_SetGridMode(char *p,int mode) {
  int flag;
  if(((NameinGraphicGrid *)p)->targetMode!=mode) {
  ((NameinGraphicGrid *)p)->targetMode=mode;((NameinGraphicGrid *)p)->animTick=0;((NameinGraphicGrid *)p)->animPhase=0;((NameinGraphicGrid *)p)->animActive=1;
  flag=0;
- if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)flag=1;
+ if(mode==NAMEIN_GRAPHIC_MODE_SYMBOL || ((NameinGraphicGrid *)p)->mode==NAMEIN_GRAPHIC_MODE_SYMBOL)flag=1;
  ((NameinGraphicGrid *)p)->extraLayer=flag;
  if(flag)G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,14,47,16,16);
  else G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,10,47,16,16);
@@ -870,7 +877,7 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
         ((struct NameinGraphicGrid *)p)->animPhase = 3;
         BG_SYS_SetPlaneVisible(1, 1);
         BG_SYS_SetPlaneVisible(3, 1);
-        if (((struct NameinGraphicGrid *)p)->mode != 3) BG_SYS_SetPlaneVisible(2, 1);
+        if (((struct NameinGraphicGrid *)p)->mode != NAMEIN_GRAPHIC_MODE_SYMBOL) BG_SYS_SetPlaneVisible(2, 1);
         *(u16 *)0x04000052 = 1 << 12;
         break;
     case 3:
@@ -898,23 +905,28 @@ void NAMEIN_GRAPHIC_SwitchGridMode(char *p, u32 mode) {
  int index;
  if(((NameinGraphicGrid *)p)->mode==mode)return;
  NAMEIN_GRAPHIC_ClearPicker(p);
+#if LANGUAGE == LANGUAGE_JAPANESE
+ NAMEIN_GRAPHIC_InitPicker(p,mode,((NameinGraphicGrid *)p)->data,((NameinGraphicGrid *)p)->heap);
+#else
  index=NAMEIN_GRAPHIC_GridIndex(mode,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->variant);
  NAMEIN_GRAPHIC_InitPicker(p,mode,index,((NameinGraphicGrid *)p)->data,((NameinGraphicGrid *)p)->heap);
+#endif
  BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicGrid *)p)->bmpWin),0);
  NAMEIN_GRAPHIC_DrawCellTips(p,((void *)&((struct NameinGraphicGrid *)p)->tipBmp),(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
- if(mode==3) {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
+ if(mode==NAMEIN_GRAPHIC_MODE_SYMBOL) {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);
  BG_SYS_PushTile(1);
- if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)NAMEIN_GRAPHIC_ConvertCellMode((NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),((NameinGraphicGrid *)p)->mode,mode);
+ if(mode==NAMEIN_GRAPHIC_MODE_SYMBOL || ((NameinGraphicGrid *)p)->mode==NAMEIN_GRAPHIC_MODE_SYMBOL)NAMEIN_GRAPHIC_ConvertCellMode((NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),((NameinGraphicGrid *)p)->mode,mode);
  ((NameinGraphicGrid *)p)->mode=mode;
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 /*
  * volatile: 021F3676 and 021F3696 re-read the mode word at +0x100.
  */
 void NAMEIN_GRAPHIC_SetGridSelection(char *p,int index,int variant) {
  int selected;
- if(*(volatile int *)&((NameinGraphicGrid *)p)->mode!=3)return;
+ if(*(volatile int *)&((NameinGraphicGrid *)p)->mode!=NAMEIN_GRAPHIC_MODE_SYMBOL)return;
  if(((NameinGraphicGrid *)p)->variant==variant && ((NameinGraphicGrid *)p)->index==index)return;
  selected=NAMEIN_GRAPHIC_GridIndex(((u32)((NameinGraphicGrid *)p)->mode),(int)index,(unsigned char)variant);
  NAMEIN_GRAPHIC_LoadGrid((void **)p,selected,((NameinGraphicGrid *)p)->data);
@@ -922,6 +934,7 @@ void NAMEIN_GRAPHIC_SetGridSelection(char *p,int index,int variant) {
  NAMEIN_GRAPHIC_DrawCellTips(p,((void *)&((struct NameinGraphicGrid *)p)->tipBmp),(void *)(((NameinGraphicGrid *)p)->printSys),(void *)(((NameinGraphicGrid *)p)->font),((NameinGraphicGrid *)p)->heap);
  ((NameinGraphicGrid *)p)->index=index;((NameinGraphicGrid *)p)->variant=variant;
 }
+#endif
 
 int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
 {
@@ -934,7 +947,7 @@ int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
     else if(KEY_GetRepeat()&16){delta.x=1;delta.y=0;changed=1;}
     else if(KEY_GetTrg()&8){
         delta.x=0;delta.y=0;changed=1;
-        NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
+        NAMEIN_GRAPHIC_FindCellByValue(p,NAMEIN_KIND_OK,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
         NAMEIN_GRAPHIC_PickerMove(p,(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),(int *)&delta);
     }
     if(changed){
@@ -965,11 +978,11 @@ int NAMEIN_GRAPHIC_KanaKeyAction(char *p,int *out)
         out[1]=1;changed=1;
     }
     if(KEY_GetTrg()==2) {
-        NAMEIN_GRAPHIC_FindCellByValue(p,6,(NameinGraphicPair *)(out+2));out[0]=6;changed=1;
+        NAMEIN_GRAPHIC_FindCellByValue(p,NAMEIN_KIND_BACK,(NameinGraphicPair *)(out+2));out[0]=NAMEIN_KIND_BACK;changed=1;
     }
     if(KEY_GetTrg()==4) {
         out[0]=((NameinGraphicGrid *)p)->mode+3;
-        if(out[0]>5)out[0]=2;
+        if(out[0]>NAMEIN_KIND_LAST_PAGE)out[0]=2;
         NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
         *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));changed=1;
     }
@@ -1001,19 +1014,31 @@ void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
     else code=input[0];
     switch(code){
     case 0:break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 1:((NameinGraphicGrid *)p)->action=(((NameinGraphicGrid *)p)->mode==NAMEIN_GRAPHIC_MODE_SYMBOL)?2:1;((NameinGraphicGrid *)p)->state=1;break;
+#else
     case 1:((NameinGraphicGrid *)p)->action=1;((NameinGraphicGrid *)p)->state=1;break;
-    case 9:((NameinGraphicGrid *)p)->action=9;((NameinGraphicGrid *)p)->state=1;break;
+#endif
+    case NAMEIN_KIND_SPACE:((NameinGraphicGrid *)p)->action=9;((NameinGraphicGrid *)p)->state=1;break;
     case 2:case 3:case 4:case 5:
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 6:
+#endif
         if(NAMEIN_GRAPHIC_SetGridMode(p,code-2)){
             GFL_USE_PlaySeDefaultVolume(1611);((NameinGraphicGrid *)p)->state=2;((NameinGraphicGrid *)p)->action=6;
         }break;
-    case 6:((NameinGraphicGrid *)p)->action=5;break;
-    case 7:((NameinGraphicGrid *)p)->action=7;break;
-    case 8:
+    case NAMEIN_KIND_BACK:((NameinGraphicGrid *)p)->action=5;break;
+    case NAMEIN_KIND_OK:((NameinGraphicGrid *)p)->action=7;break;
+    case NAMEIN_KIND_TOGGLE:
         GFL_USE_PlaySeDefaultVolume(1356);((NameinGraphicGrid *)p)->action=8;
-        NAMEIN_GRAPHIC_SetGridSelection(p,((NameinGraphicGrid *)p)->index^1,((NameinGraphicGrid *)p)->variant);break;
-    case 10:((NameinGraphicGrid *)p)->action=3;break;
-    case 11:((NameinGraphicGrid *)p)->action=4;break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        ((NameinGraphicGrid *)p)->index^=1;
+#else
+        NAMEIN_GRAPHIC_SetGridSelection(p,((NameinGraphicGrid *)p)->index^1,((NameinGraphicGrid *)p)->variant);
+#endif
+        break;
+    case NAMEIN_KIND_CHAR_A:((NameinGraphicGrid *)p)->action=3;break;
+    case NAMEIN_KIND_CHAR_B:((NameinGraphicGrid *)p)->action=4;break;
     }
     if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((input+2)), (NameinGraphicBox *)&rect))
         NAMEIN_GRAPHIC_SetupCursor(((void *)&((struct NameinGraphicGrid *)p)->cursor),2, (const struct NameinGraphicMainRect *)&rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
@@ -1037,7 +1062,7 @@ int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
     if(changed){
         point=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
         NAMEIN_GRAPHIC_PickerMove(p,(int *)&point,(int *)&delta);
-        if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=3){
+        if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=NAMEIN_KIND_LAST_PAGE-2){
             if(UI_GetInputMode()==1){
                 if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((((void *)&((struct NameinGraphicGrid *)p)->selectionX))), (NameinGraphicBox *)&rect)){
                     GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
@@ -1065,7 +1090,7 @@ int NAMEIN_GRAPHIC_SymbolKeyAction(char *p,int *out) {
         }
         if (KEY_GetTrg()&4) {
             out[0]=((NameinGraphicGrid *)p)->mode+3;
-            if (out[0]>5) out[0]=2;
+            if (out[0]>NAMEIN_KIND_LAST_PAGE) out[0]=2;
             NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)));
             *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX));
             changed=1;
@@ -1091,7 +1116,7 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out) {
         if (TOUCHPANEL_GetPointTrg(&x,&y)) {
             point[0]=x; point[1]=y;
             if (NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)))) {
-                if (NAMEIN_GRAPHIC_PickerToChar(p,(int *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),0)-2<=3) {
+                if (NAMEIN_GRAPHIC_PickerToChar(p,(int *)(((void *)&((struct NameinGraphicGrid *)p)->selectionX)),0)-2<=NAMEIN_KIND_LAST_PAGE-2) {
                     u=((NameinGraphicGrid *)p)->selectionX;
                     out[3]=((NameinGraphicGrid *)p)->selectionY;
                     out[1]=1; out[2]=u;
@@ -1112,6 +1137,9 @@ void NAMEIN_GRAPHIC_ApplySymbolAction(char *p,int *input) {
     switch (code) {
     case 0: case 1: break;
     case 2: case 3: case 4: case 5:
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 6:
+#endif
         if (NAMEIN_GRAPHIC_SetGridMode(p,code-2)) {
             GFL_USE_PlaySeDefaultVolume(1611);
             ((NameinGraphicGrid *)p)->state=2; ((NameinGraphicGrid *)p)->action=6;
@@ -1150,8 +1178,10 @@ void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *p)
 
 void NAMEIN_GRAPHIC_PrintMsg(char *p,int value) {
     void *window;
+#if LANGUAGE != LANGUAGE_JAPANESE
     while (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((NameinGraphicMsgBox *)p)->printSys),(void *)(BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win))))
         PRINTSYS_QUE_Main((struct PrintQueue *)(((NameinGraphicMsgBox *)p)->printSys));
+#endif
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
     MSGDATA_ReadString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value,(void *)(((NameinGraphicMsgBox *)p)->strbuf));
     window=((NameinGraphicMsgBox *)p)->printSys;
@@ -1236,7 +1266,7 @@ void NAMEIN_GRAPHIC_InitIconActor(NameinGraphicIcon *o, u32 mode, u32 iconIndex,
     case 2:
         archiveId = 0x20;
         paletteFileId = flagB;
-        paletteSlot = d_021F5569[iconIndex];
+        paletteSlot = PM_LANG_JA(d_021F5569, d_ja_021F53C4)[iconIndex];
         characterFileId = iconIndex + 0x31;
         cellAnimArcId = 0x41;
         cellAnimEntryId = 0x42;
@@ -1397,7 +1427,11 @@ int NAMEIN_GRAPHIC_StepIconAnim(char *p) {
     if (((NameinGraphicIcon *)p)->animActive) {
         tick=((NameinGraphicIcon *)p)->animTick;
         ((NameinGraphicIcon *)p)->animTick=tick+1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        pos.x=0x22;
+#else
         CLACT_GetActorSurfacePos((struct ClactActor *)((NameinGraphicIcon *)p)->actor,(struct ClactVec2 *)&pos,0);
+#endif
         pos.y=20-((12*FX_SinCosTable_[((unsigned short)(32767*tick/8)>>4)*2])>>12);
         CLACT_AddActorSurfacePos((struct ClactActor *)(((NameinGraphicIcon *)p)->actor), (const struct ClactVec2 *)&pos,0);
         if (((NameinGraphicIcon *)p)->animTick>8) ((NameinGraphicIcon *)p)->animActive=0;

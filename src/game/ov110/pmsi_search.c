@@ -72,9 +72,20 @@
 #include "../ov067/msgsearch_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 
+/* Japanese searches 45 kana initials and takes 7 keys; the other languages use 27 letters and 13 keys. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PMSI_SEARCH_INITIAL_COUNT 45
+#define PMSI_SEARCH_OTHER_INITIAL 44
+#define PMSI_SEARCH_INPUT_MAX 7
+#define PMSI_SEARCH_STRBUF_SIZE 15
+#define PMSI_SEARCH_KEY_COUNT 0x30
+#else
 #define PMSI_SEARCH_INITIAL_COUNT 27
 #define PMSI_SEARCH_OTHER_INITIAL 26
 #define PMSI_SEARCH_INPUT_MAX 13
+#define PMSI_SEARCH_STRBUF_SIZE 27
+#define PMSI_SEARCH_KEY_COUNT 0x1b
+#endif
 #define PMSI_SEARCH_KEY_NONE 255
 
 /* Words in the search index differ per language, so the result list is sized per language. */
@@ -84,6 +95,8 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 #define PMSI_SEARCH_RESULT_MAX 235
 #elif LANGUAGE == LANGUAGE_SPANISH
 #define PMSI_SEARCH_RESULT_MAX 175
+#elif LANGUAGE == LANGUAGE_JAPANESE
+#define PMSI_SEARCH_RESULT_MAX 106
 #else
 #define PMSI_SEARCH_RESULT_MAX 264
 #endif
@@ -158,14 +171,14 @@ struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData
 {
     int i;
     struct PmsiSearch *s;
-    s = GFL_HEAP_Alloc(heap, sizeof(*s), 1, sPmsiSearchAllocSite, 137);
+    s = GFL_HEAP_Alloc(heap, sizeof(*s), 1, sPmsiSearchAllocSite, PM_SRC_LINE(137, 115));
     s->owner = owner;
     s->wordData = wordData;
     s->heapId = heap;
     PMSI_SEARCH_ClearInput(s);
     for (i = 0; i < PMSI_SEARCH_INITIAL_COUNT; i++) s->messageBanks[i] = MSGDATA_CreateFromArchive(1, 2, sPmsiSearchBankFileIds[i], heap);
     s->messageSearch = MSGSEARCH_Create(s->messageBanks, PMSI_SEARCH_INITIAL_COUNT, s->heapId);
-    s->inputText = (struct U16Vec *)STRBUF_Create(27, heap);
+    s->inputText = (struct U16Vec *)STRBUF_Create(PMSI_SEARCH_STRBUF_SIZE, heap);
     return s;
 }
 
@@ -183,7 +196,7 @@ void PMSI_SEARCH_PushKey(struct PmsiSearch *s, int key)
     int n;
     s->inputKeys[s->inputCount] = key;
     n = s->inputCount + 1;
-    if (n > 12) n = 12;
+    if (n > PMSI_SEARCH_INPUT_MAX - 1) n = PMSI_SEARCH_INPUT_MAX - 1;
     else if (n < 0) n = 0;
     s->inputCount = n;
 }
@@ -191,7 +204,7 @@ void PMSI_SEARCH_PushKey(struct PmsiSearch *s, int key)
 int PMSI_SEARCH_PopKey(struct PmsiSearch *s)
 {
     if (s->inputCount == 0) return 0;
-    if (s->inputKeys[12] == PMSI_SEARCH_KEY_NONE) --s->inputCount;
+    if (s->inputKeys[PMSI_SEARCH_INPUT_MAX - 1] == PMSI_SEARCH_KEY_NONE) --s->inputCount;
     s->inputKeys[s->inputCount] = PMSI_SEARCH_KEY_NONE;
     return 1;
 }
@@ -214,7 +227,7 @@ void PMSI_SEARCH_ClearInput(struct PmsiSearch *s)
  */
 void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out)
 {
-    u16 text[14];
+    u16 text[PMSI_SEARCH_INPUT_MAX + 1];
     int i;
     for (i = 0; i < PMSI_SEARCH_INPUT_MAX;) {
         u16 key;
@@ -222,7 +235,7 @@ void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out)
         if (key == PMSI_SEARCH_KEY_NONE) { text[i] = STRBUF_GetEosChar(); break; }
         text[i++] = PMSI_SEARCH_GetKeyChar(key);
     }
-    text[13] = STRBUF_GetEosChar();
+    text[PMSI_SEARCH_INPUT_MAX] = STRBUF_GetEosChar();
     STRBUF_SetString((struct Strbuf *)out, text);
 }
 
@@ -296,7 +309,7 @@ u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex)
 
 int PMSI_SEARCH_GetKeyCount(void)
 {
-    return 0x1b;
+    return PMSI_SEARCH_KEY_COUNT;
 }
 
 void PMSI_SEARCH_GetKeyLabel(u32 i, struct U16Vec *dst)

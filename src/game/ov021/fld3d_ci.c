@@ -372,6 +372,7 @@ struct TexKey;
 
 
 #include "fld_particle.h"
+#include "../version.h"
 
 
 
@@ -455,7 +456,11 @@ int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name);
 
 void FLD3D_CI_CopyName(char *dst, const char *src);
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *texName, const char *plttName, u32 msgId);
+#else
 void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *texName, const char *plttName, u32 msgId, u32 centered);
+#endif
 
 void *FLD3D_CI_StartMessageSequence(void *gameSystem, Fld3dCi *ci, u32 nameMsgId);
 
@@ -527,7 +532,7 @@ Fld3dCi *FLD3D_CI_Create(u32 heapId, FldParticle *particle)
 {
     Fld3dCi *ci;
 
-    ci = GFL_HEAP_Alloc(heapId, sizeof(*ci), 1, (const char *)&d_021DE3D8, 0x158);
+    ci = GFL_HEAP_Alloc(heapId, sizeof(*ci), 1, (const char *)&d_021DE3D8, PM_SRC_LINE(0x158, 0x151));
     ci->gfxUnits = G3D_UTIL_Create(8, 2, heapId);
     ci->heapId = heapId;
     ci->particle = particle;
@@ -687,10 +692,12 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
         icon->hasSecondName = 1;
     else
         icon->hasSecondName = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
     if (row->sequenceId == 0xd && icon->hasSecondName != 0)
         icon->secondNameCentered = 1;
     else
         icon->secondNameCentered = 0;
+#endif
     GF_OVERLAY_Unload((sptr)abs_id_4A);
     return event;
 }
@@ -1040,16 +1047,16 @@ void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId)
     baseC = baseB + trackBCount;
     total = trackACount + trackBCount + trackCCount;
     if (total != 0) {
-        seq->resources = GFL_HEAP_Alloc(heapId, total * sizeof(*seq->resources), 1, (const char *)&d_021DE3D8, 0x566);
+        seq->resources = GFL_HEAP_Alloc(heapId, total * sizeof(*seq->resources), 1, (const char *)&d_021DE3D8, PM_SRC_LINE(0x566, 0x55c));
     }
     if (trackACount != 0) {
-        seq->tracks = GFL_HEAP_Alloc(heapId, trackACount * sizeof(*seq->tracks), 1, (const char *)&d_021DE3D8, 0x56a);
+        seq->tracks = GFL_HEAP_Alloc(heapId, trackACount * sizeof(*seq->tracks), 1, (const char *)&d_021DE3D8, PM_SRC_LINE(0x56a, 0x560));
     }
     if (trackBCount != 0) {
-        seq->refsB = GFL_HEAP_Alloc(heapId, trackBCount * 4, 1, (const char *)&d_021DE3D8, 0x56e);
+        seq->refsB = GFL_HEAP_Alloc(heapId, trackBCount * 4, 1, (const char *)&d_021DE3D8, PM_SRC_LINE(0x56e, 0x564));
     }
     if (trackCCount != 0) {
-        seq->refsC = GFL_HEAP_Alloc(heapId, trackCCount * 4, 1, (const char *)&d_021DE3D8, 0x572);
+        seq->refsC = GFL_HEAP_Alloc(heapId, trackCCount * 4, 1, (const char *)&d_021DE3D8, PM_SRC_LINE(0x572, 0x568));
     }
     seq->total = total;
     seq->trackACount = trackACount;
@@ -1463,7 +1470,11 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
         BMP_Delete(ci->canvas);
         GFL_HEAP_Free(ci->chrRes);
         GFL_HEAP_Free(ci->plttRes);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE404, d_021DE40C, icon->nameMsgId);
+#else
         FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE404, d_021DE40C, icon->nameMsgId, 0);
+#endif
         (*state)++;
         break;
     case 2:
@@ -1486,7 +1497,11 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
         BMP_Delete(ci->canvas);
         GFL_HEAP_Free(ci->chrRes);
         GFL_HEAP_Free(ci->plttRes);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE43C, d_021DE448, 0);
+#else
         FLD3D_CI_DrawMessageTexture(playerStatus, ci, d_021DE43C, d_021DE448, 0, icon->secondNameCentered);
+#endif
         (*state)++;
         break;
     case 4:
@@ -1559,7 +1574,11 @@ void FLD3D_CI_CopyName(char *dst, const char *src)
 }
 
 /* Renders a message into the name texture and its palette. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *texName, const char *plttName, u32 msgId)
+#else
 void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *texName, const char *plttName, u32 msgId, u32 centered)
+#endif
 {
     u8 texKey[0x14];
     void *wordSet;
@@ -1569,7 +1588,9 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     void *texBlock;
     u16 heapId;
     void *text;
+#if LANGUAGE != LANGUAGE_JAPANESE
     int xOffset;
+#endif
     u16 *palette;
 
     texBlock = G3D_UTIL_GetResource(ci->gfxUnits, 0);
@@ -1584,11 +1605,16 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
         STRBUF_Delete(rawMsg);
         WORDSET_Delete(wordSet);
     } else {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        text = MSGDATA_AllocString(msgBank, msgId);
+#else
         rawMsg = MSGDATA_AllocString(msgBank, msgId);
         text = STRBUF_Create(0x10, (heapId & 0x7FFF) | 0x8000);
         WORDSET_AppendUnpackedString(text, rawMsg);
         STRBUF_Delete(rawMsg);
+#endif
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     xOffset = 0;
     if (centered != 0) {
         font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
@@ -1598,11 +1624,12 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
         if (xOffset < 0)
             xOffset = 0;
     }
+#endif
     ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0x17, 5, (&ci->pltt), heapId);
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;
-    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
+    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, text, PM_LANG_JA(xOffset, 0), 0, 0x440, heapId, (struct TexKey *)texKey);
     GFL_HEAP_Free(ci->plttRes);
     GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);

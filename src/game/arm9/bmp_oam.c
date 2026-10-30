@@ -52,6 +52,7 @@
 
 #include "../types.h"
 #include "../sdk_ioreg.h"
+#include "../version.h"
 
 struct ClactActor;
 
@@ -187,6 +188,23 @@ extern const struct ModeEntry gModeTable[];
  * through its own symbol (the original code loads a separate pool word per
  * field; one array plus offsets compiles differently):
  *   +0 key (u8)   +1 u8   +2 id (u16)   +4 u32   +8 u8   +9 u8 */
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* The Japanese table has 8-byte records (key, arc member, u16 id, count at +4) and no word or byte
+ * pair for NATION_AREA_GetAreaTable. */
+extern const u8 nation_ja_0209F6D8[];
+
+extern const u8 nation_ja_0209F6D9[];
+
+extern const u8 nation_ja_0209F6DA[];
+
+extern const u8 nation_ja_0209F6DC[];
+
+#define NATION_REC_SIZE 8
+#define NATION_REC_KEY nation_ja_0209F6D8
+#define NATION_REC_ARC nation_ja_0209F6D9
+#define NATION_REC_ID nation_ja_0209F6DA
+#define NATION_REC_COUNT nation_ja_0209F6DC
+#else
 extern const u8 g_0209FA34[];
 
 extern const u8 g_0209FA35[];
@@ -198,6 +216,13 @@ extern const u8 g_0209FA38[];
 extern const u8 g_0209FA3C[];
 
 extern const u8 g_0209FA3D[];
+
+#define NATION_REC_SIZE 12
+#define NATION_REC_KEY g_0209FA34
+#define NATION_REC_ARC g_0209FA35
+#define NATION_REC_ID g_0209FA36
+#define NATION_REC_COUNT g_0209FA3D
+#endif
 
 /*
  * Allocate the 0x18-byte setup object (tag 0x73), record the heap id and the
@@ -557,7 +582,7 @@ u32 NATION_AREA_FindRecordIndex(u32 key)
     u32 recIdx;
 
     for (recIdx = 0; recIdx < 0x13; recIdx++) {
-        if (key == g_0209FA34[recIdx * 0xc]) {
+        if (key == NATION_REC_KEY[recIdx * NATION_REC_SIZE]) {
             return recIdx;
         }
     }
@@ -569,8 +594,8 @@ u8 NATION_AREA_GetAreaCount(u32 key)
     u32 recIdx;
 
     for (recIdx = 0; recIdx < 0x13; recIdx++) {
-        if (key == g_0209FA34[recIdx * 0xc]) {
-            return g_0209FA3D[recIdx * 0xc];
+        if (key == NATION_REC_KEY[recIdx * NATION_REC_SIZE]) {
+            return NATION_REC_COUNT[recIdx * NATION_REC_SIZE];
         }
     }
     return 0;
@@ -597,7 +622,7 @@ u32 NATION_AREA_GetAreaMsgBank(u32 key)
 u32 NATION_AREA_GetAreaMsgBankByIndex(u32 recIdx)
 {
     if (recIdx < 0x13) {
-        return *(const u16 *)(g_0209FA36 + recIdx * 0xc);
+        return *(const u16 *)(NATION_REC_ID + recIdx * NATION_REC_SIZE);
     }
     return 0xE7;
 }
@@ -605,14 +630,14 @@ u32 NATION_AREA_GetAreaMsgBankByIndex(u32 recIdx)
 u32 NATION_AREA_GetNationIdByIndex(u32 recIdx)
 {
     if (recIdx < 19)
-        return g_0209FA34[recIdx * 12];
+        return NATION_REC_KEY[recIdx * NATION_REC_SIZE];
     return 0;
 }
 
 u32 NATION_AREA_GetAreaListArcMember(u32 recIdx)
 {
     if (recIdx < 19)
-        return g_0209FA35[recIdx * 12];
+        return NATION_REC_ARC[recIdx * NATION_REC_SIZE];
     return 18;
 }
 
@@ -668,6 +693,7 @@ u32 NATION_AREA_SanitizeArea(u32 id, u32 minValue, u32 flag)
     return result;
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte)
 {
     u32 recIdx = NATION_AREA_FindRecordIndex(key);
@@ -681,3 +707,4 @@ int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte)
     *outByte = g_0209FA3C[recOff];
     return 1;
 }
+#endif

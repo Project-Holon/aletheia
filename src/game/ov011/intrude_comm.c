@@ -418,6 +418,10 @@ struct EncEffWork;
 #include "../ov021/enceff.h"
 #include "../arm9/game_event.h"
 #include "../ov021/event_fieldmap_control.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02176E70[];
+extern const char str_ja_02176E84[];
+#endif
 struct IntrudeCommSys;
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *p);
 IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param);
@@ -676,7 +680,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     if (param->isParent == 1 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
         maxConnect = 2;
     }
-    work = GFL_HEAP_Alloc(5, sizeof(IntrudeCommSys), 1, str_02177000, 0x9a);
+    work = GFL_HEAP_Alloc(5, sizeof(IntrudeCommSys), 1, str_02177000, PM_SRC_LINE(0x9a, 0x91));
     work->gameSystem = param->gameSystem;
     work->gameComm = param->gameComm;
     work->step = 1;
@@ -718,7 +722,7 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
         return 0;
     switch (*state) {
     case 0:
-        init = (GFLNetInitializeStruct *)GFL_HEAP_Alloc(0x8005, sizeof(*init), 0, d_02177000, 0xcf);
+        init = (GFLNetInitializeStruct *)GFL_HEAP_Alloc(0x8005, sizeof(*init), 0, d_02177000, PM_SRC_LINE(0xcf, 0xc6));
         *init = d_021768C8;
         if (param->isParent == 1) {
             if (INTRUDE_COMM_HasUnlockFlags((struct GameData *)gameData) == 0)
@@ -2492,8 +2496,13 @@ void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int sel
 void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int selfX)
 {
     IntrudePeer *peers;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    int ownNetId;
+    IntrudePeer *self;
+#else
     IntrudePeer *self;
     int ownNetId;
+#endif
     int i;
     IntrudePeer *peer;
     ownNetId = GAME_DATA_GetOwnNetId((const struct GameData *)GAME_COMM_GetGameData(work->gameComm));
@@ -2503,7 +2512,11 @@ void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int selfX)
     for (; i < 3; i++) {
         if ((work->peerMask & (1 << i)) && i != ownNetId) {
             peer = &peers[i];
+#if LANGUAGE == LANGUAGE_JAPANESE
+            peer->package = work->packages[i];
+#else
             peer->package.pos = work->packages[i].pos;
+#endif
             INTRUDE_COMM_AdjustRemotePosition(work, self->zoneId, selfX, peer);
         }
     }
@@ -2766,10 +2779,20 @@ int INTRUDE_COMM_IsValidObjCode(int objCode)
  * The 32-byte follower at 021756F0 already has its own matched shard.
  * A ternary loop condition preserves the branch to the bottom test.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define INTRUDE_PROFILE_CODE_COUNT 0x1c
+#else
+#define INTRUDE_PROFILE_CODE_COUNT 0xa2
+#endif
+#else
+#define INTRUDE_PROFILE_CODE_COUNT 0x1c
+#endif
+
 int INTRUDE_COMM_IsValidProfileCode(u32 code)
 {
     u32 i;
-    for (i = 0; (i < 0x1c) ? 1 : 0; i++) {
+    for (i = 0; (i < INTRUDE_PROFILE_CODE_COUNT) ? 1 : 0; i++) {
         if (code == gIntrudeCommValidProfileCodes[i]) {
             return 1;
         }
@@ -3499,7 +3522,7 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
     switch (head->kind) {
     case 0:
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
-        WORDSET_SetSlotNumber(wordSet, 1, head->param.x, 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, head->param.x, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         break;
     case 1:
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
@@ -3513,7 +3536,7 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
         const IntrudeParamPair *param = &head->param;
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         WORDSET_SetSlotFromMsg36(wordSet, 1, param->x);
-        WORDSET_SetSlotNumber(wordSet, 2, param->y, 5, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 2, param->y, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
         break;
     }
     case 4:
@@ -3524,12 +3547,12 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         break;
     }
-    WORDSET_SetSlotNumber(wordSet, 2, head->amount, 4, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, head->amount, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
     count = head->count;
     if (count > 20) {
         count = 1;
     }
-    WORDSET_SetSlotNumber(wordSet, 3, count, 4, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 3, count, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
 }
 
 /*
@@ -3608,7 +3631,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
     }
     if (count <= 0) {
         /* both strings are the empty string at 02177010 */
-        GF_PANIC_Fail((const char *)d_02177010, 0, (const char *)d_02177010);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)d_02177010, str_ja_02176E70), PM_SRC_LINE(0, 0x76), PM_LANG_JA((const char *)d_02177010, str_ja_02176E84));
     }
     return 1;
 }

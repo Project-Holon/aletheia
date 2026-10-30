@@ -314,6 +314,18 @@ struct BrRes;
 
 #include "../arm9/bmp_oam.h"
 #include "../arm9/clact.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200D48[];
+extern const char str_ja_02200D54[];
+extern const char str_ja_02200D6C[];
+extern const char str_ja_02200D98[];
+extern const char str_ja_02200DC0[];
+extern const char str_ja_02200DCC[];
+extern const char str_ja_02200DE4[];
+extern const char str_ja_02200DFC[];
+extern const char str_ja_02200E14[];
+#endif
 extern char d_02200D18[];
 
 extern char d_02200D1C[];
@@ -328,8 +340,8 @@ struct BrBtn *BR_BTN_Create(int a, void *b, struct BrRes *c, int d, struct BrBtn
     int i;
     void *arch;
     Button buf;
-    if (a >= 12) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
-    p = GFL_HEAP_Alloc(heap, sizeof(struct BrBtn), 0, d_02200D1C, 0x13F);
+    if (a >= 12) GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x135), PM_LANG_JA(d_02200D18, str_ja_02200D54));
+    p = GFL_HEAP_Alloc(heap, sizeof(struct BrBtn), 0, PM_LANG_JA(d_02200D1C, str_ja_02200D48), PM_SRC_LINE(0x13F, 0x139));
     MI_CpuFill8(p, 0, sizeof(struct BrBtn));
     p->resBase = c;
     p->oamData = b;
@@ -348,10 +360,10 @@ struct BrBtn *BR_BTN_Create(int a, void *b, struct BrRes *c, int d, struct BrBtn
     BR_RES_LoadSprite(p->resBase, p->spriteIndex + 1, heap);
     p->rowCount = BR_BTN_DATA_GetMaxSectionCount(p->dataTable);
     size = p->rowCount * sizeof(Button);
-    p->rowRecords = GFL_HEAP_Alloc(heap, size, 0, d_02200D1C, 0x167);
+    p->rowRecords = GFL_HEAP_Alloc(heap, size, 0, PM_LANG_JA(d_02200D1C, str_ja_02200D48), PM_SRC_LINE(0x167, 0x161));
     MI_CpuFill8(p->rowRecords, 0, size);
     p->maxRows = 6;
-    p->tailRecords = GFL_HEAP_Alloc(heap, 6 * sizeof(Button), 0, d_02200D1C, 0x171);
+    p->tailRecords = GFL_HEAP_Alloc(heap, 6 * sizeof(Button), 0, PM_LANG_JA(d_02200D1C, str_ja_02200D48), PM_SRC_LINE(0x171, 0x16b));
     MI_CpuFill8(p->tailRecords, 0, 6 * sizeof(Button));
     p->task = BR_UTIL_CreateTask(p, BR_BTN_SetupInput, heap);
     if (p->resultSet->count != 0) {
@@ -423,7 +435,7 @@ void BR_BTN_PushRecord(struct BrBtn *ctx, const Button *source, int mode)
     int i;
 
     if (ctx->recordCount >= ctx->maxRows)
-        GF_PANIC_Fail((const char *)d_02200D18, 0, (const char *)d_02200D18);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x2B5), PM_LANG_JA((const char *)d_02200D18, str_ja_02200D6C));
     BR_BTN_CopyRecord(ctx, &ctx->tailRecords[ctx->recordCount], source, mode);
     ctx->recordCount++;
     for (i = 0; i < ctx->recordCount; i++) {
@@ -460,7 +472,7 @@ void BR_BTN_BuildSection(struct BrBtn *p,int section,const int *pos)
  }
 }
 
-void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)GF_PANIC_Fail(d_02200D18,0,d_02200D18);*(unsigned short *)(p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((char *)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
+void BR_BTN_PushPosPair(char *p,int x,int y) { if(((struct BrBtnResultSet *)p)->count>=6)GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48),PM_SRC_LINE(0, 0x319),PM_LANG_JA(d_02200D18, str_ja_02200D98));*(unsigned short *)(p+((struct BrBtnResultSet *)p)->count*4)=x;*(unsigned short *)((char *)p+((struct BrBtnResultSet *)p)->count*4+2)=y;(((struct BrBtnResultSet *)p)->count)++; }
 
 void BR_BTN_PopPosPair(char *p) { if (((struct BrBtnResultSet *)p)->count!=0) (((struct BrBtnResultSet *)p)->count)--; }
 
@@ -586,7 +598,7 @@ void BR_BTN_UpdatePress(struct BrUtilTask *p,int *state,struct BrBtn *ctx)
   BR_BTN_PopPosPair((char *)ctx->resultSet);
   if(BR_BTN_Init(ctx, (Button *)&record)){
    section=BR_BTN_GetRowField((Button *)&record, 4);
-   if(!record.active)GF_PANIC_Fail(d_02200D18,0,d_02200D18);
+   if(!record.active)GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48),PM_SRC_LINE(0, 0x49E),PM_LANG_JA(d_02200D18, str_ja_02200DC0));
    other[0]=BR_BTN_DATA_GetRowField(record.object,0);
    other[1]=BR_BTN_DATA_GetRowField(record.object,1);
    BR_BTN_BuildSection(ctx,section,other);
@@ -805,7 +817,7 @@ void BR_BTN_InitRecord(Button *ctx, void *object, void *a, void *b, struct BrRes
     BrBtnCreateConfig config;
     const void *work;
     unsigned short heap_value;
-    if (ctx->active) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
+    if (ctx->active) GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x6E9), PM_LANG_JA(d_02200D18, str_ja_02200DCC));
     MI_CpuFill8(ctx, 0, sizeof(Button));
     ctx->active = 1;
     ctx->enabled = 1;
@@ -917,8 +929,8 @@ void BR_BTN_SetMode(Button *ctx, int mode)
 
 void BR_BTN_CopyRecord(void *ctx, Button *dest, const Button *source, int mode)
 {
-    if (dest->active != 0) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
-    if (source->active != 1) GF_PANIC_Fail(d_02200D18, 0, d_02200D18);
+    if (dest->active != 0) GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x7D8), PM_LANG_JA(d_02200D18, str_ja_02200DE4));
+    if (source->active != 1) GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x7D9), PM_LANG_JA(d_02200D18, str_ja_02200DFC));
     *dest = *source;
     if (source->enabled != mode) BR_BTN_SetMode(dest, mode);
 }
@@ -948,7 +960,7 @@ int BR_BTN_GetRowField(Button *ctx, int kind)
     case 7: result = BR_BTN_DATA_GetRowField(ctx->object, 11); break;
     case 8: result = BR_BTN_DATA_GetRowField(ctx->object, 0); break;
     case 9: result = BR_BTN_DATA_GetRowField(ctx->object, 1); break;
-    default: result = 0; GF_PANIC_Fail(d_02200D18, 0, d_02200D18); break;
+    default: result = 0; GF_PANIC_Fail(PM_LANG_JA(d_02200D18, str_ja_02200D48), PM_SRC_LINE(0, 0x851), PM_LANG_JA(d_02200D18, str_ja_02200E14)); break;
     }
     return result;
 }
@@ -1160,13 +1172,13 @@ struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u
     u32 value;
     struct BrButton *p;
     value=b;config=triple;
-    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_02200D1C,0xA3B);
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,PM_LANG_JA(d_02200D1C, str_ja_02200D48),PM_SRC_LINE(0xA3B, 0xA35));
     MI_CpuFill8(p,0,sizeof(*p));
     p->paramA=a;p->surface=value;
     p->actor=CLACT_CreateActor(c,config->y,config->z,config->x,(const struct ActorInitParam *)pt,value,heap);
     CLACT_SetActorObjMode(p->actor,1);
     p->bmp=BMP_Create(p->paramA>>3,2,32,heap);
-    PRINTSYS_PrintColor(p->bmp,1,0,data,font,0x3DA0);
+    PRINTSYS_PrintColor(p->bmp,PM_LANG_JA(1, 0),0,data,font,PM_LANG_JA(0x3DA0, 0x3DC0));
     MI_CpuFill8(&param,0,sizeof(param));
     param.bmp=p->bmp;
     param.x=pt->x+32;param.y=pt->y-8;

@@ -438,6 +438,13 @@ struct GFLNetHandle;
 #include "../arm9/fx_vec.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/nns_g2d_load.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_COMPAT_TOUCH_MSG_ARCHIVE 46
+#else
+#define IRC_COMPAT_TOUCH_MSG_ARCHIVE 47
+#endif
 
 extern struct DispVram IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig;
 extern struct DispConfig IRC_COMPATIBLE_TOUCH_TEST_BgDisplayConfig;
@@ -928,7 +935,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 h
     if (skipFont == 0)
         text->font = GF_FONT_Create(23, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
-    text->msgData = MSGDATA_CreateFromArchive(0, 2, 47, heapId);
+    text->msgData = MSGDATA_CreateFromArchive(0, 2, IRC_COMPAT_TOUCH_MSG_ARCHIVE, heapId);
     text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
@@ -1116,11 +1123,17 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleFirstTouch(IrcTouchWork *work, u16 *state)
     } else if (!IRC_APPBAR_IsBusy(work->appBar)) {
         switch (*state) {
         case 0:
+#if LANGUAGE == LANGUAGE_JAPANESE
+            if (work->args->gameSystem)
+                IRC_COMPATIBLE_TOUCH_TEST_PrintMessageWithName(&work->title, &work->text, 0, work->args->profile, 0, 0, 55);
+            else IRC_COMPATIBLE_TOUCH_TEST_PrintMessage(&work->title, &work->text, 0, 0, 0);
+#else
             if (IRC_COMPATIBLE_TOUCH_TEST_IsStrokeFinished(&work->drawing.strokeA))
                 IRC_COMPATIBLE_TOUCH_TEST_PrintMessage(&work->title, &work->text, 17, 0, 0);
             else if (work->args->gameSystem)
                 IRC_COMPATIBLE_TOUCH_TEST_PrintMessageWithName(&work->title, &work->text, 0, work->args->profile, 0, 0, 55);
             else IRC_COMPATIBLE_TOUCH_TEST_PrintMessage(&work->title, &work->text, 0, 0, 0);
+#endif
             markers = IRC_COMPATIBLE_TOUCH_TEST_GetMarkers(work);
             for (i = 0; i < 2; i++) IRC_COMPATIBLE_TOUCH_TEST_SetMarkerActive(markers, i, 0);
             GFL_USE_StopAllSe();
@@ -1147,6 +1160,16 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleFirstTouch(IrcTouchWork *work, u16 *state)
                     else IRC_COMPATIBLE_TOUCH_TEST_PrintMessage(&work->title, &work->text, 1, 0, 0);
                     IRC_COMPATIBLE_TOUCH_TEST_SetHandler(work, IRC_COMPATIBLE_TOUCH_TEST_HandleSecondTouch);
                 }
+#if LANGUAGE == LANGUAGE_JAPANESE
+            } else {
+                if ((work->idleTimer)++ >= 180) {
+                    work->idleTimer = 0;
+                    work->hintToggle ^= 1;
+                    if (work->hintToggle) IRC_COMPATIBLE_TOUCH_TEST_PrintMessageForPlayer(&work->title, work, 11);
+                    else IRC_COMPATIBLE_TOUCH_TEST_PrintMessageForPlayer(&work->title, work, 0);
+                }
+            }
+#else
             } else if (!IRC_COMPATIBLE_TOUCH_TEST_IsStrokeFinished(&work->drawing.strokeA)) {
                 if ((work->idleTimer)++ >= 180) {
                     work->idleTimer = 0;
@@ -1155,6 +1178,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleFirstTouch(IrcTouchWork *work, u16 *state)
                     else IRC_COMPATIBLE_TOUCH_TEST_PrintMessageForPlayer(&work->title, work, 0);
                 }
             }
+#endif
             break;
         }
     }
@@ -1571,7 +1595,11 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(int mask, u16 heapId)
     else BG_SYS_SetTileEntry(2, 0, 0, 0, 16, 24, 9);
     if (mask & 2) IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(arc, 8, 2, 0, 0, 0, 16, 24, 16, 0, 16, 24, 9, 0, heapId);
     else BG_SYS_SetTileEntry(2, 0, 16, 0, 16, 24, 9);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    BG_SYS_PushTile(2);
+#else
     BG_SYS_MarkTileDirty(2);
+#endif
     ARC_TOOL_DeleteHandle(arc);
 }
 

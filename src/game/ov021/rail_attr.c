@@ -21,6 +21,7 @@
 #include "fldmmdl_rail_types.h"
 
 #include "../types.h"
+#include "../version.h"
 
 #define RAIL_ATTR_ARC_ID 0x4f       /* archive that holds the rail and rail attribute data */
 #define RAIL_LOCATION_TYPE_LINE 1   /* RailLocation.type of a place on a rail line */
@@ -103,7 +104,11 @@ int RAIL_ATTR_GetAttribute(const RailAttr *attr, const RailLocation *location)
             unsigned width = line->width;
             int x = location->widthGrid + (width >> 1);
             int y = location->lineGrid;
+#if LANGUAGE == LANGUAGE_JAPANESE
+            if ((int)width > x && line->length > y)
+#else
             if ((int)width > x && line->length > y && x >= 0 && y >= 0)
+#endif
                 result = line->attr[x + width * y];
         }
     }

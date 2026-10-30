@@ -1900,10 +1900,12 @@ void MYSTERY_InitCardView(MysteryCardView *p,int mode)
         p->callback=MYSTERY_CardViewAnimFade;
         break;
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     GX_SetVisibleWnd(1);
     G2_SetWnd0InsidePlane(15,1);
     G2_SetWndOutsidePlane(31,1);
     G2_SetWnd0Position(0,168,255,192);
+#endif
 }
 
 /*
@@ -1911,7 +1913,9 @@ void MYSTERY_InitCardView(MysteryCardView *p,int mode)
  */
 void MYSTERY_DeleteCardView(MysteryCardView *p)
 {
+#if LANGUAGE != LANGUAGE_JAPANESE
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
+#endif
     if(MYSTERY_IsParticleCreated(&p->particle)) MYSTERY_DeleteParticle(&p->particle);
     BG_SYS_SetPlaneVisible(2,0);
     CLACT_DeleteActor(p->actor);

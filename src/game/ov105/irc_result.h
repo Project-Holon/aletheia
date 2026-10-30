@@ -11,6 +11,14 @@ struct TcbTask;
 
 #include "../ov105/irc_result_types.h"
 #include "../types.h"
+#include "../version.h"
+
+/* The reward quantity is a 16-bit value in the Japanese build. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+typedef u16 IRC_RESULT_QUANTITY;
+#else
+typedef unsigned IRC_RESULT_QUANTITY;
+#endif
 #include "../ov102/irc_text_system_types.h"
 #include "../ov104/irc_rhythm_types.h"
 #include "../ov101/compatible_irc_sys_types.h"
@@ -49,7 +57,7 @@ void IRC_RESULT_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,in
 void IRC_RESULT_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId);
 void IRC_RESULT_PrintMessageWithNumber(IrcTextWindow *win, IrcTextSystem *text, u8 msgId, u16 number, u16 slot);
 void IRC_RESULT_PrintMessageWithNames(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *own, IrcCompatibleProfile *partner, int unused);
-void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, unsigned quantity, int msgId);
+void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, IRC_RESULT_QUANTITY quantity, int msgId);
 void IRC_RESULT_SetState(IrcResult *work, IrcResultStateFn fn);
 void IRC_RESULT_Finish(IrcResult *work);
 void IRC_RESULT_StateStart(IrcResult *work,u16 *step);

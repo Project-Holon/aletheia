@@ -189,6 +189,7 @@ void BTL_POKEPARAM_ClearHitHistory(BtlPokeParam *pp);
 void BTL_POKEPARAM_ClearFoughtList(BtlPokeParam *pp);
 #include "btl_typepair.h"
 #include "btl_field.h"
+#include "../version.h"
 extern const char gBtlPokeparamFileName[];
 extern const u32 gSemiInvulnerableContFlags[4];
 BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heapId);
@@ -1962,6 +1963,7 @@ void BTL_POKEPARAM_SetPokeParam(void **pokeParamSlot, void *pokeParam)
     *pokeParamSlot = pokeParam;
 }
 
+
 /*
  * Transform: poke becomes a copy of target (its stats and moves) but keeps
  * its identity part; the copied moves get 5 PP. Fails (returns 0) when either
@@ -2112,7 +2114,9 @@ void BTL_POKEPARAM_ClearStoredPokeMove(BtlPokeParam *pp)
     }
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void BTL_POKEPARAM_RecalcMonParam(BtlPokeParam *pp)
 {
     POKE_TOOL_RecalcParam(pp->mon);
 }
+#endif

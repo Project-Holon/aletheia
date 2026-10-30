@@ -136,6 +136,11 @@ extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
 struct FieldSoundSystem;
 
 #include "../arm9/field_sound_system.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0220B0E0[];
+extern const char str_ja_0220B0EC[];
+#endif
 
 
 int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch);
@@ -254,7 +259,7 @@ int BR_MAIN_RunSceneStep(BrSceneManager *mgr)
 void BR_MAIN_FreeSceneManager(BrSceneManager *mgr)
 {
     if (mgr->sceneWork != 0)
-        GF_PANIC_Fail((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
+        GF_PANIC_Fail(PM_LANG_JA((void *)0x0220b2e0, str_ja_0220B0E0), PM_SRC_LINE(0, 0x1BD), PM_LANG_JA((void *)0x0220b2e0, str_ja_0220B0EC));
     PROCSYS_Delete(mgr->procSys);
     MI_CpuFill8(mgr, 0, sizeof(BrSceneManager));
 }
@@ -264,7 +269,7 @@ void BR_MAIN_SetDesiredScene(BrMainWork *work, u32 scene) { work->sceneManager.d
 BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work, int mode)
 {
     BrListSceneWork *list;
-    list = GFL_HEAP_Alloc(heapId, sizeof(BrListSceneWork), 0, d_0220B2E4, 0x1e7);
+    list = GFL_HEAP_Alloc(heapId, sizeof(BrListSceneWork), 0, PM_LANG_JA(d_0220B2E4, str_ja_0220B0E0), 0x1e7);
     MI_CpuFill8(list, 0, sizeof(BrListSceneWork));
     list->launch = work->launch;
     list->data = &work->data;
@@ -287,7 +292,7 @@ void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work)
 
 void *BR_MAIN_CreateReplayScene(u16 heapId, BrMainWork *work)
 {
-    struct BattleSetupParam *setup = GFL_HEAP_Alloc(heapId, sizeof(struct BattleSetupParam), 0, d_0220B2E4, 542);
+    struct BattleSetupParam *setup = GFL_HEAP_Alloc(heapId, sizeof(struct BattleSetupParam), 0, PM_LANG_JA(d_0220B2E4, str_ja_0220B0E0), 542);
     MI_CpuFill8(setup, 0, sizeof(struct BattleSetupParam));
     BTL_SETUP_InitWithSlots(setup, work->launch->gameData, heapId);
     BATTLE_REC_LoadToolOverlay();

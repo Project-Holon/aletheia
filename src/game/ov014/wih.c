@@ -217,6 +217,11 @@ typedef struct WihWork {
 
 /* functions of this file (and its ov014 neighbours) */
 #include "net_whpipe.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02179630[];
+extern const char str_ja_02179638[];
+#endif
 void WIH_ChangeSysState(int state);
 void WIH_SetError(int error);
 int WIH_StateInSetParentParam(void);
@@ -492,9 +497,9 @@ BOOL WIH_StateInStartParentMP(void)
     gWihWork->sendBufSize = WM_GetMPSendBufferSize();
 
     gWihWork->recvBuf =
-        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, sWihFileName, 0x4A7);
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, PM_LANG_JA(sWihFileName, str_ja_02179630), PM_SRC_LINE(0x4A7, 0x49E));
     gWihWork->sendBuf =
-        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, sWihFileName, 0x4A8);
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, PM_LANG_JA(sWihFileName, str_ja_02179630), PM_SRC_LINE(0x4A8, 0x49F));
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
@@ -755,7 +760,7 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
                                                 cb->linkLevel[i]);
             if (WIH_IsMatchingParent(&work->scanBssDesc) != 0) {
                 if (gWihWork->judgeScanFunc == 0)
-                    GF_PANIC_Fail(sWihAssertText, 0, sWihAssertText);
+                    GF_PANIC_Fail(PM_LANG_JA(sWihAssertText, str_ja_02179630), PM_SRC_LINE(0, 0x6BD), PM_LANG_JA(sWihAssertText, str_ja_02179638));
                 if (gWihWork->judgeScanFunc(&work->scanBssDesc) != 0)
                     found = 1;
             }
@@ -905,9 +910,9 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
     gWihWork->sendBufSize = WM_GetMPSendBufferSize();
 
     gWihWork->recvBuf =
-        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, sWihFileName, 0x7FA);
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, PM_LANG_JA(sWihFileName, str_ja_02179630), PM_SRC_LINE(0x7FA, 0x7F1));
     gWihWork->sendBuf =
-        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, sWihFileName, 0x7FB);
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, PM_LANG_JA(sWihFileName, str_ja_02179630), PM_SRC_LINE(0x7FB, 0x7F2));
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
@@ -1253,7 +1258,7 @@ BOOL WIH_Initialize(u32 heapId, int unused, int listening)
     BOOL ok;
     if (gWihWork != 0)
         return 0;
-    gWihWork = GFL_NET_AllocAligned(heapId, 0x1F00, sWihFileName, 0xC33);
+    gWihWork = GFL_NET_AllocAligned(heapId, 0x1F00, PM_LANG_JA(sWihFileName, str_ja_02179630), PM_SRC_LINE(0xC33, 0xC2A));
     MI_CpuFill8(gWihWork, 0, sizeof(*gWihWork));
     gWihWork->scanWaitFrames = 1;
     gWihWork->aidBitmap = 1;

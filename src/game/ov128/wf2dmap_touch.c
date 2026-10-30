@@ -153,6 +153,7 @@ NameInArgs *NAMEIN_SETUP_CreateArgs(int heapId, int kind, u32 species, u32 trait
 #include "../arm9/strbuf.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/clact.h"
+#include "../version.h"
 #include "wf2dmap_friend.h"
 #include "../arm9/wipe.h"
 #include "../arm9/touchpanel.h"
@@ -264,8 +265,8 @@ NameInArgs *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap
  v=MISC_GetBlock(GAME_DATA_GetSaveControl(((Wf2dmapTouchFriendData *)q)->saveData));
  base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);idx=((Wf2dmapTouchFriendData *)q)->entryIndex[*(signed char *)&((Wf2dmapTouchFriendData *)q)->index];
  kind=WIFILIST_GetFriendInfoField(base,idx,9);
- if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);
- else ret=NAMEIN_SETUP_CreateArgs(heap,4,WIFILIST_GetFriendInfoField(base,idx,8),0,7,0,v);
+ if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,PM_LANG_JA(7,5),0,v);
+ else ret=NAMEIN_SETUP_CreateArgs(heap,4,WIFILIST_GetFriendInfoField(base,idx,8),0,PM_LANG_JA(7,5),0,v);
  if(((Wf2dmapTouchFriendData *)q)->nameFlag==1) {STRBUF_SetString(ret->name,(const u16 *)(((Wf2dmapTouchFriendData *)q)->nameText));((Wf2dmapTouchFriendData *)q)->nameFlag=0;}
  return ret;
 }
@@ -406,13 +407,20 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
     int i;
     Wf2dmapFriend_CreateWindow(ctx, (void **)&((Wf2dmapTouchWindowSet *)p)->windowA, 3, 2, 10, 0x1e, 8, 10, 1, 0);
     Wf2dmapFriend_CreateWindow(ctx, &((Wf2dmapTouchWindowSet *)p)->windowB, 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
-    text = STRBUF_Create(0xc0, heap);
+    text = STRBUF_Create(PM_LANG_JA(0xc0, 0x80), heap);
     buf2 = STRBUF_Create(0x80, heap);
     key = DWC_CreateFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork((void *)GAME_DATA_GetWifiList(((Wf2dmapTouchGfx *)q)->msgBank)));
     if (key != 0) {
         MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank, 0x35, (void *)text);
         TOUCHBAR_PrintAligned((TouchBarWindow *)p, ((Wf2dmapTouchGfx *)ctx)->printWin, 4, 0, text, ((Wf2dmapTouchGfx *)ctx)->palWin, 0x440, 0);
         WF2DMAP_TOUCH_TransferScreen(((Wf2dmapTouchWindowSet *)p)->windowA);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        Wf2dmapFriend_SetFriendCode(&((Wf2dmapTouchGfx *)ctx)->wordSet, key);
+        MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank, 0x34, buf2);
+        WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)ctx)->wordSet, text, buf2);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)Wf2dmapTouchSecondWindow(p), ((Wf2dmapTouchGfx *)ctx)->printWin, 0, 0, text, ((Wf2dmapTouchGfx *)ctx)->palWin, 0x3c40, 0);
+        WF2DMAP_TOUCH_TransferScreen(((Wf2dmapTouchWindowSet *)p)->windowB);
+#else
         pal = ((Wf2dmapTouchGfx *)ctx)->palWin;
         gfx = ((Wf2dmapTouchGfx *)ctx)->printWinU32;
         t = gWf2dmapCursorTileTable;
@@ -428,6 +436,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
             key = key / 10;
         }
         WF2DMAP_TOUCH_TransferScreen(((Wf2dmapTouchWindowSet *)p)->windowB);
+#endif
     } else {
         MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank, 0x36, (void *)text);
         TOUCHBAR_PrintAligned((TouchBarWindow *)p, ((Wf2dmapTouchGfx *)ctx)->printWin, 4, 0, text, ((Wf2dmapTouchGfx *)ctx)->palWin, 0x440, 0);

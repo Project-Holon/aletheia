@@ -54,11 +54,12 @@
  */
 struct Node;
 struct BigObj;
+
 #include "../types.h"
 #include "../version.h"
 
 /* Tile width of the two status icons (selection mode and link) and the column of the link icon. */
-#if LANGUAGE == LANGUAGE_GERMAN
+#if LANGUAGE == LANGUAGE_GERMAN || LANGUAGE == LANGUAGE_JAPANESE
 #define INFOWIN_SEL_WIDTH 4
 #define INFOWIN_LINK_X 14
 #define INFOWIN_LINK_WIDTH 4
@@ -132,6 +133,9 @@ struct InfoWinDrawBuffer {
     u16 scr[4];     /* +0x00 */
     struct Sel6 sel; /* +0x08 */
     u16 col[2];     /* +0x0E */
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u16 ap[4];      /* 12-hour clock marker */
+#endif
     struct Ofs6 ofs; /* +0x12 */
     u16 clk[10];    /* +0x1E */
 };
@@ -191,7 +195,7 @@ extern const u16 d_0209F830[];
  */
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
 {
-    gInfoWin = GFL_HEAP_Alloc(heap, sizeof(*gInfoWin), 0, infowin_File, 0x103);
+    gInfoWin = GFL_HEAP_Alloc(heap, sizeof(*gInfoWin), 0, infowin_File, PM_SRC_LINE(0x103, 0x103 - 54));
     MI_CpuFill8(gInfoWin, 0, sizeof(*gInfoWin));
     gInfoWin->bgFrame = bgFrame;
     gInfoWin->palette = palette;
@@ -382,6 +386,18 @@ void INFOWIN_DrawTask(struct TcbTask *task, void *work)
         buf.clk[8] = buf.clk[3] + 0x10;
         buf.clk[9] = buf.clk[4] + 0x10;
         BG_SYS_DrawTileEx(gInfoWin->bgFrame, 1, 0, 5, 2, (void *)buf.clk, 0, 0, 5, 2);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (gInfoWin->isPm == 1) {
+            buf.ap[0] = ((gInfoWin->palette << 12) + 0xD) + gInfoWin->charBase;
+            buf.ap[2] = ((gInfoWin->palette << 12) + 0x1D) + gInfoWin->charBase;
+        } else {
+            buf.ap[0] = ((gInfoWin->palette << 12) + 0xC) + gInfoWin->charBase;
+            buf.ap[2] = ((gInfoWin->palette << 12) + 0x1C) + gInfoWin->charBase;
+        }
+        buf.ap[1] = ((gInfoWin->palette << 12) + 0xE) + gInfoWin->charBase;
+        buf.ap[3] = ((gInfoWin->palette << 12) + 0x1E) + gInfoWin->charBase;
+        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 6, 0, 2, 2, (void *)buf.ap, 0, 0, 2, 2);
+#endif
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 1;
     }
@@ -523,6 +539,9 @@ void INFOWIN_UpdateClock(void)
     if (time.hour != gInfoWin->hour) {
         gInfoWin->hour = time.hour;
         if (gInfoWin->hour >= 0xc) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            gInfoWin->hour -= 0xc;
+#endif
             gInfoWin->isPm = 1;
         } else {
             gInfoWin->isPm = 0;

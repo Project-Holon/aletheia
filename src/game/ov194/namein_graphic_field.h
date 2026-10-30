@@ -41,8 +41,9 @@ u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
 u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction);
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
-void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void **table, u32 unused);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void NAMEIN_GRAPHIC_LoadGrid(void **a, int b, void **c);
+#endif
 void NAMEIN_GRAPHIC_ClearPicker(void *p);
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out);
 void NAMEIN_GRAPHIC_PickerMove(char *a, int *b, int *c);
@@ -53,5 +54,12 @@ void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s);
 int NAMEIN_GRAPHIC_GridValue(NameinGraphicPair *p,NameinGraphicPair *out);
 int NAMEIN_GRAPHIC_ComputeGridValue(const NameinGraphicPair *p,NameinGraphicPair *out);
 /* END mkheaders: generated region */
+
+/* InitPicker takes no table index in the Japanese build. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, void **table, u32 unused);
+#else
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void **table, u32 unused);
+#endif
 
 #endif

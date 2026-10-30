@@ -26,6 +26,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "beacon_status_shared_types.h"
+#include "../version.h"
 
 struct MsgData;         /* opened message bank */
 
@@ -86,6 +87,13 @@ extern const char beacon_status_File[];
  * Allocate the cleared beacon status work and fill its 9-character string
  * with message 0x11 of bank 8.
  */
+/* Message archive member of the beacon status texts. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BEACON_STATUS_MSG_MEMBER 11
+#else
+#define BEACON_STATUS_MSG_MEMBER 8
+#endif
+
 BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
 {
     BeaconStatus *bs;
@@ -95,7 +103,7 @@ BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
 
     bs = GFL_HEAP_Alloc(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
     bs->message = (struct Strbuf *)STRBUF_Create(9, heapId);
-    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, BEACON_STATUS_MSG_MEMBER, msgHeapId);
     str = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msgData, 0x11);
     STRBUF_ToChars((struct Strbuf *)str, code, 9);
     STRBUF_SetString((struct Strbuf *)bs->message, code);

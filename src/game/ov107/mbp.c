@@ -50,6 +50,7 @@
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
  *   GF_PANIC_Fail 0x02034714 arm
+ *   GF_PANIC_FailPrintf 0x02034734 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -270,6 +271,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm  arm9
  */
 
+#include "../version.h"
 #include "mb_comm_sys.h"
 #include "../sdk_ioreg_reg.h"
 
@@ -444,6 +446,12 @@ extern u8 d_021F6AF8[];
 extern MbChildStageMasks gMbChildStageMasks;
 extern MbParentSys gMbParentSys;
 extern const char d_021F6E1C[], d_021F6E24[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F6D40[];
+extern const char str_ja_021F6D48[];
+extern const char str_ja_021F6D5C[];
+extern const char str_ja_021F6D78[];
+#endif
 extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
 extern const char d_021F6E28[];
 extern const MbCommRequest sMbCommSessionRequest;
@@ -487,9 +495,13 @@ void MB_PARENT_SYS_Init(int a, int b)
     zero->words[3] = 0;
     zero->words[4] = 0;
     gMbChildStageMasks = *zero;
-    gMbParentSys.mbWork = GFL_NET_AllocAligned(93, 45312, d_021F6E1C, 158);
+    gMbParentSys.mbWork = GFL_NET_AllocAligned(93, 45312, PM_LANG_JA(d_021F6E1C, str_ja_021F6D40), 158);
     if (MB_Init((void *)gMbParentSys.mbWork, (const MBUserInfo *)&userInfo, a, b, 1))
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_021F6D40, 0xA3, str_ja_021F6D48);
+#else
         GF_PANIC_Fail(d_021F6E24, 0, d_021F6E24);
+#endif
     MB_SetParentCommParam(256, 1);
     MB_CommSetParentStateCallback(MB_PARENT_SYS_EventCallback);
     MB_PARENT_SYS_SetState(1);
@@ -505,7 +517,11 @@ void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel)
     }
     gMbParentSys.registered = 1;
     if (!MB_PARENT_SYS_LoadFileImage(registry))
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_021F6D40, 0xD3, str_ja_021F6D5C);
+#else
         GF_PANIC_Fail(d_021F6E24, 0, d_021F6E24);
+#endif
 }
 
 /* Opens the ROM file named by the registry, reads its header and image into the file buffer. */
@@ -525,7 +541,7 @@ int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry)
             return 0;
     }
     if (MB_GetSegmentLength(fp)) {
-        gMbParentSys.fileBuffer = GFL_HEAP_Alloc(93, 65536, 1, d_021F6E1C, 287);
+        gMbParentSys.fileBuffer = GFL_HEAP_Alloc(93, 65536, 1, PM_LANG_JA(d_021F6E1C, str_ja_021F6D40), 287);
         if (gMbParentSys.fileBuffer) {
             if (MB_ReadSegment((FSFile *)fp, (void *)gMbParentSys.fileBuffer, 65536)) {
                 if (MB_RegisterFile((struct MBGameRegistry *)registry, (void *)gMbParentSys.fileBuffer))
@@ -760,7 +776,11 @@ void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info)
         break;
     case 0:
     default:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_021F6D40, 0x353, str_ja_021F6D78);
+#else
         GF_PANIC_Fail(d_021F6E24, 0, d_021F6E24);
+#endif
         break;
     }
 }

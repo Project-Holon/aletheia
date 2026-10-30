@@ -313,6 +313,12 @@ extern int BTL_REC_IsChannelDone(BtlRecReader *, u8);
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/pm_voice.h"
 #include "../arm9/ringtone_sys.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BTL_MAIN_BATTLE_HEAP_SIZE 0xab000
+#else
+#define BTL_MAIN_BATTLE_HEAP_SIZE 0xab100
+#endif
+
 struct SaveControl;
 #include "../arm9/game_data.h"
 #include "../arm9/perapvoice.h"
@@ -381,7 +387,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
     case 0:
       GFL_HEAP_CreateChildHeap(1, 0x12, 0x20000);
       GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
-      GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
+      GFL_HEAP_CreateChildHeap(1, 0x13, BTL_MAIN_BATTLE_HEAP_SIZE);
       main = PROCSYS_AllocProcWork((struct Proc *)proc, 0x474, 0x12);
       MIi_CpuClear32(0, main, 0x474);
       BTLV_CORE_LoadOverlays(0x13);

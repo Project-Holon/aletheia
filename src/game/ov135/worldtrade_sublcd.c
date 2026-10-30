@@ -363,6 +363,12 @@ void WORLDTRADE_SUBLCD_UpdateSlotAnims(WorldtradeWork *p)
 {
     int i;
     for (i = 0; i < 7; i++) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        /* The Japanese cartridge checks neither the actor nor its current animation. */
+        if (CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)p->spr[i + 1])) != 0) {
+            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)p->spr[i + 1]), WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1);
+        }
+#else
         if (p->spr[i + 1] != 0) {
             int a;
             a = CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)p->spr[i + 1]));
@@ -372,6 +378,7 @@ void WORLDTRADE_SUBLCD_UpdateSlotAnims(WorldtradeWork *p)
                 }
             }
         }
+#endif
     }
 }
 

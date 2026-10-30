@@ -102,6 +102,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "pms_input_data_shared_types.h"
+#include "../version.h"
 #include "../sdk_ioreg_reg.h"
 #include "pms_input_view_shared_types.h"
 #include "pmsiv_category_shared_types.h"
@@ -113,6 +114,15 @@
 #define REG_WINOUT (*(volatile u16 *)REG_WINOUT_ADDR)
 
 #define PMSIV_CATEGORY_COUNT 12
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PMSIV_CATEGORY_MSG_FILE 138
+#define PMSIV_CATEGORY_KANA_X_OFFSET 0
+#define PMSIV_CATEGORY_TITLE_CHARS 8
+#else
+#define PMSIV_CATEGORY_MSG_FILE 145
+#define PMSIV_CATEGORY_KANA_X_OFFSET 5
+#define PMSIV_CATEGORY_TITLE_CHARS 14
+#endif
 #define PMSIV_CATEGORY_HEAP 42
 #define PMSIV_CATEGORY_CURSOR_NONE 254
 
@@ -211,7 +221,7 @@ extern const PmsivCategoryScreenPos sPmsivCategoryCursorOrigin;
 struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInputState *input, struct PmsInputData *wordData)
 {
     struct PmsivCategory *p;
-    p = GFL_HEAP_Alloc(PMSIV_CATEGORY_HEAP, sizeof(struct PmsivCategory), 0, sPmsivCategoryAllocSite, 220);
+    p = GFL_HEAP_Alloc(PMSIV_CATEGORY_HEAP, sizeof(struct PmsivCategory), 0, sPmsivCategoryAllocSite, PM_SRC_LINE(220, 212));
     p->view = view;
     p->input = input;
     p->wordData = wordData;
@@ -284,7 +294,7 @@ u32 PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u32 q)
     struct BmpWin *window;
     u32 width;
     font = PMS_INPUT_VIEW_GetFont(p->view);
-    bank = MSGDATA_CreateFromArchive(0, 2, 145, PMSIV_CATEGORY_HEAP);
+    bank = MSGDATA_CreateFromArchive(0, 2, PMSIV_CATEGORY_MSG_FILE, PMSIV_CATEGORY_HEAP);
     x = 1;
     y = 9;
     for (i = 0; i < PMSIV_CATEGORY_COUNT; i++) {
@@ -331,7 +341,7 @@ u32 PMSIV_CATEGORY_MakeKanaWindow(struct PmsivCategory *p, u32 q)
         PMSI_SEARCH_GetKeyLabel(i, label);
         PMSI_SEARCH_GetKeyPosition(i, &x, &y);
         GF_FONT_SetTextColor(1, 2, 15);
-        PRINTSYS_Print(BMP_WIN_GetBmp(window), x + 5, y, label, font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(window), x + PMSIV_CATEGORY_KANA_X_OFFSET, y, label, font);
     }
     BMP_WIN_TransferChars((struct BmpWin *)window);
     STRBUF_Delete(label);
@@ -547,7 +557,7 @@ void PMSIV_CATEGORY_DrawTitle(struct PmsivCategory *p)
 {
     void *font = PMS_INPUT_VIEW_GetFont(p->view);
     struct BmpWin *window = p->titleWindow;
-    void *title = STRBUF_Create(14, PMSIV_CATEGORY_HEAP);
+    void *title = STRBUF_Create(PMSIV_CATEGORY_TITLE_CHARS, PMSIV_CATEGORY_HEAP);
     PMS_INPUT_SetSearchArg((struct PmsInput *)p->input, title);
     BMP_Clear(BMP_WIN_GetBmp(window), 1);
     GF_FONT_SetTextColor(15, 14, 1);

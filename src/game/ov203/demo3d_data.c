@@ -92,6 +92,7 @@
  *   _fflt                        0x0209BDBC  arm
  *   _fsub                        0x0209CB8C  arm
  */
+#include "../version.h"
 #include "../arm9/printsys.h"
 #include "../sdk_ioreg.h"
 #include "demo3d_graphic_shared_types.h"
@@ -852,7 +853,7 @@ void DEMO3D_DATA_MessageMain(struct TcblTask *taskArg, void *ctxArg)
         void *desc;
         ctx->text = MSGDATA_AllocString(bank,ctx->index);
         GF_FONT_SetTextColor(1,2,15);
-        ctx->printer = PRINTSYS_PrintStream(ctx->desc,0,0,ctx->text,cfg->font,cfg->speed,cfg->task,(u32)0,cfg->heap,15);
+        ctx->printer = PRINTSYS_PrintStream(ctx->desc,0,0,ctx->text,cfg->font,PM_LANG_JA(cfg->speed, (u8)cfg->speed),cfg->task,(u32)0,cfg->heap,15);
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);

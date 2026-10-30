@@ -453,6 +453,7 @@ struct FieldMsgBg;
 #include "../arm9/game_event.h"
 #include "../ov010/comm_player.h"
 #include "../arm9/tpoke_data.h"
+#include "../version.h"
 struct EventCommMsgBox;
 /* next original file (sub display and transition steps) */
 struct PlayerSpinWork;
@@ -1239,8 +1240,10 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (work->memberCount < 2)
         return;
+#if LANGUAGE != LANGUAGE_JAPANESE
     if (INTRUDE_COMM_HasResultReward(work, &work->session) == 1)
         return;
+#endif
     FIELD_PLAYER_GetPos(player, &playerPos);
     wrappedPos = playerPos;
     x = playerPos.x;
@@ -1266,8 +1269,13 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
         INTRUDE_COMM_AdjustAllRemotePositions(work, wrappedPos.x);
     }
     areaIndex += GFL_NET_SYSTEM_GetCurrentAid();
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (areaIndex >= work->memberCount)
+        areaIndex -= work->memberCount;
+#else
     if (areaIndex > work->lastAreaIndex)
         areaIndex -= work->lastAreaIndex + 1;
+#endif
     if (prevAreaId == areaIndex)
         return;
     INTRUDE_COMM_SetIntrudeId(work, areaIndex);

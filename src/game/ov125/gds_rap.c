@@ -142,6 +142,17 @@ struct Strbuf;
 
 /* ARM half of this file and gds_socket.c */
 #include "gds_socket.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021D8C40[];
+extern const char str_ja_021D8C68[];
+extern const char str_ja_021D8C74[];
+extern const char str_ja_021D8CA0[];
+extern const char str_ja_021D8CB8[];
+extern const char str_ja_021D8CBC[];
+extern const char str_ja_021D8CC0[];
+extern const char str_ja_021D8CE8[];
+extern const char str_ja_021D8CFC[];
+#endif
 
 int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params);
 void GDS_RAP_Exit(GdsRapWork *work);
@@ -205,7 +216,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->lastSocketState = -1;
     work->requestId = GDS_REQUEST_NONE;
     work->finishedRequestId = GDS_REQUEST_NONE;
-    work->replyBuffer = GFL_HEAP_Alloc(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
+    work->replyBuffer = GFL_HEAP_Alloc(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, PM_LANG_JA(sGdsRapFileName, str_ja_021D8C40), 0x84);
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
     work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xE8, params->heapId);
     work->wordSet = WORDSET_CreateDefault(params->heapId);
@@ -214,7 +225,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->client.packetType = PM_VERSION_ID;
     work->client.language = PM_LANG_ID;
     if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
-        GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x92), PM_LANG_JA(sGdsEmptyString, str_ja_021D8C68));
     work->active = 1;
     work->initialized = 1;
     return 1;
@@ -274,7 +285,7 @@ int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
 int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag)
 {
     if (!GDS_RAP_IsIdle(work)) return 0;
-    if (categoryIndex >= 20) GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+    if (categoryIndex >= 20) GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x14D), PM_LANG_JA(sGdsEmptyString, str_ja_021D8C74));
     MI_CpuFill8(&work->args.search, 0, 16);
     work->args.search.keyId = keyId;
     work->args.search.category = sGdsSearchCategories[categoryIndex].category;
@@ -375,7 +386,11 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         case 0:
             video = GDS_RAP_GetVideoWork();
             if (work->session != 0)
+#if LANGUAGE == LANGUAGE_JAPANESE
+                GF_PANIC_Fail(str_ja_021D8C40, 0x250, str_ja_021D8CA0);
+#else
                 GF_PANIC_Fail(sGdsEmptyString, ret, sGdsEmptyString);
+#endif
             work->session = NHTTP_RAP_Create((u16)work->heapId, MYSTATUS_GetProfileId(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
             NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
             BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
@@ -385,9 +400,9 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
                 work->memberCount += (u8)video->body.party[i].count;
             }
             if (!NHTTP_RAP_CreatePostRequest(work->session))
-                GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+                GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x263), PM_LANG_JA(sGdsEmptyString, str_ja_021D8CB8));
             if (!(NHTTP_RAP_StartConnection(work->session) == 0 ? 1 : 0))
-                GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+                GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x266), PM_LANG_JA(sGdsEmptyString, str_ja_021D8CB8));
             work->step++;
             break;
         case 1:
@@ -491,7 +506,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         ret = GDS_SOCKET_SendMarkVideo(work->arg2.dataNumber.lo, work->arg2.dataNumber.hi, work->replyBuffer);
         break;
     default:
-        GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x323), PM_LANG_JA(sGdsEmptyString, str_ja_021D8CBC));
         break;
     }
     if (ret == 1)
@@ -602,7 +617,7 @@ int GDS_RAP_ReadReply(GdsRapWork *work)
     int result = 1;
     reply = (const GdsReply *)GDS_SOCKET_GetReply();
     GDS_SOCKET_GetReplySize();
-    if (work->finishedRequestId != reply->requestId) GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
+    if (work->finishedRequestId != reply->requestId) GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString, str_ja_021D8C40), PM_SRC_LINE(0, 0x455), PM_LANG_JA(sGdsEmptyString, str_ja_021D8CC0));
     work->pending.callback = 0;
     switch (reply->requestId) {
     case 0: break;
@@ -693,7 +708,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
     count = list->count;
     if (count > max) {
         count = max;
-        GF_PANIC_Fail(sGdsEmptyString2, 0, sGdsEmptyString2);
+        GF_PANIC_Fail(PM_LANG_JA(sGdsEmptyString2, str_ja_021D8CE8), PM_SRC_LINE(0, 0x159), PM_LANG_JA(sGdsEmptyString2, str_ja_021D8CFC));
     }
     MI_CpuFill8(dst, 0, max * sizeof(GdsVideoListing));
     i = 0;

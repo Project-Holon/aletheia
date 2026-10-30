@@ -149,7 +149,7 @@
 #if PM_LANG_MONTH_AS_NAME
 #define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotMonth(words, slot, month)
 #else
-#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, 1)
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, PM_LANG_HALF_WIDTH_DIGITS)
 #endif
 #include "../sdk_ioreg.h"
 
@@ -545,6 +545,20 @@ void VIEWER_TEXT_DrawRow(ViewerWork *p, void *a, u32 sel, int y, int idx)
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[13], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row10Value, 9, 1, idx);
         break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 11:
+        VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[14], idx);
+        break;
+    case 12:
+        VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row11Value, 9, 1, idx);
+        break;
+    case 13:
+        VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[15], idx);
+        break;
+    case 14:
+        VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row12Value, 9, 1, idx);
+        break;
+#else
     case 11:
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[14], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row11Value, 9, 1, idx);
@@ -553,27 +567,28 @@ void VIEWER_TEXT_DrawRow(ViewerWork *p, void *a, u32 sel, int y, int idx)
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[15], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row12Value, 9, 1, idx);
         break;
-    case 13:
+#endif
+    case PM_LANG_JA(13, 15):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[16], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row13Value, 5, 1, idx);
         break;
-    case 14:
+    case PM_LANG_JA(14, 16):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[17], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row14Value, 4, 1, idx);
         break;
-    case 15:
+    case PM_LANG_JA(15, 17):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[18], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row15Value, 2, 1, idx);
         break;
-    case 16:
+    case PM_LANG_JA(16, 18):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[19], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row16Value, 4, 1, idx);
         break;
-    case 17:
+    case PM_LANG_JA(17, 19):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[20], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row17Value, 3, 1, idx);
         break;
-    case 18:
+    case PM_LANG_JA(18, 20):
         VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0, y, p->msgText[21], idx);
         VIEWER_TEXT_PrintNumber((ViewerWork *)p, a, 0xD8, 8, y, s, info->row18Value, 4, 1, idx);
         break;
@@ -600,24 +615,24 @@ void VIEWER_TEXT_BuildRowList(void *p, ViewerInfo *info)
 {
     int i;
 
-    for (i = 0; i < 13; i++) {
+    for (i = 0; i < PM_LANG_JA(13, 15); i++) {
         VIEWER_TEXT_AddRow(p, i);
     }
     if (info->hasRow14) {
-        VIEWER_TEXT_AddRow(p, 14);
-        VIEWER_TEXT_AddRow(p, 13);
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(14, 16));
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(13, 15));
     }
     if (info->hasRow15) {
-        VIEWER_TEXT_AddRow(p, 15);
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(15, 17));
     }
     if (info->hasRow16) {
-        VIEWER_TEXT_AddRow(p, 16);
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(16, 18));
     }
     if (info->hasRow17) {
-        VIEWER_TEXT_AddRow(p, 17);
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(17, 19));
     }
     if (info->hasRow18) {
-        VIEWER_TEXT_AddRow(p, 18);
+        VIEWER_TEXT_AddRow(p, PM_LANG_JA(18, 20));
     }
 }
 
@@ -652,7 +667,7 @@ void VIEWER_TEXT_PrintNumber(ViewerWork *p, void *a, int x, int dx, int y, void 
 {
     u32 w;
 
-    WORDSET_FormatNumber(s, n, kind, mode, 1);
+    WORDSET_FormatNumber(s, n, kind, mode, PM_LANG_HALF_WIDTH_DIGITS);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -665,7 +680,7 @@ void VIEWER_TEXT_PrintDigits(ViewerWork *p, void *a, int x, int dx, int y, void 
 {
     u32 w;
 
-    WORDSET_SetSlotNumber(p->wordSet, 0, n, digits, mode, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 0, n, digits, mode, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[k]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
@@ -679,9 +694,9 @@ void VIEWER_TEXT_PrintString(ViewerWork *p, void *a, int x, int dx, int y, void 
 {
     u32 w;
 
-    WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year1 + 2000, 4, mode, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year1 + 2000, 4, mode, PM_LANG_HALF_WIDTH_DIGITS);
     VIEWER_SET_MONTH(p->wordSet, 1, p->info->month1, mode);
-    WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[2]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
@@ -696,11 +711,11 @@ void VIEWER_TEXT_PrintStringClipped(ViewerWork *p, void *win, int x, int ofs, in
 {
     int w;
 
-    WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year2 + 2000, 4, mode, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year2 + 2000, 4, mode, PM_LANG_HALF_WIDTH_DIGITS);
     VIEWER_SET_MONTH(p->wordSet, 1, p->info->month2, mode);
-    WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day2, 2, mode, 1);
-    WORDSET_SetSlotNumber(p->wordSet, 3, p->info->row2Value, 2, 2, 1);
-    WORDSET_SetSlotNumber(p->wordSet, 4, p->info->row5Value, 2, 2, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day2, 2, mode, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(p->wordSet, 3, p->info->row2Value, 2, PM_LANG_JA(2, mode), PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(p->wordSet, 4, p->info->row5Value, 2, PM_LANG_JA(2, mode), PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(p->wordSet, str, p->taggedText[3]);
     w = PRINTSYS_MeasureWidestLine(str, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(win), x - (w + ofs), y, str, p->font, d_021C8768[col]);
@@ -715,7 +730,7 @@ void VIEWER_TEXT_PrintStringPad(ViewerWork *p, void *a, int x, int dx, int y, vo
 {
     u32 w;
 
-    WORDSET_SetSlotNumber(p->wordSet, 0, n, 3, mode, 1);
+    WORDSET_SetSlotNumber(p->wordSet, 0, n, 3, mode, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(p->wordSet, (void *)(s), p->taggedText[4]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
@@ -730,8 +745,11 @@ void VIEWER_TEXT_PrintWrapped(ViewerWork *p, void *a, int x, int dx, int y, void
 {
     u32 w;
 
-    WORDSET_FormatNumber(s, n, kind, mode, 1);
+    WORDSET_FormatNumber(s, n, kind, mode, PM_LANG_HALF_WIDTH_DIGITS);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    BMP_FillRect(BMP_WIN_GetBmp(a), (s16)w0, 0, (u16)h0, 16, 0);
+#endif
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -759,16 +777,16 @@ void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info,
 
     if (info->playTime == 0) {
         VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0, y, s, info->row1Pad, 2, 2, 0xD0, 0x10, idx);
-        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0x13, y, s, info->row1Value, 3, 1, 0xAD, 0x1B, idx);
-        PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->strbuf1, p->font, d_021C8768[idx]);
+        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, PM_LANG_JA(0x13, 0x18), y, s, info->row1Value, 3, 1, PM_LANG_JA(0xAD, 0xA8), PM_LANG_JA(0x1B, 0x20), idx);
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), PM_LANG_JA(0xC6, 0xC2), y, p->strbuf1, p->font, d_021C8768[idx]);
     } else {
         v = PLAYTIME_GetHours(info->playTime);
         if (v > 999) {
             v = 999;
         }
         VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0, y, s, PLAYTIME_GetMinutes(info->playTime), 2, 2, 0xD0, 0x10, idx);
-        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
-        PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), 0xC6, y, p->strbuf1, p->font, d_021C8768[idx]);
+        VIEWER_TEXT_PrintWrapped((ViewerWork *)p, a, 0xD8, PM_LANG_JA(0x13, 0x18), y, s, v, 3, 1, PM_LANG_JA(0xAD, 0xA8), PM_LANG_JA(0x1B, 0x20), idx);
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), PM_LANG_JA(0xC6, 0xC2), y, p->strbuf1, p->font, d_021C8768[idx]);
     }
 }
 

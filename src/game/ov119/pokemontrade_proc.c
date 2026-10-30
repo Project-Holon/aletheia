@@ -657,6 +657,7 @@ struct TcbTask;
 
 
 #include "../arm9/poke_regulation.h"
+#include "../version.h"
 
 void POKETRADE_PROC_ResetTouchbarBackButton(TradeWork *p);
 
@@ -838,7 +839,9 @@ void POKETRADE_PROC_StepApplyAddOffer(TradeWork *p);
 
 void POKETRADE_PROC_StepSendApplyAddOffer(TradeWork *p);
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void POKETRADE_PROC_StepWaitTouchReleasePeer(TradeWork *p);
+#endif
 
 void POKETRADE_PROC_StepPeerSummaryMenu(TradeWork *p);
 
@@ -2054,10 +2057,12 @@ void POKETRADE_PROC_StepSendApplyAddOffer(TradeWork *p) {
     } else POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepApplyAddOffer);
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void POKETRADE_PROC_StepWaitTouchReleasePeer(TradeWork *p) {
  int a,b;
  if(!TOUCHPANEL_GetPointCont((u32 *)(&a),(u32 *)(&b))) POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepBrowseGrid);
 }
+#endif
 
 void POKETRADE_PROC_StepPeerSummaryMenu(TradeWork *p)
 {
@@ -2147,7 +2152,11 @@ void POKETRADE_PROC_StepPeerSummaryMenu(TradeWork *p)
             }
         } else {
             POKETRADE_NEGO_SetOfferMarkersState(p,1);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepBrowseGrid);
+#else
             POKETRADE_PROC_SetStep(p,POKETRADE_PROC_StepWaitTouchReleasePeer);
+#endif
         }
         p->peerSelectedBox=-1;
         p->peerSelectedSlot=-1;
@@ -3116,7 +3125,7 @@ void POKETRADE_PROC_VBlank(struct TcbTask *a, void *pArg)
     }
 }
 
-void POKETRADE_PROC_SetupGameData(TradeWork *p,void *q,u16 r) {unsigned i;for(i=0;i<3;i++)p->tradeBuf[i]=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0xfde);if(q){p->gameData=q;p->boxManager=(struct GameData *)GAME_DATA_GetBoxManager(q);p->trainerRecord=GAME_DATA_GetMyStatus(q);p->partyData=GAME_DATA_GetMyParty(q);if(p->playerStatus==0){if(POKETRADE_PROC_IsNetSession(p)){p->playerStatus=GAME_DATA_GetMyStatusPlayer(q,1-GFL_NET_SYSTEM_GetCurrentAid());return;}p->playerStatus=GAME_DATA_GetMyStatusPlayer(q,1);}}}
+void POKETRADE_PROC_SetupGameData(TradeWork *p,void *q,u16 r) {unsigned i;for(i=0;i<3;i++)p->tradeBuf[i]=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,PM_SRC_LINE(0xfde, 0xfcd));if(q){p->gameData=q;p->boxManager=(struct GameData *)GAME_DATA_GetBoxManager(q);p->trainerRecord=GAME_DATA_GetMyStatus(q);p->partyData=GAME_DATA_GetMyParty(q);if(p->playerStatus==0){if(POKETRADE_PROC_IsNetSession(p)){p->playerStatus=GAME_DATA_GetMyStatusPlayer(q,1-GFL_NET_SYSTEM_GetCurrentAid());return;}p->playerStatus=GAME_DATA_GetMyStatusPlayer(q,1);}}}
 
 void POKETRADE_PROC_FreeMons(TradeWork *p, int unused)
 {
@@ -3231,10 +3240,10 @@ int POKETRADE_PROC_InitTradeWork(void *a,int b,char *q,TradeWork *p,int n)
     p->heapId=31;
     p->tradeState=n;
     p->request=(struct TradeRequest *)q;
-    p->monABuf=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0x110b);
-    p->monBBuf=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,0x110c);
-    p->subObjPaletteCopy=GFL_HEAP_Alloc(0x91,512,0,gGameDataAllocTag,0x110d);
-    p->subBgPaletteCopy=GFL_HEAP_Alloc(0x91,512,0,gGameDataAllocTag,0x110e);
+    p->monABuf=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,PM_SRC_LINE(0x110b, 0x10fa));
+    p->monBBuf=GFL_HEAP_Alloc(0x91,POKE_TOOL_GetPartyParamSize(),1,gGameDataAllocTag,PM_SRC_LINE(0x110c, 0x10fb));
+    p->subObjPaletteCopy=GFL_HEAP_Alloc(0x91,512,0,gGameDataAllocTag,PM_SRC_LINE(0x110d, 0x10fc));
+    p->subBgPaletteCopy=GFL_HEAP_Alloc(0x91,512,0,gGameDataAllocTag,PM_SRC_LINE(0x110e, 0x10fd));
     p->nationalDexEnabled=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct TradeRequest *)q)->gameData));
     if(q) POKETRADE_PROC_SetupGameData(p,((struct TradeRequest *)q)->gameData,((struct TradeRequest *)q)->setupParam);
     POKETRADE_PROC_SetupBoxCounts(p);POKETRADE_PROC_InitMcssSystem(p);POKETRADE_PROC_InitDisplay(p);

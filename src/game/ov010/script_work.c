@@ -60,6 +60,7 @@
  *   SCRIPT_SYS_IsChildScript  0x02158DB0  thumb  ov010
  */
 #include "script_work_types.h"
+#include "../version.h"
 
 typedef struct ScriptCheckTask ScriptCheckTask;
 typedef int (*ScriptCheckHandler)(ScriptCheckTask *task, int *state);
@@ -185,7 +186,7 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
 
 ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, void *targetObjParam, ScriptWork *parentWork)
 {
-    ScriptWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sScriptWorkFileName, 0xAF);
+    ScriptWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sScriptWorkFileName, PM_SRC_LINE(0xAF, 0xAD));
     work->magic = SCRIPT_WORK_MAGIC;
     work->heapId = heapId;
     work->gameSystem = gameSystem;
@@ -196,9 +197,9 @@ ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 sc
     work->parentWork = parentWork;
     work->isChild = SCRIPT_SYS_IsChildScript((sptr)parentWork);
     if (work->isChild == 0) {
-        work->wordSet = WORDSET_Create(0x1C, 0x40, heapId);
-        work->msgBuffer = STRBUF_Create(0x500, heapId);
-        work->tempBuffer = STRBUF_Create(0x500, heapId);
+        work->wordSet = WORDSET_Create(PM_LANG_JA(0x1C, 0x20), 0x40, heapId);
+        work->msgBuffer = STRBUF_Create(PM_LANG_JA(0x500, 0x400), heapId);
+        work->tempBuffer = STRBUF_Create(PM_LANG_JA(0x500, 0x400), heapId);
     } else {
         work->wordSet = 0;
         work->msgBuffer = 0;
@@ -334,7 +335,7 @@ int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, 
 
 void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work)
 {
-    void *backup = GFL_HEAP_Alloc(work->heapId, 0x7e, 1, sScriptWorkFileName, 0x21b);
+    void *backup = GFL_HEAP_Alloc(work->heapId, 0x7e, 1, sScriptWorkFileName, PM_SRC_LINE(0x21b, 0x219));
     MIi_CpuCopy16(SCRIPT_WORK_GetLocalWork(work, 0x8020), backup, 0x7e);
     return backup;
 }

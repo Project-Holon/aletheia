@@ -20,6 +20,7 @@
  *   gSpeciesNameBank      0x020A7370  data
  */
 #include "../types.h"
+#include "../version.h"
 
 struct MsgData;
 
@@ -198,6 +199,9 @@ void MON_SNAPSHOT_Fill(struct BoxMonSlot *slots, int index, void *mon)
         slots[index].tag = 0xff;
     slots[index].pid = POKE_TOOL_GetPartyValue(mon, 0, 0);
     slots[index].experience = POKE_TOOL_GetPartyValue(mon, 7, 0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    POKE_TOOL_GetPartyValue(mon, 0x74, (uptr)slots[index].name);
+#else
     if (POKE_TOOL_GetPartyValue(mon, 0x75, 0) != 0) {
         POKE_TOOL_GetPartyValue(mon, 0x74, (uptr)slots[index].name);
     } else {
@@ -206,5 +210,6 @@ void MON_SNAPSHOT_Fill(struct BoxMonSlot *slots, int index, void *mon)
         MSGDATA_ReadUnits(gSpeciesNameBank, POKE_TOOL_GetPartyValue(mon, 5, 0), buf, 0xb);
         WORDSET_CopyString(buf, slots[index].name, 0xb);
     }
+#endif
     slots[index].bits.flag = 1;
 }

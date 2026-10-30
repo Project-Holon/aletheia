@@ -639,6 +639,7 @@ struct BtlvMcssWork;
 
 
 #include "btlv_mcss.h"
+#include "../version.h"
 
 BtlvInput *BTLV_INPUT_CreateDefault(void *infoWinParam, int battleType, PaletteFade *palAnm, void *font, u8 *cursorVisible, u16 heap);
 
@@ -930,9 +931,9 @@ BtlvInput *BTLV_INPUT_Create(void *infoWinParam, int battleType, int seMode, Pal
     BtlvInputVisibilityTask *r;
     int i;
 
-    input = GFL_HEAP_Alloc(heap, sizeof(BtlvInput), 1, d_0220AEB0, 0x39a);
+    input = GFL_HEAP_Alloc(heap, sizeof(BtlvInput), 1, d_0220AEB0, PM_SRC_LINE(0x39a, 0x394));
     input->heap = heap;
-    input->taskMgrMem = GFL_HEAP_Alloc(input->heap, TCB_GetTaskOffset(8), 1, d_0220AEB0, 0x39e);
+    input->taskMgrMem = GFL_HEAP_Alloc(input->heap, TCB_GetTaskOffset(8), 1, d_0220AEB0, PM_SRC_LINE(0x39e, 0x398));
     input->taskMgr = TCB_Init(8, input->taskMgrMem);
     input->infoWinParam = infoWinParam;
     input->font = font;
@@ -957,10 +958,10 @@ BtlvInput *BTLV_INPUT_Create(void *infoWinParam, int battleType, int seMode, Pal
     for (i = 0; i < 4; i++) {
         input->typeChr[i] = -1;
     }
-    input->msgData = MSGDATA_CreateFromArchive(0, 2, 12, input->heap);
+    input->msgData = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(12, 19), input->heap);
     input->pending = -1;
     BTLV_INPUT_LoadScreenResources(input);
-    r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*r), 0, d_0220AEB0, 0x3cc);
+    r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*r), 0, d_0220AEB0, PM_SRC_LINE(0x3cc, 0x3c6));
     r->owner = input;
     r->mode = visibilityMode;
     BTLV_INPUT_RegisterTask((void *)input, TCB_AddTask(input->taskMgr, BTLV_INPUT_VisibilityTaskMain, r, 0), 0);
@@ -1148,7 +1149,7 @@ void BTLV_INPUT_StartPaletteFadeTask(BtlvInput *input, int flag)
 {
     BtlvInput **p;
 
-    p = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*p), 0, d_0220AEB0, 0x4F7);
+    p = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*p), 0, d_0220AEB0, PM_SRC_LINE(0x4F7, 0x4F1));
     if (flag == 1)
         PALANM_RequestFade(input->palAnm, 0xA, 0xFFFF, 1, 0, 0x10, 0, input->taskMgr);
     else
@@ -1166,7 +1167,7 @@ void BTLV_INPUT_StartPaletteFadeTask(BtlvInput *input, int flag)
 void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input)
 {
     BtlvInput **q;
-    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*q), 0, d_0220AEB0, 0x50c);
+    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*q), 0, d_0220AEB0, PM_SRC_LINE(0x50c, 0x506));
     if (GXx_GetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR) <= 0)
         FADE_Start(2, 0x10, 0, 0);
     else
@@ -1204,7 +1205,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             BTLV_INPUT_StartBgScrollOffsetTask((void *)input, -1, 0, 0, 0, 0, 2, 1);
             PALANM_RequestFade(input->palAnm, 2, 3, 1, 12, 12, 0x842, input->taskMgr);
         } else {
-            t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x549);
+            t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x549, 0x543));
             input->flags.busy = 1;
             t->input = input;
             if (input->infoWinEnabled == 1)
@@ -1229,7 +1230,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     case 1: {
         Arg1 *a = arg;
         BtlvInputTask *t1;
-        t1 = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t1), 1, d_0220AEB0, 0x570);
+        t1 = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t1), 1, d_0220AEB0, PM_SRC_LINE(0x570, 0x56a));
         input->battlePos = a->battlePos;
         BTLV_INPUT_PrepareCommandSelect((void *)input);
         BTLV_EFFECT_SetIntroState(2);
@@ -1269,7 +1270,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     case 2: {
         Arg2 *a = arg;
         BtlvInputTask *t2;
-        t2 = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t2), 1, d_0220AEB0, 0x5bd);
+        t2 = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t2), 1, d_0220AEB0, PM_SRC_LINE(0x5bd, 0x5b7));
         BTLV_INPUT_DrawWazaButtons((void *)input, (const Slots *)((const struct Slots *)a));
         input->flags.busy = 1;
         t2->input = input;
@@ -1296,7 +1297,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         break;
     }
     case 3:
-        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x5ec);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x5ec, 0x5e6));
         BTLV_INPUT_DrawTargetButtons((void *)input, (Out *)((struct Out *)t), (const BtlvInputTargetInfo *)arg);
         input->flags.busy = 1;
         t->input = input;
@@ -1304,7 +1305,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         BTLV_INPUT_RegisterTask((void *)input, TCB_AddTask(input->taskMgr, BTLV_INPUT_TargetScreenOpenTask, t, 1), BTLV_INPUT_TaskEndClearBusyBit);
         break;
     case 4:
-        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x5f8);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x5f8, 0x5f2));
         BTLV_INPUT_DrawMessageText(input, arg);
         input->flags.busy = 1;
         t->input = input;
@@ -1314,7 +1315,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     case 5: {
         Arg5 *a = arg;
         int k;
-        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x605);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x605, 0x5ff));
         if (input->screen != 0) {
             input->flags.bits17 = 0;
             input->flags.slotIndex = 0;
@@ -1354,7 +1355,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
             break;
         }
         if (input->screen == 0) {
-            t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x65f);
+            t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x65f, 0x659));
             input->flags.busy = 1;
             t->input = input;
             if (a->selectMode == 0) {
@@ -1382,7 +1383,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
         break;
     }
     case 7:
-        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, 0x68c);
+        t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(BtlvInputTask), 1, d_0220AEB0, PM_SRC_LINE(0x68c, 0x686));
         input->flags.busy = 1;
         t->input = input;
         BTLV_INPUT_RegisterTask((void *)input, TCB_AddTask(input->taskMgr, BTLV_INPUT_ConfirmScreenOpenTask, t, 1), BTLV_INPUT_TaskEndClearBusyBit);
@@ -2137,7 +2138,7 @@ void BTLV_INPUT_StartBgScrollTask(BtlvInput *input, int startScale, int goalScal
 {
     BtlvInputSlideTask *o;
 
-    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*o), 0, d_0220AEB0, 0xb97);
+    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*o), 0, d_0220AEB0, PM_SRC_LINE(0xb97, 0xb84));
     o->input = input;
     o->cur = startScale;
     o->goal = goalScale;
@@ -2174,7 +2175,7 @@ void BTLV_INPUT_StartBgWipeTask(BtlvInput *input, int x, int y, int dy, int coun
 {
     BtlvInputScrollTask *o;
 
-    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*o), 0, d_0220AEB0, 0xbd5);
+    o = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*o), 0, d_0220AEB0, PM_SRC_LINE(0xbd5, 0xbc2));
     o->input = input;
     o->state = 0;
     o->x = x;
@@ -2212,7 +2213,7 @@ void BTLV_INPUT_StartPaletteCycleTask(BtlvInput *input, int unused, int palSet)
 {
     BtlvInputPaletteCycleTask *t;
 
-    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, 0xc10);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, PM_SRC_LINE(0xc10, 0xbfd));
     t->input = input;
     t->tab = 0;
     t->palSet = palSet;
@@ -2260,7 +2261,7 @@ void BTLV_INPUT_CreateCursorActors(BtlvInput *input, int rowIndex, int animIndex
     BtlvInputCursorRow *row;
     struct ActorInitParam quad;
 
-    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, 0xc53);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, PM_SRC_LINE(0xc53, 0xc40));
     quad = d_0220A53C;
     t->input = input;
     t->unit = CLACT_CreateUnit(6, 0, input->heap);
@@ -2315,7 +2316,7 @@ void BTLV_INPUT_StartPaletteFlashTask(BtlvInput *input, int kind)
 {
     BtlvInputPaletteFlashTask *t;
 
-    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, 0xcc9);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, PM_SRC_LINE(0xcc9, 0xcb6));
     t->input = input;
     t->kind = kind;
     BTLV_INPUT_RegisterTask((void *)input, TCB_AddTask(input->taskMgr, BTLV_INPUT_PaletteFlashTaskMain, t, 0), BTLV_INPUT_PaletteFlashTaskEnd);
@@ -2370,7 +2371,7 @@ void BTLV_INPUT_StartBgScrollOffsetTask(BtlvInput *input, int bg, int scrollX, i
 {
     BtlvInputBgScrollOffsetTask *t;
 
-    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, 0xd1d);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 0, d_0220AEB0, PM_SRC_LINE(0xd1d, 0xd0a));
     t->input = input;
     t->bg = bg;
     t->scrollX = scrollX;
@@ -2452,7 +2453,7 @@ void BTLV_INPUT_StartScreenTransition(BtlvInput *input, int screen)
     BtlvInputTask *t;
     int k;
 
-    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 1, d_0220AEB0, 0xd8c);
+    t = GFL_HEAP_Alloc(HEAPID(input->heap), sizeof(*t), 1, d_0220AEB0, PM_SRC_LINE(0xd8c, 0xd79));
     k = input->flags.slotIndex;
     input->flags.slotIndex = d_0220A38C[k][screen - 5];
     input->flags.busy = 1;
@@ -2782,8 +2783,8 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *slots)
             WORDSET_CopyTaggedText(font, str1, m0);
             BTLV_INPUT_GetTextBlockSize(str1, input->font, &w, &h);
             PRINTSYS_Print(input->bmpA, (s16)(d_0220A4AC[i].x - w / 2), d_0220A4AC[i].y, str1, input->font);
-            WORDSET_SetSlotNumber(font, 0, slots->a[i], 2, 1, 1);
-            WORDSET_SetSlotNumber(font, 1, slots->b[i], 2, 1, 1);
+            WORDSET_SetSlotNumber(font, 0, slots->a[i], 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(font, 1, slots->b[i], 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(font, str2, m2);
             col = BTLV_INPUT_GetPpTextColor(slots->a[i], slots->b[i]);
             cb = (u8)(col & 0x1f);
@@ -2952,14 +2953,14 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *params)
     w = MSGDATA_AllocString(input->msgData, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(9, 10, 0);
-    WORDSET_SetSlotNumber(h, 0, params[2], 3, 2, 1);
+    WORDSET_SetSlotNumber(h, 0, params[2], 3, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(h, v, w);
     PRINTSYS_Print((void *)(input->bmpA), 0x8c, 8, v, (void *)(input->font));
     if (params[0] != params[1])
         GF_FONT_SetTextColor(7, 8, 0);
-    WORDSET_SetSlotNumber(h, 0, params[1], 3, 2, 1);
+    WORDSET_SetSlotNumber(h, 0, params[1], 3, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(h, v, w);
-    PRINTSYS_Print((void *)(input->bmpA), 0x60, 8, v, (void *)(input->font));
+    PRINTSYS_Print((void *)(input->bmpA), PM_LANG_JA(0x60, 0x5c), 8, v, (void *)(input->font));
     GF_FONT_SetTextColor(1, 2, 0);
     extra = MSGDATA_AllocString(input->msgData, 7);
     PRINTSYS_Print((void *)(input->bmpA), 0x7c, 8, extra, (void *)(input->font));
@@ -3048,7 +3049,7 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
     *(volatile u16 *)REG_DB_WIN1H_ADDR = 0x100;
     *(volatile u16 *)REG_DB_WIN1V_ADDR = 0;
     if (n > 1) {
-        r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(BtlvInputWindowTask), 0, d_0220AEB0, 0x1145);
+        r = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(BtlvInputWindowTask), 0, d_0220AEB0, PM_SRC_LINE(0x1145, 0x1132));
         r->input = input;
         r->count = n;
         BTLV_INPUT_RegisterTask(input, GFL_USE_AddMainTask(BTLV_INPUT_WindowOpenTaskMain, r, 0), 0);
@@ -3108,7 +3109,7 @@ void BTLV_INPUT_DeleteActionButtonActors(BtlvInput *input)
         input->pokePal = -1;
     }
     if (!empty) {
-        ctx = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(BtlvInputWindowTask), 0, d_0220AEB0, 0x11b2);
+        ctx = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(BtlvInputWindowTask), 0, d_0220AEB0, PM_SRC_LINE(0x11b2, 0x119f));
         ctx->input = input;
         BTLV_INPUT_RegisterTask(input, GFL_USE_AddMainTask(BTLV_INPUT_WindowCloseTaskMain, ctx, 0), 0);
     }
@@ -3143,7 +3144,7 @@ void BTLV_INPUT_CreateStatusIcons(BtlvInput *input, int statusKind)
     CLACT_SetActorAutoAnim(input->statusActors[1], 1);
     CLACT_SetActorAnimSeq(input->statusActors[1], 14);
     CLACT_SetActorPaletteOffset(input->statusActors[1], (u8)a.v[index], 0);
-    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*q), 0, d_0220AEB0, 0x11ec);
+    q = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*q), 0, d_0220AEB0, PM_SRC_LINE(0x11ec, 0x11d9));
     q[0] = (void *)input;
     BTLV_INPUT_RegisterTask(input, TCB_AddTask((void *)input->taskMgr, BTLV_INPUT_CursorMoveTaskMain, q, 0), BTLV_INPUT_CursorMoveTaskEnd);
     input->flags.animTasks++;
@@ -3544,7 +3545,7 @@ int BTLV_INPUT_SetSelection(BtlvInput *input, int choice, int colour)
         input->pending = choice | 0x8000;
     else
         input->pending = choice;
-    c = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*c), 0, d_0220AEB0, 0x1440);
+    c = GFL_HEAP_Alloc((u16)((input->heap & 0x7fff) | 0x8000), sizeof(*c), 0, d_0220AEB0, PM_SRC_LINE(0x1440, 0x142d));
     flag = 0;
     if ((0x10000 & colour) == 0)
         flag = 1;
@@ -3609,7 +3610,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
     w = MSGDATA_AllocString(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     GF_FONT_SetTextColor(1, 2, 0);
-    WORDSET_SetSlotNumber(h, 0, ((Arg1 *)runInfo)->runTextId, 2, 0, 1);
+    WORDSET_SetSlotNumber(h, 0, ((Arg1 *)runInfo)->runTextId, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(h, v, w);
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, input->font, &textWidth, &textHeight);
     PRINTSYS_Print((void *)(input->bmpB), (s16)(12 - textWidth / 2), 0, v, (void *)(input->font));

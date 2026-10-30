@@ -231,7 +231,9 @@ struct Unit;
 #include "../arm9/ui.h"
 
 #include "../arm9/touchpanel.h"
+#include "../version.h"
 
+/* Numbers print half width everywhere but in Japanese. */
 
 
 
@@ -453,8 +455,8 @@ void MANUAL_COMMON_DrawTouchbarContinue(char *touchbar)
     words=WORDSET_CreateDefault(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     slot=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank[0],4);
     str=(struct U16Vec *)STRBUF_Create(16,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
-    WORDSET_SetSlotNumber(words,0,((struct ManualTouchbar *)touchbar)->selectY+1,1,0,1);
-    WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,1);
+    WORDSET_SetSlotNumber(words,0,((struct ManualTouchbar *)touchbar)->selectY+1,1,0,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(words,(struct Strbuf *)str,slot);
     PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2],BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp[1])),32,4,(struct Strbuf *)str,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
     STRBUF_Delete((struct Strbuf *)str);STRBUF_Delete(slot);WORDSET_Delete(words);

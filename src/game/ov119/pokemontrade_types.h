@@ -10,6 +10,7 @@ typedef struct { int a, b, c; } PokemontradeIntTriple;
 
 /* Fixed-point position used by the icon flight path. */
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_fx.h"
 #include "../arm9/g3d_util_types.h"
 #include "../ov114/nhttp_rap_types.h"
@@ -215,8 +216,12 @@ typedef struct TradeWork {
     void * tcbl;
     unsigned char pad_748[4];
     void * keyCursor;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    struct BmpWin *subScreenWin[44];            /* 0x750 */
+#else
     struct BmpWin *subScreenWin[26];            /* 0x750 */
     unsigned char pad_7B8[72];
+#endif
     int  filterIndex;
     unsigned char pad_804[12];
     struct G3dCamera * camera;

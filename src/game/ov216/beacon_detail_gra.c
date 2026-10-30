@@ -248,7 +248,11 @@ struct Tcbl;
 #include "../version.h"
 
 /* The play time line of a slot: its first tile column and width in tiles differ per language. */
-#if LANGUAGE == LANGUAGE_SPANISH
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BEACON_DETAIL_PLAYTIME_TILE_X 9
+#define BEACON_DETAIL_PLAYTIME_TEXT_X 0
+#define BEACON_DETAIL_PLAYTIME_WIDTH 10
+#elif LANGUAGE == LANGUAGE_SPANISH
 #define BEACON_DETAIL_PLAYTIME_TILE_X 7
 #define BEACON_DETAIL_PLAYTIME_WIDTH 12
 #elif LANGUAGE == LANGUAGE_FRENCH
@@ -264,7 +268,9 @@ struct Tcbl;
 #define BEACON_DETAIL_PLAYTIME_TILE_X 6
 #define BEACON_DETAIL_PLAYTIME_WIDTH 13
 #endif
+#ifndef BEACON_DETAIL_PLAYTIME_TEXT_X
 #define BEACON_DETAIL_PLAYTIME_TEXT_X (BEACON_DETAIL_PLAYTIME_TILE_X * 8)
+#endif
 
 #include "../arm9/arc_tool.h"
 #include "../sdk_ioreg.h"
@@ -776,6 +782,12 @@ void BEACON_DETAIL_GRA_Delete(char *p)
     GFL_HEAP_Free((void *)(((struct BeaconDetailGraWork *)p)->beaconRecord));
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BEACON_DETAIL_MSG_ARCHIVE 0xa
+#else
+#define BEACON_DETAIL_MSG_ARCHIVE 7
+#endif
+
 void BEACON_DETAIL_GRA_CreateObjects(char *p)
 {
     *(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl=(struct Tcbl *)TCBL_Create(((struct BeaconDetailGraWork *)p)->heapId,((struct BeaconDetailGraWork *)p)->heapId,64,128);
@@ -784,7 +796,7 @@ void BEACON_DETAIL_GRA_CreateObjects(char *p)
     ((struct BeaconDetailGraWork *)p)->printQue=PRINTSYS_QUE_CreateEx(2048,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct GfFont * *)&((struct BeaconDetailGraWork *)p)->font.ptr=GF_FONT_Create(23,0,0,0,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet=WORDSET_Create(8,64,((struct BeaconDetailGraWork *)p)->heapId);
-    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,7,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,BEACON_DETAIL_MSG_ARCHIVE,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2=MSGDATA_CreateFromArchive(0,2,231,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf=(struct U16Vec *)STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
     *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2=(struct U16Vec *)STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
@@ -1431,8 +1443,8 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     else {WORDSET_SetSlotFromMsg2B(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,subtype);BEACON_DETAIL_GRA_PrintMsg((u8 *)p,4);}
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->win[2]),((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,0);
     GAME_BEACON_ACCESSOR_GetPlayTime(record,&counts.b,&counts.a);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,2,counts.b,3,0,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,3,counts.a,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,2,counts.b,3,0,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,3,counts.a,2,2,PM_LANG_HALF_WIDTH_DIGITS);
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,6);
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->win[3]),((struct BeaconDetailGraWork *)p)->textBuf2,BEACON_DETAIL_PLAYTIME_TILE_X,BEACON_DETAIL_PLAYTIME_TEXT_X,BEACON_DETAIL_PLAYTIME_WIDTH,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
@@ -1440,10 +1452,10 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,8);
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->winB),((struct BeaconDetailGraWork *)p)->textBuf2,0,0,28,4,0);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,PM_LANG_HALF_WIDTH_DIGITS);
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,10);
-    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->winC),((struct BeaconDetailGraWork *)p)->textBuf2,21,0,6,4,0);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(&((struct BeaconDetailGraEntry *)q)->winC),((struct BeaconDetailGraWork *)p)->textBuf2,PM_LANG_JA(21,18),0,PM_LANG_JA(6,9),4,0);
     if(PMS_DRAW_IsActive(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw,slot)!=0) PMS_DRAW_Clear((struct PmsDraw *)(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw),slot,1);
     GAME_BEACON_ACCESSOR_GetDetailsPms(record,(struct GameBeaconPms *)(&data));
     PMS_DRAW_Print(((struct BeaconDetailGraWork *)p)->pmsDraw,((struct BeaconDetailGraEntry *)q)->iconWindow.handle,&data,slot);
@@ -1490,8 +1502,8 @@ void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p)
     }
     BMP_Clear((struct Bmp *)((struct BeaconDetailGraWork *)p)->infoWindow.buffer,15);
     high=(u8)(((struct BeaconDetailGraWork *)p)->level>>8);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,high,2,0,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,(u8)((struct BeaconDetailGraWork *)p)->level,2,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,PM_LANG_JA(high,high%12),2,0,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,(u8)((struct BeaconDetailGraWork *)p)->level,2,2,PM_LANG_HALF_WIDTH_DIGITS);
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,(high/12)+13);
     BEACON_DETAIL_GRA_DrawRecord(p,(char *)&((struct BeaconDetailGraWork *)p)->infoWindow,0,0,((struct BeaconDetailGraWork *)p)->textBuf2,0x1d0f);
     BEACON_DETAIL_GRA_SetNameSlots(((struct BeaconDetailGraWork *)p)->beaconRecord,((struct BeaconDetailGraWork *)p)->wordSet);

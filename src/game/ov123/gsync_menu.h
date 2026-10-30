@@ -11,6 +11,7 @@ typedef struct ButtonWinDef ButtonWinDef;
 #include "../ov123/gsync_menu_types.h"
 #include "../ov123/gsync_menu_types.h"
 #include "../types.h"
+#include "../version.h"
 
 void GSYNC_MENU_SetStateFunc(GsyncMenuStateFunc *slot, GsyncMenuStateFunc func);
 void GSYNC_MENU_ChangeState(GsyncMenuWork *work, GsyncMenuStateFunc func, int lineNo);
@@ -22,7 +23,11 @@ void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work);
 void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work);
 void GSYNC_MENU_OnButtonAnimEnd(void *param, u32 frame);
 void GSYNC_MENU_NoOp(struct GsyncMenuWork *unused0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs);
+#else
 void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY);
+#endif
 void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work);
 void GSYNC_MENU_RunButtonCallback(u32 buttonIndex, s32 event, void *work);
 void GSYNC_MENU_CreateActors(GsyncMenuWork *work);

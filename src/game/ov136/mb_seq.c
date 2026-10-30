@@ -860,6 +860,12 @@ struct ClactActor;
 
 #include "../arm9/poke_tool_ext.h"
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define MB_SEQ_TITLE_MESSAGE 44
+#else
+#define MB_SEQ_TITLE_MESSAGE 52
+#endif
+
 
 
 
@@ -1177,7 +1183,7 @@ void MB_SEQ_DrawTitle(struct MailBoxProc *p)
 {
     struct BmpWin *win;
     BMP_Clear(BMP_WIN_GetBmp(p->view->win[26]), 0);
-    MB_SEQ_PrintMessageToSlot(p->view, p->view->msgData, 26, 0, 52, 0, p->font, 0x440, 2);
+    MB_SEQ_PrintMessageToSlot(p->view, p->view->msgData, 26, 0, MB_SEQ_TITLE_MESSAGE, 0, p->font, 0x440, 2);
     win = p->view->win[26];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);

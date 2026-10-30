@@ -583,8 +583,8 @@ def _names_in(raw, lo, hi):
     """name_XXXXXXXX tokens of a file that point into [lo, hi)."""
     for m in re.finditer(r"\b([A-Za-z_]\w*_([0-9A-Fa-f]{8}))\b", raw):
         a = int(m.group(2), 16)
-        if lo <= a < hi and not m.group(1).startswith(("func_", "sub_")):
-            yield m.group(1), a
+        if lo <= a < hi and not m.group(1).startswith(("func_", "sub_")) and "_ja_" not in m.group(1):
+            yield m.group(1), a            # `<name>_ja_XXXXXXXX` holds a black_ja address, not a Black one
 
 
 def companions(rg, out=None, relink=False):
@@ -648,7 +648,7 @@ def companions(rg, out=None, relink=False):
                 acc.add(v)
         for fi, f in enumerate(files):
             for n, (a, k) in f["hsyms"].items():
-                if k == "data" and lo <= a < hi and re.fullmatch(r"[A-Za-z_]\w*", n):
+                if k == "data" and lo <= a < hi and re.fullmatch(r"[A-Za-z_]\w*", n) and "_ja_" not in n:
                     hdr_names.setdefault(a, {}).setdefault(fi, []).append(n)
                     acc.add(a)
             for n, a in _names_in(f["raw"], lo, hi):
@@ -885,8 +885,74 @@ def companions(rg, out=None, relink=False):
             raise RuntimeError("%s: %d bytes in Black, %d in White" % (rg, len(img), len(wimg)))
         reg_ = rg if irregular else None
 
+        _jb = []            # Japanese target: tail blocks [Black start, end, target start] from the content alignment
+
         def wmap(a_):
+            for s_, e_, t_ in _jb:
+                if s_ <= a_ < e_:
+                    return t_ + (a_ - s_)
+            if _jb and t0 <= a_ < end:
+                k_ = [b_ for b_ in _jb if b_[0] <= a_]
+                if k_:
+                    return k_[-1][2] + (a_ - k_[-1][0])
             return white_map.to_white(a_, reg_)
+        if TARGET.endswith("_ja"):
+            import jatail
+            _lj0 = json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
+            _oj0 = [x for x in _lj0["overlays"] if "ov%03d" % x["id"] == rg][0]
+            _tl = [ob for ob in objs if ob["sec"] in (".rodata", ".data")]
+            _own_it = [dict(addr=a_, size=b_ - a_, data=img[a_ - base:b_ - base], inner=[], own=True,
+                            sec=".rodata" if a_ < s0 else ".data") for a_, b_ in own_occ if b_ > a_]
+            _tl = sorted(_tl + _own_it, key=lambda x: x["addr"])
+            _win = {".rodata": (_oj0["ram_start"], _oj0["static_init_start"]),
+                    ".data": ((_oj0["static_init_end"] + 31) & ~31, _oj0["ram_start"] + _oj0["code_size"])}
+            _pm = white_map.ja_pool_map(rg)
+            _st = jatail.align(_tl, wimg, wo["ram_start"], _win, hint=lambda a_: white_map.to_white(a_, reg_),
+                               pin=None if os.environ.get("JATAIL_NOPIN") else _pm.get)
+            for ob, t_ in zip(_tl, _st):
+                ob["tt"] = t_
+            _ownt = [(ob["tt"], ob["size"], ob["sec"]) for ob in _tl if ob.get("own") and ob["tt"] is not None]
+            _placed = [(ob, t_) for ob, t_ in zip(_tl, _st) if t_ is not None]
+            for n_, (ob, t_) in enumerate(_placed):
+                nx = next((t2 for ob2, t2 in _placed[n_ + 1:] if ob2["sec"] == ob["sec"]), _win[ob["sec"]][1])
+                if t_ + ob["size"] > nx:
+                    ob["size"] = nx - t_
+                    ob["data"] = ob["data"][:ob["size"]]
+                    ob["ptrs"] = {k: v for k, v in ob["ptrs"].items() if 4 * k + 4 <= ob["size"]}
+            _jb = jatail.blocks_for(_tl, _st)
+            if os.environ.get("JATAIL_DEBUG"):
+                for sec_ in _win:
+                    sl_ = [(ob, t_) for ob, t_ in zip(_tl, _st) if ob["sec"] == sec_]
+                    print("jatail %s %s: %d objects, %d placed, black %d bytes, target window %d bytes" % (
+                        rg, sec_, len(sl_), sum(1 for _o, t_ in sl_ if t_ is not None), sum(o_["size"] for o_, _t in sl_),
+                        _win[sec_][1] - _win[sec_][0]))
+                    if os.environ.get("JATAIL_DEBUG") == "2":
+                        for o_, t_ in sl_:
+                            print("  %s %08X size %X -> %s" % (sec_, o_["addr"], o_["size"], "%08X" % t_ if t_ is not None else "none"))
+            _dir = os.path.join(white_map._cache("jatail_%s.json" % rg, TARGET)) if hasattr(white_map, "_cache") else None
+            if _dir:
+                os.makedirs(os.path.dirname(_dir), exist_ok=True)
+                with open(_dir, "w", newline="\n") as fh:
+                    json.dump(dict(lo=t0, hi=end, blocks=_jb), fh)
+            blockers.extend("%s %08X: not found in the target's tail" % (rg, ob["addr"]) for ob, t_ in zip(_tl, _st) if t_ is None)
+            # an object the target does not have is dropped (a pointer to it stays a raw word)
+            _dropped = set(i for i, ob in enumerate(objs) if ob.get("tt", 0) is None)
+            if _dropped:
+                _rm, _k = {}, 0
+                for i in range(len(objs)):
+                    if i not in _dropped:
+                        _rm[i] = _k
+                        _k += 1
+                for i, ob in enumerate(objs):
+                    if i in _dropped:
+                        continue
+                    for k, (kind, j, off) in list(ob["ptrs"].items()):
+                        if kind == "obj" and j in _dropped:
+                            del ob["ptrs"][k]
+                            ob.setdefault("wraw", set()).add(k)
+                        elif kind == "obj":
+                            ob["ptrs"][k] = (kind, _rm[j], off)
+                objs = [ob for i, ob in enumerate(objs) if i not in _dropped]
         for ob in objs:
             if ob["data"] is None:
                 continue
@@ -926,11 +992,22 @@ def companions(rg, out=None, relink=False):
             tl.append(white_map.refine(ob["addr"], m0) if m0 is not None else None)
             ref_.append(m0 is not None and tl[-1] != m0)
         tl.append(_ow2["bss_end"])
+        if os.environ.get("JATAIL_DEBUG") and TARGET.endswith("_ja"):
+            for _i, _ob in enumerate(bl):
+                print("  bssobj %08X size %X target %s" % (_ob["addr"], _ob["size"], "None" if tl[_i] is None else "%08X" % tl[_i]))
         ref_.append(False)
+        _bs0 = [ob["size"] for ob in bl]
         for i, ob in enumerate(bl):
-            if tl[i] is not None and tl[i + 1] is not None and (ref_[i] or ref_[i + 1]) \
-                    and 0 < tl[i + 1] - tl[i] != ob["size"]:
+            if tl[i] is not None and tl[i + 1] is not None \
+                    and ((ref_[i] and ref_[i + 1]) if TARGET.endswith("_ja") else (ref_[i] or ref_[i + 1])) \
+                    and 0 < tl[i + 1] - tl[i] != ob["size"]                     and (not TARGET.endswith("_ja") or (abs(tl[i + 1] - tl[i] - ob["size"]) <= 0x40
+                                                      and (tl[i + 1] - tl[i] - ob["size"]) % 4 == 0)):
+                if os.environ.get("JATAIL_DEBUG"):
+                    print("  bss %08X size %X -> %X (target %X..%X)" % (ob["addr"], ob["size"], tl[i + 1] - tl[i], tl[i], tl[i + 1]))
                 ob["size"] = tl[i + 1] - tl[i]
+        if TARGET.endswith("_ja") and sum(ob["size"] for ob in bl) != sum(_bs0):
+            for ob, z_ in zip(bl, _bs0):        # the bss of both games has one size: resizes that do not cancel are wrong
+                ob["size"] = z_
         white_map.set_context(None)
 
     # ---- volatile runs: the rodata tables of some files change size per language (ov110 PMS word
@@ -994,6 +1071,114 @@ def companions(rg, out=None, relink=False):
                         ob["ptrs"][k] = (kind, remap[j], off)
             objs = [newobjs.get(i, ob) for i, ob in enumerate(objs) if i not in drop]
 
+    # ---- Japanese gaps: bytes that the target holds between two mapped objects (or after the last
+    # one) and that Black has no object for (Japanese-only strings and tables, named
+    # `<name>_ja_<black_ja address>` in the source: absolute symbols).  Each becomes a raw object at
+    # its place so the names point at the real data
+    ja_gaps = 0
+    if WHITE and TARGET.endswith("_ja"):
+        import white_map
+        _lj = json.load(open(os.path.join(targets.layout_dir(TARGET), "layout.json"), encoding="utf-8"))
+        _oj = [x for x in _lj["overlays"] if "ov%03d" % x["id"] == rg][0]
+
+        def tstart(ob_):
+            if ob_.get("vrun"):
+                return ob_["vrun"][0]
+            if ob_.get("tt") is not None:
+                return ob_["tt"]
+            return white_map.to_white(ob_["addr"], rg if rg in white_map.irregular(TARGET) else None)
+        lim = {".rodata": _oj["static_init_start"], ".data": _oj["ram_start"] + _oj["code_size"]}
+        add = []            # (index to insert before, object)
+        for sec in (".rodata", ".data"):
+            ids = [i for i, ob in enumerate(objs) if ob["sec"] == sec and ob.get("wdata") is not None]
+            ents = [(tstart(objs[i]), objs[i]["size"], i) for i in ids] +                 [(t_, n_, None) for t_, n_, s_ in _ownt if s_ == sec]
+            ents.sort(key=lambda e: (e[0], e[2] is None))
+            if sec == ".data" and ents and ents[0][2] is not None:
+                # target bytes before the first object (.data starts at ALIGN(32) after the table)
+                gs, tb = (_oj["static_init_end"] + 31) & ~31, ents[0][0]
+                wd = wimg[gs - _oj["ram_start"]:tb - _oj["ram_start"]]
+                if tb - gs >= 4 and any(wd):
+                    add.append((ents[0][2], dict(objs[ents[0][2]], addr=0xA0000000 | gs, size=tb - gs, data=wd, wdata=wd,
+                                                 inner=[], tt=None, ptrs={}, wraw=set(), name="dg_ja_%08X" % gs,
+                                                 names={}, inner_names=[], vrun=(gs, tb), pre=False)))
+            for n_, (ts_, sz_, i) in enumerate(ents[:-1] if ents else []):
+                gs = ts_ + sz_
+                tb, ni = ents[n_ + 1][0], ents[n_ + 1][2]
+                nxt_i = next((e[2] for e in ents[n_ + 1:] if e[2] is not None), None)
+                prv_i = next((e[2] for e in reversed(ents[:n_ + 1]) if e[2] is not None), None)
+                nxt = objs[nxt_i] if nxt_i is not None else None
+                tmpl = objs[i] if i is not None else (nxt if nxt is not None else objs[prv_i])
+                at = nxt_i if (nxt_i is not None and (i is None or ni is not None)) else                     (nxt_i if nxt_i is not None else (prv_i + 1))
+                if i is not None and ni is None:
+                    at = nxt_i if nxt_i is not None else i + 1
+                al = obj_align(nxt, nxt["owner"]) if nxt is not None else 4
+                if tb - ((gs + al - 1) & ~(al - 1)) < 4:
+                    continue
+                wd = wimg[gs - _oj["ram_start"]:tb - _oj["ram_start"]]
+                if os.environ.get("JATAIL_DEBUG") and tb - gs < 64:
+                    print("  gap %08X..%08X ni=%s zero=%s" % (gs, tb, ni, not any(wimg[gs - _oj["ram_start"]:tb - _oj["ram_start"]])))
+                if sec == ".data" and not any(wd) and tb % 32 == 0 and tb - gs < 32:
+                    # zero padding before a 32-aligned object (or own section): the link makes it from the
+                    # alignment (a zero object would go to .bss)
+                    if ni is not None:
+                        objs[ni]["al"] = 32
+                    continue
+                if sec == ".data" and not any(wd) and i is not None and objs[i].get("wdata") is not None \
+                        and tstart(objs[i]) + objs[i]["size"] == gs:
+                    # other zero bytes in .data: the previous object takes them (a zero object of its own
+                    # would go to .bss)
+                    objs[i]["wdata"] = bytes(objs[i]["wdata"]) + bytes(wd)
+                    objs[i]["data"] = bytes(objs[i]["data"]) + bytes(wd)
+                    objs[i]["size"] += len(wd)
+                    continue
+                add.append((at, dict(tmpl, addr=0xA0000000 | gs, size=tb - gs, data=wd, wdata=wd, inner=[], tt=None,
+                                     ptrs={}, wraw=set(), name="dg_ja_%08X" % gs, names={}, inner_names=[],
+                                     vrun=(gs, tb), pre=False)))
+            if ents:
+                ts_, sz_, i = ents[-1]
+                gs, tb = ts_ + sz_, lim[sec]
+                prv_i = next((e[2] for e in reversed(ents) if e[2] is not None), None)
+                if prv_i is not None and tb - ((gs + 3) & ~3) >= 4 and tb <= _oj["ram_start"] + _oj["code_size"]:
+                    wd = wimg[gs - _oj["ram_start"]:tb - _oj["ram_start"]]
+                    if sec == ".data" and not any(wd) and tb % 32 == 0 and tb - gs < 32:
+                        continue        # zero tail: the ALIGN(32) padding of the overlay (a zero object would go to .bss)
+                    add.append((prv_i + 1, dict(objs[prv_i], addr=0xA0000000 | gs, size=tb - gs, data=wd, wdata=wd,
+                                                inner=[], tt=None, ptrs={}, wraw=set(), name="dg_ja_%08X" % gs,
+                                                names={}, inner_names=[], vrun=(gs, tb), pre=False)))
+        # the mapped starts of a section can be off (the alignment of a changed table): .data must
+        # fill exactly the target's [ALIGN(32) after the initialiser table, end of the image)
+        _ds = (_oj["static_init_end"] + 31) & ~31
+        _dsum = sum(ob["size"] for ob in objs if ob["sec"] == ".data") +             sum(ob["size"] for at_, ob in add if ob["sec"] == ".data") +             sum(n_ for _t, n_, s_ in _ownt if s_ == ".data")
+        if os.environ.get("JATAIL_DEBUG"):
+            print("jatail %s .data total %d, image %d" % (rg, _dsum, lim[".data"] - _ds))
+        if abs(_dsum - (lim[".data"] - _ds)) >= 32 and any(ob["sec"] == ".data" for ob in objs):
+            add = [x for x in add if x[1]["sec"] != ".data"]
+            blockers.append("%s: .data of the target does not map object by object (%d bytes, %d in the image)"
+                            % (rg, _dsum, lim[".data"] - _ds))
+        if add:
+            newpos, k_ = {}, 0
+            order = sorted(add, key=lambda x: x[0])
+            ai, res = 0, []
+            for i, ob in enumerate(objs):
+                while ai < len(order) and order[ai][0] == i:
+                    res.append(order[ai][1])
+                    ai += 1
+                newpos[i] = len(res)
+                res.append(ob)
+            while ai < len(order):
+                res.append(order[ai][1])
+                ai += 1
+            for ob in res:
+                for k, (kind, j, off) in list(ob["ptrs"].items()):
+                    if kind == "obj":
+                        ob["ptrs"][k] = (kind, newpos[j], off)
+            objs = res
+            ja_gaps = len(add)
+
+    if os.environ.get("JATAIL_DEBUG"):
+        for ob in objs:
+            if ob["sec"] == ".rodata":
+                print("  ro %08X size %X tt %s %s" % (ob["addr"], ob["size"], ob.get("tt") and hex(ob["tt"]), ob.get("name")))
     # ---- emit
     out = out or os.path.join(datac_out(), rg)
     gen = os.path.join(datac_gen(), rg)
@@ -1003,7 +1188,7 @@ def companions(rg, out=None, relink=False):
                 if f.endswith((".c", ".inc", ".json")):
                     os.remove(os.path.join(dd, f))
         os.makedirs(dd, exist_ok=True)
-    stats = dict(objects=len(objs), bytes=sum(x["size"] for x in objs), typed=0, raw=0, bss=0)
+    stats = dict(objects=len(objs), bytes=sum(x["size"] for x in objs), typed=0, raw=0, bss=0, ja_gaps=ja_gaps)
     aliases = {}
     by_owner = {}
     defined = Counter(ob["name"] for ob in objs)
@@ -1035,6 +1220,14 @@ def companions(rg, out=None, relink=False):
                             and not (sec != ".bss" and bs <= a < be))
             for ob in mine:
                 ob["pre"] = bool(inner) and ob["addr"] < inner[0]
+            # a Japanese-only gap object (address 0xA...) sits in the order of its neighbours: it takes
+            # the placement of the next ordinary object of the file (else the one before)
+            for k, ob in enumerate(mine):
+                if ob["addr"] >= 0xA0000000:
+                    ref = next((x for x in mine[k + 1:] if x["addr"] < 0xA0000000),
+                               next((x for x in reversed(mine[:k]) if x["addr"] < 0xA0000000), None))
+                    if ref is not None:
+                        ob["pre"] = ref["pre"]
     renames = {}            # file stem -> {name: name of its own}
 
     def name_for(fi_, n, target, a):
@@ -1087,11 +1280,13 @@ def companions(rg, out=None, relink=False):
         fwd, defs, ext, bdefs = [], [], set(), []
         own_names = set(ob["name"] for ob in lst_)
         for ob in lst_:
+            _nd = len(defs)
             name = ob["name"]
             cq = "const " if ob["sec"] == ".rodata" else ""
             if ob["sec"] == ".bss":
                 fwd.append("extern unsigned char %s[%d];" % (name, ob["size"]))
-                bdefs.append("unsigned char %s[%d];" % (name, ob["size"]))
+                bdefs.append("unsigned char %s[%d]%s;" % (name, ob["size"],
+                             " __attribute__((aligned(%d)))" % ob["al"] if ob.get("al") else ""))
                 stats["bss"] += 1
                 continue
             m = re.compile(DECL_RE % re.escape(ob["src_name"]), re.M).search(text)
@@ -1166,6 +1361,8 @@ def companions(rg, out=None, relink=False):
                 fwd.append("extern %sunsigned char %s[%d];" % (cq, name, ob["size"]))
                 defs.append("%sunsigned char %s[%d] = {\n#include \"%s\"\n};" % (cq, name, ob["size"], inc(ob)))
                 stats["raw"] += 1
+            if ob.get("al") and len(defs) > _nd:        # alignment the target needs (jatail padding)
+                defs[-1] = defs[-1].replace(" = {", " __attribute__((aligned(%d))) = {" % ob["al"], 1)
         stem = f["name"][:-2]
         body = hdr + "\n/* companion of %s: its data, initialisers generated by tools/datagen.py from the ROM */\n\n" % f["name"]
         body += "\n".join(sorted(ext - set("extern char %s[];" % n for n in own_names))) + "\n"

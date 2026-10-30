@@ -102,6 +102,7 @@
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
  *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  */
+#include "../version.h"
 #include "mail_types.h"
 #include "../sdk_ioreg.h"
 
@@ -429,7 +430,11 @@ int MAILSYS_SwitchInputModeOnTrigger(struct MailEditProc *proc)
 {
     if (KEY_GetTrg()) {
         proc->inputMode = 1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    } else if (TOUCHPANEL_GetCont()) {
+#else
     } else if (TOUCHPANEL_GetTrg()) {
+#endif
         proc->inputMode = 0;
     } else {
         return 0;
@@ -547,7 +552,7 @@ void MAILSYS_PrintMessageText(struct MailEditProc *proc, int msgId)
     BMP_MENUWORK_DrawWindow((struct BmpWin *)proc->win[6], 2, 13, 4);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)proc->win[6]), 255);
     MSGDATA_ReadString((struct MsgBank *)proc->msgData, msgId, (struct Strbuf *)proc->msgBuf);
-    proc->printStream = PRINTSYS_PrintStream(proc->win[6], 0, 0, proc->msgBuf, proc->font, proc->textSpeed, proc->tcbl, 4, (u16)proc->heapId, 15);
+    proc->printStream = PRINTSYS_PrintStream(proc->win[6], 0, 0, proc->msgBuf, proc->font, PM_LANG_JA(proc->textSpeed, (u8)proc->textSpeed), proc->tcbl, 4, (u16)proc->heapId, 15);
     win = proc->win[6];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);

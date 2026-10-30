@@ -337,6 +337,7 @@
  *   BOX_SAVEDATA_SetCurrentBox  0x0200780C  thumb  arm9
  */
 #include "box2_types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "../ov170/box2_seq.h"
 
@@ -1242,9 +1243,15 @@ void BOX2_MAIN_SetDisplayControl(int a)
 }
 
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BOX2_MAIN_MSG_ARCHIVE 0xc
+#else
+#define BOX2_MAIN_MSG_ARCHIVE 9
+#endif
+
 void BOX2_MAIN_CreateTextSystem(char *task)
 {
-    (((BoxTask *)task)->work->msgBank) = MSGDATA_CreateFromArchive(0,2,9,0x4c);
+    (((BoxTask *)task)->work->msgBank) = MSGDATA_CreateFromArchive(0,2,BOX2_MAIN_MSG_ARCHIVE,0x4c);
     ((BoxTask *)task)->work->font = GF_FONT_Create(0x17,0,1,0,0x4c);
     (((BoxTask *)task)->work->fontAlt) = GF_FONT_Create(0x17,3,0,0,0x4c);
     (((BoxTask *)task)->work->wordSet) = WORDSET_CreateDefault(0x4c);
@@ -3001,7 +3008,7 @@ int BOX2_MAIN_PushPartyScene(BoxTask *task)
 {
     PStatusProcParam *r;
     unsigned mode;
-    r = GFL_HEAP_Alloc(0x4B, sizeof(PStatusProcParam), 0, d_021F1400, 0xEAC);
+    r = GFL_HEAP_Alloc(0x4B, sizeof(PStatusProcParam), 0, d_021F1400, PM_SRC_LINE(0xEAC, 0xEA9));
     if (task->cursorSlot < 30) {
         r->ppd = BOX2_MAIN_GetMonAt((void ***)task, task->heldSlot, 0);
         r->ppt = 2;
@@ -3018,11 +3025,15 @@ int BOX2_MAIN_PushPartyScene(BoxTask *task)
     r->config = ((BoxTask *)task)->params->gameData;
     r->callerData = ((BoxTask *)task)->params->config;
     r->isNationalDex = ((BoxTask *)task)->params->natDex;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    r->mode = mode;
+#else
     if (((BoxTask *)task)->params->linkMode == 1) {
         r->mode = 6;
     } else {
         r->mode = 0;
     }
+#endif
     PROCSYS_Push((void *)task->procSys, (sptr)ov131_id, (const struct ProcData *)gPokeStatusProcData, r);
     *(PStatusProcParam * *)&task->subArgs = r;
     return 0;
@@ -3075,7 +3086,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *task)
     void *value;
     NameInRequest *r;
     value = MISC_GetBlock(GAME_DATA_GetSaveControl(((BoxTask *)task)->params->gameData));
-    r = GFL_HEAP_Alloc(0x4B, sizeof(NameInRequest), 1, d_021F1400, 0xF1F);
+    r = GFL_HEAP_Alloc(0x4B, sizeof(NameInRequest), 1, d_021F1400, PM_SRC_LINE(0xF1F, 0xF13));
     r->text = STRBUF_Create(20, 0x4B);
     BOX_SAVEDATA_GetBoxName(((BoxTask *)task)->params->boxSave, task->curBox, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (struct Strbuf *)r->text, value);

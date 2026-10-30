@@ -121,7 +121,7 @@
 #if PM_LANG_MONTH_AS_NAME
 #define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotMonth(words, slot, month)
 #else
-#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, 1)
+#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, PM_LANG_HALF_WIDTH_DIGITS)
 #endif
 
 struct Obj;
@@ -635,9 +635,9 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
     switch (mode) {
     case 0:
         r = TRCARD_SIGN_GetBadgeDate(p->saveBlock, idx);
-        WORDSET_SetSlotNumber(p->wordSet, 0, r.year + 0x7D0, 4, 0, 1);
+        WORDSET_SetSlotNumber(p->wordSet, 0, r.year + 0x7D0, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
         VIEWER_SET_MONTH(p->wordSet, 1, r.month, 0);
-        WORDSET_SetSlotNumber(p->wordSet, 2, r.day, 2, 0, 1);
+        WORDSET_SetSlotNumber(p->wordSet, 2, r.day, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
         MSGDATA_ReadString(p->msgBank, idx * 3 + 0x58, str);
         WORDSET_CopyTaggedText(p->wordSet, p->strbuf, str);
         v = p->printQue;

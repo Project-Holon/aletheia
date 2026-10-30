@@ -121,7 +121,13 @@
 
 
 #include "../arm9/gfl_use.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02179600[];
+extern const char str_ja_02179610[];
+#endif
 
+/* source line number of the heap allocation */
 /* The bssid argument is const: that lets the ldrh of b[1] schedule above the strh of b[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md). */
 
 
@@ -286,7 +292,7 @@ int NET_WHPIPE_Create(int heapId, int wmParam, void *userData, int forListening)
     init = GFL_NET_GetInitParam();
     if (g_pWhPipeWork != 0)
         return 0;
-    work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, sFileNetWhPipe, 0xed);
+    work = GFL_HEAP_Alloc(heapId, sizeof(*work), 1, PM_LANG_JA(sFileNetWhPipe, str_ja_02179600), PM_SRC_LINE(0xed, 0xe5));
     g_pWhPipeWork = work;
     work->channel = 0xff;
     if (WIH_Initialize(heapId, wmParam, forListening) == 0)
@@ -578,7 +584,7 @@ void NET_WHPIPE_RefreshBeacon(void)
     if (getSize != 0) {
         size = getSize(work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
-            GF_PANIC_Fail((const char *)sEmptyString, 0, (const char *)sEmptyString);
+            GF_PANIC_Fail(PM_LANG_JA((const char *)sEmptyString, str_ja_02179600), PM_SRC_LINE(0, 0x412), PM_LANG_JA((const char *)sEmptyString, str_ja_02179610));
         MI_CpuCopy8(init->init.getBeaconDataFunc(work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {

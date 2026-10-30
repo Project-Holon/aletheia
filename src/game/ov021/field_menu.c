@@ -144,6 +144,7 @@
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  */
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 
 #include "../arm9/touchpanel.h"
@@ -236,7 +237,11 @@ typedef struct FieldMenu {
 #define FIELD_MENU_SCROLL_HIDDEN 0xC0
 
 /* Layer 6 sits 5 pixels higher than layer 5 (the icon layer). */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define FIELD_MENU_LAYER6_OFFSET 4
+#else
 #define FIELD_MENU_LAYER6_OFFSET 5
+#endif
 
 /* Actors whose screen Y is at or past these limits are hidden while scrolling. */
 #define FIELD_MENU_ICON_CULL_Y 0xD0
@@ -453,7 +458,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     void *arcHandle;
     u32 layoutType;
 
-    menu = GFL_HEAP_Alloc(heapId, sizeof(*menu), 0, gFieldMenuFileName, 0x134);
+    menu = GFL_HEAP_Alloc(heapId, sizeof(*menu), 0, gFieldMenuFileName, PM_SRC_LINE(0x134, 0x125));
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     menu->heapId = heapId;
@@ -812,7 +817,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
     FieldMenuName nameBuf;
     FieldMenuName defaultName;
 
-    msgBank = MSGDATA_CreateFromArchive(0, 2, 0x22, menu->subHeapId);
+    msgBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0x22, 0x23), menu->subHeapId);
     for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
         menu->items[i].inUse = 0;
     }
@@ -1090,7 +1095,7 @@ void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenu
     item->bmpWin = BMP_WIN_Create(6, init->winTileX, init->winTileY, 8, 2, 0xD, 1);
     BMP_WIN_MakeScreen(item->bmpWin);
     BMP_Clear(BMP_WIN_GetBmp(item->bmpWin), 0);
-    PRINTSYS_PrintQueColor(menu->printQue, BMP_WIN_GetBmp(item->bmpWin), 2, 1, init->text, (struct GfFont *)textColor, 0x440);
+    PRINTSYS_PrintQueColor(menu->printQue, BMP_WIN_GetBmp(item->bmpWin), 2, PM_LANG_JA(1, 2), init->text, (struct GfFont *)textColor, 0x440);
     if (init->arcHandle != 0) {
         item->charRes = CLACT_RegisterCharacter(init->arcHandle, init->charId, 0, 1, menu->heapId);
         item->cellRes = CLACT_RegisterCellAnim(init->arcHandle, init->cellId, init->animId, menu->heapId);

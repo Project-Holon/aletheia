@@ -33,6 +33,7 @@
  *   DRAW_SYSTEM_FlushStrokes  0x021B6C4C  thumb  ov172
  */
 #include "../types.h"
+#include "../version.h"
 
 /* Creation parameters of a draw canvas. */
 typedef struct DrawCanvasParams {
@@ -83,6 +84,7 @@ typedef struct DrawBrush {
 #include "../arm9/mi_memory.h"
 #include "../arm9/gx_bgcnt.h"
 extern const char d_021C71D0[];
+extern const char str_ja_021C7070[];
 extern const DrawBrush gDrawBrushes[];
 
 DrawCanvas *DRAW_SYSTEM_CreateCanvas(DrawCanvasParams *params);
@@ -102,8 +104,8 @@ void DRAW_SYSTEM_AdvanceIndex(DrawCanvas *canvas, u16 *idx);
 DrawCanvas *DRAW_SYSTEM_CreateCanvas(DrawCanvasParams *params)
 {
     DrawCanvas *canvas;
-    canvas = GFL_HEAP_Alloc(params->heapId, sizeof(DrawCanvas), 1, d_021C71D0, 64);
-    canvas->strokes = GFL_NET_AllocAligned(params->heapId, params->capacity * 8, d_021C71D0, 65);
+    canvas = GFL_HEAP_Alloc(params->heapId, sizeof(DrawCanvas), 1, PM_LANG_JA(d_021C71D0, str_ja_021C7070), 64);
+    canvas->strokes = GFL_NET_AllocAligned(params->heapId, params->capacity * 8, PM_LANG_JA(d_021C71D0, str_ja_021C7070), 65);
     canvas->kind = params->kind;
     canvas->capacity = params->capacity;
     canvas->clipX0 = params->clipX0;

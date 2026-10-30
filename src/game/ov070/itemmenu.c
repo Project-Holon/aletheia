@@ -708,7 +708,9 @@ int ITEMMENU_GetSellTotal(int itemId, int count, unsigned int heapId);
 int ITEMMENU_GetCursorIndex(ItemMenuWork *work);
 int ITEMMENU_GetItemCount(ItemMenuWork *work);
 void ITEMMENU_RegisterItemName(ItemMenuWork *work, int slot, unsigned int itemId);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void ITEMMENU_RegisterItemNameCounted(ItemMenuWork *work, int slot, unsigned int itemId, int isPlural, int flags);
+#endif
 void ITEMMENU_SwapSlots(ItemMenuWork *work, int indexA, int indexB);
 void ITEMMENU_MoveSlot(ItemMenuWork *work, int fromIndex, int toIndex);
 void ITEMMENU_SwitchPocketCursor(ItemMenuWork *work, int prevPocket, int nextPocket);
@@ -801,6 +803,7 @@ void ITEMMENU_RegisterItemName(ItemMenuWork *work, int slot, unsigned int itemId
     WORDSET_SetSlotFromMsg36(work->wordSet, slot, itemId);
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 /*
  * Extent ends in two zero alignment bytes.
  */
@@ -808,6 +811,7 @@ void ITEMMENU_RegisterItemNameCounted(ItemMenuWork *work, int slot, unsigned int
 {
     WORDSET_SetSlotFromBank(work->wordSet, slot, itemId, isPlural, flags);
 }
+#endif
 
 void ITEMMENU_SwapSlots(ItemMenuWork *work, int indexA, int indexB)
 {
@@ -1702,8 +1706,12 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
         GFL_USE_PlaySeDefaultVolume(0x647);
         ITEMMENU_RemoveSelectedItems(work, work->listCount);
         MSGDATA_ReadString(work->msgBank, 0x36, work->tempString);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+#else
         ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
-        WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, 1);
+#endif
+        WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
         ITEMMENU_SetTask(work, ITEMMENU_TaskBeginReturnToList);
@@ -1725,7 +1733,7 @@ void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
     work->listCount = 1;
     ITEMMENU_ShowQuantityWindows(work, 1);
     MSGDATA_ReadString(work->msgBank, 0x35, work->tempString);
-#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_SPANISH
+#if LANGUAGE == LANGUAGE_JAPANESE || LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_SPANISH
     ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
 #else
     ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, 1, 0);
@@ -1760,9 +1768,13 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
 #if LANGUAGE == LANGUAGE_GERMAN
         ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
 #else
+#if LANGUAGE == LANGUAGE_JAPANESE
+        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+#else
         ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
 #endif
-        WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, 1);
+#endif
+        WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
         ITEMMENU_SetTask(work, ITEMMENU_TaskOpenTossConfirm);
@@ -1844,7 +1856,7 @@ void ITEMMENU_TaskSellAskConfirm(ItemMenuWork *work)
     ITEMMENU_OpenYesNoList(work);
     sellTotal = ITEMMENU_GetSellTotal(work->selectedItemId, work->listCount, work->heapId);
     MSGDATA_ReadString(work->msgBank, 0x4F, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, sellTotal, 7, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, sellTotal, 7, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
     ITEMMENU_SetTask(work, ITEMMENU_TaskSellConfirmInput);
@@ -1869,8 +1881,12 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
         GFL_USE_PlaySeDefaultVolume(0x655);
         ITEMMENU_PrintMoney(work);
         MSGDATA_ReadString(work->msgBank, 0x50, work->tempString);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+#else
         ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
-        WORDSET_SetSlotNumber(work->wordSet, 1, sellTotal, 7, 0, 1);
+#endif
+        WORDSET_SetSlotNumber(work->wordSet, 1, sellTotal, 7, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);
         ITEMMENU_SetTask(work, ITEMMENU_TaskWaitMessageDismiss);
@@ -2033,8 +2049,8 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     u32 iconKind;
     SortEntry *entry;
 
-    ents = GFL_HEAP_Alloc(work->heapId, 0x9B0, 0, sHeapSiteName, 0xB35);
-    items = GFL_HEAP_Alloc(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
+    ents = GFL_HEAP_Alloc(work->heapId, 0x9B0, 0, sHeapSiteName, PM_SRC_LINE(0xB35, 0xB17));
+    items = GFL_HEAP_Alloc(work->heapId, 0x4D8, 0, sHeapSiteName, PM_SRC_LINE(0xB36, 0xB18));
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 1);
     itemCount = ITEMMENU_GetItemCount(work);
     itemArchive = FILE_UTIL_CreateItemArcHandle(work->heapId);
@@ -2370,7 +2386,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
         if (i == work->currentPocket) { work->cursorRow = scrollPos; work->scrollOffset = cursorPos - 1; }
         MYITEM_SAVEDATA_SetFieldPocketCursor(work->bagCursor, i, scrollPos, cursorPos);
     }
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 3, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(3, 6), work->heapId);
     work->tempString = STRBUF_Create(0xc8, work->heapId);
     work->messageString = STRBUF_Create(0xc8, work->heapId);
     work->listStrings = STRBUF_Create(0x40, work->heapId);
@@ -2893,8 +2909,8 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
         CLACT_SetActorPaletteOffset((struct ClactActor *)work->damageClassActors[i], APP_ICON_GetMoveKindPaletteOffset((u8)i), 1);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->damageClassActors[i], 0);
     }
-    typeIconTemplate.x = 0x52;
-    typeIconTemplate.y = 0xA5;
+    typeIconTemplate.x = PM_LANG_JA(0x52, 0x50);
+    typeIconTemplate.y = PM_LANG_JA(0xA5, 0xA4);
     typeIconTemplate.softPriority = 1;
     typeIconTemplate.bgPriority = 1;
     typeIconTemplate.animSeq = 0;
@@ -2991,7 +3007,7 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
         ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_ITEM_COUNT], work->messageString, 0, (TextCoord)4, 0x3DC0);
         if (work->currentPocket != 4) {
             MSGDATA_ReadString(work->msgBank, 0x83, work->tempString);
-            WORDSET_SetSlotNumber(work->wordSet, 0, slotPtr[1], 3, 0, 1);
+            WORDSET_SetSlotNumber(work->wordSet, 0, slotPtr[1], 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
             ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE], work->messageString, 0, (TextCoord)4, 0x3DC0);
         } else {
@@ -3002,10 +3018,10 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
         machineIndex = FILE_UTIL_GetMachineIndex(*slotPtr);
         if (machineIndex == 0xFF) {
             MSGDATA_ReadString(work->msgBank, 0x45, work->tempString);
-            WORDSET_SetSlotNumber(work->wordSet, 0, FILE_UTIL_GetId(*slotPtr) + 1, 2, 2, 1);
+            WORDSET_SetSlotNumber(work->wordSet, 0, FILE_UTIL_GetId(*slotPtr) + 1, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         } else {
             MSGDATA_ReadString(work->msgBank, 0x47, work->tempString);
-            WORDSET_SetSlotNumber(work->wordSet, 0, machineIndex + 1, 2, 2, 1);
+            WORDSET_SetSlotNumber(work->wordSet, 0, machineIndex + 1, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         }
         WORDSET_SetSlotFromMsgCB(work->wordSet, 1, moveId);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
@@ -3073,7 +3089,7 @@ void ITEMMENU_InitWindows(ItemMenuWork *work)
     work->listWindows[ITEMMENU_WINDOW_ITEM_NAME].window = BMP_WIN_Create(6, 0, 0x13, 0x20, 5, 0, 1);
     work->listWindows[ITEMMENU_WINDOW_ITEM_COUNT].window = BMP_WIN_Create(6, 7, 5, 0x12, 3, 0, 1);
     work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE].window = BMP_WIN_Create(6, 0x14, 8, 6, 3, 0, 1);
-    work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window = BMP_WIN_Create(6, 2, 0xc, 0x1d, 7, 0, 1);
+    work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window = BMP_WIN_Create(6, 2, 0xc, PM_LANG_JA(0x1d, 0x1c), 7, 0, 1);
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_COUNT].window));
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE].window));
     BMP_WIN_MakeScreen((work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window));
@@ -3512,7 +3528,7 @@ void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
         ITEMMENU_PrintToWindow(work, infoWindow, work->tempString, 0xB0, (TextCoord)4, 0x3DC0);
     } else {
         MSGDATA_ReadString(work->msgBank, 0x5F, work->tempString);
-        WORDSET_SetSlotNumber(work->wordSet, 0, power, 3, 0, 1);
+        WORDSET_SetSlotNumber(work->wordSet, 0, power, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_PrintToWindow(work, infoWindow, work->messageString, 0xB0, (TextCoord)4, 0x3DC0);
     }
@@ -3521,12 +3537,12 @@ void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
         ITEMMENU_PrintToWindow(work, infoWindow, work->tempString, 0xB0, (TextCoord)0x18, 0x3DC0);
     } else {
         MSGDATA_ReadString(work->msgBank, 0x5F, work->tempString);
-        WORDSET_SetSlotNumber(work->wordSet, 0, accuracy, 3, 0, 1);
+        WORDSET_SetSlotNumber(work->wordSet, 0, accuracy, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_PrintToWindow(work, infoWindow, work->messageString, 0xB0, (TextCoord)0x18, 0x3DC0);
     }
     MSGDATA_ReadString(work->msgBank, 0x5E, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, maxPp, 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, maxPp, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, infoWindow, work->messageString, 0xE8, (TextCoord)4, 0x3DC0);
     ITEMMENU_FlushWindowAt(infoWindow);
@@ -3637,7 +3653,7 @@ void ITEMMENU_PrintMoney(ItemMenuWork *work)
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_1], work->tempString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_1]);
     MSGDATA_ReadString(work->msgBank, 0x52, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_GetMoney(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_GetMoney(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_2], work->messageString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_2]);
@@ -3716,7 +3732,7 @@ void ITEMMENU_PrintQuantityPrice(ItemMenuWork *work, int quantity)
 
     BMP_Clear(BMP_WIN_GetBmp(quantityWindow->window), 5);
     MSGDATA_ReadString(work->msgBank, 0x83, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, quantity, 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, quantity, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, quantityWindow, work->messageString, 0, 0, 0x3DC5);
     ITEMMENU_FlushWindowAt(quantityWindow);
@@ -3725,7 +3741,7 @@ void ITEMMENU_PrintQuantityPrice(ItemMenuWork *work, int quantity)
         sellTotal = ITEMMENU_GetSellTotal(work->selectedItemId, work->listCount, work->heapId);
         BMP_Clear(BMP_WIN_GetBmp(priceWindow->window), 5);
         MSGDATA_ReadString(work->msgBank, 0x54, work->tempString);
-        WORDSET_SetSlotNumber(work->wordSet, 0, sellTotal, 7, 0, 1);
+        WORDSET_SetSlotNumber(work->wordSet, 0, sellTotal, 7, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_PrintToWindow(work, priceWindow, work->messageString, 0, 0, 0x3DC5);
         ITEMMENU_FlushWindowAt(priceWindow);

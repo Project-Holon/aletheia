@@ -438,6 +438,11 @@ void WORLDTRADE_SEARCH_SetBlendEffect(u32 v);
 
 
 #include "worldtrade_adapter.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02203FD8[];
+extern const char str_ja_02203FEC[];
+#endif
 
 
 
@@ -1068,14 +1073,16 @@ int WORLDTRADE_SEARCH_StateShowClearedMessage(WorldtradeWork *p)
     WORLDTRADE_SEARCH_PrintMessage((unsigned char *)p, 44, 1, 0, 0xf0f);
     WORLDTRADE_SetNextState(p, 23, 1);
     GFL_USE_PlaySeDefaultVolume(0x557);
+#if LANGUAGE != LANGUAGE_JAPANESE
     (p->d0) = 0;
     WORLDTRADE_SEARCH_DrawHistoryHeader(p->wDB0, p->bank, 0, (u8 *)&((struct WorldtradeWork *)p)->printer);
+#endif
     return 2;
 }
 
-int WORLDTRADE_SEARCH_StatePrintMessage171(WorldtradeWork *p) {WORLDTRADE_SEARCH_PrintMessage((u8 *)p,171,4,0,0xf0f);WORLDTRADE_SetNextState(p,24,31);(p->cnt)=0;GFL_USE_PlaySeDefaultVolume(0x557);return 2;}
+int WORLDTRADE_SEARCH_StatePrintMessage171(WorldtradeWork *p) {WORLDTRADE_SEARCH_PrintMessage((u8 *)p,WORLDTRADE_MSG(171),4,0,0xf0f);WORLDTRADE_SetNextState(p,24,31);(p->cnt)=0;GFL_USE_PlaySeDefaultVolume(0x557);return 2;}
 
-int WORLDTRADE_SEARCH_StatePrintMessage172(WorldtradeWork *p) {WORLDTRADE_SEARCH_PrintMessage((u8 *)p,172,4,0,0xf0f);WORLDTRADE_SetNextState(p,24,3);WORLDTRADE_SetStateAndReturn(p,0,21);GFL_USE_PlaySeDefaultVolume(0x557);return 2;}
+int WORLDTRADE_SEARCH_StatePrintMessage172(WorldtradeWork *p) {WORLDTRADE_SEARCH_PrintMessage((u8 *)p,WORLDTRADE_MSG(172),4,0,0xf0f);WORLDTRADE_SetNextState(p,24,3);WORLDTRADE_SetStateAndReturn(p,0,21);GFL_USE_PlaySeDefaultVolume(0x557);return 2;}
 
 /*
  * Return the current cursor slot of the state block at +0xE00: the +0x28
@@ -1094,7 +1101,7 @@ int WORLDTRADE_SEARCH_GetSelectedButton(WorldtradeWork *p)
         r = s->rightRow + 4;
     }
     if (r >= 7) {
-        GF_PANIC_Fail((void *)0x02203E2C, 0, (void *)0x02203E2C);
+        GF_PANIC_Fail(PM_LANG_JA((void *)0x02203E2C, str_ja_02203FD8), PM_SRC_LINE(0, 0x676), PM_LANG_JA((void *)0x02203E2C, str_ja_02203FEC));
     }
     return r;
 }
@@ -1370,7 +1377,7 @@ int WORLDTRADE_SEARCH_StateLevelMenuInput(WorldtradeWork *p)
  */
 int WORLDTRADE_SEARCH_StatePrintConditionPrompt(WorldtradeWork *p)
 {
-    WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 0xbe, 1, 0, 0xf0f);
+    WORLDTRADE_SEARCH_PrintMessage((u8 *)p, WORLDTRADE_MSG(0xbe), 1, 0, 0xf0f);
     WORLDTRADE_SetNextState((WorldtradeWork *)p, 0x17, 0xe);
     return 2;
 }
@@ -1445,7 +1452,7 @@ int WORLDTRADE_SEARCH_StateReturnToMain(WorldtradeWork *p)
  */
 int WORLDTRADE_SEARCH_StatePrintMessage9E(WorldtradeWork *p)
 {
-    WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 0x9e, 1, 0, 0xf0f);
+    WORLDTRADE_SEARCH_PrintMessage((u8 *)p, WORLDTRADE_MSG(0x9e), 1, 0, 0xf0f);
     WORLDTRADE_SetNextState((WorldtradeWork *)p, 0x17, 0x1);
     return 2;
 }
@@ -1618,7 +1625,7 @@ void WORLDTRADE_SEARCH_DrawFormLabels(void **win, void **win2, void *bank, void 
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[4], s3, 0, 0, 0, 0x440, printer);
     STRBUF_Delete(s3);
 
-    s4 = MSGDATA_AllocString(bank, 0xB9);
+    s4 = MSGDATA_AllocString(bank, WORLDTRADE_MSG(0xB9));
     WORLDTRADE_INPUT_PrintStringAlignedLine(win2[0], s4, 0, 0, 0, 0x440, printer);
     STRBUF_Delete(s4);
 
@@ -1626,7 +1633,7 @@ void WORLDTRADE_SEARCH_DrawFormLabels(void **win, void **win2, void *bank, void 
     WORLDTRADE_INPUT_PrintStringAlignedWrapped(win[6], s5, 0, 0, 0, 0x440, printer);
     STRBUF_Delete(s5);
 
-    s6 = MSGDATA_AllocString(bank, 0xFC);
+    s6 = MSGDATA_AllocString(bank, WORLDTRADE_MSG(0xFC));
     WORLDTRADE_INPUT_PrintStringAlignedWrapped(win[7], s6, 0, 0, 0, 0x440, printer);
     STRBUF_Delete(s6);
 }

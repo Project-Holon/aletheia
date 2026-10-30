@@ -436,6 +436,13 @@ struct TcbTask;
 struct ClactActor;
 #include "../arm9/touchpanel.h"
 #include "../arm9/key.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_RANKING_MSG_ARCHIVE 0x31
+#else
+#define IRC_RANKING_MSG_ARCHIVE 0x32
+#endif
 
 int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args);
 int IRC_RANKING_ProcExit(struct ProcSys *procSys, int unused, int *exitMode, IrcRankingWork *work);
@@ -530,7 +537,7 @@ int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args) {
     else work->gameData = GAME_DATA_Create(1);
     work->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(IRC_RANKING_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, IRC_RANKING_HEAP_ID);
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 50, IRC_RANKING_HEAP_ID);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, IRC_RANKING_MSG_ARCHIVE, IRC_RANKING_HEAP_ID);
     work->rankData = IRC_RANKING_DataCreate(work->gameData, IRC_RANKING_HEAP_ID);
     IRC_RANKING_DisplayInit(&work->display, work->gameData, IRC_RANKING_HEAP_ID);
     work->bmpOamSys = BMP_OAM_CreateSys(IRC_RANKING_HEAP_ID, IRC_RANKING_GetClactUnit(work));
@@ -728,7 +735,7 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u16 heap
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, paletteBlock << 6, 0x20, heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, paletteBlock << 6, 0x20, heapId);
     ARC_TOOL_DeleteHandle(gfx->arcHandle);
-    msg = MSGDATA_CreateFromArchive(0, 2, 0x32, heapId);
+    msg = MSGDATA_CreateFromArchive(0, 2, IRC_RANKING_MSG_ARCHIVE, heapId);
     font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     gfx->titleWin = BMP_WIN_Create(0, 3, 1, 0x1a, 2, 0xe, 1);
     BMP_Clear(BMP_WIN_GetBmp(gfx->titleWin), 0xf);

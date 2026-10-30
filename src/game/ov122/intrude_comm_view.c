@@ -190,6 +190,7 @@ struct S02031140;
 struct Proc;
 struct TaskMenu;
 struct TaskMenuState;
+#include "../version.h"
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
@@ -354,8 +355,16 @@ struct TextPrinter;
 void INTRUDE_COMM_VIEW_StoreCallback(void (**slot)(IntrudeCommView *), void (*value)(IntrudeCommView *));
 void INTRUDE_COMM_VIEW_SetCallback(IntrudeCommView *p, void (*callback)(IntrudeCommView *), int id);
 void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, Row *rows);
+#else
 void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, Row *rows, const int *xs, const int *ys);
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row);
+#else
 void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int *xs, const int *ys);
+#endif
 void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i,IntrudeCommView *p);
 void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i,IntrudeCommView *p);
 void INTRUDE_COMM_VIEW_DeleteRows(IntrudeCommView *p);
@@ -429,7 +438,11 @@ void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused)
     BG_SYS_PushTile(7);
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, Row *rows)
+#else
 void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, Row *rows, const int *xs, const int *ys)
+#endif
 {
     int i, x, y;
     p->rowCount = count;
@@ -446,11 +459,15 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
         p->rows[i] = (void *)BMP_WIN_Create(7, (u8)rows[i].x, (u8)rows[i].y, (u8)rows[i].w, rows[i].h, 13, 0);
         BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
         MSGDATA_ReadString(p->msgBank, (int)values[i], p->textBuf);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), 0, 0, p->textBuf, p->font, 0x39e3);
+#else
         if (xs) x = xs[i] - (PRINTSYS_MeasureWidestLine(p->textBuf, p->font, 0) >> 1);
         else x = 0;
         if (ys) y = ys[i] - (PRINTSYS_CountLines(p->textBuf, p->font) >> 1);
         else y = 0;
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), x, y, p->textBuf, p->font, 0x39e3);
+#endif
         BMP_WIN_TransferChars(p->rows[i]);
         BMP_WIN_MakeScreen(p->rows[i]);
     }
@@ -462,7 +479,11 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
 /*
  * lever: x initialized after construction lets its zero share the outgoing stack argument.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row)
+#else
 void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int *xs, const int *ys)
+#endif
 {
     int x, y;
     if (p->rows[i]) {
@@ -472,12 +493,17 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int
         p->rows[i] = 0;
     }
     p->rows[i] = (void *)BMP_WIN_Create(7, (u8)row->x, (u8)row->y, (u8)row->w, row->h, 13, 0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), 0, 0, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font, 0x39e3);
+#else
     x = 0;
     BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
     if (xs) x = xs[i] - (PRINTSYS_MeasureWidestLine(((IntrudeCommView *)p)->textBuf, (struct GfFont *)(((IntrudeCommView *)p)->font), 0) >> 1);
     if (ys) y = ys[i] - (PRINTSYS_CountLines(((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font) >> 1);
     else y = 0;
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), x, y, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font, 0x39e3);
+#endif
     BMP_WIN_TransferChars(p->rows[i]);
     BMP_WIN_MakeScreen(p->rows[i]);
     BG_SYS_MarkTileDirty(7);
@@ -583,7 +609,7 @@ void INTRUDE_COMM_VIEW_CreateResources(IntrudeCommView *p)
     p->textBufAlt = STRBUF_Create(200, p->heapId);
     p->rowWin = (void *)BMP_WIN_Create(5, 16, 10, 10, 2, 13, 0);
     p->font = GF_FONT_Create(23, 0, 0, 0, p->heapId);
-    p->msgBank = MSGDATA_CreateFromArchive(0, 2, 23, p->heapId);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(23, 24), p->heapId);
     arc = ARC_TOOL_CreateHandle(29, p->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(arc, 0, 0, 0, 0, p->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(arc, 1, 4, 0, 0, p->heapId);
@@ -607,11 +633,15 @@ void INTRUDE_COMM_VIEW_CreateResources(IntrudeCommView *p)
 void INTRUDE_COMM_VIEW_InitMenu(IntrudeCommView *p)
 {
     IntrudeCommViewPair pair = d_021D575C;
+    #if LANGUAGE == LANGUAGE_JAPANESE
+    INTRUDE_COMM_VIEW_BuildRowList(2, (int *)&pair, (IntrudeCommView *)p, (Row *)d_021D5890);
+#else
     INTRUDE_COMM_VIEW_BuildRowList(2, (int *)&pair, (IntrudeCommView *)p, (Row *)d_021D5890, (const int *)d_021D5720, (const int *)d_021D5718);
+#endif
     p->buttonMan = BUTTON_MAN_Create((u8 *)d_021D5728, INTRUDE_COMM_VIEW_InvokeCallback, p, p->heapId);
     p->invokeCallback = INTRUDE_COMM_VIEW_SelectRow;
     INTRUDE_COMM_VIEW_InitStatusText(p);
-    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_Update, 0x31b);
+    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_Update, PM_LANG_JA(0x31b, 0x304));
 }
 
 void INTRUDE_COMM_VIEW_DeleteResources(IntrudeCommView *p)
@@ -637,9 +667,9 @@ void INTRUDE_COMM_VIEW_WaitExitWipe(IntrudeCommView *p)
     if (WIPE_SYS_EndCheck()) {
         if (p->state == 1) {
             if (!GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(p->icaAnime)))
-                INTRUDE_COMM_VIEW_SetCallback(p, 0, 0x341);
+                INTRUDE_COMM_VIEW_SetCallback(p, 0, PM_LANG_JA(0x341, 0x32a));
         } else {
-            INTRUDE_COMM_VIEW_SetCallback(p, 0, 0x345);
+            INTRUDE_COMM_VIEW_SetCallback(p, 0, PM_LANG_JA(0x345, 0x32e));
         }
     }
 }
@@ -656,13 +686,13 @@ void INTRUDE_COMM_VIEW_BeginExit(IntrudeCommView *p)
     NET_WHPIPE_SetNotifyCallback(0, 0);
     if (p->state == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(p->icaAnime)))
         GAME_COMM_RequestExitNoCallback((struct GameComm *)GAMESYSTEM_GetGameComm(p->icaAnime));
-    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
+    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_WaitExitWipe, PM_LANG_JA(0x35e, 0x347));
 }
 
 void INTRUDE_COMM_VIEW_StartExit(void *param, u32 frame)
 {
     IntrudeCommView *p = (IntrudeCommView *)param;
-    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_BeginExit, 0x36f);
+    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_BeginExit, PM_LANG_JA(0x36f, 0x358));
 }
 
 void INTRUDE_COMM_VIEW_Noop(IntrudeCommView *unused0)
@@ -684,7 +714,7 @@ void INTRUDE_COMM_VIEW_AnimateSelectedRow(IntrudeCommView *p)
     CLACT_SetActorAutoAnim((struct ClactActor *)base[i], 1);
     CLACT_ApplyActorAnimCommand((struct ClactActor *)base[i], &args);
     CLACT_RestartActorAnim(base[i]);
-    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_Noop, 0x390);
+    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_Noop, PM_LANG_JA(0x390, 0x379));
 }
 
 int INTRUDE_COMM_VIEW_SelectRow(int value, IntrudeCommView *p)
@@ -698,18 +728,18 @@ int INTRUDE_COMM_VIEW_SelectRow(int value, IntrudeCommView *p)
         p->args->requestState = INTRUDE_COMM_GetRequestState(obj);
         p->state = 0;
         GFL_USE_PlaySeDefaultVolume(0x73b);
-        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3c4);
+        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, PM_LANG_JA(0x3c4, 0x3ad));
         break;
     case 1:
     case 4:
         p->state = 1;
         GFL_USE_PlaySeDefaultVolume(0x73b);
-        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3cd);
+        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, PM_LANG_JA(0x3cd, 0x3b6));
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73c);
         p->state = 2;
-        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3d3);
+        INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_AnimateSelectedRow, PM_LANG_JA(0x3d3, 0x3bc));
         break;
     }
     return 1;
@@ -754,7 +784,7 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(IntrudeCommView *p)
     INTRUDE_COMM_VIEW_DrawRowText(6, 4, 0, 0, (IntrudeCommView *)p);
     INTRUDE_COMM_VIEW_DrawRowText(8, 12, 0, 0, (IntrudeCommView *)p);
     if (mode == 0) {
-        WORDSET_SetSlotNumber(p->wordSet, 0, p->peerSum, 2, 0, 1);
+        WORDSET_SetSlotNumber(p->wordSet, 0, p->peerSum, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
         INTRUDE_COMM_VIEW_DrawRowText(5, 3, force, 1, (IntrudeCommView *)p);
         if (p->peerTimer & 32) INTRUDE_COMM_VIEW_DrawRowText(7, 5, force, 1, (IntrudeCommView *)p);
         else INTRUDE_COMM_VIEW_DrawRowText(7, 6, force, 1, (IntrudeCommView *)p);
@@ -770,29 +800,49 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(IntrudeCommView *p)
             CLACT_SetActorDrawEnable(p->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, p);
             MSGDATA_ReadString(p->msgBank, 0, p->textBuf);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5840);
+#else
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5840, data_021D5710, data_021D5714);
+#endif
             break;
         case 1:
             CLACT_SetActorDrawEnable(p->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, p);
             MSGDATA_ReadString(p->msgBank, 15, p->textBuf);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860);
+#else
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
+#endif
             break;
         case 2:
             count = INTRUDE_COMM_CountEventPeers((void *)object);
             p->peerCount = count;
             CLACT_SetActorDrawEnable(p->actors[5], 0);
             INTRUDE_COMM_VIEW_ResetRowSlot(10, p);
-            WORDSET_SetSlotNumber(p->wordSet, 0, count, 1, 0, 1);
+            WORDSET_SetSlotNumber(p->wordSet, 0, count, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
             MSGDATA_ReadString(p->msgBank, 16, p->textBufAlt);
             WORDSET_CopyTaggedText(p->wordSet, p->textBuf, p->textBufAlt);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860);
+#else
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
+#endif
             break;
         case 3:
             MSGDATA_ReadString(p->msgBank, 17, p->textBuf);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860);
+#else
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
+#endif
             if (INTRUDE_COMM_GetRequesterStatus(object, (struct MyStatus *)(p->textBuf))) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+                INTRUDE_COMM_VIEW_RebuildRow(10, (IntrudeCommView *)p, &data_021D5850);
+#else
                 INTRUDE_COMM_VIEW_RebuildRow(10, (IntrudeCommView *)p, &data_021D5850, 0, 0);
+#endif
                 CLACT_SetActorDrawEnable(p->actors[5], 1);
             }
             break;
@@ -1014,13 +1064,17 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 1, 15, 4);
     WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, p->heapId);
     BG_SYS_SetSubVisiblePlanes(31);
-    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_InitMenu, 0x6cb);
+    INTRUDE_COMM_VIEW_SetCallback(p, INTRUDE_COMM_VIEW_InitMenu, PM_SRC_LINE(0x6cb, 0x6af));
     p->args = (IntrudeCommViewArgs *)args;
     GFL_NET_GetInitParam();
     p->args->active = 1;
     p->args->owner = p->gameData;
     GFL_NET_RefreshWmIconAtTopRight(0, p->heapId);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    NET_WHPIPE_SetNotifyCallback(INTRUDE_COMM_VIEW_StorePeerRecord, p);
+#else
     if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback(INTRUDE_COMM_VIEW_StorePeerRecord, p);
+#endif
     UI_SetInputMode(1);
     return 1;
 }

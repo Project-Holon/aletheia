@@ -51,6 +51,13 @@ struct Strbuf;
 #include "../arm9/gf_font.h"
 
 #include "../arm9/wordset.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200E18[];
+extern const char str_ja_02200E28[];
+extern const char str_ja_02200E30[];
+extern const char str_ja_02200E48[];
+extern const char str_ja_02200E6C[];
+#endif
 
 
 
@@ -84,7 +91,7 @@ void *BR_BTN_DATA_Create(int *configPtr, u16 heapId)
     int i;
     int *table;
     for (i = 0; i < 12; i++) total += d_022007F0[i].count;
-    table = GFL_HEAP_Alloc(heapId, total * 24 + 4, 0, d_02200D28, 0x429);
+    table = GFL_HEAP_Alloc(heapId, total * 24 + 4, 0, PM_LANG_JA(d_02200D28, str_ja_02200E18), 0x429);
     MI_CpuFill8(table, 0, total * 24 + 4);
     *table = *configPtr;
     BR_BTN_DATA_Fill((struct BrBtnTable *)table);
@@ -113,7 +120,7 @@ void BR_BTN_DATA_Fill(struct BrBtnTable *table)
             case 1: row->enabled = config[0]; break;
             case 2: case 3: case 4:
                 index = row->kind - 2;
-                if (index >= 4) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
+                if (index >= 4) GF_PANIC_Fail(PM_LANG_JA(d_02200D38, str_ja_02200E18), PM_SRC_LINE(0, 0x46D), PM_LANG_JA(d_02200D38, str_ja_02200E28));
                 row->enabled = config[index + 1];
                 if (row->enabled) row->msgId = 26;
                 break;
@@ -129,18 +136,18 @@ void *BR_BTN_DATA_GetRow(struct BrBtnTable *table, int section, unsigned item)
 {
     int i;
     int total;
-    if (section >= 12) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
-    if (item >= d_022007F0[section].count) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
+    if (section >= 12) GF_PANIC_Fail(PM_LANG_JA(d_02200D38, str_ja_02200E18), PM_SRC_LINE(0, 0x496), PM_LANG_JA(d_02200D38, str_ja_02200E30));
+    if (item >= d_022007F0[section].count) GF_PANIC_Fail(PM_LANG_JA(d_02200D38, str_ja_02200E18), PM_SRC_LINE(0, 0x497), PM_LANG_JA(d_02200D38, str_ja_02200E48));
     total = 0;
     for (i = 0; i < section; i++) total += d_022007F0[i].count;
     return &table->records[total + item];
 }
 
-unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)GF_PANIC_Fail(d_02200D38,0,d_02200D38);return d_022007F0[section].count; }
+unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)GF_PANIC_Fail(PM_LANG_JA(d_02200D38, str_ja_02200E18),PM_SRC_LINE(0, 0x4AF),PM_LANG_JA(d_02200D38, str_ja_02200E30));return d_022007F0[section].count; }
 
 unsigned BR_BTN_DATA_GetMaxSectionCount(void *table) { unsigned best=0;int section;for(section=0;section<12;section++){if(best<BR_BTN_DATA_GetSectionCount(table,section)) best=BR_BTN_DATA_GetSectionCount(table,section);}return best; }
 
-int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)GF_PANIC_Fail(d_02200D38,0,d_02200D38);return ((u16 *)record)[fieldIndex]; }
+int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)GF_PANIC_Fail(PM_LANG_JA(d_02200D38, str_ja_02200E18),PM_SRC_LINE(0, 0x50B),PM_LANG_JA(d_02200D38, str_ja_02200E6C));return ((u16 *)record)[fieldIndex]; }
 
 void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct MsgBank *archive,unsigned short heapId)
 {
@@ -154,7 +161,11 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
             wordSet=WORDSET_CreateDefault((unsigned short)((heapId&0x7fff)|0x8000));
             WORDSET_SetSlotTag(wordSet,0,*(struct Strbuf **)(*wordSetSrc+index+4),(*wordSetSrc+index)[8],1,PM_LANG_ID);
             src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
+#if LANGUAGE == LANGUAGE_JAPANESE
+            result=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
+#else
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
+#endif
             WORDSET_CopyTaggedText(wordSet,result,src);
             WORDSET_Delete(wordSet);
             STRBUF_Delete(src);

@@ -112,6 +112,11 @@ struct DeliveryIrcWork;
 struct DeliveryIrcWork;
 struct DeliveryIrcWork;
 #include "livebattlematch_irc.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0217E5E8[];
+extern const char str_ja_0217E600[];
+extern const char str_ja_0217E61C[];
+#endif
 extern const char d_0217E634[];
 extern NetCommandEntry d_0217E544[];
 extern const unsigned d_0217E564[];
@@ -193,7 +198,7 @@ void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(LivebattlematchRequest *p)
 
 struct LiveBattleMatchIrcWork *LIVEBATTLEMATCH_IRC_Create(struct GameData *unused, u16 heap)
 {
-    struct LiveBattleMatchIrcWork *p = GFL_HEAP_Alloc(heap, sizeof(*p), 0, d_0217E634, 0x8E);
+    struct LiveBattleMatchIrcWork *p = GFL_HEAP_Alloc(heap, sizeof(*p), 0, PM_LANG_JA(d_0217E634, str_ja_0217E5E8), 0x8E);
     MI_CpuFill8(p, 0, sizeof(*p));
     p->heap = heap;
     if (GFL_NET_GetRunState())
@@ -343,7 +348,7 @@ void LIVEBATTLEMATCH_IRC_CreateDelivery(struct LiveBattleMatchIrcWork *p, void *
     config.entries[0].mask = PM_VERSION_MASK;
     config.entryCount = 1;
     if (p->delivery)
-        GF_PANIC_Fail(d_0217E64C, 0, d_0217E64C);
+        GF_PANIC_Fail(PM_LANG_JA(d_0217E64C, str_ja_0217E5E8), PM_SRC_LINE(0, 0x26F), PM_LANG_JA(d_0217E64C, str_ja_0217E600));
     p->delivery = DELIVERY_IRC_Create((struct DeliveryIrcParam *)(&config));
     p->state = 0;
 }
@@ -441,7 +446,7 @@ void LIVEBATTLEMATCH_IRC_RecvHandler3(u32 a, void *b, void *c, struct LiveBattle
 int LIVEBATTLEMATCH_IRC_RecvHandler4(int a, int b)
 {
     if (a == GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        GF_PANIC_Fail(d_0217E64C, 0, d_0217E64C);
+        GF_PANIC_Fail(PM_LANG_JA(d_0217E64C, str_ja_0217E5E8), PM_SRC_LINE(0, 0x370), PM_LANG_JA(d_0217E64C, str_ja_0217E61C));
         return 0;
     }
     return b + 6;

@@ -28,6 +28,7 @@ struct HistoryOwner;
 #include "wifi_history_shared_types.h"
 struct MyStatus;
 
+#include "../version.h"
 #include "mystatus.h"
 
 #include "wifi_history.h"
@@ -77,6 +78,13 @@ u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEnt
     if (MYSTATUS_GetNation((struct MyStatus *)(&entry->record)) == 0) {
         return 0;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    /* A Japanese player is recorded only when the nation is Japan. */
+    if (MYSTATUS_GetLanguage((struct MyStatus *)(&entry->record)) == 1
+        && MYSTATUS_GetNation((struct MyStatus *)(&entry->record)) != 0x69) {
+        return 0;
+    }
+#endif
     return COMM_HISTORY_InsertOrReplace(owner, entry);
 }
 

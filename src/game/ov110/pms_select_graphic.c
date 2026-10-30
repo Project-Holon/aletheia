@@ -164,6 +164,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
+#include "pms_input_view_shared_types.h"
 #include "../sdk_ioreg.h"
 
 #include "../arm9/pms_types.h"
@@ -345,7 +346,7 @@ int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelect
     p->saveData = PMS_WORD_GetSaveData(args->pmsSystem);
     p->args = args;
     p->font = GF_FONT_Create(23, 0, 0, 0, p->heapId);
-    p->msgBank = MSGDATA_CreateFromArchive(0, 2, 146, p->heapId);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 2, PMS_INPUT_VIEW_MSG_FILE, p->heapId);
     p->printQueue = (void *)PRINTSYS_QUE_Create((u32)p->heapId);
     p->procList = PROCSYS_Create(p->heapId);
     p->prevSelected = 255;

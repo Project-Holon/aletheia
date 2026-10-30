@@ -388,12 +388,18 @@ void PLACE_NAME_LETTER_StepX(PlaceNameLetter *letter)
         return;
     }
     motion = &letter->motion;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    letter->motion.x = letter->motion.x + motion->vx;
+    motion->vx = motion->vx + motion->ax;
+    motion->framesX = motion->framesX - 1;
+#else
     letter->motion.x = letter->motion.x + (motion->vx + motion->ax / 2.0f);
     motion->vx = motion->vx + motion->ax;
     motion->framesX = motion->framesX - 1;
     if (motion->framesX == 0) {
         motion->x = motion->targetX;
     }
+#endif
 }
 
 /* One step on the y axis. */
@@ -404,12 +410,18 @@ void PLACE_NAME_LETTER_StepY(PlaceNameLetter *letter)
         return;
     }
     motion = &letter->motion;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    motion->y = motion->y + motion->vy;
+    motion->vy = motion->vy + motion->ay;
+    motion->framesY = motion->framesY - 1;
+#else
     motion->y = motion->y + (motion->vy + motion->ay / 2.0f);
     motion->vy = motion->vy + motion->ay;
     motion->framesY = motion->framesY - 1;
     if (motion->framesY == 0) {
         motion->y = motion->targetY;
     }
+#endif
 }
 
 void PLACE_NAME_LETTER_Activate(PlaceNameLetter *letter)

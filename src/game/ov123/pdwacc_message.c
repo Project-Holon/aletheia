@@ -71,6 +71,7 @@
  *   PRINTSYS_AppendTag  0x0201D60C  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
+#include "../version.h"
 #include "pdwacc_message_types.h"
 #include "../sdk_ioreg.h"
 
@@ -201,7 +202,7 @@ void PDWACC_MESSAGE_DeleteButtonManager(PdwaccMessageWork *work)
 PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
 {
     PdwaccMessageWork *work;
-    work = GFL_HEAP_Alloc(heap, sizeof(PdwaccMessageWork), 1, d_021DABA8, 0x9b);
+    work = GFL_HEAP_Alloc(heap, sizeof(PdwaccMessageWork), 1, d_021DABA8, PM_SRC_LINE(0x9b, 0x99));
     work->heap = heap;
     BMP_WIN_Init(work->heap);
     GF_FONT_InitTextColor();
@@ -373,6 +374,29 @@ void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work)
 }
 
 /* Writes the 10 character account code of value into buf: 5 bits per character from the value and its checksum. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
+{
+    AccountCodeCharTable table;
+    int copy;
+    u32 checksum;
+    u16 text[26];
+    u64 bits;
+    int charIndex;
+    table = d_021DA868;
+    copy = value;
+    checksum = GF_STANDARD_CalcCrc16((const u8 *)(&copy), 4);
+    bits = (u64)(long long)copy + ((u64)checksum << 32);
+    MI_CpuFill8(text, 0xff, sizeof(text));
+    for (charIndex = 0; charIndex < 10; charIndex++) {
+        u16 index;
+        index = (u16)(bits & 31);
+        bits >>= 5;
+        text[charIndex] = table.chars[index];
+    }
+    STRBUF_SetString(buf, text);
+}
+#else
 void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
 {
     AccountCodeCharTable table;
@@ -395,6 +419,7 @@ void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
         PRINTSYS_AppendTag(buf, 189, 4, 1, &arg);
     }
 }
+#endif
 
 /* Shows the account code of value in the BG 1 code window with its label below. */
 void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int unused)

@@ -692,7 +692,9 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, void *workP
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             EVENT_MAPCHANGE_ApplyLocation(gameSystem, specialLocation);
+#if LANGUAGE != LANGUAGE_JAPANESE
             GAME_BEACON_SetZone((u32)specialLocation->zoneId, gameData);
+#endif
         } else {
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
@@ -1978,7 +1980,9 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
     EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
     EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, locations.arrivalLocation.zoneId);
     EVENT_MAPCHANGE_ApplyLocation(gameSystem, &locations.arrivalLocation);
+#if LANGUAGE != LANGUAGE_JAPANESE
     GAME_BEACON_SetZone((u32)locations.arrivalLocation.zoneId, gameData);
+#endif
     FIELD_CLOCK_Update(gameData);
     FIELD_MAP_CHANGE_ResetGimmickStateCase4(gameData, locations.arrivalLocation.zoneId);
 }

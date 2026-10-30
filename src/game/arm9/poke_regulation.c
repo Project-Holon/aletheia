@@ -48,6 +48,7 @@ struct WordSet;
 struct Strbuf;
 
 #include "../types.h"
+#include "../version.h"
 
 #include "regulation_types.h"
 
@@ -82,6 +83,9 @@ extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, 
 #else
 #include "arc_tool.h"
 #endif
+
+/* Archive that holds the regulation records. */
+#define REGULATION_ARC_ID PM_LANG_JA(0x69, 0x11)
 
 #include "wordset.h"
 
@@ -586,7 +590,7 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
  */
 void *POKE_REGULATION_Load(int memberId, int heapId)
 {
-    return ARC_TOOL_LoadMember(0x69, memberId, heapId);
+    return ARC_TOOL_LoadMember(REGULATION_ARC_ID, memberId, heapId);
 }
 
 /*
@@ -594,7 +598,7 @@ void *POKE_REGULATION_Load(int memberId, int heapId)
  */
 void POKE_REGULATION_LoadInto(int memberId, void *dst)
 {
-    ARC_TOOL_ReadMember(dst, 0x69, memberId);
+    ARC_TOOL_ReadMember(dst, REGULATION_ARC_ID, memberId);
 }
 
 /*
@@ -623,8 +627,8 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
     } else {
         messageId = 9;
     }
-    WORDSET_SetSlotNumber(wordSet, 0, reg->numLo, 1, 0, 1);
-    WORDSET_SetSlotNumber(wordSet, 1, reg->numHi, 1, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->numLo, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(wordSet, 1, reg->numHi, 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
     line = STRBUF_Create(0x40, heapId);
     MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);
@@ -668,7 +672,7 @@ struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, stru
     } else {
         messageId = 6;
     }
-    WORDSET_SetSlotNumber(wordSet, 0, reg->level, 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->level, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     line = STRBUF_Create(0x40, heapId);
     MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);

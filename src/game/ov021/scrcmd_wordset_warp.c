@@ -97,6 +97,8 @@ typedef void (*WordSetRegisterFn)(WordSet *wordSet, u32 slot, u32 value);
 
 #include "../arm9/beacon.h"
 #include "../arm9/file_util.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
 #include "../arm9/game_data.h"
 #include "../arm9/game_event.h"
 #include "../arm9/gamesystem.h"
@@ -122,6 +124,7 @@ typedef void (*WordSetRegisterFn)(WordSet *wordSet, u32 slot, u32 value);
 extern GameEvent * EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *, FieldMap *, int, const VecFx32 *, u16);
 #endif
 #include "../ov010/eventdata_system.h"
+#include "../version.h"
 
 int SCRCMD_BufferPlayerName(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_BufferEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterFn registerFn);
@@ -182,6 +185,18 @@ int SCRCMD_BufferPlayerName(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 0;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* Script command: register an item name (slot byte, item value). */
+int SCRCMD_BufferItemName(ScriptVm *vm, ScrcmdWork *cmdWork)
+{
+    WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
+    u8 slot = ScriptVm_ReadU8(vm);
+
+    WORDSET_SetSlotFromMsg36(wordSet, slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    return 0;
+}
+
+#else
 /*
  * Shared body of the word set commands that take a slot byte and one script
  * value: reads the slot and the value and registers the value with registerFn.
@@ -223,6 +238,8 @@ void SCRCMD_BufferItemNameWithCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     }
 }
 
+#endif
+
 /* Script command: register the item name with the converted item value (slot byte, value). */
 int SCRCMD_BufferConvertedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
@@ -251,6 +268,24 @@ int SCRCMD_BufferCategoryEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 0;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern struct MsgBank *gSpeciesNameMsg_ja_020A7114;
+
+/* Script command: register a species name read straight from its message file (slot byte, species value). */
+int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork)
+{
+    WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
+    u8 slot = ScriptVm_ReadU8(vm);
+    u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct Strbuf *name = STRBUF_Create(0x20, SCRCMD_WORK_GetHeapId(cmdWork));
+
+    MSGDATA_ReadString(gSpeciesNameMsg_ja_020A7114, species, name);
+    WORDSET_SetSlotTag(wordSet, slot, name, 0, 1, 1);
+    STRBUF_Delete(name);
+    return 0;
+}
+
+#else
 /* Shared body of the species name commands: slot byte, then one script value. */
 int SCRCMD_BufferSpeciesNameCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterFn registerFn)
 {
@@ -272,6 +307,8 @@ int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SC
 #else
 static void WORDSET_SetSlotFromMsg119U32(WordSet *wordSet, u32 slot, u32 value) { WORDSET_SetSlotFromMsg119(wordSet, slot, (u16)value); }
 int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_SetSlotFromMsg119U32); }
+#endif
+
 #endif
 
 int SCRCMD_BufferShortEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
@@ -345,7 +382,7 @@ int SCRCMD_BufferNumber(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     number = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     digitCount = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WORDSET_SetSlotNumber(wordSet, slot, number, digitCount, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, number, digitCount, 0, PM_LANG_HALF_WIDTH_DIGITS);
     return 0;
 }
 
@@ -405,6 +442,19 @@ int SCRCMD_BufferSignedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 0;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* Script command: register a map entry name (slot byte, one script value truncated to a byte). */
+int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork)
+{
+    int slot = ScriptVm_ReadU8(vm);
+    int entryIndex;
+
+    entryIndex = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    WORDSET_SetSlotFromMsgBF(SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork)), slot, (u8)entryIndex);
+    return 0;
+}
+
+#else
 /* Shared body of the byte-valued word set commands (slot byte, one script value truncated to a byte). */
 int SCRCMD_BufferByteEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterFn registerFn)
 {
@@ -417,7 +467,13 @@ int SCRCMD_BufferByteEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegis
 }
 
 int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsgBF); }
+#if LANGUAGE == LANGUAGE_JAPANESE
+int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsgBE); }
+#else
 int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsg11B); }
+#endif
+
+#endif
 
 /* Script command: register the beacon save thanks count as a 9-digit number (slot byte). */
 int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
@@ -430,7 +486,7 @@ int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetThanksCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetThanksCount(beacon), 9, 1, PM_LANG_HALF_WIDTH_DIGITS);
     return 0;
 }
 
@@ -445,7 +501,7 @@ int SCRCMD_BufferBeaconGreetCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetGreetCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetGreetCount(beacon), 9, 1, PM_LANG_HALF_WIDTH_DIGITS);
     return 0;
 }
 

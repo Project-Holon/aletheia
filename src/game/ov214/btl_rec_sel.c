@@ -200,6 +200,7 @@ struct Ctx;
 struct PaletteFade;
 struct PalAnmObj;
 struct S02021D50;
+#include "../version.h"
 #include "../arm9/arc_tool.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/arc_util.h"
@@ -492,7 +493,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     ((struct BtlRecSel *)work)->itemCount=MYITEM_SAVEDATA_HasItem(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
     ((struct BtlRecSel *)work)->task=GFL_USE_AddMainTask(BTL_REC_SEL_VBlank,work,(unsigned int)1);
-    *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
+    *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(19,3),((struct BtlRecSel *)work)->heap);
     BTL_REC_SEL_InitBgRun((sptr)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
     BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((sptr)mgr,work);BTL_REC_SEL_InitPalette((sptr)mgr,work);BTL_REC_SEL_CreateWindows((sptr)mgr,work);
     BG_SYS_SetPriority(2,2);k=K;BG_SYS_SetPriority(k,1);BG_SYS_SetPriority(1,0);
@@ -1120,7 +1121,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
         strbuf2 = (sptr)MSGDATA_AllocString(e->msgBank, 0x12);
         buf = (sptr)STRBUF_Create(8, e->heap);
         PRINTSYS_QUE_Clear(e->printQue[3]);
-        WORDSET_SetSlotNumber((struct WordSet *)font, 1, v, 2, 2, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)font, 1, v, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText((struct WordSet *)font, (void *)buf, (void *)strbuf2);
         bmp2 = (sptr)BMP_WIN_GetBmp(e->winHandles[3]);
         PRINTSYS_PrintQueColor(e->printQue[3], (struct Bmp *)bmp2, 2, 2, (struct Strbuf *)buf, e->font, colorFlag);

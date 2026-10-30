@@ -92,6 +92,8 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
+#include "../version.h"
+
 #include "../sdk_ioreg.h"
 #include "mystery_util_shared_types.h"
 
@@ -552,7 +554,7 @@ void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, st
 {
     u8 *p;
     void *q;
-    p = GFL_HEAP_Alloc(heap, 0x28, 0, (char *)d_021DFBA0, 0x55);
+    p = GFL_HEAP_Alloc(heap, 0x28, 0, (char *)d_021DFBA0, PM_SRC_LINE(0x55, 0x53));
     MI_CpuFill8(p, 0, 0x28);
     ((MysteryUtilWindow *)p)->printOwner = h;
     ((MysteryUtilWindow *)p)->textParam = b;
@@ -715,7 +717,7 @@ void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, struct PrintQueue *c, struct Gf
 {
     u8 *p;
     void *q;
-    p = allocate(heap, 0x40, d_021DFBA0, 0x184);
+    p = allocate(heap, 0x40, d_021DFBA0, PM_SRC_LINE(0x184, 0x182));
     MI_CpuFill8(p, 0, 0x40);
     ((MysteryUtilMenuWindow *)p)->height = 15;
     ((MysteryUtilMenuWindow *)p)->printArg = d;
@@ -746,7 +748,7 @@ void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, struct PrintQueue *c, struct G
 {
     u8 *p;
     void *q;
-    p = GFL_HEAP_Alloc(heap, 0x40, 0, (char *)d_021DFBA0, 0x1ae);
+    p = GFL_HEAP_Alloc(heap, 0x40, 0, (char *)d_021DFBA0, PM_SRC_LINE(0x1ae, 0x1ac));
     MI_CpuFill8(p, 0, 0x40);
     ((MysteryUtilMenuWindow *)p)->height = 15;
     ((MysteryUtilMenuWindow *)p)->printArg = d;
@@ -886,7 +888,7 @@ void *MYSTERY_UTIL_CreateMenu(const MysteryUtilMenuDef *p,u16 heap)
     void *q;
     u32 i;
     MysteryUtilMenuListSrc cfg;
-    out=GFL_HEAP_Alloc(heap,24,0,(char *)d_021DFBA0,0x2cb);
+    out=GFL_HEAP_Alloc(heap,24,0,(char *)d_021DFBA0,PM_SRC_LINE(0x2cb, 0x2c9));
     MI_CpuFill8(out,0,24);
     ((MysteryUtilMenu *)out)->printOwner=((MysteryUtilMenuDef *)p)->printOwner;
     ((MysteryUtilMenu *)out)->bmpWin=(void *)BMP_WIN_Create((u8)(((MysteryUtilMenuDef *)p)->bgLayer),(u16)19,(u16)((u8)(17-(u8)(((MysteryUtilMenuDef *)p)->count*2))),(u8)12,(u8)(((MysteryUtilMenuDef *)p)->count*2),((MysteryUtilMenuDef *)p)->palette,1);
@@ -942,7 +944,7 @@ void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,st
 {
     u32 i;
     int size=n*sizeof(void *)+(sizeof(MysteryUtilWindowList)-sizeof(void *));
-    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,0x374);
+    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,PM_SRC_LINE(0x374, 0x36d));
     MI_CpuFill8(out,0,size);
     *(const char * *)&((MysteryUtilWindowList *)out)->desc=desc;
     ((MysteryUtilWindowList *)out)->count=n;
@@ -978,7 +980,7 @@ void *MYSTERY_UTIL_CreateBmpList(char *p,u16 heap)
 {
     u32 i;
     int size=((MysteryUtilWindowList *)p)->count*sizeof(void *)+(sizeof(MysteryUtilBmpList)-sizeof(void *));
-    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,0x42e);
+    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,PM_SRC_LINE(0x42e, 0x427));
     MI_CpuFill8(out,0,size);
     *(char * *)&((MysteryUtilBmpList *)out)->srcList=p;
     ((MysteryUtilBmpList *)out)->heapId=heap;
@@ -1033,7 +1035,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     u32 i;
     u8 c;
     u16 w;
-    struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, sizeof(*out), 0, (char *)d_021DFBA0, 0x4e7);
+    struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, sizeof(*out), 0, (char *)d_021DFBA0, PM_SRC_LINE(0x4e7, 0x4e0));
     MI_CpuFill8(out, 0, sizeof(*out));
     out->count = in->count;
     out->actor = in->actor;
@@ -1146,7 +1148,7 @@ void MYSTERY_UTIL_SetListValue(MysteryUtilDetailWindow *p,u32 i,u32 value)
     p->target[i]=value;
 }
 
-void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,(char *)d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((MysteryUtilTask *)p,b); return p; }
+void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,(char *)d_021DFBA0,PM_SRC_LINE(0x61c, 0x615)); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((MysteryUtilTask *)p,b); return p; }
 
 void MYSTERY_UTIL_DeleteTask(void *p) { GFL_HEAP_Free(p); }
 
@@ -1172,7 +1174,7 @@ void MYSTERY_UTIL_GetTaskArg(MysteryUtilTask *p) { p->state=p->value; }
 void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     MysteryUtilOamParam desc;
-    char *out=GFL_HEAP_Alloc(heap,36,0,(char *)d_021DFBA0,0x6b1);
+    char *out=GFL_HEAP_Alloc(heap,36,0,(char *)d_021DFBA0,PM_SRC_LINE(0x6b1, 0x6aa));
     MI_CpuFill8(out,0,36);
     ((MysteryUtilActorPair *)out)->printQueue=g;
     ((MysteryUtilActorPair *)out)->textBuf=STRBUF_Create(128,heap);

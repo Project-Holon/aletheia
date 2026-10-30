@@ -82,6 +82,15 @@ struct Proc;
 
 #include "battle_championship_flow_types.h"
 
+#include "../version.h"
+
+/* Japanese: text bank id of the championship messages. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BATTLE_CHAMPIONSHIP_MSG_ARC 7
+#else
+#define BATTLE_CHAMPIONSHIP_MSG_ARC 4
+#endif
+
 #include "../arm9/gfl_heap.h"
 
 #include "../arm9/procsys.h"
@@ -162,6 +171,10 @@ struct WifibattlematchMenu;
 #include "battle_championship_flow.h"
 
 #include "livebattlematch_flow.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0217E560[];
+extern const char str_ja_0217E57C[];
+#endif
 
 
 
@@ -177,7 +190,7 @@ extern const char d_0217E5E4[];
 int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
 {
     BattleChampionshipFlowWork *work;
-    GFL_HEAP_CreateChildHeap(1,0x4e,0x30200);
+    GFL_HEAP_CreateChildHeap(1,0x4e,PM_LANG_JA(0x30200, 0x30000));
     work=PROCSYS_AllocProcWork(owner,sizeof(*work),0x4e);
     MI_CpuFill8(work,0,sizeof(*work));
     work->context=context;
@@ -245,7 +258,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(BattleChampionshipFlowWork *work) {WIFI
 void BATTLE_CHAMPIONSHIP_FLOW_CreateText(BattleChampionshipFlowWork *work)
 {
     work->font=GF_FONT_Create(0x17,0,0,0,work->heapId);
-    work->msgBank=MSGDATA_CreateFromArchive(0,2,4,work->heapId);
+    work->msgBank=MSGDATA_CreateFromArchive(0,2,BATTLE_CHAMPIONSHIP_MSG_ARC,work->heapId);
     work->printQue=PRINTSYS_QUE_Create((unsigned int)(work->heapId));
     work->printSys=WIFIBATTLEMATCH_UTIL_Create((int)0,(int)15,14,10,work->printQue,work->font,work->heapId);
 }
@@ -287,7 +300,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(WifibattlematchCallback *proc, int *state, 
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc, BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
-    default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_0217E5E0, str_ja_0217E560),PM_SRC_LINE(0, 0x160),PM_LANG_JA(d_0217E5E0, str_ja_0217E57C)); break;
     }
 }
 
@@ -303,7 +316,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(WifibattlematchCallback *proc, int *state,
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc, BATTLE_CHAMPIONSHIP_FLOW_End); break;
-    default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_0217E5E0, str_ja_0217E560),PM_SRC_LINE(0, 0x191),PM_LANG_JA(d_0217E5E0, str_ja_0217E57C)); break;
     }
 }
 

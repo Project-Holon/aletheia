@@ -92,7 +92,12 @@ struct Proc;
 
 #include "../arm9/procsys.h"
 
+#include "../version.h"
 #include "../arm9/mi_memory.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+#include "../arm9/std_sprintf.h"
+extern const char str_ja_021DAAD8[];
+#endif
 
 
 
@@ -325,6 +330,26 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc)
  * evidence: 0x021B973C ov114 Thumb leaf now has S23's verified EXACT
  *   pkt_ov114_021B973C shard; no caller retry because ARM9 still blocks it.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
+{
+    u32 profileId;
+    if (GFL_NET_GetRunState()) {
+        if (NHTTP_RAP_CreateRequest(4,proc->connection)) {
+            profileId = proc->profileId;
+            MI_CpuFill8(proc->postData,0,0x1e);
+            STD_TSNPrintf((char *)proc->postData,0x1e,str_ja_021DAAD8,profileId);
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),(void *)proc->postData,0xc);
+            if (!NHTTP_RAP_StartConnection(proc->connection)) {
+                PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1f8);
+                return;
+            }
+        }
+    } else if (KEY_GetTrg()) {
+        PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1fe);
+    }
+}
+#else
 void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
 {
     int workAreaSize;
@@ -342,10 +367,11 @@ void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
         PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1fc);
     }
 }
+#endif
 
-void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc) { if(WIPE_SYS_EndCheck() && KEY_GetTrg()) { PDWACC_MESSAGE_DeleteNumberWindows(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateFadeOutBgm,0x22c); } }
+void PDWACC_STATE_StateWaitFadeClearNumbers(PdwaccProc *proc) { if(WIPE_SYS_EndCheck() && KEY_GetTrg()) { PDWACC_MESSAGE_DeleteNumberWindows(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateFadeOutBgm,PM_SRC_LINE(0x22c, 0x216)); } }
 
-void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,7); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitFadeClearNumbers,0x23c); }
+void PDWACC_STATE_StatePrintResultMessage(PdwaccProc *proc) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,7); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitFadeClearNumbers,PM_SRC_LINE(0x23c, 0x226)); }
 
 void PDWACC_STATE_DestroyHttpConnection(void *arg, u32 errorCode, u32 errorType, int dwcError) { PdwaccProc *proc = arg; if(proc->connection) { NHTTP_RAP_DeleteConnection(proc->connection); NHTTP_RAP_Destroy(proc->connection); proc->connection=0; } }
 
@@ -371,8 +397,8 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     WIPE_SYS_Start(0,1,1,0,6,1,proc->heap);
     GFL_USE_CancelChangeAndPlayBgm(0x483,0xffff);
     switch(param->startMode) {
-    case 0: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintIntroMessage,0x276); break;
-    case 1: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintResultMessage,0x279); break;
+    case 0: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintIntroMessage,PM_SRC_LINE(0x276, 0x260)); break;
+    case 1: PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintResultMessage,PM_SRC_LINE(0x279, 0x263)); break;
     }
     param->finished=0;
     return 1;

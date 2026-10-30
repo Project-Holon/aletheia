@@ -190,9 +190,11 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, NameInArgs *args)
     mode = 0;
     if (args->pokedex != 0) {
         mode = MISC_GetInputFlag(args->pokedex, args->kind);
+#if LANGUAGE != LANGUAGE_JAPANESE
         if (mode >= 5) {
             mode = 0;
         }
+#endif
     }
     GFL_HEAP_CreateChildHeap(1, 0x1e, 0x70000);
     w = PROCSYS_AllocProcWork(a, sizeof(NameinGraphicWork), 0x1e);
@@ -213,8 +215,12 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, NameInArgs *args)
     w->members = NAMEIN_GRAPHIC_CreateMembers(0x1e);
     w->nameStrbuf = STRBUF_Clone(args->name, 0x1e);
     if (STRBUF_GetLength(w->nameStrbuf) != 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (NAMEIN_GRAPHIC_IsNameCharValid(STRBUF_GetChars(w->nameStrbuf), 0x1e) == 0) {
+#else
         if (STRBUF_GetLength(w->nameStrbuf) > (u32)args->maxLen
             || NAMEIN_GRAPHIC_IsNameCharValid(STRBUF_GetChars(w->nameStrbuf), 0x1e) == 0) {
+#endif
             STRBUF_Clear(w->nameStrbuf);
         }
     }
@@ -374,13 +380,19 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const NameinGraphicMainRect *re
     ((NameinGraphicCursor *)p)->selected=selected;
     BG_SYS_FillTileMap(2,0,0,32,24,1);
     BG_SYS_FillTileMap(1,0,0,32,24,1);
-    if(flag!=0 && selected==3) {
+    if(flag!=0 && selected==NAMEIN_GRAPHIC_MODE_SYMBOL) {
         BG_SYS_FillTileMap(1,3,16,4,3,4);
         BG_SYS_FillTileMap(1,23,16,4,3,4);
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    x=selected*2+3;
+    BG_SYS_FillTileMap(1,x,20,2,3,4);
+    BG_SYS_FillTileMap(2,x,20,2,3,4);
+#else
     x=(selected+1)*3;
     BG_SYS_FillTileMap(1,x,20,3,3,4);
     BG_SYS_FillTileMap(2,x,20,3,3,4);
+#endif
     if(rect && mode!=0) {
         ((NameinGraphicCursor *)p)->rect=*rect;
         if(mode==2) {

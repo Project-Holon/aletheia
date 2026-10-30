@@ -6,6 +6,7 @@
 #include "../arm9/battle_rec_types.h"
 
 #include "../types.h"
+#include "../version.h"
 
 #include "../ov125/gds_rap_types.h"
 
@@ -292,7 +293,12 @@ struct BrProfileScreen {
     u32 trainerCell;                 /* 0x40 */
 };
 
+/* Japanese sorts species by the ten kana rows, other languages by nine letter groups. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BR_POKESEARCH_GROUP_COUNT 10
+#else
 #define BR_POKESEARCH_GROUP_COUNT 9
+#endif
 
 /* Pokemon search screen work (nine name groups, then a list of the seen species), 0x90 bytes. */
 struct BrPokeSearch {
@@ -302,7 +308,7 @@ struct BrPokeSearch {
     int touchedGroup;         /* group index touched, 9 when none */
     int listChoice;           /* species id chosen in the list, -1 when none */
     u8 groupHasSeen[BR_POKESEARCH_GROUP_COUNT];
-    u8 pad1D[3];              /* alignment before the next word */
+    u8 pad1D[12 - BR_POKESEARCH_GROUP_COUNT]; /* alignment before the next word */
     int done;
     u16 heapId;
     u16 pad26;                /* alignment */

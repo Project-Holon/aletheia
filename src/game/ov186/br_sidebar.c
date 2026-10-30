@@ -74,6 +74,11 @@ struct ClactActor;
 
 
 #include "../arm9/gf_standard.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200FF0[];
+extern const char str_ja_02201000[];
+#endif
 
 
 extern const char gBrSidebarSourceFile[];
@@ -123,7 +128,7 @@ typedef char BrSidebarCheckConfig[(sizeof(void *) != 4 || (sizeof(struct BrSideb
 
 struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, struct BrFade *unused, struct BrRes *res, u16 heapId)
 {
-    struct BrSidebar *sidebar = GFL_HEAP_Alloc(heapId, sizeof(struct BrSidebar), 0, gBrSidebarSourceFile, 0x132);
+    struct BrSidebar *sidebar = GFL_HEAP_Alloc(heapId, sizeof(struct BrSidebar), 0, PM_LANG_JA(gBrSidebarSourceFile, str_ja_02200FF0), 0x132);
     int i;
     MI_CpuFill8(sidebar, 0, sizeof(struct BrSidebar));
     BR_RES_LoadSprite(res, 4, heapId);
@@ -221,7 +226,7 @@ void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Unit *unit, struct B
     slot->config=*config;
     spriteIndex=4;
     if(config->space)spriteIndex=5;
-    if(!BR_RES_GetSprite(res,spriteIndex,&sprite))GF_PANIC_Fail(gBrSidebarAssertString,0,gBrSidebarAssertString);
+    if(!BR_RES_GetSprite(res,spriteIndex,&sprite))GF_PANIC_Fail(PM_LANG_JA(gBrSidebarAssertString, str_ja_02200FF0),PM_SRC_LINE(0, 0x251),PM_LANG_JA(gBrSidebarAssertString, str_ja_02201000));
     MI_CpuFill8(&pos,0,sizeof(pos));
     pos.x=config->x;
     pos.y=config->y;

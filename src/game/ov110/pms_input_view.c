@@ -1124,10 +1124,12 @@ int PMS_INPUT_VIEW_GetEditValue(struct PmsInputView *view)
     return PMSIV_EDIT_GetSlotCount(view->edit);
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 int PMS_INPUT_VIEW_GetEditEntry(struct PmsInputView *view, int i)
 {
     return PMSIV_EDIT_GetSlotWordId(view->edit, i);
 }
+#endif
 
 void PMS_INPUT_VIEW_SetEditText(struct PmsInputView *view, const void *src, u8 n)
 {
@@ -1249,7 +1251,7 @@ void PMS_INPUT_VIEW_PrintHelpMessage(struct PmsInputViewTask *task,int index)
     struct PmsInputView *view;
     table=gPmsInputHelpMessageIds;
     BMP_Clear(BMP_WIN_GetBmp(task->view->helpWin),7);
-    msgData=MSGDATA_CreateFromArchive(0,2,146,PMS_INPUT_VIEW_HEAP_ID);
+    msgData=MSGDATA_CreateFromArchive(0,2,PMS_INPUT_VIEW_MSG_FILE,PMS_INPUT_VIEW_HEAP_ID);
     str=MSGDATA_AllocString(msgData,table.values[index]);
     view=task->view;
     PRINTSYS_PrintQueColor((struct PrintQueue *)task->view->printQue,BMP_WIN_GetBmp(view->helpWin),2,4,str,view->font,0x39e7);

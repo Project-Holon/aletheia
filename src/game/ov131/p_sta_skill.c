@@ -220,6 +220,7 @@ struct StaOamManager;
 
 /* Pokemon status screen sub-page in p_sta_oam.c. */
 #include "p_sta_oam.h"
+#include "../version.h"
 
 /* This file. */
 PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk);
@@ -273,7 +274,7 @@ PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk)
 {
     PStaSkillWork *work;
     u8 i;
-    work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaSkillWork),0,P_STA_SKILL_FileName,315);
+    work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaSkillWork),0,P_STA_SKILL_FileName,PM_SRC_LINE(315, 312));
     work->isOpen=0;
     work->statsPrintPending=0;
     work->movePrintPending=0;
@@ -610,37 +611,37 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     one=1;
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],110,25,one,15424);
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,160,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,160,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,119,89,one,1088);
     WORDSET_Delete(words);
-    P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],117,93,one,1088);
+    P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],117,PM_LANG_JA(93, 89),one,1088);
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,161,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,161,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,118,121,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ATTACK],111,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,one));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,162,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,162,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_ATTACK],words,120,105,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],112,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,2));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,163,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,163,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],words,121,105,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],113,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,3));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,165,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,165,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],words,122,105,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],114,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,4));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,166,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,166,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],words,123,105,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SPEED],115,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,5));
     words=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,164,0),3,one,one);
+    WORDSET_SetSlotNumber(words,0,POKE_TOOL_GetPartyValue(pp,164,0),3,one,PM_LANG_HALF_WIDTH_DIGITS);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SPEED],words,124,105,one,1088);
     WORDSET_Delete(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ABILITY],116,5,one,15424);
@@ -709,7 +710,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     if(power<=1) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 154, 87, one, 1088);
     else {
         powerWords=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(powerWords,0,power,3,one,one);
+        WORDSET_SetSlotNumber(powerWords,0,power,3,one,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_SKILL_WIN_MOVE_POWER],powerWords,150,81,one,1088);
         WORDSET_Delete(powerWords);
     }
@@ -718,11 +719,11 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     if(WAZA_TOOL_IsAlwaysHit(moveId)==1 || accuracy==0) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 154, 87, 1, 1088);
     else {
         accuracyWords=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(accuracyWords,0,accuracy,3,1,1);
+        WORDSET_SetSlotNumber(accuracyWords,0,accuracy,3,1,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_SKILL_WIN_MOVE_ACCURACY],accuracyWords,151,81,1,1088);
         WORDSET_Delete(accuracyWords);
     }
-    descBank=MSGDATA_CreateFromArchive(0,2,202,wk->heapId);
+    descBank=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(202, 203),wk->heapId);
     str=MSGDATA_AllocString(descBank,moveId);
     PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_MOVE_DESC]),1,1,str,wk->font,1088);
     STRBUF_Delete(str);
@@ -861,7 +862,9 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
                 return 1;
         } else {
             if (KEY_GetTrg()==1) {
+#if LANGUAGE != LANGUAGE_JAPANESE
                 if (wk->param->mode==6) goto out;
+#endif
                 if (work->isMoveHeld==0) {
                     u8 selected;
                     work->isMoveHeld=1;
@@ -952,7 +955,10 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         if (touchedSlot==-1) goto out;
         if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
         if (wk->isInputEnabled==1) P_STATUS_SetInputEnable(wk,0);
-        if (wk->param->mode!=6) {
+#if LANGUAGE != LANGUAGE_JAPANESE
+        if (wk->param->mode!=6)
+#endif
+        {
             work->isTouching=1;
             if (work->isMoveHeld!=1) {
                 work->heldSlot=touchedSlot;
@@ -963,15 +969,21 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
                 else if (touchedSlot==3) CLACT_SetActorAnimSeq((struct ClactActor *)work->touchObj,4);
                 else CLACT_SetActorAnimSeq((struct ClactActor *)work->touchObj,2);
             }
+#if LANGUAGE == LANGUAGE_JAPANESE
+            wk->inputType=1;
+            P_STA_SKILL_SetCursor(wk,work,touchedSlot,1);
+#endif
             work->touchStartX=wk->tpX;
             work->touchStartY=wk->tpY;
-            P_STA_SKILL_GetSlotPos(&work->slot[touchedSlot],&pos2);
+            P_STA_SKILL_GetSlotPos(&work->slot[PM_LANG_JA(touchedSlot, work->heldSlot)],&pos2);
             CLACT_AddActorSurfacePos((struct ClactActor *)work->heldObj,(const struct ClactVec2 *)&pos2,0);
             CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,1);
             CLACT_RestartActorAnim((struct ClactActor *)work->heldObj);
         }
+#if LANGUAGE != LANGUAGE_JAPANESE
         wk->inputType=1;
         P_STA_SKILL_SetCursor(wk,work,touchedSlot,1);
+#endif
         GFL_USE_PlaySeDefaultVolume(1356);
         return;
     }
@@ -1354,8 +1366,8 @@ void P_STA_SKILL_CreateSlotObjects(PStatusWork *wk, PStaSkillWork *work, PStaSki
     pos.anim_seq=slot->index;
     slot->frameObj=CLACT_CreateActor(wk->clunit,(wk->objRes[20]),(wk->objRes[6]),(wk->objRes[32]),&pos,0,wk->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)slot->frameObj,0);
-    pos.x=P_STA_SKILL_SlotTilePos[slot->index][0]*8+26;
-    pos.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8+9;
+    pos.x=P_STA_SKILL_SlotTilePos[slot->index][0]*8+PM_LANG_JA(26, 24);
+    pos.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8+PM_LANG_JA(9, 8);
     pos.draw_priority=8;
     pos.bg_priority=0;
     pos.anim_seq=0;
@@ -1400,20 +1412,20 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
         maxPP=curPP;
     }
     slot->nameBmp=BMP_Create(11,4,32,wk->heapId);
-    nameBank=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,203,wk->heapId);
+    nameBank=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(203, 204),wk->heapId);
     str=MSGDATA_AllocString((struct MsgBank *)nameBank,moveId);
-    PRINTSYS_PrintQueColor(wk->printQue,slot->nameBmp,3,2,str,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,slot->nameBmp,PM_LANG_JA(3, 1),PM_LANG_JA(2, 1),str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete((struct MsgBank *)nameBank);
     if(moveId!=0) {
         P_STATUS_PrintMsg(wk,slot->nameBmp,135,13,17,1088);
         ppWords=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(ppWords,0,curPP,3,1,1);
+        WORDSET_SetSlotNumber(ppWords,0,curPP,3,1,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgRight(wk,slot->nameBmp,ppWords,136,57,17,1088);
         WORDSET_Delete(ppWords);
         P_STATUS_PrintMsg(wk,slot->nameBmp,117,57,17,1088);
         maxPPWords=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(maxPPWords,0,maxPP,3,1,1);
+        WORDSET_SetSlotNumber(maxPPWords,0,maxPP,3,1,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsg(wk,slot->nameBmp,maxPPWords,141,61,17,1088);
         WORDSET_Delete(maxPPWords);
     } else {

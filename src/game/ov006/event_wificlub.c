@@ -190,6 +190,7 @@ struct WifiClubPlayerStatus;
 #include "../ov099/wifi_club.h"
 #include "../arm9/net_command.h"
 #include "../arm9/gfl_heap_wrap.h"
+#include "../version.h"
 struct SaveControl;
 void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
@@ -442,8 +443,10 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
         work->login.loginOption = 1;
         work->login.loginType = 0;
         work->login.messageId = 10;
+#if LANGUAGE != LANGUAGE_JAPANESE
         work->login.allowCancel = 1;
         GFL_USE_CancelChangeAndPlayBgm(0x481, 0xffff);
+#endif
         work->loginTask = PROCSYS_Create(4);
         PROCSYS_Push(work->loginTask, (uptr)ov115_id, &gNetSaveMainProc, &work->login);
         work->session->menuChoice = 0;
@@ -452,6 +455,12 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
     case 10:
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
         PROCSYS_Delete(work->loginTask);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (!WIFILIST_CountFriends((void *)GAME_DATA_GetWifiList(work->paramGameData))) *seq = 28;
+        else if (!work->login.result) *seq = 11;
+        else *seq = 25;
+        break;
+#else
         if (!work->login.result) {
             if (!WIFILIST_CountFriends((void *)GAME_DATA_GetWifiList(work->paramGameData))) *seq = 30;
             else { *seq = 11; GFL_USE_FadeOutBgm(6); }
@@ -475,6 +484,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
         GFL_USE_FadeOutBgm(6);
         *seq = 4;
         break;
+#endif
     case 11:
         GF_OVERLAY_Load((sptr)ov099_id);
         GF_OVERLAY_Load((sptr)ov067_id);
@@ -547,7 +557,11 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
         ++*seq;
         break;
     case 17:
-        if (!GFL_NET_GetRunState()) goto cleanup;
+        if (!GFL_NET_GetRunState()) {
+            EVENT_WIFICLUB_ResetSound(work);
+            *seq = 9;
+            break;
+        }
         if (work->matchOutcome == 0)
             WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
         else if (work->matchOutcome == 1)
@@ -577,7 +591,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, int *seq, void *workPtr)
         }
         break;
     case 21:
-        request = GFL_HEAP_Alloc(4, sizeof(EvolutionRequest), 0, d_02154C80, 0x24b);
+        request = GFL_HEAP_Alloc(4, sizeof(EvolutionRequest), 0, d_02154C80, PM_SRC_LINE(0x24b, 0x212));
         request->gameData = GAMESYSTEM_GetGameData(work->gameSystem);
         request->party = work->tradeParam.party;
         request->targetSpecies = work->tradeParam.partyIndex;
@@ -658,8 +672,8 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, struct FieldMap *fie
     work->fieldMap = fieldMap;
     work->event = event;
     work->hideFieldObjects = hideFieldObjects;
-    work->session = GFL_HEAP_Alloc(0x8004, sizeof(WifiClubEventSession), 1, d_02154C80, 0x2b0);
-    work->session->scratchBuffer = GFL_HEAP_Alloc(0x8004, 0x20, 1, d_02154C80, 0x2b1);
+    work->session = GFL_HEAP_Alloc(0x8004, sizeof(WifiClubEventSession), 1, d_02154C80, PM_SRC_LINE(0x2b0, 0x277));
+    work->session->scratchBuffer = GFL_HEAP_Alloc(0x8004, 0x20, 1, d_02154C80, PM_SRC_LINE(0x2b1, 0x278));
     work->session->gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     work->session->saveControl = GAME_DATA_GetSaveControl(work->session->gameData);
     work->session->rulesLoaded = 1;

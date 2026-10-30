@@ -215,7 +215,7 @@
 #if PM_LANG_MONTH_AS_NAME
 #define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotMonth(words, slot, month)
 #else
-#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotNumber(words, slot, month, 2, 0, 1)
+#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotNumber(words, slot, month, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS)
 #endif
 #include "../arm9/item.h"
 #include "../arm9/move.h"
@@ -783,7 +783,7 @@ MysteryAlbumWork *MYSTERY_ALBUM_Create(const MysteryAlbumCreateInput *src,u16 he
     const char *table;
     int n;
     void *callback;
-    out=GFL_HEAP_Alloc(heap,sizeof(*out),0,d_021DFBB0,0x19f);
+    out=GFL_HEAP_Alloc(heap,sizeof(*out),0,d_021DFBB0,PM_SRC_LINE(0x19f, 0x199));
     MI_CpuFill8(out,0,sizeof(*out));
     out->flipFlag=1;
     *(MysteryAlbumCreateInput *)out=*src;
@@ -1081,10 +1081,15 @@ void MYSTERY_ALBUM_SetCursor(MysteryAlbumWork *p,int a,int b,int c,u16 heap)
     int i;
     void *text,*other;
     for(i=0;i<4;i++) MYSTERY_ALBUM_SetupSlot(p,a,b,c,(u16)i,heap);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    text=MSGDATA_AllocString((void *)p->msgBank,150);
+    other=MSGDATA_AllocString((void *)p->msgBank,150);
+#else
     text=STRBUF_Create(128,heap);
     other=MSGDATA_AllocString((void *)p->msgBank,150);
-    WORDSET_SetSlotNumber(p->wordSet,0,c+1,1,1,1);
-    WORDSET_SetSlotNumber(p->wordSet,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
+#endif
+    WORDSET_SetSlotNumber(p->wordSet,0,c+1,1,1,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(p->wordSet,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(p->wordSet,text,other);
     MYSTERY_UTIL_SetColor(p->infoWindow,0x39ea);
     MYSTERY_UTIL_SetPosition(p->infoWindow,0,0,1);
@@ -1438,11 +1443,15 @@ void MYSTERY_ALBUM_SetupEntry(MysteryAlbumEntry *out,const MysteryAlbumCard *src
         out->card=*src;
         out->bmp=BMP_Create(10,2,32,heap);
         flags=src->flags;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        text=MSGDATA_AllocString(p->msgBank,151);
+#else
         text=STRBUF_Create(128,heap);
+#endif
         other=MSGDATA_AllocString(p->msgBank,151);
-        WORDSET_SetSlotNumber(p->wordSet,0,(u16)(flags>>16),4,1,1);
+        WORDSET_SetSlotNumber(p->wordSet,0,(u16)(flags>>16),4,1,PM_LANG_HALF_WIDTH_DIGITS);
         MYSTERY_ALBUM_SET_MONTH(p->wordSet,1,(u8)(flags>>8));
-        WORDSET_SetSlotNumber(p->wordSet,2,(u8)flags,2,0,1);
+        WORDSET_SetSlotNumber(p->wordSet,2,(u8)flags,2,PM_LANG_JA(0,1),PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(p->wordSet,text,other);
         x=40;
         x-=(s16)(PRINTSYS_MeasureWidestLine(text,p->font,0)/2);
@@ -1592,6 +1601,21 @@ void MYSTERY_ALBUM_SelectHandler(void *task, int *state, void *pArg)
                 }
                 changed=1;
             }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        } else if(repeat&1) {
+            CLACT_SetActorDrawEnable(p->actorC,0);
+            CLACT_SetActorDrawEnable(p->actorD,0);
+            if(p->cursorMode==4) {
+                if(p->introActive==0) {
+                    GFL_USE_PlaySeDefaultVolume(0x54c);
+                    MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_SaveHandler);
+                }
+            } else if(MYSTERY_ALBUM_IsEntryValid(&p->items[(u32)*(int *)&p->cursorMode+p->cursorIndex*4])) {
+                GFL_USE_PlaySeDefaultVolume(0x54c);
+                if(p->introActive) MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_MoveHandler);
+                else MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_ConfirmHandler);
+            }
+#else
         } else if(KEY_GetTrg()&1) {
             if(p->cursorMode==4) {
                 if(p->introActive==0) {
@@ -1607,6 +1631,7 @@ void MYSTERY_ALBUM_SelectHandler(void *task, int *state, void *pArg)
                 if(p->introActive) MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_MoveHandler);
                 else MYSTERY_UTIL_SetTaskHandler(task,MYSTERY_ALBUM_ConfirmHandler);
             }
+#endif
         } else if(KEY_GetTrg()&2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             if(p->introActive) {
@@ -2011,7 +2036,11 @@ void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,MysteryAlbumWork *p)
         MYSTERY_UTIL_SetMenuMessage(p->menuWindow,p->msgBank,92,1);
         *state=1; break;
     case 1:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (MYSTERY_UTIL_GetMenuState(p->menuWindow) && (KEY_GetTrg() & 1)) *state=2;
+#else
         if (MYSTERY_UTIL_GetMenuState(p->menuWindow)) *state=2;
+#endif
         break;
     case 2:
         if (p->menuWindow) {
@@ -2054,7 +2083,7 @@ void *MYSTERY_ALBUM_CreateSlotWork(const MysteryAlbumDesc *p,u16 heap)
     struct ActorInitParam second;
     void *arc;
     void *arc2;
-    out=GFL_HEAP_Alloc(heap,sizeof(MysteryAlbumSlotWork),0,d_021DFBB0,0xcff);
+    out=GFL_HEAP_Alloc(heap,sizeof(MysteryAlbumSlotWork),0,d_021DFBB0,PM_SRC_LINE(0xcff, 0xcdd));
     ((MysteryAlbumSlotWork *)out)->paletteBank=p->paletteBank;
     ((MysteryAlbumSlotWork *)out)->frontPlane=p->frontPlane;
     ((MysteryAlbumSlotWork *)out)->backPlane=p->backPlane;
@@ -2137,7 +2166,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, M
     u32 id;
     u64 id64;
 
-    out = GFL_HEAP_Alloc(heap, sizeof(*out), 0, d_021DFBB0, 0xDD4);
+    out = GFL_HEAP_Alloc(heap, sizeof(*out), 0, d_021DFBB0, PM_SRC_LINE(0xDD4, 0xDB1));
     MI_CpuFill8(out, 0, sizeof(*out));
     out->heap = heap;
     out->card = (struct MysteryAlbumViewCard *)card;
@@ -2162,13 +2191,17 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, M
     else
         idx = out->card->messageIndex + 0x9d;
     desc.e[2].str.stringPtr = MSGDATA_AllocString(slotWork->desc.msgBank, idx);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    desc.e[4].str.stringPtr = MSGDATA_AllocString(slotWork->desc.msgBank, 0x9a);
+#else
     desc.e[4].str.stringPtr = STRBUF_Create(0x80, heap);
+#endif
     flags = out->card->eventDate;
     t4 = MSGDATA_AllocString(slotWork->desc.msgBank, 0x9a);
     res = 0;
-    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 0, (u16)(flags >> 16), 4, 1, 1);
+    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 0, (u16)(flags >> 16), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MYSTERY_ALBUM_SET_MONTH(slotWork->desc.wordSet, 1, (u8)(flags >> 8));
-    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 2, (u8)flags, 2, 0, 1);
+    WORDSET_SetSlotNumber(slotWork->desc.wordSet, 2, (u8)flags, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(slotWork->desc.wordSet, desc.e[4].str.stringPtr, t4);
     out->bmpList = MYSTERY_UTIL_CreateBmpList((char *)slotWork->windowList, heap);
     MYSTERY_UTIL_DrawBmpList(out->bmpList, (char *)(&desc), slotWork->desc.printQueue);

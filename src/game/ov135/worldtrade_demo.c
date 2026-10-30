@@ -117,6 +117,12 @@ struct MyStatus;
 
 #include "worldtrade.h"
 #include "../sdk_ioreg.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02203CA4[];
+extern const char str_ja_02203CB8[];
+extern const char str_ja_02203CBC[];
+#endif
 
 
 
@@ -155,7 +161,7 @@ int WORLDTRADE_DEMO_Init(WorldtradeWork *p)
     void *tmpl;
 
     WORLDTRADE_ExitPlanes(p);
-    p->req = GFL_HEAP_Alloc(0x48, sizeof(*p->req), 0, str_02203B6C, 0x5E);
+    p->req = GFL_HEAP_Alloc(0x48, sizeof(*p->req), 0, PM_LANG_JA(str_02203B6C, str_ja_02203CA4), 0x5E);
     MI_CpuFill8(p->req, 0, sizeof(*p->req));
     d = p->req;
     p->monCopy = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
@@ -196,7 +202,7 @@ int WORLDTRADE_DEMO_Init(WorldtradeWork *p)
         tmpl = d_021E75CC;
         break;
     default:
-        GF_PANIC_Fail((void *)0x02203B80, 0, (void *)0x02203B80);
+        GF_PANIC_Fail(PM_LANG_JA((void *)0x02203B80, str_ja_02203CA4), PM_SRC_LINE(0, 0xB1), PM_LANG_JA((void *)0x02203B80, str_ja_02203CB8));
         break;
     }
     PROCSYS_Push(p->procSys, (uptr)ov119_id, tmpl, p->req);
@@ -240,7 +246,7 @@ int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
                     GFL_HEAP_Free(p->req);
                     p->req = 0;
                 }
-                p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, str_02203B6C, 0xEB);
+                p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, PM_LANG_JA(str_02203B6C, str_ja_02203CA4), 0xEB);
                 MI_CpuFill8(p->req, 0, sizeof(WorldtradeEvoReq));
                 w = p->req;
                 w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
@@ -280,7 +286,7 @@ int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
                         GFL_HEAP_Free(p->req);
                         p->req = 0;
                     }
-                    p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, str_02203B6C, 0x130);
+                    p->req = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeEvoReq), 0, PM_LANG_JA(str_02203B6C, str_ja_02203CA4), 0x130);
                     MI_CpuFill8(p->req, 0, sizeof(WorldtradeEvoReq));
                     w = p->req;
                     w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
@@ -384,7 +390,11 @@ WorldtradeEntry *WORLDTRADE_DEMO_GetSlotRecord(WorldtradeWork *p, int kind)
     } else if (kind == 8) {
         return &p->single;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    GF_PANIC_FailPrintf(str_ja_02203CA4, 0x1DE, str_ja_02203CBC);
+#else
     GF_PANIC_Fail((void *)0x02203B80, 0, (void *)0x02203B80);
+#endif
     return 0;
 }
 

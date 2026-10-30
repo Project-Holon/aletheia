@@ -760,7 +760,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
         FIELD_MSGBG_DeleteMsgWin(oldWin);
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
     FIELDMAP_SetInfoWindow(fieldMap, moneyWin);
-    WORDSET_SetSlotNumber(wordSet, 2, money, 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, money, 7, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString((struct MsgBank *)msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_MsgWinPrintStr(moneyWin, 0, 0, str);
@@ -794,7 +794,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    WORDSET_SetSlotNumber(wordSet, 2, MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString((struct MsgBank *)msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);
@@ -1353,7 +1353,9 @@ int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     int x, y;
     u8 width;
     u8 height;
+#if LANGUAGE != LANGUAGE_JAPANESE
     u8 textWidth;
+#endif
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
@@ -1369,15 +1371,26 @@ int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_GetStrSizeChars(fieldParam->mapSystem, str, &width, &height);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (x + width > 0x20) {
+        x = 4;
+        width = x;
+    }
+#else
     textWidth = width;
     if (x + textWidth > 0x1f) {
         x = (u16)(0x1f - textWidth);
     }
+#endif
     if (y + height > 0x18) {
         y = 4;
         height = y;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    FIELD_MSGBG_AddSubMsgWinStr(fieldParam->mapSystem, str, id, x, y, width, height);
+#else
     FIELD_MSGBG_AddSubMsgWinStr(fieldParam->mapSystem, str, id, x, y, textWidth, height);
+#endif
     STRBUF_Delete(str);
     SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_SUB_WIN);
     return 0;

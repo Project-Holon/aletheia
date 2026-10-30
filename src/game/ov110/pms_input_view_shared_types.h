@@ -3,6 +3,15 @@
 
 #include "pms_input_data_shared_types.h"
 
+#include "../version.h"
+
+/* Message file of the easy-chat input screen. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PMS_INPUT_VIEW_MSG_FILE 139
+#else
+#define PMS_INPUT_VIEW_MSG_FILE 146
+#endif
+
 #define PMS_INPUT_VIEW_TASK_SLOTS 4
 #define PMS_INPUT_VIEW_SCREEN_COUNT 2
 

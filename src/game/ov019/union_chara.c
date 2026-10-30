@@ -64,6 +64,7 @@
  *   UNION_ONESELF_SetNextPlayCategoryInMainPhase 0x0217B8F0 thumb ov019
  */
 #include "../types.h"
+#include "../version.h"
 
 #include "../bool_types.h"
 #include "../sdk_fx.h"
@@ -189,6 +190,11 @@ void UNION_CHARA_ProcessBeaconUpdates(UnionRoomWork *work);
 void UNION_CHARA_OnBeaconUpdate(UnionRoomWork *work, UnionBeaconPc *beaconPc);
 
 #include "union_oneself.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02180820[];
+extern const char str_ja_02180830[];
+extern const char str_ja_02180840[];
+#endif
 
 extern const MmdlHeader gUnionCharaMmdlHeader;
 
@@ -270,7 +276,7 @@ int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId)
     return 0;
 }
 
-void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData),objId); if(mmdl == 0) GF_PANIC_Fail(gUnionEmptyString0,0,gUnionEmptyString0); return mmdl; }
+void *UNION_CHARA_GetMmdl(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { u16 objId; void *mmdl; objId = UNION_CHARA_MakeObjId(beaconPc,slot); mmdl = FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData),objId); if(mmdl == 0) GF_PANIC_Fail(PM_LANG_JA(gUnionEmptyString0, str_ja_02180820), PM_SRC_LINE(0, 0x17C), PM_LANG_JA(gUnionEmptyString0, str_ja_02180830)); return mmdl; }
 
 UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionMember *member, int memberIndex, int visible, void **mmdlOut)
 {
@@ -295,7 +301,7 @@ UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc
             return slot;
         }
     }
-    GF_PANIC_Fail(gUnionEmptyString0, 0, gUnionEmptyString0);
+    GF_PANIC_Fail(PM_LANG_JA(gUnionEmptyString0, str_ja_02180820), PM_SRC_LINE(0, 0x1A1), PM_LANG_JA(gUnionEmptyString0, str_ja_02180840));
     return 0;
 }
 

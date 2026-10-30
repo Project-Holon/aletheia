@@ -325,7 +325,7 @@ extern const VecFx32 d_021DC1EC;
 extern const short d_020A5078[];
 
 void *P_STA_SUB_Create(PStatusWork *wk) {
-    PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, sizeof(PStaSubWork), 1, P_STA_SUB_FileName, 0x10d);
+    PStaSubWork *work = GFL_HEAP_Alloc(wk->heapId, sizeof(PStaSubWork), 1, P_STA_SUB_FileName, PM_SRC_LINE(0x10d, 0x10a));
     work->mcss[STA_SUB_MCSS_FRONT] = 0;
     work->mcss[STA_SUB_MCSS_BACK] = 0;
     work->isTouching = 0;
@@ -618,14 +618,14 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     if (wk->isEgg == 0) {
         struct Strbuf *levelText;
         wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
-        WORDSET_SetSlotNumber(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         levelText = MSGDATA_AllocString(wk->msgData, 3);
         WORDSET_CopyTaggedText(wordSet, buf, levelText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
         STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_Delete(wordSet);
     }
     buf = MSGDATA_AllocString(wk->msgData, 4);
-    PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 10, 1, buf, wk->font, 1088);
+    PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), PM_LANG_JA(10, 9), 1, buf, wk->font, 1088);
     STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
@@ -633,7 +633,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         WORDSET_SetSlotFromMsg36(wordSet, 0, POKE_TOOL_GetBoxValue(mon, 6, 0));
         itemText = MSGDATA_AllocString(wk->msgData, 5);
         WORDSET_CopyTaggedText(wordSet, buf, itemText);
-        PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
+        PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), PM_LANG_JA(6, 5), 17, buf, wk->font, 1088);
         STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_Delete(wordSet);
     }
 }

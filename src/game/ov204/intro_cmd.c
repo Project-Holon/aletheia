@@ -99,6 +99,7 @@
  *   INTRO_MSG_DeleteTimeIcon 0x021BF580 thumb ov204
  *   INTRO_MCSS_AddSlot 0x021BF624 thumb ov204
  */
+#include "../version.h"
 #include "intro_types.h"
 #include "../sdk_ioreg.h"
 
@@ -404,7 +405,9 @@ int INTRO_CMD_CmdAddSlot(char *p, int unused, unsigned *q)
     IntroCmdWork *work = (IntroCmdWork *)p;
     if (q[1] == 0) {
         INTRO_MCSS_AddSlot(work->mcss, q[2], q[3], 0, (void *)gIntroMcssArg, q[0]);
+#if LANGUAGE != LANGUAGE_JAPANESE
         INTRO_G3D_SetSlotMepachi(work->mcss, q[0], 1);
+#endif
     } else {
         INTRO_G3D_AddPokemonSlot(work->mcss, q[2], q[3], 0x1000, q[1], q[0]);
     }
@@ -847,7 +850,7 @@ void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;st
 
 char *INTRO_CMD_Create(void *a, void *b, void *c, char *d, void *e, unsigned short heap)
 {
-    IntroCmdWork *work = GFL_HEAP_Alloc(heap, sizeof(IntroCmdWork), 1, gIntroCmdSite, 0x6f2);
+    IntroCmdWork *work = GFL_HEAP_Alloc(heap, sizeof(IntroCmdWork), 1, gIntroCmdSite, PM_SRC_LINE(0x6f2, 0x6f0));
     work->heapId = heap;
     work->args = d;
     work->mcss = c;

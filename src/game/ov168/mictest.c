@@ -329,7 +329,10 @@ struct TcblSystem;
 #include "../arm9/gf_standard.h"
 #include "../arm9/key.h"
 #include "../sdk_ioreg.h"
+#include "../version.h"
 
+/* source line number of the heap allocation */
+/* source line number of the heap allocation, part of the heap tag */
 enum Result MICTEST_Create(struct Proc *proc);
 int MICTEST_Exit(struct Proc *a, int b, int c, MictestWork *p);
 int MICTEST_Main(int a, int b, int c, MictestWork *p);
@@ -401,7 +404,7 @@ enum Result MICTEST_Create(struct Proc *proc)
     p->heapId=73;
     MICTEST_ResetDisplay(73);
     MICTEST_SetupVramBanks();
-    p->heapHandle=GFL_HEAP_Alloc((u16)p->heapId,TCB_GetTaskOffset(5),0,d_02184A20,0x21d);
+    p->heapHandle=GFL_HEAP_Alloc((u16)p->heapId,TCB_GetTaskOffset(5),0,d_02184A20,PM_SRC_LINE(0x21d, 0x21c));
     p->taskCtx=TCB_Init(5,p->heapHandle);
     p->node=(struct Node *)GFL_USE_AddMainTask(MICTEST_VBlank, p,1);
     MICTEST_InitBg(&p->render,p->heapId);
@@ -740,7 +743,7 @@ void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork 
     u8 *buf;
     SND_MIC_Init(heap);
     UI_SetKeepAwakeFlagsGlobal(8);
-    buf = GFL_HEAP_Alloc((u16)heap, 0x120, 0, d_02184A20, 0x603);
+    buf = GFL_HEAP_Alloc((u16)heap, 0x120, 0, d_02184A20, PM_SRC_LINE(0x603, 0x602));
     MI_CpuFill8(buf, 0, 0x120);
     p->allocBuffer = buf;
     p->type = 0;

@@ -63,6 +63,7 @@
  *   d_021D65D0 0x021D65D0 data a4
  *   DWC_SVLProcess 0x02168040 arm ov009
  *   GF_PANIC_Fail 0x02034714 arm
+ *   GF_PANIC_FailPrintf 0x02034734 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -162,6 +163,7 @@
  *   WIFILOGIN_MSG_PrintMessage 0x021D5ED8 thumb ov115
  *   WIFILOGIN_MSG_RedrawBorder 0x021D5F7C thumb ov115
  */
+#include "../version.h"
 #include "ov115_types.h"
 #include "../sdk_ioreg.h"
 
@@ -487,6 +489,11 @@ void WIFILOGIN_DISP_SetupScreen(u8 *p);
 
 
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021D64B4[];
+extern const char str_ja_021D64C8[];
+#endif
+
 extern u8 d_021D6560[];
 
 extern u8 d_021D65C0[];
@@ -572,7 +579,7 @@ int WIFILOGIN_DISP_HandleNetError(u8 *p) {
 void WIFILOGIN_DISP_StepMenuAfterProfileError(u8 *p) { if(WIPE_SYS_EndCheck() && WIFILOGIN_MSG_IsPrintDone(*(u8 **)&((struct WifiloginWork *)p)->message)) { ((struct WifiloginWork *)p)->task=WIFILOGIN_MSG_OpenTask(*(u8 * *)&((struct WifiloginWork *)p)->message,0,!((struct WifiloginWork *)p)->state->mode,0); WIFILOGIN_COMMON_SetStateHandler(p,WIFILOGIN_DISP_StepConfirmConsoleResult); } }
 
 void WIFILOGIN_DISP_StepCardMenu(u8 *p) {
- void *v; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { if(!WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task)) { v=REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata))),0); BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),1); REGULATION_Card_SetValue(v,10,5); ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,WIFILOGIN_DISP_StartSession); } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,WIFILOGIN_DISP_StepCheckAccount); } WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; }
+ void *v; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { if(!WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task)) { v=REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata))),0); BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),1); REGULATION_Card_SetValue(v,10,5); ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,WIFILOGIN_DISP_StartSession); } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,PM_LANG_JA(WIFILOGIN_DISP_StepCheckAccount,WIFILOGIN_DISP_StepCallSync)); } WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; }
 }
 
 void WIFILOGIN_DISP_StepOpenCardMenu(u8 *p) { ((struct WifiloginWork *)p)->task=WIFILOGIN_MSG_OpenTask(*(u8 * *)&((struct WifiloginWork *)p)->message,1,!((struct WifiloginWork *)p)->state->mode,1); WIFILOGIN_COMMON_SetStateHandler(p,WIFILOGIN_DISP_StepCardMenu);  }
@@ -707,7 +714,11 @@ void WIFILOGIN_DISP_StepPollToken(u8 *p) { int x; if(!WIFILOGIN_DISP_HandleNetEr
 int WIFILOGIN_DISP_Create(void *ctx,int unused,u8 *q)
 {
     u8 *p;
-    if(((struct WifiloginState *)q)->dialogId==0) GF_PANIC_Fail(d_021D65D0,0,d_021D65D0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if(((struct WifiloginState *)q)->dialogId==0) GF_PANIC_FailPrintf(str_ja_021D64B4, 0x4E0, str_ja_021D64C8);
+#else
+    if(((struct WifiloginState *)q)->dialogId==0) GF_PANIC_Fail(d_021D65D0, 0, d_021D65D0);
+#endif
     GFL_HEAP_CreateChildHeap(1,120,0x18000);
     p=PROCSYS_AllocProcWork(ctx,72,120);
     MI_CpuFill8(p,0,72);

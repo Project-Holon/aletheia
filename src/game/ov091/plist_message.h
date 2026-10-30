@@ -6,6 +6,7 @@
 
 struct PokelistWork;
 
+#include "../version.h"
 #include "../ov091/plist_message_types.h"
 #include "../ov091/pokelist_types.h"
 #include "../types.h"
@@ -24,7 +25,9 @@ void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon);
 void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+#endif
 void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId);
 void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 value);
 void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);

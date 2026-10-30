@@ -17,11 +17,13 @@
  *   bmp_File       0x020A7E68  data
  *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_UTIL_LoadMember       0x0204A1BC  arm
+ *   ARC_UTIL_LoadHandleMember 0x0204A380  arm
  *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
  *   OS_Terminate        0x02088234  arm
  *   MIi_CpuCopy32       0x02082A90  arm
  *   MI_CpuFill8  0x02082BCC  arm
  */
+#include "../version.h"
 #include "bmp_shared_types.h"
 #include "nns_g2d_res_types.h"
 
@@ -337,6 +339,28 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
     GFL_HEAP_Free(resource);
     return bmp;
 }
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* Same as BMP_CreateFromArchive, but reads the member from an open archive handle. */
+void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
+
+struct Bmp *BMP_CreateFromHandle(void *arc, u32 memberId, u32 compressed, u32 heapId)
+{
+    struct Bmp *bmp;
+    void       *resource;
+    NNSG2dCharacterData *charData;
+
+    bmp = (struct Bmp *)GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 297);
+    resource = (void *)ARC_UTIL_LoadHandleMember(arc, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
+    if (NNS_G2dGetUnpackedCharacterDataEx(resource, (void **)(&charData)) == 0) {
+        OS_Terminate();
+        return 0;
+    }
+    BMP_InitFromCharData(bmp, charData, heapId);
+    GFL_HEAP_Free(resource);
+    return bmp;
+}
+#endif
 
 /*
  * bmp.c's bitmap constructor, 0x02043900-0x02043994 including its two pool

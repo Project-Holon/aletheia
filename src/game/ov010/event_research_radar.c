@@ -59,6 +59,7 @@
  *   MISC_GetGreetCount  0x0200C1C4  thumb
  */
 #include "symbol_map_shared_types.h"
+#include "../version.h"
 
 struct FieldMap;
 
@@ -400,8 +401,8 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     numberB = EVENT_RESEARCH_RADAR_GetReportNumberB(work);
     messageId = EVENT_RESEARCH_RADAR_GetReportMessageId(messageId);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatus(work->gameData));
-    WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString(work->msgBank, messageId, (struct Strbuf *)rawText);
     WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)formattedText, (struct Strbuf *)rawText);
     WORDSET_ClearAllSlots(work->wordSet);
@@ -456,22 +457,25 @@ int EVENT_RESEARCH_RADAR_GetReportNumberB(ResearchReportWork *work)
     return result;
 }
 
+/* First of the six report texts (the Japanese message file has them one earlier). */
+#define REPORT_MSG_FIRST PM_LANG_JA(0x174, 0x173)
+
 /* Message id of the report text for a report kind (0..5), 0 otherwise. */
 int EVENT_RESEARCH_RADAR_GetReportMessageId(unsigned int kind)
 {
     switch (kind) {
     case 0:
-        return 0x174;
+        return REPORT_MSG_FIRST + 0;
     case 1:
-        return 0x175;
+        return REPORT_MSG_FIRST + 1;
     case 2:
-        return 0x176;
+        return REPORT_MSG_FIRST + 2;
     case 3:
-        return 0x177;
+        return REPORT_MSG_FIRST + 3;
     case 4:
-        return 0x178;
+        return REPORT_MSG_FIRST + 4;
     case 5:
-        return 0x179;
+        return REPORT_MSG_FIRST + 5;
     }
     return 0;
 }

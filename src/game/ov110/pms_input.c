@@ -222,6 +222,7 @@ struct PmsInput;
 struct PmsiSearch;
 
 #include "pmsi_search.h"
+#include "../version.h"
 
 
 
@@ -398,7 +399,7 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->uiInputMode = PMSI_PARAM_GetUiInputMode(input->param);
     PMSI_PARAM_GetResult(input->param, input->words, (u16 *)&input->sentence);
     if (input->inputMode == PMS_INPUT_MODE_SENTENCE) PMS_INPUT_InitSentenceCursor(&input->sentenceCursor, &input->sentence);
-    taskBuf = GFL_HEAP_Alloc(41, TCB_GetTaskOffset(5), 0, gPmsInputFileName, 579);
+    taskBuf = GFL_HEAP_Alloc(41, TCB_GetTaskOffset(5), 0, gPmsInputFileName, PM_SRC_LINE(579, 550));
     input->taskBuf = taskBuf;
     input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
@@ -1402,6 +1403,34 @@ int PMS_INPUT_MoveInitialCursor(PmsInput *input) {
         else if(input->keyRepeat&PMS_KEY_RIGHT) y=PMSI_SEARCH_GetKeyRight(x);
         else if(input->keyRepeat&PMS_KEY_LEFT) y=PMSI_SEARCH_GetKeyLeft(x);
         if(y!=255) { input->prevCursorPos=input->cursorPos; input->cursorPos=y; return 1; }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    } else if(input->keyRepeat&PMS_KEY_UP) {
+        if(input->prevCursorPos<=47) y=PMSI_SEARCH_GetKeyKind(input->prevCursorPos); else y=255;
+        if(input->cursorPos==252) {
+            if(y>=20 && y<=24) { input->cursorPos=y; goto end64; }
+            else { input->cursorPos=22; goto end64; }
+        } else if(input->cursorPos==253) {
+            if(y==43 || y==45) { input->cursorPos=y; goto end64; }
+            else { input->cursorPos=43; goto end64; }
+        } else {
+            if(y==46 || y==47 || y==44) { input->cursorPos=y; goto end64; }
+            else { input->cursorPos=47; goto end64; }
+        }
+end64: return 1;
+    } else if(input->keyRepeat&PMS_KEY_DOWN) {
+        if(input->prevCursorPos<=47) y=PMSI_SEARCH_GetKeyKind(input->prevCursorPos); else y=255;
+        if(input->cursorPos==252) {
+            if(y>=0 && y<=4) { input->cursorPos=y; goto end128; }
+            else { input->cursorPos=2; goto end128; }
+        } else if(input->cursorPos==253) {
+            if((unsigned)(y-25) <= 1) { input->cursorPos=y; goto end128; }
+            else { input->cursorPos=25; goto end128; }
+        } else {
+            if((unsigned)(y-27) <= 2) { input->cursorPos=y; goto end128; }
+            else { input->cursorPos=28; goto end128; }
+        }
+end128: return 1;
+#else
     } else if(input->keyRepeat&PMS_KEY_UP) {
         if(input->prevCursorPos<=26) y=PMSI_SEARCH_GetKeyKind(input->prevCursorPos); else y=255;
         if(input->cursorPos==252) {
@@ -1428,6 +1457,7 @@ end64: return 1;
             else { input->cursorPos=8; goto end128; }
         }
 end128: return 1;
+#endif
     } else if(input->keyRepeat&PMS_KEY_LEFT) {
         switch(x) {
         case 254: input->cursorPos=253; break;
@@ -1770,7 +1800,7 @@ int PMS_INPUT_PickWord(PmsInput *input)
     switch (input->inputMode) {
     case 0: input->words[0] = word; break;
     case 1: input->words[input->wordSlot] = word; break;
-    case 2: PMSI_PARAM_SetWordAt(&input->sentence, PMS_INPUT_VIEW_GetEditEntry(input->view, input->wordSlot), word); break;
+    case 2: PMSI_PARAM_SetWordAt(&input->sentence, PM_LANG_JA(PMS_INPUT_VIEW_GetEditEntry(input->view, input->wordSlot), input->wordSlot), word); break;
     }
     return PMS_INPUT_IsComplete(input);
 }

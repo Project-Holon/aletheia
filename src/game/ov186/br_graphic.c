@@ -144,6 +144,7 @@ void BR_GRAPHIC_Begin3d(void *graphicHandle, u16 b);
 void BR_GRAPHIC_End3d(void *graphicHandle, u16 heap);
 
 extern const char d_02200D4C[];
+extern const char str_ja_02200F48[];
 
 extern const struct DispVram d_0220093C,d_0220096C;
 
@@ -165,7 +166,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,u16 heapId)
 {
     const struct DispVram *config;
     struct BrGraphic *gfx;
-    gfx=GFL_HEAP_Alloc(heapId,sizeof(*gfx),0,d_02200D4C,0x1d5);
+    gfx=GFL_HEAP_Alloc(heapId,sizeof(*gfx),0,PM_LANG_JA(d_02200D4C, str_ja_02200F48),0x1d5);
     MI_CpuFill8(gfx,0,sizeof(*gfx));
     switch(mode){case 0:config=&d_0220093C;break;case 1:config=&d_0220096C;break;}
     *(volatile unsigned short *)0x04000050=0;

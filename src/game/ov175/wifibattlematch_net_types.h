@@ -2,6 +2,7 @@
 #define GAME_OV175_WIFIBATTLEMATCH_NET_TYPES_H
 
 #include "../types.h"
+#include "../version.h"
 #include "../ov009/dwc_match_ctl_types.h"
 
 struct Proc;
@@ -265,12 +266,14 @@ struct WifiBattleMatchCompWork {
     struct WifiBattleMatchParams *ctx; /* 0x104 */
     struct RegulationCard *card;          /* 0x108 */
     unsigned char cardRecord[0x160]; /* 0x10C..0x26B downloaded regulation card record */
+#if LANGUAGE != LANGUAGE_JAPANESE
     int boxLocked;              /* 0x26C BATTLE_BOX_IsLocked result */
+#endif
 };
 
-/* WIFIBATTLEMATCH_NET_CompCreate allocates 0x270 bytes. */
+/* WIFIBATTLEMATCH_NET_CompCreate allocates 0x270 bytes (0x26C in the Japanese build). */
 typedef char WifiBattleMatchComp_size_check[
-    (sizeof(void *) != 4 || ((sizeof(struct WifiBattleMatchCompWork) == 0x270))) ? 1 : -1];
+    (sizeof(void *) != 4 || ((sizeof(struct WifiBattleMatchCompWork) == PM_LANG_JA(0x270, 0x26C)))) ? 1 : -1];
 
 /* The 0x100-byte net task work object created by
  * WIFIBATTLEMATCH_NET_TaskCreate (PROCSYS_AllocProcWork(sys, 0x100, 87)).

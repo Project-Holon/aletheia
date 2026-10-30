@@ -23,6 +23,7 @@
  *   _PlayTimeLatch  0x02146170  data  a8
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
+#include "../version.h"
 #include "battle_rec_types.h"
 #include "../types.h"
 
@@ -256,12 +257,12 @@ void INTRUDE_AddLogEntry(struct IntrudeSave *intrude, struct IntrudeLogEntry *en
 
     ownId = STRBUF_GetEosChar();
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < PM_LANG_JA(8, 7); i++) {
         if (ownId == entry->memberIds[i]) {
             break;
         }
     }
-    if (i == 8) {
+    if (i == PM_LANG_JA(8, 7)) {
         return;
     }
     if (entry->kind >= 0x12) {

@@ -153,6 +153,8 @@ def _ov_blocks(region, t=None, anchor=True):
     """Word alignment of overlay `region` in Black and the target (relocation-wildcarded words,
     difflib, like the ARM9 map): [black start, black end, target start] address blocks, cached
     in build/<t>/ovmap_ovNNN.json.  Code and data both move by it."""
+    if region.endswith("d") and region[2:-1].isdigit():
+        region = region[:-1]          # ov230d, the decrypted view of ov230, moves with ov230
     t = t or target()
     if (t, region, anchor) in _OVB:
         return _OVB[(t, region, anchor)]
@@ -183,11 +185,33 @@ def _ov_blocks(region, t=None, anchor=True):
     return _OVB[(t, region, anchor)]
 
 
+_JT = {}
+
+
+def _ja_tail(region):
+    """Content placement of the data tail of `region` in a _ja target (written by datagen
+    companions to build/<t>/jatail_ovNNN.json), or None."""
+    t = target()
+    if not t.endswith("_ja"):
+        return None
+    if (t, region) not in _JT:
+        try:
+            _JT[(t, region)] = json.load(open(_cache("jatail_%s.json" % region, t), encoding="utf-8"))
+        except (OSError, ValueError):
+            _JT[(t, region)] = None
+    return _JT[(t, region)]
+
+
 def to_white_ov(region, a):
     """Target address of the Black address `a` inside overlay `region` ("ov021"): through the
     aligned block that holds it; between blocks, the shift of the block before."""
     if target() == "white" and region not in _rows():
         raise KeyError("no White rows for %s" % region)
+    jt = _ja_tail(region)
+    if jt and jt["lo"] <= a < jt["hi"]:         # data tail of a _ja target: placed by content (jatail.py)
+        k = [b for b in jt["blocks"] if b[0] <= a]
+        if k:
+            return k[-1][2] + (a - k[-1][0])
     blocks, starts = _ov_blocks(region)
     if not blocks:
         raise KeyError("no aligned block in %s" % region)
@@ -289,6 +313,24 @@ def guess_callee_region(a):
             if i < len(rows[1]) and rows[1][i] == (a & ~1):
                 return r
     return None
+
+
+_FREG = {}
+
+
+def unique_func_region(a):
+    """The one overlay whose function table (layout/function_addrs.tsv) has a function at the
+    Black address `a`; None when none or several overlays do (they share the RAM window)."""
+    if not _FREG:
+        with open(os.path.join(ROOT, "layout", "function_addrs.tsv"), encoding="utf-8") as fh:
+            next(fh)
+            for row in fh:
+                p = row.split("	")
+                if len(p) >= 3 and p[0].startswith("ov"):
+                    _FREG.setdefault(int(p[1], 16) & ~1, set()).add(p[0][:5])
+        _FREG[-1] = None
+    r = _FREG.get(a & ~1)
+    return next(iter(r)) if r and len(r) == 1 else None
 
 
 _WIN = {}
@@ -507,14 +549,180 @@ def exact_lookup(region, a, t=None):
     return None
 
 
+_FNMAP = {}
+_FNLANG = {}
+_FNKEYS = {}
+FN_MATCH = 0.95     # least langcheck match ratio that places a callee when the listings give no pair
+
+
+def _fn_pairs(t, region):
+    """{Black function address: target address} of `region` ("arm9" or "ovNNN") for a Japanese
+    target, from the function listings (build/<t>/asm and asm/).  The functions of both images
+    are two sequences, each a hash of the function's body with its relocations wiped (the
+    way tools/langcheck.py compares them); equal runs pair one to one in order, and between two
+    such runs the functions pair in order by similarity (a function between two confident pairs sits
+    between their targets).  Cached in build/<t>/fnmap_<region>.json.  Needs no passing link."""
+    cp = os.path.join(ROOT, "build", t, "fnmap_%s.json" % region)
+    try:
+        with open(cp, encoding="utf-8") as fh:
+            return {int(k): v for k, v in json.load(fh).items()}
+    except (OSError, ValueError):
+        pass
+    import langcheck as L
+    tasm = os.path.join(ROOT, "build", t, "asm")
+    try:
+        lb, lt = L.listing(os.path.join(ROOT, "asm"), region), L.listing(tasm, region)
+    except OSError:
+        return {}
+    ib, it = L.index(lb), L.index(lt)
+    bs, ts = sorted(ib), sorted(it)
+
+    def bod(lines, idx, a):
+        return tuple(x for x in map(L.norm, L.body(lines, idx[a])) if x)
+    bb = [bod(lb, ib, a) for a in bs]
+    tb = [bod(lt, it, a) for a in ts]
+    ids = {}
+    ka = [ids.setdefault(x, len(ids)) for x in bb]
+    kb = [ids.setdefault(x, len(ids)) for x in tb]
+    res = {}
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, ka, kb, autojunk=False).get_opcodes():
+        if tag == "equal":
+            for k in range(i2 - i1):
+                res[bs[i1 + k]] = ts[j1 + k]
+        elif tag == "replace":
+            last = -1
+            for i in range(i1, i2):
+                best, bj = 0.7, None
+                for j in range(max(j1, last + 1), j2):
+                    r = difflib.SequenceMatcher(None, bb[i], tb[j], autojunk=False).ratio()
+                    if r > best:
+                        best, bj = r, j
+                if bj is not None:
+                    res[bs[i]] = ts[bj]
+                    last = bj
+    # Small functions with equal bodies (wrappers whose listing prints as data in the target)
+    # pair at random inside their run: one pair whose shift differs from the code before and after
+    # it, or a run of up to 4 pairs whose shift jumps by more than 0x40 and returns to the shift
+    # before it, is dropped (the function sits at the shift of the code around it)
+    ks = sorted(res)
+    sh = [res[k] - k for k in ks]
+    n = 1
+    while n < len(ks) - 1:
+        if sh[n] != sh[n - 1]:
+            for m in range(n + 1, min(n + 4, len(ks) - 1) + 1):
+                if sh[m] == sh[n - 1] and (m == n + 1 or abs(sh[n] - sh[n - 1]) > 0x40):
+                    for q in range(n, m):
+                        del res[ks[q]]
+                    n = m
+                    break
+        n += 1
+    tmp = "%s.%d" % (cp, os.getpid())
+    with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({str(k): v for k, v in res.items()}, fh)
+    os.replace(tmp, cp)
+    return res
+
+
+_POOLMAP = {}
+
+
+def _pools(path):
+    """{function address: [literal pool words in order]} of a listing."""
+    out, cur = {}, None
+    lines = open(path, encoding="utf-8", errors="replace").read().split("\n")
+    for i, ln in enumerate(lines):
+        m = re.match(r"^func_([0-9A-F]{8}):", ln)
+        if m:
+            cur = out.setdefault(int(m.group(1), 16), [])
+            continue
+        if cur is not None and ln.startswith("pool_") and i + 1 < len(lines):
+            v = re.search(r"\.word\s+0x([0-9A-Fa-f]{8})", lines[i + 1])
+            if v:
+                cur.append(int(v.group(1), 16))
+    return out
+
+
+def ja_pool_map(region, t=None):
+    """{Black word: target word} from the literal pools of paired functions (_fn_pairs) of the
+    overlay `region` in a Japanese target: a function whose code matches keeps its pool order, so
+    the k-th pool word of the Black function and of its target are the same object.  Only pairs
+    with the same pool count, and only Black words every pair maps the same way."""
+    t = t or target()
+    key = (t, region)
+    if key in _POOLMAP:
+        return _POOLMAP[key]
+    res = {}
+    if t.endswith("_ja") and region.startswith("ov"):
+        try:
+            pb = _pools(os.path.join(ROOT, "asm", "overlays", region + ".s"))
+            pt = _pools(os.path.join(ROOT, "build", t, "asm", "overlays", region + ".s"))
+        except OSError:
+            pb = pt = {}
+        seen = {}
+        for bf, tf in _fn_pairs(t, region).items():
+            wb, wt = pb.get(bf), pt.get(tf)
+            if not wb or not wt or len(wb) != len(wt):
+                continue
+            for x, y in zip(wb, wt):
+                if 0x02000000 <= x < MAIN_MEMORY_END:
+                    seen.setdefault(x, set()).add(y)
+        res = {x: next(iter(ys)) for x, ys in seen.items() if len(ys) == 1}
+    _POOLMAP[key] = res
+    return res
+
+
+def fn_lookup(region, a, t=None):
+    """Target address of the function that starts at the Black address `a` in `region` ("arm9" or
+    "ovNNN"), for the Japanese targets only: their ARM9 changed length in about 1,100 functions, so
+    the block alignment places callees wrong.  First the pairs of the function listings
+    (_fn_pairs), then a confident pair of tools/langcheck.py (build/<t>/langcheck_map.json, key
+    "region:ADDR" -> [target address, match]).  None when no pair is confident."""
+    t = t or target()
+    if not t.endswith("_ja"):
+        return None
+    key = (t, region)
+    if key not in _FNMAP:
+        _FNMAP[key] = _fn_pairs(t, region)
+    x = _FNMAP[key].get(a & ~1)
+    if x is not None:
+        return x
+    # a function with no pair of its own that lies between two pairs of the same shift sits
+    # at that shift (the functions around it did not change length)
+    if key not in _FNKEYS:
+        _FNKEYS[key] = sorted(_FNMAP[key])
+    ks = _FNKEYS[key]
+    i = bisect.bisect_left(ks, a & ~1)
+    if 0 < i < len(ks) and _FNMAP[key][ks[i - 1]] - ks[i - 1] == _FNMAP[key][ks[i]] - ks[i]:
+        return (a & ~1) + _FNMAP[key][ks[i]] - ks[i]
+    if t not in _FNLANG:
+        try:
+            with open(os.path.join(ROOT, "build", t, "langcheck_map.json"), encoding="utf-8") as fh:
+                _FNLANG[t] = json.load(fh)
+        except (OSError, ValueError):
+            _FNLANG[t] = {}
+    v = _FNLANG[t].get("%s:%X" % (region, a & ~1))
+    return v[0] if v and v[1] >= FN_MATCH else None
+
+
 def to_white(a, region=None, exact=True):
     """Target address of the Black address `a` (a Thumb function keeps its low bit).
     `region`: the overlay `a` belongs to, when it is one whose code moved inside.
     `exact`: use the symbols of a passing link of the target (exact_map) before the alignment."""
     bit = a & 1
     if (a & ~1) >= MAIN_MEMORY_END:
+        if region and region.startswith("ov") and target().endswith("_ja"):
+            x = fn_lookup(region, a & ~1)       # a Japanese DSi overlay moves inside its window
+            if x is not None:
+                return x | bit
+            try:
+                return to_white_ov(region, a & ~1) | bit
+            except KeyError:
+                pass
         return a            # the DSi block (0x02700000..), DTCM, WRAM, IO, VRAM: the same in all games
     if region and region.startswith("ov") and a >= 0x02100000:
+        x = fn_lookup(region, a & ~1) if exact else None
+        if x is not None:
+            return x | bit
         x = exact_lookup(region, a & ~1) if exact else None
         if x is not None:
             return x | bit
@@ -528,6 +736,9 @@ def to_white(a, region=None, exact=True):
     if a < lo:
         return a | bit
     if exact and lo <= a < m["black_end"]:
+        x = fn_lookup("arm9", a)
+        if x is not None:
+            return x | bit
         x = exact_lookup("arm9", a)
         if x is not None:
             return x | bit
@@ -555,6 +766,67 @@ def to_white(a, region=None, exact=True):
             # before it ends, so that block's shift places it (its own bytes differ for real)
             return a + (w - s) | bit
     raise KeyError("0x%08X has no %s twin in the ARM9 static module" % (a, target()))
+
+
+_JAB = {}
+
+
+def _ja_blocks(dst, module):
+    """Word alignment of `module` ("arm9" or "ovNNN") between black_ja and target `dst`:
+    ([black_ja start, end, target start] blocks, starts), cached per process."""
+    key = (dst, module)
+    if key not in _JAB:
+        import white_diff as D
+        from white_align import mask_words
+        ls, ld = _lay("black_ja"), _lay(dst)
+        if module == "arm9":
+            ss, sd = ls["arm9"]["static"], ld["arm9"]["static"]
+            ds = open(os.path.join(targets.extract_dir("black_ja"), "arm9_dec.bin"), "rb").read()[:ss["size"]]
+            dd = open(os.path.join(targets.extract_dir(dst), "arm9_dec.bin"), "rb").read()[:sd["size"]]
+            bs, bd = ss["ram_start"], sd["ram_start"]
+        else:
+            n = int(module[2:])
+            os_, od = _ov_rec(ls, n), _ov_rec(ld, n)
+            bs, bd = os_["ram_start"], od["ram_start"]
+            ds = D.rd(os.path.join(targets.extract_dir("black_ja"), os_.get("decompressed_file") or os_["file"]))
+            dd = D.rd(os.path.join(targets.extract_dir(dst), od.get("decompressed_file") or od["file"]))
+        blocks = []
+        for tag, i1, i2, j1, j2 in D.aligned_ops(mask_words(ds), mask_words(dd)):
+            if tag == "equal" or (tag == "replace" and i2 - i1 == j2 - j1):
+                blocks.append([bs + i1 * 4, bs + i2 * 4, bd + j1 * 4])
+        _JAB[key] = (blocks, [b[0] for b in blocks])
+    return _JAB[key]
+
+
+def ja_to_target(a, region=None):
+    """Address in the current target of the object that sits at address `a` in black_ja (a
+    Japanese-only string or table that the C names `<name>_ja_XXXXXXXX`).  black_ja: `a` itself.
+    Another target of the same game family (white_ja): through the word alignment of the module that
+    holds `a` (the ARM9 static module, else the overlay `region` when it covers `a`, else the one
+    overlay of black_ja that does).  KeyError when the object has no twin."""
+    t = target()
+    if t == "black_ja":
+        return a
+    ls = _lay("black_ja")
+    st = ls["arm9"]["static"]
+    mods = []
+    if st["ram_start"] <= a < st["ram_start"] + st["size"]:
+        mods = ["arm9"]
+    else:
+        ovs = [o for o in ls["overlays"] if o["ram_start"] <= a < max(o["ram_end"], o["bss_end"])]
+        if region:
+            mods = ["ov%03d" % o["id"] for o in ovs if "ov%03d" % o["id"] == region] or []
+        if not mods:
+            mods = ["ov%03d" % o["id"] for o in ovs]
+    res = set()
+    for m in mods:
+        blocks, starts = _ja_blocks(t, m)
+        k = bisect.bisect_right(starts, a) - 1
+        if k >= 0 and a < blocks[k][1]:
+            res.add(blocks[k][2] + (a - blocks[k][0]))
+    if len(res) != 1:
+        raise KeyError("0x%08X (black_ja) has no unique %s twin" % (a, t))
+    return res.pop()
 
 
 def to_black(a):
@@ -628,8 +900,13 @@ def remap_source(text, path):
         m = _load()
         if a >= m["black_end"] and not lo <= a < hi and a >= rng["*"][1]:
             return mo.group(0)      # beyond every overlay: a memory-map limit, not a symbol
+        reg = own if lo <= a < hi else None
+        if own == "ov230" and reg is None and 0x02100000 <= a < rng["*"][1] and _window_shift(a, target()) is None:
+            # the sealed stubs of ov230 call code of the overlay window that several overlays hold
+            # (with other shifts in a language target): the loader's own shift decides
+            reg = own
         try:
-            w = to_white(a, own if lo <= a < hi else None)
+            w = to_white(a, reg)
         except KeyError:
             return mo.group(0)
         w = refine(a, w)

@@ -114,6 +114,37 @@ VERSION = TARGET                # "black", "white", "black_fr", ...: written to 
 
 
 OWN_OVERLAY = {}    # white build of an irregular overlay: {"region": "ov181", "lo": Black start, "hi": Black end}
+JA_NAME = re.compile(r".*_ja_[0-9A-Fa-f]{8}")
+
+
+def is_ja_name(n):
+    return bool(JA_NAME.fullmatch(n)) or n in JA_SYMS
+
+
+def ja_isa(addr, ovid):
+    """"arm"/"thumb" the Japanese listing gives the function at black_ja `addr`, else None."""
+    d = os.path.join(ROOT, "build", "black_ja", "asm")
+    if addr < 0x02100000:
+        paths = [os.path.join(d, "arm9", "main.s"), os.path.join(d, "arm9", "itcm.s")]
+    else:
+        paths = [os.path.join(d, "overlays", "%s.s" % region_name(ovid))]
+    for pth in paths:
+        if pth not in _JA_LABELS:
+            _JA_LABELS[pth] = match._evidence_file(pth)[0] if os.path.exists(pth) else {}
+        th = _JA_LABELS[pth].get(addr & ~1)
+        if th is not None:
+            return "thumb" if th else "arm"
+    return None
+# Japanese-only functions and objects.  A function that exists only in the Japanese build has no
+# Black address.  A caller in another region names it one of two ways:
+#   extern T F_ja_02043758(...);              the name carries the black_ja address, or
+#   a `symbols:` row  `F 0x02043758 arm ja`   the address is the black_ja one, the last token `ja`
+#                                             (kind arm/thumb as in the Japanese listing).
+# Both resolve in black_ja directly and in white_ja through white_map.ja_to_target.  Other targets
+# ignore a `ja` row.  The `_ja_` form without a kind takes arm/thumb/data from the Japanese
+# listing (build/black_ja/asm: func_ label, .arm/.thumb), so calls get bl or blx correctly.
+JA_SYMS = set()     # names given by `ja` rows
+_JA_LABELS = {}     # listing path -> {address: is_thumb}
 ADDR_REGION = {}    # Black address -> regions the file headers name for it (callee annotations)
 
 
@@ -129,6 +160,13 @@ def W(a, region=None):
         if rs and len(rs) == 1:
             region = next(iter(rs))
     own = False
+    if region is None and TARGET.endswith("_ja") and (a & ~1) >= 0x02100000:
+        # a Japanese overlay loads at other offsets than Black's: a callee that only the
+        # function table places in one overlay goes through that overlay's map
+        region = white_map.unique_func_region(a)
+    elif region == "-" and TARGET.endswith("_ja") and (a & ~1) >= 0x02100000:
+        # "-": no irregular overlay holds the callee; the function table may still name its overlay
+        region = white_map.unique_func_region(a) or region
     if region is None and OWN_OVERLAY and OWN_OVERLAY["lo"] <= (a & ~1) < OWN_OVERLAY["hi"]:
         region = OWN_OVERLAY["region"]      # an address inside the overlay being linked
         own = True
@@ -433,6 +471,10 @@ def lookup_symbol(name, ovid):
         a = int(m.group(1), 16)
         ev = match.isa_evidence(a, region_name(ovid))
         return (a, ev[0]) if ev else None
+    m = re.fullmatch(r".*_ja_([0-9A-Fa-f]{8})", name)
+    if m:
+        a = int(m.group(1), 16)     # Japanese-only object or function, address in black_ja
+        return a, (ja_isa(a, ovid) or "data")
     m = re.fullmatch(r"[gd]_([0-9A-Fa-f]{8})", name)
     if m:
         return int(m.group(1), 16), "data"
@@ -460,8 +502,12 @@ def header_symbols(raw):
             continue
         if not on:
             continue
-        sm = re.match(r"^\s*\*\s+(\S+)\s+(0x[0-9A-Fa-f]+)\s+(arm|thumb|data)\b(?:\s+a\d+)?(?:\s+(ov\d+|arm9))?", line)
-        if sm:
+        sm = re.match(r"^\s*\*\s+(\S+)\s+(0x[0-9A-Fa-f]+)\s+(arm|thumb|data)\b(?:\s+a\d+)?(?:\s+(ov\d+|arm9))?(?:\s+(ja)\b)?", line)
+        if sm and sm.group(5) == "ja":
+            if TARGET.endswith("_ja"):
+                JA_SYMS.add(sm.group(1))
+                res.setdefault(sm.group(1), (int(sm.group(2), 16), sm.group(3)))
+        elif sm:
             if sm.group(4):
                 ADDR_REGION.setdefault(int(sm.group(2), 16) & ~1, set()).add(sm.group(4))
             res.setdefault(sm.group(1), (int(sm.group(2), 16), sm.group(3)))
@@ -486,7 +532,7 @@ def follow_veneer(img, base, res):
     return res
 
 
-def infer_from_relocs(t, name, img, base, rname, secaddr, branch_only=False):
+def infer_from_relocs(t, name, img, base, rname, secaddr, branch_only=False, site_ok=None):
     """(address, kind) of an undefined `name`, read from the ORIGINAL code at
     the places where file `t` uses it: the pool word of an ABS32 relocation or
     the target of a branch-and-link.  `secaddr` maps an object section index to
@@ -507,6 +553,8 @@ def infer_from_relocs(t, name, img, base, rname, secaddr, branch_only=False):
                 continue
             i = site - base
             if not 0 <= i < len(img) - 4:
+                continue
+            if site_ok is not None and not site_ok(site):
                 continue
             if typ == 2:
                 w = struct.unpack_from("<I", img, i)[0] - add
@@ -771,7 +819,8 @@ def link_overlay(*args, **kw):
                 _publish(work, pub)
             except OSError:
                 pass
-            shutil.rmtree(work, ignore_errors=True)
+            if not os.environ.get("GAMELINK_KEEP"):      # debug: keep the run dir
+                shutil.rmtree(work, ignore_errors=True)
         _RUN.clear()
 
 
@@ -1152,6 +1201,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             if fa < a < fa + fs:
                 return fn, a - fa, fti
         return None
+    size_over = []  # (target address, bytes, files) where a file runs into the next one
     gaps_w = []     # White build of an irregular overlay: each gap as a White (start, end)
     plan, pi, redone, renamed_again = [1, 2], 0, False, False
     while pi < len(plan):
@@ -1181,6 +1231,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             if data_tail:
                 occ.append((data_tail[0], data_tail[3]))
             gaps_w[:] = []
+            size_over[:] = []
             if OWN_OVERLAY:
                 # White: code and data moved inside the overlay, and the files have their White
                 # size.  Lay the files out at their White starts and read the gaps off that; the
@@ -1193,9 +1244,12 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     if a > cur:
                         gaps_w.append((cur, a))
                     elif a < cur:
+                        # a file is longer in the target build than in the target image: it runs into
+                        # the next one.  Both stay at their own starts (the memory regions overlap, the
+                        # later start wins in the result) and the excess is reported.
                         who = [t["stem"] for t in tus for p in t["pieces"] if W(p["addr"]) <= a < W(p["addr"]) + (p["end"] - p["addr"])]
-                        return dict(ov=ovid, ok=False, why="files or data overlap at %08X by %d bytes (%s): the code in the target has another size" % (a, cur - a, ", ".join(who)))
-                    cur = b
+                        size_over.append((a, cur - a, who))
+                    cur = max(cur, b)
                 if cur < wend:
                     gaps_w.append((cur, wend))
                 gaps = [(_B(x), (_B(y) if y < wend else end)) for x, y in gaps_w]
@@ -1312,7 +1366,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 p["tag"] = tag
                 if not p["idxs"]:
                     continue      # a file with data only
-                mem.append((tag, p["addr"], p["size"] if pas == 2 else p["wroom"]))
+                mem.append((tag, p["addr"], p["size"] if pas == 2 else p["wroom"] + (0x10000 if OWN_OVERLAY else 0)))
                 sect.append(" .%s : { t%d.o (%s)%s } > %s" % (tag, i, p["sec"], " . = ALIGN(4);" if p.get("pad") else "", tag))
             names.append("t%d.o" % i)
         wtail_mem = {}
@@ -1333,7 +1387,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     _s1w = _ow["static_init_end"]
                     if s1 != _ob["static_init_end"] or (e0 > s1 and _s1w % 32):
                         _s1w = (_s1w + 31) & ~31
-                    wtail_mem["dtail"] = (data_wt0 or W(t0), _s1w)
+                    wtail_mem["dtail"] = (data_wt0 or W(t0, OWN_OVERLAY["region"] if TARGET.endswith("_ja") else None), _s1w)
                     wtail_mem["ddata"] = (_s1w, wend)
                     sinit_pad = _s1w > _ow["static_init_end"]
 
@@ -1354,7 +1408,13 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 # datalink.json "sinit", then the terminator), .data at ALIGN(32)
                 sinit = "".join(" WRITEW %s;" % x for x in data_sinit)
                 body = tail_of(".rodata") + " . = ALIGN(4); SINIT_START = .;%s WRITEW 0; SINIT_END = .;" % sinit
-                if s1 > s0 + 4 or sinit_pad:
+                # mwld wants a segment that contains ALIGN(32) to start 32-aligned; a Japanese tail
+                # placed by content can start anywhere, and .ddata has its own origin
+                _dt0 = wtail_mem.get("dtail", (t0,))[0]
+                if (s1 > s0 + 4 or sinit_pad) and TARGET.endswith("_ja") and _dt0 % 32 and "ddata" in wtail_mem:
+                    # the same padding as zero words, up to the target's .data
+                    body += " WRITEW 0;" * ((wtail_mem["ddata"][0] - _ow["static_init_end"]) // 4)
+                elif s1 > s0 + 4 or sinit_pad:
                     body += " . = ALIGN(32);"
                 mem.append(("dtail", t0, s1 - t0))
                 sect.append(" .dtail : { %s } > dtail" % body)
@@ -1365,6 +1425,10 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 if not bss:
                     return dict(ov=ovid, ok=False, why="data mode: .bss in the files but the overlay has no .bss")
                 mem.append(("dbss", bss[0], bss[1] - bss[0]))
+                if TARGET.endswith("_ja") and OWN_OVERLAY and OWN_OVERLAY["region"] != "arm9":
+                    _ow2 = [o_ for o_ in target_layout()["overlays"] if o_["id"] == ovid][0]
+                    if _ow2["bss_end"] > _ow2["bss_start"]:
+                        wtail_mem["dbss"] = (_ow2["bss_start"], _ow2["bss_end"])
                 sect.append(" .dbss : { %s } > dbss" % tail_of(".bss"))
         for j, (ti, nm, a, b, _nb) in enumerate(dgroups):
             mem.append(("d%d" % j, a, b - a))
@@ -1396,14 +1460,17 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             multi = {}
             if TARGET != "black":
                 for n, a, k in ext_funcs:
-                    r_ = manifest_region(n, a) if a >= 0x02100000 else None
+                    r_ = manifest_region(n, a) if a >= 0x02100000 and not is_ja_name(n) else None
                     if r_:
                         multi.setdefault(a & ~1, set()).add(r_)
             for n, a, k in ext_funcs:
-                r_ = manifest_region(n, a) if TARGET != "black" and len(multi.get(a & ~1, ())) > 1 else None
+                r_ = "ja" if is_ja_name(n) and TARGET != "black" else manifest_region(n, a) if TARGET != "black" and len(multi.get(a & ~1, ())) > 1 else None
                 byaddr.setdefault((a, k, r_), []).append(n)
             for j, ((a, k, r_), ns) in enumerate(sorted(byaddr.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2] or ""))):
-                if r_:
+                if r_ == "ja":
+                    import white_map
+                    stub_fix["c%d" % j] = white_map.ja_to_target(a & ~1, region_name(ovid)) & ~1
+                elif r_:
                     stub_region["c%d" % j] = r_
                 secs.append((".cal%d" % j, 6, bytes(2 if k == "thumb" else 4), 4 if k == "arm" else 2))
                 sy.append(("$t" if k == "thumb" else "$a", j + 1, 0, 0, True, False))
@@ -1459,7 +1526,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             if TARGET != "black":
                 import white_map
                 for n_, a_, _k in ext_funcs:
-                    r_ = manifest_region(n_, a_)
+                    r_ = None if is_ja_name(n_) else manifest_region(n_, a_)
                     if r_ and a_ >= 0x02100000:
                         ADDR_REGION.setdefault(a_ & ~1, set()).add(r_)
                 for n_, a_ in absol:
@@ -1471,7 +1538,11 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                             and not (OWN_OVERLAY and OWN_OVERLAY["lo"] <= (a_ & ~1) < OWN_OVERLAY["hi"])):
                         ADDR_REGION[a_ & ~1] = {white_map.guess_callee_region(a_) or "-"}
             mem = [((n_, gw[n_][0], gw[n_][1] - gw[n_][0]) if n_ in gw else (n_, stub_fix.get(n_) or W(a_, stub_region.get(n_)), l_)) for n_, a_, l_ in mem]
-            absol = [(n_, white_map.refine(a_, W(a_ & ~1) | (a_ & 1)) if TARGET != "black" else a_) for n_, a_ in absol]
+            # `<name>_ja_XXXXXXXX` (a Japanese-only object, XXXXXXXX its black_ja address) is
+            # placed by ja_to_target, not by the Black map
+            absol = [(n_, (white_map.ja_to_target(a_, region_name(ovid)) if is_ja_name(n_)
+                           else white_map.refine(a_, W(a_ & ~1) | (a_ & 1))) if TARGET != "black" else a_)
+                     for n_, a_ in absol]
             if TARGET != "black" and ovid == "arm9_main":
                 # the two compressed-end values of the build info come from the target's own layout
                 _wl = target_layout()["arm9"]
@@ -1556,10 +1627,12 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 addr2name.setdefault(fa, (fn, fti))
         out = bytearray(len(wimg))
         got = bytearray(len(wimg))
-        for s in secs:
+        # in address order: where a longer file runs into the next one, the later start wins
+        for s in sorted(secs, key=lambda x: x["addr"]):
             if s["type"] == 1 and s["size"] and wbase <= s["addr"] < wend:
-                out[s["addr"] - wbase:s["addr"] - wbase + s["size"]] = data[s["off"]:s["off"] + s["size"]]
-                got[s["addr"] - wbase:s["addr"] - wbase + s["size"]] = b"\1" * s["size"]
+                n_ = min(s["size"], wend - s["addr"])
+                out[s["addr"] - wbase:s["addr"] - wbase + n_] = data[s["off"]:s["off"] + n_]
+                got[s["addr"] - wbase:s["addr"] - wbase + n_] = b"\1" * n_
         if pas == 1:
             for t in tus:
                 for p in t["pieces"]:
@@ -1583,7 +1656,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         def woff(a_):
             return (W(a_) - wbase) if gaps_w else a_ - base
         for t in tus:
-            bad = [i for p in t["pieces"] for i in range(woff(p["addr"]), woff(p["addr"]) + p["end"] - p["addr"])
+            bad = [i for p in t["pieces"] for i in range(woff(p["addr"]), min(woff(p["addr"]) + p["end"] - p["addr"], len(wimg)))
                    if out[i] != wimg[i] or not got[i]]
             if bad:
                 code_diff.append((t["stem"], len(bad), [hex(wbase + b) if gaps_w else hex(base + b) for b in bad[:4]]))
@@ -1600,6 +1673,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             # call sites and call targets are all target addresses, so the bound address is
             # compared after the mapping the link used (W).
             tg = TARGET != "black"
+            bad_stems = {c[0] for c in code_diff}
             eaddr2 = {}
             for y in esyms:
                 if y["name"] and y["shndx"] != 0 and not y["name"].startswith("$"):
@@ -1611,6 +1685,8 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     continue
                 want = syms[n][0] & ~1
                 for t in tus:
+                    if tg and t["stem"] not in bad_stems:
+                        continue        # its code equals the image: its calls cannot disagree
                     if (n in t["rename"] or n in t["defs"]
                             or not any(y["name"] == n and y["shndx"] == 0 for y in t["osyms"])):
                         continue
@@ -1618,9 +1694,20 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                     for y in t["osyms"]:
                         if y["shndx"] and y["value"] == 0 and y["name"] in eaddr2 and not y["name"].startswith("$"):
                             sa.setdefault(y["shndx"], eaddr2[y["name"]])
-                    r = infer_from_relocs(t, n, wimg if tg else img, wbase if tg else base, region_name(ovid), sa, branch_only=True)
+                    ok_ = None
                     if tg:
-                        clash = bool(r) and (r[0] & ~1) != (W(want) & ~1)
+                        # past the first differing byte of its piece a file's sites no longer
+                        # line up with the image: read only the sites before it
+                        spans = []
+                        for p_ in t["pieces"]:
+                            lo_ = woff(p_["addr"])
+                            hi_ = min(lo_ + p_["end"] - p_["addr"], len(wimg))
+                            f_ = next((i for i in range(lo_, hi_) if out[i] != wimg[i] or not got[i]), hi_)
+                            spans.append((wbase + lo_, wbase + f_))
+                        ok_ = (lambda s_, sp=spans: any(a_ <= s_ < b_ for a_, b_ in sp))
+                    r = infer_from_relocs(t, n, wimg if tg else img, wbase if tg else base, region_name(ovid), sa, branch_only=True, site_ok=ok_)
+                    if tg:
+                        clash = bool(r) and (r[0] & ~1) != (W(want, manifest_region(n, want) if TARGET.endswith("_ja") else None) & ~1)
                     else:
                         clash = bool(r) and (r[0] & ~1) != want and match.isa_evidence(r[0] & ~1, region_name(ovid))
                     if clash:
@@ -1651,7 +1738,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
     return dict(ov=ovid, ok=whole and not code_diff, tail_diff=tail_diff, files=len(tus), code_bytes=sum(t["size"] for t in tus),
                 gap_bytes=sum(g1 - g0 for g0, g1 in gaps), size=len(img),
                 bss_standin_bytes=standin, data_sections=len(dgroups), dead_data=dead, unplaced_data=unplaced, typed_stubs=len(ext_funcs), gap_funcs=sum(len(v) for v in gap_funcs.values()),
-                absolute=len(absol), diffs=code_diff, name_clash=name_clash[:12],
+                absolute=len(absol), diffs=code_diff, size_over=[(hex(a), n, w) for a, n, w in size_over], name_clash=name_clash[:12],
                 units=[dict(stem=t["stem"], addr=t["addr"], end=t["end"],
                             pieces=[(p["addr"], p["end"]) for p in t["pieces"]]) for t in tus],
                 split=[t["stem"] for t in tus if len(t["pieces"]) > 1])

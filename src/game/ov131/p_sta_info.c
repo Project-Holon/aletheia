@@ -75,6 +75,7 @@
 
 #include "../version.h"
 
+/* Source line number passed to the work allocation. */
 /* Text and icon columns of the info page; Spanish and German print one pixel further right. */
 #if LANGUAGE == LANGUAGE_SPANISH || LANGUAGE == LANGUAGE_GERMAN
 #define P_STA_INFO_LABEL_X 0
@@ -83,6 +84,13 @@
 #define P_STA_INFO_EXP_X 2
 #define P_STA_INFO_TYPE1_X 97
 #define P_STA_INFO_TYPE2_X 131
+#elif LANGUAGE == LANGUAGE_JAPANESE
+#define P_STA_INFO_LABEL_X 1
+#define P_STA_INFO_VALUE_X 0x41
+#define P_STA_INFO_NEXT_LV_X 0x21
+#define P_STA_INFO_EXP_X 1
+#define P_STA_INFO_TYPE1_X 96
+#define P_STA_INFO_TYPE2_X 128
 #else
 #define P_STA_INFO_LABEL_X 1
 #define P_STA_INFO_VALUE_X 0x41
@@ -197,7 +205,7 @@ extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
 
 PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk) {
- PStaInfoWork *work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaInfoWork),0,d_021DC824,0xc1);
+ PStaInfoWork *work=GFL_HEAP_Alloc(wk->heapId,sizeof(PStaInfoWork),0,d_021DC824,PM_SRC_LINE(0xc1, 0xb3));
  work->isDrawn=0;
  work->isWinActive=0;
  work->dexTable=POKE_PERSONAL_LoadFormTable(wk->heapId,0);
@@ -364,7 +372,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         if(dexNo==999) {
             P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,0x16,P_STA_INFO_VALUE_X,1,color);
         } else {
-            WORDSET_SetSlotNumber(dexWordSet,0,dexNo,3,2,1);
+            WORDSET_SetSlotNumber(dexWordSet,0,dexNo,3,2,PM_LANG_HALF_WIDTH_DIGITS);
             P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,9,P_STA_INFO_VALUE_X,1,color);
         }
         WORDSET_Delete(dexWordSet);
@@ -398,7 +406,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,P_STA_INFO_LABEL_X,1,0x3c40);
         idWordSet=WORDSET_CreateDefault(wk->heapId);
         idNo=POKE_TOOL_GetBoxValue(mon,7,0);
-        WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
+        WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,P_STA_INFO_VALUE_X,1,0x440);
         WORDSET_Delete(idWordSet);
         level=POKE_TOOL_GetBoxValue(mon,0x9e,0);
@@ -413,13 +421,13 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         if(level==100) expToNext=0;
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,P_STA_INFO_LABEL_X,1,0x3c40);
         expWordSet=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,1);
+        WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,P_STA_INFO_EXP_X,1,0x440);
         WORDSET_Delete(expWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,P_STA_INFO_LABEL_X,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],20,1,1,0x440);
         toNextWordSet=WORDSET_CreateDefault(wk->heapId);
-        WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,1);
+        WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,PM_LANG_HALF_WIDTH_DIGITS);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,P_STA_INFO_NEXT_LV_X,1,0x440);
         WORDSET_Delete(toNextWordSet);
         if(level!=100) {
@@ -579,23 +587,23 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     }
     eggPlaceStr = P_STA_INFO_GetPlaceName(wk, work, eggPlace);
     metPlaceStr = P_STA_INFO_GetPlaceName(wk, work, metPlace);
-    WORDSET_SetSlotNumber(wordSet, 0, metYear, 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, metYear, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     bestStat = 0;
 #if PM_LANG_MONTH_AS_NAME
     WORDSET_SetSlotMonth(wordSet, 1, metMonth);
 #else
-    WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-    WORDSET_SetSlotNumber(wordSet, 2, metDay, 2, bestStat, 1);
-    WORDSET_SetSlotNumber(wordSet, 3, metLevel, 3, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, metDay, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(wordSet, 3, metLevel, 3, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotTag(wordSet, 4, metPlaceStr, 0, 1, PM_LANG_ID);
-    WORDSET_SetSlotNumber(wordSet, 5, eggYear, 2, 2, 1);
+    WORDSET_SetSlotNumber(wordSet, 5, eggYear, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
 #if PM_LANG_MONTH_AS_NAME
     WORDSET_SetSlotMonth(wordSet, 6, eggMonth);
 #else
-    WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-    WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, 1);
+    WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, PM_LANG_ID);
     msgStr = MSGDATA_AllocString(work->msgInfo, msgId);
     WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);

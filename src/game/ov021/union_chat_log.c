@@ -59,6 +59,7 @@ typedef struct UnionChatRing {
     int oldestIndex;           /* 0x440 absolute index of the oldest kept line */
 } UnionChatRing;
 
+#include "../version.h"
 #include "../arm9/gf_panic.h"
 
 #include "../arm9/mystatus.h"
@@ -100,6 +101,19 @@ int UNION_CHAT_LOG_IsNew(UnionChatRing *ring, const void *mac, u16 chatCount);
 extern char gUnionChatEmptyMac[];
 
 /*
+ * The Japanese cartridge keeps the text of its assertions: the file name, the line and the
+ * expression.  The other cartridges pass the file name twice.
+ */
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021DE108[];
+extern const char str_ja_021DE118[];
+extern const char str_ja_021DE13C[];
+#define UNION_CHAT_LOG_ASSERT_FAIL(line, text) GF_PANIC_Fail(str_ja_021DE108, line, text)
+#else
+#define UNION_CHAT_LOG_ASSERT_FAIL(line, text) GF_PANIC_Fail((const char *)0x021DE308, 0, (const char *)0x021DE308)
+#endif
+
+/*
  * Adds one line to the chat log: from a received beacon, or (beaconPc zero)
  * from the own player with the sentence in chatPms.
  */
@@ -113,7 +127,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
     int relation;
 
     if (beaconPc == 0 && chatPms == 0) {
-        GF_PANIC_Fail((const char *)0x021DE308, 0, (const char *)0x021DE308);
+        UNION_CHAT_LOG_ASSERT_FAIL(0x2B, str_ja_021DE118);
     }
     if (beaconPc != 0 && UNION_CHAT_LOG_IsNew(ring, beaconPc->mac, beaconPc->beacon.chatCount) == 0) {
         return;
@@ -125,7 +139,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         /* the re-test of chatPms inside the chatPms == 0 arm is the dead second bne */
         if (chatPms == 0) {
             if (chatPms != 0 || chatType == 0) {
-                GF_PANIC_Fail((const char *)0x021DE308, 0, (const char *)0x021DE308);
+                UNION_CHAT_LOG_ASSERT_FAIL(0x37, str_ja_021DE13C);
             }
         }
         line->chatPms[0] = chatPms[0];

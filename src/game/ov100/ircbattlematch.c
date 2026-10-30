@@ -232,6 +232,7 @@ struct Node;
 struct NetSessionReq;
 struct IrcBattleMatchWork;
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/bg_sys.h"
 #include "../arm9/app_taskmenu.h"
@@ -1038,8 +1039,8 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
  }
  BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(work->infoWin)),255);
  MSGDATA_ReadString(work->msgData,msgId,(struct Strbuf *)work->tempStr);
- WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)work->param->gameData)),2,1,1);
- WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
+ WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)work->param->gameData)),2,1,PM_LANG_HALF_WIDTH_DIGITS);
+ WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,PM_LANG_HALF_WIDTH_DIGITS);
  WORDSET_CopyTaggedText(work->wordSet,(struct Strbuf *)work->msgStr,(struct Strbuf *)work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,(struct Strbuf *)work->msgStr,work->font);
  BMP_WIN_TransferChars((struct BmpWin *)work->infoWin);
@@ -1056,7 +1057,7 @@ void IRCBATTLEMATCH_PrintRetryMessage(int msgId,IrcBattleMatchWork *work) {
  BMP_WIN_TransferChars((struct BmpWin *)work->infoWin);
  BMP_MENUWORK_DrawWindow((struct BmpWin *)work->infoWin,0,(unsigned short)(work->windowPalette),14);
  MSGDATA_ReadString(work->msgData,msgId,(struct Strbuf *)work->tempStr);
- WORDSET_SetSlotNumber(work->wordSet,0,GFL_NET_IRC_WIRELESS_GetRetryCount(),2,1,1);
+ WORDSET_SetSlotNumber(work->wordSet,0,GFL_NET_IRC_WIRELESS_GetRetryCount(),2,1,PM_LANG_HALF_WIDTH_DIGITS);
  WORDSET_CopyTaggedText(work->wordSet,(struct Strbuf *)work->msgStr,(struct Strbuf *)work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,(struct Strbuf *)work->msgStr,work->font);
  BMP_WIN_TransferChars((struct BmpWin *)work->infoWin);
@@ -1101,6 +1102,12 @@ void IRCBATTLEMATCH_PrintWaitingMessage(IrcBattleMatchWork *work) {
  else {MessageRef message=gIrcBattleMatchMsgWaitingDefault;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRCBATTLEMATCH_MSG_ARCHIVE 52
+#else
+#define IRCBATTLEMATCH_MSG_ARCHIVE 46
+#endif
+
 void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  void *arc;
  void *rawData;
@@ -1112,7 +1119,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  work->msgStr=STRBUF_Create(200,work->heapId);
  work->tempStr=STRBUF_Create(200,work->heapId);
  work->font=GF_FONT_Create(23,0,0,0,work->heapId);
- work->msgData=MSGDATA_CreateFromArchive(0,2,46,work->heapId);
+ work->msgData=MSGDATA_CreateFromArchive(0,2,IRCBATTLEMATCH_MSG_ARCHIVE,work->heapId);
  arc=ARC_TOOL_CreateHandle(28,work->heapId);
  ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,0,0,0,work->heapId);
  work->bgCharId=(int)ARC_UTIL_RegisterObjCharFromHandle(arc,6,0,0,0,work->heapId);

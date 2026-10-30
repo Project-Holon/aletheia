@@ -200,7 +200,7 @@ void CTVT_DRAW_ClosePickers(CtvtWork *work, CtvtDrawScene *scene);
 /* Allocates the drawing board record and sets its pen defaults. */
 CtvtDrawScene *CTVT_DRAW_Create(CtvtWork *work, u16 heapId)
 {
-    CtvtDrawScene *scene = GFL_HEAP_Alloc(heapId, sizeof(CtvtDrawScene), 1, (const char *)0x021C7228, 0xcf);
+    CtvtDrawScene *scene = GFL_HEAP_Alloc(heapId, sizeof(CtvtDrawScene), 1, (const char *)0x021C7228, PM_SRC_LINE(0xcf, 0xcd));
 
     scene->penSize = 0;
     scene->stampKind = 3;
@@ -221,6 +221,12 @@ void CTVT_DRAW_Free(CtvtWork *work, CtvtDrawScene *scene)
 
 /* Builds the drawing board screen: loads the graphics, creates the button and picker
  * sprites, opens the title window and clears the state. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define CTVT_DRAW_TITLE_X 0
+#else
+#define CTVT_DRAW_TITLE_X 1
+#endif
+
 void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
 {
     CtvtActorDesc d;
@@ -323,7 +329,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     scene->titleWin = BMP_WIN_Create(4, 3, 1, 0x1c, 2, 0xa, 1);
     BMP_Clear(BMP_WIN_GetBmp(scene->titleWin), 0);
     text = MSGDATA_AllocString(msgData, 0xb);
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->titleWin), 1, 0, text, (struct GfFont *)font, 0x440);
+    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->titleWin), CTVT_DRAW_TITLE_X, 0, text, (struct GfFont *)font, 0x440);
     STRBUF_Delete(text);
     scene->titlePending = 1;
     scene->state = 0;

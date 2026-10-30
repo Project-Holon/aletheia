@@ -547,10 +547,11 @@ void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param) { msg->param = 
 
 
 
+/* The source line of the allocation, passed to the heap for its debug record. */
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
     BtlvScu *scu;
-    scu = GFL_HEAP_Alloc(heapId, sizeof(*scu), 1, (const char *)gBtlvScuFileName, 0x151);
+    scu = GFL_HEAP_Alloc(heapId, sizeof(*scu), 1, (const char *)gBtlvScuFileName, PM_SRC_LINE(0x151, 0x14c));
     scu->core = core;
     scu->context = context;
     scu->monTable = monTable;
@@ -2969,7 +2970,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
 
 /* Draws the text of a plate: the template, then one or two lines of message 0x67. */
 /* Space between the nickname and the species name on a two-line name plate. */
-#if LANGUAGE == LANGUAGE_ENGLISH
+#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_JAPANESE
 #define BTLV_SCU_NAME_PLATE_NAME_GAP 8
 #else
 #define BTLV_SCU_NAME_PLATE_NAME_GAP 12

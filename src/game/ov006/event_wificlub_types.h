@@ -6,6 +6,7 @@
 #define EVENT_WIFICLUB_TYPES_H
 
 #include "../types.h"
+#include "../version.h"
 
 struct GameSystem;
 struct GameEvent;
@@ -107,7 +108,9 @@ typedef struct WifiClubEventWork {
     struct GameData *paramGameData;
     struct WifiList *battleRecord;
     WifiLoginParam login;
+#if LANGUAGE != LANGUAGE_JAPANESE
     WifiConfirmParam confirm;
+#endif
     void *battleSetup;
     ClubBattleSide sides[2];
     u8  reserved100[0x20];

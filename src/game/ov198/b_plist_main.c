@@ -208,6 +208,15 @@ typedef struct {short x,y;} BPlistMainPair;
 extern void BG_SYS_MarkTileDirty(u8 bit);
 #endif
 
+#include "../version.h"
+
+/* Japanese: text bank id of the party list messages. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define B_PLIST_MSG_ARC 2
+#else
+#define B_PLIST_MSG_ARC 0x12
+#endif
+
 #include "../arm9/arc_tool.h"
 #include "../arm9/waza_tool.h"
 struct Move {u16 id;u8 pp,up,kind,power,type,accuracy;};
@@ -1393,7 +1402,7 @@ void B_PLIST_MAIN_LoadGraphics(struct B_PlistWork *p)
 
 void B_PLIST_MAIN_CreateTextResources(struct B_PlistWork *p)
 {
-    p->msgBank=MSGDATA_CreateFromArchive(0,2,0x12,p->owner->heapId);
+    p->msgBank=MSGDATA_CreateFromArchive(0,2,B_PLIST_MSG_ARC,p->owner->heapId);
     p->fontSmall=GF_FONT_Create(0x17,3,0,0,p->owner->heapId);
     p->wordSet=WORDSET_CreateDefault(p->owner->heapId);
     p->printQue=PRINTSYS_QUE_CreateEx(0x800,p->owner->heapId);

@@ -844,13 +844,17 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotTag(wordSet, 2, buf, 0, 1, PM_LANG_ID);
         break;
     case BEACON_PRINT_ITEM_NO:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORDSET_SetSlotFromMsg36(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
+#else
         WORDSET_SetSlotFromMsg117(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
+#endif
         break;
     case BEACON_PRINT_SPECIAL_VALUE:
-        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(info), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(info), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         break;
     case BEACON_PRINT_PRESET_EVENT:
-        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(info), 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(info), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         break;
     case BEACON_PRINT_DISTRIBUTION_MONS_NO:
         WORDSET_SetSlotSpeciesName(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(info));
@@ -862,7 +866,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotFromMsgCB(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(info));
         break;
     case BEACON_PRINT_WORD_VALUE:
-        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(info), 1, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(info), 1, 0, PM_LANG_HALF_WIDTH_DIGITS);
         break;
     case BEACON_PRINT_BYTE_VALUE:
         WORDSET_SetSlotWeekday(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(info));

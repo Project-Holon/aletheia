@@ -57,6 +57,11 @@ extern const char d_021C3B80[];
 extern const CategorySource d_021C1E80[];
 extern u16 *const d_021C1C88[];
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define PMS_INPUT_DATA_FLAG_GROUP 0x90
+#else
+#define PMS_INPUT_DATA_FLAG_GROUP 0x97
+#endif
 #define SEEN_MARK(d, id) ((d)->seenBits[(id) >> 3] |= (u8)(1 << ((id) & 7)))
 #define SEEN_TEST(d, id) ((d)->seenBits[(id) >> 3] & (1 << ((id) & 7)))
 
@@ -158,7 +163,7 @@ u32 PMS_INPUT_DATA_CollectUnlockedWords(struct PmsInputData *d, const u16 *ids, 
     u32 base;
     u32 i;
     wordSave = PMSI_PARAM_GetWordSave(d->saveData);
-    base = PMS_WORD_MakeWordId(0x97, 0);
+    base = PMS_WORD_MakeWordId(PMS_INPUT_DATA_FLAG_GROUP, 0);
     count = 0;
     limit = (u16)(base + 7);
     for (i = 0; i < n; i++) {
@@ -201,18 +206,28 @@ u32 PMS_INPUT_DATA_CollectRangeWords(struct PmsInputData *d, const u16 *src, u32
             u32 len;
             src++;
             len = *src++;
+#if LANGUAGE == LANGUAGE_JAPANESE
+            *out = *src;
+#endif
             while (len != 0) {
                 u32 v = *src++;
                 SEEN_MARK(d, v);
                 len--;
             }
+#if LANGUAGE != LANGUAGE_JAPANESE
             *out = src[-1];
+#endif
         } else {
             SEEN_MARK(d, c);
             src++;
             *out = c;
+#if LANGUAGE == LANGUAGE_JAPANESE
+            out++;
+#endif
         }
+#if LANGUAGE != LANGUAGE_JAPANESE
         out++;
+#endif
     }
     return count;
 }

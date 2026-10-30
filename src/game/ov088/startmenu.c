@@ -2175,8 +2175,8 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
 
     msgStr = MSGDATA_AllocString(work->msgBank, 9);
     playerInfo = SYSTEM_DATA_GetPlayTime(work->saveData);
-    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(playerInfo), 3, 0, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(playerInfo), 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(playerInfo), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(playerInfo), 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->windows[3].window), 0, 0, work->stringBuf, work->font, 0x440);
@@ -2185,7 +2185,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
 
     if (ZONEDATA_CheckEventFlag(work->eventWork, 0x962) == 1) {
         msgStr = MSGDATA_AllocString(work->msgBank, 10);
-        WORDSET_SetSlotNumber(work->wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(work->saveData), 11), 3, 0, 1);
+        WORDSET_SetSlotNumber(work->wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(work->saveData), 11), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->windows[4].window), 0, 0, work->stringBuf, work->font, 0x440);
@@ -2194,7 +2194,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     }
 
     msgStr = MSGDATA_AllocString(work->msgBank, 11);
-    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_CountBadges(MISC_GetBlock(work->saveData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_CountBadges(MISC_GetBlock(work->saveData)), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->windows[5].window), 0, 0, work->stringBuf, work->font, 0x440);
@@ -2405,7 +2405,7 @@ void STARTMENU_LoadRowBuffers(StartMenuWork *work)
         u32 rowBytes = gStartMenuRowInfo[i].height * (STARTMENU_ROW_TILES * 2);
         void *fileData;
         void *fileHandle;
-        work->rowBuffers[i] = (void *)GFL_HEAP_Alloc(0xb, rowBytes, 0, d_021BDA00, 0x7e9);
+        work->rowBuffers[i] = (void *)GFL_HEAP_Alloc(0xb, rowBytes, 0, d_021BDA00, PM_SRC_LINE(0x7e9, 0x7e2));
         fileHandle = ARC_UTIL_LoadPaletteDataFromHandle(archive, gStartMenuRowInfo[i].frameId, 1, &fileData, 0xb);
         MIi_CpuCopy16((char *)fileData + 0xc, work->rowBuffers[i], rowBytes);
         GFL_HEAP_Free(fileHandle);
@@ -2844,6 +2844,12 @@ void STARTMENU_ReplaceWithBattleFlagProcNoSave(void)
  * copy loop and reuses it for the unload); the ov204 id is spelled
  * directly and reloaded from the pool for each call.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define STARTMENU_PLAYER_NAME_MAX 5
+#else
+#define STARTMENU_PLAYER_NAME_MAX 7
+#endif
+
 int STARTMENU_NewGameIntroInit(struct Proc *proc)
 {
     u32 waveArcIds[30];
@@ -2862,7 +2868,7 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
     work->startArg.startMode = 0;
     work->startArg.config = work->config;
     work->startArg.myStatus = work->myStatus;
-    work->nameInArgs = NAMEIN_SETUP_CreateArgs(1, 0, 0, 0, 7, 0, 0);
+    work->nameInArgs = NAMEIN_SETUP_CreateArgs(1, 0, 0, 0, STARTMENU_PLAYER_NAME_MAX, 0, 0);
     work->procSys = PROCSYS_Create(1);
 
     nameInOverlayId = ov194_id;
@@ -3597,11 +3603,17 @@ void STARTMENU_SaveEraseExitGraphics(void)
     BG_SYS_Delete();
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define STARTMENU_SAVE_ERASE_MSG_ARCHIVE 4
+#else
+#define STARTMENU_SAVE_ERASE_MSG_ARCHIVE 1
+#endif
+
 void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work)
 {
     work->savedAppliedFlag = MSGDATA_GetLanguage();
     MSGDATA_SetLanguage(0);
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 1, 0x81);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, STARTMENU_SAVE_ERASE_MSG_ARCHIVE, 0x81);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x81);
     work->stringBuf = STRBUF_Create(0x400, 0x81);
     work->taskList = TCBL_Create(0x81, 0x81, 1, 4);

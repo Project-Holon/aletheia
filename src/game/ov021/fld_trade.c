@@ -229,10 +229,18 @@ u32 FLD_TRADE_GetWantedGender(FldTradeHolder *holder)
     return holder->data->wantedGender;
 }
 
-/* Copies one string of message bank 0x23. */
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define FLD_TRADE_MSG_BANK 0x22
+#else
+#define FLD_TRADE_MSG_BANK 0x23
+#endif
+
+/* Copies one string of the trade message bank. */
 void *FLD_TRADE_GetMessageString(u32 heapId, u32 msgId)
 {
-    void *bank = MSGDATA_CreateFromArchive(0, 2, 0x23, (u16)heapId);
+    void *bank = MSGDATA_CreateFromArchive(0, 2, FLD_TRADE_MSG_BANK, (u16)heapId);
     void *str = MSGDATA_AllocString(bank, msgId);
     MSGDATA_Delete(bank);
     return str;

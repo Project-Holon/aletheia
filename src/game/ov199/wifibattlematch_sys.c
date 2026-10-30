@@ -394,6 +394,7 @@ struct PWk {
     u32 result;
 };
 
+#include "../version.h"
 #include "../arm9/gf_panic.h"
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
@@ -464,6 +465,9 @@ int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,struct WifiBattl
 int WIFIBATTLEMATCH_SYS_DestroySubWork(struct Proc *a, void *b, void *c, struct WifiBattleMatchSysSubWork *work);
 int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, struct WifiBattleMatchSysSubWork *wk);
 extern const char d_02213D00[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02213B40[], str_ja_02213B58[], str_ja_02213B5C[], str_ja_02213B60[];
+#endif
 extern const struct WifiBattleMatchSysStep d_02213C58[];
 extern const char d_02213D00[], d_02213D04[];
 extern const char ov093_id[];
@@ -486,7 +490,7 @@ int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, struct WifiBattleMatchSy
     switch (arg->commMode) {
     case 1: kind = 1; break;
     case 0: kind = 1; break;
-    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x178), PM_LANG_JA(d_02213D00, str_ja_02213B58)); break;
     }
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, sizeof(struct WifiBattleMatchSysWork), 0x56);
@@ -513,7 +517,7 @@ int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, struct WifiBattleMatchSy
         p->ruleKind = 2;
         WIFIBATTLEMATCH_SYS_SetStep(p->procWork, 4);
         break;
-    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x1A9), PM_LANG_JA(d_02213D00, str_ja_02213B58)); break;
     }
     dst = p->partyBuffer0;
     switch (p->args.matchKind) {
@@ -572,7 +576,7 @@ int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,struct WifiBa
 struct WifiBattleMatchSysRuleCmd *WIFIBATTLEMATCH_SYS_BuildRuleCommand(struct WifiBattleMatchSysProc *obj, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     SetupValueOffset offset = setupValueOffset;
-    struct WifiBattleMatchSysRuleCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRuleCmd), 0, d_02213D04, setupValueOffset);
+    struct WifiBattleMatchSysRuleCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRuleCmd), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), setupValueOffset);
     MI_CpuFill8(p, 0, sizeof(struct WifiBattleMatchSysRuleCmd));
     p->gameData = ctx->args.gameData;
     offset -= 0x9b;
@@ -588,7 +592,7 @@ struct WifiBattleMatchSysRuleCmd *WIFIBATTLEMATCH_SYS_BuildRuleCommand(struct Wi
     case 1: case 2: case 5:
     default:
         if (ctx->setup.partyReady) p->kind = 6;
-        else GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
+        else GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x27A), PM_LANG_JA(d_02213D00, str_ja_02213B58));
         break;
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
@@ -603,7 +607,7 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(struct WifiBattleMatchSysProc *obj, st
     case 2: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 2); break;
     case 3: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 6); break;
     case 4: ctx->ruleKind = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 8); break;
-    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x2A9), PM_LANG_JA(d_02213D00, str_ja_02213B58)); break;
     }
     GFL_HEAP_Free(command);
     return 1;
@@ -616,7 +620,7 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(struct WifiBattleMatchSysProc *obj, st
 struct WifiBattleMatchSysMatchCmd *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     MatchValueOffset offset = matchValueOffset;
-    struct WifiBattleMatchSysMatchCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysMatchCmd), 0, d_02213D04, matchValueOffset);
+    struct WifiBattleMatchSysMatchCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysMatchCmd), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), matchValueOffset);
     MI_CpuFill8(p, 0, sizeof(struct WifiBattleMatchSysMatchCmd));
     p->head = &ctx->args;
     p->state = ctx->result;
@@ -659,7 +663,7 @@ int WIFIBATTLEMATCH_SYS_HandleMatchCommand(struct WifiBattleMatchSysProc *obj, s
     case 3: ctx->startFlag = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
     case 4: ctx->flag24 = 1;
     case 0: WIFIBATTLEMATCH_SYS_SetStep(obj, 7); break;
-    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x311), PM_LANG_JA(d_02213D00, str_ja_02213B58)); break;
     }
     GFL_HEAP_Free(command);
     return 1;
@@ -676,7 +680,7 @@ struct WifiBattleMatchSysRegRecord *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(in
     unsigned id;
     POKEPARTY_Init(p->partyA);
     POKEPARTY_Init(p->partyB);
-    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRegRecord), 0, d_02213D04, 0x32f);
+    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRegRecord), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x32f);
     MI_CpuFill8(out, 0, sizeof(struct WifiBattleMatchSysRegRecord));
     if (p->ruleKind == 2 || p->ruleKind == 3) {
         switch (p->args.battleType) {
@@ -685,7 +689,7 @@ struct WifiBattleMatchSysRegRecord *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(in
         case 2: id = 17; break;
         case 3: id = 18; break;
         case 4: id = 19; break;
-        default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
+        default: GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x349), PM_LANG_JA(d_02213D00, str_ja_02213B58)); break;
         }
         out->card = POKE_REGULATION_Load(id, heap);
     } else if (p->ruleKind == 0) {
@@ -693,7 +697,7 @@ struct WifiBattleMatchSysRegRecord *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(in
     } else if (p->ruleKind == 1) {
         out->card = REGULATION_NoOp(REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), 1));
     } else {
-        GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
+        GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x364), PM_LANG_JA(d_02213D00, str_ja_02213B58));
     }
     out->partyA = p->partyA;
     out->gameData = p->args.gameData;
@@ -744,12 +748,12 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct Wi
     int a;
     int flag = 0;
     sys = BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData));
-    out = GFL_HEAP_Alloc(heap, sizeof(struct Out), 0, d_02213D04, 0x3e0);
+    out = GFL_HEAP_Alloc(heap, sizeof(struct Out), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x3e0);
     MI_CpuFill8(out, 0, sizeof(struct Out));
     out->gameData = p->args.gameData;
     BATTLE_REC_ClearWork();
     MI_CpuFill8(&p->setup, 0, sizeof(struct WifiBattleMatchSysSetup));
-    out->demoArgs = GFL_HEAP_Alloc(heap, sizeof(struct CommBtlDemoArgs), 0, d_02213D04, 0x3eb);
+    out->demoArgs = GFL_HEAP_Alloc(heap, sizeof(struct CommBtlDemoArgs), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x3eb);
     MI_CpuFill8(out->demoArgs, 0, sizeof(struct CommBtlDemoArgs));
     out->demoArgs->animTarget = GAME_DATA_GetTrainerRecord(p->args.gameData);
     out->demoArgs->soundKind = 0;
@@ -766,7 +770,7 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct Wi
         b->party = p->partyB;
         b->pad08[1] = p->partyBuffer1->recordVersion;
     }
-    out->setupParam = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, d_02213D04, 0x403);
+    out->setupParam = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x403);
     MI_CpuFill8(out->setupParam, 0, sizeof(struct BattleSetupParam));
     GF_OVERLAY_Load((sptr)ov093_id);
     if (p->ruleKind == 2 || p->ruleKind == 3) {
@@ -799,7 +803,7 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct Wi
         default: BTL_SETUP_SetupCommSingle(out->setupParam, p->args.gameData, GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else {
-        GF_PANIC_Fail(d_02213D00, flag, d_02213D00);
+        GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(flag, 0x47E), PM_LANG_JA(d_02213D00, str_ja_02213B58));
     }
     if (p->ruleKind == 3) a = p->args.battleType + 0x17;
     else if (p->ruleKind == 2) a = p->args.battleType + 0x1c;
@@ -894,7 +898,7 @@ int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, struct WifiBattleMatchSysSetup
 struct WifiBattleMatchSysStartCmd *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, struct WifiBattleMatchSysWork *ctx)
 {
     int zero = 0;
-    struct WifiBattleMatchSysStartCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysStartCmd), zero, d_02213D04, 0x588);
+    struct WifiBattleMatchSysStartCmd *p = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysStartCmd), zero, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x588);
     MI_CpuFill8(p, zero, sizeof(struct WifiBattleMatchSysStartCmd));
     p->gameData = ctx->args.gameData;
     p->zero04 = zero;
@@ -928,7 +932,7 @@ int WIFIBATTLEMATCH_SYS_HandleStartCommand(struct WifiBattleMatchSysProc *p, str
 
 struct WifiBattleMatchSysSyncCmd *WIFIBATTLEMATCH_SYS_BuildSyncCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    struct WifiBattleMatchSysSyncCmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysSyncCmd), 0, d_02213D04, 0x5dc);
+    struct WifiBattleMatchSysSyncCmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysSyncCmd), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x5dc);
     MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysSyncCmd));
     work->head = &p->args;
     work->partyA = p->partyA;
@@ -972,7 +976,7 @@ struct WifiBattleMatchSysVersionCmd *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int
     void *reg;
     int a;
     unsigned b;
-    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysVersionCmd), 0, d_02213D04, 0x637);
+    out = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysVersionCmd), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x637);
     MI_CpuFill8(out, 0, sizeof(struct WifiBattleMatchSysVersionCmd));
     if (p->ruleKind == 3) {
         id = p->args.battleType + 0x17;
@@ -981,7 +985,7 @@ struct WifiBattleMatchSysVersionCmd *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int
     } else {
         if (p->ruleKind == 0) index = zero;
         else if (p->ruleKind == 1) index = 1;
-        else GF_PANIC_Fail(d_02213D00, zero, d_02213D00);
+        else GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(zero, 0x654), PM_LANG_JA(d_02213D00, str_ja_02213B58));
         reg = REGULATION_NoOp(REGULATION_GetCard((struct RegulationCard *)BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(p->args.gameData)), index));
         a = REGULATION_GetRuleValue(reg, 0xd);
         b = REGULATION_GetRuleValue(reg, 0x15);
@@ -1022,7 +1026,7 @@ int WIFIBATTLEMATCH_SYS_HandleVersionCommand(struct WifiBattleMatchSysProc *p, s
 
 struct WifiBattleMatchSysRule2Cmd *WIFIBATTLEMATCH_SYS_BuildRule2Command(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    struct WifiBattleMatchSysRule2Cmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRule2Cmd), 0, d_02213D04, 0x6b2);
+    struct WifiBattleMatchSysRule2Cmd *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysRule2Cmd), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x6b2);
     MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysRule2Cmd));
     work->gameData = p->args.gameData;
     work->zero04 = 0;
@@ -1042,7 +1046,7 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(struct WifiBattleMatchSysProc *a, str
             WIFIBATTLEMATCH_SYS_SetStep(a, 0);
         break;
     case 1:
-        GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
+        GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x6DA), PM_LANG_JA(d_02213D00, str_ja_02213B58));
         break;
     case 2:
     case 3:
@@ -1066,7 +1070,7 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(struct WifiBattleMatchSysProc *a, str
  */
 struct BattleSetupParam *WIFIBATTLEMATCH_SYS_BuildSlotCommand(struct WifiBattleMatchSysProc *unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
-    struct BattleSetupParam *work = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, d_02213D04, 0x6f4);
+    struct BattleSetupParam *work = GFL_HEAP_Alloc(heap, sizeof(struct BattleSetupParam), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x6f4);
     MI_CpuFill8(work, 0, sizeof(struct BattleSetupParam));
     GF_OVERLAY_Load((sptr)ov093_id);
     BTL_SETUP_Clear(work);
@@ -1095,10 +1099,10 @@ int WIFIBATTLEMATCH_SYS_DestroySlotCommand(struct WifiBattleMatchSysProc *p, str
 void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(struct WifiBattleMatchSysWork *p, u16 heap)
 {
     int size;
-    p->partyBuffer0 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
+    p->partyBuffer0 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x72d);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
     MI_CpuFill8(p->partyBuffer0, 0, size);
-    p->partyBuffer1 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72f);
+    p->partyBuffer1 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), 0x72f);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
     MI_CpuFill8(p->partyBuffer1, 0, size);
 }
@@ -1141,7 +1145,7 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(struct WifiBattleMatchSysSetupOut *p,vo
             p->side[1].gender[i]=POKE_TOOL_GetPartyValue(mon,0x6e,zero);
         }
     }
-    if(DWC_GetDateTime(&date,&time)==0) GF_PANIC_Fail(d_02213D00,0,d_02213D00);
+    if(DWC_GetDateTime(&date,&time)==0) GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x770), PM_LANG_JA(d_02213D00, str_ja_02213B5C));
     p->date.year=date.a;
     p->date.month=date.b;
     p->date.day=date.c;
@@ -1217,7 +1221,7 @@ void WIFIBATTLEMATCH_SYS_GetPartyCounts(const struct BattleSetupParam *box, unsi
 
 struct WifiBattleMatchSysProc *WIFIBATTLEMATCH_SYS_CreateProcWork(const struct WifiBattleMatchSysStep *a, int b, struct WifiBattleMatchSysWork *c, int heap)
 {
-    struct WifiBattleMatchSysProc *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysProc), 0, d_02213D04, 0x846);
+    struct WifiBattleMatchSysProc *work = GFL_HEAP_Alloc(heap, sizeof(struct WifiBattleMatchSysProc), 0, PM_LANG_JA(d_02213D04, str_ja_02213B40), PM_SRC_LINE(0x846, 0x812));
     MI_CpuFill8(work, 0, sizeof(struct WifiBattleMatchSysProc));
     work->proc = PROCSYS_Create(heap);
     work->cbArg = c;
@@ -1229,7 +1233,7 @@ struct WifiBattleMatchSysProc *WIFIBATTLEMATCH_SYS_CreateProcWork(const struct W
 
 void WIFIBATTLEMATCH_SYS_DeleteProcWork(struct WifiBattleMatchSysProc *p)
 {
-    if (p->result) GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
+    if (p->result) GF_PANIC_Fail(PM_LANG_JA(d_02213D00, str_ja_02213B40), PM_SRC_LINE(0, 0x826), PM_LANG_JA(d_02213D00, str_ja_02213B60));
     PROCSYS_Delete(p->proc);
     GFL_HEAP_Free(p);
 }

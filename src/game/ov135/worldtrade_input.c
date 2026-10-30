@@ -208,6 +208,31 @@ extern const u8 data_02203242[5][2];
 
 extern const u8 data_022032AE[9][2];
 
+enum {
+    WTMENU_MSGWIN = PM_LANG_JA(14, 10),
+    WTMENU_TITLEWIN = PM_LANG_JA(15, 11),
+    WTMENU_GRID_WINS = PM_LANG_JA(9, 10),
+    WTMENU_CAT5_WINS = PM_LANG_JA(4, 6),
+    WTMENU_BOTTOM_BTN = PM_LANG_JA(3, 5)
+};
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+/*
+ * Japanese has one printer for the bank message: no slow-print mode and no wrappers.
+ */
+void WORLDTRADE_INPUT_PrintStringPlain(WorldtradeWork *p, void *bank, u32 index, u32 unused1, u16 unused2)
+{
+    void *str;
+    str = MSGDATA_AllocString(bank, index);
+    WORDSET_CopyTaggedText(p->words, p->str, str);
+    STRBUF_Delete(str);
+    BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
+    BMP_WIN_TransferChars(p->d40);
+    BMP_MENUWORK_DrawWindow(p->d40, 0, 1, 14);
+    WORLDTRADE_ADAPTER_QueuePrintDefaultColor(p->d40, 0, p->str, 0, 0, &p->printCtx);
+    p->cnt = 0;
+}
+#else
 /*
  * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 1.
  */
@@ -239,6 +264,7 @@ void WORLDTRADE_INPUT_PrintBankString(WorldtradeWork *p, void *bank, u32 index, 
         WORLDTRADE_ADAPTER_QueuePrintDefaultColor(p->d40, 0, p->str, 0, 0, &p->printCtx);
     p->cnt = 0;
 }
+#endif
 
 /*
  * lever: unused fifth argument leaves font and context in stack slots +4/+8.
@@ -300,26 +326,26 @@ void WORLDTRADE_INPUT_CreateModeWindows(WorldtradeMenu *p, u32 mode)
     BG_SYS_Init(p->layer, 0, 1, 0);
     switch (mode) {
     case 4:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
-        for (i = 0; i < 9; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
+        for (i = 0; i < WTMENU_GRID_WINS; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], PM_LANG_JA(3, 2), 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 5:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
-        p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, 2, 2, 3, 2, 1, 1);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
+        p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, PM_LANG_JA(2, 1), 2, PM_LANG_JA(3, 2), 2, 1, 1);
         BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[0])), 7);
-        for (i = 1; i < 4; i++) {
+        for (i = 1; i < WTMENU_CAT5_WINS; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i - 1][0], data_022032AE[i - 1][1], 2, 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 0:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_0220322A[i][0], data_0220322A[i][1], 8, 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
@@ -328,18 +354,18 @@ void WORLDTRADE_INPUT_CreateModeWindows(WorldtradeMenu *p, u32 mode)
         BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[4])), 8);
         break;
     case 6:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
-        for (i = 0; i < 9; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
+        for (i = 0; i < WTMENU_GRID_WINS; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], PM_LANG_JA(3, 2), 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
-        p->wins[15] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[15])), 10);
+        p->wins[WTMENU_TITLEWIN] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_TITLEWIN])), 10);
         break;
     case 3:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
         for (i = 0; i < 5; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203242[i][0], data_02203242[i][1], 23, 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
@@ -348,16 +374,16 @@ void WORLDTRADE_INPUT_CreateModeWindows(WorldtradeMenu *p, u32 mode)
         BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[5])), 10);
         break;
     case 1:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
         for (i = 0; i < 3; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], 9, 2, 1, 1);
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], PM_LANG_JA(9, 8), 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
         }
         break;
     case 2:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[14])), 10);
+        p->wins[WTMENU_MSGWIN] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[WTMENU_MSGWIN])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203206[i][0], data_02203206[i][1], 11, 2, 1, 1);
             BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)p->wins[i])), 10);
@@ -415,6 +441,7 @@ struct BgWinFrmWork;
 
 
 #include "worldtrade_deposit.h"
+#include "../version.h"
 
 
 
@@ -558,7 +585,11 @@ int WORLDTRADE_INPUT_StateGenderListInput(WorldtradeMenu *p);
 
 int WORLDTRADE_INPUT_StateGenderListClose(WorldtradeMenu *p);
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u16 color, void *g);
+#else
 void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
+#endif
 
 void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g);
 
@@ -573,6 +604,9 @@ int WORLDTRADE_INPUT_GetListRangeCount(void *p, u32 a);
 int WORLDTRADE_INPUT_CategoryHasListEntries(void *p, int idx);
 
 extern u8 g_02203CD8[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02203E88[];
+#endif
 
 extern u8 tbl_02203370[];
 
@@ -639,7 +673,7 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
     BGWINFRM_GetPos(p->mgr, 0, &bright[1], &bright[0]);
     switch (mode) {
     case 4:
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < WTMENU_GRID_WINS; i++) {
             BMP_Clear(BMP_WIN_GetBmp(p->wins[i]), 10);
             BMP_WIN_TransferChars(p->wins[i]);
             BMP_WIN_Delete(p->wins[i]);
@@ -649,10 +683,10 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             BG_SYS_PushTile(2);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     case 5:
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < WTMENU_CAT5_WINS; i++) {
             BMP_Clear(BMP_WIN_GetBmp(p->wins[i]), 10);
             BMP_WIN_TransferChars(p->wins[i]);
             BMP_WIN_Delete(p->wins[i]);
@@ -662,7 +696,7 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             BG_SYS_PushTile(2);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     case 0:
         for (i = 0; i < 5; i++) {
@@ -675,10 +709,10 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             BG_SYS_PushTile(2);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     case 6:
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < WTMENU_GRID_WINS; i++) {
             BMP_Clear(BMP_WIN_GetBmp(p->wins[i]), 10);
             BMP_WIN_TransferChars(p->wins[i]);
             BMP_WIN_Delete(p->wins[i]);
@@ -688,8 +722,8 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             BG_SYS_PushTile(2);
         }
-        BMP_WIN_Delete(p->wins[14]);
-        BMP_WIN_Delete(p->wins[15]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
+        BMP_WIN_Delete(p->wins[WTMENU_TITLEWIN]);
         break;
     case 3:
         for (i = 0; i < 6; i++) {
@@ -697,19 +731,19 @@ void WORLDTRADE_INPUT_MenuFinish(WorldtradeMenu *p, int mode)
             BMP_WIN_TransferChars(p->wins[i]);
             BMP_WIN_Delete(p->wins[i]);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     case 1:
         for (i = 0; i < 3; i++) {
             BMP_WIN_Delete(p->wins[i]);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     case 2:
         for (i = 0; i < 5; i++) {
             BMP_WIN_Delete(p->wins[i]);
         }
-        BMP_WIN_Delete(p->wins[14]);
+        BMP_WIN_Delete(p->wins[WTMENU_MSGWIN]);
         break;
     }
     BG_SYS_FreeTiles(p->layer, 1, 0);
@@ -719,7 +753,7 @@ WorldtradeMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer
 {
     WorldtradeMenu *m;
 
-    m = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeMenu), 0, (const char *)g_02203CD8, 0x336);
+    m = GFL_HEAP_Alloc(0x48, sizeof(WorldtradeMenu), 0, PM_LANG_JA((const char *)g_02203CD8, str_ja_02203E88), PM_SRC_LINE(0x336, 0x2c5));
     m->wins = init->wins;
     m->initArg = init->initArg;
     m->cursor = init->cursor;
@@ -744,7 +778,7 @@ WorldtradeMenu *WORLDTRADE_INPUT_MenuCreate(WorldtradeInputInit *init, u32 layer
     m->state = 0;
     m->mgr = BGWINFRM_Create(2, 1, 0x48);
     BGWINFRM_AddFrame(m->mgr, 0, 2, 0x20, 0x14);
-    WORLDTRADE_SetActorPos(m->cursor, 0x90, 0x28);
+    WORLDTRADE_SetActorPos(m->cursor, PM_LANG_JA(0x90, 0x88), 0x28);
     CLACT_SetActorAnimSeq((struct ClactActor *)m->cursor, 4);
     CLACT_SetActorAutoAnim((struct ClactActor *)m->cursor, 1);
     CLACT_SetActorDrawEnable((struct ClactActor *)m->cursor, 0);
@@ -761,26 +795,26 @@ void WORLDTRADE_INPUT_MenuSetMode(WorldtradeMenu *p, int mode)
     p->mode = mode;
     switch (mode) {
     case 0:
-        ((u8 *)p)[122] = 0;
+        p->last = 0;
         p->pos = 0;
         p->layout = 0;
         p->start = 0;
         p->state = 6;
         return;
     case 3:
-        ((u8 *)p)[122] = 0;
+        p->last = 0;
         p->pos = 0;
         p->layout = 0;
         p->start = 0;
         p->state = 18;
         return;
     case 1:
-        ((u8 *)p)[122] = 0;
+        p->last = 0;
         p->pos = 0;
         p->state = 30;
         return;
     case 2:
-        ((u8 *)p)[122] = 0;
+        p->last = 0;
         p->pos = 0;
         p->state = 33;
         break;
@@ -836,6 +870,11 @@ int WORLDTRADE_INPUT_CheckTouch(WorldtradeMenu *p, int mode)
     return (sptr)p;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* The Japanese failed check names its file and its test. */
+extern const char str_ja_02203E9C[];
+#endif
+
 /*
  * Cursor input for the ten-entry mode-4 menu: the mode-6 grid of nine
  * entries with one button (9). Returns the entry, -2 for cancel (B or
@@ -849,7 +888,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(WorldtradeMenu *p, u8 *enable)
     int r;
     int ret;
 
-    if (old < 9) {
+    if (old < WTMENU_GRID_WINS) {
         p->last = old;
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
@@ -867,6 +906,25 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(WorldtradeMenu *p, u8 *enable)
     } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_02203348[p->pos].right;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (old >= WTMENU_GRID_WINS && p->pos < WTMENU_GRID_WINS) {
+        if (p->pos > 4) {
+            if (p->last > 4) {
+                p->pos = p->last;
+            } else {
+                p->pos = p->last + 5;
+            }
+            p->last = p->pos;
+        } else {
+            if (p->last > 4) {
+                p->pos = p->last - 5;
+            } else {
+                p->pos = p->last;
+            }
+            p->last = p->pos;
+        }
+    }
+#else
     if (old >= 9 && p->pos < 9) {
         if (KEY_GetRepeat() & 0x40) {
             p->pos = p->last;
@@ -880,26 +938,27 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(WorldtradeMenu *p, u8 *enable)
             }
         }
     }
+#endif
     if (old != p->pos) {
         GFL_USE_PlaySeDefaultVolume(0x548);
         WORLDTRADE_SetActorPos(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
-        if (p->pos == 9) {
+        if (p->pos == WTMENU_GRID_WINS) {
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
         } else {
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 0x12);
+            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), PM_LANG_JA(0x12, 4));
         }
     }
     ret = -1;
     r = WORLDTRADE_INPUT_CheckTouch(p, 4);
     if (r != ret) {
         WORLDTRADE_SetActorPos(p->cursor, (tbl_022032C6[r].x + 0x10) * 8, tbl_022032C6[r].y * 8);
-        if (r == 9) {
+        if (r == WTMENU_GRID_WINS) {
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
         } else {
             p->pos = r;
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 0x12);
+            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), PM_LANG_JA(0x12, 4));
         }
-        if (r == 9) {
+        if (r == WTMENU_GRID_WINS) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             ret = -2;
         } else if (enable == 0 || enable[r] != 0) {
@@ -913,12 +972,12 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(WorldtradeMenu *p, u8 *enable)
         return ret;
     }
     if (KEY_GetTrg() & 1) {
-        if (p->pos == 9) {
+        if (p->pos == WTMENU_GRID_WINS) {
             GFL_USE_PlaySeDefaultVolume(0x551);
             return -2;
         }
-        if (p->pos >= 9) {
-            GF_PANIC_Fail((void *)0x02203CEC, 0, (void *)0x02203CEC);
+        if (p->pos >= WTMENU_GRID_WINS) {
+            GF_PANIC_Fail(PM_LANG_JA((void *)0x02203CEC, str_ja_02203E88), PM_SRC_LINE(0, 0x4f0), PM_LANG_JA((void *)0x02203CEC, str_ja_02203E9C));
         }
         if (enable == 0 || enable[p->pos] != 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -940,6 +999,19 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(WorldtradeMenu *p, u8 *enable)
  */
 int WORLDTRADE_INPUT_ClampPageChoice(WorldtradeMenu *p, int choice)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (choice != WTMENU_BOTTOM_BTN) {
+        if (p->layout == 7) {
+            if (choice >= 3) {
+                choice = -1;
+            }
+            return choice;
+        } else if (p->layout != 7) {
+            return choice;
+        }
+    }
+    return -2;
+#else
     if (choice != 3) {
         if (p->layout <= 8) {
             if (choice >= tbl_022033FC[p->layout].count) {
@@ -950,6 +1022,7 @@ int WORLDTRADE_INPUT_ClampPageChoice(WorldtradeMenu *p, int choice)
         return choice;
     }
     return -2;
+#endif
 }
 
 /*
@@ -964,7 +1037,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(WorldtradeMenu *p, int base)
     int old = p->pos;
     int r;
 
-    if (old < 3) {
+    if (old < WTMENU_BOTTOM_BTN) {
         p->last = old;
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
@@ -982,12 +1055,12 @@ int WORLDTRADE_INPUT_UpdateButtonRow(WorldtradeMenu *p, int base)
     } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_02203260[p->pos].right;
     }
-    if (old == 3 && p->pos < 3) {
+    if (old == WTMENU_BOTTOM_BTN && p->pos < WTMENU_BOTTOM_BTN) {
         p->pos = p->last;
     }
     if (old != p->pos) {
         GFL_USE_PlaySeDefaultVolume(0x548);
-        if (p->pos == 3) {
+        if (p->pos == WTMENU_BOTTOM_BTN) {
             WORLDTRADE_SetActorPos(p->cursor, 0xC0, 0x88);
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
         } else {
@@ -997,7 +1070,7 @@ int WORLDTRADE_INPUT_UpdateButtonRow(WorldtradeMenu *p, int base)
     }
     r = WORLDTRADE_INPUT_CheckTouch(p, 5);
     if (r != -1) {
-        if (r == 3) {
+        if (r == WTMENU_BOTTOM_BTN) {
             WORLDTRADE_SetActorPos(p->cursor, 0xC0, 0x88);
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
         } else {
@@ -1365,10 +1438,10 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(WorldtradeMenu *menu)
 int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode)
 {
     switch (mode) {
-    case 9:
+    case PM_LANG_JA(9, 10):
         return ~1;
-    case 10:
-        return 10;
+    case PM_LANG_JA(10, 11):
+        return PM_LANG_JA(10, 11);
     default:
         return mode;
     }
@@ -1386,7 +1459,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(WorldtradeMenu *p, u8 *enable)
     int old = p->pos;
     int r;
 
-    if (old < 9) {
+    if (old < WTMENU_GRID_WINS) {
         p->last = old;
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
@@ -1404,6 +1477,28 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(WorldtradeMenu *p, u8 *enable)
     } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_0220339C[p->pos].right;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (old >= WTMENU_GRID_WINS && p->pos < WTMENU_GRID_WINS) {
+        switch (old) {
+        case WTMENU_GRID_WINS:
+            if (p->last > 4) {
+                p->pos = p->last;
+            } else {
+                p->pos = p->last + 5;
+            }
+            p->last = p->pos;
+            break;
+        case WTMENU_GRID_WINS + 1:
+            if (p->last > 4) {
+                p->pos = p->last - 5;
+            } else {
+                p->pos = p->last;
+            }
+            p->last = p->pos;
+            break;
+        }
+    }
+#else
     if (old >= 9 && p->pos < 9) {
         if (KEY_GetRepeat() & 0x40) {
             p->pos = p->last;
@@ -1417,18 +1512,19 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(WorldtradeMenu *p, u8 *enable)
             }
         }
     }
+#endif
     if (old != p->pos) {
         GFL_USE_PlaySeDefaultVolume(0x548);
         WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
         switch (p->pos) {
-        case 9:
+        case WTMENU_GRID_WINS:
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
             break;
-        case 10:
+        case WTMENU_GRID_WINS + 1:
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 6);
             break;
         default:
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 0x12);
+            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), PM_LANG_JA(0x12, 4));
             break;
         }
     }
@@ -1436,21 +1532,21 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(WorldtradeMenu *p, u8 *enable)
     if (r != -1) {
         WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[r].x + 0x10) * 8, tbl_02203298[r].y * 8);
         switch (r) {
-        case 9:
+        case WTMENU_GRID_WINS:
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 5);
             break;
-        case 10:
+        case WTMENU_GRID_WINS + 1:
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 6);
             break;
         default:
-            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), 0x12);
+            CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)((struct WorldtradeObj *)p->cursor)), PM_LANG_JA(0x12, 4));
             p->pos = r;
             break;
         }
         r = WORLDTRADE_INPUT_MapModeToLabel((sptr)p, r);
         if (r == -2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
-        } else if (r == 10 || enable == 0 || enable[r] != 0) {
+        } else if (r == WTMENU_GRID_WINS + 1 || enable == 0 || enable[r] != 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
         } else {
             r = -1;
@@ -1467,7 +1563,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(WorldtradeMenu *p, u8 *enable)
             GFL_USE_PlaySeDefaultVolume(0x551);
             return r;
         }
-        if (r == 10 || enable == 0 || enable[r] != 0) {
+        if (r == WTMENU_GRID_WINS + 1 || enable == 0 || enable[r] != 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             return r;
         }
@@ -1611,11 +1707,11 @@ void WORLDTRADE_INPUT_DrawFrame(WorldtradeMenu *p, int mode, int pos)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 96, mode == 6 ? 27 : 28, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, mode);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 74, &p->g);
     MI_CpuFill8(p->flags, 1, 26);
     g = (u8 *)p;
-    g += 124;
-    for (i = 0; i < 9; i++) {
+    g += PM_LANG_JA(124, 148);
+    for (i = 0; i < WTMENU_GRID_WINS; i++) {
         str = MSGDATA_AllocString(p->bank, i + 116);
         if (mode == 4) {
             if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
@@ -1638,8 +1734,8 @@ void WORLDTRADE_INPUT_DrawFrame(WorldtradeMenu *p, int mode, int pos)
         STRBUF_Delete(str);
     }
     if (mode == 6) {
-        str = MSGDATA_AllocString(p->bank, 188);
-        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[15], str, 2, 0x3dc2, &p->g);
+        str = MSGDATA_AllocString(p->bank, WORLDTRADE_MSG(188));
+        WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[WTMENU_TITLEWIN], str, 2, 0x3dc2, &p->g);
         STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(p->mgr, 0, pos, 0);
@@ -1658,7 +1754,7 @@ void WORLDTRADE_INPUT_DrawThreeOptionScreen(WorldtradeMenu *p)
         WORLDTRADE_INPUT_PutBmpWinString(p->mgr, p->wins[i], str, 2, 0x3dc2, &p->g);
         STRBUF_Delete(str);
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 74, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 32, 0);
     BGWINFRM_ShowFrame(p->mgr, 0);
     BGWINFRM_StartMove(p->mgr, 0, -4, 0, 4);
@@ -1676,7 +1772,7 @@ void WORLDTRADE_INPUT_DrawGenderListScreen(WorldtradeMenu *p)
     WORLDTRADE_INPUT_PrintPageNumberA((WorldtradeMenu *)p, 0, p->total);
     p->page = 0;
     WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->num, p->wins[4], p->page, WORLDTRADE_INPUT_GetPageCount(p->total, 4));
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 74, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 32, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 6);
     p->last = 0;
@@ -1775,11 +1871,38 @@ int WORLDTRADE_INPUT_StateStartFrameOut(WorldtradeMenu *p)
     return -1;
 }
 
-int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;return -1;}
+int WORLDTRADE_INPUT_StateStartCategoryScreen(WorldtradeMenu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(p->cursor,PM_LANG_JA(144, 136),40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(p->state)=1;(p->nextState)=7;p->layout=-1;return -1;}
 
 int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
 {
     u32 sel = WORLDTRADE_INPUT_UpdateCategoryGrid((WorldtradeMenu *)p, p->flags);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    switch (sel) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+        CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
+        CLACT_SetActorAnimSeq((*(void * *)&p->cursor), CLACT_GetActorAnimSeq((*(void * *)&p->cursor)) + 9);
+        p->state = 8;
+        p->layout = sel;
+        break;
+    case -2:
+        CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
+        CLACT_SetActorAnimSeq((*(void * *)&p->cursor), CLACT_GetActorAnimSeq((*(void * *)&p->cursor)) + 9);
+        p->state = 3;
+        p->nextState = 8;
+        p->layout = -1;
+        break;
+    }
+    return -1;
+#else
     if (sel != -2) {
         if (sel <= 8) {
             CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
@@ -1795,6 +1918,7 @@ int WORLDTRADE_INPUT_StateCategoryInput(WorldtradeMenu *p)
         p->layout = -1;
     }
     return -1;
+#endif
 }
 
 int WORLDTRADE_INPUT_StateCategorySelected(WorldtradeMenu *p)
@@ -1803,7 +1927,11 @@ int WORLDTRADE_INPUT_StateCategorySelected(WorldtradeMenu *p)
     WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 4);
     CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
     if (p->layout >= 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (p->layout != 9)
+#else
         if (tbl_022033FC[p->layout].count != 1)
+#endif
             p->state = 10;
         else {
             p->start = 0;
@@ -1822,10 +1950,10 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(WorldtradeMenu *p)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 96, 28, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 4);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 74, &p->g);
-    MI_CpuFill8(p->flags, 1, 26);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 74, &p->g);
+    MI_CpuFill8(p->flags, 1, PM_LANG_JA(26, 50));
     g = (u8 *)&p->g;
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < WTMENU_GRID_WINS; i++) {
         str = MSGDATA_AllocString(p->bank, i + 116);
         if (WORLDTRADE_INPUT_CategoryHasSpecies(p, i) == 1) {
             color = 0x3dc2;
@@ -1860,9 +1988,13 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu)
     BGWINFRM_SetFrameDataArc(menu->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(menu->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(menu, 5);
-    MI_CpuFill8(menu->flags, 1, 0x1A);
+    MI_CpuFill8(menu->flags, 1, PM_LANG_JA(0x1A, 0x32));
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[0], tbl_02203440[tbl_022033F8[menu->layout].first], 0x3DC2, &menu->g);
+#else
     WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[0], menu->layout + 0x74, 2, 0x3DC2, &menu->g);
-    for (i = 1; i < tbl_022033F8[menu->layout].count + 1; i++) {
+#endif
+    for (i = 1; i < PM_LANG_JA(tbl_022033F8[menu->layout].count + 1, 6); i++) {
         if (WORLDTRADE_INPUT_CountSpeciesInList(menu, (sptr)tbl_02203324[menu->layout] + i - 1) > 0) {
             color = 0x3DC2;
             menu->flags[(sptr)tbl_02203324[menu->layout] + i - 1] = 1;
@@ -1870,9 +2002,13 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(WorldtradeMenu *menu)
             color = 0x2122;
             menu->flags[(sptr)tbl_02203324[menu->layout] + i - 1] = 0;
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[i], tbl_02203440[i + tbl_022033F8[menu->layout].first - 1], color, &menu->g);
+#else
         WORLDTRADE_INPUT_PrintFrameString(menu->mgr, menu->bank, menu->wins[i], tbl_02203440[i + tbl_022033F8[menu->layout].first - 1], 5, color, &menu->g);
+#endif
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(menu->mgr, menu->bank, menu->wins[14], 0x4A, &menu->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(menu->mgr, menu->bank, menu->wins[WTMENU_MSGWIN], 0x4A, &menu->g);
     BGWINFRM_PutFrame(menu->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)menu->cursor, 4);
     if (menu->start < 0) {
@@ -2014,7 +2150,7 @@ int WORLDTRADE_INPUT_DrawSpeciesListScreen(WorldtradeMenu *p)
     WORLDTRADE_INPUT_PrintPageNumberA((WorldtradeMenu *)p, 0, p->total);
     pages = WORLDTRADE_INPUT_GetPageCount(p->total, 4);
     WORLDTRADE_INPUT_PrintPageLabel(p->mgr, p->num, p->wins[4], p->page, pages);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, &p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 0x4A, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 6);
     p->pos = 0;
@@ -2078,7 +2214,11 @@ int WORLDTRADE_INPUT_StateSpeciesListSelected(WorldtradeMenu *p)
     CLACT_SetActorDrawEnable((struct ClactActor *)p->down, 0);
     WORLDTRADE_INPUT_MenuFinish((WorldtradeMenu *)p, 0x0);
     BMP_MENUWORK_Delete(p->items);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    p->state = (p->layout != 9) ? 0xd : 0x9;
+#else
     p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0xd : 0x9;
+#endif
     return -1;
 }
 
@@ -2087,11 +2227,11 @@ int WORLDTRADE_INPUT_StateSpeciesListClose(WorldtradeMenu *p) { if(CLACT_IsActor
 int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(WorldtradeMenu *p)
 {
     WORLDTRADE_INPUT_DrawFrame(p, 6, 0x20);
-    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 18);
+    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), PM_LANG_JA(18, 4));
     BGWINFRM_StartMove(p->mgr, 0, -4, 0, 4);
     p->state = 1;
     p->nextState = 19;
-    p->pos = 10;
+    p->pos = PM_LANG_JA(10, 11);
     p->layout = -1;
     WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
     CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 6);
@@ -2110,7 +2250,7 @@ int WORLDTRADE_INPUT_StateCategoryInputAlt(WorldtradeMenu *p)
         p->nextState = 20;
         p->layout = -1;
         break;
-    case 10:
+    case PM_LANG_JA(10, 11):
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor))) + 9);
         p->state = 3;
@@ -2118,9 +2258,16 @@ int WORLDTRADE_INPUT_StateCategoryInputAlt(WorldtradeMenu *p)
         p->layout = -2;
         break;
     case -1: break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
+#endif
     default:
         CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor))) + 9);
+#else
         CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 19);
+#endif
         p->layout = r;
         p->state = 20;
         break;
@@ -2137,7 +2284,11 @@ int WORLDTRADE_INPUT_StateCategorySelectedAlt(WorldtradeMenu *p)
         if (p->layout == -1) return -2;
         else if (p->layout == -2) return 0;
     } else {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (p->layout != 9) {
+#else
         if (tbl_022033FC[p->layout].count != 1) {
+#endif
             p->state = 22;
         } else {
             p->start = 0;
@@ -2155,7 +2306,7 @@ int WORLDTRADE_INPUT_StateCategorySelectedAlt(WorldtradeMenu *p)
 int WORLDTRADE_INPUT_StateReturnToCategoryAlt(WorldtradeMenu *p)
 {
     WORLDTRADE_INPUT_DrawFrame(p, 6, 0x10);
-    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), 18);
+    CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(p->cursor)), PM_LANG_JA(18, 4));
     CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor, 1);
     p->pos = p->layout;
     WORLDTRADE_SetActorPos(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
@@ -2173,9 +2324,13 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(WorldtradeMenu *p)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     WORLDTRADE_INPUT_CreateModeWindows(p, 5);
-    MI_CpuFill8(p->flags, 1, 0x1A);
+    MI_CpuFill8(p->flags, 1, PM_LANG_JA(0x1A, 0x32));
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[0], tbl_02203440[tbl_022033F8[p->layout].first], 0x3DC2, &p->g);
+#else
     WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[0], p->layout + 0x74, 2, 0x3DC2, &p->g);
-    for (i = 1; i < 4; i++) {
+#endif
+    for (i = 1; i < PM_LANG_JA(4, 6); i++) {
         if (WORLDTRADE_INPUT_GetListRangeCount(p, (sptr)tbl_02203324[p->layout] + i - 1) > 0) {
             color = 0x3DC2;
             p->flags[(sptr)tbl_02203324[p->layout] + i - 1] = 1;
@@ -2183,9 +2338,13 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(WorldtradeMenu *p)
             color = 0x2122;
             p->flags[(sptr)tbl_02203324[p->layout] + i - 1] = 0;
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[i], tbl_02203440[tbl_022033F8[p->layout].first + i - 1], color, &p->g);
+#else
         WORLDTRADE_INPUT_PrintFrameString(p->mgr, p->bank, p->wins[i], tbl_02203440[tbl_022033F8[p->layout].first + i - 1], 5, color, &p->g);
+#endif
     }
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[14], 0x4A, &p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr, p->bank, p->wins[WTMENU_MSGWIN], 0x4A, &p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
     CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 4);
     if (p->start < 0) {
@@ -2279,7 +2438,7 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(WorldtradeMenu *p)
     p->page=0;
     pages=WORLDTRADE_INPUT_GetPageCount(p->total,5);
     WORLDTRADE_INPUT_PrintPageLabel(p->mgr,p->num,p->wins[5],p->page,pages);
-    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,p->wins[14],0x4A,&p->g);
+    WORLDTRADE_INPUT_PrintFrameStringAlt(p->mgr,p->bank,p->wins[WTMENU_MSGWIN],0x4A,&p->g);
     BGWINFRM_PutFrame(p->mgr,0,1,0);
     p->pos=0;
     WORLDTRADE_SetActorPos(p->cursor,tbl_02203236[p->pos].x,tbl_02203236[p->pos].y);
@@ -2341,7 +2500,11 @@ int WORLDTRADE_INPUT_StateConditionListSelected(WorldtradeMenu *p)
     CLACT_SetActorDrawEnable((struct ClactActor *)p->down, 0);
     WORLDTRADE_INPUT_MenuFinish(p, 0x3);
     BMP_MENUWORK_Delete((void *)(p->items));
+#if LANGUAGE == LANGUAGE_JAPANESE
+    p->state = (p->layout != 9) ? 0x19 : 0x15;
+#else
     p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0x19 : 0x15;
+#endif
     return -1;
 }
 
@@ -2442,6 +2605,15 @@ int WORLDTRADE_INPUT_StateGenderListInput(WorldtradeMenu *p)
 
 int WORLDTRADE_INPUT_StateGenderListClose(WorldtradeMenu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish(p,2);BMP_MENUWORK_Delete(p->items);return p->genderResult; }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u16 color, void *printer)
+{
+    void *str = MSGDATA_AllocString(bank, index);
+
+    WORLDTRADE_INPUT_PutBmpWinString(mgr, win, str, 2, color, printer);
+    STRBUF_Delete(str);
+}
+#else
 void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *printer)
 {
     void *str = MSGDATA_AllocString(bank, index);
@@ -2449,6 +2621,7 @@ void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 ind
     WORLDTRADE_INPUT_PutBmpWinString(mgr, win, str, x, color, printer);
     STRBUF_Delete(str);
 }
+#endif
 
 void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *printer)
 {

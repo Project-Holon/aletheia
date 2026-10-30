@@ -120,6 +120,7 @@
 
 #include "egg_demo_types.h"
 #include "../sdk_ioreg.h"
+#include "../version.h"
 #include "egg_demo_view.h"
 #include "egg_demo_menu.h"
 
@@ -285,7 +286,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,struct EggDemoArgs *args,u32 *w
         if(!FADE_IsActive()){
             block=MISC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)((struct EggDemoArgs *)args)->gameData));
             EGG_DEMO_MAIN_DeleteResources(args,(char *)work);((struct EggDemoWork *)work)->state=15;
-            child=(int *)NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,((struct EggDemoArgs *)args)->mon,10,0,block);((struct EggDemoWork *)work)->nameChild=child;
+            child=(int *)NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,((struct EggDemoArgs *)args)->mon,PM_LANG_JA(10, 5),0,block);((struct EggDemoWork *)work)->nameChild=child;
             PROCSYS_Push(((struct EggDemoWork *)work)->proc,(uptr)&abs_id_C2,(const struct ProcData *)&gNameInProcData,(void *)child);
         }break;
     case 15:

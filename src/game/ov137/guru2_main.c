@@ -592,6 +592,7 @@ struct PokemonParam;
 struct PartyPokemon;
 
 #include "../arm9/poke_tool.h"
+#include "../version.h"
 
 
 
@@ -1052,7 +1053,7 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *session)
         if(session->memberMask&(1<<i)) {if(i==player) break;n++;}
     }
     s->speed=gGuru2SlotAngleTable[session->playerCount][n]<<12;
-    r=GFL_HEAP_Alloc(0x8072,TCB_GetTaskOffset(32),0,gGuru2MainAllocFileName,0x4ec);
+    r=GFL_HEAP_Alloc(0x8072,TCB_GetTaskOffset(32),0,gGuru2MainAllocFileName,PM_SRC_LINE(0x4ec, 0x4e5));
     p->taskCtx=r;
     p->taskMgr=TCB_Init(32,r);
     GURU2_MAIN_CreateBounceEffectTask(p);GURU2_MAIN_CreateSettleEffectTask(p);GURU2_MAIN_CreateWobbleEffectTask(p);GURU2_MAIN_CreateEntranceEffectTask(p);GURU2_MAIN_CreateScreenFlashTask(p);GURU2_MAIN_CreatePulseEffectTask(p);
@@ -2311,7 +2312,7 @@ void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,i
     player->speed=speed<<12;
     player->active=1;
     player->ready=0;
-    dropEffect=GFL_HEAP_Alloc(0x8072,sizeof(struct Guru2DropEffect),0,gGuru2MainAllocFileName,0x130e);
+    dropEffect=GFL_HEAP_Alloc(0x8072,sizeof(struct Guru2DropEffect),0,gGuru2MainAllocFileName,PM_SRC_LINE(0x130e, 0x1307));
     MI_CpuFill8(dropEffect,0,sizeof(struct Guru2DropEffect));
     dropEffect->game=p;
     dropEffect->player=player;
@@ -2639,7 +2640,7 @@ void GURU2_MAIN_CenterActorTask(struct TcbTask *task, void *pArg)
 void GURU2_MAIN_CreateCenterActorTask(struct Guru2Game *p)
 {
     struct { u16 x, y, z; u8 a, b; } pos;
-    struct Guru2CenterActor *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2CenterActor), 0, gGuru2MainAllocFileName, 5638);
+    struct Guru2CenterActor *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2CenterActor), 0, gGuru2MainAllocFileName, PM_SRC_LINE(5638, 5631));
     MI_CpuFill8(q, 0, sizeof(struct Guru2CenterActor));
     pos.x = 128;
     pos.y = 100;
@@ -2816,7 +2817,7 @@ void GURU2_MAIN_BlendFadeTask(struct TcbTask *task, void *pArg)
 void GURU2_MAIN_StartBlendFade(struct Guru2Game *p, int flag)
 {
     IntPair values = gGuru2FadeValues;
-    struct Guru2BlendFade *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2BlendFade), 0, gGuru2MainAllocFileName, 5992);
+    struct Guru2BlendFade *q = GFL_HEAP_Alloc(0x8072, sizeof(struct Guru2BlendFade), 0, gGuru2MainAllocFileName, PM_SRC_LINE(5992, 5985));
     q->game = p;
     q->dir = flag;
     q->level = ((int *)&values)[flag];
@@ -2855,9 +2856,9 @@ void *GURU2_MAIN_LoadArcMember(struct Guru2Game *p, u32 member, int flag)
     u32 size = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)p->arcHandle, member);
     void *result;
     if (flag == 1)
-        result = GFL_HEAP_Alloc(114, size, 0, gGuru2MainAllocFileName, 6090);
+        result = GFL_HEAP_Alloc(114, size, 0, gGuru2MainAllocFileName, PM_SRC_LINE(6090, 6083));
     else
-        result = GFL_HEAP_Alloc(0x8072, size, 0, gGuru2MainAllocFileName, 6092);
+        result = GFL_HEAP_Alloc(0x8072, size, 0, gGuru2MainAllocFileName, PM_SRC_LINE(6092, 6085));
     ARC_TOOL_ReadHandleMember((struct ArcHandle *)p->arcHandle, member, result);
     return result;
 }

@@ -39,7 +39,13 @@ enum {
     FIELD_PLACE_NAME_STATE_FADE_OUT         /* plate blends out over 20 frames */
 };
 
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define FIELD_PLACE_NAME_MAX_LETTERS 28
+#else
 #define FIELD_PLACE_NAME_MAX_LETTERS 30
+#endif
 #define FIELD_PLACE_NAME_NO_CHAR_OFFSET (-1)
 
 /* The banner work (0x154 bytes). Created by FIELDMAP, stored at FieldMap+0x30. */
@@ -54,6 +60,9 @@ typedef struct FieldPlaceName {
     struct Strbuf *message;                                         /* 0x1C */
     unsigned char messageLength;                                    /* 0x20 */
     struct BmpWin *bmpWin;                                          /* 0x24 */
+#if LANGUAGE == LANGUAGE_JAPANESE
+    struct Bmp *bmp;                                                /* 0x28: Japanese only, made from the archive */
+#endif
     int bgCharOffset;                                               /* 0x28: BG3 char area, -1 if none */
     int clactPaletteId;                                             /* 0x2C */
     struct BmpOamSys *bmpOamSys;                                    /* 0x30 */
@@ -67,7 +76,9 @@ typedef struct FieldPlaceName {
     unsigned int zoneChangeRequested;                               /* 0x48 */
     unsigned int forceShowRequested;                                /* 0x4C */
     struct PlaceNameLetter *letters[FIELD_PLACE_NAME_MAX_LETTERS];  /* 0x50: letter pool */
+#if LANGUAGE != LANGUAGE_JAPANESE
     struct PlaceNameLetter *shownLetters[32];                       /* 0xC8: letter per message character */
+#endif
     unsigned char spawnedCount;                                     /* 0x148 */
     unsigned char launchedCount;                                    /* 0x149 */
     unsigned char blittedCount;                                     /* 0x14A */

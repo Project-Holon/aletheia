@@ -23,9 +23,18 @@ never committed.
 Each cartridge has one language. The USA/Europe cartridge is English only, and each
 European language is its own cartridge.
 
-`tools/targets.py` holds the same table for the tools. It also names the two Japanese cartridges (`black_ja`, `white_ja`), which do not build yet. A tool takes the target from
+`tools/targets.py` holds the same table for the tools. A tool takes the target from
 `--target NAME` or the environment variable `ALETHEIA_TARGET` (`--version white` still
 means `white`).
+
+## Japanese (in progress)
+
+The source has the Japanese sites, but these two cartridges do not build byte-identical yet.
+
+| File | Target | No-Intro name | Game code | SHA-1 |
+|---|---|---|---|---|
+| `black_ja.nds` | `black_ja` | Pocket Monsters - Black (Japan) (NDSi Enhanced) | IRBJ | `4ce46933ab795fc8bfc94acb7a853206b0c20b60` |
+| `white_ja.nds` | `white_ja` | Pocket Monsters - White (Japan) (NDSi Enhanced) | IRAJ | `e392548c1a59e4cafd7ba7a502770369410b2358` |
 
 ## Unpack and build a target
 

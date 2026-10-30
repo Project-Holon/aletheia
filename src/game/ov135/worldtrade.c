@@ -313,6 +313,23 @@ struct GameData;
 #include "../arm9/game_data.h"
 
 #include "../arm9/net_err.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02203AD8[];
+extern const char str_ja_02203AE8[];
+extern const char str_ja_02203B00[];
+extern const char str_ja_02203B20[];
+extern const char str_ja_02203B3C[];
+extern const char str_ja_02203B54[];
+extern const char str_ja_02203B6C[];
+extern const char str_ja_02203B84[];
+extern const char str_ja_02203BA0[];
+extern const char str_ja_02203BB8[];
+extern const char str_ja_02203BD0[];
+extern const char str_ja_02203BE8[];
+extern const char str_ja_02203C00[];
+extern const char str_ja_02203C18[];
+#endif
 
 
 
@@ -416,13 +433,13 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, WorldtradeArgs *args)
 
     GF_OVERLAY_Load((uptr)ov114_id);
     GF_OVERLAY_Load((uptr)ov067_id);
-    GFL_HEAP_CreateChildHeap(1, 0x48, 0x30100);
+    GFL_HEAP_CreateChildHeap(1, 0x48, PM_LANG_JA(0x30100, 0x30000));
     p = PROCSYS_AllocProcWork(proc, sizeof(WorldtradeWork), 0x48);
     MI_CpuFill8(p, 0, sizeof(WorldtradeWork));
     g_02203F80 = p;
     p->tradeMon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
     p->procSys = PROCSYS_Create(0x48);
-    p->recMem = GFL_HEAP_Alloc(0x48, TCB_GetTaskOffset(8), 0, str_02203AF8, 0xA1);
+    p->recMem = GFL_HEAP_Alloc(0x48, TCB_GetTaskOffset(8), 0, PM_LANG_JA(str_02203AF8, str_ja_02203AD8), PM_SRC_LINE(0xA1, 0xA0));
     p->rec_p = TCB_Init(8, p->recMem);
     WORLDTRADE_ADAPTER_InitPrinter(&p->printer, (uptr)args->statusConfig);
     p->words = WORDSET_Create(0xB, 0x40, 0x48);
@@ -526,16 +543,16 @@ void WORLDTRADE_SetupVramBanks(const struct DispVram *vram)
 
 void WORLDTRADE_CallStateHandler(WorldtradeWork *p, WorldtradeArgs *args)
 {
-    ASSERT(args->saveData);
-    ASSERT(args->sys);
-    ASSERT(args->handle04);
-    ASSERT(args->party);
-    ASSERT(args->save);
-    ASSERT(args->wifiList);
-    ASSERT(args->wifiHistory);
-    ASSERT(args->myStatus);
-    ASSERT(args->statusConfig);
-    ASSERT(args->record);
+    if (!(args->saveData)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x192), PM_LANG_JA(str_02203B08, str_ja_02203AE8));
+    if (!(args->sys)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x193), PM_LANG_JA(str_02203B08, str_ja_02203B00));
+    if (!(args->handle04)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x194), PM_LANG_JA(str_02203B08, str_ja_02203B20));
+    if (!(args->party)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x195), PM_LANG_JA(str_02203B08, str_ja_02203B3C));
+    if (!(args->save)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x196), PM_LANG_JA(str_02203B08, str_ja_02203B54));
+    if (!(args->wifiList)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x198), PM_LANG_JA(str_02203B08, str_ja_02203B6C));
+    if (!(args->wifiHistory)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x199), PM_LANG_JA(str_02203B08, str_ja_02203B84));
+    if (!(args->myStatus)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x19A), PM_LANG_JA(str_02203B08, str_ja_02203BA0));
+    if (!(args->statusConfig)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x19B), PM_LANG_JA(str_02203B08, str_ja_02203BB8));
+    if (!(args->record)) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8), PM_SRC_LINE(0, 0x19C), PM_LANG_JA(str_02203B08, str_ja_02203BD0));
     p->args = args;
     p->screenId = 0;
     WORLDTRADE_SetStateAndReturn(p, 0, 0x13);
@@ -675,8 +692,8 @@ void WORLDTRADE_OpenTaskMenuYesNo(WorldtradeWork *p,int y,int unused,int plttIdx
     BoxItems2 items;
     TaskMenuInitWork menu;
     int on;
-    if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
+    if (p->taskMenuRes) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8),PM_SRC_LINE(0, 0x2AE),PM_LANG_JA(str_02203B08, str_ja_02203BE8));
+    if (p->taskMenu) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8),PM_SRC_LINE(0, 0x2AF),PM_LANG_JA(str_02203B08, str_ja_02203C00));
     p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
@@ -709,12 +726,12 @@ void WORLDTRADE_OpenTaskMenuList(WorldtradeWork *p, u16 bgLayer, int count, int 
     BoxItems3 items;
     TaskMenuInitWork menu;
     int i;
-    if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
+    if (p->taskMenuRes) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8),PM_SRC_LINE(0, 0x333),PM_LANG_JA(str_02203B08, str_ja_02203BE8));
+    if (p->taskMenu) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8),PM_SRC_LINE(0, 0x334),PM_LANG_JA(str_02203B08, str_ja_02203C00));
     p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,sizeof(menu));
-    if ((u32)count>3) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
+    if ((u32)count>3) GF_PANIC_Fail(PM_LANG_JA(str_02203B08, str_ja_02203AD8),PM_SRC_LINE(0, 0x350),PM_LANG_JA(str_02203B08, str_ja_02203C18));
     for(i=0;i<count;i++) items.item[i].str=(struct Strbuf *)((BmpMenuWork *)p->de8)[i].u.handle;
     menu.heapId=0x48;
     menu.itemNum=count;
@@ -874,8 +891,10 @@ void WORLDTRADE_DeleteTimeIcon(WorldtradeWork *p)
     if (p->timeIcon != 0) {
         TIME_ICON_Delete((p->timeIcon));
         p->timeIcon = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
         BMP_WIN_MakeScreen((struct BmpWin *)(p->frame));
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)(p->frame)));
+#endif
     }
 }
 

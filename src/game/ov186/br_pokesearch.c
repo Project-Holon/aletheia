@@ -61,6 +61,15 @@
  *   gBrPokeSearchGroupStart 0x02200C94 data a4
  */
 #include "br_types.h"
+
+/* Source line numbers passed to the allocations. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BR_POKESEARCH_CREATE_LINE 0xb6
+#define BR_POKESEARCH_SEEN_LINE 0x359
+#else
+#define BR_POKESEARCH_CREATE_LINE 0x11a
+#define BR_POKESEARCH_SEEN_LINE 0x3c3
+#endif
 #include "../arm9/touchpanel.h"
 #include "../ov186/br_util.h"
 
@@ -123,6 +132,17 @@ struct PrintQueue;
 #include "../arm9/zukan_save.h"
 
 #include "../arm9/bmp_menuwork.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02201034[];
+extern const char str_ja_02201044[];
+extern const char str_ja_02201064[];
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02201034[];
+extern const char str_ja_02201060[];
+extern const char str_ja_02201080[];
+#endif
 struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, struct Unit *uiParamA, void *uiParamB, struct BrFade *fade, void *listParam, struct BrTapFx *tapFx, unsigned short heapId);
 
 void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps);
@@ -162,7 +182,7 @@ extern const struct BrListMenuConfig gBrPokeSearchListConfig;
 extern const char gBrPokeSearchHitTable[];
 extern const u16 gBrPokeSearchGroupStart[];
 
-typedef char BrPokeSearchCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrPokeSearch) == 0x90)) ? 1 : -1];
+typedef char BrPokeSearchCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrPokeSearch) == 0x6c + 4 * BR_POKESEARCH_GROUP_COUNT)) ? 1 : -1];
 typedef char BrListMenuConfigCheckSize[(sizeof(void *) != 4 || (sizeof(struct BrListMenuConfig) == 40)) ? 1 : -1];
 
 /* Phases of the screen state machine. */
@@ -184,7 +204,7 @@ struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes 
 {
     struct BrPokeSearch *ps;
     int i = 0;
-    ps = GFL_HEAP_Alloc(heapId, sizeof(struct BrPokeSearch), 0, gBrPokeSearchSourceFile, 0x11a);
+    ps = GFL_HEAP_Alloc(heapId, sizeof(struct BrPokeSearch), 0, PM_LANG_JA(gBrPokeSearchSourceFile, str_ja_02201034), BR_POKESEARCH_CREATE_LINE);
     MI_CpuFill8(ps, 0, sizeof(struct BrPokeSearch));
     ps->heapId = heapId;
     ps->zukan = zukan;
@@ -226,7 +246,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
                 point.x=x; point.y=y;
                 BR_UTIL_StartEffect((char *)ps->tapFx,1,(const BrPair *)&point);
                 ps->state=8; ps->result=1;
-            } else if (ps->touchedGroup!=9) {
+            } else if (ps->touchedGroup!=BR_POKESEARCH_GROUP_COUNT) {
                 ps->state=4; ps->nextState=3;
             }
             break;
@@ -258,7 +278,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
         case BR_POKESEARCH_PHASE_SWITCH:
             if (ps->nextState==3) {
                 BR_POKESEARCH_DestroyGroupWindows(ps);
-                if (ps->seenList) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+                if (ps->seenList) GF_PANIC_Fail(PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201034), PM_SRC_LINE(0, 0x15C), PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201044));
                 ps->seenList=BR_POKESEARCH_BuildSeenList(ps->zukan,ps->touchedGroup,ps->groupTable,&ps->seenCount,ps->heapId);
                 BR_POKESEARCH_CreateSpeciesList(ps);
             } else {
@@ -334,7 +354,7 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     MI_CpuFill8(&pos, 0, 8);
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite((struct BrRes *)ps->res, 6, (void *)&sprite))
-        GF_PANIC_Fail((const char *)gBrPokeSearchAssertString, 0, (const char *)gBrPokeSearchAssertString);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)gBrPokeSearchAssertString, str_ja_02201034), PM_SRC_LINE(0, 0x202), PM_LANG_JA((const char *)gBrPokeSearchAssertString, str_ja_02201060));
     ps->backButton = BR_BTN_CreateFromMessage((void *)(&pos), 4, 0x60, 1, (void *)ps->uiParamA, (void *)ps->uiParamB, (void *)font, (struct MsgBank *)msgData, (void *)&sprite, ps->heapId);
 }
 
@@ -355,10 +375,14 @@ void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
     font = BR_RES_GetFont(ps->res);
     msgData = BR_RES_GetMsgData(ps->res);
     for (i = 0; i < BR_POKESEARCH_GROUP_COUNT; i++) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        x = (i >= 5 ? (i - 5) * 6 : i * 6) + 3;
+#else
         x = (i % 5) * 6 + 2;
+#endif
         y = 6;
         if (i < 5) y = 0;
-        ps->groupWin[i] = BR_UTIL_Create(4, (unsigned char)x, (unsigned char)(y + 4), (unsigned)4, 2, 14, ps->printQue, ps->heapId);
+        ps->groupWin[i] = BR_UTIL_Create(4, (unsigned char)x, (unsigned char)(y + 4), PM_LANG_JA((unsigned)4, 2u), 2, 14, ps->printQue, ps->heapId);
         color = 0x3da0;
         if (!ps->groupHasSeen[i]) color = 0x2da0;
         BR_UTIL_SetTextLayout((unsigned char *)ps->groupWin[i], 0, 0, 1);
@@ -413,8 +437,8 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     u32 i;
     ps->listShown=1;
     BR_RES_LoadBgGraphics(ps->res,21,ps->heapId);
-    if (ps->menuItems) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
-    if (ps->listMenu) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (ps->menuItems) GF_PANIC_Fail(PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201034), PM_SRC_LINE(0, 0x268), PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201064));
+    if (ps->listMenu) GF_PANIC_Fail(PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201034),PM_SRC_LINE(0, 0x269),PM_LANG_JA(gBrPokeSearchAssertString, str_ja_02201080));
     ps->menuItems=(struct BrMenuItem *)BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
     str=(struct U16Vec *)STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {
@@ -457,7 +481,7 @@ int BR_POKESEARCH_PollGroupTouch(struct BrPokeSearch *ps)
         }
         GFL_USE_PlaySeDefaultVolume(0x704);
     }
-    return 9;
+    return BR_POKESEARCH_GROUP_COUNT;
 }
 
 /*
@@ -495,7 +519,7 @@ u16 *BR_POKESEARCH_BuildSeenList(struct ZukanSave *zukan, u32 group, const u16 *
         }
     }
     bytes = count * 2;
-    dst = GFL_HEAP_Alloc(heapId, bytes, 0, gBrPokeSearchSourceFile, 0x3c3);
+    dst = GFL_HEAP_Alloc(heapId, bytes, 0, PM_LANG_JA(gBrPokeSearchSourceFile, str_ja_02201034), BR_POKESEARCH_SEEN_LINE);
     filled = 0;
     MI_CpuFill8(dst, 0, bytes);
     for (; start < end; start++) {

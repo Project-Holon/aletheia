@@ -661,15 +661,19 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(struct UiScene *state,unsigned char *p)
             index=((struct CommBtlDemoMain *)p)->variant!=0;
             GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(2,((struct CommBtlDemoMain *)p)->args->soundKind));
             COMM_BTL_DEMO_MAIN_ShowBattleActor((&((struct CommBtlDemoMain *)p)->battle),index,0);
+#if LANGUAGE != LANGUAGE_JAPANESE
         }else if(((struct CommBtlDemoMain *)p)->stage==24){
             index=((struct CommBtlDemoMain *)p)->variant!=0;
             CLACT_SetActorDrawEnable(((&((struct CommBtlDemoMain *)p)->battle))->sideActor[index],0);
+#endif
         }else if(((struct CommBtlDemoMain *)p)->stage==45){
             index=((struct CommBtlDemoMain *)p)->variant!=1;
             COMM_BTL_DEMO_MAIN_ShowBattleActor((&((struct CommBtlDemoMain *)p)->battle),index,1);
+#if LANGUAGE != LANGUAGE_JAPANESE
         }else if(((struct CommBtlDemoMain *)p)->stage==54){
             index=((struct CommBtlDemoMain *)p)->variant!=1;
             CLACT_SetActorDrawEnable(((&((struct CommBtlDemoMain *)p)->battle))->sideActor[index],0);
+#endif
         }else if(((struct CommBtlDemoMain *)p)->stage==120)FADE_Start(3,0,16,-3);
         else if(((struct CommBtlDemoMain *)p)->stage==128)return 1;
         if((int)((struct CommBtlDemoMain *)p)->stage%180==0){

@@ -347,6 +347,13 @@ struct FieldState;
 
 #include "../arm9/wifilist.h"
 #include "../arm9/procsys.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021755DC[];
+extern const char str_ja_021755EC[];
+extern const char str_ja_0217563C[];
+extern const char str_ja_02175658[];
+#endif
 
 
 
@@ -413,7 +420,7 @@ extern const int gPmsInputProcData[];
 void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, void *sceneParam)
 {
     if (unionRoom->subEvent.id != 0 || unionRoom->subEvent.active != 0)
-        GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gUnionMainEmptyString, str_ja_021755DC), PM_SRC_LINE(0, 0x163), PM_LANG_JA(gUnionMainEmptyString, str_ja_021755EC));
     unionRoom->subEvent.id = sceneId;
     unionRoom->subEvent.param = sceneParam;
     unionRoom->subEvent.seq = 0;
@@ -799,10 +806,17 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
             *step = 0x11;
             break;
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (listParam->resultKind != 0)
+            GF_PANIC_FailPrintf(str_ja_021755DC, 0x3CE, str_ja_0217563C, listParam->resultKind);
+        if (listParam->cursor != 6)
+            GF_PANIC_FailPrintf(str_ja_021755DC, 0x3CF, str_ja_02175658, listParam->cursor);
+#else
         if (listParam->resultKind != 0)
             GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         if (listParam->cursor != 6)
             GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+#endif
         party = colosseum->party[myNetId];
         tmpParty = POKEPARTY_Create(0x41);
         POKEPARTY_Copy(party, tmpParty);

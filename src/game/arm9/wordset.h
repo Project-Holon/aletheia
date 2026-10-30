@@ -9,6 +9,7 @@ struct WordTag;
 struct Strbuf;
 
 #include "../types.h"
+#include "../version.h"
 
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
 u32 WORDSET_Delete(struct WordSet *words);
@@ -40,7 +41,9 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u32 entryIndex);
 void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex);
+#endif
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromMsgB4(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromMsg37(struct WordSet *words, u32 slot, u32 entryIndex);
@@ -51,7 +54,14 @@ void WORDSET_SetSlotFromMsg2B(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotFromMsg00(struct WordSet *words, u32 slot, u8 entryIndex);
 void WORDSET_SetSlotFromMsg38(struct WordSet *words, u32 slot, u32 entryIndex);
 void WORDSET_SetSlotWeekday(struct WordSet *words, u32 slot, u32 weekday);
+#if LANGUAGE == LANGUAGE_JAPANESE
+static inline void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
+{
+    WORDSET_SetSlotFromMsg38(words, slot, month);
+}
+#else
 void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month);
+#endif
 void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 void WORDSET_ClearAllSlots(struct WordSet *words);
 void WORDSET_LoadSpeciesNameBank(u16 heapId);

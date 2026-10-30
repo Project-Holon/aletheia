@@ -234,6 +234,7 @@
  *   BTLV_SCD_PollCounterTouch   0x0689B790  thumb  ov095
  *   BTLV_CORE_GetTaskWork 0x021E9100 thumb ov093
  */
+#include "../version.h"
 #include "btlv_core_types.h"
 /* The original caller passes the item page as a second argument that the definition does not take. */
 #ifdef __MWERKS__
@@ -571,14 +572,14 @@ void BTLV_CORE_ExitDisplay(void)
 struct BtlvCore *BTLV_CORE_Create(void *context, void *client, struct BtlSide *monTable, int param, u16 heapId)
 {
     struct BtlvCore *core;
-    core = GFL_HEAP_Alloc(heapId, sizeof(*core), 0, gBtlvCoreFileName, 0x12d);
+    core = GFL_HEAP_Alloc(heapId, sizeof(*core), 0, gBtlvCoreFileName, PM_SRC_LINE(0x12d, 0x128));
     core->context = context;
     core->client = client;
     core->monTable = (struct BtlMonTable *)monTable;
     core->clientIndex = BTL_CLIENT_GetClientId(client);
     core->state = 4;
     core->heapId = heapId;
-    core->msgBuffer = (struct Strbuf *)STRBUF_Create(0x200, heapId);
+    core->msgBuffer = (struct Strbuf *)STRBUF_Create(PM_LANG_JA(0x200, 0x180), heapId);
     core->fontMain = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     core->fontSub = GF_FONT_Create(0x17, 2, 0, 0, heapId);
     core->taskList = TCBL_Create(heapId, heapId, 0x40, 0x80);
@@ -695,7 +696,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
         BTLV_SCD_CreateInput(core->auxView);
-        demo->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x14, core->heapId);
+        demo->msgBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0x14, 0x15), core->heapId);
         demo->timer = 0;
         (*state)++;
         break;
@@ -809,7 +810,11 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
         }
         break;
     case 16:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (BTLV_CORE_WaitMessage(core)) {
+#else
         if (BTLV_CORE_WaitMessage(core) && !BTLV_EFFECT_IsBusy()) {
+#endif
             BTLV_EFFECT_StartEffectWithColor(1, 4, 3, 1, 0);
             (*state)++;
         }

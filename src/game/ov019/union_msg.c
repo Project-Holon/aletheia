@@ -224,6 +224,19 @@ struct PlayerWork;
 #include "../ov021/field_player.h"
 struct WifiList;
 #include "../arm9/wifilist.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021808FC[];
+extern const char str_ja_02180908[];
+extern const char str_ja_02180920[];
+extern const char str_ja_02180938[];
+extern const char str_ja_02180950[];
+extern const char str_ja_02180974[];
+extern const char str_ja_02180998[];
+extern const char str_ja_021809AC[];
+extern const char str_ja_021809CC[];
+extern const char str_ja_021809DC[];
+extern const char str_ja_021809F8[];
+#endif
 u16 UNION_MSG_GetNoReplyMsg(void ***ctx);
 u16 UNION_MSG_GetTalkParentGreetingMsg(int i);
 u16 UNION_MSG_GetTalkParentCancelMsg(int i);
@@ -634,9 +647,9 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
 
     myStatus = unisys->parent->myStatus;
     if (unisys->msgWork.msgData == 0)
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x46E), PM_LANG_JA((char *)d_021807F8, str_ja_02180908));
     if (unisys->msgWork.wordSet == 0)
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x46F), PM_LANG_JA((char *)d_021807F8, str_ja_02180920));
 
     partner = situation->connect.talkParam;
     if (partner != 0) {
@@ -737,7 +750,7 @@ void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, void *fieldmap)
 
     if (unisys->msgWork.talkWin == 0) {
         if (unisys->msgWork.msgData != 0)
-            GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+            GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x527), PM_LANG_JA((char *)d_021807F8, str_ja_02180938));
         fieldMsgBg = FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap);
         unisys->msgWork.msgData = (struct MsgBank *)FIELD_MSGBG_CreateMsgData(fieldMsgBg, 200);
         unisys->msgWork.strTemp = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
@@ -773,7 +786,7 @@ void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys)
 void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId)
 {
     if (unisys->msgWork.talkWin == 0) {
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x55B), PM_LANG_JA((char *)d_021807F8, str_ja_02180950));
     }
     MSGDATA_ReadString(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
     WORDSET_CopyTaggedText(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
@@ -820,7 +833,7 @@ int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes)
     int result;
 
     if (unisys->msgWork.yesNo == 0) {
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x5B5), PM_LANG_JA((char *)d_021807F8, str_ja_02180974));
     }
     result = FIELD_MSGBG_YesNoMenuMain(unisys->msgWork.yesNo);
     if (result == 2) {
@@ -856,13 +869,13 @@ int UNION_MSG_SelectMenu(UnionRoomWork *unisys, void *fieldmap)
     struct FieldMsgBg *fieldMsgBg = FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap);
 
     if (fieldMsgBg == 0) {
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x5F7), PM_LANG_JA((char *)d_021807F8, str_ja_02180998));
     }
     if (fieldMsgBg != 0 && FIELD_MSGBG_IsPrintQueFinished(fieldMsgBg) == 0) {
         return -1;
     }
     if (unisys->msgWork.menu == 0) {
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x5FD), PM_LANG_JA((char *)d_021807F8, str_ja_021809AC));
     }
     return FIELD_MSGBG_MenuFuncMain(unisys->msgWork.menu);
 }
@@ -908,7 +921,7 @@ void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, void *fieldmap, int kind, u8 
         t.posY = 5;
 
     if (kind == 1) {
-        obj = GFL_HEAP_Alloc(0x41, 0x30, 1, (char *)d_021807FC, 0x647);
+        obj = GFL_HEAP_Alloc(0x41, 0x30, 1, PM_LANG_JA((char *)d_021807FC, str_ja_021808FC), 0x647);
         MI_CpuCopy8(d_0218050C, obj, 0x30);
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
@@ -916,7 +929,7 @@ void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, void *fieldmap, int kind, u8 
         UNION_MSG_SetupMenu(unisys, fieldmap, obj, v, &t);
         GFL_HEAP_Free(obj);
     } else if (kind == 5) {
-        obj = GFL_HEAP_Alloc(0x41, 0x28, 1, (char *)d_021807FC, 0x657);
+        obj = GFL_HEAP_Alloc(0x41, 0x28, 1, PM_LANG_JA((char *)d_021807FC, str_ja_021808FC), 0x657);
         MI_CpuCopy8(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
@@ -1026,7 +1039,7 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
             break;
         }
     }
-    GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+    GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x6CC), PM_LANG_JA((char *)d_021807F8, str_ja_021809CC));
     return 0;
 }
 
@@ -1072,11 +1085,11 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, void *fieldmap, u32 
     int flag;
 
     if (unisys->msgWork.wordSet == 0)
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x701), PM_LANG_JA((char *)d_021807F8, str_ja_02180920));
     if (unisys->msgWork.infoWin != 0)
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x702), PM_LANG_JA((char *)d_021807F8, str_ja_021809DC));
     if (unisys->regulationText != 0)
-        GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
+        GF_PANIC_Fail(PM_LANG_JA((char *)d_021807F8, str_ja_021808FC), PM_SRC_LINE(0, 0x703), PM_LANG_JA((char *)d_021807F8, str_ja_021809F8));
 
     flag = 1;
     if (mode != 1)

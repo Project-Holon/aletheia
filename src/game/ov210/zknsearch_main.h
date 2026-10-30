@@ -8,6 +8,7 @@ typedef enum { YCoordMin = -2147483647, YCoordMax = 2147483647 } YCoord;
 
 struct Strbuf;
 
+#include "../version.h"
 #include "../types.h"
 #include "../ov210/zknsearch_types.h"
 
@@ -43,10 +44,20 @@ void ZKNSEARCH_MAIN_SetFadeStateB(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_EnterResultLayout(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_StartScrollMove(ZknSearchWork *work, int delta);
 int ZKNSEARCH_MAIN_UpdateScrollMove(ZknSearchWork *work);
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 ZKNSEARCH_MAIN_GetListIndexA(ZknSearchWork *work, u32 index);
 u32 ZKNSEARCH_MAIN_GetListIndexB(ZknSearchWork *work, u32 index);
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+u32 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index);
+#else
 u16 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index);
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+u32 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, u32 value);
+#else
 u16 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, int index);
+#endif
 void ZKNSEARCH_MAIN_NormalizeRecordByte(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_DenormalizeRecordByte(ZknSearchWork *work);
 u32 ZKNSEARCH_MAIN_RunState(ZknSearchWork *work);

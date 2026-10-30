@@ -160,6 +160,7 @@ enum {
 #define BREED_SCORE_HIGH 0x46
 
 #include "../types.h"
+#include "../version.h"
 
 #define DAYCARE_SLOT_COUNT 2
 #define STEPS_PER_EGG_CHECK 0x10
@@ -347,12 +348,14 @@ void SODATEYA_GrantExp(void *mon, u32 gain);
 void SODATEYA_LearnMove(void *mon, u32 move);
 extern char d_021DE458[];
 extern const MoveSlotIdTable d_021DA8C8;
+
+/* Source line the assertion text of the heap allocation names. */
 /*
  * Allocates and initialises the 0x10-byte day care work.
  */
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare)
 {
-    SodateyaWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, d_021DE458, 0x6A);
+    SodateyaWork *work = GFL_HEAP_Alloc(heapId, sizeof(*work), 0, d_021DE458, PM_SRC_LINE(0x6A, 0x66));
     work->heapId = heapId;
     work->fieldMap = fieldMap;
     work->dayCare = dayCare;
@@ -425,7 +428,9 @@ void SODATEYA_RegisterCaughtIfNew(SodateyaWork *work, void *mon)
 void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
 {
     struct PokemonParam *egg = POKE_TOOL_Create(1, 1, 1, work->heapId);
+#if LANGUAGE != LANGUAGE_JAPANESE
     struct GameData *gameData;
+#endif
     if (DAYCARE_GetEggReady(work->dayCare) == 1) {
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag(work->fieldMap);
@@ -433,8 +438,11 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         POKEPARTY_Add(party, egg);
         DAYCARE_ClearEggReady(work->dayCare);
         GFL_HEAP_Free(egg);
+#if LANGUAGE != LANGUAGE_JAPANESE
+        /* The Japanese cartridge does not refresh the season forms of a new egg. */
         gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
         FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
+#endif
     }
 }
 

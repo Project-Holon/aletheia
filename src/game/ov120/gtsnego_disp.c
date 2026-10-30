@@ -566,6 +566,12 @@ extern const GtsnegoDispPair d_021D895C,d_021D896C,d_021D894C,d_021D8954,d_021D8
 extern const Data d_021D8990;
 extern const GtsnegoDispEntry gGtsnegoEntryTable[];
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GTSNEGO_EMPTY_LIST_WAIT 0x3c
+#else
+#define GTSNEGO_EMPTY_LIST_WAIT 0x78
+#endif
+
 void GTSNEGO_DISP_SetCallback(void **slot, void *callback) { *slot=callback; }
 
 void GTSNEGO_DISP_SetStateCallback(void *dispCtx, void *callback, int line) { GTSNEGO_DISP_SetCallback(dispCtx, callback); }
@@ -591,12 +597,12 @@ int GTSNEGO_DISP_StartTrade(int choice, struct GtsnegoDispCtx *dispCtx)
         dispCtx->partyCursor = 0;
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 0);
         GTSNEGO_DISP_SelectParty(dispCtx, dispCtx->partyCursor);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, 0x177);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, PM_SRC_LINE(0x177, 0x171));
     } else {
         dispCtx->partyCursor = 1;
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 1);
         GTSNEGO_DISP_SelectParty(dispCtx, dispCtx->partyCursor);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, 0x17e);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, PM_SRC_LINE(0x17e, 0x178));
     }
     return 1;
 }
@@ -643,12 +649,12 @@ int GTSNEGO_DISP_OnRowCursorMoved(int selection,struct GtsnegoDispCtx *dispCtx) 
 
 void GTSNEGO_DISP_MoveCursorVertical(int direction,struct GtsnegoDispCtx *dispCtx) { int v; v=dispCtx->buttonCursor-2; if(dispCtx->buttonCursor>=2 || dispCtx->buttonCursor<=4) GTSNEGO_DISP_MoveRowCursor(direction+v*2,dispCtx); }
 
-void GTSNEGO_DISP_WaitWipeDone(struct GtsnegoDispCtx *dispCtx) { if (WIPE_SYS_EndCheck()) GTSNEGO_DISP_SetStateCallback(dispCtx, 0, 0x213); }
+void GTSNEGO_DISP_WaitWipeDone(struct GtsnegoDispCtx *dispCtx) { if (WIPE_SYS_EndCheck()) GTSNEGO_DISP_SetStateCallback(dispCtx, 0, PM_SRC_LINE(0x213, 0x20d)); }
 
 void GTSNEGO_DISP_StartWipe(struct GtsnegoDispCtx *dispCtx) {
     if (--dispCtx->waitFrames<=0) {
         WIPE_SYS_Start(0,0,0,0,6,1,dispCtx->heapId);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitWipeDone, 0x21e);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitWipeDone, PM_SRC_LINE(0x21e, 0x218));
     }
 }
 
@@ -661,7 +667,7 @@ void GTSNEGO_DISP_ShowTradeReady(struct GtsnegoDispCtx *dispCtx)
     dispCtx->waitFrames = 0xb4;
     GTSNEGO_MSG_CreateDraw((struct GtsnegoMsgCtx *)(dispCtx->msgCtx), (dispCtx->actorSys));
     GTSNEGO_MSG_PrintDraw((struct GtsnegoMsgCtx *)(dispCtx->msgCtx), (void *)p);
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartWipe, 0x232);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartWipe, PM_SRC_LINE(0x232, 0x22c));
 }
 
 void GTSNEGO_DISP_WaitTradeStart(struct GtsnegoDispCtx *dispCtx)
@@ -672,7 +678,7 @@ void GTSNEGO_DISP_WaitTradeStart(struct GtsnegoDispCtx *dispCtx)
     if (dispCtx->waitFrames == 0) {
         GTSNEGO_MSG_PrintTooltip((dispCtx->msgCtx), 0x23);
         GTSNEGO_MSG_DeleteEntryWindow((struct GtsnegoMsgCtx *)(dispCtx->msgCtx));
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeReady, 0x241);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeReady, PM_SRC_LINE(0x241, 0x23b));
     }
 }
 
@@ -694,7 +700,7 @@ void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *dispCtx)
     GTSNEGO_MSG_PrintSummary((dispCtx->msgCtx), (void *)value, tradeCount);
     GTSNEGO_MSG_SetIdleAnim((struct GtsnegoActorSys *)(dispCtx->actorSys), MYSTATUS_GetTrainerView((struct MyStatus *)value));
     dispCtx->waitFrames = 0xb4;
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitTradeStart, 0x265);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitTradeStart, PM_SRC_LINE(0x265, 0x25f));
 }
 
 void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
@@ -719,7 +725,7 @@ void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
         MYSTATUS_Copy((void *)value, GAME_DATA_GetMyStatusPlayer((struct GameData *)(dispCtx->gameData), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = MYSTATUS_GetId((struct MyStatus *)value);
         MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)(dispCtx->saveControl)), result);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeConfirm, 0x283);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeConfirm, PM_SRC_LINE(0x283, 0x27d));
     }
 }
 
@@ -747,25 +753,25 @@ void GTSNEGO_DISP_PrepareTrade(struct GtsnegoDispCtx *dispCtx)
         dispCtx->profanity.result = 0;
         DWC_CheckProfanityExAsync(&dispCtx->profanity.words, 1, 0, 0, dispCtx->profanity.flags, &dispCtx->profanity.result, 128);
         STRBUF_Delete(str);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ConfirmStatus, 0x29c);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ConfirmStatus, PM_SRC_LINE(0x29c, 0x296));
     }
 }
 
-void GTSNEGO_DISP_StartSync(struct GtsnegoDispCtx *dispCtx) { GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),3,34); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_PrepareTrade, 0x2ac); }
+void GTSNEGO_DISP_StartSync(struct GtsnegoDispCtx *dispCtx) { GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),3,34); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_PrepareTrade, PM_SRC_LINE(0x2ac, 0x2a6)); }
 
-void GTSNEGO_DISP_SendStatus(struct GtsnegoDispCtx *dispCtx) { void *link; int n; link=GFL_NET_HANDLE_GetCurrentHandle(); n=MYSTATUS_GetSize(); if (GFL_NET_SendToHandle(link,0x2201,n,dispCtx->parentCtx->myStatus)) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartSync, 0x2bd); }
+void GTSNEGO_DISP_SendStatus(struct GtsnegoDispCtx *dispCtx) { void *link; int n; link=GFL_NET_HANDLE_GetCurrentHandle(); n=MYSTATUS_GetSize(); if (GFL_NET_SendToHandle(link,0x2201,n,dispCtx->parentCtx->myStatus)) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartSync, PM_SRC_LINE(0x2bd, 0x2b7)); }
 
-void GTSNEGO_DISP_SendRecord(struct GtsnegoDispCtx *dispCtx) { if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0x2202,12,(const void *)&dispCtx->myRecord)) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendStatus, 0x2cf); }
+void GTSNEGO_DISP_SendRecord(struct GtsnegoDispCtx *dispCtx) { if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0x2202,12,(const void *)&dispCtx->myRecord)) GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendStatus, PM_SRC_LINE(0x2cf, 0x2c9)); }
 
 void GTSNEGO_DISP_SendHandshake(struct GtsnegoDispCtx *dispCtx)
 {
     if (GFL_NET_GetRunState() == 0) {
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeConfirm, 0x2df);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowTradeConfirm, PM_SRC_LINE(0x2df, 0x2d9));
         return;
     }
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22) != 0) {
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2200, 8, (const void *)&dispCtx->parentCtx->rowAIndex) != 0)
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendRecord, 0x2e7);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendRecord, PM_SRC_LINE(0x2e7, 0x2e1));
     }
 }
 
@@ -775,7 +781,7 @@ void GTSNEGO_DISP_WaitNegotiation(struct GtsnegoDispCtx *dispCtx)
     void *value;
     if (GTSNEGO_MSG_UpdatePrintStream((struct GtsnegoMsgCtx *)(dispCtx->msgCtx))) {
         if (GFL_NET_GetRunState() == 0) {
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendHandshake, 0x2fe);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendHandshake, PM_SRC_LINE(0x2fe, 0x2f8));
             return;
         }
         if (dispCtx->waitFrames > 0) {
@@ -790,7 +796,7 @@ void GTSNEGO_DISP_WaitNegotiation(struct GtsnegoDispCtx *dispCtx)
             GREETING_SAVEDATA_GetSentence((struct QuadRecord *)value, 0, (struct QuadRecord *)&dispCtx->myRecord);
             dispCtx->myRecord.tradeCount = TRADE_HISTORY_GetTradeCount(GAME_DATA_GetTradeHistory((struct GameData *)((void **)(dispCtx->gameData))));
             GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendHandshake, 0x314);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_SendHandshake, PM_SRC_LINE(0x314, 0x30e));
         }
     }
 }
@@ -798,11 +804,11 @@ void GTSNEGO_DISP_WaitNegotiation(struct GtsnegoDispCtx *dispCtx)
 void GTSNEGO_DISP_CheckNegotiation(struct GtsnegoDispCtx *dispCtx)
 {
     if (GFL_NET_GetRunState() == 0) {
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, 0x31d);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, PM_SRC_LINE(0x31d, 0x317));
         return;
     }
     if (GFL_NET_HANDLE_GetNegotiationNum() != 0 && GFL_NET_HANDLE_CheckNegotiation() != 0)
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, 0x322);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, PM_SRC_LINE(0x322, 0x31c));
 }
 
 void GTSNEGO_DISP_WaitPartnerReady(struct GtsnegoDispCtx *dispCtx)
@@ -815,12 +821,12 @@ void GTSNEGO_DISP_WaitPartnerReady(struct GtsnegoDispCtx *dispCtx)
         if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
             if (GFL_NET_HANDLE_CheckNegotiation() != 0) {
                 dispCtx->waitFrames = 0xb4;
-                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, 0x33f);
+                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitNegotiation, PM_SRC_LINE(0x33f, 0x339));
                 return;
             }
         } else {
             dispCtx->waitFrames = 0xb4;
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CheckNegotiation, 0x344);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CheckNegotiation, PM_SRC_LINE(0x344, 0x33e));
         }
     }
 }
@@ -841,7 +847,7 @@ void GTSNEGO_DISP_HandleTradeKeys(struct GtsnegoDispCtx *dispCtx)
             GFL_NET_STATE_WifiDisconnect(1);
         UI_SetInputMode(0);
         GFL_USE_PlaySeDefaultVolume(0x551);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnDisconnect, 0x360);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnDisconnect, PM_SRC_LINE(0x360, 0x35a));
     }
     if (GFL_NET_GetRunState() == 0) {
         if (KEY_GetTrg() != 1)
@@ -856,7 +862,7 @@ void GTSNEGO_DISP_HandleTradeKeys(struct GtsnegoDispCtx *dispCtx)
     GTSNEGO_MSG_PrintWindowB((dispCtx->msgCtx), 0x10);
     dispCtx->waitFrames = 0xb4;
     GTSNEGO_MSG_DeleteConfirmWindow((dispCtx->msgCtx));
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitPartnerReady, 0x377);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitPartnerReady, PM_SRC_LINE(0x377, 0x371));
 }
 
 int GTSNEGO_DISP_ScoreMatch(int matchData, void *param)
@@ -921,7 +927,7 @@ void GTSNEGO_DISP_StartMatchmaking(struct GtsnegoDispCtx *dispCtx)
     if (GTSNEGO_MSG_UpdatePrintStream(dispCtx->msgCtx)) {
         if (GFL_NET_GetRunState() == 0) {
             GTSNEGO_MSG_CreateConfirmUi(dispCtx->msgCtx, GTSNEGO_DISP_OnDisconnectCallback, dispCtx);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleTradeKeys, 0x3ea);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleTradeKeys, PM_SRC_LINE(0x3ea, 0x3e4));
             return;
         }
         GFL_NET_SetWaitMode(0);
@@ -954,7 +960,7 @@ void GTSNEGO_DISP_StartMatchmaking(struct GtsnegoDispCtx *dispCtx)
             GFL_NET_STATE_WifiEnterFriendMatch();
             DWC_RAP_SetVchatEnabled(0);
             GTSNEGO_MSG_CreateConfirmUi(dispCtx->msgCtx, GTSNEGO_DISP_OnDisconnectCallback, dispCtx);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleTradeKeys, 0x41d);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleTradeKeys, PM_SRC_LINE(0x41d, 0x417));
             return;
         }
         GFL_NET_STATE_SetError(0, 0, 0, 0x3f1);
@@ -975,7 +981,7 @@ void GTSNEGO_DISP_OnConfirmDone(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, 1, 2);
         dispCtx->parentCtx->screenState = 2;
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartMatchmaking, 0x460);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartMatchmaking, PM_SRC_LINE(0x460, 0x45a));
     }
 }
 
@@ -1008,7 +1014,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(struct GtsnegoDispCtx *dispCtx)
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 GTSNEGO_MSG_SetCursorAnimSeq(dispCtx->actorSys, dispCtx->buttonCursor);
                 APP_TASKMENU_WIN_SetDecide(dispCtx->tooltipWin, 1);
-                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnConfirmDone, 0x4ca);
+                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnConfirmDone, PM_SRC_LINE(0x4ca, 0x4c4));
                 return;
             }
             if (changed)
@@ -1017,7 +1023,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(struct GtsnegoDispCtx *dispCtx)
                 UI_SetInputMode(1);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 APP_TASKMENU_WIN_SetDecide(dispCtx->tooltipWin, 1);
-                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnConfirmDone, 0x4f2);
+                GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnConfirmDone, PM_SRC_LINE(0x4f2, 0x4ec));
                 return;
             }
         }
@@ -1032,7 +1038,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(struct GtsnegoDispCtx *dispCtx)
             APP_TASKMENU_WIN_Delete(dispCtx->tooltipWin);
             *(int *)&dispCtx->tooltipWin = zero;
             BG_SYS_MarkTileDirty(5);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x50b);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, PM_SRC_LINE(0x50b, 0x505));
         }
     }
 }
@@ -1055,7 +1061,7 @@ void GTSNEGO_DISP_CreateConfirmUi(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
     }
     BG_SYS_MarkTileDirty(6);
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleConfirmKeys, 0x537);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleConfirmKeys, PM_SRC_LINE(0x537, 0x531));
 }
 
 void *GTSNEGO_DISP_GetEntry(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount((struct TradeHistory *)GAME_DATA_GetTradeHistory((struct GameData *)list)); if (index>=n || index<0) return 0; return TRADE_HISTORY_GetPartner((struct TradeHistory *)GAME_DATA_GetTradeHistory((struct GameData *)list),index); }
@@ -1071,7 +1077,7 @@ void GTSNEGO_DISP_ShowSubPlanes(struct GtsnegoDispCtx *dispCtx)
     BG_SYS_SetSubVisiblePlanes(0x1f);
 }
 
-void GTSNEGO_DISP_Teardown(struct GtsnegoDispCtx *dispCtx) { GTSNEGO_MSG_Teardown(dispCtx->actorSys); GTSNEGO_MSG_DeleteAll(dispCtx->msgCtx); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowSubPlanes, 0x5c5); }
+void GTSNEGO_DISP_Teardown(struct GtsnegoDispCtx *dispCtx) { GTSNEGO_MSG_Teardown(dispCtx->actorSys); GTSNEGO_MSG_DeleteAll(dispCtx->msgCtx); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowSubPlanes, PM_SRC_LINE(0x5c5, 0x5bf)); }
 
 void GTSNEGO_DISP_OnDisconnect(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1086,7 +1092,7 @@ void GTSNEGO_DISP_OnDisconnect(struct GtsnegoDispCtx *dispCtx)
             BG_SYS_SetPlaneVisible(4, 0);
             GTSNEGO_MSG_TeardownTileRows(dispCtx->actorSys);
         }
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_Teardown, 0x5dd);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_Teardown, PM_SRC_LINE(0x5dd, 0x5d7));
     }
 }
 
@@ -1098,11 +1104,11 @@ void GTSNEGO_DISP_OnDisconnectCallback(u32 unused, s32 buttonIndex, void *arg)
         GFL_NET_STATE_WifiDisconnect(1);
         UI_SetInputMode(1);
         GFL_USE_PlaySeDefaultVolume(0x551);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnDisconnect, 0x5f5);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnDisconnect, PM_SRC_LINE(0x5f5, 0x5ef));
     }
 }
 
-void GTSNEGO_DISP_CreateExitTooltip(struct GtsnegoDispCtx *dispCtx) { dispCtx->tooltipWin=GTSNEGO_MSG_CreateTooltip(dispCtx->msgCtx,44); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleListInput, 0x5ff); }
+void GTSNEGO_DISP_CreateExitTooltip(struct GtsnegoDispCtx *dispCtx) { dispCtx->tooltipWin=GTSNEGO_MSG_CreateTooltip(dispCtx->msgCtx,44); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleListInput, PM_SRC_LINE(0x5ff, 0x5f9)); }
 
 void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
 {
@@ -1123,7 +1129,7 @@ void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
             dispCtx->rowBIndex = zero;
             dispCtx->rowCIndex = zero;
             dispCtx->parentCtx->screenState = 3;
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartMatchmaking, 0x614);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartMatchmaking, PM_SRC_LINE(0x614, 0x60e));
             return;
         case 1:
             GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, zero, zero);
@@ -1133,7 +1139,7 @@ void GTSNEGO_DISP_OnExitMenuDone(struct GtsnegoDispCtx *dispCtx)
             else
                 GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
             GTSNEGO_MSG_RestartIconAnim(dispCtx->actorSys, 1);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CreateExitTooltip, 0x620);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CreateExitTooltip, PM_SRC_LINE(0x620, 0x61a));
             break;
         }
     }
@@ -1146,7 +1152,7 @@ void GTSNEGO_DISP_OpenExitMenu(struct GtsnegoDispCtx *dispCtx)
         dispCtx->taskMenu = GTSNEGO_MSG_OpenMenuB(dispCtx->msgCtx, 1);
         GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, 1, 1);
         GTSNEGO_MSG_RestartIconAnim(dispCtx->actorSys, 0);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnExitMenuDone, 0x634);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnExitMenuDone, PM_SRC_LINE(0x634, 0x62e));
     }
 }
 
@@ -1155,9 +1161,9 @@ void GTSNEGO_DISP_OpenExitMenu(struct GtsnegoDispCtx *dispCtx)
  * widen its copied u16 argument to int. Explicit calls in both branches
  * hoist the shared p+64 load; a ternary places it after the selection.
  */
-void GTSNEGO_DISP_ShowListMessage(struct GtsnegoDispCtx *dispCtx) { if (dispCtx->selectedListIndex==-1) GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(dispCtx->msgCtx),45); else GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(dispCtx->msgCtx),31); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OpenExitMenu, 0x646); }
+void GTSNEGO_DISP_ShowListMessage(struct GtsnegoDispCtx *dispCtx) { if (dispCtx->selectedListIndex==-1) GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(dispCtx->msgCtx),45); else GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)(dispCtx->msgCtx),31); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OpenExitMenu, PM_SRC_LINE(0x646, 0x640)); }
 
-void GTSNEGO_DISP_EndList(struct GtsnegoDispCtx *dispCtx) { BG_SYS_SetPlaneVisible(4,0); GTSNEGO_MSG_TeardownTileRows(dispCtx->actorSys); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x64e); }
+void GTSNEGO_DISP_EndList(struct GtsnegoDispCtx *dispCtx) { BG_SYS_SetPlaneVisible(4,0); GTSNEGO_MSG_TeardownTileRows(dispCtx->actorSys); GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, PM_SRC_LINE(0x64e, 0x648)); }
 
 /*
  * extent: two zero padding bytes at 0x021D5282 precede labelled 0x021D5284.
@@ -1208,7 +1214,7 @@ void GTSNEGO_DISP_OnListConfirmDone(struct GtsnegoDispCtx *dispCtx)
         dispCtx->selectedListIndex = -1;
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
         BG_SYS_MarkTileDirty(5);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, 0x6ba);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, PM_SRC_LINE(0x6ba, 0x6b4));
     }
 }
 
@@ -1305,13 +1311,13 @@ void GTSNEGO_DISP_HandleListInput(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_MSG_SetCursorAnimSeq((struct GtsnegoActorSys *)dispCtx->actorSys, dispCtx->listCursorRow);
         dispCtx->selectedListIndex = dispCtx->list.scrollTop + dispCtx->listCursorRow - 6;
         GTSNEGO_DISP_DeleteMenuWindow(dispCtx);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, 0x760);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, PM_SRC_LINE(0x760, 0x757));
         return;
     }
     if (KEY_GetTrg() == 8) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         APP_TASKMENU_WIN_SetDecide(dispCtx->tooltipWin, 1);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnListConfirmDone, 0x766);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnListConfirmDone, PM_SRC_LINE(0x766, 0x75d));
         return;
     }
     sel = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021D88D8);
@@ -1319,7 +1325,7 @@ void GTSNEGO_DISP_HandleListInput(struct GtsnegoDispCtx *dispCtx)
     case 3:
         GFL_USE_PlaySeDefaultVolume(0x54C);
         APP_TASKMENU_WIN_SetDecide(dispCtx->tooltipWin, 1);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnListConfirmDone, 0x770);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnListConfirmDone, PM_SRC_LINE(0x770, 0x767));
         return;
     case 2:
         if (dispCtx->list.count < 3)
@@ -1337,7 +1343,7 @@ void GTSNEGO_DISP_HandleListInput(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_MSG_SetIconY((struct GtsnegoActorSys *)dispCtx->actorSys, dispCtx->list.scrollTop + dispCtx->listCursorRow - 6, dispCtx->list.count);
         GFL_USE_PlaySeDefaultVolume(0x54C);
         GTSNEGO_DISP_DeleteMenuWindow(dispCtx);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, 0x78B);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowListMessage, PM_SRC_LINE(0x78B, 0x782));
         return;
     }
     if (TOUCHPANEL_HitCont((const TouchHitTable *)d_021D88C8) != 0)
@@ -1362,7 +1368,7 @@ end:
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 9);
         GTSNEGO_MSG_TeardownActorList(dispCtx->actorSys);
         GTSNEGO_MSG_ClearRows(dispCtx->msgCtx);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_EndList, 0x7AD);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_EndList, PM_SRC_LINE(0x7AD, 0x7a4));
     }
 }
 
@@ -1372,7 +1378,7 @@ void GTSNEGO_DISP_WaitSelectStart(struct GtsnegoDispCtx *dispCtx)
         if (--dispCtx->waitFrames <= 0) {
             GTSNEGO_MSG_PrintWindow((struct GtsnegoMsgCtx *)dispCtx->msgCtx, 0x20);
             TOUCHBAR_SetAllButtonsVisible((TouchBar *)GTSNEGO_DISP_GetTouchbar(dispCtx->actorSys), 1);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, 0x7c7);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, PM_SRC_LINE(0x7c7, 0x7be));
             if (UI_GetInputMode() == 0)
                 GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, dispCtx->partyCursor);
         }
@@ -1386,8 +1392,8 @@ void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *dispCtx)
     dispCtx->tradeMode = flag;
     if (n == 0) {
         GTSNEGO_MSG_PrintWindow(dispCtx->msgCtx, 0x1d);
-        dispCtx->waitFrames = 0x78;
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitSelectStart, 0x7e7);
+        dispCtx->waitFrames = GTSNEGO_EMPTY_LIST_WAIT;
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_WaitSelectStart, PM_SRC_LINE(0x7e7, 0x7dd));
         return;
     }
     dispCtx->list.count = n;
@@ -1405,7 +1411,7 @@ void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *dispCtx)
     GTSNEGO_MSG_DrawTileRows(dispCtx->actorSys, dispCtx->gameData, dispCtx->list.scrollTop - 2);
     dispCtx->tooltipWin = GTSNEGO_MSG_CreateTooltip(dispCtx->msgCtx, 0x2c);
     GTSNEGO_MSG_SetIconY(dispCtx->actorSys, dispCtx->list.scrollTop + dispCtx->listCursorRow - 6, dispCtx->list.count);
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleListInput, 0x815);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandleListInput, PM_SRC_LINE(0x815, 0x80b));
 }
 
 void GTSNEGO_DISP_ShowPartySelect(struct GtsnegoDispCtx *dispCtx)
@@ -1431,7 +1437,7 @@ void GTSNEGO_DISP_ShowPartySelect(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_MSG_PrintWindow(dispCtx->msgCtx, 0x2b);
     BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_SetPlaneVisible(6, 1);
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, 0x86c);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, PM_SRC_LINE(0x86c, 0x862));
 }
 
 int GTSNEGO_DISP_SelectParty(struct GtsnegoDispCtx *dispCtx,int position) { if (GTSNEGO_MSG_SetCursorAnimSeq((struct GtsnegoActorSys *)(dispCtx->actorSys),position)) { TOUCHBAR_SetAllButtonsVisible((TouchBar *)((u8 *)GTSNEGO_DISP_GetTouchbar((dispCtx->actorSys))),0); GFL_USE_PlaySeDefaultVolume(1356); return position; } return 9; }
@@ -1450,12 +1456,12 @@ void GTSNEGO_DISP_OnPartySelected(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 9);
         GTSNEGO_MSG_ClearRows(dispCtx->msgCtx);
         BG_SYS_MarkTileDirty(6);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CreateConfirmUi, 0x8a3);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CreateConfirmUi, PM_SRC_LINE(0x8a3, 0x899));
         return;
     }
     if (state == 1) {
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 9);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPokemonList, 0x8a7);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPokemonList, PM_SRC_LINE(0x8a7, 0x89d));
     }
 }
 
@@ -1470,7 +1476,7 @@ void GTSNEGO_DISP_OnPartyMenuDone(struct GtsnegoDispCtx *dispCtx)
         case 0:
             dispCtx->parentCtx->screenState = 1;
             dispCtx->waitFrames = 0;
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartWipe, 0x8b5);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_StartWipe, PM_SRC_LINE(0x8b5, 0x8ab));
             return;
         case 1:
             if (dispCtx->cannotTrade == 0)
@@ -1481,7 +1487,7 @@ void GTSNEGO_DISP_OnPartyMenuDone(struct GtsnegoDispCtx *dispCtx)
                 GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, dispCtx->partyCursor);
             TOUCHBAR_SetButtonVisible((TouchBar *)GTSNEGO_DISP_GetTouchbar(dispCtx->actorSys), 1, 1);
             GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, 0, 0);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, 0x8c3);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_HandlePartyInput, PM_SRC_LINE(0x8c3, 0x8b9));
             break;
         }
     }
@@ -1494,7 +1500,7 @@ void GTSNEGO_DISP_OpenPartyMenu(struct GtsnegoDispCtx *dispCtx)
         dispCtx->taskMenu = GTSNEGO_MSG_OpenMenu(dispCtx->msgCtx, 1);
         GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, 1, 0);
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartyMenuDone, 0x8d4);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartyMenuDone, PM_SRC_LINE(0x8d4, 0x8ca));
     }
 }
 
@@ -1512,7 +1518,7 @@ void GTSNEGO_DISP_HandlePartyInput(struct GtsnegoDispCtx *dispCtx)
             if (KEY_GetTrg() == 1) {
                 if (dispCtx->cannotTrade == 0) {
                     GTSNEGO_DISP_SelectParty(dispCtx, dispCtx->partyCursor);
-                    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, 0x8f4);
+                    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OnPartySelected, PM_SRC_LINE(0x8f4, 0x8ea));
                     return;
                 }
                 GFL_USE_PlaySeDefaultVolume(0x551);
@@ -1537,7 +1543,7 @@ void GTSNEGO_DISP_HandlePartyInput(struct GtsnegoDispCtx *dispCtx)
             GTSNEGO_MSG_PrintWindow(dispCtx->msgCtx, 0x2a);
             if (UI_GetInputMode() == 1)
                 GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
-            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OpenPartyMenu, 0x916);
+            GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_OpenPartyMenu, PM_SRC_LINE(0x916, 0x90c));
         }
     }
 }
@@ -1558,7 +1564,7 @@ void GTSNEGO_DISP_ResetScreen(struct GtsnegoDispCtx *dispCtx)
         dispCtx->restoreBrightness = 1;
         dispCtx->restoreDelay = zero;
         dispCtx->parentCtx->screenState = 1;
-        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x937);
+        GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, PM_SRC_LINE(0x937, 0x92d));
     }
 }
 
@@ -1596,7 +1602,7 @@ int GTSNEGO_DISP_Create(void *owner, int unused, struct GtsnegoParentCtx *parent
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
     GFL_NET_RefreshWmIconAtTopRight(1, dispCtx->heapId);
     GFL_NET_ERR_SetKeepDark(1);
-    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x96a);
+    GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, PM_SRC_LINE(0x96a, 0x960));
     return 1;
 }
 
@@ -1668,7 +1674,7 @@ int GTSNEGO_DISP_Delete(void *owner, int unusedA, int unusedB, struct GtsnegoDis
 struct GtsnegoActorSys *GTSNEGO_DISP_CreateMsgSystem(u32 heap,void *arg)
 {
     struct GtsnegoActorSys *actorSys;
-    actorSys=GFL_HEAP_Alloc(heap,sizeof(*actorSys),1,d_021D8BC8,258);
+    actorSys=GFL_HEAP_Alloc(heap,sizeof(*actorSys),1,d_021D8BC8,PM_SRC_LINE(258,256));
     ((struct GtsnegoActorSys *)actorSys)->heapId=heap;
     ((struct GtsnegoActorSys *)actorSys)->gameData=arg;
     GF_OVERLAY_Load((sptr)ov_id);
@@ -1685,8 +1691,8 @@ struct GtsnegoActorSys *GTSNEGO_DISP_CreateMsgSystem(u32 heap,void *arg)
     GTSNEGO_DISP_InitBgLayers(actorSys);
     GTSNEGO_DISP_RegisterGraphics(actorSys);
     ((struct GtsnegoActorSys *)actorSys)->vblankTask=GFL_USE_AddMainTask(GTSNEGO_DISP_VBlank,(void *)actorSys,0);
-    ((struct GtsnegoActorSys *)actorSys)->savedObjPltt=GFL_HEAP_Alloc(((struct GtsnegoActorSys *)actorSys)->heapId,0x200,0,d_021D8BC8,280);
-    ((struct GtsnegoActorSys *)actorSys)->savedBgPltt=GFL_HEAP_Alloc(((struct GtsnegoActorSys *)actorSys)->heapId,0x200,0,d_021D8BC8,281);
+    ((struct GtsnegoActorSys *)actorSys)->savedObjPltt=GFL_HEAP_Alloc(((struct GtsnegoActorSys *)actorSys)->heapId,0x200,0,d_021D8BC8,PM_SRC_LINE(280,278));
+    ((struct GtsnegoActorSys *)actorSys)->savedBgPltt=GFL_HEAP_Alloc(((struct GtsnegoActorSys *)actorSys)->heapId,0x200,0,d_021D8BC8,PM_SRC_LINE(281,279));
     GTSNEGO_DISP_CreateCursorActor(actorSys);
     GTSNEGO_DISP_CreateTouchbar(actorSys,0);
     BG_SYS_SetSubVisiblePlanes(31);

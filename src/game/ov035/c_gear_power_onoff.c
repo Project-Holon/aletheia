@@ -156,6 +156,13 @@ struct TaskMenuWork;
 #include "../arm9/bmp_menuwork.h"
 #include "../arm9/tcbl.h"
 #include "../arm9/app_keycursor.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define C_GEAR_POWER_MSG_ARCHIVE 0x17
+#else
+#define C_GEAR_POWER_MSG_ARCHIVE 0x16
+#endif
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate);
@@ -211,7 +218,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 {
     work->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     GF_FONT_SetDefaultTextColor();
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x16, heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, C_GEAR_POWER_MSG_ARCHIVE, heapId);
     work->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(heapId);
     C_GEAR_POWER_ONOFF_InitBgs(work, heapId);
     C_GEAR_POWER_ONOFF_CreateTaskMenuRes(work, heapId);

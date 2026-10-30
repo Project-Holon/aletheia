@@ -349,7 +349,7 @@ void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list);
 
 ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(struct ScriptWork *scriptWork, int heapId)
 {
-    ScrcmdCommonWork *common = GFL_HEAP_Alloc(heapId, sizeof(*common), 1, sScrcmdWorkFileName, 0x78);
+    ScrcmdCommonWork *common = GFL_HEAP_Alloc(heapId, sizeof(*common), 1, sScrcmdWorkFileName, PM_SRC_LINE(0x78, 0x76));
 
     common->scriptWork = scriptWork;
     common->gameSystem = SCRIPT_WORK_GetGameSystem(scriptWork);
@@ -372,7 +372,7 @@ ScrcmdWork *SCRCMD_WORK_Create(const ScrcmdWorkParam *param, int heapId)
 {
     ScrcmdWork *work;
     const ScrcmdWorkParam *src;
-    work = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000), sizeof(*work), 1, sScrcmdWorkFileName, 0x94);
+    work = GFL_HEAP_Alloc((unsigned short)((heapId & 0x7fff) | 0x8000), sizeof(*work), 1, sScrcmdWorkFileName, PM_SRC_LINE(0x94, 0x92));
     src = param;
     work->heapId = heapId;
     work->param = *src;
@@ -645,11 +645,23 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
         menu->x = menu->x - (unsigned short)width;
     }
     count = FIELD_MSGBG_GetMenuItemCount(menu->items);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (count > 6) {
+        lines = 6;
+    } else {
+        lines = count;
+    }
+    height = FIELD_MSGBG_GetMenuHeightChars(lines, header.fontHeight, header.lineSpacing);
+    if (count > 6) {
+        height++;
+    }
+#else
     lines = 6;
     if (count <= 6) {
         lines = count;
     }
     height = FIELD_MSGBG_GetMenuHeightChars(lines, header.fontHeight, header.lineSpacing, count > 6);
+#endif
     FIELD_MSGBG_SetMenuHeaderRect(&header, (unsigned short)FIELD_MSGBG_GetMenuItemCount(menu->items), (unsigned short)menu->x, (unsigned short)menu->y, (unsigned short)width, (unsigned short)height);
     menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (uptr)SCRCMD_WORK_MenuCursorCallback, work, 0, menu->cursorPos, menu->cancelable);
 }

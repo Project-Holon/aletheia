@@ -48,3 +48,34 @@ is generated from the target's own extract with English Black's object structure
 size changes per language (the easy-chat word lists, some Pokédex arrays) are taken as one block
 from the target. `romlink.py --relink` links a region that failed a second time, after the
 regions whose addresses it uses have linked.
+
+## Japanese
+
+The Japanese cartridges (`black_ja`, `white_ja`) are an earlier build of the same program. The
+source has their sites, but they do not build byte-identical yet ([ROMS.md](ROMS.md)).
+
+- About 95 percent of the functions are the same or differ only in addresses. The rest differ in
+  one or two words (line numbers, message archive ids, digit width, the language id 1) or in
+  length (older code, Japan-only behaviour, structs with fewer fields).
+- Every message has two blocks, kana and kanji. The options menu has a sixth setting for it
+  (`CONFIG_GetTextLanguage`, `CONFIG_SetTextLanguage`). A name is 5 characters, not 10.
+- A failed check passes the file name, the line and a message string, where the other
+  languages pass empty strings. The heap allocations of a file use the same file-name string.
+
+`version.h` has three more names for these sites:
+
+| Name | Meaning |
+|---|---|
+| `PM_SRC_LINE(english, japanese)` | a source line number (failed checks, heap allocations) |
+| `PM_LANG_JA(english, japanese)` | any other value that differs only in Japanese |
+| `PM_LANG_HALF_WIDTH_DIGITS` | the digit width of word-set numbers: 0 in Japanese, 1 otherwise |
+
+Data that only Japanese has (the file-name and message strings of failed checks, some tables)
+is declared as `<prefix>_ja_<address>` with its Japanese Black address, under
+`#if LANGUAGE == LANGUAGE_JAPANESE`. The link places these names in both Japanese targets.
+A function that only one language has is guarded with its callers.
+
+The data after the code is placed by content (`tools/jatail.py`): each object of English Black
+is searched in the target's tail. An object that the code references is pinned first, by the
+literal pools of the functions whose code matches (`white_map.ja_pool_map`).
+

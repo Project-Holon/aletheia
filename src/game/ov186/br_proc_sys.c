@@ -287,6 +287,17 @@ struct MusicalSave;
 struct Strbuf;
 
 #include "../arm9/strbuf.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200CA0[];
+extern const char str_ja_02200CAC[];
+extern const char str_ja_02200CB0[];
+extern const char str_ja_02200CCC[];
+extern const char str_ja_02200CDC[];
+extern const char str_ja_02200CEC[];
+extern const char str_ja_02200D08[];
+extern const char str_ja_02200D20[];
+#endif
 
 struct StoredMon;
 
@@ -526,8 +537,13 @@ void BR_PROC_SYS_BuildChoiceRecord(struct BrProcArgChoice *out,struct BrProcSys 
             switch(((struct BrProcArgBattle *)ctx)->mode) {
             case 0: out->mode=1; break;
             case 1: case 2: case 3: out->mode=2; break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+            case 4: GF_PANIC_Fail(PM_LANG_JA(d_02200D00, str_ja_02200CA0), PM_SRC_LINE(0, 0x2B7), PM_LANG_JA(d_02200D00, str_ja_02200CAC)); out->mode=7; break;
+            case 5: GF_PANIC_Fail(PM_LANG_JA(d_02200D00, str_ja_02200CA0), PM_SRC_LINE(0, 0x2BB), PM_LANG_JA(d_02200D00, str_ja_02200CAC)); out->mode=7; break;
+#else
             case 4: GF_PANIC_Fail(d_02200D00,0,d_02200D00); out->mode=7; break;
             case 5: GF_PANIC_Fail(d_02200D00,0,d_02200D00); out->mode=7; break;
+#endif
             }
             break;
         case 5: out->mode=7; break;
@@ -586,7 +602,7 @@ void BR_PROC_SYS_BuildBattleRecord(struct BrProcArgBattle *out,struct BrProcSys 
         sys=source->gameState->shared->gameData;
         BATTLE_REC_Load(GAME_DATA_GetSaveControl(sys),0x59,&result,out->mode);
         if(result==1) {if(!out->mode) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
-        else GF_PANIC_Fail(d_02200D00,0,d_02200D00);
+        else GF_PANIC_Fail(PM_LANG_JA(d_02200D00, str_ja_02200CA0),PM_SRC_LINE(0, 0x33F),PM_LANG_JA(d_02200D00, str_ja_02200CAC));
         return;
     case 5:
         out->mode=4;out->recB=&source->gameState->data->cache;
@@ -725,7 +741,7 @@ void BR_PROC_SYS_BuildRecord(struct BrProcArgRecord *out,struct BrProcSys *sourc
         out->gameData=source->gameState->shared->gameData;
         out->rec=&source->gameState->data->records;
     } else {
-        GF_PANIC_Fail(d_02200D00,0,d_02200D00);
+        GF_PANIC_Fail(PM_LANG_JA(d_02200D00, str_ja_02200CA0),PM_SRC_LINE(0, 0x4A5),PM_LANG_JA(d_02200D00, str_ja_02200CAC));
     }
 }
 
@@ -740,7 +756,7 @@ void BR_PROC_SYS_BuildRecord2(struct BrProcArgResult *out,struct BrProcSys *sour
     unsigned a;
     int b;
     struct Unit *result;
-    if(type!=2) GF_PANIC_Fail(d_02200D00,0,d_02200D00);
+    if(type!=2) GF_PANIC_Fail(PM_LANG_JA(d_02200D00, str_ja_02200CA0),PM_SRC_LINE(0, 0x4CD),PM_LANG_JA(d_02200D00, str_ja_02200CB0));
     out->res=source->resources;
     out->fade=source->fade;
     out->net=source->net;
@@ -823,7 +839,7 @@ struct BrProcSysContext *BR_PROC_SYS_Create(unsigned fallback, const struct BrPr
 {
     struct BrProcSysContext *ctx;
     unsigned i = 0;
-    ctx = GFL_HEAP_Alloc(heap, sizeof(*ctx), 0, d_02200D04, 0x77);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(*ctx), 0, PM_LANG_JA(d_02200D04, str_ja_02200CCC), 0x77);
     MI_CpuFill8(ctx, 0, sizeof(*ctx));
     ctx->heap = heap;
     ctx->count = count;
@@ -865,9 +881,9 @@ void BR_PROC_SYS_RunSlot(struct BrProcSysContext *p)
  case 0:*old=*current;*current=*next;p->state=1;break;
  case 1:{
   int mode;
-  if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
-  if(!current->ops->init)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
-  current->work=GFL_HEAP_Alloc(p->heap,current->ops->size,0,d_02200D04,0xd2);
+  if(!current->active)GF_PANIC_Fail(PM_LANG_JA(d_02200D14, str_ja_02200CCC),PM_SRC_LINE(0, 0xCF),PM_LANG_JA(d_02200D14, str_ja_02200CDC));
+  if(!current->ops->init)GF_PANIC_Fail(PM_LANG_JA(d_02200D14, str_ja_02200CCC),PM_SRC_LINE(0, 0xD0),PM_LANG_JA(d_02200D14, str_ja_02200CEC));
+  current->work=GFL_HEAP_Alloc(p->heap,current->ops->size,0,PM_LANG_JA(d_02200D04, str_ja_02200CCC),0xd2);
   MI_CpuFill8(current->work,0,current->ops->size);
   mode=-2;if(!p->loaded)mode=old->arg;
   current->ops->init(current->work,p->arg,old->work,mode);
@@ -878,7 +894,7 @@ void BR_PROC_SYS_RunSlot(struct BrProcSysContext *p)
  }
  case 2:if(!PROCSYS_Main(p->object))p->state=3;break;
  case 3:
-  if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
+  if(!current->active)GF_PANIC_Fail(PM_LANG_JA(d_02200D14, str_ja_02200CCC),PM_SRC_LINE(0, 0xFD),PM_LANG_JA(d_02200D14, str_ja_02200CDC));
   if(current->ops->update)current->ops->update(current->work,p->arg);
   if(p->pendingCount)p->state=0;
   else{if(current->work)GFL_HEAP_Free(current->work);p->state=4;}
@@ -925,10 +941,10 @@ void BR_PROC_SYS_PushEntry(struct BrProcSysContext *ctx, unsigned index)
     struct BrProcSlot info;
     const struct BrProcOps *entry = &ctx->base[index];
     if (index >= ctx->count)
-        GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
+        GF_PANIC_Fail(PM_LANG_JA(d_02200D14, str_ja_02200CCC), PM_SRC_LINE(0, 0x183), PM_LANG_JA(d_02200D14, str_ja_02200D08));
     BR_PROC_SYS_InitEntry(&info, index, entry);
     if (ctx->pendingCount >= 6)
-        GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
+        GF_PANIC_Fail(PM_LANG_JA(d_02200D14, str_ja_02200CCC), PM_SRC_LINE(0, 0x189), PM_LANG_JA(d_02200D14, str_ja_02200D20));
     ctx->pending[ctx->pendingCount] = index;
     ctx->pendingCount++;
     ctx->next = info;

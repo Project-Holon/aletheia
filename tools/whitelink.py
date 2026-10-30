@@ -17,6 +17,7 @@ For the target white the summary is also written to build/whitelink.tsv, as befo
 ids are overlay numbers or the names arm9_main and itcm.
 """
 import argparse
+import ast
 import bisect
 import os
 import re
@@ -69,6 +70,30 @@ def black_addr(wm, region, a):
     return wm.to_black_ov(region, a)
 
 
+def size_rows(gl, wm, n, over):
+    """Rows of kind "size N" for the files that run N bytes into the next one in the target
+    build (gamelink 'size_over': [(target address, N, [files])]); one row per file."""
+    region = region_name(n)
+    fl = funcs_of(region)
+    starts = [f[0] for f in fl]
+    rows = []
+    for a, nbytes, who in over:
+        ta = int(a, 16)
+        ba = black_addr(wm, region, ta) if TARGET != "black" else ta
+        k = bisect.bisect_right(starts, ba) - 1
+        nm, fa = (fl[k][2], fl[k][0]) if k >= 0 else ("-", 0)
+        rows.append((ta, ba, nm, fa, "size %d" % nbytes))
+    return rows
+
+
+def size_over_of(n):
+    """The size_over list of the last gamelink run of region n (read from its saved line)."""
+    return SIZE_OVER.get(n, [])
+
+
+SIZE_OVER = {}
+
+
 def word_diffs(gl, wm, n):
     """The real code differences between the last link of region n and the target image:
     [(target address, Black address, function name, Black function address, kind)], or None.
@@ -99,6 +124,7 @@ def word_diffs(gl, wm, n):
             k = bisect.bisect_right(starts, ba) - 1
             nm, fa = (fl[k][2], fl[k][0]) if k >= 0 else ("-", 0)
             rows.append((ta, ba, nm, fa, "word"))
+    rows += size_rows(gl, wm, n, size_over_of(n))
     rows.sort()
     return rows
 
@@ -155,6 +181,12 @@ def one(n, black):
         return n, "PASS", "", []
     why = (line or (text.strip().splitlines() or ["no output"])[-1])[:300]
     if "'diffs'" in line:
+        mo = re.search(r"'size_over': (\[.*?\]), 'name_clash'", line)
+        if mo:
+            try:
+                SIZE_OVER[n] = ast.literal_eval(mo.group(1))
+            except (ValueError, SyntaxError):
+                pass
         return n, "FAIL", why, True         # the words are read after the pool (one gamelink import)
     return n, "FAIL", why, False
 

@@ -607,6 +607,18 @@ typedef short s16_p07;
 
 #include "../arm9/strbuf.h"
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define DUP_FITTING_MSG_ARCHIVE_C 76
+#else
+#define DUP_FITTING_MSG_ARCHIVE_C 75
+#endif
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define DUP_FITTING_MSG_ARCHIVE_B 73
+#else
+#define DUP_FITTING_MSG_ARCHIVE_B 79
+#endif
+
 
 
 
@@ -2715,8 +2727,8 @@ void DUP_FITTING_CreateText(struct DupFittingWork *work)
 {
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
     work->msgBankA = MSGDATA_CreateFromArchive(0, 2, 33, work->heapId);
-    work->msgBankB = MSGDATA_CreateFromArchive(0, 2, 79, work->heapId);
-    work->msgBankC = MSGDATA_CreateFromArchive(0, 2, 75, work->heapId);
+    work->msgBankB = MSGDATA_CreateFromArchive(0, 2, DUP_FITTING_MSG_ARCHIVE_B, work->heapId);
+    work->msgBankC = MSGDATA_CreateFromArchive(0, 2, DUP_FITTING_MSG_ARCHIVE_C, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 448, 32, work->heapId);
     work->printSys = (void *)PRINTSYS_QUE_Create((unsigned int)(work->heapId));
     BMP_MENUWORK_LoadCharAndPltt(7, 128, 12, 0, work->heapId);

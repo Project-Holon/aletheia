@@ -83,6 +83,13 @@ extern void IRC_APPBAR_DeleteActors(void *);
 #define CLACT_RegisterPaletteEx CLACT_RegisterPaletteEx_header
 #endif
 #include "../arm9/clact.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_APPBAR_MSG_ARCHIVE 0x30
+#else
+#define IRC_APPBAR_MSG_ARCHIVE 0x31
+#endif
 #ifdef __MWERKS__
 #undef CLACT_RegisterCharacter
 s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u32 heap_id);
@@ -127,7 +134,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
     bar->taskMenuRes=(struct TaskMenuState *)APP_TASKMENU_RES_Create(layer,x,(struct GFont *)font,(struct PrintQueue *)printQueue,heapId);
     IRC_APPBAR_CreateActor(bar,clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
-    bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
+    bank=MSGDATA_CreateFromArchive(0,2,IRC_APPBAR_MSG_ARCHIVE,heapId);
     MI_CpuFill8(&desc,0,sizeof(desc));
     desc.color=0x39e3;
     desc.str=MSGDATA_AllocString(bank,8);
@@ -213,7 +220,7 @@ void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
  LabelDesc desc;
  if(labelIndex==bar->labelIndex) return;
  APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin);
- bank=MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
+ bank=MSGDATA_CreateFromArchive(0,2,IRC_APPBAR_MSG_ARCHIVE,bar->heapId);
  MI_CpuFill8(&desc,0,sizeof(LabelDesc));
  desc.tag=0x39e3;
  desc.data=MSGDATA_AllocString(bank,labelIndex+8);

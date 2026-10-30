@@ -794,6 +794,7 @@ void POKETRADE_SAVE_Update3DParticles(TradeWork *p);
 void POKETRADE_SAVE_Setup3DDrawState(TradeWork *w, PokemontradeTransform *t);
 
 #include "pokemontrade_3d.h"
+#include "../version.h"
 
 
 extern const char gSaveControlAllocTag[];
@@ -1173,6 +1174,19 @@ static inline void *copy_b(void *sys, u16 heapId)
  *
  * Addresses are Black-image addresses.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+/* Japanese: a Japanese-language partner is recorded only when the nation is Japan (105). */
+static inline void POKETRADE_SAVE_RegisterWifiHistory(void *wifiHistory, void *status)
+{
+    u8 nation = MYSTATUS_GetNation(status);
+    u8 area = MYSTATUS_GetArea(status);
+    if (MYSTATUS_GetLanguage(status) == 1 && nation != 105)
+        return;
+    if (!WIFI_HISTORY_GetCountryRegionState(wifiHistory, nation, area))
+        WIFI_HISTORY_SetCountryRegionState(wifiHistory, nation, area, 1);
+}
+#endif
+
 void POKETRADE_SAVE_ApplyTradeResult(TradeWork *p)
 {
     void *mon;
@@ -1236,6 +1250,12 @@ void POKETRADE_SAVE_ApplyTradeResult(TradeWork *p)
     obj = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(p->gameData));
     list[0] = p->trainerRecord;
     list[1] = p->playerStatus;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    for (i = 0; i < 2; i++) {
+        if (list[i])
+            POKETRADE_SAVE_RegisterWifiHistory(obj, list[i]);
+    }
+#else
     for (i = 0; i < 2; i++) {
         void *q = list[i];
         if (q) {
@@ -1246,6 +1266,7 @@ void POKETRADE_SAVE_ApplyTradeResult(TradeWork *p)
                 WIFI_HISTORY_SetCountryRegionState(obj, row, col, 1);
         }
     }
+#endif
 
     mon = POKEPARTY_GetMember(p->request->party, 0);
     obj = GAME_DATA_GetTrainerRecord(p->gameData);
@@ -1525,7 +1546,7 @@ void POKETRADE_SAVE_CloseMessageWindowClear(TradeWork *p) { if(p->timeIcon) {TIM
 void POKETRADE_SAVE_CreateMessageResources(TradeWork *p)
 {
     (*(void * *)&p->wordSet)=WORDSET_CreateDefault(p->heapId);
-    (*(void * *)&p->messageBank)=MSGDATA_CreateFromArchive(0,2,159,p->heapId);
+    (*(void * *)&p->messageBank)=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(159, 157),p->heapId);
     p->font=GF_FONT_Create(23,0,0,0,p->heapId);
     (*(void * *)&p->infoTextOut)=STRBUF_Create(128,p->heapId);
     (*(void * *)&p->infoTextIn)=STRBUF_Create(128,p->heapId);
@@ -1534,7 +1555,7 @@ void POKETRADE_SAVE_CreateMessageResources(TradeWork *p)
     p->printQueue=(void *)PRINTSYS_QUE_Create((u32)(p->heapId));
     GF_FONT_SetTextColor(1,2,15);
     p->tcbl=TCBL_Create(p->heapId,p->heapId,2,0);
-    p->keyCursor=APP_KEYCURSOR_CreateDefault(15,1,0,p->heapId);
+    p->keyCursor=APP_KEYCURSOR_CreateDefault(15,PM_LANG_JA(1, 0),PM_LANG_JA(0, 1),p->heapId);
     p->taskMenuRes=APP_TASKMENU_RES_Create(6,9,(struct GFont *)(p->font),(struct PrintQueue *)(p->printQueue),p->heapId);
 }
 
@@ -1607,11 +1628,11 @@ void POKETRADE_SAVE_OpenTaskMenu(TradeWork *p, int *ids, int count)
 
 void POKETRADE_SAVE_PrintNickname(void *a,void *b,int x,int y,int flag,int mode,TradeWork *p) {if(!flag) {if(mode) {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),28,(void *)(p->infoTextIn));WORDSET_SetSlotMonSpeciesName((*(void * *)&p->wordSet),0,a);}else {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),29,(void *)(p->infoTextIn));WORDSET_SetSlotMonNickname((*(void * *)&p->wordSet),0,a);}WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));}else {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),105,(void *)(p->infoTextOut));}PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}
 
-void POKETRADE_SAVE_PrintDexNumber(void *a,void *b,int x,int y,int flag,TradeWork *p) {int v;u16 *t;if(!flag) {v=POKE_TOOL_GetPartyValue(a,171,0);if(!p->nationalDexEnabled) {t=POKE_PERSONAL_LoadFormTable(p->heapId,0);v=t[v];GFL_HEAP_Free(t);}if(v==999) {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),162,(void *)(p->infoTextOut));}else {WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),1,v,3,1,1);MSGDATA_ReadString((struct MsgBank *)(p->messageBank),27,(void *)(p->infoTextIn));WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));}PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}}
+void POKETRADE_SAVE_PrintDexNumber(void *a,void *b,int x,int y,int flag,TradeWork *p) {int v;u16 *t;if(!flag) {v=POKE_TOOL_GetPartyValue(a,171,0);if(!p->nationalDexEnabled) {t=POKE_PERSONAL_LoadFormTable(p->heapId,0);v=t[v];GFL_HEAP_Free(t);}if(v==999) {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),162,(void *)(p->infoTextOut));}else {WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),1,v,3,1,PM_LANG_HALF_WIDTH_DIGITS);MSGDATA_ReadString((struct MsgBank *)(p->messageBank),27,(void *)(p->infoTextIn));WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));}PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}}
 
 void POKETRADE_SAVE_PrintSpeciesName(void *a,void *b,int x,int y,int flag,TradeWork *p) {if(!flag) {MSGDATA_ReadString((struct MsgBank *)(p->messageBank),28,(void *)(p->infoTextIn));WORDSET_SetSlotMonSpeciesName((*(void * *)&p->wordSet),0,a);WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}}
 
-void POKETRADE_SAVE_PrintLevel(void *a,void *b,int x,int y,TradeWork *p) {POKE_TOOL_GetPartyValue(a,171,0);MSGDATA_ReadString((struct MsgBank *)(p->messageBank),18,(void *)(p->infoTextIn));WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),0,POKE_TOOL_GetPartyValue(a,158,0),3,1,1);WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}
+void POKETRADE_SAVE_PrintLevel(void *a,void *b,int x,int y,TradeWork *p) {POKE_TOOL_GetPartyValue(a,171,0);MSGDATA_ReadString((struct MsgBank *)(p->messageBank),18,(void *)(p->infoTextIn));WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),0,POKE_TOOL_GetPartyValue(a,158,0),3,1,PM_LANG_HALF_WIDTH_DIGITS);WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));PRINTSYS_Print(b,(s16)x,y,(void *)(p->infoTextOut),(void *)(p->font));}
 
 void POKETRADE_SAVE_PrintGender(void *a,void *b,int x,int y,TradeWork *p,int mode,int guard) {int v,w,id;u16 color;v=POKE_TOOL_GetPartyValue(a,110,0);w=POKE_TOOL_GetPartyValue(a,173,0);id=POKE_TOOL_GetPartyValue(a,5,0);if(v<=1 && w!=0 && !(guard && id==29) && !(guard && id==32)) {if(mode) {if(v==1)color=0x31a0;else color=0x39e0;}else {if(v==1)color=0xc80;else color=0x14c0;}MSGDATA_ReadString((struct MsgBank *)(p->messageBank),v+46,(void *)(p->infoTextOut));PRINTSYS_PrintColor(b,(s16)x,y,(void *)p->infoTextOut,p->font,color);}}
 
@@ -1642,19 +1663,28 @@ void POKETRADE_SAVE_PrintHpValues(void *a,struct BmpWin *b,int x,int y,TradeWork
     MSGDATA_ReadString((struct MsgBank *)(p->messageBank),39,(void *)(p->infoTextIn));
     v=POKE_TOOL_GetPartyValue(a,160,0);
     w=POKE_TOOL_GetPartyValue(a,161,0);
-    WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),0,v,3,1,1);
-    WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),1,w,3,1,1);
+    WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),0,v,3,1,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber((struct WordSet *)(p->wordSet),1,w,3,1,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((struct WordSet *)(p->wordSet),(void *)(p->infoTextOut),(void *)(p->infoTextIn));
     PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)b), (s16)x,y,(*(void * *)&p->infoTextOut),p->font);
 }
 
 void POKETRADE_SAVE_PrintStatValues(void *a, struct BmpWin *b, int c, int d, TradeWork *p)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
     int i = 0;
+    int zero = i;
+#else
+    int i = 0;
+#endif
     T5 t = gStatValueLabels;
     for (; i < 5; i++) {
         MSGDATA_ReadString((*(void * *)&p->messageBank), 0x28, (*(void * *)&p->infoTextIn));
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORDSET_SetSlotNumber((*(void * *)&p->wordSet), zero, POKE_TOOL_GetPartyValue(a, t.v[i], zero), 3, 1, zero);
+#else
         WORDSET_SetSlotNumber((*(void * *)&p->wordSet), 0, POKE_TOOL_GetPartyValue(a, t.v[i], 0), 3, 1, 1);
+#endif
         WORDSET_CopyTaggedText((*(void * *)&p->wordSet), (*(void * *)&p->infoTextOut), (*(void * *)&p->infoTextIn));
         PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)b), (short)c, (short)(d + i * 16), (*(void * *)&p->infoTextOut), p->font);
     }
@@ -1683,7 +1713,7 @@ void POKETRADE_SAVE_PrintMoveNames(void *a,struct BmpWin *b,int x,int y,TradeWor
 void POKETRADE_SAVE_PrintNatureName(void *a,struct BmpWin *b,int x,int y,TradeWork *p)
 {
     struct MsgBank *s;
-    s=MSGDATA_CreateFromArchive(0,2,24,p->heapId);
+    s=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(24, 25),p->heapId);
     MSGDATA_ReadString(s,POKE_TOOL_GetNature(a),(void *)(p->infoTextOut));
     PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)b), (s16)x,y,(*(void * *)&p->infoTextOut),p->font);
     MSGDATA_Delete(s);
@@ -1880,11 +1910,11 @@ void POKETRADE_SAVE_CreateTypeIcons(TradeWork *p,void *mon,IntQuad *t)
     u32 a,b;
     POKETRADE_SAVE_DeleteTypeIconActor(&p->typeIcon[t->a]);
     POKETRADE_SAVE_DeleteTypeIconActor(&p->typeIcon[t->b]);
-    POKETRADE_SAVE_CreateTypeIconActor(&p->typeIcon[t->a],mon,0,p->clactSystem,176,95,0,p->heapId);
+    POKETRADE_SAVE_CreateTypeIconActor(&p->typeIcon[t->a],mon,0,p->clactSystem,176,PM_LANG_JA(95, 96),0,p->heapId);
     a=POKE_TOOL_GetPartyValue(mon,174,0);
     b=POKE_TOOL_GetPartyValue(mon,175,0);
     if(a!=b)
-        POKETRADE_SAVE_CreateTypeIconActor(&p->typeIcon[t->b],mon,1,p->clactSystem,210,95,0,p->heapId);
+        POKETRADE_SAVE_CreateTypeIconActor(&p->typeIcon[t->b],mon,1,p->clactSystem,PM_LANG_JA(210, 208),PM_LANG_JA(95, 96),0,p->heapId);
     if(p->typeIcon[t->c].actor)
         CLACT_SetActorDrawEnable(p->typeIcon[t->c].actor,0);
     if(p->typeIcon[t->d].actor)

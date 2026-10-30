@@ -44,6 +44,7 @@
  */
 
 #include "ov137_types.h"
+#include "../version.h"
 #include "guru2_shared_types.h"
 #include "guru2_types.h"
 
@@ -156,7 +157,7 @@ int GURU2_EntryProcExit(void *obj,int seq,int parentWork,struct Guru2Entry *p)
 struct Guru2Session *GURU2_SessionCreate(struct Guru2Param *param,int heap)
 {
     struct Guru2Session *p;
-    p=GFL_HEAP_Alloc((u16)heap,sizeof(*p),0,(char *)gGuru2AllocFileName,171);
+    p=GFL_HEAP_Alloc((u16)heap,sizeof(*p),0,(char *)gGuru2AllocFileName,PM_SRC_LINE(171, 170));
     MI_CpuFill8(p,0,sizeof(*p));
     p->param=param;
     p->comm=GURU2_COMM_Create(p,heap);
@@ -190,7 +191,7 @@ struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int l
 {
     struct Guru2PartyListParam *v;
     int i;
-    v=GFL_HEAP_Alloc(4,sizeof(struct Guru2PartyListParam),1,(char *)gGuru2AllocFileName,256);
+    v=GFL_HEAP_Alloc(4,sizeof(struct Guru2PartyListParam),1,(char *)gGuru2AllocFileName,PM_SRC_LINE(256,255));
     v->party=GAME_DATA_GetMyParty(p->gameData);
     v->playerData=GAME_DATA_GetMyItem(p->gameData);
     v->initialMode=0;
@@ -243,7 +244,7 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
     if(mode==1) {
         GAME_DATA_GetMyStatus(p->gameData);
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
-        p->statusParam=GFL_HEAP_Alloc(4,sizeof(*p->statusParam),0,(char *)gGuru2AllocFileName,328);
+        p->statusParam=GFL_HEAP_Alloc(4,sizeof(*p->statusParam),0,(char *)gGuru2AllocFileName,PM_SRC_LINE(328,327));
         MI_CpuFill8(p->statusParam,0,sizeof(*p->statusParam));
         r=GAME_DATA_GetMyParty(p->gameData);
         p->statusParam->party=r;
@@ -270,11 +271,17 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
 
 int GURU2_EntryStateReopenPartyList(struct Guru2Entry *p)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    struct Guru2PartyListParam *v;
+    GFL_HEAP_Free(p->statusParam);
+    v=GURU2_PartyListArgsCreate(p,21,0);
+#else
     u8 a;
     struct Guru2PartyListParam *v;
     a=p->statusParam->cursor;
     GFL_HEAP_Free(p->statusParam);
     v=GURU2_PartyListArgsCreate(p,21,a);
+#endif
     p->partyListParam=v;
     PROCSYS_Push((ProcSys *)p->procHandle,(sptr)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
     p->state=2;

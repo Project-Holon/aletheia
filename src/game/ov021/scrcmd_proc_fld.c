@@ -649,7 +649,11 @@ void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *w);
 
 u8 SCRCMD_PROC_FLD_ReturnZero(u32 arg);
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *p, u32 sel, u32 c);
+#else
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *p, u32 sel, u32 c, u32 d);
+#endif
 
 void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *w, u32 a);
 
@@ -897,7 +901,11 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
     money = SCRCMD_PROC_FLD_GetShopCurrency(shop);
     ownedCount = MYITEM_SAVEDATA_GetItemQuantity(shop->bagData, shop->itemId, shop->heapId);
     if (MYITEM_SAVEDATA_CanAddItem(shop->bagData, shop->itemId, 1, shop->heapId) == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        SCRCMD_PROC_FLD_ShowItemMessage(shop, 10, shop->itemId);
+#else
         SCRCMD_PROC_FLD_ShowItemMessage(shop, 10, shop->itemId, 0);
+#endif
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_LIST_RESUME;
         return;
@@ -905,9 +913,17 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
     price = shop->price;
     if (money < price) {
         if (shop->usesBattlePoints == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            SCRCMD_PROC_FLD_ShowItemMessage(shop, 3, shop->itemId);
+#else
             SCRCMD_PROC_FLD_ShowItemMessage(shop, 3, shop->itemId, 0);
+#endif
         } else {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            SCRCMD_PROC_FLD_ShowItemMessage(shop, 0x10, shop->itemId);
+#else
             SCRCMD_PROC_FLD_ShowItemMessage(shop, 0x10, shop->itemId, 0);
+#endif
         }
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_LIST_RESUME;
@@ -916,7 +932,11 @@ void SCRCMD_PROC_FLD_PickQuantityOutcome(ShopWork *shop)
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_YESNO_OPEN;
     } else if (shop->isTmShop == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        SCRCMD_PROC_FLD_ShowItemMessage(shop, 4, shop->itemId);
+#else
         SCRCMD_PROC_FLD_ShowItemMessage(shop, 4, shop->itemId, 0);
+#endif
         shop->state = SHOP_STATE_MESSAGE_WAIT;
         shop->nextState = SHOP_STATE_QUANTITY_ENTER;
         shop->maxQuantity = money / shop->price;
@@ -1062,7 +1082,11 @@ int SCRCMD_PROC_FLD_StepShop(struct GameSystem *gameSystem, ShopWork *shop, u32 
         break;
     case SHOP_STATE_PURCHASE:
         GFL_USE_PlaySeDefaultVolume(0x655);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        SCRCMD_PROC_FLD_ShowItemMessage(shop, 9, shop->itemId);
+#else
         SCRCMD_PROC_FLD_ShowItemMessage(shop, 9, shop->itemId, *(s16 *)&shop->quantity > 1);
+#endif
         SCRCMD_PROC_FLD_PayPrice(shop, shop->price * *(s16 *)&shop->quantity);
         SCRCMD_PROC_FLD_PrintMoneyWindow(shop);
         MYITEM_SAVEDATA_AddItem(shop->bagData, shop->itemId, shop->quantity, shop->heapId);
@@ -1071,7 +1095,11 @@ int SCRCMD_PROC_FLD_StepShop(struct GameSystem *gameSystem, ShopWork *shop, u32 
         break;
     case SHOP_STATE_BONUS_ITEM:
         if (shop->itemId == 4 && *(s16 *)&shop->quantity >= 10) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            SCRCMD_PROC_FLD_ShowItemMessage(shop, 15, shop->itemId);
+#else
             SCRCMD_PROC_FLD_ShowItemMessage(shop, 15, shop->itemId, *(s16 *)&shop->quantity > 1);
+#endif
             MYITEM_SAVEDATA_AddItem(shop->bagData, 12, 1, shop->heapId);
             RECORD_AddOne(shop->recordData, 0x1F);
             shop->state = SHOP_STATE_MESSAGE_WAIT;
@@ -1117,7 +1145,7 @@ u32 SCRCMD_PROC_FLD_LoadItemRows(ShopItem *items, int count)
 void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, int itemId, struct MsgBank *msgBank)
 {
     if (isTmShop == 1) {
-        WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, 1);
+        WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_SetSlotFromMsgCB(shop->wordSet, 1, FILE_UTIL_GetMachineMove((u16)itemId));
         WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, shop->cancelText);
         BMP_MENUWORK_AddStrItem(((struct BmpMenuWork *)shop->itemSlots + slotIndex), (const struct U16Vec *)shop->textBuffer, slotIndex, shop->heapId);
@@ -1401,11 +1429,11 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     if (shop->usesBattlePoints == 1) {
         formatText = MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x16);
         expandedText = STRBUF_Create(10, shop->heapId);
-        WORDSET_SetSlotNumber(shop->wordSet, 0, BSUBWAY_SCOREDATA_GetBattlePoints(shop->battlePointData), 4, 1, 1);
+        WORDSET_SetSlotNumber(shop->wordSet, 0, BSUBWAY_SCOREDATA_GetBattlePoints(shop->battlePointData), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
     } else {
         formatText = MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x15);
         expandedText = STRBUF_Create(10, shop->heapId);
-        WORDSET_SetSlotNumber(shop->wordSet, 0, MISC_GetMoney(shop->moneyData), 7, 1, 1);
+        WORDSET_SetSlotNumber(shop->wordSet, 0, MISC_GetMoney(shop->moneyData), 7, 1, PM_LANG_HALF_WIDTH_DIGITS);
     }
     WORDSET_CopyTaggedText(shop->wordSet, expandedText, formatText);
     bitmap = BMP_WIN_GetBmp(shop->windows[SHOP_WIN_MONEY]);
@@ -1436,7 +1464,7 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
     formatText = MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x17);
     expandedText = STRBUF_Create(0x14, shop->heapId);
     BMP_MENUWORK_DrawWindow(shop->windows[SHOP_WIN_OWNED], 2, 0xE4, 9);
-    WORDSET_SetSlotNumber(shop->wordSet, 0, MYITEM_SAVEDATA_GetItemQuantity(shop->bagData, itemId, shop->heapId), 3, 0, 1);
+    WORDSET_SetSlotNumber(shop->wordSet, 0, MYITEM_SAVEDATA_GetItemQuantity(shop->bagData, itemId, shop->heapId), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(shop->wordSet, expandedText, formatText);
     bitmap = BMP_WIN_GetBmp(shop->windows[SHOP_WIN_OWNED]);
     BMP_Clear(bitmap, 0xF);
@@ -1480,10 +1508,10 @@ void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price
     bitmap = BMP_WIN_GetBmp(shop->windows[SHOP_WIN_QUANTITY]);
     BMP_Clear(bitmap, 0xF);
     BMP_MENUWORK_DrawWindow(shop->windows[SHOP_WIN_QUANTITY], 2, 0xE4, 9);
-    WORDSET_SetSlotNumber(shop->wordSet, 0, quantity, 2, 0, 1);
+    WORDSET_SetSlotNumber(shop->wordSet, 0, quantity, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(shop->wordSet, (void *)text, (void *)quantityFormat);
     PRINTSYS_PrintColor(bitmap, 0, 0, (void *)text, shop->fontInfo, 0x44F);
-    WORDSET_SetSlotNumber(shop->wordSet, 0, quantity * price, 7, 1, 1);
+    WORDSET_SetSlotNumber(shop->wordSet, 0, quantity * price, 7, 1, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(shop->wordSet, (void *)text, (void *)totalFormat);
     if (shop->usesBattlePoints == 0) {
         PRINTSYS_PrintColor(bitmap, 0x23, 0, (void *)text, shop->fontInfo, 0x44F);
@@ -1564,7 +1592,7 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(struct BmpMenuList *listMenu, int row, u8 y
 
     shop = BMP_MENULIST_GetUserData(listMenu);
     if (row != -2) {
-        WORDSET_SetSlotNumber(shop->wordSet, 1, shop->items[row].price, 5, 0, 1);
+        WORDSET_SetSlotNumber(shop->wordSet, 1, shop->items[row].price, 5, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, (void *)(shop->priceFormat));
         textWidth = PRINTSYS_MeasureWidestLine(shop->textBuffer, shop->fontInfo, 0);
         windowWidth = BMP_GetWidth((const struct Bmp *)(BMP_WIN_GetBmp(shop->windows[SHOP_WIN_LIST])));
@@ -1592,7 +1620,7 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(struct BmpMenuList *listMenu, int row,
             SCRCMD_PROC_FLD_PrintListText(shop->printSys, BMP_WIN_GetBmp(shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
                           shop->soldOutText, shop->fontInfo, 0x31A0);
         } else {
-            WORDSET_SetSlotNumber(shop->wordSet, 1, shop->items[row].price, 5, 1, 1);
+            WORDSET_SetSlotNumber(shop->wordSet, 1, shop->items[row].price, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, (void *)(shop->priceFormat));
             textWidth = PRINTSYS_MeasureWidestLine(shop->textBuffer, shop->fontInfo, 0);
             windowWidth = BMP_GetWidth((const struct Bmp *)(BMP_WIN_GetBmp(shop->windows[SHOP_WIN_LIST])));
@@ -1613,6 +1641,11 @@ void SCRCMD_PROC_FLD_OnListCursorMove(struct BmpMenuList *listMenu, u32 row)
     cursorPos[2] = 0xAC;
     cursorPos[3] = cursorPos[0] * 16 + 0x16;
     CLACT_AddActorSurfacePos(shop->cursorActor, (const struct ClactVec2 *)(&cursorPos[2]), 0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    items = shop->items;
+    SCRCMD_PROC_FLD_PrintItemDescription(shop, items[row].itemId);
+    SCRCMD_PROC_FLD_UpdateItemIcon(shop, items[row].itemId);
+#else
     if (row < 0x28) {
         items = shop->items;
         SCRCMD_PROC_FLD_PrintItemDescription(shop, items[row].itemId);
@@ -1621,6 +1654,7 @@ void SCRCMD_PROC_FLD_OnListCursorMove(struct BmpMenuList *listMenu, u32 row)
         SCRCMD_PROC_FLD_PrintItemDescription(shop, 0xFFFF);
         SCRCMD_PROC_FLD_UpdateItemIcon(shop, 0xFFFF);
     }
+#endif
 }
 
 void SCRCMD_PROC_FLD_FreeItemListMenu(ShopWork *shop)
@@ -1641,13 +1675,18 @@ u8 SCRCMD_PROC_FLD_ReturnZero(u32 arg)
     return 0;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId)
+#else
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural)
+#endif
 {
     u32 isPlural;
     struct Strbuf *messageText;
     struct BmpWin *window;
 
-#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_SPANISH
+#if LANGUAGE == LANGUAGE_JAPANESE
+#elif LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_SPANISH
     if (messageId == 9 && plural != 0)
         isPlural = 1;
     else
@@ -1657,7 +1696,11 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
 #endif
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(shop->windows[SHOP_WIN_MESSAGE])), 0xf);
     BMP_MENUWORK_DrawWindow(shop->windows[SHOP_WIN_MESSAGE], 0, 0xe4, 9);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORDSET_SetSlotFromMsg36(shop->wordSet, 0, itemId);
+#else
     WORDSET_SetSlotFromBank(shop->wordSet, 0, itemId, isPlural, 0);
+#endif
     WORDSET_SetSlotFromMsg37(shop->wordSet, 1, FILE_UTIL_GetItemParam((unsigned int)itemId, 5, shop->heapId));
     messageText = MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
     WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, messageText);
@@ -1728,7 +1771,8 @@ void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u
 {
     u32 isPlural;
 
-#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_GERMAN
+#if LANGUAGE == LANGUAGE_JAPANESE
+#elif LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_GERMAN
     if (messageId == 5 && quantity > 1)
         isPlural = 1;
     else
@@ -1737,18 +1781,22 @@ void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u
     isPlural = 0;
 #endif
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORDSET_SetSlotFromMsg36(shop->wordSet, 0, itemId);
+#else
     WORDSET_SetSlotFromBank(shop->wordSet, 0, itemId, isPlural, 0);
-    WORDSET_SetSlotNumber(shop->wordSet, 1, quantity, 2, 0, 1);
-    WORDSET_SetSlotNumber(shop->wordSet, 2, quantity * price, 7, 0, 1);
+#endif
+    WORDSET_SetSlotNumber(shop->wordSet, 1, quantity, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(shop->wordSet, 2, quantity * price, 7, 0, PM_LANG_HALF_WIDTH_DIGITS);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
 
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(ShopWork *shop, u32 messageId, u32 itemId, u32 price)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
-    WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, 1);
+    WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotFromMsgCB(shop->wordSet, 1, FILE_UTIL_GetMachineMove(itemId));
-    WORDSET_SetSlotNumber(shop->wordSet, 2, price, 5, 0, 1);
+    WORDSET_SetSlotNumber(shop->wordSet, 2, price, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
     SCRCMD_PROC_FLD_ShowMessage(shop, messageId);
 }
 

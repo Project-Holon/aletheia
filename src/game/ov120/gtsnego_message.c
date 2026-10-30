@@ -137,6 +137,7 @@
  *   NATION_AREA_SanitizeNation  0x02025C1C  thumb  arm9
  *   NATION_AREA_SanitizeArea  0x02025C30  thumb  arm9
  */
+#include "../version.h"
 #include "ov120_types.h"
 
 struct Obj;
@@ -311,6 +312,20 @@ extern const u8 gGtsnegoEntryTable[][4];
 extern const GtsnegoMessageTriple gGtsnegoIconX,gGtsnegoIconY,gGtsnegoIconZ,gGtsnegoIconW;
 extern const GtsnegoMessageTable gGtsnegoIdleAnimTable;
 extern const char sGtsnegoMsgHeapName[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GTSNEGO_LIST_ACTOR_X 24
+#define GTSNEGO_LIST_WIN_X 7
+#define GTSNEGO_LIST_WIN_W 22
+#define GTSNEGO_TEXT_X 1
+#define GTSNEGO_SINGLE_TEXT_Y 2
+#else
+#define GTSNEGO_LIST_ACTOR_X 16
+#define GTSNEGO_LIST_WIN_X 6
+#define GTSNEGO_LIST_WIN_W 24
+#define GTSNEGO_TEXT_X 2
+#define GTSNEGO_SINGLE_TEXT_Y 0
+#endif
+
 extern const int gGtsnegoButtonYesNo[];
 extern const u16 gGtsnegoRowLabelA[],gGtsnegoRowLabelB[];
 extern const int gGtsnegoButtonList[];
@@ -601,7 +616,7 @@ void GTSNEGO_MSG_SetListEntry(struct GtsnegoActorSys *actorSys, void *entry, int
 {
     if (entry != 0) {
         GTSNEGO_MSG_CreateListActor(actorSys, index, MYSTATUS_GetTrainerView((struct MyStatus *)(entry)));
-        GTSNEGO_MSG_SetListActorPos(actorSys, index, 16, -48 * (1 - index));
+        GTSNEGO_MSG_SetListActorPos(actorSys, index, GTSNEGO_LIST_ACTOR_X, -48 * (1 - index));
     }
 }
 
@@ -782,7 +797,7 @@ void GTSNEGO_MSG_DeleteButtons(struct GtsnegoMsgCtx *msgCtx)
  */
 struct GtsnegoMsgCtx *GTSNEGO_MSG_Create(u32 heap,u32 msgFileId)
 {
-    struct GtsnegoMsgCtx *p=GFL_HEAP_Alloc(heap,sizeof(*p),1,sGtsnegoMsgHeapName,0xa9);
+    struct GtsnegoMsgCtx *p=GFL_HEAP_Alloc(heap,sizeof(*p),1,sGtsnegoMsgHeapName,PM_SRC_LINE(0xa9, 0xa4));
     p->heapId=heap;
     BMP_WIN_Init(p->heapId);
     GF_FONT_InitTextColor();
@@ -951,7 +966,7 @@ int GTSNEGO_MSG_CreateRow(struct GtsnegoMsgCtx *msgCtx, int msgId, int x, int y,
             window=msgCtx->rowWindows[i];
             BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)window),0);
             MSGDATA_ReadString(msgCtx->msgData,msgId,msgCtx->srcText);
-            PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window),2,2,msgCtx->srcText,msgCtx->font);
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window),GTSNEGO_TEXT_X,2,msgCtx->srcText,msgCtx->font);
             BMP_WIN_TransferChars((struct BmpWin *)window);
             BMP_WIN_MakeScreen((struct BmpWin *)window);
             return i;
@@ -974,7 +989,7 @@ void GTSNEGO_MSG_RedrawRow(struct GtsnegoMsgCtx *msgCtx,u16 msgId,int row)
     if(q) {
         BMP_Clear(BMP_WIN_GetBmp(q),0);
         MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,*(void **)&((struct GtsnegoMsgCtx *)msgCtx)->srcText);
-        PRINTSYS_Print(BMP_WIN_GetBmp(q),2,2,*(void **)&((struct GtsnegoMsgCtx *)msgCtx)->srcText,*(void **)&((struct GtsnegoMsgCtx *)msgCtx)->font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(q),GTSNEGO_TEXT_X,2,*(void **)&((struct GtsnegoMsgCtx *)msgCtx)->srcText,*(void **)&((struct GtsnegoMsgCtx *)msgCtx)->font);
         BMP_WIN_TransferChars(q);
     }
 }
@@ -1107,13 +1122,13 @@ int GTSNEGO_MSG_PrintListEntry(struct GtsnegoMsgCtx *msgCtx, void *status, int r
 {
     void **listWindows=msgCtx->listWindows;
     void *window;
-    if(!listWindows[row]) listWindows[row]=(void *)BMP_WIN_Create((u8)6,(u8)6,(u8)(row*6+1),(u8)24,4,11,1);
+    if(!listWindows[row]) listWindows[row]=(void *)BMP_WIN_Create((u8)6,(u8)GTSNEGO_LIST_WIN_X,(u8)(row*6+1),(u8)GTSNEGO_LIST_WIN_W,4,11,1);
     window=listWindows[row];
     BMP_Clear(BMP_WIN_GetBmp(window),0);
     STRBUF_Clear(msgCtx->expandedText);
     STRBUF_Clear(msgCtx->srcText);
     WORDSET_SetSlotMyStatus(msgCtx->wordSet,0,status);
-    WORDSET_SetSlotNumber(msgCtx->wordSet,1,MYSTATUS_GetIdLow16(status),5,2,1);
+    WORDSET_SetSlotNumber(msgCtx->wordSet,1,MYSTATUS_GetIdLow16(status),5,2,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotFromMsgE7(msgCtx->wordSet,2,MYSTATUS_GetNation(status));
     MSGDATA_ReadString(msgCtx->msgData,28,msgCtx->expandedText);
     WORDSET_CopyTaggedText(msgCtx->wordSet,msgCtx->srcText,msgCtx->expandedText);
@@ -1255,7 +1270,7 @@ void GTSNEGO_MSG_PrintStatus(struct GtsnegoMsgCtx *msgCtx, u16 msgId)
     window = msgCtx->statusWindow;
     BMP_Clear(BMP_WIN_GetBmp(window), 0);
     GF_FONT_SetTextColor(15, 2, 0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(window), 2, 2, *(void **)&msgCtx->srcText, *(void **)&msgCtx->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), GTSNEGO_TEXT_X, 2, *(void **)&msgCtx->srcText, *(void **)&msgCtx->font);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
     BG_SYS_MarkTileDirty(1);
@@ -1307,7 +1322,7 @@ void GTSNEGO_MSG_PrintPair(struct GtsnegoMsgCtx *msgCtx,int unused,u32 tradeCoun
     PRINTSYS_Print(BMP_WIN_GetBmp(window),0,3,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->font);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    WORDSET_SetSlotNumber(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,tradeCount,5,1,1);
+    WORDSET_SetSlotNumber(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,tradeCount,5,1,PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,36,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
     WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
     if(!((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom) ((struct GtsnegoMsgCtx *)msgCtx)->pairWindowBottom=(void *)BMP_WIN_Create(1,21,6,10,3,11,1);
@@ -1329,7 +1344,7 @@ void GTSNEGO_MSG_PrintSingle(struct GtsnegoMsgCtx *msgCtx, void *status)
     window = ((struct GtsnegoMsgCtx *)msgCtx)->singleWindow;
     BMP_Clear(BMP_WIN_GetBmp(window), 0);
     GF_FONT_SetTextColor(1, 2, 0);
-    PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, *(void **)&((struct GtsnegoMsgCtx *)msgCtx)->srcText, *(void **)&((struct GtsnegoMsgCtx *)msgCtx)->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, GTSNEGO_SINGLE_TEXT_Y, *(void **)&((struct GtsnegoMsgCtx *)msgCtx)->srcText, *(void **)&((struct GtsnegoMsgCtx *)msgCtx)->font);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
 }

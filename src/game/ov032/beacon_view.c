@@ -723,9 +723,11 @@ int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
     case 6:
         BEACON_VIEW_SetArrowAnim(work, 4, 0);
         BEACON_VIEW_ShowPlayTime(work, 1, &work->busyCount);
+#if LANGUAGE != LANGUAGE_JAPANESE
         work->step = 7;
         break;
     case 7:
+#endif
         work->step = 0;
         return 0;
     }
@@ -967,14 +969,14 @@ void BEACON_VIEW_SetupMessageText(BeaconViewWork *work,unsigned messageId) { MSG
 
 void BEACON_VIEW_ShowRecordCount(BeaconViewWork *work)
 {
-    WORDSET_SetSlotNumber(work->wordSet, 0, work->recordCount, 2, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->recordCount, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
     BEACON_VIEW_SetupMessageText(work, 0);
     BEACON_VIEW_DrawWindowText(work, &work->windows[2], work->formatBuffer, 4, 0, 1, 0x3DC1, 0);
 }
 
 void BEACON_VIEW_ShowPlayTime(BeaconViewWork *work, int messageId, int *busyCounter)
 {
-    WORDSET_SetSlotNumber(work->wordSet, 0, *(int *)&work->playTime, 5, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, *(int *)&work->playTime, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
     BEACON_VIEW_SetupMessageText(work, messageId);
     BEACON_VIEW_DrawWindowText(work, &work->windows[1], work->formatBuffer, 0, 4, 0, 0x3C40, busyCounter);
 }
@@ -1250,7 +1252,9 @@ void BEACON_VIEW_PrintEntryRank(BeaconViewWork *work, BeaconViewEntry *icon, str
     } else {
         k = 0x35;
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     PALANM_CopyToSlot(work->paletteAnim, work->panelPalette.data + 0x30, (int)3, (u16)((icon->index + 4) * 16 + 8), 10);
+#endif
     PALANM_CopyToSlot(work->paletteAnim, work->panelPalette.data + k, (int)3, (u16)((icon->index + 4) * 16 + 8), v * 2);
 }
 
@@ -1685,15 +1689,15 @@ void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int powerId, u8 mode, int 
     if (task->mode == 0) {
         task->cost = GPOWER_GetPowerCost(work->powerRecord, powerId);
         task->nameStringId = MYITEM_SAVEDATA_GetItemQuantity(work->myItem, 0x23f, work->uiHeapId);
-        WORDSET_SetSlotNumber(work->wordSet, 2, task->cost, 3, 0, 1);
-        WORDSET_SetSlotNumber(work->wordSet, 3, task->nameStringId, 3, 0, 1);
+        WORDSET_SetSlotNumber(work->wordSet, 2, task->cost, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_SetSlotNumber(work->wordSet, 3, task->nameStringId, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         if (powerId == GPOWER_GetActiveIdOfSameType(powerId, work->powerRecord)) {
             task->minutesLeft = GPOWER_GetSelectedMinutesLeft();
             if (task->minutesLeft != 0) {
                 task->hours = task->minutesLeft / 60;
                 task->minutes = task->minutesLeft % 60;
-                WORDSET_SetSlotNumber(work->wordSet, 4, task->hours, 3, 0, 1);
-                WORDSET_SetSlotNumber(work->wordSet, 5, task->minutes, 2, 0, 1);
+                WORDSET_SetSlotNumber(work->wordSet, 4, task->hours, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+                WORDSET_SetSlotNumber(work->wordSet, 5, task->minutes, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             }
         }
     }
@@ -2503,6 +2507,12 @@ void BEACON_VIEW_FreeWorkResources(BeaconViewWork *work)
     GFL_HEAP_Free(work->receiveQueue);
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BEACON_VIEW_MSG_ARCHIVE 0xb
+#else
+#define BEACON_VIEW_MSG_ARCHIVE 8
+#endif
+
 void BEACON_VIEW_CreateSubSystems(BeaconViewWork *work)
 {
     work->taskList = TCBL_Create(work->mainHeapId, work->mainHeapId, 0x10, 0x80);
@@ -2516,7 +2526,7 @@ void BEACON_VIEW_CreateSubSystems(BeaconViewWork *work)
     work->font = FIELD_MSGBG_GetFont((struct FieldMsgBg *)FIELDMAP_GetMsgBg(work->sessionInfo));
     GF_FONT_SetDefaultTextColor();
     work->wordSet = WORDSET_CreateDefault(work->mainHeapId);
-    work->messageBank = MSGDATA_CreateFromArchive(1, 2, 8, work->mainHeapId);
+    work->messageBank = MSGDATA_CreateFromArchive(1, 2, BEACON_VIEW_MSG_ARCHIVE, work->mainHeapId);
     work->messageBuffer = STRBUF_Create(0xd9, work->mainHeapId);
     work->formatBuffer = STRBUF_Create(0xd9, work->mainHeapId);
     work->stringList = STRBUF_Create(0xd9, work->mainHeapId);
@@ -2755,7 +2765,7 @@ void BEACON_VIEW_LoadResList(BeaconViewWork *work, BeaconViewResList *out, const
     for (i = 0; i < 3; i++) {
         out[i].count = spec[i].count;
         if (out[i].count != 0)
-            out[i].items = GFL_HEAP_Alloc(work->tempHeapId, out[i].count << 2, 1, d_021F36A0, 0x4C3);
+            out[i].items = GFL_HEAP_Alloc(work->tempHeapId, out[i].count << 2, 1, d_021F36A0, PM_SRC_LINE(0x4C3, 0x4BB));
     }
     for (i = 0; i < out[0].count; i++)
         out[0].items[i] = CLACT_RegisterPalette(arc, spec[0].base + i, 1, 0, work->tempHeapId);

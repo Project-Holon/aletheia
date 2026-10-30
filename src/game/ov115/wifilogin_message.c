@@ -149,6 +149,7 @@ enum WifiloginMessageKind { K0,K1 };
 typedef struct { u8 a, b, c, d; u16 e; } WifiloginMessageRecord;
 
 #include "../types.h"
+#include "../version.h"
 
 typedef enum { FALSE, TRUE } WifiloginMessageBool;
 
@@ -274,6 +275,10 @@ struct TaskMenuWork;
 extern void WIFILOGIN_MSG_SetExitFlag(void *userArg);
 
 #include "wifilogin_disp.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021D6540[];
+extern const char str_ja_021D6554[];
+#endif
 
 
 
@@ -365,7 +370,7 @@ u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode)
 {
     u8 *p;
     u32 sel;
-    p = GFL_HEAP_Alloc(heap, 132, 1, d_021D6628, 135);
+    p = GFL_HEAP_Alloc(heap, 132, 1, PM_LANG_JA(d_021D6628, str_ja_021D6540), PM_SRC_LINE(135, 136));
     ((struct WifiloginMsg *)p)->heapId = heap;
     ((struct WifiloginMsg *)p)->mode = mode;
     BMP_WIN_Init(((struct WifiloginMsg *)p)->heapId);
@@ -517,9 +522,9 @@ void WIFILOGIN_MSG_CloseTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kin
 
 void WIFILOGIN_MSG_UpdateTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)(*(struct ClactActor * *)&((struct WifiloginMsgTask *)p)->taskMenu)); break; case 1: ((struct WifiloginMsgTask *)p)->answer=BMP_MENU_ProcessYesNo((struct BmpMenu *)*(u8 * *)&((struct WifiloginMsgTask *)p)->yesNo); break; } }
 
-int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_IsFinish(((struct WifiloginMsgTask *)p)->taskMenu); case 1: if(((struct WifiloginMsgTask *)p)->answer!=-1) return 1; else return 0; default: GF_PANIC_Fail(d_021D663C,0,d_021D663C); return 0; } }
+int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_IsFinish(((struct WifiloginMsgTask *)p)->taskMenu); case 1: if(((struct WifiloginMsgTask *)p)->answer!=-1) return 1; else return 0; default: GF_PANIC_Fail(PM_LANG_JA(d_021D663C, str_ja_021D6540),PM_SRC_LINE(0, 0x226),PM_LANG_JA(d_021D663C, str_ja_021D6554)); return 0; } }
 
-u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)(*(const u8 * *)&((struct WifiloginMsgTask *)p)->taskMenu)); case 1: return (u8)((struct WifiloginMsgTask *)p)->answer; default: GF_PANIC_Fail(d_021D663C,0,d_021D663C); return 0; } }
+u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)(*(const u8 * *)&((struct WifiloginMsgTask *)p)->taskMenu)); case 1: return (u8)((struct WifiloginMsgTask *)p)->answer; default: GF_PANIC_Fail(PM_LANG_JA(d_021D663C, str_ja_021D6540),PM_SRC_LINE(0, 0x23A),PM_LANG_JA(d_021D663C, str_ja_021D6554)); return 0; } }
 
 void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
     void *w;
@@ -541,9 +546,9 @@ void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
 
 void WIFILOGIN_MSG_RedrawBorder(u8 *p) { if(((struct WifiloginMsg *)p)->window2){BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window2,2);BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window2);BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));} }
 
-u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5;default:GF_PANIC_Fail(d_021D663C,0,d_021D663C);return 0;} }
+u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5;default:GF_PANIC_Fail(PM_LANG_JA(d_021D663C, str_ja_021D6540),PM_SRC_LINE(0, 0x29A),PM_LANG_JA(d_021D663C, str_ja_021D6554));return 0;} }
 
-u32 WIFILOGIN_MSG_GetFrameIdB(u32 a) { switch(a){case 1:return 2;case 0:return 5;default:GF_PANIC_Fail(d_021D663C,0,d_021D663C);return 0;} }
+u32 WIFILOGIN_MSG_GetFrameIdB(u32 a) { switch(a){case 1:return 2;case 0:return 5;default:GF_PANIC_Fail(PM_LANG_JA(d_021D663C, str_ja_021D6540),PM_SRC_LINE(0, 0x2B3),PM_LANG_JA(d_021D663C, str_ja_021D6554));return 0;} }
 
 void *WIFILOGIN_MSG_CreateYesNo(u8 *p, int mode, int n) {
     WifiloginMessageRecord r = d_021D6544;

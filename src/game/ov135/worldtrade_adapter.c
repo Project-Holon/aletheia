@@ -263,6 +263,11 @@ struct TextPrinter;
 
 
 #include "../arm9/msg_speed.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02204138[];
+extern const char str_ja_02204150[];
+extern const char str_ja_02204160[];
+#endif
 
 
 
@@ -433,7 +438,19 @@ void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which)
     }
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,WorldtradeEntry *p) {
+    int a;
+    int b=p->area;
+    int f=p->nationFlag;
+    a=p->nation;
+    if (f != 1 || a == 0x69) {
+        if(WIFI_HISTORY_GetCountryRegionState(obj,a,b)==0) WIFI_HISTORY_SetCountryRegionState(obj,a,b,1);
+    }
+}
+#else
 void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,WorldtradeEntry *p) { int b=p->area,a=p->nation; if(WIFI_HISTORY_GetCountryRegionState(obj,a,b)==0) WIFI_HISTORY_SetCountryRegionState(obj,a,b,1); }
+#endif
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(WorldtradeWork *p, void *mon)
 {
@@ -507,7 +524,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(void *wordSet, u32 slot, void *boxMon)
  */
 void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap)
 {
-    return GFL_HEAP_Alloc(heap, POKE_TOOL_GetPartyParamSize(), 0, g_02203F5C, 0x47);
+    return GFL_HEAP_Alloc(heap, POKE_TOOL_GetPartyParamSize(), 0, PM_LANG_JA(g_02203F5C, str_ja_02204138), PM_SRC_LINE(0x47, 0x44));
 }
 
 /*
@@ -584,7 +601,9 @@ void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
     ctx->arg = arg;
     ctx->font = GF_FONT_Create(0x17, 0, 0, 0, 0x48);
     ctx->queue = (void *)PRINTSYS_QUE_Create((unsigned int)0x48);
+#if LANGUAGE != LANGUAGE_JAPANESE
     ctx->cursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, 0x48);
+#endif
     for (i = 0; i < 0x18; i++) {
         s = &ctx->slots[i];
         MI_CpuFill8(s, 0, 8);
@@ -597,7 +616,9 @@ void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
  */
 void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p)
 {
+#if LANGUAGE != LANGUAGE_JAPANESE
     APP_KEYCURSOR_Delete(p->cursor);
+#endif
     PRINTSYS_QUE_Delete((struct PrintQueue *)p->queue);
     GF_FONT_Delete(p->font);
     TCBL_Destroy((struct TcblSystem *)p->tcb);
@@ -624,7 +645,9 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
         }
     }
     if (p->yesno != 0) {
+#if LANGUAGE != LANGUAGE_JAPANESE
         APP_KEYCURSOR_Update((struct KeyCursor *)p->cursor, p->yesno, p->yesnoArg);
+#endif
         switch (PRINTSYS_PrintStreamGetState(p->yesno)) {
         case 0:
             if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
@@ -633,14 +656,18 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
             break;
         case 1:
             if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
+#if LANGUAGE != LANGUAGE_JAPANESE
                 GFL_USE_PlaySeDefaultVolume(0x547);
+#endif
                 PRINTSYS_PrintStreamReleasePause(p->yesno);
             }
             break;
         case 2:
             PRINTSYS_PrintStreamDelete(p->yesno);
             p->yesno = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
             p->yesnoArg = 0;
+#endif
             break;
         }
     }
@@ -666,6 +693,7 @@ u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p)
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *win,u8 unused1,void *str,u32 x,u32 y,void *printer) { return WORLDTRADE_ADAPTER_PrintQueColor(win, unused1, str, x, y, 0, 0x44f, (Printer *)printer); }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 /*
  * tail: 022028C6..022028C8 zero alignment padding.
  */
@@ -680,6 +708,7 @@ void WORLDTRADE_ADAPTER_StartPrintStream(void *win, unsigned unused1, struct Str
     p->stream = PRINTSYS_PrintStream((struct BmpWin *)win, x, y, (struct Strbuf *)str, p->font, v, p->msgData, 0, 0x48, 0xF);
     p->streamWin = win;
 }
+#endif
 
 u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, struct Strbuf *str, u32 x, u32 y, u32 unused2, u16 color, Printer *printer)
 {
@@ -693,7 +722,7 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, struct Strbuf *str, 
         }
     }
     if (found == 0) {
-        GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
+        GF_PANIC_Fail(PM_LANG_JA((void *)0x02203F74, str_ja_02204138), PM_SRC_LINE(0, 0x172), PM_LANG_JA((void *)0x02203F74, str_ja_02204150));
     }
     found->win = win;
     found->busy = 0;
@@ -716,7 +745,9 @@ void WORLDTRADE_ADAPTER_DeletePrintStream(struct WorldtradeObj *p) {
     if (p->h != 0) {
         PRINTSYS_PrintStreamDelete(p->h);
         p->h = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
         p->n = 0;
+#endif
     }
 }
 
@@ -724,7 +755,7 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 unused1, u32 unused2, u32 unuse
 {
     MsgSys *ctx;
 
-    ctx = GFL_HEAP_Alloc(heap, sizeof(MsgSys), 0, (const char *)g_02203F5C, 0x1DD);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(MsgSys), 0, PM_LANG_JA((const char *)g_02203F5C, str_ja_02204138), PM_SRC_LINE(0x1DD, 0x1BA));
     MI_CpuFill8(ctx, 0, sizeof(MsgSys));
     ctx->heap = heap;
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
@@ -775,8 +806,8 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
 
     str = STRBUF_Create(0x20, ctx->heap);
     fmt = STRBUF_Create(0x20, ctx->heap);
-    MSGDATA_ReadString(ctx->bank, 0xFD, fmt);
-    WORDSET_SetSlotNumber(ctx->words, 0, num, digits, mode, 1);
+    MSGDATA_ReadString(ctx->bank, PM_LANG_JA(0xFD, 0xF9), fmt);
+    WORDSET_SetSlotNumber(ctx->words, 0, num, digits, mode, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ctx->words, str, fmt);
     for (i = 0; i < 8; i++) {
         if (ctx->used[i] == 0) {
@@ -791,14 +822,14 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
             return;
         }
     }
-    GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
+    GF_PANIC_Fail(PM_LANG_JA((void *)0x02203F74, str_ja_02204138), PM_SRC_LINE(0, 0x218), PM_LANG_JA((void *)0x02203F74, str_ja_02204160));
 }
 
 #pragma thumb on
 
 void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, int x, int y)
 {
-    void *buf = MSGDATA_AllocString(p->bank, 0xfe);
+    void *buf = MSGDATA_AllocString(p->bank, PM_LANG_JA(0xfe, 0xfa));
     int i;
 
     for (i = 0; i < 8; i++) {
@@ -817,5 +848,5 @@ void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, i
             return;
         }
     }
-    GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
+    GF_PANIC_Fail(PM_LANG_JA((void *)0x02203F74, str_ja_02204138), PM_SRC_LINE(0, 0x23A), PM_LANG_JA((void *)0x02203F74, str_ja_02204160));
 }

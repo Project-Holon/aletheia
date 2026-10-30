@@ -440,6 +440,14 @@ extern const ProcData MUSICAL_DRESSUP_SYS_ProcTable;
  */
 #include "script_work_cmd.h"
 #include "../version.h"
+
+/* Message archive of the musical program strings (the Japanese archive is numbered one higher). */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define MUSICAL_MSG_ARCHIVE 0x4C
+#else
+#define MUSICAL_MSG_ARCHIVE 0x4B
+#endif
+
 int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct ScriptWork *scriptCtl;
@@ -829,12 +837,17 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         STRBUF_Delete(str);
         break;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 1:
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x49, heapId);
+#else
     case 1:
     case 8:
         if (kind == 1)
             msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
         else
             msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
+#endif
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 3);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
@@ -846,14 +859,14 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         STRBUF_Delete(str);
         break;
     case 3:
-        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, MUSICAL_MSG_ARCHIVE, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
         MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 4:
-        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, MUSICAL_MSG_ARCHIVE, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 4);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, PM_LANG_ID);
         STRBUF_Delete(str);
@@ -909,7 +922,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
             labelIds[2] = slotOrder[2] + 4;
         else
             labelIds[2] = slotOrder[3] + 4;
-        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, MUSICAL_MSG_ARCHIVE, heapId);
         for (i = 0; i < 3; i++) {
             str = MSGDATA_AllocString((struct MsgBank *)msgData, labelIds[i]);
             WORDSET_SetSlotTag(wordSet, i, str, 0, 1, PM_LANG_ID);
@@ -1027,7 +1040,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitSessionFinish);
         return 1;
     case 18: {
-        MusicalLinkWait *wait = GFL_HEAP_Alloc(0x8004, sizeof(*wait), (u32)1, d_02172914, (u32)0x3C8);
+        MusicalLinkWait *wait = GFL_HEAP_Alloc(0x8004, sizeof(*wait), (u32)1, d_02172914, (u32)PM_SRC_LINE(0x3C8, 0x3BE));
 
         wait->scriptWork = scriptWork;
         wait->link = link;
@@ -1070,7 +1083,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
  */
 void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *gameData)
 {
-    MusicalLink *link = GFL_HEAP_Alloc(4, sizeof(*link), 1, d_02172914, 0x413);
+    MusicalLink *link = GFL_HEAP_Alloc(4, sizeof(*link), 1, d_02172914, PM_SRC_LINE(0x413, 0x409));
 
     link->owner = 0;
     link->session = 0;
@@ -1434,7 +1447,11 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         break;
     case 5:
         wordSet = (struct WordSet *)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(scriptWork));
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORDSET_SetSlotFromMsg36(wordSet, 0, PDW_POSTMAN_GetUnreceivableItem(gameData, key, (void *)wifiList, *resultVar));
+#else
         WORDSET_SetSlotFromMsg118(wordSet, 0, PDW_POSTMAN_GetUnreceivableItem(gameData, key, (void *)wifiList, *resultVar));
+#endif
         break;
     case 4:
         *resultVar = PDW_POSTMAN_CountUnreceivable(gameData, key, (struct PdwPostmanSave *)wifiList);

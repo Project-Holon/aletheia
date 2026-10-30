@@ -38,7 +38,9 @@ void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos);
 void PMSIV_EDIT_SetCursorPressed(struct PmsivEdit *p, int pressed);
 u32 PMSIV_EDIT_IsSubScreenLayer(u32 layer);
 unsigned int PMSIV_EDIT_GetSlotCount(struct PmsivEdit *p);
+#if LANGUAGE != LANGUAGE_JAPANESE
 u16 PMSIV_EDIT_GetSlotWordId(struct PmsivEdit *p, int slot);
+#endif
 void PMSIV_EDIT_ReleaseCursor(struct PmsivEdit *p);
 void PMSIV_EDIT_PressCursor(struct PmsivEdit *p);
 void PMSIV_EDIT_SetCursorsVisible(struct PmsivEdit *p, u32 visible);

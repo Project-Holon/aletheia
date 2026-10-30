@@ -464,7 +464,15 @@ struct MsgBank;
 struct Rec;
 struct Sub02008F80Obj;
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
+
+/* Message archive of the party screen. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define POKELIST_MSG_ARCHIVE 0x9e
+#else
+#define POKELIST_MSG_ARCHIVE 0x9d
+#endif
 
 #include "../arm9/bg_sys.h"
 
@@ -1419,7 +1427,7 @@ void POKELIST_CreateFonts(PokelistWork *work)
 {
     work->fontMain = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
     work->fontSub = GF_FONT_Create(0x17, 3, 0, 0, work->heapId);
-    work->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x9d, work->heapId);
+    work->msgBank = MSGDATA_CreateFromArchive(0, 2, POKELIST_MSG_ARCHIVE, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1c0, 0x20, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1c0, 0x20, work->heapId);
     work->printSys = PRINTSYS_QUE_CreateEx(0x1800, work->heapId);
@@ -1587,7 +1595,11 @@ void POKELIST_StartMode(PokelistWork *work)
                 PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); work->arg->mode=0;
             } else {
                 PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
+#if LANGUAGE == LANGUAGE_JAPANESE
+                PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,1,(u16)old);
+#else
                 PLIST_MESSAGE_SetWordSetItemAlt(work,work->messageWindow,1,(u16)old);
+#endif
                 POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
             }
         }
@@ -1748,7 +1760,11 @@ void POKELIST_ApplySelection(PokelistWork *work)
         }
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,1,(u16)old);
+#else
         PLIST_MESSAGE_SetWordSetItemAlt(work,work->messageWindow,1,(u16)old);
+#endif
         POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
     case 14:

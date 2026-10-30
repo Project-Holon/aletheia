@@ -178,6 +178,7 @@
  *   BTLV_GAUGE_DeleteSlotTask 0x02207960 thumb ov094
  *   _ull_mul                     0x0209C054  arm
  */
+#include "../version.h"
 #include "btlv_effvm_types.h"
 #include "../sdk_ioreg.h"
 #include "btlv_stage_shared_types.h"

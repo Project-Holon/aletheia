@@ -136,6 +136,14 @@ struct FieldMsgWin;
 #include "../arm9/key.h"
 struct IntrudeSave;
 #include "../arm9/intrude.h"
+#include "../version.h"
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GPOWER_EVENT_NUMBER_HALFWIDTH 0
+#else
+#define GPOWER_EVENT_NUMBER_HALFWIDTH 1
+#endif
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *paramArg);
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
@@ -315,8 +323,8 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, void *workPtr)
 void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row)
 {
     WORDSET_SetSlotFromMsgA0(work->wordSet, 0, powerId);
-    WORDSET_SetSlotNumber(work->wordSet, 1, minutes / 60, 2, 1, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 2, minutes % 60, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, minutes / 60, 2, 1, GPOWER_EVENT_NUMBER_HALFWIDTH);
+    WORDSET_SetSlotNumber(work->wordSet, 2, minutes % 60, 2, 2, GPOWER_EVENT_NUMBER_HALFWIDTH);
     WORDSET_CopyTaggedText(work->wordSet, work->lineStr, templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 8, (u16)(row << 4), work->lineStr);
 }

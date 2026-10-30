@@ -462,6 +462,9 @@ struct EventCommMsgBox;
 extern MmdlHeader d_02183AF0;
 extern MmdlHeader g_02183AF0;
 extern char str_02183B14[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern char str_ja_02183A88[];
+#endif
 extern char str_02183B28[];
 extern unsigned char d_021836B4[];
 extern const struct BgTemplate d_0218370C;
@@ -995,7 +998,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     u32 tmp;
 
     gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
-    work = GFL_HEAP_Alloc(0x70, sizeof(IntrudeSubdispWork), 1, (char *)str_02183B14, 0x240);
+    work = GFL_HEAP_Alloc(0x70, sizeof(IntrudeSubdispWork), 1, (char *)str_02183B14, PM_SRC_LINE(0x240, 0x22B));
     work->gameSystem = gameSystem;
     work->lastBgPalette = 0xFF;
     work->cursorActor = 0xFF;
@@ -1137,7 +1140,7 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
             }
             break;
         default:
-            GF_PANIC_Fail((char *)str_02183B28, 0, (char *)str_02183B28);
+            GF_PANIC_Fail(PM_LANG_JA((char *)str_02183B28, (char *)str_02183B14), PM_SRC_LINE(0, 0x2E8), PM_LANG_JA((char *)str_02183B28, (char *)str_ja_02183A88));
             break;
         }
     }
@@ -1366,7 +1369,7 @@ void INTRUDE_SUBDISP_ClactResourceLoad(IntrudeSubdispWork *work, void *bg)
     work->infoCellRes = CLACT_RegisterCellAnim(bg, 12, 13, 0x70);
     work->numberRes = ARC_UTIL_LoadBgCharDataFromHandle(bg, 10, 1, &work->numberGfx, 0x70);
     work->numberVram = CLACT_GetCharacterVramAddress((u32)work->infoCharRes, 2);
-    work->numberBuf = GFL_HEAP_Alloc(0x70, 0x200, 1, (char *)str_02183B14, 0x495);
+    work->numberBuf = GFL_HEAP_Alloc(0x70, 0x200, 1, (char *)str_02183B14, PM_SRC_LINE(0x495, 0x46c));
     MIi_CpuCopy16((void *)0x050006E2, work->palBase, 8);
     MIi_CpuCopy16(work->palBase, work->palOut, 8);
     MIi_CpuCopy16((void *)0x05000702, work->palTarget, 8);

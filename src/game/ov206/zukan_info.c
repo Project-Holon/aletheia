@@ -141,6 +141,9 @@ struct Rec;
 #if LANGUAGE == LANGUAGE_ENGLISH
 #define ZUKAN_INFO_HEIGHT_VALUE_X 0x65
 #define ZUKAN_INFO_WEIGHT_VALUE_X 0x66
+#elif LANGUAGE == LANGUAGE_JAPANESE
+#define ZUKAN_INFO_HEIGHT_VALUE_X 0x5d
+#define ZUKAN_INFO_WEIGHT_VALUE_X 0x64
 #else
 #define ZUKAN_INFO_HEIGHT_VALUE_X 0x5e
 #define ZUKAN_INFO_WEIGHT_VALUE_X 0x64
@@ -485,7 +488,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
     int y;
     u32 hh;
 
-    p = GFL_HEAP_Alloc(heap, sizeof(struct ZukanInfo), 0, d_021BC220, 0x42f);
+    p = GFL_HEAP_Alloc(heap, sizeof(struct ZukanInfo), 0, d_021BC220, PM_SRC_LINE(0x42f, 0x2d0));
     MI_CpuFill8(p, 0, sizeof(struct ZukanInfo));
     ((struct ZukanInfo *)p)->heap = heap;
     ((struct ZukanInfo *)p)->species = species;
@@ -563,7 +566,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
         BG_SYS_FillTileMap(((struct ZukanInfo *)p)->layerLower, 0, 0x35, 0x20, 3, 5);
     }
     h = ((struct ZukanInfo *)p)->w[0];
-    buf = GFL_HEAP_Alloc(((struct ZukanInfo *)p)->heap, ARC_TOOL_GetHandleMemberSize(h, 9), 0, d_021BC220, 0x4f7);
+    buf = GFL_HEAP_Alloc(((struct ZukanInfo *)p)->heap, ARC_TOOL_GetHandleMemberSize(h, 9), 0, d_021BC220, PM_SRC_LINE(0x4f7, 0x398));
     ARC_TOOL_ReadHandleMember(h, 9, buf);
     NNS_G2dGetUnpackedPaletteData(buf, &res);
     data = (char *)((NNSG2dPaletteData *)res)->pRawData;
@@ -957,7 +960,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
     }
     if (r7 != 0x3e7) {
         h2 = WORDSET_CreateDefault(((struct ZukanInfo *)p)->heap);
-        WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, PM_LANG_HALF_WIDTH_DIGITS);
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, *(struct BmpWin **)&((struct ZukanInfo *)p)->win[1], (void *)(((struct ZukanInfo *)p)->printQue), (struct GfFont *)((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[0], 8, 5, 0x3e7 + 0x59, 0, h2);
         WORDSET_Delete((struct WordSet *)h2);
     } else {
@@ -1016,11 +1019,15 @@ void ZUKAN_INFO_DrawPage(char *p, int idx)
     }
     if (c != 0x3e7) {
         h = WORDSET_CreateDefault(((struct ZukanInfo *)p)->heap);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 0);
+#else
         if (idx == 0) {
             WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {
             WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 1);
         }
+#endif
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[1], (void *)((struct ZukanInfo *)p)->printQue, (struct GfFont *)((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[0], 8, 5, 0x440, 0, h);
         WORDSET_Delete((struct WordSet *)h);
     } else {

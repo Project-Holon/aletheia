@@ -96,6 +96,11 @@
 struct PrintSys;
 struct BrPokesearchPair;
 #include "../types.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F8F00[];
+extern const char str_ja_021F8F18[];
+#endif
 
 typedef struct BrPokesearchCfg {u16 heap;unsigned char rest[6];} BrPokesearchCfg;
 
@@ -460,7 +465,7 @@ void BR_POKESEARCH_CreateDetail(struct BrPokeSearchWork *work,struct BrDownloadO
         MI_CpuFill8(&pos,0,8);
         pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
         graphic=(void *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(owner->graphic));
-        if (!BR_RES_GetSprite((struct BrRes *)(owner->res),6,(void *)&sprite)) GF_PANIC_Fail((const char *)(""),0,(const char *)(""));
+        if (!BR_RES_GetSprite((struct BrRes *)(owner->res),6,(void *)&sprite)) GF_PANIC_Fail((const char *)PM_LANG_JA("", str_ja_021F8F00),PM_SRC_LINE(0, 0x450),(const char *)PM_LANG_JA("", str_ja_021F8F18));
         work->backButton=BR_BTN_CreateFromMessage((void *)(&pos),4,0x60,1,(void *)(graphic),(void *)(work->oamData),(void *)font,(struct MsgBank *)msgData,(void *)&sprite,work->heapId);
         work->detailWin=BR_UTIL_Create(4,8,3,0x10,2,0xe,work->printQue,work->heapId);
         BR_UTIL_SetTextFromMessage(*(char * *)&work->detailWin,(void *)msgData,0x71,(void *)font,0x3da0);

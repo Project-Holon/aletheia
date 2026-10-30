@@ -352,6 +352,7 @@ typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/zonedata.h"
 #include "../arm9/printsys.h"
+#include "../version.h"
 
 int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
 {
@@ -513,7 +514,10 @@ void TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
     TownMapTown *under;
     int pressed;
     moved=0;
-    if (TOWNMAP_BackButtonIsHeld(&work->buttonBar) == 0) {
+#if LANGUAGE != LANGUAGE_JAPANESE
+    if (TOWNMAP_BackButtonIsHeld(&work->buttonBar) == 0)
+#endif
+    {
         if (work->zooming!=0 && TOWNMAP_IsScrollZooming(&work->scroll)==0) {
             TownMapVec touchDelta;
             TownMapPoint pos,delta={0,0};
@@ -708,10 +712,12 @@ int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar) {
     return pressed;
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 int TOWNMAP_BackButtonIsHeld(TownMapButtonBar *bar)
 {
     return TOUCHBAR_IsBusy(bar->buttonMan);
 }
+#endif
 
 void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId)
 {
@@ -917,7 +923,7 @@ void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, struct TownMapI
     MI_CpuFill8(map, 0, sizeof(TownMapMap));
     map->townCount = 0x3d;
     map->gameData = (void *)gameData;
-    map->towns = GFL_HEAP_Alloc(heapId, map->townCount * sizeof(*map->towns), 0, d_021BBD60, 0x8C5);
+    map->towns = GFL_HEAP_Alloc(heapId, map->townCount * sizeof(*map->towns), 0, d_021BBD60, PM_SRC_LINE(0x8C5, 0x8A5));
     MI_CpuFill8(map->towns, 0, map->townCount * sizeof(*map->towns));
     TOWNMAP_GRH_GetResourceIds(gfx, &markerBank0, &markerBank1, &markerBank2);
     for (; i < map->townCount; i++) {

@@ -423,6 +423,16 @@ struct _NHTTPRapSession;
 #include "../ov009/dwc_rapcommon.h"
 #include "../ov177/wifibattlematch_view.h"
 #include "wifibattlematch_net.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021E2D20[];
+extern const char str_ja_021E2D38[];
+extern const char str_ja_021E2E38[];
+extern const char str_ja_021E2E50[];
+extern const char str_ja_021E2E74[];
+extern const char str_ja_021E2E8C[];
+extern const char str_ja_021E2F44[];
+extern const char str_ja_021E2F98[];
+#endif
 extern const WifiBattleMatchNetTable d_021E2C74,d_021E2C80;
 extern const char d_021E2DE0[];
 extern const char ov177_id[];
@@ -493,7 +503,7 @@ int WIFIBATTLEMATCH_NET_Create(void *a,void *b,void *obj,void *d)
     switch(((struct WifiBattleMatchParams *)obj)->save->commMode) {
     case 1: return d_021E2C74.create(a,b,obj,d);
     case 0: return d_021E2C80.create(a,b,obj,d);
-    default: GF_PANIC_Fail(d_021E2DE0,0,d_021E2DE0); return 0;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_021E2DE0, str_ja_021E2D20),PM_SRC_LINE(0, 0x66),PM_LANG_JA(d_021E2DE0, str_ja_021E2D38)); return 0;
     }
 }
 
@@ -503,14 +513,14 @@ int WIFIBATTLEMATCH_NET_Close(void *a,void *b,void *obj,void *d)
     switch(((struct WifiBattleMatchParams *)obj)->save->commMode) {
     case 1: result=d_021E2C74.close(a,b,obj,d); break;
     case 0: result=d_021E2C80.close(a,b,obj,d); break;
-    default: GF_PANIC_Fail(d_021E2DE0,0,d_021E2DE0); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_021E2DE0, str_ja_021E2D20),PM_SRC_LINE(0, 0x87),PM_LANG_JA(d_021E2DE0, str_ja_021E2D38)); break;
     }
     GFL_USE_StopAllSe();
     GF_OVERLAY_Unload((sptr)ov177_id);
     return result;
 }
 
-int WIFIBATTLEMATCH_NET_Other(void *a,void *b,void *obj,void *d) {switch(((struct WifiBattleMatchParams *)obj)->save->commMode) {case 1:return d_021E2C74.other(a,b,obj,d);case 0:return d_021E2C80.other(a,b,obj,d);default:GF_PANIC_Fail(d_021E2DE0,0,d_021E2DE0);return 0;}}
+int WIFIBATTLEMATCH_NET_Other(void *a,void *b,void *obj,void *d) {switch(((struct WifiBattleMatchParams *)obj)->save->commMode) {case 1:return d_021E2C74.other(a,b,obj,d);case 0:return d_021E2C80.other(a,b,obj,d);default:GF_PANIC_Fail(PM_LANG_JA(d_021E2DE0, str_ja_021E2D20),PM_SRC_LINE(0, 0xAC),PM_LANG_JA(d_021E2DE0, str_ja_021E2D38));return 0;}}
 
 /*
  * prototype: 0203159C's matched void body leaves allocated r0 live;
@@ -2408,8 +2418,14 @@ void WIFIBATTLEMATCH_NET_CompStepReconcileEntryState(WifibattlematchCallback *sy
         result=WIFIBATTLEMATCH_NET_HandleNetError(comp->net,(void *)1,0);
         switch(result){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys, WIFIBATTLEMATCH_NET_CompCleanup);break;case 0:WIFIBATTLEMATCH_NET_SetCompWaitCallback(comp,WIFIBATTLEMATCH_NET_CompStepCheckPeriod);*state=17;break;}break;
     case 17:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        result=WIFIBATTLEMATCH_NET_GetCompWaitResult(comp);
+        if(result!=0xffff){*state=46;switch(WIFIBATTLEMATCH_NET_HandleNetError(comp->net,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys, WIFIBATTLEMATCH_NET_CompCleanup);return;}}
+        if(result==3)WIFIBATTLEMATCH_UTIL_SetCallback(sys, WIFIBATTLEMATCH_NET_CompCleanup);break;
+#else
         result=WIFIBATTLEMATCH_NET_GetCompWaitResult(comp);if(result!=0xffff)*state=46;if(result==3)WIFIBATTLEMATCH_UTIL_SetCallback(sys, WIFIBATTLEMATCH_NET_CompCleanup);
         switch(WIFIBATTLEMATCH_NET_HandleNetError(comp->net,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys, WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+#endif
     case 18:WIFIBATTLEMATCH_UTIL_PrintMessage(comp->textObj,comp->msgBank,0x3b,1);WIFIBATTLEMATCH_UTIL_SetRequest(sys,55);*state=56;break;
     case 14:
         regState=ctx->session->subState;if(regState==0)*state=19;else if(regState==1)*state=53;else if(regState==2)*state=54;else *state=55;break;
@@ -3507,7 +3523,11 @@ void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(WifibattlematchCallback *sys, int *
     case 1:reg=comp->card;
         if(!GFL_NET_GetRunState())GFL_NET_ERR_HaltIfActive();
         got=DWC_GetDateTime((int *)&nowDate,(int *)&nowTime);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime)+32400);
+#else
         if(got)RTC_ConvertSecondToDateTime(&nowDate,&nowTime,RTC_ConvertDateTimeToSecond(&nowDate,&nowTime));
+#endif
         startDate.year=REGULATION_Card_GetValue((struct RegulationCard *)reg,4);
         startDate.month=REGULATION_Card_GetValue((struct RegulationCard *)reg,5);
         startDate.day=REGULATION_Card_GetValue((struct RegulationCard *)reg,6);startDate.week=0;
@@ -3530,13 +3550,20 @@ void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(WifibattlematchCallback *sys, int *
     case 5:WIFIBATTLEMATCH_UTIL_PrintMessage(comp->textObj,comp->msgBank,40,2);
         *state=14;WIFIBATTLEMATCH_UTIL_SetRequest(sys,6);break;
     case 6:box=BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(params->save->gameData));
+#if LANGUAGE != LANGUAGE_JAPANESE
         comp->boxLocked=BATTLE_BOX_IsLocked(box, 1);
+#endif
         BATTLE_BOX_ClearLockFlags((struct BattleBoxSave *)box, 1);
         REGULATION_Card_SetValue(comp->card,10,3);
         GAME_DATA_SaveStart(params->save->gameData);*state=7;break;
     case 7:if(GAME_DATA_SaveMain(params->save->gameData)==2) *state=8;break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 8:box=BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(params->save->gameData));
+        if(BATTLE_BOX_IsLocked(box, 1)) *state=9;else *state=10;break;
+#else
     case 8:BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(params->save->gameData));
         if(comp->boxLocked!=0) *state=9;else *state=10;break;
+#endif
     case 9:WIFIBATTLEMATCH_NET_DrawCompStatusWindow(comp,1);
         WIFIBATTLEMATCH_UTIL_PrintMessage(comp->textObj,comp->msgBank,81,1);
         *state=14;WIFIBATTLEMATCH_UTIL_SetRequest(sys,10);break;
@@ -4102,7 +4129,7 @@ int WIFIBATTLEMATCH_NET_GetSetCompStat(struct WifiBattleMatchCompWork *obj, stru
 struct WifiBattleMatchNetCtx *WIFIBATTLEMATCH_NET_CreateNetContext(struct WifiBattleMatchReportBlock *netId, struct GameData *save, char *heapId, u16 heap) {
     struct WifiBattleMatchNetCtx *ctx;
     struct WifiList *wifiList;
-    ctx = GFL_HEAP_Alloc(heap, sizeof(*ctx), 0, d_021E2EE0, 0x2b0);
+    ctx = GFL_HEAP_Alloc(heap, sizeof(*ctx), 0, PM_LANG_JA(d_021E2EE0, str_ja_021E2E38), PM_SRC_LINE(0x2b0, 0x297));
     MI_CpuFill8(ctx, 0, sizeof(*ctx));
     wifiList = GAME_DATA_GetWifiList(save);
     ctx->gsProfileId = wifiList;
@@ -4112,9 +4139,9 @@ struct WifiBattleMatchNetCtx *WIFIBATTLEMATCH_NET_CreateNetContext(struct WifiBa
     ctx->heap = heapId;
     ctx->netIdPtr = netId;
     ctx->initWord = 0x573;
-    ctx->recBuf = GFL_HEAP_Alloc(heap, 0x260, 0, d_021E2EE0, 0x2c0);
+    ctx->recBuf = GFL_HEAP_Alloc(heap, 0x260, 0, PM_LANG_JA(d_021E2EE0, str_ja_021E2E38), PM_SRC_LINE(0x2c0, 0x2a7));
     MI_CpuFill8(ctx->recBuf, 0, 0x260);
-    if (!GFL_NET_GetRunState()) GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+    if (!GFL_NET_GetRunState()) GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x2B0), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
     GFL_NET_COMMAND_AddCommandTable(0x2400, d_021E2C90, 6, ctx);
     GFL_NET_SetWaitMode(0);
     DWC_RAP_SetErrorCallback(WIFIBATTLEMATCH_NET_CleanupDownload, ctx);
@@ -4166,7 +4193,9 @@ int WIFIBATTLEMATCH_NET_HandleNetError(struct WifiBattleMatchNetCtx *ctx, void *
         if (GFL_NET_ERR_GetErrorLevel()) {
             GFL_NET_SetAutoExit(r);
             GFL_NET_SetLoginOption(r);
+#if LANGUAGE != LANGUAGE_JAPANESE
             GFL_USE_StopAllSe();
+#endif
             if (GAME_DATA_IsSaving(ctx->save)) {
                 GAME_DATA_SaveCancel(ctx->save);
                 GFL_NET_ERR_HaltWithMessage(0x29);
@@ -4216,7 +4245,9 @@ int WIFIBATTLEMATCH_NET_HandleNetError(struct WifiBattleMatchNetCtx *ctx, void *
         if (r != RES_NONE) {
             GFL_NET_SetAutoExit(0);
             GFL_NET_SetLoginOption(0);
+#if LANGUAGE != LANGUAGE_JAPANESE
             GFL_USE_StopAllSe();
+#endif
             if (GAME_DATA_IsSaving(ctx->save)) {
                 GAME_DATA_SaveCancel(ctx->save);
                 GFL_NET_ERR_HaltWithMessage(0x29);
@@ -4307,7 +4338,7 @@ void WIFIBATTLEMATCH_NET_SetMatchKey(struct WifiBattleMatchNetCtx *obj, int mode
         obj->evalFn = WIFIBATTLEMATCH_NET_GetMatchKeyValue;
         break;
     case 1:
-        GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+        GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x424), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
         break;
     case 2:
         obj->evalFn = WIFIBATTLEMATCH_NET_GetMatchKeyInt;
@@ -4316,7 +4347,7 @@ void WIFIBATTLEMATCH_NET_SetMatchKey(struct WifiBattleMatchNetCtx *obj, int mode
         obj->evalFn = WIFIBATTLEMATCH_NET_GetMatchKeyDefault;
         break;
     default:
-        GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+        GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x42D), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
         break;
     }
 }
@@ -4590,7 +4621,7 @@ void WIFIBATTLEMATCH_NET_SetupMatchReport(struct WifiBattleMatchNetCtx *obj, int
             obj->reportFn = WIFIBATTLEMATCH_NET_ReportAddWin;
             break;
         default:
-            GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+            GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x664), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
             break;
         }
     } else if (mode == 1) {
@@ -4603,7 +4634,7 @@ void WIFIBATTLEMATCH_NET_SetupMatchReport(struct WifiBattleMatchNetCtx *obj, int
                 obj->reportFn = WIFIBATTLEMATCH_NET_ReportAddDisconnectWin;
                 break;
             default:
-                GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+                GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x676), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
                 break;
             }
         } else {
@@ -4619,7 +4650,7 @@ void WIFIBATTLEMATCH_NET_SetupMatchReport(struct WifiBattleMatchNetCtx *obj, int
                 obj->reportFn = WIFIBATTLEMATCH_NET_ReportAddRecord;
                 break;
             default:
-                GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+                GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x692), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
                 break;
             }
         }
@@ -4691,7 +4722,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
         ctx->reportState = 1;
         result = DWC_ScInitialize(0xb5f, 0);
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x751);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x751, 0x729));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4700,7 +4731,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
     case 5:
         result = DWC_ScGetLoginCertificate((GSLoginCertificate **)((void **)((char *)&ctx->netIdPtr->players[0])));
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x761);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x761, 0x739));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4712,7 +4743,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
         result = DWC_ScCreateSessionAsync(WIFIBATTLEMATCH_NET_OnReportResultA, 100, (void *)(ctx));
         ctx->reportFieldA = 1;
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x773);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x773, 0x74B));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4730,13 +4761,13 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
             break;
         }
         if ((ctx->pollCount)++ > 0xe10) {
-            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, 0x78f);
+            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, PM_SRC_LINE(0x78f, 0x767));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
         DWC_ScProcess();
         if (ctx->reportResult != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, 0x797);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, PM_SRC_LINE(0x797, 0x76F));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4767,7 +4798,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
             src = DWC_ScGetSessionId();
             MI_CpuCopy8(src, dst, 0x28);
             if (result != 0) {
-                WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x7cd);
+                WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x7cd, 0x7A5));
                 WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
                 return 2;
             }
@@ -4778,7 +4809,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
         (ctx->pendingCount)++;
         result = DWC_ScSetReportIntentionAsync(ctx->reportCount, WIFIBATTLEMATCH_NET_OnReportResultB, 100, (void *)(ctx));
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x7dd);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x7dd, 0x7B5));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4791,13 +4822,13 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
             break;
         }
         if ((ctx->pollCount)++ > 0xe10) {
-            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, 0x7f2);
+            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, PM_SRC_LINE(0x7f2, 0x7CA));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
         DWC_ScProcess();
         if (ctx->reportResult != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, 0x7fa);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, PM_SRC_LINE(0x7fa, 0x7D2));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4848,7 +4879,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
         result = WIFIBATTLEMATCH_NET_SubmitReport(&ctx->netIdPtr->players[0], &ctx->netIdPtr->players[1],(struct WifiBattleMatchTeam *)&ctx->teamArg, ctx->reportCount,
                           ctx->reportFn, ctx->reportSlot, ctx->reportKind, ctx->reportFieldB);
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x86d);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x86d, 0x845));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4858,7 +4889,7 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
         (ctx->pendingCount)++;
         result = DWC_ScSubmitReportAsync(ctx->netIdPtr->players[0].report, ctx->reportCount, WIFIBATTLEMATCH_NET_OnReportResultC, 100, (void *)ctx);
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, 0x87c);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, result, PM_SRC_LINE(0x87c, 0x854));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4871,13 +4902,13 @@ int WIFIBATTLEMATCH_NET_ScProcess(struct WifiBattleMatchNetCtx *ctx, u32 *out)
             break;
         }
         if ((ctx->pollCount)++ > 0xe10) {
-            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, 0x890);
+            WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err, 1, PM_SRC_LINE(0x890, 0x868));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
         DWC_ScProcess();
         if (ctx->reportResult != 0) {
-            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, 0x898);
+            WIFIBATTLEMATCH_NET_SetErrorB(&ctx->err, ctx->reportResult, PM_SRC_LINE(0x898, 0x870));
             WIFIBATTLEMATCH_NET_ShutdownReport(ctx);
             return 2;
         }
@@ -4985,7 +5016,11 @@ int WIFIBATTLEMATCH_NET_SubmitReport(struct WifiBattleMatchReportPlayer *ctx, st
             mode = 2;
             break;
         default:
+#if LANGUAGE == LANGUAGE_JAPANESE
+            GF_PANIC_FailPrintf(str_ja_021E2E38, 0x95F, str_ja_021E2E74, peer->rec0);
+#else
             GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+#endif
             break;
         }
     }
@@ -5015,7 +5050,11 @@ int WIFIBATTLEMATCH_NET_SubmitReport(struct WifiBattleMatchReportPlayer *ctx, st
                 mode2 = 2;
                 break;
             default:
+#if LANGUAGE == LANGUAGE_JAPANESE
+                GF_PANIC_FailPrintf(str_ja_021E2E38, 0x9B1, str_ja_021E2E74, peer->rec0);
+#else
                 GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+#endif
                 break;
             }
         }
@@ -5067,7 +5106,7 @@ int WIFIBATTLEMATCH_NET_ReportAddRecord(struct WifiBattleMatchReportPlayer *ctx,
         if((result=DWC_ScReportAddIntValue(ctx->report,13,first))) return result;
         if((result=DWC_ScReportAddIntValue(ctx->report,14,second))) return result;
         break;
-    default: GF_PANIC_Fail(d_021E2EF8,0,d_021E2EF8); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0xBC0), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50)); break;
     }
     if((result=DWC_ScReportAddIntValue(ctx->report,20,present!=0))) return result;
     return DWC_ScReportAddIntValue(ctx->report,27,-1);
@@ -5145,7 +5184,7 @@ void WIFIBATTLEMATCH_NET_OnRecvStatus(int index, int unused, void *dest, struct 
 int WIFIBATTLEMATCH_NET_GetPlayerBuffer(int a, char *b)
 {
     if (GFL_NET_GetHandleNetID((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle())) == a) {
-        GF_PANIC_Fail((const char *)(g_021E2EF8), 0, (const char *)((sptr)g_021E2EF8));
+        GF_PANIC_Fail(PM_LANG_JA((const char *)(g_021E2EF8), str_ja_021E2E38), PM_SRC_LINE(0, 0xCE4), PM_LANG_JA((const char *)((sptr)g_021E2EF8), str_ja_021E2E50));
         return 0;
     }
     return (sptr)(b + 0x218);
@@ -5254,7 +5293,7 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(struct WifiBattleMatchNetCtx *obj)
     case 0:
         result = DWC_GdbInitialize(0xb5f, (DWCstAccUserData *)obj->scId, 0);
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, 0xdef);
+            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, PM_SRC_LINE(0xdef, 0xdc7));
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
@@ -5262,13 +5301,13 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(struct WifiBattleMatchNetCtx *obj)
         break;
     case 1:
         if (obj->fieldCount >= 0x26)
-            GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+            GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0xDD0), PM_LANG_JA(d_021E2EF8, str_ja_021E2E8C));
         if (obj->gdbTarget == -1)
             result = DWC_GdbGetMyRecordsAsync((char *)d_021E2F1C, (char **)obj->gdbName, obj->fieldCount, WIFIBATTLEMATCH_NET_GdbSortByName, (void *)obj);
         else
             result = DWC_GdbGetRecordsAsync((char *)d_021E2F1C, (int *)(&obj->gdbTarget), 1, (char **)obj->gdbName, obj->fieldCount, WIFIBATTLEMATCH_NET_GdbSortByName, (void *)obj);
         if (result != 0) {
-            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, 0xe0a);
+            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, PM_SRC_LINE(0xe0a, 0xde2));
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
@@ -5277,14 +5316,14 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(struct WifiBattleMatchNetCtx *obj)
         break;
     case 2:
         if ((obj->pollCount)++ > 0xe10) {
-            WIFIBATTLEMATCH_NET_SetErrorA(&obj->err, 1, 0xe17);
+            WIFIBATTLEMATCH_NET_SetErrorA(&obj->err, 1, PM_SRC_LINE(0xe17, 0xdef));
             obj->state = 6;
             break;
         }
         DWC_GdbProcess();
         result = DWC_GdbGetState();
         if (result == 0 || result == 4) {
-            WIFIBATTLEMATCH_NET_SetResultB(&obj->err, result, 0xe26);
+            WIFIBATTLEMATCH_NET_SetResultB(&obj->err, result, PM_SRC_LINE(0xe26, 0xdfe));
             obj->state = 6;
         } else if (result == 1) {
             obj->state = 3;
@@ -5293,10 +5332,10 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(struct WifiBattleMatchNetCtx *obj)
     case 3:
         result = DWC_GdbGetAsyncResult();
         if (result == 0) {
-            WIFIBATTLEMATCH_NET_SetResultC(&obj->err, result, 0xe39);
+            WIFIBATTLEMATCH_NET_SetResultC(&obj->err, result, PM_SRC_LINE(0xe39, 0xe11));
             obj->state = 6;
         } else if (result != 1) {
-            WIFIBATTLEMATCH_NET_SetResultC(&obj->err, result, 0xe3f);
+            WIFIBATTLEMATCH_NET_SetResultC(&obj->err, result, PM_SRC_LINE(0xe3f, 0xe17));
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         } else {
@@ -5315,14 +5354,14 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(struct WifiBattleMatchNetCtx *obj)
             obj->pollCount = 0;
             obj->state = 7;
         } else {
-            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, 0xe5e);
+            WIFIBATTLEMATCH_NET_SetResultA(&obj->err, result, PM_SRC_LINE(0xe5e, 0xe36));
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
         break;
     case 7:
         if ((obj->pollCount)++ > 0xe10) {
-            WIFIBATTLEMATCH_NET_SetErrorA(&obj->err, 1, 0xe6a);
+            WIFIBATTLEMATCH_NET_SetErrorA(&obj->err, 1, PM_SRC_LINE(0xe6a, 0xe42));
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
             return 2;
         }
@@ -5489,7 +5528,7 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldE(int count, SAKEField **recs, void *dst, i
 void WIFIBATTLEMATCH_NET_SetupGdbUpload(struct WifiBattleMatchNetCtx *ctx,u32 mode,struct WifibattlematchNetRecord *src)
 {
     ctx->state=0;
-    if(ctx->netIdPtr->head==0)GF_PANIC_Fail((const char *)(d_021E2EF8),0,(const char *)((sptr)d_021E2EF8));
+    if(ctx->netIdPtr->head==0)GF_PANIC_Fail(PM_LANG_JA((const char *)(d_021E2EF8), str_ja_021E2E38),PM_SRC_LINE(0, 0x1036),PM_LANG_JA((const char *)((sptr)d_021E2EF8), str_ja_021E2F44));
     switch(mode) {
     case 0:
         ctx->recBuf[0].mName=(char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(36);
@@ -5547,23 +5586,23 @@ int WIFIBATTLEMATCH_NET_GdbUpdateRecord(struct WifiBattleMatchNetCtx *ctx)
     switch(ctx->state) {
     case 0:
         result=DWC_GdbInitialize(0xb5f, (DWCstAccUserData *)ctx->scId, 0);
-        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x1161);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x1161, 0x1139));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         ctx->state=1;break;
     case 1:
-        if(ctx->fieldCount>=0x26)GF_PANIC_Fail(d_021E2EF8,0,d_021E2EF8);
+        if(ctx->fieldCount>=0x26)GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38),PM_SRC_LINE(0, 0x1142),PM_LANG_JA(d_021E2EF8, str_ja_021E2E8C));
         result=DWC_GdbUpdateRecordAsync((char *)d_021E2F1C,ctx->netIdPtr->head,ctx->recBuf,ctx->fieldCount);
-        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x116e);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x116e, 0x1146));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         ctx->pollCount=0;ctx->state=2;break;
     case 2:
-        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,0x117b);ctx->state=6;break;}
+        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,PM_SRC_LINE(0x117b, 0x1153));ctx->state=6;break;}
         DWC_GdbProcess();result=DWC_GdbGetState();
-        if(result==0||result==4) {WIFIBATTLEMATCH_NET_SetResultB(&ctx->err,result,0x1186);ctx->state=6;}
+        if(result==0||result==4) {WIFIBATTLEMATCH_NET_SetResultB(&ctx->err,result,PM_SRC_LINE(0x1186, 0x115E));ctx->state=6;}
         else if(result==1)ctx->state=3;
         break;
     case 3:
         result=DWC_GdbGetAsyncResult();
-        if(result==0) {WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,0x1199);ctx->state=6;}
-        else if(result!=1) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,0x11a0);return 2;}
+        if(result==0) {WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,PM_SRC_LINE(0x1199, 0x1171));ctx->state=6;}
+        else if(result!=1) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,PM_SRC_LINE(0x11a0, 0x1178));return 2;}
         else ctx->state=4;
         break;
     case 4:
@@ -5572,10 +5611,10 @@ int WIFIBATTLEMATCH_NET_GdbUpdateRecord(struct WifiBattleMatchNetCtx *ctx)
     case 6:
         result=DWC_GdbCancelRequest();
         if(result==0) {ctx->pollCount=0;ctx->state=7;}
-        else {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x11be);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        else {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x11be, 0x1196));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         break;
     case 7:
-        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,0x11ca);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,PM_SRC_LINE(0x11ca, 0x11A2));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         DWC_GdbProcess();result=DWC_GdbGetState();
         if(result==0||result==4) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         if(result==1)ctx->state=8;
@@ -5604,34 +5643,34 @@ int WIFIBATTLEMATCH_NET_GdbCreateRecord(struct WifiBattleMatchNetCtx *ctx)
     switch(ctx->state) {
     case 0:
         result=DWC_GdbInitialize(0xb5f, (DWCstAccUserData *)ctx->scId, 0);
-        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x1215);return 2;}
+        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x1215, 0x11ED));return 2;}
         ctx->state=1;break;
     case 1:
         result=DWC_GdbCreateRecordAsync((char *)d_021E2F1C,ctx->recBuf,ctx->fieldCount,(int *)&ctx->netIdPtr->head);
-        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x1223);return 2;}
+        if(result!=0) {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x1223, 0x11FB));return 2;}
         ctx->pollCount=0;ctx->state=2;break;
     case 2:
-        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,0x122f);ctx->state=4;break;}
+        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,PM_SRC_LINE(0x122f, 0x1207));ctx->state=4;break;}
         DWC_GdbProcess();result=DWC_GdbGetState();
-        if(result==0||result==4) {WIFIBATTLEMATCH_NET_SetResultB(&ctx->err,result,0x123b);ctx->state=4;}
+        if(result==0||result==4) {WIFIBATTLEMATCH_NET_SetResultB(&ctx->err,result,PM_SRC_LINE(0x123b, 0x1213));ctx->state=4;}
         else if(result==1)ctx->state=3;
         break;
     case 3:
         result=DWC_GdbGetAsyncResult();
-        if(result==0) {WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,0x124f);ctx->state=4;}
-        else if(result!=1) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,0x1256);return 2;}
+        if(result==0) {WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,PM_SRC_LINE(0x124f, 0x1227));ctx->state=4;}
+        else if(result!=1) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);WIFIBATTLEMATCH_NET_SetResultC(&ctx->err,result,PM_SRC_LINE(0x1256, 0x122E));return 2;}
         else {
-            if(ctx->netIdPtr->head==0)WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,2,0x125c);
+            if(ctx->netIdPtr->head==0)WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,2,PM_SRC_LINE(0x125c, 0x1234));
             WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 1;
         }
         break;
     case 4:
         result=DWC_GdbCancelRequest();
         if(result==0) {ctx->pollCount=0;ctx->state=5;}
-        else {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,0x126f);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        else {WIFIBATTLEMATCH_NET_SetResultA(&ctx->err,result,PM_SRC_LINE(0x126f, 0x1247));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         break;
     case 5:
-        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,0x127b);WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
+        if((ctx->pollCount)++>0xe10) {WIFIBATTLEMATCH_NET_SetErrorA(&ctx->err,1,PM_SRC_LINE(0x127b, 0x1253));WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         DWC_GdbProcess();result=DWC_GdbGetState();
         if(result==0||result==4) {WIFIBATTLEMATCH_NET_GdbShutdown(ctx);return 2;}
         if(result==1)ctx->state=6;
@@ -5898,7 +5937,7 @@ int WIFIBATTLEMATCH_NET_DownloadError(unsigned int a)
 {
     switch (a) {
     case 0:
-        GF_PANIC_Fail((const char *)(g_021E2EF8), 0, (const char *)((sptr)g_021E2EF8));
+        GF_PANIC_Fail(PM_LANG_JA((const char *)(g_021E2EF8), str_ja_021E2E38), PM_SRC_LINE(0, 0x14C5), PM_LANG_JA((const char *)((sptr)g_021E2EF8), str_ja_021E2E50));
         return 0;
     case 1:
         return 0x34;
@@ -5947,7 +5986,7 @@ void WIFIBATTLEMATCH_NET_NdSetError(int reason,int kind,int serverError) { switc
 
 void WIFIBATTLEMATCH_NET_CreateHttpRap(struct WifiBattleMatchNetCtx *ctx,u16 heap)
 {
-    if(ctx->rapHandle!=0) GF_PANIC_Fail(d_021E2EF8,0,d_021E2EF8);
+    if(ctx->rapHandle!=0) GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38),PM_SRC_LINE(0, 0x157A),PM_LANG_JA(d_021E2EF8, str_ja_021E2F98));
     ctx->state=0;
     ctx->rapHandle=NHTTP_RAP_Create(heap,MYSTATUS_GetProfileId((const struct MyStatus *)GAME_DATA_GetMyStatus(ctx->save)),ctx->heap);
 }
@@ -6011,7 +6050,7 @@ void WIFIBATTLEMATCH_NET_GetRapPair(const struct WifiBattleMatchNetCtx *ctx,Wifi
 void WIFIBATTLEMATCH_NET_SetupHttpRap(struct WifiBattleMatchNetCtx *ctx, const W *src, u16 x)
 {
     if (ctx->rapHandle != 0)
-        GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+        GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x1619), PM_LANG_JA(d_021E2EF8, str_ja_021E2F98));
     ctx->rapHandle = NHTTP_RAP_Create(x, MYSTATUS_GetProfileId((const struct MyStatus *)GAME_DATA_GetMyStatus(ctx->save)), ctx->heap);
     ctx->postData = *src;
     ctx->state = 0;
@@ -6051,7 +6090,7 @@ int WIFIBATTLEMATCH_NET_HttpRapSend(struct WifiBattleMatchNetCtx *ctx)
                 break;
             }
         } else if(status!=15) {
-            WIFIBATTLEMATCH_NET_SetResultD(&ctx->err,status,0x16a0);
+            WIFIBATTLEMATCH_NET_SetResultD(&ctx->err,status,PM_SRC_LINE(0x16a0, 0x1678));
             if(ctx->rapHandle) {NHTTP_RAP_Destroy(ctx->rapHandle);ctx->rapHandle=0;}
             return 2;
         }
@@ -6203,7 +6242,7 @@ int WIFIBATTLEMATCH_NET_HttpRapPost(struct WifiBattleMatchNetCtx *ctx,u8 *out)
             case 200: (ctx->state)++;break;
             }
         } else if(status!=15) {
-            WIFIBATTLEMATCH_NET_SetResultD(&ctx->err,status,0x17a4);
+            WIFIBATTLEMATCH_NET_SetResultD(&ctx->err,status,PM_SRC_LINE(0x17a4, 0x177C));
             NHTTP_RAP_FreePostData(ctx->rapHandle);
             clear(ctx);
             return 2;
@@ -6318,7 +6357,7 @@ u32 WIFIBATTLEMATCH_NET_GetErrorMsg(int a)
     case 14:
         return 2;
     }
-    GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
+    GF_PANIC_Fail(PM_LANG_JA(d_021E2EF8, str_ja_021E2E38), PM_SRC_LINE(0, 0x187D), PM_LANG_JA(d_021E2EF8, str_ja_021E2E50));
     return 0;
 }
 

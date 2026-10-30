@@ -67,6 +67,14 @@
  *   RECORD_AddOne  0x02008DF0  thumb
  */
 #include "wifibattlematch_graphic_shared_types.h"
+#include "../version.h"
+
+/* Source line number passed to the work allocation. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WIFIBATTLEMATCH_UTIL_WORK_LINE 0x5b
+#else
+#define WIFIBATTLEMATCH_UTIL_WORK_LINE 0x5e
+#endif
 /* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
 #ifdef __MWERKS__
 #define BMP_MENUWORK_Create BMP_MENUWORK_Create_header
@@ -277,6 +285,10 @@ struct RecordBlock;
 
 #include "../arm9/printsys.h"
 #include "../arm9/app_keycursor.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021E8DF4[];
+extern const char str_ja_021E8E0C[];
+#endif
 WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, void *unused, struct GfFont *printArg, unsigned short heap);
 
 void WIFIBATTLEMATCH_UTIL_Delete(WifibattlematchUtilWork *p);
@@ -372,7 +384,7 @@ WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, uns
     WifibattlematchUtilWork *w;
     struct BmpWin *h;
 
-    w = GFL_HEAP_Alloc(heap, sizeof(*w), 0, d_021E8DD4, 0x5e);
+    w = GFL_HEAP_Alloc(heap, sizeof(*w), 0, d_021E8DD4, WIFIBATTLEMATCH_UTIL_WORK_LINE);
     MI_CpuFill8(w, 0, sizeof(*w));
     w->bgSlot = 0xf;
     w->printArg = printArg;
@@ -493,7 +505,7 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
         break;
     case 1:
         if (p->keyCursor != 0) {
-            GF_PANIC_Fail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
+            GF_PANIC_Fail(PM_LANG_JA((const char *)d_021E8DEC, str_ja_021E8DF4), PM_SRC_LINE(0, 0x121), PM_LANG_JA((const char *)d_021E8DEC, str_ja_021E8E0C));
         }
         PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)(u8 *)&p->ctrlKeyReleased, 2);
         p->keyCursor = APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
@@ -544,7 +556,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     struct BmpWin *bmp;
     u32 index;
     WifibattlematchMenuConfig config;
-    out=GFL_HEAP_Alloc((u16)heap,sizeof(*out),0,d_021E8DD4,0x1a2);
+    out=GFL_HEAP_Alloc((u16)heap,sizeof(*out),0,d_021E8DD4,PM_SRC_LINE(0x1a2, 0x19f));
     MI_CpuFill8(out,0,sizeof(*out));
     out->printQue=p->printQue;
     out->counter=p->kind;
@@ -612,7 +624,7 @@ int WIFIBATTLEMATCH_UTIL_UpdateMenu(WifibattlematchMenu *p)
 WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(void *owner, WifibattlematchCallbackFn callback, int heap)
 {
     WifibattlematchCallback *record;
-    record = GFL_HEAP_Alloc(heap, sizeof(*record), 0, d_021E8DD4, 0x246);
+    record = GFL_HEAP_Alloc(heap, sizeof(*record), 0, d_021E8DD4, PM_SRC_LINE(0x246, 0x23e));
     MI_CpuFill8(record, 0, sizeof(*record));
     record->owner = owner;
     WIFIBATTLEMATCH_UTIL_SetCallback(record, callback);

@@ -352,7 +352,9 @@ int WORLDTRADE_TITLE_Init(WorldtradeWork *p)
         p->state=5;
     }
     p->eb4=0;
+#if LANGUAGE != LANGUAGE_JAPANESE
     WORLDTRADE_SUBLCD_UpdateSlotAnims(p);
+#endif
     return 1;
 }
 

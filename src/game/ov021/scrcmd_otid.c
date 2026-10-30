@@ -131,6 +131,7 @@ struct FieldmapFunc;
 struct PlayerLocationData;
 
 #include "../arm9/player_location.h"
+#include "../version.h"
 
 
 extern char abs_id_39[];
@@ -254,6 +255,17 @@ int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, 
     int added = 0;
     int i;
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+    /* The Japanese build counts egg owners too. */
+    for (i = 0; i < BOX_SLOT_COUNT; i++) {
+        if (BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
+            u32 otId = BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_OT_ID, 0);
+            if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
+                added++;
+            }
+        }
+    }
+#else
     for (i = 0; i < BOX_SLOT_COUNT; i++) {
         if (BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
             if (BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
@@ -264,6 +276,7 @@ int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, 
             }
         }
     }
+#endif
     return added;
 }
 

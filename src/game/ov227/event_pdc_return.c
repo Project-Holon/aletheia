@@ -88,6 +88,7 @@ struct TrainerRecord;
 struct ProcSys;
 
 #include "../types.h"
+#include "../version.h"
 
 /* proc work object of ov227 (0x38 bytes); one view for every access */
 typedef struct {
@@ -249,7 +250,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
             nameConfirmed = 1;
         }
         if (nameConfirmed) {
-            work->nameArgs = NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (void *)args->partyMon, (u32)0xa, (struct Strbuf *)0, work->partyFullMessage, tmp, (u32)work->boxSlotCandidate, (void *)MISC_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
+            work->nameArgs = NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (void *)args->partyMon, (u32)PM_LANG_JA(0xa, 5), (struct Strbuf *)0, work->partyFullMessage, tmp, (u32)work->boxSlotCandidate, (void *)MISC_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
             PROCSYS_Push(work->procSys, (uptr)ov194_id, (const ProcData *)(0x021F5580), (void *)work->nameArgs);
             (*state)++;
             break;

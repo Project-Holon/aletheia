@@ -145,6 +145,7 @@
  *   GFL_NET_IsWifiGameKind  0x0200F300  thumb  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "btlv_effvm_types.h"
 #include "btlv_gauge_types.h"
 
@@ -363,7 +364,9 @@ BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId)
         if (i & 1)
             pos.x *= -1;
         BTLV_GAUGE_LoadSlotResources(work, layout, i);
+#if LANGUAGE != LANGUAGE_JAPANESE
         work->slots[i].layout = layout;
+#endif
         BTLV_GAUGE_PlaceSlot(work, i, &pos);
     }
     return work;
@@ -609,7 +612,11 @@ void BTLV_GAUGE_LoadSlotResources(BtlvGaugeWork *work, int layout, int slotIdx)
     palIdx = slotIdx;
     if (slotIdx >= 2)
         palIdx = slotIdx - 2;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    priorityBase = 0;
+#else
     priorityBase = (7 - slotIdx) * 3;
+#endif
     actorInit.draw_priority = priorityBase + 2;
     work->slots[slotIdx].frameActor = CLACT_CreateActor(work->unit, work->slots[slotIdx].frameCharRes, work->palRes[palIdx], work->slots[slotIdx].frameCellRes, &actorInit, 0, work->heapId);
     actorInit.draw_priority = priorityBase + 1;

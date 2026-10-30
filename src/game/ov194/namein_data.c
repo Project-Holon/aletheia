@@ -22,6 +22,7 @@
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  */
 #include "../types.h"
+#include "../version.h"
 
 #include "../arm9/mi_memory.h"
 
@@ -81,6 +82,7 @@ int NAMEIN_GRAPHIC_NextPairChar(char *p, const unsigned short *key, unsigned sho
 u32 NAMEIN_GRAPHIC_IsNameCharValid(u16 *s, u32 x);
 
 extern const char d_021F5798[];
+extern const char str_ja_021F55D8[];
 
 void *NAMEIN_GRAPHIC_LoadArcMember(u32 a, u16 b)
 {
@@ -96,7 +98,7 @@ void **NAMEIN_GRAPHIC_CreateMembers(u16 heap)
 {
     void **p;
     int i = 0;
-    p = GFL_HEAP_Alloc(heap, 5 * sizeof(void *), 0, d_021F5798, 147);
+    p = GFL_HEAP_Alloc(heap, 5 * sizeof(void *), 0, PM_LANG_JA(d_021F5798, str_ja_021F55D8), PM_SRC_LINE(147, 146));
     MI_CpuFill8(p, 0, 5 * sizeof(void *));
     for (; i < 5; i++)
         p[i] = NAMEIN_GRAPHIC_LoadArcMember(i, heap);

@@ -43,11 +43,17 @@
  *   sWihDwcAssertArg         0x020A7240  data
  *   sWihDwcFile              0x020A7244  data
  *   sWihBeaconSsidTag        0x020A7250  data
+ *   sWihDwcBeaconMaxText  0x020A7260  data
+ *   sWihDwcWorkNullText  0x020A7278  data
+ *   sWihDwcWorkText  0x020A7290  data
+ *   sWihDwcCfgNullText  0x020A72A0  data
+ *   sWihDwcCfgText  0x020A72B4  data
  *   ov015_id                 0x0000000F  data
  *   UI_Update  0x02034F5C  arm
  */
 
 #include "../types.h"
+#include "../version.h"
 #include "net_types.h"
 #include "../sdk_wm.h"
 #include "dwc_connectinet_types.h"
@@ -138,6 +144,21 @@ void WIH_DWC_Dummy(void);
 extern struct WihGlobals gWihDwc;
 extern u8 sWihDwcAssertArg;
 extern u8 sWihDwcFile[];
+
+/*
+ * The Japanese cartridge keeps the text of its assertions: the file name, the line and the
+ * expression.  The other cartridges pass the empty string.
+ */
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char sWihDwcBeaconMaxText[];    /* "num <= _ALLBEACON_MAX" */
+extern const char sWihDwcWorkNullText[];     /* "_localWork==NULL" */
+extern const char sWihDwcWorkText[];         /* "_localWork" */
+extern const char sWihDwcCfgNullText[];      /* "_localcfg==NULL" */
+extern const char sWihDwcCfgText[];          /* "_localcfg" */
+#define WIH_DWC_ASSERT_FAIL(line, text) GF_PANIC_Fail((const char *)sWihDwcFile, line, text)
+#else
+#define WIH_DWC_ASSERT_FAIL(line, text) GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg))
+#endif
 extern u8 ov015_id[];
 extern u8 sWihBeaconSsidTag[];
 
@@ -209,10 +230,10 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, u32 heapId)
     struct WihContext *context;
 
     if (maxBeacons > 4) {
-        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        WIH_DWC_ASSERT_FAIL(70, sWihDwcBeaconMaxText);
     }
     if (gWihDwc.context != 0) {
-        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        WIH_DWC_ASSERT_FAIL(71, sWihDwcWorkNullText);
     }
     context = GFL_NET_AllocAligned(heapId, sizeof(*context), (const char *)sWihDwcFile, 0x49);
     context->maxBeacons = maxBeacons;
@@ -279,7 +300,7 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, u32 heapId)
 void WIH_DWC_Delete(struct WihContext *context)
 {
     if (gWihDwc.context == 0) {
-        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        WIH_DWC_ASSERT_FAIL(96, sWihDwcWorkText);
     }
     WIH_SetBeaconFoundCallback(0);
     GFL_NET_FreeAligned(context->matchWork);
@@ -623,7 +644,7 @@ u32 WIH_DWC_PollStatus(void *searchKey)
 void WIH_DWC_CreateFilterBuffer(u32 heapId)
 {
     if (gWihDwc.filterBuf != 0) {
-        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        WIH_DWC_ASSERT_FAIL(446, sWihDwcCfgNullText);
     }
     gWihDwc.filterBuf = GFL_NET_AllocAligned(heapId, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }
@@ -655,7 +676,7 @@ void WIH_DWC_CreateFilterBuffer(u32 heapId)
 void WIH_DWC_ResetFilterState(void)
 {
     if (gWihDwc.filterBuf == 0) {
-        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        WIH_DWC_ASSERT_FAIL(474, sWihDwcCfgText);
     }
 #ifdef __MWERKS__
     NCFG_ReadConfig(gWihDwc.filterBuf->filterState, 0);

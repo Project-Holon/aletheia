@@ -63,6 +63,7 @@ struct Pack;
 
 #include "../ov093/btl_server_flow_types.h"
 #include "../types.h"
+#include "../version.h"
 #include "../ov093/btl_server_types.h"
 #include "../ov093/hand_common_types.h"
 #include "../ov093/btl_pokeparam_types.h"
@@ -577,7 +578,11 @@ u8 BTL_SERVER_FLOW_ProcTargetChange(BtlServerFlow *flow, struct BtlPokeParam *at
 u8 BTL_SERVER_FLOW_QueryInitialTargetEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveInfo);
 u8 BTL_SERVER_FLOW_QueryTargetChangeEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveInfo, u32 target);
 u32 BTL_SERVER_FLOW_CalcLevelScaledExp(struct BtlPokeParam *poke, u32 baseExp, u16 defeatedLevel, u16 gainerLevel);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct BtlPokeParam *defeatedPoke);
+#else
 void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct BtlPokeParam *defeatedPoke, u8 *expRecord);
+#endif
 int BTL_SERVER_FLOW_ProcBagItemUse(BtlServerFlow *flow, struct BtlPokeParam *poke, u16 itemId, u8 itemArg, u8 targetSlot);
 int BTL_SERVER_FLOW_TryThrowBall(BtlServerFlow *flow, struct BtlPokeParam *thrower, u16 ballItemId);
 int BTL_SERVER_FLOW_CalcCaptureShakes(BtlServerFlow *flow, struct BtlPokeParam *thrower, struct BtlPokeParam *target, u16 ballItemId, u8 *shakes, u8 *criticalCapture);

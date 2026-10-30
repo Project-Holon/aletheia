@@ -59,6 +59,7 @@
  *   MI_CpuCopy8         0x02082D44  arm
  *   STRBUF_GetLength  0x020458F8  arm
  */
+#include "../version.h"
 #include "pokeparty_shared_types.h"
 #include "gf_font_shared_types.h"
 #include "printsys_shared_types.h"
@@ -365,7 +366,7 @@ struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap)
     while (allocSize % 4 != 0) {
         allocSize++;
     }
-    queue = GFL_HEAP_Alloc(heap, allocSize + 0x18, 0, printsys_File, 287);
+    queue = GFL_HEAP_Alloc(heap, allocSize + 0x18, 0, printsys_File, PM_SRC_LINE(287, 287 - 6));
     queue->capacity = bufSize;
     queue->limitTicks.value = 0x1130;
     queue->job = 0;
@@ -860,6 +861,7 @@ u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
             case 0xFF:
                 cursor = PRINTSYS_ProcColorTag(job, cursor);
                 break;
+#if LANGUAGE != LANGUAGE_JAPANESE
             case 0xBE:
                 if (stopAtPause != 0) {
                     if (code != 0xF000) {
@@ -875,6 +877,17 @@ u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
                 }
                 cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
                 break;
+#else
+            default:
+                if (stopAtPause != 0) {
+                    if (code != 0xF000) {
+                        continue;
+                    }
+                    cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
+                    break;
+                }
+                return cursor;
+#endif
             }
         }
     }
@@ -1052,8 +1065,10 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
         job->penX = (s16)offset;
         break;
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     case 6:
         break;
+#endif
     default:
         break;
     }
@@ -1078,14 +1093,22 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
     }
     if (tag == 0) {
         paletteRow = (u8)((cursor[0] == 0xF000) ? cursor[3] : 0);
+#if LANGUAGE != LANGUAGE_JAPANESE
         if (paletteRow == 0xFF) {
             GF_FONT_SetTextColor((u8)((job->activeColor >> 10) & 0x1F), (u8)((job->activeColor >> 5) & 0x1F),
                           (u8)(job->activeColor & 0x1F));
-        } else {
+        } else
+#endif
+        {
             int letter;
             int shadow;
+#if LANGUAGE != LANGUAGE_JAPANESE
             base = paletteRow * 2;
             background = (u8)(job->textColor & 0x1F);
+#else
+            background = (u8)(job->textColor & 0x1F);
+            base = paletteRow * 2;
+#endif
             shadow = base + 2;
             letter = base + 1;
             GF_FONT_SetTextColor((u8)letter, (u8)shadow, background);
@@ -1093,8 +1116,13 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
                           | (background & 0x1F));
         }
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     if (cursor[0] == 0xF000) return (u16 *)((char *)cursor + 6 + cursor[2] * 2);
     return cursor;
+#else
+    if (cursor[0] == 0xF000) cursor = (u16 *)((char *)cursor + 6 + cursor[2] * 2);
+    return cursor;
+#endif
 }
 
 /*
@@ -1172,7 +1200,9 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
     printer->flags.bits.scrolling = 0;
     printer->callbackResult = 0;
     printer->flags.bits.useOverrideSpeed = 0;
+#if LANGUAGE != LANGUAGE_JAPANESE
     printer->flags.bits.clearOverridePending = 0;
+#endif
     return printer;
 }
 
@@ -1286,10 +1316,12 @@ void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait)
 {
     if (wait < printer->waitCounter) {
         printer->waitCounter = (u8)wait;
+#if LANGUAGE != LANGUAGE_JAPANESE
         if (wait == 0) {
             PRINTSYS_PrintStreamSetSpeed(printer, MSG_SPEED_GetWaitForSpeed(2));
             printer->flags.raw = 0x10u | printer->flags.raw;
         }
+#endif
     }
 }
 
@@ -1315,6 +1347,7 @@ u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer)
     return ((u32)printer->flags.raw << 28) >> 31;
 }
 
+#include "../version.h"
 #include "../types.h"
 
 
@@ -1419,7 +1452,9 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
         printer->callbackResult = printer->callback(printer->callbackArg);
         if (printer->callbackResult != 0)
             goto end;
+#if LANGUAGE != LANGUAGE_JAPANESE
         printer->callbackArg = printer->nextCallbackArg;
+#endif
     }
 
     if (printer->flags.bits.halted)
@@ -1450,10 +1485,12 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
                 glyphsThisTick = printer->overrideGlyphs;
             else
                 glyphsThisTick = printer->glyphsPerTick;
+#if LANGUAGE != LANGUAGE_JAPANESE
             if (printer->flags.bits.clearOverridePending) {
                 PRINTSYS_PrintStreamResetSpeed(printer);
                 printer->flags.bits.clearOverridePending = 0;
             }
+#endif
             glyphIndex = 0;
             if (glyphIndex < glyphsThisTick) {
                 ctx = &printer->ctx;
@@ -1466,6 +1503,7 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
                     case 0xF000:
                         if (TagGroupOrNone(code, printer->cursor) == 0xBE) {
                             PRINTSYS_Apply(printer);
+#if LANGUAGE != LANGUAGE_JAPANESE
                             if (printer->callback != 0) {
                                 printer->callbackResult = printer->callback(printer->callbackArg);
                                 if (printer->callbackResult != 0)
@@ -1475,6 +1513,13 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
                             }
                             if (printer->state != 0 || printer->waitCounter != 0)
                                 glyphIndex = glyphsThisTick;
+#else
+                            if (printer->callback != 0) {
+                                printer->callbackResult = printer->callback(printer->callbackArg);
+                            }
+                            if (printer->state != 0)
+                                glyphIndex = glyphsThisTick;
+#endif
                             break;
                         }
                     default:
@@ -1489,6 +1534,7 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
                                 printer->waitCounter = printer->waitFrames;
                         }
                         BMP_WIN_TransferChars(printer->bmpWin);
+#if LANGUAGE != LANGUAGE_JAPANESE
                         if (printer->callback != 0) {
                             printer->callbackResult = printer->callback(printer->callbackArg);
                             if (printer->callbackResult != 0)
@@ -1496,6 +1542,12 @@ void PRINTSYS_Task(struct TcblTask *task, void *work)
                             else
                                 printer->callbackArg = printer->nextCallbackArg;
                         }
+#else
+                        if (printer->callback != 0) {
+                            printer->callbackResult = printer->callback(printer->callbackArg);
+                            printer->callbackArg = printer->nextCallbackArg;
+                        }
+#endif
                         break;
                     }
                     glyphIndex++;
@@ -1962,7 +2014,11 @@ u32 PRINTSYS_SearchIndex(struct Strbuf *text, u8 markerId)
             lineBreaks = (u16)(lineBreaks + 1);
         }
         if (cursor[0] == 0xF000) {
+#if LANGUAGE != LANGUAGE_JAPANESE
             if (cursor[1] == 0xBD06) {
+#else
+            if (PRINTSYS_IsWordSlotTag(cursor) != 0) {
+#endif
                 if (cursor[0] == 0xF000) {
                     param = cursor[3];
                 } else {
@@ -1999,6 +2055,7 @@ u32 PRINTSYS_SearchIndex(struct Strbuf *text, u8 markerId)
  *   python tools/match.py tu --src src/matched/unit_0201D528.c \
  *       --addr 0x0201D528 --thumb
  */
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
 {
     u32 width = 0;
@@ -2041,6 +2098,40 @@ u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, 
     }
     return 0;
 }
+#else
+u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
+{
+    u32 width = 0;
+    u16 *cursor;
+    u32 param;
+
+    cursor = STRBUF_GetChars(text);
+    while (cursor[0] != 0xFFFF) {
+        if (cursor[0] == 0xFFFE) {
+            width = 0;
+            cursor = cursor + 1;
+        } else if (cursor[0] != 0xF000) {
+            width = width + (spacing + GF_FONT_GetCharWidth(font, cursor[0]));
+            cursor = cursor + 1;
+        } else {
+            if (PRINTSYS_IsWordSlotTag(cursor) != 0) {
+                if (cursor[0] == 0xF000) {
+                    param = cursor[3];
+                } else {
+                    param = 0;
+                }
+                if (markerId == param) {
+                    return (u8)width;
+                }
+                if (cursor[0] == 0xF000) {
+                    cursor = cursor + 3 + cursor[2];
+                }
+            }
+        }
+    }
+    return 0;
+}
+#endif
 
 /*
  *           PRINTSYS_GetTagKind, PRINTSYS_GetTagParam, PRINTSYS_SkipTag

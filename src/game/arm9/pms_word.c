@@ -96,7 +96,9 @@ extern const u8 g_pmsWordDefaultFlagTable[][2];
 #define PMS_WORD_GROUP_COUNT 13
 #endif
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 extern const Group g_pmsWordSimilarGroups[PMS_WORD_GROUP_COUNT];
+#endif
 
 /*
  * pms_word.c: allocate the 0x38-byte word-message system and open its
@@ -266,6 +268,8 @@ void PMS_WORD_SetFlag(int *p, int bit)
     *p |= 1 << bit;
 }
 
+/* The Japanese cartridge has no similar-word groups. */
+#if LANGUAGE != LANGUAGE_JAPANESE
 /*
  * Unlabelled arm9 leaf: true when a == b, or when the first of the halfword
  * groups that contains a also contains b. Filed as the relocation witness for
@@ -293,3 +297,4 @@ int PMS_WORD_IsSameGroup(u32 a, u16 b)
     }
     return 0;
 }
+#endif

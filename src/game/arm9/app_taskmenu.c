@@ -53,6 +53,8 @@
  */
 #include "beacon_status_shared_types.h"
 
+#include "../version.h"
+
 #include "../types.h"
 #include "app_taskmenu.h"
 
@@ -709,7 +711,7 @@ TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font,
     u32 pltType;
 
     pltType = 0;
-    res = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuRes), 0, app_taskmenu_File, 0x2c6);
+    res = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuRes), 0, app_taskmenu_File, PM_SRC_LINE(0x2c6, 0x2c6 - 3));
     MI_CpuFill8(res, 0, sizeof(TaskMenuRes));
     res->bgFrame = bgFrame;
     res->palNo = palNo;
@@ -775,7 +777,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
     u32 frameStyle;
 
     strX = 2;
-    win = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuWin), 0, app_taskmenu_File, 0x337);
+    win = GFL_HEAP_Alloc(heapId, sizeof(TaskMenuWin), 0, app_taskmenu_File, PM_SRC_LINE(0x337, 0x337 - 3));
     MI_CpuFill8(win, 0, sizeof(TaskMenuWin));
     win->res = res;
     win->isUpdateTrans = 1;

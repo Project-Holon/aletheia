@@ -173,6 +173,7 @@ void PLIST_BATTLE_StartEffect(PokelistWork *work);
 void PLIST_BATTLE_FinishEffect(PokelistWork *work);
 void PLIST_BATTLE_UpdateEffect(PokelistWork *work);
 #include "plist_demo.h"
+#include "../version.h"
 extern const char d_021BED48[];
 extern s16 FX_SinCosTable_[];
 
@@ -290,10 +291,10 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     }
     level = POKE_TOOL_CalcLevel((void *)(mon));
     xShift = xOffset;
-    cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
+    cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, PM_LANG_JA(6, 5), 1, 14, 1);
     if (isEgg == 0) {
         wordSet = WORDSET_CreateDefault(work->heapId);
-        WORDSET_SetSlotNumber(wordSet, 0, level, 3, 0, 1);
+        WORDSET_SetSlotNumber(wordSet, 0, level, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         POKELIST_PrintExpandedTextSub((PokelistWork *)work, (struct Descriptor *)cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
         WORDSET_Delete(wordSet);
     }
@@ -402,11 +403,11 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         words = WORDSET_CreateDefault(work->heapId);
         if (minute == 0) {
             text = MSGDATA_AllocString(work->msgBank, 175);
-            WORDSET_SetSlotNumber(words, 1, second, 2, 1, 1);
+            WORDSET_SetSlotNumber(words, 1, second, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
         } else {
             text = MSGDATA_AllocString(work->msgBank, 174);
-            WORDSET_SetSlotNumber(words, 0, minute, 2, 1, 1);
-            WORDSET_SetSlotNumber(words, 1, second, 2, 2, 1);
+            WORDSET_SetSlotNumber(words, 0, minute, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(words, 1, second, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
         }
         BMP_Clear(BMP_WIN_GetBmp(work->timerValueWindow), 0);
         WORDSET_CopyTaggedText(words, (struct Strbuf *)buf, text);

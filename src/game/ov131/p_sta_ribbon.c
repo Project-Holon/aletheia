@@ -252,6 +252,14 @@ typedef short s16_p07;
 #include "../arm9/mi_memory.h"
 #include "p_sta_oam.h"
 #include "p_status.h"
+#include "../version.h"
+
+/* Width flag of the number words: the Japanese cartridge prints them full width. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define P_STA_RIBBON_NUMBER_HALF_WIDTH 0
+#else
+#define P_STA_RIBBON_NUMBER_HALF_WIDTH 1
+#endif
 void *P_STA_RIBBON_Create(PStatusWork *wk);
 void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work);
@@ -454,8 +462,13 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
             P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
+#if LANGUAGE != LANGUAGE_JAPANESE
             GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
+#endif
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
+#endif
         return 1;
     } else if(KEY_GetRepeat()==STA_RIBBON_KEY_UP) {
         index=work->selectedRow;
@@ -471,8 +484,13 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
             P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
+#if LANGUAGE != LANGUAGE_JAPANESE
             GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
+#endif
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
+#endif
         return 1;
     }
     return 0;
@@ -738,7 +756,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     text=MSGDATA_AllocString(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
     wordSet=WORDSET_CreateDefault(wk->heapId);
-    WORDSET_SetSlotNumber(wordSet,0,owned->number,2,2,1);
+    WORDSET_SetSlotNumber(wordSet,0,owned->number,2,2,P_STA_RIBBON_NUMBER_HALF_WIDTH);
     WORDSET_CopyTaggedText(wordSet,buffer,text);
     GF_FONT_SetTextColor(1,2,0);
     PRINTSYS_Print(row->bmp,10,6,buffer,wk->font);

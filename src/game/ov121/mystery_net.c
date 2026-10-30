@@ -187,7 +187,7 @@ extern const signed char d_021DFA8C[][2];
 void *MYSTERY_NET_Create(void *arg,int heap)
 {
     MysteryNetWork *p;
-    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_021DFBC0,315);
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_021DFBC0,PM_SRC_LINE(315, 291));
     MI_CpuFill8(p,0,sizeof(*p));
     p->heapId=heap;
     p->param=arg;
@@ -676,7 +676,9 @@ int MYSTERY_NET_GetErrorHookState(void *arg, u32 errorCode, u32 type, int dwcErr
     char *p = arg;
     switch (type) {
     case 3:
+#if LANGUAGE != LANGUAGE_JAPANESE
     case 5:
+#endif
     case 6:
         return ((MysteryNetNdContext *)p)->busy;
     }

@@ -103,6 +103,7 @@ struct DispConfig;
 struct Unit;
 struct Cfg;
 #include "../types.h"
+#include "../version.h"
 
 typedef struct {u32 id; u32 v[10];} TheEndBgLayerRecord;
 
@@ -304,7 +305,14 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
     unsigned char *q = ARC_TOOL_CreateHandle(0xdc, *p);
     ARC_UTIL_UploadPaletteFromHandleWhole(q, 2, 0, 0, 0, *p);
     ARC_UTIL_UploadBgCharFromHandle(q, 3, 1, 0, 0, 0, *p);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (*(int *)((struct TheEndProcWork *)p)->initParam == 0)
+        ARC_UTIL_UploadBgPaletteFromHandle(q, 4, 1, 0, 0, 0, *p);
+    else
+        ARC_UTIL_UploadBgPaletteFromHandle(q, 5, 1, 0, 0, 0, *p);
+#else
     ARC_UTIL_UploadBgPaletteFromHandle(q, 5, 1, 0, 0, 0, *p);
+#endif
     if (GPOWER_GetSpecialPowerId() == 0x14)
         BG_SYS_FillTileMap(1, 0, 0, 0x20, 0x18, 1);
     ARC_TOOL_DeleteHandle(q);

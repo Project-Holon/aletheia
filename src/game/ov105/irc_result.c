@@ -108,6 +108,7 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_SetSlotFromBank 0x0201EF6C thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   IRC_RESULT_GiveReward 0x021B8860 thumb ov105
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -258,6 +259,21 @@ struct IrcRankEntry;
 struct MyItem;
 #include "../arm9/myitem_savedata.h"
 #include "../arm9/record.h"
+#include "../version.h"
+
+/* The reward quantity is a 16-bit value in the Japanese build. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+typedef u16 IRC_RESULT_QUANTITY;
+#else
+typedef unsigned IRC_RESULT_QUANTITY;
+#endif
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_RESULT_MSG_ARCHIVE 0x32
+#else
+#define IRC_RESULT_MSG_ARCHIVE 0x33
+#endif
 
 int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context);
 int IRC_RESULT_Exit(struct Proc *proc,int unused1,int unused2,IrcResult *work);
@@ -292,7 +308,7 @@ void IRC_RESULT_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,in
 void IRC_RESULT_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId);
 void IRC_RESULT_PrintMessageWithNumber(IrcTextWindow *win, IrcTextSystem *text, u8 msgId, u16 number, u16 slot);
 void IRC_RESULT_PrintMessageWithNames(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *own, IrcCompatibleProfile *partner, int unused);
-void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, unsigned quantity, int msgId);
+void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, IRC_RESULT_QUANTITY quantity, int msgId);
 void IRC_RESULT_SetState(IrcResult *work, IrcResultStateFn fn);
 void IRC_RESULT_Finish(IrcResult *work);
 void IRC_RESULT_StateStart(IrcResult *work,u16 *step);
@@ -532,7 +548,7 @@ void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
   text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
  }
  text->printQueue = PRINTSYS_QUE_Create(heapId);
- text->msgData = MSGDATA_CreateFromArchive(0, 2, 0x33, heapId);
+ text->msgData = MSGDATA_CreateFromArchive(0, 2, IRC_RESULT_MSG_ARCHIVE, heapId);
  text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
@@ -619,7 +635,7 @@ void IRC_RESULT_PrintMessageWithNumber(IrcTextWindow *win, IrcTextSystem *text, 
  void *wordSet; void *messages; void *string; void *printQueue; void *font;
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
  wordSet=IRC_RESULT_GetWordSet(text); messages=IRC_RESULT_GetMessages(text);
- WORDSET_SetSlotNumber(wordSet,slot,number,3,0,1);
+ WORDSET_SetSlotNumber(wordSet,slot,number,3,0,PM_LANG_HALF_WIDTH_DIGITS);
  string=MSGDATA_AllocString(messages,msgId);
  WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string);
  printQueue=IRC_RESULT_GetPrintQueue(text); font=IRC_RESULT_GetFont(text);
@@ -640,16 +656,25 @@ void IRC_RESULT_PrintMessageWithNames(IrcTextWindow *win, IrcTextSystem *text, i
  win->isPrinting=1;
 }
 
-void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, unsigned quantity, int msgId)
+void IRC_RESULT_PrintRewardMessage(IrcTextWindow *win, IrcTextSystem *text, IrcCompatibleProfile *own, IRC_RESULT_QUANTITY quantity, int msgId)
 {
- void *wordSet; void *messages; void *string; void *printQueue; void *font; int plural;
+ void *wordSet; void *messages; void *string; void *printQueue; void *font;
+#if LANGUAGE != LANGUAGE_JAPANESE
+ int plural;
+#endif
  u8 *name;
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
  wordSet=IRC_RESULT_GetWordSet(text);
  messages=IRC_RESULT_GetMessages(text);
- name=own->myStatus; WORDSET_SetSlotMyStatus(wordSet,0,name); plural=0;
+ name=own->myStatus; WORDSET_SetSlotMyStatus(wordSet,0,name);
+#if LANGUAGE == LANGUAGE_JAPANESE
+ WORDSET_SetSlotFromMsg36(wordSet,1,IRC_RESULT_REWARD_ITEM);
+#else
+ plural=0;
  if(quantity>1) plural=1;
- WORDSET_SetSlotFromBank(wordSet,1,IRC_RESULT_REWARD_ITEM,plural,0); WORDSET_SetSlotNumber(wordSet,2,quantity,1,0,1);
+ WORDSET_SetSlotFromBank(wordSet,1,IRC_RESULT_REWARD_ITEM,plural,0);
+#endif
+ WORDSET_SetSlotNumber(wordSet,2,quantity,1,0,PM_LANG_HALF_WIDTH_DIGITS);
  string=MSGDATA_AllocString(messages,msgId);
  WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string);
  printQueue=IRC_RESULT_GetPrintQueue(text); font=IRC_RESULT_GetFont(text);

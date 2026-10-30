@@ -140,6 +140,7 @@ struct MyStatus;
 struct SurfaceInit;
 struct Renderer;
 #include "../arm9/pokegra.h"
+#include "../version.h"
 extern unsigned gHallOfFameTrainerPaletteIds[];
 extern const HallOfFameActorTemplate gHallOfFamePlateLeftTemplate, gHallOfFamePlateRightTemplate, gHallOfFameVoiceMarkTemplate;
 extern const HofRendererSetup gHallOfFameRendererSetup;
@@ -235,7 +236,7 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, str, 112, 0);
     STRBUF_Delete((struct Strbuf *)str);
     str = (struct StrObj *)MSGDATA_AllocString(work->msgData, 3);
-    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetBoxValue((struct BoxPokemon *)mon, 158, 0), 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetBoxValue((struct BoxPokemon *)mon, 158, 0), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)work->strBuf, (struct Strbuf *)str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, width + 112, 0);
     STRBUF_Delete((struct Strbuf *)str);
@@ -280,13 +281,13 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct Strbuf *)str);
     str = (struct StrObj *)MSGDATA_AllocString(work->msgData, 6);
-    WORDSET_SetSlotNumber(work->wordSet, 0, MYSTATUS_GetIdLow16(work->args->myStatus), 5, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MYSTATUS_GetIdLow16(work->args->myStatus), 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)work->strBuf, (struct Strbuf *)str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 92, 0);
     STRBUF_Delete((struct Strbuf *)str);
     str = (struct StrObj *)MSGDATA_AllocString(work->msgData, 7);
-    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(work->args->playTime), 3, 0, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(work->args->playTime), 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, PLAYTIME_GetHours(work->args->playTime), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(work->wordSet, 1, PLAYTIME_GetMinutes(work->args->playTime), 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)work->strBuf, (struct Strbuf *)str);
     HALL_OF_FAME_PrintToPlate(work, 3, work->fontMain, work->strBuf, 200, 0);
     STRBUF_Delete((struct Strbuf *)str);

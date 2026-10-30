@@ -940,7 +940,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         } else {
             u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, MUSICAL_EVENT_GetPlayerOfSlot(work, i)));
 
-            msgData = MSGDATA_CreateFromArchive(0, 2, 0x4C, 4);
+            msgData = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0x4C, 0x4D), 4);
             title = MSGDATA_AllocString(msgData, nameId);
             STRBUF_ToChars(title, (u16 *)record->performers[i].name, 8);
             STRBUF_Delete(title);
@@ -1432,7 +1432,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
     }
     if (!done) {
         u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
-        void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4C, 4);
+        void *msgData = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0x4C, 0x4D), 4);
         void *str = MSGDATA_AllocString(msgData, nameId);
 
         WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, PM_LANG_ID);
@@ -1465,7 +1465,7 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
     }
     if (!done) {
         u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
-        void *msgData = MSGDATA_CreateFromArchive(0, 2, 0x4D, 4);
+        void *msgData = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0x4D, 0x4E), 4);
         void *str = MSGDATA_AllocString(msgData, nameId);
 
         WORDSET_SetSlotTag(wordSet, wordIndex, str, 0, 1, PM_LANG_ID);

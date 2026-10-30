@@ -66,6 +66,10 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MyStatu
 extern u16 sNHTTPRapCryptoHeapId;
 
 extern char sNHTTPRapEvilCheckEmptyString[], sNHTTPRapEvilCheckFileName[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021CE230[];
+extern const char str_ja_021CE24C[];
+#endif
 #include "../sdk_os.h"
 
 /*
@@ -91,10 +95,18 @@ void *NHTTP_RAP_EvilCheckCryptoAlloc(unsigned long size)
 {
     void *p;
     if (sNHTTPRapCryptoHeapId == 0xffff)
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(sNHTTPRapEvilCheckFileName, 0xe7, str_ja_021CE230);
+#else
         GF_PANIC_Fail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+#endif
     p = GFL_HEAP_Alloc(sNHTTPRapCryptoHeapId, size, 0, sNHTTPRapEvilCheckFileName, 0xe9);
     if (p == 0)
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(sNHTTPRapEvilCheckFileName, 0xeb, str_ja_021CE24C, size, GFL_HEAP_GetHeapHead(sNHTTPRapCryptoHeapId));
+#else
         GF_PANIC_Fail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+#endif
     return p;
 }
 

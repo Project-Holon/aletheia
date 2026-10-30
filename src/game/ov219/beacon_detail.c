@@ -245,7 +245,10 @@ struct Arg;
 #include "../version.h"
 
 /* The globe starts turned toward the cartridge's home region. */
-#if LANGUAGE == LANGUAGE_FRENCH
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BEACON_DETAIL_START_ANGLE_X 0x1980
+#define BEACON_DETAIL_START_ANGLE_Y 0xCFE0
+#elif LANGUAGE == LANGUAGE_FRENCH
 #define BEACON_DETAIL_START_ANGLE_X 0x2300
 #define BEACON_DETAIL_START_ANGLE_Y 0x3100
 #elif LANGUAGE == LANGUAGE_GERMAN
@@ -542,6 +545,7 @@ void BEACON_DETAIL_OnMessageDone(struct BmpMenuList *a, u32 b, void *c);
 void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct BeaconDetailMenuTemplate *source,const BeaconMenuItem *entries);
 void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconDetailMenuTemplate *source,unsigned count);
 void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, uptr b, u32 c);
+void BEACON_DETAIL_CreateMenuItemsFromBank(u8 *p, const u8 *a, uptr b, u32 c);
 void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct BeaconDetailMenuTemplate *cfg,unsigned file,const unsigned char *ids,unsigned count);
 void BEACON_DETAIL_CloseMenu(u8*p);
 void BEACON_DETAIL_DrawCurrentArea(char *p);
@@ -696,8 +700,10 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
     u32 m;
     void *arc;
     u32 r;
+#if LANGUAGE != LANGUAGE_JAPANESE
     u8 *ids;
     u32 count;
+#endif
     u32 tmp;
     int old;
     u32 v;
@@ -833,8 +839,12 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         break;
     case 10:
         ((BeaconDetailWork *)p)->selArea = 0;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        BEACON_DETAIL_CreateMenuItemsFromBank(p, d_02185DC4, (uptr)d_02185ECC, NATION_AREA_GetAreaMsgBank((u32)((BeaconDetailWork *)p)->selNation));
+#else
         NATION_AREA_GetAreaTable((u32)((u32)((BeaconDetailWork *)p)->selNation), (u32 *)(&ids), &count);
         BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct BeaconDetailMenuTemplate *)((const struct BeaconDetailMenuTemplate *)d_02185ECC), NATION_AREA_GetAreaMsgBank((u32)((u32)((BeaconDetailWork *)p)->selNation)), ids, count);
+#endif
         *state = 0xB;
         break;
     case 11:
@@ -1459,6 +1469,24 @@ static inline u32 menuMsgIdAt(int i) { return *(const u32 *)((const u8 *)d_02185
 
 static inline u32 menuMsgIdGet(u32 idx) { return d_02185F7C[idx]; }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void BEACON_DETAIL_CreateMenuItemsFromBank(u8 *p, const u8 *a, uptr b, u32 c)
+{
+    struct MsgBank *t;
+    u32 count;
+    u32 i;
+    ((BeaconDetailWork *)p)->bmp18 = (void *)BEACON_DETAIL_CreateBmpWin(a, 1);
+    t = MSGDATA_CreateFromArchive(0, 2, (u16)c, (u16)((BeaconDetailWork *)p)->heapId);
+    count = MSGDATA_GetMessageCount(t);
+    ((BeaconDetailWork *)p)->menuWork = BMP_MENUWORK_Create(count, ((BeaconDetailWork *)p)->heapId);
+    for (i = 1; i < count; i++) {
+        BMP_MENUWORK_AddMsgItem(((BeaconDetailWork *)p)->menuWork, t, i, i, (u16)((BeaconDetailWork *)p)->heapId);
+    }
+    MSGDATA_Delete(t);
+    BEACON_DETAIL_SetupMenuList((char *)p, (const struct BeaconDetailMenuTemplate *)b, count - 1);
+}
+#endif
+
 /*
  * 2026-10-05 (user decision): the two spellings of one table read (accessor for one argument, direct index for the other) are accepted as a real source quirk.
  * 2026-10-05 (wD9r lane130): still DIFF 17 bytes, source unchanged. New tries, all compiled: (1) a walking
@@ -1565,6 +1593,7 @@ void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, uptr b, u32 c)
     BEACON_DETAIL_SetupMenuList((char *)p, (const struct BeaconDetailMenuTemplate *)b, 0x82);
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 /*
  * prototype: 45B38 third/fourth original inputs explicitly narrowed u16;
  * 1F878 retains original fifth stack heap input absent from legacy source.
@@ -1580,6 +1609,7 @@ void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descripto
     MSGDATA_Delete((struct MsgBank *)bank);
     BEACON_DETAIL_SetupMenuList(p, (const struct BeaconDetailMenuTemplate *)cfg, count);
 }
+#endif
 
 void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((BeaconDetailWork *)p)->bmp18,0);BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor* *)&((BeaconDetailWork *)p)->bmp18));BMP_MENULIST_Delete((struct BmpMenuList *)(*(struct BmpMenuList* *)&((BeaconDetailWork *)p)->menuList),0,0);BMP_MENUWORK_Delete(*(void* *)&((BeaconDetailWork *)p)->menuWork);}
 
@@ -1898,6 +1928,10 @@ void BEACON_DETAIL_SetupCamera(char *p)
     G3D_CAMERA_SetFar(((BeaconDetailWork *)p)->camera, &b);
     if (((BeaconDetailWork *)p)->viewMode == 0)
         ((BeaconDetailWork *)p)->zoomMode = 1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    else
+        ((BeaconDetailWork *)p)->zoomMode = 0;
+#else
 #if LANGUAGE == LANGUAGE_ENGLISH
     else if (((BeaconDetailWork *)p)->nation == 0)
         ((BeaconDetailWork *)p)->zoomMode = 0;
@@ -1906,6 +1940,7 @@ void BEACON_DETAIL_SetupCamera(char *p)
         ((BeaconDetailWork *)p)->zoomMode = 0;
     else
         ((BeaconDetailWork *)p)->zoomMode = 1;
+#endif
     while (BEACON_DETAIL_UpdateCamera(p) != 1)
         ;
 }

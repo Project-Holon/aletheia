@@ -45,6 +45,7 @@
  *   _fflt                        0x0209BDBC  arm
  *   _fmul                        0x0209C77C  arm
  */
+#include "../version.h"
 #include "research_shared_types.h"
 
 struct BmpWin;
@@ -147,7 +148,11 @@ void BgTextLabel_PrintText(struct BgTextLabel *label, void *text)
     bmp = BMP_WIN_GetBmp(label->window);
     BMP_Clear(bmp, label->config.blue);
     if (label->config.centered != 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        textX = BgTextLabel_GetCenterOffset(label, text);
+#else
         textX = label->config.textX + BgTextLabel_GetCenterOffset(label, text);
+#endif
         textY = label->config.textY;
     } else {
         textX = label->config.textX;

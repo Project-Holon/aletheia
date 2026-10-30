@@ -419,6 +419,84 @@ u8 BTL_MSG_CountWordTags(struct Strbuf *text)
  * A u8 kind local narrows before argument setup; const values schedules
  * the index shift ahead of the last outgoing argument store.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *wordSet)
+{
+    u16 endMark;
+    u32 tagMark;
+    u32 removedCount;
+    u8 pendingClient;
+    u16 *cursor;
+    u32 slot;
+    u32 valueIndex;
+    u8 group;
+    u8 kind;
+
+    cursor = STRBUF_GetChars(text);
+    removedCount = 0;
+    pendingClient = 4;
+    endMark = STRBUF_GetEosChar();
+    tagMark = PRINTSYS_GetTagChar();
+    while (*cursor != endMark) {
+        if (*cursor == tagMark) {
+            if (PRINTSYS_IsWordSlotTag(cursor)) {
+                slot = PRINTSYS_GetTagParam(cursor, 0);
+                valueIndex = slot;
+                group = PRINTSYS_GetTagGroup(cursor);
+                if (slot >= removedCount)
+                    valueIndex = slot - removedCount;
+                if (group == 2) {
+                    kind = PRINTSYS_GetTagKind(cursor) + 1;
+                    WORDSET_SetSlotNumber(wordSet, slot, values[valueIndex], kind, 0, PM_LANG_HALF_WIDTH_DIGITS);
+                } else {
+                    switch (PRINTSYS_GetTagKind(cursor)) {
+                    case 14:
+                        pendingClient = values[valueIndex];
+                        BTL_MSG_SetClientValue(wordSet, slot, pendingClient);
+                        removedCount = (u8)(removedCount + 1);
+                        break;
+                    case 0:
+                        if (pendingClient == 4)
+                            pendingClient = values[valueIndex];
+                        BTL_MSG_SetClientName(wordSet, slot, pendingClient);
+                        pendingClient = 4;
+                        break;
+                    case 2:
+                        if (gBtlMsgState.useSpeciesName == 0)
+                            BTL_MSG_SetPokeName(values[valueIndex], slot);
+                        else
+                            BTL_MSG_SetPokeSpecies(values[valueIndex], slot);
+                        break;
+                    case 12:
+                        BTL_MSG_SetPokeSpecies(values[valueIndex], slot);
+                        break;
+                    case 1:
+                        BTL_MSG_SetPokeNickname(values[valueIndex], slot);
+                        break;
+                    case 3:
+                        WORDSET_SetSlotFromMsgC7(wordSet, slot, values[valueIndex]);
+                        break;
+                    case 6:
+                        WORDSET_SetSlotFromMsgB6(wordSet, slot, values[valueIndex]);
+                        break;
+                    case 7:
+                        WORDSET_SetSlotFromMsgCB(wordSet, slot, values[valueIndex]);
+                        break;
+                    case 9:
+                        WORDSET_SetSlotFromMsg36(wordSet, slot, values[valueIndex]);
+                        break;
+                    case 15:
+                        WORDSET_SetSlotFromMsgC7(wordSet, slot, values[valueIndex]);
+                        break;
+                    }
+                }
+            }
+            cursor = PRINTSYS_SkipTag(cursor);
+        } else
+            cursor++;
+    }
+}
+#else
 void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *wordSet)
 {
     u16 endMark;
@@ -459,7 +537,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
                     valueIndex = slot - removedBefore[slot];
                 if (group == 2) {
                     kind = PRINTSYS_GetTagKind(cursor) + 1;
-                    WORDSET_SetSlotNumber(wordSet, slot, values[valueIndex], kind, 0, 1);
+                    WORDSET_SetSlotNumber(wordSet, slot, values[valueIndex], kind, 0, PM_LANG_HALF_WIDTH_DIGITS);
                 } else {
                     switch (PRINTSYS_GetTagKind(cursor)) {
                     case 14:
@@ -503,6 +581,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
             cursor++;
     }
 }
+#endif
 
 void BTL_MSG_BuildStandard(struct Strbuf *dest, u16 msgId, u32 *args)
 {
@@ -518,7 +597,11 @@ static inline int BTL_MSG_GetSideVariant(u8 clientId)
 {
     int sideVariant;
     if (gBtlMsgState.plainWording == 0 && BTL_MAIN_IsOpposingPos(gBtlMsgState.battle, (u8)gBtlMsgState.clientId, BTL_MAIN_PokeIdToClientIdThunk(clientId))) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 0) sideVariant = 1;
+#else
         if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 0 || BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 4) sideVariant = 1;
+#endif
         else sideVariant = 2;
     } else sideVariant = 0;
     return sideVariant;
@@ -717,23 +800,23 @@ void BTL_MSG_BuildTrainerStringBody(struct Strbuf *dest, u32 msgId, u32 *args)
 void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[3], 0x10, gBtlMsgState.msgBuf);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 2, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 2, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 2, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 2, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 2, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 2, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
     MSGDATA_ReadString(gBtlMsgState.banks[3], 0x11, gBtlMsgState.msgBuf);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 3, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 3, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 3, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 3, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 3, 0, 1);
-    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 3, 0, 1);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 0, ball0, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 1, ball1, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 2, ball2, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 3, ball3, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 4, ball4, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(gBtlMsgState.wordSet, 5, ball5, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }

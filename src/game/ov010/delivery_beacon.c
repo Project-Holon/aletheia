@@ -87,6 +87,11 @@ typedef struct DeliveryBeacon {
 #include "../ov014/net_whpipe.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/net.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0217251C[];
+extern const char str_ja_02172530[];
+#endif
 DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work);
 void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step);
 void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line);
@@ -166,7 +171,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work)
 {
     if (work->param.destSize != 0 && work->param.destSize >= DELIVERY_BEACON_SLOTS_PER_PAGE * DELIVERY_BEACON_PIECE_SIZE)
-        GF_PANIC_Fail(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(gDeliveryBeaconAssertText, str_ja_0217251C), PM_SRC_LINE(0, 0x14D), PM_LANG_JA(gDeliveryBeaconAssertText, str_ja_02172530));
 }
 
 /*

@@ -142,8 +142,14 @@ u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
 u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction);
 int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, void **table, u32 unused);
+#else
 void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void **table, u32 unused);
+#endif
+#if LANGUAGE != LANGUAGE_JAPANESE
 void NAMEIN_GRAPHIC_LoadGrid(void **a, int b, void **c);
+#endif
 void NAMEIN_GRAPHIC_ClearPicker(void *p);
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out);
 int NAMEIN_GRAPHIC_FindCellAtPoint(const char *p,int *point,NameinGraphicPair *out);
@@ -162,6 +168,9 @@ extern fx16 FX_SinCosTable_[];
 extern const unsigned char d_021F555C[];
 extern const int d_021F5544[];
 extern const int d_021F5550[];
+extern const unsigned char d_ja_021F53A0[];
+extern const int d_ja_021F53AC[];
+extern const int d_ja_021F53B8[];
 
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[((idx >> 4) << 1) + 1]; }
 
@@ -203,7 +212,12 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, struct Strbuf *a, u16 b, NameinFontArg
     u16 pos[2];
     int i;
     struct BmpWin *h;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u16 half;
     int base;
+#else
+    int base;
+#endif
     MI_CpuFill8(p, 0, sizeof(struct NameinGraphicInputField));
     i = 0;
     ((struct NameinGraphicInputField *)p)->font = (struct GfFont *)c;
@@ -230,12 +244,18 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, struct Strbuf *a, u16 b, NameinFontArg
         STRBUF_ToChars(a, (u16 *)p, b + 1);
         ((struct NameinGraphicInputField *)p)->primaryLength = STRBUF_GetLength(a);
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    pos[1] = 0x24;
+    half = 0x40 - (((struct NameinGraphicInputField *)p)->maxLength * 14) / 2;
+    base = half + 0x40;
+#else
     pos[1] = 0x25;
     base = 0x40 - (((struct NameinGraphicInputField *)p)->maxLength * 14) / 2;
     if (base < 0) {
         base = 0;
     }
     base += 0x40;
+#endif
     for (i = 0; i < 16; i++) {
         pos[0] = base + i * 14;
         CLACT_SetActorAnimSeq(((struct NameinGraphicInputField *)p)->actors[i], 1);
@@ -262,7 +282,12 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
 {
  u16 table[14];
  u16 pair[2];
- int i,x;
+ int i;
+#if LANGUAGE == LANGUAGE_JAPANESE
+ u16 x;
+#else
+ int x;
+#endif
  void *window;
  if(((NameinGraphicInputField *)p)->needsRefresh){
   if(((NameinGraphicInputField *)p)->primaryLength)WORDSET_CopyString((u16 *)p,table,((NameinGraphicInputField *)p)->primaryLength+1);
@@ -272,9 +297,15 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
    for(i=0;i<((NameinGraphicInputField *)p)->primaryLength+((NameinGraphicInputField *)p)->secondaryLength;i++){
     pair[0]=table[i];pair[1]=STRBUF_GetEosChar();
     STRBUF_SetStringN(((NameinGraphicInputField *)p)->strbuf,pair,2);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    x=64-(((NameinGraphicInputField *)p)->maxLength*14)/2;
+    x+=i*14+7;
+    x-=PRINTSYS_MeasureWidestLine(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->font,0)/2;
+#else
     x=64-(((NameinGraphicInputField *)p)->maxLength*14)/2;if(x<0)x=0;
     x+=i*14+7;
     x-=PRINTSYS_MeasureWidestLine(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->font,0)/2;
+#endif
     if(i>=((NameinGraphicInputField *)p)->primaryLength){window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQueColor(window,BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,(((NameinGraphicInputField *)p)->strbuf),((NameinGraphicInputField *)p)->font,0xc80);}
     else {window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQue(window,BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->font);}
     ((struct NameinGraphicInputField *)p)->drawDone=1;
@@ -460,35 +491,52 @@ int NAMEIN_GRAPHIC_PickCandidate(u8 *p,int direction)
  return 0;
 }
 
-int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;i++;}return i!=spaces;}
+int NAMEIN_GRAPHIC_HasNonSpace(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==PM_LANG_JA(32,0x3000)) spaces++;n=*(volatile u16 *)&((NameinGraphicInputField *)p)->primaryLength;i++;}return i!=spaces;}
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, void **table, u32 unused) {
+ int i;
+ int index=mode;
+#else
 void NAMEIN_GRAPHIC_InitPicker(char *p, unsigned mode, int index, void **table, u32 unused) {
  int i;
+#endif
  MI_CpuFill8(p,0,sizeof(NameinGraphicPicker));((NameinGraphicPicker *)p)->table=NAMEIN_GRAPHIC_GetWord(table,index);
  switch(mode) {
- case 3:
+ case NAMEIN_GRAPHIC_MODE_SYMBOL:
  ((NameinGraphicPicker *)p)->width=11;((NameinGraphicPicker *)p)->height=4;
  ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_SymbolGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_SymbolMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_SymbolGetValue;break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+ case 0:case 1:
+ ((NameinGraphicPicker *)p)->width=13;((NameinGraphicPicker *)p)->height=6;
+ ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_KanaGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_KanaMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_GridValue;break;
+ case 2:case 3:
+ ((NameinGraphicPicker *)p)->width=13;((NameinGraphicPicker *)p)->height=6;
+ ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_KanaGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_KanaMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_ComputeGridValue;break;
+#else
  case 0:case 1:case 2:
  ((NameinGraphicPicker *)p)->width=13;((NameinGraphicPicker *)p)->height=6;
  ((NameinGraphicPicker *)p)->getBox=NAMEIN_GRAPHIC_KanaGetBox;((NameinGraphicPicker *)p)->move=NAMEIN_GRAPHIC_KanaMove;((NameinGraphicPicker *)p)->getValue=NAMEIN_GRAPHIC_ComputeGridValue;break;
+#endif
  }
- for(i=0;i<13;i++)((struct NameinGraphicPicker *)p)->map[i]=d_021F555C[i];
+ for(i=0;i<NAMEIN_GRAPHIC_PICKER_MAP_SIZE;i++)((struct NameinGraphicPicker *)p)->map[i]=PM_LANG_JA(d_021F555C,d_ja_021F53A0)[i];
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void NAMEIN_GRAPHIC_LoadGrid(void **a, int b, void **c)
 {
     *a = NAMEIN_GRAPHIC_GetWord(c, b);
 }
+#endif
 
 void NAMEIN_GRAPHIC_ClearPicker(void *p) {MI_CpuFill8(p,0,sizeof(NameinGraphicPicker));}
 
 unsigned NAMEIN_GRAPHIC_PickerToChar(char *p,int *input,unsigned short *out) {
  int xy[2]; unsigned result;
  result=((NameinGraphicPicker *)p)->getValue(input,xy);
- if(result==1 || result==10 || result==11) {
+ if(result==1 || result==NAMEIN_KIND_CHAR_A || result==NAMEIN_KIND_CHAR_B) {
   if(out) *out=NAMEIN_GRAPHIC_GetGridCell(*(unsigned char * *)&((NameinGraphicPicker *)p)->table,xy[0],xy[1]);
- } else if(result==9) {if(out) *out=32;}
+ } else if(result==NAMEIN_KIND_SPACE) {if(out) *out=PM_LANG_JA(32,0x3000);}
  return result;
 }
 
@@ -521,7 +569,7 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
   for(xy.x=0;xy.x<NAMEIN_GRAPHIC_GetGridWidth(((NameinGraphicPicker *)p)->table);xy.x++){
    if(NAMEIN_GRAPHIC_PickerGetBox((char *)p, (NameinGraphicPair *)&xy, (NameinGraphicBox *)&box)){
     kind=NAMEIN_GRAPHIC_PickerToChar(p,(int *)&xy,codes);
-    if(kind==1 || kind==10 || kind==11){
+    if(kind==1 || kind==NAMEIN_KIND_CHAR_A || kind==NAMEIN_KIND_CHAR_B){
      codes[1]=codes[0];codes[2]=STRBUF_GetEosChar();
      STRBUF_SetStringN(text,codes+1,2);
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
@@ -564,12 +612,12 @@ void NAMEIN_GRAPHIC_ConvertCellMode(NameinGraphicPair *p, int oldmode, int newmo
     Conv to;
     int width, height, result;
     NameinGraphicPair xy;
-    if (oldmode == 3) {
+    if (oldmode == NAMEIN_GRAPHIC_MODE_SYMBOL) {
         from = NAMEIN_GRAPHIC_SymbolGetValue;
         to = NAMEIN_GRAPHIC_GridValue;
         width = 13;
         height = 5;
-    } else if (newmode == 3) {
+    } else if (newmode == NAMEIN_GRAPHIC_MODE_SYMBOL) {
         from = NAMEIN_GRAPHIC_GridValue;
         to = NAMEIN_GRAPHIC_SymbolGetValue;
         width = 11;
@@ -584,6 +632,22 @@ void NAMEIN_GRAPHIC_ConvertCellMode(NameinGraphicPair *p, int oldmode, int newmo
             }
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out) {
+ int xy[2];int x;int y;
+ switch(NAMEIN_GRAPHIC_GridValue((NameinGraphicPair *)p,(NameinGraphicPair *)xy)) {
+ case 1:case NAMEIN_KIND_CHAR_A:case NAMEIN_KIND_CHAR_B:
+ x=xy[0]*2+3;out[0]=x;y=xy[1]*3+5;out[1]=y;out[2]=x+2;out[3]=y+3;break;
+ case 2:case 3:case 4:case 5:case NAMEIN_KIND_LAST_PAGE:
+ x=p[0]*2+3;out[0]=x;y=p[1]*3+5;out[1]=y;out[2]=x+2;out[3]=y+3;break;
+ case NAMEIN_KIND_BACK:x=p[0]*2+3;out[0]=x;y=p[1]*3+5;out[1]=y;out[2]=x+8;out[3]=y+3;break;
+ case NAMEIN_KIND_OK:x=(p[0]-1)*2+11;out[0]=x;y=p[1]*3+5;out[1]=y;out[2]=x+8;out[3]=y+3;break;
+ case 0:return 0;
+ case NAMEIN_KIND_TOGGLE:case NAMEIN_KIND_SPACE:break;
+ }
+ if(p[1]==5 && p[0]>6)return 0;return 1;
+}
+#else
 int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out) {
  int xy[2];enum { X_LEFT=15,X_RIGHT=22 } x;int y;
  switch(NAMEIN_GRAPHIC_GridValue((NameinGraphicPair *)p,(NameinGraphicPair *)xy)) {
@@ -598,6 +662,7 @@ int NAMEIN_GRAPHIC_KanaGetBox(const int *p,int *out) {
  }
  if(p[1]==5 && p[0]>6)return 0;return 1;
 }
+#endif
 
 /*
  * lever: case 0 follows case 9; repeated stores in each case-8 arm preserve backward tail sharing.
@@ -606,18 +671,26 @@ int NAMEIN_GRAPHIC_SymbolGetBox(NameinGraphicPair *p,NameinGraphicBox *out)
 {
  NameinGraphicPair xy;
  switch((unsigned)NAMEIN_GRAPHIC_SymbolGetValue(p,&xy)) {
- case 1:out->x=d_021F5544[xy.y]+xy.x*2;out->y=d_021F5550[xy.y];out->z=out->x+2;out->w=out->y+3;break;
+ case 1:out->x=PM_LANG_JA(d_021F5544,d_ja_021F53AC)[xy.y]+xy.x*2;out->y=PM_LANG_JA(d_021F5550,d_ja_021F53B8)[xy.y];out->z=out->x+2;out->w=out->y+3;break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+ case 2:case 3:case 4:case 5:case NAMEIN_KIND_LAST_PAGE:out->x=p->x*2+3;out->y=20;out->z=out->x+2;out->w=out->y+3;break;
+ case NAMEIN_KIND_BACK:out->x=25;out->y=8;out->z=out->x+4;out->w=out->y+3;break;
+ case NAMEIN_KIND_OK:out->x=24;out->y=12;out->z=out->x+5;out->w=out->y+3;break;
+ case NAMEIN_KIND_TOGGLE:if(p->x==0){out->x=3;out->y=16;out->z=out->x+4;out->w=out->y+3;}else {out->x=23;out->y=16;out->z=out->x+4;out->w=out->y+3;}break;
+ case NAMEIN_KIND_SPACE:out->x=13;out->y=20;out->z=out->x+14;out->w=out->y+3;break;
+#else
  case 2:case 3:case 4:case 5:out->x=(p->x+1)*3;out->y=20;out->z=out->x+3;out->w=out->y+3;break;
  case 6:out->x=25;out->y=8;out->z=out->x+4;out->w=out->y+3;break;
  case 7:out->x=24;out->y=12;out->z=out->x+5;out->w=out->y+3;break;
  case 8:if(p->x==0){out->x=3;out->y=16;out->z=out->x+4;out->w=out->y+3;}else {out->x=23;out->y=16;out->z=out->x+4;out->w=out->y+3;}break;
  case 9:out->x=15;out->y=20;out->z=out->x+12;out->w=out->y+3;break;
+#endif
  case 0:return 0;
  }
  switch(p->y) {
  case 1:if(p->x>9)return 0;break;
  case 2:if(p->x>9)return 0;break;
- case 3:if(p->x>4)return 0;break;
+ case 3:if(p->x>PM_LANG_JA(4,5))return 0;break;
  }
  return 1;
 }
@@ -625,6 +698,44 @@ int NAMEIN_GRAPHIC_SymbolGetBox(NameinGraphicPair *p,NameinGraphicBox *out)
 /*
  * tail: 320-byte lead including padding, followed by existing matched 920-byte NAMEIN_GRAPHIC_SymbolMove.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
+{
+ int enter,leave,x,y;
+ enter=0;leave=0;
+ switch(p[1]){
+ case 0:
+ x=p[0]+=delta[0];if(x<0)x=12;else if(x>12)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=5;else if(y>5)y=0;p[1]=y;
+ if(y==5)enter=1;
+ break;
+ case 4:
+ x=p[0]+=delta[0];if(x<0)x=12;else if(x>12)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=5;else if(y>5)y=0;p[1]=y;
+ if(y==5)enter=1;
+ break;
+ case 5:
+ x=p[0]+=delta[0];if(x<0)x=6;else if(x>6)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=5;else if(y>5)y=0;p[1]=y;
+ if(y!=5)leave=1;
+ break;
+ default:
+ x=p[0]+=delta[0];if(x<0)x=12;else if(x>12)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=5;else if(y>5)y=0;p[1]=y;
+ break;
+ }
+ if(enter){
+  x=p[0];
+  if(x>=5 && x<=8){saved[0]=x;p[0]=5;}
+  else if(x>=9 && x<=12){saved[1]=x;p[0]=6;}
+ }
+ if(leave){
+  x=p[0];
+  if(x==5)p[0]=saved[0];
+  else if(x==6)p[0]=saved[1];
+ }
+}
+#else
 void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
 {
  int enter,leave,x,y,index;
@@ -663,10 +774,68 @@ void NAMEIN_GRAPHIC_KanaMove(int *p,int *delta,u8 *saved)
   else if(x>=0 && x<=3)p[0]=saved[x];
  }
 }
+#endif
 
 /*
  * extent: 920 bytes through return at 021F2F5E; no calls or followers.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s) {
+ int x,y;
+ switch((unsigned)p[1]) {
+ case 0:
+ x=p[0]+=delta[0];if(x<0)x=10;else if(x>10)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=3;else if(y>3)y=0;p[1]=y;
+ if(y==3) {
+ switch((unsigned)p[0]) {
+ case 8:case 9:s[4]=p[0];s[8]=p[0];s[7]=8;break;
+ case 4:case 5:case 6:case 7:s[8]=p[0];s[7]=p[0];break;
+ case 10:s[8]=10;s[7]=9;break;
+ case 0:case 1:case 2:case 3:break;
+ }
+ switch((unsigned)p[0]) {case 0:p[0]=s[2];break;case 1:case 2:case 3:p[0]++;break;default:p[0]=5;break;}
+ } else {
+ if(y!=1) {default:break;}
+ switch((unsigned)p[0]) {
+ case 8:case 9:s[4]=p[0];s[8]=p[0];x=p[0];if(x>9)x=9;else if(x<4)x=4;s[7]=x;break;
+ case 4:case 5:case 6:case 7:case 10:s[8]=p[0];x=p[0];if(x>9)x=9;else if(x<4)x=4;s[7]=x;break;
+ case 0:case 1:case 2:case 3:break;
+ }
+ switch(p[0]) {case 8:case 9:p[0]=8;break;case 10:p[0]=9;break;}
+ }break;
+ case 1:
+ x=p[0]+=delta[0];if(x<0)x=9;else if(x>9)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=3;else if(y>3)y=0;p[1]=y;
+ if(y==0) {
+ switch(p[0]) {case 7:case 8:s[5]=p[0];break;}
+ switch(p[0]) {case 8:p[0]=s[4];break;case 9:p[0]=10;break;}
+ }else if(y==2) {
+ switch(p[0]) {case 7:case 8:s[5]=p[0];break;}
+ switch((unsigned)p[0]) {case 0:p[0]=s[3];break;case 7:case 8:p[0]=8;break;case 9:p[0]=9;break;default:p[0]++;break;}
+ }break;
+ case 2:
+ x=p[0]+=delta[0];if(x<0)x=9;else if(x>9)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=3;else if(y>3)y=0;p[1]=y;
+ if(y==1) {
+ switch((unsigned)p[0]) {case 0:case 1:s[3]=p[0];break;case 4:case 5:case 6:case 7:case 8:case 9:s[7]=p[0];s[8]=p[0];break;case 2:case 3:break;}
+ switch(p[0]) {case 0:case 1:p[0]=0;break;case 8:p[0]=s[5];break;case 9:p[0]=9;break;default:p[0]--;break;}
+ }else if(y==3) {
+ switch((unsigned)p[0]) {case 0:case 1:s[3]=p[0];break;case 4:case 5:case 6:case 7:case 8:s[7]=p[0];s[8]=p[0];break;case 9:s[7]=9;s[8]=10;break;case 2:case 3:break;}
+ switch((unsigned)p[0]) {case 0:p[0]=s[6];break;case 1:case 2:case 3:p[0]++;break;default:p[0]=5;break;}
+ }break;
+ case 3:
+ x=p[0]+=delta[0];if(x<0)x=5;else if(x>5)x=0;p[0]=x;
+ y=p[1]+=delta[1];if(y<0)y=3;else if(y>3)y=0;p[1]=y;
+ if(y==2) {
+ switch(p[0]) {case 0:case 1:s[6]=p[0];s[2]=p[0];break;}
+ switch((unsigned)p[0]) {case 0:case 1:p[0]=0;break;case 2:case 3:case 4:p[0]--;break;case 5:p[0]=s[7];break;}
+ }else if(y==0) {
+ switch(p[0]) {case 0:case 1:s[6]=p[0];s[2]=p[0];break;}
+ switch((unsigned)p[0]) {case 0:case 1:p[0]=0;break;case 2:case 3:case 4:p[0]--;break;case 5:p[0]=s[8];break;}
+ }break;
+ }
+}
+#else
 void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s) {
  int x,y;
  switch((unsigned)p[1]) {
@@ -722,7 +891,27 @@ void NAMEIN_GRAPHIC_SymbolMove(int *p,int *delta,unsigned char *s) {
  }break;
  }
 }
+#endif
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+int NAMEIN_GRAPHIC_GridValue(NameinGraphicPair *p,NameinGraphicPair *out) {
+ int y=p->y;
+ if(y<5) {
+  if(y==0 && p->x==12) {if(out) {out->x=p->x;out->y=y;}return 11;}
+  if(y==1 && p->x==12) {if(out) {int t=((int *)p)[1];out->x=p->x;out->y=t;}return 12;}
+  if(out) *out=*p;
+  return 1;
+ }
+ if(p->x<7)return p->x+2;
+ return 0;
+}
+
+int NAMEIN_GRAPHIC_ComputeGridValue(const NameinGraphicPair *p,NameinGraphicPair *out) {
+ if(p->y<5) {if(out) {out->y=p->y;out->x=p->x;}return 1;}
+ if(p->x<7)return p->x+2;
+ return 0;
+}
+#else
 int NAMEIN_GRAPHIC_GridValue(NameinGraphicPair *p,NameinGraphicPair *out) {return NAMEIN_GRAPHIC_ComputeGridValue(p,out);}
 
 int NAMEIN_GRAPHIC_ComputeGridValue(const NameinGraphicPair *p,NameinGraphicPair *out) {
@@ -730,3 +919,4 @@ int NAMEIN_GRAPHIC_ComputeGridValue(const NameinGraphicPair *p,NameinGraphicPair
  if(p->x<=5)return p->x+2;
  return 0;
 }
+#endif

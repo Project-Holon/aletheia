@@ -151,6 +151,14 @@ extern struct Strbuf *STRBUF_Create(u32 size, u16 heapId);
 #endif
 struct Strbuf;
 #include "../arm9/wordset.h"
+#include "../version.h"
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define TOUCHBAR_NUMBER_HALFWIDTH 0
+#else
+#define TOUCHBAR_NUMBER_HALFWIDTH 1
+#endif
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
 void TOUCHBAR_Update(TouchBar *bar);
@@ -710,12 +718,12 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, stru
     x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, 2);
     STRBUF_Delete(str);
     str = MSGDATA_AllocString(msgBank, 1);
-    WORDSET_SetSlotNumber(wordSet, 0, firstNumber, 8, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, firstNumber, 8, 0, TOUCHBAR_NUMBER_HALFWIDTH);
     WORDSET_CopyTaggedText(wordSet, buf, str);
     TOUCHBAR_PrintAligned(window, textCtx, x, y, buf, fontId, color, 1);
     STRBUF_Delete(str);
     str = MSGDATA_AllocString(msgBank, 2);
-    WORDSET_SetSlotNumber(wordSet, 0, secondNumber, 8, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, secondNumber, 8, 0, TOUCHBAR_NUMBER_HALFWIDTH);
     WORDSET_CopyTaggedText(wordSet, buf, str);
     TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, buf, fontId, color, 0);
     STRBUF_Delete(str);

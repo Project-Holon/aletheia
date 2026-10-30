@@ -16,6 +16,9 @@
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_SetEvent  0x02012108  thumb
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -99,13 +102,15 @@ struct FieldNogridMapper;
 #include "../ov021/field_player.h"
 #include "../arm9/fx_mtx33.h"
 #include "../arm9/game_event.h"
+#include "../arm9/key.h"
+#include "../version.h"
 
 void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObjCnt *expObj, int modelIndex, VecFx32 *pos, u16 *angle, int animCount, int cullDraw);
 void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObjCnt *expObj, int unitIndex);
 void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int direction);
@@ -302,6 +307,17 @@ void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap)
         FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(expObj, fieldMap, inside);
         work->playerInside = inside;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    /* Japanese build: a debug key combination triggers the button events. */
+    if (KEY_GetCont() & 0x2000) {
+        struct GameSystem *gameSystem = FIELDMAP_GetGameSystem(fieldMap);
+        if (KEY_GetTrg() & 4) {
+            GAMESYSTEM_SetEvent(gameSystem, FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(gameSystem, 1, 0));
+        } else if (KEY_GetTrg() & 8) {
+            GAMESYSTEM_SetEvent(gameSystem, FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(gameSystem, 1, 1));
+        }
+    }
+#endif
 }
 
 
@@ -312,7 +328,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap)
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side)
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     FieldGimmickRotatingRoomSave *save;
@@ -323,7 +339,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem,
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
 }
 
 

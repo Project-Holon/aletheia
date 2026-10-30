@@ -346,6 +346,7 @@ struct TcbList;
 struct TcbSystem;
 struct TcbTask;
 #include "../arm9/tcb_list.h"
+#include "../version.h"
 /* Byte offset of a TradeWork member: the loops below step by row and column from the work base. */
 void POKETRADE_2D_BuildBoxMarkingTable(TradeWork *p, int box, unsigned char *out);
 void POKETRADE_2D_BuildPartyMarkingTable(TradeWork *p, void *party, unsigned char *out);
@@ -467,7 +468,7 @@ extern VecFx32 gCameraTargetC, gCameraTargetB, gCameraTargetA;
 extern const s16 gCameraParams[];
 extern const struct BgTemplate gSubBgTemplate4,gSubBgTemplate5,gSubBgTemplate7,gSubBgTemplate6;
 extern const char gDisplayConfig[];
-extern PointU32 gSubScreenWindowPos[26];
+extern PointU32 gSubScreenWindowPos[PM_LANG_JA(26, 44)];
 extern const Pokemontrade2dCoords gSummaryIconCoords;
 extern const States gSummaryIconStates;
 extern const int gOfferIconPosA[6][2];
@@ -793,7 +794,7 @@ void POKETRADE_2D_CreateBoxWindows(TradeWork *p)
             else BOX_SAVEDATA_GetBoxName((*(void * *)&p->boxManager),i,p->infoTextOut);
             GF_FONT_SetTextColor(15,2,zero);
             BMP_Clear(BMP_WIN_GetBmp(p->boxNameWin[i]),zero);
-            PRINTSYS_Print(BMP_WIN_GetBmp(p->boxNameWin[i]),zero,1,p->infoTextOut,p->font);
+            PRINTSYS_Print(BMP_WIN_GetBmp(p->boxNameWin[i]),zero,PM_LANG_JA(1, zero),p->infoTextOut,p->font);
             BMP_WIN_TransferChars(p->boxNameWin[i]);
             BMP_WIN_SetPosY(p->boxNameWin[i],zero);
         } while (++i < (int)((u32)p->partyBoxId+1u));
@@ -1220,7 +1221,7 @@ void POKETRADE_2D_LoadBoxIconGfx(TradeWork *p, int b)
 {
     int i, n; sptr x; void *t; struct GfxLoadResult *out;
     void *a;
-    if (b == 0) p->vramBuf = GFL_HEAP_Alloc(p->heapId, 0x5ac00, 0, gBoxIconAllocTag, 0x50b);
+    if (b == 0) p->vramBuf = GFL_HEAP_Alloc(p->heapId, 0x5ac00, 0, gBoxIconAllocTag, PM_SRC_LINE(0x50b, 0x509));
     a = ARC_TOOL_CreateHandle(7, p->heapId);
     goto check;
 body:
@@ -1578,7 +1579,7 @@ void POKETRADE_2D_LoadSubScreenGfx(TradeWork *p)
     BG_SYS_ChangeScrollImmediate(6, 0, -4);
     ARC_TOOL_DeleteHandle(h);
     GF_FONT_SetTextColor(1, 2, 15);
-    for (i = 0; i < 26; i++) {
+    for (i = 0; i < PM_LANG_JA(26, 44); i++) {
         p->subScreenWin[i] = (void *)BMP_WIN_Create(6, (u8)gSubScreenWindowPos[i].x, (u8)gSubScreenWindowPos[i].y, 2, 2, 14, 0);
         MSGDATA_ReadString((struct MsgBank *)(p->messageBank), i + 0x35, (void *)(p->infoTextOut));
         PRINTSYS_Print(BMP_WIN_GetBmp(p->subScreenWin[i]), 0, 0, (*(void * *)&p->infoTextOut), p->font);
@@ -1601,7 +1602,7 @@ void POKETRADE_2D_ClearSubScreen(TradeWork *p)
     BG_SYS_ChangeScrollImmediate(6, 0, 0);
     if (p->cursorActor) CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 1);
     if (p->actorF18) CLACT_SetActorDrawEnable((struct ClactActor *)p->actorF18, 1);
-    for (i = 0; i < 26; i++) {
+    for (i = 0; i < PM_LANG_JA(26, 44); i++) {
         if (p->subScreenWin[i]) {
             BMP_WIN_ClearScreen((struct BmpWin *)(p->subScreenWin[i]));
             BMP_MENUWORK_DrawWindowBorder(p->subScreenWin[i], 2);

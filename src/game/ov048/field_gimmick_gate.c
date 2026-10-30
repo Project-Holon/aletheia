@@ -76,6 +76,7 @@
 #ifdef __MWERKS__
 #define SAVE_CONTROL_LoadExtraSave SAVE_CONTROL_LoadExtraSave_header
 #endif
+#include "../version.h"
 #include "field_gimmick_gate_types.h"
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
@@ -328,7 +329,7 @@ void FIELD_GIMMICK_GATE_LoadBoardRecord(GateWork *work)
         zoneId = FIELDMAP_GetZoneId(work->fieldMap);
         i = 0;
         /* 0x387: line of the allocation in the original source file */
-        work->record = GFL_HEAP_Alloc(work->heapId, sizeof(GateBoardRecord), 0, gGateSourceFileName, 0x387);
+        work->record = GFL_HEAP_Alloc(work->heapId, sizeof(GateBoardRecord), 0, gGateSourceFileName, PM_SRC_LINE(0x387, 0x386));
         recordCount = ARC_TOOL_GetArchiveFileCount(GATE_BOARD_ARCHIVE_ID);
         for (; i < recordCount; i++) {
             GIMMICK_OBJ_ELBOARD_ReadGateInfo(&record, GATE_BOARD_ARCHIVE_ID, i);
@@ -485,7 +486,7 @@ void FIELD_GIMMICK_GATE_LoadNewsList(GateWork *work)
     if (work->newsList == 0) {
         count = ARC_TOOL_GetArchiveFileCount(GATE_NEWS_ARCHIVE_ID);
         /* 0x4cb: line of the allocation in the original source file */
-        work->newsList = GFL_HEAP_Alloc(work->heapId, count * sizeof(GateNewsEntry), 0, gGateSourceFileName, 0x4cb);
+        work->newsList = GFL_HEAP_Alloc(work->heapId, count * sizeof(GateNewsEntry), 0, gGateSourceFileName, PM_SRC_LINE(0x4cb, 0x4ca));
         for (i = 0; i < count; i++) {
             GIMMICK_OBJ_ELBOARD_ReadGateEntry(&work->newsList[i], GATE_NEWS_ARCHIVE_ID, i);
         }

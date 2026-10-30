@@ -155,6 +155,8 @@
 
 struct NitroResFile;
 
+#include "../version.h"
+
 #include "../types.h"
 #include "net_types.h"
 
@@ -467,9 +469,9 @@ void GFL_NET_ERR_Init(u32 heapId)
 
     MI_CpuFill8(work, 0, sizeof(NetErrWork));
 
-    work->bg1CharBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_CHAR_SIZE, 0, srcFile, 0xbb);
-    work->bg1ScrBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, 0xbc);
-    work->plttBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, 0xbd);
+    work->bg1CharBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_CHAR_SIZE, 0, srcFile, PM_SRC_LINE(0xbb, 0xbb - 4));
+    work->bg1ScrBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, PM_SRC_LINE(0xbc, 0xbc - 4));
+    work->plttBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, PM_SRC_LINE(0xbd, 0xbd - 4));
 }
 
 /*
@@ -688,7 +690,9 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
     if (GFL_NET_ERR_IS_ACTIVE() == 0) {
         return;
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     GFL_USE_StopAllSe();
+#endif
     GFL_NET_ERR_SaveDisplayAndDraw(0, 0);
     GX_VBlankIntr(1);
     GFL_NET_WM_ICON_EasyObjWindowOn();
@@ -703,11 +707,19 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
         GXS_SetVisibleWnd(4);
         GXS_SetVisiblePlane(0x12);
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    while ((FilterOpposingDpad(PAD_Read()) & 3) != 0) {
+#else
     while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) != 0) {
+#endif
         WIH_DWC_PollSystem();
         GFL_NET_ERR_UpdateNetwork();
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    while ((FilterOpposingDpad(PAD_Read()) & 3) == 0) {
+#else
     while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) == 0) {
+#endif
         WIH_DWC_PollSystem();
         GFL_NET_ERR_UpdateNetwork();
     }
@@ -917,10 +929,18 @@ u32 GFL_NET_ERR_ProcScreen(u32 isFatal)
         } else {
             GFL_NET_ERR_SaveDisplayAndDraw(isFatal, 0);
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        while ((FilterOpposingDpad(PAD_Read()) & 3) != 0) {
+#else
         while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) != 0) {
+#endif
             WIH_DWC_PollSystem();
         }
+#if LANGUAGE == LANGUAGE_JAPANESE
+        while ((FilterOpposingDpad(PAD_Read()) & 3) == 0) {
+#else
         while (PAD_DetectFold() == 1 || (FilterOpposingDpad(PAD_Read()) & 3) == 0) {
+#endif
             WIH_DWC_PollSystem();
         }
         GFL_NET_ERR_RestoreDisplay(0);
@@ -1191,12 +1211,17 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
     struct Bmp *bmp;
     struct WordSet *wordSet;
     s32 tileX;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    struct GfFont *font;
+#endif
     struct MsgBank *msgBank;
     u32 messageIndex;
     void *message;
     struct U16String *textBuf;
     s32 tileY;
+#if LANGUAGE != LANGUAGE_JAPANESE
     struct GfFont *font;
+#endif
     u16 *bg1ScrPtr;
     u16 tileIndex;
 
@@ -1221,7 +1246,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
         u8 netType = errWork->netType;
 
         if (netType == 1 || netType == 2 || netType == 6) {
-            WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
             msgBank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 1);
             if (errWork->fatalRaised != 0) {
                 messageIndex = errWork->messageId;
@@ -1230,7 +1255,7 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
                 messageIndex = GFL_NET_ERR_GetMessageId(&errWork->errorInfo, errWork->messageId);
             }
         } else {
-            WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, errWork->netErrorFlag, 5, 2, PM_LANG_HALF_WIDTH_DIGITS);
             msgBank = MSGDATA_CreateFromArchive(0, 2, 0x52, 1);
             messageIndex = 1;
             if (messageVariant != 1) {
@@ -1240,7 +1265,11 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
     }
 
     message = MSGDATA_AllocString(msgBank, messageIndex);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    textBuf = (struct U16String *)MSGDATA_AllocString(msgBank, messageIndex);
+#else
     textBuf = (struct U16String *)STRBUF_Create(0x189, 1);
+#endif
     WORDSET_CopyTaggedText(wordSet, (struct Strbuf *)textBuf, message);
     PRINTSYS_PrintColor(bmp, 0, 0, (struct Strbuf *)textBuf, font, 0x1167);
     STRBUF_Delete((struct Strbuf *)textBuf);

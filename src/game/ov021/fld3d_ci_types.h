@@ -2,6 +2,7 @@
 #define ALETHEIA_OV021_FLD3D_CI_TYPES_H
 
 #include "../types.h"
+#include "../version.h"
 
 #include "../sdk_fx.h"
 
@@ -74,7 +75,9 @@ typedef struct Fld3dCiIcon {
     int chrFile;
     int plttFile;
     int hasSecondName;
+#if LANGUAGE != LANGUAGE_JAPANESE
     int secondNameCentered;
+#endif
 } Fld3dCiIcon;
 
 typedef struct Fld3dCiCharData {

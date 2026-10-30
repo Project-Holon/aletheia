@@ -9,6 +9,7 @@ struct Ov208InfoWork;
 struct Ov208Ctx;
 
 #include "../types.h"
+#include "../version.h"
 
 struct TcbTask;
 
@@ -25,7 +26,11 @@ void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,struct Ov208Ctx 
 void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_INFO_DeleteLanguageButtons(int unused, char *q, u32 heap);
 void ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(void *unused, char *p, struct Ov208Ctx *key);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int enable0, int enable1, int enable2, int enable3, int enable4, int enable5);
+#else
 void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int *tbl);
+#endif
 void ZUKAN_DETAIL_INFO_GetPanelParams(const u16 *heap, u8 *p, struct Ov208Ctx *key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
 void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, struct Ov208Ctx *ctx);
 void ZUKAN_DETAIL_INFO_NoOpHighlight(int unused0, char *unused1, unsigned unused2);

@@ -50,6 +50,7 @@
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
  *   GF_PANIC_Fail 0x02034714 arm
+ *   GF_PANIC_FailPrintf 0x02034734 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -465,6 +466,12 @@ struct GFLNetHandle;
 
 extern MbParentUi gMbParentUi;
 extern const char d_021F6E08[], d_021F6E0C[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F6CE0[];
+extern const char str_ja_021F6CF0[];
+extern const char str_ja_021F6CF8[];
+extern const char str_ja_021F6D20[];
+#endif
 extern const struct ClActInitParam gClActorInitParam;
 extern const struct DispVram d_021F6C10;
 extern struct DispConfig d_021F6B00;
@@ -587,13 +594,13 @@ static inline void MbCommSys_LoadPayload(MbCommSysWork *p)
     name = GFL_USE_GetArcPath(142);
     FS_InitFile((FSFile *)&file);
     if (!FS_OpenFile((FSFile *)&file, (const char *)name))
-        GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
+        GF_PANIC_Fail(PM_LANG_JA(d_021F6E08, str_ja_021F6CE0), PM_SRC_LINE(0, 0x28D), PM_LANG_JA(d_021F6E08, str_ja_021F6CF0));
     FS_SeekFile((FSFile *)&file, 0, 0);
     p->payloadSize = FS_GetLength((struct FSFile *)&file);
-    p->payload = GFL_HEAP_Alloc(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
+    p->payload = GFL_HEAP_Alloc(p->heapId, p->payloadSize, 1, PM_LANG_JA(d_021F6E0C, str_ja_021F6CE0), PM_SRC_LINE(660, 0x290));
     FS_ReadFile((FSFile *)&file, (void *)p->payload, p->payloadSize);
     if (!FS_CloseFile((FSFile *)&file))
-        GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
+        GF_PANIC_Fail(PM_LANG_JA(d_021F6E08, str_ja_021F6CE0), PM_SRC_LINE(0, 0x293), PM_LANG_JA(d_021F6E08, str_ja_021F6CF0));
     p->phase = 13;
 }
 
@@ -1117,8 +1124,8 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
     ownerData = GAME_DATA_GetMyStatus(p->arg->gameData);
     p->subPhase = 0;
     p->recruitPhase = 0;
-    p->gameNameBuf = GFL_HEAP_Alloc(p->heapId, 0x60, 1, d_021F6E0C, 0x553);
-    p->gameIntroBuf = GFL_HEAP_Alloc(p->heapId, 0xC0, 1, d_021F6E0C, 0x554);
+    p->gameNameBuf = GFL_HEAP_Alloc(p->heapId, 0x60, 1, PM_LANG_JA(d_021F6E0C, str_ja_021F6CE0), PM_SRC_LINE(0x553, 0x54F));
+    p->gameIntroBuf = GFL_HEAP_Alloc(p->heapId, 0xC0, 1, PM_LANG_JA(d_021F6E0C, str_ja_021F6CE0), PM_SRC_LINE(0x554, 0x550));
     MB_UTIL_MSG_SetWindowLayout(p->msg, 1);
     MB_UTIL_MSG_CreateWordSet(p->msg);
     MB_UTIL_MSG_SetNumberZeroPad(p->msg, 0, MYSTATUS_GetIdLow16(ownerData), 5);
@@ -1374,7 +1381,11 @@ void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
             answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (answer == 1) {
             if (MB_PARENT_SYS_GetState() != 2)
+#if LANGUAGE == LANGUAGE_JAPANESE
+                GF_PANIC_FailPrintf(str_ja_021F6CE0, 0x76C, str_ja_021F6CF8, MB_PARENT_SYS_GetState());
+#else
                 GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
+#endif
             MB_COMM_SYS_UpdateSaveState(p, 4);
             MB_PARENT_SYS_Cancel();
             p->recruitPhase = 4;
@@ -1527,7 +1538,7 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
         ZUKAN_SAVE_RegisterCaught(dex, mon);
         GFL_HEAP_Free(mon);
         if (added != 1)
-            GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
+            GF_PANIC_Fail(PM_LANG_JA(d_021F6E08, str_ja_021F6CE0), PM_SRC_LINE(0, 0x84E), PM_LANG_JA(d_021F6E08, str_ja_021F6D20));
     }
 }
 
@@ -1909,7 +1920,7 @@ int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument)
     GFL_HEAP_CreateChildHeap(1, 93, 0x130000);
     p = PROCSYS_AllocProcWork(task, sizeof(*p), 93);
     if (!argument) {
-        argument = GFL_HEAP_Alloc(93, sizeof(*argument), 0, d_021F6E0C, 2788);
+        argument = GFL_HEAP_Alloc(93, sizeof(*argument), 0, PM_LANG_JA(d_021F6E0C, str_ja_021F6CE0), PM_SRC_LINE(2788, 0xADF));
         if (KEY_GetCont() & 256) {
             argument->standalone = 1;
         } else {

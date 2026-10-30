@@ -184,6 +184,11 @@ u16 SCRIPT_SYS_FindSceneScript(const void *eventWork, const u8 *list, u32 key);
 ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scriptId, int mode);
 void SCRIPT_SYS_DeleteVm(ScriptVm *vm);
 u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileId, u16 *outTextBank, u16 *outTextMsgId);
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02172604[];
+extern const char str_ja_02172614[];
+#endif
 u8 *SCRIPT_SYS_LoadScriptFile(int fileId, int heapId);
 int SCRIPT_SYS_IsZoneScriptId(u16 scriptId);
 int SCRIPT_SYS_IsChildScript(int mode);
@@ -627,7 +632,11 @@ u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileI
         if (scriptId < table[i].firstId)
             continue;
         if (scriptId > table[i].lastId)
+#if LANGUAGE == LANGUAGE_JAPANESE
+            GF_PANIC_FailPrintf(str_ja_02172604, 0x3AF, str_ja_02172614, scriptId, table[i].lastId);
+#else
             GF_PANIC_Fail(d_02172898, (int)0, d_02172898);
+#endif
         range = &table[i];
         *outFileId = range->fileId;
         *outTextBank = range->textBank;

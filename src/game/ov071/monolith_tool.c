@@ -464,6 +464,20 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct 
 struct SaveControl;
 struct IntrudeSave;
 #include "../arm9/intrude.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021BAAA0[];
+extern const char str_ja_021BAAB0[];
+extern const char str_ja_021BAAC8[];
+extern const char str_ja_021BAAE4[];
+extern const char str_ja_021BAB00[];
+extern const char str_ja_021BAB1C[];
+extern const char str_ja_021BAB30[];
+extern const char str_ja_021BAB4C[];
+extern const char str_ja_021BAB68[];
+extern const char str_ja_021BAB7C[];
+extern const char str_ja_021BAB98[];
+extern const char str_ja_021BABB4[];
+#endif
 extern const struct MonolithToolGridParam gMonolithRowGridParam;
 extern const struct BgTemplate gMonolithInfoBgTemplate0;
 extern const struct BgTemplate gMonolithInfoBgTemplate2;
@@ -1247,7 +1261,7 @@ void MONOLITH_TOOL_UpdateHighlight(MonolithToolProcArgs *args, int slot)
     int level;
     highlight = &args->highlight[slot];
     if (slot >= 4) {
-        GF_PANIC_Fail(d_021BABE0, (int)0, d_021BABE0);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABE0, str_ja_021BAAA0), PM_SRC_LINE((int)0, 0x193), PM_LANG_JA(d_021BABE0, str_ja_021BAAB0));
     }
     firstColor = MONOLITH_TOOL_GetHighlightColorA((int)slot);
     srcColor = MONOLITH_TOOL_GetHighlightColorB((int)slot);
@@ -1590,7 +1604,7 @@ void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg)
     } else if (m > 0 && right == 0) {
         right++;
     }
-    buf = GFL_HEAP_Alloc(0x61, 0x3c, 1, d_021BABE4, 0x474);
+    buf = GFL_HEAP_Alloc(0x61, 0x3c, 1, PM_LANG_JA(d_021BABE4, str_ja_021BAAA0), 0x474);
     for (i = 0; right > 0; i++) {
         if (right >= 8) {
             buf[i] = 1;
@@ -1795,7 +1809,7 @@ void MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow(MonolithToolSlotSelect *screen)
 void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(MonolithToolSlotSelect *screen, MonolithToolWork *work, int msgId)
 {
     if (screen->msgPrinter != 0)
-        GF_PANIC_Fail(d_021BABF4, 0, d_021BABF4);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABF4, str_ja_021BAAC8), PM_SRC_LINE(0, 0x2D8), PM_LANG_JA(d_021BABF4, str_ja_021BAAE4));
     GF_FONT_SetTextColor(1, 2, 15);
     screen->msgString = MSGDATA_AllocString((void *)work->msgBank[3], msgId);
     screen->msgPrinter = PRINTSYS_PrintStream(screen->msgWindow, 0, 0, screen->msgString, work->font, MSG_SPEED_GetWait(), (void *)work->taskList, 10, 0x61, 15);
@@ -1809,7 +1823,7 @@ void MONOLITH_TOOL_SLOT_SELECT_HideMessage(MonolithToolSlotSelect *screen)
     void *window;
     window = BMP_WIN_GetBmp(screen->msgWindow);
     if (screen->msgPrinter == 0)
-        GF_PANIC_Fail(d_021BABF4, 0, d_021BABF4);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABF4, str_ja_021BAAC8), PM_SRC_LINE(0, 0x2FE), PM_LANG_JA(d_021BABF4, str_ja_021BAB00));
     PRINTSYS_PrintStreamDelete(screen->msgPrinter);
     screen->msgPrinter = 0;
     STRBUF_Delete(screen->msgString);
@@ -2176,7 +2190,7 @@ void MONOLITH_TOOL_MENU_FreeWindow(MonolithToolMenu *screen)
 void MONOLITH_TOOL_MENU_ShowMessage(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId)
 {
     if (screen->messageBox != 0) {
-        GF_PANIC_Fail(d_021BABF8, 0, d_021BABF8);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABF8, str_ja_021BAB1C), PM_SRC_LINE(0, 0x296), PM_LANG_JA(d_021BABF8, str_ja_021BAB30));
     }
     GF_FONT_SetTextColor(1, 2, 0xf);
     screen->messageText = MSGDATA_AllocString(work->msgBank[3], msgId);
@@ -2195,7 +2209,7 @@ void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen)
     struct Bmp *r = BMP_WIN_GetBmp(screen->window);
 
     if (screen->messageBox == 0) {
-        GF_PANIC_Fail(d_021BABF8, 0, d_021BABF8);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABF8, str_ja_021BAB1C), PM_SRC_LINE(0, 0x2BC), PM_LANG_JA(d_021BABF8, str_ja_021BAB4C));
     }
     PRINTSYS_PrintStreamDelete(screen->messageBox);
     screen->messageBox = 0;
@@ -2567,17 +2581,17 @@ void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work
     drawText(work, screen->text[0].window, 0, 4, labelText);
     screen->text[0].on = 1;
     MSGDATA_ReadString(work->msgBank[3], 5, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit + counts->current, 5, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit + counts->current, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[1].window, 0, 0, lineText);
     screen->text[1].on = 1;
     MSGDATA_ReadString(work->msgBank[3], 9, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit, 4, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->limit, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0, 0, lineText);
     screen->text[2].on = 1;
     MSGDATA_ReadString(work->msgBank[3], 8, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, counts->current, 4, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, counts->current, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[2].window, 0x78, 0, lineText);
     screen->text[2].on = 1;
@@ -2591,18 +2605,18 @@ void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work
         minutes = seconds / 60;
     }
     MSGDATA_ReadString(work->msgBank[3], 0xb, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, hours, 3, 1, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, minutes, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, hours, 3, 1, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(work->wordSet, 1, minutes, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[3].window, 0, 0, lineText);
     screen->text[3].on = 1;
     MSGDATA_ReadString(work->msgBank[3], 0xc, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, args->setup->recordCount, 5, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, args->setup->recordCount, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[4].window, 0, 0, lineText);
     screen->text[4].on = 1;
     MSGDATA_ReadString(work->msgBank[3], 0xa, labelText);
-    WORDSET_SetSlotNumber(work->wordSet, 0, TOWN_MAP_SPOT_CountVisited(work->entryTable, MONOLITH_TOOL_GetSlotIconStates(args), args->setup->rankData), 4, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, TOWN_MAP_SPOT_CountVisited(work->entryTable, MONOLITH_TOOL_GetSlotIconStates(args), args->setup->rankData), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, lineText, labelText);
     drawText(work, screen->text[5].window, 0, 0, lineText);
     screen->text[5].on = 1;
@@ -2791,7 +2805,7 @@ selected:
         break;
     case 6:
         if (MONOLITH_TOOL_LIST_IsMessageDone(args->work, work) == 1) {
-            if (work->yesNoMenu != 0) GF_PANIC_Fail((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
+            if (work->yesNoMenu != 0) GF_PANIC_Fail(PM_LANG_JA((const char *)d_021BABFC, str_ja_021BAB68), PM_SRC_LINE(0, 0x1F7), PM_LANG_JA((const char *)d_021BABFC, str_ja_021BAB7C));
             work->yesNoMenu = MONOLITH_TOOL_OpenTaskMenu(args->work, work->taskMenuUnit, 0x61);
             ++*state;
         }
@@ -2970,7 +2984,7 @@ void MONOLITH_TOOL_LIST_DrawTitle(MonolithToolProcArgs *args, MonolithListWork *
 void MONOLITH_TOOL_LIST_ShowMessage(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId)
 {
     if (work->messagePrinter != 0)
-        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABFC, str_ja_021BAB68), PM_SRC_LINE(0, 0x35E), PM_LANG_JA(d_021BABFC, str_ja_021BAB98));
     GF_FONT_SetTextColor(1, 2, 0xf);
     work->messageText = MSGDATA_AllocString(toolWork->msgBank[3], msgId);
     work->messagePrinter = PRINTSYS_PrintStream(work->messageWindow, 0, 0, work->messageText, toolWork->font, MSG_SPEED_GetWait(), toolWork->taskList, 0xa, 0x61, 0xf);
@@ -2983,7 +2997,7 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(MonolithListWork *work, MonolithToo
     struct Strbuf *format;
 
     if (work->messagePrinter != 0)
-        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABFC, str_ja_021BAB68), PM_SRC_LINE(0, 0x37C), PM_LANG_JA(d_021BABFC, str_ja_021BAB98));
     GF_FONT_SetTextColor(1, 2, 0xf);
     format = MSGDATA_AllocString(toolWork->msgBank[3], msgId);
     work->messageText = STRBUF_Create(0x100, 0x61);
@@ -3008,7 +3022,7 @@ void MONOLITH_TOOL_LIST_HideMessage(MonolithListWork *work)
 
     bitmap = (struct Bitmap *)BMP_WIN_GetBmp(work->messageWindow);
     if (work->messagePrinter == 0)
-        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(PM_LANG_JA(d_021BABFC, str_ja_021BAB68), PM_SRC_LINE(0, 0x3A8), PM_LANG_JA(d_021BABFC, str_ja_021BABB4));
     PRINTSYS_PrintStreamDelete(work->messagePrinter);
     work->messagePrinter = 0;
     STRBUF_Delete(work->messageText);
@@ -3673,7 +3687,7 @@ void MONOLITH_TOOL_DrawSelectedEntry(MonolithToolProcArgs *args, MonolithToolWor
     BMP_Clear(BMP_WIN_GetBmp(work->windows[2]), 0);
     if (selected != MONOLITH_ENTRY_NONE) {
         if (args->param->mode == 0) {
-            WORDSET_SetSlotNumber(toolWork->wordSet, 0, toolWork->entryTable[selected].number, 4, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 0, toolWork->entryTable[selected].number, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
             desc = MSGDATA_AllocString(toolWork->msgBank[2], toolWork->entryTable[selected].descMsgId);
             format = MSGDATA_AllocString(toolWork->msgBank[3], 0x28);
             line = STRBUF_Create(0x40, 0x61);
@@ -3694,9 +3708,9 @@ void MONOLITH_TOOL_DrawSelectedEntry(MonolithToolProcArgs *args, MonolithToolWor
                 cost = toolWork->entryTable[selected].costB;
                 msgId = 0x2a;
             }
-            WORDSET_SetSlotNumber(toolWork->wordSet, 0, cost, 3, 0, 1);
-            WORDSET_SetSlotNumber(toolWork->wordSet, 1, counts->current, 3, 0, 1);
-            WORDSET_SetSlotNumber(toolWork->wordSet, 2, counts->limit, 3, 0, 1);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 0, cost, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 1, counts->current, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(toolWork->wordSet, 2, counts->limit, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             format = MSGDATA_AllocString(toolWork->msgBank[3], msgId);
             line = STRBUF_Create(0x80, 0x61);
             WORDSET_CopyTaggedText(toolWork->wordSet, line, format);

@@ -61,6 +61,7 @@
  */
 #include "br_types.h"
 
+/* Source line number passed to the task allocation. */
 #include "../arm9/gf_overlay.h"
 
 struct GameData;
@@ -97,6 +98,13 @@ struct MyStatus;
 
 
 #include "../ov125/gds_rap.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02201004[];
+extern const char str_ja_02201010[];
+extern const char str_ja_0220102C[];
+extern const char str_ja_02201030[];
+#endif
 
 
 
@@ -216,7 +224,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 
     struct BrNet *net;
     GdsRapInitParams params;
     GF_OVERLAY_Load((sptr)ov125_id);
-    net=GFL_HEAP_Alloc(heapId,sizeof(struct BrNet),0,gBrNetSourceFile,0x97);
+    net=GFL_HEAP_Alloc(heapId,sizeof(struct BrNet),0,PM_LANG_JA(gBrNetSourceFile, str_ja_02201004),0x97);
     MI_CpuFill8(net,0,sizeof(struct BrNet));
     net->gameData=gameData;
     MI_CpuFill8(&params,0,sizeof(GdsRapInitParams));
@@ -267,7 +275,7 @@ void BR_NET_Main(struct BrNet *net)
  */
 void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *request)
 {
-    if(kind>=BR_NET_REQUEST_COUNT)GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+    if(kind>=BR_NET_REQUEST_COUNT)GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x105), PM_LANG_JA(gBrNetAssertString, str_ja_02201010));
     if(request){
         net->request=*request;
     }
@@ -282,7 +290,7 @@ void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *
     case BR_NET_REQUEST_SEARCH_KIND3:BR_NET_SetStep(net->task,BR_NET_StepSearchKind3);break;
     case BR_NET_REQUEST_SEARCH_KIND2:BR_NET_SetStep(net->task,BR_NET_StepSearchKind2);break;
     case BR_NET_REQUEST_MARK_VIDEO:BR_NET_SetStep(net->task,BR_NET_StepMarkVideo);break;
-    default:GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);break;
+    default:GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x12C), PM_LANG_JA(gBrNetAssertString, str_ja_0220102C));break;
     }
 }
 
@@ -458,63 +466,63 @@ void BR_NET_StepWaitRequest(struct BrNetTask *task, u32 *counter, struct BrNet *
 void BR_NET_StepUploadEntry(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadEntry(&net->rap,(const GdsProfileBlock *)net->profile,net->request.payload))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x2FB), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepDownloadEntries(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestDownloadEntries(&net->rap,net->request.downloadKey))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x30E), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepUploadVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadVideo(&net->rap,net->profile))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x321), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepGetVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestGetVideo(&net->rap,net->request.dataNumber.lo,net->request.dataNumber.hi))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x334), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchVideos(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestSearchVideos(&net->rap, net->request.search.keyId, net->request.search.category, net->request.search.mode, net->request.search.flag))
-        GF_PANIC_Fail(gBrNetAssertString, 0, gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x34D), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind1(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind1(&net->rap))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x360), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind3(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind3(&net->rap))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x373), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind2(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind2(&net->rap))
-        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x386), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepMarkVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestMarkVideo(&net->rap, net->request.dataNumber.lo, net->request.dataNumber.hi))
-        GF_PANIC_Fail(gBrNetAssertString, 0, gBrNetAssertString);
+        GF_PANIC_Fail(PM_LANG_JA(gBrNetAssertString, str_ja_02201004), PM_SRC_LINE(0, 0x399), PM_LANG_JA(gBrNetAssertString, str_ja_02201030));
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 
@@ -532,7 +540,7 @@ void BR_NET_OnMarkVideo(void *userData, GdsRapResult *result) { ((struct BrNet *
 
 struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u16 heapId)
 {
-    struct BrNetTask *task=GFL_HEAP_Alloc(heapId,sizeof(struct BrNetTask),0,gBrNetSourceFile,0x44f);
+    struct BrNetTask *task=GFL_HEAP_Alloc(heapId,sizeof(struct BrNetTask),0,PM_LANG_JA(gBrNetSourceFile, str_ja_02201004),PM_SRC_LINE(0x44f, 0x447));
     MI_CpuFill8(task,0,sizeof(struct BrNetTask));
     task->net=net;
     BR_NET_SetStep(task,step);

@@ -66,6 +66,7 @@
  *   NNS_SndWaveOutStop 0x02072BDC arm
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "ctvt_types.h"
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -129,6 +130,8 @@ void *CTVT_MIC_GetBuffer(CtvtMic *mic);
 extern const char gCtvtMicAllocSite[], gCtvtMicIirFilter[];
 
 extern CtvtMic *gCtvtMic;
+extern const char str_ja_021C70D8[];
+extern const char str_ja_021C70E4[];
 
 CtvtMic *CTVT_MIC_Create(u16 heap)
 {
@@ -297,7 +300,11 @@ void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)
 
     mic->channel = v;
     if (v == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_021C70D8, 0x19A, str_ja_021C70E4);
+#else
         GF_PANIC_Fail((void *)0x021C7224, 0, (void *)0x021C7224);
+#endif
     }
     mic->playing = 0;
 }

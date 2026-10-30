@@ -114,6 +114,7 @@
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb ov136
  */
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/clact.h"
 #include "../arm9/palanm.h"
@@ -266,7 +267,7 @@ void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc)
     PALANM_TransferPalettes((PaletteFade *)proc->palAnm);
     proc->blinkWeight = 0;
     proc->blinkDown = 0;
-    mem = GFL_HEAP_Alloc((u16)proc->heapId, TCB_GetTaskOffset(3), 0, d_021C7EF8, 0x4F3);
+    mem = GFL_HEAP_Alloc((u16)proc->heapId, TCB_GetTaskOffset(3), 0, d_021C7EF8, PM_SRC_LINE(0x4F3, 0x4EC));
     proc->blinkTaskMem = mem;
     proc->blinkTaskList = TCB_Init(3, (struct TcbSystem *)mem);
     proc->blinkTask = TCB_AddTask((struct TcbSystem *)proc->blinkTaskList, MAILVIEW_CursorBlendTask, (void *)proc, 0);

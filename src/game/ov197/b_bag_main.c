@@ -357,6 +357,20 @@ struct TextPrinter;
 struct TcbTask;
 #include "../arm9/gfl_use.h"
 #include "../ov094/btlv_finger_cursor.h"
+#include "../version.h"
+
+/* numbers print half width everywhere but in Japanese */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define B_BAG_MSG_ARCHIVE 1
+#else
+#define B_BAG_MSG_ARCHIVE 17
+#endif
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define B_BAG_USAGE_STRBUF_LEN 114
+#else
+#define B_BAG_USAGE_STRBUF_LEN 130
+#endif
 struct CursorVtbl;
 struct CursorEntry;
 void B_BAG_MAIN_InitWindows(char *p);
@@ -610,7 +624,7 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, i
   {
     text = MSGDATA_AllocString(((struct BagWork *)p)->msgBank, *((u32 *) (d_0220DA3C + (id * 8))));
     page = ((uptr) p) + (((struct BagWork *)p)->pocket * 0x90);
-    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet, 0, ((struct BagWork *)page)->rows[0][i][1], 3, 0, 1);
+    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet, 0, ((struct BagWork *)page)->rows[0][i][1], 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     strBufDst = (char *)&((struct BagWork *)p)->strBuf;
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet, *((void **) strBufDst), text);
     font = ((struct BagWork *)p)->printSys;
@@ -673,12 +687,12 @@ void B_BAG_MAIN_DrawHeader(char *p)
     PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,surface,(s16)x,(s16)4,text,(((struct BagWork *)p)->itemData)->font,0x3C40);
     STRBUF_Delete(text);
     text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,29);
-    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((struct BagWork *)p)->pagePerPocket[((struct BagWork *)p)->pocket]+1,2,0,1);
+    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((struct BagWork *)p)->pagePerPocket[((struct BagWork *)p)->pocket]+1,2,0,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
     PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,surface,(s16)(x+width),(s16)4,(((struct BagWork *)p)->strBuf),(((struct BagWork *)p)->itemData)->font,0x3C40);
     STRBUF_Delete(text);
     text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,30);
-    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((struct BagWork *)p)->itemData->cursorY[((struct BagWork *)p)->pocket]+1,2,0,1);
+    WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,((struct BagWork *)p)->itemData->cursorY[((struct BagWork *)p)->pocket]+1,2,0,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
     width=PRINTSYS_MeasureWidestLine(((struct BagWork *)p)->strBuf,(((struct BagWork *)p)->itemData)->font,0);
     font=((struct BagWork *)p)->printSys;
@@ -733,7 +747,7 @@ void B_BAG_MAIN_DrawItemUsage(char *p,int n)
     void *owner;
     int index;
     Row *row;
-    void *buf=STRBUF_Create(130,(((struct BagWork *)p)->itemData)->heapId);
+    void *buf=STRBUF_Create(B_BAG_USAGE_STRBUF_LEN,(((struct BagWork *)p)->itemData)->heapId);
     index=((struct BagWork *)p)->pocket;
     row=(Row *)(((void *)&((struct BagWork *)p)->rows));
     FILE_UTIL_ReadStringAlt(buf,row[index].entry[n][0],(((struct BagWork *)p)->itemData)->heapId);
@@ -1933,7 +1947,7 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
     PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, 23, 5, (((struct BagWork *)p)->itemData)->heapId, 1, 32, 192);
 }
 
-void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,17,(((struct BagWork *)p)->itemData)->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault((((struct BagWork *)p)->itemData)->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)(((struct BagWork *)p)->itemData)->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=(struct U16Vec *)STRBUF_Create((unsigned int)512,(unsigned int)((((struct BagWork *)p)->itemData)->heapId));}
+void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,B_BAG_MSG_ARCHIVE,(((struct BagWork *)p)->itemData)->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault((((struct BagWork *)p)->itemData)->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)(((struct BagWork *)p)->itemData)->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=(struct U16Vec *)STRBUF_Create((unsigned int)512,(unsigned int)((((struct BagWork *)p)->itemData)->heapId));}
 
 /*
  * Tail: two zero alignment bytes at 0x0220D7EE.

@@ -186,9 +186,13 @@ typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/bg_sys.h"
 #include "../arm9/wordset.h"
+#include "../version.h"
 struct Bmp;
 struct TaskMenuInitWork;
 extern const char d_021F6E38[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F6DA4[];
+#endif
 extern u8 ov021_id[];
 
 MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgFile, u32 useTalkWin, u32 cursorMode);
@@ -224,14 +228,20 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
 {
     MbMsgWork *w;
     MbTalkWinParam talk;
+#if LANGUAGE != LANGUAGE_JAPANESE
     int cursor;
+#endif
 
-    w = (MbMsgWork *)GFL_HEAP_Alloc(heapId, sizeof(MbMsgWork), 1, d_021F6E38, 0x66);
+    w = (MbMsgWork *)GFL_HEAP_Alloc(heapId, sizeof(MbMsgWork), 1, PM_LANG_JA(d_021F6E38, str_ja_021F6DA4), PM_SRC_LINE(0x66, 0x64));
     w->heapId = heapId;
     w->bgFrame = bgFrame;
     w->menuBgFrame = menuBgFrame;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    w->cursorMode = cursorMode;
+#else
     cursor = cursorMode;
     w->cursorMode = cursor;
+#endif
     w->window = 0;
     w->font = GF_FONT_Create(0x17, 0, 0, 0, w->heapId);
     w->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgFile, w->heapId);
@@ -249,7 +259,11 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, (struct GFont *)w->font, (struct PrintQueue *)w->printQue, w->heapId);
     w->taskMenu = 0;
     w->yesNoMenu = 0;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 0, 1, w->heapId);
+#else
     w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
+#endif
     GF_OVERLAY_Load((sptr)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
@@ -387,7 +401,7 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
     work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
-        expanded = (struct Strbuf *)STRBUF_Create(0x17B, work->heapId);
+        expanded = (struct Strbuf *)STRBUF_Create(PM_LANG_JA(0x17B, 0x100), work->heapId);
         WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)expanded, (struct Strbuf *)work->message);
         STRBUF_Delete((struct Strbuf *)work->message);
         work->message = expanded;
@@ -424,7 +438,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
     work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
-        expanded = (struct Strbuf *)STRBUF_Create(0x17B, work->heapId);
+        expanded = (struct Strbuf *)STRBUF_Create(PM_LANG_JA(0x17B, 0x100), work->heapId);
         WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)expanded, (struct Strbuf *)work->message);
         STRBUF_Delete((struct Strbuf *)work->message);
         work->message = expanded;
@@ -471,13 +485,13 @@ void MB_UTIL_MSG_DeleteWordSet(MbMsgWork *work)
 
 void MB_UTIL_MSG_SetNumberLeft(MbMsgWork *work, int index, int value, int digits)
 {
-    WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 0, PM_LANG_HALF_WIDTH_DIGITS);
 }
 
 /*
  * Two-byte zero alignment padding follows the compiled function.
  */
-void MB_UTIL_MSG_SetNumberZeroPad(MbMsgWork *work, int index, int value, int digits) { WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 2, 1); }
+void MB_UTIL_MSG_SetNumberZeroPad(MbMsgWork *work, int index, int value, int digits) { WORDSET_SetSlotNumber(work->wordSet, index, value, digits, 2, PM_LANG_HALF_WIDTH_DIGITS); }
 
 void MB_UTIL_MSG_OpenYesNoTaskMenu(MbMsgWork *work, int layout)
 {

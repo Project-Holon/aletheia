@@ -330,6 +330,18 @@ typedef short s16_p07;
 #define PRINTSYS_PrintColor PRINTSYS_PrintColor_hdr
 #endif
 #include "../arm9/printsys.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WF2DMAP_FONT_FLAG 1
+#else
+#define WF2DMAP_FONT_FLAG 0
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WF2DMAP_MSG_ARCHIVE 26
+#else
+#define WF2DMAP_MSG_ARCHIVE 25
+#endif
 #ifdef __MWERKS__
 #undef PRINTSYS_PrintColor
 void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
@@ -418,7 +430,7 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     ((Wf2dmapScene *)scene)->arcHandle=ARC_TOOL_CreateHandle(59,50);
     BG_SYS_Create(50); BMP_WIN_Init(50);
     ((Wf2dmapScene *)scene)->palAnm.handle=PALANM_Create(50);
-    ((Wf2dmapScene *)scene)->font.handle=GF_FONT_Create(23,0,0,0,50);
+    ((Wf2dmapScene *)scene)->font.handle=GF_FONT_Create(23,0,0,WF2DMAP_FONT_FLAG,50);
     PALANM_SetAutoTransfer(((Wf2dmapScene *)scene)->palAnm.handle,1);
     PALANM_AllocSlotBuffers(((Wf2dmapScene *)scene)->palAnm.handle,0,512,50);
     WF2DMAP_SCENE_InitBg();
@@ -914,7 +926,7 @@ void WF2DMAP_SCENE_BuildNumberList(char *scene)  {
             ((Wf2dmapSceneCell *)cell)->state=1;
             CLACT_SetActorAnimSeq((struct ClactActor *)((struct ClactActor *)(((Wf2dmapSceneCell *)cell)->actor.handle)),WF2DMAP_SCENE_GetCellAnim(1,((Wf2dmapSceneCell *)cell)->flag));
         }
-        WORDSET_FormatNumber(strbuf,((Wf2dmapSceneCell *)cell)->state-1,1,1,1);
+        WORDSET_FormatNumber(strbuf,((Wf2dmapSceneCell *)cell)->state-1,1,1,PM_LANG_HALF_WIDTH_DIGITS);
         STRBUF_Append((struct Strbuf *)(((Wf2dmapScene *)scene)->strbuf.handle),strbuf);
     }
     STRBUF_Delete(strbuf);
@@ -1460,7 +1472,7 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     short yPos;
     u16 xPos;
     int zero=0;
-    bank=MSGDATA_CreateFromArchive(0,2,25,50);
+    bank=MSGDATA_CreateFromArchive(0,2,WF2DMAP_MSG_ARCHIVE,50);
     msg=MSGDATA_AllocString(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
     PRINTSYS_PrintColor(bmp,(80-(int)PRINTSYS_MeasureWidestLine(msg,*(struct GfFont **)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
@@ -1496,10 +1508,10 @@ void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int
 void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
 {
     void *ws=WORDSET_CreateDefault(50);
-    void *bank=MSGDATA_CreateFromArchive(0,2,25,50);
+    void *bank=MSGDATA_CreateFromArchive(0,2,WF2DMAP_MSG_ARCHIVE,50);
     void *msg=MSGDATA_AllocString(bank,msgId);
     void *out=STRBUF_Create(88,50);
-    WORDSET_SetSlotNumber(ws,0,number,2,2,1);
+    WORDSET_SetSlotNumber(ws,0,number,2,2,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ws,out,msg);
     BMP_Clear(BMP_WIN_GetBmp(window),15);
     PRINTSYS_Print(BMP_WIN_GetBmp(window),0,0,out,msgBank);

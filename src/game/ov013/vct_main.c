@@ -69,6 +69,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "vct_types.h"
+#include "../version.h"
 
 extern VctWork *gVctWork;
 
@@ -185,6 +186,11 @@ void VCT_MAIN_SetMuted(int muted);
 
 /* Fixed text the engine passes to the error call (raw address kept: it lives in the overlay image). */
 #define VCT_ERROR_TEXT ((const char *)0x021B3C20)
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021B3AA0[];
+extern const char str_ja_021B3AA8[];
+extern const char str_ja_021B3AAC[];
+#endif
 
 /* One-time setup of the audio hardware and the stream object. */
 void VCT_MAIN_InitAudio(void)
@@ -473,13 +479,13 @@ void VCT_MAIN_Start(int heapId, int codecMode, int peerCount)
     if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (uptr)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
                       (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, (NNSSndStrmCallback)VCT_MAIN_StreamCallback,
                       (uptr)gVctWork) == 0) {
-        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        GF_PANIC_Fail(PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AA0), PM_SRC_LINE(0, 0x261), PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AA8));
     }
 #else
     if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (uptr)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
                       (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, VCT_MAIN_StreamCallbackNns,
                       (uptr)gVctWork) == 0) {
-        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        GF_PANIC_Fail(PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AA0), PM_SRC_LINE(0, 0x261), PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AA8));
     }
 #endif
     gVctWork->linkState = 0;
@@ -489,7 +495,7 @@ void VCT_MAIN_Start(int heapId, int codecMode, int peerCount)
     param.peerCount = peerCount;
     param.localId = DWC_GetMyAID();
     if (param.localId == -1) {
-        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        GF_PANIC_Fail(PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AA0), PM_SRC_LINE(0, 0x275), PM_LANG_JA(VCT_ERROR_TEXT, str_ja_021B3AAC));
     }
     if (gVctWork->mode == 3) {
         param.eventCallback = VCT_MAIN_OnEventGroup;

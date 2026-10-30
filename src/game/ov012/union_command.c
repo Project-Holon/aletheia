@@ -99,6 +99,14 @@ struct UnionRoomWork;
 
 
 #include "union_comm.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02175568[];
+extern const char str_ja_02175580[];
+extern const char str_ja_02175598[];
+extern const char str_ja_021755B8[];
+extern const char str_ja_021755BC[];
+#endif
 
 u8 *UNION_COMMAND_GetRecvBuffer(int netId, UnionRoomWork *work, int size);
 
@@ -187,7 +195,11 @@ extern const char sUnionCmdAssertText[];
 /* ---- union command table (net commands 0x1400 to 0x1414) ---- */
 u8 *UNION_COMMAND_GetRecvBuffer(int netId, UnionRoomWork *work, int size)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (size > UNION_RECV_BUFFER_SIZE) GF_PANIC_FailPrintf(str_ja_02175568, 0x67, str_ja_02175580, size, UNION_RECV_BUFFER_SIZE);
+#else
     if (size > UNION_RECV_BUFFER_SIZE) GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+#endif
     return work->recvBuffer[netId];
 }
 
@@ -285,7 +297,7 @@ void UNION_COMMAND_RecvTrainerCard(u32 netId, u32 size, const void *data, UnionR
 u32 UNION_COMMAND_SendTrainerCard(UnionRoomWork *work)
 {
     if (work->myTrainerCard == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x184), PM_LANG_JA(sUnionCmdAssertText, str_ja_02175598));
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x1406, 0x678, work->myTrainerCard, 1, 0, 1);
 }
@@ -298,7 +310,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
     colosseum = work->colosseum;
     gameData = GAMESYSTEM_GetGameData(work->parent->gameSystem);
     if (colosseum == 0 || colosseum->commPlayer == 0 || colosseum->entryMenu == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x1A3), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         return;
     }
     OS_GetMacAddress((u8 *)macBuffer);
@@ -310,7 +322,7 @@ void UNION_COMMAND_RecvColosseumSetting(int netId, int size, const u32 *value, U
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x1D2), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         return;
     }
     colosseum->parentSetting = *value;
@@ -321,7 +333,7 @@ void UNION_COMMAND_RecvColosseumCancel(int netId, int size, const void *data, Un
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x1FB), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         return;
     }
     colosseum->entryCancelled = 1;
@@ -335,7 +347,7 @@ int UNION_COMMAND_SendColosseumCancel(void)
 void UNION_COMMAND_RecvAppEntry(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x224), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         work->entryRefuseBits |= (u8)(1 << netId);
         return;
     }
@@ -378,7 +390,7 @@ void UNION_COMMAND_RecvAppQuitRequest(int netId, int size, const void *data, Uni
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x2A4), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755BC));
                 return;
             }
         } else {
@@ -398,7 +410,7 @@ void UNION_COMMAND_RecvAppQuitAccept(int netId, int size, const void *data, Unio
     app = work->app;
     if (app == 0) {
         if (app == 0) {
-            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x2CD), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755BC));
             return;
         }
     } else {
@@ -418,7 +430,7 @@ void UNION_COMMAND_RecvAppSettingRequest(int netId, int size, const void *data, 
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x2FA), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755BC));
                 return;
             }
         } else {
@@ -438,7 +450,7 @@ void UNION_COMMAND_RecvAppSetting(int netId, int size, const void *value, UnionR
     if (GFL_NET_IsParentAid() != 1) {
         app = work->app;
         if (app == 0) {
-            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x328), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
             return;
         }
         UNION_APP_SetSetting(app, value);
@@ -457,7 +469,7 @@ u32 UNION_COMMAND_SendAppSetting(const void *data, u32 sendMask)
 void UNION_COMMAND_RecvAppJoinData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x353), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
@@ -476,7 +488,7 @@ int UNION_COMMAND_SendAppJoinData(u8 sendMask, const UnionAppData *src)
 void UNION_COMMAND_RecvAppData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x38A), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
@@ -491,7 +503,7 @@ void UNION_COMMAND_RecvAppLeaveData(int netId, int size, const void *data, Union
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x3B8), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
             return;
         }
         UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
@@ -512,7 +524,7 @@ void UNION_COMMAND_RecvAppNotice(int netId, int size, const u8 *data, UnionRoomW
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(PM_LANG_JA(sUnionCmdAssertText, str_ja_02175568), PM_SRC_LINE(0, 0x3EE), PM_LANG_JA(sUnionCmdAssertText, str_ja_021755B8));
             return;
         }
         UNION_APP_OnMemberDropped(work->app, *data);

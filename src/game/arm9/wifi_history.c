@@ -21,6 +21,7 @@
  */
 #include "game_sync_shared_types.h"
 #include "wifi_history_shared_types.h"
+#include "../version.h"
 
 #define WIFI_HISTORY_BLOCK_ID 0x1D
 
@@ -64,6 +65,10 @@ u32 WIFI_HISTORY_GetCountryRegionState(const struct WifiHistory *history, int co
 void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country, int region, int state);
 
 u8 WIFI_HISTORY_GetMode(const struct WifiHistory *history);
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WIFI_HISTORY_SetMode(struct WifiHistory *history, u8 mode);
+#endif
 
 void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history);
 
@@ -192,12 +197,24 @@ void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country
     shift = (region % 4) * 2;
     *cell &= 0xFF ^ (3 << shift);
     *cell |= state << shift;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (country != 0x69) {
+        WIFI_HISTORY_SetMode(history, 1);
+    }
+#endif
 }
 
 u8 WIFI_HISTORY_GetMode(const struct WifiHistory *history)
 {
     return history->mode;
 }
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WIFI_HISTORY_SetMode(struct WifiHistory *history, u8 mode)
+{
+    history->mode = mode;
+}
+#endif
 
 void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history)
 {

@@ -35,6 +35,7 @@
  *   WORDSET_Create 0x0201EC74 thumb arm9
  */
 #include "../version.h"
+
 #include "gf_font_shared_types.h"
 #include "printsys_shared_types.h"
 
@@ -182,7 +183,7 @@ extern const u8         gTopBitMasks[];
  */
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId)
 {
-    struct GfFont *font = GFL_HEAP_Alloc(heapId, sizeof(*font), 0, gGfFontFileName, 0xC0);
+    struct GfFont *font = GFL_HEAP_Alloc(heapId, sizeof(*font), 0, gGfFontFileName, PM_SRC_LINE(0xC0, 0xB9));
 
     if (font != 0) {
         font->arc = ARC_TOOL_CreateHandle(archiveId, heapId);
@@ -271,7 +272,7 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
         font->getCharWidth = GF_FONT_GetFixedWidth;
     } else {
         size = font->info.mapBlockOffset - font->info.widthBlockOffset;
-        font->widthTable = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 248);
+        font->widthTable = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, PM_SRC_LINE(248, 241));
         font->getCharWidth = GF_FONT_GetProportionalWidth;
         ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)font->arc, fileId, font->info.widthBlockOffset, size, font->widthTable);
     }
@@ -283,9 +284,9 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
         font->lastGroupBits = 8;
     }
     font->glyphDataOffset = font->info.glyphBlockOffset + 8;
-    font->scratch = GFL_HEAP_Alloc(heapId, font->glyph.cellSize, 0, gGfFontFileName, 266);
+    font->scratch = GFL_HEAP_Alloc(heapId, font->glyph.cellSize, 0, gGfFontFileName, PM_SRC_LINE(266, 259));
     size = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)font->arc, fileId) - font->info.mapBlockOffset;
-    font->charMap = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 271);
+    font->charMap = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, PM_SRC_LINE(271, 264));
     ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)font->arc, fileId, font->info.mapBlockOffset, size, font->charMap);
     font->missingGlyphIndex = 0;
     font->missingGlyphIndex = (u16)GF_FONT_GetGlyphIndex(font, 0x3F);
@@ -361,7 +362,7 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
     GlyphDecodeFunc decode;
 
     size = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)font->arc, font->fileId) - font->glyphDataOffset;
-    font->glyphData = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, 363);
+    font->glyphData = GFL_HEAP_Alloc(heapId, size, 0, gGfFontFileName, PM_SRC_LINE(363, 356));
     ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)font->arc, font->fileId, font->glyphDataOffset, size, font->glyphData);
     font->readGlyph = GF_FONT_ReadPreloadedGlyph;
     if (tilesWide == 1) {

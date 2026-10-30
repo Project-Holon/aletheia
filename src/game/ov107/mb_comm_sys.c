@@ -270,6 +270,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm  arm9
  */
 
+#include "../version.h"
 #include "mb_comm_sys.h"
 #include "../sdk_ioreg_reg.h"
 
@@ -446,6 +447,9 @@ extern MbParentSys gMbParentSys;
 extern const char d_021F6E1C[], d_021F6E24[];
 extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
 extern const char d_021F6E28[];
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F6D94[];
+#endif
 extern const MbCommRequest sMbCommSessionRequest;
 extern int d_021F6EE8[];
 
@@ -503,14 +507,14 @@ MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId)
 {
     MbNetState *net;
 
-    net = GFL_HEAP_Alloc(heapId, sizeof(*net), 1, d_021F6E28, 159);
+    net = GFL_HEAP_Alloc(heapId, sizeof(*net), 1, PM_LANG_JA(d_021F6E28, str_ja_021F6D94), 159);
     net->heapId = heapId;
     net->netStage = 0;
     net->headerBuffer = 0;
     net->flagsA.bits.lowerDataActive = 0;
     net->commStage = 0;
     net->nextCommStage = 0;
-    net->monBuffer = GFL_HEAP_Alloc(net->heapId, 6 * POKE_TOOL_GetBoxParamSize() + 4, 1, d_021F6E28, 169);
+    net->monBuffer = GFL_HEAP_Alloc(net->heapId, 6 * POKE_TOOL_GetBoxParamSize() + 4, 1, PM_LANG_JA(d_021F6E28, str_ja_021F6D94), 169);
     return net;
 }
 
@@ -923,7 +927,7 @@ void MB_COMM_SYS_OnHeaderReceived(int a, int b, int c, MbNetState *net)
 void *MB_COMM_SYS_GetHeaderBuffer(void *a, MbNetState *net)
 {
     if (!net->headerBuffer)
-        net->headerBuffer = GFL_HEAP_Alloc(net->heapId, 8, 1, d_021F6E28, 862);
+        net->headerBuffer = GFL_HEAP_Alloc(net->heapId, 8, 1, PM_LANG_JA(d_021F6E28, str_ja_021F6D94), 862);
     return net->headerBuffer;
 }
 

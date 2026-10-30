@@ -10,6 +10,7 @@
  * sub object pointer gets it as &work->member.
  */
 
+#include "../version.h"
 #include "../ov067/touchbar_types.h"
 
 /* Opaque types owned by other files. */
@@ -57,32 +58,54 @@ enum {
     OPTION_BATTLE_SCENE = 1,
     OPTION_BATTLE_STYLE = 2,
     OPTION_SOUND_MODE = 3,
+#if LANGUAGE == LANGUAGE_JAPANESE
+    OPTION_MOJI_MODE = 4,
+    OPTION_BUTTON_MODE = 5,
+    OPTION_COUNT = 6,
+    OPTION_NO_CHANGE = 13,
+    OPTION_CHOICE_MOJI_KANA = 9,
+    OPTION_CHOICE_MOJI_KANJI = 10
+#else
     OPTION_BUTTON_MODE = 4,
     OPTION_COUNT = 5,
     OPTION_NO_CHANGE = 11
+#endif
 };
 
 /* Cursor positions of OptionMenuList.cursor: five setting rows, then two buttons. */
 enum {
-    OPTION_CURSOR_CONFIRM = 5,
-    OPTION_CURSOR_CANCEL = 6
+    OPTION_CURSOR_CONFIRM = OPTION_COUNT,
+    OPTION_CURSOR_CANCEL = OPTION_COUNT + 1
 };
 
 /* Index of the window handles in OptionMenuGfx.windows. */
 enum {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    OPTION_WINDOW_LABEL_COUNT = 19,
+    OPTION_WINDOW_TITLE = 19,
+    OPTION_WINDOW_DESCRIPTION = 20,
+    OPTION_WINDOW_MESSAGE = 21,
+    OPTION_WINDOW_COUNT = 22
+#else
     OPTION_WINDOW_LABEL_COUNT = 16,
     OPTION_WINDOW_TITLE = 16,
     OPTION_WINDOW_DESCRIPTION = 17,
     OPTION_WINDOW_MESSAGE = 18,
     OPTION_WINDOW_COUNT = 19
+#endif
 };
 
 /* Index of the actors in OptionMenuSprites.actors. */
 enum {
     OPTION_ACTOR_CURSOR = 1,
     OPTION_ACTOR_CHOICE_FIRST = 2,
+#if LANGUAGE == LANGUAGE_JAPANESE
+    OPTION_ACTOR_CHOICE_COUNT = 13,
+    OPTION_ACTOR_COUNT = 16
+#else
     OPTION_ACTOR_CHOICE_COUNT = 11,
     OPTION_ACTOR_COUNT = 14
+#endif
 };
 
 /* OptionMenuButtons.choice values. */
@@ -194,7 +217,7 @@ typedef struct OptionMenuSprites {
     s32 subCellRes;                 /* 0x14 */
     struct ClactActor *actors[OPTION_ACTOR_COUNT]; /* 0x18 */
     u16 animFrame;                  /* 0x50 */
-    u16 pad52;                      /* 0x52 alignment, struct size 0x54 */
+    u16 pad52;                      /* 0x52 alignment, struct size 0x54 (0x5C in the Japanese build) */
 } OptionMenuSprites;
 
 typedef struct OptionMenuScreen {
@@ -231,8 +254,13 @@ typedef struct OptionMenuInput {
 /* The five settings as bytes, a change marker and the config they come from. */
 typedef struct OptionSettings {
     u8 values[OPTION_COUNT];        /* 0x00 */
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u8 lastChanged;                 /* 0x06 */
+    u8 pad7;                        /* 0x07 alignment before the pointer */
+#else
     u8 lastChanged;                 /* 0x05 */
     u16 pad6;                       /* 0x06 alignment before the pointer */
+#endif
     struct Config *config;          /* 0x08 */
 } OptionSettings;
 

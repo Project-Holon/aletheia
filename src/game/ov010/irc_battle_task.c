@@ -108,6 +108,11 @@ struct Regulation;
 extern u8 ov008_id[];
 
 extern u8 d_0217277C[];
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0217247C[];
+extern const char str_ja_02172498[];
+#endif
 
 int IRC_BATTLE_TASK_Main(struct GameEvent *event, int *state, void *work);
 
@@ -252,7 +257,11 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
         BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
     default:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        GF_PANIC_FailPrintf(str_ja_0217247C, 0xE5, str_ja_02172498, kind);
+#else
         GF_PANIC_Fail((const char *)d_0217277C, 0, (const char *)d_0217277C);
+#endif
         return 0;
     }
     BTL_SETUP_SetParty(setup, request->party, 0);

@@ -199,6 +199,7 @@
  *   BLOCK20_SAVEDATA_InitPanelMarks  0x020091FC  thumb
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  */
+#include "../version.h"
 #include "../types.h"
 #include "../sdk_ioreg_reg.h"
 
@@ -2027,10 +2028,19 @@ void C_GEAR_UpdateClock(CGearWork *work)
     int digit;
 
     GF_STANDARD_GetCachedTime(&time);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    actor = work->hudActors[0];
+    digit = time.hour / 12;
+    SetActorAnimFrame(actor, digit);
+
+    actor = work->hudActors[1];
+    digit = time.hour % 12 / 10;
+#else
     CLACT_SetActorDrawEnable(work->hudActors[0], 0);
 
     actor = work->hudActors[1];
     digit = time.hour / 10;
+#endif
     SetActorAnimFrame(actor, digit);
     if (digit == 0) {
         CLACT_SetActorDrawEnable(actor, 0);
@@ -2039,7 +2049,11 @@ void C_GEAR_UpdateClock(CGearWork *work)
     }
 
     actor = work->hudActors[2];
+#if LANGUAGE == LANGUAGE_JAPANESE
+    digit = time.hour % 12 % 10;
+#else
     digit = time.hour % 10;
+#endif
     SetActorAnimFrame(actor, digit);
     actor = work->hudActors[3];
     digit = time.second & 1;
@@ -2123,7 +2137,7 @@ void C_GEAR_StepIntroEnd(CGearWork *work)
         return;
     }
     C_GEAR_InitTabTimersPowerOff(work);
-    C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0xF92);
+    C_GEAR_ChangeStep(work, C_GEAR_StepIdle, PM_SRC_LINE(0xF92, 0xF7E));
 }
 
 void C_GEAR_StepOpen(CGearWork *work)
@@ -2196,7 +2210,7 @@ void C_GEAR_StepOpen(CGearWork *work)
         if (work->phaseTimer >= 8) {
             C_GEAR_SetAllActorsVisible(work, 1);
             C_GEAR_SetTileMarkersVisible(work, 0);
-            C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, 0x100b);
+            C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, PM_SRC_LINE(0x100b, 0xFF7));
             return;
         }
         break;
@@ -2224,7 +2238,7 @@ void C_GEAR_StepClose(CGearWork *work)
     work->phaseTimer += 1;
     if (work->phaseTimer >= 0x10) {
         work->phaseTimer = 0;
-        C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, 0x1041);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, PM_SRC_LINE(0x1041, 0x102D));
     }
 }
 
@@ -2246,7 +2260,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
     u16 *pal;
 
     result = 0;
-    buf = GFL_HEAP_Alloc(0x70, 0x3000, 0, d_021F3554, 0x104E);
+    buf = GFL_HEAP_Alloc(0x70, 0x3000, 0, d_021F3554, PM_SRC_LINE(0x104E, 0x103A));
     saveSys = (struct SaveCtrl *)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer((struct SaveControl *)saveSys, 4, 0x70, buf, 0x3000) == 1) {
         crc = GF_STANDARD_CalcCrc16(buf, 0x2600);
@@ -2344,13 +2358,13 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, void *parentWork, struc
     work->command = 0;
     work->lastCommand = 0;
     work->archive = ARC_TOOL_CreateHandle(0x1e, 0x70);
-    work->fadeMem = GFL_HEAP_Alloc(0x70, TCB_GetTaskOffset(4), 1, d_021F3554, 4280);
+    work->fadeMem = GFL_HEAP_Alloc(0x70, TCB_GetTaskOffset(4), 1, d_021F3554, PM_SRC_LINE(4280, 0x10A4));
     work->fadeCtx = (struct FadeCtx *)TCB_Init(4, work->fadeMem);
     if (introMode != 0) {
-        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, 4284);
+        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, PM_SRC_LINE(4284, 0x10A8));
     } else {
         C_GEAR_InitTabTimersPowerOn(work);
-        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 4287);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, PM_SRC_LINE(4287, 0x10AB));
     }
     C_GEAR_SetupBackgrounds(work);
     C_GEAR_LoadGraphics(work, introMode);
@@ -2419,7 +2433,7 @@ void C_GEAR_Cleanup(CGearWork *work)
 CGearWork *C_GEAR_Create(struct HexMap *hexMap, void *parentWork, struct GameSystem *gameSystem, int introMode)
 {
     CGearWork *work;
-    work = GFL_HEAP_Alloc(0x70, sizeof(CGearWork), 1, d_021F3554, 0x1147);
+    work = GFL_HEAP_Alloc(0x70, sizeof(CGearWork), 1, d_021F3554, PM_SRC_LINE(0x1147, 0x1133));
     C_GEAR_Init(work, hexMap, parentWork, gameSystem, introMode);
     return work;
 }
@@ -2431,7 +2445,7 @@ CGearWork *C_GEAR_Open(struct HexMap *hexMap, void *parentWork, struct GameSyste
     work->endCallback = callback;
     work->endCallbackArg = callbackArg;
     if (introMode != 0) {
-        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, 0x1160);
+        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, PM_SRC_LINE(0x1160, 0x114C));
         work->agbSlotPresent = 0;
     } else {
         if (work->endCallback != 0)
@@ -2492,14 +2506,14 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
     if (work->commEvent == 2) {
         work->commEvent = 0;
         if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
-            C_GEAR_ChangeStep(work, C_GEAR_StepClose, 0x11C5);
+            C_GEAR_ChangeStep(work, C_GEAR_StepClose, PM_SRC_LINE(0x11C5, 0x11B1));
         } else {
             C_GEAR_DeleteSplashActors(work);
             C_GEAR_SetAllActorsVisible(work, 1);
             C_GEAR_DrawAllCells(work);
             C_GEAR_FadeBackground(work, C_GEAR_IsAnyIndicatorShown(work));
             C_GEAR_InitTabTimersPowerOn(work);
-            C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0x11D4);
+            C_GEAR_ChangeStep(work, C_GEAR_StepIdle, PM_SRC_LINE(0x11D4, 0x11C0));
         }
     }
 
@@ -2559,7 +2573,7 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
         } else {
             GFL_USE_PlaySeDefaultVolume(0x7E3);
             C_GEAR_StartSelectedRipple(work);
-            C_GEAR_ChangeStep(work, C_GEAR_StepWaitSlots, 0x1238);
+            C_GEAR_ChangeStep(work, C_GEAR_StepWaitSlots, PM_SRC_LINE(0x1238, 0x1224));
         }
         break;
     case 5:
@@ -2584,7 +2598,7 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
 
     if (event != 0) {
         work->lastCommand = work->command;
-        C_GEAR_ChangeStep(work, C_GEAR_NoOp, 0x1256);
+        C_GEAR_ChangeStep(work, C_GEAR_NoOp, PM_SRC_LINE(0x1256, 0x1242));
     }
     work->command = 0;
     return event;
@@ -2907,7 +2921,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, void *workPtr)
         next = FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->gameSystem, fieldMap, 4);
         break;
     case 12:
-        args = GFL_HEAP_Alloc(4, sizeof(*args), 1, d_021F3554, 0x14B7);
+        args = GFL_HEAP_Alloc(4, sizeof(*args), 1, d_021F3554, PM_SRC_LINE(0x14B7, 0x14A3));
         args->playerData = (u8 *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem));
         args->gameSystem = work->gameSystem;
         next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (uptr)abs_id_124, (void *)d_021D4D40, args, 0, args);
@@ -2965,7 +2979,7 @@ void C_GEAR_StepWaitSlots(CGearWork *work)
     C_GEAR_RunFrame(work);
     if (C_GEAR_AreActorSlotsIdle(work)) {
         C_GEAR_DeleteActorSlots(work);
-        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0x1514);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, PM_SRC_LINE(0x1514, 0x1500));
     }
 }
 

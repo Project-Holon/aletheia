@@ -554,9 +554,14 @@ int P_STATUS_MainSeq(PStatusWork *wk)
         break;
     case 4:
         P_STATUS_UpdateTouch(wk);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        P_STA_SUB_Main(wk,wk->subWork);
+#endif
         if (wk->refreshReq==1) P_STATUS_UpdateRefresh(wk);
         else {
+#if LANGUAGE != LANGUAGE_JAPANESE
             P_STA_SUB_Main(wk,wk->subWork);
+#endif
             if (wk->param->forceExit==1) {
                 wk->retCode=1;
                 wk->seq=2;
@@ -836,7 +841,7 @@ void P_STATUS_DeleteButtonActors(PStatusWork *wk)
 void P_STATUS_InitMessage(PStatusWork *wk)
 {
     wk->font=GF_FONT_Create(23,0,0,0,wk->heapId);
-    wk->msgData=MSGDATA_CreateFromArchive(0,2,158,wk->heapId);
+    wk->msgData=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(158,159),wk->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,448,32,wk->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,448,32,wk->heapId);
     {

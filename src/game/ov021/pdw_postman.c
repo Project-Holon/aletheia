@@ -60,6 +60,7 @@
  *   MYSTERY_DATA_SetCardReceived  0x0200A13C  thumb
  */
 #include "../types.h"
+#include "../version.h"
 
 struct GameSystem;
 struct GameData;
@@ -237,7 +238,7 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
         MSGDATA_ReadString(itemNames, listWin->items[i].itemId, (struct Strbuf *)listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
         MSGDATA_ReadString(listWin->msgData, 5, (struct Strbuf *)listWin->strBuf);
-        WORDSET_SetSlotNumber(listWin->wordSet, 0, listWin->items[i].count, 2, 1, 1);
+        WORDSET_SetSlotNumber(listWin->wordSet, 0, listWin->items[i].count, 2, 1, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(listWin->wordSet, (struct Strbuf *)listWin->expandBuf, (struct Strbuf *)listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }

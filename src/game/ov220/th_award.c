@@ -131,7 +131,7 @@ struct ThAwardRec;
 #include "../version.h"
 
 /* Gap between the two texts of the first result line. */
-#if LANGUAGE == LANGUAGE_ENGLISH
+#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_JAPANESE
 #define TH_AWARD_RESULT_GAP 8
 #else
 #define TH_AWARD_RESULT_GAP 16
@@ -565,7 +565,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     t = MSGDATA_AllocString(p->msgBank, 0x2a);
     z = STRBUF_Create(5, (u16)p->heap);
     off = 0;
-    WORDSET_SetSlotNumber(g, 0, (u16)m, 4, 0, 1);
+    WORDSET_SetSlotNumber(g, 0, (u16)m, 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(g, z, t);
     q = MSGDATA_AllocString(p->msgBank, 0x29);
     w1 = (u16)PRINTSYS_MeasureWidestLine(z, p->font, 0);

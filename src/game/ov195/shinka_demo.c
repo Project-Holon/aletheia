@@ -236,6 +236,7 @@ struct RecDC;
 struct Party;
 struct PartyMon;
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 
 #include "../ov198/b_plist_types.h"
@@ -1050,7 +1051,7 @@ void SHINKA_DEMO_SetupWindows(App *unused, Scene *scene)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p));
     scene->frameGfx = BMP_MENUWORK_LoadFrameGfx(1, 2, 0, scene->heap);
     scene->msgBankA = MSGDATA_CreateFromArchive(0, 2, 0xac, scene->heap);
-    scene->msgBankB = MSGDATA_CreateFromArchive(0, 2, 0xcc, scene->heap);
+    scene->msgBankB = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(0xcc, 0xca), scene->heap);
     scene->tcbl = TCBL_Create(scene->heap, scene->heap, 1, 0);
     GF_FONT_SetTextColor(1, 2, 0xf);
     scene->strbufA = 0;

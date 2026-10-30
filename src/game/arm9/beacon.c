@@ -23,6 +23,7 @@
  */
 #include "battle_rec_types.h"
 #include "../types.h"
+#include "../version.h"
 
 struct MsgData;
 
@@ -205,6 +206,15 @@ u32 MISC_GetSize(void)
     return sizeof(struct MiscSave);
 }
 
+/* Message ids of the default greeting and thanks text; the Japanese bank has one entry fewer above them. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define MISC_MSG_GREETING 0x150
+#define MISC_MSG_THANKS 0x158
+#else
+#define MISC_MSG_GREETING 0x151
+#define MISC_MSG_THANKS 0x159
+#endif
+
 void MISC_Init(struct MiscSave *beacon)
 {
     struct MsgData *msg;
@@ -215,10 +225,10 @@ void MISC_Init(struct MiscSave *beacon)
     MISC_ClearInputFlags(beacon);
     beacon->bestScore = 0;
     msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
-    greet = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x151);
+    greet = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, MISC_MSG_GREETING);
     STRBUF_ToChars((struct Strbuf *)greet, beacon->greetMessage, 9);
     STRBUF_Delete((struct Strbuf *)greet);
-    thanks = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x159);
+    thanks = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, MISC_MSG_THANKS);
     STRBUF_ToChars((struct Strbuf *)thanks, beacon->thanksMessage, 9);
     STRBUF_Delete((struct Strbuf *)thanks);
     MSGDATA_Delete((struct MsgBank *)msg);
@@ -300,6 +310,9 @@ u8 MISC_GetInputFlag(struct MiscSave *beacon, u32 index)
 void MISC_ClearInputFlags(struct MiscSave *beacon)
 {
     MI_CpuFill8(beacon->inputFlags, 0, sizeof(beacon->inputFlags));
+#if LANGUAGE == LANGUAGE_JAPANESE
+    beacon->inputFlags[1] = 1;
+#endif
 }
 
 void MISC_SetMonRecord(struct MiscSave *misc, u16 species, u32 form, u32 isEgg, u32 gender)

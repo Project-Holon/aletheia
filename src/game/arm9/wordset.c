@@ -51,6 +51,15 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../version.h"
+
+/* Message banks that the Japanese cartridge numbers one off. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WORDSET_BANK_CB 0xCC
+#define WORDSET_BANK_18 0x19
+#else
+#define WORDSET_BANK_CB 0xCB
+#define WORDSET_BANK_18 0x18
+#endif
 #include "gf_font_shared_types.h"
 
 struct MsgBank;
@@ -167,7 +176,9 @@ void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId);
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex);
+#endif
 
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex);
 
@@ -189,7 +200,9 @@ void WORDSET_SetSlotFromMsg38(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotWeekday(struct WordSet *words, u32 slot, u32 entryIndex);
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 entryIndex);
+#endif
 
 void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
@@ -281,7 +294,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     struct WordSet *words;
     u32 slot = 0;
 
-    words = GFL_HEAP_Alloc(heapId, sizeof(*words), 0, gWordsetFileName, 0x9F);
+    words = GFL_HEAP_Alloc(heapId, sizeof(*words), 0, gWordsetFileName, PM_SRC_LINE(0x9F, 0x9F - 40));
     if (words == 0) {
         goto fail;
     }
@@ -291,7 +304,7 @@ struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId)
     if (words->scratch == 0) {
         goto fail;
     }
-    words->slots = GFL_HEAP_Alloc(heapId, slotCount * sizeof(*words->slots), slot, gWordsetFileName, 0xA8);
+    words->slots = GFL_HEAP_Alloc(heapId, slotCount * sizeof(*words->slots), slot, gWordsetFileName, PM_SRC_LINE(0xA8, 0xA8 - 40));
     if (words->slots == 0) {
         goto fail;
     }
@@ -447,6 +460,7 @@ void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon)
     WORDSET_SetSlotSpeciesName(words, slot, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 #if LANGUAGE == LANGUAGE_ENGLISH
 void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u16 entryIndex)
 {
@@ -469,6 +483,7 @@ void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
     WORDSET_SetSlotMonSpeciesName(words, slot, mon);
 }
 #endif
+#endif
 
 void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon)
 {
@@ -484,7 +499,7 @@ void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, u32 slot, void *mon)
 
 void WORDSET_SetSlotFromMsgCB(struct WordSet *words, u32 slot, u32 entryIndex)
 {
-    WORDSET_SetSlotFromMessage(words, slot, 0xCB, entryIndex);
+    WORDSET_SetSlotFromMessage(words, slot, WORDSET_BANK_CB, entryIndex);
 }
 
 void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex)
@@ -492,6 +507,7 @@ void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex)
     WORDSET_SetSlotFromMessage(words, slot, 0x36, entryIndex);
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotFromMsg117(struct WordSet *words, u32 slot, u32 entryIndex)
 {
 #if LANGUAGE == LANGUAGE_ENGLISH
@@ -519,6 +535,8 @@ void WORDSET_SetSlotFromBank(struct WordSet *words, u32 slot, u32 entryIndex, u3
     WORDSET_SetSlotFromMsg36(words, slot, entryIndex);
 }
 
+#endif
+
 void WORDSET_SetSlotFromMsgB6(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0xB6, entryIndex);
@@ -526,7 +544,7 @@ void WORDSET_SetSlotFromMsgB6(struct WordSet *words, u32 slot, u32 entryIndex)
 
 void WORDSET_SetSlotFromMsg18(struct WordSet *words, u32 slot, u32 entryIndex)
 {
-    WORDSET_SetSlotFromMessage(words, slot, 0x18, entryIndex);
+    WORDSET_SetSlotFromMessage(words, slot, WORDSET_BANK_18, entryIndex);
 }
 
 void WORDSET_SetSlotNumber(struct WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth)
@@ -698,6 +716,7 @@ void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, u32 trainerId)
     WORDSET_SetSlotFromMsgBF(words, slot, (u8)TPOKE_DATA_GetRecordField(trainerId, 1));
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex)
 {
 #if LANGUAGE == LANGUAGE_ENGLISH
@@ -706,6 +725,7 @@ void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex)
     WORDSET_SetSlotFromMsgBF(words, slot, entryIndex);
 #endif
 }
+#endif
 
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex)
 {
@@ -780,6 +800,7 @@ void WORDSET_SetSlotWeekday(struct WordSet *words, u32 slot, u32 weekday)
     }
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
 {
     if (month < 1) {
@@ -789,6 +810,7 @@ void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
     }
     WORDSET_SetSlotFromMessage(words, slot, 0x116, month - 1);
 }
+#endif
 
 /*
  * wordset.c's message expander, 204 bytes.  It walks the source message a
@@ -855,12 +877,21 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
                 slot = PRINTSYS_GetTagParam(cursor, 0);
                 entry = &words->slots[slot];
                 if (entry->tag.addsMarker != 0) {
+#if LANGUAGE != LANGUAGE_JAPANESE
                     tagParams[1] = (u16)slot;
                     tagParams[0] = 0x54;
                     PRINTSYS_AppendTag(entry->text, 0xBD, 6, 1, &tagParams[1]);
                     PRINTSYS_AppendTag(words->slots[slot].text, 0xBD, 4, 1, &tagParams[0]);
+#else
+                    tagParams[0] = 0x54;
+                    PRINTSYS_AppendTag(entry->text, 0xBD, 4, 1, &tagParams[0]);
+#endif
                 }
+#if LANGUAGE != LANGUAGE_JAPANESE
                 WORDSET_AppendUnpackedString(dst, words->slots[slot].text);
+#else
+                STRBUF_Append(dst, words->slots[slot].text);
+#endif
                 cursor = PRINTSYS_SkipTag(cursor);
             } else {
                 copyCursor = cursor;
@@ -1030,9 +1061,11 @@ u32 WORDSET_IsStringEqual(const u16 *left, const u16 *right)
         left++;
         right++;
     }
+#if LANGUAGE != LANGUAGE_JAPANESE
     if (*right != terminator) {
         return 0;
     }
+#endif
     return 1;
 }
 
@@ -1058,6 +1091,7 @@ u32 WORDSET_IsStringEqual(const u16 *left, const u16 *right)
  *   python tools/match.py tu --src src/matched/unit_0201F47C.c \
  *       --addr 0x0201F47C --thumb
  */
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 WORDSET_IsPackedString(struct Strbuf *text)
 {
     if (STRBUF_GetLength(text) != 0 && *STRBUF_GetChars(text) == 0xF100) {
@@ -1144,3 +1178,4 @@ void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src)
         STRBUF_Append(dst, src);
     }
 }
+#endif

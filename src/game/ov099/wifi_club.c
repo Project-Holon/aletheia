@@ -1459,17 +1459,17 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->nameWin), 96, 0, work->rawText, work->textFont, 0x3c40);
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 35, (struct Strbuf *)work->shortText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 104, 0, work->shortText, work->textFont, 0x3c40);
-    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 2), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 2), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 36, (struct Strbuf *)work->rawText);
     WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 176, 24, work->shortText, work->textFont, 0x3c40);
-    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 3), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 3), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 37, (struct Strbuf *)work->rawText);
     WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 176, 40, work->shortText, work->textFont, 0x3c40);
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 38, (struct Strbuf *)work->shortText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 104, 64, work->shortText, work->textFont, 0x3c40);
-    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 4), 4, 1, 1);
+    WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 4), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 39, (struct Strbuf *)work->rawText);
     WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 188, 64, work->shortText, work->textFont, 0x3c40);
@@ -1477,12 +1477,12 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 8, 96, work->shortText, work->textFont, 0x3c40);
     messageId = WIFILIST_GetFriendInfoField(work->friendList, index, 7);
     if (messageId) {
-        WORDSET_SetSlotNumber(work->detailWordSet, 2, messageId, 2, 0, 1);
-        WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 5), 4, 1, 1);
+        WORDSET_SetSlotNumber(work->detailWordSet, 2, messageId, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
+        WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 5), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
 #if PM_LANG_MONTH_AS_NAME
         WORDSET_SetSlotMonth(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6));
 #else
-        WORDSET_SetSlotNumber(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6), 2, 0, 1);
+        WORDSET_SetSlotNumber(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6), 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
 #endif
         MSGDATA_ReadString((struct MsgBank *)work->msgBank, 44, (struct Strbuf *)work->rawText);
         WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
@@ -1605,7 +1605,7 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
             nickname = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
             gender = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
             MSGDATA_ReadString((struct MsgBank *)work->msgBank, 0x74, (struct Strbuf *)templateText);
-            WORDSET_SetSlotNumber(work->wordSet, 0, nickname, 3, 0, 1);
+            WORDSET_SetSlotNumber(work->wordSet, 0, nickname, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)nameText, (struct Strbuf *)templateText);
             x = i * 40;
             PRINTSYS_Print(BMP_WIN_GetBmp(work->partyWin), (s16)(x + 1), 32, (struct Strbuf *)nameText, work->nameFont);

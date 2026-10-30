@@ -43,6 +43,7 @@
  *   COMM_PLAYER_Suspend  0x02167688  thumb  ov010
  */
 #include "../sdk_fx.h"
+#include "../version.h"
 
 #include "union_comm_types.h"
 
@@ -88,6 +89,11 @@ struct FieldMap;
 struct CommPlayerWork;
 
 #include "../ov010/comm_player.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02175510[];
+extern const char str_ja_02175520[];
+extern const char str_ja_02175558[];
+#endif
 
 
 void UNION_MAIN_StartComm(struct GameSystem *gameSystem);
@@ -124,9 +130,9 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_COMM_GetKind(gameComm) != 0) {
-        GF_PANIC_Fail(sUnionMainAssertText, 0, sUnionMainAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionMainAssertText, str_ja_02175510), PM_SRC_LINE(0, 0x31), PM_LANG_JA(sUnionMainAssertText, str_ja_02175520));
     }
-    parent = GFL_HEAP_Alloc(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
+    parent = GFL_HEAP_Alloc(5, sizeof(UnionParentWork), 1, PM_LANG_JA(sUnionMainFile, str_ja_02175510), 0x37);
     parent->myStatus = GAME_DATA_GetMyStatus(gameData);
     parent->gameComm = gameComm;
     parent->gameData = gameData;
@@ -145,7 +151,7 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     }
     work = GAME_COMM_GetWork(gameComm);
     if (work == 0) {
-        GF_PANIC_Fail(sUnionMainAssertText, 0, sUnionMainAssertText);
+        GF_PANIC_Fail(PM_LANG_JA(sUnionMainAssertText, str_ja_02175510), PM_SRC_LINE(0, 0x53), PM_LANG_JA(sUnionMainAssertText, str_ja_02175558));
     }
     if (GAMESYSTEM_GetFieldMapState(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
         return;

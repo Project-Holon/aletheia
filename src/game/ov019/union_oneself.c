@@ -223,6 +223,16 @@
  *   UNION_CHARA_CheckTalkable 0x0217AF4C thumb ov019
  */
 #include "../types.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02180844[];
+extern const char str_ja_02180854[];
+extern const char str_ja_02180864[];
+extern const char str_ja_02180884[];
+extern const char str_ja_021808C8[];
+extern const char str_ja_021808CC[];
+extern const char str_ja_021808EC[];
+#endif
 #include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
@@ -484,7 +494,7 @@ void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *work)
 
 void UNION_ONESELF_DeleteParty(void *party)
 {
-    if (!party) GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+    if (!party) GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0x259), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180854));
     GFL_HEAP_Free(party);
 }
 
@@ -1069,7 +1079,7 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
             return 1;
         unisys->talkCancel = 0;
         GFL_USE_PlaySeDefaultVolume(0x54B);
-        param = GFL_HEAP_Alloc(4, sizeof(UnionChatInputParam), 1, (char *)d_021807E8, 0x41A);
+        param = GFL_HEAP_Alloc(4, sizeof(UnionChatInputParam), 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0x41A);
         param->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
         unisys->sceneParam = param;
         UNION_SCENE_RequestScene(unisys, 0x1d, param);
@@ -1224,7 +1234,7 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
     switch (*seq) {
     case 0:
         if (situation->connect.connectParam == 0)
-            GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+            GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0x51C), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180864));
         GFL_NET_SetChangeoverModeWrapper(2, 1, situation->connect.connectParam->mac);
         situation->waitTimer = 0;
         *seq = 1;
@@ -1880,9 +1890,9 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
     switch (*seq) {
     case 0:
         if (unisys->myTrainerCard != 0 || unisys->recvTrainerCard != 0)
-            GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
-        unisys->myTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, (char *)d_021807E8, 0x9B3);
-        unisys->recvTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, (char *)d_021807E8, 0x9B5);
+            GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0x9B1), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180884));
+        unisys->myTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0x9B3);
+        unisys->recvTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0x9B5);
         TRCARD_SYS_BuildProfile(unisys->myTrainerCard, unisys->parent->gameData, 1, 0, 0x41);
         MI_CpuCopy8(unisys->myTrainerCard, unisys->recvTrainerCard, 0x678);
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
@@ -1972,10 +1982,10 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         }
         break;
     case 3:
-        param = GFL_HEAP_Alloc(0x41, sizeof(UnionTradeParam), 1, (char *)d_021807E8, 0xA54);
+        param = GFL_HEAP_Alloc(0x41, sizeof(UnionTradeParam), 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0xA54);
         param->gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
         param->party = POKEPARTY_Create(0x41);
-        setup = GFL_HEAP_Alloc(4, sizeof(UnionTradeSetup), 0, (char *)d_021807E8, 0xA5B);
+        setup = GFL_HEAP_Alloc(4, sizeof(UnionTradeSetup), 0, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0xA5B);
         setup->gameData = param->gameData;
         setup->party = param->party;
         setup->tradeMode = 0;
@@ -2063,7 +2073,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
                     UNION_ONESELF_SetNextPlayCategory(unisys, (int)0x24);
                     break;
                 default:
-                    GF_PANIC_Fail((char *)gUnionEmptyString1, (int)0, (char *)gUnionEmptyString1);
+                    GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xAEA), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808C8));
                     break;
                 }
                 *seq = 3;
@@ -2173,12 +2183,12 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
     case 3:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
             if (situation->playCategory == 0xe) {
-                paramThree = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneThreeParam), 1, (char *)d_021807E8, 0xB9A);
+                paramThree = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneThreeParam), 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0xB9A);
                 paramThree->gameData = unisys->parent->gameData;
                 unisys->sceneParam = paramThree;
                 UNION_SCENE_RequestScene(unisys, 3, paramThree);
             } else {
-                paramFour = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneFourParam), 1, (char *)d_021807E8, 0xBA2);
+                paramFour = GFL_HEAP_Alloc(0x41, sizeof(UnionSceneFourParam), 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0xBA2);
                 paramFour->gameData = unisys->parent->gameData;
                 paramFour->party = GAME_DATA_GetMyParty(unisys->parent->gameData);
                 paramFour->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
@@ -2246,7 +2256,7 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
     switch (*seq) {
     case 0:
         if (unisys->colosseum != 0)
-            GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+            GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xC0F), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808CC));
         parent = unisys->parent;
         unisys->colosseum = COLOSSEUM_Create(parent->gameData, parent->gameSystem, parent->myStatus, situation->connect.serviceFlag);
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetColosseumStartMsg(situation->connect.talkParam->sex));
@@ -2316,7 +2326,7 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
     case 5:
         if (UNION_SCENE_IsScenePending(unisys) == 0) {
             if (unisys->colosseum != 0)
-                GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+                GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xC90), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808CC));
             parent = unisys->parent;
             unisys->colosseum = COLOSSEUM_Create(parent->gameData, parent->gameSystem, parent->myStatus, situation->connect.serviceFlag);
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -2335,7 +2345,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
 
     GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (colosseum == 0)
-        GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+        GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xCB0), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808EC));
 
     if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         if (colosseum->entryMenu != 0)
@@ -2410,7 +2420,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
                 *seq = 200;
                 break;
             default:
-                GF_PANIC_Fail((char *)gUnionEmptyString1, 0, (char *)gUnionEmptyString1);
+                GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xD19), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808C8));
                 break;
             }
         }
@@ -2467,7 +2477,7 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
 
     myIndex = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (colosseum == 0)
-        GF_PANIC_Fail((char *)gUnionEmptyString1, (int)0, (char *)gUnionEmptyString1);
+        GF_PANIC_Fail(PM_LANG_JA((char *)gUnionEmptyString1, str_ja_02180844), PM_SRC_LINE(0, 0xD93), PM_LANG_JA((char *)gUnionEmptyString1, str_ja_021808EC));
 
     if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
@@ -2967,13 +2977,13 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         }
         break;
     case 3:
-        battle = GFL_HEAP_Alloc(0x41, sizeof(UnionBattleParam), 1, (char *)d_021807E8, 0x10c4);
+        battle = GFL_HEAP_Alloc(0x41, sizeof(UnionBattleParam), 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0x10c4);
         battle->party = colosseum->party[myIndex];
         battle->myStatus = GAME_DATA_GetMyItem(unisys->parent->gameData);
         battle->config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(unisys->parent->gameData));
         battle->commMode = 0x1a;
         battle->regulation = unisys->regulation;
-        battle->recordBuffer = GFL_HEAP_Alloc(0x41, 0x70, 1, (char *)d_021807E8, 0x10ce);
+        battle->recordBuffer = GFL_HEAP_Alloc(0x41, 0x70, 1, PM_LANG_JA((char *)d_021807E8, str_ja_02180844), 0x10ce);
         opponentCount = 0;
         for (playerIndex = 0; playerIndex < GFL_NET_GetNegotiationNum(); playerIndex++) {
             if (playerIndex == myIndex)

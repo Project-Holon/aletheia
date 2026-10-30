@@ -147,6 +147,7 @@
  *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
  *   TCBL_Create  0x0203101C  arm  arm9
  */
+#include "../version.h"
 #include "field_msgbg_types.h"
 #include "../sdk_ioreg.h"
 #include "talkmsgwin_types.h"
@@ -312,9 +313,15 @@ void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 *outIndex, u32 margin);
 unsigned FIELD_MSGBG_GetMenuItemCount(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsWidthChars(FieldMsgBg *msgBg, BmpMenuWork *items, u32 fontId, u32 margin);
+#if LANGUAGE == LANGUAGE_JAPANESE
+unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing);
+#else
 unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing, int scrolls);
+#endif
 FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 itemCount, u16 x, u16 y, u16 width, u16 height);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
+#endif
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header);
 FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
@@ -403,7 +410,7 @@ extern const FieldMsgCursorOffsets sCursorOffsetY;
 
 FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera)
 {
-    FieldMsgBg *msgBg = GFL_HEAP_Alloc(heapId, sizeof(*msgBg), 1, (char *)d_021DDA50, 0x1a4);
+    FieldMsgBg *msgBg = GFL_HEAP_Alloc(heapId, sizeof(*msgBg), 1, (char *)d_021DDA50, PM_SRC_LINE(0x1a4, 0x19e));
 
     msgBg->heapId = heapId;
     msgBg->bgFrame = 0xff;
@@ -622,7 +629,7 @@ FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgBank *msgDat
             msgPrint->transDone = 1;
             msgPrint->font = msgBg->font;
             msgPrint->printQue = msgBg->printQue;
-            msgPrint->strBuf = STRBUF_Create(0xa0, msgBg->heapId);
+            msgPrint->strBuf = STRBUF_Create(PM_LANG_JA(0xa0, 0x80), msgBg->heapId);
             msgPrint->msgData = msgData;
             msgPrint->printUtil.win = bmpWin;
             msgPrint->printUtil.transReq = 0;
@@ -712,7 +719,7 @@ FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgBank *
     if (palette == 0xe) {
         frame = msgBg->bgFrameSys;
     }
-    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, 0x483);
+    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0x483, 0x47d));
     msgWin->msgBg = msgBg;
     msgWin->bmpWin = FIELD_MSGBG_CreateWindow(frame, msgBg->heapId, x, y, width, height, palette);
     msgWin->msgPrint = FIELD_MSGBG_AddMsgPrint(msgBg, msgData, msgWin->bmpWin);
@@ -785,7 +792,7 @@ FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgBank *msg
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, 0x560);
+    msgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*msgWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0x560, 0x55a));
     msgWin->msgBg = msgBg;
     msgWin->bmpWin = FIELD_MSGBG_CreateSysFrameWindow(x, y, width, height, msgBg->heapId);
     msgWin->msgPrint = FIELD_MSGBG_AddMsgPrint(msgBg, msgData, msgWin->bmpWin);
@@ -828,7 +835,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldM
     if (palette == 0xe) {
         frame = msgBg->bgFrameSys;
     }
-    menu = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*menu), 1, (char *)d_021DDA50, 0x606);
+    menu = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*menu), 1, (char *)d_021DDA50, PM_SRC_LINE(0x606, 0x600));
     FIELD_MSGBG_MakeListHeader(&listHeader, header);
     menu->msgBg = msgBg;
     menu->items = items;
@@ -985,6 +992,20 @@ u32 FIELD_MSGBG_GetMenuItemsWidthChars(FieldMsgBg *msgBg, BmpMenuWork *items, u3
 }
 
 /* Sole blocker of ov010 SCRCMD_WORK_StartMenu's MATCH. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing)
+{
+    unsigned pixels = lines * fontHeight;
+    unsigned chars = pixels >> 3;
+    if (pixels & 7) {
+        chars++;
+    }
+    if (lineSpacing) {
+        chars += ((lines * lineSpacing) >> 3) + 1;
+    }
+    return chars;
+}
+#else
 unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing, int scrolls)
 {
     unsigned pixels = lines * (fontHeight + lineSpacing);
@@ -994,6 +1015,7 @@ unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, uns
     }
     return chars;
 }
+#endif
 
 FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 itemCount, u16 x, u16 y, u16 width, u16 height)
 {
@@ -1005,10 +1027,12 @@ FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 item
     return header;
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu)
 {
     BMP_MENUWORK_DrawWindow(menu->bmpWin, 0, 1, 13);
 }
+#endif
 
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header)
 {
@@ -1061,7 +1085,7 @@ FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbu
 {
     FieldMsgStream *stream;
 
-    stream = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*stream), 1, (char *)d_021DDA50, 0x85e);
+    stream = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*stream), 1, (char *)d_021DDA50, PM_SRC_LINE(0x85e, 0x84c));
     stream->msgBg = msgBg;
     stream->wait = wait;
     stream->stream = (struct TextPrinter *)PRINTSYS_PrintStreamCallBack(bmpWin, x, y, str, msgBg->font, wait, msgBg->tcbl, 0, msgBg->heapId, clearColor, FIELD_MSGBG_MsgStreamCallback);
@@ -1125,11 +1149,11 @@ FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, 0x8FF);
+    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0x8FF, 0x8ed));
     sysWin->msgBg = msgBg;
     sysWin->msgData = msgData;
     sysWin->bmpWin = FIELD_MSGBG_CreateWindow(msgBg->bgFrameSys, msgBg->heapId, x, y, width, height, msgBg->windowKind);
-    sysWin->strBuf = STRBUF_Create(0xA0, msgBg->heapId);
+    sysWin->strBuf = STRBUF_Create(PM_LANG_JA(0xa0, 0x80), msgBg->heapId);
     FIELD_MSGBG_InitCursor(&sysWin->cursor, msgBg);
     FIELD_MSGBG_LoadMenuGraphicsLower(msgBg->heapId);
     FIELD_MSGBG_SetBlend(1);
@@ -1213,11 +1237,11 @@ FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgBank *msg
 
     msgBg->windowKind = 0xe;
     FIELD_MSGBG_SetupSysFrame(msgBg);
-    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, 0x9F4);
+    sysWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*sysWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0x9F4, 0x9e2));
     sysWin->msgBg = msgBg;
     sysWin->msgData = msgData;
     sysWin->bmpWin = FIELD_MSGBG_CreateSysFrameWindow(1, y, 0x1E, 4, msgBg->heapId);
-    sysWin->strBuf = STRBUF_Create(0xA0, msgBg->heapId);
+    sysWin->strBuf = STRBUF_Create(PM_LANG_JA(0xa0, 0x80), msgBg->heapId);
     FIELD_MSGBG_InitCursor(&sysWin->cursor, msgBg);
     FIELD_MSGBG_LoadMenuGraphicsLower(msgBg->heapId);
     FIELD_MSGBG_SetBlend(1);
@@ -1469,10 +1493,10 @@ FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgBank *msg
 {
     FieldPlainWin *plainWin;
 
-    plainWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*plainWin), 1, (char *)d_021DDA50, 0xCA7);
+    plainWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*plainWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0xCA7, 0xc95));
     plainWin->msgBg = msgBg;
     plainWin->msgData = msgData;
-    plainWin->strBuf = STRBUF_Create(0xA0, msgBg->heapId);
+    plainWin->strBuf = STRBUF_Create(PM_LANG_JA(0xa0, 0x80), msgBg->heapId);
     FIELD_MSGBG_SetupPlainWin(msgBg, plainWin, x, y, width, height, winType);
     if (winType == 1)
         plainWin->shakeOffset = 8;
@@ -1626,7 +1650,7 @@ void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgBank *msgData, u32
     FieldSubMsgWin *subMsgWin;
     int slot;
 
-    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, 0xE2A);
+    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0xE2A, 0xe18));
     slot = FIELD_MSGBG_StoreSubMsgWin(msgBg, subMsgWin);
     subMsgWin->strBuf = STRBUF_Create(0x40, msgBg->heapId);
     MSGDATA_ReadString((struct MsgBank *)msgData, msgId, subMsgWin->strBuf);
@@ -1640,7 +1664,7 @@ void FIELD_MSGBG_AddSubMsgWinStr(FieldMsgBg *msgBg, struct Strbuf *str, u32 id, 
     FieldSubMsgWin *subMsgWin;
     u32 slot;
 
-    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, 0xE48);
+    subMsgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*subMsgWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0xE48, 0xe36));
     slot = FIELD_MSGBG_StoreSubMsgWin(msgBg, subMsgWin);
     subMsgWin->strBuf = STRBUF_Create(STRBUF_GetLength(str) + 1, msgBg->heapId);
     STRBUF_Copy(subMsgWin->strBuf, str);
@@ -1721,7 +1745,7 @@ FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct G
     u8 width;
     u8 height;
 
-    bgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*bgWin), 1, (char *)d_021DDA50, 0xee0);
+    bgWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*bgWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0xee0, 0xece));
     bgWin->msgBg = msgBg;
     bgWin->font = font;
     bgWin->scrollY = -48;
@@ -2030,7 +2054,7 @@ FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16
 {
     FieldSpWin *spWin;
 
-    spWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*spWin), 1, (char *)d_021DDA50, 0x115D);
+    spWin = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*spWin), 1, (char *)d_021DDA50, PM_SRC_LINE(0x115D, 0x114b));
     spWin->msgBg = msgBg;
     spWin->bmpWin = BMP_WIN_Create((u8)msgBg->bgFrame, (u8)x, (u8)y, (u8)width, (u8)height, 9, 1);
     spWin->frameBmp = BMP_Create(1, 1, 0x20, msgBg->heapId);
@@ -2120,7 +2144,7 @@ u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, struct Strbuf *str, u32 mar
 
 FieldMsgCursor *FIELD_MSGBG_CreateCursor(FieldMsgBg *msgBg)
 {
-    FieldMsgCursor *cursor = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*cursor), 1, (char *)d_021DDA50, 0x1202);
+    FieldMsgCursor *cursor = GFL_HEAP_Alloc(msgBg->heapId, sizeof(*cursor), 1, (char *)d_021DDA50, PM_SRC_LINE(0x1202, 0x11f0));
     FIELD_MSGBG_InitCursor(cursor, msgBg);
     return cursor;
 }

@@ -103,7 +103,9 @@ void POKETRADE_PROC_StepAddSelectedOffer(TradeWork *p);
 void POKETRADE_PROC_StepSendAddOffer(TradeWork *p);
 void POKETRADE_PROC_StepApplyAddOffer(TradeWork *p);
 void POKETRADE_PROC_StepSendApplyAddOffer(TradeWork *p);
+#if LANGUAGE != LANGUAGE_JAPANESE
 void POKETRADE_PROC_StepWaitTouchReleasePeer(TradeWork *p);
+#endif
 void POKETRADE_PROC_StepPeerSummaryMenu(TradeWork *p);
 void POKETRADE_PROC_StepOpenPeerSummary(TradeWork *p);
 void POKETRADE_PROC_StepSendCursorChoice(TradeWork *p);

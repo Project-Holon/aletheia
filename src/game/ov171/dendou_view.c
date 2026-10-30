@@ -1101,19 +1101,19 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
         STRBUF_Delete(titleText);
     } else {
         numberedText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 1);
-        WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, row->hallNumber, 4, 0, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, row->hallNumber, PM_LANG_JA(4, 2), 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)numberedText);
         TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
         STRBUF_Delete(numberedText);
     }
     dateText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 2);
-    WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
 #if PM_LANG_MONTH_AS_NAME
     WORDSET_SetSlotMonth(work->wordSet, 1, row->month);
 #else
-    WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-    WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 2, row->day, 2, 2, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 2, row->day, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)dateText);
     dateWidth = BMP_WIN_GetDispWidth((struct BmpWin *)work->windows[0].win);
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, dateWidth << 3, 0, work->textBuf, work->fontBody, 0x14c0, 1);
@@ -1140,13 +1140,13 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
     PRINTSYS_PrintColor(work->pageBmp, x, 4, labelText, work->fontBody, 0x1900);
     STRBUF_Delete(labelText);
     numbersText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 4);
-    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowIndex + 1, 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowIndex + 1, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     font = work->fontBody;
     text = work->textBuf;
     numberWidth = PRINTSYS_MeasureWidestLine(text, font, 0);
     PRINTSYS_PrintColor(work->pageBmp, x - numberWidth, 4, text, font, 0x1900);
-    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowCount, 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->rowCount, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     PRINTSYS_PrintColor(work->pageBmp, x + labelWidth, 4, work->textBuf, work->fontBody, 0x1900);
     STRBUF_Delete(numbersText);
@@ -1187,7 +1187,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 80, 4, levelLabelText, work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
     levelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 8);
-    WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, member->level, 3, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, member->level, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)levelText);
     TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, levelLabelWidth + 80, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);

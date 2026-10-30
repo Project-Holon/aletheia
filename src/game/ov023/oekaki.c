@@ -201,6 +201,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  */
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 /* The DS code passes the net handle to GFL_NET_ResetSendQueue (docs/ORIGINAL_BUGS.tsv). */
 #ifdef __MWERKS__
@@ -937,7 +938,7 @@ void OEKAKI_InitWork(OekakiWork *work)
     GFL_NET_SYSTEM_GetCurrentAid();
     OEKAKI_SetNextScene(work, 4);
     MSGDATA_ReadString(work->msgBank, 7, work->labelText);
-    work->tempBuf = GFL_HEAP_Alloc(OEKAKI_HEAP_ID, 0x3C00, zero, gOekakiFileName, 0x31D);
+    work->tempBuf = GFL_HEAP_Alloc(OEKAKI_HEAP_ID, 0x3C00, zero, gOekakiFileName, PM_SRC_LINE(0x31D, 0x315));
     work->lastMemberCount = zero;
 }
 

@@ -67,7 +67,9 @@ typedef struct PdwaccProc {
     u32 profileId;                      /* 0x28, number shown to the player */
     u8 unused_2C[4];                    /* never accessed */
     PdwaccStateFunc state;              /* 0x30 */
-    u8 unused_34[0x38];                 /* never accessed */
+    u8 unused_34[0x10];                 /* never accessed */
+    u8 postData[0x1e];                  /* 0x44, request body text (Japanese build only) */
+    u8 unused_62[0xA];                  /* never accessed */
     int saving;                         /* 0x6C, nonzero between SaveStart and SaveMain end */
     u32 errorCode;                      /* 0x70 */
 } PdwaccProc;

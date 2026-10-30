@@ -89,6 +89,7 @@
  */
 #include "field_msgbg_types.h"
 #include "../arm9/poke_tool_param.h"
+#include "../version.h"
 
 struct Unit;
 struct GfFont;
@@ -165,6 +166,18 @@ extern const struct ActorInitParam d_021DB40C;
 extern FieldMenuItemData d_021DB414[];
 extern FieldMenuHeader d_021DB42C;
 
+/*
+ * The Japanese cartridge keeps the text of its assertions: file name, line and expression.  The
+ * other cartridges pass the file name twice.  It also prints the party numbers full width.
+ */
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021DE45C[];
+extern const char str_ja_021DE47C[];
+#define PARTY_SELECT_LIST_ASSERT_FAIL(line, text) GF_PANIC_Fail(d_021DE5C0, line, text)
+#else
+#define PARTY_SELECT_LIST_ASSERT_FAIL(line, text) GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC)
+#endif
+
 PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
 u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag);
 int PARTY_SELECT_LIST_Main(PartySelectList *list);
@@ -202,7 +215,7 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
     PartySelectList *list;
 
     if (firstParty == 0 || secondParty == 0)
-        GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
+        PARTY_SELECT_LIST_ASSERT_FAIL(0xD1, str_ja_021DE45C);
     list = GFL_HEAP_Alloc(heapId, sizeof(*list), 1, (char *)d_021DE5C0, 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
@@ -227,7 +240,7 @@ u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag)
 
     result = PARTY_SELECT_LIST_GetResult(list, outFlag);
     if (list->finished != 1)
-        GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
+        PARTY_SELECT_LIST_ASSERT_FAIL(0xF7, str_ja_021DE47C);
     PARTY_SELECT_LIST_DeleteStatusIcons(list);
     PARTY_SELECT_LIST_FreeStatusIconResources(list);
     PARTY_SELECT_LIST_DeleteMonIcons(list);
@@ -715,7 +728,7 @@ void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
         nickname = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_LEVEL, 0);
         gender = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0);
         MSGDATA_ReadString((struct MsgBank *)list->msgData, 4, templateBuf);
-        WORDSET_SetSlotNumber(list->wordSet, 0, nickname, 3, 0, 1);
+        WORDSET_SetSlotNumber(list->wordSet, 0, nickname, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(list->wordSet, nameBuf, templateBuf);
         x = i * 0x28;
         FIELD_MSGBG_MsgWinPrintStrColorFont(list->listWin, x, 0x20, nameBuf, 0x440, list->font);

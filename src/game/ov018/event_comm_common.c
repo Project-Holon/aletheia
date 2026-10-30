@@ -421,6 +421,26 @@ void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 struct MiscSave;
 #include "../arm9/beacon.h"
 #include "intrude_subdisp.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02183A8C[];
+extern const char str_ja_02183AA0[];
+extern const char str_ja_02183ABC[];
+extern const char str_ja_02183AF0[];
+extern const char str_ja_02183B0C[];
+extern const char str_ja_02183B40[];
+extern u16 msgIds_ja_0218397C[];
+extern u16 msgIds_ja_02183994[];
+extern u16 msgIds_ja_02183988[];
+extern u16 msgIds_ja_02183970[];
+extern const char str_ja_02183BA8[];
+extern const char str_ja_02183C10[];
+extern const char str_ja_02183C24[];
+extern const char str_ja_02183C34[];
+extern const char str_ja_02183C4C[];
+extern const char str_ja_02183C50[];
+extern const char str_ja_02183C64[];
+#endif
 void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *gameSystem);
 void EVENT_COMM_COMMON_ExitMsgBox(EventCommMsgBox *msgBox);
 void EVENT_COMM_COMMON_SetupPrintWin(EventCommMsgBox *msgBox);
@@ -593,9 +613,15 @@ void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *ga
 
     fieldMsgbg = (void *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
     if (msgBox->wordSet == 0) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        msgBox->wordSet = WORDSET_CreateDefault(4);
+        msgBox->text = STRBUF_Create(0x100, 4);
+        msgBox->templateText = STRBUF_Create(0x100, 4);
+#else
         msgBox->wordSet = WORDSET_Create(6, 0x20, 4);
         msgBox->text = STRBUF_Create(0x1F0, 4);
         msgBox->templateText = STRBUF_Create(0x1D0, 4);
+#endif
         msgBox->msgData = (void *)FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x44);
         msgBox->msgDataB = (void *)FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x42);
         msgBox->msgDataC = (void *)FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x43);
@@ -660,7 +686,7 @@ void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, u16 msgId)
 void EVENT_COMM_COMMON_ClearPrintWin(EventCommMsgBox *msgBox)
 {
     if (msgBox->printer == 0) {
-        GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        GF_PANIC_Fail(PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183A8C), PM_SRC_LINE(0, 0xB0), PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183AA0));
     }
     FIELD_MSGBG_ClearSysWin(msgBox->printer);
     msgBox->printing = 0;
@@ -720,13 +746,13 @@ void EVENT_COMM_COMMON_DeleteChoice(EventCommMsgBox *msgBox)
 void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) GF_PANIC_Fail(PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183A8C), PM_SRC_LINE(0, 0x18E), PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183ABC));
     msgBox->choiceHandle = FIELD_MSGBG_CreateYesNoMenu(msgBox->fieldMsgbg, 0);
 }
 
 int EVENT_COMM_COMMON_PollChoice(EventCommMsgBox *msgBox)
 {
-    if (msgBox->choiceHandle == 0) GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle == 0) GF_PANIC_Fail(PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183A8C), PM_SRC_LINE(0, 0x1A9), PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183AF0));
     return FIELD_MSGBG_YesNoMenuMain(msgBox->choiceHandle);
 }
 
@@ -734,7 +760,7 @@ void EVENT_COMM_COMMON_SetupListWindowB(EventCommMsgBox *msgBox, struct GameSyst
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
     if (msgBox->listWindowB != 0) {
-        GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        GF_PANIC_Fail(PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183A8C), PM_SRC_LINE(0, 0x1C3), PM_LANG_JA(sEmptyTextMsgBox, str_ja_02183B0C));
     }
     msgBox->listWindowB = FIELD_MSGBG_CreateMsgWin(msgBox->fieldMsgbg, msgBox->msgData, (u16)x, (u16)y, width, height);
 }
@@ -1200,9 +1226,11 @@ int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, vo
         if (sys == 0) {
             return 1;
         }
+#if LANGUAGE != LANGUAGE_JAPANESE
         if (COMM_PLAYER_CheckActive(sys->commPlayer, param->netId) == 0) {
             return 1;
         }
+#endif
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(param->fieldMap));
         GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateTalkedEvent(gameSystem, param->fieldMap, sys, param->playerMmdl, param->netId, param->heapId));
         *seq = *seq + 1;
@@ -1286,7 +1314,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
     case 0:
         requestKind = INTRUDE_COMM_GetRequestKind(&sys->session);
         if (sys->peers[work->common.peerSlot].lidClosed == 1) {
-            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, 493);
+            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, PM_SRC_LINE(493, 488));
             MI_CpuCopy8(work, copy, sizeof(EventCommCommonWork));
             if (INTRUDE_COMM_GetSessionResult(&sys->session) == 0 && INTRUDE_COMM_IsSessionActive(&sys->session) == 1
                 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1 && INTRUDE_COMM_IsRequestFromNetId(&sys->session, work->common.peerSlot) == 1) {
@@ -1296,7 +1324,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
             }
             GFL_HEAP_Free(copy);
         } else if (sys->peers[work->common.peerSlot].state != 0) {
-            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, 517);
+            copy = GFL_HEAP_Alloc((u16)((work->common.heapId & 0x7FFF) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, PM_SRC_LINE(517, 512));
             MI_CpuCopy8(work, copy, sizeof(EventCommCommonWork));
             if (sys->peers[work->common.peerSlot].state == 2) {
                 if (requestKind == 5) {
@@ -1514,7 +1542,7 @@ extern void (*sTalkEventTable[])(struct GameEvent *event, EventCommCommonWork *w
 
 void EVENT_COMM_COMMON_ChangeTalkTypeEvent(struct GameEvent *event, EventCommCommonWork *work, IntrudeCommSys *sys)
 {
-    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, 0x329);
+    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, PM_SRC_LINE(0x329, 0x324));
     unsigned int talkType;
 
     MI_CpuCopy8(work, copy, sizeof(EventCommCommonWork));
@@ -1527,7 +1555,7 @@ void EVENT_COMM_COMMON_ChangeTalkTypeEvent(struct GameEvent *event, EventCommCom
         EVENT_COMM_COMMON_ChangeTalkMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkEventTable[talkType - 8] == 0) {
-            GF_PANIC_Fail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            GF_PANIC_Fail(PM_LANG_JA(sEmptyTextTalkTable, sEventCommCommonFile), PM_SRC_LINE(0, 0x333), PM_LANG_JA(sEmptyTextTalkTable, str_ja_02183B40));
         }
         sTalkEventTable[work->talkType - 8](event, copy);
     } else {
@@ -1540,7 +1568,7 @@ extern void (*sTalkedEventTable[])(struct GameEvent *event, EventCommCommonWork 
 
 void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(struct GameEvent *event, EventCommCommonWork *work, IntrudeCommSys *sys)
 {
-    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, 0x354);
+    EventCommCommonWork *copy = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), sizeof(EventCommCommonWork), 1, sEventCommCommonFile, PM_SRC_LINE(0x354, 0x34F));
     unsigned int talkType;
 
     MI_CpuCopy8(work, copy, sizeof(EventCommCommonWork));
@@ -1553,7 +1581,7 @@ void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(struct GameEvent *event, EventCommC
         EVENT_COMM_COMMON_ChangeTalkedMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkedEventTable[talkType - 8] == 0) {
-            GF_PANIC_Fail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            GF_PANIC_Fail(PM_LANG_JA(sEmptyTextTalkTable, sEventCommCommonFile), PM_SRC_LINE(0, 0x35E), PM_LANG_JA(sEmptyTextTalkTable, str_ja_02183BA8));
         }
         sTalkedEventTable[work->talkType - 8](event, copy);
     } else {
@@ -1664,7 +1692,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             result = INTRUDE_COMM_GetSessionResult(&sys->session);
             battleRec = GAME_DATA_GetLastBattleRecSlot(gameData);
             if (result == 0) {
-                GF_PANIC_Fail(sEmptyTextResult, 0, sEmptyTextResult);
+                GF_PANIC_Fail(PM_LANG_JA(sEmptyTextResult, str_ja_02183C10), PM_SRC_LINE(0, 0xB7), PM_LANG_JA(sEmptyTextResult, str_ja_02183C24));
             }
             work->result = *result;
             work->missionKind = result->record.head.kind;
@@ -1716,7 +1744,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             }
             MYITEM_SAVEDATA_AddItem(myItem, 0x23F, reward, work->heapId);
             INTRUDE_IncrementMissionClearCount(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
-            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->rewardCount, 3, 0, 1);
+            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->rewardCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0x18);
             (*seq)++;
         }
@@ -1728,7 +1756,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         break;
     case 6:
         if (work->tallyCountB != 0) {
-            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->tallyCountB, 3, 0, 1);
+            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->tallyCountB, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0x30);
             (*seq)++;
         } else {
@@ -1742,7 +1770,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         break;
     case 8:
         if (work->tallyCountA != 0) {
-            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->tallyCountA, 3, 0, 1);
+            WORDSET_SetSlotNumber(work->msgBox.wordSet, 0, work->tallyCountA, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             EVENT_COMM_COMMON_PrintMsg(&work->msgBox, 0x31);
             (*seq)++;
         } else {
@@ -2286,7 +2314,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 1, work->battle.battleArg, 3, 0, 1);
+        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 1, work->battle.battleArg, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, work->battle.isTalked == 0 ? sBattleRequestMsgIds[work->common.msgIndex] : sBattleRequestTalkedMsgIds[work->common.msgIndex]);
         (*seq)++;
         break;
@@ -2442,7 +2470,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 1, work->battle.battleArg, 3, 0, 1);
+        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 1, work->battle.battleArg, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, work->battle.isTalked == 0 ? sBattleAnswerMsgIds[work->common.msgIndex] : sBattleAnswerTalkedMsgIds[work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3214,7 +3242,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
         sale = &work->common.member.head.param;
         WORDSET_SetSlotFromMsg36(work->common.msgBox.wordSet, 1, sale->x);
-        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
+        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemSaleMsgIds[0][work->common.msgIndex]);
         (*seq)++;
@@ -3343,7 +3371,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
         WORDSET_SetSlotFromMsg36(work->common.msgBox.wordSet, 1, sale->x);
-        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
+        WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[0][work->common.msgIndex]);
         (*seq)++;
@@ -3457,7 +3485,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommCommonWor
         work->msgId = msgIds[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        GF_PANIC_Fail(sEmptyTextA, 0, sEmptyTextA);
+        GF_PANIC_Fail(PM_LANG_JA(sEmptyTextA, str_ja_02183C34), PM_SRC_LINE(0, 0xE3), PM_LANG_JA(sEmptyTextA, str_ja_02183C4C));
     }
 }
 
@@ -3499,7 +3527,7 @@ int EVENT_COMM_COMMON_MsgEventMain(struct GameEvent *event, int *seq, void *even
  */
 void EVENT_COMM_COMMON_StartMsgEvent95(struct GameEvent *event, EventCommCommonWork *src)
 {
-    EVENT_COMM_COMMON_StartMsgEvent(event, src, sMsgIds95);
+    EVENT_COMM_COMMON_StartMsgEvent(event, src, PM_LANG_JA(sMsgIds95, msgIds_ja_0218397C));
 }
 
 /*
@@ -3507,7 +3535,7 @@ void EVENT_COMM_COMMON_StartMsgEvent95(struct GameEvent *event, EventCommCommonW
  */
 void EVENT_COMM_COMMON_StartMsgEvent105(struct GameEvent *event, EventCommCommonWork *src)
 {
-    EVENT_COMM_COMMON_StartMsgEvent(event, src, sMsgIds105);
+    EVENT_COMM_COMMON_StartMsgEvent(event, src, PM_LANG_JA(sMsgIds105, msgIds_ja_02183994));
 }
 
 /* Message IDs 110 to 114; the table row is the request kind (all rows hold the same IDs). */
@@ -3530,9 +3558,9 @@ void EVENT_COMM_COMMON_StartMsgEvent110ByKindB(struct GameEvent *event, EventCom
     EVENT_COMM_COMMON_StartMsgEvent(event, src, sMsgIds110ByKindB[kind]);
 }
 
-void EVENT_COMM_COMMON_StartMsgEvent110(struct GameEvent *event, EventCommCommonWork *src) { EVENT_COMM_COMMON_StartMsgEvent(event, src, sMsgIds110); }
+void EVENT_COMM_COMMON_StartMsgEvent110(struct GameEvent *event, EventCommCommonWork *src) { EVENT_COMM_COMMON_StartMsgEvent(event, src, PM_LANG_JA(sMsgIds110, msgIds_ja_02183988)); }
 
-void EVENT_COMM_COMMON_StartMsgEvent110Alt(struct GameEvent *event, EventCommCommonWork *src) { EVENT_COMM_COMMON_StartMsgEvent(event, src, sMsgIds110Alt); }
+void EVENT_COMM_COMMON_StartMsgEvent110Alt(struct GameEvent *event, EventCommCommonWork *src) { EVENT_COMM_COMMON_StartMsgEvent(event, src, PM_LANG_JA(sMsgIds110Alt, msgIds_ja_02183970)); }
 
 /*
  * Like EVENT_COMM_COMMON_StartMsgEvent for the script variant (event work 0xA0 bytes, message
@@ -3554,7 +3582,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommCom
         work->msgId = sMsgIds125[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        GF_PANIC_Fail(sEmptyTextB, 0, sEmptyTextB);
+        GF_PANIC_Fail(PM_LANG_JA(sEmptyTextB, str_ja_02183C50), PM_SRC_LINE(0, 0x69), PM_LANG_JA(sEmptyTextB, str_ja_02183C64));
         return;
     }
     if (sys->localPeer.package.zoneId == 2)

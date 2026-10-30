@@ -290,6 +290,7 @@ struct Vec2;
 union TouchHitTable;
 #include "../arm9/clact.h"
 #include "../arm9/printsys.h"
+#include "../version.h"
 /* Sprite template: position and the resource indexes (into spriteRes). */
 typedef struct ActorTemplate {
     int x;
@@ -780,8 +781,8 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
     trainerIndex = record->trainerIndex;
     greeting = &record->greeting;
     nameStr = STRBUF_Create(0x10, 0x80);
-    WORDSET_SetSlotNumber(work->wordSet, 0, work->args->wordNumber0, 2, 0, 1);
-    WORDSET_SetSlotNumber(work->wordSet, 1, work->args->wordNumber1, 3, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, work->args->wordNumber0, 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(work->wordSet, 1, work->args->wordNumber1, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotFromMsgE7(work->wordSet, 2, trainerClass);
     WORDSET_SetSlotFromKeyedMessage(work->wordSet, 3, trainerClass, trainerIndex);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_SUMMARY]), 0);

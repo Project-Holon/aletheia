@@ -473,7 +473,7 @@ WifiBattleMatchViewRoot *WIFIBATTLEMATCH_VIEW_Create(struct Unit *unused, int mo
     NNSG2dPaletteData *out;
     u8 *data;
     u32 l, m;
-    w = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewRoot), 0, d_021E8DBC, 0x7d);
+    w = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewRoot), 0, d_021E8DBC, PM_SRC_LINE(0x7d, 0x7c));
     MI_CpuFill8(w, 0, sizeof(WifiBattleMatchViewRoot));
     k = 0x85;
     c = (heap & 0x7fff) | 0x8000;
@@ -645,7 +645,7 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(WifibattlematchViewSlot *p, struct Prin
     x = (u16)(BMP_WIN_GetWidth(p->win) << 3);
 
     e = MSGDATA_AllocString(msg, 2);
-    WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, 1);
+    WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ws, (struct Strbuf *)buf, e);
     w = PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, (struct GfFont *)str, 0);
     x1 = x - w;
@@ -661,7 +661,7 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(WifibattlematchViewSlot *p, struct Prin
     STRBUF_Delete((struct Strbuf *)e);
 
     e = MSGDATA_AllocString(msg, 1);
-    WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, 1);
+    WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(ws, (struct Strbuf *)buf, e);
     w = PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, (struct GfFont *)str, 0);
     PRINTSYS_PrintQue(win, BMP_WIN_GetBmp(p->win), (s16)(x2 - w), 0, (struct Strbuf *)buf, (struct GfFont *)str);
@@ -684,7 +684,7 @@ WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleM
     int alt;
     WifibattlematchViewPt pos;
     size = sizeof(WifibattlematchViewWork);
-    w = GFL_HEAP_Alloc(heap, size, 0, d_021E8DBC, 0x229);
+    w = GFL_HEAP_Alloc(heap, size, 0, d_021E8DBC, PM_SRC_LINE(0x229, 0x228));
     MI_CpuFill8(w, 0, size);
     w->bg = 5;
     w->palette = 15;
@@ -723,7 +723,7 @@ void *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
   Layer layer;
   WifibattlematchViewPt pos;
   WifiBattleMatchViewStatusInfo *tmp;
-  w = GFL_HEAP_Alloc(heap, sizeof(WifibattlematchViewWork), 0, d_021E8DBC, 0x27f);
+  w = GFL_HEAP_Alloc(heap, sizeof(WifibattlematchViewWork), 0, d_021E8DBC, PM_SRC_LINE(0x27f, 0x27e));
   MI_CpuFill8(w, 0, sizeof(WifibattlematchViewWork));
   ((WifibattlematchViewWork *)w)->record = record;
   ((WifibattlematchViewWork *)w)->heap = heap;
@@ -881,7 +881,7 @@ void *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
   Layer layer;
   WifibattlematchViewPt pos;
   WifiBattleMatchViewTimeInfo *tmp;
-  w = GFL_HEAP_Alloc(heap, sizeof(WifibattlematchViewWork), 0, d_021E8DBC, 0x354);
+  w = GFL_HEAP_Alloc(heap, sizeof(WifibattlematchViewWork), 0, d_021E8DBC, PM_SRC_LINE(0x354, 0x353));
   MI_CpuFill8(w, 0, sizeof(WifibattlematchViewWork));
   ((WifibattlematchViewWork *)w)->record = record;
   ((WifibattlematchViewWork *)w)->heap = heap;
@@ -1154,7 +1154,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
         case 4:
             if (headerMsgId) {
                 MSGDATA_ReadString(msgData, 9, s1);
-                WORDSET_SetSlotNumber(wordSet, 0, info->count, 4, 1, 1);
+                WORDSET_SetSlotNumber(wordSet, 0, info->count, 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
                 WORDSET_CopyTaggedText(wordSet, s2, s1);
             } else {
                 draw = 0;
@@ -1165,7 +1165,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
             break;
         case 6:
             MSGDATA_ReadString(msgData, 11, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->total, 6, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->total, 6, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 7:
@@ -1173,7 +1173,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
             break;
         case 8:
             MSGDATA_ReadString(msgData, 13, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->a, 5, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->a, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 9:
@@ -1181,7 +1181,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
             break;
         case 10:
             MSGDATA_ReadString(msgData, 15, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->b, 5, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->b, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         }
@@ -1230,20 +1230,20 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
             d1 = info->date1;
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
 #else
-            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
-            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
 #else
-            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
             break;
@@ -1256,7 +1256,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
             break;
         case 4:
             MSGDATA_ReadString(msgData, 9, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 4, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 5:
@@ -1268,7 +1268,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
                 draw = 0;
             } else {
                 MSGDATA_ReadString(msgData, 11, s1);
-                WORDSET_SetSlotNumber(wordSet, 0, info->statTotal.total, 6, 1, 1);
+                WORDSET_SetSlotNumber(wordSet, 0, info->statTotal.total, 6, 1, PM_LANG_HALF_WIDTH_DIGITS);
                 WORDSET_CopyTaggedText(wordSet, s2, s1);
             }
             break;
@@ -1322,20 +1322,20 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const Wifi
             d1 = info->date1;
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
 #else
-            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, 1);
-            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #if LANGUAGE == LANGUAGE_ENGLISH
             WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
 #else
-            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
 #endif
-            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, 1);
+            WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
             break;
@@ -1348,7 +1348,7 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const Wifi
             break;
         case 4:
             MSGDATA_ReadString(msgData, 13, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 5, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA0, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 5:
@@ -1356,7 +1356,7 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const Wifi
             break;
         case 6:
             MSGDATA_ReadString(msgData, 15, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, info->statA2, 5, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, info->statA2, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 7:
@@ -1593,7 +1593,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     WifiBattleMatchViewRecordWork *w;
     u32 kind;
     int alt;
-    w = GFL_HEAP_Alloc(heap, sizeof(*w), 0, d_021E8DBC, 0x952);
+    w = GFL_HEAP_Alloc(heap, sizeof(*w), 0, d_021E8DBC, PM_SRC_LINE(0x952, 0x941));
     MI_CpuFill8(w, 0, sizeof(*w));
     w->owner = owner;
     w->mode = mode;
@@ -1753,12 +1753,12 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
         case 2:
             if (p->mode == 3) {
                 MSGDATA_ReadString(msg, 13, buf);
-                WORDSET_SetSlotNumber(fmt, 0, data->score, 5, 1, 1);
+                WORDSET_SetSlotNumber(fmt, 0, data->score, 5, 1, PM_LANG_HALF_WIDTH_DIGITS);
                 WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
             } else if (p->owner != 0) {
                 MSGDATA_ReadString(msg, 9, buf);
-                WORDSET_SetSlotNumber(fmt, 0, data->count, 4, 1, 1);
+                WORDSET_SetSlotNumber(fmt, 0, data->count, 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
                 WORDSET_CopyTaggedText(fmt, str, buf);
                 color = 0x3C40;
             } else {
@@ -1932,7 +1932,7 @@ void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, u16 heap)
 {
     void **objs;
     WifibattlematchViewRequest req;
-    objs = GFL_HEAP_Alloc(heap, 2 * sizeof(*objs), 0, d_021E8DBC, 0xBEF);
+    objs = GFL_HEAP_Alloc(heap, 2 * sizeof(*objs), 0, d_021E8DBC, PM_SRC_LINE(0xBEF, 0xBDE));
     MI_CpuFill8(objs, 0, 2 * sizeof(*objs));
     MI_CpuFill8(&req, 0, 8);
     req.x = 0x80;
@@ -2006,7 +2006,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     WifibattlematchViewRequest req;
     WifibattlematchViewRequest req2;
     WifibattlematchViewPt pos;
-    work = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewPartyWork), 0, d_021E8DBC, 0xC8A);
+    work = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewPartyWork), 0, d_021E8DBC, PM_SRC_LINE(0xC8A, 0xC79));
     MI_CpuFill8(work, 0, sizeof(WifiBattleMatchViewPartyWork));
     h = HeapTemp(heap);
     party = BATTLE_BOX_CreateParty(src, (u16)h);
@@ -2070,7 +2070,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
                 work->ent[i].shown = 1;
             }
             level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
-            WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
+            WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(fmt, buf, sLevel);
             x = 20 - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0) / 2;
             PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, (struct GfFont *)font, 0x440);

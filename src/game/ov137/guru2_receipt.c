@@ -567,6 +567,7 @@ struct Sub0204A9D0;
 #include "../arm9/bmp_menu_types.h"
 
 #include "../types.h"
+#include "../version.h"
 
 typedef union { struct { u32 a,b; } words; u64 wide; } WordPair;
 
@@ -1371,7 +1372,7 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,struct Guru2
             value=MYSTATUS_GetIdLow16(p->member[i].current);
             text=STRBUF_Create(16,0x72);
             MYSTATUS_NameToStrbuf(p->member[i].current,p->memberName[i]);
-            WORDSET_SetSlotNumber(p->wordSet,0,value,5,2,1);
+            WORDSET_SetSlotNumber(p->wordSet,0,value,5,2,PM_LANG_HALF_WIDTH_DIGITS);
             format=MSGDATA_AllocString(p->msgData,1);
             WORDSET_CopyTaggedText(p->wordSet,text,format);
             if (player==i) ink=0x860; else ink=color;

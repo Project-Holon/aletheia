@@ -396,6 +396,7 @@ struct VecFx32;
 #include "../ov021/event_fieldmap_control.h"
 #include "../ov020/event_mapchange.h"
 #include "../arm9/pmsi_param.h"
+#include "../version.h"
 #ifdef __MWERKS__
 extern void SCRCMD_MSGWIN_GetBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out, struct G3dCamera *camera, struct FieldCamera *fieldCamera, void *windowKind); /* original prototype: the definition takes u8 windowKind */
 #define BALLOON_WINDOW_KIND(dir) ((void *)(dir))
@@ -1003,7 +1004,7 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     work->gameSystem = gameSystem;
     work->npcId = npcId;
     if (*(u16 *)((uptr)records + 0xA0 + recordIndex * 0x120) == 0xFFFF) {
-        work->name = STRBUF_Create(0x300, 4);
+        work->name = STRBUF_Create(PM_LANG_JA(0x300, 0x200), 4);
         bank = MSGDATA_CreateFromArchive(0, 2, 0xB8, 4);
         msgIndex = *(u16 *)((u8 *)records + 0xA2 + recordIndex * 0x120);
         if (msgIndex >= 0x3AE)

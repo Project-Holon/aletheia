@@ -22,6 +22,7 @@
  */
 
 #include "../types.h"
+#include "../version.h"
 
 /*
  * The info block pointed to by ViewerWork.info and ViewerArgs.info. It is the
@@ -240,7 +241,11 @@ typedef struct {
     u8 pageDirty;            /* 0x32F7 page needs redraw */
     u8 pageDirty2;           /* 0x32F8 */
     u8 cooldown;             /* 0x32F9 */
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u8 rowList[0x15];        /* 0x32FA DrawPage row list */
+#else
     u8 rowList[0x13];        /* 0x32FA DrawPage row list */
+#endif
     u8 rowCount;             /* 0x330D */
     u8 pageInputArmed;       /* 0x330E */
     u8 scrollTouchArmed;     /* 0x330F */

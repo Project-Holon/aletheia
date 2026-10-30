@@ -104,6 +104,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot 0x021BDC80 thumb ov208
  */
+#include "../version.h"
 #include "../arm9/game_data.h"
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
@@ -332,7 +333,11 @@ void ZUKAN_DETAIL_INFO_DeleteLanguageButtons(int unused, char *q, u32 heap);
 
 void ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(void *unused, char *p, struct Ov208Ctx *key);
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int enable0, int enable1, int enable2, int enable3, int enable4, int enable5);
+#else
 void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int *tbl);
+#endif
 
 void ZUKAN_DETAIL_INFO_GetPanelParams(const u16 *heap, u8 *p, struct Ov208Ctx *key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
 
@@ -439,9 +444,9 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
     case 0:
         *state = 1;
         p->font = GF_FONT_Create(0x17, 0, 1, 0, h->heap);
-        p->msg0 = MSGDATA_CreateFromArchive(1, 2, 0x104, h->heap);
-        p->msg1 = MSGDATA_CreateFromArchive(1, 2, 0xf5, h->heap);
-        p->msg2 = MSGDATA_CreateFromArchive(1, 2, 0x10c, h->heap);
+        p->msg0 = MSGDATA_CreateFromArchive(1, 2, PM_LANG_JA(0x104, 0x101), h->heap);
+        p->msg1 = MSGDATA_CreateFromArchive(1, 2, PM_LANG_JA(0xf5, 0xf4), h->heap);
+        p->msg2 = MSGDATA_CreateFromArchive(1, 2, PM_LANG_JA(0x10c, 0x108), h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
                 BG_SYS_ChangeScrollImmediate(i, 0, 0);
@@ -469,7 +474,11 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), p->msg0, p->msg1, p->msg2);
         p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), p->msg0, p->msg1, p->msg2);
         ZUKAN_INFO_Show(p->langInfo);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        ZUKAN_DETAIL_INFO_ResetButtons((sptr)h, (char *)p, ctx, tbl[0], tbl[1], tbl[2], tbl[3], tbl[4], tbl[5]);
+#else
         ZUKAN_DETAIL_INFO_ResetButtons((sptr)h, (char *)p, ctx, (int *)tbl);
+#endif
         ZUKAN_DETAIL_INFO_LoadHighlightPalettes((u16 *)h, (u8 *)p, ctx);
         ZUKAN_DETAIL_INFO_StartHighlightBlink(h, (struct Ov208InfoWork *)p, ctx);
         break;
@@ -714,7 +723,11 @@ void ZUKAN_DETAIL_INFO_RefreshLanguagePanel(void *first,char *q,struct Ov208Ctx 
     }
     if(okay) ZUKAN_INFO_Show(((struct Ov208InfoWork *)q)->langInfo);
     else ZUKAN_INFO_SetPokemonPage(((struct Ov208InfoWork *)q)->langInfo,p.d,p.c,p.b,p.a,p.y,p.x,((struct Ov208InfoWork *)q)->currentButton);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    ZUKAN_DETAIL_INFO_ResetButtons((sptr)first,q,third,p.arr[0],p.arr[1],p.arr[2],p.arr[3],p.arr[4],p.arr[5]);
+#else
     ZUKAN_DETAIL_INFO_ResetButtons((sptr)first,q,third,(int *)p.arr);
+#endif
 }
 
 void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,struct Ov208Ctx *third,int next)
@@ -844,6 +857,25 @@ void ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(void *unused, char *p, struct Ov208
 }
 #endif
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int enable0, int enable1, int enable2, int enable3, int enable4, int enable5)
+{
+    unsigned char i;
+    struct Ov208InfoWork *w = (struct Ov208InfoWork *)q;
+
+    CLACT_SetActorDrawEnable(w->buttons[0].actor, enable0);
+    CLACT_SetActorDrawEnable(w->buttons[1].actor, enable1);
+    CLACT_SetActorDrawEnable(w->buttons[2].actor, enable2);
+    CLACT_SetActorDrawEnable(w->buttons[3].actor, enable3);
+    CLACT_SetActorDrawEnable(w->buttons[4].actor, enable4);
+    CLACT_SetActorDrawEnable(w->buttons[5].actor, enable5);
+    for (i = 0; i < 6; i++) {
+        w->buttons[i].state = 0;
+        CLACT_SetActorAnimSeq(w->buttons[i].actor, w->buttons[i].idleAnim);
+    }
+    w->pressedButton = 6;
+}
+#else
 void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int *tbl)
 {
     unsigned char i;
@@ -855,6 +887,7 @@ void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int
     }
     ((struct Ov208InfoWork *)q)->pressedButton = 6;
 }
+#endif
 
 /*
  * Species local and CC40/CED4 species arguments are u32: this caller has no u16 truncation before either call.

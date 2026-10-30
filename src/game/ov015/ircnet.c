@@ -37,6 +37,7 @@
  *   IRC_GetUnitNumber  0x0217A5A4  arm  ov015
  */
 #include "../types.h"
+#include "../version.h"
 
 #include "ircnet_types.h"
 #include "../arm9/net_types.h"
@@ -53,6 +54,13 @@ extern u8 gIrcNetHandlerTable[];
 #include "../arm9/gfl_use.h"
 #include "../arm9/net_handle.h"
 #include "irc.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0217A98C[];
+extern const char str_ja_0217A998[];
+extern const char str_ja_0217A9B0[];
+extern const char str_ja_0217A9D0[];
+extern const char str_ja_0217A9EC[];
+#endif
 
 void IRCNET_OnRecv(u8 *pkt, u8 len, u8 type, u8 id);
 int IRCNET_IsLinkAlive(void);
@@ -222,7 +230,7 @@ void *IRCNET_GetHandlerTable(void)
 void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
 {
     if ((unsigned)n >= 0xA6)
-        GF_PANIC_Fail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A98C), PM_SRC_LINE(0, 0x8C), PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A998));
     gIrcNetWork.packet.type = a;
     gIrcNetWork.packet.seq = b;
     if (dst != 0)
@@ -269,7 +277,7 @@ void IRCNET_SetFilter(IRCNetFilterFn a)
 void IRCNET_Start(void)
 {
     if (gIrcNetWork.isRunning != 0)
-        GF_PANIC_Fail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A98C), PM_SRC_LINE(0, 0xF3), PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A9B0));
     gIrcNetWork.isRunning = 1;
 }
 
@@ -298,7 +306,7 @@ int IRCNET_IsIdle(void)
 void IRCNET_QueueSend(void *dst, u8 a, u8 b)
 {
     if (gIrcNetWork.isSendReady != 1)
-        GF_PANIC_Fail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A98C), PM_SRC_LINE(0, 0x137), PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A9D0));
     IRCNET_SendPacket(dst, a, b, (u8)(gIrcNetWork.sendSeq | (gIrcNetWork.recvSeq << 4)));
     gIrcNetWork.pendingData = dst;
     gIrcNetWork.pendingSize = a;
@@ -349,7 +357,7 @@ void IRCNET_OnRecv(u8 *rawPacket, u8 len, u8 type, u8 id)
     hi = pkt->seq >> 4;
     gIrcNetWork.isSendReady = 1;
     if (len > 0xB4)
-        GF_PANIC_Fail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
+        GF_PANIC_Fail(PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A98C), PM_SRC_LINE(0, 0x19E), PM_LANG_JA((const char *)gIrcNetAssertText, str_ja_0217A9EC));
     if (!(len != 0 && len <= 0xB4))
         return;
     if (pkt->checksum != GF_STANDARD_CalcCrc16(rawPacket + 2, len - 2))

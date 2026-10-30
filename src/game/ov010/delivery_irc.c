@@ -117,6 +117,7 @@ struct GFLNetHandle;
 struct GFLNetInitializeStruct;
 
 #include "../arm9/gfl_heap_wrap.h"
+#include "../version.h"
 
 
 
@@ -419,7 +420,7 @@ int DELIVERY_IRC_Start(DeliveryIrcWork *work)
     work->found = 0;
     work->foundIndex = 0;
     work->notFound = 0;
-    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitInit, 0x231);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitInit, PM_SRC_LINE(0x231, 0x22D));
     return started;
 }
 

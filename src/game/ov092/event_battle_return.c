@@ -107,7 +107,7 @@
 #define ITEM_HONEY 0x5e
 #define EVENT_FLAG_BOX_NOTICE_SEEN 0x96d
 #define RECORD_NICKNAMED_COUNT 30
-#define MAX_NICKNAME_LENGTH 10
+#define MAX_NICKNAME_LENGTH PM_LANG_JA(10, 5)
 #define BGM_FADE_FRAMES 30
 #define BURMY_FORM_ARCHIVE 0x98
 #define LINE_OF_HEAP_ALLOC 0x1ca
@@ -133,6 +133,7 @@ struct RecordBlock;
 struct Strbuf;
 struct MsgBank;
 #include "../types.h"
+#include "../version.h"
 
 /*
  * The battle parameter object (BattleSetupParam, btl_setup_types.h) seen from

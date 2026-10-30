@@ -132,6 +132,7 @@
 #ifdef __MWERKS__
 #define GFL_HEAP_Alloc GFL_HEAP_AllocHeader
 #endif
+#include "../version.h"
 #include "btlv_scd_types.h"
 
 /* Services of the input module and the effects (ov094). */
@@ -607,7 +608,11 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
             default: break;
             }
         } else {
+#if LANGUAGE == LANGUAGE_JAPANESE
+            if (BTL_MAIN_GetCompetitor(view->mainModule) == 0) break;
+#else
             if (BTL_MAIN_GetCompetitor(view->mainModule) == 0 || BTL_MAIN_GetCompetitor(view->mainModule) == 4) break;
+#endif
             first = BTL_MAIN_GetOwnOpponentClient(view->mainModule, 0);
             second = BTL_MAIN_GetOwnOpponentClient(view->mainModule, 1);
             info.hasOpponentParty = 1;

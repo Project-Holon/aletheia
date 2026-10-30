@@ -559,6 +559,7 @@ typedef short s16_p07;
 
 
 #include "../arm9/printsys.h"
+#include "../version.h"
 
 
 
@@ -590,11 +591,11 @@ void MUSICAL_SHOT_SYS_DrawCaption(u8 *scene)
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,((ShotScene *)scene)->heap);
     buf=STRBUF_Create(128,((ShotScene *)scene)->heap);
     t=WORDSET_CreateDefault(((ShotScene *)scene)->heap);
-    f=MSGDATA_CreateFromArchive(0,2,78,((ShotScene *)scene)->heap);
+    f=MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(78,79),((ShotScene *)scene)->heap);
     b=MSGDATA_AllocString(f,0);
-    WORDSET_SetSlotNumber(t,0,((ShotScene *)scene)->record->year,2,2,1);
-    WORDSET_SetSlotNumber(t,1,((ShotScene *)scene)->record->month,2,2,1);
-    WORDSET_SetSlotNumber(t,2,((ShotScene *)scene)->record->day,2,2,1);
+    WORDSET_SetSlotNumber(t,0,((ShotScene *)scene)->record->year,2,2,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(t,1,((ShotScene *)scene)->record->month,2,2,PM_LANG_HALF_WIDTH_DIGITS);
+    WORDSET_SetSlotNumber(t,2,((ShotScene *)scene)->record->day,2,2,PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText(t,buf,b);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)scene)->winA),0,0,buf,((ShotScene *)scene)->fontA,3424);
     STRBUF_Delete(buf);

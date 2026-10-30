@@ -38,6 +38,7 @@
  *   BATTLE_REC_IsDataExist 0x0200B45C thumb
  *   WIFIBATTLEMATCH_VIEW_LoadBgPalette 0x021E58A4 thumb ov177
  *   WORDSET_Create 0x0201EC74 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   LIVEBATTLEMATCH_IRC_Create 0x0217E00C thumb ov176
  *   WIFIBATTLEMATCH_VIEW_CreateActorArray 0x021E7D20 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
@@ -278,6 +279,9 @@ struct GFLNetHandle;
 extern const char d_0217E600[];
 
 extern const char d_0217E618[];
+extern const char str_ja_0217E59C[];
+extern const char str_ja_0217E5B4[];
+extern const char str_ja_0217E5B8[];
 
 /*
  * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: LIVEBATTLEMATCH_SAVE_GetRecord (witness). Filed src/matched/arm9/LIVEBATTLEMATCH_SAVE_GetRecord.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
@@ -288,13 +292,17 @@ struct LiveBattleMatchWork *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src
     int size=0x109;
     struct LiveBattleMatchWork *p;
     size=0x1dc;
-    p=GFL_HEAP_Alloc(heap,size,0,d_0217E600,0x109);
+    p=GFL_HEAP_Alloc(heap,size,0,PM_LANG_JA(d_0217E600, str_ja_0217E59C),0x109);
     MI_CpuFill8(p,0,size);
     *(LiveBattleMatchInit *)&p->initMode=*src;
     p->heap=heap;
     p->hasExtraOption=BATTLE_REC_IsDataExist();
     WIFIBATTLEMATCH_VIEW_LoadBgPalette(p->view,1,heap);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    p->arg2C=WORDSET_CreateDefault(heap);
+#else
     p->arg2C=WORDSET_Create(8,0x40,heap);
+#endif
     p->menuValue=MSGDATA_CreateFromArchive(0,2,0x3a,heap);
     p->mgr=MSGDATA_CreateFromArchive(0,2,0xd2,heap);
     p->partyFont=GF_FONT_Create(0x17,3,0,0,heap);
@@ -353,7 +361,7 @@ void LIVEBATTLEMATCH_FLOW_SelectPhase(WifibattlematchCallback *p, int *state, vo
         break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(p, LIVEBATTLEMATCH_FLOW_Card); break;
     case 3: WIFIBATTLEMATCH_UTIL_SetCallback(p, LIVEBATTLEMATCH_FLOW_Sub); break;
-    default: GF_PANIC_Fail(d_0217E618,0,d_0217E618); break;
+    default: GF_PANIC_Fail(PM_LANG_JA(d_0217E618, str_ja_0217E59C),PM_SRC_LINE(0, 0x1c8),PM_LANG_JA(d_0217E618, str_ja_0217E5B4)); break;
     }
 }
 
@@ -645,9 +653,9 @@ void LIVEBATTLEMATCH_FLOW_Card(WifibattlematchCallback *sys, int *state, void *p
     case 1:if(LIVEBATTLEMATCH_IRC_ResetState(p->irc)) *state=2;break;
     case 2:if(LIVEBATTLEMATCH_IRC_EndSession(p->irc)) *state=3;break;
     case 3:{
-        int a=0;
         int b;
         u8 index=(unsigned int)LIVEBATTLEMATCH_SAVE_GetCounter(p->saveBlock,0);
+        u8 a=0;
         LIVEBATTLEMATCH_SAVE_SetOpponentMac(p->saveBlock,index,p->partyData->data+0x20);
         LIVEBATTLEMATCH_SAVE_SetOpponentResultByte(p->saveBlock,index,0,((struct LiveMatchState *)p->stateObj)->byte8);
         LIVEBATTLEMATCH_SAVE_SetOpponentResultByte(p->saveBlock,index,1,((struct LiveMatchState *)p->stateObj)->byte9);
@@ -656,7 +664,11 @@ void LIVEBATTLEMATCH_FLOW_Card(WifibattlematchCallback *sys, int *state, void *p
         case 1:case 4:a=1;break;
         case 0:case 3:b=1;break;
         case 2:break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+        default:GF_PANIC_FailPrintf(str_ja_0217E59C,0x7E9,str_ja_0217E5B8,((struct LiveMatchState *)p->stateObj)->kind);break;
+#else
         default:GF_PANIC_Fail(d_0217E618,0,d_0217E618);break;
+#endif
         }
         LIVEBATTLEMATCH_SAVE_AddCounter(p->saveBlock,1,a);
         LIVEBATTLEMATCH_SAVE_AddCounter(p->saveBlock,2,b);
@@ -712,15 +724,20 @@ void LIVEBATTLEMATCH_FLOW_Sub(WifibattlematchCallback *a, int *state, void *pArg
         if (result != -1) {
             LIVEBATTLEMATCH_FLOW_HideWindow(p);
             if (p->hasExtraOption && ((struct LiveMatchState *)(p->stateObj))->flag == 0) {
-                switch (result) { case 0: *state = 11; break; case 1: *state = 9; break; }
+                switch (result) { case 0: *state = PM_LANG_JA(11, 14); break; case 1: *state = 9; break; }
             } else if (result == 0) *state = 9;
         }
         break;
     case 9: DIGITALCARDCHECK_UpdateMenu(p, 31, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest(a, 10); break;
     case 10: if (DIGITALCARDCHECK_IsWorkDone(p)) { DIGITALCARDCHECK_DeleteRecord(p); *state = 15; } break;
     case 11:
+#if LANGUAGE == LANGUAGE_JAPANESE
+        if (((struct BattleRecord *)(p->battleData))->version >= ((struct BattleRecord *)(p->partyData))->version) *state = 12;
+        else *state = 13;
+#else
         if (BATTLE_REC_IsVersionSupported((u8)(((struct BattleRecord *)(p->partyData))->version))) *state = 12;
         else *state = 13;
+#endif
         break;
     case 12: DIGITALCARDCHECK_UpdateMenu(p, 16, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest(a, 14); break;
     case 13: DIGITALCARDCHECK_UpdateMenu(p, 34, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest(a, 6); break;

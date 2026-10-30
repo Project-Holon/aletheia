@@ -48,6 +48,7 @@
  *   sPartyBallBarAnimSeq 0x0220AB7C data a4
  *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
  */
+#include "../version.h"
 #include "btlv_b_gauge_types.h"
 
 #include "../arm9/clact.h"

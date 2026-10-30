@@ -340,6 +340,14 @@ extern u32 d_021D8574[];
 extern const ProcData d_021DA62C;
 extern u8 ov129_id[];
 #include "../arm9/net_save.h"
+#include "../version.h"
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WIFI_BSUBWAY_NUMBER_HALFWIDTH 0
+#else
+#define WIFI_BSUBWAY_NUMBER_HALFWIDTH 1
+#endif
 extern u8 ov115_id[];
 extern const Tbl d_021D8580;
 extern u8 gWifiBsubwayCodeInParam[];
@@ -775,7 +783,7 @@ int WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(struct WifiBsubwayGraphic *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_SetWord(struct WifiBsubwayGraphic *p, unsigned int i, unsigned int a, unsigned int b)
 {
-    WORDSET_SetSlotNumber(p->wordSet, i, a, b, 2, 1);
+    WORDSET_SetSlotNumber(p->wordSet, i, a, b, 2, WIFI_BSUBWAY_NUMBER_HALFWIDTH);
 }
 
 /*

@@ -29,6 +29,7 @@
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
+#include "../version.h"
 #include "battle_rec_types.h"
 #include "../types.h"
 
@@ -116,6 +117,12 @@ u32 BATTLE_BOX_GetSize(void)
     return sizeof(struct BattleBoxSave);
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BATTLE_BOX_NAME_MSG_BANK 0xC
+#else
+#define BATTLE_BOX_NAME_MSG_BANK 9
+#endif
+
 void BATTLE_BOX_Init(struct BattleBoxSave *box)
 {
     u32 i;
@@ -125,7 +132,7 @@ void BATTLE_BOX_Init(struct BattleBoxSave *box)
     for (i = 0; i < 6; i++) {
         POKE_TOOL_ClearBoxParam((struct BoxPokemon *)(&box->group.mon[i]));
     }
-    msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 9, 1);
+    msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, BATTLE_BOX_NAME_MSG_BANK, 1);
     if (msg != 0) {
         MSGDATA_ReadUnits((struct MsgBank *)msg, 6, box->boxName, sizeof(box->boxName));
         MSGDATA_Delete((struct MsgBank *)msg);

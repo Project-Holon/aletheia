@@ -68,6 +68,7 @@
  *   BG_SYS_PushTile  0x020409B4  arm
  *   ItemValueTable  0x020A02A8  data
  */
+#include "../version.h"
 #include "iss_switch_sys_shared_types.h"
 #include "../sdk_ioreg.h"
 #include "iss_switch_set_shared_types.h"
@@ -830,9 +831,14 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, struct GfFont *fon
 {
     u32 isBlank[2] = {0, 0};
     PmsData pmsCopy;
+#if LANGUAGE != LANGUAGE_JAPANESE
     void *str;
+#endif
     void *word;
     int i;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    void *str;
+#endif
     u16 heapID;
     int wordCount;
 
@@ -855,6 +861,10 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, struct GfFont *fon
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), nullColorPalette);
     PRINTSYS_PrintQueColor(printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (struct Strbuf *)word, font, color);
     elem->printing = 1;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    STRBUF_Delete(word);
+    word = str;
+#endif
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
             u32 x = PRINTSYS_MeasureText(word, i, font, 0);
@@ -867,7 +877,9 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, struct GfFont *fon
         }
     }
     STRBUF_Delete(word);
+#if LANGUAGE != LANGUAGE_JAPANESE
     STRBUF_Delete(str);
+#endif
     BMP_WIN_MakeScreen((struct BmpWin *)elem->bmpWin);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)elem->bmpWin));
     elem->flags.bits.active = 1;

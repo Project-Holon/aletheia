@@ -49,6 +49,7 @@
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -100,6 +101,7 @@ struct FieldPlayer;
 struct Mmdl;
 #include "../ov010/fldmmdl.h"
 #include "../arm9/key.h"
+#include "../version.h"
 #include "../arm9/gfl_use.h"
 #include "../ov021/fldmmdl_acmd.h"
 extern int FIELD_GIMMICK_PLATE_DOORS_EventScripted(struct GameEvent *event, int *seq, void *work);
@@ -240,6 +242,11 @@ void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap)
     struct FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
     GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (KEY_GetTrg() & 0x100) {
+        GFL_HEAP_GetTotalFreeSize(0x15);
+    }
+#endif
     FLD_EXP_OBJ_UpdateAnimes((void *)expObj);
 }
 

@@ -59,6 +59,7 @@ u32 WORLDTRADE_STATUS_WaitIdle(WorldtradeWork *p);
 u32 WORLDTRADE_STATUS_Close(WorldtradeWork *p);
 
 extern const char str_02203E30[], ov131_id[];
+extern const char str_ja_02203FF4[];
 
 extern const struct ProcData gPokeStatusProcData;
 
@@ -66,14 +67,18 @@ int WORLDTRADE_STATUS_Open(WorldtradeWork *p)
 {
     PokeStatusRequest *r;
     WORLDTRADE_ExitPlanes(p);
-    p->statusReq=GFL_HEAP_Alloc(0x48,sizeof(PokeStatusRequest),0,str_02203E30,0x4C);
+    p->statusReq=GFL_HEAP_Alloc(0x48,sizeof(PokeStatusRequest),0,PM_LANG_JA(str_02203E30,str_ja_02203FF4),0x4C);
     MI_CpuFill8(p->statusReq,0,sizeof(PokeStatusRequest));
     r=p->statusReq;
     r->config=p->ctx->statusConfig;
     r->save=GAMESYSTEM_GetGameData(p->ctx->gameData);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,p->ctx->save,p->box);
+#else
     if(WORLDTRADE_BOX_IsPartyBox(p->box))
         r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,p->ctx->save,p->box);
     else r->slotCount=30;
+#endif
     r->slot=p->slot;
     r->enabled=1;
     r->page=0;

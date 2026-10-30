@@ -178,6 +178,7 @@
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb  arm9
  */
+#include "../version.h"
 #include "gsync_menu_types.h"
 #include "../sdk_ioreg.h"
 
@@ -419,7 +420,11 @@ void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work);
 void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work);
 void GSYNC_MENU_OnButtonAnimEnd(void *param, u32 frame);
 void GSYNC_MENU_NoOp(struct GsyncMenuWork *unused0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs);
+#else
 void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY);
+#endif
 void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work);
 void GSYNC_MENU_RunButtonCallback(u32 buttonIndex, s32 event, void *);
 void GSYNC_MENU_CreateActors(GsyncMenuWork *work);
@@ -468,6 +473,9 @@ extern const u32 d_021DA9F0[];
 extern const u32 d_021DA658[];
 extern const char d_021DAA20[];
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#pragma auto_inline off
+#endif
 void GSYNC_MENU_SetStateFunc(GsyncMenuStateFunc *slot, GsyncMenuStateFunc func)
 {
     *slot = func;
@@ -477,6 +485,9 @@ void GSYNC_MENU_ChangeState(GsyncMenuWork *work, GsyncMenuStateFunc func, int li
 {
     GSYNC_MENU_SetStateFunc(&work->stateFunc, func);
 }
+#if LANGUAGE == LANGUAGE_JAPANESE
+#pragma auto_inline reset
+#endif
 
 /* Sets up BG 0 and BGs 4 to 7 of the sub screen from the layer templates. */
 void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
@@ -552,18 +563,18 @@ void GSYNC_MENU_StateStartFadeOut(GsyncMenuWork *work)
             GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(work->gameSystem));
         break;
     }
-    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitFadeOut, 0x1aa);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitFadeOut, PM_SRC_LINE(0x1aa, 0x1a7));
 }
 
 void GSYNC_MENU_StateWaitMenuSelect(GsyncMenuWork *work)
 {
     if (APP_TASKMENU_IsFinish(work->taskMenu)) {
         if (!APP_TASKMENU_GetCursorPos(work->taskMenu)) {
-            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, 0x1b6);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, PM_SRC_LINE(0x1b6, 0x1b3));
         } else {
             BG_SYS_ClearSlot(5);
             work->exitMode = GSYNC_MENU_EXIT_NONE;
-            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x1bb);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, PM_SRC_LINE(0x1bb, 0x1b8));
         }
         APP_TASKMENU_CloseMenu(work->taskMenu);
         work->taskMenu = 0;
@@ -575,7 +586,7 @@ void GSYNC_MENU_StateOpenYesNoAfterMessage(GsyncMenuWork *work)
 {
     if (GSYNC_MENU_UpdateMessageStream(work)) {
         GSYNC_MENU_OpenYesNoMenu(work);
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitMenuSelect, 0x1c9);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitMenuSelect, PM_SRC_LINE(0x1c9, 0x1c6));
     }
 }
 
@@ -597,17 +608,17 @@ void GSYNC_MENU_OnButtonAnimEnd(void *param, u32 frame)
             MSGDATA_ReadString(work->msgBankSub, 0x20, work->msgBuf);
             GSYNC_MENU_PrintMessage(work, 10, 0);
             GSYNC_MENU_SetPaletteFade(work, 1);
-            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x1df);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, PM_SRC_LINE(0x1df, 0x1dc));
         } else {
             MSGDATA_ReadString(work->msgBank, 7, work->msgBuf);
             GSYNC_MENU_PrintMessageNoStream(work);
             GSYNC_MENU_SetPaletteFade(work, 1);
-            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenYesNoAfterMessage, 0x1e6);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenYesNoAfterMessage, PM_SRC_LINE(0x1e6, 0x1e3));
         }
     } else if (work->exitMode == GSYNC_MENU_EXIT_BUTTON_0 || work->exitMode == GSYNC_MENU_EXIT_BUTTON_1) {
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, 0x1f2);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePrintConfirmMessage, PM_SRC_LINE(0x1f2, 0x1ef));
     } else {
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, 0x1f5);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, PM_SRC_LINE(0x1f5, 0x1f2));
     }
 }
 
@@ -622,7 +633,11 @@ void GSYNC_MENU_NoOp(struct GsyncMenuWork *unused0) {}
  *   const (the a/b/c loads stay after the outgoing stack-argument stores).
  */
 /* Replaces the button windows: one window per definition, each with its text centered on (centerX, centerY). */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs)
+#else
 void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *work, ButtonWinDef *defs, u32 *centerX, u32 *centerY)
+#endif
 {
     int buttonIndex;
     int defIndex;
@@ -645,6 +660,9 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         BMP_Clear(BMP_WIN_GetBmp(work->buttonWins[defIndex]), 0);
         MSGDATA_ReadString(work->msgBank, messageIds[defIndex], work->msgBuf);
         GF_FONT_SetTextColor(0xF, 2, 0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+        PRINTSYS_Print(BMP_WIN_GetBmp(work->buttonWins[defIndex]), 0, 0, work->msgBuf, work->font);
+#else
         if (centerX != 0)
             textX = centerX[defIndex] - PRINTSYS_MeasureWidestLine(work->msgBuf, work->font, 0) / 2;
         else
@@ -654,6 +672,7 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         else
             textY = 0;
         PRINTSYS_Print(BMP_WIN_GetBmp(work->buttonWins[defIndex]), (short)textX, (short)textY, work->msgBuf, work->font);
+#endif
         BMP_WIN_TransferChars(work->buttonWins[defIndex]);
         BMP_WIN_MakeScreen(work->buttonWins[defIndex]);
     }
@@ -728,7 +747,7 @@ void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
     void *arc;
     void *paletteBlock;
     GsyncPaletteData *paletteData;
-    work->msgBuf = STRBUF_Create(300, work->heapId);
+    work->msgBuf = STRBUF_Create(PM_LANG_JA(300, 200), work->heapId);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 39, work->heapId);
     work->msgBankSub = MSGDATA_CreateFromArchive(0, 2, 232, work->heapId);
@@ -759,10 +778,14 @@ void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work)
 {
     /* one-entry message id table; the struct form keeps the original stack layout */
     struct { int id; } messageIds = {0};
+#if LANGUAGE == LANGUAGE_JAPANESE
+    GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)sGsyncMenuButtonWinDefs);
+#else
     GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)sGsyncMenuButtonWinDefs, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
+#endif
     work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, GSYNC_MENU_RunButtonCallback, work, work->heapId);
     work->buttonCallback = GSYNC_MENU_OnButtonPressed;
-    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, 0x321);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, PM_SRC_LINE(0x321, 0x315));
 }
 
 void GSYNC_MENU_FreeResources(GsyncMenuWork *work)
@@ -787,10 +810,10 @@ void GSYNC_MENU_StateWaitFadeOut(GsyncMenuWork *work)
         case GSYNC_MENU_EXIT_BUTTON_0:
         case GSYNC_MENU_EXIT_BUTTON_1:
             if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(work->gameSystem)) == 0)
-                GSYNC_MENU_ChangeState(work, 0, 0x345);
+                GSYNC_MENU_ChangeState(work, 0, PM_SRC_LINE(0x345, 0x339));
             break;
         default:
-            GSYNC_MENU_ChangeState(work, 0, 0x349);
+            GSYNC_MENU_ChangeState(work, 0, PM_SRC_LINE(0x349, 0x33d));
             break;
         }
     }
@@ -803,7 +826,7 @@ void GSYNC_MENU_StateWaitTouchAfterMessage(GsyncMenuWork *work)
         work->keyPrev = 0;
         GFL_USE_PlaySeDefaultVolume(0x73b);
         GSYNC_MENU_SetPaletteFade(work, 0);
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x360);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, PM_SRC_LINE(0x360, 0x354));
     }
 }
 
@@ -820,7 +843,7 @@ void GSYNC_MENU_StatePlayButtonAnim(GsyncMenuWork *work)
     CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[work->pressedButton], 1);
     CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[work->pressedButton], &cb);
     CLACT_RestartActorAnim(work->actors[work->pressedButton]);
-    GSYNC_MENU_ChangeState(work, GSYNC_MENU_NoOp, 0x376);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_NoOp, PM_SRC_LINE(0x376, 0x36a));
 }
 
 /* Button callback: 0 and 1 are the two buttons, 2 is the back button. Returns 1. */
@@ -831,18 +854,18 @@ int GSYNC_MENU_OnButtonPressed(int button, GsyncMenuWork *work)
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x73b);
         CLACT_SetActorAnimSeq(work->actors[0], 14);
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x389);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, PM_SRC_LINE(0x389, 0x37d));
         work->exitMode = GSYNC_MENU_EXIT_BUTTON_0;
         break;
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x73b);
         work->exitMode = GSYNC_MENU_EXIT_BUTTON_1;
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x393);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, PM_SRC_LINE(0x393, 0x387));
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73c);
         work->exitMode = GSYNC_MENU_EXIT_NONE;
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, 0x399);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StatePlayButtonAnim, PM_SRC_LINE(0x399, 0x38d));
         break;
     }
     return 1;
@@ -1019,7 +1042,7 @@ void GSYNC_MENU_StatePrintConfirmMessage(GsyncMenuWork *work)
     BG_SYS_ClearLayerEx(5, 0);
     MSGDATA_ReadString(work->msgBank, 3, work->msgBuf);
     GSYNC_MENU_PrintMessageNoStream(work);
-    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenConfirmMenu, 0x4d0);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateOpenConfirmMenu, PM_SRC_LINE(0x4d0, 0x4c4));
 }
 
 void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work)
@@ -1027,7 +1050,7 @@ void GSYNC_MENU_StateSaveFinish(GsyncMenuWork *work)
     if (GAME_DATA_SaveMain(work->gameData) == 2) {
         GSYNC_MENU_DeleteMessageWindow(work);
         GSYNC_MENU_SetPaletteFade(work, 0);
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, 0x4ea);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateStartFadeOut, PM_SRC_LINE(0x4ea, 0x4de));
     }
 }
 
@@ -1035,7 +1058,7 @@ void GSYNC_MENU_StateSaveStart(GsyncMenuWork *work)
 {
     if (GSYNC_MENU_UpdateMessageStream(work)) {
         GAME_DATA_SaveStart((struct GameData *)(work->gameData));
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveFinish, 0x4fa);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveFinish, PM_SRC_LINE(0x4fa, 0x4ee));
     }
 }
 
@@ -1047,17 +1070,17 @@ void GSYNC_MENU_StateConfirmSelect(GsyncMenuWork *work)
             if (SAVE_CONTROL_WouldOverwriteSave(GAME_DATA_GetSaveControl(work->gameData))) {
                 MSGDATA_ReadString(work->msgBank, 46, work->msgBuf);
                 GSYNC_MENU_PrintMessageNoStream(work);
-                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, 0x50d);
+                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateWaitTouchAfterMessage, PM_SRC_LINE(0x50d, 0x501));
             } else {
                 MSGDATA_ReadString(work->msgBank, 6, work->msgBuf);
                 GSYNC_MENU_PrintMessage(work, 4, 0);
                 GSYNC_MENU_RestartTimeIcon(work);
-                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveStart, 0x519);
+                GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSaveStart, PM_SRC_LINE(0x519, 0x50d));
             }
         } else {
             BG_SYS_ClearSlot(5);
             work->exitMode = GSYNC_MENU_EXIT_NONE;
-            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x51f);
+            GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, PM_SRC_LINE(0x51f, 0x513));
             GSYNC_MENU_SetPaletteFade(work, 0);
         }
         APP_TASKMENU_CloseMenu(work->taskMenu);
@@ -1069,7 +1092,7 @@ void GSYNC_MENU_StateOpenConfirmMenu(GsyncMenuWork *work)
 {
     if (GSYNC_MENU_UpdateMessageStream(work)) {
         GSYNC_MENU_OpenYesNoMenu(work);
-        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateConfirmSelect, 0x536);
+        GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateConfirmSelect, PM_SRC_LINE(0x536, 0x52a));
     }
 }
 
@@ -1120,8 +1143,8 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->vblankTcb = GFL_USE_AddMainTask(GSYNC_MENU_VBlank, (void *)work, 0);
     GSYNC_MENU_InitBgLayers(work);
     GSYNC_MENU_LoadResources(work);
-    work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
-    work->palBufSub = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
+    work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, PM_SRC_LINE(0x5a6, 0x59a));
+    work->palBufSub = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, PM_SRC_LINE(0x5a7, 0x59b));
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
     work->keyCursor = APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
@@ -1132,7 +1155,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     WIPE_SYS_Start(0, 1, 1, (u16)color, 6, 1, work->heapId);
     param->fadeFromWhite = 0;
     BG_SYS_SetSubVisiblePlanes(31);
-    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x5bf);
+    GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, PM_SRC_LINE(0x5bf, 0x5b3));
     work->param = param;
     GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     UI_SetInputMode(1);

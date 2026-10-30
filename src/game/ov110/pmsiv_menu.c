@@ -185,7 +185,7 @@ struct PmsivMenu *PMSIV_MENU_Create(struct PmsInputView *view, struct PmsInput *
     menu=GFL_HEAP_Alloc(PMSIV_MENU_HEAP_ID,sizeof(struct PmsivMenu),1,gPmsivMenuHeapSite,309);
     menu->view=view; menu->input=input; menu->wordData=wordData;
     menu->uiInputMode=PMS_INPUT_GetUiInputModePtr(input);
-    menu->msgData=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,146,PMSIV_MENU_HEAP_ID);
+    menu->msgData=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,PM_LANG_JA(146, 139),PMSIV_MENU_HEAP_ID);
     for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
         font=PMS_INPUT_VIEW_GetFont(menu->view);
         menu->taskMenuRes[i]=(struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0,8,(struct GFont *)font,(struct PrintQueue *)(PMS_INPUT_VIEW_GetPrintQue(menu->view)),PMSIV_MENU_HEAP_ID);

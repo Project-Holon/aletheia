@@ -586,7 +586,15 @@ void STAFF_ROLL_RemoveVblankTask(char *p){TCB_DeleteTask(((StaffRoll *)p)->vblan
  */
 void STAFF_ROLL_InitText(char *p)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (((int *)((StaffRoll *)p)->sys)[1] == 0) {
+        ((StaffRoll *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xB2, 0x8E);
+    } else {
+        ((StaffRoll *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xB1, 0x8E);
+    }
+#else
     ((StaffRoll *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 0xB1, 0x8E);
+#endif
     ((StaffRoll *)p)->textBuf = STRBUF_Create(0x80, 0x8E);
     ((StaffRoll *)p)->fonts[0] = GF_FONT_Create(0x17, 0, 1, 0, 0x8E);
     ((StaffRoll *)p)->fonts[1] = GF_FONT_Create(0x17, 2, 1, 0, 0x8E);
@@ -645,7 +653,15 @@ void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((StaffRoll *)p)->
 
 void STAFF_ROLL_LoadRows(char *p)
 {
+#if LANGUAGE == LANGUAGE_JAPANESE
+    if (((int *)((StaffRoll *)p)->sys)[1] == 0) {
+        ((StaffRoll *)p)->entryTable = ARC_TOOL_LoadMember(0xdc, 0, 0x8e);
+    } else {
+        ((StaffRoll *)p)->entryTable = ARC_TOOL_LoadMember(0xdc, 1, 0x8e);
+    }
+#else
     ((StaffRoll *)p)->entryTable = ARC_TOOL_LoadMember(0xdc, 1, 0x8e);
+#endif
     STAFF_ROLL_BuildRowList(p);
 }
 

@@ -1525,6 +1525,7 @@ void BTL_SERVER_FLOW_SetHandExScopeResult(BtlHandExScopeWord *scope,int succeede
 int BTL_SERVER_FLOW_GetHandExScopeResult(struct BtlHandExScopeResultWord *scope);
 void BTL_SERVER_FLOW_FreeLastHandExRecord(QueueA *pack,QueueB *record);
 #include "btl_server_cmd.h"
+#include "../version.h"
 #ifdef __MWERKS__
 #undef SHINKA_CHECK_OpenHandle
 #undef BTL_DEADREC_GetCount
@@ -1919,17 +1920,17 @@ void BTL_SERVER_FLOW_ResortActionOrder(BtlServerFlow *flow, BtlServerEntry *orde
         type = BTL_ACTION_GetKind(&q->action);
         if (type == 1) {
             if (((BtlServerEntry *)orderEntries)[i].action.head.kind == 1) value = ((BtlServerEntry *)orderEntries)[i].action.fight.moveId; else value = 0;
-            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1076);
+            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1076, 1071));
             q = (BtlServerEntry *)((u8 *)orderEntries + off);
             result = BTL_SERVER_FLOW_CalcMovePriority(flow, value, q->pokeParam);
             UpdateActionPriority(q, result);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 1079);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(1079, 1074));
         }
         if (type == 1 || type == 5) {
-            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1087);
+            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1087, 1082));
             q = (BtlServerEntry *)((u8 *)orderEntries + off);
             q->orderKey = ((BTL_SERVER_FLOW_QueryActionAllowedEvent(flow, q->pokeParam) & 7) << 13) | (q->orderKey & 0xffff1fff);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 1090);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(1090, 1085));
         }
     }
     BTL_SERVER_FLOW_SortActionOrder(orderEntries, entryCount);
@@ -2116,7 +2117,7 @@ u8 BTL_SERVER_FLOW_GetChosenSlot(BtlServerFlow *flow)
 
 void BTL_SERVER_FLOW_ProcPreTurnMoveCheck(BtlServerFlow *flow)
 {
-    u32 lk = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1425);
+    u32 lk = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1425, 1414));
     u32 i;
     for (i = 0; i < flow->numActOrder; i++) {
         u16 id;
@@ -2135,7 +2136,7 @@ void BTL_SERVER_FLOW_ProcPreTurnMoveCheck(BtlServerFlow *flow)
             }
         }
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lk, 0x5a0);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lk, PM_SRC_LINE(0x5a0, 0x595));
 }
 
 u8 BTL_SERVER_FLOW_BuildActionOrder(BtlServerFlow *flow, BtlServerActionTable *actionTable, BtlServerEntry *orderEntries, int unused)
@@ -2192,7 +2193,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(BtlServerFlow *flow, BtlServerActionTable *a
         u32 m = 0x1FFF;
         u8 r5;
         u32 sub;
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x678 - 0x38);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x678, 0x66D) - 0x38);
         r = &orderEntries[l];
         a = orderEntries[l].pokeParam;
         switch (r->action.head.kind) {
@@ -2243,7 +2244,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(BtlServerFlow *flow, BtlServerActionTable *a
             sub = 0;
         }
         k = BTL_SERVER_FLOW_CalcPokeSpeed(flow, a, 1);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x678);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x678, 0x66D));
         r->orderKey = (k & m) | ((m + 1) | (((r5 & 7) << 22) | ((sub & 0x3f) << 16)));
     }
     BTL_SERVER_FLOW_SortActionOrder(orderEntries, cnt);
@@ -2251,10 +2252,10 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(BtlServerFlow *flow, BtlServerActionTable *a
         for (i = 0; i < cnt; i++) {
             r = &orderEntries[i];
             if (r->action.head.kind == 1 || r->action.head.kind == 5) {
-                u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x68A);
+                u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x68A, 0x67F));
                 u32 v = BTL_SERVER_FLOW_QueryActionAllowedEvent(flow, r->pokeParam);
                 r->orderKey = (r->orderKey & 0xFFFF1FFF) | ((v & 7) << 13);
-                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x68A + 3);
+                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x68A, 0x67F) + 3);
             }
         }
         BTL_SERVER_FLOW_SortActionOrder(orderEntries, cnt);
@@ -2290,13 +2291,13 @@ int BTL_SERVER_FLOW_CalcMovePriority(BtlServerFlow *flow, u32 moveId, struct Btl
 {
     u8 n = WAZA_TOOL_GetParam(moveId, 6) + 7;
     u8 r;
-    BTL_EVENT_PushVarFrame(1735);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(1735, 1724));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVar(0x18, n);
     BTL_EVENT_DispatchEventChecked(flow, 0x11);
     r = BTL_EVENT_GetVar(0x18);
-    BTL_EVENT_PopVarFrame(1741);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(1741, 1730));
     return r;
 }
 
@@ -2305,7 +2306,7 @@ u16 BTL_SERVER_FLOW_CalcPokeSpeed(BtlServerFlow *flow, struct BtlPokeParam *poke
     u32 r;
     int k = BTL_POKEPARAM_GetValue(pokeParam, 0xc);
     int one;
-    BTL_EVENT_PushVarFrame(1760);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(1760, 1749));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x2f, k);
     one = 1;
@@ -2320,7 +2321,7 @@ u16 BTL_SERVER_FLOW_CalcPokeSpeed(BtlServerFlow *flow, struct BtlPokeParam *poke
         r = 10000;
     if (invertAllowed != 0 && BTL_EVENT_GetVar(0x4a) != 0)
         r = 10000 - r;
-    BTL_EVENT_PopVarFrame(1792);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(1792, 1781));
     return r;
 }
 
@@ -2507,9 +2508,9 @@ u32 BTL_SERVER_FLOW_ProcAction(BtlServerFlow *flow, BtlServerEntry *entry)
             BTL_POKEPARAM_SetTurnFlag(a, 1);
             BTL_SERVER_FLOW_SetContFlag(flow, a, 0);
         }
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x83b);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x83b, 0x830));
         BTL_SERVER_FLOW_DispatchActionEndEvent(flow, a, b.head.kind);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x83d);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x83d, 0x832));
     end:
         BTL_SERVER_FLOW_PopFrame(flow);
         return b.head.kind;
@@ -2526,7 +2527,7 @@ u32 BTL_SERVER_FLOW_ProcAction(BtlServerFlow *flow, BtlServerEntry *entry)
  */
 void BTL_SERVER_FLOW_NotifyActionStart(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 actionType)
 {
-    int line = 0x854;
+    int line = PM_SRC_LINE(0x854, 0x849);
     u32 old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, line);
     BTL_SERVER_FLOW_DispatchActionStartEvent(flow, pokeParam, actionType);
     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, line + 3);
@@ -2534,7 +2535,7 @@ void BTL_SERVER_FLOW_NotifyActionStart(BtlServerFlow *flow, struct BtlPokeParam 
 
 void BTL_SERVER_FLOW_DispatchActionStartEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 actionType)
 {
-    int line = 0x864;
+    int line = PM_SRC_LINE(0x864, 0x859);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(12, actionType);
@@ -2544,7 +2545,7 @@ void BTL_SERVER_FLOW_DispatchActionStartEvent(BtlServerFlow *flow, struct BtlPok
 
 void BTL_SERVER_FLOW_DispatchActionEndEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 actionType)
 {
-    int line = 0x874;
+    int line = PM_SRC_LINE(0x874, 0x869);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(12, actionType);
@@ -2602,12 +2603,12 @@ int BTL_SERVER_FLOW_CheckDisobedience(BtlServerFlow *flow, struct BtlPokeParam *
 int BTL_SERVER_FLOW_CheckObedienceOverride(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(2256);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(2256, 2245));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0xe);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(2261);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(2261, 2250));
     return r;
 }
 
@@ -2811,18 +2812,18 @@ void BTL_SERVER_FLOW_DispatchShiftInEventLocked(BtlServerFlow *flow, struct BtlP
 {
     u32 old;
     if (BTL_POKEPARAM_IsFainted(pokeParam) == 0) {
-        old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 2697);
+        old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(2697, 2686));
         BTL_SERVER_FLOW_DispatchShiftInEvent(flow, pokeParam);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, 2699);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, PM_SRC_LINE(2699, 2688));
     }
 }
 
 void BTL_SERVER_FLOW_DispatchShiftInEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(2712);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(2712, 2701));
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventChecked(flow, 164);
-    BTL_EVENT_PopVarFrame(2715);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(2715, 2704));
 }
 
 int BTL_SERVER_FLOW_ProcEscape(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
@@ -2884,12 +2885,12 @@ int BTL_SERVER_FLOW_CheckEscapeGuaranteed(BtlServerFlow *flow, struct BtlPokePar
 {
     int r;
     if (BTL_POKEPARAM_IsFainted(pokeParam) == 0) {
-        BTL_EVENT_PushVarFrame(2849);
+        BTL_EVENT_PushVarFrame(PM_SRC_LINE(2849, 2838));
         BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
         BTL_EVENT_SetVarOnce(0x51, 0);
         BTL_EVENT_DispatchEventChecked(flow, 0xb);
         r = BTL_EVENT_GetVar(0x51);
-        BTL_EVENT_PopVarFrame(2854);
+        BTL_EVENT_PopVarFrame(PM_SRC_LINE(2854, 2843));
         return r;
     }
     return 0;
@@ -2903,17 +2904,17 @@ int BTL_SERVER_FLOW_CommitEscape(BtlServerFlow *flow, struct BtlPokeParam *pokeP
         f = (u8)(BTL_MAIN_IsSameTeamClient(k, BTL_MAIN_GetOwnClientId(flow->mainModule)) == 0 ? 1 : 0);
         if (alreadyDecided == 0 && BTL_POKEPARAM_IsFainted(pokeParam) == 0) {
             u32 l;
-            l = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 2888);
+            l = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(2888, 2877));
             alreadyDecided = BTL_SERVER_FLOW_CheckEscapePrevented(flow, pokeParam);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, l, 2890);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, l, PM_SRC_LINE(2890, 2879));
             if (alreadyDecided) return 0;
         }
         if (flow->stateFlags.bits.memberInMessageShown == 0) {
             if (noMessageCheck == 0) {
                 u32 l;
-                l = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 2904);
+                l = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(2904, 2893));
                 alreadyDecided = BTL_SERVER_FLOW_CheckEscapeMessageSuppressed(flow, pokeParam);
-                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, l, 2906);
+                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, l, PM_SRC_LINE(2906, 2895));
             } else {
                 alreadyDecided = 0;
             }
@@ -2940,25 +2941,25 @@ int BTL_SERVER_FLOW_CommitEscape(BtlServerFlow *flow, struct BtlPokeParam *pokeP
 int BTL_SERVER_FLOW_CheckEscapePrevented(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(2957);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(2957, 2946));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_SICK_ForceGroundedByTrap(flow, pokeParam);
     BTL_EVENT_DispatchEventChecked(flow, 0xc);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(2963);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(2963, 2952));
     return r;
 }
 
 int BTL_SERVER_FLOW_CheckEscapeMessageSuppressed(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(2979);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(2979, 2968));
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0xd);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(2984);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(2984, 2973));
     return r;
 }
 
@@ -3020,23 +3021,23 @@ int BTL_SERVER_FLOW_ProcAfterMemberIn(BtlServerFlow *flow)
         }
     }
     BTL_POKESET_SortBySpeed((BtlPokeSet *)((u8 *)flow + q), flow);
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3096);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3096, 3085));
     BTL_SERVER_FLOW_DispatchMemberInBeginEvent(flow);
     if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3102);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3102, 3091));
     BTL_POKESET_SeekStart((BtlPokeSet *)((u8 *)flow + q));
     out = BTL_POKESET_SeekNext((BtlPokeSet *)((u8 *)flow + q));
     while (out != 0) {
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3108);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3108, 3097));
         BTL_SERVER_FLOW_DispatchPokeEntryEvent(flow, out);
         if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3114);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3114, 3103));
         out = BTL_POKESET_SeekNext((BtlPokeSet *)((u8 *)flow + q));
     }
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3117);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3117, 3106));
     BTL_SERVER_FLOW_DispatchMemberInEndEvent(flow);
     if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3123);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3123, 3112));
     return result;
 }
 #else
@@ -3057,70 +3058,70 @@ int BTL_SERVER_FLOW_ProcAfterMemberIn(BtlServerFlow *flow)
         }
     }
     BTL_POKESET_SortBySpeed(set, flow);
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3096);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3096, 3085));
     BTL_SERVER_FLOW_DispatchMemberInBeginEvent(flow);
     if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3102);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3102, 3091));
     BTL_POKESET_SeekStart(set);
     out = BTL_POKESET_SeekNext(set);
     while (out != 0) {
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3108);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3108, 3097));
         BTL_SERVER_FLOW_DispatchPokeEntryEvent(flow, out);
         if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3114);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3114, 3103));
         out = BTL_POKESET_SeekNext(set);
     }
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3117);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3117, 3106));
     BTL_SERVER_FLOW_DispatchMemberInEndEvent(flow);
     if (BTL_SERVER_FLOW_GetLockState(flow) != 0) result = 1;
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3123);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3123, 3112));
     return result;
 }
 #endif
 
 void BTL_SERVER_FLOW_DispatchPokeEntryEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(0xc43);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0xc43, 0xc38));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventChecked(flow, 0x55);
-    BTL_EVENT_PopVarFrame(0xc46);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0xc46, 0xc3b));
 }
 
 void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(0xc55);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0xc55, 0xc4a));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventToType(flow, 0x55, 4);
-    BTL_EVENT_PopVarFrame(0xc58);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0xc58, 0xc4d));
 }
 
 void BTL_SERVER_FLOW_DispatchMemberInBeginEvent(BtlServerFlow *flow)
 {
-    BTL_EVENT_PushVarFrame(3173);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3173, 3162));
     BTL_EVENT_DispatchEventChecked(flow, 86);
-    BTL_EVENT_PopVarFrame(3175);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3175, 3164));
 }
 
 void BTL_SERVER_FLOW_DispatchMemberInEndEvent(BtlServerFlow *flow)
 {
-    BTL_EVENT_PushVarFrame(3187);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3187, 3176));
     BTL_EVENT_DispatchEventChecked(flow, 87);
-    BTL_EVENT_PopVarFrame(3189);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3189, 3178));
 }
 
 void BTL_SERVER_FLOW_NotifyRotationEnd(BtlServerFlow *flow)
 {
     u32 old;
-    old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0xc82);
+    old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0xc82, 0xc77));
     BTL_SERVER_FLOW_DispatchRotationEndEvent(flow);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, 0xc84);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, PM_SRC_LINE(0xc84, 0xc79));
 }
 
 void BTL_SERVER_FLOW_DispatchRotationEndEvent(BtlServerFlow *flow)
 {
-    BTL_EVENT_PushVarFrame(3217);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3217, 3206));
     BTL_EVENT_DispatchEventChecked(flow, 88);
-    BTL_EVENT_PopVarFrame(3219);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3219, 3208));
 }
 
 void BTL_SERVER_FLOW_PushMemberOutCmd(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
@@ -3175,9 +3176,9 @@ void BTL_SERVER_FLOW_ProcMemberOutCore(BtlServerFlow *flow, struct BtlPokeParam 
     int r = BTL_MAIN_GetTrainerSlotOfPoke(flow->mainModule, flow->pokeCon, n);
     if (r != 6) BTL_SERVER_CMD_Push(flow->cmdQueue, 0x3C, r, messageId);
     BTL_SERVER_FLOW_MarkActionDone(flow, n);
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3327);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3327, 3316));
     BTL_SERVER_FLOW_DispatchMemberOutEvent(flow, pokeParam);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 3329);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(3329, 3318));
     BTL_SERVER_FLOW_ProcPokeLeaveField(flow, pokeParam, 0);
     BTL_POKEPARAM_ResetEffectsOnSwitchOut(pokeParam);
     BTL_SERVER_CMD_Push(flow->cmdQueue, 0x20, BTL_POKEPARAM_GetPokeId(pokeParam));
@@ -3186,10 +3187,10 @@ void BTL_SERVER_FLOW_ProcMemberOutCore(BtlServerFlow *flow, struct BtlPokeParam 
 
 void BTL_SERVER_FLOW_DispatchMemberOutEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(3348);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3348, 3337));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventChecked(flow, 0x54);
-    BTL_EVENT_PopVarFrame(3351);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3351, 3340));
 }
 
 u16 BTL_SERVER_FLOW_GetEncoredMove(struct BtlPokeParam *pokeParam, union BtlAction *action)
@@ -3356,9 +3357,9 @@ void BTL_SERVER_FLOW_ProcDeferredMoves(BtlServerFlow *flow, u16 moveId)
         a = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, (flow->curDeferredQueue)[i + 1]);
         b = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, (flow->curDeferredQueue)[i + 13]);
         if (BTL_POKEPARAM_IsAbleToBattle(a) != 0) {
-            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3657);
+            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3657, 3646));
             BTL_SERVER_FLOW_DispatchDeferredMoveEvent(flow, a, b, moveId);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3659);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3659, 3648));
             BTL_SERVER_FLOW_GetMoveParam(flow, moveId, a, (flow->curMoveParam));
             flow->curMoveParam->u.bits.deferred = 1;
             BTL_SERVER_FLOW_DecideMoveTargets(flow, a, (flow->curDeferredQueue)[i + 7], flow->curMoveParam, flow->curEffectSet);
@@ -3397,9 +3398,9 @@ void BTL_SERVER_FLOW_ProcInterruptMove(BtlServerFlow *flow, struct BtlPokeParam 
     u32 lock;
     if ((flow->curInterruptQueue)[0] != 0) {
         a = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, (flow->curInterruptQueue)[1]);
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3720);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3720, 3709));
         BTL_SERVER_FLOW_DispatchMoveInterruptEvent(flow, a, pokeParam, moveId);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 3722);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(3722, 3711));
         BTL_SERVER_FLOW_GetMoveParam(flow, moveId, a, flow->curMoveParam);
         BTL_SERVER_FLOW_DecideMoveTargets(flow, a, (flow->curInterruptQueue)[7], flow->curMoveParam, flow->curEffectSet);
         if (BTL_POKEPARAM_HasSick(a, 15) != 0 && (u32)WAZA_TOOL_GetFlag(moveId, (int)12) != 0) {
@@ -3414,13 +3415,13 @@ void BTL_SERVER_FLOW_ProcInterruptMove(BtlServerFlow *flow, struct BtlPokeParam 
 
 void BTL_SERVER_FLOW_DispatchMoveTypeEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, struct BtlMoveParam *moveParam)
 {
-    BTL_EVENT_PushVarFrame(3755);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3755, 3744));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
     BTL_EVENT_SetVarOnce(0x16, moveParam->type);
     BTL_EVENT_DispatchEventChecked(flow, 0xA2);
     moveParam->type = BTL_EVENT_GetVar(0x16);
-    BTL_EVENT_PopVarFrame(3761);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3761, 3750));
 }
 
 /*
@@ -3430,19 +3431,19 @@ void BTL_SERVER_FLOW_DispatchMoveTypeEvent(BtlServerFlow *flow, struct BtlPokePa
 void BTL_SERVER_FLOW_DispatchMoveParamEventLocked(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, struct BtlMoveParam *moveParam, int eventId)
 {
     u32 old;
-    old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, 3774);
+    old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, PM_SRC_LINE(3774, 3763));
     BTL_SERVER_FLOW_DispatchMoveParamEvent(flow, pokeParam, moveParam, eventId);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, 3778);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, PM_SRC_LINE(3778, 3767));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveParamEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, struct BtlMoveParam *moveParam, int eventId)
 {
-    BTL_EVENT_PushVarFrame(3791);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3791, 3780));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
     BTL_EVENT_SetVarReadOnly(0x16, moveParam->type);
     BTL_EVENT_DispatchEventChecked(flow, eventId);
-    BTL_EVENT_PopVarFrame(3796);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3796, 3785));
 }
 
 int BTL_SERVER_FLOW_ProcPledgeCombo(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u16 moveId, u32 unused)
@@ -3496,7 +3497,7 @@ fail:
 
 int BTL_SERVER_FLOW_TryMoveExecuteCheckEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId, u32 selection, u8 *outHandled)
 {
-    u32 lk = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3894);
+    u32 lk = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3894, 3883));
     int r = BTL_SERVER_FLOW_DispatchMoveExecuteCheckEvent(flow, pokeParam, selection);
     int s;
     *outHandled = 0;
@@ -3510,53 +3511,53 @@ int BTL_SERVER_FLOW_TryMoveExecuteCheckEvent(BtlServerFlow *flow, struct BtlPoke
             BTL_SERVER_FLOW_PushMsgStdFailed(flow, pokeParam, moveId);
         }
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lk, 3913);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lk, PM_SRC_LINE(3913, 3902));
     return r;
 }
 
 int BTL_SERVER_FLOW_DispatchMoveExecuteCheckEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 selection)
 {
     int r;
-    BTL_EVENT_PushVarFrame(3931);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3931, 3920));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0xD, selection);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 6);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(3937);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3937, 3926));
     return r;
 }
 
 void BTL_SERVER_FLOW_NotifyMoveExecuteFail(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
     u32 old;
-    old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, 3951);
+    old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, PM_SRC_LINE(3951, 3940));
     BTL_SERVER_FLOW_DispatchMoveExecuteFailEvent(flow, pokeParam);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, 3956);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, PM_SRC_LINE(3956, 3945));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveExecuteFailEvent(BtlServerFlow *flow,struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(3968);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(3968, 3957));
     BTL_EVENT_SetVarReadOnly(3,BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventChecked(flow,7);
-    BTL_EVENT_PopVarFrame(3971);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(3971, 3960));
 }
 
 void BTL_SERVER_FLOW_NotifyMoveStart(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 3985);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(3985, 3974));
     BTL_SERVER_FLOW_DispatchMoveStartEvent(flow, pokeParam, moveId);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 3987);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(3987, 3976));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveStartEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId)
 {
-    BTL_EVENT_PushVarFrame(4000);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4000, 3989));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_DispatchEventChecked(flow, 3);
-    BTL_EVENT_PopVarFrame(4004);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4004, 3993));
 }
 
 /*
@@ -3571,40 +3572,40 @@ void BTL_SERVER_FLOW_DispatchMoveStartEvent(BtlServerFlow *flow, struct BtlPokeP
 void BTL_SERVER_FLOW_NotifyMoveEnd(BtlServerFlow *flow,struct BtlPokeParam *pokeParam,u32 moveId,u32 result)
 {
     u32 old;
-    old=BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 4017);
+    old=BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(4017, 4006));
     BTL_SERVER_FLOW_DispatchMoveEndEvent(flow,pokeParam,moveId,result);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock,old,4019);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock,old,PM_SRC_LINE(4019, 4008));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveEndEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId, u32 result)
 {
-    BTL_EVENT_PushVarFrame(4032);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4032, 4021));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(0x51, result);
     BTL_EVENT_DispatchEventChecked(flow, 4);
-    BTL_EVENT_PopVarFrame(4037);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4037, 4026));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveInterruptEvent(BtlServerFlow *flow, struct BtlPokeParam *interrupterPoke, struct BtlPokeParam *userPoke, u32 moveId)
 {
-    BTL_EVENT_PushVarFrame(4051);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4051, 4040));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(interrupterPoke));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(userPoke));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_DispatchEventChecked(flow, 8);
-    BTL_EVENT_PopVarFrame(4056);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4056, 4045));
 }
 
 void BTL_SERVER_FLOW_DispatchDeferredMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, struct BtlPokeParam *otherPoke, u32 moveId)
 {
-    BTL_EVENT_PushVarFrame(4069);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4069, 4058));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(otherPoke));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 9);
-    BTL_EVENT_PopVarFrame(4075);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4075, 4064));
 }
 
 /*
@@ -3631,7 +3632,7 @@ int BTL_SERVER_FLOW_DispatchMoveInterruptCheckEvent(BtlServerFlow *flow, struct 
     u32 n;
     u32 i;
     n = BTL_POKESET_GetCount(targetSet);
-    BTL_EVENT_PushVarFrame(4136);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4136, 4125));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(5, n);
@@ -3642,7 +3643,7 @@ int BTL_SERVER_FLOW_DispatchMoveInterruptCheckEvent(BtlServerFlow *flow, struct 
     BTL_EVENT_DispatchEventChecked((void *)flow, 0x1a);
     *interrupterIdOut = BTL_EVENT_GetVar(2);
     *originalIdOut = BTL_EVENT_GetVar(4);
-    BTL_EVENT_PopVarFrame(4155);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4155, 4144));
     if (*interrupterIdOut != 0x1f)
         return 1;
     return 0;
@@ -3710,9 +3711,9 @@ int BTL_SERVER_FLOW_ProcMoveExecute(BtlServerFlow *flow, struct BtlPokeParam *po
     BTL_POKESET_Clear(flow->curDamageSet);
     pos = BTL_SERVER_CMD_Reserve(flow->cmdQueue, 0x30);
     BTL_SERVER_FLOW_SetupTurnState((struct Unk021BD1E0 *)((struct BtlServerFlowTurnState * )flow->curMoveTurnState), flow, pokeParam, targetSet);
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x10a8);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x10a8, 0x109d));
     result = BTL_SERVER_FLOW_QueryMoveExecuteEvent(flow, pokeParam, moveId, targetSet);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x10aa);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x10aa, 0x109f));
     if (result != 0) {
         s = (struct BtlServerFlowTurnState * )flow->curMoveTurnState;
         if (s->a == 0) s->a = 1;
@@ -3824,13 +3825,13 @@ void BTL_SERVER_FLOW_RemoveSelfTarget(BtlServerFlow *flow, struct BtlPokeParam *
 int BTL_SERVER_FLOW_CheckAccuracyCheckRequired(BtlServerFlow *flow, struct BtlMoveParam *moveParam, struct BtlPokeParam *pokeParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(4500);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4500, 4489));
     BTL_EVENT_SetVar(3, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVar(0x12, moveParam->moveId);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x3d);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(4506);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4506, 4495));
     return r;
 }
 
@@ -3853,7 +3854,7 @@ void BTL_SERVER_FLOW_RemoveSubstituteTargets(BtlServerFlow *flow, struct BtlMove
  */
 void BTL_SERVER_FLOW_NotifyMoveSucceeded(BtlServerFlow *flow, u32 pokeId, u32 moveId)
 {
-    int line = 0x11e7;
+    int line = PM_SRC_LINE(0x11e7, 0x11dc);
     u32 old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, line);
     BTL_SERVER_FLOW_DispatchMoveResultEvent(flow, pokeId, moveId, 0x25);
     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, line + 2);
@@ -3861,7 +3862,7 @@ void BTL_SERVER_FLOW_NotifyMoveSucceeded(BtlServerFlow *flow, u32 pokeId, u32 mo
 
 void BTL_SERVER_FLOW_NotifyMoveFailed(BtlServerFlow *flow, u32 pokeId, u32 moveId)
 {
-    int line = 0x11f6;
+    int line = PM_SRC_LINE(0x11f6, 0x11eb);
     u32 old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, line);
     BTL_SERVER_FLOW_DispatchMoveResultEvent(flow, pokeId, moveId, 0x26);
     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, line + 2);
@@ -3869,7 +3870,7 @@ void BTL_SERVER_FLOW_NotifyMoveFailed(BtlServerFlow *flow, u32 pokeId, u32 moveI
 
 void BTL_SERVER_FLOW_NotifyMoveFinished(BtlServerFlow *flow, u32 pokeId, u32 moveId)
 {
-    int line = 0x1205;
+    int line = PM_SRC_LINE(0x1205, 0x11FA);
     u32 old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, line);
     BTL_SERVER_FLOW_DispatchMoveResultEvent(flow, pokeId, moveId, 0x27);
     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, line + 2);
@@ -3877,7 +3878,7 @@ void BTL_SERVER_FLOW_NotifyMoveFinished(BtlServerFlow *flow, u32 pokeId, u32 mov
 
 void BTL_SERVER_FLOW_DispatchMoveResultEvent(BtlServerFlow *flow, u32 pokeId, u32 moveId, int eventId)
 {
-    int line = 0x1214;
+    int line = PM_SRC_LINE(0x1214, 0x1209);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, pokeId);
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
@@ -3968,7 +3969,7 @@ int BTL_SERVER_FLOW_ProcNoEffectCheck(BtlServerFlow *flow, struct BtlMoveParam *
     u32 s;
     int flag;
     int r;
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 4784);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(4784, 4773));
     flag = 0;
     r = BTL_SERVER_FLOW_RunTargetNoEffectEvent(flow, moveParam, eventId, userPoke, targetPoke, hitTable, &flow->msgRecord, &flag);
     if (r != 0) {
@@ -3979,7 +3980,7 @@ int BTL_SERVER_FLOW_ProcNoEffectCheck(BtlServerFlow *flow, struct BtlMoveParam *
             BTL_SERVER_CMD_PushVariable(flow->cmdQueue, 0x5b, 0xd2, BTL_POKEPARAM_GetPokeId(targetPoke), 0xffff0000);
         }
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 4810);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(4810, 4799));
     return r;
 }
 
@@ -3989,7 +3990,7 @@ int BTL_SERVER_FLOW_RunTargetNoEffectEvent(BtlServerFlow *flow, struct BtlMovePa
     int r;
     t = BTL_SERVER_FLOW_ReadSlotTableEntry(affinityTable, BTL_POKEPARAM_GetPokeId(defender));
     BTL_SERVER_FLOW_ClearMsgRecord(msgParam);
-    BTL_EVENT_PushVarFrame(4834);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4834, 4823));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
@@ -4002,7 +4003,7 @@ int BTL_SERVER_FLOW_RunTargetNoEffectEvent(BtlServerFlow *flow, struct BtlMovePa
     BTL_EVENT_DispatchEventChecked(flow, eventType);
     r = BTL_EVENT_GetVar(0x40);
     *outAvoidFlag = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(4847);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4847, 4836));
     return r;
 }
 
@@ -4041,14 +4042,14 @@ void BTL_SERVER_FLOW_RemoveMissedTargets(BtlServerFlow *flow, struct BtlMovePara
 int BTL_SERVER_FLOW_CheckMoveAvoidEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(4929);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(4929, 4918));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x1c);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(4936);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(4936, 4925));
     return r;
 }
 
@@ -4080,7 +4081,7 @@ int BTL_SERVER_FLOW_RollMoveAccuracy(BtlServerFlow *flow, struct BtlPokeParam *a
     if (BTL_SERVER_FLOW_CheckSureHit(flow, attacker, defender, moveParam->moveId)) return 1;
     if (BTL_POKEPARAM_HasSick(defender, 32)) return 1;
     base = BTL_SERVER_FLOW_CalcAccuracyRatio(flow, attacker, defender, moveParam);
-    BTL_EVENT_PushVarFrame(5014);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(5014, 5003));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarOnce(75, 0);
@@ -4094,7 +4095,7 @@ int BTL_SERVER_FLOW_RollMoveAccuracy(BtlServerFlow *flow, struct BtlPokeParam *a
     if ((BTL_POKEPARAM_HasSick(defender, 17) && y > 6) || flag) y = 6;
     if (BTL_POKEPARAM_TestTurnFlag(attacker, 14)) BTL_EVENT_MultiplyVar(53, 4915);
     scale = BTL_EVENT_GetVar(53);
-    BTL_EVENT_PopVarFrame(5039);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(5039, 5028));
     v = x + 6 - y;
     if (v < 0) v = 0;
     if (v > 12) v = 12;
@@ -4136,16 +4137,16 @@ int BTL_SERVER_FLOW_ProcMoveExecuteChecks(BtlServerFlow *flow, struct BtlPokePar
         }
         if (BTL_SERVER_FLOW_ProcMoveUseDecide(flow, pokeParam, n, target, moveId) == 0) return 1;
         {
-            u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 5124);
+            u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(5124, 5113));
             BTL_SERVER_FLOW_NotifyMoveFinishEvent(flow, pokeParam, moveId);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 5126);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(5126, 5115));
         }
     }
     (flow->curMoveTurnState)[4] = 1;
     {
-        u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 5134);
+        u32 lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(5134, 5123));
         result = BTL_SERVER_FLOW_QueryMoveTargetsAllowedEvent(flow, pokeParam, target, moveId);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 5136);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(5136, 5125));
     }
     BTL_POKEPARAM_SetTurnFlag(pokeParam, 11);
     BTL_SERVER_FLOW_ClearMoveLockSicks(flow, pokeParam);
@@ -4161,7 +4162,7 @@ int BTL_SERVER_FLOW_ProcMoveUseDecide(BtlServerFlow *flow, struct BtlPokeParam *
     u8 n;
     out = 0;
     id = 31;
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 5160);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(5160, 5149));
     r = BTL_SERVER_FLOW_QueryMoveRedirectEvent(flow, pokeParam, target, moveId, &id, &out);
     if (r) {
         n = flow->retargetSlot;
@@ -4169,11 +4170,11 @@ int BTL_SERVER_FLOW_ProcMoveUseDecide(BtlServerFlow *flow, struct BtlPokeParam *
             n = BTL_POSPOKE_SearchPosByPokeId(&flow->posPoke, BTL_POKEPARAM_GetPokeId(BTL_POKESET_Get(target, 0)));
         BTL_SERVER_CMD_Push(flow->cmdQueue, 48, slotPos, n, moveId, 0);
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 5173);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(5173, 5162));
     if (r) {
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 5177);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(5177, 5166));
         BTL_SERVER_FLOW_NotifyMoveBeginEvent(flow, pokeParam);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 5179);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(5179, 5168));
         if (BTL_POKEPARAM_IsSemiInvulnerable(pokeParam))
             BTL_SERVER_CMD_Push(flow->cmdQueue, 49, BTL_POKEPARAM_GetPokeId(pokeParam), 1);
         if (id != 31)
@@ -4331,27 +4332,27 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent(BtlServerFlow *flow, struct BtlP
 int BTL_SERVER_FLOW_QueryStatusSkipEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId, u32 failReason)
 {
     int r;
-    BTL_EVENT_PushVarFrame(5537);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(5537, 5526));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x22, failReason);
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x1D);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(5544);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(5544, 5533));
     return r;
 }
 
 int BTL_SERVER_FLOW_QueryMoveFailReasonEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 moveId, int k)
 {
     int r;
-    BTL_EVENT_PushVarFrame(5563);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(5563, 5552));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarOnce(0x22, 0);
     BTL_EVENT_DispatchEventChecked(flow, k);
     r = BTL_EVENT_GetVar(0x22);
-    BTL_EVENT_PopVarFrame(5569);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(5569, 5558));
     return r;
 }
 
@@ -4433,9 +4434,9 @@ void BTL_SERVER_FLOW_ProcMoveExecuteFail(BtlServerFlow *flow, struct BtlPokePara
         }
         }
     }
-    old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 5728);
+    old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(5728, 5717));
     BTL_SERVER_FLOW_DispatchMoveDoneEvent(flow, pokeParam, moveId, failReason);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, 5730);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, PM_SRC_LINE(5730, 5719));
 }
 
 /*
@@ -4515,7 +4516,7 @@ int BTL_SERVER_FLOW_QueryMovePPCostEvent(BtlServerFlow *flow, struct BtlPokePara
     int i;
     struct BtlPokeParam *r;
     int res;
-    BTL_EVENT_PushVarFrame(0x16ef);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x16ef, 0x16e4));
     i = 0;
     BTL_EVENT_SetVarReadOnly(5, BTL_POKESET_GetCount(targetSet));
     r = BTL_POKESET_Get(targetSet, 0);
@@ -4532,7 +4533,7 @@ int BTL_SERVER_FLOW_QueryMovePPCostEvent(BtlServerFlow *flow, struct BtlPokePara
     BTL_EVENT_SetVar(0x20, 1);
     BTL_EVENT_DispatchEventChecked(flow, 0x4e);
     res = BTL_EVENT_GetVar(0x20);
-    BTL_EVENT_PopVarFrame(0x1704);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1704, 0x16F9));
     return res;
 }
 
@@ -4907,9 +4908,9 @@ void BTL_SERVER_FLOW_RemoveSelfProtectedTargets(BtlServerFlow *flow, struct BtlP
             if (BTL_SERVER_FLOW_QueryTypeImmunityEvent(flow, attacker, r, moveRecord) != 0) {
                 struct St *st = (struct St * )flow->curMoveTurnState;
                 if (st->f == 0) st->f = 1;
-                s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x197b);
+                s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x197b, 0x1970));
                 BTL_SERVER_FLOW_NotifyTypeImmunityEvent(flow, attacker, r);
-                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 0x197f);
+                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(0x197f, 0x1974));
                 BTL_POKESET_Remove(targetSet, r);
             }
             r = BTL_POKESET_SeekNext(targetSet);
@@ -4939,34 +4940,34 @@ u32 BTL_SERVER_FLOW_ClampDamageToHp(struct BtlPokeParam *poke, u32 damage)
  */
 void BTL_SERVER_FLOW_RunMoveHitEventLocked(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveRecord)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 6570);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(6570, 6559));
     BTL_SERVER_FLOW_RunMoveHitEvent(flow, attacker, defender, moveRecord);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 6570 + 4);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(6570, 6559) + 4);
 }
 
 void BTL_SERVER_FLOW_RunMoveHitEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveRecord)
 {
-    BTL_EVENT_PushVarFrame(0x19bd);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x19bd, 0x19b2));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
     BTL_EVENT_SetVarReadOnly(0x16, moveRecord->type);
     BTL_EVENT_DispatchEventChecked(flow, 0x45);
-    BTL_EVENT_PopVarFrame(0x19bd + 7);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x19bd, 0x19b2) + 7);
 }
 
 int BTL_SERVER_FLOW_CheckEndureEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, u32 flag, u16 *damage)
 {
     int r;
     if (BTL_POKEPARAM_GetValue(defender, 13) > *damage) return 0;
-    BTL_EVENT_PushVarFrame(0x19df);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x19df, 0x19d4));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x51, flag);
     BTL_EVENT_SetVarOnce(0x3a, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x74);
     r = BTL_EVENT_GetVar(0x3a);
-    BTL_EVENT_PopVarFrame(0x19df + 7);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x19df, 0x19d4) + 7);
     if (r != 0) *damage = BTL_POKEPARAM_GetValue(defender, 13) - 1;
     return r;
 }
@@ -4986,37 +4987,37 @@ void BTL_SERVER_FLOW_ProcDamageAftereffect(BtlServerFlow *flow, struct BtlPokePa
     case 3:
         break;
     }
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x1a04);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x1a04, 0x19f9));
     BTL_SERVER_FLOW_RunDamageAftereffectEvent(flow, pokeParam, k);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 0x1a07);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(0x1a07, 0x19fc));
 }
 
 void BTL_SERVER_FLOW_RunDamageAftereffectEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, int k)
 {
-    BTL_EVENT_PushVarFrame(0x1a17);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x1a17, 0x1a0c));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEventChecked(flow, 0x75);
-    BTL_EVENT_PopVarFrame(0x1a17 + 3);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1a17, 0x1a0c) + 3);
 }
 
 void BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(BtlServerFlow *flow, struct BtlMoveParam *moveRecord, struct BtlPokeParam *attacker, u32 count, struct BtlPokeParam **arr)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 6697);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(6697, 6686));
     BTL_SERVER_FLOW_RunTargetsDamagedEvent(flow, moveRecord, attacker, count, arr);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 6702);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(6702, 6691));
 }
 
 void BTL_SERVER_FLOW_RunTargetsDamagedEvent(BtlServerFlow *flow, struct BtlMoveParam *moveRecord, struct BtlPokeParam *attacker, u32 count, struct BtlPokeParam **arr)
 {
     u32 i;
-    BTL_EVENT_PushVarFrame(6719);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(6719, 6708));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(5, count);
     for (i = 0; i < count; i++) {
         BTL_EVENT_SetVarReadOnly(6 + i, BTL_POKEPARAM_GetPokeId(arr[i]));
     }
     BTL_EVENT_DispatchEventChecked(flow, 0x44);
-    BTL_EVENT_PopVarFrame(6727);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(6727, 6716));
 }
 
 /*
@@ -5064,55 +5065,55 @@ void BTL_SERVER_FLOW_ProcMoveCategoryEffect(BtlServerFlow *flow, struct BtlMoveP
 
 void BTL_SERVER_FLOW_RunDamageDealtEventLocked(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveRecord, u32 damage)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 6802);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(6802, 6791));
     BTL_SERVER_FLOW_RunDamageDealtEvent(flow, attacker, moveRecord, damage);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 6802 + 3);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(6802, 6791) + 3);
 }
 
 void BTL_SERVER_FLOW_RunDamageDealtEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveRecord, u32 damage)
 {
-    BTL_EVENT_PushVarFrame(6823);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(6823, 6812));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
     BTL_EVENT_SetVarReadOnly(0x16, moveRecord->type);
     BTL_EVENT_SetVarReadOnly(0x32, damage);
     BTL_EVENT_DispatchEventChecked(flow, 0x4d);
-    BTL_EVENT_PopVarFrame(6829);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(6829, 6818));
 }
 
 void BTL_SERVER_FLOW_ProcDamagedItemReaction(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 triggerKind)
 {
     if (BTL_POKEPARAM_GetItem(pokeParam)) {
-        u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 6844);
+        u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(6844, 6833));
         BTL_SERVER_FLOW_RunDamagedItemEvent(flow, pokeParam, triggerKind);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 6850);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(6850, 6839));
     }
 }
 
 void BTL_SERVER_FLOW_RunDamagedItemEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u32 triggerKind)
 {
-    BTL_EVENT_PushVarFrame(0x1acf);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x1acf, 0x1ac4));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x2e, triggerKind);
     BTL_EVENT_DispatchEventChecked(flow, 0x91);
-    BTL_EVENT_PopVarFrame(0x1acf + 4);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1acf, 0x1ac4) + 4);
 }
 
 void BTL_SERVER_FLOW_RunMoveUsedEventLocked(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveRecord)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 6874);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(6874, 6863));
     BTL_SERVER_FLOW_RunMoveUsedEvent(flow, attacker, moveRecord);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 6874 + 2);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(6874, 6863) + 2);
 }
 
 void BTL_SERVER_FLOW_RunMoveUsedEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveRecord)
 {
-    BTL_EVENT_PushVarFrame(6890);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(6890, 6879));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
     BTL_EVENT_SetVarReadOnly(0x16, moveRecord->type);
     BTL_EVENT_DispatchEventChecked(flow, 0x81);
-    BTL_EVENT_PopVarFrame(6897);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(6897, 6886));
 }
 
 void BTL_SERVER_FLOW_ProcMoveAfterDamageEvents(BtlServerFlow *flow, struct BtlMoveParam *moveRecord, struct BtlPokeParam *attacker, struct BtlPokeSet *targetSet, u32 unused, u32 sheerForceFlag)
@@ -5120,7 +5121,7 @@ void BTL_SERVER_FLOW_ProcMoveAfterDamageEvents(BtlServerFlow *flow, struct BtlMo
     u32 lock;
     struct BtlPokeParam *x;
     BTL_SERVER_FLOW_ThawTargetsHitByFireMove(flow, moveRecord, attacker, targetSet);
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x1b07);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x1b07, 0x1afc));
     BTL_SERVER_FLOW_RunMoveDamageGroupEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag, 0, 0x84);
     BTL_SERVER_FLOW_RunMoveDamageGroupEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag, 1, 0x83);
     BTL_SERVER_FLOW_RunMoveDamageGroupEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag, 0, 0x85);
@@ -5133,7 +5134,7 @@ void BTL_SERVER_FLOW_ProcMoveAfterDamageEvents(BtlServerFlow *flow, struct BtlMo
     BTL_SERVER_FLOW_RunMoveDamageGroupEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag, 0, 0x86);
     BTL_SERVER_FLOW_RunMoveDamageGroupEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag, 1, 0x87);
     BTL_SERVER_FLOW_RunMoveDamageEndEvent(flow, attacker, targetSet, moveRecord, sheerForceFlag);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x1b1b);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x1b1b, 0x1b10));
 }
 
 void BTL_SERVER_FLOW_RunMoveDamageGroupEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeSet *targetSet, struct BtlMoveParam *moveRecord, u32 sheerForceFlag, u8 usePlainDamage, int eventType)
@@ -5148,7 +5149,7 @@ void BTL_SERVER_FLOW_RunMoveDamageGroupEvent(BtlServerFlow *flow, struct BtlPoke
     n = BTL_POKESET_GetCount(targetSet);
     sum = 0;
     got = 0;
-    BTL_EVENT_PushVarFrame(0x1b2b);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x1b2b, 0x1b20));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x4d, sheerForceFlag);
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
@@ -5171,17 +5172,17 @@ void BTL_SERVER_FLOW_RunMoveDamageGroupEvent(BtlServerFlow *flow, struct BtlPoke
         BTL_EVENT_DispatchEventChecked(flow, 0x82);
         if (!BTL_EVENT_GetVar(0x48)) BTL_EVENT_DispatchEventChecked(flow, eventType);
     }
-    BTL_EVENT_PopVarFrame(0x1b52);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1b52, 0x1b47));
 }
 
 void BTL_SERVER_FLOW_RunMoveDamageEndEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, void *unused, struct BtlMoveParam *moveRecord, u32 sheerForceFlag)
 {
-    BTL_EVENT_PushVarFrame(7009);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7009, 6998));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x4d, sheerForceFlag);
     BTL_EVENT_SetVarReadOnly(0x12, moveRecord->moveId);
     BTL_EVENT_DispatchEventChecked(flow, 0x88);
-    BTL_EVENT_PopVarFrame(7014);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7014, 7003));
 }
 
 int BTL_SERVER_FLOW_ProcFlinchChance(BtlServerFlow *flow, struct BtlMoveParam *moveParam, struct BtlPokeParam *attacker, struct BtlPokeParam *target)
@@ -5218,9 +5219,9 @@ int BTL_SERVER_FLOW_RollFlinch(BtlServerFlow *flow, struct BtlPokeParam *target,
         return 1;
     }
     if (chance >= 100) {
-        u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7085);
+        u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7085, 7074));
         BTL_SERVER_FLOW_NotifyFlinchEvent(flow, target);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 7087);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(7087, 7076));
     }
     return 0;
 }
@@ -5236,7 +5237,7 @@ void BTL_SERVER_FLOW_ProcDrainHeal(BtlServerFlow *flow, struct BtlMoveParam *mov
 
 int BTL_SERVER_FLOW_RecoverHpFromDrain(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *target, u32 amount)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7154);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7154, 7143));
     int r = 0;
     u16 t = BTL_SERVER_FLOW_CalcDrainHealAmount(flow, attacker, target, amount);
     if (t) {
@@ -5244,7 +5245,7 @@ int BTL_SERVER_FLOW_RecoverHpFromDrain(BtlServerFlow *flow, struct BtlPokeParam 
             r = BTL_SERVER_FLOW_TryRecoverHp(flow, attacker, t, 1);
         }
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 7168);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(7168, 7157));
     return r;
 }
 
@@ -5269,7 +5270,7 @@ int BTL_SERVER_FLOW_CalcMoveDamage(BtlServerFlow *flow, struct BtlPokeParam *att
     u32 factor;
     u16 scale;
     u8 level;
-    BTL_EVENT_PushVarFrame(0x1c21);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x1c21, 0x1c16));
     BTL_EVENT_SetVarReadOnly(0x38, typeMatchup);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
@@ -5310,7 +5311,7 @@ int BTL_SERVER_FLOW_CalcMoveDamage(BtlServerFlow *flow, struct BtlPokeParam *att
         result = BTL_CALC_MulRatio((u32)BTL_EVENT_GetVar(0x32), factor);
     }
     BTL_EVENT_DispatchEventChecked(flow, 0x48);
-    BTL_EVENT_PopVarFrame(0x1c8d);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1c8d, 0x1c82));
     *out = result;
     return flag;
 }
@@ -5372,14 +5373,14 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(BtlServerFlow *flow, struct BtlPokePara
     u16 pos;
     u32 holdsItemParam;
     if (BTL_POSPOKE_IsPokeInside(&flow->posPoke, BTL_POKEPARAM_GetPokeId(pokeParam))) {
-        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x1cea);
+        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x1cea, 0x1cdf));
         if (BTL_SERVER_FLOW_RunItemActivateCheckEvent(flow, pokeParam, (u16)t) == 0) result = 1;
         if (result) {
             pos = BTL_SERVER_CMD_Reserve(flow->cmdQueue, 0x42);
-            v = BTL_SERVER_FLOW_SetHandExScopeState((Bf_td *)&flow->cmdLock, (u16)t, 0x1cf4);
+            v = BTL_SERVER_FLOW_SetHandExScopeState((Bf_td *)&flow->cmdLock, (u16)t, PM_SRC_LINE(0x1cf4, 0x1ce9));
             BTL_SERVER_FLOW_DispatchPostMoveEvent(flow, pokeParam);
             if (BTL_SERVER_FLOW_GetLockState(flow) != 2) result = 0;
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, v, 0x1cf9);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, v, PM_SRC_LINE(0x1cf9, 0x1cee));
             if (result) {
                 BTL_SERVER_CMD_FillReserved(flow->cmdQueue, pos, 0x42, BTL_POKEPARAM_GetPokeId(pokeParam));
 #ifdef __MWERKS__
@@ -5390,7 +5391,7 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(BtlServerFlow *flow, struct BtlPokePara
                 if (holdsItemParam) BTL_SERVER_FLOW_SetHeldItem(flow, pokeParam, 0, 1);
             }
         }
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 0x1d06);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(0x1d06, 0x1cfb));
     }
     return result;
 }
@@ -5398,13 +5399,13 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(BtlServerFlow *flow, struct BtlPokePara
 int BTL_SERVER_FLOW_RunItemActivateCheckEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, u16 itemId)
 {
     int r;
-    BTL_EVENT_PushVarFrame(7449);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7449, 7438));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(0x2d, itemId);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x90);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(7455);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7455, 7444));
     return r;
 }
 
@@ -5415,9 +5416,9 @@ void BTL_SERVER_FLOW_SetHeldItem(BtlServerFlow *flow, struct BtlPokeParam *pokeP
     int name;
     name = BTL_POKEPARAM_GetPokeId(pokeParam);
     t = (u16)(int)BTL_POKEPARAM_GetItem(pokeParam);
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7469);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7469, 7458));
     BTL_SERVER_FLOW_NotifyHeldItemSetEvent(flow, pokeParam, itemId);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 7471);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(7471, 7460));
     if (itemId == 0)
         BTL_SERVER_FLOW_SetContFlag(flow, pokeParam, 15);
     HAND_ITEM_RemoveUnforcedFactors(pokeParam);
@@ -5425,9 +5426,9 @@ void BTL_SERVER_FLOW_SetHeldItem(BtlServerFlow *flow, struct BtlPokeParam *pokeP
     BTL_POKEPARAM_SetItem(pokeParam, itemId);
     if (itemId != 0)
         HAND_ITEM_AddHeldItemFactor(pokeParam);
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7485);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7485, 7474));
     BTL_SERVER_FLOW_NotifyHeldItemClearedEvent(flow, pokeParam);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 7487);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(7487, 7476));
     if (consumeOld != 0) {
         BTL_POKEPARAM_ConsumeHeldItem(pokeParam, t);
         BTL_SERVER_CMD_Push(flow->cmdQueue, 0x17, name, t);
@@ -5477,7 +5478,7 @@ u32 BTL_SERVER_FLOW_RollMoveAddedSick(BtlServerFlow *flow, u16 moveId, struct Bt
 #endif
     rate = WAZA_TOOL_GetParam(moveId, 12);
     BTL_CALC_MakeSickContFromSpec(w, attacker, &out);
-    BTL_EVENT_PushVarFrame(0x1d7c);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x1d7c, 0x1d71));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
@@ -5491,7 +5492,7 @@ u32 BTL_SERVER_FLOW_RollMoveAddedSick(BtlServerFlow *flow, u16 moveId, struct Bt
     veto = BTL_EVENT_GetVar(0x41);
     if (result == 0xffff) result = 0;
     out.raw = BTL_EVENT_GetVar(0x1e);
-    BTL_EVENT_PopVarFrame(0x1d8f);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x1d8f, 0x1d84));
     if (!veto && result) {
         if (RollPercentBelow(rate)) {
             *dest = out;
@@ -5561,38 +5562,38 @@ int BTL_SERVER_FLOW_ProcMoveSickOnTarget(BtlServerFlow *flow, struct BtlPokePara
 int BTL_SERVER_FLOW_QueryMoveSickIdEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *target, BtlStrParam *msgRecord)
 {
     int r;
-    BTL_EVENT_PushVarFrame(7681);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7681, 7670));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(0x3f, (uptr)msgRecord);
     BTL_EVENT_SetVar(0x1d, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x60);
     r = BTL_EVENT_GetVar(0x1d);
-    BTL_EVENT_PopVarFrame(7688);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7688, 7677));
     return r;
 }
 
 void BTL_SERVER_FLOW_RunMoveSickSelectedEvent(BtlServerFlow *flow, u32 sickId, struct BtlPokeParam *attacker, struct BtlPokeParam *target, BtlStrParam *msgRecord)
 {
-    BTL_EVENT_PushVarFrame(7704);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7704, 7693));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(0x3f, (uptr)msgRecord);
     BTL_EVENT_SetVarReadOnly(0x1d, sickId);
     BTL_EVENT_DispatchEventChecked(flow, 0x61);
-    BTL_EVENT_PopVarFrame(7710);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7710, 7699));
 }
 
 void BTL_SERVER_FLOW_RunMoveSickContEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *target, u32 sickId, union SickCont *sickCont)
 {
-    BTL_EVENT_PushVarFrame(7726);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7726, 7715));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(0x1d, sickId);
     BTL_EVENT_SetVar(0x1e, sickCont->raw);
     BTL_EVENT_DispatchEventChecked(flow, 0x62);
     sickCont->raw = BTL_EVENT_GetVar(0x1e);
-    BTL_EVENT_PopVarFrame(7726 + 7);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7726, 7715) + 7);
 }
 
 int BTL_SERVER_FLOW_ApplyMoveSick(BtlServerFlow *flow, struct BtlPokeParam *target, struct BtlPokeParam *source, int sickId, union SickCont sickCont, u32 showFailMessage, u32 isCure)
@@ -5622,13 +5623,13 @@ int BTL_SERVER_FLOW_TryApplySick(BtlServerFlow *flow, struct BtlPokeParam *targe
             BTL_SERVER_FLOW_PushSickFailedMessage(flow, target, r, sickId);
         return 1;
     }
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7779);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7779, 7768));
     t = BTL_SERVER_FLOW_QuerySickBlockedEvent(flow, source, target, sickId);
     if (t != 0 && showFailMessage != 0) {
         BTL_SERVER_FLOW_RunSickAppliedEvent(flow, target, source, sickId);
         flow->stateFlags.raw |= 0x10;
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 7792);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(7792, 7781));
     return t;
 }
 
@@ -5676,14 +5677,14 @@ void BTL_SERVER_FLOW_ProcSickAdded(BtlServerFlow *flow, struct BtlPokeParam *tar
         HAND_TOKUSEI_AddAbilityHandlers(target);
         BTL_SERVER_FLOW_PushMsgSetPoke(flow, target, 222);
     }
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 7936);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(7936, 7925));
     if (BTL_CALC_HasDefaultSickCont(kind)) {
         BTL_SERVER_FLOW_RunSickAddedContEvent(flow, target, source, kind, value.raw);
     } else if (kind == 16) {
         BTL_SERVER_FLOW_RunSickEndEvent(flow, (target));
         if (BTL_POKEPARAM_GetValue(target, 17) == 127) BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(flow, target);
     } else BTL_SERVER_FLOW_RunSickAddedEvent(flow, target, source, kind);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 7951);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(7951, 7940));
     if (!skipItemReaction) BTL_SERVER_FLOW_ProcDamagedItemReaction(flow, target, 3);
 }
 
@@ -5691,12 +5692,12 @@ int BTL_SERVER_FLOW_GetEffectiveWeather(BtlServerFlow *flow)
 {
     int r;
     int t;
-    BTL_EVENT_PushVarFrame(7971);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7971, 7960));
     BTL_EVENT_SetVarOnce(0x41, 0);
     r = 0;
     BTL_EVENT_DispatchEventChecked(flow, 0x7a);
     t = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(7975);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(7975, 7964));
     if (t == 0)
         r = BTL_FIELD_GetCountdownValue();
     return r;
@@ -5705,66 +5706,66 @@ int BTL_SERVER_FLOW_GetEffectiveWeather(BtlServerFlow *flow)
 int BTL_SERVER_FLOW_QueryPokeMultiplierEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(7997);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(7997, 7986));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarRanged(0x35, 2 << 11, 410, 2 << 16);
     BTL_EVENT_DispatchEventChecked(flow, 0x7B);
     r = BTL_EVENT_GetVar(0x35);
-    BTL_EVENT_PopVarFrame(8002);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8002, 7991));
     return r;
 }
 
 int BTL_SERVER_FLOW_QuerySickBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *source, struct BtlPokeParam *target, u32 sickId)
 {
     int r;
-    BTL_EVENT_PushVarFrame(8021);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8021, 8010));
     BTL_EVENT_SetVarReadOnly(3, source ? BTL_POKEPARAM_GetPokeId(source) : 0x1F);
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(0x1D, sickId);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x65);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(8028);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8028, 8017));
     return r;
 }
 
 void BTL_SERVER_FLOW_RunSickAppliedEvent(BtlServerFlow *flow, struct BtlPokeParam *target, struct BtlPokeParam *source, u32 sickId)
 {
-    BTL_EVENT_PushVarFrame(8042);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8042, 8031));
     BTL_EVENT_SetVar(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVar(3, BTL_POKEPARAM_GetPokeId(source));
     BTL_EVENT_SetVar(0x1D, sickId);
     BTL_EVENT_DispatchEventChecked(flow, 0x67);
-    BTL_EVENT_PopVarFrame(8047);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8047, 8036));
 }
 
 void BTL_SERVER_FLOW_RunSickAddedContEvent(BtlServerFlow *flow, struct BtlPokeParam *target, struct BtlPokeParam *source, u32 sickId, u32 sickCont)
 {
-    BTL_EVENT_PushVarFrame(8062);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8062, 8051));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(3, (u8)(source ? BTL_POKEPARAM_GetPokeId(source) : 0x1F));
     BTL_EVENT_SetVarReadOnly(0x1D, sickId);
     BTL_EVENT_SetVarReadOnly(0x1E, sickCont);
     BTL_EVENT_DispatchEventChecked(flow, 0x68);
-    BTL_EVENT_PopVarFrame(8071);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8071, 8060));
 }
 
 void BTL_SERVER_FLOW_RunSickAddedEvent(BtlServerFlow *flow, struct BtlPokeParam *target, struct BtlPokeParam *source, u32 sickId)
 {
-    BTL_EVENT_PushVarFrame(8085);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8085, 8074));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(3, (u8)(source ? BTL_POKEPARAM_GetPokeId(source) : 0x1F));
     BTL_EVENT_SetVarReadOnly(0x1D, sickId);
     BTL_EVENT_DispatchEventChecked(flow, 0x69);
-    BTL_EVENT_PopVarFrame(8093);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8093, 8082));
 }
 
 void BTL_SERVER_FLOW_RunSickEndEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam)
 {
-    BTL_EVENT_PushVarFrame(8105);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8105, 8094));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_DispatchEvent(flow, 0x6a);
-    BTL_EVENT_PopVarFrame(8108);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8108, 8097));
 }
 
 /*
@@ -5783,7 +5784,7 @@ int BTL_SERVER_FLOW_RollMoveAddedEffectChance(BtlServerFlow *flow, struct BtlMov
     u8 s, x, y;
     u32 t;
     s = WAZA_TOOL_GetParam(moveParam->moveId, 0x12);
-    BTL_EVENT_PushVarFrame(8142);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8142, 8131));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
@@ -5793,7 +5794,7 @@ int BTL_SERVER_FLOW_RollMoveAddedEffectChance(BtlServerFlow *flow, struct BtlMov
     BTL_EVENT_DispatchEventChecked(flow, 0x51);
     x = BTL_EVENT_GetVar(0x41);
     y = BTL_EVENT_GetVar(0x26);
-    BTL_EVENT_PopVarFrame(8152);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8152, 8141));
     if (x == 0) {
         if (BTL_CALC_Random(100) < y)
             t = 1;
@@ -5855,9 +5856,9 @@ int BTL_SERVER_FLOW_ProcMoveRankEffects(BtlServerFlow *flow, const struct BtlMov
                 }
             }
             if (ok) {
-                lock = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, 8247);
+                lock = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)&flow->cmdLock, PM_SRC_LINE(8247, 8236));
                 BTL_SERVER_FLOW_NotifyMoveRankEffectEvent(flow, target, moveParam->moveId, kind, value);
-                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 8249);
+                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(8249, 8238));
                 result = 1;
             }
         }
@@ -5869,7 +5870,7 @@ void BTL_SERVER_FLOW_QueryMoveRankEffectEvent(BtlServerFlow *flow, u16 moveId, u
 {
     u32 m;
     *outKind = WAZA_TOOL_GetRankEffect(moveId, index, outValue);
-    BTL_EVENT_PushVarFrame(8275);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8275, 8264));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_SetVar(0x1F, *outKind);
@@ -5881,7 +5882,7 @@ void BTL_SERVER_FLOW_QueryMoveRankEffectEvent(BtlServerFlow *flow, u16 moveId, u
     m = (u8)BTL_EVENT_GetVar(0x35);
     if (m > 1)
         *outValue = *outValue * m;
-    BTL_EVENT_PopVarFrame(8290);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8290, 8279));
     if (*outKind == 8)
         *outKind = 0;
 }
@@ -5912,14 +5913,14 @@ int BTL_SERVER_FLOW_TryChangeStatStage(BtlServerFlow *flow, u8 attackerId, struc
     result = 1;
     if (BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent(flow, target, statKind, attackerId, value, flags)) {
         BTL_SERVER_FLOW_ChangeStatStage(flow, target, statKind, value, customMsg, showMessage);
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 8349);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(8349, 8338));
         BTL_SERVER_FLOW_NotifyStatStageChangedEvent(flow, attackerId, target, statKind, value);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 8351);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(8351, 8340));
     } else {
         if (showFailMessage) {
-            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 8358);
+            lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(8358, 8347));
             BTL_SERVER_FLOW_NotifyStatStageChangeBlockedEvent(flow, target, flags);
-            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 8360);
+            BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(8360, 8349));
         }
         result = 0;
     }
@@ -5934,14 +5935,14 @@ int BTL_SERVER_FLOW_TryChangeStatStage(BtlServerFlow *flow, u8 attackerId, struc
  */
 int BTL_SERVER_FLOW_QueryStatStageChangeEvent(BtlServerFlow *flow, struct BtlPokeParam *pokeParam, enum BtlServerStatKind statKind, u8 sourceId, u16 customMsg, int value)
 {
-    BTL_EVENT_PushVarFrame(8385);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8385, 8374));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(pokeParam));
     BTL_EVENT_SetVarReadOnly(3, sourceId);
     BTL_EVENT_SetVarReadOnly(0x1F, statKind);
     BTL_EVENT_SetVarOnce(0x20, value);
     BTL_EVENT_DispatchEventChecked(flow, 0x5A);
     value = BTL_EVENT_GetVar(0x20);
-    BTL_EVENT_PopVarFrame(8392);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8392, 8381));
     return value;
 }
 
@@ -6075,7 +6076,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(BtlServerFlow *flow, struct BtlMoveParam *move
             BTL_SERVER_FLOW_PushActionFailedMessage(flow, b);
             continue;
         }
-        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x216b);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x216b, 0x2160));
         if (BTL_SERVER_FLOW_CheckOneHitKoHit(flow, attacker, b, moveParam->moveId)) {
             tag = BTL_POSPOKE_SearchPosByPokeId(&flow->posPoke, BTL_POKEPARAM_GetPokeId(attacker));
             half = BTL_POKEPARAM_GetValue(b, 13);
@@ -6105,7 +6106,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(BtlServerFlow *flow, struct BtlMoveParam *move
         } else if (!BTL_SERVER_FLOW_GetLockState(flow)) {
             BTL_SERVER_FLOW_PushMoveBlockedMessage(flow, b, moveParam->moveId);
         }
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x219c);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x219c, 0x2191));
     }
 }
 
@@ -6186,10 +6187,10 @@ int BTL_SERVER_FLOW_TryForceSwitchTarget(BtlServerFlow *flow, struct BtlPokePara
     if (BTL_POKEPARAM_IsFainted(target)) return 0;
     if (BTL_POKEPARAM_HasSick(target, 33)) return 0;
     if (NormalizeCounterToPokeId(BTL_POKEPARAM_GetCounter(target, 4)) != 31) return 0;
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 8732);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(8732, 8721));
     blocked = BTL_SERVER_FLOW_QueryForceSwitchBlockedEvent(flow, user, target);
     if (blocked && BTL_SERVER_FLOW_GetLockState(flow)) *out = 1;
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 8740);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(8740, 8729));
     if (blocked) return 0;
     BTL_MAIN_GetSlotClientAndNth(flow->mainModule, position, &pair.id, &pair.count);
     if (mode == M1) {
@@ -6259,13 +6260,13 @@ int BTL_SERVER_FLOW_PickRandomBenchPoke(BtlServerFlow *flow, BtlServerClient *cl
 int BTL_SERVER_FLOW_QueryForceSwitchBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *user, struct BtlPokeParam *target)
 {
     int r;
-    BTL_EVENT_PushVarFrame(8877);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8877, 8866));
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(target));
     BTL_EVENT_DispatchEventChecked(flow, 0x8b);
     BTL_SICK_ShowIngrainRoots(flow, target);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(8883);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8883, 8872));
     return r;
 }
 
@@ -6284,10 +6285,10 @@ void BTL_SERVER_FLOW_ProcMoveWeather(BtlServerFlow *flow, struct BtlMoveParam *m
     } else {
         u32 s;
         int e;
-        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x22c8);
+        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x22c8, 0x22bd));
         BTL_SERVER_FLOW_DispatchPokeMoveEvent(flow, pokeParam, moveParam->moveId);
         e = (BTL_SERVER_FLOW_GetLockState(flow) == 2);
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 0x22cc);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(0x22cc, 0x22c1));
         if (e) {
             Q_p10 *q = (Q_p10 * )flow->curMoveTurnState;
             if (!q->f)
@@ -6330,7 +6331,7 @@ void BTL_SERVER_FLOW_ApplyWeatherChange(BtlServerFlow *flow, u32 weather, u32 tu
 void BTL_SERVER_FLOW_ProcWeatherChanged(BtlServerFlow *flow, u32 weather)
 {
     u32 old;
-    int line = 0x2303;
+    int line = PM_SRC_LINE(0x2303, 0x22F8);
     old = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, line);
     BTL_SERVER_FLOW_DispatchWeatherChangedEvent(flow, weather);
     BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, old, line + 2);
@@ -6339,13 +6340,13 @@ void BTL_SERVER_FLOW_ProcWeatherChanged(BtlServerFlow *flow, u32 weather)
 u8 BTL_SERVER_FLOW_QueryWeatherPokeEvent(BtlServerFlow *flow, int weather, struct BtlPokeParam *poke)
 {
     u8 r;
-    BTL_EVENT_PushVarFrame(8983);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(8983, 8972));
     BTL_EVENT_SetVarReadOnly(0x39, weather);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x24, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x7c);
     r = BTL_EVENT_GetVar(0x24);
-    BTL_EVENT_PopVarFrame(8989);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(8989, 8978));
     return r;
 }
 
@@ -6374,7 +6375,7 @@ int BTL_SERVER_FLOW_TryRegisterFieldSlot(BtlServerFlow *flow, int slotKind, unio
 
 void BTL_SERVER_FLOW_DispatchPokeMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, int moveId)
 {
-    int line = 0x2360;
+    int line = PM_SRC_LINE(0x2360, 0x2355);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVar(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x12, moveId);
@@ -6402,7 +6403,7 @@ void BTL_SERVER_FLOW_ProcMoveSpecialEffect(BtlServerFlow *flow, struct BtlMovePa
         }
         return;
     default:
-        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9087);
+        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(9087, 9076));
         r = BTL_SERVER_FLOW_GetLockState(flow);
         if (BTL_SERVER_FLOW_DispatchMoveFailCheck(flow, moveParam, attacker, targets, &out)) {
             r = BTL_SERVER_FLOW_GetLockState(flow);
@@ -6414,7 +6415,7 @@ void BTL_SERVER_FLOW_ProcMoveSpecialEffect(BtlServerFlow *flow, struct BtlMovePa
         if (r <= 1 && out != 0 && flow->stateFlags.bits.failMessageShown == 0) {
             BTL_SERVER_CMD_PushVariable(flow->cmdQueue, 0x5a, 0x47, 0xffff0000);
         }
-        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9113);
+        BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(9113, 9102));
     }
 }
 
@@ -6435,7 +6436,7 @@ void BTL_SERVER_FLOW_ProcSkillSwap(BtlServerFlow *flow, struct BtlPokeParam *att
         if (f->a == 0) f->a = 1;
         BTL_SERVER_CMD_Push(flow->cmdQueue, 0x4a, ai, bi, (u16)y, (u16)x);
         BTL_SERVER_CMD_PushVariable(flow->cmdQueue, 0x5b, 0x1fc, ai, 0xffff0000);
-        line = 9140;
+        line = PM_SRC_LINE(9140, 9129);
         s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, line);
         BTL_SERVER_FLOW_NotifyAbilityChangeEvent(flow, ai, x, y);
         BTL_SERVER_FLOW_NotifyAbilityChangeEvent(flow, bi, y, x);
@@ -6535,15 +6536,15 @@ void BTL_SERVER_FLOW_RemoveSubstitute(BtlServerFlow *flow, struct BtlPokeParam *
 
 void BTL_SERVER_FLOW_ProcDamageEndEvents(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveParam, u32 typeAffinity, u32 damage, u32 criticalFlag, u32 hitSubstituteFlag)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9310);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(9310, 9299));
     BTL_SERVER_FLOW_DispatchDamageEndEvents(flow, attacker, defender, moveParam, typeAffinity, damage, criticalFlag, hitSubstituteFlag);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9313);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(9313, 9302));
 }
 
 void BTL_SERVER_FLOW_DispatchDamageEndEvents(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveParam, u32 typeAffinity, u32 damage, u32 criticalFlag, u32 hitSubstituteFlag)
 {
     u8 x = BTL_POKEPARAM_GetPokeId(defender);
-    BTL_EVENT_PushVarFrame(9335);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(9335, 9324));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, x);
     BTL_EVENT_SetVarReadOnly(0x14, moveParam->origMoveId);
@@ -6558,7 +6559,7 @@ void BTL_SERVER_FLOW_DispatchDamageEndEvents(BtlServerFlow *flow, struct BtlPoke
     BTL_EVENT_DispatchEventChecked(flow, 0x4a);
     BTL_EVENT_DispatchEventChecked(flow, 0x4b);
     BTL_EVENT_DispatchEventChecked(flow, 0x4c);
-    BTL_EVENT_PopVarFrame(9352);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(9352, 9341));
 }
 
 int BTL_SERVER_FLOW_DispatchMoveFailCheck(BtlServerFlow *flow, struct BtlMoveParam *moveParam, struct BtlPokeParam *attacker, struct BtlPokeSet *targets, int *eventResult)
@@ -6566,7 +6567,7 @@ int BTL_SERVER_FLOW_DispatchMoveFailCheck(BtlServerFlow *flow, struct BtlMovePar
     u8 n1;
     u8 n2;
     u8 i;
-    BTL_EVENT_PushVarFrame(9370);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(9370, 9359));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     n1 = BTL_POKESET_GetCountMax(targets);
     n2 = BTL_POKESET_GetCount(targets);
@@ -6584,7 +6585,7 @@ int BTL_SERVER_FLOW_DispatchMoveFailCheck(BtlServerFlow *flow, struct BtlMovePar
         BTL_EVENT_DispatchEventChecked(flow, 0xa1);
     }
     *eventResult = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(9402);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(9402, 9391));
     if (BTL_SERVER_FLOW_GetLockState(flow) != 0) {
         return 1;
     }
@@ -6757,16 +6758,16 @@ int BTL_SERVER_FLOW_ProcTurnCheckPhase(BtlServerFlow *flow, struct BtlPokeSet *s
     u32 s;
     struct BtlPokeParam *q;
     BTL_POKESET_SeekStart(set);
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9644);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(9644, 9633));
     BTL_SERVER_FLOW_DispatchTurnCheckEvent(flow, 0x1f, eventId);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9646);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(9646, 9635));
     if (BTL_SERVER_FLOW_CheckShowdown(flow) == 0) {
         q = BTL_POKESET_SeekNext(set);
         if (q != 0) {
             do {
-                s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9652);
+                s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(9652, 9641));
                 BTL_SERVER_FLOW_DispatchTurnCheckEvent(flow, BTL_POKEPARAM_GetPokeId(q), eventId);
-                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9654);
+                BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(9654, 9643));
                 BTL_SERVER_FLOW_ProcFaintedPoke(flow, q);
                 if (BTL_SERVER_FLOW_CheckShowdown(flow) != 0) {
                     break;
@@ -6780,10 +6781,10 @@ int BTL_SERVER_FLOW_ProcTurnCheckPhase(BtlServerFlow *flow, struct BtlPokeSet *s
 
 void BTL_SERVER_FLOW_DispatchTurnCheckEvent(BtlServerFlow *flow, u32 pokeId, int eventId)
 {
-    BTL_EVENT_PushVarFrame(9667);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(9667, 9656));
     BTL_EVENT_SetVarReadOnly(2, pokeId);
     BTL_EVENT_DispatchEventChecked(flow, eventId);
-    BTL_EVENT_PopVarFrame(9670);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(9670, 9659));
 }
 
 /*
@@ -6797,6 +6798,7 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(BtlServerFlow *flow, struct BtlPokeSet
     u32 i, n, k, s;
     u32 q;
     struct BtlPokeParam *m;
+#if LANGUAGE != LANGUAGE_JAPANESE
     list[0] = 0;
     list[1] = 0;
     list[2] = 0;
@@ -6805,6 +6807,10 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(BtlServerFlow *flow, struct BtlPokeSet
     list[5] = 0;
     i = 0;
     n = BTL_POKESET_GetCount(set);
+#else
+    n = BTL_POKESET_GetCount(set);
+    i = 0;
+#endif
     for (; i < n; i++) list[i] = BTL_POKEPARAM_GetPokeId(BTL_POKESET_Get(set, i));
     k = 0;
     for (;;) {
@@ -6814,9 +6820,9 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(BtlServerFlow *flow, struct BtlPokeSet
             m = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, list[i]);
             if (BTL_POKEPARAM_IsFainted(m) == 0) {
                 if (BTL_POKEPARAM_TickSickCont(m, (u32)q, (union SickCont *)(&y), (int *)(&x))) {
-                    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 9719);
+                    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(9719, 9698));
                     BTL_SICK_ProcAddedOrTurnEnd(m, q, y, x, flow);
-                    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, 9721);
+                    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, s, PM_SRC_LINE(9721, 9700));
                 }
             }
         }
@@ -6830,7 +6836,7 @@ void BTL_SERVER_FLOW_ProcSickDamage(BtlServerFlow *flow, struct BtlPokeParam *po
 {
     u32 lock;
     int r;
-    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x261b);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x261b, 0x2606));
     r = BTL_SERVER_FLOW_CalcSickDamage(flow, poke, sickKind, baseDamage);
     if (r && BTL_SERVER_FLOW_CheckAbsorbRecoverAllowed(flow, poke, r)) {
         switch (sickKind) {
@@ -6845,19 +6851,19 @@ void BTL_SERVER_FLOW_ProcSickDamage(BtlServerFlow *flow, struct BtlPokeParam *po
         BTL_SICK_BuildDamageMessage(&flow->msgRecord, poke, sickKind);
         BTL_SERVER_FLOW_ProcAbsorbRecovery(flow, poke, r, &flow->msgRecord);
     }
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, 0x263b);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, lock, PM_SRC_LINE(0x263b, 0x2626));
 }
 
 int BTL_SERVER_FLOW_CalcSickDamage(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 sickKind, u32 baseDamage)
 {
     int r;
-    BTL_EVENT_PushVarFrame(9801);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(9801, 9780));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x1d, sickKind);
     BTL_EVENT_SetVar(0x32, baseDamage);
     BTL_EVENT_DispatchEventChecked(flow, 0x6b);
     r = BTL_EVENT_GetVar(0x32);
-    BTL_EVENT_PopVarFrame(9807);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(9807, 9786));
     return r;
 }
 
@@ -6970,11 +6976,11 @@ int BTL_SERVER_FLOW_ProcWeatherTurnCheck(BtlServerFlow *flow, struct BtlPokeSet 
     BTL_POKESET_SeekStart(set);
     a = BTL_POKESET_SeekNext(set);
     if (a) {
-        line = 0x26c6;
+        line = PM_SRC_LINE(0x26c6, 0x26b1);
         line += 12;
         do {
             if (!BTL_POKEPARAM_IsFainted(a) && !BTL_POKEPARAM_TestContFlag(a, 5) && !BTL_POKEPARAM_TestContFlag(a, 4)) {
-                lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x26c6);
+                lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x26c6, 0x26b1));
                 r = BTL_SERVER_FLOW_CalcWeatherDamage(flow, a, mode, BTL_CALC_GetWeatherDamage(a, mode));
                 if (r) {
                     BTL_SERVER_FLOW_ApplyWeatherDamage(flow, a, mode, r);
@@ -6995,7 +7001,7 @@ int BTL_SERVER_FLOW_CalcWeatherDamage(BtlServerFlow *flow, struct BtlPokeParam *
     u8 f;
     int r;
     int s;
-    BTL_EVENT_PushVarFrame(9960);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(9960, 9939));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x39, weather);
     r = 0;
@@ -7004,7 +7010,7 @@ int BTL_SERVER_FLOW_CalcWeatherDamage(BtlServerFlow *flow, struct BtlPokeParam *
     BTL_EVENT_DispatchEventChecked(flow, 0x7f);
     s = BTL_EVENT_GetVar(0x32);
     f = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(9969);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(9969, 9948));
     if (f == 0) {
         r = s;
     }
@@ -7135,7 +7141,7 @@ void BTL_SERVER_FLOW_ProcPokeLeaveField(BtlServerFlow *flow, struct BtlPokeParam
 
 void BTL_SERVER_FLOW_DispatchPokeLeaveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 0x27DF;
+    int line = PM_SRC_LINE(0x27DF, 0x27CA);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 0xA3);
@@ -7198,7 +7204,9 @@ int BTL_SERVER_FLOW_ApplyPartyExp(BtlServerFlow *flow, struct BtlSideSlot *party
         cmd = entry->flag ? 0x2b : 0x2a;
         k = BTL_POKEPARAM_GetPokeId(a);
         BTL_SERVER_CMD_PushVariable(flow->cmdQueue, 0x5a, (u16)cmd, k, value, 0xffff0000);
+#if LANGUAGE != LANGUAGE_JAPANESE
         BTL_SERVER_CMD_Push(flow->cmdQueue, 0x3e, k, expTable->a, expTable->b, expTable->c, expTable->d, expTable->e, expTable->f);
+#endif
         remaining = value;
         while (BTL_POKEPARAM_AddExp(a, &remaining, &flow->levelUpResult)) {}
         BTL_SERVER_CMD_Push(flow->cmdQueue, 0x45, k, value);
@@ -7718,10 +7726,10 @@ int BTL_SERVER_FLOW_ProcPursuitBeforeSwitch(BtlServerFlow *flow, struct BtlPokeP
         }
     }
     flow->frontOrderCount = 0;
-    BTL_EVENT_PushVarFrame(11288);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11288, 11255));
     BTL_EVENT_SetVarReadOnly(6, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 0x53);
-    BTL_EVENT_PopVarFrame(11291);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11291, 11258));
     for (i = 0; i < flow->numActOrder; i++) {
         u16 key;
         if (flow->actOrder[i].flag) {
@@ -7736,7 +7744,7 @@ int BTL_SERVER_FLOW_ProcPursuitBeforeSwitch(BtlServerFlow *flow, struct BtlPokeP
 int BTL_SERVER_FLOW_QueryForcedMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 unused, u32 slot, struct O_p11 *result)
 {
     int t;
-    int line = 11327;
+    int line = PM_SRC_LINE(11327, 11294);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0xE, slot);
@@ -7754,22 +7762,22 @@ int BTL_SERVER_FLOW_QueryForcedMoveEvent(BtlServerFlow *flow, struct BtlPokePara
 u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
     u8 r;
-    BTL_EVENT_PushVarFrame(11357);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11357, 11324));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarOnce(0x11, 1);
     BTL_EVENT_DispatchEventChecked(flow, 0xF);
     r = BTL_EVENT_GetVar(0x11);
-    BTL_EVENT_PopVarFrame(11362);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11362, 11329));
     return r;
 }
 
 void BTL_SERVER_FLOW_NotifyMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, unsigned int moveId)
 {
-    BTL_EVENT_PushVarFrame(11378);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11378, 11345));
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x12, moveId);
     BTL_EVENT_DispatchEventChecked(flow, 0x15);
-    BTL_EVENT_PopVarFrame(11382);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11382, 11349));
 }
 
 u32 BTL_SERVER_FLOW_ProcConfusionDamage(BtlServerFlow *flow, struct BtlPokeParam *poke)
@@ -7796,7 +7804,7 @@ u32 BTL_SERVER_FLOW_ProcConfusionDamage(BtlServerFlow *flow, struct BtlPokeParam
 int BTL_SERVER_FLOW_QueryActionMessageEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 unused, u32 moveId, BtlStrParam *msgParam)
 {
     int r;
-    int line = 11440;
+    int line = PM_SRC_LINE(11440, 11407);
     BTL_SERVER_FLOW_ClearMsgRecord(msgParam);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
@@ -7822,7 +7830,7 @@ int BTL_SERVER_FLOW_QueryActionMessageEvent(BtlServerFlow *flow, struct BtlPokeP
  */
 void BTL_SERVER_FLOW_GetMoveParam(BtlServerFlow *flow, u16 moveId, struct BtlPokeParam *attacker, struct BtlMoveParam *moveParam)
 {
-    int line = 11464;
+    int line = PM_SRC_LINE(11464, 11431);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarOnce(0x16, WAZA_TOOL_GetType(moveId));
@@ -7841,17 +7849,17 @@ void BTL_SERVER_FLOW_GetMoveParam(BtlServerFlow *flow, u16 moveId, struct BtlPok
     if (BTL_EVENT_GetVar(0x4B) != 0) {
         moveParam->type = 0x11;
     }
-    BTL_EVENT_PopVarFrame(11493);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11493, 11460));
 }
 
 void BTL_SERVER_FLOW_DispatchMoveDoneEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 moveId, u32 value)
 {
-    BTL_EVENT_PushVarFrame(11508);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11508, 11475));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(0x22, value);
     BTL_EVENT_DispatchEventChecked(flow, 0x21);
-    BTL_EVENT_PopVarFrame(11513);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11513, 11480));
 }
 
 int BTL_SERVER_FLOW_QueryMoveExecuteEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, u32 moveId, struct BtlPokeSet *targets)
@@ -7861,7 +7869,7 @@ int BTL_SERVER_FLOW_QueryMoveExecuteEvent(BtlServerFlow *flow, struct BtlPokePar
     int r;
     u16 t;
     n = BTL_POKESET_GetCount(targets);
-    BTL_EVENT_PushVarFrame(11533);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11533, 11500));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(5, n);
@@ -7873,7 +7881,7 @@ int BTL_SERVER_FLOW_QueryMoveExecuteEvent(BtlServerFlow *flow, struct BtlPokePar
     BTL_EVENT_DispatchEventChecked(flow, 0x24);
     r = BTL_EVENT_GetVar(0x3E);
     t = BTL_EVENT_GetVar(0x13);
-    BTL_EVENT_PopVarFrame(11550);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11550, 11517));
     if (t != 0) {
         *(u16 *)flow->curMoveTurnState = t;
     }
@@ -7883,12 +7891,12 @@ int BTL_SERVER_FLOW_QueryMoveExecuteEvent(BtlServerFlow *flow, struct BtlPokePar
 int BTL_SERVER_FLOW_QueryActionCancelEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, struct BtlPokeParam *target, u16 moveId)
 {
     int r;
-    BTL_EVENT_PushVarFrame(11574);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11574, 11541));
     BTL_EVENT_SetVar(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x2E);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(11579);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11579, 11546));
     return r;
 }
 
@@ -7897,26 +7905,26 @@ int BTL_SERVER_FLOW_QueryFirstTargetBlockEvent(BtlServerFlow *flow, struct BtlPo
     struct BtlPokeParam *q;
     int r;
     q = BTL_POKESET_Get(targets, 0);
-    BTL_EVENT_PushVarFrame(11599);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11599, 11566));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, q ? BTL_POKEPARAM_GetPokeId(q) : 0x1F);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x93);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(11605);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11605, 11572));
     return r;
 }
 
 int BTL_SERVER_FLOW_QueryMoveBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, u32 moveId)
 {
     int r;
-    BTL_EVENT_PushVarFrame(11622);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11622, 11589));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x94);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(11628);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11628, 11595));
     return r;
 }
 
@@ -7926,7 +7934,7 @@ int BTL_SERVER_FLOW_QueryMoveRedirectEvent(BtlServerFlow *flow, struct BtlPokePa
     u32 i;
     int t;
     n = BTL_POKESET_GetCount(targets);
-    BTL_EVENT_PushVarFrame(11648);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11648, 11615));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(5, n);
     if (n != 0) {
@@ -7947,24 +7955,24 @@ int BTL_SERVER_FLOW_QueryMoveRedirectEvent(BtlServerFlow *flow, struct BtlPokePa
     }
     *out32 = BTL_EVENT_GetVar(0x4F);
     t = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(11677);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11677, 11644));
     return t == 0;
 }
 
 void BTL_SERVER_FLOW_NotifyMoveBeginEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    BTL_EVENT_PushVarFrame(11692);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11692, 11659));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 0x96);
-    BTL_EVENT_PopVarFrame(11695);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11695, 11662));
 }
 
 void BTL_SERVER_FLOW_NotifyMoveFinishEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, int moveId)
 {
-    BTL_EVENT_PushVarFrame(11709);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11709, 11676));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 0x97);
-    BTL_EVENT_PopVarFrame(11712);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11712, 11679));
 }
 
 int BTL_SERVER_FLOW_QueryMoveTargetsAllowedEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeSet *targets, u16 moveId)
@@ -7973,7 +7981,7 @@ int BTL_SERVER_FLOW_QueryMoveTargetsAllowedEvent(BtlServerFlow *flow, struct Btl
     u32 i;
     u8 t;
     n = BTL_POKESET_GetCount(targets);
-    BTL_EVENT_PushVarFrame(11731);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11731, 11698));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_SetVarReadOnly(5, n);
@@ -7982,7 +7990,7 @@ int BTL_SERVER_FLOW_QueryMoveTargetsAllowedEvent(BtlServerFlow *flow, struct Btl
     }
     BTL_EVENT_DispatchEventChecked(flow, 0x98);
     t = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(11742);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11742, 11709));
     return t == 0;
 }
 
@@ -7991,14 +7999,14 @@ int BTL_SERVER_FLOW_QuerySemiInvulnerableHit(BtlServerFlow *flow, struct BtlPoke
     int r = 0;
     u32 t = BTL_POKEPARAM_GetSemiInvulnerableFlag(defender);
     if (t != 0x10) {
-        BTL_EVENT_PushVarFrame(11765);
+        BTL_EVENT_PushVarFrame(PM_SRC_LINE(11765, 11732));
         BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
         BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
         BTL_EVENT_SetVarReadOnly(0x21, t);
         BTL_EVENT_SetVarOnce(0x42, 1);
         BTL_EVENT_DispatchEventChecked(flow, 0x99);
         if (BTL_EVENT_GetVar(0x42)) r = 1;
-        BTL_EVENT_PopVarFrame(11775);
+        BTL_EVENT_PopVarFrame(PM_SRC_LINE(11775, 11742));
     }
     return r;
 }
@@ -8007,12 +8015,12 @@ int BTL_SERVER_FLOW_CheckSureHit(BtlServerFlow *flow, struct BtlPokeParam *attac
 {
     int r = WAZA_TOOL_IsAlwaysHit(moveId);
     if (r == 0) {
-        BTL_EVENT_PushVarFrame(0x2E15);
+        BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x2E15, 0x2DF4));
         BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
         BTL_EVENT_SetVarOnce(0x51, 0);
         BTL_EVENT_DispatchEventChecked(flow, 0x32);
         r = BTL_EVENT_GetVar(0x51);
-        BTL_EVENT_PopVarFrame(0x2E1A);
+        BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x2E1A, 0x2DF9));
     }
     return r;
 }
@@ -8021,7 +8029,7 @@ int BTL_SERVER_FLOW_CalcAccuracyRatio(BtlServerFlow *flow, struct BtlPokeParam *
 {
     int x, y;
     u32 t = WAZA_TOOL_GetParam(moveParam->moveId, 4);
-    BTL_EVENT_PushVarFrame(0x2E2F);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x2E2F, 0x2E0E));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
@@ -8031,7 +8039,7 @@ int BTL_SERVER_FLOW_CalcAccuracyRatio(BtlServerFlow *flow, struct BtlPokeParam *
     BTL_EVENT_DispatchEventChecked(flow, 0x34);
     x = BTL_EVENT_GetVar(0x2b);
     y = BTL_EVENT_GetVar(0x35);
-    BTL_EVENT_PopVarFrame(0x2E39);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x2E39, 0x2E18));
     return BTL_CALC_MulRatio(x, y);
 }
 
@@ -8042,14 +8050,14 @@ int BTL_SERVER_FLOW_CheckOneHitKoHit(BtlServerFlow *flow, struct BtlPokeParam *a
     x = BTL_POKEPARAM_GetValue(attacker, 15);
     y = BTL_POKEPARAM_GetValue(defender, 15);
     if (x < y) return 0;
-    BTL_EVENT_PushVarFrame(0x2E5A);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(0x2E5A, 0x2E39));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     r = 0;
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x70);
     t = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(0x2E60);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(0x2E60, 0x2E3F));
     if (t) return r;
     if (BTL_SERVER_FLOW_CheckNoGuardHit(flow, attacker, defender)) {
         r = 1;
@@ -8064,24 +8072,24 @@ int BTL_SERVER_FLOW_CheckOneHitKoHit(BtlServerFlow *flow, struct BtlPokeParam *a
 int BTL_SERVER_FLOW_QueryTypeImmunityEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveParam)
 {
     int r;
-    BTL_EVENT_PushVarFrame(11907);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11907, 11874));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x16, moveParam->type);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x30);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(11914);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11914, 11881));
     return r;
 }
 
 void BTL_SERVER_FLOW_NotifyTypeImmunityEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender)
 {
-    BTL_EVENT_PushVarFrame(11928);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11928, 11895));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_DispatchEventChecked(flow, 0x31);
-    BTL_EVENT_PopVarFrame(11932);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11932, 11899));
 }
 
 #pragma opt_lifetimes off
@@ -8100,7 +8108,7 @@ int BTL_SERVER_FLOW_CheckCriticalHit(BtlServerFlow *flow, struct BtlPokeParam *a
     u16 h;
     h = WAZA_TOOL_GetParam(moveId, 7);
     h = h + BTL_POKEPARAM_GetCritStage(attacker);
-    BTL_EVENT_PushVarFrame(11952);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(11952, 11919));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVar(0x2c, h);
@@ -8117,7 +8125,7 @@ int BTL_SERVER_FLOW_CheckCriticalHit(BtlServerFlow *flow, struct BtlPokeParam *a
         }
         if (BTL_MAIN_ReturnZero(flow->mainModule, 3)) r = 1;
     }
-    BTL_EVENT_PopVarFrame(11975);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(11975, 11942));
     return r;
 }
 
@@ -8143,7 +8151,7 @@ int BTL_SERVER_FLOW_CalcMoveDrainRecoil(BtlServerFlow *flow, struct BtlPokeParam
         if (v) kind = KIND_SECOND;
     }
     if (WAZA_TOOL_GetCategory(moveId) == 8) return 0;
-    BTL_EVENT_PushVarFrame(12019);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12019, 11986));
     BTL_EVENT_SetVarReadOnly(3, n);
     BTL_EVENT_SetVar(0x35, v);
     BTL_EVENT_SetVar(0x36, 0);
@@ -8154,7 +8162,7 @@ int BTL_SERVER_FLOW_CalcMoveDrainRecoil(BtlServerFlow *flow, struct BtlPokeParam
     y = BTL_EVENT_GetVar(0x41);
     z = BTL_EVENT_GetVar(0x51);
     t = BTL_EVENT_GetVar(0x36);
-    BTL_EVENT_PopVarFrame(12032);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12032, 11999));
     if (z == 0 && y == 1) return 0;
     x += t;
     if (x) {
@@ -8173,7 +8181,7 @@ int BTL_SERVER_FLOW_CalcMoveDrainRecoil(BtlServerFlow *flow, struct BtlPokeParam
 
 void BTL_SERVER_FLOW_DispatchPostMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 12077;
+    int line = PM_SRC_LINE(12077, 12044);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 114);
@@ -8182,7 +8190,7 @@ void BTL_SERVER_FLOW_DispatchPostMoveEvent(BtlServerFlow *flow, struct BtlPokePa
 
 void BTL_SERVER_FLOW_DispatchPostMoveKindEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u8 kind)
 {
-    int line = 12093;
+    int line = PM_SRC_LINE(12093, 12060);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(3, kind);
@@ -8230,7 +8238,7 @@ int BTL_SERVER_FLOW_QueryPokeGroundedEvent(BtlServerFlow *flow, struct BtlPokePa
     } else {
         t = 0;
     }
-    BTL_EVENT_PushVarFrame(12220);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12220, 12187));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarOnce(0x51, (u8)t);
     BTL_EVENT_SetVarOnce(0x41, (u8)0);
@@ -8238,22 +8246,22 @@ int BTL_SERVER_FLOW_QueryPokeGroundedEvent(BtlServerFlow *flow, struct BtlPokePa
     BTL_SICK_ForceGroundedOrFloating(flow, poke);
     x = BTL_EVENT_GetVar(0x51);
     y = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(12228);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12228, 12195));
     if (y) return 0;
     return x;
 }
 
 void BTL_SERVER_FLOW_ProcImmunityOverrideNotice(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    u32 v = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 12246);
+    u32 v = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(12246, 12213));
     BTL_SERVER_FLOW_NotifyImmunityOverrideEvent(flow, poke);
     if (BTL_SERVER_FLOW_GetLockState(flow) != 2) BTL_SERVER_FLOW_PushNoEffectMessage(flow, poke);
-    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, v, 12253);
+    BTL_SERVER_FLOW_EndHandExScope(&flow->cmdLock, v, PM_SRC_LINE(12253, 12220));
 }
 
 void BTL_SERVER_FLOW_NotifyImmunityOverrideEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 12265;
+    int line = PM_SRC_LINE(12265, 12232);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 27);
@@ -8263,7 +8271,7 @@ void BTL_SERVER_FLOW_NotifyImmunityOverrideEvent(BtlServerFlow *flow, struct Btl
 int BTL_SERVER_FLOW_CalcSingleTypeAffinity(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, u32 moveType, u8 defenderType)
 {
     int x, y, r;
-    BTL_EVENT_PushVarFrame(12290);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12290, 12257));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x15, defenderType);
@@ -8274,7 +8282,7 @@ int BTL_SERVER_FLOW_CalcSingleTypeAffinity(BtlServerFlow *flow, struct BtlPokePa
     BTL_EVENT_DispatchEventChecked(flow, 0x3e);
     x = BTL_EVENT_GetVar(0x4b);
     y = BTL_EVENT_GetVar(0x4c);
-    BTL_EVENT_PopVarFrame(12303);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12303, 12270));
     if (y) return 3;
     r = BTL_CALC_GetTypeAffinity(moveType, defenderType);
     if (r == 0 && x) r = 3;
@@ -8308,13 +8316,13 @@ void BTL_SERVER_FLOW_PushEffectAnim(BtlServerFlow *flow, int effectId, int fromP
 int BTL_SERVER_FLOW_QueryEffectBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 effectKind)
 {
     int r;
-    BTL_EVENT_PushVarFrame(12399);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12399, 12366));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x17, effectKind);
     BTL_EVENT_SetVarOnce(0x51, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x4f);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(12405);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12405, 12372));
     return r;
 }
 
@@ -8327,7 +8335,7 @@ int BTL_SERVER_FLOW_CalcMultiHitCount(BtlServerFlow *flow, struct BtlPokeParam *
     hitInfo[5] = 3;
     if (id > 1) {
         r = BTL_CALC_RollHitCount(id);
-        BTL_EVENT_PushVarFrame(12432);
+        BTL_EVENT_PushVarFrame(PM_SRC_LINE(12432, 12399));
         BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
         BTL_EVENT_SetVarReadOnly(0x29, id);
         BTL_EVENT_SetVar(0x2a, r);
@@ -8342,7 +8350,7 @@ int BTL_SERVER_FLOW_CalcMultiHitCount(BtlServerFlow *flow, struct BtlPokeParam *
             hitInfo[2] = BTL_EVENT_GetVar(0x42);
         }
         hitInfo[3] = 1;
-        BTL_EVENT_PopVarFrame(12455);
+        BTL_EVENT_PopVarFrame(PM_SRC_LINE(12455, 12422));
         return 1;
     }
     hitInfo[0] = 1;
@@ -8357,7 +8365,7 @@ u16 BTL_SERVER_FLOW_CalcMovePower(BtlServerFlow *flow, struct BtlPokeParam *atta
     u16 x;
     u32 y;
 
-    BTL_EVENT_PushVarFrame(12487);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12487, 12454));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
@@ -8369,19 +8377,19 @@ u16 BTL_SERVER_FLOW_CalcMovePower(BtlServerFlow *flow, struct BtlPokeParam *atta
     BTL_EVENT_DispatchEventChecked(flow, 0x38);
     x = BTL_EVENT_GetVar(0x30);
     y = BTL_EVENT_GetVar(0x31);
-    BTL_EVENT_PopVarFrame(12500);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12500, 12467));
     return BTL_CALC_MulRatio(x, y);
 }
 
 int BTL_SERVER_FLOW_QueryTargetableEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
     int r;
-    BTL_EVENT_PushVarFrame(12521);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12521, 12488));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarOnce(0x51, 1);
     BTL_EVENT_DispatchEventChecked(flow, 0x80);
     r = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(12526);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12526, 12493));
     return r;
 }
 
@@ -8401,7 +8409,7 @@ u16 BTL_SERVER_FLOW_CalcAttackStat(BtlServerFlow *flow, struct BtlPokeParam *att
     int mode = WAZA_TOOL_GetDamageType(moveParam->moveId);
     statKind = 10;
     if (mode != 2) statKind = 8;
-    BTL_EVENT_PushVarFrame(12542);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12542, 12509));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVar(0x3b, 0x1f);
@@ -8420,7 +8428,7 @@ u16 BTL_SERVER_FLOW_CalcAttackStat(BtlServerFlow *flow, struct BtlPokeParam *att
     BTL_EVENT_DispatchEventChecked(flow, 0x3b);
     value = BTL_EVENT_GetVar(0x33);
     value = BTL_CALC_MulRatio(value, BTL_EVENT_GetVar(0x35));
-    BTL_EVENT_PopVarFrame(12579);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12579, 12546));
     return value;
 }
 
@@ -8441,7 +8449,7 @@ u16 BTL_SERVER_FLOW_CalcDefenseStat(BtlServerFlow *flow, struct BtlPokeParam *at
     statKind = 11;
     if (mode != 2) statKind = 9;
     field = moveParam->damageType;
-    BTL_EVENT_PushVarFrame(12595);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12595, 12562));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x3c, statKind);
@@ -8455,13 +8463,13 @@ u16 BTL_SERVER_FLOW_CalcDefenseStat(BtlServerFlow *flow, struct BtlPokeParam *at
         else field = 2;
     }
     other = BTL_EVENT_GetVar(0x51);
-    BTL_EVENT_PopVarFrame(12610);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12610, 12577));
     if (other) value = BTL_POKEPARAM_GetStatRaw(defender, statKind);
     else if (isCritical) value = BTL_POKEPARAM_GetStatForCrit(defender, statKind);
     else value = BTL_POKEPARAM_GetValue(defender, statKind);
     if (BTL_SERVER_FLOW_GetEffectiveWeather(flow) == 4 && BTL_POKEPARAM_HasType(defender, 5) && statKind == 11)
         value = BTL_CALC_MulRatio(value, 6 << 10);
-    BTL_EVENT_PushVarFrame(12631);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12631, 12598));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(defender));
     BTL_EVENT_SetVarReadOnly(0x12, moveParam->moveId);
@@ -8472,7 +8480,7 @@ u16 BTL_SERVER_FLOW_CalcDefenseStat(BtlServerFlow *flow, struct BtlPokeParam *at
     BTL_EVENT_DispatchEventChecked(flow, 0x3c);
     value = BTL_EVENT_GetVar(0x34);
     scale = BTL_EVENT_GetVar(0x35);
-    BTL_EVENT_PopVarFrame(12642);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12642, 12609));
     return BTL_CALC_MulRatio(value, scale);
 }
 
@@ -8483,7 +8491,7 @@ int BTL_SERVER_FLOW_CalcTypeMatchMultiplier(BtlServerFlow *flow, struct BtlPokeP
     int x;
     int r;
 
-    BTL_EVENT_PushVarFrame(12664);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12664, 12631));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarOnce(0x51, f);
     BTL_EVENT_DispatchEventChecked(flow, 0x40);
@@ -8494,7 +8502,7 @@ int BTL_SERVER_FLOW_CalcTypeMatchMultiplier(BtlServerFlow *flow, struct BtlPokeP
     BTL_EVENT_SetVar(0x35, v);
     BTL_EVENT_DispatchEventChecked(flow, 0x41);
     r = BTL_EVENT_GetVar(0x35);
-    BTL_EVENT_PopVarFrame(12681);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12681, 12648));
     return r;
 }
 
@@ -8506,7 +8514,7 @@ int BTL_SERVER_FLOW_CalcFlinchChance(BtlServerFlow *flow, u32 moveId, struct Btl
     int chance;
 
     chance = WAZA_TOOL_GetParam(moveId, 10);
-    BTL_EVENT_PushVarFrame(12701);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12701, 12668));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x25, chance);
     BTL_EVENT_SetVarOnce(0x45, 0);
@@ -8516,7 +8524,7 @@ int BTL_SERVER_FLOW_CalcFlinchChance(BtlServerFlow *flow, u32 moveId, struct Btl
     vetoed = BTL_EVENT_GetVar(0x41);
     doubled = BTL_EVENT_GetVar(0x45);
     addedChance = BTL_EVENT_GetVar(0x26);
-    BTL_EVENT_PopVarFrame(12712);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12712, 12679));
     if (vetoed != 0 && chance != 0)
         return 0;
     if (chance == 0)
@@ -8532,7 +8540,7 @@ int BTL_SERVER_FLOW_RollFlinchChance(BtlServerFlow *flow, struct BtlPokeParam *p
     int c26;
     int c41;
 
-    BTL_EVENT_PushVarFrame(12745);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12745, 12712));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x26, chance);
     BTL_EVENT_SetVarOnce(0x41, 0);
@@ -8540,7 +8548,7 @@ int BTL_SERVER_FLOW_RollFlinchChance(BtlServerFlow *flow, struct BtlPokeParam *p
     BTL_EVENT_DispatchEventChecked(flow, 0x6d);
     c26 = BTL_EVENT_GetVar(0x26);
     c41 = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(12753);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12753, 12720));
     if (c41 != 0)
         return 0;
     if (c26 != 0) {
@@ -8555,7 +8563,7 @@ int BTL_SERVER_FLOW_RollFlinchChance(BtlServerFlow *flow, struct BtlPokeParam *p
 
 void BTL_SERVER_FLOW_NotifyFlinchEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 12778;
+    int line = PM_SRC_LINE(12778, 12745);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVar(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 110);
@@ -8567,7 +8575,7 @@ int BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent(BtlServerFlow *flow, struct
     int r;
     int res;
 
-    BTL_EVENT_PushVarFrame(12801);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12801, 12768));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(3, attackerId);
     BTL_EVENT_SetVarReadOnly(0x1f, kind);
@@ -8577,7 +8585,7 @@ int BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent(BtlServerFlow *flow, struct
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x5b);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(12810);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12810, 12777));
     if (r == 0)
         res = 1;
     return res;
@@ -8585,7 +8593,7 @@ int BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent(BtlServerFlow *flow, struct
 
 void BTL_SERVER_FLOW_NotifyStatStageChangeBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 value)
 {
-    int line = 12826;
+    int line = PM_SRC_LINE(12826, 12793);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(25, value);
@@ -8595,24 +8603,24 @@ void BTL_SERVER_FLOW_NotifyStatStageChangeBlockedEvent(BtlServerFlow *flow, stru
 
 void BTL_SERVER_FLOW_NotifyStatStageChangedEvent(BtlServerFlow *flow, u32 attackerId, struct BtlPokeParam *poke, u32 kind, u32 value)
 {
-    BTL_EVENT_PushVarFrame(12846);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12846, 12813));
     BTL_EVENT_SetVarReadOnly(3, attackerId);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x1f, kind);
     BTL_EVENT_SetVarReadOnly(0x20, value);
     BTL_EVENT_DispatchEventChecked(flow, 0x5d);
-    BTL_EVENT_PopVarFrame(12852);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12852, 12819));
 }
 
 void BTL_SERVER_FLOW_NotifyMoveRankEffectEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 moveId, u32 kind, u32 value)
 {
-    BTL_EVENT_PushVarFrame(12868);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12868, 12835));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x12, moveId);
     BTL_EVENT_SetVarReadOnly(0x1f, kind);
     BTL_EVENT_SetVarReadOnly(0x20, value);
     BTL_EVENT_DispatchEventChecked(flow, 0x5e);
-    BTL_EVENT_PopVarFrame(12874);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12874, 12841));
 }
 
 u16 BTL_SERVER_FLOW_CalcDrainHealAmount(BtlServerFlow *flow, struct BtlPokeParam *user, struct BtlPokeParam *target, u32 amount)
@@ -8625,7 +8633,7 @@ u16 BTL_SERVER_FLOW_CalcDrainHealAmount(BtlServerFlow *flow, struct BtlPokeParam
         k = BTL_POKEPARAM_GetPokeId(target);
     else
         k = 0x1f;
-    BTL_EVENT_PushVarFrame(12894);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12894, 12861));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(user));
     BTL_EVENT_SetVarReadOnly(4, (u8)k);
     BTL_EVENT_SetVarRanged(0x35, 0x1000, 410, 0x20000);
@@ -8638,19 +8646,19 @@ u16 BTL_SERVER_FLOW_CalcDrainHealAmount(BtlServerFlow *flow, struct BtlPokeParam
     BTL_EVENT_OverwriteVar(0x20, amount);
     BTL_EVENT_DispatchEventChecked(flow, 0x8d);
     r = BTL_EVENT_GetVar(0x20);
-    BTL_EVENT_PopVarFrame(12911);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12911, 12878));
     return r;
 }
 
 void BTL_SERVER_FLOW_DispatchWeatherChangedEvent(BtlServerFlow *flow, u32 weather)
 {
-    BTL_EVENT_PushVarFrame(12930);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12930, 12897));
     BTL_EVENT_SetVarReadOnly(0x39, weather);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x7d);
     if (BTL_EVENT_GetVar(0x41) == 0)
         BTL_EVENT_DispatchEventChecked(flow, 0x7e);
-    BTL_EVENT_PopVarFrame(12938);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12938, 12905));
 }
 
 u32 BTL_SERVER_FLOW_CalcRecoverHpAmount(BtlServerFlow *flow, u32 moveId, struct BtlPokeParam *poke)
@@ -8660,12 +8668,12 @@ u32 BTL_SERVER_FLOW_CalcRecoverHpAmount(BtlServerFlow *flow, u32 moveId, struct 
     u32 m;
     u32 r;
 
-    BTL_EVENT_PushVarFrame(12956);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12956, 12923));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVar(0x35, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x8f);
     c = BTL_EVENT_GetVar(0x35);
-    BTL_EVENT_PopVarFrame(12961);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(12961, 12928));
     m = BTL_POKEPARAM_GetValue(poke, 0xe);
     if (c != 0)
         r = BTL_CALC_MulRatio(m, c);
@@ -8681,19 +8689,19 @@ u32 BTL_SERVER_FLOW_CalcRecoverHpAmount(BtlServerFlow *flow, u32 moveId, struct 
 int BTL_SERVER_FLOW_QueryHeldItemChangeBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 itemId)
 {
     int r;
-    BTL_EVENT_PushVarFrame(12996);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(12996, 12963));
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(0x2d, itemId);
     BTL_EVENT_SetVarOnce(0x41, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x9a);
     r = BTL_EVENT_GetVar(0x41);
-    BTL_EVENT_PopVarFrame(13002);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(13002, 12969));
     return r;
 }
 
 void BTL_SERVER_FLOW_NotifyHeldItemChangeBlockedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 13017;
+    int line = PM_SRC_LINE(13017, 12984);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 155);
@@ -8702,7 +8710,7 @@ void BTL_SERVER_FLOW_NotifyHeldItemChangeBlockedEvent(BtlServerFlow *flow, struc
 
 void BTL_SERVER_FLOW_NotifyHeldItemSetEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u32 itemId)
 {
-    int line = 13033;
+    int line = PM_SRC_LINE(13033, 13000);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_SetVarReadOnly(45, itemId);
@@ -8712,7 +8720,7 @@ void BTL_SERVER_FLOW_NotifyHeldItemSetEvent(BtlServerFlow *flow, struct BtlPokeP
 
 void BTL_SERVER_FLOW_NotifyHeldItemClearedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke)
 {
-    int line = 13050;
+    int line = PM_SRC_LINE(13050, 13017);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(poke));
     BTL_EVENT_DispatchEventChecked(flow, 157);
@@ -8721,29 +8729,29 @@ void BTL_SERVER_FLOW_NotifyHeldItemClearedEvent(BtlServerFlow *flow, struct BtlP
 
 void BTL_SERVER_FLOW_NotifyAbilityChangeEvent(BtlServerFlow *flow, u32 pokeId, u16 oldAbility, u16 newAbility)
 {
-    BTL_EVENT_PushVarFrame(13068);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(13068, 13035));
     BTL_EVENT_SetVarReadOnly(2, pokeId);
     BTL_EVENT_SetVarReadOnly(0xf, oldAbility);
     BTL_EVENT_SetVarReadOnly(0x10, newAbility);
     BTL_EVENT_DispatchEventChecked(flow, 0x89);
-    BTL_EVENT_PopVarFrame(13073);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(13073, 13040));
 }
 
-void BTL_SERVER_FLOW_NotifyAbilityChangedEvent(BtlServerFlow *flow, unsigned int pokeId) { BTL_EVENT_PushVarFrame(13085); BTL_EVENT_SetVarReadOnly(2,pokeId); BTL_EVENT_DispatchEventChecked(flow,138); BTL_EVENT_PopVarFrame(13088); }
+void BTL_SERVER_FLOW_NotifyAbilityChangedEvent(BtlServerFlow *flow, unsigned int pokeId) { BTL_EVENT_PushVarFrame(PM_SRC_LINE(13085, 13052)); BTL_EVENT_SetVarReadOnly(2,pokeId); BTL_EVENT_DispatchEventChecked(flow,138); BTL_EVENT_PopVarFrame(PM_SRC_LINE(13088, 13055)); }
 
 void BTL_SERVER_FLOW_QueryAdjustedValueEvent(BtlServerFlow *flow, u8 pokeId, u32 valueA, u32 valueB, u32 *value)
 {
-    BTL_EVENT_PushVarFrame(13102);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(13102, 13069));
     BTL_EVENT_SetVarReadOnly(2, pokeId);
     BTL_EVENT_SetVarReadOnly(0x52, valueB);
     BTL_EVENT_SetVarReadOnly(0x53, valueA);
     BTL_EVENT_SetVar(0x1e, *value);
     BTL_EVENT_DispatchEventChecked(flow, 0x9f);
     *value = BTL_EVENT_GetVar(0x1e);
-    BTL_EVENT_PopVarFrame(13109);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(13109, 13076));
 }
 
-void BTL_SERVER_FLOW_NotifyWeatherEffectEvent(BtlServerFlow *flow) { BTL_EVENT_PushVarFrame(13123); BTL_EVENT_DispatchEventChecked(flow, 121); BTL_EVENT_PopVarFrame(13125); }
+void BTL_SERVER_FLOW_NotifyWeatherEffectEvent(BtlServerFlow *flow) { BTL_EVENT_PushVarFrame(PM_SRC_LINE(13123, 13090)); BTL_EVENT_DispatchEventChecked(flow, 121); BTL_EVENT_PopVarFrame(PM_SRC_LINE(13125, 13092)); }
 
 void BTL_SERVER_FLOW_ClearEffectivenessRecord(void *record)
 {
@@ -10266,9 +10274,9 @@ u8 BTL_SERVER_FLOW_ExecCmdChangeWeather(BtlServerFlow *flow, struct BtlServerCmd
     } else if (cmd->b6 != 0) {
         if (cmd->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(flow, id);
         BTL_SERVER_FLOW_PushMsgRecord(flow, &cmd->message);
-        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 15467);
+        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(15467, 15434));
         BTL_SERVER_FLOW_NotifyWeatherEffectEvent(flow);
-        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 15469);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(15469, 15436));
         r = 1;
         if (cmd->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(flow, id);
     }
@@ -10327,7 +10335,7 @@ u8 BTL_SERVER_FLOW_ExecCmdChangeAbility(BtlServerFlow *flow, const BtlServerCmdC
         if (cmd->flag) BTL_SERVER_CMD_Push(flow->cmdQueue, 87, (u8)cmd->index);
         BTL_SERVER_CMD_Push(flow->cmdQueue, 73, cmd->id, cmd->value);
         BTL_SERVER_FLOW_PushMsgRecord(flow, &cmd->message);
-        line = 15561;
+        line = PM_SRC_LINE(15561, 15528);
         s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, line);
         BTL_SERVER_FLOW_NotifyAbilityChangeEvent(flow, cmd->id, x, cmd->value);
         BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, line + 2);
@@ -10361,7 +10369,7 @@ u8 BTL_SERVER_FLOW_ExecCmdChangeHeldItem(BtlServerFlow *flow, const BtlServerCmd
     u32 t;
     a = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, cmd->id);
     if (cmd->index != cmd->id) {
-        line = 15615;
+        line = PM_SRC_LINE(15615, 15582);
         s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, line);
         f = BTL_SERVER_FLOW_QueryHeldItemChangeBlockedEvent(flow, a, cmd->value);
         BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, line + 2);
@@ -10404,13 +10412,13 @@ u8 BTL_SERVER_FLOW_ExecCmdSwapHeldItems(BtlServerFlow *flow, const BtlServerCmdS
     b = BTL_SIDE_GetPokeByIdThunk(flow->pokeCon, (u8)cmd->index);
     x = (u16)(int)BTL_POKEPARAM_GetItem(b);
     y = (u16)(int)BTL_POKEPARAM_GetItem(a);
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 15671);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(15671, 15638));
     f = BTL_SERVER_FLOW_QueryHeldItemChangeBlockedEvent(flow, a, x);
-    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 15673);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(15673, 15640));
     if (f) {
-        t = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 15676);
+        t = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(15676, 15643));
         BTL_SERVER_FLOW_NotifyHeldItemChangeBlockedEvent(flow, a);
-        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, t, 15678);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, t, PM_SRC_LINE(15678, 15645));
         return 0;
     }
     if (cmd->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(flow, b);
@@ -10452,12 +10460,12 @@ u8 BTL_SERVER_FLOW_ProcHandExForceItemFactor(BtlServerFlow *flow, struct BtlServ
         x = HAND_ITEM_AddForcedFactor(poke, cmd->h6);
         if (x != 0) {
             t = BTL_SERVER_CMD_Reserve(flow->cmdQueue, 0x42);
-            s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 15755);
+            s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(15755, 15722));
             BTL_SERVER_FLOW_DispatchPostMoveKindEvent(flow, poke, cmd->id);
             if (BTL_SERVER_FLOW_GetLockState(flow) == 2) {
                 BTL_SERVER_CMD_FillReserved(flow->cmdQueue, t, 0x42, cmd->b4);
             }
-            BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 15762);
+            BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(15762, 15729));
             HAND_ITEM_RemoveFactor(x);
             return 1;
         }
@@ -10698,9 +10706,9 @@ u8 BTL_SERVER_FLOW_ProcHandExTransform(BtlServerFlow *flow, struct BtlServerCmdT
             BTL_SERVER_FLOW_PushMsgRecord(flow, &cmd->message);
             if (cmd->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(flow, user);
             if (k != BTL_POKEPARAM_GetValue(user, 17)) {
-                lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 0x3f0a);
+                lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(0x3f0a, 0x3ee9));
                 BTL_SERVER_FLOW_NotifyAbilityChangedEvent(flow, x);
-                BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, lock, 0x3f0c);
+                BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, lock, PM_SRC_LINE(0x3f0c, 0x3eeb));
             }
             return 1;
         }
@@ -10743,9 +10751,11 @@ loop:
         changed = 0;
         if (BTL_POKEPARAM_TestContFlag(poke, 3)) {
             BTL_SERVER_FLOW_TryClearContFlag(flow, poke, 3);
+#if LANGUAGE != LANGUAGE_JAPANESE
             t = BTL_POKEPARAM_GetCounter(poke, 4);
             if (!(t && (t = (u8)(t - 1)) < 24)) t = 31;
             if (t != 31) GF_STANDARD_CompareBytes((const u8 *)flow, (const u8 *)poke, 1);
+#endif
             changed = 1;
         }
         if (BTL_SERVER_FLOW_QueryPokeGroundedEvent(flow, poke, 1)) changed = 1;
@@ -11110,16 +11120,16 @@ struct BtlPokeParam *BTL_SERVER_FLOW_GetPartnerPoke(BtlServerFlow *flow, u8 posi
 
 u8 BTL_SERVER_FLOW_ProcTargetChange(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveInfo, u32 target)
 {
-    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 611);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(611, 605));
     u8 r = BTL_SERVER_FLOW_QueryTargetChangeEvent(flow, attacker, moveInfo, target);
-    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 613);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(613, 607));
     return r;
 }
 
 u8 BTL_SERVER_FLOW_QueryInitialTargetEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveInfo)
 {
     u8 r;
-    BTL_EVENT_PushVarFrame(631);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(631, 625));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x16, moveInfo->type);
     BTL_EVENT_SetVarReadOnly(0x12, moveInfo->moveId);
@@ -11127,21 +11137,21 @@ u8 BTL_SERVER_FLOW_QueryInitialTargetEvent(BtlServerFlow *flow, struct BtlPokePa
     BTL_EVENT_SetVarOnce(0x50, 0);
     BTL_EVENT_DispatchEventChecked(flow, 0x29);
     r = BTL_EVENT_GetVar(4);
-    BTL_EVENT_PopVarFrame(639);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(639, 633));
     return r;
 }
 
 u8 BTL_SERVER_FLOW_QueryTargetChangeEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlMoveParam *moveInfo, u32 target)
 {
     u8 r;
-    BTL_EVENT_PushVarFrame(656);
+    BTL_EVENT_PushVarFrame(PM_SRC_LINE(656, 650));
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(attacker));
     BTL_EVENT_SetVarReadOnly(0x16, moveInfo->type);
     BTL_EVENT_SetVarReadOnly(0x12, moveInfo->moveId);
     BTL_EVENT_SetVarOnce(4, target);
     BTL_EVENT_DispatchEventChecked(flow, 0x2a);
     r = BTL_EVENT_GetVar(4);
-    BTL_EVENT_PopVarFrame(663);
+    BTL_EVENT_PopVarFrame(PM_SRC_LINE(663, 657));
     if (r == target) r = 0x1f;
     return r;
 }
@@ -11262,7 +11272,11 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, struct BtlSideSlot 
   for (m = 0; m < n; m++)
   {
     if (expTable[m].exp != 0)
+#if LANGUAGE == LANGUAGE_JAPANESE
+      BTL_SERVER_FLOW_AddDefeatEffortValues(BTL_SLOT_GetPoke(party, (u8) m), defeatedPoke);
+#else
       BTL_SERVER_FLOW_AddDefeatEffortValues(BTL_SLOT_GetPoke(party, (u8) m), defeatedPoke, (u8 *)(expTable + m));
+#endif
   }
 }
 
@@ -11303,11 +11317,15 @@ u32 BTL_SERVER_FLOW_CalcLevelScaledExp(struct BtlPokeParam *poke, u32 baseExp, u
  * at 0x021CB6F4 is six four-byte arms, case i storing the byte at
  * a2[5 + i].  Ends by releasing the savedata record.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct BtlPokeParam *defeatedPoke)
+#else
 void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct BtlPokeParam *defeatedPoke, u8 *expRecord)
+#endif
 {
     u8 buf[6];
+    u32 form;
     u8 i;
-    u16 form;
     u32 m;
     u32 t;
     void *rec;
@@ -11350,6 +11368,7 @@ void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct B
             w = 0xff;
         }
         POKE_TOOL_SetPartyValue(rec, t, w);
+#if LANGUAGE != LANGUAGE_JAPANESE
         switch (i) {
         case 0: expRecord[5] = v; break;
         case 1: expRecord[6] = v; break;
@@ -11358,6 +11377,7 @@ void BTL_SERVER_FLOW_AddDefeatEffortValues(struct BtlPokeParam *gainer, struct B
         case 4: expRecord[9] = v; break;
         case 5: expRecord[0xa] = v; break;
         }
+#endif
     }
     POKE_TOOL_EncodePartyParam(rec, sv);
 }
@@ -11483,7 +11503,7 @@ int BTL_SERVER_FLOW_ProcBagItemUse(BtlServerFlow *flow, struct BtlPokeParam *pok
   }
   mark = 0;
   pos = BTL_SERVER_CMD_Reserve(*((void **) &flow->cmdQueue), 0x4d);
-  lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1217);
+  lock = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1217, 1189));
   for (i = 0; i < 23; i++)
   {
     e = gBagItemEffectTable + i;
@@ -11503,7 +11523,7 @@ int BTL_SERVER_FLOW_ProcBagItemUse(BtlServerFlow *flow, struct BtlPokeParam *pok
   }
   else
     BTL_SERVER_CMD_PushVariable(*((void **) &flow->cmdQueue), 0x5a, 0x44, 0xffff0000);
-  BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, lock, 1246);
+  BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, lock, PM_SRC_LINE(1246, 1218));
   BTL_SERVER_CMD_Push(*((void **) &flow->cmdQueue), 0x4c, BTLV_EFFECT_MOVE_END + 5);
   return 0;
 }
@@ -12024,10 +12044,10 @@ int BTL_SERVER_FLOW_ItemEffectTriggerEntryEvent(BtlServerFlow *flow, struct BtlP
     int r;
 
     if (BTL_POKEPARAM_GetValue(poke, 16) != 150) {
-        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1921);
+        s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1921, 1893));
         BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk(flow, poke);
         r = BTL_SERVER_FLOW_GetLockStateThunk(flow);
-        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 1926);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(1926, 1898));
         if (r == 2)
             return 1;
     }
@@ -12044,7 +12064,7 @@ int BTL_SERVER_FLOW_ItemEffectPushHeldItemMessage(BtlServerFlow *flow, struct Bt
     if (HAND_COMMON_IsHeldItemBoundToOwnSpecies(flow, BTL_POKEPARAM_GetPokeId(poke)) == 0) {
         t = (u16)(u32)BTL_POKEPARAM_GetItem(poke);
         if (t != 0) {
-            s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1944);
+            s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1944, 1916));
             id = BTL_POKEPARAM_GetPokeId(poke);
             q = (char *)BTL_SERVER_FLOW_AllocCmdRecord(flow, 32, id);
             q[6] = id;
@@ -12053,7 +12073,7 @@ int BTL_SERVER_FLOW_ItemEffectPushHeldItemMessage(BtlServerFlow *flow, struct Bt
             BTL_SERVER_FLOW_AppendMsgRecordArg((void *)(q + 12), id);
             BTL_SERVER_FLOW_AppendMsgRecordArg((void *)(q + 12), t);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, q);
-            BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 1957);
+            BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(1957, 1929));
             return 1;
         }
     }
@@ -12067,7 +12087,7 @@ int BTL_SERVER_FLOW_ItemEffectPushTypeMessage(BtlServerFlow *flow, struct BtlPok
     u8 *r;
     char *q;
 
-    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, 1968);
+    s = BTL_SERVER_FLOW_BeginHandExScope(&flow->cmdLock, PM_SRC_LINE(1968, 1940));
     id = BTL_POKEPARAM_GetPokeId(poke);
     r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(flow, 16, id);
     r[4] = 1;
@@ -12077,7 +12097,7 @@ int BTL_SERVER_FLOW_ItemEffectPushTypeMessage(BtlServerFlow *flow, struct BtlPok
     BTL_SERVER_FLOW_InitMsgRecord((BtlStrParam *)(q + 4), 2, 228);
     BTL_SERVER_FLOW_AppendMsgRecordArg((void *)(q + 4), id);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, q);
-    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, 1984);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)&flow->cmdLock, s, PM_SRC_LINE(1984, 1956));
     return 1;
 }
 

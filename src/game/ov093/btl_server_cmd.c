@@ -664,6 +664,14 @@
 #include "../sdk_stdarg.h"
 
 #include "../arm9/gf_panic.h"
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_021F37E4[];
+extern const char str_ja_021F37F8[];
+extern const char str_ja_021F3820[];
+extern const char str_ja_021F384C[];
+extern const char str_ja_021F3878[];
+#endif
 extern char gBtlEmptyString[];
 extern const u8 gBtlServerCmdLayouts[];
 extern s32 gBtlServerCmdArgBuffer[];
@@ -672,7 +680,7 @@ extern s32 gBtlServerCmdArgBuffer[];
 void BTL_SERVER_CMD_WriteU8(BtlServerCmdQueue *queue, u8 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE) {
-        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gBtlEmptyString, str_ja_021F37E4), PM_SRC_LINE(0, 0x17E), PM_LANG_JA(gBtlEmptyString, str_ja_021F37F8));
     }
     queue->data[queue->writePos++] = value;
 }
@@ -689,7 +697,7 @@ u8 BTL_SERVER_CMD_ReadU8(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU16(BtlServerCmdQueue *queue, u16 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 1) {
-        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gBtlEmptyString, str_ja_021F37E4), PM_SRC_LINE(0, 0x188), PM_LANG_JA(gBtlEmptyString, str_ja_021F3820));
     }
     queue->data[queue->writePos++] = value >> 8;
     queue->data[queue->writePos++] = value;
@@ -719,7 +727,7 @@ u32 BTL_SERVER_CMD_ReadU16(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU24(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 2) {
-        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gBtlEmptyString, str_ja_021F37E4), PM_SRC_LINE(0, 0x197), PM_LANG_JA(gBtlEmptyString, str_ja_021F384C));
     }
     queue->data[queue->writePos++] = value >> 16;
     queue->data[queue->writePos++] = value >> 8;
@@ -741,7 +749,7 @@ u32 BTL_SERVER_CMD_ReadU24(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU32(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 3) {
-        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(PM_LANG_JA(gBtlEmptyString, str_ja_021F37E4), PM_SRC_LINE(0, 0x1A7), PM_LANG_JA(gBtlEmptyString, str_ja_021F3878));
     }
     queue->data[queue->writePos++] = value >> 24;
     queue->data[queue->writePos++] = value >> 16;
@@ -875,10 +883,15 @@ void BTL_SERVER_CMD_WriteCommand(BtlServerCmdQueue *queue, u32 id, int layout, s
         BTL_SERVER_CMD_WriteU16(queue, args[4]);
         BTL_SERVER_CMD_WriteU16(queue, args[5]);
         break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 0x07:
+        break;
+#else
     case 0x07:
         for (i = 0; i < 7; i++)
             BTL_SERVER_CMD_WriteU8(queue, args[i]);
         break;
+#endif
     case 0x08:
         for (i = 0; i < 8; i++)
             BTL_SERVER_CMD_WriteU8(queue, args[i]);
@@ -1053,10 +1066,15 @@ void BTL_SERVER_CMD_ReadFixedArgs(BtlServerCmdQueue *queue, int layout, s32 *arg
         args[4] = BTL_SERVER_CMD_ReadU16(queue);
         args[5] = BTL_SERVER_CMD_ReadU16(queue);
         break;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    case 0x07:
+        break;
+#else
     case 0x07:
         for (i = 0; i < 7; i++)
             args[i] = BTL_SERVER_CMD_ReadU8(queue);
         break;
+#endif
     case 0x08:
         for (i = 0; i < 8; i++)
             args[i] = BTL_SERVER_CMD_ReadU8(queue);

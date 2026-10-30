@@ -75,6 +75,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../version.h"
 #include "../ov021/fldmmdl_rail_types.h"
 #include "rail_slipdown_types.h"
 
@@ -187,8 +188,10 @@ void RAIL_SLIPDOWN_TaskMain(struct TcbTask *tcb, void *work)
         }
         cell = slipdown->landing;
         widthLimit = FIELD_RAIL_GetLocationWidthGrid(railMan, &slipdown->landing);
+#if LANGUAGE != LANGUAGE_JAPANESE
         valid = 0;
         if (!(MAP_ATTR_GetFlags(FIELD_NOGRID_MAPPER_GetAttribute(slipdown->nogridMapper, &cell)) & 1)) valid = 1;
+#endif
         cell.widthGrid += 2;
         if (cell.widthGrid > widthLimit) cell.widthGrid = widthLimit;
         bound = widthLimit + cell.widthGrid;
@@ -196,12 +199,16 @@ void RAIL_SLIPDOWN_TaskMain(struct TcbTask *tcb, void *work)
             cell.widthGrid--;
             if (MAP_ATTR_GetFlags(FIELD_NOGRID_MAPPER_GetAttribute(slipdown->nogridMapper, &cell)) & 1) break;
             slipdown->landing = cell;
+#if LANGUAGE != LANGUAGE_JAPANESE
             valid = 1;
+#endif
         }
+#if LANGUAGE != LANGUAGE_JAPANESE
         if (!valid) {
             slipdown->state = SLIPDOWN_STATE_DONE;
             return;
         }
+#endif
         FIELD_RAIL_GetLocationPos(railMan, &slipdown->landing, &slipdown->end);
         VEC_Subtract(&slipdown->end, &slipdown->start, &slope);
         length = VEC_Mag(&slope);

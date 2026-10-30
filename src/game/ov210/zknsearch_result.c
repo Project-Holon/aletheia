@@ -188,8 +188,8 @@ void ZKNSEARCH_RESULT_MoveRow1(ZknSearchWork *work, int delta)
 void ZKNSEARCH_RESULT_SetRowMulti(ZknSearchWork *work,int index,void *data,int value,int flag)
 {
     ZKNSEARCH_MAIN_PrintListRow(work,data,work->entries[index]);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB(work,work->save->record[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB(work,work->save->record[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
+    if(index==PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, work->save->record[3]), ZKNSEARCH_MAIN_LookupSavedEntryId(work, work->save->record[3])))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
+    if(index==PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, work->save->record[4]), ZKNSEARCH_MAIN_LookupSavedEntryId(work, work->save->record[4])))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
 }
 
 

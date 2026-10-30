@@ -95,6 +95,7 @@
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
  *   PMS_DRAW_PrintOffset 0x0202DC60 thumb
+ *   PMS_DRAW_Print 0x0202DC48 thumb
  *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
  *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
  *   GDS_PROFILE_GetNicknameFlag 0x0200D72C thumb
@@ -105,6 +106,7 @@
  *   GDS_PROFILE_GetBirthMonth 0x0200D810 thumb
  *   GDS_PROFILE_GetTrainerSprite 0x0200D820 thumb
  *   WORDSET_SetSlotMonth 0x0201F230 thumb
+ *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
@@ -143,6 +145,8 @@
 #include "br_types.h"
 #include "../version.h"
 
+/* Source line number passed to the task allocation. */
+/* Source line number passed to the text window allocation. */
 /* Left edge of the country text on the profile screen. */
 #if LANGUAGE == LANGUAGE_GERMAN
 #define BR_PROFILE_COUNTRY_TEXT_X 5
@@ -277,7 +281,7 @@ typedef struct BrUtilFollow {
 
 typedef struct {short x,y;} ShortPair;
 
-typedef struct {BrPair first,second,third;} Table;
+typedef struct {BrPair first,second,third,fourth;} Table;
 
 #include "../sdk_fx.h"
 
@@ -414,6 +418,20 @@ extern int BR_RES_GetSprite(struct BrRes *res, int spriteIndex, void *outSprite)
 #define ARC_TOOL_CreateHandle ARC_TOOL_CreateHandle_header
 #endif
 #include "../arm9/arc_tool.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200F58[];
+extern const char str_ja_02200F64[];
+extern const char str_ja_02200F7C[];
+extern const char str_ja_02200F80[];
+extern const char str_ja_02200FE0[];
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_02200F58[];
+extern const char str_ja_02200F64[];
+extern const char str_ja_02200F7C[];
+extern const char str_ja_02200F9C[];
+extern const char str_ja_02200FC4[];
+#endif
 #ifdef __MWERKS__
 #undef ARC_TOOL_CreateHandle
 extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
@@ -571,7 +589,7 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
 {
     char *p;
     void *bmp;
-    p=GFL_HEAP_Alloc(heap,sizeof(BrUtilTextWin),0,d_02200D5C,0x5f);
+    p=GFL_HEAP_Alloc(heap,sizeof(BrUtilTextWin),0,PM_LANG_JA(d_02200D5C, str_ja_02200F58),PM_SRC_LINE(0x5f, 0x4f));
     MI_CpuFill8(p,0,sizeof(BrUtilTextWin));
     ((BrUtilTextWin *)p)->clearColor=0;
     ((BrUtilTextWin *)p)->owner=owner;
@@ -649,7 +667,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     void *font;
     int i;
     size=cfg->count*4+0x8c;
-    p=GFL_HEAP_Alloc(heap,size,0,d_02200D5C,0x1a1);
+    p=GFL_HEAP_Alloc(heap,size,0,PM_LANG_JA(d_02200D5C, str_ja_02200F58),PM_SRC_LINE(0x1a1, 0x191));
     MI_CpuFill8(p,0,size);
     p->cfg=*cfg;
     p->selected=0;p->last=cfg->count;
@@ -661,13 +679,13 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     if(cfg->selection) {p->start=cfg->selection[0];p->index=cfg->selection[1];}
     if(p->cfg.mode==0) {
         for(i=0;i<p->visible;i++) {
-            if(i>=10) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+            if(i>=10) GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x1A7), PM_LANG_JA(d_02200D68, str_ja_02200F64));
             p->areas[i].left=p->cfg.x*8;
             p->areas[i].top=(p->cfg.y+i*p->cfg.spacing)*8;
             p->areas[i].right=(p->cfg.x+p->cfg.width)*8;
             p->areas[i].bottom=(p->cfg.y+(i+1)*p->cfg.spacing)*8;
         }
-        if(i>=10) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+        if(i>=10) GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58),PM_SRC_LINE(0, 0x1AD),PM_LANG_JA(d_02200D68, str_ja_02200F64));
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
         p->scrollRows=BR_UTIL_ScrollRows;p->needsScroll=BR_UTIL_NeedsScroll;p->handleTouch=BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
@@ -681,11 +699,11 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     MI_CpuFill8((void *)&arrow,0,8);
     if(cfg->bg<4) {
         BR_RES_LoadSprite((struct BrRes *)p->cfg.resources,7,heap);
-        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,7,(void *)&arrows)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
+        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,7,(void *)&arrows)) GF_PANIC_Fail(PM_LANG_JA((const char *)d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x1D8), PM_LANG_JA((const char *)d_02200D68, str_ja_02200F7C));
         mode=0;
     } else {
         BR_RES_LoadSprite((struct BrRes *)p->cfg.resources,8,heap);
-        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,8,(void *)&arrows)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
+        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,8,(void *)&arrows)) GF_PANIC_Fail(PM_LANG_JA((const char *)d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x1DF), PM_LANG_JA((const char *)d_02200D68, str_ja_02200F7C));
         mode=1;
     }
     arrow.x=128;arrow.flag=0;
@@ -702,7 +720,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     CLACT_SetActorDrawEnable(p->handles[0],0);
     MI_CpuFill8((void *)&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
-    if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,6,(void *)&marks)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
+    if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,6,(void *)&marks)) GF_PANIC_Fail(PM_LANG_JA((const char *)d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x208), PM_LANG_JA((const char *)d_02200D68, str_ja_02200F7C));
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=CLACT_CreateActor((struct Unit *)((void *)p->cfg.manager),marks.y,marks.z,marks.x,(const struct ActorInitParam *)&mark,1,heap);
@@ -784,14 +802,14 @@ int BR_UTIL_GetListMenuHitId(char *p)
 
 void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, struct Bmp *v)
 {
-    if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
-    if(((BrUtilListMenu *)p)->cfg.list[i].text!=0)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+    if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x2F4), PM_LANG_JA(d_02200D68, str_ja_02200F80));
+    if(((BrUtilListMenu *)p)->cfg.list[i].text!=0)GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58),PM_SRC_LINE(0, 0x2F5),PM_LANG_JA(d_02200D68, str_ja_02200F9C));
     ((BrUtilListMenu *)p)->bitmaps[i]=v;
 }
 
 struct Bmp *BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
-    if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+    if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58),PM_SRC_LINE(0, 0x305),PM_LANG_JA(d_02200D68, str_ja_02200FC4));
     return (struct Bmp *)((BrUtilListMenu *)p)->bitmaps[i];
 }
 
@@ -805,7 +823,7 @@ int BR_UTIL_GetListMenuField(char *p,unsigned field)
     case 1:return ((BrUtilListMenu *)p)->start;
     case 2:return ((BrUtilListMenu *)p)->dragDir;
     case 3:return ((BrUtilListMenu *)p)->cfg.count;
-    default:GF_PANIC_Fail(d_02200D68,0,d_02200D68);return 0;
+    default:GF_PANIC_Fail(PM_LANG_JA(d_02200D68, str_ja_02200F58), PM_SRC_LINE(0, 0x324), PM_LANG_JA(d_02200D68, str_ja_02200FE0));return 0;
     }
 }
 
@@ -1240,6 +1258,7 @@ void BR_UTIL_FlushWindow(void *p)
  * The integrator should know that the matched definition is spelled void.
  * Also: t inlined into the CLACT_RegisterCellAnim call (same bytes, one fewer local).
  */
+#define BR_PROFILE_WIN_TABLE d_02200B34
 struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,void *unit,void *printQue,int mode,u16 heap)
 {
     struct BrProfileScreen *p;
@@ -1251,7 +1270,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
     u32 k2,k1,k3,k4;
     void *text;
     u32 A,B,C,D;
-    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,d_02200D5C,0x541);
+    p=GFL_HEAP_Alloc(heap,sizeof(*p),0,PM_LANG_JA(d_02200D5C, str_ja_02200F58),PM_SRC_LINE(0x541,0x52e));
     MI_CpuFill8(p,0,sizeof(*p));
     p->res=q;
     font=(void *)BR_RES_GetFont((struct BrRes *)q);
@@ -1261,10 +1280,12 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
     bank=BR_RES_GetMsgData(q);
     words=BR_RES_GetWordSet(q);
     {
+#if LANGUAGE != LANGUAGE_JAPANESE
     BrUtilPair b=d_02200B6C;
+#endif
     for(i=0;i<7;i++) {
-        p->win[i]=BR_UTIL_Create(1,d_02200B34[i].x,d_02200B34[i].y,d_02200B34[i].w,d_02200B34[i].h,14,printQue,heap);
-        BR_UTIL_SetTextLayout(p->win[i],0,1,0);
+        p->win[i]=BR_UTIL_Create(1,BR_PROFILE_WIN_TABLE[i].x,BR_PROFILE_WIN_TABLE[i].y,BR_PROFILE_WIN_TABLE[i].w,BR_PROFILE_WIN_TABLE[i].h,14,printQue,heap);
+        BR_UTIL_SetTextLayout(p->win[i],0,PM_LANG_JA(1,0),0);
         ready=1;
         switch(i) {
         case 0:
@@ -1273,7 +1294,7 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             void *msg;
             text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
-            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,BR_PROFILE_WIN_TABLE[i].msg);
             WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(prof),1,PM_LANG_ID);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(name);
@@ -1286,8 +1307,12 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             void *msg;
             v=GDS_PROFILE_GetBirthMonth(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,BR_PROFILE_WIN_TABLE[i].msg);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            WORDSET_SetSlotNumber(words,0,v,2,1,PM_LANG_HALF_WIDTH_DIGITS);
+#else
             WORDSET_SetSlotMonth(words,0,v);
+#endif
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             break;
@@ -1298,11 +1323,13 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             void *msg;
             v=GDS_PROFILE_GetValidatedCountry(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,BR_PROFILE_WIN_TABLE[i].msg);
             WORDSET_SetSlotFromMsgE7(words,0,v);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
+#if LANGUAGE != LANGUAGE_JAPANESE
             BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
+#endif
             break;
             }
         case 4:
@@ -1312,11 +1339,13 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             v=GDS_PROFILE_GetValidatedCountry(prof);
             w=GDS_PROFILE_GetValidatedRegion(prof);
             text=STRBUF_Create(0x80,(u16)heap);
-            msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
+            msg=MSGDATA_AllocString(bank,BR_PROFILE_WIN_TABLE[i].msg);
             WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
+#if LANGUAGE != LANGUAGE_JAPANESE
             BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
+#endif
             break;
             }
         case 6:
@@ -1327,18 +1356,26 @@ struct BrProfileScreen *BR_UTIL_CreateProfileScreen(void *prof,struct BrRes *q,v
             if(msg) {
                 text=STRBUF_Clone(msg,heap);
                 STRBUF_Delete(msg);
+#if LANGUAGE != LANGUAGE_JAPANESE
                 BR_UTIL_SetTextLayout(p->win[i],BR_PROFILE_COUNTRY_TEXT_X,1,0);
+#endif
             } else {
+#if LANGUAGE != LANGUAGE_JAPANESE
                 BrUtilPair c=d_02200B6C;
+#endif
                 PMS_DRAW_SetNullColorPalette(p->pms,0);
                 PMS_DRAW_SetPrintColor(p->pms,0x3da0);
+#if LANGUAGE == LANGUAGE_JAPANESE
+                PMS_DRAW_Print(p->pms,(void *)(((struct BmpWin *)p->win[i])->bmp),(struct BeaconDetailGraQuad *)rec,0);
+#else
                 PMS_DRAW_PrintOffset(p->pms,(void *)(((struct BmpWin *)p->win[i])->bmp),(void *)rec,0,(&c));
+#endif
                 ready=0;
             }
             break;
             }
         default:
-            text=MSGDATA_AllocString(bank,d_02200B34[i].msg);
+            text=MSGDATA_AllocString(bank,BR_PROFILE_WIN_TABLE[i].msg);
             break;
         }
         if(ready) {
@@ -1428,7 +1465,7 @@ int BR_UTIL_MainProfileScreen(struct BrProfileScreen *p)
 struct BrUtilTask *BR_UTIL_CreateTask(void *payload,BrUtilTaskStep step,int heap)
 {
     struct BrUtilTask *p;
-    p=GFL_HEAP_Alloc(heap,sizeof(struct BrUtilTask),0,d_02200D5C,0x6a2);
+    p=GFL_HEAP_Alloc(heap,sizeof(struct BrUtilTask),0,PM_LANG_JA(d_02200D5C, str_ja_02200F58),PM_SRC_LINE(0x6a2, 0x67f));
     MI_CpuFill8(p,0,sizeof(struct BrUtilTask));
     p->payload=payload;
     BR_UTIL_SetTaskStep(p,step);
@@ -1478,13 +1515,13 @@ char *BR_UTIL_CreateHandles(void *owner, struct BrRes *resources, int index, int
     unsigned short res;
     char *p;
     int i;
-    p=GFL_HEAP_Alloc(heap,sizeof(BrUtilEffect),0,d_02200D5C,0x7CA);
+    p=GFL_HEAP_Alloc(heap,sizeof(BrUtilEffect),0,PM_LANG_JA(d_02200D5C, str_ja_02200F58),PM_SRC_LINE(0x7CA, 0x7A7));
     MI_CpuFill8(p,0,sizeof(BrUtilEffect));
     ((BrUtilEffect *)p)->resources=resources;((BrUtilEffect *)p)->index=index;
     ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask(p,BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,heap);
     MI_CpuFill8((void *)&pair,0,8);
-    if(!BR_RES_GetSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,(void *)&triple)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
+    if(!BR_RES_GetSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,(void *)&triple)) GF_PANIC_Fail(PM_LANG_JA((const char *)d_02200D68, str_ja_02200F58),PM_SRC_LINE(0, 0x7BB),PM_LANG_JA((const char *)d_02200D68, str_ja_02200F7C));
     i=0;
     res=index;
     for(;i<12;i++) {
@@ -1596,6 +1633,15 @@ void BR_UTIL_EffectSpiral(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
 /*
  * lever: ShortPair declared before Pair gives +2C and +24 stack objects; initialize reused i=1 before FE478 so the call precedes its loop without relocating movs.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define BR_FOLLOW6_TABLE d_02200AD0
+#define BR_FOLLOW12_LINE (&d_02200AE8.first)
+#define BR_FOLLOW6_MID third
+#else
+#define BR_FOLLOW6_TABLE d_02200AD0
+#define BR_FOLLOW12_LINE (&d_02200AE8.first)
+#define BR_FOLLOW6_MID second
+#endif
 void BR_UTIL_EffectFollow12(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
@@ -1604,12 +1650,12 @@ void BR_UTIL_EffectFollow12(struct BrUtilTask *unused,int *state,BrUtilEffect *p
     switch(*state) {
     case 0:
         p->timer=0;
-        initial=d_02200AD0.first;
+        initial=PM_LANG_JA(BR_FOLLOW6_TABLE.first, BR_FOLLOW6_TABLE.second);
         for(i=0;i<12;i++) {
             p->positions[i]=initial;
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
-        BR_UTIL_InitLine((int *)p->record[0],&p->positions[0],&d_02200AE8.first,0,50);
+        BR_UTIL_InitLine((int *)p->record[0],&p->positions[0],BR_FOLLOW12_LINE,0,50);
         for(i=1;i<12;i++) BR_UTIL_Init((BrUtilFollow *)p->record[i],(const int *)&p->positions[i-1],(int *)&p->positions[i],0x4000-i*0x666/2);
         *state=1;
     case 1:
@@ -1628,6 +1674,7 @@ void BR_UTIL_EffectFollow12(struct BrUtilTask *unused,int *state,BrUtilEffect *p
     case 2: BR_UTIL_SetTaskStep(p->task,BR_UTIL_EffectIdle);break;
     }
 }
+#undef BR_FOLLOW12_LINE
 
 void BR_UTIL_EffectFollow6(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
 {
@@ -1638,12 +1685,12 @@ void BR_UTIL_EffectFollow6(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
     switch(*state) {
     case 0:
         p->timer=0;
-        initial=d_02200AD0.third;
+        initial=PM_LANG_JA(BR_FOLLOW6_TABLE.third, BR_FOLLOW6_TABLE.fourth);
         for(i=0;i<6;i++) {
             p->positions[i]=initial;
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
-        BR_UTIL_InitLine((int *)p->record[0], (const BrPair *)(&p->positions[0]), (const BrPair *)(&d_02200AD0.second), 0, 36);
+        BR_UTIL_InitLine((int *)p->record[0], (const BrPair *)(&p->positions[0]), (const BrPair *)(&BR_FOLLOW6_TABLE.BR_FOLLOW6_MID), 0, 36);
         for(i=1;i<6;i++) BR_UTIL_Init((BrUtilFollow *)p->record[i],(const int *)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
         *state=1;
     case 1:
@@ -1659,7 +1706,7 @@ void BR_UTIL_EffectFollow6(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
     case 2:
         p->timer=0;
         for(i=6;i<12;i++) {
-            BR_UTIL_InitSpiral((u8 *)p->record[i], (const BrPair *)((void *)&d_02200AD0.second), 15, (i*0xffff-0x5fffa)/6, 90);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const BrPair *)((void *)&BR_FOLLOW6_TABLE.BR_FOLLOW6_MID), 15, (i*0xffff-0x5fffa)/6, 90);
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=3;
@@ -1678,6 +1725,8 @@ void BR_UTIL_EffectFollow6(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
         break;
     }
 }
+#undef BR_FOLLOW6_TABLE
+#undef BR_FOLLOW6_MID
 
 void BR_UTIL_EffectFlyIn(struct BrUtilTask *unused,int *state,BrUtilEffect *p)
 {

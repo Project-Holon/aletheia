@@ -55,6 +55,14 @@
 #define GDS_NOTICE_SENTENCE_TYPE 4
 #define GDS_NOTICE_SENTENCE_ID 0
 #endif
+/* The easy-chat word of that sentence: group and index. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define GDS_NOTICE_WORD_GROUP 0x90
+#define GDS_NOTICE_WORD_INDEX 0x2F
+#else
+#define GDS_NOTICE_WORD_GROUP 0x95
+#define GDS_NOTICE_WORD_INDEX 0x1D
+#endif
 struct GameSys;
 struct ProgressBlock;
 struct MyStatus;
@@ -291,7 +299,7 @@ extern const char func_0200D59C_File[];
 struct GdsProfile *GDS_PROFILE_Create(u32 heap)
 {
     struct GdsProfile *profile = GFL_HEAP_Alloc((u16)heap, sizeof(struct GdsProfile),
-                                         0, func_0200D59C_File, 0x50);
+                                         0, func_0200D59C_File, PM_SRC_LINE(0x50, 0x50 - 17));
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
     return profile;
@@ -532,7 +540,7 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u
         if (n > 0) {
             PMSI_PARAM_InitSentence((struct PmsData *)out, GDS_NOTICE_SENTENCE_TYPE);
             out->word02 = GDS_NOTICE_SENTENCE_ID;
-            out->word04 = PMS_WORD_MakeWordId(0x95, 0x1D);
+            out->word04 = PMS_WORD_MakeWordId(GDS_NOTICE_WORD_GROUP, GDS_NOTICE_WORD_INDEX);
             out->word06 = 0xFFFF;
         }
         return 0;

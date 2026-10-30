@@ -347,6 +347,13 @@ struct MetTrainersSave;
 #include "../arm9/os_tick.h"
 struct ButtonMan;
 #include "../arm9/button_man.h"
+#include "../version.h"
+
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define IRC_COMPAT_MENU_MSG_ARCHIVE 0x30
+#else
+#define IRC_COMPAT_MENU_MSG_ARCHIVE 0x31
+#endif
 
 extern u32 IRC_COMPATIBLE_MENU_ButtonRows[];
 extern unsigned IRC_COMPATIBLE_MENU_VramBankConfig[];
@@ -669,7 +676,7 @@ void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
     GF_FONT_InitTextColor();
     text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
-    text->msgData = MSGDATA_CreateFromArchive(0, 2, 0x31, heapId);
+    text->msgData = MSGDATA_CreateFromArchive(0, 2, IRC_COMPAT_MENU_MSG_ARCHIVE, heapId);
     text->wordSet = WORDSET_CreateDefault(heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0, 0x20, heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0, 0x20, heapId);

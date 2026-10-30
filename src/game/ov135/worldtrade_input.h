@@ -86,7 +86,11 @@ int WORLDTRADE_INPUT_StateThreeOptionClose(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateStartGenderListScreen(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateGenderListInput(WorldtradeMenu *p);
 int WORLDTRADE_INPUT_StateGenderListClose(WorldtradeMenu *p);
+#if LANGUAGE == LANGUAGE_JAPANESE
+void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u16 color, void *printer);
+#else
 void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *printer);
+#endif
 void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *printer);
 void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages);
 int WORLDTRADE_INPUT_CountSpeciesInList(WorldtradeMenu *menu, u32 idx);

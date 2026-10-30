@@ -305,6 +305,7 @@ void WORLDTRADE_DETAIL_DrawRequestWindow(WorldtradeWork *p);
 
 
 #include "worldtrade_adapter.h"
+#include "../version.h"
 
 
 
@@ -679,7 +680,7 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     s4f = MSGDATA_AllocString(bank, 0x4F);
     smode = MSGDATA_AllocString(bank, tbl_02202EB0[mode]);
     s70 = MSGDATA_AllocString(bank, 0x70);
-    WORDSET_SetSlotNumber(words, 3, key, 3, 0, 1);
+    WORDSET_SetSlotNumber(words, 3, key, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     s71 = WORLDTRADE_ADAPTER_CreateString(words, bank, 0x71, 0x48);
     sname = MSGDATA_AllocString(names, name);
     FILE_UTIL_ReadString(ot, (u16)lv, 0x48);
@@ -691,11 +692,11 @@ void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void *
     if (mode != 3 && flag != 0) {
         WORLDTRADE_INPUT_PrintStringAlignedLine(win[0], smode, 0x40, 0, 0, WORLDTRADE_DETAIL_GetModeColor(mode), printer);
     }
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], sname, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[1], sname, PM_LANG_JA(1, 0), 0, 0, 0x440, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[2], s70, 0, 0, 0, 0x440, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[3], s71, 0, 0, 0, 0x440, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[4], s4f, 0, 0, 0, 0x3C40, printer);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win[5], ot, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win[5], ot, PM_LANG_JA(1, 0), 0, 0, 0x440, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(win[6], s41, 0, 0, 0, 0x3C40, printer);
     STRBUF_Delete(s4f);
     STRBUF_Delete(ot);
@@ -718,12 +719,12 @@ void WORLDTRADE_DETAIL_PrintMonName(void *bank, Pane2 *pane, const u16 *name, vo
     s1 = STRBUF_Create(0x22, 0x48);
     t0 = MSGDATA_AllocString(bank, 0x37);
     STRBUF_SetString(s0, name);
-    t1 = MSGDATA_AllocString(bank, 0xC2);
+    t1 = MSGDATA_AllocString(bank, WORLDTRADE_MSG(0xC2));
     POKE_TOOL_GetPartyValue(mon, 0x8D, (uptr)s1);
     WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win0, t0, 0, 0, 0, 0x3C40, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(pane->win1, s0, 0, 0, 0, 0x440, printer);
     WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win0, t1, 0, 0, 0, 0x3C40, printer);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win1, s1, 1, 0, 0, 0x440, printer);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(pane2->win1, s1, PM_LANG_JA(1, 0), 0, 0, 0x440, printer);
     STRBUF_Delete(t0);
     STRBUF_Delete(s0);
     STRBUF_Delete(t1);

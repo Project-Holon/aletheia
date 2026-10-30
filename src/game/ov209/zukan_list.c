@@ -568,6 +568,14 @@ extern struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchAc
 
 
 #include "../arm9/pokegra.h"
+#include "../version.h"
+
+/* Numbers print half width everywhere but in Japanese. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define ZUKAN_LIST_MSG_ARCHIVE 0x10F
+#else
+#define ZUKAN_LIST_MSG_ARCHIVE 0x114
+#endif
 
 
 
@@ -977,7 +985,7 @@ void ZUKAN_LIST_DisableSubWindows(void)
 
 void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
 {
-    p->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x114, 0x6B);
+    p->msgBank = MSGDATA_CreateFromArchive(0, 2, ZUKAN_LIST_MSG_ARCHIVE, 0x6B);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);
     p->wordSet = WORDSET_CreateDefault(0x6B);
     p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)0x6B);
@@ -1490,10 +1498,10 @@ void ZUKAN_LIST_DrawHeaderCounts(struct ZukanList *p)
     ZUKAN_LIST_ClearWindow(p, 1);
     ZUKAN_LIST_ClearWindow(p, 2);
     ZUKAN_LIST_PrintTouchbarLabel(p, 1, 2, 0x48, 4, 0x31a0, 1);
-    WORDSET_SetSlotNumber(*(WordSet * *)&p->wordSet, 0, seenCount, 3, 0, 1);
+    WORDSET_SetSlotNumber(*(WordSet * *)&p->wordSet, 0, seenCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     ZUKAN_LIST_PrintTouchbarLabelClone(p, 1, 5, 0x68, 4, 0x31a0, 1);
     ZUKAN_LIST_PrintTouchbarLabel(p, 2, 3, 0x58, 4, 0x31a0, 1);
-    WORDSET_SetSlotNumber(*(WordSet * *)&p->wordSet, 0, caughtCount, 3, 0, 1);
+    WORDSET_SetSlotNumber(*(WordSet * *)&p->wordSet, 0, caughtCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     ZUKAN_LIST_PrintTouchbarLabelClone(p, 2, 5, 0x78, 4, 0x31a0, 1);
     ZUKAN_LIST_MakeWindowScreens((void **)&p->windows[1].bmp);
     ZUKAN_LIST_MakeWindowScreens((void **)&p->windows[2].bmp);
@@ -1503,7 +1511,7 @@ void ZUKAN_LIST_DrawHeaderNational(struct ZukanList *p)
 {
     ZUKAN_LIST_ClearWindow(p, 2);
     ZUKAN_LIST_PrintTouchbarLabel(p, 2, 4, 88, 4, 0x31a0, 1);
-    WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, p->args->count, 3, 0, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, p->args->count, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     ZUKAN_LIST_PrintTouchbarLabelClone(p, 2, 5, 120, 4, 0x31a0, 1);
     ZUKAN_LIST_MakeWindowScreens((void **)&p->windows[2].bmp);
 }
@@ -1516,7 +1524,7 @@ void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, struct St
     if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p->args->save) == 0)
         index = p->formTable[index];
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, 8);
-    WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, index, 3, 2, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, index, 3, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
     STRBUF_Delete(text);
     TOUCHBAR_PrintAligned((TouchBarWindow *)dest, (void *)printer, 0, 4, p->textBuf, p->font, 0x39e0, 0);

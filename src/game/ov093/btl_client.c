@@ -977,7 +977,12 @@ typedef struct { int code; BtlClientSeqFn fn; } CodeEntry;
 
 typedef struct { u16 a; u16 b; } Pair16;
 
+#include "../version.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+struct StateDataL { u8 pad0[4]; int counter; u32 pad8[2]; u32 remaining; u8 result[14]; };
+#else
 struct StateDataL { u8 pad0[8]; int counter; u32 remaining; u32 pad10; u8 result[14]; };
+#endif
 
 union DView { struct StateDataL s; u32 w[9]; };
 
@@ -1043,6 +1048,7 @@ struct BtlServer;
 #include "../arm9/wordset.h"
 struct GFLNetHandle;
 #include "../arm9/net_handle.h"
+#include "../version.h"
 BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet, int netEnabled, struct GFLNetHandle *netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlRngState *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
@@ -1310,7 +1316,7 @@ BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet
     BtlClient *client;
     u32 slot;
     int useNet, recordKey;
-    client = GFL_HEAP_Alloc(heapId, sizeof(BtlClient), 1, (const char *)gBtlClientFileName, 0x209);
+    client = GFL_HEAP_Alloc(heapId, sizeof(BtlClient), 1, (const char *)gBtlClientFileName, PM_SRC_LINE(0x209, 0x205));
     useNet = 1;
     if (netEnabled == 0 || clientKind != 0)
         useNet = 0;
@@ -1327,7 +1333,7 @@ BtlClient *BTL_CLIENT_Create(struct BtlMain *battleMain, struct BtlSide *sideSet
     client->windowMode = 0;
     client->view = 0;
     client->lastMonValue = 0;
-    client->workBuffer = GFL_HEAP_Alloc(heapId, 0xbc0, 1, (const char *)gBtlClientFileName, 0x21a);
+    client->workBuffer = GFL_HEAP_Alloc(heapId, 0xbc0, 1, (const char *)gBtlClientFileName, PM_SRC_LINE(0x21a, 0x216));
     client->tickFn = BTL_CLIENT_StepMain;
     client->stepPhase = 0;
     client->requestParam = 0;
@@ -3305,7 +3311,11 @@ int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 attackType, int max
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
             m = BTL_SLOT_GetPokeParam(client->sideData, (u8)i);
+#if LANGUAGE == LANGUAGE_JAPANESE
+            if (BTL_CALC_GetTypeAffinityVsPair(attackType, BTL_POKEPARAM_GetTypePair((struct BtlPokeParam *)m)) <= maxAffinity) {
+#else
             if (BTL_POKEPARAM_IsAbleToBattle((struct BtlPokeParam *)m) != 0 && BTL_CALC_GetTypeAffinityVsPair(attackType, BTL_POKEPARAM_GetTypePair((struct BtlPokeParam *)m)) <= maxAffinity) {
+#endif
                 *outMember = i;
                 return 1;
             }
@@ -4895,6 +4905,40 @@ int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+int BTL_CLIENT_StepPrintMessageUpdateMons(BtlClient *client, int *state, u32 *args);
+
+int BTL_CLIENT_StepPrintMessageUpdateMons(BtlClient *client, int *state, u32 *args)
+{
+    switch (*state) {
+    case 0: {
+        u8 messageKind = (u8)args[0];
+        u8 count = (u8)args[1];
+        u8 i;
+
+        if (BTL_CLIENT_IsMainStepActive(client) == 0) {
+            if (messageKind == 3) {
+                BTLV_CORE_PrintSideMessage(client->view, 0x60, 0);
+            } else if (messageKind == 4) {
+                BTLV_CORE_PrintSideMessage(client->view, 0x5f, 0);
+            }
+        }
+        for (i = 0; i < count; i++) {
+            BTLV_CORE_StartMonSpriteUpdate(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_SERVER_CMD_ReadU8Wrapper(client->workBuffer)));
+        }
+        (*state)++;
+        break;
+    }
+    case 1:
+        if (BTLV_CORE_WaitMessage(client->view) != 0 && BTLV_CORE_WaitMonSpriteUpdate(client->view) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+#endif
+
 int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args)
 {
     u8 weatherId = args[0];
@@ -5177,6 +5221,7 @@ int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state)
     return 0;
 }
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args)
 {
     struct PokemonParam *mon;
@@ -5197,6 +5242,7 @@ int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args
     }
     return 1;
 }
+#endif
 
 /*
  * evidence: 43/43 relocations resolved after parent-coordinated overlay
@@ -5241,7 +5287,9 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
         if (!BTLV_EFFECT_GaugeIsAnimating()) *state = 13;
         break;
     case 3:
+#if LANGUAGE != LANGUAGE_JAPANESE
         BTL_POKEPARAM_RecalcMonParam(pokeParam);
+#endif
         BTL_POKEPARAM_ReloadFromParam(pokeParam);
         if (gaugeActive) {
             BTLV_EFFECT_GaugeRefreshForLevelUp(monSlot, pokeParam);
@@ -5675,12 +5723,12 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
             return 1;
         }
         BTLV_CORE_ShowPortrait((struct BtlvCore *)(client->view), slotA, 0);
-        gExpGainWork.w[1] = 8;
+        gExpGainWork.w[PM_LANG_JA(1, 2)] = 8;
         (*state)++;
         break;
     case 1:
         BTLV_CORE_UpdatePortraitSlideIn(client->view, slotA);
-        if (gExpGainWork.w[1]) gExpGainWork.w[1]--;
+        if (gExpGainWork.w[PM_LANG_JA(1, 2)]) gExpGainWork.w[PM_LANG_JA(1, 2)]--;
         else {
             BTLV_CORE_ShowPortrait(client->view, slotB, 0);
             (*state)++;
@@ -5696,12 +5744,12 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
     case 3:
         BTL_POKEPARAM_SetAbility(pokeParamA, abilityA);
         BTL_POKEPARAM_SetAbility(pokeParamB, abilityB);
-        gExpGainWork.w[1] = 0;
+        gExpGainWork.w[PM_LANG_JA(1, 2)] = 0;
         (*state)++;
         break;
     case 4:
-        gExpGainWork.w[1]++;
-        if (gExpGainWork.w[1] > 8) {
+        gExpGainWork.w[PM_LANG_JA(1, 2)]++;
+        if (gExpGainWork.w[PM_LANG_JA(1, 2)] > 8) {
             BTLV_CORE_ReloadPortrait(client->view, slotA);
             (*state)++;
         }

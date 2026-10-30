@@ -466,6 +466,11 @@ int WORLDTRADE_SERVER_StateWaitMessage(WorldtradeWork *p);
 int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p);
 
 #include "worldtrade_adapter.h"
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const char str_ja_0220411C[];
+extern const char str_ja_02204130[];
+extern const char str_ja_02204134[];
+#endif
 
 
 
@@ -626,13 +631,13 @@ int WORLDTRADE_SERVER_StartRequest(WorldtradeWork *p)
         WORLDTRADE_SetNextState(p, 0x29, 0x1C);
         break;
     case 12:
-        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, 0x9A, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, WORLDTRADE_MSG(0x9A), 1, 0xF0F);
         p->state = 0x21;
         p->nextScreenId = 1;
         GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
         break;
     default:
-        GF_PANIC_Fail(str_02203F58, 0, str_02203F58);
+        GF_PANIC_Fail(PM_LANG_JA(str_02203F58, str_ja_0220411C), PM_SRC_LINE(0, 0x2B5), PM_LANG_JA(str_02203F58, str_ja_02204130));
         break;
     }
     WORLDTRADE_CreateTimeIcon(p);
@@ -649,9 +654,9 @@ int WORLDTRADE_SERVER_SendUploadRequest(WorldtradeWork *p)
     *(u8 * *)&p->wm=(unsigned char *)NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(char *)(((u8 *)&((struct WorldtradeWork *)p)->netBuf)));
     NHTTP_RAP_AllocPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),0x48,POKE_TOOL_GetPartyParamSize(),1);
     NHTTP_RAP_AppendPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),mon,POKE_TOOL_GetPartyParamSize());
-    if(NHTTP_RAP_CreatePostRequest((struct _NHTTPRapSession *)(*(u8 * *)&p->wm))==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
+    if(NHTTP_RAP_CreatePostRequest((struct _NHTTPRapSession *)(*(u8 * *)&p->wm))==0) GF_PANIC_Fail(PM_LANG_JA(str_02203F58, str_ja_0220411C),PM_SRC_LINE(0, 0x2DF),PM_LANG_JA(str_02203F58, str_ja_02204134));
     ready=NHTTP_RAP_StartConnection((struct _NHTTPRapSession *)(((struct WorldtradeWork *)p)->wm))==0;
-    if(ready==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
+    if(ready==0) GF_PANIC_Fail(PM_LANG_JA(str_02203F58, str_ja_0220411C),PM_SRC_LINE(0, 0x2E2),PM_LANG_JA(str_02203F58, str_ja_02204134));
     p->state=3;
     return 2;
 }
@@ -758,10 +763,10 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     text=STRBUF_GetChars((struct Strbuf *)s);
     for(i=0;i<STRBUF_GetLength((struct Strbuf *)s)+1;i++) {
         c=*(u16 *)((uptr)text+i*2);
-        if(c==STRBUF_GetEosChar()) *(u16 *)(p+i*2+0x1300)=0;
-        else *(u16 *)(p+i*2+0x1300)=c;
+        if(c==STRBUF_GetEosChar()) *(u16 *)(p+i*2+(0x1300 - WORLDTRADE_PRINTER_SHRINK - WORLDTRADE_MENUWINS_SHRINK))=0;
+        else *(u16 *)(p+i*2+(0x1300 - WORLDTRADE_PRINTER_SHRINK - WORLDTRADE_MENUWINS_SHRINK))=c;
     }
-    ((WorldtradeWork *)p)->profanityWords=(u16 *)(p+0x1300);
+    ((WorldtradeWork *)p)->profanityWords=(u16 *)(p+(0x1300 - WORLDTRADE_PRINTER_SHRINK - WORLDTRADE_MENUWINS_SHRINK));
     ((WorldtradeWork *)p)->badWordCountU=0;
     DWC_CheckProfanityExAsync((short unsigned int **)((u8 *)&((struct WorldtradeWork *)p)->profanityWords),1,0,0,(char *)((WorldtradeWork *)p)->pad131C,(int *)((u8 *)&((struct WorldtradeWork *)p)->badWordCountU),0x80);
     STRBUF_Delete((struct Strbuf *)s);
@@ -1715,7 +1720,7 @@ int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(WorldtradeWork *p)
 
 int WORLDTRADE_SERVER_StateShowRetryMessage(WorldtradeWork *p)
 {
-    WORLDTRADE_INPUT_PrintStringPlain(p, (p->bank), 0x99, 1, 0xf0f);
+    WORLDTRADE_INPUT_PrintStringPlain(p, (p->bank), WORLDTRADE_MSG(0x99), 1, 0xf0f);
     WORLDTRADE_SetNextState(p, 0x2a, 0x28);
     WORLDTRADE_SetStateAndReturn(p, 1, 0);
     WORLDTRADE_DeleteTimeIcon(p);
@@ -1734,19 +1739,19 @@ void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p)
 
     switch ((p->err) + 15) {
     case 14:
-        v = 0x9d;
+        v = WORLDTRADE_MSG(0x9d);
         break;
     case 13:
-        v = 0xa9;
+        v = WORLDTRADE_MSG(0xa9);
         break;
     case 12:
-        v = 0xa2;
+        v = WORLDTRADE_MSG(0xa2);
         break;
     case 11:
-        v = 0xa4;
+        v = WORLDTRADE_MSG(0xa4);
         break;
     case 10:
-        v = 0xa3;
+        v = WORLDTRADE_MSG(0xa3);
         break;
     case 9:
         v = 0x1b;
@@ -1767,25 +1772,29 @@ void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p)
         v = 0x20;
         break;
     case 3:
-        v = 0xa0;
+        v = WORLDTRADE_MSG(0xa0);
         break;
     case 2:
-        v = 0xa5;
+        v = WORLDTRADE_MSG(0xa5);
         break;
     case 1:
-        v = 0xaa;
+        v = WORLDTRADE_MSG(0xaa);
         break;
     case 0:
-        v = 0xa1;
+        v = WORLDTRADE_MSG(0xa1);
         break;
     default:
-        v = 0x9f;
+        v = WORLDTRADE_MSG(0x9f);
         break;
     }
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORLDTRADE_INPUT_PrintStringPlain(p, p->bank, v, 1, 0x0f0f);
+#else
     WORLDTRADE_INPUT_PrintStringTop(p, p->bank, v, 1, 0x0f0f);
+#endif
 }
 
-int WORLDTRADE_SERVER_StateShowErrorMessage(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); if(DPW_TR_IsAsyncEnd()) WORLDTRADE_SetNextState(p,41,48); else WORLDTRADE_SetNextState(p,41,46); WORLDTRADE_SetStateAndReturn(p,0,21); WORLDTRADE_DeleteTimeIcon(p); return 2; }
+int WORLDTRADE_SERVER_StateShowErrorMessage(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); if(DPW_TR_IsAsyncEnd()) WORLDTRADE_SetNextState(p,PM_LANG_JA(41,42),48); else WORLDTRADE_SetNextState(p,PM_LANG_JA(41,42),46); WORLDTRADE_SetStateAndReturn(p,0,21); WORLDTRADE_DeleteTimeIcon(p); return 2; }
 
 /*
  * Every concrete byte is reproduced (36 bytes, the last two of them the
@@ -1816,7 +1825,7 @@ int WORLDTRADE_SERVER_StateCheckAsyncEnd(WorldtradeWork *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateShowErrorMessageB(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); WORLDTRADE_SetNextState(p,41,40); WORLDTRADE_SetStateAndReturn(p,1,0); WORLDTRADE_DeleteTimeIcon(p); if((*(int *)&p->d0)>0) WORLDTRADE_SUBLCD_UpdateSlotAnims(p); return 2; }
+int WORLDTRADE_SERVER_StateShowErrorMessageB(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); WORLDTRADE_SetNextState(p,PM_LANG_JA(41,42),40); WORLDTRADE_SetStateAndReturn(p,1,0); WORLDTRADE_DeleteTimeIcon(p); if((*(int *)&p->d0)>0) WORLDTRADE_SUBLCD_UpdateSlotAnims(p); return 2; }
 
 /*
  * Publish the 0x29/0x22 then the 0x25/0x28 pair and report 2.

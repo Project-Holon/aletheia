@@ -98,6 +98,7 @@ struct TcbTask;
 
 
 #include "../arm9/tcb_list.h"
+#include "../version.h"
 
 
 
@@ -138,7 +139,7 @@ BtlvTimer *BTLV_TIMER_Create(u16 heapId)
     void *archive;
     void *palSlots;
 
-    timer = GFL_HEAP_Alloc(heapId, sizeof(BtlvTimer), 1, sBtlvTimerSiteName, 0x81);
+    timer = GFL_HEAP_Alloc(heapId, sizeof(BtlvTimer), 1, sBtlvTimerSiteName, PM_SRC_LINE(0x81, 0x7c));
     timer->heapId = heapId;
     archive = ARC_TOOL_CreateHandle(0xb, (u16)((timer->heapId & 0x7fff) | 0x8000));
     timer->unit[0] = CLACT_CreateUnit(6, 0, timer->heapId);

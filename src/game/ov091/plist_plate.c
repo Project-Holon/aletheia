@@ -89,6 +89,8 @@
 /* Left edge of the order and eligibility label on a plate. */
 #if LANGUAGE == LANGUAGE_SPANISH
 #define PLIST_PLATE_LABEL_X 0x30
+#elif LANGUAGE == LANGUAGE_JAPANESE
+#define PLIST_PLATE_LABEL_X 0x2d
 #else
 #define PLIST_PLATE_LABEL_X 0x2e
 #endif
@@ -210,7 +212,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     int isOther = 0;
     enum PlateKind { PLATE_KIND_LEAD, PLATE_KIND_OTHER } kind;
     PlistPlateSurface surface;
-    plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, 0x9f);
+    plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, PM_SRC_LINE(0x9f, 0x97));
     plate->slot = slot;
     plate->mon = mon;
     plate->isEmpty = 0;
@@ -252,7 +254,7 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
 
 PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
 {
-    PlistPlate *plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, 0xea);
+    PlistPlate *plate = GFL_HEAP_Alloc(work->heapId, sizeof(PlistPlate), 0, gPlistPlateSourceName, PM_SRC_LINE(0xea, 0xe2));
     u8 *palette = (u8 *)work->paletteData + 0xc;
 
     BG_SYS_DrawTileEx(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,
@@ -412,7 +414,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     if (isTeachMode == 0) {
         if ((POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) || plate->labelState != PLIST_PLATE_LABEL_NONE) {
             wordSetB = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, 1);
+            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             } else {
@@ -467,7 +469,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
         } else {
             wordSetB = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
+            WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             } else {
@@ -475,7 +477,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             }
             WORDSET_Delete(wordSetB);
             wordSetC = WORDSET_CreateDefault(work->heapId);
-            WORDSET_SetSlotNumber(wordSetC, 0, plate->hp, 3, 1, 1);
+            WORDSET_SetSlotNumber(wordSetC, 0, plate->hp, 3, 1, PM_LANG_HALF_WIDTH_DIGITS);
             if (isRefresh == 0) {
                 POKELIST_PrintExpandedTextSub(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             } else {

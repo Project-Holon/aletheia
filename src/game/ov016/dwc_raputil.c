@@ -46,6 +46,7 @@
 #include "../arm9/wih_dwc.h"
 #include "../version.h"
 
+/* source line number of the heap allocation */
 /* The Wi-Fi utility numbers its languages from English (1) on: French 2, German 3, Italian 4, Spanish 5. */
 #if LANGUAGE == LANGUAGE_FRENCH
 #define DWC_UTILITY_LANGUAGE 2
@@ -55,8 +56,14 @@
 #define DWC_UTILITY_LANGUAGE 4
 #elif LANGUAGE == LANGUAGE_SPANISH
 #define DWC_UTILITY_LANGUAGE 5
+#elif LANGUAGE == LANGUAGE_JAPANESE
+#define DWC_UTILITY_LANGUAGE 0
+#define DWC_UTILITY_PARAM 0x10
 #else
 #define DWC_UTILITY_LANGUAGE 1
+#endif
+#ifndef DWC_UTILITY_PARAM
+#define DWC_UTILITY_PARAM 0
 #endif
 void DWC_RAPUTIL_RunUtility(int heapId);
 int DWC_RAPUTIL_Init(void);
@@ -75,9 +82,9 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     void *utilWork;
 
     savedIrq = OS_DisableInterrupts();
-    utilWork = GFL_HEAP_Alloc(heapId, 0x40000, 1, sDwcRaputilFileName, 0x3d);
+    utilWork = GFL_HEAP_Alloc(heapId, 0x40000, 1, sDwcRaputilFileName, PM_SRC_LINE(0x3d, 0x25));
     if (OS_IsRunOnTwl() == 0)
-        DWC_StartUtility(utilWork, DWC_UTILITY_LANGUAGE, 0);
+        DWC_StartUtility(utilWork, DWC_UTILITY_LANGUAGE, DWC_UTILITY_PARAM);
     GFL_HEAP_Free(utilWork);
     OS_RestoreInterrupts(savedIrq);
     REG_IME;

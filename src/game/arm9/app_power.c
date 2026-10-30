@@ -62,6 +62,7 @@
 #include "comm_player_support_shared_types.h"
 #include "../sdk_ioreg.h"
 #include "../types.h"
+#include "../version.h"
 #include "time_icon_shared_types.h"
 #include "save_event_shared_types.h"
 
@@ -372,7 +373,11 @@ void APP_POWER_DrawShutdownScreen(u32 messageId)
     MIi_CpuClear16(0x7777, (void *)((uptr)G2_GetBG1CharPtr() + 0x400), 0x3C00);
     bmp = BMP_CreateFromVram((void *)((uptr)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    msgBank = MSGDATA_CreateFromArchive(0, 2, 5, 7);
+#else
     msgBank = MSGDATA_CreateFromArchive(0, 2, 2, 7);
+#endif
     message = MSGDATA_AllocString(msgBank, messageId);
     PRINTSYS_PrintColor(bmp, 0, 0, message, font, 0x1167);
     STRBUF_Delete(message);

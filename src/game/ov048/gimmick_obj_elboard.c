@@ -422,6 +422,10 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
 
     wordSet = WORDSET_CreateDefault(work->heapId);
     RTC_GetDate(&locals.date);
+#if LANGUAGE == LANGUAGE_JAPANESE
+    WORDSET_SetSlotNumber(wordSet, 0, locals.date.month, 2, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 1, 1);
+#else
     WORDSET_SetSlotNumber(wordSet, 2, locals.date.year, 2, 2, 1);
 #if LANGUAGE == LANGUAGE_SPANISH
     WORDSET_SetSlotNumber(wordSet, 0, locals.date.month, 2, 0, 1);
@@ -429,6 +433,7 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
 #endif
     WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 0, 1);
+#endif
     locals.msg.animIndex = gElboardLayout.animIndex[0];
     locals.msg.textureName = gElboardLayout.textureName[0];
     locals.msg.paletteName = gElboardLayout.paletteName[0];
@@ -901,7 +906,7 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     int i;
     GimmickObjElboard *board;
 
-    board = GFL_HEAP_Alloc(config->heapId, sizeof(*board), 0, gElboardFileName, 0x60);
+    board = GFL_HEAP_Alloc(config->heapId, sizeof(*board), 0, gElboardFileName, PM_SRC_LINE(0x60, 0x5f));
     i = 0;
     board->heapId = config->heapId;
     board->lineCount = i;
@@ -910,8 +915,8 @@ GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(ElboardConfig *config)
     board->trailChars = config->trailChars;
     board->render = config->render;
     board->scroll = i;
-    board->lines = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * sizeof(*board->lines), 0, gElboardFileName, 0x6d);
-    board->startRequest = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, 0x6f);
+    board->lines = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * sizeof(*board->lines), 0, gElboardFileName, PM_SRC_LINE(0x6d, 0x6c));
+    board->startRequest = GFL_HEAP_Alloc(config->heapId, config->lineCapacity * 4, 0, gElboardFileName, PM_SRC_LINE(0x6f, 0x6e));
     for (i = 0; i < config->lineCapacity; i++) {
         board->lines[i] = 0;
         board->startRequest[i] = 0;
@@ -983,8 +988,8 @@ void GIMMICK_OBJ_ELBOARD_SetScroll(GimmickObjElboard *board, int scroll)
     frame = scroll >> 12;
     totalFrames = 0;
     /* heap id with the high bit set: the temporary arrays come from the other end of the heap */
-    lineStart = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11A);
-    localFrame = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, 0x11C);
+    lineStart = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, PM_SRC_LINE(0x11A, 0x119));
+    localFrame = (int *)GFL_HEAP_Alloc((u16)((board->heapId & 0x7FFF) | 0x8000), board->lineCount * 4, 0, gElboardFileName, PM_SRC_LINE(0x11C, 0x11b));
     board->scroll = scroll;
     for (i = 0; i < board->lineCount; i++) {
         board->startRequest[i] = 0;
@@ -1054,10 +1059,10 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     int textAndTrail;
     fx32 animFrames;
 
-    line = GFL_HEAP_Alloc(board->heapId, sizeof(*line), 0, gElboardFileName, 0x180);
+    line = GFL_HEAP_Alloc(board->heapId, sizeof(*line), 0, gElboardFileName, PM_SRC_LINE(0x180, 0x17f));
     msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
     if (msg->wordSet != 0) {
-        str = STRBUF_Create(0xC0, board->heapId);
+        str = STRBUF_Create(PM_LANG_JA(0xC0, 0x80), board->heapId);
         tmp = MSGDATA_AllocString((struct MsgBank *)msgData, msg->msgId);
         WORDSET_CopyTaggedText(msg->wordSet, str, tmp);
         GFL_HEAP_Free(tmp);

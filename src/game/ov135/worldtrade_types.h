@@ -4,6 +4,7 @@
  * worldtrade_box and worldtrade_enter. */
 
 #include "../types.h"
+#include "../version.h"
 
 struct BmpWin;
 struct ClactActor;
@@ -18,6 +19,23 @@ typedef struct {
     u32 used;
 } PrinterSlot;
 
+/* The Japanese build predates the key cursor and the stream window of the printer (8 bytes)
+ * and has three fewer menu windows (12 bytes). */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WORLDTRADE_PRINTER_SHRINK 8
+#define WORLDTRADE_MENUWINS_SHRINK 0xC
+#else
+#define WORLDTRADE_PRINTER_SHRINK 0
+#define WORLDTRADE_MENUWINS_SHRINK 0
+#endif
+
+/* The Japanese message file has four fewer lines before the error and prompt texts. */
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define WORLDTRADE_MSG(id) ((id) - 4)
+#else
+#define WORLDTRADE_MSG(id) (id)
+#endif
+
 /* The adapter's printer object (0x13C bytes).  It is the block embedded at
  * WorldtradeWork+0xFA0: a font, the TCB task and its argument, the print queue, the
  * yes/no print stream, 24 print slots and the key cursor. */
@@ -27,9 +45,13 @@ typedef struct {
     u32 arg;
     void *queue;
     void *yesno;
+#if LANGUAGE != LANGUAGE_JAPANESE
     void *yesnoArg;
+#endif
     PrinterSlot slots[24];
+#if LANGUAGE != LANGUAGE_JAPANESE
     void *cursor;
+#endif
 } Printer;
 
 typedef struct {
@@ -62,7 +84,11 @@ typedef struct {
     s16 page;
     int total;
     int listKind;
+#if LANGUAGE == LANGUAGE_JAPANESE
+    u8 flags[0x92 - 0x60];
+#else
     u8 flags[0x7A - 0x60];
+#endif
     u8 last;
     u8 pad7B;
     Printer g;
@@ -89,6 +115,8 @@ typedef struct {
             u8 pad0__[0x120 - 0x0];
             u8 nation; /* +0x120 */
             u8 area; /* +0x121 */
+            u8 pad122[3];
+            u8 nationFlag; /* +0x125 */
         };
         struct {
             u8 padF6_[0xF6];
@@ -241,7 +269,9 @@ typedef struct {
     struct Tcbl *msgData; /* +0x4 */
     u8 pad8[8];
     void *stream; /* +0x10 */
+#if LANGUAGE != LANGUAGE_JAPANESE
     void *streamWin; /* +0x14 */
+#endif
 } PrintStreamCtx;
 
 /* Two ten-entry u16 selection tables behind two header words. */
@@ -493,7 +523,7 @@ struct WorldtradeWork {
     void *titleWin;
     void *boxNameWin; /* +0xD4C */
     union { /* +0xD50 */
-        u8 menuWins[0xD90 - 0xD50];
+        u8 menuWins[0xD90 - 0xD50 - WORLDTRADE_MENUWINS_SHRINK];
         struct BmpWin *win[3];
         struct BmpWin *side_u2[2];
         void *side_p2[2];
@@ -613,9 +643,9 @@ struct WorldtradeWork {
     };
     union { /* +0xFA0 */
         union {
-            u8 tail[0x12F0 - 0xFA0];
+            u8 tail[0x12F0 - 0xFA0 - WORLDTRADE_PRINTER_SHRINK];
             struct {
-                u8 padFA0[832];
+                u8 padFA0[832 - WORLDTRADE_PRINTER_SHRINK];
                 unsigned int bgLayersLoaded;
                 u8 pad12E4[4];
                 int countdownFrames;
@@ -624,7 +654,7 @@ struct WorldtradeWork {
         };
         struct {
             u8 printerBlock[4]; /* +0xFA0 */
-            u8 padFA4[0x10DC - 0xFA4];
+            u8 padFA4[0x10DC - 0xFA4 - WORLDTRADE_PRINTER_SHRINK];
             union {
                 WorldtradeReq *req; /* +0x10DC */
                 PokeStatusRequest *statusReq;
@@ -760,7 +790,17 @@ typedef struct {
 } Pane2;
 
 
-struct WorldtradeObj { u32 w0; u32 w1; u32 w2; u32 w3; void *h; u32 n; PrinterSlot e[24]; };
+struct WorldtradeObj {
+    u32 w0;
+    u32 w1;
+    u32 w2;
+    u32 w3;
+    void *h;
+#if LANGUAGE != LANGUAGE_JAPANESE
+    u32 n;
+#endif
+    PrinterSlot e[24];
+};
 
 /* One print slot of the message system: the window it prints into and whether
  * the print is still in flight. */

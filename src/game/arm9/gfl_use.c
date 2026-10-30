@@ -189,6 +189,7 @@ struct TcbList;
 struct TcbTask;
 struct SndHeap;
 #include "../types.h"
+#include "../version.h"
 #include "../sdk_ioreg.h"
 #include "tcb_list.h"
 
@@ -391,6 +392,7 @@ void GFL_USE_DoVramTransfer(void);
 void GFL_USE_CtrdgDummyInit(void);
 void GFL_USE_OnPreExit(void);
 void GFL_USE_InitSystem(void);
+
 void GFL_USE_PollFrameInput(void);
 void GFL_USE_NoOpFrameHook(void);
 void GFL_USE_RunHBlankTasks(void);
@@ -868,10 +870,10 @@ void GFL_USE_InitSystem(void)
     GF_OVERLAY_Init(0, 0x10, 4, 4);
     PROCSYS_CreateGlobal(0);
 
-    _GflUse.runtime = GFL_HEAP_Alloc(0, sizeof(*_GflUse.runtime), 0, (const char *)s_gfl_use_c, 0x117);
-    _GflUse.runtime->hblankTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(4), 0, (const char *)s_gfl_use_c, 0x119);
+    _GflUse.runtime = GFL_HEAP_Alloc(0, sizeof(*_GflUse.runtime), 0, (const char *)s_gfl_use_c, PM_SRC_LINE(0x117, 0x104));
+    _GflUse.runtime->hblankTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(4), 0, (const char *)s_gfl_use_c, PM_SRC_LINE(0x119, 0x106));
     _GflUse.runtime->hblankTasks = (struct TcbList *)TCB_Init(4, _GflUse.runtime->hblankTaskBuf);
-    _GflUse.runtime->mainTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
+    _GflUse.runtime->mainTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(0x10), 0, (const char *)s_gfl_use_c, PM_SRC_LINE(0x11C, 0x109));
     _GflUse.runtime->mainTasks = (struct TcbList *)TCB_Init(0x10, _GflUse.runtime->mainTaskBuf);
 
     GFL_USE_InitRandom();

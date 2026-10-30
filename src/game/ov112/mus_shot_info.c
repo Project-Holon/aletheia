@@ -109,6 +109,7 @@
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  */
 #include "musical_shot_sys_shared_types.h"
+#include "../version.h"
 #include "mus_shot_photo_shared_types.h"
 #include "mus_shot_info_shared_types.h"
 
@@ -502,6 +503,12 @@ void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
 
 void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); BG_SYS_SetPlaneVisible(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+#define MUSICAL_SHOT_INFO_MSG_ARCHIVE 79
+#else
+#define MUSICAL_SHOT_INFO_MSG_ARCHIVE 78
+#endif
+
 void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 {
     int zero;
@@ -511,7 +518,7 @@ void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
     BG_SYS_PushTile(4);
     zero=0;
     ((MusicalMcssWork *)p)->font=GF_FONT_Create(23,0,0,0,((MusicalMcssWork *)p)->heap);
-    ((MusicalMcssWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,78,((MusicalMcssWork *)p)->heap);
+    ((MusicalMcssWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,MUSICAL_SHOT_INFO_MSG_ARCHIVE,((MusicalMcssWork *)p)->heap);
     BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,((MusicalMcssWork *)p)->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,320,32,((MusicalMcssWork *)p)->heap);
     GF_FONT_SetDefaultTextColor();
@@ -526,7 +533,9 @@ void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p)
 {
     PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
+#if LANGUAGE != LANGUAGE_JAPANESE
     PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue));
+#endif
     if (*(u8 * *)&((MusicalMcssWork *)p)->timeIcon) {
         TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon));
         ((MusicalMcssWork *)p)->timeIcon=0;

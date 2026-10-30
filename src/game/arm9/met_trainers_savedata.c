@@ -18,6 +18,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  */
 #include "../types.h"
+#include "../version.h"
 #include "greeting_savedata_shared_types.h"
 
 /* Save block 0x44 (0xFC bytes): the 32 most recently met trainer ids and a
@@ -111,7 +112,12 @@ void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value)
     int shiftCount;
 
     for (index = 0; index < list->count; index++) {
+#if LANGUAGE == LANGUAGE_JAPANESE
+        /* The Japanese build compares against the slot at `count` on every pass. */
+        if (list->values[list->count] != value)
+#else
         if (list->values[index] != value)
+#endif
             continue;
         shiftCount = (int)list->count - 1 - (int)index;
         if (shiftCount <= 0)
@@ -132,7 +138,9 @@ void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value)
 
     MI_CpuCopy8(&list->values[1], &list->values[0], 0x7c);
     list->values[31] = value;
+#if LANGUAGE != LANGUAGE_JAPANESE
     list->count = 32;
+#endif
 }
 
 /*

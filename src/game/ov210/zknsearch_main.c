@@ -196,6 +196,7 @@
  */
 struct Query;
 struct TouchBarWindow;
+#include "../version.h"
 #include "../arm9/game_data.h"
 #include "../sdk_ioreg.h"
 #include "../ov212/zukan_types.h"
@@ -350,10 +351,22 @@ void ZKNSEARCH_MAIN_SetFadeStateB(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_EnterResultLayout(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_StartScrollMove(ZknSearchWork *work, int delta);
 int ZKNSEARCH_MAIN_UpdateScrollMove(ZknSearchWork *work);
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 ZKNSEARCH_MAIN_GetListIndexA(ZknSearchWork *work, u32 index);
+#endif
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 ZKNSEARCH_MAIN_GetListIndexB(ZknSearchWork *work, u32 index);
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+u32 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index);
+#else
 u16 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index);
+#endif
+#if LANGUAGE == LANGUAGE_JAPANESE
+u32 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, u32 value);
+#else
 u16 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, int index);
+#endif
 void ZKNSEARCH_MAIN_NormalizeRecordByte(ZknSearchWork *work);
 void ZKNSEARCH_MAIN_DenormalizeRecordByte(ZknSearchWork *work);
 u32 ZKNSEARCH_MAIN_RunState(ZknSearchWork *work);
@@ -761,7 +774,7 @@ void ZKNSEARCH_MAIN_ResetWindow(u32 work)
 
 void ZKNSEARCH_MAIN_InitTextSystem(ZknSearchWork *work)
 {
-    *(struct MsgBank * *)&work->msgBank = MSGDATA_CreateFromArchive(0, 2, 277, 123);
+    *(struct MsgBank * *)&work->msgBank = MSGDATA_CreateFromArchive(0, 2, PM_LANG_JA(277, 272), 123);
     work->font = GF_FONT_Create(23, 0, 0, 0, 123);
     *(struct WordSet * *)&work->wordSet = WORDSET_CreateDefault(123);
     work->printSys = PRINTSYS_QUE_Create((unsigned int)123);
@@ -911,7 +924,7 @@ void ZKNSEARCH_MAIN_LoadResultGraphics(ZknSearchWork *work)
     void *out;
     void *h;
     void *blob;
-    work->resultGraphics = GFL_HEAP_Alloc(123, 384, 0, d_021C0E80, 0x3b0);
+    work->resultGraphics = GFL_HEAP_Alloc(123, 384, 0, d_021C0E80, PM_SRC_LINE(0x3b0, 0x398));
     h = ARC_TOOL_CreateHandle(159, 0x807b);
     blob = ARC_UTIL_LoadPaletteDataFromHandle(h, 91, 0, (void **)&out, 0x807b);
     MIi_CpuCopy16((char *)out + 12, work->resultGraphics, 384);
@@ -1069,30 +1082,44 @@ int ZKNSEARCH_MAIN_UpdateScrollMove(ZknSearchWork *work)
 
 
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 ZKNSEARCH_MAIN_GetListIndexA(ZknSearchWork *work, u32 index)
 {
     return index;
 }
+#endif
 
 
 
 
 
+#if LANGUAGE != LANGUAGE_JAPANESE
 u32 ZKNSEARCH_MAIN_GetListIndexB(ZknSearchWork *work, u32 index)
 {
     return index;
 }
+#endif
 
 
 
 
 
 
+#if LANGUAGE == LANGUAGE_JAPANESE
+extern const u32 tbl_ja_021C06F8[];
+
+u32 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index)
+{
+    (void)work;
+    return tbl_ja_021C06F8[index];
+}
+#else
 u16 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index)
 {
     (void)work;
     return d_021C072E[index];
 }
+#endif
 
 
 
@@ -1105,11 +1132,25 @@ u16 ZKNSEARCH_MAIN_LookupEntryId(ZknSearchWork *work, int index)
  *
  * Addresses are Black-image addresses.
  */
+#if LANGUAGE == LANGUAGE_JAPANESE
+u32 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, u32 value)
+{
+    u32 i;
+
+    (void)work;
+    for (i = 0; i < 17; i++) {
+        if (value == tbl_ja_021C06F8[i])
+            return i;
+    }
+    return 0xFF;
+}
+#else
 u16 ZKNSEARCH_MAIN_LookupSavedEntryId(ZknSearchWork *work, int index)
 {
     (void)work;
     return d_021C072E[index];
 }
+#endif
 
 
 
@@ -1808,8 +1849,8 @@ u32 ZKNSEARCH_MAIN_UpdateListPage3(ZknSearchWork *work)
     case (u32)-3:
     case (u32)-2:
         ZKNSEARCH_MAIN_HideColumnActors(work);
-        ZKNSEARCH_MAIN_PlaceScrollActor(work, 0, (u16)ZKNSEARCH_MAIN_GetListIndexB(work, (*(u8 **)(*(u8 * *)&work->save + 8))[3]));
-        ZKNSEARCH_MAIN_PlaceScrollActor(work, 1, (u16)ZKNSEARCH_MAIN_GetListIndexB(work, (*(u8 **)(*(u8 * *)&work->save + 8))[4]));
+        ZKNSEARCH_MAIN_PlaceScrollActor(work, 0, (u16)PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, (*(u8 **)(*(u8 * *)&work->save + 8))[3]), ZKNSEARCH_MAIN_LookupSavedEntryId(work, (*(u8 **)(*(u8 * *)&work->save + 8))[3])));
+        ZKNSEARCH_MAIN_PlaceScrollActor(work, 1, (u16)PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, (*(u8 **)(*(u8 * *)&work->save + 8))[4]), ZKNSEARCH_MAIN_LookupSavedEntryId(work, (*(u8 **)(*(u8 * *)&work->save + 8))[4])));
         work->cursorIndex = 0x39;
         work->dialogState = 1;
         work->returnState = ret;
@@ -2276,7 +2317,7 @@ void ZKNSEARCH_MAIN_ClearEntry2(ZknSearchWork *work)
  */
 void ZKNSEARCH_MAIN_ToggleEntry2(ZknSearchWork *work, int row)
 {
-    int value = ZKNSEARCH_MAIN_GetListIndexA(work, row + FRAME_LIST_GetScrollPos(work->frameList));
+    int value = PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexA(work, row + FRAME_LIST_GetScrollPos(work->frameList)), ZKNSEARCH_MAIN_LookupEntryId(work, row + FRAME_LIST_GetScrollPos(work->frameList)));
     u8 *data = *(u8 * *)&work->save->record;
     if (data[3] == 255) {
         data[3] = value;
@@ -2579,21 +2620,21 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(ZknSearchWork *work)
 
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin[9].bmp)), 0);
     if (Bytes021BE564(work)[3] == 0xFF) {
-        ZKNSEARCH_MAIN_PrintWindowText(work, 9, 0x30, 0x40, 4, 0x3C40, 2);
+        ZKNSEARCH_MAIN_PrintWindowText(work, 9, 0x30, PM_LANG_JA(0x40, 0x38), 4, 0x3C40, 2);
     } else if (Bytes021BE564(work)[4] == 0xFF) {
-        ZKNSEARCH_MAIN_PrintWindowText(work, 9, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[3]), 0x40, 4, 0x3C40, 2);
+        ZKNSEARCH_MAIN_PrintWindowText(work, 9, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[3]) + PM_LANG_JA(0, 0x1F), PM_LANG_JA(0x40, 0x38), 4, 0x3C40, 2);
     } else {
         s1 = MSGDATA_AllocString(*(struct MsgBank **)&work->msgBank, 0x31);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, 0x42, 4, s1, work->font, 0x3C40, 2);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, PM_LANG_JA(0x42, 0x38), 4, s1, work->font, 0x3C40, 2);
         w = PRINTSYS_MeasureWidestLine(s1, work->font, 0);
         STRBUF_Delete(s1);
-        x = 0x40 - (u8)(w / 2);
-        s2 = MSGDATA_AllocString(*(struct MsgBank **)&work->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[3]));
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, x + 2, 4, s2, work->font, 0x3C40, 1);
+        x = PM_LANG_JA(0x40, 0x38) - (u8)(w / 2);
+        s2 = MSGDATA_AllocString(*(struct MsgBank **)&work->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[3]) + PM_LANG_JA(0, 0x1F));
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, PM_LANG_JA(x + 2, x), 4, s2, work->font, 0x3C40, 1);
         STRBUF_Delete(s2);
         x += w;
-        s3 = MSGDATA_AllocString(*(struct MsgBank **)&work->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[4]));
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, x + 2, 4, s3, work->font, 0x3C40, 0);
+        s3 = MSGDATA_AllocString(*(struct MsgBank **)&work->msgBank, ZKNSEARCH_MAIN_LookupSavedEntryId(work, Bytes021BE564(work)[4]) + PM_LANG_JA(0, 0x1F));
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->bmpWin[9], work->printSys, PM_LANG_JA(x + 2, x), 4, s3, work->font, 0x3C40, 0);
         STRBUF_Delete(s3);
     }
     ZKNSEARCH_MAIN_MakeWindowScreen(&work->bmpWin[9]);
@@ -2723,12 +2764,12 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(ZknSearchWork *work)
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin[14].bmp)), 0);
     c = work->save->record[3];
     if (c != 0xFF)
-        ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, ZKNSEARCH_MAIN_LookupSavedEntryId(work, c), 0x30, 0, 0x3C40, 2);
+        ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, ZKNSEARCH_MAIN_LookupSavedEntryId(work, c) + PM_LANG_JA(0, 0x1F), 0x30, 0, 0x3C40, 2);
     else
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, 0x30, 0x30, 0, 0x3C40, 2);
     c = work->save->record[4];
     if (c != 0xFF)
-        ZKNSEARCH_MAIN_PrintWindowText(work, 0xE, ZKNSEARCH_MAIN_LookupSavedEntryId(work, c), 0x30, 0, 0x3C40, 2);
+        ZKNSEARCH_MAIN_PrintWindowText(work, 0xE, ZKNSEARCH_MAIN_LookupSavedEntryId(work, c) + PM_LANG_JA(0, 0x1F), 0x30, 0, 0x3C40, 2);
     else
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xE, 0x30, 0x30, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(&work->bmpWin[13]);
@@ -3458,7 +3499,7 @@ void ZKNSEARCH_MAIN_PlaceColumnActors2(ZknSearchWork *work, u8 firstEntry, u8 se
     ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xD, 0);
     ZKNSEARCH_MAIN_SetActorVisible((ZknSearchWork *)work, 0xE, 0);
     if (firstEntry != 0xFF) {
-        firstEntry = (u8)ZKNSEARCH_MAIN_GetListIndexB(work, firstEntry);
+        firstEntry = (u8)PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, firstEntry), ZKNSEARCH_MAIN_LookupSavedEntryId(work, firstEntry));
         d = (u8)(firstEntry - cur < 0 ? -(firstEntry - cur) : firstEntry - cur);
         if (firstEntry < cur) {
             if (d <= 8) {
@@ -3474,7 +3515,7 @@ void ZKNSEARCH_MAIN_PlaceColumnActors2(ZknSearchWork *work, u8 firstEntry, u8 se
         }
     }
     if (secondEntry != 0xFF) {
-        secondEntry = (u8)ZKNSEARCH_MAIN_GetListIndexB(work, secondEntry);
+        secondEntry = (u8)PM_LANG_JA(ZKNSEARCH_MAIN_GetListIndexB(work, secondEntry), ZKNSEARCH_MAIN_LookupSavedEntryId(work, secondEntry));
         d = (u8)(secondEntry - cur < 0 ? -(secondEntry - cur) : secondEntry - cur);
         if (secondEntry < cur) {
             if (d <= 8) {

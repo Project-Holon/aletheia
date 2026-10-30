@@ -113,6 +113,7 @@ enum {
 #include "../arm9/bmp_oam.h"
 
 #include "../arm9/wordset.h"
+#include "../version.h"
 
 
 
@@ -222,7 +223,7 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     history = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
     if (index >= PARTNER_CANDIDATE_MAX) {
-        return 4;
+        return PM_LANG_JA(4, 2);
     }
     historyIndex = candidates->historyIndex[index];
     SCRCMD_SetPartnerWords(wordSet, gameData, historyIndex);
@@ -242,9 +243,9 @@ int SCRCMD_CalcPartnerGreetingIndex(int outfitVariant, u32 trainerId, u32 tier, 
     int index;
 
     if (isSpecialLanguage != 0) {
-        index = 4;
+        index = PM_LANG_JA(4, 2);
     } else {
-        index = 0x44;
+        index = PM_LANG_JA(0x44, 0x42);
     }
     if (tier < 5) {
         index += tier * 0xc;
@@ -281,7 +282,7 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     if (value == 0) {
         value = 1;
     }
-    WORDSET_SetSlotNumber(wordSet, 8, value, 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 8, value, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotSpeciesName(wordSet, 9, WIFI_HISTORY_GetEntryField(history, historyIndex, 1));
     language = WIFI_HISTORY_GetEntryField(history, historyIndex, 2);
     WORDSET_SetSlotFromMsg2B(wordSet, 10, language);
