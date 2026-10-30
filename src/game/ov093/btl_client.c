@@ -1673,7 +1673,15 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int *state)
 
 void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) client->lastMonValue=BTL_POKEPARAM_GetValue(a,13); }
 
-u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=BTL_POKEPARAM_GetValue(a,13); old=client->lastMonValue; if(now>=old) return 0; return ((old-now)*100)/now; } return 0; }
+/*
+ * A fainted lead has now == 0. The DS divide (_u32_div_f) returns the dividend
+ * for a zero divisor; the host build returns the same value instead of trapping.
+ */
+u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=BTL_POKEPARAM_GetValue(a,13); old=client->lastMonValue; if(now>=old) return 0;
+#ifndef __MWERKS__
+    if(now==0) return (old-now)*100; /* the DS divide returns the dividend */
+#endif
+    return ((old-now)*100)/now; } return 0; }
 
 /*
  * Prototype: original narrows getter result to u8 before 021B9920;
