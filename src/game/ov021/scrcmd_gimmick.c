@@ -41,7 +41,7 @@
  *   FIELD_GIMMICK_LIFT_SnapLiftToBottom  0x021F3970  thumb  ov044
  *   FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent  0x021F384C  thumb  ov045
  *   FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet  0x021F38C4  thumb  ov045
- *   FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent  0x021F3A88  thumb  ov038
+ *   FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent  0x021F3A88  thumb  ov046
  *   FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent  0x021F3B5C  thumb  ov046
  *   FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent  0x021F3AD0  thumb  ov046
  *   FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent  0x021F3B18  thumb  ov046
@@ -355,7 +355,7 @@ int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(ScriptVm *v
     return 0;
 }
 
-/* Script command: start the ov038 check event for two immediate values. */
+/* Script command: start the ov046 button event for two immediate values (the Japanese call target shows it is ov046; in English the ov038 door event has the same address). */
 int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
