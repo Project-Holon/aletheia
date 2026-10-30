@@ -52,7 +52,7 @@ regions whose addresses it uses have linked.
 ## Japanese
 
 The Japanese cartridges (`black_ja`, `white_ja`) are an earlier build of the same program. The
-source builds 179 of their 181 regions byte-identical; two functions are open ([ROMS.md](ROMS.md)).
+source builds both byte-identical ([ROMS.md](ROMS.md)).
 
 - About 95 percent of the functions are the same or differ only in addresses. The rest differ in
   one or two words (line numbers, message archive ids, digit width, the language id 1) or in

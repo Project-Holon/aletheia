@@ -1041,7 +1041,7 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
         }
     }
 #if LANGUAGE == LANGUAGE_JAPANESE
-    GF_PANIC_FailPrintf(str_ja_021808FC, 0x6CC, str_ja_021809CC);
+    GF_PANIC_FailPrintf(str_ja_021808FC, 0x6CC, str_ja_021809CC, key); /* "menu_ret=%d": the bad menu value */
 #else
     GF_PANIC_Fail((char *)d_021807F8, 0, (char *)d_021807F8);
 #endif

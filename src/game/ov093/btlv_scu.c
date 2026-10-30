@@ -355,7 +355,18 @@ void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a);
 void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
 void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
 void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param);
+/* The four stack arguments of BTLV_SCU_Create; callers pass them one by one. */
+typedef struct {
+    void *fontMain;
+    void *fontSub;
+    u8 clientIndex;
+    int heapId;
+} BtlvScuStackArgs;
+#ifdef __MWERKS__
+BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, BtlvScuStackArgs args);
+#else
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId);
+#endif
 void BTLV_SCU_SetupDisplay(BtlvScu *scu);
 u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer);
 void BTLV_SCU_Delete(BtlvScu *scu);
@@ -547,24 +558,40 @@ void BTLV_SCU_SetMessageParam(struct BtlvMessage *msg, u8 param) { msg->param = 
 
 
 
-/* The source line of the allocation, passed to the heap for its debug record. */
+/*
+ * The definition takes the four stack arguments as one struct, while btlv_core.c calls
+ * with four separate arguments: the same words on the DS stack. Japanese needs this form
+ * (the heapId load is scheduled first); English is the same with either form. The PC
+ * build takes the separate arguments and fills the struct itself.
+ */
+#ifdef __MWERKS__
+BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, BtlvScuStackArgs args)
+{
+    BtlvScu *scu;
+#else
 BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
     BtlvScu *scu;
-    scu = GFL_HEAP_Alloc(heapId, sizeof(*scu), 1, (const char *)gBtlvScuFileName, PM_SRC_LINE(0x151, 0x14c));
+    BtlvScuStackArgs args;
+    args.fontMain = fontMain;
+    args.fontSub = fontSub;
+    args.clientIndex = clientIndex;
+    args.heapId = heapId;
+#endif
+    scu = GFL_HEAP_Alloc(args.heapId, sizeof(*scu), 1, (const char *)gBtlvScuFileName, PM_SRC_LINE(0x151, 0x14c));
     scu->core = core;
     scu->context = context;
     scu->monTable = monTable;
-    scu->heapId = heapId;
-    scu->clientIndex = clientIndex;
-    scu->fontMain = fontMain;
-    scu->fontSub = fontSub;
+    scu->heapId = args.heapId;
+    scu->clientIndex = args.clientIndex;
+    scu->fontMain = args.fontMain;
+    scu->fontSub = args.fontSub;
     scu->quickMode = 0;
     scu->msgStream = 0;
     scu->taskSys = taskSys;
-    scu->textBuf = STRBUF_Create(0x400, heapId);
-    scu->wordBuf0 = STRBUF_Create(0x180, heapId);
-    scu->wordBuf1 = STRBUF_Create(0x180, heapId);
+    scu->textBuf = STRBUF_Create(0x400, args.heapId);
+    scu->wordBuf0 = STRBUF_Create(0x180, args.heapId);
+    scu->wordBuf1 = STRBUF_Create(0x180, args.heapId);
     scu->busyFlag = 0;
     scu->nameGfxFile = 0;
     scu->printer = (struct PrintSys *)PRINTSYS_QUE_Create(scu->heapId);

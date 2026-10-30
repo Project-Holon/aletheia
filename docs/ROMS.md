@@ -27,11 +27,10 @@ European language is its own cartridge.
 `--target NAME` or the environment variable `ALETHEIA_TARGET` (`--version white` still
 means `white`).
 
-## Japanese (in progress)
+## Japanese
 
-The source builds 179 of the 181 regions of each Japanese cartridge byte-identical (the ARM9
-module, the DSi block and 177 overlays). Two functions are still open, one in ov019 and one in
-ov093 ([DEBT.tsv](DEBT.tsv)); `romlink.py --image-fallback` takes those two overlays from the dump.
+The source builds both Japanese cartridges byte-identical. They are an earlier build of the
+same program; [LANGUAGES.md](LANGUAGES.md) describes what differs.
 
 | File | Target | No-Intro name | Game code | SHA-1 |
 |---|---|---|---|---|
