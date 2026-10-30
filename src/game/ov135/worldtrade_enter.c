@@ -49,6 +49,7 @@
  *   DWC_CleanupInet 0x0205CC20 arm
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  *   WIFILIST_GetWork  0x02009860  thumb  arm9
+ *   DPW_TR_GetServerStateAsync  0x021C8DA0  arm  ov114
  */
 #include "worldtrade_types.h"
 #include "../sdk_ioreg.h"

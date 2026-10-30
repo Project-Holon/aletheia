@@ -143,6 +143,7 @@
  *   WORLDTRADE_ADAPTER_CanProceed 0x0220252C thumb ov135
  *   WORLDTRADE_ADAPTER_CreateMail 0x0220254C thumb ov135
  *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
+ *   DPW_TR_UploadAsync  0x021C86B8  arm  ov114
  */
 #include "../version.h"
 #include "../sdk_ioreg.h"

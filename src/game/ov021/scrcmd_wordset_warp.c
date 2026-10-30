@@ -76,6 +76,7 @@
  *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb  arm9
  *   WORDSET_SetSlotFromMsg2B  0x0201F198  thumb  arm9
  *   WORDSET_SetSlotFromMsg00  0x0201F1B0  thumb  arm9
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"

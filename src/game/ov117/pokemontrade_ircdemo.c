@@ -33,6 +33,7 @@
  *   MCSS_GetPosition  0x02015C30  thumb
  *   POKETRADE_SAVE_FreeIfSet  0x021DFD24  thumb  ov119
  *   POKETRADE_MCSS_SlideCreateWithOffsets  0x021DFBB4  thumb  ov119
+ *   POKETRADE_NEGO_PlaySeByKeyB  0x021DFA98  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcssPlain  0x021E36C8  thumb  ov119
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
@@ -78,6 +79,8 @@
  *   POKETRADE_3D_CreateIcaStreamsEnding  0x021E2EFC  thumb  ov119
  *   POKETRADE_IRCDEMO_UpdateScene  0x021D4CE8  thumb  ov117
  *   d_021D55CC     0x021D55CC  data
+ *   POKETRADE_MCSS_SlideCreate  0x021DFB84  thumb  ov119
+ *   POKETRADE_3D_RemoveCurrentUnit  0x021E3230  thumb  ov119
  */
 #include "../ov118/pokemontrade_demo_types.h"
 

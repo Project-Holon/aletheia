@@ -38,6 +38,10 @@
  *   aoss_str_10367  0x021DAB14  data
  *   aoss_str_10375  0x021DAB20  data
  *   AOSSi_Status  0x021B89C8  thumb
+ *   SOC_Socket  0x0215F428  arm  ov009
+ *   SOC_Bind  0x0215F454  arm  ov009
+ *   SOC_RecvFrom  0x0215F500  arm  ov009
+ *   SOC_SendTo  0x0215F5B4  arm  ov009
  *   GetSecurityType  0x021B796C  thumb
  *   AttrNo        0x021DAAB0  data
  *   AOSS_Sendto  0x021B82B4  thumb
