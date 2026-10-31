@@ -218,13 +218,8 @@ typedef struct {u8 b[5];} Files;
 #include "../version.h"
 
 /* Position and width of the task result window; the German labels are wider. */
-#if LANGUAGE == LANGUAGE_GERMAN
-#define PSEL_TASKRES_WIN_X 5
-#define PSEL_TASKRES_WIN_WIDTH 22
-#else
-#define PSEL_TASKRES_WIN_X 9
-#define PSEL_TASKRES_WIN_WIDTH 14
-#endif
+#define PSEL_TASKRES_WIN_X PM_LANG_EU(9, 9, 5, 9, 9)
+#define PSEL_TASKRES_WIN_WIDTH PM_LANG_EU(14, 14, 22, 14, 14)
 
 typedef struct PselVec2 { s16 x, y; } PselVec2;
 

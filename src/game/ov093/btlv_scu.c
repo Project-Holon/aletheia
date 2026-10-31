@@ -2997,11 +2997,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
 
 /* Draws the text of a plate: the template, then one or two lines of message 0x67. */
 /* Space between the nickname and the species name on a two-line name plate. */
-#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_JAPANESE
-#define BTLV_SCU_NAME_PLATE_NAME_GAP 8
-#else
-#define BTLV_SCU_NAME_PLATE_NAME_GAP 12
-#endif
+#define BTLV_SCU_NAME_PLATE_NAME_GAP PM_LANG_EU(8, 12, 12, 12, 12)
 
 void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 {

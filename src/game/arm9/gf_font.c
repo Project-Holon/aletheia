@@ -1120,7 +1120,6 @@ void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst)
  *       --func GF_FONT_DecodeGlyph16x8 --addr 0x0201E738 --cc 1.1p1 --thumb
  *   EXACT, 496 bytes, 35 relocation sites, all 35 resolved.
  */
-#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_GERMAN
 /* In the French, Italian and German fonts the last halfword of each row group is always blank:
  * the decoder reads three groups and stores the empty entry itself. */
 void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
@@ -1128,79 +1127,74 @@ void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
     u16 *dst2 = dst + 16;
 
     GF_FONT_InitBitReader(&gFontState.reader, src);
-    dst[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[1] = gGlyphExpandTable[0];
-    dst[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[3] = gGlyphExpandTable[0];
-    dst[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[5] = gGlyphExpandTable[0];
-    dst[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[7] = gGlyphExpandTable[0];
-    dst[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[9] = gGlyphExpandTable[0];
-    dst[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[11] = gGlyphExpandTable[0];
-    dst[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[13] = gGlyphExpandTable[0];
-    dst[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst2[15] = gGlyphExpandTable[0];
+    if (PM_LANGUAGE_IS(LANGUAGE_FRENCH) || PM_LANGUAGE_IS(LANGUAGE_ITALIAN) || PM_LANGUAGE_IS(LANGUAGE_GERMAN)) {
+        dst[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[1] = gGlyphExpandTable[0];
+        dst[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[3] = gGlyphExpandTable[0];
+        dst[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[5] = gGlyphExpandTable[0];
+        dst[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[7] = gGlyphExpandTable[0];
+        dst[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[9] = gGlyphExpandTable[0];
+        dst[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[11] = gGlyphExpandTable[0];
+        dst[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[13] = gGlyphExpandTable[0];
+        dst[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst2[15] = gGlyphExpandTable[0];
+    } else {
+        dst[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+        dst[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
+        dst2[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
+    }
 }
-#else
-void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst)
-{
-    u16 *dst2 = dst + 16;
-
-    GF_FONT_InitBitReader(&gFontState.reader, src);
-    dst[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[0] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[1] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[2] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[3] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[4] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[5] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[6] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[7] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[8] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[9] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[10] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[11] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[12] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[13] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-    dst[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[14] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, 8)];
-    dst2[15] = gGlyphExpandTable[GF_FONT_ReadBits(&gFontState.reader, lastGroupBits)];
-}
-#endif
 
 /*
  * One of the four compressed-glyph decoders src/matched/GF_FONT_InitStreamedGlyphs.c and

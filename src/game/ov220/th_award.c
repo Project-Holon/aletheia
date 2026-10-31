@@ -131,11 +131,7 @@ struct ThAwardRec;
 #include "../version.h"
 
 /* Gap between the two texts of the first result line. */
-#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_JAPANESE
-#define TH_AWARD_RESULT_GAP 8
-#else
-#define TH_AWARD_RESULT_GAP 16
-#endif
+#define TH_AWARD_RESULT_GAP PM_LANG_EU(8, 16, 16, 16, 16)
 
 #include "../arm9/bg_sys.h"
 

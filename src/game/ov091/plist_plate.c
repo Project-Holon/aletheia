@@ -87,12 +87,10 @@
 #include "../version.h"
 
 /* Left edge of the order and eligibility label on a plate. */
-#if LANGUAGE == LANGUAGE_SPANISH
-#define PLIST_PLATE_LABEL_X 0x30
-#elif LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define PLIST_PLATE_LABEL_X 0x2d
 #else
-#define PLIST_PLATE_LABEL_X 0x2e
+#define PLIST_PLATE_LABEL_X PM_LANG_EU(0x2e, 0x2e, 0x2e, 0x2e, 0x30)
 #endif
 
 #include "../arm9/clact.h"

@@ -39,6 +39,25 @@ setters of the word set (`wordset.c`), the plural rules of item messages
 (`scrcmd_proc_fld.c`), the size of the easy-chat search result list (`pmsi_search.c`) and the
 similar-word group count (`pms_word.c`).
 
+A value that differs between the European cartridges is written `PM_LANG_EU(english, french,
+german, italian, spanish)`, and code that differs is an `if (PM_LANGUAGE_IS(LANGUAGE_FRENCH))`.
+On the DS both are constants, so the compiler keeps only the target's branch. A Japanese value
+that differs keeps its own `#if LANGUAGE == LANGUAGE_JAPANESE` branch.
+
+### One PC build for every European cartridge
+
+A PC build that defines neither `__MWERKS__` nor `LANGUAGE` reads the language at run time:
+`PM_LANGUAGE_RUNTIME` is 1, `PM_LANGUAGE_IS` and `PM_LANG_ID` read `g_pm_language`, and the
+port defines that variable and sets it from the cartridge before the game's first frame. The
+build has the English layout; arrays sized per language take the largest size
+(`PMSI_SEARCH_RESULT_CAP`). Japanese is not part of this choice.
+
+`python tools/langmap.py` writes the address maps the port needs, after `romlink.py --relink`
+of the targets: `layout/langmap/<target>.tsv` gives, for every function and data object, its
+English Black address and size and its address and size in the target.
+`layout/langmap/size_changed.tsv` lists the objects whose size differs from English; the port
+takes those from the target's ROM.
+
 ## The tools
 
 Every link and ROM tool takes `--target NAME` or `ALETHEIA_TARGET`. Addresses are planned in

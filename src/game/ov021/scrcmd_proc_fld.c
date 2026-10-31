@@ -1685,14 +1685,15 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     struct Strbuf *messageText;
     struct BmpWin *window;
 
-#if LANGUAGE == LANGUAGE_JAPANESE
-#elif LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_SPANISH
-    if (messageId == 9 && plural != 0)
-        isPlural = 1;
-    else
+#if LANGUAGE != LANGUAGE_JAPANESE
+    if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH) || PM_LANGUAGE_IS(LANGUAGE_SPANISH)) {
+        if (messageId == 9 && plural != 0)
+            isPlural = 1;
+        else
+            isPlural = 0;
+    } else {
         isPlural = 0;
-#else
-    isPlural = 0;
+    }
 #endif
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp(shop->windows[SHOP_WIN_MESSAGE])), 0xf);
     BMP_MENUWORK_DrawWindow(shop->windows[SHOP_WIN_MESSAGE], 0, 0xe4, 9);
@@ -1771,14 +1772,15 @@ void SCRCMD_PROC_FLD_ShowBuyConfirm(ShopWork *shop, u32 messageId, u16 itemId, u
 {
     u32 isPlural;
 
-#if LANGUAGE == LANGUAGE_JAPANESE
-#elif LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_GERMAN
-    if (messageId == 5 && quantity > 1)
-        isPlural = 1;
-    else
+#if LANGUAGE != LANGUAGE_JAPANESE
+    if (PM_LANGUAGE_IS(LANGUAGE_FRENCH) || PM_LANGUAGE_IS(LANGUAGE_GERMAN)) {
+        if (messageId == 5 && quantity > 1)
+            isPlural = 1;
+        else
+            isPlural = 0;
+    } else {
         isPlural = 0;
-#else
-    isPlural = 0;
+    }
 #endif
     SCRCMD_PROC_FLD_PrepareMessageWindow(shop->windows[SHOP_WIN_MESSAGE]);
 #if LANGUAGE == LANGUAGE_JAPANESE

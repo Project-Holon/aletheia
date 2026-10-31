@@ -427,16 +427,8 @@ extern void SAVE_OUTSIDE_CopyPayload(struct SaveOutsideWork *p, void *ctrl);
 #include "../version.h"
 
 /* Width and left edge of a menu row in tiles; the longer Spanish and German labels need more. */
-#if LANGUAGE == LANGUAGE_GERMAN
-#define STARTMENU_ROW_TILES 0x1d
-#define STARTMENU_ROW_TILE_X 2
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define STARTMENU_ROW_TILES 0x1b
-#define STARTMENU_ROW_TILE_X 3
-#else
-#define STARTMENU_ROW_TILES 0x1a
-#define STARTMENU_ROW_TILE_X 3
-#endif
+#define STARTMENU_ROW_TILES PM_LANG_EU(0x1a, 0x1a, 0x1d, 0x1a, 0x1b)
+#define STARTMENU_ROW_TILE_X PM_LANG_EU(3, 3, 2, 3, 3)
 
 struct SaveOutsideWork;
 struct VecFx32;

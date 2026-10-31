@@ -148,11 +148,7 @@
 /* Source line number passed to the task allocation. */
 /* Source line number passed to the text window allocation. */
 /* Left edge of the country text on the profile screen. */
-#if LANGUAGE == LANGUAGE_GERMAN
-#define BR_PROFILE_COUNTRY_TEXT_X 5
-#else
-#define BR_PROFILE_COUNTRY_TEXT_X 8
-#endif
+#define BR_PROFILE_COUNTRY_TEXT_X PM_LANG_EU(8, 8, 5, 8, 8)
 
 struct Strbuf;
 

@@ -138,15 +138,12 @@ struct Rec;
 #include "../version.h"
 
 /* Left edge of the height and weight values on the main page; the other languages need less room. */
-#if LANGUAGE == LANGUAGE_ENGLISH
-#define ZUKAN_INFO_HEIGHT_VALUE_X 0x65
-#define ZUKAN_INFO_WEIGHT_VALUE_X 0x66
-#elif LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define ZUKAN_INFO_HEIGHT_VALUE_X 0x5d
 #define ZUKAN_INFO_WEIGHT_VALUE_X 0x64
 #else
-#define ZUKAN_INFO_HEIGHT_VALUE_X 0x5e
-#define ZUKAN_INFO_WEIGHT_VALUE_X 0x64
+#define ZUKAN_INFO_HEIGHT_VALUE_X PM_LANG_EU(0x65, 0x5e, 0x5e, 0x5e, 0x5e)
+#define ZUKAN_INFO_WEIGHT_VALUE_X PM_LANG_EU(0x66, 0x64, 0x64, 0x64, 0x64)
 #endif
 #include "../sdk_ioreg.h"
 

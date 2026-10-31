@@ -212,11 +212,7 @@
 #include "../version.h"
 
 /* French, Italian and German print the month as a word; the others print its number. */
-#if PM_LANG_MONTH_AS_NAME
-#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotMonth(words, slot, month)
-#else
-#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) WORDSET_SetSlotNumber(words, slot, month, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS)
-#endif
+#define MYSTERY_ALBUM_SET_MONTH(words, slot, month) (PM_LANG_MONTH_AS_NAME ? WORDSET_SetSlotMonth(words, slot, month) : WORDSET_SetSlotNumber(words, slot, month, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS))
 #include "../arm9/item.h"
 #include "../arm9/move.h"
 #include "../sdk_ioreg.h"

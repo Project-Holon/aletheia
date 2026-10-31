@@ -175,11 +175,7 @@ struct PartyMon;
 #endif
 
 /* French, Italian and German print the month as a word; the others print its number. */
-#if PM_LANG_MONTH_AS_NAME
-#define REPORT_SET_MONTH(words, slot, month, flag) WORDSET_SetSlotMonth(words, slot, month)
-#else
-#define REPORT_SET_MONTH(words, slot, month, flag) WORDSET_SetSlotNumber(words, slot, month, 2, 0, flag)
-#endif
+#define REPORT_SET_MONTH(words, slot, month, flag) (PM_LANG_MONTH_AS_NAME ? WORDSET_SetSlotMonth(words, slot, month) : WORDSET_SetSlotNumber(words, slot, month, 2, 0, flag))
 struct TcbTask;
 
 #include "../arm9/bg_sys.h"

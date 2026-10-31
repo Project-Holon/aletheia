@@ -851,11 +851,11 @@ int Wf2dmapFriend_PrintTrainerStats(u8 *p,u8 *q,int idx)
     v=WIFILIST_GetFriendInfoField(base,idx,5);
     WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,0,v,4,1,PM_LANG_HALF_WIDTH_DIGITS);
     v=WIFILIST_GetFriendInfoField(base,idx,6);
-#if PM_LANG_MONTH_AS_NAME
-    WORDSET_SetSlotMonth(((Wf2dmapTouchGfx *)p)->wordSet,1,v);
-#else
-    WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,1,v,2,PM_LANG_JA(0,1),PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+    if (PM_LANG_MONTH_AS_NAME) {
+        WORDSET_SetSlotMonth(((Wf2dmapTouchGfx *)p)->wordSet,1,v);
+    } else {
+        WORDSET_SetSlotNumber(((Wf2dmapTouchGfx *)p)->wordSet,1,v,2,PM_LANG_JA(0,1),PM_LANG_HALF_WIDTH_DIGITS);
+    }
     return result;
 }
 

@@ -1733,11 +1733,11 @@ void ITEMMENU_TaskTossAskQuantity(ItemMenuWork *work)
     work->listCount = 1;
     ITEMMENU_ShowQuantityWindows(work, 1);
     MSGDATA_ReadString(work->msgBank, 0x35, work->tempString);
-#if LANGUAGE == LANGUAGE_JAPANESE || LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_SPANISH
-    ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
-#else
-    ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, 1, 0);
-#endif
+    if (PM_LANGUAGE_IS(LANGUAGE_JAPANESE) || PM_LANGUAGE_IS(LANGUAGE_FRENCH) || PM_LANGUAGE_IS(LANGUAGE_ITALIAN) || PM_LANGUAGE_IS(LANGUAGE_SPANISH)) {
+        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+    } else {
+        ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, 1, 0);
+    }
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessageDefault(work);
     ITEMMENU_SetTask(work, ITEMMENU_TaskTossQuantityInput);
@@ -1765,15 +1765,11 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
         GFL_USE_PlaySeDefaultVolume(0x54C);
         ITEMMENU_HideQuantityWindows(work);
         MSGDATA_ReadString(work->msgBank, 0x37, work->tempString);
-#if LANGUAGE == LANGUAGE_GERMAN
-        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
-#else
-#if LANGUAGE == LANGUAGE_JAPANESE
-        ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
-#else
-        ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
-#endif
-#endif
+        if (PM_LANGUAGE_IS(LANGUAGE_GERMAN) || PM_LANGUAGE_IS(LANGUAGE_JAPANESE)) {
+            ITEMMENU_RegisterItemName(work, 0, work->selectedItemId);
+        } else {
+            ITEMMENU_RegisterItemNameCounted(work, 0, work->selectedItemId, work->listCount > 1, 0);
+        }
         WORDSET_SetSlotNumber(work->wordSet, 1, work->listCount, 3, 0, PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         ITEMMENU_ShowMessageDefault(work);

@@ -118,11 +118,7 @@
 #include "../version.h"
 
 /* French, Italian and German print the month as a word; the others print its number. */
-#if PM_LANG_MONTH_AS_NAME
-#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotMonth(words, slot, month)
-#else
-#define VIEWER_SET_MONTH(words, slot, month, mode) WORDSET_SetSlotNumber(words, slot, month, 2, mode, PM_LANG_HALF_WIDTH_DIGITS)
-#endif
+#define VIEWER_SET_MONTH(words, slot, month, mode) (PM_LANG_MONTH_AS_NAME ? WORDSET_SetSlotMonth(words, slot, month) : WORDSET_SetSlotNumber(words, slot, month, 2, mode, PM_LANG_HALF_WIDTH_DIGITS))
 
 struct Obj;
 struct Bank;

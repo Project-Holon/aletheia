@@ -1108,11 +1108,11 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     }
     dateText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 2);
     WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
-#if PM_LANG_MONTH_AS_NAME
-    WORDSET_SetSlotMonth(work->wordSet, 1, row->month);
-#else
-    WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+    if (PM_LANG_MONTH_AS_NAME) {
+        WORDSET_SetSlotMonth(work->wordSet, 1, row->month);
+    } else {
+        WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
+    }
     WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 2, row->day, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)dateText);
     dateWidth = BMP_WIN_GetDispWidth((struct BmpWin *)work->windows[0].win);

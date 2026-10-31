@@ -89,16 +89,16 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 #define PMSI_SEARCH_KEY_NONE 255
 
 /* Words in the search index differ per language, so the result list is sized per language. */
-#if LANGUAGE == LANGUAGE_FRENCH
-#define PMSI_SEARCH_RESULT_MAX 196
-#elif LANGUAGE == LANGUAGE_GERMAN || LANGUAGE == LANGUAGE_ITALIAN
-#define PMSI_SEARCH_RESULT_MAX 235
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define PMSI_SEARCH_RESULT_MAX 175
-#elif LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define PMSI_SEARCH_RESULT_MAX 106
 #else
-#define PMSI_SEARCH_RESULT_MAX 264
+#define PMSI_SEARCH_RESULT_MAX PM_LANG_EU(264, 196, 235, 235, 175)
+#endif
+/* Array length of the result lists: the PC build sizes them for the longest list (English). */
+#if PM_LANGUAGE_RUNTIME
+#define PMSI_SEARCH_RESULT_CAP 264
+#else
+#define PMSI_SEARCH_RESULT_CAP PMSI_SEARCH_RESULT_MAX
 #endif
 
 struct PmsInputData;
@@ -112,8 +112,8 @@ struct PmsiSearch {
     struct {
         u32 initial;
         u32 wordIndex;
-    } results[PMSI_SEARCH_RESULT_MAX];
-    u16 wordIds[PMSI_SEARCH_RESULT_MAX + 1];
+    } results[PMSI_SEARCH_RESULT_CAP];
+    u16 wordIds[PMSI_SEARCH_RESULT_CAP + 1];
     struct U16Vec *inputText;
     u16 inputKeys[PMSI_SEARCH_INPUT_MAX];
     u16 reserved;
@@ -245,8 +245,8 @@ void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out)
  */
 int PMSI_SEARCH_Run(struct PmsiSearch *s)
 {
-    u16 specialWords[PMSI_SEARCH_RESULT_MAX + 1];
-    u16 normalWords[PMSI_SEARCH_RESULT_MAX + 1];
+    u16 specialWords[PMSI_SEARCH_RESULT_CAP + 1];
+    u16 normalWords[PMSI_SEARCH_RESULT_CAP + 1];
     u32 matchCount, initialId;
     unsigned i, specialCount, isExcluded;
     u32 wordValue;

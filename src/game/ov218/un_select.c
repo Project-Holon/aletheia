@@ -342,11 +342,7 @@ struct TextPrinter;
 #include "../arm9/gfl_use.h"
 #include "../version.h"
 /* The other languages print the row number one lower. */
-#if LANGUAGE == LANGUAGE_ENGLISH || LANGUAGE == LANGUAGE_JAPANESE
-#define UN_SELECT_ROW_NUMBER_BIAS 0
-#else
-#define UN_SELECT_ROW_NUMBER_BIAS 1
-#endif
+#define UN_SELECT_ROW_NUMBER_BIAS PM_LANG_EU(0, 1, 1, 1, 1)
 /* Row index of a frame list item; the enum type makes mwcc copy the stack argument into a local. */
 enum UnSelectRowIndex { UN_SELECT_ROW_FIRST };
 void UN_SELECT_DrawFrameListRow(u8 *p, u8 *a, void *b, struct GfFont *c, enum UnSelectRowIndex idx);

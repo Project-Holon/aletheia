@@ -59,18 +59,14 @@ struct BigObj;
 #include "../version.h"
 
 /* Tile width of the two status icons (selection mode and link) and the column of the link icon. */
-#if LANGUAGE == LANGUAGE_GERMAN || LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define INFOWIN_SEL_WIDTH 4
 #define INFOWIN_LINK_X 14
 #define INFOWIN_LINK_WIDTH 4
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define INFOWIN_SEL_WIDTH 3
-#define INFOWIN_LINK_X 13
-#define INFOWIN_LINK_WIDTH 5
 #else
-#define INFOWIN_SEL_WIDTH 3
-#define INFOWIN_LINK_X 13
-#define INFOWIN_LINK_WIDTH 6
+#define INFOWIN_SEL_WIDTH PM_LANG_EU(3, 3, 4, 3, 3)
+#define INFOWIN_LINK_X PM_LANG_EU(13, 13, 14, 13, 13)
+#define INFOWIN_LINK_WIDTH PM_LANG_EU(6, 6, 4, 6, 5)
 #endif
 #include "net_types.h"
 

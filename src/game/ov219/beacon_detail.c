@@ -248,21 +248,9 @@ struct Arg;
 #if LANGUAGE == LANGUAGE_JAPANESE
 #define BEACON_DETAIL_START_ANGLE_X 0x1980
 #define BEACON_DETAIL_START_ANGLE_Y 0xCFE0
-#elif LANGUAGE == LANGUAGE_FRENCH
-#define BEACON_DETAIL_START_ANGLE_X 0x2300
-#define BEACON_DETAIL_START_ANGLE_Y 0x3100
-#elif LANGUAGE == LANGUAGE_GERMAN
-#define BEACON_DETAIL_START_ANGLE_X 0x2580
-#define BEACON_DETAIL_START_ANGLE_Y 0x2A00
-#elif LANGUAGE == LANGUAGE_ITALIAN
-#define BEACON_DETAIL_START_ANGLE_X 0x1DE0
-#define BEACON_DETAIL_START_ANGLE_Y 0x2A00
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define BEACON_DETAIL_START_ANGLE_X 0x1CA0
-#define BEACON_DETAIL_START_ANGLE_Y 0x35E0
 #else
-#define BEACON_DETAIL_START_ANGLE_X 0x1A40
-#define BEACON_DETAIL_START_ANGLE_Y 0x7C00
+#define BEACON_DETAIL_START_ANGLE_X PM_LANG_EU(0x1A40, 0x2300, 0x2580, 0x1DE0, 0x1CA0)
+#define BEACON_DETAIL_START_ANGLE_Y PM_LANG_EU(0x7C00, 0x3100, 0x2A00, 0x2A00, 0x35E0)
 #endif
 
 union MtxFx33;
@@ -1932,10 +1920,8 @@ void BEACON_DETAIL_SetupCamera(char *p)
     else
         ((BeaconDetailWork *)p)->zoomMode = 0;
 #else
-#if LANGUAGE == LANGUAGE_ENGLISH
-    else if (((BeaconDetailWork *)p)->nation == 0)
+    else if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH) && ((BeaconDetailWork *)p)->nation == 0)
         ((BeaconDetailWork *)p)->zoomMode = 0;
-#endif
     else if (((BeaconDetailWork *)p)->nation == 0xdc)
         ((BeaconDetailWork *)p)->zoomMode = 0;
     else

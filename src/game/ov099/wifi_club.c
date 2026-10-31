@@ -1479,11 +1479,11 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     if (messageId) {
         WORDSET_SetSlotNumber(work->detailWordSet, 2, messageId, 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
         WORDSET_SetSlotNumber(work->detailWordSet, 0, WIFILIST_GetFriendInfoField(work->friendList, index, 5), 4, 1, PM_LANG_HALF_WIDTH_DIGITS);
-#if PM_LANG_MONTH_AS_NAME
-        WORDSET_SetSlotMonth(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6));
-#else
-        WORDSET_SetSlotNumber(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6), 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+        if (PM_LANG_MONTH_AS_NAME) {
+            WORDSET_SetSlotMonth(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6));
+        } else {
+            WORDSET_SetSlotNumber(work->detailWordSet, 1, WIFILIST_GetFriendInfoField(work->friendList, index, 6), 2, PM_LANG_JA(0, 1), PM_LANG_HALF_WIDTH_DIGITS);
+        }
         MSGDATA_ReadString((struct MsgBank *)work->msgBank, 44, (struct Strbuf *)work->rawText);
         WORDSET_CopyTaggedText(work->detailWordSet, (struct Strbuf *)work->shortText, (struct Strbuf *)work->rawText);
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->statWin), 152, 96, work->shortText, work->textFont, 0x3c40);

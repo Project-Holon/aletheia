@@ -84,20 +84,10 @@ extern const char g_pmsWordSourceFile[];
 extern const u16 g_pmsWordBankFileIds[];
 extern const u16 g_pmsWordBankSizes[];
 extern const u8 g_pmsWordDefaultFlagTable[][2];
-#if LANGUAGE == LANGUAGE_FRENCH
-#define PMS_WORD_GROUP_COUNT 12
-#elif LANGUAGE == LANGUAGE_GERMAN
-#define PMS_WORD_GROUP_COUNT 7
-#elif LANGUAGE == LANGUAGE_ITALIAN
-#define PMS_WORD_GROUP_COUNT 2
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define PMS_WORD_GROUP_COUNT 10
-#else
-#define PMS_WORD_GROUP_COUNT 13
-#endif
+#define PMS_WORD_GROUP_COUNT PM_LANG_EU(13, 12, 7, 2, 10)
 
 #if LANGUAGE != LANGUAGE_JAPANESE
-extern const Group g_pmsWordSimilarGroups[PMS_WORD_GROUP_COUNT];
+extern const Group g_pmsWordSimilarGroups[];
 #endif
 
 /*

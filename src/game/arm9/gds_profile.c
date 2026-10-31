@@ -48,13 +48,8 @@
 #include "../version.h"
 
 /* The sentence a record with an unusable greeting is replaced by (type and id in the sentence table). */
-#if LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_SPANISH
-#define GDS_NOTICE_SENTENCE_TYPE 0
-#define GDS_NOTICE_SENTENCE_ID 1
-#else
-#define GDS_NOTICE_SENTENCE_TYPE 4
-#define GDS_NOTICE_SENTENCE_ID 0
-#endif
+#define GDS_NOTICE_SENTENCE_TYPE PM_LANG_EU(4, 0, 4, 4, 0)
+#define GDS_NOTICE_SENTENCE_ID PM_LANG_EU(0, 1, 0, 0, 1)
 /* The easy-chat word of that sentence: group and index. */
 #if LANGUAGE == LANGUAGE_JAPANESE
 #define GDS_NOTICE_WORD_GROUP 0x90

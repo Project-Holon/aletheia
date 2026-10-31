@@ -1231,18 +1231,18 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(WifibattlematchViewWork *w, unsigned d
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
             WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#if LANGUAGE == LANGUAGE_ENGLISH
-            WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
-#else
-            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+            if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH)) {
+                WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+            } else {
+                WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            }
             WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#if LANGUAGE == LANGUAGE_ENGLISH
-            WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
-#else
-            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+            if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH)) {
+                WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+            } else {
+                WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            }
             WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;
@@ -1323,18 +1323,18 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(WifibattlematchViewWork *w, const Wifi
             d2 = info->date2;
             MSGDATA_ReadString(msgData, 0x10, s1);
             WORDSET_SetSlotNumber(wordSet, 0, (u16)((u8)(d1 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#if LANGUAGE == LANGUAGE_ENGLISH
-            WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
-#else
-            WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+            if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH)) {
+                WORDSET_SetSlotMonth(wordSet, 1, (u8)(d1 >> 16));
+            } else {
+                WORDSET_SetSlotNumber(wordSet, 1, (u8)(d1 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            }
             WORDSET_SetSlotNumber(wordSet, 2, (u8)(d1 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_SetSlotNumber(wordSet, 3, (u16)((u8)(d2 >> 24) + 2000), 4, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#if LANGUAGE == LANGUAGE_ENGLISH
-            WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
-#else
-            WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+            if (PM_LANGUAGE_IS(LANGUAGE_ENGLISH)) {
+                WORDSET_SetSlotMonth(wordSet, 4, (u8)(d2 >> 16));
+            } else {
+                WORDSET_SetSlotNumber(wordSet, 4, (u8)(d2 >> 16), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
+            }
             WORDSET_SetSlotNumber(wordSet, 5, (u8)(d2 >> 8), 2, 0, PM_LANG_HALF_WIDTH_DIGITS);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             color = 0x3c40;

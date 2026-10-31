@@ -427,11 +427,11 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 1, 1);
 #else
     WORDSET_SetSlotNumber(wordSet, 2, locals.date.year, 2, 2, 1);
-#if LANGUAGE == LANGUAGE_SPANISH
-    WORDSET_SetSlotNumber(wordSet, 0, locals.date.month, 2, 0, 1);
-#else
-    WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
-#endif
+    if (PM_LANGUAGE_IS(LANGUAGE_SPANISH)) {
+        WORDSET_SetSlotNumber(wordSet, 0, locals.date.month, 2, 0, 1);
+    } else {
+        WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
+    }
     WORDSET_SetSlotNumber(wordSet, 1, locals.date.day, 2, 0, 1);
 #endif
     locals.msg.animIndex = gElboardLayout.animIndex[0];

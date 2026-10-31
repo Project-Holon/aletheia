@@ -48,19 +48,11 @@
 
 /* source line number of the heap allocation */
 /* The Wi-Fi utility numbers its languages from English (1) on: French 2, German 3, Italian 4, Spanish 5. */
-#if LANGUAGE == LANGUAGE_FRENCH
-#define DWC_UTILITY_LANGUAGE 2
-#elif LANGUAGE == LANGUAGE_GERMAN
-#define DWC_UTILITY_LANGUAGE 3
-#elif LANGUAGE == LANGUAGE_ITALIAN
-#define DWC_UTILITY_LANGUAGE 4
-#elif LANGUAGE == LANGUAGE_SPANISH
-#define DWC_UTILITY_LANGUAGE 5
-#elif LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define DWC_UTILITY_LANGUAGE 0
 #define DWC_UTILITY_PARAM 0x10
 #else
-#define DWC_UTILITY_LANGUAGE 1
+#define DWC_UTILITY_LANGUAGE PM_LANG_EU(1, 2, 3, 4, 5)
 #endif
 #ifndef DWC_UTILITY_PARAM
 #define DWC_UTILITY_PARAM 0

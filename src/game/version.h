@@ -30,15 +30,43 @@
 #define LANGUAGE_GERMAN 5
 #define LANGUAGE_SPANISH 7
 
+/*
+ * A PC build with no LANGUAGE given plays every European cartridge: it is compiled with the
+ * English layout and reads the cartridge's language from g_pm_language, which the port sets
+ * before the game's first frame.  The DS builds and a PC build with LANGUAGE given keep the
+ * language a constant.  Japanese is not part of the run-time choice.
+ */
+#if !defined(__MWERKS__) && !defined(LANGUAGE)
+#define PM_LANGUAGE_RUNTIME 1
+extern int g_pm_language;
+#define PM_LANGUAGE_IS(lang) (g_pm_language == (lang))
+#else
+#define PM_LANGUAGE_RUNTIME 0
+#endif
+
 #ifndef LANGUAGE
 #define LANGUAGE LANGUAGE_ENGLISH
 #endif
 
-#define PM_LANG_ID LANGUAGE         /* the cartridge's language id */
+#if !PM_LANGUAGE_RUNTIME
+#define PM_LANGUAGE_IS(lang) (LANGUAGE == (lang))
+#endif
+
+/* A value that differs between the English and European cartridges (Japanese uses the English
+ * value unless the site says otherwise). */
+#define PM_LANG_EU(english, french, german, italian, spanish) \
+    (PM_LANGUAGE_IS(LANGUAGE_FRENCH) ? (french) : PM_LANGUAGE_IS(LANGUAGE_GERMAN) ? (german) : \
+     PM_LANGUAGE_IS(LANGUAGE_ITALIAN) ? (italian) : PM_LANGUAGE_IS(LANGUAGE_SPANISH) ? (spanish) : (english))
+
+#if PM_LANGUAGE_RUNTIME
+#define PM_LANG_ID g_pm_language    /* the cartridge's language id */
+#else
+#define PM_LANG_ID LANGUAGE
+#endif
 
 /* French, Italian and German write a month as its name in dates; English and Spanish as a
  * number.  Some screens keep their own rule (wifibattlematch_view.c, gimmick_obj_elboard.c). */
-#define PM_LANG_MONTH_AS_NAME (LANGUAGE == LANGUAGE_FRENCH || LANGUAGE == LANGUAGE_ITALIAN || LANGUAGE == LANGUAGE_GERMAN)
+#define PM_LANG_MONTH_AS_NAME (PM_LANGUAGE_IS(LANGUAGE_FRENCH) || PM_LANGUAGE_IS(LANGUAGE_ITALIAN) || PM_LANGUAGE_IS(LANGUAGE_GERMAN))
 
 /* Constants that differ between the two games (the value Black uses first). */
 #if VERSION == VERSION_WHITE

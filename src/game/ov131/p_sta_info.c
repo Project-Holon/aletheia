@@ -77,14 +77,7 @@
 
 /* Source line number passed to the work allocation. */
 /* Text and icon columns of the info page; Spanish and German print one pixel further right. */
-#if LANGUAGE == LANGUAGE_SPANISH || LANGUAGE == LANGUAGE_GERMAN
-#define P_STA_INFO_LABEL_X 0
-#define P_STA_INFO_VALUE_X 0x42
-#define P_STA_INFO_NEXT_LV_X 0x22
-#define P_STA_INFO_EXP_X 2
-#define P_STA_INFO_TYPE1_X 97
-#define P_STA_INFO_TYPE2_X 131
-#elif LANGUAGE == LANGUAGE_JAPANESE
+#if LANGUAGE == LANGUAGE_JAPANESE
 #define P_STA_INFO_LABEL_X 1
 #define P_STA_INFO_VALUE_X 0x41
 #define P_STA_INFO_NEXT_LV_X 0x21
@@ -92,12 +85,12 @@
 #define P_STA_INFO_TYPE1_X 96
 #define P_STA_INFO_TYPE2_X 128
 #else
-#define P_STA_INFO_LABEL_X 1
-#define P_STA_INFO_VALUE_X 0x41
-#define P_STA_INFO_NEXT_LV_X 0x21
-#define P_STA_INFO_EXP_X 1
-#define P_STA_INFO_TYPE1_X 96
-#define P_STA_INFO_TYPE2_X 130
+#define P_STA_INFO_LABEL_X PM_LANG_EU(1, 1, 0, 1, 0)
+#define P_STA_INFO_VALUE_X PM_LANG_EU(0x41, 0x41, 0x42, 0x41, 0x42)
+#define P_STA_INFO_NEXT_LV_X PM_LANG_EU(0x21, 0x21, 0x22, 0x21, 0x22)
+#define P_STA_INFO_EXP_X PM_LANG_EU(1, 1, 2, 1, 2)
+#define P_STA_INFO_TYPE1_X PM_LANG_EU(96, 96, 97, 96, 97)
+#define P_STA_INFO_TYPE2_X PM_LANG_EU(130, 130, 131, 130, 131)
 #endif
 
 #include "p_status_types.h"
@@ -589,20 +582,20 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     metPlaceStr = P_STA_INFO_GetPlaceName(wk, work, metPlace);
     WORDSET_SetSlotNumber(wordSet, 0, metYear, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
     bestStat = 0;
-#if PM_LANG_MONTH_AS_NAME
-    WORDSET_SetSlotMonth(wordSet, 1, metMonth);
-#else
-    WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+    if (PM_LANG_MONTH_AS_NAME) {
+        WORDSET_SetSlotMonth(wordSet, 1, metMonth);
+    } else {
+        WORDSET_SetSlotNumber(wordSet, 1, metMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
+    }
     WORDSET_SetSlotNumber(wordSet, 2, metDay, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotNumber(wordSet, 3, metLevel, 3, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotTag(wordSet, 4, metPlaceStr, 0, 1, PM_LANG_ID);
     WORDSET_SetSlotNumber(wordSet, 5, eggYear, 2, 2, PM_LANG_HALF_WIDTH_DIGITS);
-#if PM_LANG_MONTH_AS_NAME
-    WORDSET_SetSlotMonth(wordSet, 6, eggMonth);
-#else
-    WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
-#endif
+    if (PM_LANG_MONTH_AS_NAME) {
+        WORDSET_SetSlotMonth(wordSet, 6, eggMonth);
+    } else {
+        WORDSET_SetSlotNumber(wordSet, 6, eggMonth, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
+    }
     WORDSET_SetSlotNumber(wordSet, 7, eggDay, 2, bestStat, PM_LANG_HALF_WIDTH_DIGITS);
     WORDSET_SetSlotTag(wordSet, 8, eggPlaceStr, bestStat, 1, PM_LANG_ID);
     msgStr = MSGDATA_AllocString(work->msgInfo, msgId);
