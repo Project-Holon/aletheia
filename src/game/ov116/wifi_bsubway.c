@@ -137,11 +137,7 @@
 #include "../version.h"
 
 /* The message index differs between the games (message bank 0x51 of archive 2). */
-#if VERSION == VERSION_WHITE
-#define BSUBWAY_PROFANITY_MSG 14
-#else
-#define BSUBWAY_PROFANITY_MSG 15
-#endif
+#define BSUBWAY_PROFANITY_MSG PM_VERSION_BW(15, 14)
 
 struct Big;
 struct BigObj;

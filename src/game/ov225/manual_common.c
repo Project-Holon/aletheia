@@ -44,11 +44,7 @@
 #include "../version.h"
 #include "../sdk_ioreg.h"
 
-#if VERSION == VERSION_WHITE
-#define MANUAL_MSG_ARCHIVE_1 63
-#else
-#define MANUAL_MSG_ARCHIVE_1 62
-#endif
+#define MANUAL_MSG_ARCHIVE_1 PM_VERSION_BW(62, 63)
 #include "../types.h"
 #include "manual_common_shared_types.h"
 

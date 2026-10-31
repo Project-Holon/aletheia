@@ -18,9 +18,29 @@
 #define VERSION_BLACK 1
 #define VERSION_WHITE 2
 
+/*
+ * A PC build with no VERSION given plays both games: it reads the game from g_pm_version
+ * (VERSION_BLACK or VERSION_WHITE), which the port sets before the game's first frame.  The DS
+ * builds and a PC build with VERSION given keep the game a constant.
+ */
+#if !defined(__MWERKS__) && !defined(VERSION)
+#define PM_VERSION_RUNTIME 1
+extern int g_pm_version;
+#define PM_VERSION_IS(version) (g_pm_version == (version))
+#else
+#define PM_VERSION_RUNTIME 0
+#endif
+
 #ifndef VERSION
 #define VERSION VERSION_BLACK
 #endif
+
+#if !PM_VERSION_RUNTIME
+#define PM_VERSION_IS(version) (VERSION == (version))
+#endif
+
+/* A value that differs between the two games. */
+#define PM_VERSION_BW(black, white) (PM_VERSION_IS(VERSION_WHITE) ? (white) : (black))
 
 /* The game's own language ids (the language field of the player record). */
 #define LANGUAGE_JAPANESE 1
@@ -68,20 +88,12 @@ extern int g_pm_language;
  * number.  Some screens keep their own rule (wifibattlematch_view.c, gimmick_obj_elboard.c). */
 #define PM_LANG_MONTH_AS_NAME (PM_LANGUAGE_IS(LANGUAGE_FRENCH) || PM_LANGUAGE_IS(LANGUAGE_ITALIAN) || PM_LANGUAGE_IS(LANGUAGE_GERMAN))
 
-/* Constants that differ between the two games (the value Black uses first). */
-#if VERSION == VERSION_WHITE
-#define PM_VERSION_ID 20            /* the game's version id */
-#define MSG_PROFANITY_NOTICE 14     /* message index of the word-filter notice */
-#define PM_VERSION_BIT 1            /* this game's bit in a per-version availability flag */
-#define PM_VERSION_MASK 0x100000    /* 1 << PM_VERSION_ID, the version bit of the Wi-Fi flags */
-#define PM_VERSION_LEGEND_SPECIES 0x284   /* the cover legendary: Zekrom */
-#else
-#define PM_VERSION_ID 21
-#define MSG_PROFANITY_NOTICE 15
-#define PM_VERSION_BIT 2
-#define PM_VERSION_MASK 0x200000
-#define PM_VERSION_LEGEND_SPECIES 0x283   /* the cover legendary: Reshiram */
-#endif
+/* Constants that differ between the two games (Black's value first). */
+#define PM_VERSION_ID PM_VERSION_BW(21, 20)                 /* the game's version id */
+#define MSG_PROFANITY_NOTICE PM_VERSION_BW(15, 14)          /* message index of the word-filter notice */
+#define PM_VERSION_BIT PM_VERSION_BW(2, 1)                  /* this game's bit in a per-version availability flag */
+#define PM_VERSION_MASK PM_VERSION_BW(0x200000, 0x100000)   /* 1 << PM_VERSION_ID, the version bit of the Wi-Fi flags */
+#define PM_VERSION_LEGEND_SPECIES PM_VERSION_BW(0x283, 0x284) /* the cover legendary: Reshiram, Zekrom */
 
 /* Printed numbers: Japanese uses full-width digits by default, the other languages half-width
  * (the isHalfWidth argument of WORDSET_SetSlotNumber).  A site that always uses one width keeps

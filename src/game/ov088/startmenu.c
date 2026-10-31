@@ -448,13 +448,8 @@ struct Unit;
 #include "../version.h"
 
 /* Frame (fixed point) of the title demo where it jumps back to its loop point. */
-#if VERSION == VERSION_WHITE
-#define STARTMENU_DEMO_LOOP_FRAME 0x01693000
-#define STARTMENU_DEMO_ANIME_FRAMES 0xF1
-#else
-#define STARTMENU_DEMO_LOOP_FRAME 0x015F3000
-#define STARTMENU_DEMO_ANIME_FRAMES 0xE9
-#endif
+#define STARTMENU_DEMO_LOOP_FRAME PM_VERSION_BW(0x015F3000, 0x01693000)
+#define STARTMENU_DEMO_ANIME_FRAMES PM_VERSION_BW(0xE9, 0xF1)
 #include "startmenu_types.h"
 
 #include "../sdk_fx.h"
@@ -2070,12 +2065,12 @@ void STARTMENU_LoadGraphics(void)
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0xb);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, 0xb);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, 0xb);
-#if VERSION == VERSION_WHITE
-    BG_SYS_FillTileMap(3, 0, 0, 0x20, 0x18, 4);
-    BG_SYS_FillTileMap(6, 0, 0, 0x20, 0x18, 4);
-    BG_SYS_MarkTileDirty(3);
-    BG_SYS_MarkTileDirty(6);
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        BG_SYS_FillTileMap(3, 0, 0, 0x20, 0x18, 4);
+        BG_SYS_FillTileMap(6, 0, 0, 0x20, 0x18, 4);
+        BG_SYS_MarkTileDirty(3);
+        BG_SYS_MarkTileDirty(6);
+    }
 }
 
 void STARTMENU_CreateBlinkPalette(StartMenuWork *work)

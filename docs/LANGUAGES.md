@@ -52,11 +52,26 @@ port defines that variable and sets it from the cartridge before the game's firs
 build has the English layout; arrays sized per language take the largest size
 (`PMSI_SEARCH_RESULT_CAP`). Japanese is not part of this choice.
 
+The game works the same way: a PC build that defines neither `__MWERKS__` nor `VERSION` reads
+it from `g_pm_version` (`VERSION_BLACK` or `VERSION_WHITE`). `PM_VERSION_IS(version)` tests it,
+`PM_VERSION_BW(black, white)` picks a value, and `PM_VERSION_ID`, `MSG_PROFANITY_NOTICE`,
+`PM_VERSION_BIT`, `PM_VERSION_MASK` and `PM_VERSION_LEGEND_SPECIES` follow it.
+
 `python tools/langmap.py` writes the address maps the port needs, after `romlink.py --relink`
-of the targets: `layout/langmap/<target>.tsv` gives, for every function and data object, its
-English Black address and size and its address and size in the target.
-`layout/langmap/size_changed.tsv` lists the objects whose size differs from English; the port
-takes those from the target's ROM.
+of the targets:
+
+- `layout/langmap/<target>.tsv`: runs of English Black addresses that move by one amount in the
+  target (region, English start, English end, target start).
+- `layout/langmap/size_changed.tsv`: objects whose size differs from English, with both
+  addresses and sizes. The port takes them from the target's ROM.
+- `layout/langmap/size_changed_ptrs.tsv`: the pointer words of those data objects in the target
+  (offset in the object, the address the word holds). `reloc` rows come from the link's
+  relocations; `scan` rows are aligned words that hold a main-memory address, for objects the
+  link took as one block of the target's bytes.
+- `layout/langmap/not_mapped.tsv`: English data objects that have no object of the same name in
+  the target (data the target's link places by content and cuts differently, and secure-area
+  pieces). A pointer into one of them has no run; the port takes that data from the target.
+- `build/langmap/<target>.tsv`: the full table, one row per object (not committed).
 
 ## The tools
 

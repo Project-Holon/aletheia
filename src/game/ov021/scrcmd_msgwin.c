@@ -1179,13 +1179,13 @@ int SCRCMD_MSGWIN_CmdBalloonWinMsgSkipArg(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 msgFileId, msgId, objId, windowKind, winType;
     msgFileId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-#if VERSION == VERSION_WHITE
-    msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);       /* the skipped argument is the third one in White */
-#else
-    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+        SCRIPT_WORK_ReadWorkValue(vm, cmdWork);       /* the skipped argument is the third one in White */
+    } else {
+        SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+        msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    }
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     windowKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     winType = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);

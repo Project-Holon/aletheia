@@ -440,10 +440,10 @@ void ZONEDATA_Init(u16 heap)
     g_ZoneDataMgr->mapEffectCount = size2 >> 2;
 
     g_ZoneDataMgr->cachedZoneId = 0x1ab;
-#if VERSION == VERSION_WHITE
-    ZONEDATA_SetChangeZoneEnable(0, 1);
-    ZONEDATA_SetChangeZoneEnable(1, 1);
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        ZONEDATA_SetChangeZoneEnable(0, 1);
+        ZONEDATA_SetChangeZoneEnable(1, 1);
+    }
 }
 
 /*
@@ -709,10 +709,10 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
         v = r->bgm[3];
         break;
     }
-#if VERSION == VERSION_WHITE
-    if (v == 0x409)
-        v = 0x40a;
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        if (v == 0x409)
+            v = 0x40a;
+    }
     return v;
 }
 
@@ -1026,11 +1026,11 @@ u32 ZONEDATA_GetPlaceNameId(u32 id)
     u32 v = r->placeNameId;
 
     if ((u16)(v + 0xff90) <= 1)
-#if VERSION == VERSION_WHITE
-        v = 0x71;
-#else
-        v = 0x70;
-#endif
+        if (PM_VERSION_IS(VERSION_WHITE)) {
+            v = 0x71;
+        } else {
+            v = 0x70;
+        }
     return v;
 }
 

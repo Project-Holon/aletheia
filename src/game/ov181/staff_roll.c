@@ -133,15 +133,9 @@
 #include "../sdk_ioreg.h"
 
 /* Black fades the credits to black, White to white. */
-#if VERSION == VERSION_WHITE
-#define FADE_LEVEL 0x10
-#define FADE_PALETTE_COLOR 0xFFFF
-#define FADE_WIPE_COLOR 0x7FFF
-#else
-#define FADE_LEVEL (-0x10)
-#define FADE_PALETTE_COLOR 0
-#define FADE_WIPE_COLOR 0
-#endif
+#define FADE_LEVEL PM_VERSION_BW((-0x10), 0x10)
+#define FADE_PALETTE_COLOR PM_VERSION_BW(0, 0xFFFF)
+#define FADE_WIPE_COLOR PM_VERSION_BW(0, 0x7FFF)
 
 #define STATE(p) (((StaffRoll *)(p))->scriptState)
 #define ENTRIES(p) (((StaffRollEntry *)(((StaffRoll *)(p))->entryTable)))
@@ -842,11 +836,11 @@ void STAFF_ROLL_UpdateBrightness(char *p)
     int v = ((StaffRoll *)p)->brightness;
     if (v <= 0x10000) {
         ((StaffRoll *)p)->brightness = v + (((StaffRoll *)p)->fastFlag == 1 ? 0x400 : 0x100);
-#if VERSION == VERSION_WHITE
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, 0x10 - *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000);
-#else
-        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
-#endif
+        if (PM_VERSION_IS(VERSION_WHITE)) {
+            G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, 0x10 - *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000);
+        } else {
+            G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
+        }
     }
 }
 
@@ -1138,11 +1132,11 @@ int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)&((StaffRoll *)p)->light;S
 
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec)
 {
-#if VERSION == VERSION_WHITE
-    rec = rec + ((rec[7] + 1) << 4);       /* White's record table has one more leading record */
-#else
-    rec = rec + (rec[7] << 4);
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        rec = rec + ((rec[7] + 1) << 4);       /* White's record table has one more leading record */
+    } else {
+        rec = rec + (rec[7] << 4);
+    }
     STAFF_ROLL_PrintRowText(ctx, rec);
     ((StaffRoll *)ctx)->scriptTimer = ((StaffRollEntry *)rec)->y;
     ((StaffRoll *)ctx)->scriptState = 1;

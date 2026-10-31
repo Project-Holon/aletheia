@@ -380,11 +380,11 @@ void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus,
 
     data->isValid = 1;
     i = 0;
-#if VERSION == VERSION_WHITE
-    data->cityType = 1;      /* White starts as White Forest, Black as Black City */
-#else
-    data->cityType = 0;
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        data->cityType = 1;      /* White starts as White Forest, Black as Black City */
+    } else {
+        data->cityType = 0;
+    }
     remaining = 0x1CE;
     data->playerId = MYSTATUS_GetId(myStatus);
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, (u16)((heapSeed & 0x7FFF) | 0x8000));

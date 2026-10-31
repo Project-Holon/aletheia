@@ -286,15 +286,9 @@
 #include "../sdk_ioreg_reg.h"
 
 /* Message indices of the multiboot screen: White's message file has one more entry before them. */
-#if VERSION == VERSION_WHITE
-#define MB_MSG_INTRO_INGAME 0xE
-#define MB_MSG_INTRO_STANDALONE 0x11
-#define MB_MSG_OFFER_COUNT 0x17
-#else
-#define MB_MSG_INTRO_INGAME 0xD
-#define MB_MSG_INTRO_STANDALONE 0x10
-#define MB_MSG_OFFER_COUNT 0x16
-#endif
+#define MB_MSG_INTRO_INGAME PM_VERSION_BW(0xD, 0xE)
+#define MB_MSG_INTRO_STANDALONE PM_VERSION_BW(0x10, 0x11)
+#define MB_MSG_OFFER_COUNT PM_VERSION_BW(0x16, 0x17)
 #include "mb_comm_sys.h"
 
 #include "../types.h"
@@ -1298,13 +1292,13 @@ void MB_COMM_SYS_StartParent(MbCommSysWork *p)
 
     MI_CpuCopy8(&registry, &p->registry, sizeof(registry));
     p->registry.romPath = p->standalone == 0 ? romPaths.inGame : romPaths.standalone;
-#if VERSION == VERSION_WHITE
-    p->registry.iconCharPath = iconCharPaths.inGame;
-    p->registry.iconPalettePath = iconPalettePaths.inGame;
-#else
-    p->registry.iconCharPath = iconCharPaths.standalone;
-    p->registry.iconPalettePath = iconPalettePaths.standalone;
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        p->registry.iconCharPath = iconCharPaths.inGame;
+        p->registry.iconPalettePath = iconPalettePaths.inGame;
+    } else {
+        p->registry.iconCharPath = iconCharPaths.standalone;
+        p->registry.iconPalettePath = iconPalettePaths.standalone;
+    }
     p->registry.gameName = p->gameNameBuf;
     p->registry.gameIntro = p->gameIntroBuf;
     MB_PARENT_SYS_Init(4992, 65536);

@@ -206,11 +206,11 @@ CtvtDrawScene *CTVT_DRAW_Create(CtvtWork *work, u16 heapId)
     scene->stampKind = 3;
     scene->toolMode = 0;
     scene->drawTool = 0;
-#if VERSION == VERSION_WHITE
-    scene->penColor = 0xFFFF;       /* White starts with a white pen, Black with a black one */
-#else
-    scene->penColor = 0x8000;
-#endif
+    if (PM_VERSION_IS(VERSION_WHITE)) {
+        scene->penColor = 0xFFFF;       /* White starts with a white pen, Black with a black one */
+    } else {
+        scene->penColor = 0x8000;
+    }
     return scene;
 }
 
