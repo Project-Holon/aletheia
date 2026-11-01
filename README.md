@@ -2,6 +2,8 @@
 
 A byte-matching decompilation of Pokémon Black and White. The same source builds the English, French, German, Italian and Spanish cartridges.
 
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/Fpyemx4qp)
+
 All tooling (ROM extraction, rebuilding, disassembly, and build system) is written independently for this repository.
 
 ## Status
@@ -113,6 +115,10 @@ python tools/build.py --arm9-image
 ## Related Projects
 
 - [eidos](https://github.com/Project-Holon/eidos): Native PC port and engine companion.
+
+## Community
+
+Join the [Project Holon Discord](https://discord.gg/Fpyemx4qp) for reverse engineering discussion, decompilation progress updates, and technical questions.
 
 ## Acknowledgments
 
