@@ -1477,6 +1477,13 @@ void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
         ptcl->animScale = anim->mid;
         return;
     }
+#ifndef __MWERKS__
+    /* curve.out 0xFF leaves no end segment; the DS's runtime divide returns the dividend for 0. */
+    if (b1 == 0xFF) {
+        ptcl->animScale = anim->end + (lifeRate - 0xFF) * (anim->end - anim->mid);
+        return;
+    }
+#endif
     ptcl->animScale = anim->end + (lifeRate - 0xFF) * (anim->end - anim->mid) / (0xFF - b1);
 }
 
@@ -1598,6 +1605,11 @@ void SPLAnim_Alpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
         v = p->alpha.start + lifeRate * (p->alpha.mid - p->alpha.start) / a;
     } else if (lifeRate < b) {
         v = p->alpha.mid;
+#ifndef __MWERKS__
+    } else if (b == 0xff) {
+        /* curve.out 0xff leaves no end segment; the DS's runtime divide returns the dividend for 0. */
+        v = p->alpha.end + (lifeRate - 0xff) * (p->alpha.end - p->alpha.mid);
+#endif
     } else {
         v = p->alpha.end + (lifeRate - 0xff) * (p->alpha.end - p->alpha.mid) / (0xff - b);
     }
@@ -2089,6 +2101,12 @@ void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list)
             ptcl->texture = header->misc.textureIndex;
         }
 
+#ifndef __MWERKS__
+        /* loopFrames 0; the DS's runtime divide returns the dividend for 0. */
+        if (res->header->misc.loopFrames == 0)
+            ptcl->loopTimeFactor = 0xFFFF;
+        else
+#endif
         ptcl->loopTimeFactor = 0xFFFF / res->header->misc.loopFrames;
         ptcl->lifeTimeFactor = 0xFFFF / ptcl->lifeTime;
 
@@ -2179,6 +2197,12 @@ void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleLis
         p->lifeTime = d->lifeTime;
         p->age = 0;
         p->texture = d->texture;
+#ifndef __MWERKS__
+        /* A parent that lives 1 frame gives half-life 0; the DS's runtime divide returns the dividend for 0. */
+        if (((u32)e->lifeTime >> 1) == 0)
+            p->loopTimeFactor = 0xffff;
+        else
+#endif
         p->loopTimeFactor = 0xffff / (s32)((u32)e->lifeTime >> 1);
         p->lifeTimeFactor = 0xffff / e->lifeTime;
         p->lifeRateOffset = 0;
@@ -3784,6 +3808,12 @@ void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr)
 
             // "life rate" is a fraction of the particle's lifetime, represented as a u8
             // where 0 is the start of the particle's life and 255 is the end
+#ifndef __MWERKS__
+            /* A child resource with lifeTime 0; the DS's runtime divide returns the dividend for 0. */
+            if (ptcl->lifeTime == 0)
+                lifeRates[0] = ptcl->age << 8;
+            else
+#endif
             lifeRates[0] = (ptcl->age << 8) / ptcl->lifeTime;
             for (i = 0; i < animCount; i++) {
                 childAnimFuncs[i].func(ptcl, res, lifeRates[0]);
