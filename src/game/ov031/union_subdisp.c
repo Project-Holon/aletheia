@@ -1006,6 +1006,11 @@ int UNION_SUBDISP_GetScrollRange(UnionChatLog *log)
 /* Height of one scroll step in 8.8 fixed point pixels: the knob travel of 0x80 pixels divided by the number of steps. */
 u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 range)
 {
+#ifndef __MWERKS__
+    /* A log of 2 lines or fewer gives range 0; the DS's runtime divide returns the dividend for 0. */
+    if (range == 0)
+        return 0x8000;
+#endif
     return 0x8000 / range;
 }
 
