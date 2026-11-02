@@ -285,9 +285,10 @@ typedef struct {long x,y,z;} BeaconDetailVec;
 
 typedef struct { int x, y, z; } V3;
 
-typedef struct { V3 a; V3 b; } BeaconDetailPair;
 
 typedef struct { int m[9]; } M33;
+/* The object status G3D_SYSTEM_DrawObject reads (G3dObjectStatus: trans, scale, rotate). */
+typedef struct { V3 trans; V3 scale; M33 rotate; } BeaconDetailStatus;
 
 /* One 0x30-byte beacon entry in BeaconDetailWork.records. */
 typedef struct {
@@ -2080,28 +2081,26 @@ void BEACON_DETAIL_Draw3D(char *p)
         ((BeaconDetailWork *)p)->drawState = 0;
         break;
     case 1: {
-        M33 m;
-        BeaconDetailPair s;
-        M33 m2;
-        BeaconDetailPair s2;
+        BeaconDetailStatus s;
+        BeaconDetailStatus s2;
         u32 i;
 
         G3D_LIGHT_ApplySlots(((BeaconDetailWork *)p)->lightSet);
         G3D_CAMERA_Reset(((BeaconDetailWork *)p)->camera);
         G3D_SYSTEM_DrawStart();
         G3D_SYSTEM_ApplyLookAt();
-        s.a = ((BeaconDetailWork *)p)->light0;
-        MTX_Identity33_(&m);
-        s.b = ((BeaconDetailWork *)p)->light2;
+        s.trans = ((BeaconDetailWork *)p)->light0;
+        MTX_Identity33_(&s.rotate);
+        s.scale = ((BeaconDetailWork *)p)->light2;
         G3D_SYSTEM_DrawObject((void *)(((BeaconDetailWork *)p)->object[5]), (struct G3dObjectStatus *)(&s));
-        s.b = ((BeaconDetailWork *)p)->light1;
-        BEACON_DETAIL_SetupCalc((Matrix *)&m, ((BeaconDetailWork *)p)->angles);
+        s.scale = ((BeaconDetailWork *)p)->light1;
+        BEACON_DETAIL_SetupCalc((Matrix *)&s.rotate, ((BeaconDetailWork *)p)->angles);
         G3D_SYSTEM_DrawObject((void *)(((BeaconDetailWork *)p)->object[0]), (struct G3dObjectStatus *)(&s));
-        s2.a = ((BeaconDetailWork *)p)->light0;
-        s2.b = ((BeaconDetailWork *)p)->light2;
+        s2.trans = ((BeaconDetailWork *)p)->light0;
+        s2.scale = ((BeaconDetailWork *)p)->light2;
         for (i = 0; i < ((BeaconDetailWork *)p)->recordCount; i++) {
             u16 f;
-            MTX_Concat33((union MtxFx33 *)&((BeaconDetailWork *)p)->records[i].matrix, (union MtxFx33 *)&m, (union MtxFx33 *)&m2);
+            MTX_Concat33((union MtxFx33 *)&((BeaconDetailWork *)p)->records[i].matrix, (union MtxFx33 *)&s.rotate, (union MtxFx33 *)&s2.rotate);
             f = ((BeaconDetailWork *)p)->records[i].state;
             if (f != 0)
                 G3D_SYSTEM_DrawObject((void *)(((BeaconDetailWork *)p)->object[f+1]), (struct G3dObjectStatus *)(&s2));
