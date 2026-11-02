@@ -196,7 +196,7 @@
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb
  *   FLDMMDL_MOVE_GridToVector  0x02164294  thumb  ov010
- *   MAP_ATTR_IsCameraStep  0x021AB194  thumb
+ *   MAP_ATTR_IsCounter  0x021AB194  thumb
  *   FLDMMDL_MOVE_AddDirGrid  0x02164240  thumb  ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
  *   FLDMMDL_GetPosY  0x0216D8AC  thumb  ov010
@@ -1830,9 +1830,9 @@ struct GameEvent *FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void 
 }
 
 /*
- * Reads the object's grid position, and when the tile attribute in front
- * allows it (MAP_ATTR_IsCameraStep) steps it one tile in its facing direction, then
- * moves the camera object there (FLDMMDL_SysSearchGridPosHeight).
+ * The object the player talks to: the one on the tile in front, or one tile
+ * further when the tile in front is a counter (MAP_ATTR_IsCounter), at a height
+ * within one unit of the player's (FLDMMDL_SysSearchGridPosHeight).
  */
 struct Mmdl *FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, FieldMap *fieldMap)
 {
@@ -1843,7 +1843,7 @@ struct Mmdl *FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, Field
 
     FIELD_PLAYER_GetFrontGridPos((struct FieldPlayer *)input->player, (s16 *)(&gridPos[2]), (s16 *)(&gridPos[1]), (s16 *)(&gridPos[0]));
     FLDMMDL_MOVE_GridToVector(gridPos[2], gridPos[1], gridPos[0], &worldPos);
-    if (MAP_ATTR_IsCameraStep(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(fieldMap), &worldPos))) == 1)
+    if (MAP_ATTR_IsCounter(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(fieldMap), &worldPos))) == 1)
         FLDMMDL_MOVE_AddDirGrid(FLDMMDL_GetDirDisp(playerMmdl), &gridPos[2], &gridPos[0], 1);
     mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
     return FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mmdlSys, gridPos[2], gridPos[0], FLDMMDL_GetPosY(playerMmdl), 0x10000, 0);

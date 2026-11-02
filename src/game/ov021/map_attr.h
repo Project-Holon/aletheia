@@ -20,7 +20,7 @@ BOOL MAP_ATTR_IsLedgeSouth(u16 terrainId);
 BOOL MAP_ATTR_IsLedgeWest(u16 terrainId);
 BOOL MAP_ATTR_IsLedgeEast(u16 terrainId);
 BOOL MAP_ATTR_IsNoInteract(u16 terrainId);
-BOOL MAP_ATTR_IsCameraStep(u16 terrainId);
+BOOL MAP_ATTR_IsCounter(u16 terrainId);
 int MAP_ATTR_IsGimmickD6(int terrainId);
 BOOL MAP_ATTR_IsGimmickD7(u16 terrainId);
 BOOL MAP_ATTR_IsGimmickD8(u16 terrainId);

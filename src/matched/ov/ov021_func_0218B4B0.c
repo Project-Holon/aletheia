@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Reads the object's grid position, and when the tile attribute in front
- * allows it (MAP_ATTR_IsCameraStep) steps it one tile in its facing direction, then
+ * allows it (MAP_ATTR_IsCounter) steps it one tile in its facing direction, then
  * moves the camera object there (FLDMMDL_SysSearchGridPosHeight).
  *
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
@@ -22,7 +22,7 @@
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
  *   MAP_ATTR_GetAt  0x021AB0D4  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
- *   MAP_ATTR_IsCameraStep  0x021AB194  thumb
+ *   MAP_ATTR_IsCounter  0x021AB194  thumb
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_MOVE_AddDirGrid  0x02164240  thumb  ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
@@ -59,7 +59,7 @@ extern void FLDMMDL_MOVE_GridToVector(int x, int y, int z, int *out);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern int MAP_ATTR_GetAt(void *a, void *b);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern int MAP_ATTR_IsCameraStep(u16 id);
+extern int MAP_ATTR_IsCounter(u16 id);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void FLDMMDL_MOVE_AddDirGrid(int dir, s16 *x, s16 *z, s16 amt);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
@@ -75,7 +75,7 @@ int FIELD_EVENT_CHECK_SearchGridFrontMmdl(struct FieldCtx *p, u8 *pos)
 
     FIELD_PLAYER_GetFrontGridPos((u32)p->f18, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
     FLDMMDL_MOVE_GridToVector(v[2], v[1], v[0], xyz);
-    if (MAP_ATTR_IsCameraStep(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(pos), xyz))) == 1)
+    if (MAP_ATTR_IsCounter(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(pos), xyz))) == 1)
         FLDMMDL_MOVE_AddDirGrid(FLDMMDL_GetDirDisp(obj), &v[2], &v[0], 1);
     cam = FIELDMAP_GetMmdlSys(pos);
     return (int)FLDMMDL_SysSearchGridPosHeight((u32)cam, v[2], v[0], FLDMMDL_GetPosY(obj), 0x10000, 0);

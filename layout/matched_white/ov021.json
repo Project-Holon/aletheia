@@ -2275,7 +2275,7 @@
   {"name": "MAP_ATTR_IsLedgeWest", "black_address": "0x021AB170", "white_address": "0x021AB190", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
   {"name": "MAP_ATTR_IsLedgeEast", "black_address": "0x021AB17C", "white_address": "0x021AB19C", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
   {"name": "MAP_ATTR_IsNoInteract", "black_address": "0x021AB188", "white_address": "0x021AB1A8", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
-  {"name": "MAP_ATTR_IsCameraStep", "black_address": "0x021AB194", "white_address": "0x021AB1B4", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
+  {"name": "MAP_ATTR_IsCounter", "black_address": "0x021AB194", "white_address": "0x021AB1B4", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
   {"name": "MAP_ATTR_IsGimmickD6", "black_address": "0x021AB1A0", "white_address": "0x021AB1C0", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
   {"name": "MAP_ATTR_IsGimmickD7", "black_address": "0x021AB1AC", "white_address": "0x021AB1CC", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},
   {"name": "MAP_ATTR_IsGimmickD8", "black_address": "0x021AB1B8", "white_address": "0x021AB1D8", "size": 12, "diff": "same", "source": "src/game/ov021/map_attr.c", "version_switch": false, "status": "EXACT"},

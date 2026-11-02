@@ -15028,7 +15028,7 @@ ov021	0x021AB164	MAP_ATTR_IsLedgeSouth	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB170	MAP_ATTR_IsLedgeWest	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB17C	MAP_ATTR_IsLedgeEast	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB188	MAP_ATTR_IsNoInteract	thumb	12	src/game/ov021/map_attr.c	no
-ov021	0x021AB194	MAP_ATTR_IsCameraStep	thumb	12	src/game/ov021/map_attr.c	no
+ov021	0x021AB194	MAP_ATTR_IsCounter	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB1A0	MAP_ATTR_IsGimmickD6	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB1AC	MAP_ATTR_IsGimmickD7	thumb	12	src/game/ov021/map_attr.c	no
 ov021	0x021AB1B8	MAP_ATTR_IsGimmickD8	thumb	12	src/game/ov021/map_attr.c	no

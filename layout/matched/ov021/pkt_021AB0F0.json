@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "MAP_ATTR_IsCameraStep",
+   "name": "MAP_ATTR_IsCounter",
    "address": "0x021AB194",
    "kind": "game",
    "region": "ov021",

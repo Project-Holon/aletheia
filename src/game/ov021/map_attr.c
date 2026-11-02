@@ -1,7 +1,7 @@
 /*
  * file:     map_attr.c
  * unit:     yes
- * function: MAP_ATTR_GetAt, MAP_ATTR_GetTerrainId, MAP_ATTR_GetFlags, MAP_ATTR_IsPresent, MAP_ATTR_IsBlocked, MAP_ATTR_IsTallGrass, MAP_ATTR_IsLedgeNorth, MAP_ATTR_IsLedgeSouth, MAP_ATTR_IsLedgeWest, MAP_ATTR_IsLedgeEast, MAP_ATTR_IsNoInteract, MAP_ATTR_IsCameraStep, MAP_ATTR_IsGimmickD6, MAP_ATTR_IsGimmickD7, MAP_ATTR_IsGimmickD8, MAP_ATTR_IsGimmickE2, MAP_ATTR_IsGimmickD9, MAP_ATTR_IsGimmickDA, MAP_ATTR_IsGimmickDB, MAP_ATTR_IsGimmickDC, MAP_ATTR_IsGimmickDD, MAP_ATTR_IsGimmickDE, MAP_ATTR_IsGimmickDF, MAP_ATTR_IsGimmickE0, MAP_ATTR_IsGimmickE1, MAP_ATTR_IsGrassSingle, MAP_ATTR_IsGrassDouble, MAP_ATTR_IsTallGrassSingle, MAP_ATTR_IsTallGrassDouble, MAP_ATTR_IsAnySingleGrass, MAP_ATTR_IsAnyDoubleGrass, MAP_ATTR_IsAnyGrass, MAP_ATTR_IsHole, MAP_ATTR_IsLongHopEdge, MAP_ATTR_IsRippleWater, MAP_ATTR_IsSplashWater, MAP_ATTR_IsWaterfall, MAP_ATTR_IsSnow, MAP_ATTR_IsDeepSnow, MAP_ATTR_IsSnowTile, MAP_ATTR_IsForcedSlide, MAP_ATTR_IsIce, MAP_ATTR_IsSplashWaterB, MAP_ATTR_IsSandD, MAP_ATTR_IsSandVariant, MAP_ATTR_IsAnySand, MAP_ATTR_IsFishableWater, MAP_ATTR_IsPuddle, MAP_ATTR_IsMud, MAP_ATTR_IsElectricFloor, MAP_ATTR_IsElectricPanel, MAP_ATTR_IsDeepSand, MAP_ATTR_IsDeepSandB, MAP_ATTR_IsSand, MAP_ATTR_IsGrassSingleB, MAP_ATTR_IsGrassDoubleB, MAP_ATTR_IsMirrorFloor, MAP_ATTR_IsNoDash, MAP_ATTR_IsSlopeYA, MAP_ATTR_IsSlopeYB, MAP_ATTR_IsSlopeXB, MAP_ATTR_IsSlopeXA, MAP_ATTR_IsRoughGround, MAP_ATTR_IsGrassSingleC, MAP_ATTR_IsGrassDoubleC, MAP_ATTR_GetEncounterEffectKind, MAP_ATTR_GetBattleBackground, MAP_ATTR_IsHopTransition
+ * function: MAP_ATTR_GetAt, MAP_ATTR_GetTerrainId, MAP_ATTR_GetFlags, MAP_ATTR_IsPresent, MAP_ATTR_IsBlocked, MAP_ATTR_IsTallGrass, MAP_ATTR_IsLedgeNorth, MAP_ATTR_IsLedgeSouth, MAP_ATTR_IsLedgeWest, MAP_ATTR_IsLedgeEast, MAP_ATTR_IsNoInteract, MAP_ATTR_IsCounter, MAP_ATTR_IsGimmickD6, MAP_ATTR_IsGimmickD7, MAP_ATTR_IsGimmickD8, MAP_ATTR_IsGimmickE2, MAP_ATTR_IsGimmickD9, MAP_ATTR_IsGimmickDA, MAP_ATTR_IsGimmickDB, MAP_ATTR_IsGimmickDC, MAP_ATTR_IsGimmickDD, MAP_ATTR_IsGimmickDE, MAP_ATTR_IsGimmickDF, MAP_ATTR_IsGimmickE0, MAP_ATTR_IsGimmickE1, MAP_ATTR_IsGrassSingle, MAP_ATTR_IsGrassDouble, MAP_ATTR_IsTallGrassSingle, MAP_ATTR_IsTallGrassDouble, MAP_ATTR_IsAnySingleGrass, MAP_ATTR_IsAnyDoubleGrass, MAP_ATTR_IsAnyGrass, MAP_ATTR_IsHole, MAP_ATTR_IsLongHopEdge, MAP_ATTR_IsRippleWater, MAP_ATTR_IsSplashWater, MAP_ATTR_IsWaterfall, MAP_ATTR_IsSnow, MAP_ATTR_IsDeepSnow, MAP_ATTR_IsSnowTile, MAP_ATTR_IsForcedSlide, MAP_ATTR_IsIce, MAP_ATTR_IsSplashWaterB, MAP_ATTR_IsSandD, MAP_ATTR_IsSandVariant, MAP_ATTR_IsAnySand, MAP_ATTR_IsFishableWater, MAP_ATTR_IsPuddle, MAP_ATTR_IsMud, MAP_ATTR_IsElectricFloor, MAP_ATTR_IsElectricPanel, MAP_ATTR_IsDeepSand, MAP_ATTR_IsDeepSandB, MAP_ATTR_IsSand, MAP_ATTR_IsGrassSingleB, MAP_ATTR_IsGrassDoubleB, MAP_ATTR_IsMirrorFloor, MAP_ATTR_IsNoDash, MAP_ATTR_IsSlopeYA, MAP_ATTR_IsSlopeYB, MAP_ATTR_IsSlopeXB, MAP_ATTR_IsSlopeXA, MAP_ATTR_IsRoughGround, MAP_ATTR_IsGrassSingleC, MAP_ATTR_IsGrassDoubleC, MAP_ATTR_GetEncounterEffectKind, MAP_ATTR_GetBattleBackground, MAP_ATTR_IsHopTransition
  * address:  0x021AB0D4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -35,7 +35,7 @@ BOOL MAP_ATTR_IsLedgeSouth(u16 terrainId);
 BOOL MAP_ATTR_IsLedgeWest(u16 terrainId);
 BOOL MAP_ATTR_IsLedgeEast(u16 terrainId);
 BOOL MAP_ATTR_IsNoInteract(u16 terrainId);
-BOOL MAP_ATTR_IsCameraStep(u16 terrainId);
+BOOL MAP_ATTR_IsCounter(u16 terrainId);
 int MAP_ATTR_IsGimmickD6(int terrainId);
 BOOL MAP_ATTR_IsGimmickD7(u16 terrainId);
 BOOL MAP_ATTR_IsGimmickD8(u16 terrainId);
@@ -248,11 +248,11 @@ BOOL MAP_ATTR_IsNoInteract(u16 terrainId)
 
 /*
  * Terrain-id predicate over the low half of the tile attribute word:
- * true for MAP_ATTR_TERRAIN_CAMERA_STEP.
+ * true for MAP_ATTR_TERRAIN_COUNTER, a counter the player talks across.
  */
-BOOL MAP_ATTR_IsCameraStep(u16 terrainId)
+BOOL MAP_ATTR_IsCounter(u16 terrainId)
 {
-    if (terrainId == MAP_ATTR_TERRAIN_CAMERA_STEP) {
+    if (terrainId == MAP_ATTR_TERRAIN_COUNTER) {
         return 1;
     }
 
