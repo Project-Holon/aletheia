@@ -1210,6 +1210,12 @@ u8 BTLV_GAUGE_CalcTileFill(u32 maxValue, int value, int delta, int *anim, u8 *ti
     for (i = 0; i < tileCount; i++) {
         tileFill[i] = 0;
     }
+#ifndef __MWERKS__
+    /* maxValue is 0 for a slot drawn before its HP is set; the DS's runtime divide returns the dividend for 0. */
+    if (maxValue == 0) {
+        pixels = (*anim * totalPixels) >> 8;
+    } else
+#endif
     if (maxValue < totalPixels) {
         pixels = (*anim * totalPixels) / maxValue >> 8;
     } else {
@@ -1249,8 +1255,17 @@ int BTLV_GAUGE_CalcPixelChange(int value, int delta, int maxValue, unsigned int 
     } else if (goal > maxValue) {
         goal = maxValue;
     }
-    pixelsBefore = (value * totalPixels) / maxValue;
-    pixelsAfter = (goal * totalPixels) / maxValue;
+#ifndef __MWERKS__
+    /* Same zero divisor as BTLV_GAUGE_CalcTileFill; the DS's runtime divide returns the dividend for 0. */
+    if (maxValue == 0) {
+        pixelsBefore = value * totalPixels;
+        pixelsAfter = goal * totalPixels;
+    } else
+#endif
+    {
+        pixelsBefore = (value * totalPixels) / maxValue;
+        pixelsAfter = (goal * totalPixels) / maxValue;
+    }
     diff = (signed char)pixelsBefore - (signed char)pixelsAfter;
     diff = (signed char)diff;
     if (diff < 0) {
