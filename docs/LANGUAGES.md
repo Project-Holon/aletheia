@@ -61,7 +61,16 @@ it from `g_pm_version` (`VERSION_BLACK` or `VERSION_WHITE`). `PM_VERSION_IS(vers
 of the targets:
 
 - `layout/langmap/<target>.tsv`: runs of English Black addresses that move by one amount in the
-  target (region, English start, English end, target start).
+  target (region, English start, English end, target start, owner). Rows inside the region's own
+  place are its own rows (owner is the region). Rows outside it are reference rows. Each one is
+  the run of another region that the region links to or that its data points at (owner is that
+  region, or `?` for an object that no region owns). A reference row never spans two overlays.
+  Overlays that share a window can each have a reference row over the same address. The row of
+  the overlay loaded with the region is the one that holds.
+- `layout/langmap/word_pairs.tsv`: pointer words in a region's data that the rows do not map:
+  target, region, the English value and the target value. These words point into the middle of
+  data with another layout, or into data with no object of the same name. Every other pointer
+  word in data of the same size is mapped by a row with the right shift.
 - `layout/langmap/size_changed.tsv`: objects whose size differs from English, with both
   addresses and sizes. The port takes them from the target's ROM.
 - `layout/langmap/size_changed_ptrs.tsv`: the pointer words of those data objects in the target
