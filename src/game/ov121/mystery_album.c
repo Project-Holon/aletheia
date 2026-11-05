@@ -2791,7 +2791,12 @@ int MYSTERY_ALBUM_PathAnimStep(MysteryAlbumPathAnim *anim, u16 *outFrameId, Myst
     case 1: {
         int startX = anim->startX;
         int deltaX = anim->target.x - startX;
+#ifdef __MWERKS__
         int sign = (deltaX < 0 ? -deltaX : deltaX) / deltaX;
+#else
+        /* deltaX is 0 on a step with no x movement; the DS's runtime divide returns the dividend (0) for 0. */
+        int sign = deltaX == 0 ? 0 : (deltaX < 0 ? -deltaX : deltaX) / deltaX;
+#endif
         int startY, deltaY;
         if (deltaX < 0) deltaX = -deltaX;
         anim->current.x = startX + sign * ((u32)(anim->frame * deltaX) / anim->durationFrames);
