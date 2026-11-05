@@ -23,7 +23,9 @@ Output (addresses, sizes and offsets only, no game bytes):
                                         region is the one that holds
   layout/langmap/word_pairs.tsv         the pointer words of a region's data (objects of the same
                                         size in both links) whose target value the rows do not
-                                        give: target, region, the English value, the target value
+                                        give, or that more than one of its rows holds read back
+                                        from the target: target, region, the English value, the
+                                        target value
                                         (pointers into the middle of data laid out differently,
                                         and into data with no object of the same name)
   layout/langmap/size_changed.tsv       the objects of every target whose size differs from
@@ -253,6 +255,7 @@ def main(argv):
                     ref.add(owner_run(owner.get(name), ea, ta - ea) or (ea, ea + sz, ta, '?'))
             # the pointer words of the region's data, English and target value
             words = set()
+            same = set()        # words of the same value in both, checked for ambiguity only
             for name, (ba, bsz, kind) in black[g].items():
                 if kind != 'data' or not bsz or name not in links[g][2]:
                     continue
@@ -263,6 +266,8 @@ def main(argv):
                 wt = data_words(links[g], ta, ta + tsz)
                 for off, e in wb.items():
                     v = wt.get(off)
+                    if v == e and 0x02000000 <= e < 0x02400000:
+                        same.add((e, v))
                     if v is None or v == e or not 0x02000000 <= e < 0x02400000 or abs(v - e) > 0x4000:
                         continue
                     words.add((e, v))
@@ -293,6 +298,16 @@ def main(argv):
                     out.add((a, b, c, o))
             for ea, ee, ta, o in sorted(out):
                 runs.append('%s\t0x%08X\t0x%08X\t0x%08X\t%s' % (g, ea, ee, ta, o))
+            # a target value that more than one of the region's rows holds (overlays sharing a
+            # window) is ambiguous read back: the pair settles it
+            for e, v in sorted(words | same):
+                if (e, v) in leftover:
+                    continue
+                back = set(v - ta + ea for ea, ee, ta, _o in out if ta <= (v & ~1) < ta + ee - ea)
+                if (e, v) in same and (len(back) < 2 or e not in back):
+                    continue        # one reading, or none: a number, or no row is needed
+                if back != {e}:
+                    leftover.append((e, v))
             for e, v in leftover:
                 pairs_out.append('%s\t%s\t0x%08X\t0x%08X' % (t, g, e, v))
         write(os.path.join(FULL, t + '.tsv'), rows)

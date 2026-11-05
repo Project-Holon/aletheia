@@ -69,8 +69,11 @@ of the targets:
   the overlay loaded with the region is the one that holds.
 - `layout/langmap/word_pairs.tsv`: pointer words in a region's data that the rows do not map:
   target, region, the English value and the target value. These words point into the middle of
-  data with another layout, or into data with no object of the same name. Every other pointer
-  word in data of the same size is mapped by a row with the right shift.
+  data with another layout, or into data with no object of the same name. The file also lists
+  every word whose target value falls in more than one of the region's rows with different
+  English results (overlays that share a window). For such a word, the target value alone
+  cannot give the English address. Every other pointer word in data of the same size has
+  exactly one row that gives it, with the right shift.
 - `layout/langmap/size_changed.tsv`: objects whose size differs from English, with both
   addresses and sizes. The port takes them from the target's ROM.
 - `layout/langmap/size_changed_ptrs.tsv`: the pointer words of those data objects in the target
