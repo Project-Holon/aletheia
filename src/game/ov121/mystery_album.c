@@ -2646,7 +2646,13 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     CLACT_AddActorSurfacePos(ui->iconActor, (const struct ClactVec2 *)&iconPos, ui->screenId);
     CLACT_SetActorDrawEnable(ui->iconActor,1);
     if (MYSTERY_ALBUM_GetEntryKind(album)==1) {
+#ifdef __MWERKS__
         CLACT_TransferPalette(ui->paletteHandle,(struct PaletteData *)album->paletteRes->pRawData,1);
+#else
+        /* The original passes the colours as the palette header, so the DS loads 32 bytes from a
+         * colour word read as an address; the loop below blacks the palette out right after. */
+        CLACT_TransferPalette(ui->paletteHandle,(struct PaletteData *)album->paletteRes,1);
+#endif
         MI_CpuCopy8(album->paletteRes->pRawData,ui->palImage,32);
         MIi_CpuClear16(0,ui->palBlack,32);
         CLACT_TransferCharacterPart(ui->bgHandleB,album->bgDataRes->pRawData,0x1200,0,ui->screenId);
