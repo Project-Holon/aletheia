@@ -125,9 +125,19 @@ void OSi_SyncWithOtherProc(int direction, volatile u8 *regs)
  *           `.bss 0x02150FCC data` names the member's .bss base, accepted by
  *           the section-relative rule (the witness is sole-ref/self).
  */
+#ifndef __MWERKS__
+/* The host build keeps the flag where the port's power-on can clear it: a
+ * DS reset clears all RAM, the host's own memory is not cleared. */
+BOOL bw_os_lock_initialized;
+#endif
+
 void OS_InitLock(void)
 {
+#ifdef __MWERKS__
     static BOOL isInitialized;
+#else
+#define isInitialized bw_os_lock_initialized
+#endif
     OSLockWord *lockp = (OSLockWord *)0x02FFFFB0;
 
     if (isInitialized) {
@@ -144,6 +154,9 @@ void OS_InitLock(void)
 
     OSi_SyncWithOtherProc(0, (void *)(0x02FFFFB0 + 0x40));
     OSi_SyncWithOtherProc(1, (void *)(0x02FFFFB0 + 0x40));
+#ifndef __MWERKS__
+#undef isInitialized
+#endif
 }
 
 s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
