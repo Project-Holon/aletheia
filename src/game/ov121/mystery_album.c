@@ -2799,11 +2799,22 @@ int MYSTERY_ALBUM_PathAnimStep(MysteryAlbumPathAnim *anim, u16 *outFrameId, Myst
 #endif
         int startY, deltaY;
         if (deltaX < 0) deltaX = -deltaX;
+#ifdef __MWERKS__
         anim->current.x = startX + sign * ((u32)(anim->frame * deltaX) / anim->durationFrames);
+#else
+        /* a step of 0 frames (MYSTERY_ALBUM_PathDurations); the DS's runtime divide returns the dividend for 0 */
+        anim->current.x = startX + sign * (anim->durationFrames == 0 ? (u32)(anim->frame * deltaX)
+                                           : (u32)(anim->frame * deltaX) / anim->durationFrames);
+#endif
         startY = anim->startY;
         deltaY = anim->target.y - startY;
         if (deltaY < 0) deltaY = -deltaY;
+#ifdef __MWERKS__
         anim->current.y = startY + sign * ((u32)(anim->frame * deltaY) / anim->durationFrames);
+#else
+        anim->current.y = startY + sign * (anim->durationFrames == 0 ? (u32)(anim->frame * deltaY)
+                                           : (u32)(anim->frame * deltaY) / anim->durationFrames);
+#endif
         if (anim->frame++ >= anim->durationFrames) {
             anim->frameId = anim->nextFrameId;
             anim->current = anim->target;
