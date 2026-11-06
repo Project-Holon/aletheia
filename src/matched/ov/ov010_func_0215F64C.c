@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_CommProcEventMain
+ * function: SCRCMD_NETWORK_WhiteOutEventMain
  * address:  0x0215F64C
  * packet:   pkt_ov010_0215F64C
  * region:   ov010
@@ -36,7 +36,7 @@ extern int EVENT_WIFI_PROC_LoadOv020Task();
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 
-int SCRCMD_NETWORK_CommProcEventMain(int a0, int *st, int *a2)
+int SCRCMD_NETWORK_WhiteOutEventMain(int a0, int *st, int *a2)
 {
     switch (*st) {
     case 0:

@@ -26,7 +26,7 @@
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
  *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
- *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
+ *   SCRCMD_NETWORK_CreateWhiteOutEvent  0x0215F6E8  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
@@ -314,7 +314,7 @@ int EVENT_BATTLE_ProcScriptedBattle(struct GameEvent *event, int *state, void *w
         }
         if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(gameData), 0) == 1) {
             COMM_PLAYER_SUPPORT_Init(GAME_DATA_GetPmsWork((struct GameData *)gameData));
-            GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
+            GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateWhiteOutEvent(gameSystem));
         } else {
             GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 0, 1, 0, 0));
         }
@@ -625,7 +625,7 @@ int EVENT_BATTLE_ProcBattleTask(struct GameEvent *event, int *state, void *workP
                 return 1;
             }
             EVENT_BATTLE_FreeBtlSetup(work);
-            GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
+            GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateWhiteOutEvent(gameSystem));
             return 0;
         }
         GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));

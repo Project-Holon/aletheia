@@ -9002,9 +9002,9 @@ ov010	0x0215B2C4	SCRCMD_WORK_CmdSetNpcGridPos	thumb	98	src/game/ov010/scrcmd_wor
 ov010	0x0215B328	SCRCMD_WORK_CmdSetTrainerDefeatedFlag	thumb	38	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B350	SCRCMD_WORK_CmdClearTrainerDefeatedFlag	thumb	38	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B378	SCRCMD_WORK_CmdCheckTrainerDefeatedFlag	thumb	52	src/game/ov010/scrcmd_work.c	no
-ov010	0x0215B3AC	SCRCMD_WORK_CmdEndScriptStartCommProcA	thumb	46	src/game/ov010/scrcmd_work.c	no
+ov010	0x0215B3AC	SCRCMD_WORK_CmdEndScriptWhiteOutA	thumb	46	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B3DC	SCRCMD_WORK_CmdCheckLastBattleResultA	thumb	44	src/game/ov010/scrcmd_work.c	no
-ov010	0x0215B408	SCRCMD_WORK_CmdEndScriptStartCommProcB	thumb	46	src/game/ov010/scrcmd_work.c	no
+ov010	0x0215B408	SCRCMD_WORK_CmdEndScriptWhiteOutB	thumb	46	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B438	SCRCMD_WORK_CmdCheckLastBattleResultB	thumb	44	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B464	SCRCMD_WORK_CmdLookupTable	thumb	36	src/game/ov010/scrcmd_work.c	no
 ov010	0x0215B488	SCRCMD_PROC_LookupTableValue	thumb	36	src/game/ov010/scrcmd_proc.c	no
@@ -9197,8 +9197,8 @@ ov010	0x0215F4F4	SCRCMD_NETWORK_CmdApplyTableEventKeys	thumb	56	src/game/ov010/s
 ov010	0x0215F52C	SCRCMD_NETWORK_PickSixDistinctRandom	thumb	218	src/game/ov010/scrcmd_network.c	no
 ov010	0x0215F608	SCRCMD_NETWORK_FindNpcTableRow	thumb	38	src/game/ov010/scrcmd_network.c	no
 ov010	0x0215F630	SCRCMD_NETWORK_HasSituationWarpChanged	thumb	28	src/game/ov010/scrcmd_network.c	no
-ov010	0x0215F64C	SCRCMD_NETWORK_CommProcEventMain	thumb	156	src/game/ov010/scrcmd_network.c	no
-ov010	0x0215F6E8	SCRCMD_NETWORK_CreateCommProcEvent	thumb	76	src/game/ov010/scrcmd_network.c	no
+ov010	0x0215F64C	SCRCMD_NETWORK_WhiteOutEventMain	thumb	156	src/game/ov010/scrcmd_network.c	no
+ov010	0x0215F6E8	SCRCMD_NETWORK_CreateWhiteOutEvent	thumb	76	src/game/ov010/scrcmd_network.c	no
 ov010	0x0215F734	EVENT_GAMECLEAR_Main	thumb	372	src/game/ov010/event_gameclear.c	no
 ov010	0x0215F8A8	EVENT_GAMECLEAR_Create	thumb	88	src/game/ov010/event_gameclear.c	no
 ov010	0x0215F900	EVENT_GAMECLEAR_InitHallOfFameParam	thumb	30	src/game/ov010/event_gameclear.c	no

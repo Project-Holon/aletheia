@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_CreateCommProcEvent
+ * function: SCRCMD_NETWORK_CreateWhiteOutEvent
  * address:  0x0215F6E8
  * packet:   pkt_0215F6E8
  * region:   ov010
@@ -19,7 +19,7 @@
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   SCRCMD_NETWORK_HasSituationWarpChanged  0x0215F630  thumb  ov010
- *   SCRCMD_NETWORK_CommProcEventMain  0x0215F64C  thumb  ov010
+ *   SCRCMD_NETWORK_WhiteOutEventMain  0x0215F64C  thumb  ov010
  *   SYMBOL_MAP_DeleteLinkRecord  0x021666A4  thumb  ov010
  */
 
@@ -38,13 +38,13 @@ u8 *GAME_DATA_GetMyStatus(void *p);
 u8 *GAME_DATA_GetEventState(struct Big *p);
 void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 int SCRCMD_NETWORK_HasSituationWarpChanged(void *p);
-int SCRCMD_NETWORK_CommProcEventMain(int a0, int *st, int *a2);
+int SCRCMD_NETWORK_WhiteOutEventMain(int a0, int *st, int *a2);
 void SYMBOL_MAP_DeleteLinkRecord(int a0);
 
-void *SCRCMD_NETWORK_CreateCommProcEvent(void *p)
+void *SCRCMD_NETWORK_CreateWhiteOutEvent(void *p)
 {
     int r4 = (int)GAMESYSTEM_GetGameData(p);
-    void *r7 = func_020122C0(p, 0, SCRCMD_NETWORK_CommProcEventMain, 0xc);
+    void *r7 = func_020122C0(p, 0, SCRCMD_NETWORK_WhiteOutEventMain, 0xc);
     int *r6 = func_020124E8(r7);
 
     r6[0] = (int)p;

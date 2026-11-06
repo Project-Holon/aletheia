@@ -71,7 +71,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   GAMESYSTEM_RandTwice  0x02011D34  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
+ *   SCRCMD_NETWORK_CreateWhiteOutEvent  0x0215F6E8  thumb  ov010
  *   FLD_BTL_INST_TOOL_AddBattleTally  0x02168D30  thumb  ov010
  *   EVENT_BATTLE_IsTaskResultSilent  0x0216EFDC  thumb  ov010
  *   EVENT_BATTLE_FinishBattleTask  0x0216EFF0  thumb  ov010
@@ -152,7 +152,7 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
 extern void GAMESYSTEM_RandTwice(void);
-extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
+extern void *SCRCMD_NETWORK_CreateWhiteOutEvent(void *sys);
 extern void FLD_BTL_INST_TOOL_AddBattleTally(struct Record *r, struct Result *s);
 extern int EVENT_BATTLE_IsTaskResultSilent(int *w);
 extern void EVENT_BATTLE_FinishBattleTask(int *p, void *a);
@@ -245,7 +245,7 @@ int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, Work *w)
                 return 1;
             }
             EVENT_BATTLE_FreeBtlSetup((int)w);
-            GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateCommProcEvent(sys));
+            GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateWhiteOutEvent(sys));
             return 0;
         }
         GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));

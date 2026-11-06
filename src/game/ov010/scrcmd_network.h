@@ -33,8 +33,8 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScrcmdWork *scrip
 int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB);
 Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg);
-struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
+int SCRCMD_NETWORK_WhiteOutEventMain(struct GameEvent *event, int *seq, void *workArg);
+struct GameEvent *SCRCMD_NETWORK_CreateWhiteOutEvent(struct GameSystem *gameSystem);
 /* END mkheaders: generated region */
 
 #endif

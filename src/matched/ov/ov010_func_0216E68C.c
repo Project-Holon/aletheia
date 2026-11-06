@@ -34,7 +34,7 @@
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
  *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
  *   EVENT_BATTLE_IsResultSilent  0x0216EFA8  thumb  ov010
- *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
+ *   SCRCMD_NETWORK_CreateWhiteOutEvent  0x0215F6E8  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
@@ -94,7 +94,7 @@ extern int GAME_DATA_GetPmsWork(int p0);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
 extern u32 GAME_DATA_GetLastBattleResult(const struct BigObj *p);
 extern int EVENT_BATTLE_IsResultSilent(int a, int b);
-extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
+extern void *SCRCMD_NETWORK_CreateWhiteOutEvent(void *sys);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern int COMM_PLAYER_SUPPORT_HasSavedMode(int *p);
@@ -135,7 +135,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, Work *w)
         }
         if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(ctx), 0) == 1) {
             COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
-            GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateCommProcEvent(sys));
+            GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateWhiteOutEvent(sys));
         } else {
             GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeIn(sys, GAMESYSTEM_GetFieldMap(sys), 0, 0, 1, 0, 0));
         }

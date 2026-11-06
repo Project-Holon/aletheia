@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_network.c
  * unit:     yes
- * function: SCRCMD_NETWORK_WaitCommState, SCRCMD_NETWORK_CmdWaitCommState, SCRCMD_NETWORK_CmdGetCommValue, SCRCMD_NETWORK_CmdStartAutoComm, SCRCMD_NETWORK_CmdRequestCommExit, SCRCMD_NETWORK_CmdRestartAutoComm, SCRCMD_NETWORK_CmdUnblockComm, SCRCMD_NETWORK_CmdGetAlwaysNet, SCRCMD_NETWORK_CmdClearAlwaysNet, SCRCMD_NETWORK_CmdLoadNpcTable, SCRCMD_NETWORK_CmdFreeNpcTable, SCRCMD_NETWORK_CmdSetNpcEventFromTable, SCRCMD_NETWORK_CmdSetNpcEventPairFromTable, SCRCMD_NETWORK_CmdSetNpcTripleFromTable, SCRCMD_NETWORK_CmdApplyTableEventKeys, SCRCMD_NETWORK_PickSixDistinctRandom, SCRCMD_NETWORK_FindNpcTableRow, SCRCMD_NETWORK_HasSituationWarpChanged, SCRCMD_NETWORK_CommProcEventMain, SCRCMD_NETWORK_CreateCommProcEvent
+ * function: SCRCMD_NETWORK_WaitCommState, SCRCMD_NETWORK_CmdWaitCommState, SCRCMD_NETWORK_CmdGetCommValue, SCRCMD_NETWORK_CmdStartAutoComm, SCRCMD_NETWORK_CmdRequestCommExit, SCRCMD_NETWORK_CmdRestartAutoComm, SCRCMD_NETWORK_CmdUnblockComm, SCRCMD_NETWORK_CmdGetAlwaysNet, SCRCMD_NETWORK_CmdClearAlwaysNet, SCRCMD_NETWORK_CmdLoadNpcTable, SCRCMD_NETWORK_CmdFreeNpcTable, SCRCMD_NETWORK_CmdSetNpcEventFromTable, SCRCMD_NETWORK_CmdSetNpcEventPairFromTable, SCRCMD_NETWORK_CmdSetNpcTripleFromTable, SCRCMD_NETWORK_CmdApplyTableEventKeys, SCRCMD_NETWORK_PickSixDistinctRandom, SCRCMD_NETWORK_FindNpcTableRow, SCRCMD_NETWORK_HasSituationWarpChanged, SCRCMD_NETWORK_WhiteOutEventMain, SCRCMD_NETWORK_CreateWhiteOutEvent
  * address:  0x0215F168
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -101,11 +101,11 @@ typedef struct NpcTableRow {
 } NpcTableRow;
 
 /* Work of the event that starts a comm session from the field (0xC bytes). */
-typedef struct CommProcEventWork {
+typedef struct WhiteOutEventWork {
     struct GameSystem *gameSystem;  /* 0x00 */
     int warpChanged;                /* 0x04: selects the script id */
     struct MyStatus *myStatus;      /* 0x08 */
-} CommProcEventWork;
+} WhiteOutEventWork;
 struct ScrcmdWork;
 
 /* script work (ov010) */
@@ -221,9 +221,9 @@ int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB)
 
 Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData);
 
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg);
+int SCRCMD_NETWORK_WhiteOutEventMain(struct GameEvent *event, int *seq, void *workArg);
 
-struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
+struct GameEvent *SCRCMD_NETWORK_CreateWhiteOutEvent(struct GameSystem *gameSystem);
 
 #include "event_wifi_proc.h"
 #include "script_work_cmd.h"
@@ -531,9 +531,9 @@ Bool SCRCMD_NETWORK_HasSituationWarpChanged(struct GameData *gameData)
  *
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
-int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *workArg)
+int SCRCMD_NETWORK_WhiteOutEventMain(struct GameEvent *event, int *seq, void *workArg)
 {
-    CommProcEventWork *work = workArg;
+    WhiteOutEventWork *work = workArg;
 
     switch (*seq) {
     case 0:
@@ -561,11 +561,11 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, int *seq, void *wo
     return 0;
 }
 
-struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem)
+struct GameEvent *SCRCMD_NETWORK_CreateWhiteOutEvent(struct GameSystem *gameSystem)
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_CommProcEventMain, sizeof(CommProcEventWork));
-    CommProcEventWork *work = GAME_EVENT_GetWork(event);
+    struct GameEvent *event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NETWORK_WhiteOutEventMain, sizeof(WhiteOutEventWork));
+    WhiteOutEventWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
     work->warpChanged = SCRCMD_NETWORK_HasSituationWarpChanged(gameData);

@@ -115,9 +115,9 @@ int SCRCMD_WORK_CmdSetNpcGridPos(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdSetTrainerDefeatedFlag(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdClearTrainerDefeatedFlag(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdCheckTrainerDefeatedFlag(struct ScriptVm *vm, ScrcmdWork *work);
-int SCRCMD_WORK_CmdEndScriptStartCommProcA(struct ScriptVm *vm, ScrcmdWork *work);
+int SCRCMD_WORK_CmdEndScriptWhiteOutA(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdCheckLastBattleResultA(struct ScriptVm *vm, ScrcmdWork *work);
-int SCRCMD_WORK_CmdEndScriptStartCommProcB(struct ScriptVm *vm, ScrcmdWork *work);
+int SCRCMD_WORK_CmdEndScriptWhiteOutB(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdCheckLastBattleResultB(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_WORK_CmdLookupTable(struct ScriptVm *vm, ScrcmdWork *work);
 /* END mkheaders: generated region */
