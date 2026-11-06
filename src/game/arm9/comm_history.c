@@ -341,7 +341,12 @@ u32 SCROLLBAR_GetValueFromPos(u32 maxValue, u32 value, u32 rangeStart, u32 range
 u32 SCROLLBAR_GetPosFromValue(u32 total, u32 rate, u32 start, u32 end, u32 margin)
 {
     u32 span = ((end - start) - margin) << 8;
+#ifdef __MWERKS__
     u32 scaled = span * rate / total >> 8;
+#else
+    /* a list with nothing to scroll (total 0); the DS's runtime divide returns the dividend for 0 */
+    u32 scaled = (total == 0 ? span * rate : span * rate / total) >> 8;
+#endif
 
     return (start + scaled) + (margin >> 1);
 }

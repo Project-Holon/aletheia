@@ -2366,7 +2366,12 @@ int WIFIBATTLEMATCH_NET_DownloadProcess(struct WifiBattleMatchNetCtx *ctx)
         if((ctx->pollCount)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);WIFIBATTLEMATCH_NET_NdCancelState(ctx,8);}
         if(d_021E4B80[0]==0) {
             if(DWC_NdGetProgress((unsigned long *)((u32 *)(&ctx->downloadDone)),(unsigned long *)((u32 *)(&ctx->downloadTotal)))==1) {
+#ifdef __MWERKS__
                 percent=(ctx->downloadDone*100)/ctx->downloadTotal;
+#else
+                /* NHTTP reports a total of 0 while the response's length is not known; the DS's runtime divide returns the dividend for 0 */
+                percent=ctx->downloadTotal==0 ? ctx->downloadDone*100 : (ctx->downloadDone*100)/ctx->downloadTotal;
+#endif
                 if(ctx->downloadPercent!=percent)ctx->downloadPercent=percent;
             }
         } else {

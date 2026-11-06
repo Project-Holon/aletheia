@@ -631,7 +631,12 @@ void CircleGraph_ComputePercents(struct CircleGraph *graph)
         base = graph->entries;
         do {
             struct CircleGraphEntry *entry = base + i;
+#ifdef __MWERKS__
             entry->percent = (entry->value * 100) / total;
+#else
+            /* every value is 0 for a survey no one has answered yet; the DS's runtime divide returns the dividend for 0 */
+            entry->percent = total == 0 ? entry->value * 100 : (entry->value * 100) / total;
+#endif
             i++;
         } while (i < count);
     }

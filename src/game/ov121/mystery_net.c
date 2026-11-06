@@ -511,7 +511,12 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
         if(!d_021DFC00[1]) {
             if(q->done) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,3,state,7,7);break;}
             if(DWC_NdGetProgress((unsigned long *)&q->progressDone,(unsigned long *)&q->progressTotal)==1) {
+#ifdef __MWERKS__
                 ratio=q->progressDone*100/q->progressTotal;
+#else
+                /* NHTTP reports a total of 0 while the response's length is not known; the DS's runtime divide returns the dividend for 0 */
+                ratio=q->progressTotal==0 ? q->progressDone*100 : q->progressDone*100/q->progressTotal;
+#endif
                 if(q->progressRatio!=ratio) q->progressRatio=ratio;
             }
         } else if(d_021DFC00[3]) {((MysteryNetWork *)p)->recvState=2;MYSTERY_NET_AbortNd(q,4,state,9,9);}
