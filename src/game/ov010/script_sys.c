@@ -578,6 +578,7 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
     int isChild, wordCount;
     void *startData;
     ScriptVm *vm;
+    u32 offset;
 
     isChild = SCRIPT_SYS_IsChildScript(mode);
     start.zoneId = zoneId;
@@ -600,7 +601,8 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
     }
     VM_Start(vm, vm->data);
     vm->pc += wordCount << 2;
-    vm->pc += VM_GetU32(vm);
+    offset = VM_GetU32(vm);
+    vm->pc += offset;
     SCRIPT_SYS_SetCommandCheck(vm);
     return vm;
 }

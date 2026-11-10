@@ -1169,7 +1169,8 @@ int BTL_SERVER_CMD_ReadNext(BtlServerCmdQueue *queue, s32 *args)
 
     id = BTL_SERVER_CMD_ReadU16(queue);
     while (id == BTL_SERVER_CMD_ID_FILLER) {
-        queue->readPos += BTL_SERVER_CMD_ReadU8(queue);
+        u8 skip = BTL_SERVER_CMD_ReadU8(queue);
+        queue->readPos += skip;
         if (queue->readPos >= queue->writePos) {
             return BTL_SERVER_CMD_ID_NONE;
         }

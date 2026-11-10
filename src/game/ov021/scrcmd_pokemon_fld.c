@@ -1374,7 +1374,8 @@ int SCRCMD_POKEMON_FLD_CountWarpEntries(WarpEntry *table)
  */
 int SCRCMD_POKEMON_FLD_SetWarpTable(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    SCRCMD_WORK_SetFadeState(work, vm->pc + VM_GetU32(vm));
+    u32 offset = VM_GetU32(vm);
+    SCRCMD_WORK_SetFadeState(work, vm->pc + offset);
     return 0;
 }
 

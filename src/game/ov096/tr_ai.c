@@ -924,11 +924,13 @@ int TR_AI_CompareMove(ScriptVm *vm, TrAiWork *ai, int op) { int compareMove,jump
 
 int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai) {
     u16 *list;
+    int listOffset;
     int jumpOffset;
     int index;
     int entry;
 
-    list = (u16 *)(vm->pc + VM_GetU32(vm));
+    listOffset = VM_GetU32(vm);
+    list = (u16 *)(vm->pc + listOffset);
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {
@@ -944,11 +946,13 @@ int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai) {
 
 int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
     u16 *list;
+    int listOffset;
     int jumpOffset;
     int index;
     int entry;
 
-    list = (u16 *)(vm->pc + VM_GetU32(vm));
+    listOffset = VM_GetU32(vm);
+    list = (u16 *)(vm->pc + listOffset);
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {
