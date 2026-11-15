@@ -7847,9 +7847,10 @@ Round trip: **667/667 records, 40020/40020 bytes byte-identical**
 ### Move data: `a/0/2/1` is the move table, `a/0/2/4` is the item table
 
 Both are 36-byte-record archives as the mission said. `a/0/2/1` (560
-sub-files) decodes record 1 to type=0 (Normal), category=1, power=40,
-accuracy=100, pp=35, priority=0 -- Pound's real type/power/accuracy/PP
-exactly, with no substitution needed (sub_0201BDB4's 0x65->0x64
+sub-files) decodes record 1 to type=0 (Normal), damageType=1, power=40,
+accuracy=100, basePP=35, priority=0 -- Pound's real type/power/accuracy/PP
+exactly (field names corrected later to the game's `struct WazaData`, see
+"Move (`a/0/2/1`): field map from the game's struct" below), with no substitution needed (sub_0201BDB4's 0x65->0x64
 accuracy fixup never triggers here because the stored byte is already
 100). `a/0/2/4` (627 sub-files) has no plausible power/accuracy/PP triple
 anywhere in its bytes; instead its first u16 field, read through the real
@@ -10443,6 +10444,19 @@ own fields already point at.
 Round trip after the renames: still 667/667 records, 40020/40020 bytes
 byte-identical (`--verify`).
 
+### Move (`a/0/2/1`): field map from the game's struct
+
+The first field map of `waza.py` started one byte late. It read byte 1 as
+the type, byte 2 as the category and the u16 at +0x08 as the effect. The
+game's own `struct WazaData` (src/game/arm9/waza_tool.c, matched) has
+`type` at byte 0, `category` (the effect group) at byte 1, `damageType`
+(status, physical, special) at byte 2 and `sickId` at +0x08. Pound has 0
+in bytes 0 and 1, so the old Pound check could not see the shift. Karate
+Chop (type 1) and Fire, Ice and Thunder Punch (types 9, 14, 12; category 4
+for all three) show it. `waza.py` now uses the struct's names for every
+field, and `--verify` also decodes Pound, Karate Chop and Fire Punch.
+Found while the arkhipelagos mod checked move tables.
+
 ### Move (`a/0/2/1`): 0x1E is a constant, not a gap; recoil/drain and three flag bits attested
 
 `sub_0201BD28`'s switch genuinely has no case for id 29 (0x1E), confirmed
@@ -10457,7 +10471,7 @@ protect and heal) turned out not to be flags-word bits at all: Tackle
 (no recoil) and Take Down (25% recoil) have byte-identical `flags` words
 (0x49), so recoil cannot live there. It is the signed byte at +0x12
 (`sub_0201BD28`'s cases 25/30, "positive part" / "negated if negative",
-now named `recoil_drain`): 0 for ordinary moves, -25 for Take Down (25%
+now named `drainRatio` as in the game's struct): 0 for ordinary moves, -25 for Take Down (25%
 recoil, exact), -33 for Double-Edge (33% recoil, exact), and +50 for both
 Absorb and Giga Drain (50% HP drain, exact for both) -- negative is
 recoil taken by the user, positive is drain healed to the user, same

@@ -11,10 +11,9 @@ Which 36-byte archive is the move table: `a/0/2/1`, not `a/0/2/4`
 --------------------------------------------------------------------------
 Both `a/0/2/1` (560 sub-files) and `a/0/2/4` (627 sub-files) hold 36-byte
 fixed records. `a/0/2/1` is the move table: record 1's first six bytes
-decode (per the field map below) to type=0 (Normal), category=1, power=40,
-accuracy=100, pp=35, priority=0 -- Pound's real type/power/accuracy/PP,
-found by decoding the bytes with no outside reference beyond the struct
-layout waza_tool.c's accessors attest.
+decode (per the field map below) to type=0 (Normal), damageType=1,
+power=40, accuracy=100, basePP=35, priority=0: Pound's real
+type/power/accuracy/PP.
 
 `a/0/2/4` is NOT the move table: its records have no plausible
 power/accuracy/PP triple (see tools/assets/items.py, which identifies it
@@ -25,88 +24,75 @@ record layout also matches the real item accessor in
 src/matched/unit_02021014.c field-for-field).
 
 --------------------------------------------------------------------------
-Record layout (36 bytes, struct Waza)
+Record layout (36 bytes, struct WazaData)
 --------------------------------------------------------------------------
-Combined from the two partial `struct Waza` declarations in
-src/matched/unit_0201BD28.c (offsets 0x00-0x1E, the dense-switch getter)
-and src/matched/unit_0201BEB8.c (offset 0x20, the flag-bit test and the
-packed-triple reader). Field names follow those files' `unkXX` spelling;
-a label is given only where a file's own comment or an accessor name
-confirms it.
+The game's own `struct WazaData` in src/game/arm9/waza_tool.c (matched
+code). The field names are the struct's names. "case N" is the param id
+that WAZA_TOOL_GetParam returns the field for.
 
-    0x00  u8   unk00
-    0x01  u8   type                  move type id (case 0; Pound -> 0,
-                                      Normal, matching waza_tool's own
-                                      type-id space)
-    0x02  u8   category              case 1, no label in source but reads
-                                      as physical/special/status here
-    0x03  u8   power                 case 2 (Pound -> 40)
-    0x04  u8   accuracy              case 3; sub_0201BDB4 substitutes 0x64
-                                      for a stored 0x65 (101 -> 100, an
-                                      "always hits" sentinel normalised on
-                                      read) (Pound -> 100)
-    0x05  u8   pp                    base PP, case 5 and the PP-with-PP-Up
-                                      calculation in
-                                      src/matched/unit_0201C158.c
-                                      (Pound -> 35)
-    0x06  s8   priority               case 6, signed
-    0x07  u8   bitfield: lo:4 hi:4    case 9 (lo), case 8 (hi)
-    0x08  u16  effect                 case 11 (the only 16-bit field in the
-                                      low half, large enough to be an
-                                      effect id)
-    0x0A  u8   unk0A                  case 12
-    0x0B  u8   unk0B                  case 13
-    0x0C  u8   unk0C                  case 14
-    0x0D  u8   unk0D                  case 15
-    0x0E  u8   unk0E                  case 7; sub_0201BDB4 substitutes 0
-                                      for a stored 6
-    0x0F  u8   unk0F                  case 10
-    0x10  u16  unk10                  case 28
-    0x12  s8   recoil_drain           cases 25 (positive part) / 30
-                                      (negated, if negative); data check,
-                                      see below
-    0x13  s8   unk13                  cases 26 (positive part) / 31
-                                      (negated, if negative)
-    0x14  u8   unk14                  case 27
-    0x15  u8[3] hit_flags             cases 16,19,22; count of set bytes
-                                      read by src/matched/unit_0201C020.c's
-                                      sub_0201C020
-    0x18  s8[3] hit_values            cases 17,20,23, signed (register
-                                      ldrsb in sub_0201C0BC)
-    0x1B  u8[3] unk1B                 cases 18,21,24
-    0x1E  u16   unk1E                 not reached by any case id in
-                                      sub_0201BD28 (id 29 is a gap in the
-                                      switch); no accessor attests it, and a
-                                      data check (below) finds it is not
-                                      per-move data either
-    0x20  u32   flags                 bit-tested by sub_0201BF44; three
-                                      bits identified by data check, see
-                                      below (bit 0 = contact, bit 3 =
-                                      protectable, bit 5 = heal)
+    0x00  u8    type            case 0 (Normal 0, Fighting 1, Fire 9,
+                                Electric 12, Ice 14)
+    0x01  u8    category        case 1, the effect group (4 for Fire,
+                                Ice and Thunder Punch, Flamethrower and
+                                Thunderbolt: damage with a status chance)
+    0x02  u8    damageType      case 2: 0 status, 1 physical, 2 special
+    0x03  u8    power           case 3
+    0x04  u8    accuracy        case 4; a stored 101 (always hits) reads
+                                as 100
+    0x05  u8    basePP          case 5
+    0x06  s8    priority        case 6
+    0x07  u8    hitMin:4        case 9 (low nibble)
+          u8    hitMax:4        case 8 (high nibble)
+    0x08  u16   sickId          case 11
+    0x0A  u8    sickPercent     case 12
+    0x0B  u8    sickContType    case 13
+    0x0C  u8    sickTurnMin     case 14
+    0x0D  u8    sickTurnMax     case 15
+    0x0E  u8    criticalRank    case 7; a stored 6 reads as 0
+    0x0F  u8    shrinkPercent   case 10
+    0x10  u16   effectSequence  case 28
+    0x12  s8    drainRatio      case 25 (positive: drain) / 30 (negative,
+                                negated: recoil); data check below
+    0x13  s8    healRatio       case 26 (positive) / 31 (negative, negated)
+    0x14  u8    target          case 27
+    0x15  u8[3] rankType        cases 16, 19, 22
+    0x18  s8[3] rankValue       cases 17, 20, 23
+    0x1B  u8[3] rankPercent     cases 18, 21, 24
+    0x1E  u8[2] pad             no case reads it (id 29 has no label);
+                                the data check below finds 'SS' in every
+                                record
+    0x20  u32   flags           read by WAZA_TOOL_GetFlag; three bits
+                                identified by the data check below (bit 0
+                                contact, bit 3 protectable, bit 5 heal)
+
+An earlier version of this tool started the map one byte late: it read
+`category` as the type, `damageType` as the category and `sickId` as the
+effect. Pound, the old sanity check, has 0 in both of the first two
+bytes, so the check could not see it. Karate Chop (type 1, category 0)
+and the three elemental punches (types 9, 14, 12, category 4) do.
 
 --------------------------------------------------------------------------
-Sanity check (move 1, Pound)
+Sanity check (moves 1, 2 and 7: Pound, Karate Chop, Fire Punch)
 --------------------------------------------------------------------------
-    type=0 (Normal)  category=1  power=40  accuracy=100  pp=35  priority=0
+    Pound        type=0 (Normal)    damageType=1  power=40  accuracy=100  basePP=35
+    Karate Chop  type=1 (Fighting)  damageType=1  power=50  accuracy=100  basePP=25
+    Fire Punch   type=9 (Fire)      damageType=1  power=75  accuracy=100  basePP=15
 
-All four of the task's named Pound values (Normal/40/100/35) decode
-exactly from the raw bytes with no substitution needed (the stored
-accuracy byte is already 100, not 101).
+`--verify` checks these three records as well as the round trip.
 
 --------------------------------------------------------------------------
 0x1E: a data check, not just a code gap
 --------------------------------------------------------------------------
-`sub_0201BD28`'s case-id switch has no case for id 29, so no accessor in
-this pass reads +0x1E through the field-id interface. A data check closes
+WAZA_TOOL_GetParam's switch has no case for id 29, so no param id reads
++0x1E. A data check closes
 the question a different way: decoded across every one of the archive's
 560 records, +0x1E is the constant value 21331 (0x5353, i.e. the two
 bytes 'S','S') with zero exceptions. A per-move field would vary; a
 constant that is the same on Pound, Karate Chop, Tackle, Take Down, Ember,
 Recover, Softboiled, Double-Edge, Absorb and Giga Drain (and every other
 record checked) is not move data, it is a fixed pad/marker value left in
-the two bytes the switch's own gap already said nothing reads. Decoded
-and round-tripped as `unk1E`, not renamed, because "always 0x5353" is not
-a semantic label.
+the two bytes the switch's own gap already said nothing reads. The game's
+struct calls them `pad[2]`.
 
 --------------------------------------------------------------------------
 Contact, protect, recoil and heal: a data check against Pound, Karate
@@ -133,10 +119,8 @@ every non-recoil, non-drain move checked, -25 for Take Down, -33 for
 Double-Edge (33% recoil, matches exactly) and +50 for both Absorb and
 Giga Drain (50% HP drain, matches exactly for both). Negative = recoil
 percent taken by the user, positive = drain percent healed to the user;
-same signed field, opposite sign. This is `recoil_drain` in the field map
-above, sourced from cases 25/30 (the "positive part" / "negated if
-negative" pair `sub_0201BD28`'s own comment already describes for this
-byte, just not by name).
+same signed field, opposite sign. This is the game's `drainRatio`
+(param 25 returns the positive part, param 30 the negated negative part).
 
 **+0x20 bit 0 is contact.** Set on Pound, Karate Chop, Tackle, Take Down
 and Counter (all real contact moves); clear on Ember, Recover and
@@ -181,20 +165,28 @@ DATA_ROOT = os.path.join("extract", "data")
 RECORD_STRIDE = 36
 
 FIELDS = [
-    ("unk00", "B"), ("type", "B"), ("category", "B"), ("power", "B"),
-    ("accuracy", "B"), ("pp", "B"), ("priority", "b"),
-    ("lohi", "B"),
-    ("effect", "H"),
-    ("unk0A", "B"), ("unk0B", "B"), ("unk0C", "B"), ("unk0D", "B"),
-    ("unk0E", "B"), ("unk0F", "B"),
-    ("unk10", "H"),
-    ("recoil_drain", "b"), ("unk13", "b"), ("unk14", "B"),
-    ("hit_flags", "3s"), ("hit_values", "3s"), ("unk1B", "3s"),
-    ("unk1E", "H"),
+    ("type", "B"), ("category", "B"), ("damageType", "B"), ("power", "B"),
+    ("accuracy", "B"), ("basePP", "B"), ("priority", "b"),
+    ("hitMinMax", "B"),
+    ("sickId", "H"),
+    ("sickPercent", "B"), ("sickContType", "B"), ("sickTurnMin", "B"),
+    ("sickTurnMax", "B"), ("criticalRank", "B"), ("shrinkPercent", "B"),
+    ("effectSequence", "H"),
+    ("drainRatio", "b"), ("healRatio", "b"), ("target", "B"),
+    ("rankType", "3s"), ("rankValue", "3s"), ("rankPercent", "3s"),
+    ("pad", "2s"),
     ("flags", "I"),
 ]
 RECORD_FMT = "<" + "".join(f for _, f in FIELDS)
 assert struct.calcsize(RECORD_FMT) == RECORD_STRIDE
+
+# Records the --verify sanity check decodes: (move id, name, type,
+# damageType, power, accuracy, basePP).
+KNOWN = [
+    (1, "Pound", 0, 1, 40, 100, 35),
+    (2, "Karate Chop", 1, 1, 50, 100, 25),
+    (7, "Fire Punch", 9, 1, 75, 100, 15),
+]
 
 
 class WazaError(Exception):
@@ -210,27 +202,24 @@ def parse_record(raw):
         raise WazaError(f"expected {RECORD_STRIDE}-byte record, got {len(raw)}")
     vals = struct.unpack(RECORD_FMT, raw)
     rec = dict(zip((name for name, _ in FIELDS), vals))
-    lohi = rec.pop("lohi")
-    rec["lo"] = lohi & 0xF
-    rec["hi"] = (lohi >> 4) & 0xF
-    rec["hit_flags"] = list(rec["hit_flags"])
-    rec["hit_values"] = list(struct.unpack("<3b", rec["hit_values"]))
-    rec["unk1B"] = list(rec["unk1B"])
+    hit = rec.pop("hitMinMax")
+    rec["hitMin"] = hit & 0xF
+    rec["hitMax"] = (hit >> 4) & 0xF
+    rec["rankType"] = list(rec["rankType"])
+    rec["rankValue"] = list(struct.unpack("<3b", rec["rankValue"]))
+    rec["rankPercent"] = list(rec["rankPercent"])
     return rec
 
 
 def pack_record(rec):
-    lohi = (rec["lo"] & 0xF) | ((rec["hi"] & 0xF) << 4)
     vals = []
     for name, _ in FIELDS:
-        if name == "lohi":
-            vals.append(lohi)
-        elif name == "hit_flags":
-            vals.append(bytes(rec["hit_flags"]))
-        elif name == "hit_values":
-            vals.append(struct.pack("<3b", *rec["hit_values"]))
-        elif name == "unk1B":
-            vals.append(bytes(rec["unk1B"]))
+        if name == "hitMinMax":
+            vals.append((rec["hitMin"] & 0xF) | ((rec["hitMax"] & 0xF) << 4))
+        elif name in ("rankType", "rankPercent"):
+            vals.append(bytes(rec[name]))
+        elif name == "rankValue":
+            vals.append(struct.pack("<3b", *rec["rankValue"]))
         else:
             vals.append(rec[name])
     return struct.pack(RECORD_FMT, *vals)
@@ -245,10 +234,11 @@ def cmd_list(args):
     _, recs = load_records()
     limit = args.limit if args.limit else len(recs)
     for idx, r in enumerate(recs[:limit]):
-        print(f"#{idx:3d}: type={r['type']:2d} category={r['category']} "
+        print(f"#{idx:3d}: type={r['type']:2d} category={r['category']:2d} "
+              f"damageType={r['damageType']} "
               f"power={r['power']:3d} accuracy={r['accuracy']:3d} "
-              f"pp={r['pp']:2d} priority={r['priority']:2d} "
-              f"effect={r['effect']:4d} flags=0x{r['flags']:08x}")
+              f"basePP={r['basePP']:2d} priority={r['priority']:2d} "
+              f"sickId={r['sickId']:4d} flags=0x{r['flags']:08x}")
 
 
 def cmd_dump(args):
@@ -259,11 +249,11 @@ def cmd_dump(args):
         return 1
     r = parse_record(n.read(idx))
     for name, _ in FIELDS:
-        if name == "lohi":
+        if name == "hitMinMax":
+            print(f"  {'hitMin':14s} = {r['hitMin']}")
+            print(f"  {'hitMax':14s} = {r['hitMax']}")
             continue
-        print(f"  {name:12s} = {r[name]}")
-    print(f"  lo           = {r['lo']}")
-    print(f"  hi           = {r['hi']}")
+        print(f"  {name:14s} = {r[name]}")
     return 0
 
 
@@ -283,6 +273,15 @@ def cmd_verify(args):
     total = ok + bad
     print(f"[*] {ok}/{total} records round-trip byte-identical "
           f"({ok * RECORD_STRIDE}/{total * RECORD_STRIDE} bytes)")
+    for move, name, *want in KNOWN:
+        r = parse_record(n.read(move))
+        got = [r["type"], r["damageType"], r["power"], r["accuracy"], r["basePP"]]
+        if got != want:
+            bad += 1
+            print(f"SANITY #{move} {name}: type/damageType/power/accuracy/basePP "
+                  f"{got} != {want}")
+    if not bad:
+        print(f"[*] {len(KNOWN)} known moves decode to their real values")
     return 0 if bad == 0 else 1
 
 
