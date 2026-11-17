@@ -11,13 +11,13 @@
  *
  * symbols:
  *   C_GEAR_AcquireActorSlot  0x021F0000  thumb  ov029
- *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimIndex  0x0204B918  arm
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  */
 
 typedef unsigned short u16;
 struct Obj;
-extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+extern u16 CLACT_GetActorAnimIndex(struct Obj *p);
 typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorAnimFrame(struct Obj *p);
@@ -46,7 +46,7 @@ struct Slot *C_GEAR_AcquireActorSlot(struct Owner *p)
         if (p->s[i].obj == 0) {
             return &p->s[i];
         }
-        pri = CLACT_GetActorAnimSeqCount(p->s[i].obj);
+        pri = CLACT_GetActorAnimIndex(p->s[i].obj);
         sub = CLACT_GetActorAnimFrame(p->s[i].obj);
         if (pri > best || (pri == best && sub > bestSub)) {
             best = pri;

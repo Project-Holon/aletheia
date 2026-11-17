@@ -51,7 +51,7 @@
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   CLACT_StartActorAnim 0x0204B95C arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_GetActorAnimIndex 0x0204B918 arm
  *   CLACT_StopActorAnim 0x0204B974 arm
  *   d_021B7485 0x021B7485 data a1
  *   d_021B7481 0x021B7481 data a1
@@ -313,7 +313,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
     if(((struct LocalTvtChara *)q)->active==1 || ((struct LocalTvtChara *)q)->counter!=0) {
         if(CLACT_IsActorAnimActive((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==0) CLACT_StartActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB));
     } else {
-        if(CLACT_IsActorAnimActive((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==1 && CLACT_GetActorAnimSeqCount((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==0)
+        if(CLACT_IsActorAnimActive((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==1 && CLACT_GetActorAnimIndex((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==0)
             CLACT_StopActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB));
     }
     if(((struct LocalTvtChara *)q)->counter!=0) (((struct LocalTvtChara *)q)->counter)--;

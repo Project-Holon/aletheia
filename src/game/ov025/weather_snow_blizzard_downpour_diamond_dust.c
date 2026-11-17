@@ -57,7 +57,7 @@
  *   gBlizzardFogScrollStepX    0x021EF765 data a1
  *   gBlizzardFogScrollStepY    0x021EF75C data ov025 a1
  *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
- *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimIndex  0x0204B918  arm
  */
 #include "../ov021/weather_task_types.h"
 #include "weather_snow_blizzard_downpour_diamond_dust_types.h"
@@ -671,7 +671,7 @@ void WEATHER_DOWNPOUR_UpdateParticle(WeatherParticle *particle)
             drop->age = (drop->splashSeed % 4) * 2 + 8;
             drop->speedX = 2;
             drop->speedY = 2;
-            CLACT_SetActorAnimIndex(actor, (u16)(CLACT_GetActorAnimSeqCount(actor) + 3));
+            CLACT_SetActorAnimIndex(actor, (u16)(CLACT_GetActorAnimIndex(actor) + 3));
             return;
         }
         pos.x = pos.x + (s16)drop->speedX;
@@ -861,7 +861,11 @@ int WEATHER_DIAMOND_DUST_EndFinish(WeatherTaskSys *task, int variant, int heapId
     return 1;
 }
 
-/* Diamond dust, particle update: drifts one pixel at a time, removed after its lifetime. */
+/*
+ * Diamond dust, particle update: works out a one-pixel drift but never
+ * stores it (no WEATHER_TASK_SetParticlePos), so the sparkle stays where it
+ * spawned; removed after its lifetime.
+ */
 void WEATHER_DIAMOND_DUST_UpdateParticle(WeatherParticle *particle)
 {
     WeatherDiamondDustSparkle *sparkle;
@@ -871,12 +875,22 @@ void WEATHER_DIAMOND_DUST_UpdateParticle(WeatherParticle *particle)
     WEATHER_TASK_GetParticleActor(particle);
     WEATHER_TASK_GetParticlePos(particle, &pos);
     sparkle->age = sparkle->age + 1;
+#ifdef __MWERKS__
     if (sparkle->age % sparkle->xInterval == 0) {
         pos.x = pos.x + (s16)sparkle->stepX;
     }
     if (sparkle->age % sparkle->yInterval == 0) {
         pos.y = pos.y + (s16)sparkle->stepY;
     }
+#else
+    /* an interval of 0 (a negative random in the spawner); the DS's runtime divide gives remainder 0 for 0 */
+    if (sparkle->xInterval == 0 || sparkle->age % sparkle->xInterval == 0) {
+        pos.x = pos.x + (s16)sparkle->stepX;
+    }
+    if (sparkle->yInterval == 0 || sparkle->age % sparkle->yInterval == 0) {
+        pos.y = pos.y + (s16)sparkle->stepY;
+    }
+#endif
     if (sparkle->age >= sparkle->lifetime) {
         WEATHER_TASK_RemoveParticle(particle);
     }

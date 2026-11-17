@@ -1,5 +1,5 @@
 /*
- * function: CLACT_GetActorAnimSeqCount
+ * function: CLACT_GetActorAnimIndex
  * address:  0x0204B918
  * packet:   pkt_0204B454
  * region:   arm9
@@ -25,7 +25,7 @@
  * It unsticks when 0x02062F1C is itself decompiled to EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/CLACT_GetActorAnimSeqCount.c  *       --func CLACT_GetActorAnimSeqCount --addr 0x0204B918 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_GetActorAnimIndex.c  *       --func CLACT_GetActorAnimIndex --addr 0x0204B918 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ struct Obj {
 extern struct Node *CLACT_GetAnimObject(struct Obj *o);
 extern u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
 
-u16 CLACT_GetActorAnimSeqCount(struct Obj *p)
+u16 CLACT_GetActorAnimIndex(struct Obj *p)
 {
     return NNSi_G2dGetCellAnimFrameIdx(CLACT_GetAnimObject((struct Obj *)(&p->unk_68)));
 }

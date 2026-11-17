@@ -1,7 +1,7 @@
 /*
  * file:     wifi_2dchar.c
  * unit:     yes
- * function: WIFI_2DCHAR_Create, WIFI_2DCHAR_Delete, WIFI_2DCHAR_SetupBmpCell, WIFI_2DCHAR_ReleaseCells, WIFI_2DCHAR_SetupCells, WIFI_2DCHAR_ReleaseBmpCells, WIFI_2DCHAR_RegisterBmp, WIFI_2DCHAR_ReleaseBmp, WIFI_2DCHAR_SpawnActor, WIFI_2DCHAR_DeleteActor, WIFI_2DCHAR_SetActorPos, WIFI_2DCHAR_SetActorDrawPriority, WIFI_2DCHAR_GetActorDrawPriority, WIFI_2DCHAR_SetActorDrawEnable, WIFI_2DCHAR_SetSubActorDrawEnable, WIFI_2DCHAR_GetActorDrawEnable, WIFI_2DCHAR_GetActorCellArgB, WIFI_2DCHAR_GetActorAnimId, WIFI_2DCHAR_SetActorAnimIndex, WIFI_2DCHAR_GetActorAnimSeqCount, WIFI_2DCHAR_SetSubActorPos, WIFI_2DCHAR_SetActorAnim, WIFI_2DCHAR_StepActorAnim, WIFI_2DCHAR_RegisterCellAnims, WIFI_2DCHAR_ReleaseCellAnims, WIFI_2DCHAR_GetCellIndex, WIFI_2DCHAR_IsBmpCellEnabled, WIFI_2DCHAR_RegisterCell, WIFI_2DCHAR_RegisterBmpCharCell, WIFI_2DCHAR_RegisterCharCell, WIFI_2DCHAR_ReleaseCell, WIFI_2DCHAR_ReleaseCellPair, WIFI_2DCHAR_ReleaseCellChar, WIFI_2DCHAR_IsCellUsed, WIFI_2DCHAR_RegisterBmpHandles, WIFI_2DCHAR_ReleaseBmpHandles, WIFI_2DCHAR_IsHandleValid, WIFI_2DCHAR_RegisterPalette, WIFI_2DCHAR_ReleasePalette, WIFI_2DCHAR_RegisterBmpAnims, WIFI_2DCHAR_ReleaseBmpAnims, WIFI_2DCHAR_FindFreeActor, WIFI_2DCHAR_StepActorAnimDispatch, WIFI_2DCHAR_SetAnimSeq, WIFI_2DCHAR_SetAnimSeq4, WIFI_2DCHAR_SetAnimSeqPlus5, WIFI_2DCHAR_AdvanceAnimSeq, WIFI_2DCHAR_SetAnimSeqPlus9, WIFI_2DCHAR_SetAnimSeqPlus5B, WIFI_2DCHAR_SetAnimSeqPlus5C, WIFI_2DCHAR_SetAnimSeqPlus5D, WIFI_2DCHAR_SetAnimSeqPlus5E, WIFI_2DCHAR_AddAnimFrame, WIFI_2DCHAR_AddAnimFrame2
+ * function: WIFI_2DCHAR_Create, WIFI_2DCHAR_Delete, WIFI_2DCHAR_SetupBmpCell, WIFI_2DCHAR_ReleaseCells, WIFI_2DCHAR_SetupCells, WIFI_2DCHAR_ReleaseBmpCells, WIFI_2DCHAR_RegisterBmp, WIFI_2DCHAR_ReleaseBmp, WIFI_2DCHAR_SpawnActor, WIFI_2DCHAR_DeleteActor, WIFI_2DCHAR_SetActorPos, WIFI_2DCHAR_SetActorDrawPriority, WIFI_2DCHAR_GetActorDrawPriority, WIFI_2DCHAR_SetActorDrawEnable, WIFI_2DCHAR_SetSubActorDrawEnable, WIFI_2DCHAR_GetActorDrawEnable, WIFI_2DCHAR_GetActorCellArgB, WIFI_2DCHAR_GetActorAnimId, WIFI_2DCHAR_SetActorAnimIndex, WIFI_2DCHAR_GetActorAnimIndex, WIFI_2DCHAR_SetSubActorPos, WIFI_2DCHAR_SetActorAnim, WIFI_2DCHAR_StepActorAnim, WIFI_2DCHAR_RegisterCellAnims, WIFI_2DCHAR_ReleaseCellAnims, WIFI_2DCHAR_GetCellIndex, WIFI_2DCHAR_IsBmpCellEnabled, WIFI_2DCHAR_RegisterCell, WIFI_2DCHAR_RegisterBmpCharCell, WIFI_2DCHAR_RegisterCharCell, WIFI_2DCHAR_ReleaseCell, WIFI_2DCHAR_ReleaseCellPair, WIFI_2DCHAR_ReleaseCellChar, WIFI_2DCHAR_IsCellUsed, WIFI_2DCHAR_RegisterBmpHandles, WIFI_2DCHAR_ReleaseBmpHandles, WIFI_2DCHAR_IsHandleValid, WIFI_2DCHAR_RegisterPalette, WIFI_2DCHAR_ReleasePalette, WIFI_2DCHAR_RegisterBmpAnims, WIFI_2DCHAR_ReleaseBmpAnims, WIFI_2DCHAR_FindFreeActor, WIFI_2DCHAR_StepActorAnimDispatch, WIFI_2DCHAR_SetAnimSeq, WIFI_2DCHAR_SetAnimSeq4, WIFI_2DCHAR_SetAnimSeqPlus5, WIFI_2DCHAR_AdvanceAnimSeq, WIFI_2DCHAR_SetAnimSeqPlus9, WIFI_2DCHAR_SetAnimSeqPlus5B, WIFI_2DCHAR_SetAnimSeqPlus5C, WIFI_2DCHAR_SetAnimSeqPlus5D, WIFI_2DCHAR_SetAnimSeqPlus5E, WIFI_2DCHAR_AddAnimFrame, WIFI_2DCHAR_AddAnimFrame2
  * address:  0x021C3EE0
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   CLACT_GetActorDrawPriority  0x0204B838  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
- *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_GetActorAnimIndex 0x0204B918 arm
  *   sWifi2dcharAnimStartTable  0x021C5FBC  data  a4
  *   sWifi2dcharAnimFrameCount 0x021C5FB0 data a4
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -131,7 +131,7 @@ int WIFI_2DCHAR_GetActorDrawEnable(char *p);
 u32 WIFI_2DCHAR_GetActorCellArgB(u8 *p);
 u32 WIFI_2DCHAR_GetActorAnimId(char *p);
 void WIFI_2DCHAR_SetActorAnimIndex(char *p,u32 a);
-int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
+int WIFI_2DCHAR_GetActorAnimIndex(char *p);
 void WIFI_2DCHAR_SetSubActorPos(char *p,int x,int y);
 void WIFI_2DCHAR_SetActorAnim(Wifi2dcharActor *p, int idx, int a);
 void WIFI_2DCHAR_StepActorAnim(u8 *p);
@@ -353,7 +353,7 @@ u32 WIFI_2DCHAR_GetActorAnimId(char *p) { return ((Wifi2dcharActor *)p)->animId;
 
 void WIFI_2DCHAR_SetActorAnimIndex(char *p,u32 a) { CLACT_SetActorAnimIndex(((Wifi2dcharActor *)p)->actor,a); }
 
-int WIFI_2DCHAR_GetActorAnimSeqCount(char *p) { return CLACT_GetActorAnimSeqCount(((Wifi2dcharActor *)p)->actor); }
+int WIFI_2DCHAR_GetActorAnimIndex(char *p) { return CLACT_GetActorAnimIndex(((Wifi2dcharActor *)p)->actor); }
 
 /*
  * extent: trailing 2-byte alignment padding only.

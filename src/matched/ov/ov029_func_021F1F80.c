@@ -12,7 +12,7 @@
  *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimIndex  0x0204B918  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   C_GEAR_GetBatteryFrame  0x021F1F70  thumb  ov029
@@ -34,7 +34,7 @@ struct RtcTime;
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+extern u16 CLACT_GetActorAnimIndex(struct Obj *p);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int OS_IsRunOnTwl(void);
 extern u8 C_GEAR_GetBatteryFrame(void);
@@ -42,7 +42,7 @@ extern int UI_GetPowerState(void);
 
 static inline void SetFrame(int o, int v)
 {
-    if (v != CLACT_GetActorAnimSeqCount((struct Obj *)o)) {
+    if (v != CLACT_GetActorAnimIndex((struct Obj *)o)) {
         CLACT_SetActorAnimIndex(o, (u16)v);
     }
 }

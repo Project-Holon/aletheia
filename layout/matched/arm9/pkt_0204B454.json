@@ -209,7 +209,7 @@
    "status": "EXACT"
   },
   {
-   "name": "CLACT_GetActorAnimSeqCount",
+   "name": "CLACT_GetActorAnimIndex",
    "address": "0x0204B918",
    "kind": "game",
    "region": "arm9",

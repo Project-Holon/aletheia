@@ -16,7 +16,7 @@
  *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
  *   WEATHER_TASK_RemoveParticle  0x021A21E0  thumb  ov021
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimIndex  0x0204B918  arm
  */
 
 typedef unsigned short u16;
@@ -37,7 +37,7 @@ extern int WEATHER_TASK_SetParticlePos(u32 a, u32 b);
 extern void WEATHER_TASK_RemoveParticle(u32 *p);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 struct Obj;
-extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+extern u16 CLACT_GetActorAnimIndex(struct Obj *p);
 
 void WEATHER_DOWNPOUR_UpdateParticle(int a)
 {
@@ -55,7 +55,7 @@ void WEATHER_DOWNPOUR_UpdateParticle(int a)
             p[0] = (p[6] % 4) * 2 + 8;
             p[4] = 2;
             p[2] = 2;
-            CLACT_SetActorAnimIndex(h, (u16)(CLACT_GetActorAnimSeqCount((struct Obj *)h) + 3));
+            CLACT_SetActorAnimIndex(h, (u16)(CLACT_GetActorAnimIndex((struct Obj *)h) + 3));
             return;
         }
         pt.x = pt.x + (s16)p[4];

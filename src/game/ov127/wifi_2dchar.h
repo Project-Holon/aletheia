@@ -30,7 +30,7 @@ int WIFI_2DCHAR_GetActorDrawEnable(char *p);
 u32 WIFI_2DCHAR_GetActorCellArgB(u8 *p);
 u32 WIFI_2DCHAR_GetActorAnimId(char *p);
 void WIFI_2DCHAR_SetActorAnimIndex(char *p,u32 a);
-int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
+int WIFI_2DCHAR_GetActorAnimIndex(char *p);
 void WIFI_2DCHAR_SetSubActorPos(char *p,int x,int y);
 void WIFI_2DCHAR_SetActorAnim(Wifi2dcharActor *p, int idx, int a);
 void WIFI_2DCHAR_StepActorAnim(u8 *p);

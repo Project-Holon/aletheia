@@ -179,7 +179,7 @@ void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
 void CLACT_AddActorAnimFrame(struct ClactActor *actor, u32 frames);
 u32 CLACT_GetActorAnimFrame(struct ClactActor *actor);
 void CLACT_SetActorAnimIndex(struct ClactActor *actor, u32 anim_idx);
-u16 CLACT_GetActorAnimSeqCount(struct ClactActor *actor);
+u16 CLACT_GetActorAnimIndex(struct ClactActor *actor);
 void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 u32 CLACT_GetActorAutoAnim(struct ClactActor *actor);
 void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);

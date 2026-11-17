@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WIFI_2DCHAR_GetActorAnimSeqCount",
+   "name": "WIFI_2DCHAR_GetActorAnimIndex",
    "address": "0x021C4280",
    "kind": "game",
    "region": "ov127",

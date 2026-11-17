@@ -4396,7 +4396,7 @@
   {"name": "CLACT_AddActorAnimFrame", "black_address": "0x0204B8D4", "white_address": "0x0204B8EC", "size": 32, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
   {"name": "CLACT_GetActorAnimFrame", "black_address": "0x0204B8F4", "white_address": "0x0204B90C", "size": 20, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
   {"name": "CLACT_SetActorAnimIndex", "black_address": "0x0204B908", "white_address": "0x0204B920", "size": 16, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
-  {"name": "CLACT_GetActorAnimSeqCount", "black_address": "0x0204B918", "white_address": "0x0204B930", "size": 20, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CLACT_GetActorAnimIndex", "black_address": "0x0204B918", "white_address": "0x0204B930", "size": 20, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
   {"name": "CLACT_SetActorAutoAnim", "black_address": "0x0204B92C", "white_address": "0x0204B944", "size": 24, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
   {"name": "CLACT_GetActorAutoAnim", "black_address": "0x0204B944", "white_address": "0x0204B95C", "size": 16, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},
   {"name": "CLACT_SetActorAutoAnimSpeed", "black_address": "0x0204B954", "white_address": "0x0204B96C", "size": 8, "diff": "shifted", "source": "src/game/arm9/clact.c", "version_switch": false, "status": "EXACT"},

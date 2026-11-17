@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WIFI_2DCHAR_GetActorAnimSeqCount 0x021C4280 thumb ov127
+ *   WIFI_2DCHAR_GetActorAnimIndex 0x021C4280 thumb ov127
  *   WIFI_2DCHAR_GetActorAnimId 0x021C4270 thumb ov127
  *   WIFI_2DCHAR_SetActorAnim 0x021C42A8 thumb ov127
  *   WIFI_2DCHAR_SetActorAnimIndex 0x021C4274 thumb ov127
@@ -17,7 +17,7 @@
 #include "../include/Obj00328.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
+extern int WIFI_2DCHAR_GetActorAnimIndex(char *p);
 typedef unsigned int   u32;
 extern u32 WIFI_2DCHAR_GetActorAnimId(char *p);
 struct obj;
@@ -26,7 +26,7 @@ extern void WIFI_2DCHAR_SetActorAnimIndex(char *p, u32 a);
 extern u8 sWf2dmapSlotFlags[];
 void WF2DMAP_OBJDRAW_SetFrame(u8 *p, int n, int a)
 {
-    int v = WIFI_2DCHAR_GetActorAnimSeqCount(((struct Obj00328 *)p)->f4);
+    int v = WIFI_2DCHAR_GetActorAnimIndex(((struct Obj00328 *)p)->f4);
     u16 old = WIFI_2DCHAR_GetActorAnimId(((struct Obj00328 *)p)->f4);
     WIFI_2DCHAR_SetActorAnim(((struct Obj00328 *)p)->f4, n, a);
     if (old != n) {

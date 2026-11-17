@@ -19,7 +19,7 @@
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
+ *   CLACT_GetActorAnimIndex  0x0204B918  arm
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   d_021F333C     0x021F333C  data  a4
@@ -562,21 +562,21 @@ void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
 
 CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work)
 {
-    int bestSeq = -1;
+    int bestAnimIndex = -1;
     int bestFrame = -1;
     int bestIdx = 0;
     int i;
-    int animSeq;
+    int animIndex;
     int animFrame;
 
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor == 0) {
             return &work->actorSlots[i];
         }
-        animSeq = CLACT_GetActorAnimSeqCount(work->actorSlots[i].actor);
+        animIndex = CLACT_GetActorAnimIndex(work->actorSlots[i].actor);
         animFrame = CLACT_GetActorAnimFrame(work->actorSlots[i].actor);
-        if (animSeq > bestSeq || (animSeq == bestSeq && animFrame > bestFrame)) {
-            bestSeq = animSeq;
+        if (animIndex > bestAnimIndex || (animIndex == bestAnimIndex && animFrame > bestFrame)) {
+            bestAnimIndex = animIndex;
             bestFrame = animFrame;
             bestIdx = i;
         }
@@ -2016,7 +2016,7 @@ u8 C_GEAR_GetBatteryFrame(void)
 
 static inline void SetActorAnimFrame(struct ClactActor *actor, int frame)
 {
-    if (frame != CLACT_GetActorAnimSeqCount(actor)) {
+    if (frame != CLACT_GetActorAnimIndex(actor)) {
         CLACT_SetActorAnimIndex(actor, (u16)frame);
     }
 }
@@ -2840,7 +2840,7 @@ int C_GEAR_StepFadeFx(CGearFadeFx *fx)
         return 1;
     }
     PALANM_RequestFade(fx->palAnm, 8, fx->palette, -0x78, 0,
-                       (u8)gCGearFadeSteps[CLACT_GetActorAnimSeqCount(fx->actor)], 0,
+                       (u8)gCGearFadeSteps[CLACT_GetActorAnimIndex(fx->actor)], 0,
                        fx->fadeCtx);
     return 0;
 }

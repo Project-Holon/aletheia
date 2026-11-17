@@ -20,7 +20,7 @@
  * the shifts being logical is the evidence that the subtraction is done in
  * u32, not as a signed ptrdiff.
  *
- * This is the missing witness for src/pending/CLACT_GetActorAnimSeqCount.c, the only
+ * This is the missing witness for src/pending/CLACT_GetActorAnimIndex.c, the only
  * other reference to this address in the image.
  *
  * Verified with:

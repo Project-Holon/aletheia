@@ -20,7 +20,7 @@
  *   CLACT_StartActorAnim 0x0204B95C arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_GetActorAnimIndex 0x0204B918 arm
  *   CLACT_StopActorAnim 0x0204B974 arm
  *   d_021B7485 0x021B7485 data a1
  *   d_021B7481 0x021B7481 data a1
@@ -45,7 +45,7 @@ extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct Obj;
-extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
+extern u16 CLACT_GetActorAnimIndex(struct Obj *p);
 extern const u8 d_021B7485[],d_021B7481[];
 void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
 {
@@ -109,7 +109,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
     if(((struct Obj00185 *)q)->f34==1 || ((struct Obj00185 *)q)->f38!=0) {
         if(CLACT_IsActorAnimActive(((struct Obj00185 *)q)->f2C)==0) CLACT_StartActorAnim(((struct Obj00185 *)q)->f2C);
     } else {
-        if(CLACT_IsActorAnimActive(((struct Obj00185 *)q)->f2C)==1 && CLACT_GetActorAnimSeqCount(((struct Obj00185 *)q)->f2C)==0)
+        if(CLACT_IsActorAnimActive(((struct Obj00185 *)q)->f2C)==1 && CLACT_GetActorAnimIndex(((struct Obj00185 *)q)->f2C)==0)
             CLACT_StopActorAnim(((struct Obj00185 *)q)->f2C);
     }
     if(((struct Obj00185 *)q)->f38!=0) (((struct Obj00185 *)q)->f38)--;

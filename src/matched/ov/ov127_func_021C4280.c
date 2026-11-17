@@ -1,5 +1,5 @@
 /*
- * function: WIFI_2DCHAR_GetActorAnimSeqCount
+ * function: WIFI_2DCHAR_GetActorAnimIndex
  * address: 0x021C4280
  * packet: pkt_ov127_021C4280
  * region: ov127
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
+ *   CLACT_GetActorAnimIndex 0x0204B918 arm
  */
 #include "../include/Obj23021.h"
 typedef unsigned char u8;
@@ -17,5 +17,5 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
-int WIFI_2DCHAR_GetActorAnimSeqCount(char *p) { return CLACT_GetActorAnimSeqCount(((struct Obj23021 *)p)->f4); }
+extern u16 CLACT_GetActorAnimIndex(struct Obj *p);
+int WIFI_2DCHAR_GetActorAnimIndex(char *p) { return CLACT_GetActorAnimIndex(((struct Obj23021 *)p)->f4); }

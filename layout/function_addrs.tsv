@@ -4401,7 +4401,7 @@ arm9	0x0204B8C4	CLACT_SetActorAnimFrame	arm	16	src/game/arm9/clact.c	no
 arm9	0x0204B8D4	CLACT_AddActorAnimFrame	arm	32	src/game/arm9/clact.c	no
 arm9	0x0204B8F4	CLACT_GetActorAnimFrame	arm	20	src/game/arm9/clact.c	no
 arm9	0x0204B908	CLACT_SetActorAnimIndex	arm	16	src/game/arm9/clact.c	no
-arm9	0x0204B918	CLACT_GetActorAnimSeqCount	arm	20	src/game/arm9/clact.c	no
+arm9	0x0204B918	CLACT_GetActorAnimIndex	arm	20	src/game/arm9/clact.c	no
 arm9	0x0204B92C	CLACT_SetActorAutoAnim	arm	24	src/game/arm9/clact.c	no
 arm9	0x0204B944	CLACT_GetActorAutoAnim	arm	16	src/game/arm9/clact.c	no
 arm9	0x0204B954	CLACT_SetActorAutoAnimSpeed	arm	8	src/game/arm9/clact.c	no
@@ -27661,7 +27661,7 @@ ov127	0x021C425C	WIFI_2DCHAR_GetActorDrawEnable	thumb	12	src/game/ov127/wifi_2dc
 ov127	0x021C4268	WIFI_2DCHAR_GetActorCellArgB	thumb	6	src/game/ov127/wifi_2dchar.c	no
 ov127	0x021C4270	WIFI_2DCHAR_GetActorAnimId	thumb	4	src/game/ov127/wifi_2dchar.c	no
 ov127	0x021C4274	WIFI_2DCHAR_SetActorAnimIndex	thumb	12	src/game/ov127/wifi_2dchar.c	no
-ov127	0x021C4280	WIFI_2DCHAR_GetActorAnimSeqCount	thumb	12	src/game/ov127/wifi_2dchar.c	no
+ov127	0x021C4280	WIFI_2DCHAR_GetActorAnimIndex	thumb	12	src/game/ov127/wifi_2dchar.c	no
 ov127	0x021C428C	WIFI_2DCHAR_SetSubActorPos	thumb	26	src/game/ov127/wifi_2dchar.c	no
 ov127	0x021C42A8	WIFI_2DCHAR_SetActorAnim	thumb	28	src/game/ov127/wifi_2dchar.c	no
 ov127	0x021C42C4	WIFI_2DCHAR_StepActorAnim	thumb	56	src/game/ov127/wifi_2dchar.c	no

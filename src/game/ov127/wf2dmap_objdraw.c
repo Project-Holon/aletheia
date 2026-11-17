@@ -39,7 +39,7 @@
  *   WIFI_2DCHAR_GetActorCellArgB  0x021C4268  thumb
  *   sWf2dmapSlotValues     0x021C60B6  data  a1
  *   WF2DMAP_OBJ_GetCurrentPos 0x021C4ADC thumb ov127
- *   WIFI_2DCHAR_GetActorAnimSeqCount 0x021C4280 thumb ov127
+ *   WIFI_2DCHAR_GetActorAnimIndex 0x021C4280 thumb ov127
  *   WIFI_2DCHAR_GetActorAnimId 0x021C4270 thumb ov127
  *   WIFI_2DCHAR_SetActorAnim 0x021C42A8 thumb ov127
  *   WIFI_2DCHAR_SetActorAnimIndex 0x021C4274 thumb ov127
@@ -338,7 +338,7 @@ void WF2DMAP_OBJDRAW_GetOwnerPos(char *p,short *x,short *y) { Wf2dmapPos a=WF2DM
 
 void WF2DMAP_OBJDRAW_SetFrame(u8 *p, int n, int a)
 {
-    int v = WIFI_2DCHAR_GetActorAnimSeqCount(((Wf2dmapActor *)p)->actor);
+    int v = WIFI_2DCHAR_GetActorAnimIndex(((Wf2dmapActor *)p)->actor);
     u16 old = WIFI_2DCHAR_GetActorAnimId(((Wf2dmapActor *)p)->actor);
     WIFI_2DCHAR_SetActorAnim(((Wf2dmapActor *)p)->actor, n, a);
     if (old != n) {
