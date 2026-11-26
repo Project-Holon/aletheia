@@ -28,7 +28,7 @@
  *   sciReportSetPlayerConnectionId  0x021DFF78  arm  ov175
  *   sciReportSetPlayerTeamIndex  0x021DFFA0  arm  ov175
  *   sciReportSetPlayerGameResult  0x021DFFC8  arm  ov175
- *   sciReportReturnZero  0x021DFFF8  arm  ov175
+ *   sciReportSetPlayerAuthInfo  0x021DFFF8  arm  ov175
  *   sciWsCreateSession  0x021E0774  arm  ov175
  *   sciWsSetReportIntention  0x021E0A7C  arm
  *   sciWsSubmitReport  0x021E0DB8  arm  ov175
@@ -105,13 +105,13 @@ int scThink(SCInterface *theInterface)
     return SCResult_NO_ERROR;
 }
 
-/* scGetSessionId (name guessed): the session GUID of the interface. */
+/* scGetSessionId (GameSpy SDK name): the session GUID of the interface. */
 unsigned char *scGetSessionId(SCInterface *theInterface)
 {
     return theInterface->mSessionId;
 }
 
-/* scGetConnectionId (name guessed): the connection GUID of the interface. */
+/* scGetConnectionId (GameSpy SDK name): the connection GUID of the interface. */
 unsigned char *scGetConnectionId(SCInterface *theInterface)
 {
     return theInterface->mConnectionId;
@@ -222,31 +222,31 @@ int scCreateReport(SCInterface *theInterface, unsigned int theHeaderVersion, uns
     return theResult;
 }
 
-/* scReportBeginGlobalData (name guessed): tail call to sciReportBeginGlobalData. */
+/* scReportBeginGlobalData (GameSpy SDK name): tail call to sciReportBeginGlobalData. */
 int scReportBeginGlobalData(SCIReport *theReport)
 {
     return sciReportBeginGlobalData(theReport);
 }
 
-/* scReportBeginPlayerData (name guessed): tail call to sciReportBeginPlayerData. */
+/* scReportBeginPlayerData (GameSpy SDK name): tail call to sciReportBeginPlayerData. */
 int scReportBeginPlayerData(SCIReport *theReport)
 {
     return sciReportBeginPlayerData(theReport);
 }
 
-/* scReportBeginTeamData (name guessed): tail call to sciReportBeginTeamData. */
+/* scReportBeginTeamData (GameSpy SDK name): tail call to sciReportBeginTeamData. */
 int scReportBeginTeamData(SCIReport *theReport)
 {
     return sciReportBeginTeamData(theReport);
 }
 
-/* scReportBeginNewPlayer (name guessed): tail call to sciReportBeginNewPlayer. */
+/* scReportBeginNewPlayer (GameSpy SDK name): tail call to sciReportBeginNewPlayer. */
 int scReportBeginNewPlayer(SCIReport *theReport)
 {
     return sciReportBeginNewPlayer(theReport);
 }
 
-/* scReportEnd (name guessed): tail call to sciReportEnd. */
+/* scReportEnd (GameSpy SDK name): tail call to sciReportEnd. */
 int scReportEnd(SCIReport *theReport, int isAuthoritative, unsigned int theGameStatus)
 {
     return sciReportEnd(theReport, isAuthoritative, theGameStatus);
@@ -290,22 +290,22 @@ int scReportSetPlayerData(SCIReport *theReport, unsigned int thePlayerIndex, uns
         aResult = sciReportSetPlayerGameResult(aReport, thePlayerIndex, thePlayerResult);
     if (aResult != SCITeamResult_OK)
         return aResult;
-    return sciReportReturnZero(aReport, thePlayerIndex, theCertificate, theAuthHash);
+    return sciReportSetPlayerAuthInfo(aReport, thePlayerIndex, theCertificate, theAuthHash);
 }
 
-/* scReportAddIntValue (name guessed): tail call to sciReportAddIntValue. */
+/* scReportAddIntValue (GameSpy SDK name): tail call to sciReportAddIntValue. */
 int scReportAddIntValue(SCIReport *theReport, int theKey, int theValue)
 {
     return sciReportAddIntValue(theReport, theKey, theValue);
 }
 
-/* scReportAddByteValue (name guessed): tail call to sciReportAddByteValue. */
+/* scReportAddByteValue (GameSpy SDK name): tail call to sciReportAddByteValue. */
 int scReportAddByteValue(SCIReport *theReport, int theKey, int theValue)
 {
     return sciReportAddByteValue(theReport, theKey, theValue);
 }
 
-/* scDestroyReport (name guessed): tail call to sciDestroyReport. */
+/* scDestroyReport (GameSpy SDK name): tail call to sciDestroyReport. */
 int scDestroyReport(SCIReport *theReport)
 {
     return sciDestroyReport(theReport);

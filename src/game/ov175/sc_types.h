@@ -39,12 +39,12 @@
  *   sciReportSetPlayerConnectionId  0x021DFF78  arm  ov175
  *   sciReportSetPlayerTeamIndex  0x021DFFA0  arm  ov175
  *   sciReportSetPlayerGameResult  0x021DFFC8  arm  ov175
- *   sciReportReturnZero  0x021DFFF8  arm  ov175
+ *   sciReportSetPlayerAuthInfo  0x021DFFF8  arm  ov175
  *   sciReportBeginNewPlayer  0x021E0000  arm  ov175
  *   sciReportBeginGlobalData  0x021E0040  arm  ov175
  *   sciReportBeginPlayerData  0x021E0070  arm  ov175
  *   sciReportBeginTeamData  0x021E0080  arm  ov175
- *   sciReportReturnZeroWithArg  0x021E0090  arm  ov175
+ *   sciReportEndEntity  0x021E0090  arm  ov175
  *   sciReportEnd  0x021E0098  arm  ov175
  *   sciReportAddIntValue  0x021E02F0  arm  ov175
  *   sciReportAddByteValue  0x021E03F8  arm  ov175
@@ -195,13 +195,13 @@ int sciDestroyReport(SCIReport *theReport);
 int sciReportSetPlayerConnectionId(SCIReport *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId);
 int sciReportSetPlayerTeamIndex(SCIReport *theReport, unsigned int thePlayerIndex, unsigned int thePlayerTeamIndex);
 int sciReportSetPlayerGameResult(SCIReport *theReport, int thePlayerIndex, int thePlayerResult);
-int sciReportReturnZero(SCIReport *theReport, unsigned int thePlayerIndex, void *theCertificate,
+int sciReportSetPlayerAuthInfo(SCIReport *theReport, unsigned int thePlayerIndex, void *theCertificate,
                   unsigned char *theAuthHash);
 int sciReportBeginNewPlayer(SCIReport *theReport);
 int sciReportBeginGlobalData(SCIReport *theReport);
 int sciReportBeginPlayerData(SCIReport *theReport);
 int sciReportBeginTeamData(SCIReport *theReport);
-int sciReportReturnZeroWithArg(SCIReport *theReport);
+int sciReportEndEntity(SCIReport *theReport);
 int sciReportEnd(SCIReport *theReport, int isAuthoritative, unsigned int theGameStatus);
 int sciReportAddIntValue(SCIReport *theReport, int theKey, int theValue);
 int sciReportAddByteValue(SCIReport *theReport, int theKey, int theValue);

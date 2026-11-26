@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   sciReportReturnZeroWithArg  0x021E0090  arm  ov175
+ *   sciReportEndEntity  0x021E0090  arm  ov175
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int sciReportReturnZeroWithArg(void *a0);
+extern int sciReportEndEntity(void *a0);
 
 #define BS32(x) ((u32)((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | \
                        (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000)))
@@ -27,7 +27,7 @@ int sciReportEnd(u8 *p, int f, u32 v)
 {
     u8 *q = *(u8 **)(p + 0x124);
 
-    sciReportReturnZeroWithArg(p);
+    sciReportEndEntity(p);
     if (f != 0)
         *(u32 *)(q + 0x1c) |= 1;
     *(u32 *)(q + 0x18) = BS32(v);

@@ -15,7 +15,7 @@
  *   sciReportSetPlayerConnectionId  0x021DFF78  arm  ov175
  *   sciReportSetPlayerTeamIndex  0x021DFFA0  arm  ov175
  *   sciReportSetPlayerGameResult  0x021DFFC8  arm  ov175
- *   sciReportReturnZero  0x021DFFF8  arm  ov175
+ *   sciReportSetPlayerAuthInfo  0x021DFFF8  arm  ov175
  *
  * Static: walks the report's team-id array for thePlayerTeamId, and on a miss
  * appends it (bailing out with 5 past 64 entries).  It then runs the three
@@ -91,7 +91,7 @@ typedef enum {
 extern int sciReportSetPlayerConnectionId(struct SCIReport *report, unsigned int index, unsigned char *connectionId);
 extern int sciReportSetPlayerTeamIndex(struct SCIReport *report, unsigned int index, unsigned int teamIndex);
 extern int sciReportSetPlayerGameResult(char *obj, int i, int v);
-extern void sciReportReturnZero();
+extern void sciReportSetPlayerAuthInfo();
 
 int scReportSetPlayerData(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId,
                   unsigned int thePlayerTeamId, int theResult, int unused, void *theCertificate,
@@ -126,5 +126,5 @@ int scReportSetPlayerData(void *theReport, unsigned int thePlayerIndex, unsigned
         aResult = sciReportSetPlayerGameResult((char *)aReport, thePlayerIndex, theResult);
     if (aResult != RESULT_OK)
         return aResult;
-    sciReportReturnZero(aReport, thePlayerIndex, theCertificate, theAuthHash);
+    sciReportSetPlayerAuthInfo(aReport, thePlayerIndex, theCertificate, theAuthHash);
 }

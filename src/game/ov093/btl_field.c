@@ -416,7 +416,7 @@ void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
 }
 
 
-/* Effect slot whose holders are checked for sealed moves (Imprison, guess). */
+/* Field effect slot whose holders are checked for sealed moves (3 is Imprison in the ov095 field effect table). */
 #define BTL_FIELD_SLOT_MOVE_SEAL 3
 
 

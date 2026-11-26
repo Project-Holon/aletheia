@@ -88,10 +88,10 @@ typedef struct {
     u16 giftItem;       /* item given after the battle */
 } TpokeDataRecord;
 
-/* One 7-bit-keyed trainer-kind table row (gTpokeDataTrainerKindTable): val is the
- * trainer type, kind and group are the two small fields looked up from it. */
+/* One 7-bit-keyed trainer-kind table row (gTpokeDataTrainerKindTable): keyed by trainer class;
+ * kind 2 Gym Leader, 3 Elite Four, 4 Champion, 6..9 Team Plasma, 11 Subway Boss. */
 struct TrainerKindRecord {
-    u16 trainerType : 7;
+    u16 trainerType : 7;   /* trainer class */
     u16 kind : 4;
     u16 group : 5;
 };

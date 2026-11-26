@@ -30,7 +30,7 @@ extern char sSciGuidFormatInt16[];
 extern char sSciGuidFormatByte[];
 extern char sSciGuidFormatByteRun[];
 
-/* sciSerializeInt8 (name guessed): writes one byte and returns the next position. */
+/* sciSerializeInt8 (GameSpy SDK name): writes one byte and returns the next position. */
 char *sciSerializeInt8(char *dst, int value)
 {
     *dst++ = value;

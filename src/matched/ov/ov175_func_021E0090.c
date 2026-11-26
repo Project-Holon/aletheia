@@ -1,5 +1,5 @@
 /*
- * function: sciReportReturnZeroWithArg
+ * function: sciReportEndEntity
  * address: 0x021E0090
  * packet: pkt_ov175_021E0090
  * region: ov175
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int sciReportReturnZeroWithArg(void *a0) { return 0; }
+int sciReportEndEntity(void *a0) { return 0; }

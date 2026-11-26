@@ -118,8 +118,8 @@ typedef struct TrialHouseDelivery {
 /* One of the four Pokemon of a saved result. */
 typedef struct TrialHouseSaveMon {
     u16 species;
-    u8 form;                               /* guess: Pokemon parameter 0x6F */
-    u8 gender;                             /* guess: Pokemon parameter 0x6E */
+    u8 form;                               /* Pokemon parameter 0x6F (POKE_TOOL_PARAM_FORM) */
+    u8 gender;                             /* Pokemon parameter 0x6E (POKE_TOOL_PARAM_GENDER) */
 } TrialHouseSaveMon;
 
 /* Best result of one kind of battle (0x14 bytes). */

@@ -880,7 +880,7 @@ const BtlEventHandlerEntry *HAND_ITEM_AddSitrusBerry(int *count)
 
 #define TURN_FLAG_ACTED 1   /* the Pokemon has acted this turn */
 
-#define BTL_MOVE_SKY_DROP 507 /* (guess) the two-turn move that Power Herb cannot skip */
+#define BTL_MOVE_SKY_DROP 507 /* the two-turn move that Power Herb cannot skip */
 
 #define BTL_POISON_TYPE 3
 

@@ -216,11 +216,11 @@ u32 BTL_CALC_GetFightersPerSide(u32 rule);
 
 u8 BTL_CALC_GetScanStartIndex(u32 rule, u8 startIndex);
 
-int BTL_CALC_IsGymLeaderTrainer(u32 trainerId);
+int BTL_CALC_IsGymLeaderTrainer(u32 trainerType);
 
-int BTL_CALC_IsEliteFourTrainer(u32 trainerId);
+int BTL_CALC_IsEliteFourTrainer(u32 trainerType);
 
-int BTL_CALC_IsBossTrainer(u32 trainerId);
+int BTL_CALC_IsBossTrainer(u32 trainerType);
 
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
 
@@ -644,14 +644,14 @@ u8 BTL_CALC_GetScanStartIndex(u32 rule, u8 startIndex)
     return startIndex;
 }
 
-/* Trainer table category 2 (guess: gym leader). */
-int BTL_CALC_IsGymLeaderTrainer(u32 trainerId) { if(TPOKE_DATA_GetTrainerKind(trainerId)==2) return 1; return 0; }
+/* Trainer class of kind 2 in gTpokeDataTrainerKindTable: a Gym Leader. */
+int BTL_CALC_IsGymLeaderTrainer(u32 trainerType) { if(TPOKE_DATA_GetTrainerKind(trainerType)==2) return 1; return 0; }
 
-/* Trainer table category 3 (guess: Elite Four). */
-int BTL_CALC_IsEliteFourTrainer(u32 trainerId) { if(TPOKE_DATA_GetTrainerKind(trainerId)==3) return 1; return 0; }
+/* Trainer class of kind 3 in gTpokeDataTrainerKindTable: the Elite Four. */
+int BTL_CALC_IsEliteFourTrainer(u32 trainerType) { if(TPOKE_DATA_GetTrainerKind(trainerType)==3) return 1; return 0; }
 
-/* A boss trainer: category 2 or 3, or trainer 89. */
-int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(trainerId)) return 1; if(BTL_CALC_IsEliteFourTrainer(trainerId)) return 1; return trainerId==89; }
+/* A boss trainer: a Gym Leader, the Elite Four, or class 89 (the Champion). */
+int BTL_CALC_IsBossTrainer(u32 trainerType) { if(BTL_CALC_IsGymLeaderTrainer(trainerType)) return 1; if(BTL_CALC_IsEliteFourTrainer(trainerType)) return 1; return trainerType==89; }
 
 /* Prize money of a trainer battle: the sum over the two enemy trainer slots (1 and 3). */
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }

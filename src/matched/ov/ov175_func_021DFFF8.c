@@ -1,5 +1,5 @@
 /*
- * function: sciReportReturnZero
+ * function: sciReportSetPlayerAuthInfo
  * address:  0x021DFFF8
  * packet:   pkt_021DFFF8
  * region:   ov175
@@ -16,7 +16,7 @@
  * sciSerializeInt16 (byte writer) and sciReportBeginNewPlayer (block copy) sit next to.
  */
 
-int sciReportReturnZero(void)
+int sciReportSetPlayerAuthInfo(void)
 {
     return 0;
 }

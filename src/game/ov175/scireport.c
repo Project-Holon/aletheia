@@ -1,7 +1,7 @@
 /*
  * file:     scireport.c
  * unit:     yes
- * function: sciCreateReport, sciDestroyReport, sciReportSetPlayerConnectionId, sciReportSetPlayerTeamIndex, sciReportSetPlayerGameResult, sciReportReturnZero, sciReportBeginNewPlayer, sciReportBeginGlobalData, sciReportBeginPlayerData, sciReportBeginTeamData, sciReportReturnZeroWithArg, sciReportEnd, sciReportAddIntValue, sciReportAddByteValue
+ * function: sciCreateReport, sciDestroyReport, sciReportSetPlayerConnectionId, sciReportSetPlayerTeamIndex, sciReportSetPlayerGameResult, sciReportSetPlayerAuthInfo, sciReportBeginNewPlayer, sciReportBeginGlobalData, sciReportBeginPlayerData, sciReportBeginTeamData, sciReportEndEntity, sciReportEnd, sciReportAddIntValue, sciReportAddByteValue
  * address:  0x021DFE2C
  * region:   ov175
  * compiler: dsi/1.1p1
@@ -139,11 +139,11 @@ int sciReportSetPlayerGameResult(SCIReport *theReport, int thePlayerIndex, int t
 }
 
 /*
- * sciReportReturnZero (name guessed): called by scReportSetPlayerData after the
+ * sciReportSetPlayerAuthInfo (GameSpy SDK name, body empty there too): called by scReportSetPlayerData after the
  * roster entries with the certificate and the auth hash; the shipped code does
  * nothing with them.
  */
-int sciReportReturnZero(SCIReport *theReport, unsigned int thePlayerIndex, void *theCertificate,
+int sciReportSetPlayerAuthInfo(SCIReport *theReport, unsigned int thePlayerIndex, void *theCertificate,
                   unsigned char *theAuthHash)
 {
     return SCResult_NO_ERROR;
@@ -194,15 +194,15 @@ int sciReportBeginTeamData(SCIReport *theReport)
     return SCResult_NO_ERROR;
 }
 
-/* sciReportReturnZeroWithArg (name guessed): empty hook called by sciReportEnd. */
-int sciReportReturnZeroWithArg(SCIReport *theReport) { return SCResult_NO_ERROR; }
+/* sciReportEndEntity: its body is commented out in the GameSpy SDK; called first by sciReportEnd. */
+int sciReportEndEntity(SCIReport *theReport) { return SCResult_NO_ERROR; }
 
 /* sciReportEnd: sets the status and flags and converts every header field to network byte order. */
 int sciReportEnd(SCIReport *theReport, int isAuthoritative, unsigned int theGameStatus)
 {
     SCIReportHeader *theHeader = (SCIReportHeader *)theReport->mBuffer.mData;
 
-    sciReportReturnZeroWithArg(theReport);
+    sciReportEndEntity(theReport);
     if (isAuthoritative != 0)
         theHeader->mFlags |= 1;
     theHeader->mGameStatus = BS32(theGameStatus);

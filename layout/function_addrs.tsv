@@ -30976,12 +30976,12 @@ ov175	0x021DFF30	sciDestroyReport	arm	72	src/game/ov175/scireport.c	no
 ov175	0x021DFF78	sciReportSetPlayerConnectionId	arm	40	src/game/ov175/scireport.c	no
 ov175	0x021DFFA0	sciReportSetPlayerTeamIndex	arm	40	src/game/ov175/scireport.c	no
 ov175	0x021DFFC8	sciReportSetPlayerGameResult	arm	48	src/game/ov175/scireport.c	no
-ov175	0x021DFFF8	sciReportReturnZero	arm	8	src/game/ov175/scireport.c	no
+ov175	0x021DFFF8	sciReportSetPlayerAuthInfo	arm	8	src/game/ov175/scireport.c	no
 ov175	0x021E0000	sciReportBeginNewPlayer	arm	64	src/game/ov175/scireport.c	no
 ov175	0x021E0040	sciReportBeginGlobalData	arm	48	src/game/ov175/scireport.c	no
 ov175	0x021E0070	sciReportBeginPlayerData	arm	16	src/game/ov175/scireport.c	no
 ov175	0x021E0080	sciReportBeginTeamData	arm	16	src/game/ov175/scireport.c	no
-ov175	0x021E0090	sciReportReturnZeroWithArg	arm	8	src/game/ov175/scireport.c	no
+ov175	0x021E0090	sciReportEndEntity	arm	8	src/game/ov175/scireport.c	no
 ov175	0x021E0098	sciReportEnd	arm	600	src/game/ov175/scireport.c	no
 ov175	0x021E02F0	sciReportAddIntValue	arm	264	src/game/ov175/scireport.c	no
 ov175	0x021E03F8	sciReportAddByteValue	arm	260	src/game/ov175/scireport.c	no
