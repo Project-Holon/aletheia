@@ -100,8 +100,14 @@ extern const u16 _ExtraEvolutionZones[3];
  * rows, SHINKA_CHECK_LoadData) walked under a switch on the context (0 level up,
  * 1 trade, 2 and 3 item use); the first row that fires gives the target
  * species and its method goes to *methodOut (method 15 writes 15 and gives
- * no species).  docs/notes/SHINKA_CHECK_CheckEvolution.c.txt holds the method map and the
- * history.
+ * no species).  Methods (checked against a/0/1/9): 1 friendship, 2 friendship by day,
+ * 3 friendship at night, 4 level, 5 trade, 6 trade holding param, 7 Karrablast and
+ * Shelmet traded for each other, 8 use item param, 9/10/11 level with attack above,
+ * equal to, below defense (Tyrogue), 12/13 level by personality (Wurmple), 14 level
+ * (Ninjask), 15 the extra Pokemon of a level-up (Shedinja), 16 beauty, 17/18 item
+ * on a male/female, 19/20 level holding param by day/at night, 21 knows move
+ * param, 22 species param in the party, 23/24 level as a male/female, 25 magnetic
+ * zone, 26 Moss Rock zone, 27 Ice Rock zone, 28 a fourth zone list no species uses.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/SHINKA_CHECK_CheckEvolution.c \

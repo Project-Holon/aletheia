@@ -139,8 +139,8 @@ typedef struct EventDataSystem {
     u16 loadedPosCount;
     u32 encountLoaded;            /* 0x34 */
     u8 encountHead[7];            /* 0x38: encounter data, read by FIELD_ENCOUNT_ST_LoadEncountData */
-    u8 encountLow : 7;
-    u8 encountFlag : 1;           /* 0x3F */
+    u8 encountEffectKind : 7;    /* 0x3F: EncountData.effectKind */
+    u8 encountEnabled : 1;       /* 0x3F: EncountData.enabled, set by the loader */
     u8 encountRest[0x120 - 0x40];
     char *specialScripts;         /* 0x120: end of the event file data */
     int fileSize;                 /* 0x124 */
@@ -264,7 +264,7 @@ void EVENTDATA_SYSTEM_Clear(EventDataSystem *system) { EVENTDATA_SYSTEM_ClearEve
 #else
  (system->specialScripts)=(char *)(system + 1);
 #endif
- system->encountLoaded=0; system->encountFlag=0; }
+ system->encountLoaded=0; system->encountEnabled=0; }
 
 void EVENTDATA_SYSTEM_Load(EventDataSystem *system, u16 zoneId, u8 encountParam)
 {

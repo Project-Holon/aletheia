@@ -29,9 +29,10 @@ Block layout (232 bytes)
     +0x00  u8 x 7   method rates, in slot order below (grass, double
                     grass, shaking grass, surf, rippling water, fishing,
                     rippling fishing)
-    +0x07  u8       pad (unread by every check in this module; always
-                    present so the header is 8 bytes, keeping the body
-                    4-byte aligned)
+    +0x07  u8       bits 0-6: effect encount kind (0..2; EncountData.
+                    effectKind, picks the step count and chance of the
+                    shaking spots); bit 7: 0 in the file, set by the
+                    game's loader (EncountData.enabled)
     +0x08  56 x {u16 species_and_form, u8 min_level, u8 max_level}
                     one slot per 4 bytes, in method order:
 

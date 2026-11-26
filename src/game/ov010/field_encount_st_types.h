@@ -15,7 +15,7 @@ struct EncountRow {
     u8 reserved00[5];
     u8 hasSetA;                           /* 0x05 */
     u8 hasSetB;                           /* 0x06 */
-    u8 flags;                             /* 0x07: 0x80 set after load */
+    u8 flags;                             /* 0x07: effect kind (bits 0-6, 0..2), 0x80 set after load */
     u8 reserved08[0xc0 - 8];
     EncounterSlot setA[5];                /* 0xC0 */
     EncounterSlot setB[5];                /* 0xD4 */
