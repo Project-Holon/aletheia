@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_DispatchMoveFailCheck
+ * function: BTL_SERVER_FLOW_DispatchUncategorizedMoveEvent
  * address:  0x021C4304
  * packet:   pkt_ov093_021C4304
  * region:   ov093
@@ -37,7 +37,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
 
-int BTL_SERVER_FLOW_DispatchMoveFailCheck(u8 *p, u16 *b, u8 *a, u8 *c, int *out)
+int BTL_SERVER_FLOW_DispatchUncategorizedMoveEvent(u8 *p, u16 *b, u8 *a, u8 *c, int *out)
 {
     u8 n1;
     u8 n2;

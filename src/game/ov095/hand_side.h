@@ -45,7 +45,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersToxicSpikes(u32 *handlerCount);
 void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount);
 void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
-void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
+void HAND_SIDE_RainbowDoubleFlinchChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount);
 void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount);

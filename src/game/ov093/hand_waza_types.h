@@ -431,7 +431,7 @@ typedef struct HandPokeList {
 
 /* Events that the move handlers answer (the first word of a table pair). */
 enum {
-    BTL_EVENT_WAZA_TURN_END = 8,         /* the move factor's turn check (Snatch: effect used up) */
+    BTL_EVENT_WAZA_SNATCHED = 8,         /* a move was snatched (Snatch hands the effect over) */
     BTL_EVENT_WAZA_NOTICE = 9,           /* Magic Coat: decide whether the bounce is announced */
     BTL_EVENT_WAZA_SNATCH_CHECK = 26,    /* Snatch: a move may be stolen */
     BTL_EVENT_WAZA_EXECUTE_CHECK = 31,   /* may the move be used (fail reason) */
@@ -921,7 +921,6 @@ struct HandExAddFieldEffect {
 
 #define BTL_EVENT_MOVE_DELAYED_MESSAGE 7
 
-#define BTL_EVENT_MOVE_NO_EFFECT 0xd
 
 #define BTL_EVENT_MOVE_CHECK_FAIL 0x1f
 
@@ -1189,7 +1188,6 @@ struct BtlPokeParam;
 #define HAND_WAZA_EVENT_DEFENSE_STAT 0x3a
 #define HAND_WAZA_EVENT_CALC_FIXED_DAMAGE 0x46
 #define HAND_WAZA_EVENT_AFTER_DAMAGE 0x4b
-#define HAND_WAZA_EVENT_AUTOTOMIZE 0x5e
 #define HAND_WAZA_EVENT_ADD_EFFECT 0x83
 #define HAND_WAZA_EVENT_FIELD_EFFECT_MOVE 0x9e
 #define HAND_WAZA_EVENT_MOVE_EFFECT 0xa0

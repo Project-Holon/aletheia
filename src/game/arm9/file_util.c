@@ -89,10 +89,10 @@ struct ItemExt {
     u8 spAtkEvUp : 1;
 
     u8 spDefEvUp : 1;
+    u8 evLimitIgnore : 1;     /* Wings only: the EV may pass the usual 100 */
     u8 friendshipLow : 1;
     u8 friendshipMid : 1;
     u8 friendshipHigh : 1;
-    u8 evLimitIgnore : 1;
 
     s8 hpEv;
     s8 atkEv;
@@ -118,15 +118,15 @@ struct ItemRecord {
     u8  naturalGiftPower;
     u16 naturalGiftType  : 5;
     u16 preventToss  : 1;
-    u16 selectable  : 1;
+    u16 registrable  : 1;   /* can be registered to the Y button */
     u16 pocket  : 4;
-    u16 sortGroup : 5;
+    u16 battlePockets : 5;  /* battle bag pockets, one bit each: 1 balls, 2 battle items, 4 HP/PP, 8 status (same as a/2/3/2) */
     u8  fieldUse;
     u8  battleUse;
     u8  extType;
-    u8  partyUse;
-    u8  partyUseParam;
-    u8  partyUseOption;
+    u8  itemType;       /* 0 medicine, 1 hold item, 2 general, 3 battle item, 4 ball, 5 mail */
+    u8  consumable;     /* used up by its holder (berries, Berry Juice) */
+    u8  sortIndex;      /* order inside the bag pocket */
     union {
         u8              extByte;
         struct ItemExt  ext;
@@ -548,7 +548,7 @@ u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop)
     case 3:
         return record->preventToss;
     case 4:
-        return record->selectable;
+        return record->registrable;
     case 5:
         return record->pocket;
     case 6:
@@ -566,15 +566,15 @@ u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop)
     case 12:
         return record->naturalGiftType;
     case 13:
-        return record->sortGroup;
+        return record->battlePockets;
     case 14:
         return record->extType;
     case 15:
-        return record->partyUse;
+        return record->itemType;
     case 16:
-        return record->partyUseParam;
+        return record->consumable;
     case 17:
-        return record->partyUseOption;
+        return record->sortIndex;
     }
 
     switch (record->extType) {
@@ -650,13 +650,13 @@ int FILE_UTIL_GetItemExtParam(struct ItemExt *ext, u32 prop)
     case 0x2F:
         return ext->spDefEvUp;
     case 0x30:
-        return ext->friendshipLow;
-    case 0x31:
-        return ext->friendshipMid;
-    case 0x32:
-        return ext->friendshipHigh;
-    case 0x33:
         return ext->evLimitIgnore;
+    case 0x31:
+        return ext->friendshipLow;
+    case 0x32:
+        return ext->friendshipMid;
+    case 0x33:
+        return ext->friendshipHigh;
     case 0x34:
         return ext->hpEv;
     case 0x35:

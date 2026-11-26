@@ -11,7 +11,7 @@
  *   BTL_SERVER_FLOW_RunMoveUsedEventLocked 0x021C19D8 thumb ov093
  *   func_021C0A1C 0x021C0A1C thumb ov093
  *   BTL_SERVER_FLOW_CalcMultiHitCount 0x021C71E0 thumb ov093
- *   BTL_SERVER_FLOW_RemoveSelfProtectedTargets 0x021C14E0 thumb ov093
+ *   BTL_SERVER_FLOW_RemoveDamageReplacedTargets 0x021C14E0 thumb ov093
  *   func_021C0A2C 0x021C0A2C thumb ov093
  *   BTL_SERVER_FLOW_GetHitFlagsMultiHit 0x021C1194 thumb ov093
  *   func_021C0A3C 0x021C0A3C thumb ov093
@@ -30,7 +30,7 @@ struct State { u8 pad[5]; u8 a:1; u8 b:1; };
 extern void BTL_SERVER_FLOW_RunMoveUsedEventLocked(u8 *, u8 *, u8 *);
 extern void func_021C0A1C(u8 *);
 extern int BTL_SERVER_FLOW_CalcMultiHitCount(u8 *, u8 *, u32, u8 *);
-extern void BTL_SERVER_FLOW_RemoveSelfProtectedTargets(u8 *, u8 *, int, u8 *);
+extern void BTL_SERVER_FLOW_RemoveDamageReplacedTargets(u8 *, u8 *, int, u8 *);
 extern int func_021C0A2C(u8 *);
 extern u8 BTL_SERVER_FLOW_GetHitFlagsMultiHit(u8 *p);
 extern int func_021C0A3C(u8 *);
@@ -48,7 +48,7 @@ void BTL_SERVER_FLOW_ProcMoveHitTargets(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 d
     BTL_SERVER_FLOW_RunMoveUsedEventLocked(p, a, q);
     func_021C0A1C(*(u8 * *)&((struct Obj00003 *)p)->f860);
     BTL_SERVER_FLOW_CalcMultiHitCount(p, a, ((struct Obj04358 *)q)->f0, *(u8 * *)&((struct Obj00003 *)p)->f4B4);
-    BTL_SERVER_FLOW_RemoveSelfProtectedTargets(p, a, (int)q, b);
+    BTL_SERVER_FLOW_RemoveDamageReplacedTargets(p, a, (int)q, b);
     if (func_021C0A2C(b) != 0) {
         if (BTL_SERVER_FLOW_GetHitFlagsMultiHit(*(u8 * *)&((struct Obj00003 *)p)->f4B4) != 0 && func_021C0A3C(b) == 1) {
             result = BTL_SERVER_FLOW_ProcMultiHitDamage(p, q, a, b, c);

@@ -36,8 +36,8 @@ enum {
     HAND_EVENT_GROUND_IMMUNITY = 0x3E,       /* may the move hit through a ground immunity */
     HAND_EVENT_DAMAGE_RATIO = 0x47,          /* final damage ratio (screens, resist berries) */
     HAND_EVENT_MEMBER_ENTER = 0x55,          /* a Pokemon enters the field */
-    HAND_EVENT_TURN_CHECK = 0x76,            /* guess: end-of-turn processing */
-    HAND_EVENT_MEMBER_ENTER_AFTER_FAINT = 0xA4 /* guess: a replacement enters after a faint */
+    HAND_EVENT_TURN_CHECK = 0x76,            /* end-of-turn processing (Leftovers, Wish, Sea of Fire) */
+    HAND_EVENT_MEMBER_ENTER_AFTER_FAINT = 0xA4 /* a replacement enters (Healing Wish, Lunar Dance) */
 };
 
 /* Type ids that the handlers compare the move type with (identical to the POKETYPE values of the shared headers). */

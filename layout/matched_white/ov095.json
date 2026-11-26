@@ -68,7 +68,7 @@
   {"name": "HAND_SIDE_ToxicSpikesOnEnter", "black_address": "0x068996D4", "white_address": "0x068996D4", "size": 172, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
   {"name": "HAND_SIDE_GetHandlersRainbow", "black_address": "0x06899830", "white_address": "0x06899830", "size": 12, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
   {"name": "HAND_SIDE_RainbowDoubleEffectChance", "black_address": "0x0689983C", "white_address": "0x0689983C", "size": 40, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
-  {"name": "HAND_SIDE_RainbowForceCriticalFlag", "black_address": "0x068998A4", "white_address": "0x068998A4", "size": 32, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
+  {"name": "HAND_SIDE_RainbowDoubleFlinchChance", "black_address": "0x068998A4", "white_address": "0x068998A4", "size": 32, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
   {"name": "HAND_SIDE_GetHandlersSeaOfFire", "black_address": "0x068998F4", "white_address": "0x068998F4", "size": 12, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
   {"name": "HAND_SIDE_SeaOfFireHurt", "black_address": "0x06899900", "white_address": "0x06899900", "size": 176, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},
   {"name": "HAND_SIDE_GetHandlersSwamp", "black_address": "0x06899A90", "white_address": "0x06899A90", "size": 12, "diff": "same", "source": "src/game/ov095/hand_side.c", "version_switch": false, "status": "EXACT"},

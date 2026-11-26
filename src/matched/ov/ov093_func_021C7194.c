@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_QueryEffectBlockedEvent
+ * function: BTL_SERVER_FLOW_QueryItemAfterPPUseEvent
  * address:  0x021C7194
  * packet:   pkt_ov093_021C7194
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int BTL_SERVER_FLOW_QueryEffectBlockedEvent(u8 *p, u8 *a, u32 v)
+int BTL_SERVER_FLOW_QueryItemAfterPPUseEvent(u8 *p, u8 *a, u32 v)
 {
     int r;
     BTL_EVENT_PushVarFrame(12399);

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_QueryTypeImmunityEvent
+ * function: BTL_SERVER_FLOW_QueryDamageReplacedEvent
  * address:  0x021C6B5C
  * packet:   pkt_ov093_021C6B5C
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int BTL_SERVER_FLOW_QueryTypeImmunityEvent(u8 *p, u8 *a, u8 *b, u8 *q)
+int BTL_SERVER_FLOW_QueryDamageReplacedEvent(u8 *p, u8 *a, u8 *b, u8 *q)
 {
     int r;
     BTL_EVENT_PushVarFrame(11907);

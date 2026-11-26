@@ -401,15 +401,15 @@ enum {
 #define BTL_WAZA_FLAG_CONTACT 0
 
 /* Fields of the move parameter getter that the Sheer Force test reads. */
-#define BTL_WAZA_PARAM_ADDED_EFFECT_RATE 10   /* guess */
+#define BTL_WAZA_PARAM_FLINCH_RATE 10   /* WazaData shrinkPercent */
 
-#define BTL_WAZA_PARAM_ADDED_EFFECT_KIND 11   /* guess */
+#define BTL_WAZA_PARAM_SICK_ID 11       /* WazaData sickId */
 
 /* Damage classes of the move data (WAZA_TOOL_GetCategory). */
 enum {
-    BTL_WAZA_CATEGORY_DAMAGE_PLUS_EFFECT = 4,
-    BTL_WAZA_CATEGORY_DAMAGE_PLUS_SICK = 6,
-    BTL_WAZA_CATEGORY_DAMAGE_PLUS_RANK = 7
+    BTL_WAZA_CATEGORY_DAMAGE_PLUS_SICK = 4,
+    BTL_WAZA_CATEGORY_DAMAGE_PLUS_TARGET_RANK = 6,
+    BTL_WAZA_CATEGORY_DAMAGE_PLUS_USER_RANK = 7
 };
 
 /* Ratios in 20.12 fixed point (0x1000 is 1.0). */

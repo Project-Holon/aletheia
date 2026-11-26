@@ -51,7 +51,7 @@
  *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
- *   BTL_SERVER_FLOW_CheckObedienceOverride 0x021BD080 thumb ov093
+ *   BTL_SERVER_FLOW_CheckNapBlockedEvent 0x021BD080 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -68,7 +68,7 @@ extern u8 BTL_MAIN_GetBadgeCount(u8 **p);
 extern int BTL_POKEPARAM_GetValue(u8 *, int);
 extern u32 BTL_CALC_Random(u32);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern int BTL_SERVER_FLOW_CheckObedienceOverride(u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckNapBlockedEvent(u8 *, u8 *);
 
 int BTL_SERVER_FLOW_CheckDisobedience(u8 *p, u8 *a)
 {
@@ -89,7 +89,7 @@ int BTL_SERVER_FLOW_CheckDisobedience(u8 *p, u8 *a)
                     if ((u16)BTL_CALC_Random(x + y + 1) < y) return 0;
                     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 2) != 0) return 4;
                     r = BTL_CALC_Random(256);
-                    if (r < x - y && BTL_SERVER_FLOW_CheckObedienceOverride(p, a) == 0) return 2;
+                    if (r < x - y && BTL_SERVER_FLOW_CheckNapBlockedEvent(p, a) == 0) return 2;
                     r -= x - y;
                     if (r < x - y) return 3;
                     return 4;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_QueryActionAllowedEvent
+ * function: BTL_SERVER_FLOW_QueryActionOrderEvent
  * address:  0x021C6350
  * packet:   pkt_ov093_021C6350
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(u8 *p, u8 *a)
+u8 BTL_SERVER_FLOW_QueryActionOrderEvent(u8 *p, u8 *a)
 {
     u8 r;
     BTL_EVENT_PushVarFrame(11357);

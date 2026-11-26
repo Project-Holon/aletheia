@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_NotifyMoveBeginEvent
+ * function: BTL_SERVER_FLOW_NotifyChargeStartedEvent
  * address: 0x021C6848
  * packet: pkt_ov093_021C6848
  * region: ov093
@@ -21,7 +21,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, unsigned int);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int);
-void BTL_SERVER_FLOW_NotifyMoveBeginEvent(u8 *p, u8 *a)
+void BTL_SERVER_FLOW_NotifyChargeStartedEvent(u8 *p, u8 *a)
 {
     BTL_EVENT_PushVarFrame(11692);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));

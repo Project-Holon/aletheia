@@ -33,7 +33,7 @@
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
  *   BTL_SERVER_FLOW_SortActionOrder  0x021BC874  thumb  ov093
- *   BTL_SERVER_FLOW_QueryActionAllowedEvent  0x021C6350  thumb  ov093
+ *   BTL_SERVER_FLOW_QueryActionOrderEvent  0x021C6350  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -59,7 +59,7 @@ extern u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *p, u8 *x, int flag);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void BTL_SERVER_FLOW_SortActionOrder(E *e, u32 n);
-extern u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(u8 *p, u8 *a);
+extern u8 BTL_SERVER_FLOW_QueryActionOrderEvent(u8 *p, u8 *a);
 
 u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
 {
@@ -175,7 +175,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
             r = &e[i];
             if (r->b.kind == 1 || r->b.kind == 5) {
                 u32 lock = BTL_SERVER_FLOW_BeginHandExScope((u8 *)p + 0x1d74, 0x68A);
-                u32 v = BTL_SERVER_FLOW_QueryActionAllowedEvent((u8 *)p, r->a);
+                u32 v = BTL_SERVER_FLOW_QueryActionOrderEvent((u8 *)p, r->a);
                 r->c = (r->c & 0xFFFF1FFF) | ((v & 7) << 13);
                 BTL_SERVER_FLOW_EndHandExScope((u32 *)((u8 *)p + 0x1d74), lock, 0x68A + 3);
             }

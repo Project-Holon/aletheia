@@ -2042,7 +2042,7 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     int itemCount;
     struct ArcFile *itemArchive;
     struct ItemRecord *itemData;
-    u32 iconKind;
+    u32 itemType;
     SortEntry *entry;
 
     ents = GFL_HEAP_Alloc(work->heapId, 0x9B0, 0, sHeapSiteName, PM_SRC_LINE(0xB35, 0xB17));
@@ -2053,8 +2053,8 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     for (i = 0; i < itemCount; i++) {
         itemData = FILE_UTIL_LoadArcMember(itemArchive, items[i].itemId, work->heapId);
         entry = &ents[i];
-        iconKind = FILE_UTIL_GetItemRecordParam(itemData, 0xF);
-        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam(itemData, 0x11) << 16) + items[i].itemId;
+        itemType = FILE_UTIL_GetItemRecordParam(itemData, 0xF);
+        entry->key = (itemType << 28) + (FILE_UTIL_GetItemRecordParam(itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
         GFL_HEAP_Free(itemData);
     }
@@ -3217,7 +3217,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     int itemIndex;
     u16 *itemIdPtr;
     struct ItemRecord *itemData;
-    u32 iconKind;
+    u32 itemType;
     u16 color;
     u16 moveId;
     struct BmpWin *windowHandle;
@@ -3244,7 +3244,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             continue;
         }
         itemData = FILE_UTIL_LoadArcMember(itemArchive, *itemIdPtr, work->heapId);
-        iconKind = FILE_UTIL_GetItemRecordParam(itemData, 0xf);
+        itemType = FILE_UTIL_GetItemRecordParam(itemData, 0xf);
         if (sRowStyleFlags[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*itemIdPtr) == 1) {
                 color = 0x18AD;
@@ -3268,11 +3268,11 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         }
         WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
         PRINTSYS_PrintColor((void *)(work->slotBitmap[i]), 0, 0, work->messageString, (void *)(work->menuTaskArg), color);
-        if (iconKind == 4) {
+        if (itemType == 4) {
             work->slotAnimIndex[i] = 4;
-        } else if (iconKind == 5) {
+        } else if (itemType == 5) {
             work->slotAnimIndex[i] = 5;
-        } else if (iconKind == 1) {
+        } else if (itemType == 1) {
             work->slotAnimIndex[i] = 6;
         } else if (FILE_UTIL_GetMachineIndex(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 8;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_CheckObedienceOverride
+ * function: BTL_SERVER_FLOW_CheckNapBlockedEvent
  * address:  0x021BD080
  * packet:   pkt_ov093_021BD080
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int BTL_SERVER_FLOW_CheckObedienceOverride(u8 *p, u8 *a)
+int BTL_SERVER_FLOW_CheckNapBlockedEvent(u8 *p, u8 *a)
 {
     int r;
     BTL_EVENT_PushVarFrame(2256);

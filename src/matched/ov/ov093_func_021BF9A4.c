@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_CheckMoveAvoidEvent
+ * function: BTL_SERVER_FLOW_CheckNeverMissEvent
  * address:  0x021BF9A4
  * packet:   pkt_ov093_021BF9A4
  * region:   ov093
@@ -28,7 +28,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int BTL_SERVER_FLOW_CheckMoveAvoidEvent(u8 *p, u8 *a, u8 *b, u16 *c)
+int BTL_SERVER_FLOW_CheckNeverMissEvent(u8 *p, u8 *a, u8 *b, u16 *c)
 {
     int r;
     BTL_EVENT_PushVarFrame(4929);

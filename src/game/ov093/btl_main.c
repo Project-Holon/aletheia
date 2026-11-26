@@ -3457,7 +3457,7 @@ void BTL_MAIN_NotifyCapture(struct BtlMain *main, u32 *captureInfo)
 void BTL_MAIN_WriteBackResults(struct BtlMain *main)
 {
     struct Party *party;
-    u32 n, move, ownPartnerClient, i0, k, slot;
+    u32 n, heldItem, ownPartnerClient, i0, k, slot;
     struct BtlSideSlot *group;
     u32 count, total, maximum; uptr i; u32 base; uptr j; u32 rowObj;
     void *old, *mon;
@@ -3474,10 +3474,10 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
             for (i0 = 0; i0 < n; i0++) {
                 old = POKEPARTY_GetMember(main->setup->party[0], i0);
                 mon = POKEPARTY_GetMember(party, i0);
-                move = (u16)POKE_TOOL_GetPartyValue(old, 6, 0);
-                if (!BTL_CALC_GetItemParam(move, 0x10))
-                    POKE_TOOL_SetPartyValue(mon, 6, move);
-                else if (move != POKE_TOOL_GetPartyValue(mon, 6, 0))
+                heldItem = (u16)POKE_TOOL_GetPartyValue(old, 6, 0);
+                if (!BTL_CALC_GetItemParam(heldItem, 0x10))
+                    POKE_TOOL_SetPartyValue(mon, 6, heldItem);
+                else if (heldItem != POKE_TOOL_GetPartyValue(mon, 6, 0))
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
             }
         }

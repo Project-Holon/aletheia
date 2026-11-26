@@ -13,7 +13,7 @@
  *  BTL_SERVER_FLOW_ProcSubstituteMove 0x021C4034 thumb ov093
  *  BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *  BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
- *  BTL_SERVER_FLOW_DispatchMoveFailCheck 0x021C4304 thumb ov093
+ *  BTL_SERVER_FLOW_DispatchUncategorizedMoveEvent 0x021C4304 thumb ov093
  *  BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *  BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
@@ -28,7 +28,7 @@ extern void BTL_SERVER_FLOW_ProcSkillSwap(u8 *, u8 *, u8 *);
 extern int BTL_SERVER_FLOW_ProcSubstituteMove(u8 *, u8 *);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
-extern int BTL_SERVER_FLOW_DispatchMoveFailCheck(u8 *, u16 *, u8 *, u8 *, int *);
+extern int BTL_SERVER_FLOW_DispatchUncategorizedMoveEvent(u8 *, u16 *, u8 *, u8 *, int *);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *p, u16 *b, u8 *a, u8 *c)
@@ -53,7 +53,7 @@ void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *p, u16 *b, u8 *a, u8 *c)
     default:
         s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 9087);
         r = BTL_SERVER_FLOW_GetLockState(p);
-        if (BTL_SERVER_FLOW_DispatchMoveFailCheck(p, b, a, c, &out)) {
+        if (BTL_SERVER_FLOW_DispatchUncategorizedMoveEvent(p, b, a, c, &out)) {
             r = BTL_SERVER_FLOW_GetLockState(p);
             if (r == 2) {
                 f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;

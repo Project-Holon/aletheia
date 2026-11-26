@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_UnawareIgnoreAccuracyStage",
+   "name": "HAND_TOKUSEI_UnawareIgnoreAttackStage",
    "address": "0x021DA808",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_UnawareIgnoreEvasionStage",
+   "name": "HAND_TOKUSEI_UnawareIgnoreDefenseStage",
    "address": "0x021DA820",
    "kind": "game",
    "region": "ov093",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_SERVER_FLOW_QueryEffectBlockedEvent",
+   "name": "BTL_SERVER_FLOW_QueryItemAfterPPUseEvent",
    "address": "0x021C7194",
    "kind": "game",
    "region": "ov093",

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_QueryMoveRedirectEvent
+ * function: BTL_SERVER_FLOW_QueryChargeStartEvent
  * address:  0x021C676C
  * packet:   pkt_ov093_021C676C
  * region:   ov093
@@ -33,7 +33,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int BTL_SERVER_FLOW_QueryMoveRedirectEvent(u8 *p, u8 *a, u8 *d, u16 unused, u8 *out8, u32 *out32)
+int BTL_SERVER_FLOW_QueryChargeStartEvent(u8 *p, u8 *a, u8 *d, u16 unused, u8 *out8, u32 *out32)
 {
     u32 n;
     u32 i;

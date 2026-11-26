@@ -1,5 +1,5 @@
 /*
- * function: HAND_ITEM_MicleBerryCheckOnSwitchIn
+ * function: HAND_ITEM_MicleBerryCheckAfterDamage
  * address:  0x021DDF98
  * packet:   pkt_ov093_021DDF98
  * region:   ov093
@@ -27,7 +27,7 @@ extern int HAND_ITEM_GetParam(int a, int b);
 extern int HAND_ITEM_IsHpLowForTrigger(int a, void *b, int c, unsigned int d);
 extern void HAND_ITEM_PushUseItem(void *a, void *b, int c);
 
-void HAND_ITEM_MicleBerryCheckOnSwitchIn(int a, void *b, int c)
+void HAND_ITEM_MicleBerryCheckAfterDamage(int a, void *b, int c)
 {
     u8 j;
 

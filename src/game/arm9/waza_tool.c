@@ -227,6 +227,12 @@ u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param)
     case 14: return data->sickTurnMin;
     case 15: return data->sickTurnMax;
     case 28: return data->effectSequence;
+    /*
+     * Ids 16..24 are (kind, amount, chance) for each of the three stat changes,
+     * but the index is param - 16 (- 17, - 18), not divided by 3: only 16, 17
+     * and 18 read the right byte. The game asks only for 18 here and reads the
+     * stat changes through WAZA_TOOL_GetRankEffect.
+     */
     case 16: case 19: case 22:
         return data->rankType[param - 16];
     case 17: case 20: case 23:

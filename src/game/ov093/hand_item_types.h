@@ -90,9 +90,9 @@ struct BtlEventFactor;
 
 struct BtlServerFlow;
 
-/* Event ids that the item handler tables of these files use (guesses from the handler bodies). */
+/* Event ids that the item handler tables of these files use (checked against the ROM handler tables). */
 enum {
-    BTL_ITEM_EVENT_AFTER_ACTION_CHECK = 0x02,  /* guess: end of an action; HP and status berries test their trigger */
+    BTL_ITEM_EVENT_AFTER_ACTION_CHECK = 0x02,  /* end of an action: status berries, Micle Berry and White Herb test their trigger */
     BTL_ITEM_EVENT_ACTION_ORDER = 0x0F,        /* may rewrite the action order key */
     BTL_ITEM_EVENT_SPEED = 0x13,
     BTL_ITEM_EVENT_ACCURACY = 0x34,
@@ -103,14 +103,11 @@ enum {
     BTL_ITEM_EVENT_RESIST_NOTICE = 0x44,       /* resist berry: show that it was eaten */
     BTL_ITEM_EVENT_RESIST_DAMAGE = 0x47,       /* resist berry: halve the damage */
     BTL_ITEM_EVENT_HIT_REACTION = 0x4B,        /* the holder was hit */
-    BTL_ITEM_EVENT_DAMAGE_CHECK = 0x55,        /* guess: after damage was dealt */
     BTL_ITEM_EVENT_STAT_DROP_CHECK = 0x57,
-    BTL_ITEM_EVENT_TURN_END_CHECK = 0x58,
-    BTL_ITEM_EVENT_ADD_EFFECT_CHANCE = 0x6C,
+    BTL_ITEM_EVENT_FLINCH_CHANCE = 0x6C,       /* King's Rock */
     BTL_ITEM_EVENT_USE_ITEM = 0x72,            /* the item acts */
     BTL_ITEM_EVENT_USE_ITEM_FORCED = 0x73,     /* the item acts although it was used from outside (Fling) */
-    BTL_ITEM_EVENT_STAT_CHANGE_CHECK = 0x77,
-    BTL_ITEM_EVENT_SWITCH_IN_CHECK = 0x91
+    BTL_ITEM_EVENT_AFTER_DAMAGE_CHECK = 0x91   /* the holder's HP changed (hits, recoil, drain) */
 };
 
 /* More event variable keys (see hand_item_types.h for the first ones). */

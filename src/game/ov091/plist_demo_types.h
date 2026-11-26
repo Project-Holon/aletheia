@@ -25,7 +25,7 @@ enum {
 /* Item record parameter ids (second argument of the item record getter). */
 enum {
     PLIST_ITEM_USABLE_ON_PARTY = 14,
-    PLIST_ITEM_CURES_SLEEP = 18,      /* the five status cures are in item data order (guess) */
+    PLIST_ITEM_CURES_SLEEP = 18,      /* the five status cures are in item data order */
     PLIST_ITEM_CURES_POISON = 19,
     PLIST_ITEM_CURES_BURN = 20,
     PLIST_ITEM_CURES_FREEZE = 21,

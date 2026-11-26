@@ -14,7 +14,7 @@
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_SERVER_FLOW_ConsumeMovePP  0x021C0898  thumb  ov093
  *   BTL_SERVER_FLOW_PushMsgRecord  0x021C99A0  thumb  ov093
- *   BTL_SERVER_FLOW_QueryEffectBlockedEvent  0x021C7194  thumb  ov093
+ *   BTL_SERVER_FLOW_QueryItemAfterPPUseEvent  0x021C7194  thumb  ov093
  *   BTL_SERVER_FLOW_ProcHeldItemActivate  0x021C2128  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -25,7 +25,7 @@ extern int BTL_POKEPARAM_IsFainted(void *p);
 struct Msg;
 extern int BTL_SERVER_FLOW_ConsumeMovePP(u8 *p, u8 *a, u32 b, u32 c);
 extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
-extern int BTL_SERVER_FLOW_QueryEffectBlockedEvent(u8 *p, u8 *a, u32 v);
+extern int BTL_SERVER_FLOW_QueryItemAfterPPUseEvent(u8 *p, u8 *a, u32 v);
 extern int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a);
 
 typedef struct {
@@ -40,7 +40,7 @@ int BTL_SERVER_FLOW_ExecCmdConsumeMovePp(int p, const Ent *e)
     if (BTL_POKEPARAM_IsFainted((void *)a) == 0 || e->f7b) {
         if (BTL_SERVER_FLOW_ConsumeMovePP((u8 *)p, (u8 *)a, e->b6, e->b4)) {
             BTL_SERVER_FLOW_PushMsgRecord((void *)p, (void *)((u8 *)e + 8));
-            if (BTL_SERVER_FLOW_QueryEffectBlockedEvent((u8 *)p, (u8 *)a, e->b6))
+            if (BTL_SERVER_FLOW_QueryItemAfterPPUseEvent((u8 *)p, (u8 *)a, e->b6))
                 BTL_SERVER_FLOW_ProcHeldItemActivate((u8 *)p, (u8 *)a);
         }
         return 1;

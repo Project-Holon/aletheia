@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_SERVER_FLOW_RecordSpecialMoveUse 0x021BEC2C thumb ov093
- *   BTL_SERVER_FLOW_ProcMoveExecuteChecks 0x021BFC08 thumb ov093
+ *   BTL_SERVER_FLOW_ProcChargeMove 0x021BFC08 thumb ov093
  *   func_021BEFEC 0x021BEFEC thumb ov093
  *   func_021BEFFC 0x021BEFFC thumb ov093
  *   INTRO_CMD_AddCommand 0x021BF00C thumb ov093
@@ -81,7 +81,7 @@ extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_SERVER_FLOW_RecordSpecialMoveUse(u8 *p, u8 *a, int c);
-extern int BTL_SERVER_FLOW_ProcMoveExecuteChecks(u8 *, u8 *, u8 *, u16);
+extern int BTL_SERVER_FLOW_ProcChargeMove(u8 *, u8 *, u8 *, u16);
 extern void func_021BEFEC(void *);
 extern void func_021BEFFC(struct S *);
 extern int INTRO_CMD_AddCommand(struct S *);
@@ -133,7 +133,7 @@ int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d)
     struct State *s;
     BTL_SERVER_FLOW_RecordSpecialMoveUse(p, a, key);
     if (WAZA_TOOL_GetFlag(key, 1)) {
-        switch (BTL_SERVER_FLOW_ProcMoveExecuteChecks(p, a, d, key)) {
+        switch (BTL_SERVER_FLOW_ProcChargeMove(p, a, d, key)) {
         case 0: break;
         case 1: return execute;
         case 2: return active;

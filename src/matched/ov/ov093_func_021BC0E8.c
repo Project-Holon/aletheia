@@ -21,7 +21,7 @@
  *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_CalcMovePriority 0x021BC8EC thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
- *   BTL_SERVER_FLOW_QueryActionAllowedEvent 0x021C6350 thumb ov093
+ *   BTL_SERVER_FLOW_QueryActionOrderEvent 0x021C6350 thumb ov093
  *   BTL_SERVER_FLOW_SortActionOrder 0x021BC874 thumb ov093
  */
 typedef unsigned char u8;
@@ -35,7 +35,7 @@ extern u32 BTL_ACTION_GetKind(B *);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_CalcMovePriority(u8 *, u32, u8 *);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
-extern u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(u8 *, u8 *);
+extern u8 BTL_SERVER_FLOW_QueryActionOrderEvent(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_SortActionOrder(E *, u32);
 static inline void set_accuracy(E *e, u16 v)
 {
@@ -78,7 +78,7 @@ void BTL_SERVER_FLOW_ResortActionOrder(u8 *p, E *e, u32 n)
         if (type == 1 || type == 5) {
             lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 1087);
             q = (E *)((u32)e + off);
-            q->c = ((BTL_SERVER_FLOW_QueryActionAllowedEvent(p, q->a) & 7) << 13) | (q->c & 0xffff1fff);
+            q->c = ((BTL_SERVER_FLOW_QueryActionOrderEvent(p, q->a) & 7) << 13) | (q->c & 0xffff1fff);
             BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 1090);
         }
     }

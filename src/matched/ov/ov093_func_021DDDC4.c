@@ -1,5 +1,5 @@
 /*
- * function: HAND_ITEM_HpBerryCheckAtTurnEnd
+ * function: HAND_ITEM_HpBerryCheckOnEntry
  * address: 0x021DDDC4
  * packet: pkt_ov093_021DDDC4
  * region: ov093
@@ -20,7 +20,7 @@ extern void HAND_ITEM_HpBerryCheckAndUse(int, int, int, int, int);
 extern int BTL_EVENT_GetVar(int);
 extern int HAND_ITEM_GetParam(int, int);
 
-void HAND_ITEM_HpBerryCheckAtTurnEnd(int a, void *b, int c)
+void HAND_ITEM_HpBerryCheckOnEntry(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(2)) {
         BTL_SERVER_FLOW_GetPokeParam(b, c);

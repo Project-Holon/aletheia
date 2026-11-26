@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_NotifyTypeImmunityEvent
+ * function: BTL_SERVER_FLOW_NotifyDamageReplacedEvent
  * address:  0x021C6BB8
  * packet:   pkt_ov093_021C6BB8
  * region:   ov093
@@ -25,7 +25,7 @@ extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void BTL_SERVER_FLOW_NotifyTypeImmunityEvent(u8 *p, u8 *a, u8 *b)
+void BTL_SERVER_FLOW_NotifyDamageReplacedEvent(u8 *p, u8 *a, u8 *b)
 {
     BTL_EVENT_PushVarFrame(11928);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));

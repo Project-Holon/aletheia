@@ -1,7 +1,7 @@
 /*
  * file:     hand_side.c
  * unit:     yes
- * function: HAND_SIDE_InitTable, HAND_SIDE_AddFactor, HAND_SIDE_GetStackCount, HAND_SIDE_IsActive, HAND_SIDE_Remove, HAND_SIDE_TickTurns, HAND_SIDE_GetStackCountByFactor, HAND_SIDE_GetHandlersReflect, HAND_SIDE_ReflectOnDamage, HAND_SIDE_GetHandlersLightScreen, HAND_SIDE_LightScreenOnDamage, HAND_SIDE_ScreenReduceDamage, HAND_SIDE_GetHandlersSafeguard, HAND_SIDE_SafeguardBlockSick, HAND_SIDE_SafeguardNoticeBlocked, HAND_SIDE_GetHandlersMist, HAND_SIDE_MistBlockStatDrop, HAND_SIDE_MistNoticeStatDrop, HAND_SIDE_GetHandlersTailwind, HAND_SIDE_TailwindDoubleSpeed, HAND_SIDE_GetHandlersLuckyChant, HAND_SIDE_LuckyChantBlockCritical, HAND_SIDE_GetHandlersStealthRock, HAND_SIDE_StealthRockHurtOnEnter, HAND_SIDE_GetHandlersWideGuard, HAND_SIDE_WideGuardBlockSpreadMove, HAND_SIDE_GetHandlersQuickGuard, HAND_SIDE_QuickGuardBlockPriorityMove, HAND_SIDE_GetHandlersSpikes, HAND_SIDE_SpikesHurtOnEnter, HAND_SIDE_GetHandlersToxicSpikes, HAND_SIDE_ToxicSpikesOnEnter, HAND_SIDE_GetHandlersRainbow, HAND_SIDE_RainbowDoubleEffectChance, HAND_SIDE_RainbowForceCriticalFlag, HAND_SIDE_GetHandlersSeaOfFire, HAND_SIDE_SeaOfFireHurt, HAND_SIDE_GetHandlersSwamp, HAND_SIDE_SwampQuarterSpeed
+ * function: HAND_SIDE_InitTable, HAND_SIDE_AddFactor, HAND_SIDE_GetStackCount, HAND_SIDE_IsActive, HAND_SIDE_Remove, HAND_SIDE_TickTurns, HAND_SIDE_GetStackCountByFactor, HAND_SIDE_GetHandlersReflect, HAND_SIDE_ReflectOnDamage, HAND_SIDE_GetHandlersLightScreen, HAND_SIDE_LightScreenOnDamage, HAND_SIDE_ScreenReduceDamage, HAND_SIDE_GetHandlersSafeguard, HAND_SIDE_SafeguardBlockSick, HAND_SIDE_SafeguardNoticeBlocked, HAND_SIDE_GetHandlersMist, HAND_SIDE_MistBlockStatDrop, HAND_SIDE_MistNoticeStatDrop, HAND_SIDE_GetHandlersTailwind, HAND_SIDE_TailwindDoubleSpeed, HAND_SIDE_GetHandlersLuckyChant, HAND_SIDE_LuckyChantBlockCritical, HAND_SIDE_GetHandlersStealthRock, HAND_SIDE_StealthRockHurtOnEnter, HAND_SIDE_GetHandlersWideGuard, HAND_SIDE_WideGuardBlockSpreadMove, HAND_SIDE_GetHandlersQuickGuard, HAND_SIDE_QuickGuardBlockPriorityMove, HAND_SIDE_GetHandlersSpikes, HAND_SIDE_SpikesHurtOnEnter, HAND_SIDE_GetHandlersToxicSpikes, HAND_SIDE_ToxicSpikesOnEnter, HAND_SIDE_GetHandlersRainbow, HAND_SIDE_RainbowDoubleEffectChance, HAND_SIDE_RainbowDoubleFlinchChance, HAND_SIDE_GetHandlersSeaOfFire, HAND_SIDE_SeaOfFireHurt, HAND_SIDE_GetHandlersSwamp, HAND_SIDE_SwampQuarterSpeed
  * address:  0x06898BFC
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -120,7 +120,7 @@ const BtlEventHandler *HAND_SIDE_GetHandlersToxicSpikes(u32 *handlerCount);
 void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount);
 void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
-void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
+void HAND_SIDE_RainbowDoubleFlinchChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount);
 void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount);
@@ -694,8 +694,8 @@ void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct B
 }
 
 
-/* Second handler of the Rainbow table: sets the critical hit flag for a move of the owning side (guess for the event). */
-void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
+/* Second handler of the Rainbow table, on the flinch chance event: sets its "doubled" flag (key 0x45) for a move of the owning side, as Serene Grace does. */
+void HAND_SIDE_RainbowDoubleFlinchChance(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int side, int *work)
 {
     if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))) {
         BTL_EVENT_OverwriteVar(BTL_EVAR_CRITICAL_FLAG, 1);

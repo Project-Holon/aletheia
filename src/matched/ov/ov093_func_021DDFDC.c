@@ -1,5 +1,5 @@
 /*
- * function: HAND_ITEM_MicleBerryCheckAfterDamage
+ * function: HAND_ITEM_MicleBerryCheckOwnerHp
  * address: 0x021DDFDC
  * packet: pkt_ov093_021DDFDC
  * region: ov093
@@ -16,7 +16,7 @@
 extern int BTL_EVENT_GetVar(int);
 extern void HAND_ITEM_MicleBerryCheckHp(int, void *, int, int);
 
-void HAND_ITEM_MicleBerryCheckAfterDamage(int a, void *b, int c, int d)
+void HAND_ITEM_MicleBerryCheckOwnerHp(int a, void *b, int c, int d)
 {
     if (c == BTL_EVENT_GetVar(2)) HAND_ITEM_MicleBerryCheckHp(a, b, c, d);
 }
