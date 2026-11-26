@@ -166,7 +166,7 @@ enum {
 #define STEPS_PER_EGG_CHECK 0x10
 #define SODATEYA_EGG_MET_PLACE 0xEA62
 #define TM_ITEM_FIRST 0x148
-#define TM_ITEM_LAST 0x272
+#define TM_ITEM_LAST ITEM_LAST
 
 /* Day care work (0x10 bytes, allocated by SODATEYA_Create). */
 typedef struct SodateyaWork {
@@ -253,6 +253,7 @@ extern void * ARC_TOOL_LoadMember(u32, u32, u32);
 #endif
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/file_util.h"
+#include "../arm9/item.h"
 struct BoxPokemon;
 struct Strbuf;
 #include "../arm9/strbuf.h"
