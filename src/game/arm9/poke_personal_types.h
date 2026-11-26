@@ -21,7 +21,7 @@ typedef struct PersonalData {
     u16 evSpeed : 2;
     u16 evSpAttack : 2;
     u16 evSpDefense : 2;
-    u16 yieldFlag : 1;
+    u16 staticSprite : 1;     /* set only on Diglett and Dugtrio: the sprite does not move */
     u16 reserved : 3;
     u16 heldItemCommon;
     u16 heldItemRare;

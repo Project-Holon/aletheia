@@ -449,7 +449,7 @@ int SCRCMD_FadeInField(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 1;
 }
 
-/* Script command: store 1 or 2 when the trainer id has trainer data flag 9 or 11, else 0. */
+/* Script command: store 1 when the trainer heals the party after the battle (record field 9), 2 when it gives an item (field 11), else 0. */
 int SCRCMD_ClassifyTrainer(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 trainerId;

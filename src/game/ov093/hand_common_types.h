@@ -224,7 +224,7 @@ typedef struct HandExPlayEffect {
 #define BTL_SICK_CONFUSION 6
 #define BTL_SICK_INFATUATION 7
 #define BTL_SICK_BIND 8
-#define BTL_SICK_ITEM_BLOCK 15
+#define BTL_SICK_HEAL_BLOCK 15
 #define BTL_SICK_ANY_VOLATILE 0x26
 #define BTL_VALUE_HP 13
 #define BTL_VALUE_MAX_HP 14

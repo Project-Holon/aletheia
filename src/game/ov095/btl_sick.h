@@ -29,8 +29,8 @@ void BTL_SICK_OnAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int 
 void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_ApplyPerishFaint(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, u8 count);
+void BTL_SICK_OnEmbargoAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_OnItemBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont);
 void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, BtlStrParam *message);
 int BTL_SICK_GetAddStringId(u32 sickKind, int hasArg);

@@ -79,13 +79,13 @@ struct TpokeRecord {
 typedef struct {
     u8  type;
     u8  genderClass;
-    u8  pad02;
+    u8  battleType;     /* 0 single, 1 double, 2 triple, 3 rotation */
     u8  count;
     u16 words[4];
     u32 word0C;
-    u8  flag10 : 1;
-    u8  byte11;
-    u16 half12;
+    u8  healAfter : 1;   /* heals the party after the battle (Doctors, Nurses) */
+    u8  moneyRate;
+    u16 giftItem;       /* item given after the battle */
 } TpokeDataRecord;
 
 /* One 7-bit-keyed trainer-kind table row (gTpokeDataTrainerKindTable): val is the
@@ -240,7 +240,7 @@ u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 idx)
         r = rec.genderClass;
         break;
     case 2:
-        r = rec.pad02;
+        r = rec.battleType;
         break;
     case 3:
         r = rec.count;
@@ -255,13 +255,13 @@ u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 idx)
         r = rec.word0C;
         break;
     case 9:
-        r = rec.flag10;
+        r = rec.healAfter;
         break;
     case 10:
-        r = rec.byte11;
+        r = rec.moneyRate;
         break;
     case 11:
-        r = rec.half12;
+        r = rec.giftItem;
         break;
     }
     return r;

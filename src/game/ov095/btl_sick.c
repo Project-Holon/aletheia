@@ -1,7 +1,7 @@
 /*
  * file:     btl_sick.c
  * unit:     yes
- * function: BTL_SICK_ProcAddedOrTurnEnd, BTL_SICK_ProcTurnEnd, BTL_SICK_BuildDamageMessage, BTL_SICK_GetDamageStringId, BTL_SICK_TickPerishSong, BTL_SICK_ApplyLeechSeed, BTL_SICK_RecoverHpIngrain, BTL_SICK_ApplyBindDamage, BTL_SICK_RecoverHpAquaRing, BTL_SICK_EndEncoreWhenPpEmpty, BTL_SICK_OnAdded, BTL_SICK_StartYawnSleep, BTL_SICK_ApplyPerishFaint, BTL_SICK_ShowPerishCount, BTL_SICK_OnHealBlockAdded, BTL_SICK_OnItemBlockAdded, BTL_SICK_GetCureStringId, BTL_SICK_BuildCureMessage, BTL_SICK_GetAddStringId, BTL_SICK_BuildAddMessage, BTL_SICK_OverrideGroundImmunity, BTL_SICK_ForceGroundedByTrap, BTL_SICK_ForceGroundedOrFloating, BTL_SICK_ShowIngrainRoots
+ * function: BTL_SICK_ProcAddedOrTurnEnd, BTL_SICK_ProcTurnEnd, BTL_SICK_BuildDamageMessage, BTL_SICK_GetDamageStringId, BTL_SICK_TickPerishSong, BTL_SICK_ApplyLeechSeed, BTL_SICK_RecoverHpIngrain, BTL_SICK_ApplyBindDamage, BTL_SICK_RecoverHpAquaRing, BTL_SICK_EndEncoreWhenPpEmpty, BTL_SICK_OnAdded, BTL_SICK_StartYawnSleep, BTL_SICK_ApplyPerishFaint, BTL_SICK_ShowPerishCount, BTL_SICK_OnEmbargoAdded, BTL_SICK_OnHealBlockAdded, BTL_SICK_GetCureStringId, BTL_SICK_BuildCureMessage, BTL_SICK_GetAddStringId, BTL_SICK_BuildAddMessage, BTL_SICK_OverrideGroundImmunity, BTL_SICK_ForceGroundedByTrap, BTL_SICK_ForceGroundedOrFloating, BTL_SICK_ShowIngrainRoots
  * address:  0x0689B7A8
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -326,11 +326,11 @@ void BTL_SICK_OnAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int 
     case BTL_SICK_PERISH_SONG:
         BTL_SICK_ApplyPerishFaint(flow, bpp);
         return;
+    case BTL_SICK_EMBARGO:
+        BTL_SICK_OnEmbargoAdded(flow, bpp);
+        return;
     case BTL_SICK_HEAL_BLOCK:
         BTL_SICK_OnHealBlockAdded(flow, bpp);
-        return;
-    case BTL_SICK_ITEM_BLOCK:
-        BTL_SICK_OnItemBlockAdded(flow, bpp);
         return;
     }
 }
@@ -387,7 +387,7 @@ void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *b
 
 
 
-void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
+void BTL_SICK_OnEmbargoAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
 {
     BtlCmdSetSickState *record;
     record = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_SET_SICK_STATE, BTL_POKEPARAM_GetPokeId(bpp));
@@ -398,7 +398,7 @@ void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *
 
 
 
-void BTL_SICK_OnItemBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
+void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
 {
     BtlCmdSetSickState *record;
     record = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_SET_SICK_STATE, BTL_POKEPARAM_GetPokeId(bpp));

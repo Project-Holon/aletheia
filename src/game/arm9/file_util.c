@@ -72,10 +72,10 @@ struct ItemExt {
     u8 spAtkStage : 4;
 
     u8 spDefStage : 4;
-    u8 accStage : 4;
+    u8 speedStage : 4;
 
-    u8 critStage : 4;
-    u8 ppRestoreKind : 2;
+    u8 accuracyStage : 4;
+    u8 critStage : 2;
     u8 ppUp : 1;
     u8 ppUpMax : 1;
 
@@ -622,11 +622,11 @@ int FILE_UTIL_GetItemExtParam(struct ItemExt *ext, u32 prop)
     case 0x21:
         return ext->spDefStage;
     case 0x22:
-        return ext->accStage;
+        return ext->speedStage;
     case 0x23:
-        return ext->critStage;
+        return ext->accuracyStage;
     case 0x24:
-        return ext->ppRestoreKind;
+        return ext->critStage;
     case 0x25:
         return ext->ppUp;
     case 0x26:

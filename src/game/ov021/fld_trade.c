@@ -86,7 +86,7 @@ typedef struct FldTradeData {
     u32 contest[5];         /* 0x38: Pokemon params 0x13..0x17 */
     u32 heldItem;           /* 0x4C */
     u32 otGender;           /* 0x50 */
-    u32 tradeFlag;          /* 0x54 */
+    u32 reserved54;         /* 0x54: 0 in all 13 trades, never read */
     u32 language;           /* 0x58 */
     u32 wantedSpecies;      /* 0x5C */
     u32 wantedGender;       /* 0x60 */

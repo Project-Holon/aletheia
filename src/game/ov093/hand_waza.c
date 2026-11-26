@@ -6340,7 +6340,7 @@ int *HAND_WAZA_GetRestHandlers(int *handlerCount)
 
 /*
  * Rest, event 0x1f: sets the fail reason of the move. Two-key gate: only when this is the user and no reason was set yet.
- * Then, in order: already asleep (generic), a sleep-blocking condition, full HP, and an ability
+ * Then, in order: already asleep (generic), Heal Block, full HP, and an ability
  * (Insomnia or Vital Spirit) that stops sleep. The ability check is the only one that reads the 16-bit value.
  */
 void HAND_WAZA_RestCheckFail(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
@@ -6357,8 +6357,8 @@ void HAND_WAZA_RestCheckFail(struct BtlEventFactor *factor, struct BtlServerFlow
         BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_GENERIC);
         return;
     }
-    if (BTL_POKEPARAM_HasSick(bpp, BTL_SICK_SLEEP_BLOCK) != 0) {
-        BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_SLEEP_BLOCKED);
+    if (BTL_POKEPARAM_HasSick(bpp, BTL_SICK_HEAL_BLOCK) != 0) {
+        BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_HEAL_BLOCKED);
         return;
     }
     if (BTL_POKEPARAM_IsHpFull(bpp) != 0) {

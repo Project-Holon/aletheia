@@ -2063,17 +2063,17 @@ void HAND_ITEM_IapapaBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, v
 
 void HAND_ITEM_RequestUseAtHalfHpChecked(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0) HAND_ITEM_HpBerryCheckAndUse(factor, server, pokeId, 2, 1);
+    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_HEAL_BLOCK) == 0) HAND_ITEM_HpBerryCheckAndUse(factor, server, pokeId, 2, 1);
 }
 
 void HAND_ITEM_RequestUseAtHalfHp(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0) HAND_ITEM_HpBerryCheckAndUse(factor, server, pokeId, 2, 0);
+    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_HEAL_BLOCK) == 0) HAND_ITEM_HpBerryCheckAndUse(factor, server, pokeId, 2, 0);
 }
 
 void HAND_ITEM_RequestUseAtHalfHpDirect(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0 && HAND_ITEM_IsHpAtOrBelowFraction(server, pokeId, 2) != 0) HAND_ITEM_PushUseItem(factor, server, pokeId);
+    if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_HEAL_BLOCK) == 0 && HAND_ITEM_IsHpAtOrBelowFraction(server, pokeId, 2) != 0) HAND_ITEM_PushUseItem(factor, server, pokeId);
 }
 
 /* Flavour-heal berries (Figy, Wiki, Mago, Aguav, Iapapa: items 159-163). natureColumn indexes sNatureStatMods, whose columns are [Atk, SpA, Spe, SpD, Def]: the stat the berry flavour likes. A disliked flavour (-1) confuses. */
@@ -2233,7 +2233,7 @@ void HAND_ITEM_RequestUseOnSuperEffectiveHit(struct BtlEventFactor *factor, void
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE_FLAG) == 0
         && BTL_EVENT_GetVar(BTL_EVAR_TYPE_AFFINITY) > BTL_AFFINITY_SUPER_EFFECTIVE_ABOVE
-        && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0)
+        && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_HEAL_BLOCK) == 0)
         HAND_ITEM_PushUseItem(factor, server, pokeId);
 }
 

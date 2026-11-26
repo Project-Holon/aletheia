@@ -1284,7 +1284,7 @@ struct GameEvent *FIELD_EVENT_CHECK_CheckStepEvents(FieldEventInput *input, Fiel
 }
 
 /*
- * Returns 2 when a non-egg party member holds item 0x31 or 0x28, else 1.
+ * Returns 2 when a non-egg party member has the ability Flame Body (0x31) or Magma Armor (0x28), else 1.
  */
 int FIELD_EVENT_CHECK_GetEggCycleDecrement(void *party)
 {
@@ -1293,8 +1293,8 @@ int FIELD_EVENT_CHECK_GetEggCycleDecrement(void *party)
 
     for (index = 0; index < memberCount; index++) {
         void *member = POKEPARTY_GetMember(party, index);
-        u32 heldItem = POKE_TOOL_GetPartyValue(member, 0xA, 0);
-        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0 && (heldItem == 0x31 || heldItem == 0x28))
+        u32 ability = POKE_TOOL_GetPartyValue(member, 0xA, 0);
+        if (POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0 && (ability == 0x31 || ability == 0x28))
             return 2;
     }
     return 1;

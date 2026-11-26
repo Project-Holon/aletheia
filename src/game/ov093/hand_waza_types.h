@@ -576,7 +576,7 @@ struct BtlPokeParam;
 
 #define BTL_PROTECT_STREAK_MAX 9
 
-#define BTL_FAIL_REASON_SLEEP_BLOCKED 0x0D     /* guess */
+#define BTL_FAIL_REASON_HEAL_BLOCKED 0x0D     /* "can't use ... because of Heal Block!" */
 
 #define BTL_FAIL_REASON_HP_FULL 0x0E
 
@@ -596,7 +596,6 @@ struct BtlPokeParam;
 /* Status conditions ("sick" kinds). */
 
 
-#define BTL_SICK_SLEEP_BLOCK 0x0F              /* guess: a condition that stops the user from falling asleep */
 
 #define BTL_SICK_ENCORE 0x17
 

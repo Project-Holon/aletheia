@@ -23348,8 +23348,8 @@ ov095	0x0689BF3C	BTL_SICK_OnAdded	thumb	156	src/game/ov095/btl_sick.c	no
 ov095	0x0689BFF8	BTL_SICK_StartYawnSleep	thumb	80	src/game/ov095/btl_sick.c	no
 ov095	0x0689C0A8	BTL_SICK_ApplyPerishFaint	thumb	42	src/game/ov095/btl_sick.c	no
 ov095	0x0689C104	BTL_SICK_ShowPerishCount	thumb	64	src/game/ov095/btl_sick.c	no
-ov095	0x0689C1A4	BTL_SICK_OnHealBlockAdded	thumb	46	src/game/ov095/btl_sick.c	no
-ov095	0x0689C214	BTL_SICK_OnItemBlockAdded	thumb	46	src/game/ov095/btl_sick.c	no
+ov095	0x0689C1A4	BTL_SICK_OnEmbargoAdded	thumb	46	src/game/ov095/btl_sick.c	no
+ov095	0x0689C214	BTL_SICK_OnHealBlockAdded	thumb	46	src/game/ov095/btl_sick.c	no
 ov095	0x0689C284	BTL_SICK_GetCureStringId	thumb	208	src/game/ov095/btl_sick.c	no
 ov095	0x0689C364	BTL_SICK_BuildCureMessage	thumb	94	src/game/ov095/btl_sick.c	no
 ov095	0x0689C424	BTL_SICK_GetAddStringId	thumb	64	src/game/ov095/btl_sick.c	no

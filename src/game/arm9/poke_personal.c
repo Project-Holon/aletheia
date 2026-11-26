@@ -266,7 +266,7 @@ u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field)
     case 13: return data->evSpeed;
     case 14: return data->evSpAttack;
     case 15: return data->evSpDefense;
-    case 16: return data->yieldFlag;
+    case 16: return data->staticSprite;
     case 17: return data->heldItemCommon;
     case 18: return data->heldItemRare;
     case 19: return data->heldItemDream;
