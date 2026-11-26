@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_ReleaseBindingTarget
+ * function: BTL_SERVER_FLOW_SkyDropReleaseTarget
  * address:  0x021BFF60
  * packet:   pkt_ov093_021BFF60
  * region:   ov093
@@ -43,7 +43,7 @@ extern void BTL_SERVER_FLOW_SetPokeCounter(u8 *p, u8 *a, int i, u8 v);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 
-void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *p, u8 *a, int z)
+void BTL_SERVER_FLOW_SkyDropReleaseTarget(u8 *p, u8 *a, int z)
 {
     u8 k;
     int n;

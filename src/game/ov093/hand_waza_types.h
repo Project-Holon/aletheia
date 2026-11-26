@@ -102,7 +102,7 @@
 
 #define BTL_SICK_CURSE 10
 
-#define BTL_SICK_BLOCKS_REDIRECT 0x21 /* guess: a holder with this status is not redirected to */
+#define BTL_SICK_SKY_DROP 0x21 /* held in the air by Sky Drop (BTL_SERVER_FLOW_SkyDropLiftTarget) */
 
 /* Stat ids of the rank commands. */
 
@@ -348,7 +348,7 @@ struct BtlServerFlow;
 
 /* Condition (sick) ids as the move handlers use them. */
 
-#define BTL_SICK_MOVE_LOCK 0x19 /* locked into the move: Thrash, Uproar, Rollout */
+#define BTL_SICK_MOVE_LOCK 0x19 /* locked into the move: Thrash, Uproar, Rollout, Bide */
 
 #define BTL_SICK_AQUA_RING 0x23
 
@@ -460,7 +460,6 @@ enum {
 /* Status condition and flag ids. */
 
 
-#define BTL_SICK_SNATCH_BLOCK 0x21     /* the user already holds this condition (guess) */
 
 #define BTL_CONT_FLAG_FLYING 3
 
@@ -599,7 +598,6 @@ struct BtlPokeParam;
 
 #define BTL_SICK_ENCORE 0x17
 
-#define BTL_SICK_BIDE 0x19                     /* Bide is storing energy */
 
 /* Stat stage ids. */
 
@@ -1201,7 +1199,7 @@ struct BtlPokeParam;
 #define HAND_WAZA_EVAR_FIXED_DAMAGE 0x37
 #define HAND_WAZA_EVAR_ATTACK_STAT_SOURCE_ID 0x3b /* Pokemon whose Attack the damage formula reads */
 #define HAND_WAZA_EVAR_DEFENSE_STAT_KIND 0x3c     /* 0xb when the formula reads the special defense stat (guess) */
-#define HAND_WAZA_EVAR_DEFENSE_STAT_STEP 0x3d     /* index step toward the other defense stat (guess) */
+#define HAND_WAZA_EVAR_DEFENSE_STAT_STEP 0x3d     /* index step toward the other defense stat */
 #define HAND_WAZA_EVAR_IGNORE_EVASION_FLAG 0x4b   /* same slot as the immunity override flag */
 #define HAND_WAZA_EVAR_IGNORE_STAGES_FLAG 0x51    /* same slot as the force floating flag */
 #define HAND_WAZA_EVAR_TARGET_ID 6                /* first target of the move */
@@ -1210,7 +1208,6 @@ struct BtlPokeParam;
 #define HAND_WAZA_SICK_MAGNET_RISE 0x1e
 #define HAND_WAZA_SICK_SMACKED_DOWN 0x1f
 #define HAND_WAZA_SICK_TELEKINESIS 0x20
-#define HAND_WAZA_SICK_GROUND_GUARD 0x21 /* guess */
 
 /* Stat stage kinds of the rank change record (same numbering as the stat stage value ids of the Pokemon getter). */
 #define HAND_WAZA_RANK_ATTACK 1
@@ -1316,7 +1313,7 @@ struct BtlTurnRecord;
 #define BTL_EVAR_EFFECTIVE_MOVE_ID 0x13      /* move id the flow shows and animates (a Pledge combination replaces it) */
 #define BTL_EVAR_WAZA_POWER 0x30
 #define BTL_EVAR_MESSAGE 0x3F                /* pointer to the message the event is about to show */
-#define BTL_EVAR_REFLECTED_FLAG 0x4F         /* guess: the move was reflected or absorbed on the way */
+#define BTL_EVAR_TARGET_PROTECTED_FLAG 0x4F  /* Sky Drop sets it when the target protected itself */
 #define BTL_EVAR_PREVENT_FLAG BTL_EVAR_FORCE_GROUNDED_FLAG
 #define BTL_EVAR_GENERIC_FLAG BTL_EVAR_FORCE_FLOATING_FLAG
 #define BTL_EVAR_SKIP_CHARGE_FLAG BTL_EVAR_FORCE_FLOATING_FLAG

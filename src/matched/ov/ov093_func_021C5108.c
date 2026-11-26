@@ -11,7 +11,7 @@
  * symbols:
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_FLOW_DispatchPokeLeaveEvent 0x021C51D0 thumb ov093
- *   BTL_SERVER_FLOW_ReleaseBindingTarget 0x021BFF60 thumb ov093
+ *   BTL_SERVER_FLOW_SkyDropReleaseTarget 0x021BFF60 thumb ov093
  *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   HAND_ITEM_RemoveUnforcedFactors 0x021DCF24 thumb ov093
  *   HAND_TOKUSEI_DisableAbilityHandlers 0x021D8538 thumb ov093
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_FLOW_DispatchPokeLeaveEvent(u8 *, u8 *);
-extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *, u8 *, int);
+extern void BTL_SERVER_FLOW_SkyDropReleaseTarget(u8 *, u8 *, int);
 extern void HAND_TOKUSEI_RemoveAbilityHandlers(void *p);
 extern void HAND_ITEM_RemoveUnforcedFactors(u8 *);
 extern void HAND_TOKUSEI_DisableAbilityHandlers(void *p);
@@ -55,7 +55,7 @@ void BTL_SERVER_FLOW_ProcPokeLeaveField(u8 *p, u8 *a, int b)
     u8 *cur;
     int k = BTL_POKEPARAM_GetPokeId(a);
     BTL_SERVER_FLOW_DispatchPokeLeaveEvent(p, a);
-    BTL_SERVER_FLOW_ReleaseBindingTarget(p, a, 0);
+    BTL_SERVER_FLOW_SkyDropReleaseTarget(p, a, 0);
     if (b == 0) {
         HAND_TOKUSEI_RemoveAbilityHandlers(a);
         HAND_ITEM_RemoveUnforcedFactors(a);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_SERVER_FLOW_ProcMoveReflectOrAbsorbById",
+   "name": "BTL_SERVER_FLOW_SkyDropLiftTargetById",
    "address": "0x021C846C",
    "kind": "game",
    "region": "ov093",

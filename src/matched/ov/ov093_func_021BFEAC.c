@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_ProcMoveReflectOrAbsorb
+ * function: BTL_SERVER_FLOW_SkyDropLiftTarget
  * address:  0x021BFEAC
  * packet:   pkt_ov093_021BFEAC
  * region:   ov093
@@ -47,7 +47,7 @@ extern Word BTL_SICKCONT_MakeKind3(u32 a);
 extern void BTL_SERVER_FLOW_ProcSickAdded(u8 *p, u8 *a, u8 *b, int k, Word e, int f, int g, int h);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
-int BTL_SERVER_FLOW_ProcMoveReflectOrAbsorb(u8 *p, u8 *a, u8 *b, int *out)
+int BTL_SERVER_FLOW_SkyDropLiftTarget(u8 *p, u8 *a, u8 *b, int *out)
 {
     u8 n;
     Word t;

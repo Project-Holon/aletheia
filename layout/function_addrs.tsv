@@ -19754,8 +19754,8 @@ ov093	0x021BFBD0	BTL_SERVER_FLOW_PushPendingHpRecovery	thumb	54	src/game/ov093/b
 ov093	0x021BFC08	BTL_SERVER_FLOW_ProcMoveExecuteChecks	thumb	284	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BFD24	BTL_SERVER_FLOW_ProcMoveUseDecide	thumb	268	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BFE60	BTL_SERVER_FLOW_ClearMoveLockSicks	thumb	74	src/game/ov093/btl_server_flow.c	no
-ov093	0x021BFEAC	BTL_SERVER_FLOW_ProcMoveReflectOrAbsorb	thumb	180	src/game/ov093/btl_server_flow.c	no
-ov093	0x021BFF60	BTL_SERVER_FLOW_ReleaseBindingTarget	thumb	172	src/game/ov093/btl_server_flow.c	no
+ov093	0x021BFEAC	BTL_SERVER_FLOW_SkyDropLiftTarget	thumb	180	src/game/ov093/btl_server_flow.c	no
+ov093	0x021BFF60	BTL_SERVER_FLOW_SkyDropReleaseTarget	thumb	172	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C001C	BTL_SERVER_FLOW_CheckMoveExecuteFail	thumb	560	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C024C	BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent	thumb	40	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C0274	BTL_SERVER_FLOW_QueryStatusSkipEvent	thumb	88	src/game/ov093/btl_server_flow.c	no
@@ -20061,8 +20061,8 @@ ov093	0x021C83DC	BTL_SERVER_FLOW_SetCurTurnStateFlag	thumb	12	src/game/ov093/btl
 ov093	0x021C83E8	BTL_SERVER_FLOW_TryAddMainCounter	thumb	32	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C8408	BTL_SERVER_FLOW_TryFinishMainCounter	thumb	44	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C8434	BTL_SERVER_FLOW_PushMoveQueueWithPos	thumb	40	src/game/ov093/btl_server_flow.c	no
-ov093	0x021C846C	BTL_SERVER_FLOW_ProcMoveReflectOrAbsorbById	thumb	38	src/game/ov093/btl_server_flow.c	no
-ov093	0x021C8494	BTL_SERVER_FLOW_ReleaseBindingTargetById	thumb	22	src/game/ov093/btl_server_flow.c	no
+ov093	0x021C846C	BTL_SERVER_FLOW_SkyDropLiftTargetById	thumb	38	src/game/ov093/btl_server_flow.c	no
+ov093	0x021C8494	BTL_SERVER_FLOW_SkyDropReleaseTargetById	thumb	22	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C84AC	BTL_SERVER_FLOW_ProcHeldItemActivateWithResult	thumb	36	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C84D0	BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk	thumb	8	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C84D8	BTL_SERVER_FLOW_GetBattleResult	thumb	8	src/game/ov093/btl_server_flow.c	no
@@ -23222,9 +23222,9 @@ ov095	0x06898104	HAND_FIELD_GetHandlersWaterSport	thumb	12	src/game/ov095/hand_f
 ov095	0x06898110	HAND_FIELD_WaterSportWeakenFire	thumb	28	src/game/ov095/hand_field.c	no
 ov095	0x0689814C	HAND_FIELD_GetHandlersMudSport	thumb	12	src/game/ov095/hand_field.c	no
 ov095	0x06898158	HAND_FIELD_MudSportWeakenElectric	thumb	28	src/game/ov095/hand_field.c	no
-ov095	0x06898194	HAND_FIELD_GetHandlersUseCounter	thumb	12	src/game/ov095/hand_field.c	no
-ov095	0x068981A0	HAND_FIELD_UseCounterIncrement	thumb	20	src/game/ov095/hand_field.c	no
-ov095	0x068981D4	HAND_FIELD_GetHandlersWonderRoom	thumb	12	src/game/ov095/hand_field.c	no
+ov095	0x06898194	HAND_FIELD_GetHandlersWonderRoom	thumb	12	src/game/ov095/hand_field.c	no
+ov095	0x068981A0	HAND_FIELD_WonderRoomSwapDefenseStat	thumb	20	src/game/ov095/hand_field.c	no
+ov095	0x068981D4	HAND_FIELD_GetHandlersImprison	thumb	12	src/game/ov095/hand_field.c	no
 ov095	0x068981E0	HAND_FIELD_GetHandlersMagicRoom	thumb	12	src/game/ov095/hand_field.c	no
 ov095	0x068981EC	HAND_FIELD_RoomMarkerNoop	thumb	2	src/game/ov095/hand_field.c	no
 ov095	0x068981F0	HAND_POS_AddFactor	thumb	140	src/game/ov095/hand_pos.c	no

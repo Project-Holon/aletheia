@@ -23,9 +23,9 @@ const BtlEventHandler *HAND_FIELD_GetHandlersWaterSport(u32 *handlerCount);
 void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersMudSport(u32 *handlerCount);
 void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
-const BtlEventHandler *HAND_FIELD_GetHandlersUseCounter(u32 *handlerCount);
-void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersWonderRoom(u32 *handlerCount);
+void HAND_FIELD_WonderRoomSwapDefenseStat(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
+const BtlEventHandler *HAND_FIELD_GetHandlersImprison(u32 *handlerCount);
 const BtlEventHandler *HAND_FIELD_GetHandlersMagicRoom(u32 *handlerCount);
 void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 /* END mkheaders: generated region */

@@ -368,7 +368,7 @@ enum BtlEventVarKey {
     BTL_EVAR_RESULT_FLAG = 0x51,  /* boolean answer of many query events; move end passes the succeeded flag here */
     BTL_EVAR_SKIP_CHARGE_FLAG = BTL_EVAR_FORCE_FLOATING_FLAG,
     BTL_EVAR_SPEED_PENALTY_FLAG = BTL_EVAR_FORCE_FLOATING_FLAG,
-    BTL_EVAR_USE_COUNT = 0x3D,  /* use counter */
+    BTL_EVAR_DEFENSE_STAT_STEP = 0x3D,  /* steps toward the other defense stat (Psyshock, Wonder Room) */
     BTL_EVAR_REVERSE_SPEED_FLAG = 0x4A,  /* reverse the speed order (Trick Room) */
 };
 

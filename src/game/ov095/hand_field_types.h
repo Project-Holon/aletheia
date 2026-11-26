@@ -26,14 +26,13 @@ struct BtlPokeParam;
 
 /* Event variable keys used here that the shared enum does not name yet. */
 #define BTL_EVAR_REVERSE_SPEED_ORDER_FLAG 0x4A /* Trick Room: sort by slowest first */
-#define BTL_EVAR_USE_COUNTER 0x3D              /* counter that the field effect at slot 6 increments */
 
 /* Event ids that the handler tables of these effects answer (names from the handler bodies; guesses). */
 enum {
     HAND_EVENT_SPEED = 0x13,                 /* speed comparison for the action order */
     HAND_EVENT_ACCURACY = 0x34,              /* hit chance calculation */
     HAND_EVENT_MOVE_POWER = 0x38,            /* move power calculation */
-    HAND_EVENT_USE_COUNTER_STEP = 0x3A,      /* guess: once per action, the use counter advances */
+    HAND_EVENT_CALC_DEFENSE_STAT = 0x3A,     /* BTL_SERVER_FLOW_CalcDefenseStat picks the defense stat */
     HAND_EVENT_GROUND_IMMUNITY = 0x3E,       /* may the move hit through a ground immunity */
     HAND_EVENT_DAMAGE_RATIO = 0x47,          /* final damage ratio (screens, resist berries) */
     HAND_EVENT_MEMBER_ENTER = 0x55,          /* a Pokemon enters the field */
@@ -65,11 +64,11 @@ enum BtlFieldEffect {
     BTL_FLDEFF_WEATHER = 0,    /* guess: presence marker only, the handler list is empty */
     BTL_FLDEFF_TRICK_ROOM = 1,
     BTL_FLDEFF_GRAVITY = 2,
-    BTL_FLDEFF_WONDER_ROOM = 3, /* guess: presence marker only */
+    BTL_FLDEFF_IMPRISON = 3,    /* presence marker only (ov093 BTL_FIELD_EFFECT_IMPRISON) */
     BTL_FLDEFF_WATER_SPORT = 4,
     BTL_FLDEFF_MUD_SPORT = 5,
-    BTL_FLDEFF_USE_COUNTER = 6, /* guess: counts uses with event variable 0x3D */
-    BTL_FLDEFF_MAGIC_ROOM = 7,  /* guess: presence marker only */
+    BTL_FLDEFF_WONDER_ROOM = 6, /* steps the defense stat choice (Defense and Sp. Def swap) */
+    BTL_FLDEFF_MAGIC_ROOM = 7,  /* presence marker only (ov093 HAND_WAZA_FIELD_MAGIC_ROOM) */
     BTL_FLDEFF_COUNT = 8
 };
 

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: HAND_FIELD_GetHandlersWonderRoom, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
+ * function: HAND_FIELD_GetHandlersImprison, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
  * address: 0x068981D4
  * packet: pkt_ov095_068981D4
  * region: ov095
@@ -10,15 +10,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   gHandFieldWonderRoomHandlers 0x0689D618 data a4
+ *   gHandFieldImprisonHandlers 0x0689D618 data a4
  *   gHandFieldMagicRoomHandlers 0x0689D608 data a4
  */
-extern unsigned gHandFieldWonderRoomHandlers[];
+extern unsigned gHandFieldImprisonHandlers[];
 extern unsigned gHandFieldMagicRoomHandlers[];
-unsigned *HAND_FIELD_GetHandlersWonderRoom(unsigned *p)
+unsigned *HAND_FIELD_GetHandlersImprison(unsigned *p)
 {
     *p = 1;
-    return gHandFieldWonderRoomHandlers;
+    return gHandFieldImprisonHandlers;
 }
 unsigned *HAND_FIELD_GetHandlersMagicRoom(unsigned *p)
 {

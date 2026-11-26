@@ -1,7 +1,7 @@
 /*
  * file:     hand_field.c
  * unit:     yes
- * function: HAND_FIELD_AddFactor, HAND_FIELD_RemoveFactor, HAND_FIELD_GetHandlersWeatherMarker, HAND_FIELD_WeatherMarkerNoop, HAND_FIELD_GetHandlersTrickRoom, HAND_FIELD_TrickRoomReverseSpeed, HAND_FIELD_GetHandlersGravity, HAND_FIELD_GravityBoostAccuracy, HAND_FIELD_GravityOverrideGroundImmunity, HAND_FIELD_GetHandlersWaterSport, HAND_FIELD_WaterSportWeakenFire, HAND_FIELD_GetHandlersMudSport, HAND_FIELD_MudSportWeakenElectric, HAND_FIELD_GetHandlersUseCounter, HAND_FIELD_UseCounterIncrement, HAND_FIELD_GetHandlersWonderRoom, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
+ * function: HAND_FIELD_AddFactor, HAND_FIELD_RemoveFactor, HAND_FIELD_GetHandlersWeatherMarker, HAND_FIELD_WeatherMarkerNoop, HAND_FIELD_GetHandlersTrickRoom, HAND_FIELD_TrickRoomReverseSpeed, HAND_FIELD_GetHandlersGravity, HAND_FIELD_GravityBoostAccuracy, HAND_FIELD_GravityOverrideGroundImmunity, HAND_FIELD_GetHandlersWaterSport, HAND_FIELD_WaterSportWeakenFire, HAND_FIELD_GetHandlersMudSport, HAND_FIELD_MudSportWeakenElectric, HAND_FIELD_GetHandlersWonderRoom, HAND_FIELD_WonderRoomSwapDefenseStat, HAND_FIELD_GetHandlersImprison, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
  * address:  0x06898020
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -24,8 +24,8 @@
  *   gHandFieldGravityHandlers     0x0689D640  data   ov095  a4
  *   gHandFieldWaterSportHandlers 0x0689D620 data a4
  *   gHandFieldMudSportHandlers 0x0689D610 data a4
- *   gHandFieldUseCounterHandlers 0x0689D628 data a4
- *   gHandFieldWonderRoomHandlers 0x0689D618 data a4
+ *   gHandFieldWonderRoomHandlers 0x0689D628 data a4
+ *   gHandFieldImprisonHandlers 0x0689D618 data a4
  *   gHandFieldMagicRoomHandlers 0x0689D608 data a4
  */
 #ifdef __MWERKS__
@@ -51,9 +51,9 @@ const BtlEventHandler *HAND_FIELD_GetHandlersWaterSport(u32 *handlerCount);
 void HAND_FIELD_WaterSportWeakenFire(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersMudSport(u32 *handlerCount);
 void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
-const BtlEventHandler *HAND_FIELD_GetHandlersUseCounter(u32 *handlerCount);
-void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 const BtlEventHandler *HAND_FIELD_GetHandlersWonderRoom(u32 *handlerCount);
+void HAND_FIELD_WonderRoomSwapDefenseStat(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
+const BtlEventHandler *HAND_FIELD_GetHandlersImprison(u32 *handlerCount);
 const BtlEventHandler *HAND_FIELD_GetHandlersMagicRoom(u32 *handlerCount);
 void HAND_FIELD_RoomMarkerNoop(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work);
 extern const HandEffectEntry gHandFieldEffectTable[BTL_FLDEFF_COUNT];
@@ -62,8 +62,8 @@ extern const BtlEventHandler gHandFieldTrickRoomHandlers[1];
 extern const BtlEventHandler gHandFieldGravityHandlers[2];
 extern const BtlEventHandler gHandFieldWaterSportHandlers[1];
 extern const BtlEventHandler gHandFieldMudSportHandlers[1];
-extern const BtlEventHandler gHandFieldUseCounterHandlers[1];
 extern const BtlEventHandler gHandFieldWonderRoomHandlers[1];
+extern const BtlEventHandler gHandFieldImprisonHandlers[1];
 extern const BtlEventHandler gHandFieldMagicRoomHandlers[1];
 
 
@@ -185,24 +185,7 @@ void HAND_FIELD_MudSportWeakenElectric(struct BtlEventFactor *factor, struct Btl
 }
 
 
-/* Handler list of the use counter field effect. */
-const BtlEventHandler *HAND_FIELD_GetHandlersUseCounter(u32 *handlerCount)
-{
-    *handlerCount = 1;
-    return gHandFieldUseCounterHandlers;
-}
-
-
-/* Adds one to the use counter event variable. */
-void HAND_FIELD_UseCounterIncrement(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
-{
-    int count;
-    count = BTL_EVENT_GetVar(BTL_EVAR_USE_COUNTER);
-    BTL_EVENT_OverwriteVar(BTL_EVAR_USE_COUNTER, count + 1);
-}
-
-
-/* Handler list of the Wonder Room marker field effect (guess): one handler that does nothing. */
+/* Handler list of Wonder Room: one entry on the defense stat event. */
 const BtlEventHandler *HAND_FIELD_GetHandlersWonderRoom(u32 *handlerCount)
 {
     *handlerCount = 1;
@@ -210,7 +193,24 @@ const BtlEventHandler *HAND_FIELD_GetHandlersWonderRoom(u32 *handlerCount)
 }
 
 
-/* Handler list of the Magic Room marker field effect (guess): one handler that does nothing. */
+/* Wonder Room: steps the defense stat choice by one, so Defense and Sp. Def swap. */
+void HAND_FIELD_WonderRoomSwapDefenseStat(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, void *work)
+{
+    int count;
+    count = BTL_EVENT_GetVar(BTL_EVAR_DEFENSE_STAT_STEP);
+    BTL_EVENT_OverwriteVar(BTL_EVAR_DEFENSE_STAT_STEP, count + 1);
+}
+
+
+/* Handler list of Imprison: one handler that does nothing; the effect only has to exist. */
+const BtlEventHandler *HAND_FIELD_GetHandlersImprison(u32 *handlerCount)
+{
+    *handlerCount = 1;
+    return gHandFieldImprisonHandlers;
+}
+
+
+/* Handler list of Magic Room: one handler that does nothing; the effect only has to exist. */
 const BtlEventHandler *HAND_FIELD_GetHandlersMagicRoom(u32 *handlerCount)
 {
     *handlerCount = 1;

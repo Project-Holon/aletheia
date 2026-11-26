@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
  *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   BTL_SERVER_FLOW_ReleaseBindingTargetById  0x021C8494  thumb  ov093
+ *   BTL_SERVER_FLOW_SkyDropReleaseTargetById  0x021C8494  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -24,7 +24,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern unsigned char BTL_POKEPARAM_GetCounter(unsigned char *base, int idx);
 extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern void BTL_SERVER_FLOW_ReleaseBindingTargetById(u8 *p, int i);
+extern void BTL_SERVER_FLOW_SkyDropReleaseTargetById(u8 *p, int i);
 
 void HAND_WAZA_SkyDropReleaseTarget(int a, void *b, int c)
 {
@@ -37,6 +37,6 @@ void HAND_WAZA_SkyDropReleaseTarget(int a, void *b, int c)
             t = v - 1;
         if (t == 0x1f || BTL_SERVER_FLOW_GetFrontPosOfPoke(b, t) == 6)
             BTL_EVENT_OverwriteVar(0x41, 1);
-        BTL_SERVER_FLOW_ReleaseBindingTargetById(b, c);
+        BTL_SERVER_FLOW_SkyDropReleaseTargetById(b, c);
     }
 }

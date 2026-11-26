@@ -59,7 +59,7 @@
  *   BTL_SERVER_FLOW_SetPokeCounter 0x021C0780 thumb ov093
  *   BTL_SERVER_FLOW_ClearMoveLockSicks 0x021BFE60 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
- *   BTL_SERVER_FLOW_ReleaseBindingTarget 0x021BFF60 thumb ov093
+ *   BTL_SERVER_FLOW_SkyDropReleaseTarget 0x021BFF60 thumb ov093
  *   BTL_SERVER_FLOW_NotifyMoveEnd 0x021BE994 thumb ov093
  *   HAND_WAZA_RemoveMoveHandlerUnlessKept 0x021E0394 thumb ov093
  *   BTL_SERVER_FLOW_ProcDeferredMoves 0x021BE400 thumb ov093
@@ -129,7 +129,7 @@ extern u8 BTL_POKEPARAM_GetCounter(u8 *, int);
 extern void BTL_SERVER_FLOW_SetPokeCounter(u8 *, u8 *, int, u8);
 extern void BTL_SERVER_FLOW_ClearMoveLockSicks(u8 *, u8 *);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
-extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *, u8 *, int);
+extern void BTL_SERVER_FLOW_SkyDropReleaseTarget(u8 *, u8 *, int);
 extern void BTL_SERVER_FLOW_NotifyMoveEnd(u8 *, u8 *, u32, u32);
 extern void HAND_WAZA_RemoveMoveHandlerUnlessKept(u8 *, int);
 extern void BTL_SERVER_FLOW_ProcDeferredMoves(u8 *, u16);
@@ -259,7 +259,7 @@ end:
     if (prev != 0x10 && BTL_POKEPARAM_GetSemiInvulnerableFlag((struct UtilWork *)a) != 0x10) BTL_SERVER_FLOW_ClearMoveLockSicks(p, a);
     if (BTL_POKEPARAM_TestTurnFlag((struct UtilWork *)a, 0xb) != 0) {
         BTL_SERVER_CMD_Push(*(void **)(p + 0xc), 0x31, BTL_POKEPARAM_GetPokeId(a), 0);
-        BTL_SERVER_FLOW_ReleaseBindingTarget(p, a, 0);
+        BTL_SERVER_FLOW_SkyDropReleaseTarget(p, a, 0);
     }
     BTL_SERVER_FLOW_NotifyMoveEnd(p, a, id2, o.c0);
     if (o.c2 != 0) HAND_WAZA_RemoveMoveHandlerUnlessKept(a, o.c2);

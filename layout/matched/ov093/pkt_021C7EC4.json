@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_SERVER_FLOW_ReleaseBindingTargetById",
+   "name": "BTL_SERVER_FLOW_SkyDropReleaseTargetById",
    "address": "0x021C8494",
    "kind": "game",
    "region": "ov093",

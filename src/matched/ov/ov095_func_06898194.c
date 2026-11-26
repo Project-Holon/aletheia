@@ -1,5 +1,5 @@
 /*
- * function: HAND_FIELD_GetHandlersUseCounter
+ * function: HAND_FIELD_GetHandlersWonderRoom
  * address: 0x06898194
  * packet: pkt_ov095_06898194
  * region: ov095
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   gHandFieldUseCounterHandlers 0x0689D628 data a4
+ *   gHandFieldWonderRoomHandlers 0x0689D628 data a4
  */
-extern unsigned gHandFieldUseCounterHandlers[];
-unsigned *HAND_FIELD_GetHandlersUseCounter(unsigned *p)
+extern unsigned gHandFieldWonderRoomHandlers[];
+unsigned *HAND_FIELD_GetHandlersWonderRoom(unsigned *p)
 {
     *p = 1;
-    return gHandFieldUseCounterHandlers;
+    return gHandFieldWonderRoomHandlers;
 }

@@ -407,8 +407,8 @@
  *   BTL_MAIN_IsBackRowPos  0x021B99F0  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeIdAtFieldIndex  0x021C8020  thumb  ov093
  *   gTelekinesisHandlers     0x021F29A8  data   ov093  a4
- *   BTL_SERVER_FLOW_ProcMoveReflectOrAbsorbById  0x021C846C  thumb  ov093
- *   BTL_SERVER_FLOW_ReleaseBindingTargetById  0x021C8494  thumb  ov093
+ *   BTL_SERVER_FLOW_SkyDropLiftTargetById  0x021C846C  thumb  ov093
+ *   BTL_SERVER_FLOW_SkyDropReleaseTargetById  0x021C8494  thumb  ov093
  *   gSkyDropHandlers     0x021F2F98  data   ov093  a4
  *   gRelicSongHandlers     0x021F281C  data   ov093  a4
  *   gForesightOdorSleuthHandlers     0x021F2898  data   ov093  a4
@@ -2072,7 +2072,7 @@ void HAND_WAZA_FollowMeRedirectTarget(struct BtlEventFactor *factor, struct BtlS
         return;
     if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID) == BTL_MOVE_SKY_DROP)
         return;
-    if (BTL_POKEPARAM_HasSick(user, BTL_SICK_BLOCKS_REDIRECT) != 0)
+    if (BTL_POKEPARAM_HasSick(user, BTL_SICK_SKY_DROP) != 0)
         return;
     if (BTL_SERVER_FLOW_TestStateFlagBit0((unsigned char *)flow) != 0)
         return;
@@ -5382,7 +5382,7 @@ void HAND_WAZA_SnatchOnSnatchCheck(struct BtlEventFactor *factor, struct BtlServ
     u8 attackerId = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID);
     if (attackerId != pokeId) {
         if (WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID), WAZA_FLAG_SNATCH) != 0) {
-            if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_SICK_SNATCH_BLOCK) == 0) {
+            if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_SICK_SKY_DROP) == 0) {
                 if (BTL_EVENT_OverwriteVar(BTL_EVAR_POKE_ID, pokeId) != 0) {
                     BTL_EVENT_OverwriteVar(BTL_EVAR_DEFENDER_ID, pokeId);
                     *work = 1;
@@ -5836,7 +5836,7 @@ void HAND_WAZA_BideAdvanceTurn(BTL_EVENT_SIGNATURE, struct BideWork *work)
         switch (work->phase) {
         case 0:
             record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, pokeId);
-            record->sickKind = BTL_SICK_BIDE;
+            record->sickKind = BTL_SICK_MOVE_LOCK;
             record->sickCont = BTL_SICKCONT_MakeKind1Value(BTL_EVENT_GetFactorKey(factor));
             record->pokeId = pokeId;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, record);
@@ -5996,7 +5996,7 @@ void HAND_WAZA_BideCureStoringState(struct BtlServerFlow *flow, int pokeId, stru
 
     if (work->storing != 0) {
         record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CURE_SICK, pokeId);
-        record->sickKind = BTL_SICK_BIDE;
+        record->sickKind = BTL_SICK_MOVE_LOCK;
         record->pokeCount = 1;
         record->pokeIds[0] = pokeId;
         record->suppressMessage = 1;
@@ -9860,7 +9860,7 @@ void HAND_WAZA_SmackDownGroundTarget(struct BtlEventFactor *factor, struct BtlSe
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         announced = 0;
         if (BTL_SERVER_FLOW_IsPokeAfflictedByStatus(flow, targetId) == 0) {
-            if (BTL_SERVER_FLOW_IsPokeGroundedById(flow, targetId) != 0 && BTL_POKEPARAM_HasSick(target, HAND_WAZA_SICK_GROUND_GUARD) == 0) {
+            if (BTL_SERVER_FLOW_IsPokeGroundedById(flow, targetId) != 0 && BTL_POKEPARAM_HasSick(target, BTL_SICK_SKY_DROP) == 0) {
                 addSickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_SICK, pokeId);
                 addSickCmd->pokeId = targetId;
                 addSickCmd->sickKind = HAND_WAZA_SICK_SMACKED_DOWN;
@@ -10500,16 +10500,16 @@ void HAND_WAZA_SkyDropBlockAllyTarget(BTL_EVENT_SIGNATURE)
 void HAND_WAZA_SkyDropStartCharge(BTL_EVENT_SIGNATURE)
 {
     u8 targetId;
-    int reflected;
+    int targetProtected;
     struct HandExMessage *record;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST);
-        reflected = 0;
-        if (targetId == BTL_EVENT_NO_POKE || BTL_SERVER_FLOW_ProcMoveReflectOrAbsorbById(flow, pokeId, targetId, &reflected) == 0) {
+        targetProtected = 0;
+        if (targetId == BTL_EVENT_NO_POKE || BTL_SERVER_FLOW_SkyDropLiftTargetById(flow, pokeId, targetId, &targetProtected) == 0) {
             BTL_EVENT_OverwriteVar(BTL_EVAR_PREVENT_FLAG, 1);
-            if (reflected != 0)
-                BTL_EVENT_OverwriteVar(BTL_EVAR_REFLECTED_FLAG, 1);
+            if (targetProtected != 0)
+                BTL_EVENT_OverwriteVar(BTL_EVAR_TARGET_PROTECTED_FLAG, 1);
         } else if (BTL_EVENT_OverwriteVar(BTL_EVAR_GENERIC_FLAG, 1) != 0) {
             record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
             BTL_SERVER_FLOW_InitMsgRecord(&record->message, BTL_STRTYPE_SET, HAND_WAZA_STR_SKY_DROP);
@@ -10534,7 +10534,7 @@ void HAND_WAZA_SkyDropReleaseTarget(BTL_EVENT_SIGNATURE)
             heldId = counter - 1;
         if (heldId == BTL_EVENT_NO_POKE || BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, heldId) == BTL_POS_NONE)
             BTL_EVENT_OverwriteVar(BTL_EVAR_PREVENT_FLAG, 1);
-        BTL_SERVER_FLOW_ReleaseBindingTargetById(flow, pokeId);
+        BTL_SERVER_FLOW_SkyDropReleaseTargetById(flow, pokeId);
     }
 }
 
