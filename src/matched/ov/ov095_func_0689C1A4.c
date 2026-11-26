@@ -1,5 +1,5 @@
 /*
- * function: BTL_SICK_OnEmbargoAdded
+ * function: BTL_SICK_OnEmbargoEnded
  * address: 0x0689C1A4
  * packet: pkt_ov095_0689C1A4
  * region: ov095
@@ -22,7 +22,7 @@ extern int func_0689C1D4(void *);
 extern void *func_0689C1E4(void *, int, int);
 extern int func_0689C1F4(void *);
 extern void func_0689C204(void *, void *);
-void BTL_SICK_OnEmbargoAdded(void *a, void *b)
+void BTL_SICK_OnEmbargoEnded(void *a, void *b)
 {
     void *r;
     r = func_0689C1E4(a, 0x21, func_0689C1D4(b));

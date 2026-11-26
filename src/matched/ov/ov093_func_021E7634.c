@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_SERVER_FLOW_IsPokeAfflictedByStatus 0x021C8374 thumb ov093
- *   BTL_SERVER_FLOW_IsPokeGroundedById 0x021C8234 thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeFloatingById 0x021C8234 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
  *   BTL_SICKCONT_MakeKind1Empty 0x021E89C0 thumb ov093
@@ -30,7 +30,7 @@ typedef struct Word { u32 v; } Word;
 extern int BTL_EVENT_GetVar(int);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(u8 *p, int i);
-extern int BTL_SERVER_FLOW_IsPokeGroundedById(u8 *p, int i);
+extern int BTL_SERVER_FLOW_IsPokeFloatingById(u8 *p, int i);
 struct Unk021D62A8;
 struct UtilWork;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
@@ -53,7 +53,7 @@ void HAND_WAZA_SmackDownGroundTarget(int a, int b, int c)
         x = BTL_SERVER_FLOW_GetPokeParam((int *)b, k);
         flag = 0;
         if (BTL_SERVER_FLOW_IsPokeAfflictedByStatus((u8 *)b, k) == 0) {
-            if (BTL_SERVER_FLOW_IsPokeGroundedById((u8 *)b, k) != 0 && BTL_POKEPARAM_HasSick(x, 0x21) == 0) {
+            if (BTL_SERVER_FLOW_IsPokeFloatingById((u8 *)b, k) != 0 && BTL_POKEPARAM_HasSick(x, 0x21) == 0) {
                 p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 12, c);
                 p[15] = k;
                 ((struct Obj02139 *)p)->f4 = 0x1f;

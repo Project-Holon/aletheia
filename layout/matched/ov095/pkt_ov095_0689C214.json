@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_SICK_OnHealBlockAdded",
+   "name": "BTL_SICK_OnHealBlockEnded",
    "address": "0x0689C214",
    "kind": "game",
    "region": "ov095",

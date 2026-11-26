@@ -17,7 +17,7 @@
  *   BTL_SERVER_FLOW_TryClearContFlag 0x021C5418 thumb ov093
  *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
  *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
- *   BTL_SERVER_FLOW_QueryPokeGroundedEvent 0x021C6F34 thumb ov093
+ *   BTL_SERVER_FLOW_QueryPokeFloatingEvent 0x021C6F34 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_CureSick 0x021C5620 thumb ov093
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
@@ -38,7 +38,7 @@ extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int BTL_SERVER_FLOW_TryClearContFlag(u8 *, u8 *, int);
 extern u8 BTL_POKEPARAM_GetCounter(u8 *, int);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *, u8 *, int);
+extern int BTL_SERVER_FLOW_QueryPokeFloatingEvent(u8 *, u8 *, int);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
@@ -64,7 +64,7 @@ loop:
             if (t != 31) GF_STANDARD_CompareBytes(p, a, 1);
             changed = 1;
         }
-        if (BTL_SERVER_FLOW_QueryPokeGroundedEvent((u8 *)p, a, 1)) changed = 1;
+        if (BTL_SERVER_FLOW_QueryPokeFloatingEvent((u8 *)p, a, 1)) changed = 1;
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 30)) {
             BTL_SERVER_FLOW_CureSick((u8 *)p, a, 30, 0);
             changed = 1;

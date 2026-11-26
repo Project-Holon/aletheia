@@ -14,7 +14,7 @@
  *   BTL_TYPEPAIR_IsSingleType 0x021E8DA8 thumb ov093
  *   BTL_SERVER_FLOW_CalcSingleTypeAffinity 0x021C7038 thumb ov093
  *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
- *   BTL_SERVER_FLOW_IsPokeGrounded 0x021C6F0C thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeFloating 0x021C6F0C thumb ov093
  *   BTL_SERVER_FLOW_PushNoEffectMessage 0x021C5750 thumb ov093
  *   BTL_SERVER_FLOW_ProcImmunityOverrideNotice 0x021C6FC0 thumb ov093
  */
@@ -27,7 +27,7 @@ extern int BTL_TYPEPAIR_GetLow(int);
 extern int BTL_TYPEPAIR_IsSingleType(int);
 extern int BTL_SERVER_FLOW_CalcSingleTypeAffinity(u8 *, u8 *, u8 *, u32, u8);
 extern int BTL_CALC_CombineTypeAffinity(int, int);
-extern int BTL_SERVER_FLOW_IsPokeGrounded(u8 *, u8 *, int);
+extern int BTL_SERVER_FLOW_IsPokeFloating(u8 *, u8 *, int);
 extern void BTL_SERVER_FLOW_PushNoEffectMessage(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_ProcImmunityOverrideNotice(u8 *, u8 *);
 int BTL_SERVER_FLOW_CalcTypeEffectiveness(u8 *p, u8 *a, u8 *b, u8 *q, int flag)
@@ -41,11 +41,11 @@ int BTL_SERVER_FLOW_CalcTypeEffectiveness(u8 *p, u8 *a, u8 *b, u8 *q, int flag)
         r = BTL_CALC_CombineTypeAffinity(r, BTL_SERVER_FLOW_CalcSingleTypeAffinity(p, a, b, q[6], BTL_TYPEPAIR_GetLow(x)));
     if (r != 0) {
         if (q[6] != 4) return r;
-        changed = BTL_SERVER_FLOW_IsPokeGrounded(p, b, 0);
+        changed = BTL_SERVER_FLOW_IsPokeFloating(p, b, 0);
         if (changed == 0) return r;
         r = 0;
     } else if (q[6] == 4) {
-        if (BTL_SERVER_FLOW_IsPokeGrounded(p, b, 1) == 0) return 3;
+        if (BTL_SERVER_FLOW_IsPokeFloating(p, b, 1) == 0) return 3;
     }
     if (r == 0 && flag != 0) {
         if (changed == 0) BTL_SERVER_FLOW_PushNoEffectMessage(p, b);

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_QueryPokeGroundedEvent
+ * function: BTL_SERVER_FLOW_QueryPokeFloatingEvent
  * address:  0x021C6F34
  * packet:   pkt_ov093_021C6F34
  * region:   ov093
@@ -33,7 +33,7 @@ extern void BTL_EVENT_PopVarFrame(int line);
 extern int BTL_POKEPARAM_HasType(void *p, int k);
 extern void func_021C6FB0(u8 *p, u8 *a);
 
-int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *p, u8 *a, int f)
+int BTL_SERVER_FLOW_QueryPokeFloatingEvent(u8 *p, u8 *a, int f)
 {
     int t;
     u8 x, y;

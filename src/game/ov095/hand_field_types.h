@@ -158,7 +158,6 @@ typedef struct {
 #define HANDEX_KIND_FUTURE_SIGHT_HIT 0x27
 #define HANDEX_KIND_PENDING_ENTRY 0x2a
 #define HANDEX_KIND_POS_HEAL_NOTICE 0x37
-#define HANDEX_MESSAGE_SET 2 /* message kind: show a message by id */
 
 struct HandExRestorePp {
     u32 header;

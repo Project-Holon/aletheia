@@ -45,7 +45,7 @@
  *   WAZA_TOOL_IsDamaging  0x0201C314  thumb  arm9
  *   gHandSideWideGuardHandlers  0x0689D700  data  ov095  a4
  *   gHandSideQuickGuardHandlers  0x0689D718  data  ov095  a4
- *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb
+ *   BTL_SERVER_FLOW_IsPokeFloatingById  0x021C8234  thumb
  *   gHandSideSpikesHandlers  0x0689D740  data  ov095  a4
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb
  *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb
@@ -358,7 +358,7 @@ void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlS
     if (*work != 0) {
         defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, defenderId);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SAFEGUARD_BLOCKED);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, BTL_MSG_SAFEGUARD_BLOCKED);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), defenderId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         *work = 0;
@@ -404,7 +404,7 @@ void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlServe
         if (statId == 0 || work[1] != statId) {
             pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_MIST_BLOCKED);
+            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, BTL_MSG_MIST_BLOCKED);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
             work[1] = statId;
@@ -497,7 +497,7 @@ void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlS
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
         cmd->pokeId = pokeId;
         cmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, divisor);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_STEALTH_ROCK_HURT);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, BTL_MSG_STEALTH_ROCK_HURT);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
@@ -527,10 +527,10 @@ void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct Bt
         moveId = BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID);
         targetRange = WAZA_TOOL_GetParam(moveId, WAZA_PARAM_TARGET_RANGE);
         if (WAZA_TOOL_IsDamaging(moveId) != 0) {
-            if (targetRange == WAZA_RANGE_ALL_ENEMIES || targetRange == WAZA_RANGE_ALL_OTHERS) {
+            if (targetRange == WAZA_RANGE_ALL_OTHERS || targetRange == WAZA_RANGE_ALL_ENEMIES) {
                 if (BTL_EVENT_OverwriteVar(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0) {
                     message = (BtlStrParam *)BTL_EVENT_GetVar(HAND_SIDE_EVAR_MESSAGE_PARAM);
-                    BTL_SERVER_FLOW_InitMsgRecord(message, HANDEX_MESSAGE_SET, BTL_MSG_WIDE_GUARD_BLOCKED);
+                    BTL_SERVER_FLOW_InitMsgRecord(message, BTL_STRTYPE_SET, BTL_MSG_WIDE_GUARD_BLOCKED);
                     BTL_SERVER_FLOW_AppendMsgRecordArg(message, (int)defenderId);
                 }
             }
@@ -560,7 +560,7 @@ void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct
         && (s32)WAZA_TOOL_GetParam(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID), WAZA_PARAM_PRIORITY) >= 1
         && BTL_EVENT_OverwriteVar(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0) {
         message = (BtlStrParam *)BTL_EVENT_GetVar(HAND_SIDE_EVAR_MESSAGE_PARAM);
-        BTL_SERVER_FLOW_InitMsgRecord(message, HANDEX_MESSAGE_SET, BTL_MSG_QUICK_GUARD_BLOCKED);
+        BTL_SERVER_FLOW_InitMsgRecord(message, BTL_STRTYPE_SET, BTL_MSG_QUICK_GUARD_BLOCKED);
         BTL_SERVER_FLOW_AppendMsgRecordArg(message, (int)defenderId);
     }
 }
@@ -584,7 +584,7 @@ void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlServer
     struct HandExDamage *cmd;
 
     pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
-    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeGroundedById(flow, pokeId) == 0) {
+    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeFloatingById(flow, pokeId) == 0) {
         switch (HAND_SIDE_GetStackCountByFactor(factor, side)) {
         default:
         case 1:
@@ -601,7 +601,7 @@ void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlServer
         bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         cmd->pokeId = pokeId;
         cmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, divisor);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SPIKES_HURT);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, BTL_MSG_SPIKES_HURT);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
@@ -643,7 +643,7 @@ void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServe
     struct HandExAddSick *sickCmd;
 
     pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
-    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeGroundedById(flow, pokeId) == 0) {
+    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeFloatingById(flow, pokeId) == 0) {
         if (BTL_POKEPARAM_HasType(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), POKETYPE_POISON) != 0) {
             removeCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_REMOVE_SIDE_EFFECT, pokeId);
             removeCmd->side = side;
@@ -733,7 +733,7 @@ void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow
             damageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
             damageCmd->pokeId = pokeId;
             damageCmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
-            BTL_SERVER_FLOW_InitMsgRecord(&damageCmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SEA_OF_FIRE_HURT);
+            BTL_SERVER_FLOW_InitMsgRecord(&damageCmd->message, BTL_STRTYPE_SET, BTL_MSG_SEA_OF_FIRE_HURT);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&damageCmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, damageCmd);
         }

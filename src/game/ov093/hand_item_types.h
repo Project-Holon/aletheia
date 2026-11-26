@@ -298,7 +298,6 @@ enum {
 
 
 /* String table id used by the standard battle messages. */
-#define BTL_STR_TYPE_STANDARD 2
 
 /* Item parameter ids read through the item parameter getter. */
 #define BTL_ITEM_PARAM_BOOST_PERCENT 2 /* percent bonus; for weather rocks, extra turns */
@@ -360,7 +359,6 @@ typedef struct {
 
 #define BTL_FIELD_EFFECT_GRAVITY_QUERY 2 /* guess: argument of the field effect check Air Balloon makes */
 
-#define BTL_STR_TYPE_STANDARD 2
 
 /* Kind 7: remove hit points of a Pokemon, then show a message at +0xC. */
 typedef struct {
@@ -419,7 +417,6 @@ typedef struct {
 
 #define BTL_CMD_KIND_SWITCH_OUT 0x29
 
-#define BTL_STR_TYPE_SET 1           /* message of a set (item or ability line) */
 
 #define BTL_STR_ID_EJECT_BUTTON 0x19E  /* message of the Eject Button switch out */
 

@@ -173,7 +173,7 @@ void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow
 
                     heal->pokeId = targetId;
                     heal->amount = BTL_CALC_DivideMaxHpMin1(user, 2);
-                    BTL_SERVER_FLOW_InitMsgRecord(&heal->message, HANDEX_MESSAGE_SET, 0x2bc);
+                    BTL_SERVER_FLOW_InitMsgRecord(&heal->message, BTL_STRTYPE_SET, 0x2bc);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&heal->message), userId);
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, heal);
                 }
@@ -244,7 +244,7 @@ void HAND_POS_LunarDanceOnSwitchIn(struct BtlEventFactor *factor, struct BtlServ
             notice->position = position;
             notice->targetKind = 6;
             notice->restorePp = 1;
-            BTL_SERVER_FLOW_InitMsgRecord(&notice->message, HANDEX_MESSAGE_SET, 0x2b6);
+            BTL_SERVER_FLOW_InitMsgRecord(&notice->message, BTL_STRTYPE_SET, 0x2b6);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&notice->message), enteringId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, notice);
             if (BTL_POKEPARAM_IsHpFull(enteringPoke) == 0) {
@@ -320,7 +320,7 @@ void HAND_POS_HealingWishOnSwitchIn(struct BtlEventFactor *factor, struct BtlSer
             notice->animId = BTLV_EFFECT_MOVE_END + 78;
             notice->position = position;
             notice->targetKind = 6;
-            BTL_SERVER_FLOW_InitMsgRecord(&notice->message, HANDEX_MESSAGE_SET, 0x2b9);
+            BTL_SERVER_FLOW_InitMsgRecord(&notice->message, BTL_STRTYPE_SET, 0x2b9);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&notice->message), enteringId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, notice);
             if (BTL_POKEPARAM_IsHpFull(enteringPoke) == 0) {
@@ -374,7 +374,7 @@ void HAND_POS_FutureSightOnTurn(struct BtlEventFactor *factor, struct BtlServerF
                 if (BTL_POKEPARAM_IsFainted(BTL_SERVER_FLOW_GetPokeParam(flow, targetId)) == 0) {
                     struct HandExMessage *notice = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, userId);
                     struct HandExFutureSightHit *hit;
-                    BTL_SERVER_FLOW_InitMsgRecord(&notice->message, HANDEX_MESSAGE_SET, 0x438);
+                    BTL_SERVER_FLOW_InitMsgRecord(&notice->message, BTL_STRTYPE_SET, 0x438);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&notice->message), targetId);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&notice->message), work->moveId);
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, notice);

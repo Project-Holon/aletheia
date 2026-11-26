@@ -176,7 +176,7 @@
  *   BTL_POSPOKE_SwapPos 0x0689D4F0 thumb ov095
  *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
- *   BTL_SICK_ForceGroundedByTrap 0x0689C68C thumb ov095
+ *   BTL_SICK_CheckTrappedNoEscape 0x0689C68C thumb ov095
  *   HAND_TOKUSEI_AddAbilityHandlers 0x021D8484 thumb ov093
  *   HAND_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
  *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
@@ -260,7 +260,7 @@
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   BTL_TYPEPAIR_HasType 0x021E8D24 thumb ov093
- *   BTL_SICK_BuildCureMessage 0x0689C364 thumb ov095
+ *   BTL_SICK_BuildAddMessage 0x0689C364 thumb ov095
  *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
  *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
@@ -296,7 +296,7 @@
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
  *   BTL_ID_GetTurnCheckSick 0x0689C9F8 thumb ov095
- *   BTL_SICK_ProcAddedOrTurnEnd 0x0689B7A8 thumb ov095
+ *   BTL_SICK_ProcEndedOrTurnEnd 0x0689B7A8 thumb ov095
  *   BTL_POKEPARAM_TickSickCont 0x021D6064 thumb ov093
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
@@ -342,7 +342,7 @@
  *   BTL_TYPEPAIR_IsSingleType 0x021E8DA8 thumb ov093
  *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
- *   BTL_SICK_ForceGroundedOrFloating 0x0689C6E4 thumb ov095
+ *   BTL_SICK_ApplyGroundedOrFloating 0x0689C6E4 thumb ov095
  *   BTL_SICK_OverrideGroundImmunity 0x0689C540 thumb ov095
  *   BTL_CALC_GetTypeAffinity  0x021D794C  thumb  ov093
  *   BTL_CALC_RollHitCount  0x021D7BA4  thumb  ov093
@@ -359,7 +359,7 @@
  *   HAND_POS_IsRegistered  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
- *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
+ *   BTL_SICK_BuildEndMessage 0x0689C464 thumb ov095
  *   BTL_POKEPARAM_SetStatStage  0x021D5EA8  thumb  ov093
  *   BTL_POKEPARAM_RaiseLoweredStatStages 0x021D5EFC thumb ov093
  *   BTL_POKEPARAM_ResetStatStages  0x021D5F08  thumb  ov093

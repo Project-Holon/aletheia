@@ -154,7 +154,6 @@ struct BtlServerFlow;
 
 /* Rank (stat stage) kinds used by Download. */
 
-#define HANDEX_MESSAGE_SET 2 /* message kind: show a message by id */
 
 /* Kind 0x1f: replace the ability of a Pokemon. */
 struct HandExChangeAbility {
@@ -256,7 +255,6 @@ enum {
 };
 
 /* String type of BTL_SERVER_FLOW_InitMsgRecord: a standard battle message. */
-#define BTL_STR_TYPE_STD 2
 
 /* Message ids. */
 enum {

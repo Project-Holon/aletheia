@@ -29,6 +29,11 @@ typedef struct BtlStrParam {
     u32 args[8];
 } BtlStrParam;
 
+/* BtlStrParam.strType: 1 = one line of the standard message bank, 2 = a set in
+   bank 14, three lines for the player's, a wild and a foe's Pokemon. */
+#define BTL_STRTYPE_STD 1
+#define BTL_STRTYPE_SET 2
+
 /* HANDEX_KIND_MESSAGE: show a message. */
 typedef struct HandExMessage {
     u32 header;
@@ -241,7 +246,6 @@ typedef struct HandExPlayEffect {
 #define HANDEX_KIND_SET_CONT_FLAG 0x17
 #define HANDEX_KIND_ITEM_MESSAGE 0x23
 #define HANDEX_KIND_FLINCH 0x2b
-#define HANDEX_STR_SET 2
 #define ITEM_WORK_USED 0
 #define ITEM_WORK_FORCED_USE 6
 #define POKETYPE_BUG 6

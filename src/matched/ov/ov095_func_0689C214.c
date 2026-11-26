@@ -1,5 +1,5 @@
 /*
- * function: BTL_SICK_OnHealBlockAdded
+ * function: BTL_SICK_OnHealBlockEnded
  * address: 0x0689C214
  * packet: pkt_ov095_0689C214
  * region: ov095
@@ -22,7 +22,7 @@ extern int func_0689C244(void *);
 extern void *func_0689C254(void *, int, int);
 extern int func_0689C264(void *);
 extern void func_0689C274(void *, void *);
-void BTL_SICK_OnHealBlockAdded(void *a, void *b)
+void BTL_SICK_OnHealBlockEnded(void *a, void *b)
 {
     void *r;
     r = func_0689C254(a, 0x21, func_0689C244(b));

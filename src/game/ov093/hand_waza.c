@@ -379,7 +379,7 @@
  *   gClearSmogHandlers     0x021F24E4  data   ov093  a4
  *   gCircleThrowHandlers     0x021F277C  data   ov093  a4
  *   gIncinerateHandlers     0x021F279C  data   ov093  a4
- *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb  ov093
+ *   BTL_SERVER_FLOW_IsPokeFloatingById  0x021C8234  thumb  ov093
  *   gSmackDownHandlers     0x021F28B8  data   ov093  a4
  *   gShellSmashHandlers     0x021F274C  data   ov093  a4
  *   gReflectTypeHandlers     0x021F2714  data   ov093  a4
@@ -1641,7 +1641,7 @@ void HAND_WAZA_TrickRoomAddFieldEffect(struct BtlEventFactor *factor, struct Btl
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = BTL_FIELD_EFFECT_TRICK_ROOM;
             addCmd->duration = BTL_SICKCONT_MakeKind2Index(5);
-            BTL_SERVER_FLOW_InitMsgRecord(&addCmd->message, BTL_STR_TYPE_POKE_NAME, 0x359);
+            BTL_SERVER_FLOW_InitMsgRecord(&addCmd->message, BTL_STRTYPE_SET, 0x359);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&addCmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, addCmd);
         } else {
@@ -1676,7 +1676,7 @@ void HAND_WAZA_GravityAddFieldEffect(struct BtlEventFactor *factor, struct BtlSe
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
             cmd->effectId = BTL_FIELD_EFFECT_GRAVITY;
             cmd->duration = BTL_SICKCONT_MakeKind2Index(5);
-            cmd->message.strTypeHalf = BTL_STR_TYPE_PLAIN;
+            cmd->message.strTypeHalf = BTL_STRTYPE_STD;
             cmd->message.strId = 0x75;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
             BTL_SERVER_FLOW_PushCmdRecord(flow, BTL_CMD_KIND_APPLY_GRAVITY, pokeId);
@@ -1703,7 +1703,7 @@ void HAND_WAZA_WaterSportAddFieldEffect(struct BtlEventFactor *factor, struct Bt
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
         cmd->effectId = BTL_FIELD_EFFECT_WATER_SPORT;
         cmd->duration = BTL_SICKCONT_MakeKind3(pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_PLAIN, 0x72);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_STD, 0x72);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
 }
@@ -1727,7 +1727,7 @@ void HAND_WAZA_MudSportAddFieldEffect(struct BtlEventFactor *factor, struct BtlS
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
         cmd->effectId = BTL_FIELD_EFFECT_MUD_SPORT;
         cmd->duration = BTL_SICKCONT_MakeKind3(pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_PLAIN, 0x73);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_STD, 0x73);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
 }
@@ -1893,7 +1893,7 @@ void HAND_WAZA_JumpKickDealCrashDamage(struct BtlEventFactor *factor, struct Btl
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_DAMAGE, pokeId);
     cmd->pokeId = pokeId;
     cmd->amount = damage;
-    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_POKE_NAME, 0x386);
+    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x386);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
 }
@@ -1944,7 +1944,7 @@ void HAND_WAZA_MimicCopyTargetMove(struct BtlEventFactor *factor, struct BtlServ
         replaceCmd->permanent = 0;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, replaceCmd);
         messageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STR_TYPE_POKE_NAME, 0x2b0);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STRTYPE_SET, 0x2b0);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), move);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageCmd);
@@ -2006,7 +2006,7 @@ void HAND_WAZA_SketchLearnTargetMove(struct BtlEventFactor *factor, struct BtlSe
         BTL_SERVER_FLOW_CommitCmdRecord(flow, replaceCmd);
         messageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
         moveOrMessageId += 240;
-        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STR_TYPE_POKE_NAME, moveOrMessageId);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STRTYPE_SET, moveOrMessageId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), move);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageCmd);
@@ -2044,7 +2044,7 @@ void HAND_WAZA_FollowMeShowMessage(struct BtlEventFactor *factor, struct BtlServ
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_POKE_NAME, 0x29e);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x29e);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         work[HAND_WORK_ACTIVATED] = 1;
@@ -2147,7 +2147,7 @@ void HAND_WAZA_TrapAddNoEscape(struct BtlEventFactor *factor, struct BtlServerFl
 #else
             cmd->cont.raw = BTL_CALC_MakeSickContPoke((unsigned int)pokeId).raw;
 #endif
-            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_POKE_NAME, 0x368);
+            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x368);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         }
@@ -2177,7 +2177,7 @@ void HAND_WAZA_HazeResetRanks(struct BtlEventFactor *factor, struct BtlServerFlo
         resetCmd->pokeCount = BTL_SERVER_FLOW_CollectAlivePokeIds(flow, (u16)((allPokeBit << 7) | BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId)), resetCmd->pokeIds);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, resetCmd);
         messageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STR_TYPE_PLAIN, 0x65);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STRTYPE_STD, 0x65);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageCmd);
     }
 }
@@ -2200,7 +2200,7 @@ void HAND_WAZA_SplashShowMessage(struct BtlEventFactor *factor, struct BtlServer
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
         return;
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
-    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_PLAIN, 102);
+    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_STD, 102);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
 }
 
@@ -2250,7 +2250,7 @@ void HAND_WAZA_CurseApply(struct BtlEventFactor *factor, struct BtlServerFlow *f
                 sickCmd->pokeId = targetId;
                 sickCmd->sickKind = BTL_SICK_CURSE;
                 sickCmd->cont = BTL_SICKCONT_MakeKind1Empty();
-                BTL_SERVER_FLOW_InitMsgRecord(&sickCmd->message, BTL_STR_TYPE_POKE_NAME, 1064);
+                BTL_SERVER_FLOW_InitMsgRecord(&sickCmd->message, BTL_STRTYPE_SET, 1064);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&sickCmd->message), pokeId);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&sickCmd->message), targetId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, sickCmd);
@@ -2342,7 +2342,7 @@ void HAND_WAZA_WorrySeedChangeAbility(struct BtlEventFactor *factor, struct BtlS
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_CHANGE_ABILITY, pokeId);
         cmd->pokeId = targetId;
         cmd->abilityId = BTL_ABILITY_INSOMNIA;
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_POKE_NAME, 0x195);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x195);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->abilityId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -2685,7 +2685,7 @@ void HAND_WAZA_TrapOnAddSickMessage(struct BtlEventFactor *factor, struct BtlSer
     default:
         return;
     }
-    BTL_SERVER_FLOW_InitMsgRecord(message, HANDEX_MESSAGE_SET, messageId);
+    BTL_SERVER_FLOW_InitMsgRecord(message, BTL_STRTYPE_SET, messageId);
     BTL_SERVER_FLOW_AppendMsgRecordArg(message, defenderId);
     BTL_SERVER_FLOW_AppendMsgRecordArg(message, pokeId);
 }
@@ -2926,7 +2926,7 @@ void HAND_WAZA_StockpileOnMoveEffect(struct BtlEventFactor *factor, struct BtlSe
         setCounter->value = zeroOrCount;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, setCounter);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x2d1);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x2d1);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), zeroOrCount);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
@@ -3051,7 +3051,7 @@ void HAND_WAZA_StockpileUseOnMoveEnd(struct BtlEventFactor *factor, struct BtlSe
         setCounter->value = 0;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, setCounter);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 724);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 724);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
     }
@@ -3417,7 +3417,7 @@ void HAND_WAZA_SuckerPunchCheckNoEffect(struct BtlEventFactor *factor, struct Bt
         if (targetWillAttack == 0) {
             if ((targetMove = BTL_ACTION_GetFightMove((union BtlAction *)(&targetAction))) == 0 || WAZA_TOOL_IsDamaging(targetMove) == 0) {
                 if (BTL_EVENT_OverwriteVar(BTL_EVAR_NO_EFFECT_FLAG, 1) != 0)
-                    BTL_SERVER_FLOW_InitMsgRecord((BtlStrParam *)BTL_EVENT_GetVar(BTL_EVAR_NO_EFFECT_STRING), HANDEX_STR_STD, 0x47);
+                    BTL_SERVER_FLOW_InitMsgRecord((BtlStrParam *)BTL_EVENT_GetVar(BTL_EVAR_NO_EFFECT_STRING), BTL_STRTYPE_STD, 0x47);
             }
         }
     }
@@ -3573,7 +3573,7 @@ void HAND_WAZA_FocusEnergyApplyEffect(struct BtlEventFactor *factor, struct BtlS
             setFlag->contFlag = BTL_CONT_FLAG_CRITICAL_UP;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, setFlag);
             message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 0x411);
+            BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 0x411);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
         }
@@ -3608,7 +3608,7 @@ void HAND_WAZA_ChargeStoreOnUse(struct BtlEventFactor *factor, struct BtlServerF
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
         if (BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID) == BTL_EVENT_GetFactorKey(factor)) {
             message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 0x298);
+            BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 0x298);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
             BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_HANDLED_FLAG, 1);
@@ -3691,7 +3691,7 @@ void HAND_WAZA_PerishSongShowMessage(struct BtlEventFactor *factor, struct BtlSe
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
         message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_STD, 0x77);
+        BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_STD, 0x77);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
     }
 }
@@ -3755,7 +3755,7 @@ void HAND_WAZA_PayDayScatterCoins(struct BtlEventFactor *factor, struct BtlServe
         level = BTL_POKEPARAM_GetValue(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), BTL_VALUE_LEVEL);
         if (BTL_SERVER_FLOW_TryAddMainCounter(flow, level * 5, pokeId) != 0) {
             message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_STD, 0x7a);
+            BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_STD, 0x7a);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
         }
     }
@@ -3807,7 +3807,7 @@ void HAND_WAZA_RageRaiseAttackOnHit(struct BtlEventFactor *factor, struct BtlSer
         rank->targetCount = 1;
         rank->targets[0] = pokeId;
         rank->fromMove = 1;
-        BTL_SERVER_FLOW_InitMsgRecord(&rank->message, HANDEX_STR_SET, 0x214);
+        BTL_SERVER_FLOW_InitMsgRecord(&rank->message, BTL_STRTYPE_SET, 0x214);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&rank->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, rank);
     }
@@ -3851,7 +3851,7 @@ void HAND_WAZA_AquaRingApplyEffect(struct BtlEventFactor *factor, struct BtlServ
             addSick->sickKind = BTL_SICK_AQUA_RING;
             addSick->sickCont = BTL_SICKCONT_MakeKind1Empty();
             addSick->pokeId = pokeId;
-            BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, HANDEX_STR_SET, 0x259);
+            BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, BTL_STRTYPE_SET, 0x259);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&addSick->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
         }
@@ -3941,7 +3941,7 @@ void HAND_WAZA_ThrashAdvanceTurn(struct BtlEventFactor *factor, struct BtlServer
                 removeFactor = 1;
                 addSick->fromMove = 1;
                 addSick->pokeId = pokeId;
-                BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, HANDEX_STR_SET, 0x168);
+                BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, BTL_STRTYPE_SET, 0x168);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&addSick->message), pokeId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
             }
@@ -4015,7 +4015,7 @@ void HAND_WAZA_UproarStart(struct BtlEventFactor *factor, struct BtlServerFlow *
     addSick->pokeId = pokeId;
     BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
     message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-    BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 703);
+    BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 703);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
     position = BTL_SERVER_FLOW_GetFrontPosOfPoke(flow, pokeId);
@@ -4027,7 +4027,7 @@ void HAND_WAZA_UproarStart(struct BtlEventFactor *factor, struct BtlServerFlow *
             cureSick->sickKind = BTL_SICK_SLEEP;
             cureSick->pokeCount = 1;
             cureSick->pokeIds[0] = pokeList->pokeIds[i];
-            BTL_SERVER_FLOW_InitMsgRecord(&cureSick->message, HANDEX_STR_SET, 706);
+            BTL_SERVER_FLOW_InitMsgRecord(&cureSick->message, BTL_STRTYPE_SET, 706);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cureSick->message), pokeList->pokeIds[i]);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cureSick);
         }
@@ -4077,13 +4077,13 @@ void HAND_WAZA_UproarOnTurnEnd(struct BtlEventFactor *factor, struct BtlServerFl
         if (BTL_POKEPARAM_IsFainted(poke) == 0) {
             if (BTL_POKEPARAM_HasSick(poke, BTL_SICK_MOVE_LOCK) == 0) {
                 message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-                BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 0x2CE);
+                BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 0x2CE);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
                 HAND_WAZA_RemoveMoveHandlerOfPoke(poke, BTL_EVENT_GetFactorKey(factor));
             } else {
                 message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-                BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 0x2CB);
+                BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 0x2CB);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
             }
@@ -4106,7 +4106,7 @@ void HAND_WAZA_UproarPreventSleep(struct BtlEventFactor *factor, struct BtlServe
     if (work->active != 0 && BTL_EVENT_GetVar(BTL_EVAR_SICK_ID) == BTL_SICK_SLEEP && BTL_EVENT_OverwriteVar(BTL_EVAR_PREVENT_FLAG, 1) != 0) {
         message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
         defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
-        BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, (u16)(defenderId == pokeId ? 0x2C8 : 0x2C5));
+        BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, (u16)(defenderId == pokeId ? 0x2C8 : 0x2C5));
         BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), defenderId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
     }
@@ -4702,12 +4702,12 @@ void HAND_WAZA_PresentOnHealEffect(struct BtlEventFactor *factor, struct BtlServ
             heal = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_RECOVER_HP, pokeId);
             heal->pokeId = targetId;
             heal->amount = BTL_CALC_DivideMaxHpMin1(target, 4);
-            BTL_SERVER_FLOW_InitMsgRecord(&heal->message, HANDEX_STR_SET, 0x183);
+            BTL_SERVER_FLOW_InitMsgRecord(&heal->message, BTL_STRTYPE_SET, 0x183);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&heal->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, heal);
         } else {
             message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 0xd2);
+            BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 0xd2);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
         }
@@ -5276,7 +5276,7 @@ void HAND_WAZA_KnockOffOnDamageEnd(struct BtlEventFactor *factor, struct BtlServ
     setItem = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SET_ITEM, pokeId);
     setItem->pokeId = targetId;
     setItem->itemId = 0;
-    BTL_SERVER_FLOW_InitMsgRecord(&setItem->message, HANDEX_STR_SET, 0x41a);
+    BTL_SERVER_FLOW_InitMsgRecord(&setItem->message, BTL_STRTYPE_SET, 0x41a);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&setItem->message), pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&setItem->message), targetId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&setItem->message), itemId);
@@ -5316,7 +5316,7 @@ void HAND_WAZA_MagicCoatOnWazaExecute(struct BtlEventFactor *factor, struct BtlS
     HandExMessage *message;
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && work[WAZA_WORK_ANNOUNCED] == 0) {
         message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 761);
+        BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 761);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
         work[WAZA_WORK_ANNOUNCED] = 1;
@@ -5368,7 +5368,7 @@ void HAND_WAZA_SnatchOnWazaExecute(struct BtlEventFactor *factor, struct BtlServ
     HandExMessage *message;
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && HAND_COMMON_IsLastToAct(flow, pokeId) == 0) {
         message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 751);
+        BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 751);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
         work[WAZA_WORK_ANNOUNCED] = 1;
@@ -5401,7 +5401,7 @@ void HAND_WAZA_SnatchOnSnatched(struct BtlEventFactor *factor, struct BtlServerF
     HandExMessage *message;
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && *work != 0) {
         message = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&message->message, HANDEX_STR_SET, 754);
+        BTL_SERVER_FLOW_InitMsgRecord(&message->message, BTL_STRTYPE_SET, 754);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&message->message), BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID));
         BTL_SERVER_FLOW_CommitCmdRecord(flow, message);
@@ -5461,7 +5461,7 @@ void HAND_WAZA_ThiefOnDamageEnd(struct BtlEventFactor *factor, struct BtlServerF
         return;
     steal = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SWAP_ITEM, pokeId);
     steal->targetId = targetId;
-    BTL_SERVER_FLOW_InitMsgRecord(&steal->swapMessage, HANDEX_STR_SET, 1057);
+    BTL_SERVER_FLOW_InitMsgRecord(&steal->swapMessage, BTL_STRTYPE_SET, 1057);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&steal->swapMessage), pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&steal->swapMessage), targetId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&steal->swapMessage), BTL_POKEPARAM_GetItem(target));
@@ -5521,15 +5521,15 @@ void HAND_WAZA_TrickOnWazaExecute(struct BtlEventFactor *factor, struct BtlServe
         return;
     swap = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_SWAP_ITEM, pokeId);
     swap->targetId = targetId;
-    BTL_SERVER_FLOW_InitMsgRecord(&swap->swapMessage, HANDEX_STR_SET, 682);
+    BTL_SERVER_FLOW_InitMsgRecord(&swap->swapMessage, BTL_STRTYPE_SET, 682);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&swap->swapMessage), pokeId);
     if (targetItem != 0) {
-        BTL_SERVER_FLOW_InitMsgRecord(&swap->userGetsMessage, HANDEX_STR_SET, 685);
+        BTL_SERVER_FLOW_InitMsgRecord(&swap->userGetsMessage, BTL_STRTYPE_SET, 685);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&swap->userGetsMessage), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&swap->userGetsMessage), targetItem);
     }
     if (userItem != 0) {
-        BTL_SERVER_FLOW_InitMsgRecord(&swap->targetGetsMessage, HANDEX_STR_SET, 685);
+        BTL_SERVER_FLOW_InitMsgRecord(&swap->targetGetsMessage, BTL_STRTYPE_SET, 685);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&swap->targetGetsMessage), targetId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&swap->targetGetsMessage), userItem);
     }
@@ -7571,7 +7571,7 @@ void HAND_WAZA_FutureSightShowMessage(struct BtlEventFactor *factor, struct BtlS
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x432);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x432);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
     }
@@ -7635,7 +7635,7 @@ void HAND_WAZA_DoomDesireShowMessage(struct BtlEventFactor *factor, struct BtlSe
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x435);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x435);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
     }
@@ -7666,7 +7666,7 @@ void HAND_WAZA_GastroAcidSuppressAbility(struct BtlEventFactor *factor, struct B
         addSick->pokeId = targetId;
         addSick->sickKind = BTL_SICK_ABILITY_SUPPRESSED;
         addSick->sickCont = BTL_SICKCONT_MakeKind1Empty();
-        BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, HANDEX_MESSAGE_SET, 0x235);
+        BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, BTL_STRTYPE_SET, 0x235);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&addSick->message), targetId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
     }
@@ -7699,7 +7699,7 @@ void HAND_WAZA_RolePlayCopyAbility(struct BtlEventFactor *factor, struct BtlServ
             changeAbility = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_ABILITY, pokeId);
             changeAbility->pokeId = pokeId;
             changeAbility->abilityId = targetAbility;
-            BTL_SERVER_FLOW_InitMsgRecord(&changeAbility->message, HANDEX_MESSAGE_SET, 0x26b);
+            BTL_SERVER_FLOW_InitMsgRecord(&changeAbility->message, BTL_STRTYPE_SET, 0x26b);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&changeAbility->message), pokeId);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&changeAbility->message), targetId);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&changeAbility->message), changeAbility->abilityId);
@@ -7736,7 +7736,7 @@ void HAND_WAZA_UTurnSwitchOut(struct BtlEventFactor *factor, struct BtlServerFlo
         trainerId = BTL_MAIN_PokeIdToClientIdThunk(pokeId);
         messageAnim = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_MESSAGE_ANIM, pokeId);
         messageAnim->pokeId = pokeId;
-        BTL_SERVER_FLOW_InitMsgRecord(&messageAnim->message, HANDEX_MESSAGE_SET, 0x302);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageAnim->message, BTL_STRTYPE_SET, 0x302);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageAnim->message), pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageAnim->message), trainerId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageAnim);
@@ -7884,7 +7884,7 @@ void HAND_WAZA_TeleportCheckFail(struct BtlEventFactor *factor, struct BtlServer
     if (BTL_SERVER_FLOW_GetCompetitor(flow) != 0 || BTL_SERVER_FLOW_GetRule(flow) != 0)
         BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_MOVE_FAILED);
     pokeParam = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-    if (BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_BIND) != 0 && BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_TRAPPED) != 0)
+    if (BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_BIND) != 0 && BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_NO_ESCAPE) != 0)
         BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_MOVE_FAILED);
 }
 
@@ -7910,7 +7910,7 @@ void HAND_WAZA_TeleportShowFailMessage(struct BtlEventFactor *factor, struct Btl
 
     if (BTL_EVENT_OverwriteVar(BTL_EVAR_GENERIC_FLAG, 1) != 0) {
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x2ff);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x2ff);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
     }
@@ -7972,7 +7972,7 @@ void HAND_WAZA_FlingShowMessage(struct BtlEventFactor *factor, struct BtlServerF
     if (heldItem == 0)
         return;
     messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x30b);
+    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x30b);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), heldItem);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
@@ -8049,7 +8049,7 @@ void HAND_WAZA_MagnetRiseCheckFail(struct BtlEventFactor *factor, struct BtlServ
 
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_POKE_ID)) {
         pokeParam = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        if (BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_INGRAIN) != 0 || BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_FLOATING_BLOCK) != 0)
+        if (BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_INGRAIN) != 0 || BTL_POKEPARAM_HasSick(pokeParam, BTL_SICK_SMACKED_DOWN) != 0)
             BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_MOVE_FAILED);
     }
 }
@@ -8068,7 +8068,7 @@ void HAND_WAZA_MagnetRiseAddFloating(struct BtlEventFactor *factor, struct BtlSe
     addSick->pokeId = pokeId;
     addSick->sickKind = BTL_SICK_MAGNET_RISE;
     addSick->sickCont = BTL_SICKCONT_MakeKind2Index(MAGNET_RISE_TURNS);
-    BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, HANDEX_MESSAGE_SET, 0x292);
+    BTL_SERVER_FLOW_InitMsgRecord(&addSick->message, BTL_STRTYPE_SET, 0x292);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&addSick->message), pokeId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
 }
@@ -8129,7 +8129,7 @@ void HAND_WAZA_HelpingHandAssistAlly(struct BtlEventFactor *factor, struct BtlSe
     if (BTL_POKEPARAM_TestTurnFlag(targetParam, BTL_TURN_FLAG_ACTED) != 0)
         return;
     messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x414);
+    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x414);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), targetId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
@@ -8325,7 +8325,7 @@ void HAND_WAZA_FlyBeginFlight(struct BtlEventFactor *factor, struct BtlServerFlo
     setContFlag->contFlag = BTL_CONT_FLAG_FLYING;
     BTL_SERVER_FLOW_CommitCmdRecord(flow, setContFlag);
     messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x211);
+    BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x211);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
 }
@@ -8363,7 +8363,7 @@ void HAND_WAZA_ShadowForceBeginVanish(struct BtlEventFactor *factor, struct BtlS
         setContFlag->contFlag = BTL_CONT_FLAG_SHADOW_FORCE;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, setContFlag);
         messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x21d);
+        BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x21d);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
     }
@@ -8397,7 +8397,7 @@ void HAND_WAZA_ShadowForceBreakProtect(struct BtlEventFactor *factor, struct Btl
             clearTurnFlag->turnFlag = BTL_TURN_FLAG_PROTECTED;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, clearTurnFlag);
             messageRecord = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, HANDEX_MESSAGE_SET, 0x208);
+            BTL_SERVER_FLOW_InitMsgRecord(&messageRecord->message, BTL_STRTYPE_SET, 0x208);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&messageRecord->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, messageRecord);
         }
@@ -9675,7 +9675,7 @@ void HAND_WAZA_SimpleBeamSetAbility(struct BtlEventFactor *factor, struct BtlSer
                 cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ABILITY, pokeId);
                 cmd->pokeId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
                 cmd->abilityId = HAND_WAZA_ABILITY_SIMPLE;
-                BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x195);
+                BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x195);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->abilityId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -9717,7 +9717,7 @@ void HAND_WAZA_EntrainmentCopyAbility(struct BtlEventFactor *factor, struct BtlS
                     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ABILITY, pokeId);
                     cmd->pokeId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
                     cmd->abilityId = userAbility;
-                    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x195);
+                    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x195);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->abilityId);
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -9751,7 +9751,7 @@ void HAND_WAZA_ClearSmogResetTargetRanks(struct BtlEventFactor *factor, struct B
             resetCmd->pokeId = targetId;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, resetCmd);
             messageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_MESSAGE, pokeId);
-            BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, HAND_WAZA_STR_SET, 0xc3);
+            BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STRTYPE_SET, 0xc3);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, messageCmd);
         }
@@ -9790,7 +9790,7 @@ void HAND_WAZA_IncinerateBurnBerry(struct BtlEventFactor *factor, struct BtlServ
     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ITEM, pokeId);
     cmd->pokeId = targetId;
     cmd->itemId = 0;
-    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x454);
+    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x454);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), targetId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), itemId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -9861,12 +9861,12 @@ void HAND_WAZA_SmackDownGroundTarget(struct BtlEventFactor *factor, struct BtlSe
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         announced = 0;
         if (BTL_SERVER_FLOW_IsPokeAfflictedByStatus(flow, targetId) == 0) {
-            if (BTL_SERVER_FLOW_IsPokeGroundedById(flow, targetId) != 0 && BTL_POKEPARAM_HasSick(target, BTL_SICK_SKY_DROP) == 0) {
+            if (BTL_SERVER_FLOW_IsPokeFloatingById(flow, targetId) != 0 && BTL_POKEPARAM_HasSick(target, BTL_SICK_SKY_DROP) == 0) {
                 addSickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_SICK, pokeId);
                 addSickCmd->pokeId = targetId;
                 addSickCmd->sickKind = HAND_WAZA_SICK_SMACKED_DOWN;
                 addSickCmd->sickCont = BTL_SICKCONT_MakeKind1Empty();
-                BTL_SERVER_FLOW_InitMsgRecord(&addSickCmd->message, HAND_WAZA_STR_SET, 0x468);
+                BTL_SERVER_FLOW_InitMsgRecord(&addSickCmd->message, BTL_STRTYPE_SET, 0x468);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((&addSickCmd->message), targetId);
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, addSickCmd);
                 announced = 1;
@@ -9892,7 +9892,7 @@ void HAND_WAZA_SmackDownGroundTarget(struct BtlEventFactor *factor, struct BtlSe
                 dropCmd->pokeId = targetId;
                 dropCmd->flyingFlag = HAND_WAZA_CONT_FLAG_FLYING;
                 if (announced == 0) {
-                    BTL_SERVER_FLOW_InitMsgRecord(&dropCmd->message, HAND_WAZA_STR_SET, 0x468);
+                    BTL_SERVER_FLOW_InitMsgRecord(&dropCmd->message, BTL_STRTYPE_SET, 0x468);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&dropCmd->message), targetId);
                 }
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, dropCmd);
@@ -9987,7 +9987,7 @@ void HAND_WAZA_ReflectTypeCopyTargetType(struct BtlEventFactor *factor, struct B
     BTL_SERVER_FLOW_CommitCmdRecord(flow, typeCmd);
     messageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_MESSAGE, pokeId);
     messageCmd->header |= 4 << 22;
-    BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, HAND_WAZA_STR_SET, 0x441);
+    BTL_SERVER_FLOW_InitMsgRecord(&messageCmd->message, BTL_STRTYPE_SET, 0x441);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), pokeId);
     BTL_SERVER_FLOW_AppendMsgRecordArg((&messageCmd->message), targetId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, messageCmd);
@@ -10019,7 +10019,7 @@ void HAND_WAZA_AutotomizeLoseWeight(struct BtlEventFactor *factor, struct BtlSer
             newWeight = (weight > HAND_WAZA_AUTOTOMIZE_WEIGHT_LOSS + 1) ? weight - HAND_WAZA_AUTOTOMIZE_WEIGHT_LOSS : 1;
             cmd->pokeId = pokeId;
             cmd->newWeight = newWeight;
-            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x44e);
+            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x44e);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         }
@@ -10179,7 +10179,7 @@ void HAND_WAZA_FlameBurstDamageAdjacent(struct BtlEventFactor *factor, struct Bt
                     cmd->pokeId = adjacentIds[i];
                     cmd->amount = BTL_CALC_DivideMaxHpMin1(adjacent, 16);
                     cmd->unblockable = 1;
-                    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x451);
+                    BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x451);
                     BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
                 }
@@ -10253,7 +10253,7 @@ void HAND_WAZA_BestowGiveItem(struct BtlEventFactor *factor, struct BtlServerFlo
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_SET_ITEM, pokeId);
             cmd->pokeId = targetId;
             cmd->itemId = itemId;
-            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x457);
+            BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 0x457);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), targetId);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), itemId);
@@ -10295,7 +10295,7 @@ void HAND_WAZA_AfterYouMoveTargetNext(struct BtlEventFactor *factor, struct BtlS
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_MOVE_NEXT, pokeId);
         cmd->pokeId = BTL_EVENT_GetVar(HAND_WAZA_EVAR_TARGET_ID);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 1134);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 1134);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
@@ -10318,7 +10318,7 @@ void HAND_WAZA_QuashMoveTargetLast(struct BtlEventFactor *factor, struct BtlServ
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_MOVE_LAST, pokeId);
         cmd->pokeId = BTL_EVENT_GetVar(HAND_WAZA_EVAR_TARGET_ID);
-        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 1131);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STRTYPE_SET, 1131);
         BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), cmd->pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
@@ -10455,7 +10455,7 @@ void HAND_WAZA_TelekinesisCheckTarget(BTL_EVENT_SIGNATURE)
         target = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         species = BTL_POKEPARAM_GetSpecies(target);
         if (species == BTL_SPECIES_DIGLETT || species == BTL_SPECIES_DUGTRIO
-            || BTL_POKEPARAM_HasSick(target, BTL_SICK_FLOATING_BLOCK) != 0
+            || BTL_POKEPARAM_HasSick(target, BTL_SICK_SMACKED_DOWN) != 0
             || BTL_POKEPARAM_HasSick(target, BTL_SICK_INGRAIN) != 0)
             BTL_EVENT_OverwriteVar(BTL_EVAR_NO_EFFECT_FLAG, 1);
     }

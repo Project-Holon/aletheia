@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_IsPokeGrounded
+ * function: BTL_SERVER_FLOW_IsPokeFloating
  * address: 0x021C6F0C
  * packet: pkt_ov093_021C6F0C
  * region: ov093
@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
- *   BTL_SERVER_FLOW_QueryPokeGroundedEvent 0x021C6F34 thumb ov093
+ *   BTL_SERVER_FLOW_QueryPokeFloatingEvent 0x021C6F34 thumb ov093
  */
 typedef unsigned char u8;
 extern int BTL_FIELD_IsStaticSlotInUse(int);
-extern int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *, u8 *, int);
-int BTL_SERVER_FLOW_IsPokeGrounded(u8 *p, u8 *a, int k)
+extern int BTL_SERVER_FLOW_QueryPokeFloatingEvent(u8 *, u8 *, int);
+int BTL_SERVER_FLOW_IsPokeFloating(u8 *p, u8 *a, int k)
 {
-    if (BTL_FIELD_IsStaticSlotInUse(2) == 0 && BTL_SERVER_FLOW_QueryPokeGroundedEvent(p, a, k) != 0)
+    if (BTL_FIELD_IsStaticSlotInUse(2) == 0 && BTL_SERVER_FLOW_QueryPokeFloatingEvent(p, a, k) != 0)
         return 1;
     return 0;
 }

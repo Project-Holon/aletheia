@@ -12,9 +12,9 @@ struct BtlServerFlow;
 #include "../types.h"
 
 #ifdef __MWERKS__
-void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded);
+void BTL_SICK_ProcEndedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isEnded);
 #else
-void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded, struct BtlServerFlow *flow);
+void BTL_SICK_ProcEndedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isEnded, struct BtlServerFlow *flow);
 #endif
 void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind);
 int BTL_SICK_BuildDamageMessage(BtlStrParam *message, struct BtlPokeParam *bpp, int sickKind);
@@ -25,19 +25,19 @@ void BTL_SICK_RecoverHpIngrain(struct BtlServerFlow *flow, struct BtlPokeParam *
 void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
 void BTL_SICK_RecoverHpAquaRing(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
 void BTL_SICK_EndEncoreWhenPpEmpty(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_OnAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind, union SickCont cont);
+void BTL_SICK_OnEnded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind, union SickCont cont);
 void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_ApplyPerishFaint(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, u8 count);
-void BTL_SICK_OnEmbargoAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont);
-void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, BtlStrParam *message);
-int BTL_SICK_GetAddStringId(u32 sickKind, int hasArg);
-int BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, u8 argValue, BtlStrParam *message);
+void BTL_SICK_OnEmbargoEnded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
+void BTL_SICK_OnHealBlockEnded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
+int BTL_SICK_GetAddStringId(unsigned int sickKind, union SickCont cont);
+void BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, BtlStrParam *message);
+int BTL_SICK_GetEndStringId(u32 sickKind, int hasArg);
+int BTL_SICK_BuildEndMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, u8 argValue, BtlStrParam *message);
 void BTL_SICK_OverrideGroundImmunity(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_ForceGroundedByTrap(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_ForceGroundedOrFloating(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
+void BTL_SICK_CheckTrappedNoEscape(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
+void BTL_SICK_ApplyGroundedOrFloating(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 void BTL_SICK_ShowIngrainRoots(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 /* END mkheaders: generated region */
 

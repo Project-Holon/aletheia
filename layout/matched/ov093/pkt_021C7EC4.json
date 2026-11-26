@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_SERVER_FLOW_IsPokeGroundedById",
+   "name": "BTL_SERVER_FLOW_IsPokeFloatingById",
    "address": "0x021C8234",
    "kind": "game",
    "region": "ov093",

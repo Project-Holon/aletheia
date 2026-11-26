@@ -48,9 +48,10 @@ enum {
 #define WAZA_PARAM_PRIORITY 6
 #define WAZA_PARAM_TARGET_RANGE 0x1B
 
-/* Target ranges that Wide Guard blocks (guess for the names). */
-#define WAZA_RANGE_ALL_ENEMIES 4
-#define WAZA_RANGE_ALL_OTHERS 5
+/* Move target ranges that Wide Guard blocks: 4 hits every other Pokemon
+   (Earthquake, Surf), 5 both foes (Growl, Blizzard). */
+#define WAZA_RANGE_ALL_OTHERS 4
+#define WAZA_RANGE_ALL_ENEMIES 5
 
 /* Type affinity classes that BTL_CALC_GetTypeAffinityVsPair returns (higher is more effective). */
 enum {

@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_IsPokeGroundedById
+ * function: BTL_SERVER_FLOW_IsPokeFloatingById
  * address:  0x021C8234
  * packet:   pkt_021C7EC4
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_SERVER_FLOW_IsPokeGroundedById   0x021C8234  thumb  ov093
- *   BTL_SERVER_FLOW_IsPokeGrounded   0x021C6F0C  thumb  ov093
+ *   BTL_SERVER_FLOW_IsPokeFloatingById   0x021C8234  thumb  ov093
+ *   BTL_SERVER_FLOW_IsPokeFloating   0x021C6F0C  thumb  ov093
  *   BTL_SIDE_GetPokeByIdThunk   0x021B9934  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
@@ -27,7 +27,7 @@ typedef signed int s32;
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
-extern int BTL_SERVER_FLOW_IsPokeGrounded(u8 *p, u8 *a, int k);
+extern int BTL_SERVER_FLOW_IsPokeFloating(u8 *p, u8 *a, int k);
 
-int BTL_SERVER_FLOW_IsPokeGroundedById(u8 *p, int i) { return BTL_SERVER_FLOW_IsPokeGrounded(p, BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
+int BTL_SERVER_FLOW_IsPokeFloatingById(u8 *p, int i) { return BTL_SERVER_FLOW_IsPokeFloating(p, BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
 

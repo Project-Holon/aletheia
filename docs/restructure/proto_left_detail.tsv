@@ -2652,7 +2652,7 @@ src/game/ov093/btl_server_flow.c	1520	BTL_POKESET_GetCount	pointee	u32 (void*)	u
 src/game/ov093/btl_server_flow.c	1521	BTL_POKESET_Get	pointee	void* (void*, u32)	void* (struct BtlPokeSet*, u32)	src/game/ov095/btl_pokeset.c
 src/game/ov093/btl_server_flow.c	1522	BTL_POSPOKE_SwapPos	pointee	void (struct BtlPosPoke*, s32, s32)	void (struct BtlPosPokeEntry*, s32, s32)	src/game/ov095/btl_pospoke.c
 src/game/ov093/btl_server_flow.c	1523	BTL_POKEPARAM_GetStatRaw	pointee	s32 (u8*, s32)	s32 (struct BtlPokeParam*, s32)	src/game/ov093/btl_pokeparam.c
-src/game/ov093/btl_server_flow.c	1525	BTL_SICK_ForceGroundedByTrap	pointee	void (struct BtlServerFlow*, u8*)	void (struct BtlEventFactor*, struct BtlPokeParam*)	src/game/ov095/btl_sick.c
+src/game/ov093/btl_server_flow.c	1525	BTL_SICK_CheckTrappedNoEscape	pointee	void (struct BtlServerFlow*, u8*)	void (struct BtlEventFactor*, struct BtlPokeParam*)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1526	HAND_TOKUSEI_AddAbilityHandlers	pointee,ret	void* (void*)	struct BtlEventFactor* (struct BtlPokeParam*)	src/game/ov093/hand_tokusei.c
 src/game/ov093/btl_server_flow.c	1527	HAND_ITEM_AddHeldItemFactor	pointee,ret	void* (void*)	struct BtlEventFactor* (struct BtlPokeParam*)	src/game/ov093/hand_item.c
 src/game/ov093/btl_server_flow.c	1528	BTL_POKEPARAM_StartTurnThreshold	pointee	void (u8*, u16)	void (struct BtlPokeParam*, u16)	src/game/ov093/btl_pokeparam.c
@@ -2714,7 +2714,7 @@ src/game/ov093/btl_server_flow.c	1597	BTL_POKEPARAM_ConsumeHeldItem	pointee	void
 src/game/ov093/btl_server_flow.c	1598	WAZA_TOOL_GetSickCont	ret	struct BtlSickContWord (u16)	s16 (u16)	src/game/arm9/waza_tool.c
 src/game/ov093/btl_server_flow.c	1599	BTL_CALC_MakeSickContFromSpec	other,pointee,ptrint	void (struct BtlSickContWord, u32, union Slot*)	void (struct BtlSickContSpec, struct BtlPokeParam*, union BtlSickCont*)	src/game/ov093/btl_calc.c
 src/game/ov093/btl_server_flow.c	1600	BTL_POKEPARAM_GetTypePair	pointee	u16 (void*)	u16 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c
-src/game/ov093/btl_server_flow.c	1602	BTL_SICK_BuildCureMessage	other,pointee	void (s32, union Slot, u8*, struct Msg*)	void (s32, union SickCont, struct BtlPokeParam*, struct BtlStrParam*)	src/game/ov095/btl_sick.c
+src/game/ov093/btl_server_flow.c	1602	BTL_SICK_BuildAddMessage	other,pointee	void (s32, union Slot, u8*, struct Msg*)	void (s32, union SickCont, struct BtlPokeParam*, struct BtlStrParam*)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1603	HAND_TOKUSEI_RemoveAbilityHandlers	pointee	void (void*)	void (struct BtlPokeParam*)	src/game/ov093/hand_tokusei.c
 src/game/ov093/btl_server_flow.c	1604	BTL_POKEPARAM_ChangeForm	pointee,width	void (void*, u8)	void (struct BtlPokeParam*, u32)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1610	BTL_POKEPARAM_CanChangeStatStage	pointee	s32 (s8*, s32, s32)	s32 (struct BtlPokeParam*, s32, s32)	src/game/ov093/btl_pokeparam.c
@@ -2739,7 +2739,7 @@ src/game/ov093/btl_server_flow.c	1632	BTL_MAIN_GetPmsWork	pointee	u32 (u32**)	u3
 src/game/ov093/btl_server_flow.c	1633	COMM_PLAYER_SUPPORT_GetMode	pointee	u32 (struct BtlServerFlow*)	u32 (struct CommPlayerSupport*)	src/game/arm9/comm_player_support.c
 src/game/ov093/btl_server_flow.c	1635	COMM_PLAYER_SUPPORT_SavePreviousAndSuspend	pointee	void (void*)	void (struct CommPlayerSupport*)	src/game/arm9/comm_player_support.c
 src/game/ov093/btl_server_flow.c	1636	BTL_ID_GetTurnCheckSick	ret	u8* (u32)	u32 (u32)	src/game/ov095/btl_id_sets.c
-src/game/ov093/btl_server_flow.c	1637	BTL_SICK_ProcAddedOrTurnEnd	count	void (u8*, u8*, union Slot, u32, struct BtlServerFlow*)	void (struct BtlPokeParam*, s32, union SickCont, s32)	src/game/ov095/btl_sick.c
+src/game/ov093/btl_server_flow.c	1637	BTL_SICK_ProcEndedOrTurnEnd	count	void (u8*, u8*, union Slot, u32, struct BtlServerFlow*)	void (struct BtlPokeParam*, s32, union SickCont, s32)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1638	BTL_POKEPARAM_TickSickCont	pointee	s32 (u8*, u32, union Slot*, s32*)	s32 (struct BtlPokeParam*, u32, union SickCont*, s32*)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1640	BTL_SICK_BuildDamageMessage	pointee,ret,sign	void (u8*, u8*, u32)	s32 (struct BtlStrParam*, struct BtlPokeParam*, s32)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1645	BTL_CALC_GetWeatherDamage	pointee	s32 (void*, s32)	s32 (struct BtlPokeParam*, s32)	src/game/ov093/btl_calc.c
@@ -2770,7 +2770,7 @@ src/game/ov093/btl_server_flow.c	1671	BTL_POKEPARAM_SetContFlag	pointee	void (u8
 src/game/ov093/btl_server_flow.c	1672	BTL_POKEPARAM_ClearContFlag	pointee	void (u8*, u32)	void (struct BtlPokeParam*, u32)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1675	BTL_POKEPARAM_GetCritStage	pointee	u8 (struct UtilWork*)	u8 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1682	BTL_POKEPARAM_HasType	pointee	s32 (void*, s32)	s32 (struct BtlPokeParam*, s32)	src/game/ov093/btl_pokeparam.c
-src/game/ov093/btl_server_flow.c	1683	BTL_SICK_ForceGroundedOrFloating	pointee	void (struct BtlServerFlow*, u8*)	void (struct BtlEventFactor*, struct BtlPokeParam*)	src/game/ov095/btl_sick.c
+src/game/ov093/btl_server_flow.c	1683	BTL_SICK_ApplyGroundedOrFloating	pointee	void (struct BtlServerFlow*, u8*)	void (struct BtlEventFactor*, struct BtlPokeParam*)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1684	BTL_SICK_OverrideGroundImmunity	pointee	void (struct BtlServerFlow*, u8*)	void (struct BtlEventFactor*, struct BtlPokeParam*)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1687	WAZA_TOOL_GetPower	ptrint	u16 (void*)	u16 (u16)	src/game/arm9/waza_tool.c
 src/game/ov093/btl_server_flow.c	1688	BTL_POKEPARAM_GetStatForCrit	pointee	s32 (u8*, s32)	s32 (struct BtlPokeParam*, s32)	src/game/ov093/btl_pokeparam.c
@@ -2781,7 +2781,7 @@ src/game/ov093/btl_server_flow.c	1696	HAND_SIDE_GetStackCount	ret,sign	s32 (u32,
 src/game/ov093/btl_server_flow.c	1697	HAND_POS_IsRegistered	count	s32 (s32)	s32 (s32, s32)	src/game/ov095/hand_pos.c
 src/game/ov093/btl_server_flow.c	1698	BTL_POKEPARAM_GetWeight	pointee	u16 (u8*)	u16 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1699	BTL_POKEPARAM_IsMovePPFull	pointee	s32 (u8*, s32, s32)	s32 (struct BtlPokeParam*, s32, s32)	src/game/ov093/btl_pokeparam.c
-src/game/ov093/btl_server_flow.c	1700	BTL_SICK_BuildAddMessage	other,pointee,width	s32 (s32, union Slot, u8*, u32, struct Msg*)	s32 (s32, union SickCont, struct BtlPokeParam*, u8, struct BtlStrParam*)	src/game/ov095/btl_sick.c
+src/game/ov093/btl_server_flow.c	1700	BTL_SICK_BuildEndMessage	other,pointee,width	s32 (s32, union Slot, u8*, u32, struct Msg*)	s32 (s32, union SickCont, struct BtlPokeParam*, u8, struct BtlStrParam*)	src/game/ov095/btl_sick.c
 src/game/ov093/btl_server_flow.c	1701	BTL_POKEPARAM_SetStatStage	pointee	void (u8*, s32, u8)	void (struct BtlPokeParam*, s32, u8)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1702	BTL_POKEPARAM_RaiseLoweredStatStages	pointee	s32 (char*)	s32 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1703	BTL_POKEPARAM_ResetStatStages	pointee	void (char*)	void (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c

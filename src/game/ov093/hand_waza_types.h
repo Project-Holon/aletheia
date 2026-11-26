@@ -57,9 +57,7 @@
 #define BTL_CMD_FLAG_SELF_INFLICTED (1u << 24)
 
 /* Message string types. */
-#define BTL_STR_TYPE_PLAIN 1
 
-#define BTL_STR_TYPE_POKE_NAME 2 /* arguments are Pokemon or move ids */
 
 /* Field effect ids (what the add and remove commands and the active check use). */
 #define BTL_FIELD_EFFECT_TRICK_ROOM 1
@@ -380,7 +378,6 @@ struct BtlServerFlow;
 /* Ratio in 20.12 fixed point: 0x1000 is 1.0. */
 
 /* Message string types of BtlStrParam. */
-#define HANDEX_STR_STD 1 /* standard message by id */
 
 
 /* Record kinds that these handlers push. */
@@ -776,9 +773,7 @@ typedef void (*BtlWazaHandlerFunc)(struct BtlEventFactor *factor, struct BtlServ
 #define BTL_CONT_FLAG_POWER_TRICK 0xa
 
 /* Message string types for the string parameter setter. */
-#define BTL_STRTYPE_STD 1
 
-#define BTL_STRTYPE_SET 2
 
 /* Value ids of the Pokemon value getter: stat stages 1..7, then raw stats. */
 #define BPP_VALUE_ATTACK_RANK 1
@@ -957,9 +952,8 @@ struct HandExAddFieldEffect {
 
 #define BTL_SICK_MAGNET_RISE 0x1e
 
-#define BTL_SICK_FLOATING_BLOCK 0x1f
+#define BTL_SICK_SMACKED_DOWN 0x1f
 
-#define BTL_SICK_TRAPPED 0x16
 
 #define BTL_SICK_ABILITY_SUPPRESSED 0x10
 
@@ -1157,7 +1151,6 @@ struct BtlPokeParam;
 
 /* Message string types of BTL_SERVER_FLOW_InitMsgRecord. */
 #define HAND_WAZA_STR_STANDARD 1
-#define HAND_WAZA_STR_SET 2
 
 /* Record kinds written by these handlers. */
 #define HAND_WAZA_KIND_MESSAGE 4
@@ -1332,8 +1325,6 @@ struct BtlTurnRecord;
 #ifndef BTL_CLIENT_ID_NONE
 #define BTL_CLIENT_ID_NONE 4
 #endif
-#define BTL_STRTYPE_STD 1
-#define BTL_STRTYPE_SET 2
 
 /* Value ids of the Pokemon value getter (BTL_POKEPARAM_GetValue) and weather values. */
 #define BTL_BPP_VALUE_FORM 19
@@ -1345,7 +1336,7 @@ struct BtlTurnRecord;
 #define BTL_COUNTER_BOUND_TARGET 4                 /* counter slot: id + 1 of the Pokemon that Sky Drop holds */
 #define BTL_BOUND_TARGET_LIMIT 0x18                /* counter values from here on mean no Pokemon */
 #define BTL_SICK_INGRAIN 0x15
-#define BTL_SICK_FLOATING_BLOCK 0x1f               /* guess: Smack Down */
+#define BTL_SICK_SMACKED_DOWN 0x1f               /* Smack Down: "fell straight down!" */
 #define BTL_SICK_TELEKINESIS 0x20
 
 /* Record kinds (HANDEX_KIND_*) beyond the ones of hand_waza_021e4754_types.h. */

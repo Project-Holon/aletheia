@@ -17,7 +17,7 @@
 #define BTL_SICK_LEECH_SEED 0x12
 #define BTL_SICK_ENCORE 0x17
 #define BTL_SICK_INGRAIN 0x15
-#define BTL_SICK_FLOATING_BLOCK 0x1f
+#define BTL_SICK_SMACKED_DOWN 0x1f
 #define BTL_SICK_NO_ESCAPE 0x16
 #define BTL_SICK_MAGNET_RISE 0x1e
 
@@ -31,7 +31,6 @@
 #define BTL_CMD_SET_SICK_STATE 0x21
 
 /* Message type byte of a message record. */
-#define BTL_STR_TYPE_STD 2
 
 /* Services of the battle viewer slots and poke parameters that only this file uses. */
 #include "../ov093/btl_pokeparam.h"
