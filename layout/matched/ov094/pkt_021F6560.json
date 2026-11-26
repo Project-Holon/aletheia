@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_MCSS_GetSpriteColorCode",
+   "name": "BTLV_MCSS_GetSpriteBallId",
    "address": "0x022003C4",
    "kind": "game",
    "region": "ov094",

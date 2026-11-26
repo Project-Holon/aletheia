@@ -401,7 +401,7 @@
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   gBagItemEffectTable 0x021EFDE4 data a4
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
- *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
+ *   BTL_POKEPARAM_SetCaughtBall 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   FX_Div 0x0207C768 arm
  *   FX_Sqrt 0x0207C7B4 arm
@@ -622,11 +622,11 @@
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
  *   sLevelUpMoveScan      0x021F3B64  data
- *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StartBallThrowEffect 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_StopLowHpBgmAndSuppress 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
- *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
+ *   BTLV_EFFECT_StartBallBlockedEffect  0x021F7D44  thumb  ov094
  *   BTLV_CORE_StartClearSidePosition  0x021EAA6C  thumb  ov093
  *   BTLV_CORE_RunProc  0x021EAAD8  thumb  ov093
  *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
@@ -5538,7 +5538,7 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
 {
     switch (*state) {
     case 0:
-        BTLV_EFFECT_StartEffectWithColor(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[5], (u8)args[1], args[2], args[4]);
+        BTLV_EFFECT_StartBallThrowEffect(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[5], (u8)args[1], args[2], args[4]);
         (*state)++;
         break;
     case 1:
@@ -5593,7 +5593,7 @@ int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
-        BTLV_EFFECT_StartEffectWithValue(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
+        BTLV_EFFECT_StartBallBlockedEffect(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
         (*state)++;
         break;
     case 1:
@@ -6188,7 +6188,7 @@ int BTL_CLIENT_StepConsumeHeldItem(BtlClient *client, int *state, u32 *args)
     return 1;
 }
 
-/* args: pokeId, move slot, keep streak, target position, used move, selected move. */
+/* args: pokeId, move slot, keep streak, move type, used move, selected move. */
 int BTL_CLIENT_StepRecordMoveUse(BtlClient *client, int *state, const u32 *args)
 {
     struct BtlPokeParam *pokeParam;

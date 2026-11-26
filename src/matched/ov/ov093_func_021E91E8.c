@@ -14,7 +14,7 @@
  *   BTLV_EFFECT_Init  0x021F7544  thumb  ov094
  *   BTLV_EFFECT_ResumeVm  0x021F7C0C  thumb  ov094
  *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
- *   BTLV_EFFECT_StartEffectWithColor  0x021F7CFC  thumb  ov094
+ *   BTLV_EFFECT_StartBallThrowEffect  0x021F7CFC  thumb  ov094
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
  *   func_020307B0  0x020307B0  arm
@@ -139,7 +139,7 @@ extern int func_021E9614(u32 a);
 extern void BTLV_CORE_StartBagMenu(u8 *p, int x, u8 a, u8 b, u8 c, u8 d);
 extern int BTLV_CORE_PollBagMenu(u8 *p);
 extern int BTLV_EFFECT_IsBusy(void);
-extern void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e);
+extern void BTLV_EFFECT_StartBallThrowEffect(u32 a, u16 b, u8 c, int d, int e);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -270,7 +270,7 @@ int BTLV_CORE_StepOpeningDemo(Obj *p, int *state, Work *w)
         break;
     case 16:
         if (BTLV_CORE_WaitMessage((u32 *)p) && !BTLV_EFFECT_IsBusy()) {
-            BTLV_EFFECT_StartEffectWithColor(1, 4, 3, 1, 0);
+            BTLV_EFFECT_StartBallThrowEffect(1, 4, 3, 1, 0);
             (*state)++;
         }
         break;

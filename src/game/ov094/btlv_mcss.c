@@ -1,7 +1,7 @@
 /*
  * file:     btlv_mcss.c
  * unit:     yes
- * function: BTLV_MCSS_Create, BTLV_MCSS_Delete, BTLV_MCSS_Update, BTLV_MCSS_Draw, BTLV_MCSS_AddPoke, BTLV_MCSS_AddTrainer, BTLV_MCSS_RemoveSprite, BTLV_MCSS_SetSideScale, BTLV_MCSS_SetPosition, BTLV_MCSS_EnableOrthoMode, BTLV_MCSS_DisableOrthoMode, BTLV_MCSS_EnableBillboard, BTLV_MCSS_DisableBillboard, BTLV_MCSS_SetBlinkMode, BTLV_MCSS_IsAnimStopped, BTLV_MCSS_SetAnimStopMode, BTLV_MCSS_IsVanished, BTLV_MCSS_SetVanishMode, BTLV_MCSS_GetSlotPosition, BTLV_MCSS_GetSlotPositionForRule, BTLV_MCSS_GetSlotScale, BTLV_MCSS_SetShadowVanish, BTLV_MCSS_SetAnimSpeed, BTLV_MCSS_StartPositionTween, BTLV_MCSS_StartShadowScaleTween, BTLV_MCSS_StartScaleTween, BTLV_MCSS_StartDrawScaleTween, BTLV_MCSS_StartRotateTween, BTLV_MCSS_SwapSprites, BTLV_MCSS_StartBlinkTask, BTLV_MCSS_StartAlphaTween, BTLV_MCSS_StartShakeTask, BTLV_MCSS_StartBounceTask, BTLV_MCSS_StartMosaicTween, BTLV_MCSS_IsSpriteBusy, BTLV_MCSS_IsAnySpriteBusy, BTLV_MCSS_IsSpriteLoaded, BTLV_MCSS_SetPaletteFade, BTLV_MCSS_StartPaletteTrans, BTLV_MCSS_StartPaletteCopy, BTLV_MCSS_RefreshSpriteFromParty, BTLV_MCSS_GetSpriteWeight, BTLV_MCSS_GetSpriteAttrFlags, BTLV_MCSS_HasPersonalParam10, BTLV_MCSS_GetStopCellFlags, BTLV_MCSS_SetSubstituteSprite, BTLV_MCSS_SetMosaic, BTLV_MCSS_CopySpriteResources, BTLV_MCSS_ReloadSpriteResource, BTLV_MCSS_PlayCry, BTLV_MCSS_StartRotation, BTLV_MCSS_GetSpriteColorCode, BTLV_MCSS_MakeAddWorkFromPoke, BTLV_MCSS_SetAnimIndexIfValid, BTLV_MCSS_SetAnimPendingCallback, BTLV_MCSS_IsAnimPending, BTLV_MCSS_ResetSpritePosition, BTLV_MCSS_SetSpriteWorkFlagForRule, BTLV_MCSS_TakeSpriteRefreshedFlag, BTLV_MCSS_SaveVanishStates, BTLV_MCSS_RestoreVanishStates, BTLV_MCSS_MakeAddWorkFromTrainer, BTLV_MCSS_ApplySlotScale, BTLV_MCSS_CreateTweenTask, BTLV_MCSS_PositionTweenTaskMain, BTLV_MCSS_PositionTweenTaskEnd, BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, BTLV_MCSS_DrawScaleTweenTaskMain, BTLV_MCSS_DrawScaleTweenTaskEnd, BTLV_MCSS_RotateTweenTaskMain, BTLV_MCSS_RotateTweenTaskEnd, BTLV_MCSS_BlinkTaskMain, BTLV_MCSS_BlinkTaskEnd, BTLV_MCSS_AlphaTweenTaskMain, BTLV_MCSS_AlphaTweenTaskEnd, BTLV_MCSS_ShakeTaskMain, BTLV_MCSS_ShakeTaskEnd, BTLV_MCSS_BounceTaskMain, BTLV_MCSS_BounceTaskEnd, BTLV_MCSS_MosaicTweenTaskMain, BTLV_MCSS_MosaicTweenTaskEnd, BTLV_MCSS_AnimWatchTaskMain, BTLV_MCSS_RotationTaskMain, BTLV_MCSS_RotationTaskEnd, BTLV_MCSS_IdleAnimCallback, BTLV_MCSS_CellCallbackCheckStopCell, BTLV_MCSS_AnimCallbackClearPending, BTLV_MCSS_CalcSlotPosition, BTLV_MCSS_CalcSlotScale, BTLV_MCSS_FindSpriteIndex, BTLV_MCSS_LookupShadowEntry
+ * function: BTLV_MCSS_Create, BTLV_MCSS_Delete, BTLV_MCSS_Update, BTLV_MCSS_Draw, BTLV_MCSS_AddPoke, BTLV_MCSS_AddTrainer, BTLV_MCSS_RemoveSprite, BTLV_MCSS_SetSideScale, BTLV_MCSS_SetPosition, BTLV_MCSS_EnableOrthoMode, BTLV_MCSS_DisableOrthoMode, BTLV_MCSS_EnableBillboard, BTLV_MCSS_DisableBillboard, BTLV_MCSS_SetBlinkMode, BTLV_MCSS_IsAnimStopped, BTLV_MCSS_SetAnimStopMode, BTLV_MCSS_IsVanished, BTLV_MCSS_SetVanishMode, BTLV_MCSS_GetSlotPosition, BTLV_MCSS_GetSlotPositionForRule, BTLV_MCSS_GetSlotScale, BTLV_MCSS_SetShadowVanish, BTLV_MCSS_SetAnimSpeed, BTLV_MCSS_StartPositionTween, BTLV_MCSS_StartShadowScaleTween, BTLV_MCSS_StartScaleTween, BTLV_MCSS_StartDrawScaleTween, BTLV_MCSS_StartRotateTween, BTLV_MCSS_SwapSprites, BTLV_MCSS_StartBlinkTask, BTLV_MCSS_StartAlphaTween, BTLV_MCSS_StartShakeTask, BTLV_MCSS_StartBounceTask, BTLV_MCSS_StartMosaicTween, BTLV_MCSS_IsSpriteBusy, BTLV_MCSS_IsAnySpriteBusy, BTLV_MCSS_IsSpriteLoaded, BTLV_MCSS_SetPaletteFade, BTLV_MCSS_StartPaletteTrans, BTLV_MCSS_StartPaletteCopy, BTLV_MCSS_RefreshSpriteFromParty, BTLV_MCSS_GetSpriteWeight, BTLV_MCSS_GetSpriteAttrFlags, BTLV_MCSS_HasPersonalParam10, BTLV_MCSS_GetStopCellFlags, BTLV_MCSS_SetSubstituteSprite, BTLV_MCSS_SetMosaic, BTLV_MCSS_CopySpriteResources, BTLV_MCSS_ReloadSpriteResource, BTLV_MCSS_PlayCry, BTLV_MCSS_StartRotation, BTLV_MCSS_GetSpriteBallId, BTLV_MCSS_MakeAddWorkFromPoke, BTLV_MCSS_SetAnimIndexIfValid, BTLV_MCSS_SetAnimPendingCallback, BTLV_MCSS_IsAnimPending, BTLV_MCSS_ResetSpritePosition, BTLV_MCSS_SetSpriteWorkFlagForRule, BTLV_MCSS_TakeSpriteRefreshedFlag, BTLV_MCSS_SaveVanishStates, BTLV_MCSS_RestoreVanishStates, BTLV_MCSS_MakeAddWorkFromTrainer, BTLV_MCSS_ApplySlotScale, BTLV_MCSS_CreateTweenTask, BTLV_MCSS_PositionTweenTaskMain, BTLV_MCSS_PositionTweenTaskEnd, BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, BTLV_MCSS_DrawScaleTweenTaskMain, BTLV_MCSS_DrawScaleTweenTaskEnd, BTLV_MCSS_RotateTweenTaskMain, BTLV_MCSS_RotateTweenTaskEnd, BTLV_MCSS_BlinkTaskMain, BTLV_MCSS_BlinkTaskEnd, BTLV_MCSS_AlphaTweenTaskMain, BTLV_MCSS_AlphaTweenTaskEnd, BTLV_MCSS_ShakeTaskMain, BTLV_MCSS_ShakeTaskEnd, BTLV_MCSS_BounceTaskMain, BTLV_MCSS_BounceTaskEnd, BTLV_MCSS_MosaicTweenTaskMain, BTLV_MCSS_MosaicTweenTaskEnd, BTLV_MCSS_AnimWatchTaskMain, BTLV_MCSS_RotationTaskMain, BTLV_MCSS_RotationTaskEnd, BTLV_MCSS_IdleAnimCallback, BTLV_MCSS_CellCallbackCheckStopCell, BTLV_MCSS_AnimCallbackClearPending, BTLV_MCSS_CalcSlotPosition, BTLV_MCSS_CalcSlotScale, BTLV_MCSS_FindSpriteIndex, BTLV_MCSS_LookupShadowEntry
  * address:  0x021FEAC0
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -155,7 +155,7 @@
 #define BTLV_PARTY_VALUE_PERSONAL_RAND 0
 #define BTLV_PARTY_VALUE_SPECIES 5
 #define BTLV_PARTY_VALUE_FORM 0x6f
-#define BTLV_PARTY_VALUE_EFFECT_CODE 0x98
+#define BTLV_PARTY_VALUE_BALL 0x98
 #define BTLV_PARTY_VALUE_HP 0xa0
 #define BTLV_PARTY_VALUE_MAX_HP 0xa1
 
@@ -340,7 +340,7 @@ void BTLV_MCSS_CopySpriteResources(BtlvMcssWork *w, int posA, int posB);
 void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *w, int pos, McssAddWork *addWork);
 int BTLV_MCSS_PlayCry(BtlvMcssWork *w, int pos, int pitch, int pan, int chorusParamA, int chorusParamB, int chorusParamC);
 void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound);
-int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *w, int pos);
+int BTLV_MCSS_GetSpriteBallId(BtlvMcssWork *w, int pos);
 void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *w, void *pp, McssAddWork *out, int pos);
 int BTLV_MCSS_SetAnimIndexIfValid(BtlvMcssWork *w, int pos, int animIndex);
 void BTLV_MCSS_SetAnimPendingCallback(BtlvMcssWork *w, int pos);
@@ -571,7 +571,7 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *work, void *pp, int pos)
         work->sprites[i].flags.orthoBillboard = work->orthoActive;
         work->sprites[i].pos = pos;
         work->sprites[i].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
-        work->sprites[i].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
+        work->sprites[i].ballId = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_BALL, 0);
         if (POKE_TOOL_IsShiny(pp) == 1)
             work->sprites[i].attrFlags |= BTLV_MCSS_ATTR_SHINY;
         BTLV_MCSS_MakeAddWorkFromPoke(work, pp, &work->sprites[i].addWork, pos);
@@ -1197,7 +1197,7 @@ void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *work, int pos, void *pp)
     work->sprites[idx].identity.form = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_FORM, 0);
     work->sprites[idx].identity.weight = POKE_TOOL_GetPersonalParam(work->sprites[idx].identity.species, work->sprites[idx].identity.form, 0x26);
     work->sprites[idx].identity.personalRand = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0);
-    work->sprites[idx].colorCode = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_EFFECT_CODE, 0);
+    work->sprites[idx].ballId = POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_BALL, 0);
     if (POKE_TOOL_IsShiny(pp) == 1)
         work->sprites[idx].attrFlags |= BTLV_MCSS_ATTR_SHINY;
     work->sprites[idx].identity.hpState = BGWINFRM_GetScaleRank(POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_HP, 0), POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_MAX_HP, 0));
@@ -1415,7 +1415,7 @@ void BTLV_MCSS_StartRotation(BtlvMcssWork *work, int side, int dir, int playSoun
     BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_RotationTaskMain, task, 0), BTLV_MCSS_RotationTaskEnd, 2);
 }
 
-int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *work, int pos)
+int BTLV_MCSS_GetSpriteBallId(BtlvMcssWork *work, int pos)
 {
     int i = BTLV_MCSS_FindSpriteIndex(work, pos);
 
@@ -1423,7 +1423,7 @@ int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *work, int pos)
         return 0;
     if (work->sprites[i].mcss == 0)
         return 0;
-    return work->sprites[i].colorCode;
+    return work->sprites[i].ballId;
 }
 
 void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *work, void *pp, McssAddWork *out, int pos)

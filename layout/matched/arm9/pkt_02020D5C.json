@@ -200,7 +200,7 @@
    "status": "EXACT"
   },
   {
-   "name": "PALANM_IsOutsideReservedIdRange",
+   "name": "ITEM_IsNotJohtoBall",
    "address": "0x020213E0",
    "kind": "game",
    "region": "arm9",

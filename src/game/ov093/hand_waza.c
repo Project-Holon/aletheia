@@ -249,7 +249,7 @@
  *   gRestHandlers 0x021F2888 data a4
  *   BTL_CALC_MakeSickContTurns 0x021D7D78 thumb ov093
  *   gAttractHandlers 0x021F278C data a4
- *   BTL_POKEPARAM_GetLastTargetPos  0x021D67B0  thumb  ov093
+ *   BTL_POKEPARAM_GetLastMoveType  0x021D67B0  thumb  ov093
  *   BTL_CALC_ListResistingTypes  0x021D7A9C  thumb  ov093
  *   MI_CpuCopy8  0x02082D44  arm
  *   gConversion2Handlers     0x021F2784  data   ov093  a4
@@ -438,6 +438,7 @@
 #define BTL_SERVER_FLOW_GetActionWordByPokeId BTL_SERVER_FLOW_GetActionWordByPokeIdHeader
 #endif
 #include "hand_waza_types.h"
+#include "../arm9/poke_type.h"
 #include "hand_common_protos.h"
 
 #define SPECIES_CHATOT 0x1b9
@@ -6463,9 +6464,9 @@ void HAND_WAZA_Conversion2ChangeType(int unused, struct BtlServerFlow *flow, int
     struct HandExChangeType *record;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        lastMoveType = BTL_POKEPARAM_GetLastTargetPos(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST)));
-        if (lastMoveType != 0x11) {
-            types = BTL_SERVER_FLOW_GetScratchBuffer(flow, 0x11);
+        lastMoveType = BTL_POKEPARAM_GetLastMoveType(BTL_SERVER_FLOW_GetPokeParam(flow, (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST)));
+        if (lastMoveType != POKETYPE_NONE) {
+            types = BTL_SERVER_FLOW_GetScratchBuffer(flow, POKETYPE_COUNT);
             typeCount = BTL_CALC_ListResistingTypes(lastMoveType, types);
             if (typeCount != 0) {
                 userBpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);

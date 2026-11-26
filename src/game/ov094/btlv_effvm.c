@@ -1,7 +1,7 @@
 /*
  * file:     btlv_effvm.c
  * unit:     yes
- * function: BTLV_EFFVM_Create, BTLV_EFFVM_Main, BTLV_EFFVM_Destroy, BTLV_EFFVM_StartScript, BTLV_EFFVM_StopScript, BTLV_EFFVM_ClearBlockedFlag, BTLV_EFFVM_GetFallbackScriptFlag, BTLV_EFFVM_InitParams, BTLV_EFFVM_StartSePlayTask, BTLV_EFFVM_StartSeVolumeTask, BTLV_EFFVM_StopLiveSounds, BTLV_EFFVM_ClearLastEffect, BTLV_EFFVM_CmdSetupCamera, BTLV_EFFVM_CmdMoveCameraTo, BTLV_EFFVM_CmdRotateCameraOrbit, BTLV_EFFVM_CmdMoveCameraEased, BTLV_EFFVM_CmdSetBillboardMode, BTLV_EFFVM_CmdSaveCameraPosition, BTLV_EFFVM_CmdLoadParticleResource, BTLV_EFFVM_CmdStartParticleEffect, BTLV_EFFVM_CmdStartParticleEffectFixedPos, BTLV_EFFVM_CmdStartParticleEffectTargeted, BTLV_EFFVM_CmdStartParticleEffectForEachInstance, BTLV_EFFVM_CmdDeleteParticleEmitter, BTLV_EFFVM_CmdStartParticleEffectOffset, BTLV_EFFVM_CmdStartParticleEffectConstOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset, BTLV_EFFVM_ParticleInitCallbackSource, BTLV_EFFVM_ParticleInitCallbackTarget, BTLV_EFFVM_CmdStartPokePositionTween, BTLV_EFFVM_CmdStartPokeShake, BTLV_EFFVM_CmdStartPokeBounce, BTLV_EFFVM_CmdStartPokeShadowScaleTween, BTLV_EFFVM_CmdStartPokeRotateTween, BTLV_EFFVM_CmdStartPokeAlphaTween, BTLV_EFFVM_CmdStartPokeMosaicTween, BTLV_EFFVM_CmdStartPokeBlink, BTLV_EFFVM_CmdSetPokeAnimStop, BTLV_EFFVM_CmdSetPokePaletteFade, BTLV_EFFVM_CmdSetPokeVanish, BTLV_EFFVM_CmdSetPokeShadowVanish, BTLV_EFFVM_CmdStartPokeShadowScaleTweenSecondary, BTLV_EFFVM_CmdDeletePokeSprites, BTLV_EFFVM_CmdAddPokeSprite, BTLV_EFFVM_CmdSetPokePosition, BTLV_EFFVM_CmdSetPokeAnimIndex, BTLV_EFFVM_CmdReleasePokeSprite, BTLV_EFFVM_CmdLoadBgPalette, BTLV_EFFVM_CmdStartBgScroll, BTLV_EFFVM_CmdNop4, BTLV_EFFVM_CmdNop5, BTLV_EFFVM_CmdSetBgLayerEnable, BTLV_EFFVM_CmdSetBlendRegister, BTLV_EFFVM_CmdSetStageFieldTint, BTLV_EFFVM_CmdSetStageLayerHidden, BTLV_EFFVM_CmdStartFadeTask, BTLV_EFFVM_CmdLoadClactAtPoke, BTLV_EFFVM_CmdStartClactPosTween, BTLV_EFFVM_CmdStartClactScaleTween, BTLV_EFFVM_CmdSetClactAnim, BTLV_EFFVM_CmdFadeClactPalette, BTLV_EFFVM_CmdReleaseClact, BTLV_EFFVM_CmdSetGaugeVisibility, BTLV_EFFVM_CmdPlaySe, BTLV_EFFVM_CmdStopSe, BTLV_EFFVM_CmdStartSeVolumeTween, BTLV_EFFVM_CmdStartSeVolumeTask, BTLV_EFFVM_CmdWaitFrames, BTLV_EFFVM_CmdWaitParticles, BTLV_EFFVM_CmdSetResult, BTLV_EFFVM_CmdJumpIf, BTLV_EFFVM_CmdJumpIfCondCompare, BTLV_EFFVM_CompareAndJump, BTLV_EFFVM_CmdJumpIfPokeLoaded, BTLV_EFFVM_CmdSetScriptVar, BTLV_EFFVM_CmdEvalCondition, BTLV_EFFVM_CmdSetParam, BTLV_EFFVM_CmdSetPokeCellFlag, BTLV_EFFVM_CmdCopyPokeSpriteState, BTLV_EFFVM_CmdStartPokeCry, BTLV_EFFVM_CmdSetTypeSource, BTLV_EFFVM_CmdLoadClactFromPoke, BTLV_EFFVM_CmdCallScript, BTLV_EFFVM_CmdReturnScript, BTLV_EFFVM_CmdJumpScript, BTLV_EFFVM_CmdWaitForTask, BTLV_EFFVM_CmdJumpToArchiveScript, BTLV_EFFVM_CmdStartWaitTask, BTLV_EFFVM_CmdSetPokeSpriteAnimMode, BTLV_EFFVM_ReleaseScriptResources, BTLV_EFFVM_IsAllIdle, BTLV_EFFVM_WaitFramesCallback, BTLV_EFFVM_WaitTaskCallback, BTLV_EFFVM_WaitParticleCallback, BTLV_EFFVM_ResolveBattlerList, BTLV_EFFVM_ResolveBattlerListExpanded, BTLV_EFFVM_ResolveSlotKey, BTLV_EFFVM_ResolveSide, BTLV_EFFVM_ResolveSideFromVm, BTLV_EFFVM_ResolveAnchorSlot, BTLV_EFFVM_AllocEmitterSlot, BTLV_EFFVM_SetEmitterHandle, BTLV_EFFVM_FindEmitterSlot, BTLV_EFFVM_GetEmitterHandle, BTLV_EFFVM_ParticleStartCallback, BTLV_EFFVM_ParticleMotionStep, BTLV_EFFVM_EmitterInitCallback, BTLV_EFFVM_EmitterMoveCallbackB, BTLV_EFFVM_DeleteEmitter, BTLV_EFFVM_RefreshMcssOrtho, BTLV_EFFVM_PlaySeWithParams, BTLV_EFFVM_EvalCondition, BTLV_EFFVM_StartParticleEffectInternal, BTLV_EFFVM_SetupEmitterCallbacks, BTLV_EFFVM_TransformVecByMtx44, BTLV_EFFVM_TransformVecByMtx43, BTLV_EFFVM_ResolveParticleKey, BTLV_EFFVM_StartSeVolumeTweenTask, BTLV_EFFVM_FindFreeSeSlot, BTLV_EFFVM_ResetPokePositionIfLoaded, BTLV_EFFVM_SetShadowVanishIfLoaded, BTLV_EFFVM_SePlayTaskMain, BTLV_EFFVM_SePlayTaskEnd, BTLV_EFFVM_SeVolumeTweenTaskMain, BTLV_EFFVM_SeVolumeTweenTaskEnd, BTLV_EFFVM_SeModulationTaskMain, BTLV_EFFVM_SeModulationTaskEnd, BTLV_EFFVM_DelayTaskMain, BTLV_EFFVM_BlendRegisterTaskMain, BTLV_EFFVM_BlendRegisterTaskEnd, BTLV_EFFVM_WaitVoiceTaskMain, BTLV_EFFVM_MultiPokeTaskMain, BTLV_EFFVM_ParticleLoadTaskMain, BTLV_EFFVM_SpriteCleanupTaskMain, BTLV_EFFVM_IsMultiSideResourceId
+ * function: BTLV_EFFVM_Create, BTLV_EFFVM_Main, BTLV_EFFVM_Destroy, BTLV_EFFVM_StartScript, BTLV_EFFVM_StopScript, BTLV_EFFVM_ClearBlockedFlag, BTLV_EFFVM_GetFallbackScriptFlag, BTLV_EFFVM_InitParams, BTLV_EFFVM_StartSePlayTask, BTLV_EFFVM_StartSeVolumeTask, BTLV_EFFVM_StopLiveSounds, BTLV_EFFVM_ClearLastEffect, BTLV_EFFVM_CmdSetupCamera, BTLV_EFFVM_CmdMoveCameraTo, BTLV_EFFVM_CmdRotateCameraOrbit, BTLV_EFFVM_CmdMoveCameraEased, BTLV_EFFVM_CmdSetBillboardMode, BTLV_EFFVM_CmdSaveCameraPosition, BTLV_EFFVM_CmdLoadParticleResource, BTLV_EFFVM_CmdStartParticleEffect, BTLV_EFFVM_CmdStartParticleEffectFixedPos, BTLV_EFFVM_CmdStartParticleEffectTargeted, BTLV_EFFVM_CmdStartParticleEffectForEachInstance, BTLV_EFFVM_CmdDeleteParticleEmitter, BTLV_EFFVM_CmdStartParticleEffectOffset, BTLV_EFFVM_CmdStartParticleEffectConstOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset, BTLV_EFFVM_ParticleInitCallbackSource, BTLV_EFFVM_ParticleInitCallbackTarget, BTLV_EFFVM_CmdStartPokePositionTween, BTLV_EFFVM_CmdStartPokeShake, BTLV_EFFVM_CmdStartPokeBounce, BTLV_EFFVM_CmdStartPokeShadowScaleTween, BTLV_EFFVM_CmdStartPokeRotateTween, BTLV_EFFVM_CmdStartPokeAlphaTween, BTLV_EFFVM_CmdStartPokeMosaicTween, BTLV_EFFVM_CmdStartPokeBlink, BTLV_EFFVM_CmdSetPokeAnimStop, BTLV_EFFVM_CmdSetPokePaletteFade, BTLV_EFFVM_CmdSetPokeVanish, BTLV_EFFVM_CmdSetPokeShadowVanish, BTLV_EFFVM_CmdStartPokeShadowScaleTweenSecondary, BTLV_EFFVM_CmdDeletePokeSprites, BTLV_EFFVM_CmdAddPokeSprite, BTLV_EFFVM_CmdSetPokePosition, BTLV_EFFVM_CmdSetPokeAnimIndex, BTLV_EFFVM_CmdReleasePokeSprite, BTLV_EFFVM_CmdLoadBgPalette, BTLV_EFFVM_CmdStartBgScroll, BTLV_EFFVM_CmdNop4, BTLV_EFFVM_CmdNop5, BTLV_EFFVM_CmdSetBgLayerEnable, BTLV_EFFVM_CmdSetBlendRegister, BTLV_EFFVM_CmdSetStageFieldTint, BTLV_EFFVM_CmdSetStageLayerHidden, BTLV_EFFVM_CmdStartFadeTask, BTLV_EFFVM_CmdLoadClactAtPoke, BTLV_EFFVM_CmdStartClactPosTween, BTLV_EFFVM_CmdStartClactScaleTween, BTLV_EFFVM_CmdSetClactAnim, BTLV_EFFVM_CmdFadeClactPalette, BTLV_EFFVM_CmdReleaseClact, BTLV_EFFVM_CmdSetGaugeVisibility, BTLV_EFFVM_CmdPlaySe, BTLV_EFFVM_CmdStopSe, BTLV_EFFVM_CmdStartSeVolumeTween, BTLV_EFFVM_CmdStartSeVolumeTask, BTLV_EFFVM_CmdWaitFrames, BTLV_EFFVM_CmdWaitParticles, BTLV_EFFVM_CmdSetResult, BTLV_EFFVM_CmdJumpIf, BTLV_EFFVM_CmdJumpIfCondCompare, BTLV_EFFVM_CompareAndJump, BTLV_EFFVM_CmdJumpIfPokeLoaded, BTLV_EFFVM_CmdSetScriptVar, BTLV_EFFVM_CmdEvalCondition, BTLV_EFFVM_CmdSetParam, BTLV_EFFVM_CmdSetPokeCellFlag, BTLV_EFFVM_CmdCopyPokeSpriteState, BTLV_EFFVM_CmdStartPokeCry, BTLV_EFFVM_CmdSetBallSource, BTLV_EFFVM_CmdLoadClactFromPoke, BTLV_EFFVM_CmdCallScript, BTLV_EFFVM_CmdReturnScript, BTLV_EFFVM_CmdJumpScript, BTLV_EFFVM_CmdWaitForTask, BTLV_EFFVM_CmdJumpToArchiveScript, BTLV_EFFVM_CmdStartWaitTask, BTLV_EFFVM_CmdSetPokeSpriteAnimMode, BTLV_EFFVM_ReleaseScriptResources, BTLV_EFFVM_IsAllIdle, BTLV_EFFVM_WaitFramesCallback, BTLV_EFFVM_WaitTaskCallback, BTLV_EFFVM_WaitParticleCallback, BTLV_EFFVM_ResolveBattlerList, BTLV_EFFVM_ResolveBattlerListExpanded, BTLV_EFFVM_ResolveSlotKey, BTLV_EFFVM_ResolveSide, BTLV_EFFVM_ResolveSideFromVm, BTLV_EFFVM_ResolveAnchorSlot, BTLV_EFFVM_AllocEmitterSlot, BTLV_EFFVM_SetEmitterHandle, BTLV_EFFVM_FindEmitterSlot, BTLV_EFFVM_GetEmitterHandle, BTLV_EFFVM_ParticleStartCallback, BTLV_EFFVM_ParticleMotionStep, BTLV_EFFVM_EmitterInitCallback, BTLV_EFFVM_EmitterMoveCallbackB, BTLV_EFFVM_DeleteEmitter, BTLV_EFFVM_RefreshMcssOrtho, BTLV_EFFVM_PlaySeWithParams, BTLV_EFFVM_EvalCondition, BTLV_EFFVM_StartParticleEffectInternal, BTLV_EFFVM_SetupEmitterCallbacks, BTLV_EFFVM_TransformVecByMtx44, BTLV_EFFVM_TransformVecByMtx43, BTLV_EFFVM_ResolveParticleKey, BTLV_EFFVM_StartSeVolumeTweenTask, BTLV_EFFVM_FindFreeSeSlot, BTLV_EFFVM_ResetPokePositionIfLoaded, BTLV_EFFVM_SetShadowVanishIfLoaded, BTLV_EFFVM_SePlayTaskMain, BTLV_EFFVM_SePlayTaskEnd, BTLV_EFFVM_SeVolumeTweenTaskMain, BTLV_EFFVM_SeVolumeTweenTaskEnd, BTLV_EFFVM_SeModulationTaskMain, BTLV_EFFVM_SeModulationTaskEnd, BTLV_EFFVM_DelayTaskMain, BTLV_EFFVM_BlendRegisterTaskMain, BTLV_EFFVM_BlendRegisterTaskEnd, BTLV_EFFVM_WaitVoiceTaskMain, BTLV_EFFVM_MultiPokeTaskMain, BTLV_EFFVM_ParticleLoadTaskMain, BTLV_EFFVM_SpriteCleanupTaskMain, BTLV_EFFVM_IsMultiSideResourceId
  * address:  0x021F93F4
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -74,7 +74,7 @@
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   VM_Jump  0x020113B0  thumb
- *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
+ *   ITEM_GetBallIdForItem  0x0202142C  thumb
  *   VM_Call 0x020113B4 thumb
  *   VM_Return  0x020113C4  thumb
  *   VM_End 0x02011290 thumb
@@ -208,7 +208,7 @@
  *   BTLV_MCSS_SetSubstituteSprite 0x021FFFD8 thumb ov094
  *   BTLV_MCSS_CopySpriteResources 0x02200140 thumb ov094
  *   BTLV_MCSS_PlayCry 0x02200218 thumb ov094
- *   BTLV_MCSS_GetSpriteColorCode 0x022003C4 thumb ov094
+ *   BTLV_MCSS_GetSpriteBallId 0x022003C4 thumb ov094
  *   BTLV_MCSS_SetAnimIndexIfValid 0x0220041C thumb ov094
  *   BTLV_MCSS_SetAnimPendingCallback 0x02200468 thumb ov094
  *   BTLV_MCSS_IsAnimPending 0x02200494 thumb ov094
@@ -606,7 +606,7 @@ int BTLV_EFFVM_CmdCopyPokeSpriteState(int vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdStartPokeCry(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdSetTypeSource(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdSetBallSource(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work);
 
@@ -941,7 +941,7 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
     scriptData = work->scriptBuf;
     work->scriptVar = 0;
     work->flags.bit.stopSeOnEnd = 0;
-    work->typeSource = 8;
+    work->ballSource = 8;
     VM_Start(vm, (u8 *)work->scriptBuf + *(int *)(scriptData + entryOffset));
 }
 
@@ -988,7 +988,7 @@ void BTLV_EFFVM_InitParams(BtlvEffVmParams *params)
     params->side = 0;
     params->argA = 0;
     params->argB = 0;
-    params->typeCode = 0;
+    params->ballItem = 0;
 }
 
 void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch, u32 volume, int modDepth, int modSpeed, int delay)
@@ -2813,7 +2813,7 @@ int BTLV_EFFVM_CmdSetParam(struct ScriptVm *vm, BtlvEffVmWork *work)
         work->params.argB = value;
         break;
     case 15:
-        work->params.typeCode = value;
+        work->params.ballItem = value;
         break;
     case 0x35:
         work->flags.bit.cameraOffset = value;
@@ -2905,11 +2905,11 @@ int BTLV_EFFVM_CmdStartPokeCry(struct ScriptVm *vm, BtlvEffVmWork *work)
 }
 
 /*
- * Script command: stores one argument in typeSource.
+ * Script command: stores one argument in ballSource, whose ball picks per-ball keys.
  */
-int BTLV_EFFVM_CmdSetTypeSource(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdSetBallSource(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
-    work->typeSource = VM_GetU32(vm);
+    work->ballSource = VM_GetU32(vm);
     return work->result;
 }
 
@@ -2924,17 +2924,17 @@ int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     VecFx32 pos;
     int screenX;
     int screenY;
-    int typeIdx;
+    int ballId;
 
     BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &pos, battlerPos);
     pos.x += dx;
     pos.y += dy;
     NNS_G3dWorldPosToScrPos(&pos, &screenX, &screenY);
-    typeIdx = PALANM_GetPairedCodeForFirst(work->params.typeCode);
-    typeIdx = (typeIdx == 0 || typeIdx > 0x19) ? 4 : typeIdx;
-    typeIdx = (typeIdx == 0x19) ? 0x11 : typeIdx;
-    typeIdx *= 2;
-    work->resources[slot] = BTLV_CLACT_LoadActor(BTLV_EFFECT_GetClact(), 0x5f, typeIdx + 0x81, typeIdx + 0x82, 0x81, 0x82, screenX, screenY, scaleX, scaleY);
+    ballId = ITEM_GetBallIdForItem(work->params.ballItem);
+    ballId = (ballId == 0 || ballId > 0x19) ? 4 : ballId;
+    ballId = (ballId == 0x19) ? 0x11 : ballId;
+    ballId *= 2;
+    work->resources[slot] = BTLV_CLACT_LoadActor(BTLV_EFFECT_GetClact(), 0x5f, ballId + 0x81, ballId + 0x82, 0x81, 0x82, screenX, screenY, scaleX, scaleY);
     return work->result;
 }
 
@@ -4133,7 +4133,7 @@ int BTLV_EFFVM_EvalCondition(BtlvEffVmWork *work, unsigned int key)
     case 12: return work->params.side;
     case 13: return work->params.argA;
     case 14: return work->params.argB;
-    case 15: return work->params.typeCode;
+    case 15: return work->params.ballItem;
     case 16: return work->scriptVar;
     case 17: return work->attackerPos;
     case 18: return BTLV_MCSS_IsVanished(BTLV_EFFECT_GetMcss(), work->attackerPos);
@@ -4344,38 +4344,38 @@ void BTLV_EFFVM_TransformVecByMtx43(const VecFx32 *vec, const MtxFx44 *matrix, f
 /*
  * Levers: v and k unsigned (bhi/bhs/blo compares); the middle arm is
  * `mode != 8` and the mode==8 arm last, which puts its block after the
- * cross-jumped BTLV_MCSS_GetSpriteColorCode call.
+ * cross-jumped BTLV_MCSS_GetSpriteBallId call.
  */
 unsigned int BTLV_EFFVM_ResolveParticleKey(BtlvEffVmWork *work, unsigned int key)
 {
-    int mode = work->typeSource;
-    unsigned int typeIdx;
+    int mode = work->ballSource;
+    unsigned int ballId;
 
     if (mode == 9)
-        typeIdx = BTLV_MCSS_GetSpriteColorCode(BTLV_EFFECT_GetMcss(), work->attackerPos);
+        ballId = BTLV_MCSS_GetSpriteBallId(BTLV_EFFECT_GetMcss(), work->attackerPos);
     else if (mode != 8)
-        typeIdx = BTLV_MCSS_GetSpriteColorCode(BTLV_EFFECT_GetMcss(), mode);
+        ballId = BTLV_MCSS_GetSpriteBallId(BTLV_EFFECT_GetMcss(), mode);
     else
-        typeIdx = PALANM_GetPairedCodeForFirst(work->params.typeCode);
-    if (typeIdx == 0 || typeIdx > 0x19)
-        typeIdx = 4;
-    typeIdx--;
+        ballId = ITEM_GetBallIdForItem(work->params.ballItem);
+    if (ballId == 0 || ballId > 0x19)
+        ballId = 4;
+    ballId--;
     switch (key) {
     case 3:
-        key += typeIdx;
+        key += ballId;
         break;
     case 0x1d:
-        if (typeIdx + 1 == 0x19)
-            typeIdx = 0x10;
-        else if (typeIdx + 1 >= 0x10)
-            typeIdx = 3;
-        key += typeIdx;
+        if (ballId + 1 == 0x19)
+            ballId = 0x10;
+        else if (ballId + 1 >= 0x10)
+            ballId = 3;
+        key += ballId;
         break;
     case 0x2e:
     case 0x2f:
     case 0x30:
     case 0x31:
-        key += typeIdx << 2;
+        key += ballId << 2;
         break;
     }
     return key;

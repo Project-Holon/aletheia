@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFECT_StartEffectWithValue
+ * function: BTLV_EFFECT_StartBallBlockedEffect
  * address:  0x021F7D44
  * packet:   pkt_ov094_021F7D44
  * region:   ov094
@@ -25,7 +25,7 @@ extern char *gBtlvEff;
 extern void BTLV_EFFVM_InitParams(Req *);
 extern void BTLV_EFFVM_StartScript(void *, int, int, int, Req *);
 
-void BTLV_EFFECT_StartEffectWithValue(int a, unsigned short b)
+void BTLV_EFFECT_StartBallBlockedEffect(int a, unsigned short b)
 {
     Req req;
 

@@ -401,7 +401,7 @@
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   gBagItemEffectTable 0x021EFDE4 data a4
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
- *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
+ *   BTL_POKEPARAM_SetCaughtBall 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
@@ -636,11 +636,11 @@
  *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
  *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
  *   sLevelUpMoveScan      0x021F3B64  data
- *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StartBallThrowEffect 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_StopLowHpBgmAndSuppress 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
- *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
+ *   BTLV_EFFECT_StartBallBlockedEffect  0x021F7D44  thumb  ov094
  *   BTLV_CORE_StartClearSidePosition  0x021EAA6C  thumb  ov093
  *   BTLV_CORE_RunProc  0x021EAAD8  thumb  ov093
  *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
@@ -747,6 +747,7 @@
 #define BTL_DEADREC_GetLastPokeId BTL_DEADREC_GetLastPokeIdHeader
 #endif
 #include "btl_server_types.h"
+#include "../arm9/poke_type.h"
 #include "hand_common_types.h"
 #include "btl_server_flow_types.h"
 #include "../ov095/btl_pokeset_types.h"
@@ -5298,7 +5299,7 @@ int BTL_SERVER_FLOW_CalcMoveDamage(BtlServerFlow *flow, struct BtlPokeParam *att
             else scale = 100 - BTL_CALC_Random(16);
             value = (u32)(value * scale) / 100u;
         }
-        if (moveRecord->type != 17) value = BTL_CALC_MulRatio(value, BTL_SERVER_FLOW_CalcTypeMatchMultiplier(flow, attacker, moveRecord->type));
+        if (moveRecord->type != POKETYPE_NONE) value = BTL_CALC_MulRatio(value, BTL_SERVER_FLOW_CalcTypeMatchMultiplier(flow, attacker, moveRecord->type));
         value = BTL_CALC_ApplyTypeAffinity(value, typeMatchup);
         if (category == 1 && BTL_POKEPARAM_GetMajorStatusIndex(attacker) == 4 && BTL_POKEPARAM_GetValue(attacker, 17) != 62) {
             value = (u32)(50u * value) / 100u;
@@ -7847,7 +7848,7 @@ void BTL_SERVER_FLOW_GetMoveParam(BtlServerFlow *flow, u16 moveId, struct BtlPok
     moveParam->range = BTL_EVENT_GetVar(0x1B);
     moveParam->u.flags = 0;
     if (BTL_EVENT_GetVar(0x4B) != 0) {
-        moveParam->type = 0x11;
+        moveParam->type = POKETYPE_NONE;
     }
     BTL_EVENT_PopVarFrame(PM_SRC_LINE(11493, 11460));
 }
@@ -8202,7 +8203,7 @@ int BTL_SERVER_FLOW_CalcTypeEffectiveness(BtlServerFlow *flow, struct BtlPokePar
 {
     int r, x;
     int changed = 0;
-    if (moveParam->type == 17) return 3;
+    if (moveParam->type == POKETYPE_NONE) return 3;
     x = BTL_POKEPARAM_GetTypePair(defender);
     r = BTL_SERVER_FLOW_CalcSingleTypeAffinity(flow, attacker, defender, moveParam->type, BTL_TYPEPAIR_GetHigh(x));
     if (BTL_TYPEPAIR_IsSingleType(x) == 0)
@@ -11554,7 +11555,7 @@ int BTL_SERVER_FLOW_TryThrowBall(BtlServerFlow *flow, struct BtlPokeParam *throw
                 flow->flowResult = 6;
                 flow->capturedTargetSlot = chosen;
                 flag = BTL_MAIN_CheckZukanSeen(flow->mainModule, m) == 0 ? 1 : 0;
-                BTL_EVENT_StartClientPalAnm(m, ballItemId);
+                BTL_POKEPARAM_SetCaughtBall(m, ballItemId);
             } else { flag = 0; }
             BTL_SERVER_CMD_Push(flow->cmdQueue, 0x46, chosen, out[1], result, flag, out[0], ballItemId);
         }

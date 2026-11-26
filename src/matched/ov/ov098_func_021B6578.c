@@ -28,7 +28,7 @@
  *   to B_BAG_MAIN_Create).
  * wave82 checks: 1 021B614C (`ldr r0,[r0,#0x10]`), 022026FC and 021B6B74
  *   read r0 only, unchanged arity; definition conflicts: arm9
- *   PALANM_GetPairedCodeForFirst is defined `void (int)` but its result feeds
+ *   ITEM_GetBallIdForItem is defined `void (int)` but its result feeds
  *   POKE_TOOL_SetPartyValue (+0x1AE); arm9 TOUCHPANEL_GetTrg is defined `void (void)` but
  *   its return is tested at +0x180; 2 ov098 6504 twin uses the field form,
  *   no init twin; 3 const p (casts on stores) 65 B, const load alias 54 B;
@@ -48,7 +48,7 @@
  *   parameter-sinks-a-grouped-load-below-a-store, an-int-spelled-object-base-hoists-
  *   field-addresses, a-restrict-position-parameter-sinks-a-store-past-the-next-load,
  *   const-pointer-lets-a-field-load-survive-a-store, a-field-spelled-two-ways-is-copy-
- *   propagated (none changes the init order). Callee problems: PALANM_GetPairedCodeForFirst is
+ *   propagated (none changes the init order). Callee problems: ITEM_GetBallIdForItem is
  *   defined void (int) but its result is used at +01A8; TOUCHPANEL_GetTrg returns u16 and
  *   is declared int here (fine). The unresolved relocations are 021B614C, 022026FC,
  *   021B6B74 (no witness in this overlay). Still open: the loads need a base the
@@ -78,7 +78,7 @@
  *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
  *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
  *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
- *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StartBallThrowEffect 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
  *   func_02034AC4 0x02034AC4 arm
@@ -90,7 +90,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
+ *   ITEM_GetBallIdForItem 0x0202142C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 typedef unsigned char u8;
@@ -119,7 +119,7 @@ extern void BTLV_INPUT_StartPaletteFadeTask(char *, int);
 extern int BTLV_INPUT_IsScreenBusy(struct W *p);
 extern void BTLV_INPUT_StartScreenFadeTask(struct Obj *p);
 extern void B_BAG_MAIN_Create(u8 *);
-extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
+extern void BTLV_EFFECT_StartBallThrowEffect(u32, u16, u8, int, int);
 extern int BTLV_EFFECT_IsBusy(void);
 extern void BTLV_EFFECT_ResumeVm(void);
 extern int func_02034AC4(s32 handle);
@@ -131,7 +131,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern unsigned short ITEM_GetBallIdForItem(int a0);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 int PDC_MAIN_StepChooseItem(struct P *p)
 {
@@ -181,7 +181,7 @@ int PDC_MAIN_StepChooseItem(struct P *p)
         break;
     case 5:
         if (PDC_MSG_Update(p->object)) {
-            BTLV_EFFECT_StartEffectWithColor(1, p->h32, 4, 1, 0);
+            BTLV_EFFECT_StartBallThrowEffect(1, p->h32, 4, 1, 0);
             (p->state)++;
         }
         break;
@@ -215,7 +215,7 @@ int PDC_MAIN_StepChooseItem(struct P *p)
         break;
     case 11:
         if (!FADE_IsActive()) {
-            t = PALANM_GetPairedCodeForFirst(p->h32);
+            t = ITEM_GetBallIdForItem(p->h32);
             POKE_TOOL_SetPartyValue((void *)PDC_GetMon(p->parent), 152, t);
             return 1;
         }

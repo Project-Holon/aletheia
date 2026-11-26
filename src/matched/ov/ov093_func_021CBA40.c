@@ -18,7 +18,7 @@
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_SERVER_FLOW_CalcCaptureShakes 0x021CBB34 thumb ov093
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
- *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
+ *   BTL_POKEPARAM_SetCaughtBall 0x021D6E24 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  */
 #include "../include/Obj02784.h"
@@ -34,7 +34,7 @@ extern int BTL_POKEPARAM_IsFainted(void *);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern int BTL_SERVER_FLOW_CalcCaptureShakes(u8 *p, void *q, void *m, u16 mode, u8 *out, u8 *flag);
 extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
-extern void BTL_EVENT_StartClientPalAnm(void **p, int value);
+extern void BTL_POKEPARAM_SetCaughtBall(void **p, int value);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 int BTL_SERVER_FLOW_TryThrowBall(u8 *p, void *a, u16 b)
 {
@@ -58,7 +58,7 @@ int BTL_SERVER_FLOW_TryThrowBall(u8 *p, void *a, u16 b)
                 ((struct Obj02784 *)p)->f14 = 6;
                 p[0x784] = chosen;
                 flag = BTL_MAIN_CheckZukanSeen(((struct Obj02784 *)p)->f4, m) == 0 ? 1 : 0;
-                BTL_EVENT_StartClientPalAnm(m, b);
+                BTL_POKEPARAM_SetCaughtBall(m, b);
             } else { flag = 0; }
             BTL_SERVER_CMD_Push(((struct Obj02784 *)p)->fC, 0x46, chosen, out[1], result, flag, out[0], b);
         }

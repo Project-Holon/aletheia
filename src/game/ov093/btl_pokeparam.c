@@ -1,7 +1,7 @@
 /*
  * file:     btl_pokeparam.c
  * unit:     yes
- * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, BTL_POKEPARAM_ReplaceMoveSlot, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, BTL_POKEPARAM_CountRealMoves, BTL_POKEPARAM_CountUsedMoves, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, BTL_POKEPARAM_CopyMoves, BTL_POKEPARAM_GetMovePP, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, BTL_POKEPARAM_GetStatRaw, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, BTL_POKEPARAM_GetValue, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, BTL_POKEPARAM_GetStatStagePtr, BTL_POKEPARAM_CanChangeStatStage, BTL_POKEPARAM_GetStatStageRoom, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, BTL_POKEPARAM_TickSickCont, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickConfusionTurn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, BTL_POKEPARAM_CalcSickDamage, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastTargetPos, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_HasEnteredBattle, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, BTL_POKEPARAM_SetCounter, BTL_POKEPARAM_GetCounter, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, BTL_POKEPARAM_ClearFoughtList, BTL_POKEPARAM_AddFoughtPoke, BTL_POKEPARAM_GetFoughtCount, BTL_POKEPARAM_GetFoughtPokeId, BTL_EVENT_StartClientPalAnm, BTL_POKEPARAM_SetStoredPokeMove, BTL_POKEPARAM_GetStoredPokeMove, BTL_POKEPARAM_HasStoredPokeMove, BTL_POKEPARAM_ClearStoredPokeMove, BTL_POKEPARAM_RecalcMonParam
+ * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, BTL_POKEPARAM_ReplaceMoveSlot, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, BTL_POKEPARAM_CountRealMoves, BTL_POKEPARAM_CountUsedMoves, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, BTL_POKEPARAM_CopyMoves, BTL_POKEPARAM_GetMovePP, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, BTL_POKEPARAM_GetStatRaw, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, BTL_POKEPARAM_GetValue, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, BTL_POKEPARAM_GetStatStagePtr, BTL_POKEPARAM_CanChangeStatStage, BTL_POKEPARAM_GetStatStageRoom, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, BTL_POKEPARAM_TickSickCont, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickConfusionTurn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, BTL_POKEPARAM_CalcSickDamage, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastMoveType, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_HasEnteredBattle, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, BTL_POKEPARAM_SetCounter, BTL_POKEPARAM_GetCounter, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, BTL_POKEPARAM_ClearFoughtList, BTL_POKEPARAM_AddFoughtPoke, BTL_POKEPARAM_GetFoughtCount, BTL_POKEPARAM_GetFoughtPokeId, BTL_POKEPARAM_SetCaughtBall, BTL_POKEPARAM_SetStoredPokeMove, BTL_POKEPARAM_GetStoredPokeMove, BTL_POKEPARAM_HasStoredPokeMove, BTL_POKEPARAM_ClearStoredPokeMove, BTL_POKEPARAM_RecalcMonParam
  * address:  0x021D4D84
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -153,7 +153,7 @@
  *   gBtlPokeParamTransformMoves     0x021F3B8C  data  a4
  *   gBtlPokeParamTransformKept     0x021F3BC4  data  a4
  *   BTL_POKEPARAM_CureSick 0x021D6238 thumb ov093
- *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
+ *   ITEM_GetBallIdForItem 0x0202142C thumb
  *   gBtlEventFactorStorage  0x021F4470  data  a4
  *   gBtlEventFactorFreePool  0x021F3CBC  data  a4
  *   gBtlEventFactorList  0x021F3CB0  data  a4
@@ -176,6 +176,7 @@
 #define WAZA_TOOL_GetMaxPP WAZA_TOOL_GetMaxPPHeader
 #endif
 #include "btl_pokeparam_types.h"
+#include "../arm9/poke_type.h"
 #include "../arm9/item.h"
 
 
@@ -310,7 +311,7 @@ extern BtlPokeParamKept gBtlPokeParamTransformKept;
 #endif
 unsigned char BTL_POKEPARAM_GetFoughtCount(BtlPokeParam *pp);
 u8 BTL_POKEPARAM_GetFoughtPokeId(BtlPokeParam *pp, u32 slot);
-void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value);
+void BTL_POKEPARAM_SetCaughtBall(BtlPokeParam *pp, int ballItem);
 void BTL_POKEPARAM_SetStoredPokeMove(BtlPokeParam *pp, u8 pokeId, u16 key);
 int BTL_POKEPARAM_GetStoredPokeMove(BtlPokeParam *pp, u8 *pokeId, u16 *key);
 u32 BTL_POKEPARAM_HasStoredPokeMove(BtlPokeParam *pp);
@@ -360,7 +361,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heap
     pp->substituteHp = 0;
     pp->lastSelectedMoveId = 0;
     pp->lastUsedMoveId = 0;
-    pp->lastTargetPos = 0x11;
+    pp->lastMoveType = POKETYPE_NONE;
     pp->moveStreak = 0;
     pp->storedMoveId = 0;
     pp->storedPokeId = 0x1f;
@@ -560,7 +561,7 @@ void BTL_POKEPARAM_ResetMoveHistory(BtlPokeParam *pp)
     for (i = 0; i < 4; i++) BTL_POKEPARAM_ClearMoveUsedFlags(&pp->moves[i]);
     pp->lastSelectedMoveId = 0;
     pp->lastUsedMoveId = 0;
-    pp->lastTargetPos = 0x11;
+    pp->lastMoveType = POKETYPE_NONE;
     pp->moveStreak = 0;
 }
 
@@ -821,15 +822,15 @@ void BTL_POKEPARAM_GetTypes(BtlPokeParam *pp, u8 *type1, u8 *type2)
     int typeHidden = BTL_POKEPARAM_HasSick(pp, 0x18);
     u8 type;
     type = pp->type1;
-    if (type == 2 && typeHidden) *type1 = 0x11;
+    if (type == 2 && typeHidden) *type1 = POKETYPE_NONE;
     else *type1 = type;
     type = pp->type2;
-    if (type == 2 && typeHidden) *type2 = 0x11;
+    if (type == 2 && typeHidden) *type2 = POKETYPE_NONE;
     else *type2 = type;
-    if (*type1 == 0x11) {
-        if (*type2 == 0x11) *type2 = 0;
+    if (*type1 == POKETYPE_NONE) {
+        if (*type2 == POKETYPE_NONE) *type2 = 0;
         *type1 = *type2;
-    } else if (*type2 == 0x11) {
+    } else if (*type2 == POKETYPE_NONE) {
         *type2 = *type1;
     }
 }
@@ -848,7 +849,7 @@ int BTL_POKEPARAM_HasType(BtlPokeParam *pp, int type)
 {
     u8 type1;
     u8 type2;
-    if (type != 0x11) {
+    if (type != POKETYPE_NONE) {
         BTL_POKEPARAM_GetTypes(pp, &type1, &type2);
         if (type1 == type || type2 == type) return 1;
     }
@@ -1697,13 +1698,13 @@ u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *poke)
 }
 
 /* Remembers the last move used; moveStreak counts uses of the same move in a row. */
-void BTL_POKEPARAM_RecordMoveUse(struct BtlPokeParam *poke, u8 moveSlot, int keepStreak, u8 targetPos, u16 usedMoveId, u16 selectedMoveId)
+void BTL_POKEPARAM_RecordMoveUse(struct BtlPokeParam *poke, u8 moveSlot, int keepStreak, u8 moveType, u16 usedMoveId, u16 selectedMoveId)
 {
     u16 previousMoveId = poke->lastUsedMoveId;
     poke->lastSelectedMoveId = selectedMoveId;
     poke->lastUsedMoveId = usedMoveId;
     poke->lastMoveSlot = moveSlot;
-    poke->lastTargetPos = targetPos;
+    poke->lastMoveType = moveType;
     if (previousMoveId == usedMoveId) {
         if (keepStreak) poke->moveStreak += 1;
         else poke->moveStreak = 0;
@@ -1722,9 +1723,9 @@ u16 BTL_POKEPARAM_GetLastUsedMoveId(struct BtlPokeParam *poke)
     return poke->lastUsedMoveId;
 }
 
-u8 BTL_POKEPARAM_GetLastTargetPos(struct BtlPokeParam *poke)
+u8 BTL_POKEPARAM_GetLastMoveType(struct BtlPokeParam *poke)
 {
-    return poke->lastTargetPos;
+    return poke->lastMoveType;
 }
 
 u16 BTL_POKEPARAM_GetLastSelectedMoveId(struct BtlPokeParam *poke)
@@ -1989,7 +1990,7 @@ int BTL_POKEPARAM_Transform(struct BtlPokeParam *poke, struct BtlPokeParam *targ
         poke->turnsOnField = 0;
         poke->lastSelectedMoveId = 0;
         poke->lastUsedMoveId = 0;
-        poke->lastTargetPos = 0x11;
+        poke->lastMoveType = POKETYPE_NONE;
         poke->moveStreak = 0;
         poke->isTransformed = 1;
         return 1;
@@ -2073,12 +2074,13 @@ u8 BTL_POKEPARAM_GetFoughtPokeId(BtlPokeParam *pp, u32 slot)
 }
 
 
-void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value)
+/* The caught Pokemon keeps the ball it was caught with; a Poke Ball (4) when the item is no ball. */
+void BTL_POKEPARAM_SetCaughtBall(BtlPokeParam *pp, int ballItem)
 {
-    u32 code;
-    code = PALANM_GetPairedCodeForFirst(value);
-    if (code == 0) code = 4;
-    POKE_TOOL_SetPartyValue(pp->mon, 0x98, code);
+    u32 ballId;
+    ballId = ITEM_GetBallIdForItem(ballItem);
+    if (ballId == 0) ballId = 4;
+    POKE_TOOL_SetPartyValue(pp->mon, 0x98, ballId);
 }
 
 

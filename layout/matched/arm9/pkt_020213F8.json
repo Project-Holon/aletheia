@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "PALANM_LookupPairedCode",
+   "name": "ITEM_LookupBallIdPair",
    "address": "0x020213F8",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "PALANM_GetPairedCodeForFirst",
+   "name": "ITEM_GetBallIdForItem",
    "address": "0x0202142C",
    "kind": "game",
    "region": "arm9",

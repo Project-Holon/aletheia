@@ -77,6 +77,7 @@
 #define BTL_SICKCONT_MakeKind4 BTL_SICKCONT_MakeKind4Header
 #endif
 #include "btl_calc_types.h"
+#include "../arm9/poke_type.h"
 #include "../arm9/move.h"
 #include "../arm9/btl_setup_types.h"
 #include "btl_main_types.h"
@@ -263,7 +264,14 @@ extern const u8 gBtlCalcAccuracyStageRatios[][2];
 extern const u8 gBtlCalcCriticalRanges[];
 
 /* Type affinity table [attacker][defender]: 0 none, 2 half, 4 normal, 8 double. */
+#ifdef __MWERKS__
 extern u8 gBtlCalcTypeAffinityTable[17][17];
+#define BTL_CALC_AFFINITY_CELL(atk, def) gBtlCalcTypeAffinityTable[atk][def]
+#else
+/* The port gives a POKETYPE_COUNT x POKETYPE_COUNT table when a mod adds types. */
+extern u8 gBtlCalcTypeAffinityTable[];
+#define BTL_CALC_AFFINITY_CELL(atk, def) gBtlCalcTypeAffinityTable[(atk) * POKETYPE_COUNT + (def)]
+#endif
 
 /* Affinity class -> scale (0, 1, 2, 4, 8, 16) used to combine two classes. */
 extern u8 gBtlCalcAffinityScales[];
@@ -316,7 +324,7 @@ int BTL_CALC_GetTypeAffinity(int atkType, int defType)
 {
     if (atkType == BTL_TYPE_NONE || defType == BTL_TYPE_NONE)
         return BTL_AFF_NORMAL;
-    switch (gBtlCalcTypeAffinityTable[atkType][defType]) {
+    switch (BTL_CALC_AFFINITY_CELL(atkType, defType)) {
     case 0:
         return BTL_AFF_NONE;
     case 2:
@@ -377,7 +385,7 @@ u32 BTL_CALC_CalcBaseDamage(u32 power, u32 attack, u32 level, u32 defense) { ret
 u32 BTL_CALC_ApplyTypeAffinity(u32 damage, u32 affinity) { switch(affinity) { case 0:return 0; case 1:return damage/4; case 2:return damage/2; case 3:return damage; case 4:return damage*2; case 5:return damage*4; } return damage; }
 
 /* Lists the defender types that an attack type does not affect or hits for half; returns how many. */
-u8 BTL_CALC_ListResistingTypes(int atkType, u8 *outTypes) { u8 count,defType; defType=0; count=0; do { if(gBtlCalcTypeAffinityTable[atkType][defType]==0 || gBtlCalcTypeAffinityTable[atkType][defType]==2) outTypes[count++]=defType; ++defType; } while(defType<17); return count; }
+u8 BTL_CALC_ListResistingTypes(int atkType, u8 *outTypes) { u8 count,defType; defType=0; count=0; do { if(BTL_CALC_AFFINITY_CELL(atkType, defType)==0 || BTL_CALC_AFFINITY_CELL(atkType, defType)==2) outTypes[count++]=defType; ++defType; } while(defType<POKETYPE_COUNT); return count; }
 
 /* Reduces an affinity class to none (0), normal (1), advantage (2) or disadvantage (3). */
 int BTL_CALC_SummarizeTypeAffinity(int affinity) { if(affinity>3) return 2; if(affinity==3) return 1; if(affinity!=0) return 3; return 0; }

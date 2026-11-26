@@ -157,7 +157,7 @@ struct BtlPokeParam {
     u8 form;                            /* 0x141 */
     u8 critStage;                       /* 0x142 */
     u8 usedMoveCount;                   /* 0x143 */
-    u8 lastTargetPos;                   /* 0x144, 0x11 when none */
+    u8 lastMoveType;                    /* 0x144: type of the last move used, POKETYPE_NONE when none */
     u8 pad145[1];
     u16 turnsOnField;                   /* 0x146 */
     u16 turnThreshold;                  /* 0x148 */

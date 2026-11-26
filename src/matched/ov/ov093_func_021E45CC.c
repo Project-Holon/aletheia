@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
- *   BTL_POKEPARAM_GetLastTargetPos  0x021D67B0  thumb  ov093
+ *   BTL_POKEPARAM_GetLastMoveType  0x021D67B0  thumb  ov093
  *   BTL_SERVER_FLOW_GetScratchBuffer  0x021C8120  thumb  ov093
  *   BTL_CALC_ListResistingTypes  0x021D7A9C  thumb  ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
@@ -29,7 +29,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct QM;
-extern u8 BTL_POKEPARAM_GetLastTargetPos(struct QM *p);
+extern u8 BTL_POKEPARAM_GetLastMoveType(struct QM *p);
 extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *s, int k);
 extern u8 BTL_CALC_ListResistingTypes(int a, u8 *out);
 extern int BTL_POKEPARAM_HasType(void *p, int k);
@@ -50,7 +50,7 @@ void HAND_WAZA_Conversion2ChangeType(int a0, u8 *s, int k)
     u8 *e;
 
     if (k == BTL_EVENT_GetVar(3)) {
-        t = BTL_POKEPARAM_GetLastTargetPos((struct QM *)BTL_SERVER_FLOW_GetPokeParam((int *)s, (u8)BTL_EVENT_GetVar(6)));
+        t = BTL_POKEPARAM_GetLastMoveType((struct QM *)BTL_SERVER_FLOW_GetPokeParam((int *)s, (u8)BTL_EVENT_GetVar(6)));
         if (t != 0x11) {
             p = BTL_SERVER_FLOW_GetScratchBuffer(s, 0x11);
             n = BTL_CALC_ListResistingTypes(t, p);

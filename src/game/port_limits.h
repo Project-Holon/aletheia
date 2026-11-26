@@ -13,7 +13,8 @@ enum BwLimitId {
     BW_LIMIT_MOVE_LAST,
     BW_LIMIT_BTLV_EFFECT_MOVE_END,
     BW_LIMIT_FLDMMDL_OBJCODE_TABLE_COUNT,
-    BW_LIMIT_SPECIES_LAST /* append only, the port mirrors these numbers */
+    BW_LIMIT_SPECIES_LAST,
+    BW_LIMIT_TYPE_LAST /* append only, the port mirrors these numbers */
 };
 
 #ifdef __MWERKS__

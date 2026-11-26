@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
+ *   ITEM_GetBallIdForItem  0x0202142C  thumb
  *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
  *   BTLV_EFFECT_GetClact  0x021F86F0  thumb  ov094
@@ -38,7 +38,7 @@ typedef struct {
 
 struct Cursor;
 extern unsigned int VM_GetU32(struct Cursor *p);
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern unsigned short ITEM_GetBallIdForItem(int a0);
 extern void NNS_G3dWorldPosToScrPos(Pt *p, int *a, int *b);
 extern int BTLV_EFFECT_GetMcss(void);
 extern int BTLV_EFFECT_GetClact(void);
@@ -64,7 +64,7 @@ int BTLV_EFFVM_CmdLoadClactFromPoke(struct Cursor *a, State *s)
     pt.x += dx;
     pt.y += dy;
     NNS_G3dWorldPosToScrPos(&pt, &o1, &o2);
-    m = PALANM_GetPairedCodeForFirst(s->f254);
+    m = ITEM_GetBallIdForItem(s->f254);
     m = (m == 0 || m > 0x19) ? 4 : m;
     m = (m == 0x19) ? 0x11 : m;
     m *= 2;

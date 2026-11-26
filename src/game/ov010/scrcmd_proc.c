@@ -73,7 +73,7 @@
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_CreateEx 0x02017430 thumb
  *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
- *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
+ *   ITEM_GetBallIdForItem 0x0202142C thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
@@ -1658,7 +1658,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     POKE_TOOL_SetPartyValue(mon, 0x6F, spec->form);
     POKE_TOOL_SetPartyValue(mon, 6, spec->heldItem);
     if ((s32)FILE_UTIL_GetItemParam((u16)spec->ballItem, 0xF, spec->heapId) == 4)
-        POKE_TOOL_SetPartyValue(mon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
+        POKE_TOOL_SetPartyValue(mon, 0x98, (u32)ITEM_GetBallIdForItem((u16)spec->ballItem));
     SAVE_EVENT_Write(mon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
     POKE_TOOL_RecalcParam(mon);
     return mon;

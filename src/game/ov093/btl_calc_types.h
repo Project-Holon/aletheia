@@ -6,6 +6,7 @@
  */
 
 #include "../types.h"
+#include "../arm9/poke_type.h"
 #include "../ov093/btl_pokeparam_types.h"
 
 /* Parameters of the 64 bit linear congruential generator. mwcc aligns a u64 member to 4
@@ -55,7 +56,7 @@ struct BtlCalcWork {
 
 #define BTL_TYPE_GROUND 4
 
-#define BTL_TYPE_NONE 17 /* "no type": always affinity normal */
+#define BTL_TYPE_NONE POKETYPE_NONE /* "no type": always affinity normal */
 
 /* Type affinity classes returned by the affinity helpers. */
 #define BTL_AFF_NONE 0     /* no effect */

@@ -61,7 +61,7 @@ void BTLV_MCSS_CopySpriteResources(BtlvMcssWork *work, int posA, int posB);
 void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *work, int pos, McssAddWork *addWork);
 int BTLV_MCSS_PlayCry(BtlvMcssWork *work, int pos, int pitch, int pan, int chorusParamA, int chorusParamB, int chorusParamC);
 void BTLV_MCSS_StartRotation(BtlvMcssWork *work, int side, int dir, int playSound);
-int BTLV_MCSS_GetSpriteColorCode(BtlvMcssWork *work, int pos);
+int BTLV_MCSS_GetSpriteBallId(BtlvMcssWork *work, int pos);
 void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *work, void *pp, McssAddWork *out, int pos);
 int BTLV_MCSS_SetAnimIndexIfValid(BtlvMcssWork *work, int pos, int animIndex);
 void BTLV_MCSS_SetAnimPendingCallback(BtlvMcssWork *work, int pos);

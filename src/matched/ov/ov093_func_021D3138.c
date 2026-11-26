@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   BTLV_EFFECT_StartEffectWithValue  0x021F7D44  thumb  ov094
+ *   BTLV_EFFECT_StartBallBlockedEffect  0x021F7D44  thumb  ov094
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_SCU_InitMessage  0x021EAF18  thumb  ov093
  *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
-extern void BTLV_EFFECT_StartEffectWithValue(int a, u16 b);
+extern void BTLV_EFFECT_StartBallBlockedEffect(int a, u16 b);
 extern int BTLV_EFFECT_IsBusy(void);
 struct H;
 struct L;
@@ -35,7 +35,7 @@ int BTL_CLIENT_StepShowBallBlocked(u32 *a, int *b, u32 *c)
 {
     switch (*b) {
     case 0:
-        BTLV_EFFECT_StartEffectWithValue(BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[0]), (u16)c[1]);
+        BTLV_EFFECT_StartBallBlockedEffect(BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[0]), (u16)c[1]);
         (*b)++;
         break;
     case 1:

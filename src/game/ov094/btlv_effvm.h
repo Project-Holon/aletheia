@@ -93,7 +93,7 @@ int BTLV_EFFVM_CmdSetParam(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdSetPokeCellFlag(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdCopyPokeSpriteState(int vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdStartPokeCry(struct ScriptVm *vm, BtlvEffVmWork *work);
-int BTLV_EFFVM_CmdSetTypeSource(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdSetBallSource(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work);
 int BTLV_EFFVM_CmdReturnScript(struct ScriptVm *vm, BtlvEffVmWork *work);

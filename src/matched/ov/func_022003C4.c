@@ -1,5 +1,5 @@
 /*
- * function: BTLV_MCSS_GetSpriteColorCode
+ * function: BTLV_MCSS_GetSpriteBallId
  * address:  0x022003C4
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_MCSS_GetSpriteColorCode   0x022003C4  thumb
+ *   BTLV_MCSS_GetSpriteBallId   0x022003C4  thumb
  *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
 
  *
@@ -20,7 +20,7 @@
 
 extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-int BTLV_MCSS_GetSpriteColorCode(char *p, int key)
+int BTLV_MCSS_GetSpriteBallId(char *p, int key)
 {
     int i = BTLV_MCSS_FindSpriteIndex(p, key);
     char *e;

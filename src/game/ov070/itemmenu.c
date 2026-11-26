@@ -70,7 +70,7 @@
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   GAME_BEACON_SetItemUse  0x02027324  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
- *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
+ *   ITEM_IsNotJohtoBall  0x020213E0  thumb
  *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   UI_SetInputMode  0x020355D8  arm
@@ -1480,7 +1480,7 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
         work->selectedItemId = *itemIdPtr;
     mode = work->bagMode;
     if (mode == 2) {
-        if (FILE_UTIL_GetItemParam(work->selectedItemId, 3, work->heapId) == 0 && PALANM_IsOutsideReservedIdRange(work->selectedItemId) == 1) {
+        if (FILE_UTIL_GetItemParam(work->selectedItemId, 3, work->heapId) == 0 && ITEM_IsNotJohtoBall(work->selectedItemId) == 1) {
             if (FILE_UTIL_IsMailItem(work->selectedItemId) != 0)
                 work->nextState = 0x12;
             else
@@ -2157,7 +2157,7 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
             actions[0] = 0xFF;
         }
         if (FILE_UTIL_GetItemRecordParam(itemData, 3) == 0) {
-            if (PALANM_IsOutsideReservedIdRange(*itemIdPtr) == 1) {
+            if (ITEM_IsNotJohtoBall(*itemIdPtr) == 1) {
                 actions[1] = 6;
             }
             if (pocket != 2) {

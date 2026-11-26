@@ -135,6 +135,7 @@ struct Obj;
 struct Vec2;
 struct Rec;
 #include "../types.h"
+#include "../arm9/poke_type.h"
 #include "../version.h"
 
 /* Left edge of the height and weight values on the main page; the other languages need less room. */
@@ -1216,8 +1217,8 @@ void ZUKAN_INFO_CreateIconActors(struct ZukanInfo *p)
     if (p->mode == 2 && p->femaleFlag == 0) {
         r.a = 0; r.b = 0; r.c = 0; r.d = 0; r.e = 0;
         p->iconVisible = 1;
-        p->shownFormA = 0x11;
-        p->shownFormB = 0x11;
+        p->shownFormA = POKETYPE_NONE;
+        p->shownFormB = POKETYPE_NONE;
         for (i = 0; i < 0x11; i++) {
             p->iconChars[i] = CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(i), 0, flag, p->heap);
             p->iconActors[i] = CLACT_CreateActor(p->clactUnit, p->iconChars[i], p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&r, sh, p->heap);
@@ -1251,7 +1252,7 @@ void ZUKAN_INFO_ShowFormPair(char *p,int mode,int which)
     void *mon=((struct ZukanInfo *)p)->x;
     unsigned char first=POKE_PERSONAL_GetParam((struct PersonalData *)mon,6);
     unsigned char second=POKE_PERSONAL_GetParam((struct PersonalData *)mon,7);
-    if(first==second) second=17;
+    if(first==second) second=POKETYPE_NONE;
     if(mode==6) ZUKAN_INFO_LayoutFormPair((struct ZukanInfo *)p, first, second, which);
     else ZUKAN_INFO_LayoutFormPairEx((struct ZukanInfo *)p, first, second, mode, which);
     ZUKAN_INFO_DisableOtherRows((struct ZukanInfo *)p);
@@ -1277,10 +1278,10 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
         pos[0].y = v;
         pos[1].x = 0xd0;
         pos[1].y = v;
-        if (p->shownFormA != 0x11) {
+        if (p->shownFormA != POKETYPE_NONE) {
             if (p->shownFormA != x && p->shownFormA != y) {
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA], 0);
-                p->shownFormA = 0x11;
+                p->shownFormA = POKETYPE_NONE;
             } else {
                 if (p->shownFormA == y) {
                     CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (struct ClactVec2 *)(&pos[1]), ifv);
@@ -1288,10 +1289,10 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA], 1);
             }
         }
-        if (p->shownFormB != 0x11) {
+        if (p->shownFormB != POKETYPE_NONE) {
             if (p->shownFormB != x && p->shownFormB != y) {
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB], 0);
-                p->shownFormB = 0x11;
+                p->shownFormB = POKETYPE_NONE;
             } else {
                 if (p->shownFormB == x) {
                     CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (struct ClactVec2 *)(&pos[0]), ifv);
@@ -1299,12 +1300,12 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB], 1);
             }
         }
-        if (x != 0x11) {
+        if (x != POKETYPE_NONE) {
             p->shownFormA = x;
             CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA], 1);
             CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (struct ClactVec2 *)(&pos[0]), ifv);
         }
-        if (y != 0x11) {
+        if (y != POKETYPE_NONE) {
             p->shownFormB = y;
             CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB], 1);
             CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (struct ClactVec2 *)(&pos[1]), ifv);
@@ -1332,7 +1333,7 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
         arc = p->w[3];
         for (j = 0; j < 2; j++) {
             p->charIds[row][j] = -1;
-            if (sel[j] != 0x11) {
+            if (sel[j] != POKETYPE_NONE) {
                 p->charIds[row][j] = CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(sel[j]), 0, ifv, p->heap);
             }
         }
@@ -1390,7 +1391,7 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
     for (j = 0; j < 2; j++) {
         p->charIds[row][j] = -1;
         id = sel[j];
-        if (id != 0x11) {
+        if (id != POKETYPE_NONE) {
             p->charIds[row][j] = CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(id), 0, ifv, p->heap);
             ta = d_021BC150[id].b << 7;
             tb = d_021BC150[id].a << 11;
@@ -1571,8 +1572,8 @@ void ZUKAN_INFO_SetDrawEnable(struct ZukanInfo *p, int v)
     u8 i;
     CLACT_SetActorDrawEnable(p->formActor[p->flag190],v);
     if(p->iconVisible) {
-        if(p->shownFormA!=17) CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA],v);
-        if(p->shownFormB!=17) CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB],v);
+        if(p->shownFormA!=POKETYPE_NONE) CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA],v);
+        if(p->shownFormB!=POKETYPE_NONE) CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB],v);
     } else {
         for(i=0;i<2;i++) {
             if(p->charIds[p->iconEnabled][i]!=-1)

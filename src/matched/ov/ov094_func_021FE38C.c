@@ -11,17 +11,17 @@
  *
  * Levers: v and k unsigned (bhi/bhs/blo compares); the middle arm is
  * `mode != 8` and the mode==8 arm last, which puts its block after the
- * cross-jumped BTLV_MCSS_GetSpriteColorCode call.
+ * cross-jumped BTLV_MCSS_GetSpriteBallId call.
  *
  * symbols:
  *   BTLV_EFFECT_GetMcss  0x021F8694  thumb  ov094
- *   BTLV_MCSS_GetSpriteColorCode  0x022003C4  thumb  ov094
- *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
+ *   BTLV_MCSS_GetSpriteBallId  0x022003C4  thumb  ov094
+ *   ITEM_GetBallIdForItem  0x0202142C  thumb
  */
 #include "../include/Obj00325.h"
 extern int BTLV_EFFECT_GetMcss(void);
-extern int BTLV_MCSS_GetSpriteColorCode(char *p, int key);
-extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern int BTLV_MCSS_GetSpriteBallId(char *p, int key);
+extern unsigned short ITEM_GetBallIdForItem(int a0);
 
 unsigned int BTLV_EFFVM_ResolveParticleKey(char *p, unsigned int k)
 {
@@ -29,11 +29,11 @@ unsigned int BTLV_EFFVM_ResolveParticleKey(char *p, unsigned int k)
     unsigned int v;
 
     if (mode == 9)
-        v = BTLV_MCSS_GetSpriteColorCode((char *)BTLV_EFFECT_GetMcss(), ((struct Obj00325 *)p)->fDC);
+        v = BTLV_MCSS_GetSpriteBallId((char *)BTLV_EFFECT_GetMcss(), ((struct Obj00325 *)p)->fDC);
     else if (mode != 8)
-        v = BTLV_MCSS_GetSpriteColorCode((char *)BTLV_EFFECT_GetMcss(), mode);
+        v = BTLV_MCSS_GetSpriteBallId((char *)BTLV_EFFECT_GetMcss(), mode);
     else
-        v = PALANM_GetPairedCodeForFirst(((struct Obj00325 *)p)->f254);
+        v = ITEM_GetBallIdForItem(((struct Obj00325 *)p)->f254);
     if (v == 0 || v > 0x19)
         v = 4;
     v--;

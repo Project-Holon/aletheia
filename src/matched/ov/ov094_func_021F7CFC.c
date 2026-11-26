@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFECT_StartEffectWithColor
+ * function: BTLV_EFFECT_StartBallThrowEffect
  * address:  0x021F7CFC
  * packet:   pkt_ov094_021F7CFC
  * region:   ov094
@@ -37,7 +37,7 @@ extern Work *gBtlvEff;
 extern void BTLV_EFFVM_InitParams(Arg *a);
 extern void BTLV_EFFVM_StartScript(void *h, int a, u32 b, u16 c, Arg *d);
 
-void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e)
+void BTLV_EFFECT_StartBallThrowEffect(u32 a, u16 b, u8 c, int d, int e)
 {
     Arg l;
 

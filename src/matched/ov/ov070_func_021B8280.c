@@ -16,7 +16,7 @@
  *   ITEMMENU_CheckItemFilter  0x021B822C  thumb  ov070
  *   ITEMMENU_IsCheckModeAllowed  0x021B8F68  thumb  ov070
  *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
- *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
+ *   ITEM_IsNotJohtoBall  0x020213E0  thumb
  *   ITEMMENU_IsItemRegistered  0x021B83A0  thumb  ov070
  *   func_020307B0  0x020307B0  arm
  */
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Rec;
 extern u32 FILE_UTIL_GetItemRecordParam(struct Rec *p, u32 sel);
-extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
+extern u32 ITEM_IsNotJohtoBall(u16 v);
 extern int ITEMMENU_IsItemRegistered(char *p, int value);
 extern u32 func_020307B0(void *p);
 
@@ -48,7 +48,7 @@ void ITEMMENU_BuildActionList(struct Obj *p, unsigned char *q)
             q[0] = 0xFF;
         }
         if (FILE_UTIL_GetItemRecordParam(h, 3) == 0) {
-            if (PALANM_IsOutsideReservedIdRange(*e) == 1) {
+            if (ITEM_IsNotJohtoBall(*e) == 1) {
                 q[1] = 6;
             }
             if (v != 2) {

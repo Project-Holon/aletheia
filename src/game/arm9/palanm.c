@@ -1,7 +1,7 @@
 /*
  * file:     palanm.c
  * unit:     yes
- * function: ITEM_IsBerry, PALANM_IsOutsideReservedIdRange, PALANM_LookupPairedCode, PALANM_GetPairedCodeForFirst, PALANM_StopTimer, PALANM_StartTimer, PALANM_UpdateTimer, PALANM_Create, PALANM_Delete, PALANM_SetSlotBuffers, PALANM_AllocSlotBuffers, PALANM_FreeSlotBuffers, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, PALANM_CopyHwPaletteToSlot, PALANM_GetDefaultWork, PALANM_GetTransWork, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, PALANM_BlendColors, PALANM_BlendChannel, PALANM_BlendChannelMask, PALANM_ConvertGrayTable
+ * function: ITEM_IsBerry, ITEM_IsNotJohtoBall, ITEM_LookupBallIdPair, ITEM_GetBallIdForItem, PALANM_StopTimer, PALANM_StartTimer, PALANM_UpdateTimer, PALANM_Create, PALANM_Delete, PALANM_SetSlotBuffers, PALANM_AllocSlotBuffers, PALANM_FreeSlotBuffers, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, PALANM_CopyHwPaletteToSlot, PALANM_GetDefaultWork, PALANM_GetTransWork, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, PALANM_BlendColors, PALANM_BlendChannel, PALANM_BlendChannelMask, PALANM_ConvertGrayTable
  * address:  0x020213C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   sItemBerryTable  0x0209E968  data
- *   sPalAnmCodePairTable  0x0209E904  data
+ *   sItemBallIdTable  0x0209E904  data
  *   sPalAnmTimer  0x02146788  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv    0x0209C00C  arm
@@ -75,10 +75,10 @@ struct GameData;
 #include "gfl_heap_wrap.h"
 #include "mi_memory.h"
 #include "arc_util.h"
-int ITEM_IsBerry(u32 colorCode);
-u32 PALANM_IsOutsideReservedIdRange(u16 id);
-u16 PALANM_LookupPairedCode(int value, int column);
-unsigned short PALANM_GetPairedCodeForFirst(int value);
+int ITEM_IsBerry(u32 itemId);
+u32 ITEM_IsNotJohtoBall(u16 id);
+u16 ITEM_LookupBallIdPair(int value, int column);
+unsigned short ITEM_GetBallIdForItem(int value);
 void PALANM_StopTimer(void);
 void PALANM_StartTimer(void);
 void PALANM_UpdateTimer(u8 *target);
@@ -94,7 +94,7 @@ void PALANM_LoadHandlePaletteToSlotAt(PaletteFade *fade, void *arcHandle, u32 fi
 void PALANM_LoadHandlePaletteToSlot(PaletteFade *fade, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
 void PALANM_CopyHwPaletteToSlot(PaletteFade *fade, u32 bank, u32 dstOffset, u32 size);
 extern u16 sItemBerryTable[];
-extern u16 sPalAnmCodePairTable[][2];
+extern u16 sItemBallIdTable[][2];
 extern struct PalAnmTimer sPalAnmTimer;
 extern const char sPalAnmFileName[];
 extern const char sPalAnmFileName[];
@@ -211,21 +211,25 @@ void PALANM_BlendChannelMask(PaletteFade *p, u32 idx, u16 m, u8 weight, u16 colo
 
 void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
-int ITEM_IsBerry(u32 colorCode)
+int ITEM_IsBerry(u32 itemId)
 {
     u32 i;
 
     for (i = 0; i < 0x40; i++)
-        if (sItemBerryTable[i] == colorCode)
+        if (sItemBerryTable[i] == itemId)
             return 1;
     return 0;
 }
 
 /*
+ * 0 for items 492..500, Fast Ball to Park Ball: the balls from Johto that
+ * this game cannot hold or use.  The bag offers no Give for them.
+ *
  * Verified with:
- *   python tools/match.py one --src src/matched/PALANM_IsOutsideReservedIdRange.c  *       --func PALANM_IsOutsideReservedIdRange --addr 0x020213E0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/arm9/func_020213E0.c \
+ *       --func ITEM_IsNotJohtoBall --addr 0x020213E0 --cc 1.1p1 --thumb
  */
-u32 PALANM_IsOutsideReservedIdRange(u16 id)
+u32 ITEM_IsNotJohtoBall(u16 id)
 {
     if ((u16)(id + 0xFE14) > 8) {
         return 1;
@@ -233,19 +237,26 @@ u32 PALANM_IsOutsideReservedIdRange(u16 id)
     return 0;
 }
 
-u16 PALANM_LookupPairedCode(int value, int column)
+/*
+ * sItemBallIdTable holds 25 {item, ball id} pairs: items 1..16 (Master Ball
+ * to Cherish Ball) are ball ids 1..16, items 492..499 (Fast Ball to Sport
+ * Ball) are 17..24 and item 576 (Dream Ball) is 25.  Column 0 looks up by
+ * item, column 1 by ball id.  0 when not found.
+ */
+u16 ITEM_LookupBallIdPair(int value, int column)
 {
     u32 i;
 
     for (i = 0; i < 0x19; i++)
-        if (sPalAnmCodePairTable[i][column] == value)
-            return sPalAnmCodePairTable[i][column ^ 1];
+        if (sItemBallIdTable[i][column] == value)
+            return sItemBallIdTable[i][column ^ 1];
     return 0;
 }
 
-unsigned short PALANM_GetPairedCodeForFirst(int value)
+/* Ball id (Pokemon value 0x98) for a ball item. */
+unsigned short ITEM_GetBallIdForItem(int value)
 {
-    return PALANM_LookupPairedCode(value, 0);
+    return ITEM_LookupBallIdPair(value, 0);
 }
 
 /*

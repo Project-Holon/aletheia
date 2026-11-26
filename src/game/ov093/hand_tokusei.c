@@ -268,6 +268,7 @@
 #define BTL_SERVER_FLOW_GetActionWordByPokeId BTL_SERVER_FLOW_GetActionWordByPokeIdHeader
 #endif
 #include "btl_action_word_types.h"
+#include "../arm9/poke_type.h"
 #include "hand_tokusei_types.h"
 #include "btl_server_types.h"
 #include "../arm9/palanm.h"
@@ -3221,7 +3222,7 @@ void HAND_TOKUSEI_ColorChangeOnDamage(int myHandle, struct BtlServerFlow *flow, 
 {
     struct BtlPokeParam *self;
     struct HandExChangeType *record;
-    u8 weather;
+    u8 moveType;
 
     if (HAND_COMMON_IsMoveTarget(pokeId) == 0)
         return;
@@ -3230,14 +3231,14 @@ void HAND_TOKUSEI_ColorChangeOnDamage(int myHandle, struct BtlServerFlow *flow, 
     self = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
     if (BTL_POKEPARAM_IsFainted(self) != 0)
         return;
-    weather = (u8)BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE);
-    if (weather == 0x11)
+    moveType = (u8)BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE);
+    if (moveType == POKETYPE_NONE)
         return;
-    if (BTL_POKEPARAM_HasType(self, weather) != 0)
+    if (BTL_POKEPARAM_HasType(self, moveType) != 0)
         return;
     BTL_SERVER_FLOW_PushCmdRecord(flow, HANDEX_ABILITY_WINDOW_IN, pokeId);
     record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_FORM, pokeId);
-    record->typePair = BTL_TYPEPAIR_MakeSingle(weather);
+    record->typePair = BTL_TYPEPAIR_MakeSingle(moveType);
     record->pokeId = pokeId;
     BTL_SERVER_FLOW_CommitCmdRecord(flow, record);
     BTL_SERVER_FLOW_PushCmdRecord(flow, HANDEX_ABILITY_WINDOW_OUT, pokeId);

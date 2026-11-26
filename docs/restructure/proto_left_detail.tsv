@@ -2810,7 +2810,7 @@ src/game/ov093/btl_server_flow.c	1732	POKE_TOOL_GetPersonalParam	width	u32 (u32,
 src/game/ov093/btl_server_flow.c	1733	POKE_TOOL_DecodePartyParam	pointee	u32 (struct Sav*)	u32 (struct PokemonParam*)	src/game/arm9/poke_tool.c
 src/game/ov093/btl_server_flow.c	1734	POKE_TOOL_EncodePartyParam	pointee	u32 (struct Sav*, u32)	u32 (struct PokemonParam*, u32)	src/game/arm9/poke_tool.c
 src/game/ov093/btl_server_flow.c	1735	BTL_MAIN_CheckZukanSeen	pointee	s32 (char*, void*)	s32 (struct BtlMain*, void*)	src/game/ov093/btl_main.c
-src/game/ov093/btl_server_flow.c	1736	BTL_EVENT_StartClientPalAnm	pointee	void (void**, s32)	void (struct BtlPokeParam*, s32)	src/game/ov093/btl_pokeparam.c
+src/game/ov093/btl_server_flow.c	1736	BTL_POKEPARAM_SetCaughtBall	pointee	void (void**, s32)	void (struct BtlPokeParam*, s32)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1738	FX_Div	ret,sign	s32 (s32, s32)	u32 (u32, u32)	src/game/arm9/fx_cp.c
 src/game/ov093/btl_server_flow.c	1739	BTL_MAIN_GetZukanSeenCount	pointee	u32 (char**)	u32 (struct BtlMain*)	src/game/ov093/btl_main.c
 src/game/ov093/btl_server_flow.c	1741	BTL_ID_IsBallWithCatchBonus	width	s32 (u16)	s32 (u32)	src/game/ov095/btl_id_sets.c

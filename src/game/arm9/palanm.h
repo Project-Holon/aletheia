@@ -10,10 +10,10 @@ typedef struct PaletteFade PaletteFade;
 
 #include "../types.h"
 
-int ITEM_IsBerry(u32 colorCode);
-u32 PALANM_IsOutsideReservedIdRange(u16 id);
-u16 PALANM_LookupPairedCode(int value, int column);
-unsigned short PALANM_GetPairedCodeForFirst(int value);
+int ITEM_IsBerry(u32 itemId);
+u32 ITEM_IsNotJohtoBall(u16 id);
+u16 ITEM_LookupBallIdPair(int value, int column);
+unsigned short ITEM_GetBallIdForItem(int value);
 void PALANM_StopTimer(void);
 void PALANM_StartTimer(void);
 void PALANM_UpdateTimer(u8 *target);

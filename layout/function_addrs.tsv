@@ -2160,9 +2160,9 @@ arm9	0x0202136C	FILE_UTIL_IsMailItem	thumb	32	src/game/arm9/file_util.c	no
 arm9	0x0202138C	FILE_UTIL_GetItemSlot	thumb	32	src/game/arm9/file_util.c	no
 arm9	0x020213AC	FILE_UTIL_GetItemId	thumb	20	src/game/arm9/file_util.c	no
 arm9	0x020213C0	ITEM_IsBerry	thumb	32	src/game/arm9/palanm.c	no
-arm9	0x020213E0	PALANM_IsOutsideReservedIdRange	thumb	24	src/game/arm9/palanm.c	no
-arm9	0x020213F8	PALANM_LookupPairedCode	thumb	52	src/game/arm9/palanm.c	no
-arm9	0x0202142C	PALANM_GetPairedCodeForFirst	thumb	12	src/game/arm9/palanm.c	no
+arm9	0x020213E0	ITEM_IsNotJohtoBall	thumb	24	src/game/arm9/palanm.c	no
+arm9	0x020213F8	ITEM_LookupBallIdPair	thumb	52	src/game/arm9/palanm.c	no
+arm9	0x0202142C	ITEM_GetBallIdForItem	thumb	12	src/game/arm9/palanm.c	no
 arm9	0x02021438	PALANM_StopTimer	thumb	12	src/game/arm9/palanm.c	no
 arm9	0x02021444	PALANM_StartTimer	thumb	32	src/game/arm9/palanm.c	no
 arm9	0x02021464	PALANM_UpdateTimer	thumb	180	src/game/arm9/palanm.c	no
@@ -20648,7 +20648,7 @@ ov093	0x021D6740	BTL_POKEPARAM_GetConsumedItem	thumb	4	src/game/ov093/btl_pokepa
 ov093	0x021D6744	BTL_POKEPARAM_RecordMoveUse	thumb	88	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D679C	BTL_POKEPARAM_GetMoveStreak	thumb	12	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D67A8	BTL_POKEPARAM_GetLastUsedMoveId	thumb	8	src/game/ov093/btl_pokeparam.c	no
-ov093	0x021D67B0	BTL_POKEPARAM_GetLastTargetPos	thumb	8	src/game/ov093/btl_pokeparam.c	no
+ov093	0x021D67B0	BTL_POKEPARAM_GetLastMoveType	thumb	8	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D67B8	BTL_POKEPARAM_GetLastSelectedMoveId	thumb	12	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D67C4	BTL_POKEPARAM_GetLastMoveSlot	thumb	12	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D67D0	BTL_POKEPARAM_HasEnteredBattle	thumb	8	src/game/ov093/btl_pokeparam.c	no
@@ -20679,7 +20679,7 @@ ov093	0x021D6DC4	BTL_POKEPARAM_ClearFoughtList	thumb	8	src/game/ov093/btl_pokepa
 ov093	0x021D6DCC	BTL_POKEPARAM_AddFoughtPoke	thumb	56	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D6E04	BTL_POKEPARAM_GetFoughtCount	thumb	6	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D6E0C	BTL_POKEPARAM_GetFoughtPokeId	thumb	22	src/game/ov093/btl_pokeparam.c	no
-ov093	0x021D6E24	BTL_EVENT_StartClientPalAnm	thumb	26	src/game/ov093/btl_pokeparam.c	no
+ov093	0x021D6E24	BTL_POKEPARAM_SetCaughtBall	thumb	26	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D6E40	BTL_POKEPARAM_SetStoredPokeMove	thumb	16	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D6E50	BTL_POKEPARAM_GetStoredPokeMove	thumb	36	src/game/ov093/btl_pokeparam.c	no
 ov093	0x021D6E74	BTL_POKEPARAM_HasStoredPokeMove	thumb	20	src/game/ov093/btl_pokeparam.c	no
@@ -22675,8 +22675,8 @@ ov094	0x021F7BEC	BTLV_EFFECT_PauseVm	thumb	32	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7C0C	BTLV_EFFECT_ResumeVm	thumb	32	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7C2C	BTLV_EFFECT_StartDamageTintTask	thumb	184	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7CE4	BTLV_EFFECT_StartPokeAppearEffect	thumb	24	src/game/ov094/btlv_effect.c	no
-ov094	0x021F7CFC	BTLV_EFFECT_StartEffectWithColor	thumb	72	src/game/ov094/btlv_effect.c	no
-ov094	0x021F7D44	BTLV_EFFECT_StartEffectWithValue	thumb	60	src/game/ov094/btlv_effect.c	no
+ov094	0x021F7CFC	BTLV_EFFECT_StartBallThrowEffect	thumb	72	src/game/ov094/btlv_effect.c	no
+ov094	0x021F7D44	BTLV_EFFECT_StartBallBlockedEffect	thumb	60	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7D80	BTLV_EFFECT_StartHitTask	thumb	184	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7E38	BTLV_EFFECT_ResetPokeSprite	thumb	60	src/game/ov094/btlv_effect.c	no
 ov094	0x021F7E74	BTLV_EFFECT_StartPokeEffectId285	thumb	16	src/game/ov094/btlv_effect.c	no
@@ -22858,7 +22858,7 @@ ov094	0x021FBE90	BTLV_EFFVM_CmdSetParam	thumb	184	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FBF48	BTLV_EFFVM_CmdSetPokeCellFlag	thumb	86	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FBFA0	BTLV_EFFVM_CmdCopyPokeSpriteState	thumb	32	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FBFC0	BTLV_EFFVM_CmdStartPokeCry	thumb	372	src/game/ov094/btlv_effvm.c	no
-ov094	0x021FC134	BTLV_EFFVM_CmdSetTypeSource	thumb	20	src/game/ov094/btlv_effvm.c	no
+ov094	0x021FC134	BTLV_EFFVM_CmdSetBallSource	thumb	20	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FC148	BTLV_EFFVM_CmdLoadClactFromPoke	thumb	196	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FC20C	BTLV_EFFVM_CmdCallScript	thumb	208	src/game/ov094/btlv_effvm.c	no
 ov094	0x021FC2DC	BTLV_EFFVM_CmdReturnScript	thumb	86	src/game/ov094/btlv_effvm.c	no
@@ -22964,7 +22964,7 @@ ov094	0x02200140	BTLV_MCSS_CopySpriteResources	thumb	156	src/game/ov094/btlv_mcs
 ov094	0x022001DC	BTLV_MCSS_ReloadSpriteResource	thumb	60	src/game/ov094/btlv_mcss.c	no
 ov094	0x02200218	BTLV_MCSS_PlayCry	thumb	300	src/game/ov094/btlv_mcss.c	no
 ov094	0x02200344	BTLV_MCSS_StartRotation	thumb	128	src/game/ov094/btlv_mcss.c	no
-ov094	0x022003C4	BTLV_MCSS_GetSpriteColorCode	thumb	40	src/game/ov094/btlv_mcss.c	no
+ov094	0x022003C4	BTLV_MCSS_GetSpriteBallId	thumb	40	src/game/ov094/btlv_mcss.c	no
 ov094	0x022003EC	BTLV_MCSS_MakeAddWorkFromPoke	thumb	46	src/game/ov094/btlv_mcss.c	no
 ov094	0x0220041C	BTLV_MCSS_SetAnimIndexIfValid	thumb	74	src/game/ov094/btlv_mcss.c	no
 ov094	0x02200468	BTLV_MCSS_SetAnimPendingCallback	thumb	44	src/game/ov094/btlv_mcss.c	no

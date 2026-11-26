@@ -87,7 +87,7 @@ typedef struct BtlvMcssSprite {
     McssAddWork addWork;            /* 0x04 */
     void *animWatchTask;                /* 0x28: idle animation watcher task */
     BtlvMcssIdentity identity;          /* 0x2c */
-    u32 colorCode;                      /* 0x3c: Pokemon value 0x98, used as a color/type code by effect scripts */
+    u32 ballId;                      /* 0x3c: Pokemon value 0x98, the ball it is in; effect scripts pick per-ball keys by it */
     u32 attrFlags;                      /* 0x40: BTLV_MCSS_ATTR_* */
     int animPending;                    /* 0x44: set when an animation index was chosen, cleared by its callback */
     int pos;                            /* 0x48: BtlvMcssPos, 0xff = none */

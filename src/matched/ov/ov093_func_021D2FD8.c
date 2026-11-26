@@ -11,7 +11,7 @@
  * stack-argument store in the first arm.
  * symbols:
  *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
- *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StartBallThrowEffect 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_IsBusy 0x021F7EB4 thumb ov094
  *   BTL_SIDE_GetPokeAtPos 0x021B98AC thumb ov093
  *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
@@ -31,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
-extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
+extern void BTLV_EFFECT_StartBallThrowEffect(u32, u16, u8, int, int);
 extern int BTLV_EFFECT_IsBusy(void);
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 struct L;
@@ -53,7 +53,7 @@ int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
 {
     switch (*b) {
     case 0:
-        BTLV_EFFECT_StartEffectWithColor(BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[0]), (u16)c[5], (u8)c[1], c[2], c[4]);
+        BTLV_EFFECT_StartBallThrowEffect(BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[0]), (u16)c[5], (u8)c[1], c[2], c[4]);
         (*b)++;
         break;
     case 1:

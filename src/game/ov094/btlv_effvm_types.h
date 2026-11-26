@@ -69,7 +69,7 @@ typedef struct BtlvEffVmParams {
     u8 side;
     int argA;
     int argB;
-    u16 typeCode;
+    u16 ballItem;
     u8 pad[2];
 } BtlvEffVmParams;
 
@@ -101,7 +101,7 @@ typedef struct BtlvEffVmWork {
     BtlvEffVmParams params; /* 0x248: effect parameters */
     u16 effectId; /* 0x258: effect script id */
     u8 pad25A[0x2];
-    int typeSource; /* 0x25C: where the effect type comes from (8 = typeCode, 9 = attackerPos, else the value) */
+    int ballSource; /* 0x25C: whose ball picks per-ball keys (8 = params.ballItem, 9 = the attacker, else that position) */
     int callDepth; /* 0x260: depth of the call stack */
     int bg3ScrollX; /* 0x264: saved BG3 scroll */
     int bg3ScrollY; /* 0x268: saved BG3 scroll */

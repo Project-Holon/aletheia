@@ -65,7 +65,7 @@
  *   BTLV_INPUT_IsScreenBusy 0x022026FC thumb ov094
  *   BTLV_INPUT_StartScreenFadeTask 0x0220266C thumb ov094
  *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
- *   BTLV_EFFECT_StartEffectWithColor 0x021F7CFC thumb ov094
+ *   BTLV_EFFECT_StartBallThrowEffect 0x021F7CFC thumb ov094
  *   BTLV_EFFECT_ResumeVm 0x021F7C0C thumb ov094
  *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -74,7 +74,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
+ *   ITEM_GetBallIdForItem 0x0202142C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
@@ -347,7 +347,7 @@ int PDC_MAIN_StepConfirm(struct PdcSys *sys)
 /* Step 3: item list, the chosen item goes into the bag, closing messages. Returns 1 when done. */
 int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
 {
-    u32 itemCode;
+    u32 ballId;
     switch (sys->state) {
     case 0:
         sys->select.myItem = PDC_GetMyItem(sys->args);
@@ -393,7 +393,7 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         break;
     case 5:
         if (PDC_MSG_Update(sys->msg)) {
-            BTLV_EFFECT_StartEffectWithColor(1, sys->select.chosenItem, 4, 1, 0);
+            BTLV_EFFECT_StartBallThrowEffect(1, sys->select.chosenItem, 4, 1, 0);
             sys->state++;
         }
         break;
@@ -427,8 +427,8 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         break;
     case 11:
         if (!FADE_IsActive()) {
-            itemCode = PALANM_GetPairedCodeForFirst(sys->select.chosenItem);
-            POKE_TOOL_SetPartyValue(PDC_GetMon(sys->args), 152, itemCode);
+            ballId = ITEM_GetBallIdForItem(sys->select.chosenItem);
+            POKE_TOOL_SetPartyValue(PDC_GetMon(sys->args), 152, ballId);
             return 1;
         }
         break;

@@ -74,7 +74,7 @@
  *   BTLV_SCD_StartMoveInfoMenu  0x06899FE8  thumb
  *   BTLV_EFFECT_ResumeVm  0x021F7C0C  thumb  ov094
  *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
- *   BTLV_EFFECT_StartEffectWithColor  0x021F7CFC  thumb  ov094
+ *   BTLV_EFFECT_StartBallThrowEffect  0x021F7CFC  thumb  ov094
  *   BTLV_EFFECT_IsBusy  0x021F7EB4  thumb  ov094
  *   BTLV_EFFECT_GaugeStartHpChangeAnimated  0x021F80FC  thumb  ov094
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -815,7 +815,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
 #else
         if (BTLV_CORE_WaitMessage(core) && !BTLV_EFFECT_IsBusy()) {
 #endif
-            BTLV_EFFECT_StartEffectWithColor(1, 4, 3, 1, 0);
+            BTLV_EFFECT_StartBallThrowEffect(1, 4, 3, 1, 0);
             (*state)++;
         }
         break;

@@ -13,7 +13,7 @@
  *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
- *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
+ *   ITEM_IsNotJohtoBall  0x020213E0  thumb
  *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -56,7 +56,7 @@ extern unsigned int FILE_UTIL_GetItemParam(u16 id, unsigned int sel, u16 heap);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct WordSet;
-extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
+extern u32 ITEM_IsNotJohtoBall(u16 v);
 extern unsigned int FILE_UTIL_IsMailItem(u16 v);
 extern void ITEMMENU_SetTask(char *p, int k);
 struct MsgBank;
@@ -84,7 +84,7 @@ void ITEMMENU_TaskSelectItem(Obj *o)
         o->f84C = *p;
     s = o->f010;
     if (s == 2) {
-        if (FILE_UTIL_GetItemParam(o->f84C, 3, o->f544) == 0 && PALANM_IsOutsideReservedIdRange(o->f84C) == 1) {
+        if (FILE_UTIL_GetItemParam(o->f84C, 3, o->f544) == 0 && ITEM_IsNotJohtoBall(o->f84C) == 1) {
             if (FILE_UTIL_IsMailItem(o->f84C) != 0)
                 o->f844 = 0x12;
             else

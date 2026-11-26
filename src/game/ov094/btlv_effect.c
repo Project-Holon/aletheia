@@ -1,7 +1,7 @@
 /*
  * file:     btlv_effect.c
  * unit:     yes
- * function: BTLV_EFFECT_CreateSetup, BTLV_EFFECT_CreateSetupFromBattleMain, BTLV_EFFECT_Init, BTLV_EFFECT_Exit, BTLV_EFFECT_Main, BTLV_EFFECT_StartEffect, BTLV_EFFECT_StartEffectOnPoke, BTLV_EFFECT_StartEffectBetweenPokes, BTLV_EFFECT_StartEffectWithRequest, BTLV_EFFECT_PauseVm, BTLV_EFFECT_ResumeVm, BTLV_EFFECT_StartDamageTintTask, BTLV_EFFECT_StartPokeAppearEffect, BTLV_EFFECT_StartEffectWithColor, BTLV_EFFECT_StartEffectWithValue, BTLV_EFFECT_StartHitTask, BTLV_EFFECT_ResetPokeSprite, BTLV_EFFECT_StartPokeEffectId285, BTLV_EFFECT_StartPokeEffectId286, BTLV_EFFECT_StartPokeEffectId26E, BTLV_EFFECT_StartPokeEffectId26F, BTLV_EFFECT_IsBusy, BTLV_EFFECT_SetPokeSpriteKey, BTLV_EFFECT_DeletePokeSprite, BTLV_EFFECT_IsPokeSpriteLoaded, BTLV_EFFECT_AddPokeSprite, BTLV_EFFECT_ReleasePokeSprite, BTLV_EFFECT_GaugeInitSlotFromBattlePoke, BTLV_EFFECT_GaugeInitSlotFromPartyPoke, BTLV_EFFECT_GaugeDeleteSlot, BTLV_EFFECT_GaugeStartHpChangeAnimated, BTLV_EFFECT_GaugeStartHpChangeInstant, BTLV_EFFECT_GaugeStartExpGain, BTLV_EFFECT_GaugeRefreshForLevelUp, BTLV_EFFECT_GaugeRequestStop, BTLV_EFFECT_GaugeIsAnimating, BTLV_EFFECT_GaugeSetSideVisible, BTLV_EFFECT_GaugeSetSlotVisible, BTLV_EFFECT_GaugeSetStatusIcon, BTLV_EFFECT_GaugeSelectSlot, BTLV_EFFECT_GaugeIsSlotOccupied, BTLV_EFFECT_GaugeGetSlotHealthInfo, BTLV_EFFECT_CreatePartyBallBar, BTLV_EFFECT_DeletePartyBallBar, BTLV_EFFECT_IsPartyBallBarActive, BTLV_EFFECT_SetStageFieldTint, BTLV_EFFECT_IsStageFieldBusy, BTLV_EFFECT_SetStageLayerHidden, BTLV_EFFECT_StartPokeSpriteTransitionTask, BTLV_EFFECT_SetPokeSpriteVisible, BTLV_EFFECT_GetPokeSlot, BTLV_EFFECT_TimerStart, BTLV_EFFECT_TimerSetVisible, BTLV_EFFECT_TimerIsExpired, BTLV_EFFECT_GetPokeSpriteState, BTLV_EFFECT_StartCameraMove, BTLV_EFFECT_GetPokeSpriteCameraTarget, BTLV_EFFECT_GetWorkPtr, BTLV_EFFECT_GetCamera, BTLV_EFFECT_GetMcss, BTLV_EFFECT_GetStage, BTLV_EFFECT_GetGauge, BTLV_EFFECT_GetEffvm, BTLV_EFFECT_GetOwner, BTLV_EFFECT_GetPalanm, BTLV_EFFECT_GetClact, BTLV_EFFECT_GetBg, BTLV_EFFECT_GetMode, BTLV_EFFECT_GetCompetitorType, BTLV_EFFECT_IsMultiMode, BTLV_EFFECT_GetTrainerType, BTLV_EFFECT_GetBattleMain, BTLV_EFFECT_GetSceneUnit, BTLV_EFFECT_PollLowHpBgm, BTLV_EFFECT_StopLowHpBgm, BTLV_EFFECT_SetLowHpBgmSuppressed, BTLV_EFFECT_SaveBgmNo, BTLV_EFFECT_IsBgmSaved, BTLV_EFFECT_StopLowHpBgmAndSuppress, BTLV_EFFECT_SetVisibilityMode, BTLV_EFFECT_GetVisibilityMode, BTLV_EFFECT_SetSeSuppressed, BTLV_EFFECT_IsSeSuppressed, BTLV_EFFECT_IsRecordEnabledInComm, BTLV_EFFECT_IsRecordAllowed, BTLV_EFFECT_SetAllPokeSpriteAnim, BTLV_EFFECT_RegisterTask, BTLV_EFFECT_FindTaskIndex, BTLV_EFFECT_DeleteTask, BTLV_EFFECT_DeleteTasksByArg, BTLV_EFFECT_SetIntroState, BTLV_EFFECT_StartIntroEffect, BTLV_EFFECT_ResetIntroState, BTLV_EFFECT_SetPokeEffectValue, BTLV_EFFECT_GetPokeEffectValue, BTLV_EFFECT_SuspendVmWait, BTLV_EFFECT_ResumeVmWait, BTLV_EFFECT_FindFreeTaskSlot, BTLV_EFFECT_DeleteAllTasks, BTLV_EFFECT_VBlankTask, BTLV_EFFECT_DamageTintTaskMain, BTLV_EFFECT_ClearTaskMaskM0, BTLV_EFFECT_SequenceTaskMain, BTLV_EFFECT_ClearTaskMaskM1, BTLV_EFFECT_PokeSpriteTransitionTaskMain, BTLV_EFFECT_ClearTaskMaskM2, BTLV_EFFECT_DelayedStartEffectTaskMain, BTLV_EFFECT_FreeTaskArg, BTLV_EFFECT_UpdateIntroInput, BTLV_EFFECT_ComputeScalarStep, BTLV_EFFECT_ComputeVectorStep, BTLV_EFFECT_StepScalarWithLimit, BTLV_EFFECT_StepMover, BTLV_EFFECT_GetBitMask, BTLV_EFFECT_UpdateTexturePaletteFade
+ * function: BTLV_EFFECT_CreateSetup, BTLV_EFFECT_CreateSetupFromBattleMain, BTLV_EFFECT_Init, BTLV_EFFECT_Exit, BTLV_EFFECT_Main, BTLV_EFFECT_StartEffect, BTLV_EFFECT_StartEffectOnPoke, BTLV_EFFECT_StartEffectBetweenPokes, BTLV_EFFECT_StartEffectWithRequest, BTLV_EFFECT_PauseVm, BTLV_EFFECT_ResumeVm, BTLV_EFFECT_StartDamageTintTask, BTLV_EFFECT_StartPokeAppearEffect, BTLV_EFFECT_StartBallThrowEffect, BTLV_EFFECT_StartBallBlockedEffect, BTLV_EFFECT_StartHitTask, BTLV_EFFECT_ResetPokeSprite, BTLV_EFFECT_StartPokeEffectId285, BTLV_EFFECT_StartPokeEffectId286, BTLV_EFFECT_StartPokeEffectId26E, BTLV_EFFECT_StartPokeEffectId26F, BTLV_EFFECT_IsBusy, BTLV_EFFECT_SetPokeSpriteKey, BTLV_EFFECT_DeletePokeSprite, BTLV_EFFECT_IsPokeSpriteLoaded, BTLV_EFFECT_AddPokeSprite, BTLV_EFFECT_ReleasePokeSprite, BTLV_EFFECT_GaugeInitSlotFromBattlePoke, BTLV_EFFECT_GaugeInitSlotFromPartyPoke, BTLV_EFFECT_GaugeDeleteSlot, BTLV_EFFECT_GaugeStartHpChangeAnimated, BTLV_EFFECT_GaugeStartHpChangeInstant, BTLV_EFFECT_GaugeStartExpGain, BTLV_EFFECT_GaugeRefreshForLevelUp, BTLV_EFFECT_GaugeRequestStop, BTLV_EFFECT_GaugeIsAnimating, BTLV_EFFECT_GaugeSetSideVisible, BTLV_EFFECT_GaugeSetSlotVisible, BTLV_EFFECT_GaugeSetStatusIcon, BTLV_EFFECT_GaugeSelectSlot, BTLV_EFFECT_GaugeIsSlotOccupied, BTLV_EFFECT_GaugeGetSlotHealthInfo, BTLV_EFFECT_CreatePartyBallBar, BTLV_EFFECT_DeletePartyBallBar, BTLV_EFFECT_IsPartyBallBarActive, BTLV_EFFECT_SetStageFieldTint, BTLV_EFFECT_IsStageFieldBusy, BTLV_EFFECT_SetStageLayerHidden, BTLV_EFFECT_StartPokeSpriteTransitionTask, BTLV_EFFECT_SetPokeSpriteVisible, BTLV_EFFECT_GetPokeSlot, BTLV_EFFECT_TimerStart, BTLV_EFFECT_TimerSetVisible, BTLV_EFFECT_TimerIsExpired, BTLV_EFFECT_GetPokeSpriteState, BTLV_EFFECT_StartCameraMove, BTLV_EFFECT_GetPokeSpriteCameraTarget, BTLV_EFFECT_GetWorkPtr, BTLV_EFFECT_GetCamera, BTLV_EFFECT_GetMcss, BTLV_EFFECT_GetStage, BTLV_EFFECT_GetGauge, BTLV_EFFECT_GetEffvm, BTLV_EFFECT_GetOwner, BTLV_EFFECT_GetPalanm, BTLV_EFFECT_GetClact, BTLV_EFFECT_GetBg, BTLV_EFFECT_GetMode, BTLV_EFFECT_GetCompetitorType, BTLV_EFFECT_IsMultiMode, BTLV_EFFECT_GetTrainerType, BTLV_EFFECT_GetBattleMain, BTLV_EFFECT_GetSceneUnit, BTLV_EFFECT_PollLowHpBgm, BTLV_EFFECT_StopLowHpBgm, BTLV_EFFECT_SetLowHpBgmSuppressed, BTLV_EFFECT_SaveBgmNo, BTLV_EFFECT_IsBgmSaved, BTLV_EFFECT_StopLowHpBgmAndSuppress, BTLV_EFFECT_SetVisibilityMode, BTLV_EFFECT_GetVisibilityMode, BTLV_EFFECT_SetSeSuppressed, BTLV_EFFECT_IsSeSuppressed, BTLV_EFFECT_IsRecordEnabledInComm, BTLV_EFFECT_IsRecordAllowed, BTLV_EFFECT_SetAllPokeSpriteAnim, BTLV_EFFECT_RegisterTask, BTLV_EFFECT_FindTaskIndex, BTLV_EFFECT_DeleteTask, BTLV_EFFECT_DeleteTasksByArg, BTLV_EFFECT_SetIntroState, BTLV_EFFECT_StartIntroEffect, BTLV_EFFECT_ResetIntroState, BTLV_EFFECT_SetPokeEffectValue, BTLV_EFFECT_GetPokeEffectValue, BTLV_EFFECT_SuspendVmWait, BTLV_EFFECT_ResumeVmWait, BTLV_EFFECT_FindFreeTaskSlot, BTLV_EFFECT_DeleteAllTasks, BTLV_EFFECT_VBlankTask, BTLV_EFFECT_DamageTintTaskMain, BTLV_EFFECT_ClearTaskMaskM0, BTLV_EFFECT_SequenceTaskMain, BTLV_EFFECT_ClearTaskMaskM1, BTLV_EFFECT_PokeSpriteTransitionTaskMain, BTLV_EFFECT_ClearTaskMaskM2, BTLV_EFFECT_DelayedStartEffectTaskMain, BTLV_EFFECT_FreeTaskArg, BTLV_EFFECT_UpdateIntroInput, BTLV_EFFECT_ComputeScalarStep, BTLV_EFFECT_ComputeVectorStep, BTLV_EFFECT_StepScalarWithLimit, BTLV_EFFECT_StepMover, BTLV_EFFECT_GetBitMask, BTLV_EFFECT_UpdateTexturePaletteFade
  * address:  0x021F73F0
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -419,9 +419,9 @@ void BTLV_EFFECT_StartDamageTintTask(int a, int b);
 
 void BTLV_EFFECT_StartPokeAppearEffect(int a);
 
-void BTLV_EFFECT_StartEffectWithColor(u32 a, u16 b, u8 c, int d, int e);
+void BTLV_EFFECT_StartBallThrowEffect(u32 a, u16 b, u8 c, int d, int e);
 
-void BTLV_EFFECT_StartEffectWithValue(int a, unsigned short b);
+void BTLV_EFFECT_StartBallBlockedEffect(int a, unsigned short b);
 
 void BTLV_EFFECT_StartHitTask(void *a, int b);
 
@@ -976,7 +976,7 @@ void BTLV_EFFECT_StartPokeAppearEffect(int pos)
     BTLV_EFFECT_SetPokeEffectValue(pos, 0);
 }
 
-void BTLV_EFFECT_StartEffectWithColor(u32 defenderPos, u16 typeCode, u8 side, int argA, int argB)
+void BTLV_EFFECT_StartBallThrowEffect(u32 defenderPos, u16 ballItem, u8 side, int argA, int argB)
 {
     BtlvEffVmParams l;
 
@@ -984,7 +984,7 @@ void BTLV_EFFECT_StartEffectWithColor(u32 defenderPos, u16 typeCode, u8 side, in
     l.side = side;
     l.argB = argB;
     l.argA = argA;
-    l.typeCode = typeCode;
+    l.ballItem = ballItem;
     BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, BTLV_EFFECT_MOVE_END + 9, &l);
     gBtlvEff->effvmActive = 1;
 }
@@ -992,12 +992,12 @@ void BTLV_EFFECT_StartEffectWithColor(u32 defenderPos, u16 typeCode, u8 side, in
 /*
  * Queues request 0x23d with value b on the handle at 0x188, then sets the word at 0x1e8 to 1.
  */
-void BTLV_EFFECT_StartEffectWithValue(int defenderPos, unsigned short typeCode)
+void BTLV_EFFECT_StartBallBlockedEffect(int defenderPos, unsigned short ballItem)
 {
     BtlvEffVmParams req;
 
     BTLV_EFFVM_InitParams(&req);
-    req.typeCode = typeCode;
+    req.ballItem = ballItem;
     BTLV_EFFVM_StartScript(gBtlvEff->effvm, 0, defenderPos, BTLV_EFFECT_MOVE_END + 12, (BtlvEffVmParams *)&req);
     gBtlvEff->effvmActive = 1;
 }

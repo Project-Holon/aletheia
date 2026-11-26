@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_EFFVM_CmdSetTypeSource",
+   "name": "BTLV_EFFVM_CmdSetBallSource",
    "address": "0x021FC134",
    "kind": "game",
    "region": "ov094",
