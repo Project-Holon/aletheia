@@ -404,8 +404,8 @@ int BTL_SERVER_FLOW_QueryDamageReplacedEvent(BtlServerFlow *flow, struct BtlPoke
 void BTL_SERVER_FLOW_NotifyDamageReplacedEvent(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender);
 int BTL_SERVER_FLOW_CheckCriticalHit(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, u16 moveId);
 int BTL_SERVER_FLOW_CalcMoveDrainRecoil(BtlServerFlow *flow, struct BtlPokeParam *poke, u16 moveId, int damage, int *result);
-void BTL_SERVER_FLOW_DispatchPostMoveEvent(BtlServerFlow *flow, struct BtlPokeParam *poke);
-void BTL_SERVER_FLOW_DispatchPostMoveKindEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u8 kind);
+void BTL_SERVER_FLOW_DispatchUseItemEvent(BtlServerFlow *flow, struct BtlPokeParam *poke);
+void BTL_SERVER_FLOW_DispatchUseItemForcedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, u8 kind);
 int BTL_SERVER_FLOW_CalcTypeEffectiveness(BtlServerFlow *flow, struct BtlPokeParam *attacker, struct BtlPokeParam *defender, struct BtlMoveParam *moveParam, int showMessage);
 int BTL_SERVER_FLOW_IsPokeGrounded(BtlServerFlow *flow, struct BtlPokeParam *poke, int checkFlying);
 int BTL_SERVER_FLOW_QueryPokeGroundedEvent(BtlServerFlow *flow, struct BtlPokeParam *poke, int checkFlying);

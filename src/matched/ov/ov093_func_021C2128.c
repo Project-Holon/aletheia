@@ -15,7 +15,7 @@
  *   BTL_SERVER_FLOW_RunItemActivateCheckEvent 0x021C2204 thumb ov093
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
  *   BTL_SERVER_FLOW_SetHandExScopeState 0x021CC918 thumb ov093
- *   BTL_SERVER_FLOW_DispatchPostMoveEvent 0x021C6DD0 thumb ov093
+ *   BTL_SERVER_FLOW_DispatchUseItemEvent 0x021C6DD0 thumb ov093
  *   BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_CMD_FillReserved 0x021CD568 thumb ov093
@@ -35,7 +35,7 @@ extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_RunItemActivateCheckEvent(u8 *, u8 *, u16);
 extern u32 BTL_SERVER_CMD_Reserve(void *, u32);
 extern u32 BTL_SERVER_FLOW_SetHandExScopeState(void *, u16, int);
-extern void BTL_SERVER_FLOW_DispatchPostMoveEvent(u8 *, u8 *);
+extern void BTL_SERVER_FLOW_DispatchUseItemEvent(u8 *, u8 *);
 extern int BTL_SERVER_FLOW_GetLockState(u8 *);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void BTL_SERVER_CMD_FillReserved(void *, u32, u32, ...);
@@ -54,7 +54,7 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a)
         if (result) {
             pos = BTL_SERVER_CMD_Reserve(((struct Obj00003 *)p)->fC, 0x42);
             v = BTL_SERVER_FLOW_SetHandExScopeState(p + 0x1d74, (u16)t, 0x1cf4);
-            BTL_SERVER_FLOW_DispatchPostMoveEvent(p, a);
+            BTL_SERVER_FLOW_DispatchUseItemEvent(p, a);
             if (BTL_SERVER_FLOW_GetLockState(p) != 2) result = 0;
             BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), v, 0x1cf9);
             if (result) {

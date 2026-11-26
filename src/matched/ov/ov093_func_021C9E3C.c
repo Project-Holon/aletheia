@@ -18,7 +18,7 @@
  *   BTL_SERVER_CMD_FillReserved  0x021CD568  thumb  ov093
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
- *   BTL_SERVER_FLOW_DispatchPostMoveKindEvent  0x021C6E00  thumb  ov093
+ *   BTL_SERVER_FLOW_DispatchUseItemForcedEvent  0x021C6E00  thumb  ov093
  *   BTL_SERVER_FLOW_GetLockState  0x021C88E4  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -42,7 +42,7 @@ extern int BTL_SERVER_CMD_Reserve(void *p, int k);
 extern void BTL_SERVER_CMD_FillReserved(void *p, int a, int k, u32 b);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
-extern void BTL_SERVER_FLOW_DispatchPostMoveKindEvent(u8 *p, u8 *a, u8 k);
+extern void BTL_SERVER_FLOW_DispatchUseItemForcedEvent(u8 *p, u8 *a, u8 k);
 extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
 
 int BTL_SERVER_FLOW_ProcHandExForceItemFactor(u8 *w, struct Cmd *c)
@@ -56,7 +56,7 @@ int BTL_SERVER_FLOW_ProcHandExForceItemFactor(u8 *w, struct Cmd *c)
         if (x != 0) {
             t = BTL_SERVER_CMD_Reserve(((struct Obj00003 *)w)->fC, 0x42);
             s = BTL_SERVER_FLOW_BeginHandExScope(w + 0x1D74, 15755);
-            BTL_SERVER_FLOW_DispatchPostMoveKindEvent(w, (u8 *)r, c->id);
+            BTL_SERVER_FLOW_DispatchUseItemForcedEvent(w, (u8 *)r, c->id);
             if (BTL_SERVER_FLOW_GetLockState(w) == 2) {
                 BTL_SERVER_CMD_FillReserved(((struct Obj00003 *)w)->fC, t, 0x42, c->b4);
             }

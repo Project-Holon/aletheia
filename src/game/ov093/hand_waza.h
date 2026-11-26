@@ -277,7 +277,7 @@ BtlEventHandler *HAND_WAZA_AddTrick(int *handlerCount);
 void HAND_WAZA_TrickOnWazaExecute(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
 BtlEventHandler *HAND_WAZA_AddMagnitude(int *handlerCount);
 void HAND_WAZA_MagnitudeOnWazaStart(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
-void HAND_WAZA_MagnitudeSetDefaultLevel(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *magnitudeLevel);
+void HAND_WAZA_MagnitudeSetPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *power);
 int *HAND_WAZA_GetSurfHandlers(int *handlerCount);
 void HAND_WAZA_SurfHitDiving(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
 void HAND_WAZA_SurfDoubleDamageVsDiving(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);

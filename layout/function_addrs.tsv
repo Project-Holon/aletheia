@@ -19964,8 +19964,8 @@ ov093	0x021C6B5C	BTL_SERVER_FLOW_QueryDamageReplacedEvent	thumb	92	src/game/ov09
 ov093	0x021C6BB8	BTL_SERVER_FLOW_NotifyDamageReplacedEvent	thumb	64	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C6BF8	BTL_SERVER_FLOW_CheckCriticalHit	thumb	180	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C6CAC	BTL_SERVER_FLOW_CalcMoveDrainRecoil	thumb	292	src/game/ov093/btl_server_flow.c	no
-ov093	0x021C6DD0	BTL_SERVER_FLOW_DispatchPostMoveEvent	thumb	48	src/game/ov093/btl_server_flow.c	no
-ov093	0x021C6E00	BTL_SERVER_FLOW_DispatchPostMoveKindEvent	thumb	60	src/game/ov093/btl_server_flow.c	no
+ov093	0x021C6DD0	BTL_SERVER_FLOW_DispatchUseItemEvent	thumb	48	src/game/ov093/btl_server_flow.c	no
+ov093	0x021C6E00	BTL_SERVER_FLOW_DispatchUseItemForcedEvent	thumb	60	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C6E3C	BTL_SERVER_FLOW_CalcTypeEffectiveness	thumb	208	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C6F0C	BTL_SERVER_FLOW_IsPokeGrounded	thumb	40	src/game/ov093/btl_server_flow.c	no
 ov093	0x021C6F34	BTL_SERVER_FLOW_QueryPokeGroundedEvent	thumb	124	src/game/ov093/btl_server_flow.c	no
@@ -21913,7 +21913,7 @@ ov093	0x021E37B4	HAND_WAZA_AddTrick	thumb	12	src/game/ov093/hand_waza.c	no
 ov093	0x021E37C0	HAND_WAZA_TrickOnWazaExecute	thumb	312	src/game/ov093/hand_waza.c	no
 ov093	0x021E38F8	HAND_WAZA_AddMagnitude	thumb	12	src/game/ov093/hand_waza.c	no
 ov093	0x021E3904	HAND_WAZA_MagnitudeOnWazaStart	thumb	104	src/game/ov093/hand_waza.c	no
-ov093	0x021E396C	HAND_WAZA_MagnitudeSetDefaultLevel	thumb	36	src/game/ov093/hand_waza.c	no
+ov093	0x021E396C	HAND_WAZA_MagnitudeSetPower	thumb	36	src/game/ov093/hand_waza.c	no
 ov093	0x021E3990	HAND_WAZA_GetSurfHandlers	thumb	12	src/game/ov093/hand_waza.c	no
 ov093	0x021E399C	HAND_WAZA_SurfHitDiving	thumb	34	src/game/ov093/hand_waza.c	no
 ov093	0x021E39C0	HAND_WAZA_SurfDoubleDamageVsDiving	thumb	56	src/game/ov093/hand_waza.c	no
@@ -22229,7 +22229,7 @@ ov093	0x021E8384	HAND_WAZA_FindPledgeCombo	thumb	60	src/game/ov093/hand_waza.c	n
 ov093	0x021E83C0	HAND_WAZA_GetPledgeHandlers	thumb	12	src/game/ov093/hand_waza.c	no
 ov093	0x021E83CC	HAND_WAZA_PledgeCheckCombo	thumb	114	src/game/ov093/hand_waza.c	no
 ov093	0x021E8440	HAND_WAZA_PledgeShowWaitMessage	thumb	56	src/game/ov093/hand_waza.c	no
-ov093	0x021E8478	HAND_WAZA_PledgeSkipWait	thumb	32	src/game/ov093/hand_waza.c	no
+ov093	0x021E8478	HAND_WAZA_PledgeForceSameTypeBonus	thumb	32	src/game/ov093/hand_waza.c	no
 ov093	0x021E8498	HAND_WAZA_PledgeSetCombinedPower	thumb	32	src/game/ov093/hand_waza.c	no
 ov093	0x021E84B8	HAND_WAZA_PledgeSetCombinedMoveId	thumb	68	src/game/ov093/hand_waza.c	no
 ov093	0x021E84FC	HAND_WAZA_PledgeApplyCombinedEffect	thumb	252	src/game/ov093/hand_waza.c	no

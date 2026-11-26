@@ -304,7 +304,7 @@ enum BtlEventVarKey {
     BTL_EVAR_EVASION_STAGE = 0x28,
     BTL_EVAR_ACCURACY = 0x2B,
     BTL_EVAR_CRITICAL_RANK = 0x2C,
-    BTL_EVAR_SELF_CAUSED_FLAG = 0x2D,
+    BTL_EVAR_NEW_ITEM_ID = 0x2D,  /* the item the holder is about to get (0: it loses its item) */
     BTL_EVAR_TRIGGER_KIND = 0x2E,
     BTL_EVAR_POWER_RATIO = 0x31,
     BTL_EVAR_DAMAGE = 0x32,
@@ -339,7 +339,6 @@ enum BtlEventVarKey {
     BTL_EVAR_FLINCH_CHANCE = BTL_EVAR_EFFECT_PERCENT,
     BTL_EVAR_HIT_COUNT = 0x2a,
     BTL_EVAR_BASE_POWER = 0x30,
-    BTL_EVAR_MAGNITUDE = 0x30,  /* guess: magnitude level the message shows */
     BTL_EVAR_WAZA_POWER = 0x30,
     BTL_EVAR_MOVE_POWER_RATIO = BTL_EVAR_POWER_RATIO,
     BTL_EVAR_DAMAGE_RATIO = 0x35,

@@ -4585,10 +4585,10 @@ void HAND_TOKUSEI_StickyHold_BlockTrick(struct BtlEventFactor *factor, struct Bt
     }
 }
 
-/* Sticky Hold: block the removal of the item of the holder when another poke causes it. */
+/* Sticky Hold: block a change of the holder's item to none (the item being taken away). */
 void HAND_TOKUSEI_StickyHold_BlockItemRemoval(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *messagePending)
 {
-    if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && BTL_EVENT_GetVar(BTL_EVAR_SELF_CAUSED_FLAG) == 0)
+    if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && BTL_EVENT_GetVar(BTL_EVAR_NEW_ITEM_ID) == 0)
         *messagePending = BTL_EVENT_OverwriteVar(BTL_EVAR_FORCE_GROUNDED_FLAG, 1);
 }
 
@@ -4767,7 +4767,7 @@ int *HAND_TOKUSEI_GetUnburdenHandlers(int *handlerCount)
 /* Unburden: remember that the owner is about to lose its held item. */
 void HAND_TOKUSEI_Unburden_MarkItemLost(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, int *work)
 {
-    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && BTL_EVENT_GetVar(BTL_EVAR_SELF_CAUSED_FLAG) == 0
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && BTL_EVENT_GetVar(BTL_EVAR_NEW_ITEM_ID) == 0
         && BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, ownerId)))
         *work = 1;
 }

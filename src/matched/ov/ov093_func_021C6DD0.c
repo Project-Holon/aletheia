@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_DispatchPostMoveEvent
+ * function: BTL_SERVER_FLOW_DispatchUseItemEvent
  * address: 0x021C6DD0
  * packet: pkt_ov093_021C6DD0
  * region: ov093
@@ -22,7 +22,7 @@ extern void BTL_EVENT_PopVarFrame(int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
-void BTL_SERVER_FLOW_DispatchPostMoveEvent(u8 *p, u8 *a)
+void BTL_SERVER_FLOW_DispatchUseItemEvent(u8 *p, u8 *a)
 {
     int line = 12077;
     BTL_EVENT_PushVarFrame(line);
