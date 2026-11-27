@@ -2548,8 +2548,8 @@ src/game/ov093/btl_main.c	361	BTL_CLIENT_Delete	pointee	void (struct BtlClient*)
 src/game/ov093/btl_main.c	372	BTL_NET_GetSetup	pointee	s32 (void*)	s32 (struct BtlNetSetup*)	src/game/ov093/btl_net.c
 src/game/ov093/btl_main.c	415	BTL_CLIENT_SetRequestParam	pointee,ptrint	void (struct BtlClient*, struct BtlServer*)	void (BtlClient*, u32)	src/game/ov093/btl_client.c
 src/game/ov093/btl_main.c	418	BTL_CLIENT_RunTick	pointee,ret	s32 (struct BtlClient*)	void (BtlClient*)	src/game/ov093/btl_client.c
-src/game/ov093/btl_main.c	419	BTL_CLIENT_GetCursor	pointee	void (struct BtlClient*, void*)	void (BtlClient*, s32*)	src/game/ov093/btl_client.c
-src/game/ov093/btl_main.c	421	BTL_SERVER_GetFinalData	pointee	void (struct BtlServer*, void*)	void (struct BtlServer*, struct BtlWordPair*)	src/game/ov093/btl_server.c
+src/game/ov093/btl_main.c	419	BTL_CLIENT_GetEscapedClients	pointee	void (struct BtlClient*, void*)	void (BtlClient*, s32*)	src/game/ov093/btl_client.c
+src/game/ov093/btl_main.c	421	BTL_SERVER_GetEscapedClients	pointee	void (struct BtlServer*, void*)	void (struct BtlServer*, struct BtlWordPair*)	src/game/ov093/btl_server.c
 src/game/ov093/btl_main.c	422	BTL_CLIENT_MarkCommandIssued	pointee	void (struct BtlClient*)	void (BtlClient*)	src/game/ov093/btl_client.c
 src/game/ov093/btl_main.c	429	ZUKAN_SAVE_IsCaught	pointee,ret,width	s32 (void*, u32)	u32 (struct ZukanSave*, u16)	src/game/arm9/zukan_save.c
 src/game/ov093/btl_main.c	451	MYITEM_SAVEDATA_RemoveItem	pointee,ret,width	s32 (void*, u32, s32, u16)	u32 (struct MyItem*, u16, u16, u16)	src/game/arm9/myitem_savedata.c
@@ -2590,7 +2590,7 @@ src/game/ov093/btl_server.c	119	BTL_REC_AddRecord	pointee	void (u8*, u8, void*, 
 src/game/ov093/btl_server.c	120	BTL_REC_FinishPacket	pointee,ret,width	void* (u8*, s32, u32*)	u8* (struct BtlRecPacket*, u8, u32*)	src/game/ov093/btl_rec.c
 src/game/ov093/btl_server.c	122	BTL_ADAPTER_SetSendData	pointee,width	void (void*, s32, void*, s32)	void (struct BtlAdapter*, u16, void*, u16)	src/game/ov093/btl_adapter.c
 src/game/ov093/btl_server.c	127	GAME_BEACON_SetPokeLevelUp	ptrint	void (void*)	void (u16)	src/game/arm9/game_beacon.c
-src/game/ov093/btl_server.c	214	BTL_SERVER_FLOW_GetSlotTable	pointee,ret	struct BtlWordPair* (void*)	u8* (struct BtlServerFlow*)	src/game/ov093/btl_server_flow.c
+src/game/ov093/btl_server.c	214	BTL_SERVER_FLOW_GetEscapedClientSet	pointee,ret	struct BtlWordPair* (void*)	u8* (struct BtlServerFlow*)	src/game/ov093/btl_server_flow.c
 src/game/ov093/btl_server_flow.c	1434	BTL_MAIN_DecodeMessageCode	pointee	u8 (struct Unk021B8CB0**, s32, u8*)	u8 (struct BtlMain*, s32, u8*)	src/game/ov093/btl_main.c
 src/game/ov093/btl_server_flow.c	1435	BTL_POKEPARAM_IsFainted	pointee	s32 (void*)	s32 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c
 src/game/ov093/btl_server_flow.c	1436	BTL_POKEPARAM_GetPokeId	pointee	u8 (u8*)	u8 (struct BtlPokeParam*)	src/game/ov093/btl_pokeparam.c

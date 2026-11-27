@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_GetSlotTable
+ * function: BTL_SERVER_FLOW_GetEscapedClientSet
  * address:  0x021BC550
  * packet:   pkt_021BC550
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTL_SERVER_FLOW_GetSlotTable   0x021BC550  thumb ov093
+ *   BTL_SERVER_FLOW_GetEscapedClientSet   0x021BC550  thumb ov093
  *
  * pointer add #0x4b8
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 *BTL_SERVER_FLOW_GetSlotTable(u8 *p)
+u8 *BTL_SERVER_FLOW_GetEscapedClientSet(u8 *p)
 {
     return p + 0x4b8;
 }

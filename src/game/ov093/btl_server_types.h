@@ -148,7 +148,7 @@ struct BtlServer {
     BtlRecPacket recorder;          /* 0x68 */
     BtlServerResult result;         /* 0xA8 */
     void *nameBuf;                  /* 0xAC */
-    struct BtlClientSet *finalData;  /* 0xB0: clients that escaped, from the flow */
+    struct BtlClientSet *escapedClients;  /* 0xB0: clients that escaped, from the flow */
     BtlServerActionTable replies;   /* 0xB4 */
     u8 padE8[4];                    /* 0xE8 */
     u8 shiftPromptMon;              /* 0xEC */

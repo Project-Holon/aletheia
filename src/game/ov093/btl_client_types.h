@@ -80,7 +80,7 @@ struct BtlClient {
     BtlClientCounter counter; /* 0x018 replay position counter */
     u8 pad026[2];
     BtlClientTickFn tickFn; /* 0x028 per-frame function */
-    struct BtlClientSet defeatedClients; /* 0x02C clients defeated, sent by the remote */
+    struct BtlClientSet escapedClients; /* 0x02C clients that escaped, sent by the server (command 9) */
     BtlFieldState *battleField; /* 0x034 field state */
     BtlRngState rngSave; /* 0x038 scratch copy of the random number state, written by the target preview */
     void *netChannel; /* 0x050 network channel */

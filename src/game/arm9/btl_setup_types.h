@@ -16,6 +16,18 @@
 
 #include "../types.h"
 
+/* BattleSetupParam.outcome: BTL_MAIN_JudgeResult, BTL_SERVER_FLOW_CheckBattleOutcome and
+   BTL_CLIENT_SET_JudgeResult (escaped clients). */
+enum BtlResult {
+    BTL_RESULT_DEFEAT = 0,
+    BTL_RESULT_VICTORY = 1,
+    BTL_RESULT_DRAW = 2,
+    BTL_RESULT_FLEE = 3,        /* our side escaped */
+    BTL_RESULT_FLEE_FOE = 4,    /* the other side escaped */
+    BTL_RESULT_CAPTURE = 5,
+    BTL_RESULT_COMM_ERROR = 6   /* the link was lost */
+};
+
 struct CommPlayerSupport;
 #include "../arm9/zonedata_types.h"
 
@@ -173,7 +185,7 @@ struct BattleSetupParam {
     unsigned short           levelCap;
     unsigned short           resultCount;
     int                      moneyDelta;
-    unsigned int             outcome;       /* battle result, 1 won */
+    unsigned int             outcome;       /* enum BtlResult */
     unsigned char            resultValue[4];
     void                    *recordBuffer;
     unsigned int             recordSize;

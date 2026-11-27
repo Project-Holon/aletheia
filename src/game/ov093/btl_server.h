@@ -19,7 +19,7 @@ void BTL_SERVER_SetClientWithoutAdapter(BtlServer *server, u8 clientId, u8 battl
 void BTL_SERVER_Restart(BtlServer *server);
 void BTL_SERVER_Delete(BtlServer *server);
 int BTL_SERVER_Update(BtlServer *server);
-void BTL_SERVER_GetFinalData(BtlServer *server, struct BtlClientSet *out);
+void BTL_SERVER_GetEscapedClients(BtlServer *server, struct BtlClientSet *out);
 void BTL_SERVER_SetHandler(BtlServer *server, BtlServerHandler handler);
 void BTL_SERVER_GotoSelectCommands(BtlServer *server);
 int BTL_SERVER_StepStart(BtlServer *server, int *step);

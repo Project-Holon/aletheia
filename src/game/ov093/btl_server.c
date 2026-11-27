@@ -1,7 +1,7 @@
 /*
  * file:     btl_server.c
  * unit:     yes
- * function: BTL_SERVER_Create, BTL_SERVER_SetClientAdapter, BTL_SERVER_CreateClientAdapter, BTL_SERVER_SetClientWithoutAdapter, BTL_SERVER_Restart, BTL_SERVER_Delete, BTL_SERVER_Update, BTL_SERVER_GetFinalData, BTL_SERVER_SetHandler, BTL_SERVER_GotoSelectCommands, BTL_SERVER_StepStart, BTL_SERVER_StepSelectCommands, BTL_SERVER_GetRecordInitArg, BTL_SERVER_StepShiftPrompt, BTL_SERVER_StepRequestPokeChange, BTL_SERVER_CheckShiftPromptNeeded, BTL_SERVER_GetShiftPromptMon, BTL_SERVER_StepRequestPokeReplace, BTL_SERVER_StepSendRecording, BTL_SERVER_StepSelectEnding, BTL_SERVER_StepWaitEnd, BTL_SERVER_StepSendWildWin, BTL_SERVER_StepSendWildLoseOrDraw, BTL_SERVER_StepSendCommResult, BTL_SERVER_StepSendTrainerResult, BTL_SERVER_StepSendSubwayResult, BTL_SERVER_LoadRecorderReplies, BTL_SERVER_NoOp, BTL_SERVER_CompareFlowOutput, BTL_SERVER_SendSkipPacket, BTL_SERVER_SendActionPacket, BTL_SERVER_BuildActionPacket, BTL_SERVER_CollectReplies, BTL_SERVER_SendCommand, BTL_SERVER_SendCommandData, BTL_SERVER_SendCommandDataToClient, BTL_SERVER_AreRepliesReady, BTL_SERVER_ClearReplies, BTL_SERVER_ResetClientCommands, BTL_SERVER_ClearClient, BTL_SERVER_IsClientSlotUsed, BTL_SERVER_SetClientAdapterSlot, BTL_SERVER_SetClientParty, BTL_SERVER_GetClientChecked, BTL_SERVER_GetClientIfUsed, BTL_SERVER_IsClientUsed, BTL_SERVER_GetActionTableValue, BTL_SERVER_GetActionTableEntry, BTL_SERVER_NotifyLevelUp, BTL_SERVER_NotifyCapture, BTL_SERVER_AddMainCounter, BTL_SERVER_FinishMainCounter, BTL_SERVER_ClearPokeChangeRequests, BTL_SERVER_AddPokeChangeRequest, BTL_SERVER_GetFlow
+ * function: BTL_SERVER_Create, BTL_SERVER_SetClientAdapter, BTL_SERVER_CreateClientAdapter, BTL_SERVER_SetClientWithoutAdapter, BTL_SERVER_Restart, BTL_SERVER_Delete, BTL_SERVER_Update, BTL_SERVER_GetEscapedClients, BTL_SERVER_SetHandler, BTL_SERVER_GotoSelectCommands, BTL_SERVER_StepStart, BTL_SERVER_StepSelectCommands, BTL_SERVER_GetRecordInitArg, BTL_SERVER_StepShiftPrompt, BTL_SERVER_StepRequestPokeChange, BTL_SERVER_CheckShiftPromptNeeded, BTL_SERVER_GetShiftPromptMon, BTL_SERVER_StepRequestPokeReplace, BTL_SERVER_StepSendRecording, BTL_SERVER_StepSelectEnding, BTL_SERVER_StepWaitEnd, BTL_SERVER_StepSendWildWin, BTL_SERVER_StepSendWildLoseOrDraw, BTL_SERVER_StepSendCommResult, BTL_SERVER_StepSendTrainerResult, BTL_SERVER_StepSendSubwayResult, BTL_SERVER_LoadRecorderReplies, BTL_SERVER_NoOp, BTL_SERVER_CompareFlowOutput, BTL_SERVER_SendSkipPacket, BTL_SERVER_SendActionPacket, BTL_SERVER_BuildActionPacket, BTL_SERVER_CollectReplies, BTL_SERVER_SendCommand, BTL_SERVER_SendCommandData, BTL_SERVER_SendCommandDataToClient, BTL_SERVER_AreRepliesReady, BTL_SERVER_ClearReplies, BTL_SERVER_ResetClientCommands, BTL_SERVER_ClearClient, BTL_SERVER_IsClientSlotUsed, BTL_SERVER_SetClientAdapterSlot, BTL_SERVER_SetClientParty, BTL_SERVER_GetClientChecked, BTL_SERVER_GetClientIfUsed, BTL_SERVER_IsClientUsed, BTL_SERVER_GetActionTableValue, BTL_SERVER_GetActionTableEntry, BTL_SERVER_NotifyLevelUp, BTL_SERVER_NotifyCapture, BTL_SERVER_AddMainCounter, BTL_SERVER_FinishMainCounter, BTL_SERVER_ClearPokeChangeRequests, BTL_SERVER_AddPokeChangeRequest, BTL_SERVER_GetFlow
  * address:  0x021BA9C8
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -78,7 +78,7 @@
  *   BTL_SERVER_FLOW_StartAfterPokeChange  0x021BBD8C  thumb  ov093
  *   BTL_SERVER_FLOW_RunEscapeFromLead  0x021BC360  thumb  ov093
  *   BTL_SERVER_FLOW_RunBagModeSetup  0x021BC390  thumb  ov093
- *   BTL_SERVER_FLOW_GetSlotTable  0x021BC550  thumb  ov093
+ *   BTL_SERVER_FLOW_GetEscapedClientSet  0x021BC550  thumb  ov093
  *   BTL_SERVER_FLOW_GetChosenSlot  0x021BC55C  thumb  ov093
  *   BTL_SERVER_FLOW_GetBattleResult  0x021C84D8  thumb  ov093
  */
@@ -135,7 +135,7 @@ void BTL_SERVER_SetClientWithoutAdapter(BtlServer *server, u8 clientId, u8 battl
 void BTL_SERVER_Restart(BtlServer *server);
 void BTL_SERVER_Delete(BtlServer *server);
 int BTL_SERVER_Update(BtlServer *server);
-void BTL_SERVER_GetFinalData(BtlServer *server, struct BtlClientSet *out);
+void BTL_SERVER_GetEscapedClients(BtlServer *server, struct BtlClientSet *out);
 void BTL_SERVER_SetHandler(BtlServer *server, BtlServerHandler handler);
 void BTL_SERVER_GotoSelectCommands(BtlServer *server);
 int BTL_SERVER_StepStart(BtlServer *server, int *step);
@@ -193,7 +193,7 @@ BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlRngState *rngState, void *
     for (i = 0; i < 4; i++)
         BTL_SERVER_ClearClient(&server->clients[i]);
     server->flow = BTL_SERVER_FLOW_Create(server, server->main, server->partyTable, server->sendBufStorage, server->flowParam, server->heapId);
-    server->finalData = BTL_SERVER_FLOW_GetSlotTable(server->flow);
+    server->escapedClients = BTL_SERVER_FLOW_GetEscapedClientSet(server->flow);
     BTL_SERVER_SetHandler(server, BTL_SERVER_StepStart);
     return server;
 }
@@ -255,7 +255,7 @@ int BTL_SERVER_Update(BtlServer *server)
     if (server->quitState != 2) {
         BtlServerHandler handler = server->handler;
         if (handler(server, &server->step) != 0) {
-            BTL_SERVER_SendCommandData(server, 9, server->finalData, 8);
+            BTL_SERVER_SendCommandData(server, 9, server->escapedClients, 8);
             server->quitState = 2;
         }
     } else {
@@ -265,9 +265,9 @@ int BTL_SERVER_Update(BtlServer *server)
     return 0;
 }
 
-void BTL_SERVER_GetFinalData(BtlServer *server, struct BtlClientSet *out)
+void BTL_SERVER_GetEscapedClients(BtlServer *server, struct BtlClientSet *out)
 {
-    *out = *server->finalData;
+    *out = *server->escapedClients;
 }
 
 void BTL_SERVER_SetHandler(BtlServer *server, BtlServerHandler handler)

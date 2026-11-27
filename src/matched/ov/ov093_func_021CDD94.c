@@ -1,5 +1,5 @@
 /*
- * function: BTL_CLIENT_GetCursor
+ * function: BTL_CLIENT_GetEscapedClients
  * address:  0x021CDD94
  * packet:   pkt_021CDD94
  * region:   ov093
@@ -15,7 +15,7 @@ typedef struct {
     int b;
 } S;
 
-void BTL_CLIENT_GetCursor(char *p, int *o)
+void BTL_CLIENT_GetEscapedClients(char *p, int *o)
 {
     *(S *)o = *(S *)(p + 0x2c);
 }

@@ -13,10 +13,10 @@
  *   BTL_NET_HasCommError  0x021D4270  thumb  ov093
  *   BTL_MAIN_MarkClientsDisconnected  0x021B8548  thumb  ov093
  *   BTL_SERVER_Update  0x021BAB9C  thumb  ov093
- *   BTL_SERVER_GetFinalData  0x021BABDC  thumb  ov093
+ *   BTL_SERVER_GetEscapedClients  0x021BABDC  thumb  ov093
  *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
  *   BTL_MAIN_CheckAllClientsReady  0x021B8564  thumb  ov093
- *   BTL_CLIENT_GetCursor  0x021CDD94  thumb  ov093
+ *   BTL_CLIENT_GetEscapedClients  0x021CDD94  thumb  ov093
  *   BTLV_CORE_Update  0x021E908C  thumb  ov093
  */
 #include "../include/Obj05185.h"
@@ -34,10 +34,10 @@ typedef struct {
 extern int BTL_NET_HasCommError(void);
 extern void BTL_MAIN_MarkClientsDisconnected(u8 *);
 extern int BTL_SERVER_Update(int);
-extern void BTL_SERVER_GetFinalData(int, u8 *);
+extern void BTL_SERVER_GetEscapedClients(int, u8 *);
 extern u8 BTL_CLIENT_RunTick(int);
 extern int BTL_MAIN_CheckAllClientsReady(u8 *);
-extern void BTL_CLIENT_GetCursor(char *p, int *o);
+extern void BTL_CLIENT_GetEscapedClients(char *p, int *o);
 extern void BTLV_CORE_Update(char *p);
 
 int BTL_MAIN_StepParent(u8 *p)
@@ -53,7 +53,7 @@ int BTL_MAIN_StepParent(u8 *p)
     }
     r = BTL_SERVER_Update(((struct Obj05185 *)p)->f8);
     if (r) {
-        BTL_SERVER_GetFinalData(((struct Obj05185 *)p)->f8, p + 0x448);
+        BTL_SERVER_GetEscapedClients(((struct Obj05185 *)p)->f8, p + 0x448);
     }
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 && p[i + 0xc4] == 0) {
@@ -61,7 +61,7 @@ int BTL_MAIN_StepParent(u8 *p)
         }
     }
     if (BTL_MAIN_CheckAllClientsReady(p)) {
-        BTL_CLIENT_GetCursor((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
+        BTL_CLIENT_GetEscapedClients((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
         r = 1;
     }
     BTLV_CORE_Update((char *)(((struct Obj05185 *)p)->f4));

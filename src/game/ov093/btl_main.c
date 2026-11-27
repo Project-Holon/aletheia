@@ -146,9 +146,9 @@
  *   BTL_MAIN_GetPartnerClient 0x021B9010 thumb ov093
  *   BTL_SERVER_Update 0x021BAB9C thumb ov093
  *   BTL_CLIENT_RunTick 0x021CD97C thumb ov093
- *   BTL_CLIENT_GetCursor 0x021CDD94 thumb ov093
+ *   BTL_CLIENT_GetEscapedClients 0x021CDD94 thumb ov093
  *   BTLV_CORE_Update 0x021E908C thumb ov093
- *   BTL_SERVER_GetFinalData 0x021BABDC thumb ov093
+ *   BTL_SERVER_GetEscapedClients 0x021BABDC thumb ov093
  *   BTL_CLIENT_MarkCommandIssued 0x021CD914 thumb ov093
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   ov231_id 0x000000E7 data
@@ -438,7 +438,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
         for (i = 0; i < 4; i++)
           main->setup->voiceFlags[i] = 0;
       }
-      BTL_CLIENT_SET_Clear(&main->defeatedClients);
+      BTL_CLIENT_SET_Clear(&main->escapedClients);
       battleStyle = CONFIG_GetBattleStyle(setup->config);
       flagBit = 0;
       if (battleStyle != 0)
@@ -1625,7 +1625,7 @@ int BTL_MAIN_StepClientsSolo(struct BtlMain *main)
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 &&
             BTL_CLIENT_RunTick(main->clients[i]) != 0) {
-            BTL_CLIENT_GetCursor(main->clients[i], &main->defeatedClients);
+            BTL_CLIENT_GetEscapedClients(main->clients[i], &main->escapedClients);
             found = 1;
         }
     }
@@ -1646,7 +1646,7 @@ int BTL_MAIN_StepParent(struct BtlMain *main)
     }
     r = BTL_SERVER_Update(main->server);
     if (r) {
-        BTL_SERVER_GetFinalData(main->server, &main->defeatedClients);
+        BTL_SERVER_GetEscapedClients(main->server, &main->escapedClients);
     }
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 && main->clientReady[i] == 0) {
@@ -1654,7 +1654,7 @@ int BTL_MAIN_StepParent(struct BtlMain *main)
         }
     }
     if (BTL_MAIN_CheckAllClientsReady(main)) {
-        BTL_CLIENT_GetCursor(main->clients[main->ownClientId], &main->defeatedClients);
+        BTL_CLIENT_GetEscapedClients(main->clients[main->ownClientId], &main->escapedClients);
         r = 1;
     }
     BTLV_CORE_Update(main->viewCore);
@@ -1676,7 +1676,7 @@ int BTL_MAIN_StepChild(struct BtlMain *main)
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 &&
             BTL_CLIENT_RunTick(main->clients[i]) != 0) {
-            BTL_CLIENT_GetCursor(main->clients[i], &main->defeatedClients);
+            BTL_CLIENT_GetEscapedClients(main->clients[i], &main->escapedClients);
             r = 1;
         }
     }
@@ -3539,13 +3539,13 @@ int BTL_MAIN_JudgeResult(struct BtlMain *main)
     int result;
 
     if ((int)BTL_MAIN_GetCompetitor(main) == 4) {
-        result = 1;
+        result = BTL_RESULT_VICTORY;
     } else if (main->flags.commLost) {
-        result = 6;
+        result = BTL_RESULT_COMM_ERROR;
     } else if (main->setup->resultValue[0] != 6) {
-        result = 5;
-    } else if (BTL_CLIENT_SET_GetCount((struct BtlClientSet *)(&main->defeatedClients.count))) {
-        result = BTL_CLIENT_SET_JudgeResult(&main->defeatedClients, main->ownClientId, (unsigned int)BTL_MAIN_GetCompetitor(main));
+        result = BTL_RESULT_CAPTURE;
+    } else if (BTL_CLIENT_SET_GetCount((struct BtlClientSet *)(&main->escapedClients.count))) {
+        result = BTL_CLIENT_SET_JudgeResult(&main->escapedClients, main->ownClientId, (unsigned int)BTL_MAIN_GetCompetitor(main));
     } else {
         if (main->outcome == 7) {
             main->outcome = 1;

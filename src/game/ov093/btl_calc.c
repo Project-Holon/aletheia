@@ -812,19 +812,19 @@ u32 BTL_CLIENT_SET_GetCount(struct BtlClientSet *set) { return set->count; }
  */
 int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, u8 localClientId, u32 rule)
 {
-    int foeDefeated = 0;
-    int friendDefeated = 0;
+    int foeEscaped = 0;
+    int friendEscaped = 0;
     u32 index;
     for (index = 0; index < set->count; index++) {
         if (BTL_MAIN_IsSameTeamClient(set->ids[index], localClientId))
-            friendDefeated = 1;
+            friendEscaped = 1;
         else
-            foeDefeated = 1;
+            foeEscaped = 1;
     }
-    if (friendDefeated && foeDefeated) {
+    if (friendEscaped && foeEscaped) {
         if (rule <= 1)
-            return 3;
-        return 2;
+            return BTL_RESULT_FLEE;
+        return BTL_RESULT_DRAW;
     }
-    return friendDefeated ? 3 : 4;
+    return friendEscaped ? BTL_RESULT_FLEE : BTL_RESULT_FLEE_FOE;
 }

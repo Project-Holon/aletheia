@@ -90,7 +90,7 @@ int BTL_SERVER_FLOW_RunBagModeSetup(BtlServerFlow *flow);
 void BTL_SERVER_FLOW_PushBagModePositions(BtlServerFlow *flow);
 void BTL_SERVER_FLOW_ProcRotation(BtlServerFlow *flow, int clientId, u8 memberIndex);
 int BTL_SERVER_FLOW_CollectChangeRequests(BtlServerFlow *flow, u8 *clientIdList);
-struct BtlClientSet *BTL_SERVER_FLOW_GetSlotTable(BtlServerFlow *flow);
+struct BtlClientSet *BTL_SERVER_FLOW_GetEscapedClientSet(BtlServerFlow *flow);
 u8 BTL_SERVER_FLOW_GetChosenSlot(BtlServerFlow *flow);
 void BTL_SERVER_FLOW_ProcPreTurnMoveCheck(BtlServerFlow *flow);
 u8 BTL_SERVER_FLOW_BuildActionOrder(BtlServerFlow *flow, BtlServerActionTable *actionTable, BtlServerEntry *orderEntries, int unused);

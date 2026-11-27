@@ -19580,7 +19580,7 @@ ov093	0x021BAB10	BTL_SERVER_SetClientWithoutAdapter	thumb	48	src/game/ov093/btl_
 ov093	0x021BAB40	BTL_SERVER_Restart	thumb	28	src/game/ov093/btl_server.c	no
 ov093	0x021BAB5C	BTL_SERVER_Delete	thumb	64	src/game/ov093/btl_server.c	no
 ov093	0x021BAB9C	BTL_SERVER_Update	thumb	64	src/game/ov093/btl_server.c	no
-ov093	0x021BABDC	BTL_SERVER_GetFinalData	thumb	14	src/game/ov093/btl_server.c	no
+ov093	0x021BABDC	BTL_SERVER_GetEscapedClients	thumb	14	src/game/ov093/btl_server.c	no
 ov093	0x021BABEC	BTL_SERVER_SetHandler	thumb	8	src/game/ov093/btl_server.c	no
 ov093	0x021BABF4	BTL_SERVER_GotoSelectCommands	thumb	16	src/game/ov093/btl_server.c	no
 ov093	0x021BAC04	BTL_SERVER_StepStart	thumb	168	src/game/ov093/btl_server.c	no
@@ -19650,7 +19650,7 @@ ov093	0x021BC390	BTL_SERVER_FLOW_RunBagModeSetup	thumb	30	src/game/ov093/btl_ser
 ov093	0x021BC3B0	BTL_SERVER_FLOW_PushBagModePositions	thumb	88	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BC418	BTL_SERVER_FLOW_ProcRotation	thumb	180	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BC4DC	BTL_SERVER_FLOW_CollectChangeRequests	thumb	100	src/game/ov093/btl_server_flow.c	no
-ov093	0x021BC550	BTL_SERVER_FLOW_GetSlotTable	thumb	12	src/game/ov093/btl_server_flow.c	no
+ov093	0x021BC550	BTL_SERVER_FLOW_GetEscapedClientSet	thumb	12	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BC55C	BTL_SERVER_FLOW_GetChosenSlot	thumb	12	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BC568	BTL_SERVER_FLOW_ProcPreTurnMoveCheck	thumb	168	src/game/ov093/btl_server_flow.c	no
 ov093	0x021BC610	BTL_SERVER_FLOW_BuildActionOrder	thumb	612	src/game/ov093/btl_server_flow.c	no
@@ -20248,7 +20248,7 @@ ov093	0x021CDA18	BTL_CLIENT_StepMain	thumb	500	src/game/ov093/btl_client.c	no
 ov093	0x021CDC0C	BTL_CLIENT_StepRemote	thumb	294	src/game/ov093/btl_client.c	no
 ov093	0x021CDD34	BTL_CLIENT_ResetSendWord	thumb	26	src/game/ov093/btl_client.c	no
 ov093	0x021CDD50	BTL_CLIENT_FindCommandStepFn	thumb	68	src/game/ov093/btl_client.c	no
-ov093	0x021CDD94	BTL_CLIENT_GetCursor	thumb	10	src/game/ov093/btl_client.c	no
+ov093	0x021CDD94	BTL_CLIENT_GetEscapedClients	thumb	10	src/game/ov093/btl_client.c	no
 ov093	0x021CDDA0	BTL_CLIENT_IsWindowWaiting	thumb	44	src/game/ov093/btl_client.c	no
 ov093	0x021CDDCC	BTL_CLIENT_IsWindowDone	thumb	16	src/game/ov093/btl_client.c	no
 ov093	0x021CDDDC	BTL_CLIENT_StepOpenBattleWindow	thumb	176	src/game/ov093/btl_client.c	no

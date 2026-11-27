@@ -138,7 +138,7 @@ struct BtlMain {
     u16 limitTimeGame;                  /* 0x440 */
     u16 limitTimeCommand;               /* 0x442 */
     u32 outcome;                        /* 0x444 */
-    struct BtlClientSet defeatedClients; /* 0x448 */
+    struct BtlClientSet escapedClients; /* 0x448: clients that escaped, read by BTL_MAIN_JudgeResult */
     struct BtlTask task;                /* 0x450 */
     union {
         u32 subStep;

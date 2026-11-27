@@ -42,7 +42,7 @@ int BTL_CLIENT_StepMain(BtlClient *client);
 int BTL_CLIENT_StepRemote(BtlClient *client);
 void BTL_CLIENT_ResetSendWord(BtlClient *client);
 BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *outFlag);
-void BTL_CLIENT_GetCursor(BtlClient *client, struct BtlClientSet *outCursor);
+void BTL_CLIENT_GetEscapedClients(BtlClient *client, struct BtlClientSet *outCursor);
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
 int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state);

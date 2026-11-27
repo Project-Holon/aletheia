@@ -14,7 +14,7 @@
  *   BTL_CALC_SetRngState 0x021D787C thumb ov093
  *   BTL_SERVER_ClearClient 0x021BB828 thumb ov093
  *   BTL_SERVER_FLOW_Create 0x021BB968 thumb ov093
- *   BTL_SERVER_FLOW_GetSlotTable 0x021BC550 thumb ov093
+ *   BTL_SERVER_FLOW_GetEscapedClientSet 0x021BC550 thumb ov093
  *   BTL_SERVER_SetHandler 0x021BABEC thumb ov093
  *   BTL_SERVER_StepStart 0x021BAC04 thumb ov093
  */
@@ -30,7 +30,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void BTL_CALC_SetRngState(void *);
 extern void BTL_SERVER_ClearClient(u8 *p);
 extern u8 *BTL_SERVER_FLOW_Create(void *a, void *b, void *c, void *d, int e, u16 heap);
-extern u8 *BTL_SERVER_FLOW_GetSlotTable(u8 *p);
+extern u8 *BTL_SERVER_FLOW_GetEscapedClientSet(u8 *p);
 extern void BTL_SERVER_SetHandler(int *p, void *f);
 extern int BTL_SERVER_StepStart(char *p, int *st);
 
@@ -54,7 +54,7 @@ u8 *BTL_SERVER_Create(void *a, struct Copy24 *b, void *c, int d, u16 heap)
     for (i = 0; i < 4; i++)
         BTL_SERVER_ClearClient(p + 0x14 + i * 12);
     *(u8 * *)&((struct Obj01234 *)p)->f44 = BTL_SERVER_FLOW_Create(p, ((struct Obj01234 *)p)->fC, ((struct Obj01234 *)p)->f10, p + 0xf0, ((struct Obj01234 *)p)->f4C, ((struct Obj01234 *)p)->fCC0);
-    ((struct Obj01234 *)p)->fB0 = BTL_SERVER_FLOW_GetSlotTable(*(u8 * *)&((struct Obj01234 *)p)->f44);
+    ((struct Obj01234 *)p)->fB0 = BTL_SERVER_FLOW_GetEscapedClientSet(*(u8 * *)&((struct Obj01234 *)p)->f44);
     BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepStart);
     return p;
 }
