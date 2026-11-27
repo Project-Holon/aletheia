@@ -224,7 +224,7 @@ struct Move {u16 id;u8 pp,up,kind,power,type,accuracy;};
 struct Summary {
     void *mon;
     u16 species,attack,defense,speed,spAttack,spDefense,hp,maxHp;
-    u8 ability,form;
+    u8 type1,type2;
     u8 level:7,egg:1;
     u8 gender:3,nature:4,flag:1;
     u16 abilityId,heldItem;
@@ -1448,8 +1448,8 @@ void B_PLIST_MAIN_ReadSummary(void *unused,void *mon,struct Summary *p)
     p->spDefense=POKE_TOOL_GetPartyValue(p->mon,0xa6,0);
     p->hp=POKE_TOOL_GetPartyValue(p->mon,0xa0,0);
     p->maxHp=POKE_TOOL_GetPartyValue(p->mon,0xa1,0);
-    p->ability=POKE_TOOL_GetPartyValue(p->mon,0xae,0);
-    p->form=POKE_TOOL_GetPartyValue(p->mon,0xaf,0);
+    p->type1=POKE_TOOL_GetPartyValue(p->mon,0xae,0);
+    p->type2=POKE_TOOL_GetPartyValue(p->mon,0xaf,0);
     p->level=(u8)POKE_TOOL_GetPartyValue(p->mon,0x9e,0);
     if(POKE_TOOL_GetPartyValue(p->mon,0xad,0)==1) p->egg=0;
     else p->egg=1;

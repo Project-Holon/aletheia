@@ -1062,7 +1062,7 @@ struct HandExAddSickAnnounce {
 
 #define WAZAVAR_ITEM_SLOT 6
 
-#define WAZAVAR_SECONDARY_RATE 0x1f
+#define WAZAVAR_RANK_EFFECT_STAT 0x1f   /* stat the move changes (event 0x59), 10 all five; the chance is var 0x26 */
 
 #define WAZAVAR_POWER_RATIO 0x31
 

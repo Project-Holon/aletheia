@@ -9334,11 +9334,11 @@ int *HAND_WAZA_AddAllStatBoostChance(int *handlerCount)
 
 
 
-/* Ancient Power, Silver Wind and Ominous Wind: the all-stats boost has a 10 percent chance. */
+/* Ancient Power, Silver Wind and Ominous Wind: the stat change of a self-hit raises all five stats (stat 10). */
 void HAND_WAZA_AllStatBoostSetChance(int factor, int flow, int pokeId)
 {
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_DEFENDER_ID) && pokeId == BTL_EVENT_GetVar(WAZAVAR_ATTACKER_ID))
-        BTL_EVENT_OverwriteVar(WAZAVAR_SECONDARY_RATE, 10);
+        BTL_EVENT_OverwriteVar(WAZAVAR_RANK_EFFECT_STAT, 10);
 }
 
 
