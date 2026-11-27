@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   HAND_FIELD_AddFactor  0x06898020  thumb
+ *   HAND_FIELD_AddFactor  0x06898020  thumb  ov095
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093

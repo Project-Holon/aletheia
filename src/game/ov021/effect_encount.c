@@ -56,7 +56,7 @@
  *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
  *   FLDEFF_ENCOUNT_Start  0x021ADAAC  thumb
  *   sRareItemIds     0x021D8E8A  data  a2
- *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
  *   MAP_ATTR_GetEncounterEffectKind  0x021AB504  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021

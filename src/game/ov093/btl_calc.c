@@ -20,7 +20,7 @@
  *   gBtlStatStageRatios 0x021F0448 data a1
  *   gBtlCalcAccuracyStageRatios 0x021F0462 data a1
  *   gBtlCalcCriticalRanges 0x021F041C data a1
- *   BTL_ID_GetItemCuredSick  0x0689C9E4  thumb
+ *   BTL_ID_GetItemCuredSick  0x0689C9E4  thumb  ov095
  *   gBtlCalcTypeAffinityTable  0x021F047C  data  ov093  a1
  *   BTL_TYPEPAIR_Split  0x021E8D0C  thumb  ov093
  *   BTL_TYPEPAIR_IsSingleType  0x021E8DA8  thumb  ov093

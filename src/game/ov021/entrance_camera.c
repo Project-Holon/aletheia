@@ -37,7 +37,7 @@
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_CAMERA_Main  0x0218E104  thumb  ov021
  *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
- *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb
+ *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb  ov010
  */
 #include "entrance_camera_types.h"
 

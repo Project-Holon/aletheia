@@ -23,7 +23,7 @@
  *   FLDMMDL_ACMD_RunCmds  0x02197EB4  thumb  ov021
  *   FLDMMDL_CheckMoveBitMovePause  0x0216DB10  thumb  ov010
  *   FLDMMDL_CallMoveProc  0x0216D708  thumb  ov010
- *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb
+ *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb  ov010
  *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb  ov021
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   VEC_Fx16Normalize  0x0207CDB8  arm
@@ -52,7 +52,7 @@
  *   FLDEFF_REFLECT_SetMMdl  0x021BBFB8  thumb  ov021
  *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
- *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010

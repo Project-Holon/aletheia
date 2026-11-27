@@ -60,7 +60,7 @@
  *   CARD_LockRom  0x02075E10  arm
  *   CARD_UnlockRom  0x02075E80  arm
  *   OS_ReleaseLockID  0x02084F10  arm
- *   CARDi_InitRomHash  0x0272EA74  arm
+ *   CARDi_InitRomHash  0x0272EA74  arm  twl
  *   CARDiOwnSignature  0x0215086C  data
  *   CARDi_WaitAsync  0x02076050  arm
  */

@@ -24,7 +24,7 @@
  *   FLD_FACEUP_Create  0x021F5260  thumb ov082
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb ov010
  *   ov_id_52       0x00000052  data
- *   FLD_FACEUP_ResumeLipSync  0x021F558C  thumb
+ *   FLD_FACEUP_ResumeLipSync  0x021F558C  thumb  ov082
  *   FLD_FACEUP_Delete 0x021F5578 thumb ov082
  *   SCRIPT_WORK_ResetCheckFlag 0x02159168 thumb ov010
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb

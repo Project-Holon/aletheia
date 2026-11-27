@@ -21,10 +21,10 @@
  *   d_021714DC     0x021714DC  data
  *   FieldLinkEventTable     0x02171504  data
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
- *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
- *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
- *   MAP_ATTR_IsRoughGround  0x021AB4B8  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsRoughGround  0x021AB4B8  thumb  ov021
  *   ZONEDATA_IsBikeEnabled  0x02013C20  thumb
  *   ZONEDATA_IsNormalFieldZone 0x02013E04 thumb
  *   ZONEDATA_IsWeatherEnabled 0x02013C50 thumb

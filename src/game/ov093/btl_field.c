@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   HAND_FIELD_AddFactor  0x06898020  thumb
+ *   HAND_FIELD_AddFactor  0x06898020  thumb  ov095
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
@@ -112,7 +112,7 @@
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   gBtlFieldFileName  0x021F3AF8  data  a4
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
- *   HAND_FIELD_RemoveFactor  0x06898080  thumb
+ *   HAND_FIELD_RemoveFactor  0x06898080  thumb  ov095
  *   BTL_SICKCONT_SetPosition 0x021E8AC8 thumb ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093

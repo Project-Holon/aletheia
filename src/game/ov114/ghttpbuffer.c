@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gsirealloc  0x0217EAC8 arm ov009
- *   gsifree                 0x0217EAE0  arm
+ *   gsifree                 0x0217EAE0  arm  ov009
  *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   strlen           0x0209477c arm
  *   ghiResizeBuffer  0x021bfb90 arm  ov114

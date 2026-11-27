@@ -93,16 +93,16 @@
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
- *   FIELD_PLAYER_CheckNotWaterForm  0x021A3208  thumb
- *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb
+ *   FIELD_PLAYER_CheckNotWaterForm  0x021A3208  thumb  ov021
+ *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
  *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
- *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  *   FIELD_PLAYER_CheckAnimePaused   0x021A3244  thumb  ov021
- *   FIELD_SAVEANIME_Create  0x021D1164  thumb
- *   FIELD_SAVEANIME_Start  0x021D11B0  thumb
- *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
- *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
+ *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
+ *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
+ *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb  ov021
+ *   FIELD_SAVEANIME_Delete  0x021D1194  thumb  ov021
  */
 #include "../types.h"
 

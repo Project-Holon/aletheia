@@ -39,8 +39,8 @@
  *   SCRIPT_WORK_GetCmdWork 0x02158F6C thumb ov010
  *   MSGDATA_Delete  0x02045C04  arm
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
- *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb
- *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb
+ *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb  ov021
+ *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb  ov021
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
@@ -55,7 +55,7 @@
  *   FIELD_MSGBG_SetMenuHeaderRect  0x02190B08  thumb  ov021
  *   FIELD_MSGBG_CreateMenuFuncWork  0x02190988  thumb  ov021
  *   gScrcmdMenuHeader     0x02171140  data  ov010  a4
- *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_MenuFuncMain 0x021909E4 thumb ov021
  *   BMP_MENULIST_GetUserData  0x02020D0C  thumb

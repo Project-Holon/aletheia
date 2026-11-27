@@ -45,8 +45,8 @@
  *   OS_IsRunOnTwl           0x02085D3C  arm
  *   MI_CpuCopy8             0x02082D44  arm
  *   MI_CpuFill8             0x02082BCC  arm
- *   AESi_Init               0x027073AC  arm
- *   AESi_VerifySignForJpeg  0x0270788C  arm
+ *   AESi_Init               0x027073AC  arm  twl
+ *   AESi_VerifySignForJpeg  0x0270788C  arm  twl
  *   SSPiDecodeSignCheckMode 0x021CADA4  data ov172
  */
 

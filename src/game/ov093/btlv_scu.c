@@ -147,7 +147,7 @@
  *   BMP_GetByteSize 0x020437EC arm
  *   MIi_CpuCopy32 0x02082A90 arm
  *   PALANM_RequestFade  0x0202173C  thumb  arm9
- *   HAND_FIELD_AddFactor  0x06898020  thumb
+ *   HAND_FIELD_AddFactor  0x06898020  thumb  ov095
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093

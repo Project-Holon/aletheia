@@ -16,7 +16,7 @@
  *   g_02FE00A0  0x02FE00A0  data  a4
  *   g_02150F38                     0x02150F38  data
  *   g_02FE0020                     0x02FE0020  data
- *   OSi_EnterNDmaCallback_ltdmain  0x0273126C  arm
+ *   OSi_EnterNDmaCallback_ltdmain  0x0273126C  arm  twl
  *   OSi_IrqCallbackInfo  0x02150F38  data
  *   SDK_AUTOLOAD_DTCM_START        0x02FE0000  data
  *   SDK_IRQ_STACKSIZE              0x00000800  data

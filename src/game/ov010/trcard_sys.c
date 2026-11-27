@@ -92,7 +92,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SP_POKE_GIMMICK_UpdatePairB  0x021F385C  thumb  ov059
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent  0x021F38BC  thumb
+ *   FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent  0x021F38BC  thumb  ov065
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb

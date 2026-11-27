@@ -48,14 +48,14 @@
  *   TANE         0x021DCDA8  data
  *   _u32_div_f  0x0209C2B0  arm
  *   CPSMyIp      0x021A82BC  data
- *   SOC_Startup  0x0215F8FC  arm
+ *   SOC_Startup  0x0215F8FC  arm  ov009
  *   OS_Sleep     0x02085A38  arm
- *   SOC_Cleanup       0x0215FA90  arm
+ *   SOC_Cleanup       0x0215FA90  arm  ov009
  *   AOSSi_Disconnect  0x021B8640  thumb
  *   MI_CpuCopy8   0x02082D44  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm
  *   _ull_mul  0x0209C054  arm
- *   SOC_Poll  0x0215FBCC  arm
+ *   SOC_Poll  0x0215FBCC  arm  ov009
  *   SOC_Close  0x0215F644  arm  ov009
  *   RTC_GetTime  0x0208890C  arm
  */

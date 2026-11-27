@@ -40,7 +40,7 @@
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
- *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb
+ *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb  ov021
  *   FIELD_PLAYER_GetDirDisp 0x021A3050 thumb ov021
  *   GAME_EVENT_Create 0x020122C0 thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb

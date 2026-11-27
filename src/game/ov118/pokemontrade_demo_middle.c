@@ -75,16 +75,16 @@
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   POKETRADE_DEMO_DOWN_StepStartPlayback  0x021D6750  thumb  ov118
- *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb
+ *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb  ov119
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb
+ *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb  ov119
  *   CLACT_CreateUnit  0x0204B100  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   POKETRADE_2D_SetupSummaryBgs  0x021E5284  thumb
+ *   POKETRADE_2D_SetupSummaryBgs  0x021E5284  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcss  0x021E35A0  thumb ov119
- *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb
+ *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb  ov119
  *   POKETRADE_3D_SetupParticleSystemsLow  0x021E2FB0  thumb ov119
- *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
+ *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb  ov119
  *   d_021D866C  0x021D866C  data
  *   POKETRADE_3D_SetupParticleSystemsHigh  0x021E3004  thumb  ov119
  *   POKETRADE_3D_AddUnitAndInit  0x021E3208  thumb  ov119

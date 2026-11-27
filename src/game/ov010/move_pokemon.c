@@ -70,7 +70,7 @@
  *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
- *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb
+ *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb  ov021
  *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
  *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
@@ -87,7 +87,7 @@
  *   SCRIPT_WORK_SetParams 0x02159058 thumb ov010
  *   SWEET_SCENT_CreateEvent 0x021C6078 thumb ov021
  *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
- *   FLD_WIPE_3DOBJ_CreateMapChangeEvent  0x021C8268  thumb
+ *   FLD_WIPE_3DOBJ_CreateMapChangeEvent  0x021C8268  thumb  ov021
  *   FIELDMAP_GetMapEff  0x02189A10  thumb  ov021
  *   FIELDSKILL_MAPEFF_GetFlash  0x021C7FBC  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -100,7 +100,7 @@
  *   EVENT_MAPCHANGE_CreateEscapeRopeEvent  0x02184EEC  thumb  ov020
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   EVENT_MAPCHANGE_CreateSituationWarpEvent  0x02184F40  thumb  ov020
- *   EVENT_PERAP_RECORD_Create   0x021D1C24  thumb
+ *   EVENT_PERAP_RECORD_Create   0x021D1C24  thumb  ov021
  *   d_02171258 0x02171258 data a4
  *   d_02171200 0x02171200 data a4
  *   d_02171254 0x02171254 data a4

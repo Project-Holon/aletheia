@@ -45,9 +45,9 @@
  *   gColosseumAssertText1 0x0217562C data a4
  *   gColosseumAssertText2 0x0217563C data a4
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   COMM_PLAYER_Create  0x02167518  thumb
+ *   COMM_PLAYER_Create  0x02167518  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
+ *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
  *   gColosseumAllocFile   0x02175630  data  ov012
  *   COMM_PLAYER_Delete  0x0216754C  thumb  ov010
  *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012

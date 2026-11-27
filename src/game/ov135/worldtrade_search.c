@@ -83,8 +83,8 @@
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
- *   DPW_TR_IsAsyncEnd  0x021C866C  arm
- *   DPW_TR_GetAsyncResult  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
  *   DPW_TR_End 0x021C8658 arm ov114
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_FreeTiles  0x02040DA8  arm

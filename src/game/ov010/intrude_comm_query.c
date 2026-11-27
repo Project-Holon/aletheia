@@ -38,9 +38,9 @@
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   sIntrudeUnlockFlags 0x021700A8 data a2
- *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb
- *   INTRUDE_COMM_IsRequestFromSelf  0x02176258  thumb
- *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
+ *   INTRUDE_COMM_IsRequestFromSelf  0x02176258  thumb  ov011
+ *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb  ov011
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */

@@ -36,7 +36,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
- *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
@@ -86,8 +86,8 @@
  *   d_021713F4     0x021713F4  data  a1
  *   d_021713EC     0x021713EC  data  a1
  *   FLDMMDL_SysSearchObjId 0x0216DE94 thumb ov010
- *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb
- *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb
+ *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb  ov021
+ *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb  ov021
  *   d_0217140C     0x0217140C  data
  *   FX_Div         0x0207C768  arm
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010

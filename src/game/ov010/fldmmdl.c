@@ -23,21 +23,21 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   TCB_Noop  0x02030DA4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   FLDMMDL_ACMD_DeleteDrawSys  0x02197C4C  thumb
+ *   FLDMMDL_ACMD_DeleteDrawSys  0x02197C4C  thumb  ov021
  *   TCB_Main  0x02030D28  arm
- *   FLDMMDL_BLACT_Update  0x0219C5FC  thumb
- *   FLDMMDL_BLACT_RegisterLoadedRes  0x0219C624  thumb
- *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb
+ *   FLDMMDL_BLACT_Update  0x0219C5FC  thumb  ov021
+ *   FLDMMDL_BLACT_RegisterLoadedRes  0x0219C624  thumb  ov021
+ *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb  ov021
  *   OS_WaitInterrupt  0x02087A3C  arm
  *   FLDMMDL_HasMovedPos  0x0216E51C  thumb  ov010
  *   FLDMMDL_MOVE_SetStatusPauseDraw 0x021642F8 thumb ov010
  *   FLDMMDL_MOVE_RequestRailMove 0x02164304 thumb ov010
  *   FLDMMDL_GetMovedPos  0x0216E544  thumb  ov010
  *   FLDMMDL_MOVE_SetupMove  0x02163010  thumb  ov010
- *   FLDMMDL_RAIL_MOVE_InitMove  0x0219D6B8  thumb
+ *   FLDMMDL_RAIL_MOVE_InitMove  0x0219D6B8  thumb  ov021
  *   FLDMMDL_MOVE_UpdateMove   0x02163028  thumb  ov010
- *   FLDMMDL_RAIL_MOVE_UpdateMove   0x0219D6CC  thumb
- *   FLDMMDL_ACMD_DrawIfInitialized  0x02197C78  thumb
+ *   FLDMMDL_RAIL_MOVE_UpdateMove   0x0219D6CC  thumb  ov021
+ *   FLDMMDL_ACMD_DrawIfInitialized  0x02197C78  thumb  ov021
  *   FLDMMDL_MOVE_IsGridInObjectRect  0x02163C04  thumb  ov010
  *   TCB_AddTask  0x02030DA8  arm
  *   TCB_DeleteTask  0x02030EAC  arm

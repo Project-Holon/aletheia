@@ -76,7 +76,7 @@
  *   GDS_SOCKET_SendRequest 0x021D7A10 arm ov125
  *   sGdsRequestIds 0x021D8CD0 data a4
  *   OS_GetLowEntropyData 0x02088168 arm
- *   CPS_SslAddRandomSeed 0x02162248 arm
+ *   CPS_SslAddRandomSeed 0x02162248 arm  ov009
  *   MI_CpuFill8 0x02082BCC arm
  *   gGdsEntropyBuffer 0x021DAA8C data a4
  *   gGdsSslTemplatePtr 0x021DAA88 data a4

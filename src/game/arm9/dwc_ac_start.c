@@ -13,8 +13,8 @@
  * sdk:      DWCi_AC_Start (start.o)
  *
  * symbols:
- *   WCM_GetPhase         0x021656A0  arm
- *   WCM_StartupAsync     0x02164F98  arm
+ *   WCM_GetPhase         0x021656A0  arm  ov009
+ *   WCM_StartupAsync     0x02164F98  arm  ov009
  *   DWCi_AC_CallBackWCM  0x0205B148  arm
  */
 #include "../types.h"

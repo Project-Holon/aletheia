@@ -37,7 +37,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
- *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -51,7 +51,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
- *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
+ *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
  *   MISC_GetFromSave  0x0200C0E8  thumb
  *   MISC_GetResearchRank  0x0200C224  thumb

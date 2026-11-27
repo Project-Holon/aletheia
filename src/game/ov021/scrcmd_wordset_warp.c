@@ -57,7 +57,7 @@
  *   EVENT_MAPCHANGE_CreateWarpEventWithTargetPos  0x02184E40  thumb  ov020
  *   FLDEFF_GYOE_StartHeld  0x021BB578  thumb  ov021
  *   EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent  0x02185050  thumb  ov020
- *   EVENT_MAPCHANGE_CreateFixedZoneEvent  0x021850A8  thumb
+ *   EVENT_MAPCHANGE_CreateFixedZoneEvent  0x021850A8  thumb  ov020
  *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb  ov020
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
  *   FIELD_NOGRID_MAPPER_CalcZoneRailLocation  0x021BB3E8  thumb  ov021

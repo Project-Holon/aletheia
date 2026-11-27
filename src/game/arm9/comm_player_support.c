@@ -19,7 +19,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
+ *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb  ov010
  *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb

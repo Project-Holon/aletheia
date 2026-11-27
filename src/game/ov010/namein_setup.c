@@ -26,7 +26,7 @@
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
  *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
  *   FIELD_CAMERA_ANIME_Start  0x0218FF00  thumb  ov021
- *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb
+ *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   ICA_ANIME_CreateFull  0x020114D0  thumb
@@ -34,14 +34,14 @@
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
- *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   ICA_ANIME_IncFrameLoop  0x02011590  thumb
  *   ICA_ANIME_Delete  0x02011558  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
- *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
@@ -60,8 +60,8 @@
  *   FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone  0x021F3808  thumb  ov050
  *   FIELD_GIMMICK_MODELS_B_StopModel0Anime  0x021F3744  thumb  ov050
  *   FIELD_GIMMICK_MODELS_B_HideModel1  0x021F3788  thumb  ov050
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
- *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -92,8 +92,8 @@
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
- *   SCRCMD_MSGWIN_GetBalloonOffset  0x021B09D8  thumb
- *   SCRCMD_MSGWIN_GetBalloonTailParams  0x021B09EC  thumb
+ *   SCRCMD_MSGWIN_GetBalloonOffset  0x021B09D8  thumb  ov021
+ *   SCRCMD_MSGWIN_GetBalloonTailParams  0x021B09EC  thumb  ov021
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   GAME_DATA_GetSaveBlock3B  0x02012EFC  thumb
  *   BSUBWAY_SAVEDATA_GetHistoryTagA  0x0200DF40  thumb

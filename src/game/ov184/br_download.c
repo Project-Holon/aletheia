@@ -51,11 +51,11 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BR_UTIL_FlushWindow 0x021FD1BC thumb ov186
  *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
- *   BR_FADE_Start   0x021FE784  thumb
- *   BR_FADE_GetResult   0x021FE7B0  thumb
- *   BR_UTIL_SetTaskStep   0x021FD73C  thumb
- *   BR_UTIL_ClearTaskStep   0x021FD744  thumb
- *   BR_PROC_SYS_PopEntry   0x021F9BA0  thumb
+ *   BR_FADE_Start   0x021FE784  thumb  ov186
+ *   BR_FADE_GetResult   0x021FE7B0  thumb  ov186
+ *   BR_UTIL_SetTaskStep   0x021FD73C  thumb  ov186
+ *   BR_UTIL_ClearTaskStep   0x021FD744  thumb  ov186
+ *   BR_PROC_SYS_PopEntry   0x021F9BA0  thumb  ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
@@ -80,8 +80,8 @@
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
- *   BR_RES_ReleaseSprite   0x021FC0C8  thumb
- *   BR_BTN_DeleteObject   0x021FB494  thumb
+ *   BR_RES_ReleaseSprite   0x021FC0C8  thumb  ov186
+ *   BR_BTN_DeleteObject   0x021FB494  thumb  ov186
  */
 #include "br_download_types.h"
 #include "br_download.h"

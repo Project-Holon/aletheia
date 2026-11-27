@@ -14,7 +14,7 @@
  * Split from scrcmd_screeneffects.c at 0x021AE948 (lane L135, script command handlers, first one calls the trainer eye creator 021AE454; original unknown).
  *
  * symbols:
- *   EVENT_TRAINER_GetTrainerIdFromScriptId  0x0215A460  thumb
+ *   EVENT_TRAINER_GetTrainerIdFromScriptId  0x0215A460  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
@@ -61,7 +61,7 @@
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
- *   SCRCMD_WORK_GetFadeParam  0x0215A6AC  thumb
+ *   SCRCMD_WORK_GetFadeParam  0x0215A6AC  thumb  ov010
  *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb

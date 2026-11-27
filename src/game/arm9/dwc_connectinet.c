@@ -19,7 +19,7 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   CPS_SetSslHandshakePriority 0x0216008C arm
+ *   CPS_SetSslHandshakePriority 0x0216008C arm  ov009
  *   g_02146AD4 0x02146AD4 data
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   DWC_AC_Create 0x0205B98C arm
@@ -33,9 +33,9 @@
  *   DWC_AC_CleanupGetWDSInfo 0x0205DC74 arm
  *   DWCi_AC_InvalidatePriorityWPA 0x0205C018 arm
  *   DWC_AC_Process 0x0205BC78 arm
- *   WCM_GetPhase 0x021656A0 arm
+ *   WCM_GetPhase 0x021656A0 arm  ov009
  *   DWC_AC_GetStatus 0x0205BD64 arm
- *   CPS_GetSslHandshakePriority 0x0216007C arm
+ *   CPS_GetSslHandshakePriority 0x0216007C arm  ov009
  *   DWC_AC_StartupGetWDSInfo 0x0205D91C arm
  *   DWC_AC_CancelGetWDSInfo 0x0205DC58 arm
  *   DWC_AC_Destroy 0x0205BE6C arm
@@ -44,10 +44,10 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   DWC_AC_GetApType 0x0205BDD0 arm
  *   OS_DisableInterrupts 0x02087988 arm
- *   WCM_GetApMacAddress 0x02166384 arm
+ *   WCM_GetApMacAddress 0x02166384 arm  ov009
  *   DC_InvalidateRange 0x020862B8 arm
  *   OS_RestoreInterrupts 0x0208799C arm
- *   WCM_GetApEssid 0x021663C8 arm
+ *   WCM_GetApEssid 0x021663C8 arm  ov009
  *   DWC_AC_GetApSpotInfo 0x0205BE00 arm
  *   DWC_AC_GetSecuritySetting 0x0205BE58 arm
  *   DWC_AC_CheckWiFiStation 0x0205BFD4 arm

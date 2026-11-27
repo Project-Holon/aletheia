@@ -52,7 +52,7 @@
  *   APC_SearchEnd      0x021B8E30  thumb
  *   OS_CancelAlarm     0x020873F8  arm
  *   MI_CpuFill8          0x02082BCC  arm
- *   WCM_ClearApList      0x02165B80  arm
+ *   WCM_ClearApList      0x02165B80  arm  ov009
  *   Get_WLLA_SSID_PARAM        0x021B8488  thumb  ov016
  *   APC_Connect        0x021B8EFC  thumb  ov016
  *   alarmCallback        0x021B84D0  thumb  ov016

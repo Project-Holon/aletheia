@@ -44,7 +44,7 @@
  *   WCMi_WmifTerminateAsync        0x02166C44 arm ov009
  *   WCMi_NwmifTerminateAsync        0x02731D6C arm twl
  *   WCMi_WmifGetAllowedChannel  0x02166DE4 arm
- *   WCMi_NwmifGetAllowedChannel 0x02731F00 arm
+ *   WCMi_NwmifGetAllowedChannel 0x02731F00 arm  twl
  *   OS_CancelAlarm       0x020873F8 arm
  *   OS_SetAlarm          0x0208738C arm
  *   WcmKeepAliveAlarm    0x02165B5C arm ov009

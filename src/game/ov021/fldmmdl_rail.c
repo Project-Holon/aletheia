@@ -16,7 +16,7 @@
  * symbols:
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
- *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb
+ *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb  ov010
  *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb  ov021
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_CheckStatusBitAttrGetOff  0x0216DCB4  thumb  ov010

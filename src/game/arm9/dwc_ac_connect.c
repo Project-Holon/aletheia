@@ -20,10 +20,10 @@
  *   GetConnectType 0x0205B5EC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GetWepKey 0x0205B7D0 arm
- *   WCM_GetPhase 0x021656A0 arm
+ *   WCM_GetPhase 0x021656A0 arm  ov009
  *   GetPowerMode 0x0205B790 arm
  *   GetAuthMode 0x0205B7B0 arm
- *   WCM_ConnectAsync 0x021652A4 arm
+ *   WCM_ConnectAsync 0x021652A4 arm  ov009
  *   OS_GetTick 0x020870D0 arm
  *   DWCi_AC_SetError 0x0205C2E4 arm
  *   DWCi_AC_GetSearchListNum 0x0205D434 arm

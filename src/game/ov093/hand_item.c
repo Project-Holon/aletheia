@@ -59,7 +59,7 @@
  *   BTL_POKEPARAM_CanChangeStatStage  0x021D5D14  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   HAND_COMMON_EventSetFlagIfAttacker  0x021E8878  thumb  ov093
- *   BTL_ID_IsGemIgnoredMove  0x0689C8EC  thumb
+ *   BTL_ID_IsGemIgnoredMove  0x0689C8EC  thumb  ov095
  *   HAND_COMMON_EventTrySetFlagIfAttacker  0x021E889C  thumb  ov093
  *   BTL_SERVER_FLOW_SetMsgRecordSe  0x021C888C  thumb  ov093
  *   BTL_EVENT_MarkFactorDead   0x021D7090  thumb

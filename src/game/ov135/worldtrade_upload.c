@@ -64,8 +64,8 @@
  *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
- *   DPW_TR_IsAsyncEnd  0x021C866C  arm
- *   DPW_TR_GetAsyncResult  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   DPW_TR_End 0x021C8658 arm ov114
  *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9

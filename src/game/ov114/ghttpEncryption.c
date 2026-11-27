@@ -26,7 +26,7 @@
  *   sGhttpEncryptionFileName    0x021CE7B0  data  a4
  *   sFuncNameGhiEncyptorSetRootCAList    0x021CE6AE  data  a1
  *   strcmp 0x020948E0  arm
- *   gsDebugFormat 0x0217D254  arm
+ *   gsDebugFormat 0x0217D254  arm  ov009
  *   ghiGetServerAddressFromUrl  0x021c1020  arm   ov114
  *   ArraySearch  0x021843e8  arm   ov009
  *   gsifree  0x0217eae0  arm   ov009

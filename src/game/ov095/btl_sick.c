@@ -23,34 +23,34 @@
  * Extent remainder: two-byte alignment padding at 0x0689C242.
  *
  * symbols:
- *   BTL_SERVER_FLOW_ProcSickDamage  0x021C4A64  thumb
- *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
- *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
- *   BTL_POKEPARAM_CalcSickDamage  0x021D6324  thumb
- *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
- *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
- *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
- *   BTL_POKEPARAM_GetSickTurn  0x021D631C  thumb
- *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb
- *   BTL_SERVER_FLOW_GetPosTableEntryForPoke  0x021C7D44  thumb
- *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
- *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
- *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
- *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
- *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
- *   BTL_SICKCONT_GetValue  0x021E8B80  thumb
- *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
- *   BTL_SICKCONT_GetFlag  0x021E8C24  thumb
- *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb
- *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
- *   BTL_CALC_RandRange  0x021D7B8C  thumb
- *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb
- *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb
- *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb
+ *   BTL_SERVER_FLOW_ProcSickDamage  0x021C4A64  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_CalcSickDamage  0x021D6324  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTL_POKEPARAM_GetSickTurn  0x021D631C  thumb  ov093
+ *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPosTableEntryForPoke  0x021C7D44  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
+ *   BTL_SICKCONT_GetValue  0x021E8B80  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_SICKCONT_GetFlag  0x021E8C24  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_CALC_RandRange  0x021D7B8C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb  ov093
  *   gSickEndStringTable   0x0689E21C  data  ov095  a4
- *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb
- *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb
- *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  */
 #include "btl_sick_types.h"
 

@@ -25,41 +25,41 @@
  *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
- *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
- *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb
- *   FLDMMDL_GetObjId  0x0216D588  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   gGimmickD06SourceFile     0x021F40A0  data  ov051  a4
  *   GFL_HEAP_Free 0x020307B0 arm
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
- *   FIELD_PLAYER_GetPos  0x021A3038  thumb
- *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb
- *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill  0x02082C60  arm
- *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
- *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
- *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
- *   FLDMMDL_SetAcmd  0x0216D410  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb
- *   FLDMMDL_EndAcmd  0x0216D480  thumb
- *   FLDEFF_D06DENKI_FollowFreezeLoop  0x021C909C  thumb
- *   FLDEFF_D06DENKI_FollowStartEnding  0x021C90AC  thumb
- *   FLDEFF_D06DENKI_FollowIsEnded  0x021C90D0  thumb
- *   FLDMMDL_GetPos  0x0216D88C  thumb
- *   FLDEFF_D06DENKI_StartFollow  0x021C9064  thumb
- *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
- *   FLDMMDL_GetGridNowX  0x0216D83C  thumb
- *   FLDMMDL_GetGridNowY  0x0216D854  thumb
- *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb
- *   FLDMMDL_MOVE_AddDirGrid  0x02164240  thumb
- *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb
- *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb
- *   FLDMMDL_GetPosY  0x0216D8AC  thumb
- *   MAP_ATTR_GetAt  0x021AB0D4  thumb
- *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
- *   MAP_ATTR_IsElectricPanel  0x021AB3F8  thumb
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDEFF_D06DENKI_FollowFreezeLoop  0x021C909C  thumb  ov021
+ *   FLDEFF_D06DENKI_FollowStartEnding  0x021C90AC  thumb  ov021
+ *   FLDEFF_D06DENKI_FollowIsEnded  0x021C90D0  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDEFF_D06DENKI_StartFollow  0x021C9064  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_AddDirGrid  0x02164240  thumb  ov010
+ *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb  ov010
+ *   FLDMMDL_GetPosY  0x0216D8AC  thumb  ov010
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsElectricPanel  0x021AB3F8  thumb  ov021
  *   FLDEFF_D06DENKI_StartPulse 0x021C9258 thumb ov021
  *   FLDEFF_D06DENKI_PulseTrigger 0x021C928C thumb ov021
  *   FLDMMDL_AddMmdlParam 0x0216CE6C thumb ov010

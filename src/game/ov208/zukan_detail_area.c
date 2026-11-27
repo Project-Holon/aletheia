@@ -151,7 +151,7 @@
  *   data_021C8580  0x021C8580  data
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteRenderer 0x0204B084 arm
- *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb
+ *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb  ov010
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   data_021C8570  0x021C8570  data
@@ -166,7 +166,7 @@
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   SYMBOL_MAP_ResolveZoneId  0x02166C7C  thumb
+ *   SYMBOL_MAP_ResolveZoneId  0x02166C7C  thumb  ov010
  *   TOWNMAP_GRH_FindRecordIndex  0x021BBB48  thumb  ov072
  *   ZUKAN_DETAIL_AREA_FindPlayerTownIndex  0x021C0C14  thumb  ov208
  *   data_021C8554  0x021C8554  data

@@ -17,8 +17,8 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
- *   SAVE_OUTSIDE_Prepare    0x021DFDC0  thumb
- *   SAVE_OUTSIDE_WriteAsync    0x021DFE00  thumb
+ *   SAVE_OUTSIDE_Prepare    0x021DFDC0  thumb  ov228
+ *   SAVE_OUTSIDE_WriteAsync    0x021DFE00  thumb  ov228
  *   sMysteryDataFile      0x020A71A4  data
  *   SAVE_CONTROL_HasFlashSave   0x020071EC  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm

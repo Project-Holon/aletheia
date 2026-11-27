@@ -137,7 +137,7 @@
  *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   TOUCHBAR_SetButtonToggled  0x021B6598  thumb  ov067
  *   gOptionMenuReturnButtonCells     0x021BB5D4  data  a4
- *   TOUCHBAR_Delete  0x021B639C  thumb
+ *   TOUCHBAR_Delete  0x021B639C  thumb  ov067
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   OPTION_MENU_IsPointInRect  0x021BB508  thumb  ov068
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb

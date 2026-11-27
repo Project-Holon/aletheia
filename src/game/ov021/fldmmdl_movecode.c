@@ -25,7 +25,7 @@
  *   DWCca_ghttp_caList_c 0x021D4A9C  data
  *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
- *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_ACMD_AnimeDash4FStart  0x02198E44  thumb
  *   FLDMMDL_ACMD_AnimeDash6FStart  0x02198E60  thumb
@@ -102,7 +102,7 @@
  *   FLDMMDL_DRAW_ResetBlactAnime  0x0219FE64  thumb  ov021
  *   FLDMMDL_DRAW_CheckBlactReady  0x0219FE20  thumb  ov021
  *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
- *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
  *   gMmdlRandomWaitFrames     0x021D4FA4  data  a4
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010

@@ -25,8 +25,8 @@
  *   FLD_EXP_OBJ_SetAnimeLoop 0x021BE6B8 thumb ov021
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  *   FLD_EXP_OBJ_SetModelHidden 0x021BE4B4 thumb ov021
- *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb
- *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   gModelsBSetup     0x021F38A4  data  a4
  *   gModelsBModelPos     0x021F38B4  data  a4
  */

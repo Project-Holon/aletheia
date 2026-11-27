@@ -34,7 +34,7 @@
  *   INTRO_G3D_ClearSlotAnimFinished 0x021BF788 thumb ov204
  *   INTRO_G3D_MoveSlot 0x021BF804 thumb ov204
  *   INTRO_G3D_SetSlotAlpha 0x021BF794 thumb ov204
- *   SAVE_CONTROL_INTR_Start 0x021BD2B0 thumb
+ *   SAVE_CONTROL_INTR_Start 0x021BD2B0 thumb  ov088
  *   SAVE_CONTROL_INTR_Pause 0x021BD368 thumb ov088
  *   SAVE_CONTROL_INTR_IsPausedOrFinished 0x021BD380 thumb ov088
  *   SAVE_CONTROL_INTR_Resume 0x021BD374 thumb ov088

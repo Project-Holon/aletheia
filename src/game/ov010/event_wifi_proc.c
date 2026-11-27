@@ -25,7 +25,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   EVENT_MAPCHANGE_CreateByMode 0x02183B6C thumb ov020
  *   EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent      0x0218571C  thumb  ov020
@@ -39,10 +39,10 @@
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
- *   INTRUDE_SUBDISP_CreateTownWarpEvent  0x0217CE08  thumb
- *   INTRUDE_SUBDISP_CreateGuideScriptEvent  0x0217CDBC  thumb
- *   EVENT_COMM_COMMON_CreateReturnPalaceEvent  0x0217FA24  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   INTRUDE_SUBDISP_CreateTownWarpEvent  0x0217CE08  thumb  ov018
+ *   INTRUDE_SUBDISP_CreateGuideScriptEvent  0x0217CDBC  thumb  ov018
+ *   EVENT_COMM_COMMON_CreateReturnPalaceEvent  0x0217FA24  thumb  ov018
  *   ov122_id       0x0000007A  data
  *   ov172_id       0x000000AC  data
  *   d_021D5764     0x021D5764  data  ov122

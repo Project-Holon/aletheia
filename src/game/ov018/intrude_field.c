@@ -67,15 +67,15 @@
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb
+ *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb  ov010
  *   INTRUDE_COMM_IsSessionAcceptedOrResultReady  0x02175BE4  thumb  ov011
- *   INTRUDE_COMM_PickDefaultObjCode  0x02175548  thumb
+ *   INTRUDE_COMM_PickDefaultObjCode  0x02175548  thumb  ov011
  *   INTRUDE_FIELD_InitMmdlCopyAnime  0x0217C758  thumb
  *   INTRUDE_FIELD_MainMmdlCopyAnime  0x0217C820  thumb
- *   FIELDMAP_GetPlaceName  0x02188D20  thumb
- *   FIELDMAP_GetZoneId  0x02188C9C  thumb
- *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb
- *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
+ *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb  ov021
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
@@ -86,17 +86,17 @@
  *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb
- *   FIELDMAP_IsReady  0x02188BE8  thumb
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
- *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
- *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb
- *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb
- *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb
- *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb
- *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb
- *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb
- *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb
+ *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb  ov020
+ *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
+ *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb  ov021
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   DWCi_IsFold  0x02035390  arm
@@ -118,7 +118,7 @@
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
- *   MAP_MATRIX_Delete  0x02159BBC  thumb
+ *   MAP_MATRIX_Delete  0x02159BBC  thumb  ov010
  *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
  *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb

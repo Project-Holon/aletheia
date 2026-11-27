@@ -31,8 +31,8 @@
  *   _u32_div_f  0x0209C2B0  arm
  *   MI_CpuFill8                     0x02082BCC  arm
  *   OS_IsRunOnTwl                   0x02085D3C  arm
- *   AESi_Init                       0x027073AC  arm
- *   AESi_SignForJpeg                0x02707774  arm
+ *   AESi_Init                       0x027073AC  arm  twl
+ *   AESi_SignForJpeg                0x02707774  arm  twl
  *   MI_CpuCopy8                     0x02082D44  arm
  *   _s32_div_f                       0x0209C0A4  arm
  *   Yos_JpegEncodeSample1to1Component 0x021C1868 arm

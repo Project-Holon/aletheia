@@ -35,11 +35,11 @@
  *   MYSTATUS_CopyName  0x020084D4  thumb
  *   MYSTATUS_SetId  0x0200852C  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
- *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
- *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb
+ *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb
+ *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb  ov020
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020

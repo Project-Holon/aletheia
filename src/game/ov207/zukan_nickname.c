@@ -70,9 +70,9 @@
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb  arm9
  *   PALANM_Create  0x02021518  thumb  arm9
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
- *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb
- *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb
- *   BTLV_INPUT_UpdateInfoWindow  0x02202228  thumb
+ *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb  ov094
+ *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb  ov094
+ *   BTLV_INPUT_UpdateInfoWindow  0x02202228  thumb  ov094
  *   d_0220BBEC     0x0220BBEC  data  ov207
  *   d_0220BBF8     0x0220BBF8  data  ov207
  */

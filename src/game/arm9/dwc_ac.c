@@ -14,8 +14,8 @@
  *
  * symbols:
  *   s_ac_work  0x02146AC0  data  a4
- *   WCM_InitEx  0x02164D74  arm
- *   WCM_Init    0x02164D64  arm
+ *   WCM_InitEx  0x02164D74  arm  ov009
+ *   WCM_Init    0x02164D64  arm  ov009
  *   MIi_CpuClear32  0x02082A7C  arm
  *   CheckEULA             0x0205C600  arm
  *   CheckWirelessPowerON  0x0205C670  arm

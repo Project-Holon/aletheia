@@ -17,49 +17,49 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   STRBUF_Create  0x020457B0  arm
- *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb
- *   BTL_CLIENT_GetClientId  0x021D3D70  thumb
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   BTL_CLIENT_GetClientId  0x021D3D70  thumb  ov093
  *   BTLV_SCD_ClearTasks  0x06899E2C  thumb  ov095
  *   gBtlvScdFileName  0x0689E7B8  data  ov095  a4
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   BTL_MAIN_GetRule  0x021B8588  thumb
- *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb
- *   BTL_MAIN_GetGameData  0x021B8748  thumb
- *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb
- *   BTLV_INPUT_CreateWithMode  0x0220207C  thumb
- *   BTLV_INPUT_StartPaletteFadeTask  0x022025D8  thumb
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetGameData  0x021B8748  thumb  ov093
+ *   BTLV_EFFECT_GetPalanm  0x021F86E0  thumb  ov094
+ *   BTLV_INPUT_CreateWithMode  0x0220207C  thumb  ov094
+ *   BTLV_INPUT_StartPaletteFadeTask  0x022025D8  thumb  ov094
  *   BTLV_SCD_Nop  0x06899D38  thumb  ov095
- *   BTLV_INPUT_IsScreenBusy  0x022026FC  thumb
+ *   BTLV_INPUT_IsScreenBusy  0x022026FC  thumb  ov094
  *   BTLV_INPUT_StartScreenFadeTask  0x0220266C  thumb  ov094
- *   BTLV_EFFECT_GaugeSelectSlot  0x021F81EC  thumb
- *   BTLV_EFFECT_StartIntroEffect  0x021F8A78  thumb
- *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb
- *   BTLV_INPUT_GetScreen  0x022033F0  thumb
- *   BTLV_INPUT_IsInputBlocked  0x022033CC  thumb
+ *   BTLV_EFFECT_GaugeSelectSlot  0x021F81EC  thumb  ov094
+ *   BTLV_EFFECT_StartIntroEffect  0x021F8A78  thumb  ov094
+ *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb  ov094
+ *   BTLV_INPUT_GetScreen  0x022033F0  thumb  ov094
+ *   BTLV_INPUT_IsInputBlocked  0x022033CC  thumb  ov094
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MIi_CpuClear16  0x02082A48  arm
- *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb
- *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
- *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb
- *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb
- *   BTL_MAIN_GetOwnPartnerClient  0x021B9000  thumb
- *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb
- *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb
- *   BTL_SLOT_GetCount  0x021B9B94  thumb
- *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb
- *   BTL_CLIENT_GetFieldCountdownByte  0x021D3D84  thumb
- *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
- *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb
- *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb
- *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
- *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
- *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb
- *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_GetOwnPartnerClient  0x021B9000  thumb  ov093
+ *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
+ *   BTL_CLIENT_GetFieldCountdownByte  0x021D3D84  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   BTLV_INPUT_Delete  0x022021F4  thumb
- *   BTL_ACTION_SetNone  0x021D8434  thumb
+ *   BTLV_INPUT_Delete  0x022021F4  thumb  ov094
+ *   BTL_ACTION_SetNone  0x021D8434  thumb  ov093
  *   BTLV_SCD_WaitActionTouchStep  0x0689A76C  thumb  ov095
  *   BTLV_SCD_WaitBackTouchStep  0x0689A84C  thumb  ov095
  *   BTLV_SCD_WaitMoveTouchStep  0x0689A988  thumb  ov095
@@ -68,36 +68,36 @@
  *   BTLV_SCD_OpenRotateMenuStep  0x0689AB48  thumb  ov095
  *   BTLV_SCD_OpenTargetMenuStep  0x0689B0D4  thumb  ov095
  *   BTLV_SCD_WaitTargetTouchStep  0x0689B1E4  thumb  ov095
- *   BTL_ACTION_SetEscape  0x021D8414  thumb
- *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb
+ *   BTL_ACTION_SetEscape  0x021D8414  thumb  ov093
+ *   BTLV_INPUT_ProcessTouchInput  0x02202DC4  thumb  ov094
  *   gBtlvScdActionRegionsA  0x0689D8D4  data  ov095
  *   gBtlvScdActionRegionsB  0x0689DF64  data  ov095
  *   gBtlvScdActionButtonByRegion  0x0689D828  data  ov095
- *   BTLV_INPUT_StepFingerDemo  0x02203040  thumb
- *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
- *   BTL_POKEPARAM_GetMovePP  0x021D5528  thumb
- *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb
- *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb
- *   BTL_ACTION_SetFight  0x021D82D0  thumb
- *   BTL_ACTION_SetFightSlotFlag  0x021D8318  thumb
- *   BTL_ACTION_SetSkip  0x021D8424  thumb
+ *   BTLV_INPUT_StepFingerDemo  0x02203040  thumb  ov094
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePP  0x021D5528  thumb  ov093
+ *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
+ *   BTL_ACTION_SetFight  0x021D82D0  thumb  ov093
+ *   BTL_ACTION_SetFightSlotFlag  0x021D8318  thumb  ov093
+ *   BTL_ACTION_SetSkip  0x021D8424  thumb  ov093
  *   gBtlvScdMoveRegionsDoubleA  0x0689D880  data  a4
  *   gBtlvScdMoveRegionsSingleA  0x0689D91C  data  a4
  *   gBtlvScdMoveRegionsDoubleB  0x0689E128  data  a4
  *   gBtlvScdMoveRegionsSingleB  0x0689E054  data  a4
- *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
- *   BTL_ACTION_SetRotate  0x021D83FC  thumb
- *   BTLV_INPUT_ProcessKeyInput  0x022030F0  thumb
- *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
+ *   BTL_ACTION_SetRotate  0x021D83FC  thumb  ov093
+ *   BTLV_INPUT_ProcessKeyInput  0x022030F0  thumb  ov094
+ *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  *   MI_CpuFill8  0x02082BCC  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
- *   BTL_MAIN_GetFacingPos  0x021B8C5C  thumb
- *   BTL_MAIN_GetFrontEnemyPos  0x021B9A00  thumb
+ *   BTL_MAIN_GetFacingPos  0x021B8C5C  thumb  ov093
+ *   BTL_MAIN_GetFrontEnemyPos  0x021B9A00  thumb  ov093
  *   gBtlvScdViewPosByRegion  0x0689D82C  data  ov095
  *   POKE_TOOL_GetGender  0x02017F00  thumb
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb
- *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb
- *   BTL_MAIN_GetPosTable  0x021B99E0  thumb
+ *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
+ *   BTL_MAIN_GetPosTable  0x021B99E0  thumb  ov093
  *   BTLV_SCD_ShowTargetMenu  0x0689AE34  thumb  ov095
  *   BTLV_SCD_BuildTargetSet  0x0689B354  thumb  ov095
  *   BTLV_SCD_PickTargetFromTouch  0x0689ADDC  thumb  ov095

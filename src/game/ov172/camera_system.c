@@ -22,25 +22,25 @@
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  *   OS_Sleep 0x02085A38 arm
- *   CAMERA_EndCore  0x02700B34  arm
- *   CAMERA_StopCore  0x02700BD0  arm
- *   CAMERA_I2CActivateCore  0x02700DB8  arm
- *   CAMERA_I2CSizeExCore  0x02700FE4  arm
- *   CAMERA_IsBusyCore  0x027020F0  arm
- *   CAMERA_StartCaptureCore  0x02702108  arm
- *   CAMERA_StopCaptureCore  0x0270212C  arm
- *   CAMERA_SetTrimmingCore  0x02702158  arm
- *   CAMERA_ClearBufferCore  0x027021E4  arm
- *   CAMERA_SetTransferLinesCore  0x0270229C  arm
- *   CAMERA_GetMaxLinesRoundCore  0x027022F8  arm
- *   CAMERA_GetBytesAtOnceCore  0x0270234C  arm
- *   DSPi_PlayShutterSoundCore  0x02706174  arm
- *   DSPi_StopSoundCore  0x027062C8  arm
- *   DSPi_IsShutterSoundPlayingCore  0x02706324  arm
- *   DSPi_UnloadG711Core  0x027072E0  arm
- *   MI_IsNDmaBusy  0x0272FC90  arm
- *   MI_StopNDma  0x0272FCE0  arm
- *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm
+ *   CAMERA_EndCore  0x02700B34  arm  twl
+ *   CAMERA_StopCore  0x02700BD0  arm  twl
+ *   CAMERA_I2CActivateCore  0x02700DB8  arm  twl
+ *   CAMERA_I2CSizeExCore  0x02700FE4  arm  twl
+ *   CAMERA_IsBusyCore  0x027020F0  arm  twl
+ *   CAMERA_StartCaptureCore  0x02702108  arm  twl
+ *   CAMERA_StopCaptureCore  0x0270212C  arm  twl
+ *   CAMERA_SetTrimmingCore  0x02702158  arm  twl
+ *   CAMERA_ClearBufferCore  0x027021E4  arm  twl
+ *   CAMERA_SetTransferLinesCore  0x0270229C  arm  twl
+ *   CAMERA_GetMaxLinesRoundCore  0x027022F8  arm  twl
+ *   CAMERA_GetBytesAtOnceCore  0x0270234C  arm  twl
+ *   DSPi_PlayShutterSoundCore  0x02706174  arm  twl
+ *   DSPi_StopSoundCore  0x027062C8  arm  twl
+ *   DSPi_IsShutterSoundPlayingCore  0x02706324  arm  twl
+ *   DSPi_UnloadG711Core  0x027072E0  arm  twl
+ *   MI_IsNDmaBusy  0x0272FC90  arm  twl
+ *   MI_StopNDma  0x0272FCE0  arm  twl
+ *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm  twl
  *   UI_ClearKeepAwakeFlagsGlobal 0x02034FB8 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
@@ -48,8 +48,8 @@
  *   ARC_TOOL_ReadMember 0x02048F4C arm
  *   DC_FlushRange 0x020862F0 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
- *   CAMERA_SizeToWidthCore  0x02702364  arm
- *   CAMERA_SizeToHeightCore  0x027023CC  arm
+ *   CAMERA_SizeToWidthCore  0x02702364  arm  twl
+ *   CAMERA_SizeToHeightCore  0x027023CC  arm  twl
  *   CAMERA_SetVsyncCallbackCore  0x027000F8  arm  twl
  *   CAMERA_SetBufferErrorCallbackCore  0x02700108  arm  twl
  *   CAMERA_SetRebootCallbackCore  0x02700118  arm  twl

@@ -33,7 +33,7 @@
  *   UNION_APP_Open  0x02184134  thumb  ov022
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_COMMAND_SetSendSlot  0x0203AA94  arm
- *   UNION_APP_OpenLimited  0x02184148  thumb
+ *   UNION_APP_OpenLimited  0x02184148  thumb  ov022
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm

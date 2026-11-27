@@ -32,7 +32,7 @@
  *   TPOKE_DATA_GetTrainerKind   0x0202A3FC  thumb
  *   TR_TOOL_LoadTrainerInfo   0x0202A440  thumb
  *   TR_TOOL_BuildParty   0x0202A4B4  thumb
- *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb
+ *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb  ov010
  *   MISC_GetFromSave   0x0200C0E8  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb

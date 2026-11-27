@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010

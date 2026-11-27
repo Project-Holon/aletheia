@@ -37,7 +37,7 @@
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
- *   WIFIBATTLEMATCH_UTIL_Delete  0x021E8628  thumb
+ *   WIFIBATTLEMATCH_UTIL_Delete  0x021E8628  thumb  ov177
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb

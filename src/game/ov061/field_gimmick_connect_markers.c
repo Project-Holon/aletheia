@@ -39,8 +39,8 @@
  *   FIELD_PLAYER_GetPosInDir  0x021A3364  thumb  ov021
  *   EVENTDATA_SYSTEM_CheckAutoPosEvent  0x02162478  thumb  ov010
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
- *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb
- *   FIELD_PLAYER_GetStepPhase  0x021A308C  thumb
+ *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb  ov021
+ *   FIELD_PLAYER_GetStepPhase  0x021A308C  thumb  ov021
  *   EVENTDATA_SYSTEM_GetConnectCount  0x02162560  thumb  ov010
  *   EVENTDATA_SYSTEM_GetConnectData  0x021625CC  thumb  ov010
  *   EVENTDATA_SYSTEM_GetConnectExitType  0x021626E8  thumb  ov010

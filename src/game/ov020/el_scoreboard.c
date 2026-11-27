@@ -50,7 +50,7 @@
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1
- *   FLDMMDL_GetObjId  0x0216D588  thumb
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
  *   MYSTATUS_GetId  0x02008530  thumb
  *   GFL_USE_GetRandom  0x020056EC  thumb
@@ -63,8 +63,8 @@
  *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
  *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   ZONEDATA_IsZoneInTableDFEC  0x02013DE0  thumb
- *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb
- *   EVENT_FIELD_PROCLINK_InitIdList  0x02161EEC  thumb
+ *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitIdList  0x02161EEC  thumb  ov010
  *   _u32_div_f     0x0209C2B0  arm
  *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
  *   d_02187EB4     0x02187EB4  data  ov020  a1

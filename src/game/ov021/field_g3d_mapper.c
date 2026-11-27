@@ -23,7 +23,7 @@
  *   G3D_SYSTEM_TransVramTextureAndCut  0x020470A8  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
- *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
+ *   FIELD_G3D_MAP_GetPos  0x02169510  thumb  ov010
  *   gFieldG3dMapperSrcName     0x021DD9EC  data  ov021  a4
  *   FIELD_WFBC_Create  0x021938AC  thumb ov021
  *   HEIGHT_EX_CreateTable  0x021C05D4  thumb ov021
@@ -36,11 +36,11 @@
  *   FIELD_GROUND_ANIME_Update  0x021A73DC  thumb  ov021
  *   FIELD_G3D_MAP_SetPos  0x02169500  thumb ov010
  *   FIELD_G3D_MAP_DrawWithModels  0x02169354  thumb ov010
- *   MAP_MATRIX_GetWidth  0x02159BF4  thumb
- *   MAP_MATRIX_GetHeight  0x02159BF8  thumb
- *   MAP_MATRIX_GetCount  0x02159BFC  thumb
- *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb
- *   MAP_MATRIX_SetSize  0x02159C00  thumb
+ *   MAP_MATRIX_GetWidth  0x02159BF4  thumb  ov010
+ *   MAP_MATRIX_GetHeight  0x02159BF8  thumb  ov010
+ *   MAP_MATRIX_GetCount  0x02159BFC  thumb  ov010
+ *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb  ov010
+ *   MAP_MATRIX_SetSize  0x02159C00  thumb  ov010
  *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   gFieldG3dMapperMapTypeTable     0x021D3DDC  data
  *   FIELD_G3D_MAP_Create  0x02169148  thumb  ov010

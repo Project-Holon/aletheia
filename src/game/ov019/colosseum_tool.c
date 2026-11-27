@@ -34,8 +34,8 @@
  *   d_021807C0     0x021807C0  data  ov019  a4
  *   UNION_ONESELF_ColosseumPartyExchangeMain  0x0217E440  thumb  ov019
  *   COLOSSEUM_TakePackage   0x021751DC  thumb  ov012
- *   COMM_PLAYER_CheckOccupy   0x021677E4  thumb
- *   COMM_PLAYER_Add   0x021675D0  thumb
+ *   COMM_PLAYER_CheckOccupy   0x021677E4  thumb  ov010
+ *   COMM_PLAYER_Add   0x021675D0  thumb  ov010
  *   COMM_PLAYER_SetPackage   0x02167848  thumb  ov010
  */
 

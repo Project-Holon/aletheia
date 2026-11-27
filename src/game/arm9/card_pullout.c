@@ -22,10 +22,10 @@
  *   OS_Terminate  0x02088234  arm
  *   PM_ForceToPowerOff  0x0208BEA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   PMi_ExecutePostExitCallbackList  0x027315A8  arm
+ *   PMi_ExecutePostExitCallbackList  0x027315A8  arm  twl
  *   CARDi_SendtoPxi  0x02077568  arm
  *   MI_StopAllDma  0x02082658  arm
- *   MI_StopAllNDma  0x0272FD18  arm
+ *   MI_StopAllNDma  0x0272FD18  arm  twl
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   PXI_SendWordByFifo 0x02088610  arm

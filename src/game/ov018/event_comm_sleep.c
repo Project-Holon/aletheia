@@ -162,9 +162,9 @@
  *   sTalkedPowerShareAchieveMsgIdsB     0x021838AE  data  a2
  *   sTalkedPowerShareTargetMsgIds     0x0218389A  data ov018 a2
  *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
- *   INTRUDE_COMM_SetLock  0x021756F0  thumb
- *   INTRUDE_COMM_SendPeerFlags  0x021744D0  thumb
- *   INTRUDE_LINK_CreateEvent  0x021766CC  thumb
+ *   INTRUDE_COMM_SetLock  0x021756F0  thumb  ov011
+ *   INTRUDE_COMM_SendPeerFlags  0x021744D0  thumb  ov011
+ *   INTRUDE_LINK_CreateEvent  0x021766CC  thumb  ov011
  *   sBattleRequestMsgIds     0x021838F6  data  a2
  *   sBattleRequestTalkedMsgIds     0x02183900  data  a2
  *   sBattleRequestAcceptedMsgIds     0x0218390A  data  a2

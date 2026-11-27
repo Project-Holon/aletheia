@@ -22,7 +22,7 @@
  *   DWCi_BACKUPlRead                 0x02058770  arm
  *   DWCi_SETTINGlGetMemMap           0x021CFBD4  arm  ov016
  *   gDwcMoveidWork                       0x021DE668  data
- *   MB_EndToIdle                     0x021F5F74  arm
+ *   MB_EndToIdle                     0x021F5F74  arm  ov107
  *   DWCi_MOV_WH_SetGgid              0x021D3228  arm  ov016
  *   WM_GetNextTgid                   0x0208F1B4  arm
  *   MI_CpuCopy8                      0x02082D44  arm
@@ -31,7 +31,7 @@
  *   DWCi_MOV_WH_End 0x021D3AC8  arm  ov016
  *   DWCi_MOV_WH_Finalize 0x021D39C0  arm  ov016
  *   DWCi_DwcMoveidMB_EndToIdle 0x021F5F74  arm
- *   MB_CommGetChildUser          0x021F1B64  arm
+ *   MB_CommGetChildUser          0x021F1B64  arm  ov107
  *   DWCi_MOV_WH_StartMeasureChannel  0x021D3264  arm  ov016
  *   DWCi_MOV_WH_GetMeasureChannel    0x021D34E0  arm  ov016
  *   DWCi_MOV_WH_Reset                0x021D39A4  arm  ov016

@@ -21,22 +21,22 @@
  *
  * symbols:
  *   gNHTTPSslSeed  0x021CF964  data
- *   SOC_Close 0x0215F644 arm
+ *   SOC_Close 0x0215F644 arm  ov009
  *   OS_Sleep 0x02085A38 arm
- *   SOCLi_TrashSocket 0x0215EBB4 arm
+ *   SOCLi_TrashSocket 0x0215EBB4 arm  ov009
  *   NHTTPi_free 0x021BA850 arm ov114
- *   SOC_Connect 0x0215F480 arm
+ *   SOC_Connect 0x0215F480 arm  ov009
  *   NHTTPi_alloc 0x021BA820 arm ov114
  *   NHTTPi_memclr 0x021BA13C arm ov114
- *   SOCL_EnableSsl 0x0215FC80 arm
+ *   SOCL_EnableSsl 0x0215FC80 arm  ov009
  *   NHTTPi_CpsAuthCallback 0x021B9C6C arm ov114
- *   SOC_Recv 0x0215F4DC arm
+ *   SOC_Recv 0x0215F4DC arm  ov009
  *   NHTTPi_memcpy 0x021BA100 arm ov114
  *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
  *   NHTTPi_lockReqList  0x021BEFCC  arm  ov114
  *   NHTTPi_unlockReqList  0x021BEFD8  arm  ov114
- *   SOC_InetAtoN 0x0215FAD0 arm
- *   SOC_GetHostByName 0x0215F650 arm
+ *   SOC_InetAtoN 0x0215FAD0 arm  ov009
+ *   SOC_GetHostByName 0x0215F650 arm  ov009
  *   SOC_Shutdown  0x0215F638  arm  ov009
  *   OS_GetLowEntropyData  0x02088168  arm  arm9
  *   CPS_SslAddRandomSeed  0x02162248  arm  ov009

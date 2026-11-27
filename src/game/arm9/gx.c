@@ -16,7 +16,7 @@
  *   GX_InitGXState  0x02080CC4  arm
  *   OS_GetLockID    0x02084EB8  arm
  *   OS_Terminate    0x02088234  arm
- *   MI_NDmaFill     0x0272FB28  arm
+ *   MI_NDmaFill     0x0272FB28  arm  twl
  *   MIi_DmaFill32   0x020821C0  arm
  *   MIi_CpuClear32  0x02082A7C  arm
  *   sDispMode       0x02150E0C  data

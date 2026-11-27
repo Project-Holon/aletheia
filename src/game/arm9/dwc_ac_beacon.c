@@ -19,12 +19,12 @@
  *   DWCi_AC_CheckNintendoUsbAP 0x0205EAFC arm
  *   DWCi_AC_CheckNintendoShopAP 0x0205EA08 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   NWM_GetInfoElements 0x02703208 arm
- *   NWM_GetVenderInfoElements 0x02703250 arm
+ *   NWM_GetInfoElements 0x02703208 arm  twl
+ *   NWM_GetVenderInfoElements 0x02703250 arm  twl
  *   g_020A161C 0x020A161C data
  *   DWCi_AC_CheckNintendoSSID 0x0205AAB0 arm
  *   strncmp 0x020949F4 arm
- *   WCMi_BssDescCopy 0x02166040 arm
+ *   WCMi_BssDescCopy 0x02166040 arm  ov009
  *   MIi_CpuCopy32 0x02082A90 arm
  *   DWCi_AC_IsSupportWPA 0x0205AB54 arm
  *   MIi_CpuClear32 0x02082A7C arm

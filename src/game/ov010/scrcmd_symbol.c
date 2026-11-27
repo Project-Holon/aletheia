@@ -58,7 +58,7 @@
  *   FIELD_INTRUDE_EVENT_StartSymbolEntry  0x0216B3A8  thumb  ov010
  *   SCRIPT_WORK_GetWorkValue 0x0215901C thumb ov010
  *   INTRUDE_FIELD_GetMmdlParamPair 0x0217C274 thumb ov018
- *   INTRUDE_FIELD_CreateSymbolMon   0x0217C2A0  thumb
+ *   INTRUDE_FIELD_CreateSymbolMon   0x0217C2A0  thumb  ov018
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SetPendingAreaNotice  0x0217688C  thumb  ov011
  *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm

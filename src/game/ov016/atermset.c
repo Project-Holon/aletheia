@@ -29,15 +29,15 @@
  *   GetMacEncKey                   0x021BA2F8  thumb  ov016
  *   atermset_bss           0x021DCFD0  data
  *   sAtermsetApciUserCallback     0x021DD050  data
- *   WCM_SearchAsync        0x02165144  arm
- *   WCM_ConnectAsync       0x021652A4  arm
- *   WCM_CleanupAsync       0x02165088  arm
- *   WCM_Finish             0x02164EE0  arm
- *   WCM_DisconnectAsync    0x02165478  arm
- *   WCM_StartupAsync       0x02164F98  arm
- *   WCM_LockApList         0x02165C28  arm
- *   WCM_CountApList        0x02165BD0  arm
- *   WCM_PointApList        0x02165CA0  arm
+ *   WCM_SearchAsync        0x02165144  arm  ov009
+ *   WCM_ConnectAsync       0x021652A4  arm  ov009
+ *   WCM_CleanupAsync       0x02165088  arm  ov009
+ *   WCM_Finish             0x02164EE0  arm  ov009
+ *   WCM_DisconnectAsync    0x02165478  arm  ov009
+ *   WCM_StartupAsync       0x02164F98  arm  ov009
+ *   WCM_LockApList         0x02165C28  arm  ov009
+ *   WCM_CountApList        0x02165BD0  arm  ov009
+ *   WCM_PointApList        0x02165CA0  arm  ov009
  *   MIi_CpuCopy32          0x02082A90  arm
  *   OS_DisableInterrupts   0x02087988  arm
  *   OS_RestoreInterrupts   0x0208799C  arm
@@ -47,7 +47,7 @@
  *   apci_bssid_buf         0x021DD488  data
  *   apci_essid_buf         0x021DD4C0  data
  *   MI_CpuCopy8            0x02082D44  arm
- *   WCM_Init               0x02164D64  arm
+ *   WCM_Init               0x02164D64  arm  ov009
  *   OS_LockMutex           0x02086028  arm
  *   OS_UnlockMutex         0x02086078  arm
  *   AllocLock              0x021DD064  data
@@ -57,9 +57,9 @@
  *   OS_CreateAlarm         0x02087254  arm
  *   OS_SetAlarm            0x0208738C  arm
  *   OS_CancelAlarm         0x020873F8  arm
- *   SOC_Startup            0x0215F8FC  arm
+ *   SOC_Startup            0x0215F8FC  arm  ov009
  *   AtermSOConfig          0x021DAB6C  data
- *   SOC_Cleanup            0x0215FA90  arm
+ *   SOC_Cleanup            0x0215FA90  arm  ov009
  *   memcpy                 0x02092344  arm
  *   strlen                 0x0209477C  arm
  *   memcmp                 0x020923F0  arm
@@ -69,9 +69,9 @@
  *   sAtermsetLpElementData          0x021DAB58  data
  *   gAPSSID                0x021DD4E0  data
  *   gAPMac                 0x021DD480  data
- *   SOC_SendTo             0x0215F5B4  arm
- *   SOCL_GetHostID         0x0215EF48  arm
- *   SOC_U32to4U8           0x0215FBAC  arm
+ *   SOC_SendTo             0x0215F5B4  arm  ov009
+ *   SOCL_GetHostID         0x0215EF48  arm  ov009
+ *   SOC_U32to4U8           0x0215FBAC  arm  ov009
  *   memset                 0x020923B0  arm
  *   atermset_rodata        0x021D77C8  data
  *   btAdapterMAC           0x021DD478  data
@@ -81,10 +81,10 @@
  *   gAtermsetBlock6             0x021DD350  data
  *   gAtermsetBlock2             0x021DD13C  data
  *   gAtermsetBlock3             0x021DD150  data
- *   SOC_Socket             0x0215F428  arm
- *   SOC_Bind               0x0215F454  arm
- *   SOC_Close              0x0215F644  arm
- *   SOC_RecvFrom           0x0215F500  arm
+ *   SOC_Socket             0x0215F428  arm  ov009
+ *   SOC_Bind               0x0215F454  arm  ov009
+ *   SOC_Close              0x0215F644  arm  ov009
+ *   SOC_RecvFrom           0x0215F500  arm  ov009
  *   GetWLanSetElement      0x021BA3F4  thumb
  *   StoreNetParam          0x021BA67C  thumb
  *   gAtermsetBlock7             0x021DD490  data

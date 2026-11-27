@@ -17,24 +17,24 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
- *   TRIAL_HOUSE_CreateWork  0x021D096C  thumb
- *   TRIAL_HOUSE_DeleteWork   0x021D0A48  thumb
+ *   TRIAL_HOUSE_CreateWork  0x021D096C  thumb  ov021
+ *   TRIAL_HOUSE_DeleteWork   0x021D0A48  thumb  ov021
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   TRIAL_HOUSE_SetBattleMode  0x021D0A74  thumb
+ *   TRIAL_HOUSE_SetBattleMode  0x021D0A74  thumb  ov021
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   TRIAL_HOUSE_LoadTrainer  0x021D0AC0  thumb  ov021
  *   TRIAL_HOUSE_CreateTrainerMsgEvent  0x021D0BD8  thumb  ov021
- *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb
+ *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb  ov021
  *   RECORD_GetFromSave 0x02008C58 thumb
  *   RECORD_SetTrialRank 0x02008E68 thumb
  *   RECORD_GetTrialRank  0x02008E78  thumb
  *   TRIAL_HOUSE_CreateDeliveryTask  0x021D0BE4  thumb  ov021
  *   TRIAL_HOUSE_ComputeScoreAndRank  0x021D0DB0  thumb  ov021
- *   TRIAL_HOUSE_GetDeliveryState  0x021D0FE0  thumb
+ *   TRIAL_HOUSE_GetDeliveryState  0x021D0FE0  thumb  ov021
  *   TRIAL_HOUSE_CreateSaveTask  0x021D0FE8  thumb  ov021
- *   TRIAL_HOUSE_GetRecordSlotsState  0x021D1028  thumb
+ *   TRIAL_HOUSE_GetRecordSlotsState  0x021D1028  thumb  ov021
  *   FLD_BTL_INST_TOOL_CreatePartySelectStepEvent  0x02168BF0  thumb  ov010
  *   FLD_BTL_INST_TOOL_CreateBattleEvent  0x02168CF4  thumb  ov010
  *   FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent  0x02168E5C  thumb  ov010

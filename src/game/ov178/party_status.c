@@ -36,7 +36,7 @@
  *   GFL_NET_GetInitParam 0x0203D798 arm
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
- *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb
+ *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb  ov009
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -64,7 +64,7 @@
  *   LIVEBATTLEMATCH_IRC_SendSaveData 0x0217E258 thumb ov176
  *   LIVEBATTLEMATCH_IRC_RecvSaveData 0x0217E298 thumb ov176
  *   LIVEBATTLEMATCH_IRC_NoOp 0x0217E074 thumb ov176
- *   LIVEBATTLEMATCH_IRC_Delete   0x0217E058  thumb
+ *   LIVEBATTLEMATCH_IRC_Delete   0x0217E058  thumb  ov176
  */
 
 typedef struct PartyStatusObj2 {

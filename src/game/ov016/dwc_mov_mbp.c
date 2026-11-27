@@ -16,18 +16,18 @@
  *   DWCi_MOV_WH_MemInit            0x021D298C  arm  ov016
  *   DWCi_DwcMoveidMB_EndToIdle     0x021F5F74  arm  ov016
  *   MI_CpuCopy8 0x02082D44 arm
- *   MB_Init 0x021F5904 arm
+ *   MB_Init 0x021F5904 arm  ov107
  *   OS_Terminate 0x02088234 arm
- *   MB_SetParentCommParam 0x021F5B4C arm
- *   MB_CommSetParentStateCallback 0x021F1B3C arm
+ *   MB_SetParentCommParam 0x021F5B4C arm  ov107
+ *   MB_CommSetParentStateCallback 0x021F1B3C arm  ov107
  *   ParentStateCallback 0x021D2450 arm ov016
  *   gDwcMovMbpWork 0x021DE65C data
  *   MB_StartParentFromIdle  0x021f5e7c  arm  ov107
  *   FS_InitFile                      0x020788AC  arm
  *   FS_OpenFile                      0x02078C18  arm
- *   MB_GetSegmentLength              0x021F2F1C  arm
- *   MB_ReadSegment                   0x021F2FA0  arm
- *   MB_RegisterFile                  0x021F3544  arm
+ *   MB_GetSegmentLength              0x021F2F1C  arm  ov107
+ *   MB_ReadSegment                   0x021F2FA0  arm  ov107
+ *   MB_RegisterFile                  0x021F3544  arm  ov107
  *   FS_CloseFile                     0x02078A80  arm
  *   MB_CommResponseRequest  0x021F1C30  arm  ov107
  *   MB_DisconnectChild  0x021F5FB0  arm  ov107
@@ -35,8 +35,8 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   DWCi_MOV_MBP_ChangeState         0x021D276C  arm  ov016
  *   DWCi_MOV_MBP_StartDownload       0x021D20E8  arm  ov016
- *   MB_CommIsBootable                0x021F1BE0  arm
- *   MB_EndToIdle                     0x021F5F74  arm
+ *   MB_CommIsBootable                0x021F1BE0  arm  ov107
+ *   MB_EndToIdle                     0x021F5F74  arm  ov107
  *   DWCi_MOV_MBP_GetState          0x021D2780  arm
  *   DWCi_MOV_MBP_GetChildState     0x021D27EC  arm
  *   MBPi_CheckAllReboot            0x021D2420  arm

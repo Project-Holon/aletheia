@@ -113,7 +113,7 @@
  *   gRainDishHandlers     0x021F0670  data   ov093  a4
  *   gHydrationHandlers     0x021F05A8  data   a4
  *   gSimpleHandlers     0x021F0A88  data   ov093  a4
- *   BTL_ID_IsAbilityTraceBlocked  0x0689C944  thumb
+ *   BTL_ID_IsAbilityTraceBlocked  0x0689C944  thumb  ov095
  *   HAND_TOKUSEI_RollChanceOrFlag  0x021D85C0  thumb  ov093
  *   gShedSkinHandlers     0x021F0878  data   ov093  a4
  *   gPoisonHealHandlers     0x021F0870  data   ov093  a4
@@ -178,8 +178,8 @@
  *   gDampHandlers     0x021F0BD4  data   ov093  a4
  *   gBadDreamsHandlers 0x021F07E8 data a4
  *   gFlashFireHandlers     0x021F0A28  data   ov093  a4
- *   BTL_ID_IsGemIgnoredMove  0x0689C8EC  thumb
- *   BTL_ID_IsAbilityIgnoredByMoldBreaker  0x0689C9B0  thumb
+ *   BTL_ID_IsGemIgnoredMove  0x0689C8EC  thumb  ov095
+ *   BTL_ID_IsAbilityIgnoredByMoldBreaker  0x0689C9B0  thumb  ov095
  *   HAND_COMMON_EventTrySetFlagIfAttacker  0x021E889C  thumb  ov093
  *   BTL_SERVER_FLOW_SetMsgRecordSe  0x021C888C  thumb  ov093
  *   gRunAwayHandlers     0x021F08B0  data   ov093  a4
@@ -191,7 +191,7 @@
  *   BTL_EVENT_MarkFactorDead   0x021D7090  thumb
  *   gSuctionCupsHandlers     0x021F05F0  data   ov093  a4
  *   gLiquidOozeHandlers     0x021F0920  data   ov093  a4
- *   BTL_ID_IsPressureNoExtraPpMove  0x0689C8DC  thumb
+ *   BTL_ID_IsPressureNoExtraPpMove  0x0689C8DC  thumb  ov095
  *   BTL_EVENT_GetFactorPokeId  0x021D70AC  thumb  ov093
  *   gKlutzExemptItemIds     0x021F0B78  data   a2
  *   gKlutzHandlers     0x021F0D9C  data   ov093  a4

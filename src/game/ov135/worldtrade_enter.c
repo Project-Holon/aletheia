@@ -25,7 +25,7 @@
  *   d_02203C1C 0x02203C1C data a4
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   DWC_NASLoginAsync  0x02168064  arm
+ *   DWC_NASLoginAsync  0x02168064  arm  ov009
  *   DWC_NASLoginProcess 0x02168124 arm ov009
  *   MYSTATUS_SetProfileIdOnce 0x02008540 thumb
  *   MYSTATUS_GetProfileId 0x0200853C thumb
@@ -33,8 +33,8 @@
  *   DPW_TR_Init 0x021C7BA0 arm ov114
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
- *   DPW_TR_IsAsyncEnd  0x021C866C  arm
- *   DPW_TR_GetAsyncResult  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
  *   NHTTP_RAP_InitTrainerInfo 0x021B9B00 thumb ov114
  *   DPW_TR_SetProfileAsync 0x021C8E18 arm ov114
  *   str_02203C34 0x02203C34 data a1

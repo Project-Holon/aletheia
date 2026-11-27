@@ -54,8 +54,8 @@
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   FIELD_G3D_MAP_SetPlacement  0x021693D4  thumb  ov010
  *   FIELD_G3D_MAP_GetPlacement  0x02169444  thumb  ov010
- *   FIELD_G3D_MAP_ClearPlacement  0x0216940C  thumb
- *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
+ *   FIELD_G3D_MAP_ClearPlacement  0x0216940C  thumb  ov010
+ *   FIELD_G3D_MAP_GetPos  0x02169510  thumb  ov010
  *   VEC_Add  0x0207C9D0  arm
  *   MTX_RotY33_  0x0207AF1C  thumb
  *   FX_SinCosTable_     0x020A1B38  data   a2

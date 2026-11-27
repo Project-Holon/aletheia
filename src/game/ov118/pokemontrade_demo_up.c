@@ -62,16 +62,16 @@
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   POKETRADE_DEMO_COMMON_StepCompareMons  0x021D449C  thumb  ov118
  *   d_021D7C90     0x021D7C90  data
- *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb
+ *   POKETRADE_PROC_DeleteAllResources  0x021DC720  thumb  ov119
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb
+ *   POKETRADE_2D_InitClactSystemMain  0x021E3E40  thumb  ov119
  *   CLACT_CreateUnit  0x0204B100  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   POKETRADE_2D_SetupSummaryBgs  0x021E5284  thumb
- *   POKETRADE_3D_AddUnitAndInit  0x021E3208  thumb
- *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb
+ *   POKETRADE_2D_SetupSummaryBgs  0x021E5284  thumb  ov119
+ *   POKETRADE_3D_AddUnitAndInit  0x021E3208  thumb  ov119
+ *   POKETRADE_3D_InitParticleSystems  0x021E2F34  thumb  ov119
  *   POKETRADE_3D_SetupParticleSystemsLow  0x021E2FB0  thumb ov119
- *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb
+ *   POKETRADE_3D_CreateIcaStreamsForMode  0x021E2D70  thumb  ov119
  *   d_021D7FD4  0x021D7FD4  data
  *   POKETRADE_3D_SetupParticleSystemsHigh  0x021E3004  thumb  ov119
  *   POKETRADE_3D_RemoveCurrentUnit  0x021E3230  thumb  ov119

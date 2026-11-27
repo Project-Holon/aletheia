@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8          0x02082BCC  arm
- *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb
+ *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb  ov011
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   PLAYTIME_GetHours  0x0200864C  thumb
  *   PLAYTIME_GetMinutes  0x02008650  thumb

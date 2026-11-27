@@ -15,41 +15,41 @@
  * symbols:
  *   DWCi_AC_GetPhase                 0x0205c2c4 arm
  *   DWCi_AC_GetMemPtr                0x0205c214 arm
- *   WCM_GetPhase                     0x021656a0 arm
+ *   WCM_GetPhase                     0x021656a0 arm  ov009
  *   ConnectTestStart                 0x0205f154 arm
  *   GetIPAddress                     0x0205f1b8 arm
  *   ConnectTestCreate                0x0205f298 arm
  *   ConnectTestProcess               0x0205f2c4 arm
  *   ConnectTestEnd                   0x0205f35c arm
  *   ConnectTestRetry                 0x0205f384 arm
- *   DWC_Netcheck_Abort               0x0217aa20 arm
- *   DWC_Netcheck_Destroy             0x0217a950 arm
+ *   DWC_Netcheck_Abort               0x0217aa20 arm  ov009
+ *   DWC_Netcheck_Destroy             0x0217a950 arm  ov009
  *   MakeSOCConfig                    0x0205f3b0 arm
- *   SOC_Startup                      0x0215f8fc arm
+ *   SOC_Startup                      0x0215f8fc arm  ov009
  *   DWCi_AC_SetError                 0x0205c2e4 arm
  *   SOCLiYieldWait                   0x021aa440 data
  *   g_021AA440                       0x021AA440 data
- *   SOC_GetHostID                    0x0215f7b0 arm
+ *   SOC_GetHostID                    0x0215f7b0 arm  ov009
  *   CheckSetDNS                      0x0205f5ac arm
  *   DWCi_ConvConnectAPType           0x0205c4c8 arm
  *   OS_IsRunOnTwl                    0x02085d3c arm
  *   OS_GetTick                       0x020870d0 arm
  *   _ll_udiv                         0x0209c00c arm
- *   DWC_Netcheck_Create              0x0217a880 arm
- *   DWC_Netcheck_GetError            0x0217aaa0 arm
- *   DWC_Netcheck_GetReturnCode       0x0217aadc arm
+ *   DWC_Netcheck_Create              0x0217a880 arm  ov009
+ *   DWC_Netcheck_GetError            0x0217aaa0 arm  ov009
+ *   DWC_Netcheck_GetReturnCode       0x0217aadc arm  ov009
  *   CPSNoIpReason                    0x021a82b8 data
  *   g_021A82B8                       0x021A82B8 data
  *   DWCi_AC_SetApType                0x0205c31c arm
  *   DWCi_AC_CopyExSetting            0x0205c3b0 arm
- *   SOCL_CalmDown                    0x0215ed60 arm
- *   SOC_Cleanup                      0x0215fa90 arm
+ *   SOCL_CalmDown                    0x0215ed60 arm  ov009
+ *   SOC_Cleanup                      0x0215fa90 arm  ov009
  *   MI_CpuCopy8                      0x02082d44 arm
  *   ConvAddress                      0x0205f504 arm
  *   ConvNetMask                      0x0205f558 arm
  *   DWC_AC_SOC_CONFIG                0x020a16a0 data
  *   g_020A16A0                       0x020A16A0 data
- *   SOC_SetResolver                  0x0215f7e8 arm
+ *   SOC_SetResolver                  0x0215f7e8 arm  ov009
  */
 #include "../sdk_soc.h"
 

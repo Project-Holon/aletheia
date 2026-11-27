@@ -14,7 +14,7 @@
  *
  * symbols:
  *   sGhttpSocketError    0x021CE598  data  a4
- *   gsDebugFormat 0x0217D254  arm
+ *   gsDebugFormat 0x0217D254  arm  ov009
  *   ArrayLength  0x02184200 arm ov009
  */
 #include "ghttp_types.h"

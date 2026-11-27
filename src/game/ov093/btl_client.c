@@ -356,7 +356,7 @@
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
- *   HAND_POS_IsRegistered  0x068982AC  thumb
+ *   HAND_POS_IsRegistered  0x068982AC  thumb  ov095
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   BTL_SICK_BuildEndMessage 0x0689C464 thumb ov095

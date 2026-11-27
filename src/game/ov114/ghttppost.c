@@ -15,8 +15,8 @@
  * Word setter at +0x18.
  *
  * symbols:
- *   gsifree  0x0217EAE0  arm
- *   gsXmlFreeWriter  0x02181D84  arm
+ *   gsifree  0x0217EAE0  arm  ov009
+ *   gsXmlFreeWriter  0x02181D84  arm  ov009
  *   gsimalloc                  0x0217EAB0  arm ov009
  *   ArrayNew                  0x02184144  arm ov009
  *   ghiRequestToConnection  0x021C0DA4  arm  ov114
@@ -43,9 +43,9 @@
  *   ghiPostStateCleanup  0x021C2A3C  arm   ov114
  *   ArrayFree  0x021841B0  arm   ov009
  *   ghiPostGetContentLength  0x021C297C  arm   ov114
- *   ArrayLength             0x02184200  arm
- *   ArrayNth                0x02184208  arm
- *   ArrayFree               0x021841B0  arm
+ *   ArrayLength             0x02184200  arm  ov009
+ *   ArrayNth                0x02184208  arm  ov009
+ *   ArrayFree               0x021841B0  arm  ov009
  *   ghiFreePost             0x021C2464  arm  ov114
  *   strchr  0x02094A28  arm
  *   ghiAppendCharToBuffer  0x021C0004  arm   ov114

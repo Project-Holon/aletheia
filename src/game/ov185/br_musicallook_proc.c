@@ -48,8 +48,8 @@
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
- *   BR_POKESEARCH_Main   0x021FFC9C  thumb
- *   BR_POKESEARCH_GetResult   0x021FFE90  thumb
+ *   BR_POKESEARCH_Main   0x021FFC9C  thumb  ov186
+ *   BR_POKESEARCH_GetResult   0x021FFE90  thumb  ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
@@ -64,11 +64,11 @@
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
- *   BR_SIDEBAR_SetVisibleBySpace   0x021FEEC0  thumb
- *   BR_RES_ApplyBgSet   0x021FBDA4  thumb
- *   BR_RES_ReleaseUiPalette   0x021FC1F8  thumb
+ *   BR_SIDEBAR_SetVisibleBySpace   0x021FEEC0  thumb  ov186
+ *   BR_RES_ApplyBgSet   0x021FBDA4  thumb  ov186
+ *   BR_RES_ReleaseUiPalette   0x021FC1F8  thumb  ov186
  *   BR_GRAPHIC_Begin3d   0x021FC610  thumb  ov186
- *   MUSICAL_SHOT_SYS_CreateScene   0x021F3AF0  thumb
+ *   MUSICAL_SHOT_SYS_CreateScene   0x021F3AF0  thumb  ov112
  *   MUSICAL_SHOT_SYS_DeleteScene 0x021F3BF0 thumb ov112
  *   BR_GRAPHIC_End3d 0x021FC640 thumb ov186
  *   BR_RES_LoadUiPalette 0x021FC148 thumb ov186

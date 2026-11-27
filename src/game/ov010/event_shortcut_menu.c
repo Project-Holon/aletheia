@@ -24,11 +24,11 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_DATA_GetMyParty   0x02012934  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   UI_SetInputMode  0x020355D8  arm
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -50,12 +50,12 @@
  *   FIELD_SKILL_USE_FLAGS_IsSkillUsable  0x02028754  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetIdAt  0x0200C464  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   FIELDMAP_GetMsgBg  0x02188C54  thumb
- *   FIELD_MSGBG_ReleaseBg  0x02190344  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_ReleaseBg  0x02190344  thumb  ov021
  *   GAME_DATA_GetRtcWork  0x02012C0C  thumb
- *   SHORTCUT_MENU_Create  0x021C4F7C  thumb
+ *   SHORTCUT_MENU_Create  0x021C4F7C  thumb  ov021
  *   SHORTCUT_MENU_Delete  0x021C51A0  thumb  ov021
- *   FIELD_MSGBG_SetupBgSingle  0x02190398  thumb
+ *   FIELD_MSGBG_SetupBgSingle  0x02190398  thumb  ov021
  *   SHORTCUT_MENU_RunPrint  0x021C5334  thumb  ov021
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010

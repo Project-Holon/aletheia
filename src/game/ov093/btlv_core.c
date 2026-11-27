@@ -13,7 +13,7 @@
  * Cut from btl_dsi_overlay.c, btlv_core.c by tools/splitfile.py.
  *
  * symbols:
- *   BTLV_SCD_Create  0x06899AF0  thumb
+ *   BTLV_SCD_Create  0x06899AF0  thumb  ov095
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   ov094_id       0x0000005E  data
@@ -47,15 +47,15 @@
  *   BTLV_SCU_Create 0x021EAF7C thumb ov093
  *   BTL_MSG_Init 0x021EEC78 thumb ov093
  *   gBtlvCoreFileName 0x021F3AC4 data a4
- *   BTLV_SCD_Delete  0x06899DD8  thumb
+ *   BTLV_SCD_Delete  0x06899DD8  thumb  ov095
  *   BTL_MSG_Exit  0x021EECD8  thumb  ov093
  *   BTLV_SCU_Delete  0x021EB234  thumb  ov093
  *   TCBL_Destroy  0x02031140  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
- *   BTLV_SCD_CreateInput  0x06899BE0  thumb
- *   BTLV_SCD_ShowCounterScreen  0x0689B780  thumb
+ *   BTLV_SCD_CreateInput  0x06899BE0  thumb  ov095
+ *   BTLV_SCD_ShowCounterScreen  0x0689B780  thumb  ov095
  *   TCBL_Main  0x020310C4  arm
  *   BTLV_EFFECT_Main  0x021F78E4  thumb  ov094
  *   gBtlvOpeningStepTable  0x021F3840  data  a4
@@ -67,11 +67,11 @@
  *   BTLV_SCU_RunProc  0x021EB52C  thumb  ov093
  *   BTL_CLIENT_IsRemote  0x021CD9C8  thumb  ov093
  *   BTL_CLIENT_GetQueuedCommandWord  0x021CD9DC  thumb  ov093
- *   BTLV_SCD_CloseInput  0x06899D64  thumb
- *   BTLV_SCD_IsInputIdle  0x06899DB0  thumb
- *   BTLV_SCD_StartActionMenuBackOnly  0x06899F00  thumb
- *   BTLV_SCD_WaitActionMenu  0x06899F28  thumb
- *   BTLV_SCD_StartMoveInfoMenu  0x06899FE8  thumb
+ *   BTLV_SCD_CloseInput  0x06899D64  thumb  ov095
+ *   BTLV_SCD_IsInputIdle  0x06899DB0  thumb  ov095
+ *   BTLV_SCD_StartActionMenuBackOnly  0x06899F00  thumb  ov095
+ *   BTLV_SCD_WaitActionMenu  0x06899F28  thumb  ov095
+ *   BTLV_SCD_StartMoveInfoMenu  0x06899FE8  thumb  ov095
  *   BTLV_EFFECT_ResumeVm  0x021F7C0C  thumb  ov094
  *   BTLV_EFFECT_StartDamageTintTask  0x021F7C2C  thumb  ov094
  *   BTLV_EFFECT_StartBallThrowEffect  0x021F7CFC  thumb  ov094
@@ -103,20 +103,20 @@
  *   BTLV_CORE_StartPrintMessage 0x021EA004 thumb ov093
  *   BTLV_CORE_StartViewEffect262 0x021EA09C thumb ov093
  *   BTLV_CORE_WaitViewEffectDone 0x021EA0BC thumb ov093
- *   BTLV_SCD_StartActionMenu  0x06899ED0  thumb
+ *   BTLV_SCD_StartActionMenu  0x06899ED0  thumb  ov095
  *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_CLIENT_GetPointCounter  0x021D3D90  thumb  ov093
- *   BTLV_SCD_StartTargetMenu  0x0689A008  thumb
- *   BTLV_SCD_WaitTargetMenu  0x0689A020  thumb
- *   BTLV_SCD_StartMoveMenu  0x06899F40  thumb
- *   BTLV_SCD_StartRotateMenu  0x06899F64  thumb
- *   BTLV_SCD_WaitMoveMenu  0x06899FD4  thumb
- *   BTLV_SCD_ReopenMenu  0x06899FDC  thumb
- *   BTLV_SCD_IsTargetChosen  0x0689B0CC  thumb
- *   BTLV_SCD_CancelMenus  0x0689A028  thumb
+ *   BTLV_SCD_StartTargetMenu  0x0689A008  thumb  ov095
+ *   BTLV_SCD_WaitTargetMenu  0x0689A020  thumb  ov095
+ *   BTLV_SCD_StartMoveMenu  0x06899F40  thumb  ov095
+ *   BTLV_SCD_StartRotateMenu  0x06899F64  thumb  ov095
+ *   BTLV_SCD_WaitMoveMenu  0x06899FD4  thumb  ov095
+ *   BTLV_SCD_ReopenMenu  0x06899FDC  thumb  ov095
+ *   BTLV_SCD_IsTargetChosen  0x0689B0CC  thumb  ov095
+ *   BTLV_SCD_CancelMenus  0x0689A028  thumb  ov095
  *   BTLV_EFFECT_StartIntroEffect  0x021F8A78  thumb  ov094
- *   BTLV_SCD_GetInputFlags  0x0689B66C  thumb
+ *   BTLV_SCD_GetInputFlags  0x0689B66C  thumb  ov095
  *   BTLV_SCD_CloseInputIfOpen 0x06899D3C thumb ov095
  *   BTL_MAIN_SyncSideParty 0x021B8F5C thumb ov093
  *   BTL_MAIN_IsCommMulti 0x021B8F38 thumb ov093
@@ -128,14 +128,14 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTL_MAIN_GetGameData 0x021B8748 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
- *   BTL_PICK_GetCount  0x0689CB18  thumb
- *   BTL_PICK_GetSlot  0x0689CB2C  thumb
- *   BTLV_SCD_StartInputSlideIn  0x06899CA4  thumb
- *   BTLV_SCD_StartInputSlideOut  0x06899CDC  thumb
- *   BTLV_SCD_IsInputSlideDone  0x06899D04  thumb
- *   BTLV_SCD_OnSlideInDone  0x06899D2C  thumb
- *   BTLV_SCD_OnSlideOutStart  0x06899D30  thumb
- *   BTL_PICK_Push  0x0689CAEC  thumb
+ *   BTL_PICK_GetCount  0x0689CB18  thumb  ov095
+ *   BTL_PICK_GetSlot  0x0689CB2C  thumb  ov095
+ *   BTLV_SCD_StartInputSlideIn  0x06899CA4  thumb  ov095
+ *   BTLV_SCD_StartInputSlideOut  0x06899CDC  thumb  ov095
+ *   BTLV_SCD_IsInputSlideDone  0x06899D04  thumb  ov095
+ *   BTLV_SCD_OnSlideInDone  0x06899D2C  thumb  ov095
+ *   BTLV_SCD_OnSlideOutStart  0x06899D30  thumb  ov095
+ *   BTL_PICK_Push  0x0689CAEC  thumb  ov095
  *   B_PLIST_MAIN_Create 0x0220F3E8 thumb ov198
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
@@ -148,10 +148,10 @@
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
  *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
- *   BTL_ID_IsBagItemUseBlocked  0x0689C90C  thumb
+ *   BTL_ID_IsBagItemUseBlocked  0x0689C90C  thumb  ov095
  *   B_BAG_MAIN_Create 0x0220C834 thumb ov197
  *   ov197_id 0x000000C5 data
- *   BTLV_SCD_ShowRotateScreen  0x0689B514  thumb
+ *   BTLV_SCD_ShowRotateScreen  0x0689B514  thumb  ov095
  *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
  *   MYITEM_SAVEDATA_SetLastBattleItem  0x020082D4  thumb
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
@@ -213,9 +213,9 @@
  *   BTLV_SCU_HideMonPair  0x021ED4E4  thumb  ov093
  *   BTLV_SCU_ShowMonPair  0x021ED510  thumb  ov093
  *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
- *   BTLV_SCD_PollTouchKey  0x0689B524  thumb
- *   BTLV_SCD_OpenChoiceScreen  0x0689B5A4  thumb
- *   BTLV_SCD_CloseInputScreen  0x0689B558  thumb
+ *   BTLV_SCD_PollTouchKey  0x0689B524  thumb  ov095
+ *   BTLV_SCD_OpenChoiceScreen  0x0689B5A4  thumb  ov095
+ *   BTLV_SCD_CloseInputScreen  0x0689B558  thumb  ov095
  *   BTLV_EFFECT_StartPokeSpriteTransitionTask  0x021F8414  thumb  ov094
  *   BTLV_SCU_HideMon  0x021ED53C  thumb  ov093
  *   BTLV_SCU_ShowMon  0x021ED554  thumb  ov093

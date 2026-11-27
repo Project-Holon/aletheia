@@ -17,13 +17,13 @@
  *   sClrImg                0x02150E2C  data
  *   sTexStartAddrTable     0x020A5C4C  data
  *   GXi_DmaId              0x020A84C0  data
- *   MI_NDmaCopy            0x0272FB78  arm
+ *   MI_NDmaCopy            0x0272FB78  arm  twl
  *   MIi_DmaCopy32          0x02082244  arm
  *   MIi_CpuCopy32          0x02082A90  arm
- *   MI_NDmaCopyAsync       0x0272FC2C  arm
+ *   MI_NDmaCopyAsync       0x0272FC2C  arm  twl
  *   MIi_DmaCopy32Async     0x02082498  arm
  *   GX_SetBankForTex       0x02080294  arm
- *   MI_WaitNDma            0x0272FCB0  arm
+ *   MI_WaitNDma            0x0272FCB0  arm  twl
  *   MI_WaitDma             0x02082594  arm
  *   GX_ResetBankForTexPltt 0x02080978  arm
  *   sTexPlttStartAddrTable 0x020A5C3C  data

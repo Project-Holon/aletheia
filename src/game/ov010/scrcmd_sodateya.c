@@ -21,8 +21,8 @@
  *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateSubProcListEvent  0x02014910  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb

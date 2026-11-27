@@ -43,7 +43,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
- *   B_APP_TOOL_Update 0x0220B0B0 thumb
+ *   B_APP_TOOL_Update 0x0220B0B0 thumb  ov196
  *   B_APP_TOOL_ShowWindows  0x0220B094  thumb  ov196
  *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  *   _u32_div_f 0x0209C2B0 arm
@@ -98,10 +98,10 @@
  *   B_APP_TOOL_CreateActors 0x0220AF6C thumb ov196
  *   B_APP_TOOL_SetActorsVisible 0x0220AFDC thumb ov196
  *   B_APP_TOOL_DeleteActors 0x0220AFC4 thumb ov196
- *   BTLV_FINGER_CURSOR_Create 0x02209A7C thumb
- *   BTLV_FINGER_CURSOR_Delete 0x02209B30 thumb
+ *   BTLV_FINGER_CURSOR_Create 0x02209A7C thumb  ov094
+ *   BTLV_FINGER_CURSOR_Delete 0x02209B30 thumb  ov094
  *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
- *   BTLV_FINGER_CURSOR_DeleteActor 0x02209C18 thumb
+ *   BTLV_FINGER_CURSOR_DeleteActor 0x02209C18 thumb  ov094
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_0220E0E0 0x0220E0E0 data a1
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -142,7 +142,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   B_APP_TOOL_Delete 0x0220AF64 thumb ov196
  *   TCB_DeleteTask 0x02030EAC arm
- *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb
+ *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb  ov094
  *   BG_SYS_ApplyGraphicsMode 0x0203FC6C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm

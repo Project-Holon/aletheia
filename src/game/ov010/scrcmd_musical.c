@@ -37,7 +37,7 @@
  *   d_021F8360     0x021F8360  data
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
+ *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb  ov112
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   MUSICAL_EVENT_GetLocalSlot  0x021568E0  thumb  ov010
  *   MUSICAL_EVENT_GetMaxScore  0x02156954  thumb  ov010
@@ -93,7 +93,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   MUS_COMM_FUNC_Create  0x021FC644  thumb  ov132
- *   MUS_COMM_FUNC_Delete  0x021FC684  thumb
+ *   MUS_COMM_FUNC_Delete  0x021FC684  thumb  ov132
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
@@ -103,14 +103,14 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
- *   MUS_COMM_FUNC_InitCommandTable  0x021FC81C  thumb
- *   COMM_ENTRY_MENU_Main  0x021CD688  thumb
- *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb
- *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb
- *   MUS_COMM_FUNC_CheckTimingSync  0x021FCE00  thumb
- *   STA_NET_GetSlot3Done  0x021FD844  thumb
+ *   MUS_COMM_FUNC_InitCommandTable  0x021FC81C  thumb  ov132
+ *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
+ *   MUS_COMM_FUNC_SetHostFlag  0x021FC804  thumb  ov132
+ *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
+ *   MUS_COMM_FUNC_CheckTimingSync  0x021FCE00  thumb  ov132
+ *   STA_NET_GetSlot3Done  0x021FD844  thumb  ov132
  *   GAME_COMM_GetWork  0x02026474  thumb
- *   STA_NET_GetRecordsReceived  0x021FD910  thumb
+ *   STA_NET_GetRecordsReceived  0x021FD910  thumb  ov132
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   BLOCK20_SAVEDATA_CountEntries  0x02009370  thumb

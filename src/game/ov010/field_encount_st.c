@@ -20,8 +20,8 @@
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   d_02172928 0x02172928 data a1
- *   FIELDMAP_GetEncount  0x02188CE8  thumb
- *   EFFECT_ENCOUNT_LoadSetting  0x021AA7DC  thumb
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   EFFECT_ENCOUNT_LoadSetting  0x021AA7DC  thumb  ov021
  *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  *   _u32_div_f                   0x0209C2B0  arm
  */

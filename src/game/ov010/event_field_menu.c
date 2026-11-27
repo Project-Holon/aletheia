@@ -44,7 +44,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_DATA_SetFieldMenuCursor  0x020129D0  thumb
  *   SCRCMD_NETWORK_sProcKindOfButton     0x021712AC  data
- *   FIELD_SUBSCREEN_SetMenuSelectedButton   0x021A12BC  thumb
+ *   FIELD_SUBSCREEN_SetMenuSelectedButton   0x021A12BC  thumb  ov021
  */
 #include "../arm9/script_vm_types.h"
 #include "scrcmd_network_shared_types.h"

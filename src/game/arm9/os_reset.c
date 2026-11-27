@@ -20,13 +20,13 @@
  *   OSi_IsInitReset          0x02151368  data
  *   OS_IsRunOnTwl                    0x02085D3C  arm
  *   OS_Terminate                     0x02088234  arm
- *   PMi_ExecutePostExitCallbackList  0x027315A8  arm
+ *   PMi_ExecutePostExitCallbackList  0x027315A8  arm  twl
  *   OS_GetLockID                     0x02084EB8  arm
  *   CARD_LockRom                     0x02075E10  arm
  *   OS_SetIrqMask                    0x0208493C  arm
  *   OS_ResetRequestIrqMask           0x020849C8  arm
  *   MI_StopAllDma                    0x02082658  arm
- *   MI_StopAllNDma                   0x0272FD18  arm
+ *   MI_StopAllNDma                   0x0272FD18  arm  twl
  *   OSi_SendToPxi                    0x02084A84  arm
  *   OSi_DoResetSystem                0x01FF8414  arm
  */

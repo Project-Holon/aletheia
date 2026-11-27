@@ -16,11 +16,11 @@
  * symbols:
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb ov020
- *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb
- *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   EVENT_FIELD_PROCLINK_GetEventdataEntry  0x02161DC4  thumb
- *   FIELD_WFBC_DATA_LOCAL_InsertPersonForCity  0x02186520  thumb
+ *   FIELD_WFBC_DATA_LOCAL_InsertPersonForCity  0x02186520  thumb  ov020
  *   d_0217144C     0x0217144C  data  ov010  a4
  *   MI_CpuCopy8    0x02082D44  arm
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb

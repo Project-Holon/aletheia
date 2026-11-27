@@ -15,7 +15,7 @@
  * symbols:
  *   BTL_EVENT_AddFactor  0x021D6F0C  thumb  ov093
  *   gHandFieldEffectTable     0x0689D650  data   ov095  a4
- *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093

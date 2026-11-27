@@ -13,10 +13,10 @@
  * sdk:      DWCi_AC_ConnectRetryAP (retry.o)
  *
  * symbols:
- *   WCM_GetPhase         0x021656A0  arm
- *   WCM_EndSearchAsync   0x02165204  arm
- *   WCM_DisconnectAsync  0x02165478  arm
- *   WCM_TerminateAsync   0x02165560  arm
+ *   WCM_GetPhase         0x021656A0  arm  ov009
+ *   WCM_EndSearchAsync   0x02165204  arm  ov009
+ *   WCM_DisconnectAsync  0x02165478  arm  ov009
+ *   WCM_TerminateAsync   0x02165560  arm  ov009
  */
 #include "../types.h"
 

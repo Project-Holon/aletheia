@@ -19,12 +19,12 @@
  *   gsifree                  0x0217EAE0  arm ov009
  *   gsXmlCreateStreamReader                  0x02181C2C  arm ov009
  *   gsXmlParseBuffer                  0x02181D10  arm ov009
- *   ghttpRequestThink                  0x021C2284  arm
- *   ghttpNewPost                  0x021C2304  arm
- *   ghttpPostSetAutoFree                  0x021C2310  arm
- *   ghttpPostAddXml                  0x021C2338  arm
- *   ghttpGetExA                  0x021C20A4  arm
- *   ghttpCancelRequest                  0x021C22A4  arm
+ *   ghttpRequestThink                  0x021C2284  arm  ov114
+ *   ghttpNewPost                  0x021C2304  arm  ov114
+ *   ghttpPostSetAutoFree                  0x021C2310  arm  ov114
+ *   ghttpPostAddXml                  0x021C2338  arm  ov114
+ *   ghttpGetExA                  0x021C20A4  arm  ov114
+ *   ghttpCancelRequest                  0x021C22A4  arm  ov114
  *   gsXmlFreeReader  0x02181DA0  arm  ov009
  *   ghttpFreePostAndUpdateConnection  0x021C2324  arm  ov114
  */

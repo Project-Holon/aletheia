@@ -114,7 +114,7 @@
  *   _dadd   0x0209AC04  arm
  *   _dsub   0x0209AF34  arm
  *   _dfix   0x0209C508  arm
- *   BTL_ID_IsBatonPassSick  0x0689C868  thumb
+ *   BTL_ID_IsBatonPassSick  0x0689C868  thumb  ov095
  *   BTL_POKEPARAM_RaiseLowStatStagesInArray  0x021D53DC  thumb  ov093
  *   BTL_POKEPARAM_SetNeutralStatStages  0x021D53C8  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093

@@ -63,7 +63,7 @@
  *   gFieldPlayerNogridForcedMoveFuncs  0x021D8AB8  data  a4
  *   FLDMMDL_MOVE_GetDirTableValue  0x021642A4  thumb  ov010
  *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
- *   FLDMMDL_SetDirDisp  0x0216D5D8  thumb
+ *   FLDMMDL_SetDirDisp  0x0216D5D8  thumb  ov010
  *   gFieldPlayerNogridSpinDirs  0x021D8AB0  data  ov021  a4
  *   EVENTDATA_SYSTEM_SearchConnectIdByRailLocation  0x02162598  thumb  ov010
  *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021

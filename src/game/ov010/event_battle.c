@@ -21,16 +21,16 @@
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   ENCEFF_SelectEffectAndBgm  0x021CF5D8  thumb
+ *   ENCEFF_SelectEffectAndBgm  0x021CF5D8  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
  *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
  *   SCRCMD_NETWORK_CreateWhiteOutEvent  0x0215F6E8  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
- *   EVENT_COMM_COMMON_CreateSupportMsgEvent  0x02181D8C  thumb
+ *   EVENT_COMM_COMMON_CreateSupportMsgEvent  0x02181D8C  thumb  ov018
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   RECORD_AddOne  0x02008DF0  thumb
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021

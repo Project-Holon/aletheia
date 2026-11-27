@@ -66,7 +66,7 @@
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   DWC_ShutdownFriendsMatch  0x0216AD50  arm  ov009
  *   DWC_NdCleanupAsync  0x021C5B80  arm  ov114
- *   DWC_GdbShutdown  0x021E1340  arm
+ *   DWC_GdbShutdown  0x021E1340  arm  ov175
  *   DWC_IsValidAID  0x0216B94C  arm  ov009
  *   DWC_IsSendableReliable  0x02176DEC  arm  ov009
  *   VCT_MAIN_Update  0x021AEE14  thumb  ov013

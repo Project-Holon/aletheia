@@ -26,7 +26,7 @@
  *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   d_02172A28  0x02172A28  data  ov010  a4
- *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
+ *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_AddActor  0x02194300  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_DeleteActor 0x02194354 thumb ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -48,10 +48,10 @@
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
- *   FIELD_COMM_ACTOR_CTRL_SearchGridPos   0x02194384  thumb
+ *   FIELD_COMM_ACTOR_CTRL_SearchGridPos   0x02194384  thumb  ov021
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_GetMmdl  0x021943EC  thumb  ov021
- *   FLDEFF_GYOE_StartHeld  0x021BB578  thumb
+ *   FLDEFF_GYOE_StartHeld  0x021BB578  thumb  ov021
  */
 struct Entry32;
 struct Ctx;

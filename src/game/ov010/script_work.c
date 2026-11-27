@@ -33,7 +33,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   MIi_CpuClear32  0x02082A7C  arm
- *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   WORDSET_Create  0x0201EC74  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010

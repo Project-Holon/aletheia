@@ -24,19 +24,19 @@
  *   INTRUDE_COMM_IsPartnerSymbolPageReceived  0x02176870  thumb  ov011
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
- *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   SYMBOL_MAP_GetSelectedCellTile  0x021665D0  thumb  ov010
  *   GAME_DATA_SetSymbolMapFlag  0x02012FA4  thumb
- *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb
+ *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb  ov020
  *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb  ov021
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 #include "field_intrude_event_shared_types.h"

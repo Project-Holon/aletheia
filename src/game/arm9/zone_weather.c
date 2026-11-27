@@ -15,7 +15,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
- *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb
+ *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb  ov010
  *   CALENDER_GetWeatherThunk  0x021647E8  thumb  ov010
  *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
@@ -25,7 +25,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb
+ *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb  ov010
  *   gTbl_0209FFF4  0x0209FFF4  data
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb

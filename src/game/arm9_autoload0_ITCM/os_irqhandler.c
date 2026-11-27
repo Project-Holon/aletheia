@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   SHA1_HMAC_Init  0x02731754  thumb
+ *   SHA1_HMAC_Init  0x02731754  thumb  twl
  *   d_02FE0020     0x02FE0020  data
  *   OSi_IrqThreadQueue  0x02FE00A0  data
  *   OSi_ThreadInfo      0x02150FEC  data

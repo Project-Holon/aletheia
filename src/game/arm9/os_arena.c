@@ -19,7 +19,7 @@
  *   OS_SetArenaLo             0x02086774  arm
  *   OS_IsRunOnTwl             0x02085D3C  arm
  *   OS_SetProtectionRegionEx  0x02086DB0  arm
- *   OSi_InitArenaEx_ltdmain   0x027312B4  arm
+ *   OSi_InitArenaEx_ltdmain   0x027312B4  arm  twl
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   OS_GetConsoleType 0x02085CBC arm
  *   SDK_SYS_STACKSIZE             0x00001800  data

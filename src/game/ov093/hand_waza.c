@@ -57,8 +57,8 @@
  *   gWaterSportHandlers     0x021F2664  data   ov093  a4
  *   gMudSportHandlers     0x021F2614  data   ov093  a4
  *   gDefogHandlers     0x021F29B8  data   ov093  a4
- *   HAND_SIDE_IsActive  0x06898CF4  thumb
- *   BTL_ID_IsMimicExcludedMove  0x0689CA7C  thumb
+ *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
+ *   BTL_ID_IsMimicExcludedMove  0x0689CA7C  thumb  ov095
  *   gBrickBreakHandlers 0x021F2B70 data a4
  *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
  *   BTL_MAIN_IsPokeIdInSecondPair 0x021B9A40 thumb ov093
@@ -243,7 +243,7 @@
  *   gFeintHandlers 0x021F2B10 data a4
  *   BTL_MAIN_IsZero  0x021B9A5C  thumb  ov093
  *   BTL_SERVER_FLOW_CheckSideEffectActive  0x021C82C4  thumb  ov093
- *   BTL_ID_IsEncoreFailMove  0x0689C8AC  thumb
+ *   BTL_ID_IsEncoreFailMove  0x0689C8AC  thumb  ov095
  *   BTL_POKEPARAM_CanChangeStatStage 0x021D5D14 thumb ov093
  *   gAcupressureStats 0x021F2D20 data a4
  *   gRestHandlers 0x021F2888 data a4
@@ -294,7 +294,7 @@
  *   BTL_SERVER_FLOW_CheckClientHasBackupPoke  0x021C7F24  thumb  ov093
  *   gHealingWishHandlers     0x021F2694  data   ov093  a4
  *   gWishHandlers     0x021F254C  data   ov093  a4
- *   BTL_ID_IsAbilityRolePlayBlocked  0x0689C91C  thumb
+ *   BTL_ID_IsAbilityRolePlayBlocked  0x0689C91C  thumb  ov095
  *   gFutureSightHandlers     0x021F29D8  data   ov093  a4
  *   BTL_MAIN_GetEnemyLanePos  0x021B8C20  thumb  ov093
  *   BTL_SERVER_FLOW_GetTurnCount  0x021C8138  thumb  ov093
@@ -339,21 +339,21 @@
  *   gRoostHandlers     0x021F255C  data   ov093  a4
  *   gFocusPunchHandlers     0x021F2734  data   ov093  a4
  *   BTL_SICKCONT_SetFlag  0x021E8BD0  thumb  ov093
- *   BTL_ID_GetMetronomeExcludedMoves  0x0689CA8C  thumb
+ *   BTL_ID_GetMetronomeExcludedMoves  0x0689CA8C  thumb  ov095
  *   BTL_POKEPARAM_IsSemiInvulnerable  0x021D5C30  thumb  ov093
  *   BTL_CALC_PickRandomMoveExcluding  0x021D7E44  thumb  ov093
  *   gMetronomeWazaHandlers     0x021F28F8  data    a4
- *   BTL_ID_IsAssistExcludedMove  0x0689CA3C  thumb
+ *   BTL_ID_IsAssistExcludedMove  0x0689CA3C  thumb  ov095
  *   gNaturePowerHandlers     0x021F2928  data   ov093  a4
  *   gAssistHandlers     0x021F270C  data   ov093  a4
- *   BTL_ID_IsSleepTalkExcludedMove  0x0689CA1C  thumb
+ *   BTL_ID_IsSleepTalkExcludedMove  0x0689CA1C  thumb  ov095
  *   gSleepTalkHandlers     0x021F2BB8  data   ov093  a4
  *   gMirrorMoveHandlers     0x021F2574  data   ov093  a4
- *   BTL_ID_IsMeFirstFailMove  0x0689C8BC  thumb
+ *   BTL_ID_IsMeFirstFailMove  0x0689C8BC  thumb  ov095
  *   BTL_SERVER_FLOW_IsPokeInPosTable 0x021C814C thumb ov093
  *   BTL_SERVER_FLOW_IsPokeAfflictedByStatus 0x021C8374 thumb ov093
  *   gMeFirstHandlers     0x021F2968  data    a4
- *   BTL_ID_IsCopycatExcludedMove  0x0689CA5C  thumb
+ *   BTL_ID_IsCopycatExcludedMove  0x0689CA5C  thumb  ov095
  *   BTL_SERVER_FLOW_GetLastActionId  0x021C8114  thumb  ov093
  *   gCopycatHandlers     0x021F26C4  data    a4
  *   gAllStatBoostChanceHandlers     0x021F262C  data   ov093  a4
@@ -364,10 +364,10 @@
  *   gHeavySlamHandlers      0x021F2654  data   ov093  a4
  *   gStoredPowerHandlers    0x021F267C  data   ov093  a4
  *   gElectroBallHandlers    0x021F245C  data   ov093  a4
- *   BTL_ID_IsAbilityEntrainmentBlocked  0x0689C93C  thumb
- *   BTL_WAZAREC_IsUsedWaza  0x0689D064  thumb
- *   BTL_DEADREC_GetCount  0x0689D174  thumb
- *   BTL_DEADREC_GetPokeId  0x0689D184  thumb
+ *   BTL_ID_IsAbilityEntrainmentBlocked  0x0689C93C  thumb  ov095
+ *   BTL_WAZAREC_IsUsedWaza  0x0689D064  thumb  ov095
+ *   BTL_DEADREC_GetCount  0x0689D174  thumb  ov095
+ *   BTL_DEADREC_GetPokeId  0x0689D184  thumb  ov095
  *   gEchoedVoiceHandlers     0x021F24EC  data   ov093  a4
  *   BTL_SERVER_FLOW_GetTurnRecord  0x021C812C  thumb  ov093
  *   BTL_SERVER_FLOW_GetHistoryList  0x021C8130  thumb  ov093
@@ -398,7 +398,7 @@
  *   gFinalGambitHandlers 0x021F2AE8 data a4
  *   gAfterYouHandlers     0x021F27EC  data   ov093  a4
  *   gQuashHandlers     0x021F25B4  data   ov093  a4
- *   BTL_WAZAREC_GetUsedWazaCount  0x0689D098  thumb
+ *   BTL_WAZAREC_GetUsedWazaCount  0x0689D098  thumb  ov095
  *   gRoundHandlers     0x021F28C8  data   ov093  a4
  *   gQuickGuardHandlers     0x021F2DB8  data   ov093  a4
  *   gAllySwitchHandlers     0x021F26CC  data    a4
@@ -414,7 +414,7 @@
  *   gForesightOdorSleuthHandlers     0x021F2898  data   ov093  a4
  *   gMiracleEyeHandlers     0x021F2958  data   ov093  a4
  *   gGrowthHandlers     0x021F26A4  data   ov093  a4
- *   BTL_WAZAREC_GetEffectiveWaza  0x0689D0C8  thumb
+ *   BTL_WAZAREC_GetEffectiveWaza  0x0689D0C8  thumb  ov095
  *   gFreezeShockIceBurnHandlers     0x021F2814  data   ov093  a4
  *   gFusionFlareFusionBoltHandlers     0x021F27E4  data   ov093  a4
  *   gPledgeComboTable  0x021F2CF0  data  a4

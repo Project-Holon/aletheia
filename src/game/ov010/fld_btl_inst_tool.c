@@ -49,10 +49,10 @@
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb ov021
- *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
+ *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
- *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb
- *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb
+ *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
+ *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   BTL_SETUP_Create  0x02013090  thumb

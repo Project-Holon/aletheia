@@ -209,7 +209,7 @@
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_CountItemSlots  0x02186854  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders  0x021868B8  thumb  ov020
- *   FLDMMDL_DeleteAllMmdl  0x0216CF6C  thumb
+ *   FLDMMDL_DeleteAllMmdl  0x0216CF6C  thumb  ov010
  *   FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList 0x02186470 thumb ov020
  *   FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus 0x021864DC thumb ov020
  *   ZONEDATA_GetFieldSkillMapEffect 0x02013F6C thumb

@@ -202,7 +202,7 @@
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
  *   FLDMMDL_BLACT_Exit  0x0219C5D0  thumb  ov021
- *   FLDMMDL_SysGetG3dObjCont  0x0216D528  thumb
+ *   FLDMMDL_SysGetG3dObjCont  0x0216D528  thumb  ov010
  *   FLDMMDL_G3DOBJ_Delete  0x0219D488  thumb  ov021
  *   FLDMMDL_SysSetDrawInit  0x0216D95C  thumb  ov010
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
@@ -241,7 +241,7 @@
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
- *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
  *   FLDMMDL_MOVE_UpdateGridPosDir  0x02163E7C  thumb  ov010
  *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010

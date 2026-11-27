@@ -25,11 +25,11 @@
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   PLAYTIME_GetHours  0x0200864C  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
- *   QUESTIONNAIRE_GetAnswerMax  0x02167394  thumb
+ *   QUESTIONNAIRE_GetAnswerMax  0x02167394  thumb  ov010
  *   SYMBOL_SAVE_ReadBitField  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
@@ -44,7 +44,7 @@
  *   ZONEDATA_IsUnionRoom    0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
  *   GAME_DATA_GetSpecialLocation    0x02012894  thumb
- *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
+ *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb  ov010
  *   MYSTATUS_GetIdLow16    0x02008534  thumb
  *   MYSTATUS_GetTrainerView    0x02008554  thumb
  *   MYSTATUS_GetNation    0x0200856C  thumb

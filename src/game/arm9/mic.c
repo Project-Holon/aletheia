@@ -34,10 +34,10 @@
  *   MicStopAutoSampling  0x0208B75C  arm
  *   MIC_StopAutoSamplingAsync  0x0208B424  arm
  *   OSi_IsCodecTwlMode  0x02087B20  arm
- *   MICEXi_StartLimitedSamplingAsync  0x02703CDC  arm
- *   MICEXi_StartLimitedSampling  0x02703C60  arm
+ *   MICEXi_StartLimitedSamplingAsync  0x02703CDC  arm  twl
+ *   MICEXi_StartLimitedSampling  0x02703C60  arm  twl
  *   MIC_StartAutoSampling  0x0208B3EC  arm
- *   MICEXi_StopLimitedSampling  0x02703E90  arm
+ *   MICEXi_StopLimitedSampling  0x02703E90  arm  twl
  *   MIC_StopAutoSampling  0x0208B480  arm
  *   MicStartAutoSampling  0x0208B650  arm
  *   MicCommonCallback  0x0208B548  arm

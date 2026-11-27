@@ -13,10 +13,10 @@
  * Cut from msl_c_lib.c by tools/splitfile.py.
  *
  * symbols:
- *   SHA1_HMAC_Init  0x02731754  thumb
- *   SHA1_HMAC_Update  0x02731760  thumb
- *   SHA1_HMAC_GetHash  0x02731764  thumb
- *   SHA1_HMAC_Calc  0x02731920  arm
+ *   SHA1_HMAC_Init  0x02731754  thumb  twl
+ *   SHA1_HMAC_Update  0x02731760  thumb  twl
+ *   SHA1_HMAC_GetHash  0x02731764  thumb  twl
+ *   SHA1_HMAC_Calc  0x02731920  arm  twl
  *   OSi_IsRunOnTwl    0x02085D88  arm
  *   OS_Terminate    0x02088234  arm
  *   gMslTwlFlag  0x02153B88  data

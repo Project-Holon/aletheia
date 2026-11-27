@@ -20,17 +20,17 @@
  *   original overwrites the pad slot when six entries match).
  *
  * symbols:
- *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb
- *   BTL_MAIN_GetSlotClientAndNth  0x021B8E28  thumb
- *   BTL_SIDE_GetClientPoke  0x021B9920  thumb
- *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
- *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
- *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
- *   BTL_SLOT_GetRotateDstIndex  0x021B9AC8  thumb
- *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb
- *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb
- *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb
- *   BTL_MAIN_CheckFrontPos  0x021B86A0  thumb
+ *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
+ *   BTL_MAIN_GetSlotClientAndNth  0x021B8E28  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
+ *   BTL_SLOT_GetRotateDstIndex  0x021B9AC8  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
+ *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb  ov093
+ *   BTL_MAIN_CheckFrontPos  0x021B86A0  thumb  ov093
  */
 #include "../ov093/btl_records_types.h"
 #ifdef __MWERKS__

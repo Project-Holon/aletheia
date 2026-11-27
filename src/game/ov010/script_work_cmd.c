@@ -40,9 +40,9 @@
  *   FIELD_STATUS_GetContinueFlag  0x02014460  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
- *   SCRCMD_FLDMMDL_PauseMmdls  0x021B1BB8  thumb
+ *   SCRCMD_FLDMMDL_PauseMmdls  0x021B1BB8  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
+ *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
@@ -50,19 +50,19 @@
  *   SCRIPT_WORK_CreateCheckTask 0x02159204 thumb ov010
  *   KEY_GetTrg  0x020362DC  arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   FIELDMAP_GetSubscreen  0x02188CCC  thumb
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
  *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
  *   SCRIPT_WORK_GetReturnScriptId  0x021590FC  thumb  ov010
- *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
- *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
+ *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb  ov021
+ *   FIELD_SAVEANIME_Delete  0x021D1194  thumb  ov021
  *   SCRIPT_WORK_SetReturnScriptId  0x021590F4  thumb  ov010
- *   FIELDMAP_GetHeapId  0x02188C84  thumb
- *   FIELD_SAVEANIME_Create  0x021D1164  thumb
- *   FIELD_SAVEANIME_Start  0x021D11B0  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
+ *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
  *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
  *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb

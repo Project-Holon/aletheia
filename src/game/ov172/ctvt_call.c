@@ -99,7 +99,7 @@
  *   CTVT_COMM_IsNetReady  0x021B8108  thumb  ov172
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
- *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb
+ *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb  ov014
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_GetId  0x02008530  thumb

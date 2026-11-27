@@ -14,16 +14,16 @@
  *
  * symbols:
  *   BTL_EVENT_AddFactor  0x021D6F0C  thumb  ov093
- *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb
+ *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb  ov093
  *   gHandSideEffectSlots 0x0689E7E0 data a4
  *   MI_CpuFill8 0x02082BCC arm
  *   gHandSideEffectTable 0x0689D780 data ov095 a4
- *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
- *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb
- *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb
- *   BTL_SERVER_FLOW_GetRule  0x021C815C  thumb
- *   BTL_EVENT_MultiplyVar  0x021D7704  thumb
- *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
+ *   BTL_SERVER_FLOW_GetRule  0x021C815C  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   gHandSideReflectHandlers     0x0689D6F0  data   ov095  a4
  *   gHandSideLightScreenHandlers     0x0689D710  data   ov095  a4
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
@@ -45,16 +45,16 @@
  *   WAZA_TOOL_IsDamaging  0x0201C314  thumb  arm9
  *   gHandSideWideGuardHandlers  0x0689D700  data  ov095  a4
  *   gHandSideQuickGuardHandlers  0x0689D718  data  ov095  a4
- *   BTL_SERVER_FLOW_IsPokeFloatingById  0x021C8234  thumb
+ *   BTL_SERVER_FLOW_IsPokeFloatingById  0x021C8234  thumb  ov093
  *   gHandSideSpikesHandlers  0x0689D740  data  ov095  a4
- *   BTL_POKEPARAM_HasType  0x021D5814  thumb
- *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb
- *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb  ov093
  *   gHandSideToxicSpikesHandlers  0x0689D708  data  ov095  a4
  *   gHandSideRainbowHandlers  0x0689D768  data  ov095  a4
- *   BTL_SERVER_FLOW_IsPokeInPosTable  0x021C814C  thumb
- *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb
- *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
+ *   BTL_SERVER_FLOW_IsPokeInPosTable  0x021C814C  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
  *   gHandSideSeaOfFireHandlers  0x0689D6F8  data  ov095  a4
  *   gHandSideSwampHandlers  0x0689D720  data  ov095  a4
  */

@@ -24,7 +24,7 @@
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
  *   SVC_WaitByLoop           0x02004490  thumb
  *   PMi_CommonCallback       0x0208B950  arm
- *   PMi_ProceedToExit              0x027314A4  arm
+ *   PMi_ProceedToExit              0x027314A4  arm  twl
  *   PMi_BatteryLowCallbackInfo     0x02732FB0  data
  *   OS_DisableInterrupts           0x02087988  arm
  *   OS_RestoreInterrupts           0x0208799C  arm
@@ -34,15 +34,15 @@
  *   OS_IsRunOnTwl                  0x02085D3C  arm
  *   PMi_ExecuteList                0x0208C7E0  arm
  *   MI_StopAllDma                  0x02082658  arm
- *   MI_StopAllNDma                 0x0272FD18  arm
+ *   MI_StopAllNDma                 0x0272FD18  arm  twl
  *   OS_Halt                        0x020882D0  arm
  *   PMi_SetAmp   0x0208BF08  arm
  *   PM_GetLCDPower         0x0208C688  arm
- *   PMi_GetBatteryLevelCore   0x027313AC  arm
+ *   PMi_GetBatteryLevelCore   0x027313AC  arm  twl
  *   PXI_SendWordByFifo             0x02088610  arm
  *   MI_WaitDma                     0x02082594  arm
  *   MI_StopDma                     0x020825F0  arm
- *   PMi_PreSleepForNdma            0x027313E8  arm
+ *   PMi_PreSleepForNdma            0x027313E8  arm  twl
  *   OS_DisableIrqMask      0x02084998  arm
  *   OS_IsTickAvailable     0x02087058  arm
  *   OS_SetIrqMask          0x0208493C  arm

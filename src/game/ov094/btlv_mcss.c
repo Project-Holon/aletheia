@@ -81,7 +81,7 @@
  *   MCSS_ReloadResource 0x02014CF8 thumb
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   MCSS_SetMosaic  0x02016078  thumb
- *   BTL_MAIN_GetVoiceOfSlot  0x021B994C  thumb
+ *   BTL_MAIN_GetVoiceOfSlot  0x021B994C  thumb  ov093
  *   PM_VOICE_Play  0x02006984  thumb
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
  *   PM_VOICE_AddFrequency  0x02006AEC  thumb

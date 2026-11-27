@@ -94,7 +94,7 @@
  *   sGhttpReadBytesOfChunk     0x021CF274  data
  *   sGhttpReadChunkFooter     0x021CF28C  data
  *   sGhttpFinishedReadingChunks     0x021CF2A0  data
- *   gsimalloc                       0x0217eab0 arm
+ *   gsimalloc                       0x0217eab0 arm  ov009
  *   ghiDoReceive                    0x021c04d4 arm  ov114
  *   ghiFreeTempBuffer               0x021c4e68 arm  ov114
  *   ghiAppendDataToBuffer           0x021bfcec arm  ov114
@@ -106,10 +106,10 @@
  *   ghiCallProgressCallback         0x021c02c8 arm  ov114
  *   strlen                          0x0209477c arm
  *   OS_SPrintf                      0x02084f40 arm
- *   goastrdup                       0x0217f1e0 arm
+ *   goastrdup                       0x0217f1e0 arm  ov009
  *   atoi                            0x020964e0 arm
  *   ghiProcessIncomingFileData      0x021c4c50 arm  ov114
- *   GOAGetLastError                 0x0217ed54 arm
+ *   GOAGetLastError                 0x0217ed54 arm  ov009
  *   sGhttpDoubleLf                      0x021cf2bc data
  *   sGhttpDoubleCrLf                      0x021cf2c0 data
  *   sGhttpLocation                      0x021cf2c8 data

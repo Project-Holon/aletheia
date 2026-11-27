@@ -61,14 +61,14 @@
  *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  *   sTrainerEyeStepFuncs  0x021D9348  data
  *   GFL_HEAP_Free  0x020307B0  arm
- *   FLDMMDL_GetEventType  0x0216D5A8  thumb
- *   FLDMMDL_NormalizeEventType  0x0216E434  thumb
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
+ *   FLDMMDL_NormalizeEventType  0x0216E434  thumb  ov010
  *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
  *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
  *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
  *   EFFECT_ENCOUNT_IsSpotAt  0x021AA900  thumb  ov021
  *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
- *   EVENT_TRAINER_GetTrainerIdFromScriptId  0x0215A460  thumb
+ *   EVENT_TRAINER_GetTrainerIdFromScriptId  0x0215A460  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   EVENT_TRAINER_CheckDefeatedFlag  0x0215A4D8  thumb  ov010

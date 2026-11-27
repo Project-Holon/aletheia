@@ -144,15 +144,15 @@
  *   GIMMICK_INIT_SetButtonStatesFlags 0x021F3724 thumb ov037
  *   GIMMICK_INIT_RestorePlateDoorsState  0x021F3768  thumb  ov037
  *   GIMMICK_INIT_ResetRotatingRoomPanels 0x021F3800 thumb ov037
- *   FIELDMAP_GetSodateya  0x02188D50  thumb
+ *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
  *   SODATEYA_HasEgg  0x021C3400  thumb  ov021
  *   SODATEYA_ReceiveEgg 0x021C32F4 thumb ov021
- *   SODATEYA_DeclineEgg  0x021C335C  thumb
+ *   SODATEYA_DeclineEgg  0x021C335C  thumb  ov021
  *   DAYCARE_GetFromSave  0x0200BDB0  thumb
  *   SODATEYA_DepositPokemon 0x021C3204 thumb ov021
  *   SODATEYA_WithdrawPokemon 0x021C3270 thumb ov021
- *   SODATEYA_GetPokemonCount  0x021C340C  thumb
- *   SODATEYA_GetCompatibility  0x021C34C4  thumb
+ *   SODATEYA_GetPokemonCount  0x021C340C  thumb  ov021
+ *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  *   SODATEYA_GetPokemon 0x021C34F8 thumb ov021
  *   SODATEYA_GetCurrentLevel 0x021C341C thumb ov021
  *   SODATEYA_GetLevelsGained 0x021C3490 thumb ov021

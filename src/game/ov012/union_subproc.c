@@ -86,7 +86,7 @@
  *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
  *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
- *   IRC_BATTLE_TASK_Create  0x02157450  thumb
+ *   IRC_BATTLE_TASK_Create  0x02157450  thumb  ov010
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_FindFriendByStatus  0x02009D1C  thumb
  *   WIFILIST_AddFriendBattleRecord  0x02009BB8  thumb

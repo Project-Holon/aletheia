@@ -24,10 +24,10 @@
  *   ghiFreeConnection                    0x021c0d40 arm  ov114
  *   g_021D3B30                       0x021d3b30 data
  *   ghiLock                     0x021C0370  arm
- *   gsDebugFormat               0x0217D254  arm
- *   gsiCancelResolvingHostname  0x0217F1C0  arm
- *   shutdown                    0x0217EB9C  arm
- *   closesocketsure             0x0217EB40  arm
+ *   gsDebugFormat               0x0217D254  arm  ov009
+ *   gsiCancelResolvingHostname  0x0217F1C0  arm  ov009
+ *   shutdown                    0x0217EB9C  arm  ov009
+ *   closesocketsure             0x0217EB40  arm  ov009
  *   ghiUnlock                   0x021C0374  arm
  *   sGhttpCancellingThreadAndFreeingMemory                  0x021CE620  data
  *   ghiFreeBuffer           0x021BFCB4  arm  ov114
@@ -43,7 +43,7 @@
  *   sGhttpHttps2     0x021ce660  data
  *   strncmp                 0x020949F4  arm
  *   strcspn                 0x02094A60  arm
- *   goastrdup               0x0217F1E0  arm
+ *   goastrdup               0x0217F1E0  arm  ov009
  *   sGhttpHttp              0x021CE66C  data
  *   sGhttpServerAddressTerminators              0x021CE674  data
  */

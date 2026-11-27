@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   WCM_GetPhase           0x021656A0  arm
- *   WCM_GetAllowedChannel  0x0216576C  arm
+ *   WCM_GetPhase           0x021656A0  arm  ov009
+ *   WCM_GetAllowedChannel  0x0216576C  arm  ov009
  *   SearchAround1stLap     0x0205E110  arm
  *   SearchEndCheck         0x0205E64C  arm
  *   SearchAround           0x0205E1D0  arm
  *   SearchDifferChannel    0x0205E29C  arm
  *   SearchStealth          0x0205E444  arm
  *   DWCi_AC_GetMemPtr                0x0205c214 arm
- *   WCM_SearchAsync        0x02165144  arm
+ *   WCM_SearchAsync        0x02165144  arm  ov009
  *   DWC_AC_SEARCH_CHANNEL  0x020A1634  data
  *   WCM_Bssid_Any          0x021A1988  data
  *   WCM_Essid_Any          0x021A1990  data
@@ -33,7 +33,7 @@
  *   GetNextStealthChannel  0x0205E954  arm
  *   CheckStartStealthSearch  0x0205E790  arm
  *   SearchAround2ndLap       0x0205E17C  arm
- *   WCM_EndSearchAsync  0x02165204  arm
+ *   WCM_EndSearchAsync  0x02165204  arm  ov009
  */
 #include "../types.h"
 

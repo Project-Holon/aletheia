@@ -17,12 +17,12 @@
  * across the call; array indexing on j recomputes it after the call.
  *
  * symbols:
- *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb
- *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
- *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   MI_CpuFill8  0x02082BCC  arm
- *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb
- *   BTL_CALC_Random  0x021D78AC  thumb
+ *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  */
 #include "../types.h"
 

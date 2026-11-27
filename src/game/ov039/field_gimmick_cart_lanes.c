@@ -34,8 +34,8 @@
  *   sModelPos10 0x021F4D48 data ov039 a4
  *   sModelPos11 0x021F4CE8 data ov039 a4
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
- *   FIELDMAP_GetCommonWork 0x021897BC thumb
- *   FIELDMAP_GetGameSystem 0x02188C80 thumb
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb  ov021
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb  ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
@@ -62,7 +62,7 @@
  *   sRideAnimeOrigin    0x021F4D54 data ov039 a4
  *   sLaneRideOffsets    0x021F4CA0 data a4
  *   TCB_DeleteTask 0x02030EAC arm
- *   FIELDMAP_FreeCommonWork 0x021897A0 thumb
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb  ov021
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   sDockLanes    0x021F4C0C data ov039 a1
@@ -87,8 +87,8 @@
  *   VEC_Mag 0x0207CBD0 arm
  *   SCRIPT_SYS_CallScriptEvent 0x02158780 thumb ov010
  *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
- *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb
- *   FLDMMDL_SetDirDispCheckPause 0x0216D5E0 thumb
+ *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause 0x0216D5E0 thumb  ov010
  *   sDockCells    0x021F4C58 data ov039 a4
  *   sRideExitPos    0x021F4CF4 data ov039 a4
  *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010

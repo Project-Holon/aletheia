@@ -32,7 +32,7 @@
  *   OS_InitMutex  0x02086004  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   strncpy        0x02094860  arm
- *   DWC_SVLGetTokenAsync  0x02167FA8  arm
+ *   DWC_SVLGetTokenAsync  0x02167FA8  arm  ov009
  *   OS_CreateThread  0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   sDwcNdServiceLocatorPort     0x021CF370  data

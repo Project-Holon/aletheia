@@ -30,7 +30,7 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent  0x02014554  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   SCRIPT_SYS_RunRecoverScript  0x02158A20  thumb  ov010
  *   ov180_id       0x000000B4  data
  *   ov181_id       0x000000B5  data

@@ -13,8 +13,8 @@
  * Cut from hand_common.c, btlv_core.c by tools/splitfile.py.
  *
  * symbols:
- *   BTL_ID_IsArceusPlate  0x0689C980  thumb
- *   BTL_ID_IsGenesectDrive  0x0689C990  thumb
+ *   BTL_ID_IsArceusPlate  0x0689C980  thumb  ov095
+ *   BTL_ID_IsGenesectDrive  0x0689C990  thumb  ov095
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_AreAllOtherActionsDone  0x021C80AC  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093

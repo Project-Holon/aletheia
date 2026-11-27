@@ -16,7 +16,7 @@
  *   OS_InitDeliverArgInfo         0x02087F60  arm
  *   OS_DecodeDeliverArg           0x0208806C  arm
  *   OS_GetTitleIdFromDeliverArg   0x0208812C  arm
- *   OSi_SearchTitleIdFromList     0x0273131C  arm
+ *   OSi_SearchTitleIdFromList     0x0273131C  arm  twl
  *   OS_EncodeDeliverArg           0x02087FBC  arm
  *   OS_SetDeliverArgStateInvalid  0x02088118  arm
  *   s_prevTitleId                 0x02732F9C  data

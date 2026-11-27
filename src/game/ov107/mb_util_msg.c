@@ -59,11 +59,11 @@
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
+ *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb  ov021
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
- *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
+ *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb  ov021
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_Delete  0x0201ED04  thumb

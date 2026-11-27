@@ -21,13 +21,13 @@
  *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb
+ *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb  ov112
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   ov112_id       0x00000070  data
  *   STA_ACTING_Create  0x021F8480  thumb ov132
- *   STA_ACTING_Update  0x021F879C  thumb
- *   STA_ACTING_Delete  0x021F8640  thumb
+ *   STA_ACTING_Update  0x021F879C  thumb  ov132
+ *   STA_ACTING_Delete  0x021F8640  thumb  ov132
  *   sMusicalStageSysFileName  0x02172754  data
  *   MUSICAL_MCSS_AllocMon  0x021F67E0  thumb  ov112
  *   MUSICAL_PROGRAM_Create 0x02157028 thumb ov010

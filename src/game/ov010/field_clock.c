@@ -28,7 +28,7 @@
  *   RECORD_FoldPairs  0x02008E30  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   WIFI_HISTORY_PromoteVisitedStates  0x0200952C  thumb
- *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
+ *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb  ov020
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_FoldTally  0x0200E518  thumb
  *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb

@@ -24,8 +24,8 @@
  *   MI_Copy36B   0x02082B60  arm
  *   MIi_CpuCopy16   0x02082A60  arm
  *   MI_Copy32B   0x02082B44  arm
- *   MI_NDmaFillAsync     0x0272FBD0  arm
- *   MI_NDmaFill          0x0272FB28  arm
+ *   MI_NDmaFillAsync     0x0272FBD0  arm  twl
+ *   MI_NDmaFill          0x0272FB28  arm  twl
  *   MIi_DmaFill32Async   0x02082390  arm
  *   MIi_DmaFill32        0x020821C0  arm
  *   MIi_CpuClear32       0x02082A7C  arm

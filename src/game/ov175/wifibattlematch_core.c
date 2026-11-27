@@ -79,9 +79,9 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
- *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
- *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
- *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
+ *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb  ov009
+ *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb  ov009
+ *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb  ov009
  *   TRADE_HISTORY_GetFromSave 0x02009EC8 thumb
  *   WIFIBATTLEMATCH_UTIL_SetSaveState 0x021E8AC0 thumb ov177
  *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
@@ -94,15 +94,15 @@
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   MYSTATUS_GetTrainerView 0x02008554 thumb
  *   WIFIBATTLEMATCH_VIEW_CreateMainWindow 0x021E5C20 thumb ov177
- *   WIFIBATTLEMATCH_VIEW_DeleteMainWindow   0x021E5D40  thumb
- *   WIFIBATTLEMATCH_UTIL_DeleteMenu   0x021E89D0  thumb
- *   WIFIBATTLEMATCH_UTIL_UpdateMenu   0x021E8A00  thumb
+ *   WIFIBATTLEMATCH_VIEW_DeleteMainWindow   0x021E5D40  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu   0x021E89D0  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu   0x021E8A00  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_DeleteStatusWindow   0x021E5EF8  thumb  ov177
- *   WIFIBATTLEMATCH_VIEW_DrawStatusWindow   0x021E5F24  thumb
+ *   WIFIBATTLEMATCH_VIEW_DrawStatusWindow   0x021E5F24  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_StepMainWindow  0x021E64C8  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_StepMainWindowIdle  0x021E65FC  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_CreateRecordWindow 0x021E7520 thumb ov177
- *   WIFIBATTLEMATCH_VIEW_DeleteRecordWindow   0x021E7710  thumb
+ *   WIFIBATTLEMATCH_VIEW_DeleteRecordWindow   0x021E7710  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_StepRecordWindow 0x021E777C thumb ov177
  *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
  *   BSUBWAY_SAVEDATA_IncStat  0x0200E008  thumb
@@ -122,7 +122,7 @@
  *   KEY_GetTrg                0x020362DC  arm
  *   GFL_NET_ERR_GetErrorLevel                0x0200FB24  thumb
  *   GFL_NET_GetRunState                0x0203CD98  arm
- *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
+ *   DWC_CloseAllConnectionsHard  0x0216B65C  arm  ov009
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetCard 0x0200B1D4 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
@@ -182,7 +182,7 @@
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   GFL_NET_ERR_HaltWithMessage  0x0200F7C0  thumb
- *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb
+ *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb  ov009
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
@@ -192,9 +192,9 @@
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   STD_TSPrintf                 0x0208D7E0  arm
  *   d_021E2EFC                   0x021E2EFC  data
- *   DWC_RAP_StartMatchWithFilter  0x0215580C  thumb
+ *   DWC_RAP_StartMatchWithFilter  0x0215580C  thumb  ov009
  *   GFL_NET_STATE_WifiEnterRandomMatch  0x0203C304  arm
- *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb
+ *   DWC_RAP_SetVchatEnabled  0x02156BC4  thumb  ov009
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
@@ -206,7 +206,7 @@
  *   g_021E2C8C     0x021E2C8C  data
  *   DWC_AddMatchKeyInt  0x0216C8DC  arm  ov009
  *   d_021E2E10          0x021E2E10  data
- *   DWC_GetMatchIntValue  0x0216CB30  arm
+ *   DWC_GetMatchIntValue  0x0216CB30  arm  ov009
  *   DWC_ScInitialize 0x021DEE3C arm ov175
  *   DWC_ScGetLoginCertificate 0x021DF490 arm ov175
  *   DWC_ScCreateSessionAsync 0x021DF018 arm ov175

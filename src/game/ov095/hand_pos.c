@@ -16,32 +16,32 @@
  *
  * symbols:
  *   BTL_EVENT_AddFactor  0x021D6F0C  thumb  ov093
- *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb
+ *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb  ov093
  *   gHandPosEffectTable     0x0689D6C8  data   ov095  a4
- *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb
- *   BTL_EVENT_FindFactor  0x021D732C  thumb
- *   BTL_EVENT_FindNextFactor  0x021D7360  thumb
- *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb
- *   BTL_SERVER_FLOW_GetPokeIdAtFieldIndex  0x021C8020  thumb
- *   BTL_SERVER_FLOW_GetTurnCount  0x021C8138  thumb
- *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb
- *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
- *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
- *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
- *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
- *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
- *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
- *   BTL_EVENT_GetVar  0x021D775C  thumb
- *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
+ *   BTL_EVENT_FindNextFactor  0x021D7360  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeIdAtFieldIndex  0x021C8020  thumb  ov093
+ *   BTL_SERVER_FLOW_GetTurnCount  0x021C8138  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
  *   gHandPosWishHandlers 0x0689D698 data ov095 a4
- *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
- *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
- *   BTL_POKEPARAM_GetMovePPLost  0x021D554C  thumb
- *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
- *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPLost  0x021D554C  thumb  ov093
+ *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   gHandPosLunarDanceHandlers 0x0689D6B8 data ov095 a4
  *   gHandPosHealingWishHandlers 0x0689D6A8 data a4
- *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   gHandPosFutureSightHandlers 0x0689D6A0 data a4
  *   gHandPosPendingEntryHandlers 0x0689D690 data a4
  */

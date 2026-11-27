@@ -42,7 +42,7 @@
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
- *   WIH_GetSysState  0x02178E4C  thumb
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
  *   GX_HBlankIntr  0x0207D3AC  arm
  *   GFL_NET_ERR_DrawWindow  0x020101D4  thumb

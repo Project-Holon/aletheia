@@ -15,7 +15,7 @@
  * symbols:
  *   MI_SetWramBank                 0x020821B0  arm
  *   OS_IsRunOnTwl                  0x02085D3C  arm
- *   MI_InitNDma                    0x0272FB10  arm
+ *   MI_InitNDma                    0x0272FB10  arm  twl
  *   MI_StopDma                     0x020825F0  arm
  */
 

@@ -60,9 +60,9 @@
  *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
  *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
- *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
+ *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb  ov112
  *   STA_NET_BeginKind5Phase  0x021FD938  thumb  ov132
- *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb
+ *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb  ov112
  *   STA_NET_SetState18Value  0x021FD948  thumb  ov132
  *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
  *   STA_SLOT_GetSub  0x021FD964  thumb  ov132

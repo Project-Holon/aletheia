@@ -14,15 +14,15 @@
  *
  * symbols:
  *   apc_bss           0x021DCF80  data
- *   WCM_SearchAsync   0x02165144  arm
- *   WCM_ConnectAsync  0x021652A4  arm
- *   WCM_CleanupAsync  0x02165088  arm
- *   WCM_Finish        0x02164EE0  arm
- *   WCM_DisconnectAsync  0x02165478  arm
- *   WCM_StartupAsync     0x02164F98  arm
- *   WCM_LockApList   0x02165C28  arm
- *   WCM_CountApList  0x02165BD0  arm
- *   WCM_PointApList  0x02165CA0  arm
+ *   WCM_SearchAsync   0x02165144  arm  ov009
+ *   WCM_ConnectAsync  0x021652A4  arm  ov009
+ *   WCM_CleanupAsync  0x02165088  arm  ov009
+ *   WCM_Finish        0x02164EE0  arm  ov009
+ *   WCM_DisconnectAsync  0x02165478  arm  ov009
+ *   WCM_StartupAsync     0x02164F98  arm  ov009
+ *   WCM_LockApList   0x02165C28  arm  ov009
+ *   WCM_CountApList  0x02165BD0  arm  ov009
+ *   WCM_PointApList  0x02165CA0  arm  ov009
  *   MIi_CpuCopy32    0x02082A90  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -32,7 +32,7 @@
  *   WCM_Essid_Any         0x021A1990  data
  *   MI_CpuFill8           0x02082BCC  arm
  *   MI_CpuCopy8           0x02082D44  arm
- *   WCM_Init              0x02164D64  arm
+ *   WCM_Init              0x02164D64  arm  ov009
  */
 struct APC_BSS {
     void *apci_WCMBuffer;

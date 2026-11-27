@@ -41,9 +41,9 @@
  *   BMP_Blit  0x020439A0  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
- *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
- *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
+ *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb

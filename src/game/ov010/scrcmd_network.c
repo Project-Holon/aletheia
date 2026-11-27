@@ -23,7 +23,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
- *   FIELDMAP_CheckCommExit  0x02189734  thumb
+ *   FIELDMAP_CheckCommExit  0x02189734  thumb  ov021
  *   GFL_HEAP_Free  0x020307B0  arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GFL_HEAP_Alloc  0x02030734  arm

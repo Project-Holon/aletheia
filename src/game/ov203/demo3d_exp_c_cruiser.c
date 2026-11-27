@@ -30,7 +30,7 @@
  *   d_021C3D5C 0x021C3D5C data a1
  *   d_021C3BD0 0x021C3BD0 data a2
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb  ov067
  *   GFL_HEAP_Free 0x020307B0 arm
  */
 

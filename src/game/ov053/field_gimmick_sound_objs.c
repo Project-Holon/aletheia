@@ -23,10 +23,10 @@
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   ISS_3DS_SYS_SetVolume  0x0202B914  thumb
  *   sSoundObjsUnitSetup     0x021F3D60  data  a4
- *   FIELDMAP_GetCommonWork  0x021897BC  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   SOUND_OBJ_Delete  0x021C4DA8  thumb  ov021
- *   FIELDMAP_FreeCommonWork  0x021897A0  thumb
+ *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
  *   FIELD_CAMERA_GetTargetRaw  0x0218ECB4  thumb  ov021

@@ -206,7 +206,7 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   FRAME_LIST_ClampToScrollBar 0x021B8AE4 thumb ov067
  *   FRAME_LIST_CanScrollDown 0x021B93C0 thumb ov067
- *   FRAME_LIST_HideCursor   0x021B941C  thumb
+ *   FRAME_LIST_HideCursor   0x021B941C  thumb  ov067
  *   FRAME_LIST_ShowCursor   0x021B940C  thumb ov067
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9

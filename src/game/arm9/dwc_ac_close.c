@@ -14,17 +14,17 @@
  *
  * symbols:
  *   DisConnectAP 0x0205B264 arm
- *   DWC_Netcheck_Abort 0x0217AA20 arm
- *   DWC_Netcheck_Destroy 0x0217A950 arm
- *   WCM_GetPhase 0x021656A0 arm
- *   WCM_Finish 0x02164EE0 arm
- *   WCM_CleanupAsync 0x02165088 arm
- *   WCM_EndSearchAsync 0x02165204 arm
- *   WCM_DisconnectAsync 0x02165478 arm
- *   WCM_TerminateAsync 0x02165560 arm
+ *   DWC_Netcheck_Abort 0x0217AA20 arm  ov009
+ *   DWC_Netcheck_Destroy 0x0217A950 arm  ov009
+ *   WCM_GetPhase 0x021656A0 arm  ov009
+ *   WCM_Finish 0x02164EE0 arm  ov009
+ *   WCM_CleanupAsync 0x02165088 arm  ov009
+ *   WCM_EndSearchAsync 0x02165204 arm  ov009
+ *   WCM_DisconnectAsync 0x02165478 arm  ov009
+ *   WCM_TerminateAsync 0x02165560 arm  ov009
  *   DWCi_AC_SetError 0x0205C2E4 arm
- *   SOCL_CalmDown   0x0215ED60  arm
- *   SOC_Cleanup     0x0215FA90  arm
+ *   SOCL_CalmDown   0x0215ED60  arm  ov009
+ *   SOC_Cleanup     0x0215FA90  arm  ov009
  *   SOCLiConfigPtr  0x021A1CD8  data  ov009
  */
 extern int DisConnectAP(void);
