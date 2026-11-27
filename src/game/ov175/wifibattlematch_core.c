@@ -241,7 +241,7 @@
  *   DWC_GdbGetState           0x021E1434  arm
  *   DWC_GdbGetAsyncResult     0x021E1454  arm
  *   DWC_GdbCancelRequest      0x021E11F0  arm
- *   d_021E2F1C                0x021E2F1C  data
+ *   sGdbPlayerStatsTableName                0x021E2F1C  data
  *   DWC_GdbShutdown  0x021E1340  arm
  *   d_021E2F2C 0x021E2F2C data a4
  *   d_021E2F38 0x021E2F38 data a4
@@ -493,7 +493,7 @@ extern u32 g_021E2EF8[];
 extern char d_021E2DF4[];
 extern char d_021E2DEC[];
 extern char d_021E2DF0[];
-extern const char d_021E2F1C[];
+extern const char sGdbPlayerStatsTableName[];
 extern char d_021E2F2C[], d_021E2F4C[], d_021E2F60[];
 extern const char d_021E2F38[];
 extern const char d_021E2F70[];

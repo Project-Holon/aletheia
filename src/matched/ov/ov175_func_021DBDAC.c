@@ -23,7 +23,7 @@
  *   WIFIBATTLEMATCH_NET_GdbShutdown 0x021DB6A0 thumb ov175
  *   func_02034714 0x02034714 arm
  *   d_021E2EF8 0x021E2EF8 data a4
- *   d_021E2F1C 0x021E2F1C data a4
+ *   sGdbPlayerStatsTableName 0x021E2F1C data a4
  * prototype: Setters retain caller-loaded line in r2; shutdown receives live entry r0 in case 4 despite its unused parameter.
  */
 #include "../include/Obj00999.h"
@@ -41,7 +41,7 @@ extern void WIFIBATTLEMATCH_NET_SetResultB(char *,u32,int);
 extern void WIFIBATTLEMATCH_NET_SetResultC(char *,u32,int);
 extern void WIFIBATTLEMATCH_NET_GdbShutdown(char *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern const char d_021E2EF8[],d_021E2F1C[];
+extern const char d_021E2EF8[],sGdbPlayerStatsTableName[];
 int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *p)
 {
     long r;
@@ -52,7 +52,7 @@ int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *p)
         ((struct Obj00999 *)p)->f12C=1;break;
     case 1:
         if(((struct Obj00999 *)p)->f198>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
-        r=DWC_GdbUpdateRecordAsync((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
+        r=DWC_GdbUpdateRecordAsync((char *)sGdbPlayerStatsTableName,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
         if(r!=0) {WIFIBATTLEMATCH_NET_SetResultA(p+0x18,r,0x116e);WIFIBATTLEMATCH_NET_GdbShutdown(p);return 2;}
         ((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=2;break;
     case 2:

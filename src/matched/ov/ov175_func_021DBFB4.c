@@ -20,7 +20,7 @@
  *   WIFIBATTLEMATCH_NET_SetResultB 0x021DCE48 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetResultC 0x021DCE50 thumb ov175
  *   WIFIBATTLEMATCH_NET_GdbShutdown 0x021DB6A0 thumb ov175
- *   d_021E2F1C 0x021E2F1C data a4
+ *   sGdbPlayerStatsTableName 0x021E2F1C data a4
  * prototype: Setters retain caller-loaded line in r2; shutdown receives p where the caller visibly prepares r0.
  */
 #include "../include/Obj00629.h"
@@ -37,7 +37,7 @@ extern void WIFIBATTLEMATCH_NET_SetErrorA(char *,u32,int);
 extern void WIFIBATTLEMATCH_NET_SetResultB(char *,u32,int);
 extern void WIFIBATTLEMATCH_NET_SetResultC(char *,u32,int);
 extern void WIFIBATTLEMATCH_NET_GdbShutdown(char *);
-extern const char d_021E2F1C[];
+extern const char sGdbPlayerStatsTableName[];
 int WIFIBATTLEMATCH_NET_GdbCreateRecord(char *p)
 {
     long r;
@@ -47,7 +47,7 @@ int WIFIBATTLEMATCH_NET_GdbCreateRecord(char *p)
         if(r!=0) {WIFIBATTLEMATCH_NET_SetResultA(p+0x18,r,0x1215);return 2;}
         ((struct Obj00629 *)p)->f12C=1;break;
     case 1:
-        r=DWC_GdbCreateRecordAsync((char *)d_021E2F1C,((struct Obj00629 *)p)->f190,((struct Obj00629 *)p)->f198,*(int * *)&((struct Obj00629 *)p)->f1464);
+        r=DWC_GdbCreateRecordAsync((char *)sGdbPlayerStatsTableName,((struct Obj00629 *)p)->f190,((struct Obj00629 *)p)->f198,*(int * *)&((struct Obj00629 *)p)->f1464);
         if(r!=0) {WIFIBATTLEMATCH_NET_SetResultA(p+0x18,r,0x1223);return 2;}
         ((struct Obj00629 *)p)->f1A0=0;((struct Obj00629 *)p)->f12C=2;break;
     case 2:

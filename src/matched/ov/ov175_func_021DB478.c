@@ -25,7 +25,7 @@
  *   WIFIBATTLEMATCH_NET_GdbSortByName             0x021DB72C  thumb
  *   func_02034714             0x02034714  arm
  *   d_021E2EF8                0x021E2EF8  data
- *   d_021E2F1C                0x021E2F1C  data
+ *   sGdbPlayerStatsTableName                0x021E2F1C  data
  *
  * Storage-server record download step (state at +0x12c): initialises the database client, requests our records (or the one record id at +0x1b0), polls with a 3600-tick timeout, collects the result and shuts the client down; returns 1 when done, 2 on error (the error and its source line go to +0x18), 0 while running.
  */
@@ -49,7 +49,7 @@ struct Field;
 extern void WIFIBATTLEMATCH_NET_GdbSortByName(int count, struct Field **recs, char *obj);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
-extern const char d_021E2F1C[];
+extern const char sGdbPlayerStatsTableName[];
 
 int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj)
 {
@@ -69,9 +69,9 @@ int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *obj)
         if (((struct Obj00840 *)obj)->f198 >= 0x26)
             func_02034714(d_021E2EF8, 0, d_021E2EF8);
         if (((struct Obj00840 *)obj)->f1B0 == -1)
-            r = DWC_GdbGetMyRecordsAsync(d_021E2F1C, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
+            r = DWC_GdbGetMyRecordsAsync(sGdbPlayerStatsTableName, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
         else
-            r = DWC_GdbGetRecordsAsync(d_021E2F1C, (int *)(obj + 0x1b0), 1, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
+            r = DWC_GdbGetRecordsAsync(sGdbPlayerStatsTableName, (int *)(obj + 0x1b0), 1, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, WIFIBATTLEMATCH_NET_GdbSortByName, obj);
         if (r != 0) {
             WIFIBATTLEMATCH_NET_SetResultA(obj + 0x18, r, 0xe0a);
             WIFIBATTLEMATCH_NET_GdbShutdown(obj);
